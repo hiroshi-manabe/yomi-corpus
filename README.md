@@ -13,6 +13,7 @@ The first design draft lives here:
 
 - [docs/PIPELINE_DESIGN.md](/panfs/panmt22/users/hmanabe/yomi-corpus/docs/PIPELINE_DESIGN.md)
 - [docs/WORKING_PIPELINE.md](/panfs/panmt22/users/hmanabe/yomi-corpus/docs/WORKING_PIPELINE.md)
+- Review UI (GitHub Pages): https://hiroshi-manabe.github.io/yomi-corpus/
 
 Initial project stance:
 
