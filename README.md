@@ -7,7 +7,6 @@ It is intentionally separate from:
 
 - `../llm-jp-corpus-v4/`, which prepares the filtered source corpus
 - `../yomi-decoder/`, which provides an N-gram reading decoder
-- `../openai/`, which already contains useful OpenAI batch-processing helpers
 
 The first design draft lives here:
 
@@ -44,7 +43,7 @@ Default model policy:
 
 Alphabetic entity policy:
 
-- unresolved entity types are judged in batches
+- unresolved Latin/alphanumeric entity types are judged in batches
 - whitelist/blacklist promotions should be proposed from accumulated evidence
 - humans review only promotion candidates before global list entries are added
 

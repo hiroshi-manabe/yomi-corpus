@@ -26,14 +26,14 @@ External inputs and dependencies:
   `../llm-jp-corpus-v4/data/filtered/*_kept.jsonl.gz`
 - Decoder:
   `../yomi-decoder/`
-- Existing OpenAI helpers:
-  `../openai/`
 
 Recommended rule:
 
 - `yomi-decoder` stays the place for decoding logic and decoder-model building.
 - `yomi-corpus` stays the place for corpus ingestion, confidence decisions,
   repair pipelines, review, and export.
+- OpenAI calling, prompt iteration, batch orchestration, and usage accounting
+  should live in this repository's own LLM layer.
 
 
 ## 3. Key Design Decisions
@@ -442,7 +442,7 @@ A conservative first version:
 - no unknown non-kana token
 - no kanji-containing token with empty reading
 - no sign of old orthography or classical text
-- no unresolved minor alphabetic entity type attached to the unit
+- no unresolved Latin/alphanumeric entity type attached to the unit
 
 Only units that pass all of those conditions should be auto-accepted.
 
@@ -456,10 +456,12 @@ rules.
 
 For classification:
 
-- prefer simple whitelist or blacklist entries for minor alphabetic sequences
-- match alphabetic list entries case-insensitively by default
+- prefer simple whitelist or blacklist entries for Latin/alphanumeric entity
+  types that are either in scope for modern Japanese text or out of scope
+- match those entity-list entries case-insensitively by default
 - keep exact-case exceptions for short tokens and acronyms
-- judge alphabetic items primarily at the entity-type level, not the sentence level
+- judge those entities primarily at the entity-type level, not the sentence
+  level
 - remain cautious about rule harvesting for classical/non-target Japanese
 
 For yomi repair:

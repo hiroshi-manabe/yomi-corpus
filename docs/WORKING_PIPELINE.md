@@ -39,11 +39,10 @@ For sentence-like units, the main questions are:
 
 2. Is the current mechanically generated yomi correct with high confidence?
 
-For alphabetic material, the main question is:
+For Latin/alphanumeric material, the main question is:
 
-- which alphabetic entities in the batch should be treated as acceptable
-  modern-Japanese items, and which should be treated as minor/obscure skip
-  triggers?
+- which entity types in the batch should be treated as naturally acceptable in
+  modern Japanese context, and which should be treated as out of scope?
 
 The practical goal is not perfect theoretical classification. The goal is to
 spend effort where it helps and avoid the long tail that would consume a large
@@ -297,8 +296,8 @@ Sentence-level flags should be derived afterward from entity-type decisions.
 
 ## 7.2 Whitelist
 
-The project should keep a whitelist of alphabetic strings that are accepted as
-rooted in modern Japanese usage.
+The project should keep a whitelist of Latin/alphanumeric entity types that are
+accepted as rooted in modern Japanese usage.
 
 Examples:
 
@@ -320,12 +319,12 @@ Then the projection rule can become:
 ## 7.3 Blacklist
 
 A blacklist-oriented approach may be simpler than generating regex rules for
-minor alphabetic sequences.
+out-of-scope Latin/alphanumeric entities.
 
 Current preference:
 
 - start with word-level whitelist and blacklist entries
-- use word-boundary-aware matching for alphabetic material
+- use word-boundary-aware matching for Latin/alphanumeric material
 - match case-insensitively by default
 - handle short tokens and acronyms more cautiously with exact-case exceptions
 - avoid regex unless there is a clear payoff
@@ -349,9 +348,8 @@ entity-level decision.
 
 ## 7.5 Rule harvesting
 
-If the LLM or a human identifies a unit as containing a minor alphabetic
-sequence, the system may later harvest a reusable blacklist-like rule from that
-decision.
+If the LLM or a human identifies an entity type as out of scope, the system may
+later harvest a reusable blacklist-like entry from that decision.
 
 Current preference:
 
@@ -480,10 +478,10 @@ Examples discussed:
 
 This is only a sketch, not a validated rule design.
 
-## 10.3 Minor alphabetic rules
+## 10.3 Latin/alphanumeric entity entries
 
-If an alphabetic entity type is judged to be minor/obscure, add or propose a
-reusable entity-level entry.
+If a Latin/alphanumeric entity type is judged to be out of scope, add or
+propose a reusable entity-level entry.
 
 Current preference is still to keep these as simple entity-level entries rather
 than general regexes.
