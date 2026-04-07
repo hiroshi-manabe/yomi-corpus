@@ -552,7 +552,7 @@ Practical layout direction:
 
 - keep review-UI source under `web/review/`
 - keep Python pipeline code under `src/` and `scripts/`
-- publish built static assets under `site/` through this repo's GitHub Pages
+- publish built static assets under `docs/` through this repo's GitHub Pages
   configuration
 
 This keeps hosting simple while still letting the UI evolve together with the

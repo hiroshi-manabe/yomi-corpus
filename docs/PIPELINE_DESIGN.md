@@ -674,7 +674,7 @@ Recommended repo layout:
 - `src/yomi_corpus/`: Python pipeline code
 - `scripts/`: operator scripts and local orchestration
 - `web/review/`: source for the static review app
-- `site/`: built static assets served by GitHub Pages
+- `docs/`: built static assets served by GitHub Pages
 
 The important point is not the exact directory names but the separation:
 
