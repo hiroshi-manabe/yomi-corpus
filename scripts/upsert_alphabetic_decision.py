@@ -14,11 +14,11 @@ from yomi_corpus.alphabetic_state import AlphabeticDecision, upsert_alphabetic_d
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Upsert one global alphabetic token decision.")
-    parser.add_argument("token_key", help="Token key used by the alphabetic pipeline.")
+    parser = argparse.ArgumentParser(description="Upsert one global alphabetic entity decision.")
+    parser.add_argument("entity_key", help="Entity key used by the alphabetic pipeline.")
     parser.add_argument(
         "status",
-        choices=["whitelist", "blacklist", "needs_context", "unknown"],
+        choices=["whitelist", "blacklist", "unknown"],
         help="Decision status to store.",
     )
     parser.add_argument(
@@ -49,7 +49,7 @@ def main() -> None:
     upsert_alphabetic_decision(
         PROJECT_ROOT / args.decisions_path,
         AlphabeticDecision(
-            token_key=args.token_key,
+            entity_key=args.entity_key,
             strict_case=args.strict_case,
             status=args.status,
             source=args.source,

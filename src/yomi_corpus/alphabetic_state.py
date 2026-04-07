@@ -7,7 +7,7 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class AlphabeticDecision:
-    token_key: str
+    entity_key: str
     strict_case: bool
     status: str
     source: str
@@ -17,7 +17,7 @@ class AlphabeticDecision:
 @dataclass(frozen=True)
 class AlphabeticEvidence:
     batch_name: str
-    token_key: str
+    entity_key: str
     strict_case: bool
     resolved_status: str
     base_list_status: str
@@ -38,14 +38,17 @@ def load_alphabetic_decisions(path: str | Path) -> dict[str, AlphabeticDecision]
             if not line.strip():
                 continue
             payload = json.loads(line)
+            entity_key = payload.get("entity_key")
+            if entity_key is None:
+                entity_key = payload["token_key"]
             decision = AlphabeticDecision(
-                token_key=str(payload["token_key"]),
+                entity_key=str(entity_key),
                 strict_case=bool(payload["strict_case"]),
                 status=str(payload["status"]),
                 source=str(payload.get("source", "unknown")),
                 note=str(payload.get("note", "")),
             )
-            decisions[decision.token_key] = decision
+            decisions[decision.entity_key] = decision
     return decisions
 
 
@@ -72,9 +75,9 @@ def append_alphabetic_evidence(path: str | Path, records: list[AlphabeticEvidenc
 
 def upsert_alphabetic_decision(path: str | Path, decision: AlphabeticDecision) -> None:
     decisions = load_alphabetic_decisions(path)
-    decisions[decision.token_key] = decision
+    decisions[decision.entity_key] = decision
     decisions_path = Path(path)
     decisions_path.parent.mkdir(parents=True, exist_ok=True)
     with decisions_path.open("w", encoding="utf-8") as handle:
-        for token_key in sorted(decisions):
-            handle.write(json.dumps(asdict(decisions[token_key]), ensure_ascii=False) + "\n")
+        for entity_key in sorted(decisions):
+            handle.write(json.dumps(asdict(decisions[entity_key]), ensure_ascii=False) + "\n")

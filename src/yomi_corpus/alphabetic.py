@@ -266,7 +266,7 @@ def project_minor_alphabetic_judgment(
         return BooleanJudgment(
             value=False,
             certain=True,
-            signals=["no_alphabetic_tokens"],
+            signals=["no_latin_entity_tokens"],
             matches=[],
         )
 
@@ -274,7 +274,7 @@ def project_minor_alphabetic_judgment(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "blacklist"]
     )
     unknown = _unique_preserve_order(
-        [occ.entity_text for occ in occurrences if occ.resolved_status in {"unknown", "needs_context"}]
+        [occ.entity_text for occ in occurrences if occ.resolved_status == "unknown"]
     )
     whitelisted = _unique_preserve_order(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "whitelist"]
@@ -289,7 +289,7 @@ def project_minor_alphabetic_judgment(
         )
 
     if not unknown:
-        signals = ["all_entities_whitelisted"]
+        signals = ["all_entities_in_scope"]
         if whitelisted:
             signals.append("entity_level_lookup")
         return BooleanJudgment(
@@ -299,9 +299,9 @@ def project_minor_alphabetic_judgment(
             matches=whitelisted,
         )
 
-    signals = ["unresolved_alphabetic_entity_types"]
+    signals = ["unresolved_latin_entity_types"]
     if any(occ.strict_case for occ in occurrences):
-        signals.append("strict_case_token_present")
+        signals.append("strict_case_entity_present")
     return BooleanJudgment(
         value=None,
         certain=False,

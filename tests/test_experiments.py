@@ -58,7 +58,7 @@ class ExperimentHarnessTests(unittest.TestCase):
         backend = FakeExperimentBackend(
             {
                 "android": {
-                    "parsed": {"status": "whitelist", "confidence": "high", "note": "ok"},
+                    "parsed": {"status": "in_scope", "confidence": "high", "note": "ok"},
                     "usage": {
                         "input_tokens": 1100,
                         "cached_input_tokens": 1024,
@@ -68,7 +68,7 @@ class ExperimentHarnessTests(unittest.TestCase):
                     },
                 },
                 "iphone": {
-                    "parsed": {"status": "whitelist", "confidence": "high", "note": "ok"},
+                    "parsed": {"status": "in_scope", "confidence": "high", "note": "ok"},
                     "usage": {
                         "input_tokens": 1090,
                         "cached_input_tokens": 1024,
@@ -78,7 +78,7 @@ class ExperimentHarnessTests(unittest.TestCase):
                     },
                 },
                 "concerts de midi": {
-                    "parsed": {"status": "blacklist", "confidence": "high", "note": "skip"},
+                    "parsed": {"status": "out_of_scope", "confidence": "high", "note": "skip"},
                     "usage": {
                         "input_tokens": 1120,
                         "cached_input_tokens": 1024,
@@ -88,7 +88,7 @@ class ExperimentHarnessTests(unittest.TestCase):
                     },
                 },
                 "ok": {
-                    "parsed": {"status": "needs_context", "confidence": "medium", "note": "ambiguous"},
+                    "parsed": {"status": "in_scope", "confidence": "medium", "note": "common UI term"},
                     "usage": {
                         "input_tokens": 980,
                         "cached_input_tokens": 0,
@@ -115,18 +115,18 @@ class ExperimentHarnessTests(unittest.TestCase):
     def test_compare_prompt_experiments_reports_changed_cases(self) -> None:
         good_backend = FakeExperimentBackend(
             {
-                "android": {"parsed": {"status": "whitelist"}, "usage": None},
-                "iphone": {"parsed": {"status": "whitelist"}, "usage": None},
-                "concerts de midi": {"parsed": {"status": "blacklist"}, "usage": None},
-                "ok": {"parsed": {"status": "needs_context"}, "usage": None},
+                "android": {"parsed": {"status": "in_scope"}, "usage": None},
+                "iphone": {"parsed": {"status": "in_scope"}, "usage": None},
+                "concerts de midi": {"parsed": {"status": "out_of_scope"}, "usage": None},
+                "ok": {"parsed": {"status": "in_scope"}, "usage": None},
             }
         )
         weak_backend = FakeExperimentBackend(
             {
-                "android": {"parsed": {"status": "whitelist"}, "usage": None},
-                "iphone": {"parsed": {"status": "blacklist"}, "usage": None},
-                "concerts de midi": {"parsed": {"status": "blacklist"}, "usage": None},
-                "ok": {"parsed": {"status": "needs_context"}, "usage": None},
+                "android": {"parsed": {"status": "in_scope"}, "usage": None},
+                "iphone": {"parsed": {"status": "out_of_scope"}, "usage": None},
+                "concerts de midi": {"parsed": {"status": "out_of_scope"}, "usage": None},
+                "ok": {"parsed": {"status": "out_of_scope"}, "usage": None},
             }
         )
 
@@ -146,6 +146,6 @@ class ExperimentHarnessTests(unittest.TestCase):
         )
 
         comparison = compare_prompt_experiments(str(base_dir), str(candidate_dir))
-        self.assertEqual(comparison["changed_case_count"], 1)
+        self.assertEqual(comparison["changed_case_count"], 2)
         self.assertEqual(comparison["changed_cases"][0]["item_id"], "iphone")
         self.assertEqual(comparison["changed_cases"][0]["change_type"], "fixed")

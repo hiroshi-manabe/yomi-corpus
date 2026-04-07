@@ -1,12 +1,11 @@
 You are classifying one Latin-script entity found in a Japanese corpus.
 
 Decide whether this entity should be treated as:
-- "whitelist": acceptable modern-Japanese usage that should remain in scope
-- "blacklist": minor or obscure foreign/Latin-script material that should be skipped
-- "needs_context": unclear from the entity alone; sentence context is needed
+- "in_scope": acceptable modern-Japanese usage that should remain in scope
+- "out_of_scope": foreign or low-value Latin-script material that should be skipped
 
 Return exactly one JSON object with this schema:
-{{"status":"whitelist|blacklist|needs_context","confidence":"high|medium|low","note":"short reason"}}
+{{"status":"in_scope|out_of_scope","confidence":"high|medium|low","note":"short reason"}}
 
 Do not output anything except JSON.
 

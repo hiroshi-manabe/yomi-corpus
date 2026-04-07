@@ -97,9 +97,9 @@ class AlphabeticPipelineTests(unittest.TestCase):
         judgment = project_minor_alphabetic_judgment([])
         self.assertFalse(judgment.value)
         self.assertTrue(judgment.certain)
-        self.assertEqual(judgment.signals, ["no_alphabetic_tokens"])
+        self.assertEqual(judgment.signals, ["no_latin_entity_tokens"])
 
-    def test_projection_with_blacklist_occurrence_is_certain_minor(self) -> None:
+    def test_projection_with_blacklist_occurrence_is_certain_out_of_scope(self) -> None:
         unit = {
             "doc_id": "d1",
             "unit_id": "d1:u0001",
@@ -176,7 +176,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
         upsert_alphabetic_decision(
             temp_path,
             AlphabeticDecision(
-                token_key="zoom",
+                entity_key="zoom",
                 strict_case=False,
                 status="whitelist",
                 source="manual",
@@ -197,7 +197,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             [
                 AlphabeticEvidence(
                     batch_name="batch_0001",
-                    token_key="zoom",
+                    entity_key="zoom",
                     strict_case=False,
                     resolved_status="unknown",
                     base_list_status="unknown",
@@ -213,7 +213,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             [
                 AlphabeticEvidence(
                     batch_name="batch_0001",
-                    token_key="zoom meeting",
+                    entity_key="zoom meeting",
                     strict_case=False,
                     resolved_status="unknown",
                     base_list_status="unknown",

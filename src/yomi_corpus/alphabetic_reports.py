@@ -27,7 +27,7 @@ def build_unresolved_entity_rows(
 ) -> list[dict]:
     unresolved: list[dict] = []
     for row in rows:
-        if row.get("resolved_status") not in {"unknown", "needs_context"}:
+        if row.get("resolved_status") != "unknown":
             continue
         occurrence_count = int(row.get("occurrence_count", 0))
         if occurrence_count < min_occurrences:

@@ -57,7 +57,7 @@ class FakeBatchBackend:
                 {
                     "custom_id": "led zeppelin",
                     "response": {
-                        "output_text": '{"status":"needs_context","confidence":"medium","note":"band name"}',
+                        "output_text": '{"status":"out_of_scope","confidence":"medium","note":"band name"}',
                         "body": {
                             "usage": {
                                 "input_tokens": 600,
@@ -143,7 +143,7 @@ class BatchJobTests(unittest.TestCase):
             if line.strip()
         ]
         self.assertEqual(parsed_rows[0]["item_id"], "led zeppelin")
-        self.assertEqual(parsed_rows[0]["parsed"]["status"], "needs_context")
+        self.assertEqual(parsed_rows[0]["parsed"]["status"], "out_of_scope")
         self.assertEqual(parsed_rows[0]["usage"]["cached_input_tokens"], 512)
 
     def test_list_batch_jobs(self) -> None:

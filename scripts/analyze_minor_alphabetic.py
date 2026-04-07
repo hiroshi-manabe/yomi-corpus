@@ -29,7 +29,7 @@ from yomi_corpus.alphabetic_state import (
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build batch-level alphabetic token artifacts and project the result back to units."
+        description="Build batch-level Latin/alphanumeric entity artifacts and project the result back to units."
     )
     parser.add_argument(
         "--input",
@@ -49,7 +49,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-types",
         default="data/units/batch_0001/alphabetic_types.jsonl",
-        help="Alphabetic token-type JSONL path relative to repo root.",
+        help="Alphabetic entity-type JSONL path relative to repo root.",
     )
     parser.add_argument(
         "--config",
@@ -93,8 +93,8 @@ def main() -> None:
     all_occurrences = []
     unit_text_by_id: dict[str, str] = {}
     decision_status_by_key = {
-        token_key: decision.status
-        for token_key, decision in load_alphabetic_decisions(global_decisions_path).items()
+        entity_key: decision.status
+        for entity_key, decision in load_alphabetic_decisions(global_decisions_path).items()
     }
 
     with input_path.open(encoding="utf-8") as src:
@@ -127,7 +127,7 @@ def main() -> None:
         [
             AlphabeticEvidence(
                 batch_name=args.batch_name,
-                token_key=token_type.entity_key,
+                entity_key=token_type.entity_key,
                 strict_case=token_type.strict_case,
                 resolved_status=token_type.resolved_status,
                 base_list_status=token_type.base_list_status,

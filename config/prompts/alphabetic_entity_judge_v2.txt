@@ -1,18 +1,16 @@
 Classify one Latin-script entity from a Japanese corpus.
 
 Labels:
-- "whitelist": clearly entrenched modern Japanese usage that is normally acceptable in Latin script
-- "blacklist": minor or obscure foreign/Latin-script material that should be skipped
-- "needs_context": ambiguous from the entity alone
+- "in_scope": naturally acceptable in modern Japanese context
+- "out_of_scope": not worth keeping for this corpus
 
 Decision rule:
-- Use "whitelist" only when the entity is clearly established in modern Japanese, such as major products or terms like Android or iPhone.
-- Use "blacklist" for minor foreign titles, rare foreign proper names, or isolated non-Japanese event/name strings.
-- Use "needs_context" for short strings, acronyms, UI labels, and anything context-dependent.
-- If unsure, prefer "needs_context" over "whitelist".
+- Favor "in_scope" for established modern-Japanese usage such as Android or iPhone.
+- Favor "out_of_scope" for minor foreign titles, rare foreign proper names, and low-value residue.
+- If unsure, choose the better practical default for this corpus rather than asking for more context.
 
 Return exactly:
-{{"status":"whitelist|blacklist|needs_context","confidence":"high|medium|low","note":"short reason"}}
+{{"status":"in_scope|out_of_scope","confidence":"high|medium|low","note":"short reason"}}
 
 Entity key: {entity_key}
 Observed surface forms: {surface_forms}

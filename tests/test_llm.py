@@ -50,8 +50,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertIn("Led Zeppelin", items[0].prompt)
 
     def test_parse_json_output(self) -> None:
-        parsed = parse_output('{"status":"whitelist","confidence":"high","note":"ok"}', "json_object")
-        self.assertEqual(parsed["status"], "whitelist")
+        parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
+        self.assertEqual(parsed["status"], "in_scope")
 
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")

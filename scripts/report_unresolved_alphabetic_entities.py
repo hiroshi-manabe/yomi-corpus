@@ -16,7 +16,7 @@ from yomi_corpus.alphabetic_reports import build_unresolved_entity_rows, load_js
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build a review/LLM-ready report of unresolved alphabetic entities for one batch."
+        description="Build a review/LLM-ready report of unresolved Latin/alphanumeric entities for one batch."
     )
     parser.add_argument(
         "--input-types",
