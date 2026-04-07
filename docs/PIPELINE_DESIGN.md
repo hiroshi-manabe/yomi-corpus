@@ -569,6 +569,74 @@ Tool-using rescue jobs should be separated from ordinary batch jobs because they
 have a different cost profile and should only operate on the small residue that
 survives the normal pipeline.
 
+## 9.6 Local pipeline orchestration
+
+The operator should not need to remember the exact next script for each batch.
+
+Recommended design:
+
+- keep durable local pipeline state for each batch
+- expose a read-only `status` command
+- expose an `advance` command that tries to move the batch forward
+- let `advance` perform one legal automatic step or a contiguous run of legal
+  automatic steps
+- stop cleanly at the first real blocking condition
+
+This project has three different kinds of stages:
+
+- fully automatic local computation
+- external waits such as OpenAI Batch jobs
+- human-review waits
+
+Those should all be represented as normal pipeline states.
+
+### 9.6.1 Per-batch state
+
+Recommended storage:
+
+- one state file per batch, such as `data/pipeline/<batch_id>/state.json`
+
+That state should record at least:
+
+- `batch_id`
+- `current_stage`
+- `stage_status`
+- `artifacts`
+- `blocking_reason`
+- `updated_at`
+
+The state enum can start small and grow with the actual implementation.
+
+### 9.6.2 Advance-until-blocked behavior
+
+Recommended behavior for the main orchestration command:
+
+- load the current batch state
+- inspect the current stage and prerequisites
+- run the next automatic step if legal
+- continue automatically while the next step is still automatic
+- stop and report when the next step requires an external event or human input
+
+Examples:
+
+- if an OpenAI batch job has been prepared but not submitted, `advance` should
+  submit it
+- if the job is still running, `advance` should poll it, report that it is
+  still running, and stop
+- if a review pack has been published but no valid review submission has been
+  ingested yet, `advance` should report that review input is still required and
+  stop
+
+### 9.6.3 Separate `status` and `advance`
+
+Recommended CLI split:
+
+- `status`: summarize current pipeline state without mutation
+- `advance`: mutate state if the next transition is legal
+
+This makes it possible to inspect a batch safely, while keeping the normal
+operator workflow simple.
+
 
 ## 10. Human Review
 
@@ -591,6 +659,8 @@ The review UI should not assume writable hosting on the cluster.
 
 Current preferred transport design:
 
+- keep the review UI in this same repository
+- isolate it from the Python pipeline code as a small static web app
 - host the static review UI on GitHub Pages
 - export immutable review-pack JSON from the cluster
 - use GitHub as the return mailbox
@@ -598,6 +668,19 @@ Current preferred transport design:
 
 The cluster should later poll GitHub, extract valid submission payloads, and
 reconstruct the latest merged review state.
+
+Recommended repo layout:
+
+- `src/yomi_corpus/`: Python pipeline code
+- `scripts/`: operator scripts and local orchestration
+- `web/review/`: source for the static review app
+- `site/`: built static assets served by GitHub Pages
+
+The important point is not the exact directory names but the separation:
+
+- Python pipeline code should stay independent of frontend tooling
+- the review UI should remain versioned with this project
+- GitHub Pages output should be a normal repo artifact, not a separate system
 
 ### 10.2 Review state model
 

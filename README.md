@@ -50,7 +50,19 @@ Alphabetic entity policy:
 Review transport policy:
 
 - assume static browser UI rather than cluster-hosted writable UI
+- keep the review UI in this same repository rather than a separate UI repo
+- isolate the static review app in its own directory so it does not mix with
+  the Python pipeline code
 - GitHub Pages is the preferred first host for review HTML
 - GitHub Issues are the preferred first mailbox for returned review submissions
 - browser UI should persist local drafts and support partial range-based
   submissions
+
+Pipeline orchestration policy:
+
+- keep local pipeline state per batch rather than relying on ad hoc operator
+  memory
+- provide a read-only `status` command and a mutating `advance` command
+- let `advance` run automatic stages until it reaches a real blocking condition
+- treat OpenAI Batch waits and human-review waits as explicit pipeline states,
+  not special cases

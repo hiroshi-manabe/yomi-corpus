@@ -537,6 +537,9 @@ review UI should not assume that it can write directly back to the cluster.
 
 Current preferred review transport:
 
+- keep the static review UI in this repository, not a separate UI repository
+- isolate it in its own web-facing directory so the Python pipeline and static
+  frontend remain loosely coupled
 - host the static review UI on GitHub Pages
 - use GitHub as the return mailbox
 - for now, prefer one GitHub Issue per review pack
@@ -544,6 +547,16 @@ Current preferred review transport:
 
 This is meant to work from both desktop browsers and iPad browsers without
 requiring a writable backend on the cluster.
+
+Practical layout direction:
+
+- keep review-UI source under `web/review/`
+- keep Python pipeline code under `src/` and `scripts/`
+- publish built static assets under `site/` through this repo's GitHub Pages
+  configuration
+
+This keeps hosting simple while still letting the UI evolve together with the
+pack format, submission format, and review workflow.
 
 ### 10.5.1 Review packs
 
@@ -629,6 +642,70 @@ range to default acceptance first, then apply its sparse overrides.
 
 That ensures that an omitted override in a later submission really means
 "accept proposal" inside that later reviewed range.
+
+## 10.6 Local pipeline state and orchestration
+
+The pipeline should not depend on the operator remembering which script to run
+next.
+
+Current preferred direction:
+
+- keep durable local state for each batch
+- provide a read-only `status` command
+- provide an `advance` command that tries to move the batch forward
+- let `advance` continue through automatic stages until it reaches a real wait
+  state
+
+This is meant to unify:
+
+- ordinary local processing
+- OpenAI Batch submission / polling / fetch
+- human-review wait points
+
+### 10.6.1 Per-batch state
+
+Recommended shape:
+
+- one local state file per batch
+- current stage
+- stage status
+- known artifacts
+- most recent blocking reason
+- timestamp
+
+The exact schema can stay minimal at first and grow with the implemented
+stages.
+
+### 10.6.2 Automatic progression
+
+`advance` should keep going while the next step is purely automatic.
+
+Example behavior:
+
+- if alphabetic entities have been extracted but no LLM batch job has been
+  prepared yet, prepare it
+- if the batch job has been prepared but not submitted, submit it
+- if the batch job is running, poll it and stop if it is still incomplete
+- if the batch job has completed, fetch and ingest it, then continue
+
+The intended UX is:
+
+- run one command
+- let it do everything it safely can
+- stop only when a real external dependency remains
+
+### 10.6.3 Explicit wait states
+
+OpenAI Batch and human review should be treated as first-class wait states.
+
+Examples:
+
+- `waiting_for_openai_batch`
+- `waiting_for_promotion_candidate_review`
+- `waiting_for_sentence_review_pass1`
+
+If the blocking condition has not been satisfied yet, `advance` should report
+that and stop cleanly instead of failing or guessing.
 
 
 ## 11. Human Review: Pass 1
