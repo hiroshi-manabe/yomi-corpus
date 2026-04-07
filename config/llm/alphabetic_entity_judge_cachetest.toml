@@ -1,0 +1,11 @@
+task_name = "alphabetic_entity_judge"
+input_builder = "alphabetic_entity_judge"
+parser = "json_object"
+mode = "sync"
+model = "gpt-5.4-nano"
+prompt_template = "config/prompts/alphabetic_entity_judge_cachetest_v1.txt"
+reasoning_effort = "low"
+verbosity = "low"
+max_output_tokens = 200
+batch_endpoint = "/v1/responses"
+batch_completion_window = "24h"

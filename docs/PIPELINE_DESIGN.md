@@ -87,21 +87,24 @@ Instead:
 
 This keeps both cost and failure modes under control.
 
-### 3.4 Separate the three main unit-level judgments
+### 3.4 Use two judgment granularities
 
-Each unit is judged on three mostly independent questions:
+Sentence-level judgments should handle:
 
-- whether it is classical or otherwise non-target Japanese material
-- whether it contains minor alphabetic strings that should be skipped
+- classical or otherwise non-target Japanese material
 - whether the current mechanical yomi is correct with high confidence
 
-All three follow the same branching idea:
+The minor-alphabetic problem should instead be handled at the batch entity-type
+level:
 
-- if the mechanical judgment is `certain`, skip the ordinary LLM stage
-- otherwise send that task to the LLM
+- extract alphabetic entity occurrences from all units in the batch
+- aggregate them into entity types
+- resolve entity types through whitelist/blacklist lookup first
+- send only unresolved entity types to the LLM or human review
+- project entity-type decisions back onto units afterward
 
-This is especially important for the minor-alphabetic long tail, where cost
-control matters as much as linguistic correctness.
+This matters because the alphabetic long tail is primarily a repeated entity
+problem, not a repeated sentence problem.
 
 ### 3.5 Use Python for the main pipeline, not shell wrappers
 
@@ -172,6 +175,11 @@ Recommended meaning:
 - `runs/`: per-run manifests, metrics, logs, temporary API payloads
 - `scratch/`: ad hoc inspection files
 
+For the alphabetic subsystem specifically, distinguish:
+
+- batch-local artifacts under `data/units/...`
+- cross-batch state under `data/state/alphabetic/`
+
 
 ## 5. Stage Model
 
@@ -212,13 +220,14 @@ Responsibilities:
 Output:
 
 - unit records enriched with mechanical analysis
+- batch-level alphabetic entity inventory
 
 Responsibilities:
 
 - judge classical or non-target Japanese
-- judge minor alphabetic sequence presence
 - generate mechanical yomi
-- attach a `certain` flag for each task
+- extract alphabetic entity occurrences and aggregate entity types
+- attach a `certain` flag for sentence-level tasks
 
 Example signals:
 
@@ -236,12 +245,13 @@ Output:
 
 - unit records enriched with LLM judgments for tasks that were not mechanically
   certain
+- entity-type judgments for unresolved alphabetic entity types
 
 Responsibilities:
 
 - judge classical/non-target Japanese where needed
-- judge minor alphabetic-sequence presence where needed
 - judge whether the current yomi is correct where needed
+- judge unresolved alphabetic entity types where needed
 
 ### S40 Yomi Repair
 
@@ -275,11 +285,10 @@ Output:
 Responsibilities:
 
 - show the yomi-annotated sentence
-- show three checkboxes:
+- show two checkboxes:
   - classical/non-target Japanese
-  - minor alphabetic sequence present
   - yomi fully correct
-- allow the first two boxes to be prefilled
+- allow the first box to be prefilled
 - keep the yomi-correct box initially unchecked
 
 Important UI rule:
@@ -287,11 +296,15 @@ Important UI rule:
 - do not show the raw sentence separately in this UI; the yomi-annotated
   sentence already contains the original text
 
+Minor alphabetic review should live in a separate entity-level flow with example
+sentences, not in this sentence-level UI.
+
 ### S60 Rule Harvesting
 
 Output:
 
 - candidate reusable rules derived from reviewed cases
+- candidate whitelist or blacklist promotions for alphabetic entity types
 
 Responsibilities:
 
@@ -300,6 +313,26 @@ Responsibilities:
 - keep yomi repair rules separate from classification lists
 
 This should remain conservative and is still an open design area.
+
+### S65 Promotion Candidate Review
+
+Output:
+
+- human-reviewed decisions on whether candidate alphabetic entity types should
+  be promoted to the global whitelist or blacklist
+
+Responsibilities:
+
+- review only promotion candidates, not every unresolved entity type
+- confirm or reject globally reused list entries
+- keep this policy-level review separate from sentence-level corpus review
+
+Rationale:
+
+- promotion decisions have high leverage because they affect future batches
+- candidate review is a better use of human time than broad manual screening of
+  every entity occurrence
+- blacklist promotion should stay more conservative than whitelist promotion
 
 ### S70 Expensive Yomi Recovery
 
@@ -409,7 +442,7 @@ A conservative first version:
 - no unknown non-kana token
 - no kanji-containing token with empty reading
 - no sign of old orthography or classical text
-- no suspicious minor alphabetic long-tail case
+- no unresolved minor alphabetic entity type attached to the unit
 
 Only units that pass all of those conditions should be auto-accepted.
 
@@ -424,6 +457,9 @@ rules.
 For classification:
 
 - prefer simple whitelist or blacklist entries for minor alphabetic sequences
+- match alphabetic list entries case-insensitively by default
+- keep exact-case exceptions for short tokens and acronyms
+- judge alphabetic items primarily at the entity-type level, not the sentence level
 - remain cautious about rule harvesting for classical/non-target Japanese
 
 For yomi repair:
@@ -447,38 +483,59 @@ Both modes should use the same prompt builder and parser.
 
 ## 9.2 Model configuration
 
-Do not hardcode one model name deep in the pipeline.
+Do not hardcode model choice deep in the pipeline, but the project should still
+have an explicit default policy.
 
-Instead, define model profiles in config, for example:
+Recommended default policy:
 
-- `triage_fast`
-- `repair_local`
-- `repair_document`
+- use `gpt-5.4` as the normal model for real annotation work
+- use `gpt-5.4-pro` only as a last-resort rescue model for a very small tail
+- use `gpt-5.4-nano` only for plumbing checks, transport tests, and cache/token
+  instrumentation
+- do not assume `gpt-5.4-mini` is the normal cost-saving path unless task-level
+  evals show that the quality tradeoff is actually worth it
 
-As of 2026-04-02, the official API docs list `gpt-5.4` as the flagship model,
-with `gpt-5.4-mini` and `gpt-5.4-nano` as cheaper variants. The pipeline
-should still treat model choice as stage-specific configuration rather than
-hardcoding one model for everything.
+Stage-oriented defaults:
 
-Recommended default split:
+- `alphabetic_entity_judge`: `gpt-5.4`
+- `classical_japanese_judge`: `gpt-5.4`
+- `yomi_check`: `gpt-5.4`
+- `yomi_repair`: `gpt-5.4`
+- post-review rescue repair: `gpt-5.4` with web search allowed
+- final emergency escalation: `gpt-5.4-pro` with web search, only after
+  cheaper paths and human review have already failed
 
-- `triage_fast`: `gpt-5.4-nano`
-- `repair_local`: `gpt-5.4-mini`
-- `repair_document`: `gpt-5.4`
+This keeps the main path simple and high-quality while still reserving a clear
+escape hatch for the hardest cases.
 
 ## 9.3 Cost controls
 
-For cheap triage:
+For ordinary judgment tasks:
 
 - keep the static prompt prefix identical
-- put variable unit text at the end
-- use very short class-code outputs
+- put variable item text at the end
 - set low verbosity
 - use the lowest reasoning effort that preserves accuracy
 - batch production jobs
 
-Do not force literally one output token at the transport layer if it makes
-parsing fragile. A one-character class code plus newline is a good target.
+For production cost control, prefer:
+
+- `gpt-5.4` plus caching and batching
+- strict structured outputs
+- short outputs for judgment tasks
+
+Do not assume that moving routine corpus judgments to `mini` or `nano` is the
+best optimization by default. Verify that with task-level evals first.
+
+Also do not assume that bundling multiple judgments into one prompt is the best
+optimization by default. The default policy should be one prompt per judgment
+task, because that makes parsing, prompt iteration, and regression diagnosis
+much cleaner.
+
+Merged prompts should be treated as an optimization step that needs evidence.
+Only merge tasks after evals show that the combined prompt preserves accuracy
+and parser stability, and only when the tasks share the same unit, context
+requirements, model policy, and failure surface.
 
 ## 9.4 Prompt caching
 
@@ -492,6 +549,12 @@ Practical rule:
 - use a stable prompt template version
 - log cached-token counts in run metrics
 
+For naturally short judgment prompts, do not pad them just to reach the cache
+threshold. In many cases, a shorter and clearer prompt is the better
+optimization. Caching matters most when a task already needs a long stable
+shared prefix for good reasons, such as context-heavy repair or tool-using
+rescue prompts.
+
 ## 9.5 Batch constraints
 
 Batch jobs should be organized by stage and model profile.
@@ -501,6 +564,10 @@ Practical rule:
 - one batch input file per model profile
 - stable `custom_id`
 - full manifest of prompt version, model profile, and parser version
+
+Tool-using rescue jobs should be separated from ordinary batch jobs because they
+have a different cost profile and should only operate on the small residue that
+survives the normal pipeline.
 
 
 ## 10. Human Review
@@ -517,6 +584,65 @@ Recommended policy:
   checkboxes
 - the second review UI should show only the yomi-annotated sentence and a
   free-text comment box
+
+### 10.1 Review transport
+
+The review UI should not assume writable hosting on the cluster.
+
+Current preferred transport design:
+
+- host the static review UI on GitHub Pages
+- export immutable review-pack JSON from the cluster
+- use GitHub as the return mailbox
+- for now, use one Issue per review pack and one comment per submission
+
+The cluster should later poll GitHub, extract valid submission payloads, and
+reconstruct the latest merged review state.
+
+### 10.2 Review state model
+
+Separate three things:
+
+- immutable review pack
+- device-local draft state in the browser
+- append-only review submissions returned through GitHub
+
+The browser should persist local drafts by `review_stage` and `pack_id` so a
+reviewer can leave the page and return later.
+
+### 10.3 Reviewed ranges and overrides
+
+For promotion-candidate review, a reviewed range matters more than explicit
+marks on every approved item.
+
+Recommended behavior:
+
+- by default, the whole pack is in scope for export
+- optional `from` / `to` markers narrow the reviewed range
+- items outside that range remain visible but faded
+- within the reviewed range, no explicit mark means "accept the proposed
+  action"
+- the submission payload should therefore contain reviewed range metadata plus
+  sparse item-level overrides
+
+### 10.4 Multiple partial submissions
+
+One pack may produce multiple submissions.
+
+That supports:
+
+- interrupted review
+- work split by range
+- accidental multi-device use
+
+Merge rule:
+
+- replay submissions in order
+- later submissions overwrite earlier results for overlapping items
+- for an overlapping reviewed range, reset that range to default proposal
+  acceptance first, then apply that submission's sparse overrides
+
+This is intentionally simple and leaves conflict responsibility to the user.
 
 
 ## 11. Recommended First Iterations

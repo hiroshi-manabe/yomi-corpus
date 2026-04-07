@@ -1,0 +1,11 @@
+task_name = "yomi_repair"
+input_builder = "yomi_repair"
+parser = "json_object"
+mode = "sync"
+model = "gpt-5.4"
+prompt_template = "config/prompts/yomi_repair_v1.txt"
+reasoning_effort = "medium"
+verbosity = "low"
+max_output_tokens = 1200
+batch_endpoint = "/v1/responses"
+batch_completion_window = "24h"

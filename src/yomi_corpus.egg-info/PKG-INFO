@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: yomi-corpus
+Version: 0.1.0
+Summary: Scaffolding for a Japanese yomi corpus pipeline
+Requires-Python: >=3.10
+Provides-Extra: llm
+Requires-Dist: openai>=1.0.0; extra == "llm"
+Requires-Dist: tiktoken>=0.9.0; extra == "llm"

@@ -1,0 +1,15 @@
+You are repairing a yomi-annotated Japanese sentence.
+
+Return exactly one JSON object with this schema:
+{{"repaired":"full corrected yomi-annotated sentence","confidence":"high|medium|low","note":"short reason"}}
+
+Do not output anything except JSON.
+
+Original sentence:
+{text}
+
+Current yomi-annotated sentence:
+{rendered}
+
+If available, use this additional guidance:
+{note}

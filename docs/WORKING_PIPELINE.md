@@ -23,7 +23,12 @@ At this stage:
 
 ## 2. Scope of the Main Judgments
 
-Each sentence-like unit is judged on three mostly independent questions:
+The pipeline now has two different judgment granularities:
+
+- sentence-like units for classical/non-target Japanese and yomi correctness
+- batch-level alphabetic entities for the minor-alphabetic problem
+
+For sentence-like units, the main questions are:
 
 1. Is this classical or non-target Japanese material?
    Examples:
@@ -32,14 +37,13 @@ Each sentence-like unit is judged on three mostly independent questions:
    - classical Japanese
    - kanbun
 
-2. Does this sentence contain minor alphabetic strings that are not worth
-   spending much annotation effort on?
-   Examples:
-   - obscure English, French, or other foreign proper names
-   - foreign titles or event names that are not well-established in modern
-     Japanese usage
+2. Is the current mechanically generated yomi correct with high confidence?
 
-3. Is the current mechanically generated yomi correct with high confidence?
+For alphabetic material, the main question is:
+
+- which alphabetic entities in the batch should be treated as acceptable
+  modern-Japanese items, and which should be treated as minor/obscure skip
+  triggers?
 
 The practical goal is not perfect theoretical classification. The goal is to
 spend effort where it helps and avoid the long tail that would consume a large
@@ -60,6 +64,27 @@ Each batch run should still assign internal document IDs such as:
 - `source_line_no`
 
 The original JSON payload is not rewritten.
+
+## 3.1.1 Batch artifacts vs. global state
+
+The alphabetic subsystem should keep both:
+
+- immutable batch-local artifacts
+- cross-batch global state
+
+Batch-local artifacts include:
+
+- alphabetic entity occurrences for one batch
+- alphabetic entity types for one batch
+- projected unit-level alphabetic flags for one batch
+
+Cross-batch global state includes:
+
+- a token decision registry
+- an append-only token evidence log
+
+The batch artifacts describe one run. The global state carries knowledge
+forward to later batches.
 
 ## 3.2 Units
 
@@ -117,7 +142,7 @@ Suggested shape:
       "minor_alphabetic_sequence": {
         "value": true,
         "certain": false,
-        "matches": ["Concerts", "de", "Midi"]
+        "matches": ["Concerts de Midi"]
       },
       "yomi": {
         "rendered": "...",
@@ -185,23 +210,32 @@ This judgment will likely depend on:
 
 The exact rules are not settled yet.
 
-### 5.2 Minor alphabetic-sequence judgment
+### 5.2 Batch-level alphabetic entity extraction
 
-- `value`: whether the unit contains alphabetic material that should probably be
-  skipped rather than fully annotated
-- `certain`: whether that decision is mechanically safe enough
+The alphabetic problem should not be treated as a pure sentence-level
+classification task.
+
+Instead, for each batch:
+
+- extract all alphabetic entity occurrences mechanically from all units
+- aggregate them into entity types
+- apply current whitelist/blacklist lookup
+- send only unresolved entity types to the LLM or human review
+
+Then project the entity-type decisions back onto units.
 
 This is not limited to English. The problem includes other Latin-script foreign
 material such as French.
 
-Example of the kind of sentence that may be skipped:
+Examples of entity types that may be skipped:
 
-- `Concerts de Midi`
+- `concerts de midi`
+- `run boys`
 
-Example of the kind of item that should probably be retained:
+Examples of entity types that may be retained:
 
-- `iPhone`
-- `Android`
+- `iphone`
+- `android`
 
 ### 5.3 Mechanical yomi
 
@@ -217,7 +251,7 @@ agreement heuristics.
 
 ## 6. Interpretation of "Certain"
 
-For all three tasks, "certain" means:
+For sentence-level tasks, "certain" means:
 
 - the pipeline believes the answer is strong enough that the next step should be
   human confirmation, not LLM arbitration
@@ -230,8 +264,13 @@ So the immediate branch is:
 This is the same high-level pattern for:
 
 - classical/non-target judgment
-- minor alphabetic-sequence judgment
 - yomi correctness judgment
+
+For alphabetic material, the equivalent branching point is the entity type:
+
+- if an entity type is already covered by whitelist/blacklist rules, do not ask
+  the LLM
+- otherwise send that entity type, not the whole sentence, to the LLM
 
 
 ## 7. Minor Alphabetic Sequences
@@ -245,7 +284,18 @@ The working assumption is:
 - therefore the system should prefer to skip low-value long-tail cases rather
   than aggressively annotate everything
 
-## 7.1 Whitelist
+## 7.1 Batch-level token inventory
+
+The batch should produce two alphabetic artifacts:
+
+- entity occurrences
+- entity types
+
+The entity-type table is the main decision surface for this problem.
+
+Sentence-level flags should be derived afterward from entity-type decisions.
+
+## 7.2 Whitelist
 
 The project should keep a whitelist of alphabetic strings that are accepted as
 rooted in modern Japanese usage.
@@ -262,12 +312,12 @@ Initial idea:
 - extract useful alphabetic strings from those accepted units
 - add good recurring items to the whitelist
 
-Then the mechanical rule can become:
+Then the projection rule can become:
 
-- if all alphabetic strings in a unit are in the whitelist, skip the
-  minor-alphabetic check for that unit
+- if all alphabetic entity types in a unit are in the whitelist, mark that unit
+  safe on the alphabetic dimension
 
-## 7.2 Blacklist
+## 7.3 Blacklist
 
 A blacklist-oriented approach may be simpler than generating regex rules for
 minor alphabetic sequences.
@@ -276,11 +326,28 @@ Current preference:
 
 - start with word-level whitelist and blacklist entries
 - use word-boundary-aware matching for alphabetic material
+- match case-insensitively by default
+- handle short tokens and acronyms more cautiously with exact-case exceptions
 - avoid regex unless there is a clear payoff
 
 This remains a working decision, not a final one.
 
-## 7.3 Rule harvesting
+## 7.4 LLM and human judgment unit
+
+The preferred unit for LLM and human judgment is now the alphabetic entity, not
+the whole sentence.
+
+Recommended flow:
+
+- extract alphabetic entities mechanically
+- remove already known whitelist/blacklist entries
+- ask the LLM to classify unresolved entity types
+- ask humans to review unresolved entity types, ideally with example sentences
+
+Sentence context is still useful, but mainly as supporting evidence for the
+entity-level decision.
+
+## 7.5 Rule harvesting
 
 If the LLM or a human identifies a unit as containing a minor alphabetic
 sequence, the system may later harvest a reusable blacklist-like rule from that
@@ -317,16 +384,35 @@ real examples and failure cases.
 
 ## 9. LLM Stage
 
-For now, the three sentence-level judgments should be handled with separate
-prompts:
+For now, the sentence-level judgments should be handled with separate prompts:
 
 1. classical/non-target Japanese or not
-2. minor alphabetic sequence present or not
-3. current yomi correct or not
+2. current yomi correct or not
 
 This is intentionally simple, even if it may not be cost-optimal.
 
-If the cost later proves too high, the prompts can be merged or restructured.
+The default policy should be:
+
+- one prompt per judgment task
+- one parser per judgment task
+- one eval set and failure bank per judgment task
+
+The main reason is not only implementation simplicity. It is error isolation.
+If one prompt handles exactly one judgment, prompt iteration, regression
+analysis, and human review alignment all become much easier.
+
+If the cost later proves too high, the prompts can be merged or restructured,
+but only after task-level evals show that the merged version preserves accuracy
+and parsing stability.
+
+Likely current split:
+
+- `classical_japanese_judge`: separate prompt
+- `yomi_check`: separate prompt
+- `alphabetic_entity_judge`: separate prompt, and also a different unit type
+  because it operates on batch-level entity types rather than sentence units
+- `yomi_repair`: separate prompt because repair should not be mixed into
+  ordinary judgment prompts
 
 ## 9.1 Inputs to the LLM
 
@@ -335,10 +421,17 @@ The LLM should only receive tasks that were not mechanically marked as certain.
 For each relevant unit, it should judge:
 
 - `classical_japanese`
-- `minor_alphabetic_sequence`
 - `yomi_is_correct`
 
 At this stage, the LLM is still doing classification, not necessarily repair.
+
+For alphabetic material, the LLM should instead receive unresolved entity types
+plus example sentences from the batch.
+
+Prompt merging should be treated as a later optimization question, not the
+starting architecture. Only tasks with the same unit, same context needs, same
+model policy, and similar failure modes should even be considered as merge
+candidates.
 
 ## 9.2 Yomi repair
 
@@ -389,17 +482,45 @@ This is only a sketch, not a validated rule design.
 
 ## 10.3 Minor alphabetic rules
 
-If a unit is judged to contain minor alphabetic material, ask for one reusable
-trigger.
+If an alphabetic entity type is judged to be minor/obscure, add or propose a
+reusable entity-level entry.
 
-Current preference is to keep these as simple token-level entries rather than
-general regexes.
+Current preference is still to keep these as simple entity-level entries rather
+than general regexes.
 
-Example discussed:
+## 10.4 Promotion candidate review
 
-- `concerts`
+Whitelist and blacklist promotion should not happen automatically from one LLM
+answer.
 
-with word-boundary-aware matching.
+Recommended flow:
+
+- accumulate evidence for each entity type across batches
+- let deterministic rules or the LLM generate promotion candidates
+- show only those promotion candidates to a human
+- promote to global whitelist or blacklist only after human approval
+
+This is meant to minimize human effort while still keeping globally reused list
+entries trustworthy.
+
+The review unit here is the entity type, not the sentence.
+
+For each promotion candidate, show:
+
+- entity key
+- proposed direction: whitelist or blacklist
+- evidence summary such as observation counts and recent judgments
+- a few short example snippets
+- optional short rationale
+
+Human actions can stay simple:
+
+- approve
+- reject
+- defer
+
+This review should remain separate from sentence-level yomi review. Its purpose
+is policy confirmation for global automation, not direct corpus annotation.
 
 ## 10.4 Yomi repair rules
 
@@ -408,6 +529,106 @@ useful fixes may be boundary or formatting corrections rather than semantic
 reinterpretations.
 
 This area needs experimentation.
+
+## 10.5 Review transport and UI state
+
+Because the working environment is a Linux cluster accessed over SSH, the human
+review UI should not assume that it can write directly back to the cluster.
+
+Current preferred review transport:
+
+- host the static review UI on GitHub Pages
+- use GitHub as the return mailbox
+- for now, prefer one GitHub Issue per review pack
+- submit one review result per Issue comment
+
+This is meant to work from both desktop browsers and iPad browsers without
+requiring a writable backend on the cluster.
+
+### 10.5.1 Review packs
+
+The cluster should export immutable review-pack files.
+
+Each review pack should include:
+
+- `pack_id`
+- `review_stage`
+- ordered review items with stable `item_id`
+- `seq` numbers for visual order
+- proposed action for each item
+- evidence summary and short example snippets
+
+### 10.5.2 Local draft persistence
+
+The browser UI should save draft state locally so that a reviewer can leave the
+page and return later without losing progress.
+
+Recommended approach:
+
+- key local draft state by `review_stage` and `pack_id`
+- store per-item overrides
+- store optional range markers
+- restore automatically on reload
+
+This local draft state is device-local. It is not the authoritative shared
+state.
+
+### 10.5.3 Reviewed range semantics
+
+For promotion-candidate review, the important concept is reviewed coverage, not
+explicit clicks on every approved item.
+
+Default UI behavior:
+
+- all items are initially in the export range
+- optional `from` and `to` markers can narrow that range
+- if neither marker is set, export all items
+- if only `from` is set, export that item and everything after it
+- if only `to` is set, export everything before and including it
+- if both are set, export only the inclusive interval
+
+Visual behavior:
+
+- items inside the current range should look normal
+- items outside the current range should remain visible but faded
+- `from` and `to` rows should have distinct marker styling
+- overridden rows should be highlighted more strongly than simple in-range rows
+
+### 10.5.4 Sparse overrides
+
+Within the reviewed range, the default interpretation is:
+
+- no explicit mark means the reviewer accepts the proposed action
+
+So the submission should store:
+
+- reviewed range
+- sparse per-item overrides such as `reject` or `defer`
+
+This is important because the reviewer may visually inspect many items and only
+change a few of them.
+
+### 10.5.5 Multiple submissions
+
+One review pack may produce multiple submissions.
+
+This supports:
+
+- interrupted review sessions
+- partial review by range
+- accidental multi-device work if it ever happens
+
+Merge rule:
+
+- later submissions overwrite earlier submissions for overlapping items
+- overlapping range handling is intentionally simple
+- responsibility for accidental overwrite stays with the user
+
+For reviewed-range semantics, a later overlapping submission should reset that
+range to default acceptance first, then apply its sparse overrides.
+
+That ensures that an omitted override in a later submission really means
+"accept proposal" inside that later reviewed range.
 
 
 ## 11. Human Review: Pass 1
@@ -422,17 +643,19 @@ Display:
 The three checkboxes are:
 
 1. classical/non-target Japanese
-2. minor alphabetic sequence present
-3. yomi fully correct
+2. yomi fully correct
 
 Important intended behavior:
 
-- the first two checkboxes may already be prefilled by mechanical or LLM output
-- the third checkbox should start unchecked
+- the first checkbox may already be prefilled by mechanical or LLM output
+- the yomi checkbox should start unchecked
 - the yomi-annotated sentence already contains the original sentence content, so
   a separate raw-text field is unnecessary in this UI
 - a sentence that is already known to have incorrect yomi should not be shown as
   a knowingly bad candidate; instead the pipeline should first attempt repair
+
+Minor alphabetic review should not be mixed into this sentence-level UI. It
+should live in an entity-level review flow with example sentences.
 
 
 ## 12. Human Review: Pass 2
@@ -444,9 +667,13 @@ a second, more expensive path.
 
 For these units:
 
-- use a maximally capable LLM setup
+- use `gpt-5.4` as the default rescue model
 - allow expensive tooling such as web search and stronger reasoning if needed
 - generate a new best-effort yomi
+
+Only if that still fails after human review should the pipeline consider a
+`gpt-5.4-pro` escalation. That should be treated as a last resort for a very
+small tail, not part of the normal path.
 
 ## 12.2 Second review UI
 
@@ -503,7 +730,9 @@ Within a batch:
 - import documents
 - derive units
 - run mechanical analysis for every unit
-- run LLM classification only where certainty is absent
+- build the batch-level alphabetic entity inventory
+- run entity-level LLM judgment only for unresolved alphabetic entity types
+- run sentence-level LLM classification only where certainty is absent
 - run LLM yomi repair where needed
 - build human review queues
 
@@ -520,9 +749,9 @@ questions:
 2. What counts as "certain" for each of the three tasks?
    The branching logic is clear, but the thresholds are not.
 
-3. Should the minor alphabetic mechanism use a pure whitelist/blacklist system,
-   or eventually add regex-like patterns?
-   Current preference is token-level lists first.
+3. How much context should be shown in entity-level alphabetic review?
+   The preferred unit is now the entity type, but some cases such as `OK` or
+   `Lab` may still need representative sentence examples.
 
 4. What exact format should represent unit-local nested analysis?
    The current example is only a draft.
@@ -548,7 +777,7 @@ The most useful next implementation steps appear to be:
 4. run Sudachi and `yomi-decoder` on a small batch of real data
 5. inspect real failure examples for:
    - classical/non-target Japanese
-   - minor alphabetic strings
+   - unresolved alphabetic entity types
    - yomi errors
 6. only then define the first deterministic certainty rules
 

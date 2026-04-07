@@ -1,0 +1,11 @@
+task_name = "yomi_check"
+input_builder = "yomi_check"
+parser = "json_object"
+mode = "sync"
+model = "gpt-5.4"
+prompt_template = "config/prompts/yomi_check_v1.txt"
+reasoning_effort = "low"
+verbosity = "low"
+max_output_tokens = 200
+batch_endpoint = "/v1/responses"
+batch_completion_window = "24h"

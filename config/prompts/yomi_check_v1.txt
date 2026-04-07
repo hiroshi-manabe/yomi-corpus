@@ -1,0 +1,12 @@
+You are checking whether a yomi-annotated Japanese sentence is fully correct.
+
+Return exactly one JSON object with this schema:
+{{"is_correct":true|false,"confidence":"high|medium|low","note":"short reason"}}
+
+Do not output anything except JSON.
+
+Original sentence:
+{text}
+
+Current yomi-annotated sentence:
+{rendered}
