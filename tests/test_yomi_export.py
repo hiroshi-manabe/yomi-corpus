@@ -160,6 +160,55 @@ class YomiExportTests(unittest.TestCase):
             self.assertIn("txt", summary)
             self.assertTrue((batch_dir / "units.yomi.aligned_hybrid.jsonl").exists())
             self.assertTrue((batch_dir / "units.yomi.aligned_hybrid.txt").exists())
+            self.assertEqual(mocked.call_count, 1)
+
+    def test_export_plaintext_yomi_reuses_precomputed_rendered_yomi(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "units.yomi.jsonl"
+            output_path = root / "units.yomi.txt"
+            rows = [
+                {
+                    "unit_id": "u1",
+                    "text": "A",
+                    "analysis": {"mechanical": {"yomi": {"rendered": "A/エー"}}},
+                },
+                {
+                    "unit_id": "u2",
+                    "text": "B",
+                    "analysis": {"mechanical": {"yomi": {"rendered": "B/ビー"}}},
+                },
+            ]
+            with input_path.open("w", encoding="utf-8") as handle:
+                for row in rows:
+                    handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+            config = YomiGenerationConfig(
+                sudachi_command="sudachi",
+                sudachi_args=(),
+                decoder_python="python",
+                decoder_script="decode.py",
+                decoder_config="config.toml",
+                decoder_beam=10,
+                decoder_nbest=5,
+                decoder_original_segments=True,
+                default_strategy="aligned_hybrid_v1",
+            )
+
+            with patch("yomi_corpus.yomi.export.generate_mechanical_yomi") as mocked:
+                summary = export_plaintext_yomi(
+                    input_jsonl=input_path,
+                    output_txt=output_path,
+                    config=config,
+                    strategy_name="aligned_hybrid_v1",
+                )
+
+            self.assertEqual(summary["written"], 2)
+            self.assertEqual(mocked.call_count, 0)
+            self.assertEqual(
+                output_path.read_text(encoding="utf-8"),
+                "u1\tA/エー\nu2\tB/ビー\n",
+            )
 
 
 if __name__ == "__main__":

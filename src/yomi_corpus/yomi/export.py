@@ -143,11 +143,18 @@ def export_plaintext_yomi(
             if not line.strip():
                 continue
             row = json.loads(line)
-            rendered = generate_mechanical_yomi(
-                row["text"],
-                config=config,
-                strategy_name=strategy_name,
-            ).rendered
+            rendered = (
+                row.get("analysis", {})
+                .get("mechanical", {})
+                .get("yomi", {})
+                .get("rendered")
+            )
+            if not rendered:
+                rendered = generate_mechanical_yomi(
+                    row["text"],
+                    config=config,
+                    strategy_name=strategy_name,
+                ).rendered
             dst.write(f"{row['unit_id']}\t{rendered}\n")
             count += 1
             last_unit_id = str(row["unit_id"])
@@ -175,6 +182,7 @@ def export_named_variant(
     variant = resolve_export_variant(variant_name)
     batch_path = resolve_repo_path(str(batch_dir))
     config = load_yomi_generation_config(config_path)
+    variant_jsonl_path = batch_path / variant.output_jsonl_filename
 
     summary: dict[str, object] = {
         "variant_name": variant.name,
@@ -183,14 +191,14 @@ def export_named_variant(
     if "jsonl" in formats:
         summary["jsonl"] = export_jsonl_yomi(
             input_jsonl=batch_path / "units.jsonl",
-            output_jsonl=batch_path / variant.output_jsonl_filename,
+            output_jsonl=variant_jsonl_path,
             config=config,
             strategy_name=variant.strategy_name,
             progress_label=f"{variant.name} jsonl" if show_progress else None,
         )
     if "txt" in formats:
         summary["txt"] = export_plaintext_yomi(
-            input_jsonl=batch_path / "units.jsonl",
+            input_jsonl=variant_jsonl_path if "jsonl" in formats else batch_path / "units.jsonl",
             output_txt=batch_path / variant.output_txt_filename,
             config=config,
             strategy_name=variant.strategy_name,

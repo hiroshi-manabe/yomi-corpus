@@ -16,7 +16,7 @@ from yomi_corpus.yomi.export import available_export_variant_names, export_named
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Export batch yomi artifacts in JSONL and/or plain text."
+        description="Export batch yomi artifacts. Defaults to JSONL only."
     )
     parser.add_argument(
         "--batch-dir",
@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
         "--format",
         action="append",
         choices=["jsonl", "txt"],
-        help="Output format to generate. Repeatable. Defaults to both jsonl and txt.",
+        help="Output format to generate. Repeatable. Defaults to jsonl only; add txt for diff/debug dumps.",
     )
     parser.add_argument(
         "--no-progress",
@@ -51,7 +51,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     variants = args.variant or ["aligned_hybrid", "sudachi_only"]
-    formats = args.format or ["jsonl", "txt"]
+    formats = args.format or ["jsonl"]
     summaries = []
     for variant_name in variants:
         summaries.append(

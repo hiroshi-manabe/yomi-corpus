@@ -81,7 +81,8 @@ Yomi generation scaffold:
   narrow hybrid layer for contextual reading fixes and decoder-informed segment
   recovery
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
-  variant-specific batch artifacts in both JSONL and plain-text form
+  variant-specific batch artifacts; it defaults to JSONL only, and plain-text
+  dumps are opt-in for diff/debug work
 - `scripts/export_yomi_plaintext.py` is the operator-facing helper for
   generating only the diff-friendly plain-text dumps
 - `scripts/run_yomi_experiment.py` runs one named combination strategy on a
