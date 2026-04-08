@@ -196,18 +196,17 @@ For each unit, the mechanical pipeline should produce:
 
 ### 5.1 Classical/non-target Japanese judgment
 
-- `value`: whether the unit looks like classical Japanese, kanbun, or other
-  non-target material
-- `certain`: whether the mechanical system is confident enough that only human
-  confirmation remains
+- raw signals that may later help predict whether the unit looks like
+  classical Japanese, kanbun, or other non-target material
+- no mechanical `value` or `certain` decision yet
 
-This judgment will likely depend on:
+Those signals will likely include:
 
 - Sudachi behavior
 - N-gram decoder behavior
 - script and orthography heuristics
 
-The exact rules are not settled yet.
+The exact rules are intentionally deferred until reviewed data exists.
 
 ### 5.2 Batch-level alphabetic entity extraction
 
@@ -241,29 +240,31 @@ Examples of entity types that may be retained:
 The mechanical pass should produce:
 
 - one best yomi candidate for the full unit
-- a `certain` flag for whether that yomi should go directly to human checking
-  without an intermediate LLM step
+- raw agreement and confidence signals only; no sentence-level `certain` flag
+  yet
 
-This should be based on Sudachi plus `yomi-decoder` plus deterministic
-agreement heuristics.
+This should be based on Sudachi plus `yomi-decoder` plus mechanical agreement
+signals that can later be calibrated against reviewed data.
 
 
 ## 6. Interpretation of "Certain"
 
-For sentence-level tasks, "certain" means:
+For sentence-level tasks, "certain" is a future concept, not an active one yet.
 
-- the pipeline believes the answer is strong enough that the next step should be
-  human confirmation, not LLM arbitration
+Current policy:
 
-So the immediate branch is:
+- do not assign `certain=true` mechanically for classical/non-target judgment
+- do not assign `certain=true` mechanically for yomi safety
+- collect raw features now and define certainty rules only after reviewed data
+  accumulates
 
-- if `certain=true`, skip the ordinary LLM stage for that task
-- if `certain=false`, send that task to an LLM
-
-This is the same high-level pattern for:
+So the current effective branch is:
 
 - classical/non-target judgment
 - yomi correctness judgment
+
+For both of those, go to the LLM unless a future reviewed-data-backed rule says
+otherwise.
 
 For alphabetic material, the equivalent branching point is the entity type:
 
@@ -366,7 +367,9 @@ Current working idea:
 
 - rely first on how well Sudachi and the N-gram system can analyze the unit
 - combine that with orthographic and script-level heuristics
-- use LLM judgment on units that are not mechanically certain
+- store those signals as features for later learning
+- use LLM judgment for now instead of trying to force an early mechanical
+  classifier
 
 Potential signals:
 
@@ -414,7 +417,8 @@ Likely current split:
 
 ## 9.1 Inputs to the LLM
 
-The LLM should only receive tasks that were not mechanically marked as certain.
+For now, the LLM should receive sentence-level tasks without waiting for a
+mechanical certainty decision.
 
 For each relevant unit, it should judge:
 
@@ -495,11 +499,16 @@ Recommended flow:
 
 - accumulate evidence for each entity type across batches
 - let deterministic rules or the LLM generate promotion candidates
+- use a temporary threshold of `3` consistent observations to surface either a
+  whitelist or blacklist candidate
 - show only those promotion candidates to a human
 - promote to global whitelist or blacklist only after human approval
 
 This is meant to minimize human effort while still keeping globally reused list
 entries trustworthy.
+
+This `3`-observation rule is only a temporary operating rule. It can be made
+stricter later if the evidence quality turns out to be noisier than expected.
 
 The review unit here is the entity type, not the sentence.
 
@@ -807,7 +816,7 @@ Within a batch:
 - run mechanical analysis for every unit
 - build the batch-level alphabetic entity inventory
 - run entity-level LLM judgment only for unresolved alphabetic entity types
-- run sentence-level LLM classification only where certainty is absent
+- run sentence-level LLM classification by default for now
 - run LLM yomi repair where needed
 - build human review queues
 
@@ -817,12 +826,15 @@ Within a batch:
 The following points are not settled and should be treated as explicit open
 questions:
 
-1. How exactly should classical/non-target Japanese be detected mechanically?
+1. When should classical/non-target Japanese feature extraction become a real
+   mechanical classifier?
    The current idea is to rely partly on Sudachi and N-gram analysis quality,
-   but no concrete scoring rule exists yet.
+   but no reviewed-data-backed scoring rule exists yet.
 
-2. What counts as "certain" for each of the three tasks?
-   The branching logic is clear, but the thresholds are not.
+2. When should sentence-level `certain` gating be turned on for classical and
+   yomi tasks?
+   The branching logic is clear, but it should remain disabled until there is
+   enough reviewed data.
 
 3. How much context should be shown in entity-level alphabetic review?
    The preferred unit is now the entity type, but some cases such as `OK` or
@@ -831,8 +843,8 @@ questions:
 4. What exact format should represent unit-local nested analysis?
    The current example is only a draft.
 
-5. How should the mechanical yomi confidence score be computed from Sudachi and
-   `yomi-decoder` outputs?
+5. How should the mechanical yomi confidence score eventually be computed from
+   Sudachi and `yomi-decoder` outputs?
 
 6. At what point should reusable rules be harvested automatically from reviewed
    cases?
@@ -854,7 +866,7 @@ The most useful next implementation steps appear to be:
    - classical/non-target Japanese
    - unresolved alphabetic entity types
    - yomi errors
-6. only then define the first deterministic certainty rules
+6. only then define the first reviewed-data-backed certainty rules
 
 The project is not blocked on perfect theory. It is mainly blocked on getting a
 small real-data loop running and looking at concrete examples.

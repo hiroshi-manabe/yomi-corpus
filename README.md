@@ -20,8 +20,11 @@ Initial project stance:
 - Treat this repo as a staged pipeline, not a grab bag of scripts.
 - Separate "confidence", "repairability", "modern-Japanese status", and
   "human-reviewed status" instead of collapsing everything into one flag.
-- Use deterministic processing first, then cheap LLM triage, then more
-  expensive contextual repair, then human review.
+- For classical/non-target detection and mechanical "safe" decisions, collect
+  raw features first and defer real deterministic gating until reviewed data
+  exists.
+- Use cheap LLM triage, then more expensive contextual repair, then human
+  review.
 
 Prompt iteration scaffold:
 
@@ -45,6 +48,8 @@ Alphabetic entity policy:
 
 - unresolved Latin/alphanumeric entity types are judged in batches
 - whitelist/blacklist promotions should be proposed from accumulated evidence
+- use a temporary promotion-candidate threshold of `3` consistent observations
+  for both whitelist and blacklist directions
 - humans review only promotion candidates before global list entries are added
 
 Review transport policy:

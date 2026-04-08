@@ -6,7 +6,8 @@ Build a reproducible pipeline that turns filtered modern Japanese source text
 into a reading-annotated corpus, while preserving enough metadata to:
 
 - reject clearly non-modern material
-- auto-accept only very safe cases
+- eventually auto-accept only very safe cases, but not before reviewed data
+  exists
 - auto-fix simple surface/reading boundary problems
 - escalate harder cases to an LLM with the right amount of context
 - send the final uncertain tail to human review
@@ -70,18 +71,18 @@ Instead, each unit should contain nested analysis blocks such as:
 
 This is intentionally denormalized in favor of operational simplicity.
 
-### 3.3 Deterministic first, LLM second
+### 3.3 Features first, gated decisions later
 
 The first pass should not ask the API to "solve" the whole problem.
 
 Instead:
 
-1. generate deterministic sentence-level judgments and a mechanical yomi with
-   Sudachi and `yomi-decoder`
-2. mark tasks as `certain` only when the result is strong enough to skip the
-   ordinary LLM stage
-3. ask the LLM to classify only the units and tasks that are not mechanically
-   certain
+1. generate raw mechanical features and a mechanical yomi with Sudachi and
+   `yomi-decoder`
+2. keep classical/non-target and sentence-level "certain" judgments disabled
+   until enough reviewed data exists
+3. ask the LLM to classify units that currently have no trusted mechanical
+   decision
 4. ask the LLM for yomi repair only when yomi correctness is not accepted
 5. send best-effort output to human review
 
@@ -327,12 +328,20 @@ Responsibilities:
 - confirm or reject globally reused list entries
 - keep this policy-level review separate from sentence-level corpus review
 
+Temporary candidate threshold:
+
+- treat `3` consistent observations as enough to surface a candidate for either
+  whitelist or blacklist review
+- keep actual promotion gated on human approval
+- treat this as a provisional operational rule, not a final policy
+
 Rationale:
 
 - promotion decisions have high leverage because they affect future batches
 - candidate review is a better use of human time than broad manual screening of
   every entity occurrence
-- blacklist promotion should stay more conservative than whitelist promotion
+- blacklist promotion may later need to stay more conservative than whitelist
+  promotion, but the temporary threshold is currently `3` for both directions
 
 ### S70 Expensive Yomi Recovery
 
@@ -433,20 +442,16 @@ The pipeline should use a small set of stable schemas.
 
 ## 7. What Should Count as "Almost Certainly Safe"
 
-This should be a derived rule bundle, not intuition.
+This should eventually become a derived rule bundle, not intuition.
 
-A conservative first version:
+Current implementation policy:
 
-- the mechanical task-specific judgment is `certain=true`
-- Sudachi tokenization and decoder output do not disagree in a suspicious way
-- no unknown non-kana token
-- no kanji-containing token with empty reading
-- no sign of old orthography or classical text
-- no unresolved Latin/alphanumeric entity type attached to the unit
+- do not auto-accept units through this mechanism yet
+- do not define a sentence-level `certain=true` rule for classical/non-target
+  or yomi safety yet
+- collect the raw mechanical features needed to learn those rules later
 
-Only units that pass all of those conditions should be auto-accepted.
-
-This will sacrifice recall, which is fine early on.
+The point is to avoid inventing confidence rules before reviewed data exists.
 
 
 ## 8. Rule and Repair Strategy
@@ -743,14 +748,14 @@ Build:
 
 Do not call the API yet.
 
-### Iteration 1: deterministic baseline
+### Iteration 1: mechanical feature baseline
 
 Build:
 
 - Python Sudachi adapter using the same config as the shell wrapper
 - `yomi-decoder` adapter
-- first confidence signals
-- first conservative auto-accept rule
+- first feature capture for later scoring
+- no sentence-level gating rules yet
 
 Measure:
 
