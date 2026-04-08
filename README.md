@@ -71,3 +71,14 @@ Pipeline orchestration policy:
 - let `advance` run automatic stages until it reaches a real blocking condition
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
+
+Yomi generation scaffold:
+
+- deterministic generation now has a local harness under `src/yomi_corpus/yomi/`
+- `scripts/generate_mechanical_yomi.py` runs Sudachi plus `../yomi-decoder/`
+  over units and writes updated `analysis.mechanical.yomi`
+- `scripts/run_yomi_experiment.py` runs one named combination strategy on a
+  fixed eval set
+- `scripts/compare_yomi_experiments.py` compares two strategy runs
+- current strategy names include `sudachi_only_v1`, `decoder_only_v1`,
+  `agreement_prefer_decoder_v1`, and `agreement_prefer_sudachi_v1`
