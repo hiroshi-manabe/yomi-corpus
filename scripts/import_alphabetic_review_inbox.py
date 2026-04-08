@@ -18,8 +18,10 @@ from yomi_corpus.alphabetic_review import apply_alphabetic_review_submission, wr
 from import_alphabetic_review_issue import (
     download_submission,
     extract_attachment_records,
+    extract_inline_submission_records,
     fetch_issue_comments,
     fetch_open_issues,
+    process_submission_record,
 )
 
 
@@ -64,67 +66,52 @@ def main() -> None:
     args = parse_args()
     issues = fetch_open_issues(args.repo, state="open")
     attachments = []
+    inline_submissions = []
     for issue in issues:
         if "pull_request" in issue:
             continue
         comments = fetch_issue_comments(args.repo, int(issue["number"]))
         attachments.extend(extract_attachment_records(issue, comments))
+        inline_submissions.extend(extract_inline_submission_records(issue, comments))
 
     summaries = []
     skipped = []
     seen_submission_ids: set[str] = set()
     for attachment in attachments:
         submission = download_submission(attachment["url"])
-        if str(submission.get("submission_type")) != "review_patch":
-            skipped.append({"reason": "wrong_submission_type", "attachment": attachment})
-            continue
-        if str(submission.get("review_stage")) != args.review_stage:
-            skipped.append({"reason": "wrong_review_stage", "attachment": attachment})
-            continue
-        submission_id = str(submission.get("submission_id", ""))
-        if not submission_id:
-            skipped.append({"reason": "missing_submission_id", "attachment": attachment})
-            continue
-        if submission_id in seen_submission_ids:
-            skipped.append(
-                {
-                    "reason": "duplicate_submission_id",
-                    "attachment": attachment,
-                    "submission_id": submission_id,
-                }
-            )
-            continue
-        seen_submission_ids.add(submission_id)
+        process_submission_record(
+            submission,
+            source_record=attachment,
+            repo=args.repo,
+            issue_number=attachment["issue_number"],
+            review_pack_root=PROJECT_ROOT / args.review_pack_root,
+            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
 
-        submission["_source_issue"] = {
-            "repo": args.repo,
-            "issue_number": attachment["issue_number"],
-            "comment_id": attachment.get("comment_id"),
-            "attachment_url": attachment["url"],
-        }
-        try:
-            summary = apply_alphabetic_review_submission(
-                submission,
-                review_pack_root=PROJECT_ROOT / args.review_pack_root,
-                submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-                decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
-            )
-        except FileNotFoundError:
-            skipped.append(
-                {
-                    "reason": "unknown_pack_id",
-                    "attachment": attachment,
-                    "pack_id": submission.get("pack_id"),
-                    "submission_id": submission_id,
-                }
-            )
-            continue
-        summaries.append(summary)
+    for inline_record in inline_submissions:
+        submission = dict(inline_record["submission"])
+        process_submission_record(
+            submission,
+            source_record=inline_record,
+            repo=args.repo,
+            issue_number=inline_record["issue_number"],
+            review_pack_root=PROJECT_ROOT / args.review_pack_root,
+            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
 
     aggregate = {
         "repo": args.repo,
         "open_issue_count": len([issue for issue in issues if "pull_request" not in issue]),
         "attachment_count": len(attachments),
+        "inline_submission_count": len(inline_submissions),
         "imported_submission_count": len(summaries),
         "review_stage": args.review_stage,
         "summaries": summaries,

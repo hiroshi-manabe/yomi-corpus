@@ -20,6 +20,7 @@ from yomi_corpus.alphabetic_review import (
 )
 
 ATTACHMENT_RE = re.compile(r"https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+\.json")
+FENCED_JSON_RE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
 
 
 def parse_args() -> argparse.Namespace:
@@ -65,64 +66,48 @@ def main() -> None:
     issue_payload = fetch_issue(args.repo, args.issue_number)
     comment_payloads = fetch_issue_comments(args.repo, args.issue_number)
     attachments = extract_attachment_records(issue_payload, comment_payloads)
-    if not attachments:
-        raise SystemExit("No JSON attachment URLs found in the issue body or comments.")
+    inline_submissions = extract_inline_submission_records(issue_payload, comment_payloads)
+    if not attachments and not inline_submissions:
+        raise SystemExit("No JSON review submissions found in the issue body or comments.")
 
     summaries = []
     seen_submission_ids: set[str] = set()
     skipped = []
     for attachment in attachments:
         submission = download_submission(attachment["url"])
-        if str(submission.get("submission_type")) != "review_patch":
-            skipped.append({"reason": "wrong_submission_type", "attachment": attachment})
-            continue
-        if str(submission.get("review_stage")) != "alphabetic_candidate_review":
-            skipped.append({"reason": "wrong_review_stage", "attachment": attachment})
-            continue
-        submission_id = str(submission.get("submission_id", ""))
-        if not submission_id:
-            skipped.append({"reason": "missing_submission_id", "attachment": attachment})
-            continue
-        if submission_id in seen_submission_ids:
-            skipped.append(
-                {
-                    "reason": "duplicate_submission_id",
-                    "attachment": attachment,
-                    "submission_id": submission_id,
-                }
-            )
-            continue
-        seen_submission_ids.add(submission_id)
-        submission["_source_issue"] = {
-            "repo": args.repo,
-            "issue_number": args.issue_number,
-            "comment_id": attachment.get("comment_id"),
-            "attachment_url": attachment["url"],
-        }
-        try:
-            summaries.append(
-                apply_alphabetic_review_submission(
-                    submission,
-                    review_pack_root=PROJECT_ROOT / args.review_pack_root,
-                    submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-                    decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
-                )
-            )
-        except FileNotFoundError:
-            skipped.append(
-                {
-                    "reason": "unknown_pack_id",
-                    "attachment": attachment,
-                    "pack_id": submission.get("pack_id"),
-                    "submission_id": submission_id,
-                }
-            )
-            continue
+        process_submission_record(
+            submission,
+            source_record=attachment,
+            repo=args.repo,
+            issue_number=args.issue_number,
+            review_pack_root=PROJECT_ROOT / args.review_pack_root,
+            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
+
+    for inline_record in inline_submissions:
+        submission = dict(inline_record["submission"])
+        process_submission_record(
+            submission,
+            source_record=inline_record,
+            repo=args.repo,
+            issue_number=args.issue_number,
+            review_pack_root=PROJECT_ROOT / args.review_pack_root,
+            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
 
     aggregate = {
         "repo": args.repo,
         "issue_number": args.issue_number,
         "attachment_count": len(attachments),
+        "inline_submission_count": len(inline_submissions),
         "imported_submission_count": len(summaries),
         "summaries": summaries,
         "skipped": skipped,
@@ -202,6 +187,112 @@ def extract_attachment_records(issue_payload: dict, comment_payloads: list[dict]
                 }
             )
     return rows
+
+
+def extract_inline_submission_records(issue_payload: dict, comment_payloads: list[dict]) -> list[dict]:
+    rows: list[dict] = []
+    ordered_payloads = [("issue", issue_payload)] + [("comment", row) for row in comment_payloads]
+    for source_kind, payload in ordered_payloads:
+        body = str(payload.get("body", "")).strip()
+        for submission in parse_submissions_from_text(body):
+            rows.append(
+                {
+                    "source_kind": source_kind,
+                    "issue_number": int(issue_payload.get("number", 0)),
+                    "comment_id": payload.get("id") if source_kind == "comment" else None,
+                    "submission": submission,
+                }
+            )
+    return rows
+
+
+def parse_submissions_from_text(text: str) -> list[dict]:
+    submissions: list[dict] = []
+    seen_ids: set[str] = set()
+    candidates: list[str] = []
+
+    stripped = text.strip()
+    if stripped.startswith("{") and stripped.endswith("}"):
+        candidates.append(stripped)
+
+    for match in FENCED_JSON_RE.finditer(text):
+        candidates.append(match.group(1).strip())
+
+    for candidate in candidates:
+        try:
+            payload = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(payload, dict):
+            continue
+        submission_id = str(payload.get("submission_id", ""))
+        if submission_id and submission_id in seen_ids:
+            continue
+        if submission_id:
+            seen_ids.add(submission_id)
+        submissions.append(payload)
+    return submissions
+
+
+def process_submission_record(
+    submission: dict,
+    *,
+    source_record: dict,
+    repo: str,
+    issue_number: int,
+    review_pack_root: Path,
+    submission_store_dir: Path,
+    decisions_jsonl: Path,
+    seen_submission_ids: set[str],
+    summaries: list[dict],
+    skipped: list[dict],
+) -> None:
+    if str(submission.get("submission_type")) != "review_patch":
+        skipped.append({"reason": "wrong_submission_type", "source": source_record})
+        return
+    if str(submission.get("review_stage")) != "alphabetic_candidate_review":
+        skipped.append({"reason": "wrong_review_stage", "source": source_record})
+        return
+    submission_id = str(submission.get("submission_id", ""))
+    if not submission_id:
+        skipped.append({"reason": "missing_submission_id", "source": source_record})
+        return
+    if submission_id in seen_submission_ids:
+        skipped.append(
+            {
+                "reason": "duplicate_submission_id",
+                "source": source_record,
+                "submission_id": submission_id,
+            }
+        )
+        return
+    seen_submission_ids.add(submission_id)
+    source_issue = {
+        "repo": repo,
+        "issue_number": issue_number,
+        "comment_id": source_record.get("comment_id"),
+    }
+    if "url" in source_record:
+        source_issue["attachment_url"] = source_record["url"]
+    submission["_source_issue"] = source_issue
+    try:
+        summaries.append(
+            apply_alphabetic_review_submission(
+                submission,
+                review_pack_root=review_pack_root,
+                submission_store_dir=submission_store_dir,
+                decisions_jsonl=decisions_jsonl,
+            )
+        )
+    except FileNotFoundError:
+        skipped.append(
+            {
+                "reason": "unknown_pack_id",
+                "source": source_record,
+                "pack_id": submission.get("pack_id"),
+                "submission_id": submission_id,
+            }
+        )
 
 
 def download_submission(url: str) -> dict:
