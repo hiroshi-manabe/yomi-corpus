@@ -13,7 +13,7 @@ from yomi_corpus.yomi.strategies import (
     render_pairs_from_decoder,
     render_pairs_from_sudachi,
 )
-from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, SudachiToken
+from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, DecoderOriginalSegment, SudachiToken
 
 
 class YomiPipelineTests(unittest.TestCase):
@@ -40,6 +40,7 @@ class YomiPipelineTests(unittest.TestCase):
                                     "reading": "ホウ",
                                     "final_order": 2,
                                     "piece_orders": [1, 2],
+                                    "original_segments": [{"surface": "方", "reading": "ホウ"}],
                                 }
                             ],
                         }
@@ -62,7 +63,7 @@ class YomiPipelineTests(unittest.TestCase):
                 DecoderCandidate(
                     rank=1,
                     score=-1.0,
-                    entries=[DecoderEntry("方", "ホウ", 2, [1, 2])],
+                    entries=[DecoderEntry("方", "ホウ", 2, [1, 2], [])],
                 )
             ],
         )
@@ -81,15 +82,135 @@ class YomiPipelineTests(unittest.TestCase):
                 DecoderCandidate(
                     rank=1,
                     score=-1.0,
-                    entries=[DecoderEntry("お金", "オカネ", 2, [1, 2])],
+                    entries=[DecoderEntry("お金", "オカネ", 2, [1, 2], [])],
                 )
             ],
         )
         self.assertEqual(result.rendered, "お/オ 金/カネ")
         self.assertIn("fallback_sudachi", result.signals)
 
+    def test_aligned_hybrid_uses_contextual_override_for_kata(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="あの方には",
+            sudachi_tokens=[
+                SudachiToken("あの", "連体詞", "あの", "あの", "アノ"),
+                SudachiToken("方", "名詞,普通名詞,一般,*,*,*", "方", "方", "ホウ"),
+                SudachiToken("に", "助詞", "に", "に", "ニ"),
+                SudachiToken("は", "助詞", "は", "は", "ハ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("あの", "アノ", 2, [1, 2], []),
+                        DecoderEntry("方", "カタ", 2, [2], []),
+                        DecoderEntry("に", "ニ", 2, [2], []),
+                        DecoderEntry("は", "ハ", 3, [3], []),
+                    ],
+                ),
+                DecoderCandidate(
+                    rank=2,
+                    score=-2.0,
+                    entries=[
+                        DecoderEntry("あの", "アノ", 2, [1, 2], []),
+                        DecoderEntry("方", "カタ", 2, [2], []),
+                        DecoderEntry("に", "ニ", 2, [2], []),
+                        DecoderEntry("は", "ハ", 3, [3], []),
+                    ],
+                ),
+                DecoderCandidate(
+                    rank=3,
+                    score=-3.0,
+                    entries=[
+                        DecoderEntry("あの", "アノ", 2, [1, 2], []),
+                        DecoderEntry("方", "ホウ", 2, [2], []),
+                        DecoderEntry("に", "ニ", 2, [2], []),
+                        DecoderEntry("は", "ハ", 3, [3], []),
+                    ],
+                ),
+            ],
+        )
+        self.assertIn("use_decoder_contextual_override", result.signals)
+        self.assertEqual(result.rendered, "あの/アノ 方/カタ に/ニ は/ハ")
+
+    def test_aligned_hybrid_uses_decoder_original_segments_for_split_run(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="なくなった",
+            sudachi_tokens=[
+                SudachiToken("なくなっ", "動詞", "なくなる", "なくなる", "ナクナッ"),
+                SudachiToken("た", "助動詞", "た", "た", "タ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry(
+                            "なくなった",
+                            "ナクナッタ",
+                            5,
+                            [2, 3, 4, 5],
+                            [
+                                DecoderOriginalSegment("なくなっ", "ナクナッ"),
+                                DecoderOriginalSegment("た", "タ"),
+                            ],
+                        )
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "なくなっ/ナクナッ た/タ")
+        self.assertIn("use_decoder_original_segments", result.signals)
+
+    def test_aligned_hybrid_skips_whitespace_and_normalizes_punctuation(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="A B？",
+            sudachi_tokens=[
+                SudachiToken("A", "名詞", "A", "A", "エー"),
+                SudachiToken(" ", "空白,*,*,*,*,*", " ", " ", "キゴウ"),
+                SudachiToken("B", "名詞", "B", "B", "ビー"),
+                SudachiToken("？", "補助記号,句点,*,*,*,*", "？", "？", "?"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("A", "エー", 1, [1], []),
+                        DecoderEntry("B", "ビー", 1, [1], []),
+                        DecoderEntry("？", "", 1, [1], []),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "A/エー B/ビー ？/？")
+        self.assertIn("skip_whitespace_token", result.signals)
+        self.assertIn("normalize_punctuation_surface", result.signals)
+
+    def test_render_pairs_from_decoder_uses_surface_when_reading_is_empty(self) -> None:
+        candidate = DecoderCandidate(
+            rank=1,
+            score=-1.0,
+            entries=[DecoderEntry("。", "", 1, [1], [])],
+        )
+        self.assertEqual(render_pairs_from_decoder(candidate), "。/。")
+
+    def test_render_pairs_from_sudachi_skips_whitespace(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken("不要", "名詞", "不要", "不要", "フヨウ"),
+                SudachiToken(" ", "空白,*,*,*,*,*", " ", " ", "キゴウ"),
+                SudachiToken("時", "名詞", "時", "時", "トキ"),
+            ]
+        )
+        self.assertEqual(rendered, "不要/フヨウ 時/トキ")
+
     def test_available_strategy_names(self) -> None:
-        self.assertIn("agreement_prefer_decoder_v1", available_strategy_names())
+        self.assertIn("aligned_hybrid_v1", available_strategy_names())
 
     def test_compare_yomi_experiments(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

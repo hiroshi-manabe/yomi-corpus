@@ -4,7 +4,7 @@ import json
 import subprocess
 
 from yomi_corpus.yomi.config import YomiGenerationConfig
-from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, SudachiToken
+from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, DecoderOriginalSegment, SudachiToken
 
 
 def run_sudachi(text: str, config: YomiGenerationConfig) -> list[SudachiToken]:
@@ -52,6 +52,8 @@ def run_decoder(text: str, config: YomiGenerationConfig) -> list[DecoderCandidat
         "--nbest",
         str(config.decoder_nbest),
     ]
+    if config.decoder_original_segments:
+        command.append("--original-segments")
     if config.decoder_beam is not None:
         command.extend(["--beam", str(config.decoder_beam)])
 
@@ -74,6 +76,13 @@ def parse_decoder_output(stdout: str) -> list[DecoderCandidate]:
                         reading=str(entry["reading"]),
                         final_order=int(entry.get("final_order", 0)),
                         piece_orders=[int(value) for value in entry.get("piece_orders", [])],
+                        original_segments=[
+                            DecoderOriginalSegment(
+                                surface=str(segment["surface"]),
+                                reading=str(segment.get("reading", "")),
+                            )
+                            for segment in entry.get("original_segments", [])
+                        ],
                     )
                     for entry in row.get("entries", [])
                 ],

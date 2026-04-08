@@ -1,3 +1,4 @@
-{"item_id":"basic_0001","text":"こっちの方がいいです","expected_rendered":"こっち/コッチ の/ノ 方/ホウ が/ガ いい/イイ です/デス","note":"README example with unambiguous top reading"}
-{"item_id":"basic_0002","text":"やってしまったものは仕方がありません。","expected_rendered":"やって/ヤッテ しまった/シマッタ もの/モノ は/ハ 仕方/シカタ が/ガ ありません/アリマセン 。/。","note":"Simple sentence from batch_0001 with mostly straightforward readings"}
-{"item_id":"basic_0003","text":"連休で予想以上に散財してお金がなくなった","expected_rendered":"連休/レンキュウ で/デ 予想/ヨソウ 以上/イジョウ に/ニ 散財/サンザイ して/シテ お/オ 金/カネ が/ガ なくなった/ナクナッタ","note":"Straightforward content-word test"}
+{"item_id":"basic_0001","text":"こっちの方がいいです","expected_rendered":"こっち/コッチ の/ノ 方/ホウ が/ガ いい/イイ です/デス","note":"Baseline contextual reading where both systems agree on 方/ホウ"}
+{"item_id":"basic_0002","text":"あの方にはお世話になりました","expected_rendered":"あの/アノ 方/カタ に/ニ は/ハ お世話/オセワ に/ニ なり/ナリ まし/マシ た/タ","note":"Context-sensitive 方 example where decoder should override Sudachi's generic reading"}
+{"item_id":"basic_0003","text":"やってしまったものは仕方がありません。","expected_rendered":"やっ/ヤッ て/テ しまっ/シマッ た/タ もの/モノ は/ハ 仕方/シカタ が/ガ あり/アリ ませ/マセ ん/ン 。/。","note":"Decoder original-segment recovery should preserve corpus-style segmentation instead of grouping auxiliaries"}
+{"item_id":"basic_0004","text":"連休で予想以上に散財してお金がなくなった","expected_rendered":"連休/レンキュウ で/デ 予想/ヨソウ 以上/イジョウ に/ニ 散財/サンザイ し/シ て/テ お金/オカネ が/ガ なくなっ/ナクナッ た/タ","note":"Recovered original segments should keep なくなっ た rather than grouping it as なくなった"}

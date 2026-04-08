@@ -203,6 +203,9 @@ For each unit, the mechanical pipeline should produce:
 Those signals will likely include:
 
 - Sudachi behavior
+  The current mechanical baseline should use Sudachi B-mode rather than the
+  default C-mode, so compounds are first split into middle units before hybrid
+  refinement.
 - N-gram decoder behavior
 - script and orthography heuristics
 

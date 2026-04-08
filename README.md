@@ -77,6 +77,13 @@ Yomi generation scaffold:
 - deterministic generation now has a local harness under `src/yomi_corpus/yomi/`
 - `scripts/generate_mechanical_yomi.py` runs Sudachi plus `../yomi-decoder/`
   over units and writes updated `analysis.mechanical.yomi`
+- the current mechanical baseline uses Sudachi B-mode segmentation, then adds a
+  narrow hybrid layer for contextual reading fixes and decoder-informed segment
+  recovery
+- `scripts/export_yomi_outputs.py` is the main operator helper for generating
+  variant-specific batch artifacts in both JSONL and plain-text form
+- `scripts/export_yomi_plaintext.py` is the operator-facing helper for
+  generating only the diff-friendly plain-text dumps
 - `scripts/run_yomi_experiment.py` runs one named combination strategy on a
   fixed eval set
 - `scripts/compare_yomi_experiments.py` compares two strategy runs

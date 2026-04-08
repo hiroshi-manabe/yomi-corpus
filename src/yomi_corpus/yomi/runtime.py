@@ -49,6 +49,13 @@ def generate_mechanical_yomi(
                             "reading": entry.reading,
                             "final_order": entry.final_order,
                             "piece_orders": entry.piece_orders,
+                            "original_segments": [
+                                {
+                                    "surface": segment.surface,
+                                    "reading": segment.reading,
+                                }
+                                for segment in entry.original_segments
+                            ],
                         }
                         for entry in candidate.entries
                     ],

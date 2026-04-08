@@ -77,7 +77,8 @@ The first pass should not ask the API to "solve" the whole problem.
 
 Instead:
 
-1. generate raw mechanical features and a mechanical yomi with Sudachi and
+1. generate raw mechanical features and a mechanical yomi with Sudachi B-mode
+   segmentation and
    `yomi-decoder`
 2. keep classical/non-target and sentence-level "certain" judgments disabled
    until enough reviewed data exists

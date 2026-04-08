@@ -1,6 +1,6 @@
 [sudachi]
 command = "/home/hmanabe/scripts/sudachi"
-args = ["-a"]
+args = ["-a", "-m", "B"]
 
 [decoder]
 python = "python"
@@ -8,6 +8,7 @@ script = "../../../yomi-decoder/scripts/decode.py"
 config = "../../../yomi-decoder/config/default.toml"
 beam = 150
 nbest = 5
+original_segments = true
 
 [strategy]
-default = "agreement_prefer_decoder_v1"
+default = "aligned_hybrid_v1"
