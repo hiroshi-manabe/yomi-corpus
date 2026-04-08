@@ -82,3 +82,6 @@ Yomi generation scaffold:
 - `scripts/compare_yomi_experiments.py` compares two strategy runs
 - current strategy names include `sudachi_only_v1`, `decoder_only_v1`,
   `agreement_prefer_decoder_v1`, and `agreement_prefer_sudachi_v1`
+- for yomi evaluation, correct readings matter more than coarse vs. fine
+  segmentation; over-segmentation by the morphological analyzer is not itself a
+  failure if the readings are still correct

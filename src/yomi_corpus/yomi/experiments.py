@@ -72,6 +72,7 @@ def run_yomi_experiment(
         "exact_match_accuracy": (
             exact_match_count / comparable_count if comparable_count else None
         ),
+        "metric_note": "Current metric is strict rendered-string exact match; real acceptance should tolerate over-segmentation when readings are still correct.",
         "generated_at_epoch": int(time()),
     }
 

@@ -86,6 +86,10 @@ Instead:
 4. ask the LLM for yomi repair only when yomi correctness is not accepted
 5. send best-effort output to human review
 
+For yomi quality, reading correctness should take priority over coarse vs. fine
+segmentation. If the readings are correct, extra splits introduced by the
+morphological analyzer should not by themselves count as a failure.
+
 This keeps both cost and failure modes under control.
 
 ### 3.4 Use two judgment granularities

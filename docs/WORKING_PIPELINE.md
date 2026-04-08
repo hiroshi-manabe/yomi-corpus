@@ -246,6 +246,15 @@ The mechanical pass should produce:
 This should be based on Sudachi plus `yomi-decoder` plus mechanical agreement
 signals that can later be calibrated against reviewed data.
 
+Segmentation policy for yomi evaluation:
+
+- if the readings are correct, overly fine segmentation should not by itself be
+  treated as an error
+- examples like `やってしまった` becoming `やっ/ヤッ て/テ しまっ/シマッ た/タ`
+  are acceptable as a morphological-analysis choice
+- evaluation should focus on reading correctness first, and segmentation only
+  secondarily when it causes a real reading or usability problem
+
 
 ## 6. Interpretation of "Certain"
 
