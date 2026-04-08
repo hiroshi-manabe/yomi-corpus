@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from time import time
 
+from yomi_corpus.alphabetic_state import AlphabeticDecision, load_alphabetic_decisions
+
 
 @dataclass(frozen=True)
 class AlphabeticLLMJudgment:
@@ -276,3 +278,186 @@ def write_json(path: str | Path, payload: dict) -> None:
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def load_json(path: str | Path) -> dict:
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def find_review_pack(review_pack_root: str | Path, pack_id: str) -> Path:
+    root = Path(review_pack_root)
+    for path in sorted(root.rglob("*.json")):
+        try:
+            payload = load_json(path)
+        except json.JSONDecodeError:
+            continue
+        if str(payload.get("pack_id")) == pack_id:
+            return path
+    raise FileNotFoundError(f"Review pack not found for pack_id={pack_id}")
+
+
+def store_review_submission(
+    submission: dict,
+    *,
+    submission_store_dir: str | Path,
+) -> Path:
+    store_dir = Path(submission_store_dir)
+    store_dir.mkdir(parents=True, exist_ok=True)
+    submission_id = sanitize_submission_id(str(submission["submission_id"]))
+    output_path = store_dir / f"{submission_id}.json"
+    output_path.write_text(json.dumps(submission, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return output_path
+
+
+def load_review_submissions(submission_store_dir: str | Path, *, review_stage: str, pack_id: str) -> list[dict]:
+    store_dir = Path(submission_store_dir)
+    rows: list[dict] = []
+    if not store_dir.exists():
+        return rows
+    for path in sorted(store_dir.glob("*.json")):
+        try:
+            payload = load_json(path)
+        except json.JSONDecodeError:
+            continue
+        if str(payload.get("review_stage")) != review_stage:
+            continue
+        if str(payload.get("pack_id")) != pack_id:
+            continue
+        payload["_source_path"] = str(path)
+        rows.append(payload)
+    rows.sort(
+        key=lambda row: (
+            int(row.get("generated_at_epoch", 0)),
+            str(row.get("submission_id", "")),
+            str(row.get("_source_path", "")),
+        )
+    )
+    return rows
+
+
+def replay_review_submissions(pack: dict, submissions: list[dict]) -> dict[str, dict]:
+    items_by_id = {str(item["item_id"]): item for item in pack.get("items", [])}
+    items_by_seq = {int(item["seq"]): item for item in pack.get("items", [])}
+    effective: dict[str, dict] = {}
+
+    for submission in submissions:
+        ranges = submission.get("reviewed_ranges", [])
+        overrides = {
+            str(row["item_id"]): row
+            for row in submission.get("overrides", [])
+            if str(row.get("item_id", "")) in items_by_id
+        }
+        for reviewed_range in ranges:
+            from_seq = int(reviewed_range["from_seq"])
+            to_seq = int(reviewed_range["to_seq"])
+            if from_seq > to_seq:
+                from_seq, to_seq = to_seq, from_seq
+            for seq in range(from_seq, to_seq + 1):
+                item = items_by_seq.get(seq)
+                if not item:
+                    continue
+                item_id = str(item["item_id"])
+                effective[item_id] = {
+                    "item_id": item_id,
+                    "status": "accept",
+                    "submission_id": str(submission.get("submission_id", "")),
+                    "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),
+                }
+            for item_id, override in overrides.items():
+                item = items_by_id[item_id]
+                item_seq = int(item["seq"])
+                if item_seq < from_seq or item_seq > to_seq:
+                    continue
+                effective[item_id] = {
+                    "item_id": item_id,
+                    "status": str(override.get("decision", "")),
+                    "note": str(override.get("note", "")).strip(),
+                    "submission_id": str(submission.get("submission_id", "")),
+                    "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),
+                }
+    return effective
+
+
+def build_review_promoted_decisions(pack: dict, effective_item_states: dict[str, dict]) -> list[AlphabeticDecision]:
+    decisions: list[AlphabeticDecision] = []
+    for item in pack.get("items", []):
+        item_id = str(item["item_id"])
+        item_state = effective_item_states.get(item_id)
+        if not item_state or item_state.get("status") != "accept":
+            continue
+        proposed_action = str(item.get("proposed_action", ""))
+        if proposed_action not in {"whitelist", "blacklist"}:
+            continue
+        decisions.append(
+            AlphabeticDecision(
+                entity_key=str(item["entity_key"]),
+                strict_case=bool(item.get("strict_case", False)),
+                status=proposed_action,
+                source="review:alphabetic_candidate_review",
+                note=f"pack={pack['pack_id']};submission={item_state.get('submission_id', '')}",
+            )
+        )
+    decisions.sort(key=lambda row: (row.status, row.entity_key))
+    return decisions
+
+
+def rewrite_alphabetic_decisions_with_review_promotions(
+    path: str | Path,
+    review_promoted_decisions: list[AlphabeticDecision],
+) -> None:
+    existing = load_alphabetic_decisions(path)
+    preserved = {
+        entity_key: decision
+        for entity_key, decision in existing.items()
+        if not decision.source.startswith("review:")
+    }
+    for decision in review_promoted_decisions:
+        preserved[decision.entity_key] = decision
+
+    output_path = Path(path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as handle:
+        for entity_key in sorted(preserved):
+            handle.write(json.dumps(asdict(preserved[entity_key]), ensure_ascii=False) + "\n")
+
+
+def build_review_import_summary(
+    submission: dict,
+    *,
+    stored_path: str,
+    pack: dict,
+    effective_item_states: dict[str, dict],
+    promoted_decisions: list[AlphabeticDecision],
+) -> dict:
+    accepted_count = sum(1 for row in effective_item_states.values() if row.get("status") == "accept")
+    rejected_count = sum(1 for row in effective_item_states.values() if row.get("status") == "reject")
+    deferred_count = sum(1 for row in effective_item_states.values() if row.get("status") == "defer")
+    return {
+        "submission_id": str(submission["submission_id"]),
+        "pack_id": str(pack["pack_id"]),
+        "review_stage": str(pack["review_stage"]),
+        "stored_path": stored_path,
+        "accepted_count": accepted_count,
+        "rejected_count": rejected_count,
+        "deferred_count": deferred_count,
+        "promoted_whitelist_count": sum(1 for row in promoted_decisions if row.status == "whitelist"),
+        "promoted_blacklist_count": sum(1 for row in promoted_decisions if row.status == "blacklist"),
+        "promoted_entities": [
+            {
+                "entity_key": row.entity_key,
+                "status": row.status,
+                "strict_case": row.strict_case,
+            }
+            for row in promoted_decisions
+        ],
+    }
+
+
+def sanitize_submission_id(submission_id: str) -> str:
+    keep = []
+    for char in submission_id:
+        if char.isalnum() or char in {"_", "-", "."}:
+            keep.append(char)
+        else:
+            keep.append("_")
+    return "".join(keep)
