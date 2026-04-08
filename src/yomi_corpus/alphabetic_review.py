@@ -453,6 +453,45 @@ def build_review_import_summary(
     }
 
 
+def apply_alphabetic_review_submission(
+    submission: dict,
+    *,
+    review_pack_root: str | Path,
+    submission_store_dir: str | Path,
+    decisions_jsonl: str | Path,
+) -> dict:
+    if str(submission.get("submission_type")) != "review_patch":
+        raise ValueError("Expected submission_type=review_patch")
+    if str(submission.get("review_stage")) != "alphabetic_candidate_review":
+        raise ValueError("Expected review_stage=alphabetic_candidate_review")
+
+    pack_path = find_review_pack(review_pack_root, str(submission["pack_id"]))
+    pack = load_json(pack_path)
+
+    stored_path = store_review_submission(
+        submission,
+        submission_store_dir=submission_store_dir,
+    )
+    all_submissions = load_review_submissions(
+        submission_store_dir,
+        review_stage=str(submission["review_stage"]),
+        pack_id=str(submission["pack_id"]),
+    )
+    effective_item_states = replay_review_submissions(pack, all_submissions)
+    promoted_decisions = build_review_promoted_decisions(pack, effective_item_states)
+    rewrite_alphabetic_decisions_with_review_promotions(
+        decisions_jsonl,
+        promoted_decisions,
+    )
+    return build_review_import_summary(
+        submission,
+        stored_path=str(stored_path),
+        pack=pack,
+        effective_item_states=effective_item_states,
+        promoted_decisions=promoted_decisions,
+    )
+
+
 def sanitize_submission_id(submission_id: str) -> str:
     keep = []
     for char in submission_id:
