@@ -72,6 +72,7 @@ def main() -> None:
 
     summaries = []
     skipped = []
+    seen_submission_ids: set[str] = set()
     for attachment in attachments:
         submission = download_submission(attachment["url"])
         if str(submission.get("submission_type")) != "review_patch":
@@ -80,6 +81,20 @@ def main() -> None:
         if str(submission.get("review_stage")) != args.review_stage:
             skipped.append({"reason": "wrong_review_stage", "attachment": attachment})
             continue
+        submission_id = str(submission.get("submission_id", ""))
+        if not submission_id:
+            skipped.append({"reason": "missing_submission_id", "attachment": attachment})
+            continue
+        if submission_id in seen_submission_ids:
+            skipped.append(
+                {
+                    "reason": "duplicate_submission_id",
+                    "attachment": attachment,
+                    "submission_id": submission_id,
+                }
+            )
+            continue
+        seen_submission_ids.add(submission_id)
 
         submission["_source_issue"] = {
             "repo": args.repo,
@@ -100,6 +115,7 @@ def main() -> None:
                     "reason": "unknown_pack_id",
                     "attachment": attachment,
                     "pack_id": submission.get("pack_id"),
+                    "submission_id": submission_id,
                 }
             )
             continue

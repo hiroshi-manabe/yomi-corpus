@@ -10,7 +10,7 @@ SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
 if str(SCRIPTS_ROOT) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_ROOT))
 
-from import_alphabetic_review_issue import extract_attachment_records, extract_attachment_urls
+from import_alphabetic_review_issue import extract_attachment_records, extract_attachment_urls, fetch_issue_comments
 
 
 class AlphabeticReviewIssueImportTests(unittest.TestCase):
@@ -63,6 +63,9 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
                 },
             ],
         )
+
+    def test_fetch_issue_comments_is_defined(self) -> None:
+        self.assertTrue(callable(fetch_issue_comments))
 
 
 if __name__ == "__main__":

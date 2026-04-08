@@ -69,12 +69,30 @@ def main() -> None:
         raise SystemExit("No JSON attachment URLs found in the issue body or comments.")
 
     summaries = []
+    seen_submission_ids: set[str] = set()
+    skipped = []
     for attachment in attachments:
         submission = download_submission(attachment["url"])
         if str(submission.get("submission_type")) != "review_patch":
+            skipped.append({"reason": "wrong_submission_type", "attachment": attachment})
             continue
         if str(submission.get("review_stage")) != "alphabetic_candidate_review":
+            skipped.append({"reason": "wrong_review_stage", "attachment": attachment})
             continue
+        submission_id = str(submission.get("submission_id", ""))
+        if not submission_id:
+            skipped.append({"reason": "missing_submission_id", "attachment": attachment})
+            continue
+        if submission_id in seen_submission_ids:
+            skipped.append(
+                {
+                    "reason": "duplicate_submission_id",
+                    "attachment": attachment,
+                    "submission_id": submission_id,
+                }
+            )
+            continue
+        seen_submission_ids.add(submission_id)
         submission["_source_issue"] = {
             "repo": args.repo,
             "issue_number": args.issue_number,
@@ -91,6 +109,14 @@ def main() -> None:
                 )
             )
         except FileNotFoundError:
+            skipped.append(
+                {
+                    "reason": "unknown_pack_id",
+                    "attachment": attachment,
+                    "pack_id": submission.get("pack_id"),
+                    "submission_id": submission_id,
+                }
+            )
             continue
 
     aggregate = {
@@ -99,6 +125,7 @@ def main() -> None:
         "attachment_count": len(attachments),
         "imported_submission_count": len(summaries),
         "summaries": summaries,
+        "skipped": skipped,
     }
     write_json(PROJECT_ROOT / args.summary_json, aggregate)
     print(json.dumps(aggregate, ensure_ascii=False, indent=2))
@@ -110,8 +137,16 @@ def fetch_issue(repo: str, issue_number: int) -> dict:
 
 
 def fetch_issue_comments(repo: str, issue_number: int) -> list[dict]:
-    url = f"https://api.github.com/repos/{repo}/issues/{issue_number}/comments?per_page=100"
-    return fetch_json(url)
+    page = 1
+    rows: list[dict] = []
+    while True:
+        url = f"https://api.github.com/repos/{repo}/issues/{issue_number}/comments?per_page=100&page={page}"
+        payload = fetch_json(url)
+        if not isinstance(payload, list) or not payload:
+            break
+        rows.extend(payload)
+        page += 1
+    return rows
 
 
 def fetch_open_issues(repo: str, *, state: str = "open") -> list[dict]:
