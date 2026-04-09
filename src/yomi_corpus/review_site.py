@@ -5,6 +5,8 @@ import re
 import shutil
 from pathlib import Path
 
+from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
+
 
 def load_review_pack(path: str | Path) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -25,6 +27,7 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
                 "pack_id": pack_id,
                 "title": title,
                 "review_stage": str(payload["review_stage"]),
+                "track_name": infer_track_name(payload, path),
                 "created_at_epoch": int(payload.get("created_at_epoch", 0)),
                 "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
                 "source_path": path,
@@ -44,6 +47,7 @@ def build_review_manifest(entries: list[dict]) -> dict:
                 "review_stage": stage_id,
                 "label": humanize_stage_label(stage_id),
                 "latest_pack_id": None,
+                "latest_pack_ids_by_track": {},
                 "packs": [],
             },
         )
@@ -52,6 +56,7 @@ def build_review_manifest(entries: list[dict]) -> dict:
                 "pack_id": entry["pack_id"],
                 "title": entry["title"],
                 "path": f"./packs/{entry['site_filename']}",
+                "track_name": entry.get("track_name", WORKING_TRACK),
                 "created_at_epoch": entry["created_at_epoch"],
                 "item_count": entry["item_count"],
                 "status": "archived",
@@ -59,16 +64,59 @@ def build_review_manifest(entries: list[dict]) -> dict:
         )
 
     ordered_stage_ids = sorted(stages)
+    current_tracks: dict[str, dict] = {}
     for stage_id in ordered_stage_ids:
         packs = stages[stage_id]["packs"]
         packs.sort(key=lambda row: (row["created_at_epoch"], row["pack_id"]))
-        if packs:
-            packs[-1]["status"] = "active"
-            stages[stage_id]["latest_pack_id"] = packs[-1]["pack_id"]
+        latest_by_track: dict[str, dict] = {}
+        for pack in packs:
+            latest_by_track[pack["track_name"]] = pack
+        if latest_by_track:
+            stages[stage_id]["latest_pack_ids_by_track"] = {
+                track_name: pack["pack_id"] for track_name, pack in sorted(latest_by_track.items())
+            }
+            default_pack = latest_by_track.get(WORKING_TRACK)
+            if default_pack is None:
+                default_pack = max(packs, key=lambda row: (row["created_at_epoch"], row["pack_id"]))
+            stages[stage_id]["latest_pack_id"] = default_pack["pack_id"]
+            for pack in packs:
+                if (
+                    pack["track_name"] == WORKING_TRACK
+                    and WORKING_TRACK in latest_by_track
+                    and pack["pack_id"] == latest_by_track[WORKING_TRACK]["pack_id"]
+                ):
+                    pack["status"] = "active-working"
+                elif (
+                    pack["track_name"] == DEV_TRACK
+                    and DEV_TRACK in latest_by_track
+                    and pack["pack_id"] == latest_by_track[DEV_TRACK]["pack_id"]
+                ):
+                    pack["status"] = "active-dev"
+            for track_name, pack in latest_by_track.items():
+                current = current_tracks.get(track_name)
+                if current is None or (pack["created_at_epoch"], pack["pack_id"]) > (
+                    current["created_at_epoch"],
+                    current["pack_id"],
+                ):
+                    current_tracks[track_name] = {
+                        "track_name": track_name,
+                        "review_stage": stage_id,
+                        "label": stages[stage_id]["label"],
+                        "pack_id": pack["pack_id"],
+                        "title": pack["title"],
+                        "path": pack["path"],
+                        "created_at_epoch": pack["created_at_epoch"],
+                        "item_count": pack["item_count"],
+                    }
 
     return {
         "schema_version": 1,
-        "default_stage": ordered_stage_ids[0] if ordered_stage_ids else None,
+        "default_stage": (
+            current_tracks[WORKING_TRACK]["review_stage"]
+            if WORKING_TRACK in current_tracks
+            else ordered_stage_ids[0] if ordered_stage_ids else None
+        ),
+        "current_tracks": current_tracks,
         "stages": {stage_id: stages[stage_id] for stage_id in ordered_stage_ids},
     }
 
@@ -162,3 +210,13 @@ def humanize_stage_label(stage_id: str) -> str:
     if stage_id == "alphabetic_candidate_review":
         return "Alphabetic Promotion Candidates"
     return stage_id.replace("_", " ").title()
+
+
+def infer_track_name(payload: dict, path: Path) -> str:
+    explicit = payload.get("track_name")
+    if explicit in {WORKING_TRACK, DEV_TRACK}:
+        return str(explicit)
+    pack_id = str(payload.get("pack_id", ""))
+    if pack_id.startswith("dev_batch_") or "dev_batch_" in path.stem:
+        return DEV_TRACK
+    return WORKING_TRACK

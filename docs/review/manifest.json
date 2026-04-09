@@ -1,19 +1,35 @@
 {
   "schema_version": 1,
   "default_stage": "alphabetic_candidate_review",
+  "current_tracks": {
+    "working": {
+      "track_name": "working",
+      "review_stage": "alphabetic_candidate_review",
+      "label": "Alphabetic Promotion Candidates",
+      "pack_id": "alphabetic_candidates_batch_0001_v1",
+      "title": "Alphabetic candidates / batch_0001 / v1",
+      "path": "./packs/alphabetic_candidates_batch_0001_v1.json",
+      "created_at_epoch": 1775611201,
+      "item_count": 15
+    }
+  },
   "stages": {
     "alphabetic_candidate_review": {
       "review_stage": "alphabetic_candidate_review",
       "label": "Alphabetic Promotion Candidates",
       "latest_pack_id": "alphabetic_candidates_batch_0001_v1",
+      "latest_pack_ids_by_track": {
+        "working": "alphabetic_candidates_batch_0001_v1"
+      },
       "packs": [
         {
           "pack_id": "alphabetic_candidates_batch_0001_v1",
           "title": "Alphabetic candidates / batch_0001 / v1",
           "path": "./packs/alphabetic_candidates_batch_0001_v1.json",
+          "track_name": "working",
           "created_at_epoch": 1775611201,
           "item_count": 15,
-          "status": "active"
+          "status": "active-working"
         }
       ]
     }

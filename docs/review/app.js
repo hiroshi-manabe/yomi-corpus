@@ -10,6 +10,7 @@ const state = {
 };
 
 const el = {
+  currentTrackList: document.querySelector("#current-track-list"),
   stageSelect: document.querySelector("#stage-select"),
   packList: document.querySelector("#pack-list"),
   historyCount: document.querySelector("#history-count"),
@@ -47,8 +48,11 @@ async function boot() {
     throw new Error("No review stages were published.");
   }
   populateStageSelect(stageIds);
-  const initialStageId = resolveInitialStageId(stageIds);
-  await openStage(initialStageId, { preferLatest: true });
+  const initialTarget = resolveInitialTarget(stageIds);
+  await openStage(initialTarget.stageId, {
+    preferLatest: !initialTarget.packId,
+    preferredPackId: initialTarget.packId,
+  });
 }
 
 function bindEvents() {
@@ -112,16 +116,25 @@ function bindEvents() {
   });
 }
 
-function resolveInitialStageId(stageIds) {
+function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get("stage");
+  const requestedPackId = params.get("pack");
   if (requested && stageIds.includes(requested)) {
-    return requested;
+    return { stageId: requested, packId: requestedPackId };
   }
-  return state.manifest.default_stage || stageIds[0];
+  const currentWorking = state.manifest.current_tracks?.working;
+  if (currentWorking) {
+    return { stageId: currentWorking.review_stage, packId: currentWorking.pack_id };
+  }
+  const currentDev = state.manifest.current_tracks?.dev;
+  if (currentDev) {
+    return { stageId: currentDev.review_stage, packId: currentDev.pack_id };
+  }
+  return { stageId: state.manifest.default_stage || stageIds[0], packId: null };
 }
 
-async function openStage(stageId, { preferLatest = false } = {}) {
+async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
   const stage = state.manifest.stages?.[stageId];
   if (!stage) {
     throw new Error(`Unknown review stage: ${stageId}`);
@@ -132,7 +145,10 @@ async function openStage(stageId, { preferLatest = false } = {}) {
   const params = new URLSearchParams(window.location.search);
   const requestedPackId = params.get("pack");
   let packMeta = null;
-  if (!preferLatest && requestedPackId) {
+  if (preferredPackId) {
+    packMeta = stage.packs.find((pack) => pack.pack_id === preferredPackId) || null;
+  }
+  if (!packMeta && !preferLatest && requestedPackId) {
     packMeta = stage.packs.find((pack) => pack.pack_id === requestedPackId) || null;
   }
   if (!packMeta) {
@@ -173,12 +189,56 @@ function populateStageSelect(stageIds) {
 }
 
 function render() {
+  renderCurrentTracks();
   renderPackList();
   renderPackSummary();
   renderRangeSummary();
   renderItems();
   renderControlState();
   renderSubmissionPreview();
+}
+
+function renderCurrentTracks() {
+  const currentTracks = state.manifest.current_tracks || {};
+  el.currentTrackList.innerHTML = "";
+  const cards = [];
+  if (currentTracks.working) {
+    cards.push({ ...currentTracks.working, track_name: "working", emphasis: "primary-track" });
+  }
+  if (currentTracks.dev) {
+    cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
+  }
+
+  if (cards.length === 0) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = "No active track packs were published.";
+    el.currentTrackList.append(p);
+    return;
+  }
+
+  for (const card of cards) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `track-card ${card.emphasis}`;
+    button.innerHTML = `
+      <div class="track-card-header">
+        <strong>${escapeHtml(card.track_name === "working" ? "Current Working Review" : "Dev Review")}</strong>
+        <span class="badge ${escapeHtml(card.track_name)}">${escapeHtml(card.track_name)}</span>
+      </div>
+      <div class="track-card-stage">${escapeHtml(card.label || card.review_stage)}</div>
+      <div class="pack-meta-line">${escapeHtml(card.title)} · ${card.item_count} item(s)</div>
+    `;
+    button.addEventListener("click", () => {
+      openStage(card.review_stage, {
+        preferLatest: false,
+        preferredPackId: card.pack_id,
+      }).catch((error) => {
+        showStatus(`Failed to open pack: ${error.message}`, true);
+      });
+    });
+    el.currentTrackList.append(button);
+  }
 }
 
 function renderPackList() {
@@ -192,7 +252,7 @@ function renderPackList() {
     if (pack.pack_id === state.currentPackMeta?.pack_id) {
       button.classList.add("active-pack");
     }
-    if (pack.status !== "active") {
+    if (!String(pack.status || "").startsWith("active")) {
       button.classList.add("readonly-pack");
     }
     button.innerHTML = `
@@ -200,7 +260,7 @@ function renderPackList() {
         <strong>${escapeHtml(pack.title || pack.pack_id)}</strong>
         <span class="badge ${escapeHtml(pack.status || "archived")}">${escapeHtml(pack.status || "archived")}</span>
       </div>
-      <div class="pack-meta-line">${pack.item_count} item(s)</div>
+      <div class="pack-meta-line">${pack.item_count} item(s) · ${escapeHtml(pack.track_name || "working")}</div>
     `;
     button.addEventListener("click", () => {
       openPack(state.currentStageId, pack.pack_id).catch((error) => {
@@ -217,14 +277,16 @@ function renderPackSummary() {
   const packMeta = state.currentPackMeta;
   const editable = isEditable();
   el.packTitle.textContent = packMeta.title || pack.pack_id;
-  el.packBadge.textContent = editable ? "active" : "read-only";
-  el.packBadge.className = `badge ${editable ? "active" : "archived"}`;
+  const trackName = packMeta.track_name || "working";
+  el.packBadge.textContent = editable ? `${trackName} / active` : `${trackName} / read-only`;
+  el.packBadge.className = `badge ${editable ? "active" : "archived"} ${trackName}`;
 
   const draft = state.currentDraft;
   const { fromSeq, toSeq, includedCount } = getEffectiveRange();
   const overrides = getActiveOverrides();
   const cards = [
     ["Stage", stage.label || stage.review_stage],
+    ["Track", trackName],
     ["Pack ID", pack.pack_id],
     ["Items", String(pack.item_count)],
     ["Range", `${fromSeq}-${toSeq} (${includedCount} item(s))`],
@@ -487,7 +549,7 @@ function getEffectiveRange() {
 }
 
 function isEditable() {
-  return state.currentPackMeta?.status === "active";
+  return String(state.currentPackMeta?.status || "").startsWith("active");
 }
 
 function createEmptyDraft(pack) {

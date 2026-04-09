@@ -35,7 +35,41 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(manifest["default_stage"], "alphabetic_candidate_review")
         self.assertEqual(stage["latest_pack_id"], "alpha_v2")
         self.assertEqual(stage["packs"][0]["status"], "archived")
-        self.assertEqual(stage["packs"][1]["status"], "active")
+        self.assertEqual(stage["packs"][1]["status"], "active-working")
+
+    def test_build_review_manifest_exposes_current_working_and_dev_tracks(self) -> None:
+        manifest = build_review_manifest(
+            [
+                {
+                    "pack_id": "alphabetic_candidates_batch_0001_v1",
+                    "title": "Working",
+                    "review_stage": "alphabetic_candidate_review",
+                    "track_name": "working",
+                    "created_at_epoch": 10,
+                    "item_count": 3,
+                    "site_filename": "working.json",
+                },
+                {
+                    "pack_id": "alphabetic_candidates_dev_batch_0001_v1",
+                    "title": "Dev",
+                    "review_stage": "alphabetic_candidate_review",
+                    "track_name": "dev",
+                    "created_at_epoch": 20,
+                    "item_count": 2,
+                    "site_filename": "dev.json",
+                },
+            ]
+        )
+
+        stage = manifest["stages"]["alphabetic_candidate_review"]
+        self.assertEqual(manifest["default_stage"], "alphabetic_candidate_review")
+        self.assertEqual(manifest["current_tracks"]["working"]["pack_id"], "alphabetic_candidates_batch_0001_v1")
+        self.assertEqual(manifest["current_tracks"]["dev"]["pack_id"], "alphabetic_candidates_dev_batch_0001_v1")
+        self.assertEqual(stage["latest_pack_id"], "alphabetic_candidates_batch_0001_v1")
+        self.assertEqual(stage["latest_pack_ids_by_track"]["working"], "alphabetic_candidates_batch_0001_v1")
+        self.assertEqual(stage["latest_pack_ids_by_track"]["dev"], "alphabetic_candidates_dev_batch_0001_v1")
+        self.assertEqual(stage["packs"][0]["status"], "active-working")
+        self.assertEqual(stage["packs"][1]["status"], "active-dev")
 
     def test_publish_review_site_copies_assets_and_packs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

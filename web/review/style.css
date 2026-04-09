@@ -149,6 +149,43 @@ h1 {
   gap: 10px;
 }
 
+.track-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.track-card {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--panel-strong);
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+
+.track-card.primary-track {
+  background: rgba(45, 106, 79, 0.09);
+}
+
+.track-card.secondary-track {
+  background: rgba(31, 28, 23, 0.04);
+}
+
+.track-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.track-card-stage {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .pack-button {
   width: 100%;
   text-align: left;
@@ -243,6 +280,26 @@ button:focus-visible {
 .badge.archived {
   background: rgba(31, 28, 23, 0.1);
   color: var(--muted);
+}
+
+.badge.working {
+  background: rgba(45, 106, 79, 0.14);
+  color: var(--accent);
+}
+
+.badge.dev {
+  background: rgba(156, 79, 30, 0.14);
+  color: var(--warning);
+}
+
+.badge.active-working {
+  background: rgba(45, 106, 79, 0.14);
+  color: var(--accent);
+}
+
+.badge.active-dev {
+  background: rgba(156, 79, 30, 0.14);
+  color: var(--warning);
 }
 
 .button-row {
