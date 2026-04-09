@@ -398,6 +398,11 @@ def can_refine_single_sudachi_token(
         return False
     if any(is_decoder_entry_symbol(entry.entry) for entry in decoder_entries):
         return False
+    if not token.reading:
+        return False
+    decoder_reading = "".join(entry.entry.reading for entry in decoder_entries)
+    if decoder_reading != token.reading:
+        return False
     return True
 
 

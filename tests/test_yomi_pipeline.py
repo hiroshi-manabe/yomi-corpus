@@ -191,6 +191,51 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertIn("skip_whitespace_token", result.signals)
         self.assertIn("normalize_punctuation_surface", result.signals)
 
+    def test_aligned_hybrid_refines_single_compound_only_when_reading_is_preserved(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="古本屋さん",
+            sudachi_tokens=[
+                SudachiToken("古本屋", "名詞,普通名詞,一般,*,*,*", "古本屋", "古本屋", "フルホンヤ"),
+                SudachiToken("さん", "接尾辞,名詞的,一般,*,*,*", "さん", "さん", "サン"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("古", "コ", 1, [1], []),
+                        DecoderEntry("本屋", "ホンヤ", 1, [1, 2], []),
+                        DecoderEntry("さん", "サン", 2, [2], []),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "古本屋/フルホンヤ さん/サン")
+        self.assertNotIn("refine_single_sudachi_compound_with_decoder", result.signals)
+
+    def test_aligned_hybrid_refines_single_compound_when_only_segmentation_changes(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="静岡県立大学",
+            sudachi_tokens=[
+                SudachiToken("静岡県立大学", "名詞,普通名詞,一般,*,*,*", "静岡県立大学", "静岡県立大学", "シズオカケンリツダイガク"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("静岡", "シズオカ", 1, [1], []),
+                        DecoderEntry("県立", "ケンリツ", 1, [2], []),
+                        DecoderEntry("大学", "ダイガク", 1, [3], []),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "静岡/シズオカ 県立/ケンリツ 大学/ダイガク")
+        self.assertIn("refine_single_sudachi_compound_with_decoder", result.signals)
+
     def test_render_pairs_from_decoder_uses_surface_when_reading_is_empty(self) -> None:
         candidate = DecoderCandidate(
             rank=1,
