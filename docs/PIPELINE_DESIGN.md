@@ -588,11 +588,13 @@ The operator should not need to remember the exact next script for each batch.
 Recommended design:
 
 - keep durable local pipeline state for each batch
-- expose a read-only `status` command
-- expose an `advance` command that tries to move the batch forward
-- let `advance` perform one legal automatic step or a contiguous run of legal
-  automatic steps
-- stop cleanly at the first real blocking condition
+- keep a current-batch pointer per track
+- use `working` as the implicit default track and `dev` as an explicit second
+  track
+- expose read-only `status` and mutating `next` commands
+- expose a `prepare` command that allocates the next batch name for a track and
+  extracts the requested number of documents
+- let `next` perform one legal automatic step and then stop cleanly
 
 This project has three different kinds of stages:
 
@@ -602,52 +604,60 @@ This project has three different kinds of stages:
 
 Those should all be represented as normal pipeline states.
 
-### 9.6.1 Per-batch state
+### 9.6.1 Per-batch and per-track state
 
 Recommended storage:
 
-- one state file per batch, such as `data/pipeline/<batch_id>/state.json`
+- one state file per batch, such as `data/pipeline/batches/<batch_id>.json`
+- one track pointer file per track, such as `data/pipeline/tracks/working.json`
 
-That state should record at least:
+Batch state should record at least:
 
 - `batch_id`
+- `track_name`
 - `current_stage`
-- `stage_status`
 - `artifacts`
 - `blocking_reason`
 - `updated_at`
 
 The state enum can start small and grow with the actual implementation.
 
-### 9.6.2 Advance-until-blocked behavior
+Track state should record at least:
 
-Recommended behavior for the main orchestration command:
+- `track_name`
+- `current_batch_name`
+- `updated_at`
 
-- load the current batch state
+### 9.6.2 Current command surface
+
+Current intended operator commands:
+
+- `./prepare 100`
+- `./prepare dev 10`
+- `./next`
+- `./next dev`
+- `./status`
+- `./status dev`
+
+The implicit no-argument track should be `working`.
+
+### 9.6.3 Current one-step behavior
+
+Current recommended behavior for the main orchestration command:
+
+- load the current batch state for the requested track
 - inspect the current stage and prerequisites
 - run the next automatic step if legal
-- continue automatically while the next step is still automatic
-- stop and report when the next step requires an external event or human input
+- stop after that one step and report the updated state
 
 Examples:
 
-- if an OpenAI batch job has been prepared but not submitted, `advance` should
-  submit it
-- if the job is still running, `advance` should poll it, report that it is
-  still running, and stop
-- if a review pack has been published but no valid review submission has been
-  ingested yet, `advance` should report that review input is still required and
-  stop
-
-### 9.6.3 Separate `status` and `advance`
-
-Recommended CLI split:
-
-- `status`: summarize current pipeline state without mutation
-- `advance`: mutate state if the next transition is legal
-
-This makes it possible to inspect a batch safely, while keeping the normal
-operator workflow simple.
+- if a batch is freshly prepared, `./next` should build the alphabetic
+  artifacts
+- the following `./next` should build the unresolved alphabetic report
+- the following `./next` should build the mechanical yomi JSONL
+- once no later automated stage is implemented, `./next` should report that
+  blocking reason and stop
 
 
 ## 10. Human Review

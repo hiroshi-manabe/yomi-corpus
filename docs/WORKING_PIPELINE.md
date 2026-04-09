@@ -670,10 +670,11 @@ next.
 Current preferred direction:
 
 - keep durable local state for each batch
-- provide a read-only `status` command
-- provide an `advance` command that tries to move the batch forward
-- let `advance` continue through automatic stages until it reaches a real wait
-  state
+- keep a current-batch pointer per track
+- use `working` as the implicit default track and `dev` as an explicit second
+  track
+- provide `./prepare`, `./next`, and `./status` commands
+- let `./next` perform one implemented automatic step per call
 
 This is meant to unify:
 
@@ -681,13 +682,13 @@ This is meant to unify:
 - OpenAI Batch submission / polling / fetch
 - human-review wait points
 
-### 10.6.1 Per-batch state
+### 10.6.1 Per-batch and per-track state
 
 Recommended shape:
 
-- one local state file per batch
+- one local state file per batch under `data/pipeline/batches/`
+- one track pointer file per track under `data/pipeline/tracks/`
 - current stage
-- stage status
 - known artifacts
 - most recent blocking reason
 - timestamp
@@ -695,25 +696,38 @@ Recommended shape:
 The exact schema can stay minimal at first and grow with the implemented
 stages.
 
-### 10.6.2 Automatic progression
+### 10.6.2 Command surface
 
-`advance` should keep going while the next step is purely automatic.
+Current intended commands:
+
+- `./prepare 100`
+- `./prepare dev 10`
+- `./next`
+- `./next dev`
+- `./status`
+- `./status dev`
+
+The implicit no-argument track should be `working`.
+
+### 10.6.3 Current one-step progression
+
+`./next` should run one legal automatic step and then stop.
 
 Example behavior:
 
-- if alphabetic entities have been extracted but no LLM batch job has been
-  prepared yet, prepare it
-- if the batch job has been prepared but not submitted, submit it
-- if the batch job is running, poll it and stop if it is still incomplete
-- if the batch job has completed, fetch and ingest it, then continue
+- if a batch is only prepared, `./next` should build the alphabetic artifacts
+- the next `./next` should build the unresolved alphabetic report
+- the next `./next` should build the mechanical yomi JSONL
+- after that, `./next` should stop with a clear blocking reason until a later
+  automated stage is implemented
 
 The intended UX is:
 
 - run one command
-- let it do everything it safely can
-- stop only when a real external dependency remains
+- let it do one clear thing
+- inspect `./status` when needed
 
-### 10.6.3 Explicit wait states
+### 10.6.4 Explicit wait states
 
 OpenAI Batch and human review should be treated as first-class wait states.
 

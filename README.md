@@ -65,10 +65,15 @@ Review transport policy:
 
 Pipeline orchestration policy:
 
-- keep local pipeline state per batch rather than relying on ad hoc operator
-  memory
-- provide a read-only `status` command and a mutating `advance` command
-- let `advance` run automatic stages until it reaches a real blocking condition
+- keep local pipeline state per batch and a current-batch pointer per track
+- use `working` as the implicit default track and `dev` as an explicit secondary
+  track
+- `./prepare 100` prepares the next working batch, while `./prepare dev 10`
+  prepares the next dev batch
+- `./next` advances the current working batch by one implemented automatic
+  stage; `./next dev` does the same for the dev track
+- `./status` and `./status dev` report the current batch and stage for each
+  track
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
 
