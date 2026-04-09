@@ -27,16 +27,21 @@ from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.export import export_named_variant
 
 
+WORKING_TRACK = "working"
+DEV_TRACK = "dev"
+DEFAULT_TRACK = WORKING_TRACK
+PROTECTED_TRACKS = frozenset({WORKING_TRACK})
+
 TRACKS: dict[str, dict[str, str]] = {
-    "working": {
+    WORKING_TRACK: {
         "batch_prefix": "batch_",
-        "batch_kind": "working",
-        "pipeline_profile": "working",
+        "batch_kind": WORKING_TRACK,
+        "pipeline_profile": WORKING_TRACK,
     },
-    "dev": {
+    DEV_TRACK: {
         "batch_prefix": "dev_batch_",
-        "batch_kind": "dev",
-        "pipeline_profile": "dev",
+        "batch_kind": DEV_TRACK,
+        "pipeline_profile": DEV_TRACK,
     },
 }
 
@@ -77,8 +82,20 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def is_working_track(track_name: str) -> bool:
+    return track_name == WORKING_TRACK
+
+
+def is_protected_track(track_name: str) -> bool:
+    return track_name in PROTECTED_TRACKS
+
+
+def requires_strict_human_review_gates(track_name: str) -> bool:
+    return is_protected_track(track_name)
+
+
 def normalize_track_name(name: str | None) -> str:
-    track_name = name or "working"
+    track_name = name or DEFAULT_TRACK
     if track_name not in TRACKS:
         raise ValueError(f"Unknown track: {track_name}")
     return track_name
@@ -348,7 +365,10 @@ class PipelineWorkspace:
             raise FileNotFoundError(f"No manifest found for batch {batch_name}")
         with manifest_path.open(encoding="utf-8") as handle:
             manifest = json.load(handle)
-        track_name = str(manifest.get("track_name") or ("dev" if batch_name.startswith("dev_batch_") else "working"))
+        track_name = str(
+            manifest.get("track_name")
+            or (DEV_TRACK if batch_name.startswith("dev_batch_") else WORKING_TRACK)
+        )
         current_stage = self._infer_stage_from_artifacts(batch_name)
         blocking_reason = (
             "No later automated stage is implemented yet after mechanical yomi generation."

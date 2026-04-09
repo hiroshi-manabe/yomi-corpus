@@ -6,10 +6,29 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from yomi_corpus.pipeline import PipelineWorkspace, TrackState
+from yomi_corpus.pipeline import (
+    DEFAULT_TRACK,
+    DEV_TRACK,
+    WORKING_TRACK,
+    PipelineWorkspace,
+    TrackState,
+    is_protected_track,
+    is_working_track,
+    normalize_track_name,
+    requires_strict_human_review_gates,
+)
 
 
 class PipelineTrackTests(unittest.TestCase):
+    def test_working_track_is_default_and_protected(self) -> None:
+        self.assertEqual(DEFAULT_TRACK, WORKING_TRACK)
+        self.assertTrue(is_working_track(WORKING_TRACK))
+        self.assertTrue(is_protected_track(WORKING_TRACK))
+        self.assertTrue(requires_strict_human_review_gates(WORKING_TRACK))
+        self.assertFalse(is_protected_track(DEV_TRACK))
+        self.assertFalse(requires_strict_human_review_gates(DEV_TRACK))
+        self.assertEqual(normalize_track_name(None), WORKING_TRACK)
+
     def test_status_infers_latest_working_batch_when_track_state_missing(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
