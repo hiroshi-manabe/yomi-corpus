@@ -74,6 +74,7 @@ class BatchState:
     units_written: int
     current_stage: str
     blocking_reason: str | None
+    skipped_review_gates: list[str]
     artifacts: dict[str, str]
     updated_at: str
 
@@ -92,6 +93,10 @@ def is_protected_track(track_name: str) -> bool:
 
 def requires_strict_human_review_gates(track_name: str) -> bool:
     return is_protected_track(track_name)
+
+
+def track_policy_name(track_name: str) -> str:
+    return "strict" if requires_strict_human_review_gates(track_name) else "relaxed"
 
 
 def normalize_track_name(name: str | None) -> str:
@@ -166,6 +171,18 @@ class PipelineWorkspace:
         if path.exists():
             with path.open(encoding="utf-8") as handle:
                 payload = json.load(handle)
+            track_name = str(payload["track_name"])
+            payload.setdefault(
+                "skipped_review_gates",
+                []
+                if requires_strict_human_review_gates(track_name)
+                else [
+                    "promotion_candidate_review",
+                    "sentence_review_pass1",
+                    "sentence_review_pass2",
+                    "final_edit_review",
+                ],
+            )
             return BatchState(**payload)
         return self._infer_batch_state(batch_name)
 
@@ -188,9 +205,12 @@ class PipelineWorkspace:
         batch_state = self.load_batch_state(track_state.current_batch_name)
         return {
             "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
             "current_batch_name": batch_state.batch_name,
             "current_stage": batch_state.current_stage,
             "blocking_reason": batch_state.blocking_reason,
+            "skipped_review_gates": batch_state.skipped_review_gates,
             "artifacts": batch_state.artifacts,
             "target_documents": batch_state.target_documents,
             "docs_written": batch_state.docs_written,
@@ -250,6 +270,7 @@ class PipelineWorkspace:
             units_written=units_written,
             current_stage="prepared",
             blocking_reason=None,
+            skipped_review_gates=[],
             artifacts={
                 "units_jsonl": str(self.batch_dir(batch_name) / "units.jsonl"),
                 "manifest": str(self.manifest_path(batch_name)),
@@ -279,6 +300,8 @@ class PipelineWorkspace:
         if not track_state.current_batch_name:
             return {
                 "track_name": normalized,
+                "track_policy": track_policy_name(normalized),
+                "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
                 "advanced": False,
                 "message": "No current batch is set for this track. Run prepare first.",
             }
@@ -306,21 +329,34 @@ class PipelineWorkspace:
         else:
             return {
                 "track_name": normalized,
+                "track_policy": track_policy_name(normalized),
+                "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
                 "batch_name": batch_state.batch_name,
                 "advanced": False,
                 "current_stage": batch_state.current_stage,
+                "skipped_review_gates": batch_state.skipped_review_gates,
                 "blocking_reason": batch_state.blocking_reason
                 or "No automated next stage is implemented for this batch.",
             }
 
+        if not requires_strict_human_review_gates(normalized):
+            batch_state.skipped_review_gates = [
+                "promotion_candidate_review",
+                "sentence_review_pass1",
+                "sentence_review_pass2",
+                "final_edit_review",
+            ]
         batch_state.updated_at = now_iso()
         self.save_batch_state(batch_state)
         return {
             "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
             "batch_name": batch_state.batch_name,
             "advanced": True,
             "current_stage": batch_state.current_stage,
             "blocking_reason": batch_state.blocking_reason,
+            "skipped_review_gates": batch_state.skipped_review_gates,
             "artifacts": batch_state.artifacts,
         }
 
@@ -415,6 +451,12 @@ class PipelineWorkspace:
             units_written=int(manifest["units_written"]),
             current_stage=current_stage,
             blocking_reason=blocking_reason,
+            skipped_review_gates=[] if requires_strict_human_review_gates(track_name) else [
+                "promotion_candidate_review",
+                "sentence_review_pass1",
+                "sentence_review_pass2",
+                "final_edit_review",
+            ],
             artifacts=artifacts,
             updated_at=now_iso(),
         )

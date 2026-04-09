@@ -53,8 +53,11 @@ class PipelineTrackTests(unittest.TestCase):
             status = workspace.status("working")
 
             self.assertEqual(status["track_name"], "working")
+            self.assertEqual(status["track_policy"], "strict")
+            self.assertEqual(status["requires_strict_human_review_gates"], True)
             self.assertEqual(status["current_batch_name"], "batch_0001")
             self.assertEqual(status["current_stage"], "prepared")
+            self.assertEqual(status["skipped_review_gates"], [])
 
     def test_prepare_next_batch_allocates_track_specific_name_and_updates_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -121,9 +124,21 @@ class PipelineTrackTests(unittest.TestCase):
                 summary = workspace.advance("dev")
 
             self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["track_policy"], "relaxed")
+            self.assertEqual(summary["requires_strict_human_review_gates"], False)
             self.assertEqual(summary["current_stage"], "alphabetic_analyzed")
+            self.assertEqual(
+                summary["skipped_review_gates"],
+                [
+                    "promotion_candidate_review",
+                    "sentence_review_pass1",
+                    "sentence_review_pass2",
+                    "final_edit_review",
+                ],
+            )
             saved = workspace.load_batch_state("dev_batch_0001")
             self.assertEqual(saved.current_stage, "alphabetic_analyzed")
+            self.assertEqual(saved.skipped_review_gates, summary["skipped_review_gates"])
 
     def test_infer_stage_prefers_latest_materialized_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
