@@ -17,15 +17,14 @@ from yomi_corpus.yomi.export import export_debug_comparison_texts
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Export diff-friendly debug yomi dumps for a batch. "
-            "This reads the existing aligned_hybrid JSONL and writes both "
-            "aligned_hybrid and sudachi_only TXT files under a debug directory."
+            "Export debug comparison TXT files for a batch. "
+            "This uses the existing aligned_hybrid JSONL plus a fresh sudachi_only pass."
         )
     )
     parser.add_argument(
         "--batch-dir",
         default="data/units/batch_0001",
-        help="Batch directory containing units.jsonl.",
+        help="Batch directory containing units.jsonl and units.yomi.aligned_hybrid.jsonl.",
     )
     parser.add_argument(
         "--config",

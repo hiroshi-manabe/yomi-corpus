@@ -32,7 +32,7 @@ def parse_args() -> argparse.Namespace:
         "--variant",
         action="append",
         choices=available_export_variant_names(),
-        help="Export variant to generate. Repeatable. Defaults to both aligned_hybrid and sudachi_only.",
+        help="Export variant to generate. Repeatable. Defaults to aligned_hybrid only.",
     )
     parser.add_argument(
         "--format",
@@ -50,7 +50,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    variants = args.variant or ["aligned_hybrid", "sudachi_only"]
+    variants = args.variant or ["aligned_hybrid"]
     formats = args.format or ["jsonl"]
     summaries = []
     for variant_name in variants:

@@ -205,3 +205,50 @@ def export_named_variant(
             progress_label=f"{variant.name} txt" if show_progress else None,
         )
     return summary
+
+
+def export_debug_comparison_texts(
+    *,
+    batch_dir: str | Path,
+    config_path: str | Path,
+    output_dir: str | Path | None = None,
+    show_progress: bool = False,
+) -> dict[str, object]:
+    batch_path = resolve_repo_path(str(batch_dir))
+    output_path = resolve_repo_path(str(output_dir)) if output_dir is not None else batch_path / "debug"
+    output_path.mkdir(parents=True, exist_ok=True)
+
+    aligned_variant = resolve_export_variant("aligned_hybrid")
+    sudachi_variant = resolve_export_variant("sudachi_only")
+    aligned_jsonl_path = batch_path / aligned_variant.output_jsonl_filename
+    if not aligned_jsonl_path.exists():
+        raise FileNotFoundError(
+            f"Hybrid JSONL not found for debug export: {aligned_jsonl_path}"
+        )
+
+    config = load_yomi_generation_config(config_path)
+
+    aligned_txt_path = output_path / "units.yomi.aligned_hybrid.txt"
+    sudachi_txt_path = output_path / "units.yomi.sudachi_only.txt"
+
+    aligned_summary = export_plaintext_yomi(
+        input_jsonl=aligned_jsonl_path,
+        output_txt=aligned_txt_path,
+        config=config,
+        strategy_name=aligned_variant.strategy_name,
+        progress_label="debug aligned_hybrid txt" if show_progress else None,
+    )
+    sudachi_summary = export_plaintext_yomi(
+        input_jsonl=batch_path / "units.jsonl",
+        output_txt=sudachi_txt_path,
+        config=config,
+        strategy_name=sudachi_variant.strategy_name,
+        progress_label="debug sudachi_only txt" if show_progress else None,
+    )
+
+    return {
+        "batch_dir": str(batch_path),
+        "output_dir": str(output_path),
+        "aligned_hybrid": aligned_summary,
+        "sudachi_only": sudachi_summary,
+    }

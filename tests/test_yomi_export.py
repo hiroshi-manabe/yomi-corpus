@@ -10,6 +10,7 @@ from yomi_corpus.models import MechanicalYomi
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.export import (
     available_export_variant_names,
+    export_debug_comparison_texts,
     export_jsonl_yomi,
     export_plaintext_yomi,
     export_named_variant,
@@ -207,6 +208,89 @@ class YomiExportTests(unittest.TestCase):
             self.assertEqual(mocked.call_count, 0)
             self.assertEqual(
                 output_path.read_text(encoding="utf-8"),
+                "u1\tA/エー\nu2\tB/ビー\n",
+            )
+
+    def test_export_debug_comparison_texts_uses_hybrid_jsonl_and_writes_debug_dir(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "batch"
+            batch_dir.mkdir()
+            (batch_dir / "units.jsonl").write_text(
+                "\n".join(
+                    [
+                        json.dumps({"unit_id": "u1", "text": "A", "analysis": {"mechanical": {"yomi": {}}}}),
+                        json.dumps({"unit_id": "u2", "text": "B", "analysis": {"mechanical": {"yomi": {}}}}),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.aligned_hybrid.jsonl").write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "unit_id": "u1",
+                                "text": "A",
+                                "analysis": {"mechanical": {"yomi": {"rendered": "A/エー"}}},
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "unit_id": "u2",
+                                "text": "B",
+                                "analysis": {"mechanical": {"yomi": {"rendered": "B/ビー"}}},
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            config_path = root / "config.toml"
+            config_path.write_text(
+                "\n".join(
+                    [
+                        "[sudachi]",
+                        'command = "sudachi"',
+                        "args = []",
+                        "",
+                        "[decoder]",
+                        'python = "python"',
+                        'script = "decode.py"',
+                        'config = "decoder.toml"',
+                        "beam = 10",
+                        "nbest = 5",
+                        "original_segments = true",
+                        "",
+                        "[strategy]",
+                        'default = "aligned_hybrid_v1"',
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            with patch("yomi_corpus.yomi.export.generate_mechanical_yomi") as mocked:
+                mocked.side_effect = [
+                    MechanicalYomi(rendered="A/エー", certain=True),
+                    MechanicalYomi(rendered="B/ビー", certain=True),
+                ]
+                summary = export_debug_comparison_texts(
+                    batch_dir=batch_dir,
+                    config_path=config_path,
+                )
+
+            debug_dir = batch_dir / "debug"
+            self.assertEqual(summary["output_dir"], str(debug_dir))
+            self.assertTrue((debug_dir / "units.yomi.aligned_hybrid.txt").exists())
+            self.assertTrue((debug_dir / "units.yomi.sudachi_only.txt").exists())
+            self.assertEqual(mocked.call_count, 2)
+            self.assertEqual(
+                (debug_dir / "units.yomi.aligned_hybrid.txt").read_text(encoding="utf-8"),
                 "u1\tA/エー\nu2\tB/ビー\n",
             )
 
