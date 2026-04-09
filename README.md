@@ -68,6 +68,8 @@ Pipeline orchestration policy:
 - keep local pipeline state per batch and a current-batch pointer per track
 - use `working` as the implicit default track and `dev` as an explicit secondary
   track
+- `working` is the strict protected track; `dev` is the relaxed experimental
+  track
 - `./prepare 100` prepares the next working batch, while `./prepare dev 10`
   prepares the next dev batch
 - `./next` advances the current working batch by one implemented automatic
@@ -94,8 +96,9 @@ Yomi generation scaffold:
 - `scripts/run_yomi_experiment.py` runs one named combination strategy on a
   fixed eval set
 - `scripts/compare_yomi_experiments.py` compares two strategy runs
-- current strategy names include `sudachi_only_v1`, `decoder_only_v1`,
-  `agreement_prefer_decoder_v1`, and `agreement_prefer_sudachi_v1`
+- current strategy names include `aligned_hybrid_v1`, `sudachi_only_v1`,
+  `decoder_only_v1`, `agreement_prefer_decoder_v1`, and
+  `agreement_prefer_sudachi_v1`
 - for yomi evaluation, correct readings matter more than coarse vs. fine
   segmentation; over-segmentation by the morphological analyzer is not itself a
   failure if the readings are still correct

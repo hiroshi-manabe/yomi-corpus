@@ -591,6 +591,8 @@ Recommended design:
 - keep a current-batch pointer per track
 - use `working` as the implicit default track and `dev` as an explicit second
   track
+- `working` is the strict protected track and should enforce required human
+  review gates; `dev` is the relaxed experimental track
 - expose read-only `status` and mutating `next` commands
 - expose a `prepare` command that allocates the next batch name for a track and
   extracts the requested number of documents

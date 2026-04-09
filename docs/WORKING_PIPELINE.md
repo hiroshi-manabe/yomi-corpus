@@ -673,6 +673,8 @@ Current preferred direction:
 - keep a current-batch pointer per track
 - use `working` as the implicit default track and `dev` as an explicit second
   track
+- `working` is the strict protected track; `dev` is the relaxed experimental
+  track
 - provide `./prepare`, `./next`, and `./status` commands
 - let `./next` perform one implemented automatic step per call
 
