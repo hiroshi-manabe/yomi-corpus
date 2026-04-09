@@ -74,6 +74,9 @@ Pipeline orchestration policy:
   prepares the next dev batch
 - `./next` advances the current working batch by one implemented automatic
   stage; `./next dev` does the same for the dev track
+- `./next --force-stage <stage>` reruns the current completed stage; on
+  `working`, an overwrite prompt appears only if existing artifacts would
+  actually be replaced
 - `./status` and `./status dev` report the current batch and stage for each
   track
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,

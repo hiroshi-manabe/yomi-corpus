@@ -638,6 +638,7 @@ Current intended operator commands:
 - `./prepare dev 10`
 - `./next`
 - `./next dev`
+- `./next --force-stage yomi_generated`
 - `./status`
 - `./status dev`
 
@@ -660,6 +661,9 @@ Examples:
 - the following `./next` should build the mechanical yomi JSONL
 - once no later automated stage is implemented, `./next` should report that
   blocking reason and stop
+- `./next --force-stage <stage>` should rerun the current completed stage
+- on `working`, a confirmation prompt should appear only when rerunning would
+  overwrite existing artifacts
 
 
 ## 10. Human Review

@@ -706,6 +706,7 @@ Current intended commands:
 - `./prepare dev 10`
 - `./next`
 - `./next dev`
+- `./next --force-stage yomi_generated`
 - `./status`
 - `./status dev`
 
@@ -722,6 +723,9 @@ Example behavior:
 - the next `./next` should build the mechanical yomi JSONL
 - after that, `./next` should stop with a clear blocking reason until a later
   automated stage is implemented
+- `./next --force-stage <stage>` should rerun the current completed stage
+- on `working`, confirmation should happen only when that rerun would actually
+  overwrite existing artifacts
 
 The intended UX is:
 

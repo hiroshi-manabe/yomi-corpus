@@ -167,6 +167,113 @@ class PipelineTrackTests(unittest.TestCase):
             state = workspace.load_batch_state("batch_0003")
             self.assertEqual(state.current_stage, "yomi_generated")
 
+    def test_force_stage_reruns_current_stage_on_dev(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(
+                workspace._infer_batch_state("dev_batch_0001")
+            )
+            saved = workspace.load_batch_state("dev_batch_0001")
+            saved.current_stage = "yomi_generated"
+            saved.blocking_reason = "No later automated stage is implemented yet after mechanical yomi generation."
+            saved.artifacts["units_yomi_jsonl"] = str(batch_dir / "units.yomi.aligned_hybrid.jsonl")
+            (batch_dir / "units.yomi.aligned_hybrid.jsonl").write_text("", encoding="utf-8")
+            workspace.save_batch_state(saved)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            with patch.object(workspace, "_generate_mechanical_yomi") as mocked_stage:
+                mocked_stage.return_value = {
+                    "artifacts": {
+                        "units_yomi_jsonl": str(batch_dir / "units.yomi.aligned_hybrid.jsonl"),
+                        "yomi_variant": "aligned_hybrid",
+                    }
+                }
+                summary = workspace.advance("dev", force_stage="yomi_generated")
+
+            self.assertTrue(summary["advanced"])
+            self.assertTrue(summary["forced"])
+            self.assertEqual(summary["current_stage"], "yomi_generated")
+            self.assertEqual(mocked_stage.call_count, 1)
+
+    def test_force_stage_requires_confirmation_on_working_overwrite(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "batch_0001",
+                        "track_name": "working",
+                        "batch_kind": "working",
+                        "pipeline_profile": "working",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(
+                workspace._infer_batch_state("batch_0001")
+            )
+            saved = workspace.load_batch_state("batch_0001")
+            saved.current_stage = "yomi_generated"
+            saved.blocking_reason = "No later automated stage is implemented yet after mechanical yomi generation."
+            saved.artifacts["units_yomi_jsonl"] = str(batch_dir / "units.yomi.aligned_hybrid.jsonl")
+            yomi_path = batch_dir / "units.yomi.aligned_hybrid.jsonl"
+            yomi_path.write_text("", encoding="utf-8")
+            workspace.save_batch_state(saved)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="working",
+                    current_batch_name="batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("working", force_stage="yomi_generated")
+
+            self.assertFalse(summary["advanced"])
+            self.assertTrue(summary["requires_confirmation"])
+            self.assertEqual(summary["requested_force_stage"], "yomi_generated")
+            self.assertEqual(
+                [str(Path(path).resolve()) for path in summary["overwrite_paths"]],
+                [str(yomi_path.resolve())],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

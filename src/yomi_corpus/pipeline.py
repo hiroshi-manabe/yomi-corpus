@@ -52,6 +52,14 @@ STAGE_SEQUENCE = [
     "yomi_generated",
 ]
 
+RERUNNABLE_STAGES = frozenset(
+    {
+        "alphabetic_analyzed",
+        "alphabetic_reported",
+        "yomi_generated",
+    }
+)
+
 
 @dataclass
 class TrackState:
@@ -294,7 +302,13 @@ class PipelineWorkspace:
             "current_stage": "prepared",
         }
 
-    def advance(self, track_name: str | None = None) -> dict[str, object]:
+    def advance(
+        self,
+        track_name: str | None = None,
+        *,
+        force_stage: str | None = None,
+        allow_overwrite: bool = False,
+    ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
         track_state = self.load_track_state(normalized)
         if not track_state.current_batch_name:
@@ -309,24 +323,92 @@ class PipelineWorkspace:
         batch_state = self.load_batch_state(track_state.current_batch_name)
         current_stage = batch_state.current_stage
 
-        if current_stage == "prepared":
-            summary = self._run_alphabetic_analysis(batch_state.batch_name)
-            batch_state.current_stage = "alphabetic_analyzed"
-            batch_state.blocking_reason = None
-            batch_state.artifacts.update(summary["artifacts"])
-        elif current_stage == "alphabetic_analyzed":
-            summary = self._build_unresolved_alphabetic_report(batch_state.batch_name)
-            batch_state.current_stage = "alphabetic_reported"
-            batch_state.blocking_reason = None
-            batch_state.artifacts.update(summary["artifacts"])
-        elif current_stage == "alphabetic_reported":
-            summary = self._generate_mechanical_yomi(batch_state.batch_name)
-            batch_state.current_stage = "yomi_generated"
+        if force_stage is not None:
+            if force_stage != current_stage:
+                return {
+                    "track_name": normalized,
+                    "track_policy": track_policy_name(normalized),
+                    "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+                    "batch_name": batch_state.batch_name,
+                    "advanced": False,
+                    "current_stage": current_stage,
+                    "requested_force_stage": force_stage,
+                    "skipped_review_gates": batch_state.skipped_review_gates,
+                    "blocking_reason": (
+                        "Forced rerun is currently limited to the batch's current stage "
+                        f"({current_stage})."
+                    ),
+                }
+            if force_stage not in RERUNNABLE_STAGES:
+                return {
+                    "track_name": normalized,
+                    "track_policy": track_policy_name(normalized),
+                    "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+                    "batch_name": batch_state.batch_name,
+                    "advanced": False,
+                    "current_stage": current_stage,
+                    "requested_force_stage": force_stage,
+                    "skipped_review_gates": batch_state.skipped_review_gates,
+                    "blocking_reason": f"Stage {force_stage} is not rerunnable.",
+                }
+            overwrite_paths = self._existing_stage_artifact_paths(
+                batch_state=batch_state,
+                stage_name=force_stage,
+            )
+            if (
+                overwrite_paths
+                and requires_strict_human_review_gates(normalized)
+                and not allow_overwrite
+            ):
+                return {
+                    "track_name": normalized,
+                    "track_policy": track_policy_name(normalized),
+                    "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+                    "batch_name": batch_state.batch_name,
+                    "advanced": False,
+                    "current_stage": current_stage,
+                    "requested_force_stage": force_stage,
+                    "requires_confirmation": True,
+                    "overwrite_paths": overwrite_paths,
+                    "skipped_review_gates": batch_state.skipped_review_gates,
+                    "blocking_reason": (
+                        f"Rerunning stage {force_stage} will overwrite existing artifacts "
+                        "on the working track."
+                    ),
+                }
+
+            summary = self._run_stage(batch_state.batch_name, force_stage)
+            batch_state.current_stage = force_stage
             batch_state.blocking_reason = (
                 "No later automated stage is implemented yet after mechanical yomi generation."
+                if force_stage == "yomi_generated"
+                else None
             )
             batch_state.artifacts.update(summary["artifacts"])
-        else:
+            if not requires_strict_human_review_gates(normalized):
+                batch_state.skipped_review_gates = [
+                    "promotion_candidate_review",
+                    "sentence_review_pass1",
+                    "sentence_review_pass2",
+                    "final_edit_review",
+                ]
+            batch_state.updated_at = now_iso()
+            self.save_batch_state(batch_state)
+            return {
+                "track_name": normalized,
+                "track_policy": track_policy_name(normalized),
+                "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+                "batch_name": batch_state.batch_name,
+                "advanced": True,
+                "forced": True,
+                "current_stage": batch_state.current_stage,
+                "blocking_reason": batch_state.blocking_reason,
+                "skipped_review_gates": batch_state.skipped_review_gates,
+                "artifacts": batch_state.artifacts,
+            }
+
+        next_stage = self._next_stage_name(current_stage)
+        if next_stage is None:
             return {
                 "track_name": normalized,
                 "track_policy": track_policy_name(normalized),
@@ -338,6 +420,15 @@ class PipelineWorkspace:
                 "blocking_reason": batch_state.blocking_reason
                 or "No automated next stage is implemented for this batch.",
             }
+
+        summary = self._run_stage(batch_state.batch_name, next_stage)
+        batch_state.current_stage = next_stage
+        batch_state.blocking_reason = (
+            "No later automated stage is implemented yet after mechanical yomi generation."
+            if next_stage == "yomi_generated"
+            else None
+        )
+        batch_state.artifacts.update(summary["artifacts"])
 
         if not requires_strict_human_review_gates(normalized):
             batch_state.skipped_review_gates = [
@@ -359,6 +450,41 @@ class PipelineWorkspace:
             "skipped_review_gates": batch_state.skipped_review_gates,
             "artifacts": batch_state.artifacts,
         }
+
+    def _run_stage(self, batch_name: str, stage_name: str) -> dict[str, object]:
+        if stage_name == "alphabetic_analyzed":
+            return self._run_alphabetic_analysis(batch_name)
+        if stage_name == "alphabetic_reported":
+            return self._build_unresolved_alphabetic_report(batch_name)
+        if stage_name == "yomi_generated":
+            return self._generate_mechanical_yomi(batch_name)
+        raise ValueError(f"Unsupported pipeline stage: {stage_name}")
+
+    def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
+        batch_dir = self.batch_dir(batch_state.batch_name)
+        if stage_name == "alphabetic_analyzed":
+            return [
+                batch_dir / "units.alphabetic.jsonl",
+                batch_dir / "alphabetic_occurrences.jsonl",
+                batch_dir / "alphabetic_types.jsonl",
+            ]
+        if stage_name == "alphabetic_reported":
+            return [
+                batch_dir / "alphabetic_unresolved_entities.jsonl",
+                batch_dir / "alphabetic_unresolved_entities.tsv",
+            ]
+        if stage_name == "yomi_generated":
+            return [
+                batch_dir / "units.yomi.aligned_hybrid.jsonl",
+            ]
+        return []
+
+    def _existing_stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[str]:
+        return [
+            str(path)
+            for path in self._stage_artifact_paths(batch_state=batch_state, stage_name=stage_name)
+            if path.exists()
+        ]
 
     def _next_stage_name(self, current_stage: str) -> str | None:
         try:

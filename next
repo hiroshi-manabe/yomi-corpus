@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import argparse
 from pathlib import Path
 import sys
 
@@ -13,13 +14,60 @@ if str(SRC_ROOT) not in sys.path:
 from yomi_corpus.pipeline import PipelineWorkspace
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Advance the current batch on the requested track."
+    )
+    parser.add_argument(
+        "track",
+        nargs="?",
+        choices=["working", "dev"],
+        default="working",
+        help="Track to advance. Defaults to working.",
+    )
+    parser.add_argument(
+        "--force-stage",
+        choices=["alphabetic_analyzed", "alphabetic_reported", "yomi_generated"],
+        help="Rerun the current completed stage instead of advancing to the next one.",
+    )
+    parser.add_argument(
+        "--yes",
+        action="store_true",
+        help="Allow overwriting protected-track artifacts without an interactive prompt.",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
-    args = sys.argv[1:]
-    if len(args) > 1:
-        raise SystemExit("Usage: next | next dev")
-    track_name = args[0] if args else "working"
+    args = parse_args()
     workspace = PipelineWorkspace(PROJECT_ROOT)
-    summary = workspace.advance(track_name=track_name)
+    summary = workspace.advance(
+        track_name=args.track,
+        force_stage=args.force_stage,
+        allow_overwrite=args.yes,
+    )
+    if summary.get("requires_confirmation") and not args.yes:
+        if not sys.stdin.isatty():
+            summary["message"] = (
+                "Confirmation required to overwrite existing working-track artifacts. "
+                "Re-run interactively or add --yes."
+            )
+        else:
+            batch_name = summary["batch_name"]
+            force_stage = summary["requested_force_stage"]
+            prompt = (
+                f"This will overwrite existing working-track artifacts for "
+                f"{batch_name} at stage {force_stage}. Continue? [y/N] "
+            )
+            answer = input(prompt).strip().lower()
+            if answer in {"y", "yes"}:
+                summary = workspace.advance(
+                    track_name=args.track,
+                    force_stage=args.force_stage,
+                    allow_overwrite=True,
+                )
+            else:
+                summary["message"] = "Cancelled."
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
 
