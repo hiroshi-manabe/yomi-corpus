@@ -91,6 +91,11 @@ For yomi quality, reading correctness should take priority over coarse vs. fine
 segmentation. If the readings are correct, extra splits introduced by the
 morphological analyzer should not by themselves count as a failure.
 
+Decoder-driven changes should be gated by support evidence. If `yomi-decoder`
+appears to rely only on unigram fallback rather than real N-gram support, its
+output should not be trusted enough to override Sudachi segmentation or
+reading.
+
 This keeps both cost and failure modes under control.
 
 ### 3.4 Use two judgment granularities

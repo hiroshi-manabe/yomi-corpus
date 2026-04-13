@@ -403,6 +403,8 @@ def can_refine_single_sudachi_token(
     decoder_reading = "".join(entry.entry.reading for entry in decoder_entries)
     if decoder_reading != token.reading:
         return False
+    if any(not decoder_entry_has_ngram_support(entry.entry) for entry in decoder_entries):
+        return False
     return True
 
 
@@ -468,6 +470,8 @@ def should_use_decoder_override(
 ) -> bool:
     if not exact_entry.reading:
         return False
+    if not decoder_entry_has_ngram_support(exact_entry):
+        return False
     if token.reading == exact_entry.reading:
         return False
     if token.surface not in DECODER_OVERRIDE_SURFACES:
@@ -483,6 +487,10 @@ def should_use_decoder_override(
         return False
     winning_reading, winning_votes = max(votes.items(), key=lambda item: (item[1], item[0]))
     return winning_reading == exact_entry.reading and winning_votes >= 2
+
+
+def decoder_entry_has_ngram_support(entry: DecoderEntry) -> bool:
+    return entry.final_order >= 2
 
 
 def render_sudachi_token(token: SudachiToken) -> RenderedPair:

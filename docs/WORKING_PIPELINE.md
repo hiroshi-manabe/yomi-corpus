@@ -211,6 +211,10 @@ Those signals will likely include:
 
 The exact rules are intentionally deferred until reviewed data exists.
 
+For the current hybrid yomi policy, decoder-driven changes should only be used
+when the decoder shows real N-gram support. Unigram-only fallback output should
+not override Sudachi.
+
 ### 5.2 Batch-level alphabetic entity extraction
 
 The alphabetic problem should not be treated as a pure sentence-level

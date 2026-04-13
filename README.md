@@ -90,6 +90,8 @@ Yomi generation scaffold:
 - the current mechanical baseline uses Sudachi B-mode segmentation, then adds a
   narrow hybrid layer for contextual reading fixes and decoder-informed segment
   recovery
+- decoder-driven changes should only be used when the decoder shows real
+  N-gram support; unigram-only fallback output should not override Sudachi
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

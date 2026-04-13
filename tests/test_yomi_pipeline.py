@@ -226,15 +226,36 @@ class YomiPipelineTests(unittest.TestCase):
                     rank=1,
                     score=-1.0,
                     entries=[
-                        DecoderEntry("静岡", "シズオカ", 1, [1], []),
-                        DecoderEntry("県立", "ケンリツ", 1, [2], []),
-                        DecoderEntry("大学", "ダイガク", 1, [3], []),
+                        DecoderEntry("静岡", "シズオカ", 2, [1, 2], []),
+                        DecoderEntry("県立", "ケンリツ", 4, [3, 4], []),
+                        DecoderEntry("大学", "ダイガク", 2, [1, 2], []),
                     ],
                 )
             ],
         )
         self.assertEqual(result.rendered, "静岡/シズオカ 県立/ケンリツ 大学/ダイガク")
         self.assertIn("refine_single_sudachi_compound_with_decoder", result.signals)
+
+    def test_aligned_hybrid_does_not_refine_when_decoder_support_is_only_unigram_fallback(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="ダイソー",
+            sudachi_tokens=[
+                SudachiToken("ダイソー", "名詞,普通名詞,一般,*,*,*", "ダイソー", "ダイソー", "ダイソー"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("ダイ", "ダイ", 2, [1, 2], []),
+                        DecoderEntry("ソー", "ソー", 1, [1], []),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "ダイソー/ダイソー")
+        self.assertNotIn("refine_single_sudachi_compound_with_decoder", result.signals)
 
     def test_render_pairs_from_decoder_uses_surface_when_reading_is_empty(self) -> None:
         candidate = DecoderCandidate(
