@@ -92,6 +92,18 @@ Yomi generation scaffold:
   recovery
 - decoder-driven changes should only be used when the decoder shows real
   N-gram support; unigram-only fallback output should not override Sudachi
+- when splitting one Sudachi token into multiple decoder entries, each later
+  entry must start with cross-boundary support (`piece_orders[0] >= 2`), not
+  merely gain support internally after an unsupported boundary
+- numeric runs are grouped and emitted with an empty reading, such as `2021/`;
+  number pronunciation is intentionally left to a future dedicated number
+  reading module
+- yomi quality is judged primarily by reading correctness, not ideal
+  segmentation; over-split katakana or morphology is acceptable for now if the
+  readings are correct
+- after yomi generation, `yomi_auto_accepted` adds
+  `analysis.mechanical.yomi.auto_accept` for low-risk units with no kanji, no
+  alphabetic letters, and no unresolved non-numeric readings
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

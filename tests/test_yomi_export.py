@@ -16,6 +16,7 @@ from yomi_corpus.yomi.export import (
     export_named_variant,
     resolve_export_variant,
 )
+from yomi_corpus.yomi.types import SudachiToken
 
 
 class YomiExportTests(unittest.TestCase):
@@ -49,7 +50,6 @@ class YomiExportTests(unittest.TestCase):
                 decoder_config="config.toml",
                 decoder_beam=10,
                 decoder_nbest=5,
-                decoder_original_segments=True,
                 default_strategy="aligned_hybrid_v1",
             )
 
@@ -92,7 +92,6 @@ class YomiExportTests(unittest.TestCase):
                 decoder_config="config.toml",
                 decoder_beam=10,
                 decoder_nbest=5,
-                decoder_original_segments=True,
                 default_strategy="aligned_hybrid_v1",
             )
 
@@ -138,7 +137,6 @@ class YomiExportTests(unittest.TestCase):
                         'config = "decoder.toml"',
                         "beam = 10",
                         "nbest = 5",
-                        "original_segments = true",
                         "",
                         "[strategy]",
                         'default = "aligned_hybrid_v1"',
@@ -192,7 +190,6 @@ class YomiExportTests(unittest.TestCase):
                 decoder_config="config.toml",
                 decoder_beam=10,
                 decoder_nbest=5,
-                decoder_original_segments=True,
                 default_strategy="aligned_hybrid_v1",
             )
 
@@ -264,7 +261,6 @@ class YomiExportTests(unittest.TestCase):
                         'config = "decoder.toml"',
                         "beam = 10",
                         "nbest = 5",
-                        "original_segments = true",
                         "",
                         "[strategy]",
                         'default = "aligned_hybrid_v1"',
@@ -274,10 +270,13 @@ class YomiExportTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            with patch("yomi_corpus.yomi.export.generate_mechanical_yomi") as mocked:
-                mocked.side_effect = [
-                    MechanicalYomi(rendered="A/エー", certain=True),
-                    MechanicalYomi(rendered="B/ビー", certain=True),
+            with (
+                patch("yomi_corpus.yomi.export.generate_mechanical_yomi") as mocked_generator,
+                patch("yomi_corpus.yomi.export.run_sudachi") as mocked_sudachi,
+            ):
+                mocked_sudachi.side_effect = [
+                    [SudachiToken("A", "名詞", "A", "A", "エー")],
+                    [SudachiToken("B", "名詞", "B", "B", "ビー")],
                 ]
                 summary = export_debug_comparison_texts(
                     batch_dir=batch_dir,
@@ -288,9 +287,14 @@ class YomiExportTests(unittest.TestCase):
             self.assertEqual(summary["output_dir"], str(debug_dir))
             self.assertTrue((debug_dir / "units.yomi.aligned_hybrid.txt").exists())
             self.assertTrue((debug_dir / "units.yomi.sudachi_only.txt").exists())
-            self.assertEqual(mocked.call_count, 2)
+            self.assertEqual(mocked_generator.call_count, 0)
+            self.assertEqual(mocked_sudachi.call_count, 2)
             self.assertEqual(
                 (debug_dir / "units.yomi.aligned_hybrid.txt").read_text(encoding="utf-8"),
+                "u1\tA/エー\nu2\tB/ビー\n",
+            )
+            self.assertEqual(
+                (debug_dir / "units.yomi.sudachi_only.txt").read_text(encoding="utf-8"),
                 "u1\tA/エー\nu2\tB/ビー\n",
             )
 

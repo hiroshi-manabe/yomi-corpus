@@ -7,7 +7,9 @@ import sys
 
 from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.yomi.config import YomiGenerationConfig, load_yomi_generation_config
+from yomi_corpus.yomi.adapters import run_sudachi
 from yomi_corpus.yomi.runtime import generate_mechanical_yomi
+from yomi_corpus.yomi.strategies import render_pairs_from_sudachi
 
 
 @dataclass(frozen=True)
@@ -150,11 +152,14 @@ def export_plaintext_yomi(
                 .get("rendered")
             )
             if not rendered:
-                rendered = generate_mechanical_yomi(
-                    row["text"],
-                    config=config,
-                    strategy_name=strategy_name,
-                ).rendered
+                if strategy_name == "sudachi_only_v1":
+                    rendered = render_pairs_from_sudachi(run_sudachi(row["text"], config))
+                else:
+                    rendered = generate_mechanical_yomi(
+                        row["text"],
+                        config=config,
+                        strategy_name=strategy_name,
+                    ).rendered
             dst.write(f"{row['unit_id']}\t{rendered}\n")
             count += 1
             last_unit_id = str(row["unit_id"])

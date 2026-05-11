@@ -90,11 +90,33 @@ Instead:
 For yomi quality, reading correctness should take priority over coarse vs. fine
 segmentation. If the readings are correct, extra splits introduced by the
 morphological analyzer should not by themselves count as a failure.
+This includes over-split katakana expressions such as `ディ/ディ プロ/プロ
+マ/マ`: awkward segmentation is tolerable at this stage if the assigned
+readings are correct. Cleaner token merging can be handled later if downstream
+consumers need it.
 
 Decoder-driven changes should be gated by support evidence. If `yomi-decoder`
 appears to rely only on unigram fallback rather than real N-gram support, its
 output should not be trusted enough to override Sudachi segmentation or
 reading.
+
+For splitting one Sudachi token into multiple decoder entries, support must
+cross the split boundary. Each decoder entry after the first must start with
+`piece_orders[0] >= 2`; a later entry that starts at order 1 and only gains
+support internally is not evidence for the boundary itself.
+
+Numeric runs are not treated as ordinary yomi targets. Consecutive numeric
+tokens should be grouped and emitted with an empty reading, for example
+`2021/`, so a future number-reading module can handle them separately.
+
+N-gram support is currently an experimental confidence feature, not a committed
+pipeline gate. The useful diagnostic variant is comma-span based: exclude units
+with alphabetic letters; split spans only at `、`; treat empty-reading
+kanji-like content as unsafe; exempt kana-only or symbol-only adjacent
+boundaries; and require other adjacent entry boundaries to be supported by the
+later entry starting at `piece_orders[0] >= 2`. Early measurements should be
+reported both by span count and by character coverage, and kana-only spans
+should not be counted as N-gram added value.
 
 This keeps both cost and failure modes under control.
 
@@ -237,6 +259,7 @@ Responsibilities:
 
 - judge classical or non-target Japanese
 - generate mechanical yomi
+- add a conservative yomi auto-accept flag for units that do not need review
 - extract alphabetic entity occurrences and aggregate entity types
 - attach a `certain` flag for sentence-level tasks
 
@@ -249,6 +272,12 @@ Example signals:
 - very high rare-character ratio
 - Sudachi analysis quality
 - `yomi-decoder` agreement or failure signals
+
+The first yomi auto-accept rule is intentionally narrow. A unit is accepted
+only when it has generated yomi, contains no kanji, contains no alphabetic
+letters, and has no empty non-numeric readings. Grouped numeric runs such as
+`2021/` are allowed because number pronunciation is outside the current yomi
+task.
 
 ### S30 Sentence-Level LLM Classification
 
@@ -456,9 +485,10 @@ This should eventually become a derived rule bundle, not intuition.
 
 Current implementation policy:
 
-- do not auto-accept units through this mechanism yet
+- auto-accept only the narrow no-kanji/no-alphabet/no-unresolved-reading yomi
+  case
 - do not define a sentence-level `certain=true` rule for classical/non-target
-  or yomi safety yet
+  judgment yet
 - collect the raw mechanical features needed to learn those rules later
 
 The point is to avoid inventing confidence rules before reviewed data exists.
@@ -664,6 +694,7 @@ Examples:
   artifacts
 - the following `./next` should build the unresolved alphabetic report
 - the following `./next` should build the mechanical yomi JSONL
+- the following `./next` should add the yomi auto-accept artifact
 - once no later automated stage is implemented, `./next` should report that
   blocking reason and stop
 - `./next --force-stage <stage>` should rerun the current completed stage

@@ -24,6 +24,7 @@ from yomi_corpus.alphabetic_state import (
 )
 from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
+from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
 
 
@@ -50,6 +51,7 @@ STAGE_SEQUENCE = [
     "alphabetic_analyzed",
     "alphabetic_reported",
     "yomi_generated",
+    "yomi_auto_accepted",
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -57,6 +59,7 @@ RERUNNABLE_STAGES = frozenset(
         "alphabetic_analyzed",
         "alphabetic_reported",
         "yomi_generated",
+        "yomi_auto_accepted",
     }
 )
 
@@ -380,8 +383,8 @@ class PipelineWorkspace:
             summary = self._run_stage(batch_state.batch_name, force_stage)
             batch_state.current_stage = force_stage
             batch_state.blocking_reason = (
-                "No later automated stage is implemented yet after mechanical yomi generation."
-                if force_stage == "yomi_generated"
+                "No later automated stage is implemented yet after yomi auto-acceptance."
+                if force_stage == "yomi_auto_accepted"
                 else None
             )
             batch_state.artifacts.update(summary["artifacts"])
@@ -424,8 +427,8 @@ class PipelineWorkspace:
         summary = self._run_stage(batch_state.batch_name, next_stage)
         batch_state.current_stage = next_stage
         batch_state.blocking_reason = (
-            "No later automated stage is implemented yet after mechanical yomi generation."
-            if next_stage == "yomi_generated"
+            "No later automated stage is implemented yet after yomi auto-acceptance."
+            if next_stage == "yomi_auto_accepted"
             else None
         )
         batch_state.artifacts.update(summary["artifacts"])
@@ -458,6 +461,8 @@ class PipelineWorkspace:
             return self._build_unresolved_alphabetic_report(batch_name)
         if stage_name == "yomi_generated":
             return self._generate_mechanical_yomi(batch_name)
+        if stage_name == "yomi_auto_accepted":
+            return self._auto_accept_mechanical_yomi(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -476,6 +481,11 @@ class PipelineWorkspace:
         if stage_name == "yomi_generated":
             return [
                 batch_dir / "units.yomi.aligned_hybrid.jsonl",
+            ]
+        if stage_name == "yomi_auto_accepted":
+            return [
+                batch_dir / "units.yomi.auto_accept.jsonl",
+                batch_dir / "yomi_auto_accept_summary.json",
             ]
         return []
 
@@ -533,15 +543,20 @@ class PipelineWorkspace:
         )
         current_stage = self._infer_stage_from_artifacts(batch_name)
         blocking_reason = (
-            "No later automated stage is implemented yet after mechanical yomi generation."
-            if current_stage == "yomi_generated"
+            "No later automated stage is implemented yet after yomi auto-acceptance."
+            if current_stage == "yomi_auto_accepted"
             else None
         )
         artifacts = {
             "units_jsonl": str(self.batch_dir(batch_name) / "units.jsonl"),
             "manifest": str(manifest_path),
         }
-        if current_stage in {"alphabetic_analyzed", "alphabetic_reported", "yomi_generated"}:
+        if current_stage in {
+            "alphabetic_analyzed",
+            "alphabetic_reported",
+            "yomi_generated",
+            "yomi_auto_accepted",
+        }:
             artifacts.update(
                 {
                     "units_alphabetic_jsonl": str(self.batch_dir(batch_name) / "units.alphabetic.jsonl"),
@@ -549,7 +564,7 @@ class PipelineWorkspace:
                     "alphabetic_types_jsonl": str(self.batch_dir(batch_name) / "alphabetic_types.jsonl"),
                 }
             )
-        if current_stage in {"alphabetic_reported", "yomi_generated"}:
+        if current_stage in {"alphabetic_reported", "yomi_generated", "yomi_auto_accepted"}:
             artifacts.update(
                 {
                     "alphabetic_unresolved_jsonl": str(
@@ -560,9 +575,16 @@ class PipelineWorkspace:
                     ),
                 }
             )
-        if current_stage == "yomi_generated":
+        if current_stage in {"yomi_generated", "yomi_auto_accepted"}:
             artifacts["units_yomi_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.aligned_hybrid.jsonl"
+            )
+        if current_stage == "yomi_auto_accepted":
+            artifacts["units_yomi_auto_accept_jsonl"] = str(
+                self.batch_dir(batch_name) / "units.yomi.auto_accept.jsonl"
+            )
+            artifacts["yomi_auto_accept_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
             )
         state = BatchState(
             batch_name=batch_name,
@@ -591,6 +613,8 @@ class PipelineWorkspace:
 
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
+        if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
+            return "yomi_auto_accepted"
         if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
             return "yomi_generated"
         if (batch_dir / "alphabetic_unresolved_entities.jsonl").exists():
@@ -813,5 +837,25 @@ class PipelineWorkspace:
             "artifacts": {
                 "units_yomi_jsonl": str(batch_dir / "units.yomi.aligned_hybrid.jsonl"),
                 "yomi_variant": str(summary["variant_name"]),
+            }
+        }
+
+    def _auto_accept_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        input_path = batch_dir / "units.yomi.aligned_hybrid.jsonl"
+        output_path = batch_dir / "units.yomi.auto_accept.jsonl"
+        summary_path = batch_dir / "yomi_auto_accept_summary.json"
+        summary = apply_yomi_auto_acceptance_file(
+            input_jsonl=input_path,
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        return {
+            "artifacts": {
+                "units_yomi_auto_accept_jsonl": str(output_path),
+                "yomi_auto_accept_summary_json": str(summary_path),
+                "yomi_auto_accept_rule": summary.rule,
+                "yomi_auto_accept_accepted": str(summary.accepted),
+                "yomi_auto_accept_rejected": str(summary.rejected),
             }
         }

@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from yomi_corpus.yomi.types import (
     DecoderCandidate,
     DecoderEntry,
-    DecoderOriginalSegment,
     SudachiToken,
     YomiStrategyResult,
 )
@@ -219,6 +218,16 @@ def strategy_aligned_hybrid_v1(
             index += 1
             continue
 
+        if is_numeric_token(token):
+            numeric_surface, next_index = collect_numeric_sudachi_run(
+                sudachi_spans=sudachi_spans,
+                start_index=index,
+            )
+            rendered_pairs.append(RenderedPair(surface=numeric_surface, reading=""))
+            signals.append("group_numeric_run")
+            index = next_index
+            continue
+
         exact_entry = exact_decoder_by_span.get((current.start, current.end))
         if exact_entry is not None:
             pair, pair_signals = render_exact_aligned_token(
@@ -243,20 +252,6 @@ def strategy_aligned_hybrid_v1(
             signals.append("refine_single_sudachi_compound_with_decoder")
             index += 1
             continue
-
-        merged_entry = find_covering_decoder_entry(top_decoder_spans, current.start)
-        if merged_entry is not None:
-            run, next_index = collect_sudachi_run_for_span(
-                sudachi_spans=sudachi_spans,
-                start_index=index,
-                target_start=merged_entry.start,
-                target_end=merged_entry.end,
-            )
-            if run and can_apply_original_segments(run, merged_entry.entry):
-                rendered_pairs.extend(render_original_segments(merged_entry.entry))
-                signals.append("use_decoder_original_segments")
-                index = next_index
-                continue
 
         rendered_pairs.append(render_sudachi_token(token))
         signals.append("fallback_sudachi_token")
@@ -304,43 +299,6 @@ def span_decoder_entries(text: str, candidate: DecoderCandidate) -> list[Spanned
     return spans
 
 
-def find_covering_decoder_entry(
-    decoder_spans: list[SpannedDecoderEntry],
-    sudachi_start: int,
-) -> SpannedDecoderEntry | None:
-    for entry in decoder_spans:
-        if entry.start == sudachi_start:
-            return entry
-    return None
-
-
-def collect_sudachi_run_for_span(
-    *,
-    sudachi_spans: list[SpannedSudachiToken],
-    start_index: int,
-    target_start: int,
-    target_end: int,
-) -> tuple[list[SpannedSudachiToken], int]:
-    run: list[SpannedSudachiToken] = []
-    index = start_index
-    while index < len(sudachi_spans):
-        token = sudachi_spans[index]
-        if token.start < target_start:
-            index += 1
-            continue
-        if token.start >= target_end:
-            break
-        if is_whitespace_token(token.token):
-            return [], start_index
-        run.append(token)
-        index += 1
-        if token.end == target_end:
-            return run, index
-        if token.end > target_end:
-            return [], start_index
-    return [], start_index
-
-
 def collect_decoder_entries_for_exact_span(
     *,
     decoder_spans: list[SpannedDecoderEntry],
@@ -370,20 +328,6 @@ def collect_decoder_entries_for_exact_span(
     return collected
 
 
-def can_apply_original_segments(run: list[SpannedSudachiToken], decoder_entry: DecoderEntry) -> bool:
-    if len(run) <= 1:
-        return False
-    if not decoder_entry.original_segments:
-        return False
-    run_surfaces = [token.token.surface for token in run]
-    segment_surfaces = [segment.surface for segment in decoder_entry.original_segments]
-    if run_surfaces != segment_surfaces:
-        return False
-    if any(not segment.reading for segment in decoder_entry.original_segments):
-        return False
-    return True
-
-
 def can_refine_single_sudachi_token(
     token: SudachiToken,
     decoder_entries: list[SpannedDecoderEntry],
@@ -405,19 +349,9 @@ def can_refine_single_sudachi_token(
         return False
     if any(not decoder_entry_has_ngram_support(entry.entry) for entry in decoder_entries):
         return False
+    if any(not decoder_entry_has_previous_entry_support(entry.entry) for entry in decoder_entries[1:]):
+        return False
     return True
-
-
-def render_original_segments(decoder_entry: DecoderEntry) -> list[RenderedPair]:
-    rendered: list[RenderedPair] = []
-    for segment in decoder_entry.original_segments:
-        rendered.append(
-            RenderedPair(
-                surface=segment.surface,
-                reading=segment.reading or segment.surface,
-            )
-        )
-    return rendered
 
 
 def render_decoder_entries(entries: list[SpannedDecoderEntry]) -> list[RenderedPair]:
@@ -493,9 +427,17 @@ def decoder_entry_has_ngram_support(entry: DecoderEntry) -> bool:
     return entry.final_order >= 2
 
 
+def decoder_entry_has_previous_entry_support(entry: DecoderEntry) -> bool:
+    if not entry.piece_orders:
+        return False
+    return entry.piece_orders[0] >= 2
+
+
 def render_sudachi_token(token: SudachiToken) -> RenderedPair:
     if is_punctuation_token(token):
         return RenderedPair(surface=token.surface, reading=token.surface)
+    if is_numeric_token(token):
+        return RenderedPair(surface=token.surface, reading="")
     return RenderedPair(surface=token.surface, reading=token.reading or token.surface)
 
 
@@ -505,6 +447,26 @@ def is_whitespace_token(token: SudachiToken) -> bool:
 
 def is_punctuation_token(token: SudachiToken) -> bool:
     return token.pos.startswith("補助記号")
+
+
+def is_numeric_token(token: SudachiToken) -> bool:
+    return "数詞" in token.pos and token.surface.isdecimal()
+
+
+def collect_numeric_sudachi_run(
+    *,
+    sudachi_spans: list[SpannedSudachiToken],
+    start_index: int,
+) -> tuple[str, int]:
+    surfaces: list[str] = []
+    index = start_index
+    while index < len(sudachi_spans):
+        token = sudachi_spans[index].token
+        if not is_numeric_token(token):
+            break
+        surfaces.append(token.surface)
+        index += 1
+    return "".join(surfaces), index
 
 
 def is_decoder_entry_symbol(entry: DecoderEntry) -> bool:
@@ -523,7 +485,22 @@ def dedupe_preserve_order(values: list[str]) -> list[str]:
 
 
 def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
-    pairs = [render_sudachi_token(token) for token in tokens if not is_whitespace_token(token)]
+    pairs: list[RenderedPair] = []
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if is_whitespace_token(token):
+            index += 1
+            continue
+        if is_numeric_token(token):
+            surfaces: list[str] = []
+            while index < len(tokens) and is_numeric_token(tokens[index]):
+                surfaces.append(tokens[index].surface)
+                index += 1
+            pairs.append(RenderedPair(surface="".join(surfaces), reading=""))
+            continue
+        pairs.append(render_sudachi_token(token))
+        index += 1
     return " ".join(f"{pair.surface}/{pair.reading}" for pair in pairs)
 
 

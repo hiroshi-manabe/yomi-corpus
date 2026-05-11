@@ -16,7 +16,6 @@ class YomiGenerationConfig:
     decoder_config: str
     decoder_beam: int | None
     decoder_nbest: int
-    decoder_original_segments: bool
     default_strategy: str
 
 
@@ -37,7 +36,6 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         decoder_config=str(resolve_config_path(config_path, str(decoder["config"]))),
         decoder_beam=_optional_int(decoder.get("beam")),
         decoder_nbest=int(decoder.get("nbest", 5)),
-        decoder_original_segments=bool(decoder.get("original_segments", True)),
         default_strategy=str(strategy.get("default", "agreement_prefer_decoder_v1")),
     )
 

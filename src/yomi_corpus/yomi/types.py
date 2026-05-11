@@ -13,18 +13,11 @@ class SudachiToken:
 
 
 @dataclass(frozen=True)
-class DecoderOriginalSegment:
-    surface: str
-    reading: str
-
-
-@dataclass(frozen=True)
 class DecoderEntry:
     surface: str
     reading: str
     final_order: int
     piece_orders: list[int]
-    original_segments: list[DecoderOriginalSegment]
 
 
 @dataclass(frozen=True)

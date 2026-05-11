@@ -215,6 +215,35 @@ For the current hybrid yomi policy, decoder-driven changes should only be used
 when the decoder shows real N-gram support. Unigram-only fallback output should
 not override Sudachi.
 
+When the hybrid strategy splits one Sudachi token into multiple decoder entries,
+each later decoder entry must have cross-boundary support: its first piece order
+must be at least 2. Internal support after an order-1 boundary is not enough to
+justify replacing Sudachi's whole-token segmentation.
+
+Numeric runs should be grouped and excluded from normal yomi reading decisions.
+For example, Sudachi-style `2/ニ 0/レイ 2/ニ 1/イチ` should become `2021/`.
+Number pronunciation is a separate future module, not part of the current yomi
+pipeline.
+
+Yomi review should prioritize reading correctness over ideal segmentation.
+Katakana expressions may be over-split by the current analyzers, but this is not
+a failure if the readings remain correct. A later token-merge layer can be
+added if downstream consumers need cleaner segmentation.
+
+The first yomi auto-accept pass should run after mechanical yomi generation and
+write a separate `units.yomi.auto_accept.jsonl` artifact. It should mark
+`analysis.mechanical.yomi.auto_accept.value=true` only when the unit text has no
+kanji, no alphabetic letters, and no unresolved non-numeric readings. This is a
+review-skip flag, not a general proof of correctness.
+
+N-gram confidence remains a debug metric rather than a pipeline decision. The
+current useful experiment is to split only on `、`, reject alphabetic-containing
+units, keep empty-reading kanji-like content inside the span as unsafe, exempt
+kana-only or symbol-only adjacent boundaries, and require all other adjacent
+entry boundaries to have the later entry start with `piece_orders[0] >= 2`.
+Coverage should be interpreted by character count and by kanji-like span
+coverage, not only by raw span count.
+
 ### 5.2 Batch-level alphabetic entity extraction
 
 The alphabetic problem should not be treated as a pure sentence-level
@@ -725,6 +754,7 @@ Example behavior:
 - if a batch is only prepared, `./next` should build the alphabetic artifacts
 - the next `./next` should build the unresolved alphabetic report
 - the next `./next` should build the mechanical yomi JSONL
+- the next `./next` should add the yomi auto-accept artifact
 - after that, `./next` should stop with a clear blocking reason until a later
   automated stage is implemented
 - `./next --force-stage <stage>` should rerun the current completed stage
