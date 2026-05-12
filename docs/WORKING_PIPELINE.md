@@ -211,9 +211,17 @@ Those signals will likely include:
 
 The exact rules are intentionally deferred until reviewed data exists.
 
-For the current hybrid yomi policy, decoder-driven changes should only be used
-when the decoder shows real N-gram support. Unigram-only fallback output should
+For the current hybrid yomi policy, supported decoder-driven reading changes can
+be used broadly. If the decoder differs from Sudachi on the same surface span
+and the exact decoder entry has real N-gram support, the hybrid output may use
+the decoder reading as a tentative override. Unigram-only fallback output should
 not override Sudachi.
+
+The decoder is expected to apply a count threshold before reporting order-2
+support. In downstream yomi-corpus rules, `piece_orders[0] >= 2` therefore
+means repeated support in the decoder corpus, not merely one observed
+transition. A wrong candidate may still rank high, but it should not become
+trusted support if its relevant boundary is backed only by a singleton 2-gram.
 
 When the hybrid strategy splits one Sudachi token into multiple decoder entries,
 each later decoder entry must have cross-boundary support: its first piece order
@@ -243,6 +251,14 @@ kana-only or symbol-only adjacent boundaries, and require all other adjacent
 entry boundaries to have the later entry start with `piece_orders[0] >= 2`.
 Coverage should be interpreted by character count and by kanji-like span
 coverage, not only by raw span count.
+
+Use separate thresholds for reading changes and review-skipping safety. A
+decoder reading that differs from Sudachi and has repeated 2-gram support can be
+treated as an ordinary tentative override signal; a high error rate is
+acceptable because review is still the default. A safe auto-accept signal should
+be much more conservative: Sudachi and decoder should agree, and the relevant
+span should be supported from start to end by the stricter repeated-2-gram
+boundary rule.
 
 ### 5.2 Batch-level alphabetic entity extraction
 

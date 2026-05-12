@@ -95,10 +95,17 @@ This includes over-split katakana expressions such as `ディ/ディ プロ/プ�
 readings are correct. Cleaner token merging can be handled later if downstream
 consumers need it.
 
-Decoder-driven changes should be gated by support evidence. If `yomi-decoder`
-appears to rely only on unigram fallback rather than real N-gram support, its
-output should not be trusted enough to override Sudachi segmentation or
-reading.
+Decoder-driven reading changes should be gated by support evidence, but they do
+not need to be rare. If `yomi-decoder` differs from Sudachi on the same surface
+span and the exact decoder entry has real N-gram support, the hybrid layer may
+use the decoder reading as a tentative override. If the decoder appears to rely
+only on unigram fallback, its output should not override Sudachi.
+
+`piece_orders[0] >= 2` should be interpreted according to the decoder's current
+count threshold: order-2 support means the boundary transition is attested at
+least twice in the decoder corpus. A singleton 2-gram is not enough. This keeps
+cases like a one-off `と-中(チュウ)` transition from becoming trusted evidence
+even if the decoder still ranks that reading highly for other reasons.
 
 For splitting one Sudachi token into multiple decoder entries, support must
 cross the split boundary. Each decoder entry after the first must start with
@@ -117,6 +124,14 @@ boundaries; and require other adjacent entry boundaries to be supported by the
 later entry starting at `piece_orders[0] >= 2`. Early measurements should be
 reported both by span count and by character coverage, and kana-only spans
 should not be counted as N-gram added value.
+
+Decoder overrides and mechanical safety are deliberately different judgments.
+If a decoder reading differs from Sudachi and has repeated 2-gram support, it
+can be used as a normal tentative correction signal even if many such changes
+later turn out to be wrong. Review remains the default, and Sudachi/decoder
+disagreement is not a safe-skip condition. Safe auto-acceptance should require
+Sudachi and decoder to agree, with the whole relevant span supported from start
+to end by repeated 2-gram evidence.
 
 This keeps both cost and failure modes under control.
 

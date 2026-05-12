@@ -87,14 +87,21 @@ Yomi generation scaffold:
 - deterministic generation now has a local harness under `src/yomi_corpus/yomi/`
 - `scripts/generate_mechanical_yomi.py` runs Sudachi plus `../yomi-decoder/`
   over units and writes updated `analysis.mechanical.yomi`
-- the current mechanical baseline uses Sudachi B-mode segmentation, then adds a
-  narrow hybrid layer for contextual reading fixes and decoder-informed segment
-  recovery
-- decoder-driven changes should only be used when the decoder shows real
-  N-gram support; unigram-only fallback output should not override Sudachi
+- the current mechanical baseline uses Sudachi B-mode segmentation, then uses
+  decoder evidence for supported reading overrides
+- decoder-driven reading changes are allowed broadly when the exact decoder
+  entry has real N-gram support; unigram-only fallback output should not
+  override Sudachi
+- the decoder-side definition of `piece_orders[0] >= 2` is expected to exclude
+  singleton 2-grams; support means repeated corpus evidence, not a one-off
+  transition
 - when splitting one Sudachi token into multiple decoder entries, each later
   entry must start with cross-boundary support (`piece_orders[0] >= 2`), not
   merely gain support internally after an unsupported boundary
+- supported decoder overrides and safe auto-acceptance are separate decisions:
+  a supported decoder/Sudachi disagreement may be used as a tentative
+  correction because review is still the default, but a unit is only safe when
+  Sudachi and decoder evidence agree under full-span support checks
 - numeric runs are grouped and emitted with an empty reading, such as `2021/`;
   number pronunciation is intentionally left to a future dedicated number
   reading module
