@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import json
 import tempfile
 import unittest
@@ -71,7 +72,7 @@ class PipelineTrackTests(unittest.TestCase):
                     "source_path": root / "source.jsonl.gz",
                 }
                 with patch.object(workspace, "_extract_batch_documents") as mocked_extract:
-                    mocked_extract.return_value = (5, 12)
+                    mocked_extract.return_value = (5, 12, 1, 5)
                     summary = workspace.prepare_next_batch(
                         track_name="working",
                         target_documents=5,
@@ -82,6 +83,74 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["units_written"], 12)
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
+            self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
+
+    def test_prepare_next_batch_skips_previous_source_lines_on_same_track(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_path = root / "source.jsonl.gz"
+            with gzip.open(source_path, "wt", encoding="utf-8") as handle:
+                for index in range(1, 5):
+                    handle.write(
+                        json.dumps(
+                            {
+                                "text": f"文書{index}です。",
+                                "source_file": "source.jsonl.gz",
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
+
+            config_dir = root / "config" / "datasets"
+            config_dir.mkdir(parents=True)
+            (config_dir / "demo.toml").write_text(
+                f'name = "demo"\nsource_path = "{source_path}"\n',
+                encoding="utf-8",
+            )
+
+            workspace = PipelineWorkspace(root)
+            first = workspace.prepare_next_batch(
+                track_name="dev",
+                target_documents=2,
+                dataset_config_path="config/datasets/demo.toml",
+            )
+            second = workspace.prepare_next_batch(
+                track_name="dev",
+                target_documents=2,
+                dataset_config_path="config/datasets/demo.toml",
+            )
+
+            self.assertEqual(first["batch_name"], "dev_batch_0001")
+            self.assertEqual(second["batch_name"], "dev_batch_0002")
+
+            first_manifest = json.loads(
+                (root / "data" / "units" / "dev_batch_0001" / "manifest.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            second_manifest = json.loads(
+                (root / "data" / "units" / "dev_batch_0002" / "manifest.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(first_manifest["source_start_line_no"], 1)
+            self.assertEqual(first_manifest["source_end_line_no"], 2)
+            self.assertEqual(second_manifest["source_start_line_no"], 3)
+            self.assertEqual(second_manifest["source_end_line_no"], 4)
+
+            first_unit = json.loads(
+                (root / "data" / "units" / "dev_batch_0001" / "units.jsonl")
+                .read_text(encoding="utf-8")
+                .splitlines()[0]
+            )
+            second_unit = json.loads(
+                (root / "data" / "units" / "dev_batch_0002" / "units.jsonl")
+                .read_text(encoding="utf-8")
+                .splitlines()[0]
+            )
+            self.assertEqual(first_unit["source_line_no"], 1)
+            self.assertEqual(second_unit["source_line_no"], 3)
 
     def test_advance_runs_one_stage_and_persists_state(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -240,11 +309,72 @@ class PipelineTrackTests(unittest.TestCase):
 
             self.assertTrue(summary["advanced"])
             self.assertEqual(summary["current_stage"], "yomi_auto_accepted")
-            self.assertEqual(
-                summary["blocking_reason"],
-                "No later automated stage is implemented yet after yomi auto-acceptance.",
-            )
+            self.assertIsNone(summary["blocking_reason"])
             self.assertEqual(mocked_stage.call_count, 1)
+
+    def test_advance_queues_yomi_triage_after_yomi_auto_acceptance(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "方です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "方/ホウ です/デス 。/。",
+                                    "auto_accept": {"value": False},
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("dev")
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_triage_queued")
+            self.assertIn("Yomi LLM triage input is prepared", summary["blocking_reason"])
+            self.assertTrue((batch_dir / "yomi_triage_input.jsonl").exists())
+            queued = [
+                json.loads(line)
+                for line in (batch_dir / "yomi_triage_input.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+            self.assertEqual(queued[0]["unit_id"], "u1")
 
     def test_force_stage_reruns_current_stage_on_dev(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

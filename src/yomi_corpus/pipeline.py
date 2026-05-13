@@ -26,6 +26,7 @@ from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
+from yomi_corpus.yomi.triage import build_yomi_triage_queue_file
 
 
 WORKING_TRACK = "working"
@@ -52,6 +53,7 @@ STAGE_SEQUENCE = [
     "alphabetic_reported",
     "yomi_generated",
     "yomi_auto_accepted",
+    "yomi_triage_queued",
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -60,6 +62,7 @@ RERUNNABLE_STAGES = frozenset(
         "alphabetic_reported",
         "yomi_generated",
         "yomi_auto_accepted",
+        "yomi_triage_queued",
     }
 )
 
@@ -241,11 +244,23 @@ class PipelineWorkspace:
         batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
 
-        docs_written, units_written = self._extract_batch_documents(
+        skip_source_line_no = self._latest_source_line_no_for_track(
+            track_name=normalized,
+            dataset_name=str(dataset["name"]),
+            dataset_source_path=Path(dataset["source_path"]),
+        )
+
+        (
+            docs_written,
+            units_written,
+            source_start_line_no,
+            source_end_line_no,
+        ) = self._extract_batch_documents(
             source_path=dataset["source_path"],
             dataset_name=dataset["name"],
             target_documents=target_documents,
             batch_name=batch_name,
+            skip_source_line_no=skip_source_line_no,
         )
 
         manifest_payload = {
@@ -259,6 +274,8 @@ class PipelineWorkspace:
             "target_documents": target_documents,
             "docs_written": docs_written,
             "units_written": units_written,
+            "source_start_line_no": source_start_line_no,
+            "source_end_line_no": source_end_line_no,
             "unit_schema_version": 1,
             "mechanical_analysis_initialized": True,
         }
@@ -382,11 +399,7 @@ class PipelineWorkspace:
 
             summary = self._run_stage(batch_state.batch_name, force_stage)
             batch_state.current_stage = force_stage
-            batch_state.blocking_reason = (
-                "No later automated stage is implemented yet after yomi auto-acceptance."
-                if force_stage == "yomi_auto_accepted"
-                else None
-            )
+            batch_state.blocking_reason = self._blocking_reason_for_stage(force_stage)
             batch_state.artifacts.update(summary["artifacts"])
             if not requires_strict_human_review_gates(normalized):
                 batch_state.skipped_review_gates = [
@@ -426,11 +439,7 @@ class PipelineWorkspace:
 
         summary = self._run_stage(batch_state.batch_name, next_stage)
         batch_state.current_stage = next_stage
-        batch_state.blocking_reason = (
-            "No later automated stage is implemented yet after yomi auto-acceptance."
-            if next_stage == "yomi_auto_accepted"
-            else None
-        )
+        batch_state.blocking_reason = self._blocking_reason_for_stage(next_stage)
         batch_state.artifacts.update(summary["artifacts"])
 
         if not requires_strict_human_review_gates(normalized):
@@ -463,6 +472,8 @@ class PipelineWorkspace:
             return self._generate_mechanical_yomi(batch_name)
         if stage_name == "yomi_auto_accepted":
             return self._auto_accept_mechanical_yomi(batch_name)
+        if stage_name == "yomi_triage_queued":
+            return self._queue_yomi_llm_triage(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -487,6 +498,11 @@ class PipelineWorkspace:
                 batch_dir / "units.yomi.auto_accept.jsonl",
                 batch_dir / "yomi_auto_accept_summary.json",
             ]
+        if stage_name == "yomi_triage_queued":
+            return [
+                batch_dir / "yomi_triage_input.jsonl",
+                batch_dir / "yomi_triage_queue_summary.json",
+            ]
         return []
 
     def _existing_stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[str]:
@@ -505,6 +521,15 @@ class PipelineWorkspace:
         if next_index >= len(STAGE_SEQUENCE):
             return None
         return STAGE_SEQUENCE[next_index]
+
+    @staticmethod
+    def _blocking_reason_for_stage(stage_name: str) -> str | None:
+        if stage_name == "yomi_triage_queued":
+            return (
+                "Yomi LLM triage input is prepared. Run the yomi_triage LLM task "
+                "and ingest results before continuing."
+            )
+        return None
 
     def _allocate_next_batch_name(self, track_name: str) -> str:
         prefix = TRACKS[track_name]["batch_prefix"]
@@ -542,11 +567,7 @@ class PipelineWorkspace:
             or (DEV_TRACK if batch_name.startswith("dev_batch_") else WORKING_TRACK)
         )
         current_stage = self._infer_stage_from_artifacts(batch_name)
-        blocking_reason = (
-            "No later automated stage is implemented yet after yomi auto-acceptance."
-            if current_stage == "yomi_auto_accepted"
-            else None
-        )
+        blocking_reason = self._blocking_reason_for_stage(current_stage)
         artifacts = {
             "units_jsonl": str(self.batch_dir(batch_name) / "units.jsonl"),
             "manifest": str(manifest_path),
@@ -556,6 +577,7 @@ class PipelineWorkspace:
             "alphabetic_reported",
             "yomi_generated",
             "yomi_auto_accepted",
+            "yomi_triage_queued",
         }:
             artifacts.update(
                 {
@@ -564,7 +586,12 @@ class PipelineWorkspace:
                     "alphabetic_types_jsonl": str(self.batch_dir(batch_name) / "alphabetic_types.jsonl"),
                 }
             )
-        if current_stage in {"alphabetic_reported", "yomi_generated", "yomi_auto_accepted"}:
+        if current_stage in {
+            "alphabetic_reported",
+            "yomi_generated",
+            "yomi_auto_accepted",
+            "yomi_triage_queued",
+        }:
             artifacts.update(
                 {
                     "alphabetic_unresolved_jsonl": str(
@@ -575,16 +602,23 @@ class PipelineWorkspace:
                     ),
                 }
             )
-        if current_stage in {"yomi_generated", "yomi_auto_accepted"}:
+        if current_stage in {"yomi_generated", "yomi_auto_accepted", "yomi_triage_queued"}:
             artifacts["units_yomi_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.aligned_hybrid.jsonl"
             )
-        if current_stage == "yomi_auto_accepted":
+        if current_stage in {"yomi_auto_accepted", "yomi_triage_queued"}:
             artifacts["units_yomi_auto_accept_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.auto_accept.jsonl"
             )
             artifacts["yomi_auto_accept_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
+            )
+        if current_stage == "yomi_triage_queued":
+            artifacts["yomi_triage_input_jsonl"] = str(
+                self.batch_dir(batch_name) / "yomi_triage_input.jsonl"
+            )
+            artifacts["yomi_triage_queue_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_triage_queue_summary.json"
             )
         state = BatchState(
             batch_name=batch_name,
@@ -613,6 +647,8 @@ class PipelineWorkspace:
 
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
+        if (batch_dir / "yomi_triage_input.jsonl").exists():
+            return "yomi_triage_queued"
         if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
             return "yomi_auto_accepted"
         if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
@@ -642,22 +678,30 @@ class PipelineWorkspace:
         dataset_name: str,
         target_documents: int,
         batch_name: str,
-    ) -> tuple[int, int]:
+        skip_source_line_no: int = 0,
+    ) -> tuple[int, int, int | None, int | None]:
         output_dir = self.batch_dir(batch_name)
         output_dir.mkdir(parents=True, exist_ok=True)
         units_path = output_dir / "units.jsonl"
 
         units_written = 0
         docs_written = 0
+        source_start_line_no: int | None = None
+        source_end_line_no: int | None = None
         with gzip.open(source_path, "rt", encoding="utf-8") as handle, units_path.open(
             "w", encoding="utf-8"
         ) as out:
             for source_line_no, line in enumerate(handle, start=1):
+                if source_line_no <= skip_source_line_no:
+                    continue
                 payload = json.loads(line)
                 text = payload.get("text")
                 if not isinstance(text, str) or not text.strip():
                     continue
                 docs_written += 1
+                if source_start_line_no is None:
+                    source_start_line_no = source_line_no
+                source_end_line_no = source_line_no
                 doc_id = f"{dataset_name}:{source_line_no:010d}"
                 source_file = str(payload.get("source_file", ""))
                 spans = split_text_into_units(text)
@@ -677,7 +721,53 @@ class PipelineWorkspace:
                     out.write(json.dumps(unit.to_dict(), ensure_ascii=False) + "\n")
                 if docs_written >= target_documents:
                     break
-        return docs_written, units_written
+        return docs_written, units_written, source_start_line_no, source_end_line_no
+
+    def _latest_source_line_no_for_track(
+        self,
+        *,
+        track_name: str,
+        dataset_name: str,
+        dataset_source_path: Path,
+    ) -> int:
+        latest = 0
+        expected_source = str(dataset_source_path)
+        for manifest_path in self.units_root().glob("*/manifest.json"):
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            if manifest.get("track_name") != track_name:
+                continue
+            if manifest.get("dataset_name") != dataset_name:
+                continue
+            if str(manifest.get("dataset_source_path", "")) != expected_source:
+                continue
+            line_no = manifest.get("source_end_line_no")
+            if isinstance(line_no, int):
+                latest = max(latest, line_no)
+                continue
+            units_path = manifest_path.parent / "units.jsonl"
+            latest = max(latest, self._max_source_line_no_from_units(units_path))
+        return latest
+
+    @staticmethod
+    def _max_source_line_no_from_units(units_path: Path) -> int:
+        if not units_path.exists():
+            return 0
+        latest = 0
+        with units_path.open(encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                try:
+                    row = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                source_line_no = row.get("source_line_no")
+                if isinstance(source_line_no, int):
+                    latest = max(latest, source_line_no)
+        return latest
 
     def _run_alphabetic_analysis(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
@@ -842,13 +932,16 @@ class PipelineWorkspace:
 
     def _auto_accept_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
         input_path = batch_dir / "units.yomi.aligned_hybrid.jsonl"
         output_path = batch_dir / "units.yomi.auto_accept.jsonl"
         summary_path = batch_dir / "yomi_auto_accept_summary.json"
+        enable_stable_two_kanji = batch_state.track_name == DEV_TRACK
         summary = apply_yomi_auto_acceptance_file(
             input_jsonl=input_path,
             output_jsonl=output_path,
             summary_json=summary_path,
+            enable_stable_two_kanji=enable_stable_two_kanji,
         )
         return {
             "artifacts": {
@@ -857,5 +950,28 @@ class PipelineWorkspace:
                 "yomi_auto_accept_rule": summary.rule,
                 "yomi_auto_accept_accepted": str(summary.accepted),
                 "yomi_auto_accept_rejected": str(summary.rejected),
+                "yomi_auto_accept_stable_two_kanji_enabled": str(
+                    summary.stable_two_kanji_enabled
+                ).lower(),
+            }
+        }
+
+    def _queue_yomi_llm_triage(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        input_path = batch_dir / "units.yomi.auto_accept.jsonl"
+        output_path = batch_dir / "yomi_triage_input.jsonl"
+        summary_path = batch_dir / "yomi_triage_queue_summary.json"
+        summary = build_yomi_triage_queue_file(
+            input_jsonl=input_path,
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        return {
+            "artifacts": {
+                "yomi_triage_input_jsonl": str(output_path),
+                "yomi_triage_queue_summary_json": str(summary_path),
+                "yomi_triage_task_config": "config/llm/yomi_triage.toml",
+                "yomi_triage_queued": str(summary.queued),
+                "yomi_triage_skipped_auto_accepted": str(summary.skipped_auto_accepted),
             }
         }

@@ -59,6 +59,13 @@ def build_task_variables(
             {"text": row["text"], "rendered": row["rendered"]},
             {"source_row": row},
         )
+    if builder_name == "yomi_triage":
+        item_id = str(row.get("unit_id", f"item_{index:05d}"))
+        return (
+            item_id,
+            {"text": row["text"], "rendered": row["rendered"]},
+            {"source_row": row},
+        )
     if builder_name == "yomi_repair":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         return (

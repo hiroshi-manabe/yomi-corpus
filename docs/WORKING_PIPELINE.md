@@ -228,6 +228,31 @@ each later decoder entry must have cross-boundary support: its first piece order
 must be at least 2. Internal support after an order-1 boundary is not enough to
 justify replacing Sudachi's whole-token segmentation.
 
+For stable two-kanji confidence experiments, the decision unit should remain the
+hybrid rendered token, normally inherited from Sudachi plus accepted hybrid
+overrides. Decoder evidence should be projected onto that token's character
+span. Decoder-only subpieces such as `古/コ 本屋/ホンヤ` must not make the
+hybrid token `古本屋/フルホンヤ` safe. A stable two-kanji token may forgive only
+its own missing support; it must not forgive the boundary into a following
+non-stable token such as `入っ/ハイッ`.
+
+Stability should be judged from the raw SudachiDict CSV surface-to-reading
+inventory, not from `Dictionary.lookup()` or the decoder. Include ordinary
+entries and component-only entries whose left/right connection IDs are `-1`.
+The token is stable only when that raw inventory has exactly one reading for
+the surface. POS should not be a gate: proper nouns such as `群馬/グンマ` can be
+stable if unique, while common/proper ambiguous surfaces such as `大麻`
+(`タイマ` and `オオアサ`) are not stable.
+
+After the hybrid strategy, the pipeline may apply a small post-hybrid repair
+memory to the rendered yomi string. The first implementation treats all repair
+rules as regular-expression substitutions over whitespace-separated rendered
+pairs, using `config/yomi/post_hybrid_repairs.tsv`. This layer is for known
+systematic fixes such as `若しくは/モシクワ -> 若しくは/モシクハ` and
+`身近/ミジカ -> 身近/ミヂカ`; it does not make a unit safe by itself. Each
+application must be logged in `analysis.mechanical.yomi.post_hybrid_repairs`
+with the rule ID, matched string, replacement, count, and source.
+
 Numeric runs should be grouped and excluded from normal yomi reading decisions.
 For example, Sudachi-style `2/ニ 0/レイ 2/ニ 1/イチ` should become `2021/`.
 Number pronunciation is a separate future module, not part of the current yomi
@@ -240,9 +265,16 @@ added if downstream consumers need cleaner segmentation.
 
 The first yomi auto-accept pass should run after mechanical yomi generation and
 write a separate `units.yomi.auto_accept.jsonl` artifact. It should mark
-`analysis.mechanical.yomi.auto_accept.value=true` only when the unit text has no
-kanji, no alphabetic letters, and no unresolved non-numeric readings. This is a
-review-skip flag, not a general proof of correctness.
+`analysis.mechanical.yomi.auto_accept.value=true` only when the unit has no
+unresolved non-numeric readings, Sudachi and the decoder agree on the rendered
+output, and either the decoder's top candidate is supported from start to end by
+repeated N-gram evidence or the same support check passes after the stable
+two-kanji relaxation. The stable two-kanji relaxation is enabled by default on
+the `dev` track so it is exercised under realistic pipeline runs. It remains an
+audited criterion: accepted rows should still record whether the relaxation was
+used. The `working` track should keep stricter review gates until the full
+pipeline is wired end-to-end. This is a review-skip flag, not a general proof
+of correctness.
 
 N-gram confidence remains a debug metric rather than a pipeline decision. The
 current useful experiment is to split only on `、`, reject alphabetic-containing
@@ -251,6 +283,17 @@ kana-only or symbol-only adjacent boundaries, and require all other adjacent
 entry boundaries to have the later entry start with `piece_orders[0] >= 2`.
 Coverage should be interpreted by character count and by kanji-like span
 coverage, not only by raw span count.
+
+The stable two-kanji relaxation is a second debug experiment layered on top of
+that idea. It starts from the hybrid rendered output, asks whether each hybrid
+token has projected repeated decoder support, and then allows a token-local
+fallback only for two-kanji compounds that have exactly one reading in the raw
+SudachiDict CSV inventory. This is meant to reduce false negatives caused by
+sparse decoder vocabulary, not to trust decoder over-segmentation.
+
+For `dev`, this relaxation is part of the default yomi auto-accept criterion.
+For `working`, it should remain available and documented but should not silently
+skip review until the full production pipeline is ready.
 
 Use separate thresholds for reading changes and review-skipping safety. A
 decoder reading that differs from Sudachi and has repeated 2-gram support can be
@@ -446,12 +489,19 @@ real examples and failure cases.
 
 ## 9. LLM Stage
 
-For now, the sentence-level judgments should be handled with separate prompts:
+For yomi, the first sentence-level LLM pass should be a compact triage task.
+The model receives the original sentence and the current yomi-annotated
+sentence, then returns exactly one token:
 
-1. classical/non-target Japanese or not
-2. current yomi correct or not
+- `OK`: the current yomi annotation is correct
+- `FIX`: the unit is target modern Japanese, but the yomi annotation has a
+  reading error and should be repaired by a second prompt
+- `SKIP`: the unit should not be yomi-repaired as target modern Japanese, for
+  example because it is foreign language, classical Japanese, kanbun, or garbled
+  text
 
-This is intentionally simple, even if it may not be cost-optimal.
+This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
+the default production triage prompt.
 
 The default policy should be:
 
@@ -470,7 +520,7 @@ and parsing stability.
 Likely current split:
 
 - `classical_japanese_judge`: separate prompt
-- `yomi_check`: separate prompt
+- `yomi_triage`: first yomi LLM pass; returns only `OK`, `FIX`, or `SKIP`
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type
   because it operates on batch-level entity types rather than sentence units
 - `yomi_repair`: separate prompt because repair should not be mixed into
@@ -478,15 +528,15 @@ Likely current split:
 
 ## 9.1 Inputs to the LLM
 
-For now, the LLM should receive sentence-level tasks without waiting for a
-mechanical certainty decision.
+For yomi triage, the LLM should receive only units not accepted by mechanical
+auto-acceptance.
 
-For each relevant unit, it should judge:
+For each relevant unit, it should jointly judge:
 
-- `classical_japanese`
-- `yomi_is_correct`
+- whether the unit is target modern Japanese
+- whether the current yomi annotation is correct
 
-At this stage, the LLM is still doing classification, not necessarily repair.
+At this stage, the LLM is still doing classification, not repair.
 
 For alphabetic material, the LLM should instead receive unresolved entity types
 plus example sentences from the batch.
@@ -504,9 +554,10 @@ should be sent to a second prompt that actually repairs the yomi.
 So the yomi path becomes:
 
 1. mechanical yomi
-2. LLM binary judgment: correct or not
-3. if not confidently correct, LLM repair
-4. human review
+2. mechanical auto-accept for low-risk units
+3. LLM triage for the remaining units: `OK`, `FIX`, or `SKIP`
+4. LLM repair only for `FIX`
+5. human review
 
 Regex-based repair rules may still be useful here, and this is the area where
 regex currently seems more justified than for whitelist/blacklist classification.
@@ -771,8 +822,10 @@ Example behavior:
 - the next `./next` should build the unresolved alphabetic report
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
-- after that, `./next` should stop with a clear blocking reason until a later
-  automated stage is implemented
+- the next `./next` should build `yomi_triage_input.jsonl` from units not
+  mechanically auto-accepted
+- after that, `./next` should stop with a clear blocking reason until the LLM
+  triage job has been run and ingested
 - `./next --force-stage <stage>` should rerun the current completed stage
 - on `working`, confirmation should happen only when that rerun would actually
   overwrite existing artifacts

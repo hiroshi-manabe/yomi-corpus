@@ -112,6 +112,29 @@ cross the split boundary. Each decoder entry after the first must start with
 `piece_orders[0] >= 2`; a later entry that starts at order 1 and only gains
 support internally is not evidence for the boundary itself.
 
+Stable two-kanji confidence experiments should not let decoder tokenization
+become the decision surface. The hybrid rendered tokens are the units being
+judged, and decoder evidence is projected onto those character spans. If the
+decoder covers a hybrid token only by disagreeing subpieces, such as
+`古/コ 本屋/ホンヤ` for `古本屋/フルホンヤ`, that token remains unsupported.
+Likewise, a stable two-kanji token can forgive only itself; it does not make
+the following boundary safe.
+
+The stable-token inventory should come from raw SudachiDict CSV files, not from
+compiled-tokenizer lookup. Component-only rows with `-1,-1` connection IDs
+must count because they can expose readings used inside larger compounds. The
+rule is reading uniqueness, not POS: unique proper nouns are allowed, while
+surfaces with any additional raw dictionary reading are rejected.
+
+The hybrid result may then pass through a post-hybrid repair memory. The first
+version keeps this deliberately simple: every active rule is a regular
+expression substitution over the rendered yomi string, with pair-bounded
+literal repairs written as patterns such as
+`(?<!\S)若しくは/モシクワ(?!\S)`. These repairs are best-effort systematic
+fixes, not review-skip evidence. Each application should be logged with the
+rule ID, matched text, replacement, count, and source so later review can audit
+or revert the rule.
+
 Numeric runs are not treated as ordinary yomi targets. Consecutive numeric
 tokens should be grouped and emitted with an empty reading, for example
 `2021/`, so a future number-reading module can handle them separately.
@@ -124,6 +147,13 @@ boundaries; and require other adjacent entry boundaries to be supported by the
 later entry starting at `piece_orders[0] >= 2`. Early measurements should be
 reported both by span count and by character coverage, and kana-only spans
 should not be counted as N-gram added value.
+
+The stable two-kanji variant is also diagnostic for now. It can mark a hybrid
+token as locally forgiven only when that same token is a two-kanji compound
+with exactly one reading in the raw SudachiDict surface-to-reading inventory.
+This is intended to handle common compounds whose absence from the N-gram path
+is probably vocabulary sparsity, while avoiding safety claims based on
+decoder-only over-splitting or compiled-dictionary candidate exposure.
 
 Decoder overrides and mechanical safety are deliberately different judgments.
 If a decoder reading differs from Sudachi and has repeated 2-gram support, it
@@ -289,10 +319,14 @@ Example signals:
 - `yomi-decoder` agreement or failure signals
 
 The first yomi auto-accept rule is intentionally narrow. A unit is accepted
-only when it has generated yomi, contains no kanji, contains no alphabetic
-letters, and has no empty non-numeric readings. Grouped numeric runs such as
-`2021/` are allowed because number pronunciation is outside the current yomi
-task.
+only when it has generated yomi, has no unresolved non-numeric readings,
+Sudachi and the decoder agree on the rendered output, and the decoder top
+candidate has full repeated N-gram support. On the `dev` track, the same rule
+also accepts units whose support check passes only after the stable two-kanji
+relaxation. That relaxation is still conservative because Sudachi/decoder
+agreement remains mandatory and ambiguous raw SudachiDict readings are rejected.
+Grouped numeric runs such as `2021/` are allowed because number pronunciation is
+outside the current yomi task.
 
 ### S30 Sentence-Level LLM Classification
 
@@ -304,9 +338,15 @@ Output:
 
 Responsibilities:
 
-- judge classical/non-target Japanese where needed
-- judge whether the current yomi is correct where needed
+- run first-stage yomi triage on units not mechanically auto-accepted
+- return exactly one yomi triage label: `OK`, `FIX`, or `SKIP`
+- treat `SKIP` as non-target material such as foreign language, classical
+  Japanese, kanbun, or garbled text
 - judge unresolved alphabetic entity types where needed
+
+The default yomi triage output should be a single token, not JSON. Reasons and
+fine-grained labels belong in debug/eval mode because ordinary production runs
+should minimize expensive model output.
 
 ### S40 Yomi Repair
 
@@ -317,7 +357,7 @@ Output:
 Responsibilities:
 
 - apply deterministic repair where possible
-- use an LLM repair prompt where needed
+- use an LLM repair prompt only for units labeled `FIX` by yomi triage
 - never send knowingly bad yomi directly to the first human-review UI
 
 Useful features:
@@ -500,8 +540,8 @@ This should eventually become a derived rule bundle, not intuition.
 
 Current implementation policy:
 
-- auto-accept only the narrow no-kanji/no-alphabet/no-unresolved-reading yomi
-  case
+- auto-accept only when Sudachi and the decoder agree and the decoder candidate
+  has full repeated N-gram support
 - do not define a sentence-level `certain=true` rule for classical/non-target
   judgment yet
 - collect the raw mechanical features needed to learn those rules later

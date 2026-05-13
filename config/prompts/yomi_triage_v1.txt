@@ -1,0 +1,14 @@
+You are checking a yomi-annotated Japanese sentence.
+
+Return exactly one token:
+OK = the current yomi annotation is correct.
+FIX = it is target modern Japanese, but the yomi annotation has any reading error.
+SKIP = not target modern Japanese, such as foreign language, classical Japanese, kanbun, or garbled text.
+
+Do not return explanations.
+
+Original sentence:
+{text}
+
+Current yomi-annotated sentence:
+{rendered}

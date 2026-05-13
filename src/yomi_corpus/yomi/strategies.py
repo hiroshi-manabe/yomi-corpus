@@ -8,7 +8,6 @@ from yomi_corpus.yomi.types import (
     SudachiToken,
     YomiStrategyResult,
 )
-DECODER_OVERRIDE_SURFACES = frozenset({"方"})
 
 
 @dataclass(frozen=True)
@@ -233,9 +232,6 @@ def strategy_aligned_hybrid_v1(
             pair, pair_signals = render_exact_aligned_token(
                 token=token,
                 exact_entry=exact_entry,
-                all_decoder_spans=decoder_spans_by_rank,
-                start=current.start,
-                end=current.end,
             )
             rendered_pairs.append(pair)
             signals.extend(pair_signals)
@@ -370,9 +366,6 @@ def render_exact_aligned_token(
     *,
     token: SudachiToken,
     exact_entry: DecoderEntry,
-    all_decoder_spans: list[list[SpannedDecoderEntry]],
-    start: int,
-    end: int,
 ) -> tuple[RenderedPair, list[str]]:
     signals: list[str] = []
     if is_punctuation_token(token):
@@ -382,9 +375,6 @@ def render_exact_aligned_token(
     if should_use_decoder_override(
         token=token,
         exact_entry=exact_entry,
-        all_decoder_spans=all_decoder_spans,
-        start=start,
-        end=end,
     ):
         signals.append("use_decoder_contextual_override")
         return RenderedPair(surface=token.surface, reading=exact_entry.reading), signals
@@ -398,9 +388,6 @@ def should_use_decoder_override(
     *,
     token: SudachiToken,
     exact_entry: DecoderEntry,
-    all_decoder_spans: list[list[SpannedDecoderEntry]],
-    start: int,
-    end: int,
 ) -> bool:
     if not exact_entry.reading:
         return False
@@ -408,19 +395,7 @@ def should_use_decoder_override(
         return False
     if token.reading == exact_entry.reading:
         return False
-    if token.surface not in DECODER_OVERRIDE_SURFACES:
-        return False
-
-    votes: dict[str, int] = {}
-    for candidate_spans in all_decoder_spans:
-        for entry in candidate_spans:
-            if entry.start == start and entry.end == end and entry.entry.reading:
-                votes[entry.entry.reading] = votes.get(entry.entry.reading, 0) + 1
-                break
-    if not votes:
-        return False
-    winning_reading, winning_votes = max(votes.items(), key=lambda item: (item[1], item[0]))
-    return winning_reading == exact_entry.reading and winning_votes >= 2
+    return True
 
 
 def decoder_entry_has_ngram_support(entry: DecoderEntry) -> bool:

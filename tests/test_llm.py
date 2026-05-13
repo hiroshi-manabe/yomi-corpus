@@ -49,9 +49,30 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(items[0].item_id, "led zeppelin")
         self.assertIn("Led Zeppelin", items[0].prompt)
 
+    def test_build_prompt_items_for_yomi_triage(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_triage.toml")
+        items = build_prompt_items(
+            config,
+            [
+                {
+                    "unit_id": "u1",
+                    "text": "大学です。",
+                    "rendered": "大学/ダイガク です/デス 。/。",
+                }
+            ],
+        )
+
+        self.assertEqual(items[0].item_id, "u1")
+        self.assertIn("OK = the current yomi annotation is correct.", items[0].prompt)
+        self.assertIn("大学/ダイガク", items[0].prompt)
+
     def test_parse_json_output(self) -> None:
         parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
         self.assertEqual(parsed["status"], "in_scope")
+
+    def test_parse_yomi_triage_label_output(self) -> None:
+        parsed = parse_output("FIX", "yomi_triage_label")
+        self.assertEqual(parsed, {"status": "FIX"})
 
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")

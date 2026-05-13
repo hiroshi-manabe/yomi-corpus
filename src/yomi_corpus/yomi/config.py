@@ -17,6 +17,7 @@ class YomiGenerationConfig:
     decoder_beam: int | None
     decoder_nbest: int
     default_strategy: str
+    post_hybrid_repair_rules: str | None = None
 
 
 def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
@@ -27,6 +28,7 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
     sudachi = payload.get("sudachi", {})
     decoder = payload.get("decoder", {})
     strategy = payload.get("strategy", {})
+    repairs = payload.get("post_hybrid_repairs", {})
 
     return YomiGenerationConfig(
         sudachi_command=str(sudachi["command"]),
@@ -37,6 +39,7 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         decoder_beam=_optional_int(decoder.get("beam")),
         decoder_nbest=int(decoder.get("nbest", 5)),
         default_strategy=str(strategy.get("default", "agreement_prefer_decoder_v1")),
+        post_hybrid_repair_rules=_optional_path(config_path, repairs.get("rules")),
     )
 
 
@@ -51,3 +54,12 @@ def _optional_int(value: object) -> int | None:
     if value is None:
         return None
     return int(value)
+
+
+def _optional_path(config_path: Path, value: object) -> str | None:
+    if value is None:
+        return None
+    text = str(value)
+    if not text:
+        return None
+    return str(resolve_config_path(config_path, text))

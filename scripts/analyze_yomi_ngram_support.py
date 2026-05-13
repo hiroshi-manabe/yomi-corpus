@@ -13,6 +13,7 @@ if str(SRC_ROOT) not in sys.path:
 
 from yomi_corpus.yomi.ngram_diagnostics import (
     analyze_batch_ngram_support,
+    analyze_hybrid_stable_two_kanji_support,
     analyze_override_without_whitelist,
 )
 
@@ -39,6 +40,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Also write same-surface reading override candidates with the surface whitelist removed.",
     )
+    parser.add_argument(
+        "--hybrid-stable-two-kanji",
+        action="store_true",
+        help=(
+            "Also write the hybrid-token diagnostic that projects decoder support "
+            "onto hybrid tokens and relaxes unsupported tokens only for stable two-kanji compounds."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -50,6 +59,11 @@ def main() -> None:
     )
     if args.override_without_whitelist:
         summary["override_without_whitelist"] = analyze_override_without_whitelist(
+            batch_dir=args.batch_dir,
+            output_dir=args.output_dir,
+        )
+    if args.hybrid_stable_two_kanji:
+        summary["hybrid_stable_two_kanji"] = analyze_hybrid_stable_two_kanji_support(
             batch_dir=args.batch_dir,
             output_dir=args.output_dir,
         )

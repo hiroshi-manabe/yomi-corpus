@@ -3,6 +3,7 @@ from __future__ import annotations
 from yomi_corpus.models import MechanicalYomi
 from yomi_corpus.yomi.adapters import run_decoder, run_sudachi
 from yomi_corpus.yomi.config import YomiGenerationConfig
+from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs
 from yomi_corpus.yomi.strategies import apply_strategy, render_pairs_from_decoder, render_pairs_from_sudachi
 
 
@@ -21,8 +22,15 @@ def generate_mechanical_yomi(
         sudachi_tokens=sudachi_tokens,
         decoder_candidates=decoder_candidates,
     )
+    repair_result = apply_post_hybrid_repairs(
+        strategy_result.rendered,
+        rules_path=config.post_hybrid_repair_rules,
+    )
+    signals = list(strategy_result.signals)
+    if repair_result.metadata:
+        signals.append("apply_post_hybrid_yomi_repairs")
     return MechanicalYomi(
-        rendered=strategy_result.rendered,
+        rendered=repair_result.rendered,
         certain=strategy_result.certain,
         sudachi={
             "tokens": [
@@ -56,5 +64,6 @@ def generate_mechanical_yomi(
                 for candidate in decoder_candidates
             ]
         },
-        signals=list(strategy_result.signals),
+        post_hybrid_repairs=repair_result.metadata,
+        signals=signals,
     )

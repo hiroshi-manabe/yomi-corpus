@@ -20,7 +20,12 @@ def score_output(
             "notes": ["parse_error"],
         }
 
-    if task_name in {"alphabetic_entity_judge", "classical_japanese_judge", "yomi_check"}:
+    if task_name in {
+        "alphabetic_entity_judge",
+        "classical_japanese_judge",
+        "yomi_check",
+        "yomi_triage",
+    }:
         expected_status = eval_row.get("expected_status")
         actual_status = parsed.get("status") if isinstance(parsed, dict) else None
         return {

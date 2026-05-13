@@ -98,10 +98,22 @@ Yomi generation scaffold:
 - when splitting one Sudachi token into multiple decoder entries, each later
   entry must start with cross-boundary support (`piece_orders[0] >= 2`), not
   merely gain support internally after an unsupported boundary
+- stable two-kanji confidence experiments use the hybrid rendered tokens as
+  decision units and project decoder evidence onto those spans; a two-kanji
+  token is stable only if the raw SudachiDict CSV inventory has exactly one
+  reading for that surface, including component-only entries with `-1,-1`
+  connection IDs; proper nouns are allowed when their reading is unique
+- the `dev` track enables the stable two-kanji relaxation in the yomi
+  auto-accept stage by default; `working` keeps the stricter default until the
+  full review pipeline is ready
 - supported decoder overrides and safe auto-acceptance are separate decisions:
   a supported decoder/Sudachi disagreement may be used as a tentative
   correction because review is still the default, but a unit is only safe when
   Sudachi and decoder evidence agree under full-span support checks
+- after the hybrid strategy, regex-based post-hybrid repair rules from
+  `config/yomi/post_hybrid_repairs.tsv` may rewrite known systematic rendered
+  yomi errors; each applied rule is logged under
+  `analysis.mechanical.yomi.post_hybrid_repairs`
 - numeric runs are grouped and emitted with an empty reading, such as `2021/`;
   number pronunciation is intentionally left to a future dedicated number
   reading module
@@ -109,8 +121,12 @@ Yomi generation scaffold:
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct
 - after yomi generation, `yomi_auto_accepted` adds
-  `analysis.mechanical.yomi.auto_accept` for low-risk units with no kanji, no
-  alphabetic letters, and no unresolved non-numeric readings
+  `analysis.mechanical.yomi.auto_accept` only for low-risk units where Sudachi
+  and the decoder agree and the decoder candidate has full repeated N-gram
+  support
+- after yomi auto-acceptance, `yomi_triage_queued` writes
+  `yomi_triage_input.jsonl` for non-auto-accepted units; the first LLM pass uses
+  `config/llm/yomi_triage.toml` and returns exactly `OK`, `FIX`, or `SKIP`
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

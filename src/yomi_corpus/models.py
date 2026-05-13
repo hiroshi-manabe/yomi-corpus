@@ -18,6 +18,7 @@ class MechanicalYomi:
     certain: bool
     sudachi: dict[str, Any] = field(default_factory=dict)
     ngram_decoder: dict[str, Any] = field(default_factory=dict)
+    post_hybrid_repairs: dict[str, Any] = field(default_factory=dict)
     signals: list[str] = field(default_factory=list)
 
 
