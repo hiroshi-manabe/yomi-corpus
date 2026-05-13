@@ -520,6 +520,22 @@ If the cost later proves too high, the prompts can be merged or restructured,
 but only after task-level evals show that the merged version preserves accuracy
 and parsing stability.
 
+Prompt optimization should happen as a concentrated pre-production phase, not
+inside ordinary batch progression. The project should first build a sufficiently
+large gold set for each LLM task, run many prompt candidates against that fixed
+set, compare quality and token cost, and freeze the winning prompt before using
+it over large corpus batches. Iterating prompts while processing the corpus
+would make early batches less reliable and would make improvement cost scale
+with corpus size.
+
+For `yomi_triage`, the initial gold set should include balanced `OK`, `FIX`,
+and `SKIP` cases, with hard examples deliberately overrepresented. Each example
+should store the original sentence, the exact mechanical yomi annotation that
+the model will see, the expected label, and optional human notes that are not
+included in the production prompt. Optimization priorities are: avoid dangerous
+label errors, preserve parse stability, improve accuracy, then shorten prompt
+tokens.
+
 Likely current split:
 
 - `non_target_judge`: separate prompt when a standalone non-target classifier

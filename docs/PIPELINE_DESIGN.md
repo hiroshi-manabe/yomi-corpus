@@ -876,15 +876,28 @@ Measure:
 
 ### Iteration 2: cheap LLM triage
 
+Before production use, run a concentrated prompt-optimization phase that is
+separate from corpus batch progression. Build a fixed gold eval set, test many
+prompt candidates, and freeze a prompt version before large-scale processing.
+This has an upfront cost, but it avoids paying corpus-scale costs for weak early
+prompts and keeps batch outputs comparable across time.
+
 Build:
 
 - synchronous prompt-testing command
 - one compact triage prompt
 - batch submission path reusing the same prompt format
+- gold eval data under `data/evals/yomi_triage/`
+- prompt candidates under `config/prompts/`
 
 Measure:
 
-- agreement with manual spot checks
+- accuracy against the fixed gold set
+- dangerous confusion types, especially `OK` or `FIX` when the expected label
+  is `SKIP`
+- parse-error rate
+- input/output token counts
+- estimated cost
 - cost per 10k units
 - distribution of class codes
 

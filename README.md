@@ -28,6 +28,8 @@ Initial project stance:
 
 Prompt iteration scaffold:
 
+- Prompt optimization is a separate pre-production phase, not something to
+  do continuously inside corpus batch progression.
 - Fixed eval sets live under `data/evals/<task>/`.
 - Sync experiment runs live under `runs/experiments/<task>/<run_name>/`.
 - Each run writes `items.jsonl`, `results.raw.jsonl`, `results.parsed.jsonl`,
@@ -36,6 +38,9 @@ Prompt iteration scaffold:
   set.
 - Use `scripts/compare_prompt_experiments.py` to compare two runs and inspect
   changed failures.
+- Freeze a prompt version before large-scale corpus processing; production
+  runs should use only small regression checks unless a deliberate prompt
+  upgrade is being evaluated.
 
 Default model policy:
 
