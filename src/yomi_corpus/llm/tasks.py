@@ -49,7 +49,7 @@ def build_task_variables(
             },
             {"source_row": row},
         )
-    if builder_name == "classical_japanese_judge":
+    if builder_name == "non_target_judge":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "yomi_check":

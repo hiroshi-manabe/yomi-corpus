@@ -2,8 +2,8 @@ You are checking a yomi-annotated Japanese sentence.
 
 Return exactly one token:
 OK = the current yomi annotation is correct.
-FIX = it is target modern Japanese, but the yomi annotation has any reading error.
-SKIP = not target modern Japanese, such as foreign language, classical Japanese, kanbun, or garbled text.
+FIX = it is target Japanese, but the yomi annotation has any reading error.
+SKIP = non-target text, such as foreign-language text, classical Japanese, kanbun, or garbled text.
 
 Do not return explanations.
 

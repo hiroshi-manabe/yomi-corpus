@@ -24,7 +24,7 @@ class MechanicalYomi:
 
 @dataclass
 class MechanicalAnalysis:
-    classical_japanese: BooleanJudgment
+    non_target: BooleanJudgment
     minor_alphabetic_sequence: BooleanJudgment
     yomi: MechanicalYomi
 
@@ -34,7 +34,7 @@ class UnitAnalysis:
     mechanical: MechanicalAnalysis
     llm: dict[str, Any] = field(
         default_factory=lambda: {
-            "classical_japanese": None,
+            "non_target": None,
             "minor_alphabetic_sequence": None,
             "yomi_is_correct": None,
             "yomi_repair": None,
@@ -68,7 +68,7 @@ class UnitRecord:
 def empty_analysis() -> UnitAnalysis:
     return UnitAnalysis(
         mechanical=MechanicalAnalysis(
-            classical_japanese=BooleanJudgment(value=None, certain=False),
+            non_target=BooleanJudgment(value=None, certain=False),
             minor_alphabetic_sequence=BooleanJudgment(value=None, certain=False),
             yomi=MechanicalYomi(rendered="", certain=False),
         )

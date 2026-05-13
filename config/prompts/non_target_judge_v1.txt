@@ -1,0 +1,15 @@
+You are classifying one sentence-like unit from a Japanese corpus.
+
+Decide whether the unit should be treated as non-target for normal yomi
+annotation. Non-target includes foreign-language text, classical Japanese,
+kanbun, old orthography, garbled text, or other material that should not enter
+the normal modern-Japanese yomi repair path. Be conservative and avoid
+overcalling.
+
+Return exactly one JSON object with this schema:
+{{"non_target":true|false,"confidence":"high|medium|low","note":"short reason"}}
+
+Do not output anything except JSON.
+
+Sentence:
+{text}

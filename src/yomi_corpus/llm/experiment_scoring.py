@@ -22,7 +22,7 @@ def score_output(
 
     if task_name in {
         "alphabetic_entity_judge",
-        "classical_japanese_judge",
+        "non_target_judge",
         "yomi_check",
         "yomi_triage",
     }:

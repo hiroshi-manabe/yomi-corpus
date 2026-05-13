@@ -20,7 +20,7 @@ Initial project stance:
 - Treat this repo as a staged pipeline, not a grab bag of scripts.
 - Separate "confidence", "repairability", "modern-Japanese status", and
   "human-reviewed status" instead of collapsing everything into one flag.
-- For classical/non-target detection and mechanical "safe" decisions, collect
+- For non-target detection and mechanical "safe" decisions, collect
   raw features first and defer real deterministic gating until reviewed data
   exists.
 - Use cheap LLM triage, then more expensive contextual repair, then human

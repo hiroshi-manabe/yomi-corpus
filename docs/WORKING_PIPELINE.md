@@ -25,17 +25,19 @@ At this stage:
 
 The pipeline now has two different judgment granularities:
 
-- sentence-like units for classical/non-target Japanese and yomi correctness
+- sentence-like units for non-target status and yomi correctness
 - batch-level alphabetic entities for the minor-alphabetic problem
 
 For sentence-like units, the main questions are:
 
-1. Is this classical or non-target Japanese material?
+1. Is this non-target material?
    Examples:
    - old kana
    - old orthography
    - classical Japanese
    - kanbun
+   - foreign-language text
+   - garbled text
 
 2. Is the current mechanically generated yomi correct with high confidence?
 
@@ -133,7 +135,7 @@ Suggested shape:
   "text": "毎週水曜日はお昼のコンサート「Concerts de Midi（ミディ・コンサート）」が開催されています。",
   "analysis": {
     "mechanical": {
-      "classical_japanese": {
+      "non_target": {
         "value": false,
         "certain": false,
         "signals": []
@@ -151,7 +153,7 @@ Suggested shape:
       }
     },
     "llm": {
-      "classical_japanese": null,
+      "non_target": null,
       "minor_alphabetic_sequence": null,
       "yomi_is_correct": null,
       "yomi_repair": null
@@ -194,10 +196,11 @@ failure patterns.
 
 For each unit, the mechanical pipeline should produce:
 
-### 5.1 Classical/non-target Japanese judgment
+### 5.1 Non-target judgment
 
-- raw signals that may later help predict whether the unit looks like
-  classical Japanese, kanbun, or other non-target material
+- raw signals that may later help predict whether the unit is non-target
+  material, such as classical Japanese, kanbun, foreign-language text, or
+  garbled text
 - no mechanical `value` or `certain` decision yet
 
 Those signals will likely include:
@@ -357,14 +360,14 @@ For sentence-level tasks, "certain" is a future concept, not an active one yet.
 
 Current policy:
 
-- do not assign `certain=true` mechanically for classical/non-target judgment
+- do not assign `certain=true` mechanically for non-target judgment
 - do not assign `certain=true` mechanically for yomi safety
 - collect raw features now and define certainty rules only after reviewed data
   accumulates
 
 So the current effective branch is:
 
-- classical/non-target judgment
+- non-target judgment
 - yomi correctness judgment
 
 For both of those, go to the LLM unless a future reviewed-data-backed rule says
@@ -494,11 +497,11 @@ The model receives the original sentence and the current yomi-annotated
 sentence, then returns exactly one token:
 
 - `OK`: the current yomi annotation is correct
-- `FIX`: the unit is target modern Japanese, but the yomi annotation has a
+- `FIX`: the unit is target Japanese, but the yomi annotation has a
   reading error and should be repaired by a second prompt
-- `SKIP`: the unit should not be yomi-repaired as target modern Japanese, for
-  example because it is foreign language, classical Japanese, kanbun, or garbled
-  text
+- `SKIP`: the unit is non-target text and should not be yomi-repaired, for
+  example because it is foreign-language text, classical Japanese, kanbun, or
+  garbled text
 
 This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
 the default production triage prompt.
@@ -519,7 +522,8 @@ and parsing stability.
 
 Likely current split:
 
-- `classical_japanese_judge`: separate prompt
+- `non_target_judge`: separate prompt when a standalone non-target classifier
+  is needed
 - `yomi_triage`: first yomi LLM pass; returns only `OK`, `FIX`, or `SKIP`
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type
   because it operates on batch-level entity types rather than sentence units
@@ -533,7 +537,7 @@ auto-acceptance.
 
 For each relevant unit, it should jointly judge:
 
-- whether the unit is target modern Japanese
+- whether the unit is target Japanese
 - whether the current yomi annotation is correct
 
 At this stage, the LLM is still doing classification, not repair.
@@ -579,9 +583,9 @@ Current idea:
 
 That should reduce noise.
 
-## 10.2 Classical/non-target rules
+## 10.2 Non-target rules
 
-If a unit is judged to be classical/non-target material, ask an LLM for one
+If a unit is judged to be non-target material, ask an LLM for one
  conservative reusable trigger that:
 
 - matches this case
@@ -861,7 +865,7 @@ Display:
 
 The three checkboxes are:
 
-1. classical/non-target Japanese
+1. non-target status
 2. yomi fully correct
 
 Important intended behavior:
@@ -961,12 +965,12 @@ Within a batch:
 The following points are not settled and should be treated as explicit open
 questions:
 
-1. When should classical/non-target Japanese feature extraction become a real
+1. When should non-target feature extraction become a real
    mechanical classifier?
    The current idea is to rely partly on Sudachi and N-gram analysis quality,
    but no reviewed-data-backed scoring rule exists yet.
 
-2. When should sentence-level `certain` gating be turned on for classical and
+2. When should sentence-level `certain` gating be turned on for non-target and
    yomi tasks?
    The branching logic is clear, but it should remain disabled until there is
    enough reviewed data.
@@ -998,7 +1002,7 @@ The most useful next implementation steps appear to be:
 3. implement a nested unit-local analysis structure
 4. run Sudachi and `yomi-decoder` on a small batch of real data
 5. inspect real failure examples for:
-   - classical/non-target Japanese
+   - non-target status
    - unresolved alphabetic entity types
    - yomi errors
 6. only then define the first reviewed-data-backed certainty rules

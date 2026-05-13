@@ -80,7 +80,7 @@ Instead:
 1. generate raw mechanical features and a mechanical yomi with Sudachi B-mode
    segmentation and
    `yomi-decoder`
-2. keep classical/non-target and sentence-level "certain" judgments disabled
+2. keep non-target and sentence-level "certain" judgments disabled
    until enough reviewed data exists
 3. ask the LLM to classify units that currently have no trusted mechanical
    decision
@@ -169,7 +169,7 @@ This keeps both cost and failure modes under control.
 
 Sentence-level judgments should handle:
 
-- classical or otherwise non-target Japanese material
+- non-target material
 - whether the current mechanical yomi is correct with high confidence
 
 The minor-alphabetic problem should instead be handled at the batch entity-type
@@ -302,7 +302,7 @@ Output:
 
 Responsibilities:
 
-- judge classical or non-target Japanese
+- judge non-target status
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
 - extract alphabetic entity occurrences and aggregate entity types
@@ -340,8 +340,8 @@ Responsibilities:
 
 - run first-stage yomi triage on units not mechanically auto-accepted
 - return exactly one yomi triage label: `OK`, `FIX`, or `SKIP`
-- treat `SKIP` as non-target material such as foreign language, classical
-  Japanese, kanbun, or garbled text
+- treat `SKIP` as non-target material such as foreign-language text,
+  classical Japanese, kanbun, or garbled text
 - judge unresolved alphabetic entity types where needed
 
 The default yomi triage output should be a single token, not JSON. Reasons and
@@ -381,7 +381,7 @@ Responsibilities:
 
 - show the yomi-annotated sentence
 - show two checkboxes:
-  - classical/non-target Japanese
+  - non-target status
   - yomi fully correct
 - allow the first box to be prefilled
 - keep the yomi-correct box initially unchecked
@@ -403,7 +403,7 @@ Output:
 
 Responsibilities:
 
-- propose classical/non-target triggers
+- propose non-target triggers
 - propose minor-alphabetic whitelist or blacklist entries
 - keep yomi repair rules separate from classification lists
 
@@ -506,7 +506,7 @@ The pipeline should use a small set of stable schemas.
   "source_line_no": 123,
   "analysis": {
     "mechanical": {
-      "classical_japanese": {
+      "non_target": {
         "value": false,
         "certain": false
       },
@@ -520,7 +520,7 @@ The pipeline should use a small set of stable schemas.
       }
     },
     "llm": {
-      "classical_japanese": null,
+      "non_target": null,
       "minor_alphabetic_sequence": null,
       "yomi_is_correct": null,
       "yomi_repair": null
@@ -542,8 +542,8 @@ Current implementation policy:
 
 - auto-accept only when Sudachi and the decoder agree and the decoder candidate
   has full repeated N-gram support
-- do not define a sentence-level `certain=true` rule for classical/non-target
-  judgment yet
+- do not define a sentence-level `certain=true` rule for non-target judgment
+  yet
 - collect the raw mechanical features needed to learn those rules later
 
 The point is to avoid inventing confidence rules before reviewed data exists.
@@ -562,7 +562,7 @@ For classification:
 - keep exact-case exceptions for short tokens and acronyms
 - judge those entities primarily at the entity-type level, not the sentence
   level
-- remain cautious about rule harvesting for classical/non-target Japanese
+- remain cautious about rule harvesting for non-target status
 
 For yomi repair:
 
@@ -600,7 +600,7 @@ Recommended default policy:
 Stage-oriented defaults:
 
 - `alphabetic_entity_judge`: `gpt-5.4`
-- `classical_japanese_judge`: `gpt-5.4`
+- `non_target_judge`: `gpt-5.4`
 - `yomi_check`: `gpt-5.4`
 - `yomi_repair`: `gpt-5.4`
 - post-review rescue repair: `gpt-5.4` with web search allowed
