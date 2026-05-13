@@ -39,8 +39,8 @@ Prompt iteration scaffold:
 
 Default model policy:
 
-- use `gpt-5.4` for normal judgment and repair tasks
-- reserve `gpt-5.4-pro` for a tiny last-resort rescue tail
+- use `gpt-5.5` for normal judgment and repair tasks
+- reserve `gpt-5.5-pro` for a tiny last-resort rescue tail
 - use `gpt-5.4-nano` only for plumbing and instrumentation checks
 - treat `gpt-5.4-mini` as opt-in per task, not the default path
 

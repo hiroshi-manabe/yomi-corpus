@@ -590,8 +590,8 @@ have an explicit default policy.
 
 Recommended default policy:
 
-- use `gpt-5.4` as the normal model for real annotation work
-- use `gpt-5.4-pro` only as a last-resort rescue model for a very small tail
+- use `gpt-5.5` as the normal model for real annotation work
+- use `gpt-5.5-pro` only as a last-resort rescue model for a very small tail
 - use `gpt-5.4-nano` only for plumbing checks, transport tests, and cache/token
   instrumentation
 - do not assume `gpt-5.4-mini` is the normal cost-saving path unless task-level
@@ -599,12 +599,12 @@ Recommended default policy:
 
 Stage-oriented defaults:
 
-- `alphabetic_entity_judge`: `gpt-5.4`
-- `non_target_judge`: `gpt-5.4`
-- `yomi_check`: `gpt-5.4`
-- `yomi_repair`: `gpt-5.4`
-- post-review rescue repair: `gpt-5.4` with web search allowed
-- final emergency escalation: `gpt-5.4-pro` with web search, only after
+- `alphabetic_entity_judge`: `gpt-5.5`
+- `non_target_judge`: `gpt-5.5`
+- `yomi_check`: `gpt-5.5`
+- `yomi_repair`: `gpt-5.5`
+- post-review rescue repair: `gpt-5.5` with web search allowed
+- final emergency escalation: `gpt-5.5-pro` with web search, only after
   cheaper paths and human review have already failed
 
 This keeps the main path simple and high-quality while still reserving a clear
@@ -622,7 +622,7 @@ For ordinary judgment tasks:
 
 For production cost control, prefer:
 
-- `gpt-5.4` plus caching and batching
+- `gpt-5.5` plus caching and batching
 - strict structured outputs
 - short outputs for judgment tasks
 

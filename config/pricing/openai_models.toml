@@ -1,4 +1,24 @@
-pricing_source = "OpenAI official pricing pages, checked 2026-04-07"
+pricing_source = "OpenAI official pricing pages, checked 2026-05-13"
+
+[models."gpt-5.5".standard]
+input_per_1m = 5.00
+cached_input_per_1m = 0.50
+output_per_1m = 30.00
+
+[models."gpt-5.5".batch]
+input_per_1m = 2.50
+cached_input_per_1m = 0.25
+output_per_1m = 15.00
+
+[models."gpt-5.5-pro".standard]
+input_per_1m = 30.00
+cached_input_per_1m = 30.00
+output_per_1m = 180.00
+
+[models."gpt-5.5-pro".batch]
+input_per_1m = 15.00
+cached_input_per_1m = 15.00
+output_per_1m = 90.00
 
 [models."gpt-5.4".standard]
 input_per_1m = 2.50

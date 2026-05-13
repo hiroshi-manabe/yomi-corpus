@@ -890,12 +890,12 @@ a second, more expensive path.
 
 For these units:
 
-- use `gpt-5.4` as the default rescue model
+- use `gpt-5.5` as the default rescue model
 - allow expensive tooling such as web search and stronger reasoning if needed
 - generate a new best-effort yomi
 
 Only if that still fails after human review should the pipeline consider a
-`gpt-5.4-pro` escalation. That should be treated as a last resort for a very
+`gpt-5.5-pro` escalation. That should be treated as a last resort for a very
 small tail, not part of the normal path.
 
 ## 12.2 Second review UI

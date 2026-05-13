@@ -26,7 +26,7 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_load_llm_task_config(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
         self.assertEqual(config.task_name, "alphabetic_entity_judge")
-        self.assertEqual(config.model, "gpt-5.4")
+        self.assertEqual(config.model, "gpt-5.5")
         self.assertEqual(config.parser, "json_object")
 
     def test_render_prompt_requires_variables(self) -> None:
@@ -88,7 +88,7 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
         kwargs = build_response_create_kwargs(config, "prompt")
-        self.assertEqual(kwargs["model"], "gpt-5.4")
+        self.assertEqual(kwargs["model"], "gpt-5.5")
         self.assertIn("text", kwargs)
         self.assertIn("reasoning", kwargs)
 
