@@ -348,6 +348,27 @@ The default yomi triage output should be a single token, not JSON. Reasons and
 fine-grained labels belong in debug/eval mode because ordinary production runs
 should minimize expensive model output.
 
+The production yomi triage prompt should use the clean representative boundary
+prompt rather than failure-specific lexical patches. The current baseline is
+`config/prompts/yomi_triage_v2.txt`, derived from the
+`general_representative_v3` prompt experiments, with `gpt-5.5` and
+`reasoning_effort=none`. Synthetic-only failures should not be promoted into
+prompt rules. Recurring real failures can later become deterministic repair or
+review rules.
+
+The materialized triage stage writes two artifacts:
+
+- raw LLM results, preserving raw text, parsed status, parse errors, usage, and
+  metadata for audit and cost reporting
+- `units.yomi.triaged.jsonl`, where every unit has
+  `analysis.llm.yomi_triage.status`
+
+Mechanically auto-accepted units receive `OK` with source `auto_accept`.
+Queued units receive the parsed LLM status when parsing succeeds; parse errors
+must be treated as `Review` so malformed model output cannot silently accept or
+skip a unit. Later yomi repair consumes only `Review` units, while `Skip` is
+excluded and `OK` is accepted subject to later audit sampling.
+
 ### S40 Yomi Repair
 
 Output:

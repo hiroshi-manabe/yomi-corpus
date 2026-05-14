@@ -1,0 +1,26 @@
+{
+  "test_set_id": "balanced_test_v1",
+  "source": "data/evals/yomi_triage/ok_review_skip_draft_v1.jsonl",
+  "output": "data/evals/yomi_triage/balanced_test_v1.jsonl",
+  "selection": "deterministic evenly spaced rows within each expected_status, interleaved by label",
+  "row_count": 60,
+  "per_label": 20,
+  "status_counts": {
+    "OK": 20,
+    "Review": 20,
+    "Skip": 20
+  },
+  "label_source_counts": {
+    "heuristic_ok_sudachi_decoder_exact_agreement": 19,
+    "known_or_suspected_mechanical_error": 3,
+    "hard_raw_skip_source_sample": 20,
+    "synthetic_bad_reading_injected": 16,
+    "targeted_inherently_acceptable_variant": 1,
+    "targeted_unresolved_context_ambiguity": 1
+  },
+  "source_status_counts": {
+    "OK": 205,
+    "Review": 63,
+    "Skip": 47
+  }
+}

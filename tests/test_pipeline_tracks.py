@@ -368,13 +368,139 @@ class PipelineTrackTests(unittest.TestCase):
 
             self.assertTrue(summary["advanced"])
             self.assertEqual(summary["current_stage"], "yomi_triage_queued")
-            self.assertIn("Yomi LLM triage input is prepared", summary["blocking_reason"])
+            self.assertIsNone(summary["blocking_reason"])
             self.assertTrue((batch_dir / "yomi_triage_input.jsonl").exists())
             queued = [
                 json.loads(line)
                 for line in (batch_dir / "yomi_triage_input.jsonl").read_text(encoding="utf-8").splitlines()
             ]
             self.assertEqual(queued[0]["unit_id"], "u1")
+
+    def test_advance_runs_yomi_triage_after_queueing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 2,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "unit_id": "u1",
+                                "text": "大学です。",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "大学/ダイガク です/デス 。/。",
+                                            "auto_accept": {"value": True},
+                                        }
+                                    }
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "unit_id": "u2",
+                                "text": "方です。",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "方/ホウ です/デス 。/。",
+                                            "auto_accept": {"value": False},
+                                        }
+                                    }
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_triage_input.jsonl").write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u2",
+                        "text": "方です。",
+                        "rendered": "方/ホウ です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_triage_queue_summary.json").write_text("{}", encoding="utf-8")
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            def fake_run_sync_task(task_config_path: str, input_jsonl_path: str, output_jsonl_path: str) -> None:
+                self.assertEqual(task_config_path, "config/llm/yomi_triage.toml")
+                self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "yomi_triage_input.jsonl").resolve())
+                Path(output_jsonl_path).write_text(
+                    json.dumps(
+                        {
+                            "item_id": "u2",
+                            "raw_text": "Review",
+                            "parsed": {"status": "Review"},
+                            "parse_error": None,
+                            "usage": {
+                                "input_tokens": 10,
+                                "cached_input_tokens": 0,
+                                "output_tokens": 1,
+                                "reasoning_tokens": 0,
+                                "total_tokens": 11,
+                            },
+                            "metadata": {},
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+
+            with patch("yomi_corpus.pipeline.run_sync_task", side_effect=fake_run_sync_task) as mocked:
+                summary = workspace.advance("dev")
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_triage_completed")
+            self.assertEqual(mocked.call_count, 1)
+            rows = [
+                json.loads(line)
+                for line in (batch_dir / "units.yomi.triaged.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+            statuses = {
+                row["unit_id"]: row["analysis"]["llm"]["yomi_triage"]["status"]
+                for row in rows
+            }
+            self.assertEqual(statuses, {"u1": "OK", "u2": "Review"})
+            self.assertTrue((batch_dir / "yomi_triage_usage_summary.json").exists())
 
     def test_force_stage_reruns_current_stage_on_dev(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,110 @@
+You are judging one yomi-annotated unit for a Japanese reading corpus.
+Return exactly one token and nothing else: OK, Review, or Skip.
+
+Definitions:
+
+OK:
+The unit is target modern Japanese and the yomi annotation is acceptable for
+this stage. Perfect morphological segmentation is not required if the displayed
+readings are acceptable.
+
+Review:
+The unit is target Japanese, but it should not be accepted automatically.
+Choose Review if any important reading is wrong, malformed, mechanically
+garbled, or if the unit contains a real reading ambiguity that should remain
+available for later human or stronger-model review.
+
+Skip:
+The unit is outside the target corpus. Choose Skip for running text in a
+non-target language or register, including classical/old Japanese, kanbun,
+Chinese, foreign-language prose, or heavily garbled spam-like text.
+
+Decision procedure:
+
+1. First decide whether the unit itself is target modern Japanese.
+2. If the unit is mostly non-target running text, output Skip.
+3. If it is target Japanese, inspect all surface/reading pairs.
+4. If any important yomi pair is clearly wrong or malformed, output Review.
+5. If the yomi is plausible and no important unresolved ambiguity remains,
+   output OK.
+
+General rules:
+
+- Judge the annotation, not the literary quality of the source text.
+- Web noise, casual writing, punctuation oddities, and source-text typos are not
+  by themselves reasons for Review or Skip.
+- A modern Japanese sentence remains target Japanese even if it contains a short
+  title, name, bibliographic phrase, proverb, quotation, archaic character form,
+  alphabetic name, or numeric expression.
+- Running historical-kana or classical-style prose is Skip. Repeated old-style
+  spellings, old auxiliaries, old copulas, old sentence endings, or prewar-style
+  mixed prose make the whole unit Skip even if the sentence is understandable
+  and contains some modern words.
+- Do not output Review for such old-style running prose merely because its yomi
+  could be repaired; it is outside this pipeline's target and should be Skip.
+- Chinese-like or foreign-language running text is Skip, especially when mixed
+  with credential/spam advertising.
+- A common standalone kanji word with a compound-only, on-yomi-like,
+  suffix-like, classifier-like, or bound-morpheme reading where a native
+  standalone reading is required is Review.
+- Pay special attention to one-character standalone nouns for people, time,
+  place, direction, body, action, and ordinary objects. Do not accept them only
+  because the displayed reading exists in compounds.
+- If a one-character surface means a person or a time in modern syntax, it
+  should use the normal standalone reading for that meaning, not the bound
+  Sino-Japanese morpheme used inside compounds.
+- For a term that can mean either a direction/side/method or a person, use the
+  surrounding syntax. If it refers to a participant, customer, visitor, user, or
+  addressee, the person reading is required.
+- A verb/adjective assigned a noun/stem reading instead of its inflected reading
+  is Review.
+- A split compound is Review if the split readings no longer form the intended
+  word's reading.
+- Do not use historical kana spelling preferences alone as the reason for
+  Review.
+- If uncertain between OK and Review for target Japanese, choose Review.
+- If uncertain between Review and Skip, choose Skip only when the running text
+  itself is outside modern Japanese.
+- For target modern Japanese, do not over-review ordinary colloquial kana
+  endings, polite endings, repeated verbs, or casual question endings when the
+  readings follow the text.
+- For deictic or vague context around a genuinely ambiguous adjective or noun,
+  choose Review if the unit does not identify which sense is intended.
+
+Representative examples, not corpus examples:
+
+Text: 明日は花屋に行きます。
+Yomi: 明日/アシタ は/ハ 花屋/ハナヤ に/ニ 行き/イキ ます/マス 。/。
+Answer: OK
+
+Text: 花が咲きました。
+Yomi: 花/カ が/ガ 咲き/サキ まし/マシ た/タ 。/。
+Answer: Review
+
+Text: 橋を渡って帰りました。
+Yomi: 橋/キョウ を/ヲ 渡っ/ワタッ て/テ 帰り/カエリ まし/マシ た/タ 。/。
+Answer: Review
+
+Text: 小鳥を見ました。
+Yomi: 小/ショウ 鳥/チョウ を/ヲ 見/ミ まし/マシ た/タ 。/。
+Answer: Review
+
+Text: 机の上に資料があります。
+Yomi: 机/ツクエ の/ノ 上/ウエ に/ニ 資料/シリョウ が/ガ あり/アリ ます/マス 。/。
+Answer: OK
+
+Text: かくあらむと候ふこと、いとありがたきものなり。
+Yomi: かく/カク あら/アラ む/ム と/ト 候ふ/ソウロウ こと/コト 、/、 いと/イト ありがたき/アリガタキ もの/モノ なり/ナリ 。/。
+Answer: Skip
+
+Text: 这是中文广告，办理证书请联系以下账号。
+Yomi: 这/这 是/是 中文/中文 广告/广告 ，/， 办理/办理 证书/证书 请/请 联系/联系 以下/以下 账号/账号 。/。
+Answer: Skip
+
+Text: This sentence is primarily English and outside the target corpus.
+Yomi: This/This sentence/sentence is/is primarily/primarily English/English and/and outside/outside the/the target/target corpus/corpus ./.
+Answer: Skip
+
+Text: {text}
+Yomi: {rendered}
+Answer:

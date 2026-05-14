@@ -922,8 +922,11 @@ Example behavior:
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should build `yomi_triage_input.jsonl` from units not
   mechanically auto-accepted
-- after that, `./next` should stop with a clear blocking reason until the LLM
-  triage job has been run and ingested
+- the next `./next` should run the configured yomi LLM triage task and write
+  both raw LLM results and `units.yomi.triaged.jsonl`
+- after that, later repair/review stages should consume only units labeled
+  `Review`; units labeled `Skip` are excluded and units labeled `OK` are
+  accepted subject to later audit sampling
 - `./next --force-stage <stage>` should rerun the current completed stage
 - on `working`, confirmation should happen only when that rerun would actually
   overwrite existing artifacts
@@ -941,6 +944,8 @@ OpenAI Batch and human review should be treated as first-class wait states.
 Examples:
 
 - `waiting_for_openai_batch`
+- `waiting_for_yomi_triage_results` when a batch-mode yomi triage job has been
+  submitted but not fetched
 - `waiting_for_promotion_candidate_review`
 - `waiting_for_sentence_review_pass1`
 

@@ -5,6 +5,11 @@ This directory contains eval rows for the first-pass yomi LLM triage task.
 `ok_review_skip_draft_v1.jsonl` is a draft set built from early corpus output plus
 raw skip-candidate source files.
 
+`balanced_test_v1.jsonl` is a deterministic 60-row prompt-test subset sampled
+from that draft set, with 20 `OK`, 20 `Review`, and 20 `Skip` rows. It is
+interleaved by label so short smoke runs still see all three labels. Use it for
+quick prompt comparisons; use the full draft set for broader regression runs.
+
 Each row has the fields consumed by `config/llm/yomi_triage.toml`:
 
 - `unit_id`

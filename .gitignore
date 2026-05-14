@@ -7,6 +7,15 @@ data/*
 runs/
 scratch/
 
+# Exploratory prompt variants produced during local tuning.
+# Keep promoted production prompts under config/prompts/ and committed baseline
+# experiment prompts under config/prompts/experiments/ trackable.
+config/prompts/experiments/yomi_triage/ab_long_v*.txt
+config/prompts/experiments/yomi_triage/ab_short_v*.txt
+config/prompts/experiments/yomi_triage/general_no_examples_v*.txt
+config/prompts/experiments/yomi_triage/general_representative_v*.txt
+config/prompts/experiments/yomi_triage/max_accuracy_v*.txt
+
 # Python
 __pycache__/
 *.pyc

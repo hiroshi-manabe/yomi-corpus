@@ -22,11 +22,15 @@ from yomi_corpus.alphabetic_state import (
     append_alphabetic_evidence,
     load_alphabetic_decisions,
 )
+from yomi_corpus.llm.config import load_llm_task_config
+from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
+from yomi_corpus.llm.runner import run_sync_task
+from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
-from yomi_corpus.yomi.triage import build_yomi_triage_queue_file
+from yomi_corpus.yomi.triage import apply_yomi_triage_results_file, build_yomi_triage_queue_file
 
 
 WORKING_TRACK = "working"
@@ -54,6 +58,7 @@ STAGE_SEQUENCE = [
     "yomi_generated",
     "yomi_auto_accepted",
     "yomi_triage_queued",
+    "yomi_triage_completed",
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -63,6 +68,7 @@ RERUNNABLE_STAGES = frozenset(
         "yomi_generated",
         "yomi_auto_accepted",
         "yomi_triage_queued",
+        "yomi_triage_completed",
     }
 )
 
@@ -474,6 +480,8 @@ class PipelineWorkspace:
             return self._auto_accept_mechanical_yomi(batch_name)
         if stage_name == "yomi_triage_queued":
             return self._queue_yomi_llm_triage(batch_name)
+        if stage_name == "yomi_triage_completed":
+            return self._run_yomi_llm_triage(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -503,6 +511,13 @@ class PipelineWorkspace:
                 batch_dir / "yomi_triage_input.jsonl",
                 batch_dir / "yomi_triage_queue_summary.json",
             ]
+        if stage_name == "yomi_triage_completed":
+            return [
+                batch_dir / "yomi_triage_results.jsonl",
+                batch_dir / "yomi_triage_usage_summary.json",
+                batch_dir / "units.yomi.triaged.jsonl",
+                batch_dir / "yomi_triage_apply_summary.json",
+            ]
         return []
 
     def _existing_stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[str]:
@@ -524,11 +539,6 @@ class PipelineWorkspace:
 
     @staticmethod
     def _blocking_reason_for_stage(stage_name: str) -> str | None:
-        if stage_name == "yomi_triage_queued":
-            return (
-                "Yomi LLM triage input is prepared. Run the yomi_triage LLM task "
-                "and ingest results before continuing."
-            )
         return None
 
     def _allocate_next_batch_name(self, track_name: str) -> str:
@@ -578,6 +588,7 @@ class PipelineWorkspace:
             "yomi_generated",
             "yomi_auto_accepted",
             "yomi_triage_queued",
+            "yomi_triage_completed",
         }:
             artifacts.update(
                 {
@@ -591,6 +602,7 @@ class PipelineWorkspace:
             "yomi_generated",
             "yomi_auto_accepted",
             "yomi_triage_queued",
+            "yomi_triage_completed",
         }:
             artifacts.update(
                 {
@@ -602,23 +614,36 @@ class PipelineWorkspace:
                     ),
                 }
             )
-        if current_stage in {"yomi_generated", "yomi_auto_accepted", "yomi_triage_queued"}:
+        if current_stage in {"yomi_generated", "yomi_auto_accepted", "yomi_triage_queued", "yomi_triage_completed"}:
             artifacts["units_yomi_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.aligned_hybrid.jsonl"
             )
-        if current_stage in {"yomi_auto_accepted", "yomi_triage_queued"}:
+        if current_stage in {"yomi_auto_accepted", "yomi_triage_queued", "yomi_triage_completed"}:
             artifacts["units_yomi_auto_accept_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.auto_accept.jsonl"
             )
             artifacts["yomi_auto_accept_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
             )
-        if current_stage == "yomi_triage_queued":
+        if current_stage in {"yomi_triage_queued", "yomi_triage_completed"}:
             artifacts["yomi_triage_input_jsonl"] = str(
                 self.batch_dir(batch_name) / "yomi_triage_input.jsonl"
             )
             artifacts["yomi_triage_queue_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_triage_queue_summary.json"
+            )
+        if current_stage == "yomi_triage_completed":
+            artifacts["yomi_triage_results_jsonl"] = str(
+                self.batch_dir(batch_name) / "yomi_triage_results.jsonl"
+            )
+            artifacts["yomi_triage_usage_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_triage_usage_summary.json"
+            )
+            artifacts["units_yomi_triaged_jsonl"] = str(
+                self.batch_dir(batch_name) / "units.yomi.triaged.jsonl"
+            )
+            artifacts["yomi_triage_apply_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_triage_apply_summary.json"
             )
         state = BatchState(
             batch_name=batch_name,
@@ -647,6 +672,8 @@ class PipelineWorkspace:
 
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
+        if (batch_dir / "units.yomi.triaged.jsonl").exists():
+            return "yomi_triage_completed"
         if (batch_dir / "yomi_triage_input.jsonl").exists():
             return "yomi_triage_queued"
         if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
@@ -975,3 +1002,71 @@ class PipelineWorkspace:
                 "yomi_triage_skipped_auto_accepted": str(summary.skipped_auto_accepted),
             }
         }
+
+    def _run_yomi_llm_triage(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        task_config_path = "config/llm/yomi_triage.toml"
+        task_config = load_llm_task_config(task_config_path)
+        input_path = batch_dir / "yomi_triage_input.jsonl"
+        results_path = batch_dir / "yomi_triage_results.jsonl"
+        usage_summary_path = batch_dir / "yomi_triage_usage_summary.json"
+        output_path = batch_dir / "units.yomi.triaged.jsonl"
+        apply_summary_path = batch_dir / "yomi_triage_apply_summary.json"
+
+        queued_count = count_nonempty_lines(input_path)
+        if queued_count:
+            run_sync_task(
+                task_config_path,
+                str(input_path),
+                str(results_path),
+            )
+        else:
+            results_path.parent.mkdir(parents=True, exist_ok=True)
+            results_path.write_text("", encoding="utf-8")
+
+        usage_summary = summarize_results_jsonl(
+            str(results_path),
+            model=task_config.model,
+            processing_tier="standard",
+            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
+        )
+        usage_summary_path.write_text(
+            json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        apply_summary = apply_yomi_triage_results_file(
+            units_jsonl=batch_dir / "units.yomi.auto_accept.jsonl",
+            results_jsonl=results_path,
+            output_jsonl=output_path,
+            summary_json=apply_summary_path,
+        )
+        return {
+            "artifacts": {
+                "yomi_triage_results_jsonl": str(results_path),
+                "yomi_triage_usage_summary_json": str(usage_summary_path),
+                "units_yomi_triaged_jsonl": str(output_path),
+                "yomi_triage_apply_summary_json": str(apply_summary_path),
+                "yomi_triage_task_config": task_config_path,
+                "yomi_triage_model": task_config.model,
+                "yomi_triage_prompt_template": task_config.prompt_template,
+                "yomi_triage_queued": str(queued_count),
+                "yomi_triage_ok": str(apply_summary.auto_accepted_ok + apply_summary.llm_ok),
+                "yomi_triage_review": str(
+                    apply_summary.llm_review
+                    + apply_summary.parse_error_review
+                    + apply_summary.missing_result_review
+                ),
+                "yomi_triage_skip": str(apply_summary.llm_skip),
+            }
+        }
+
+
+def count_nonempty_lines(path: Path) -> int:
+    if not path.exists():
+        return 0
+    count = 0
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                count += 1
+    return count

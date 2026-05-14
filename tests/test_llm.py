@@ -63,7 +63,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         )
 
         self.assertEqual(items[0].item_id, "u1")
-        self.assertIn("OK = the current yomi annotation is correct.", items[0].prompt)
+        self.assertIn("Return exactly one token and nothing else", items[0].prompt)
         self.assertIn("大学/ダイガク", items[0].prompt)
 
     def test_build_prompt_items_for_non_target_judge(self) -> None:

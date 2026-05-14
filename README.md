@@ -141,6 +141,11 @@ Yomi generation scaffold:
 - after yomi auto-acceptance, `yomi_triage_queued` writes
   `yomi_triage_input.jsonl` for non-auto-accepted units; the first LLM pass uses
   `config/llm/yomi_triage.toml` and returns exactly `OK`, `Review`, or `Skip`
+- after yomi triage is queued, `yomi_triage_completed` runs the configured LLM
+  triage task, stores raw parsed results, and writes `units.yomi.triaged.jsonl`
+  with `analysis.llm.yomi_triage`; mechanically auto-accepted units are marked
+  `OK`, LLM `Skip` units are excluded from later yomi repair, and LLM `Review`
+  units remain in the repair/review path
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

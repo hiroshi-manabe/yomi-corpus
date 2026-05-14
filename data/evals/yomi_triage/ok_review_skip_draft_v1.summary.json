@@ -1,21 +1,21 @@
 {
   "source": "data/units/batch_0001/units.yomi.aligned_hybrid.jsonl",
   "output": "data/evals/yomi_triage/ok_review_skip_draft_v1.jsonl",
-  "row_count": 320,
+  "row_count": 315,
   "ok_count": 200,
-  "review_count": 65,
-  "natural_review_count": 15,
+  "review_count": 60,
+  "natural_review_count": 10,
   "synthetic_review_count": 50,
   "skip_count": 47,
   "targeted_ambiguity_count": 8,
   "status_counts": {
     "OK": 205,
-    "Review": 68,
+    "Review": 63,
     "Skip": 47
   },
   "label_source_counts": {
     "heuristic_ok_sudachi_decoder_exact_agreement": 200,
-    "known_or_suspected_mechanical_error": 15,
+    "known_or_suspected_mechanical_error": 10,
     "synthetic_bad_reading_injected": 50,
     "hard_raw_skip_source_sample": 47,
     "targeted_unresolved_context_ambiguity": 3,
