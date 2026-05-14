@@ -503,6 +503,22 @@ sentence, then returns exactly one token:
   example because it is foreign-language text, classical Japanese, kanbun, or
   garbled text
 
+`FIX` is also the right label when the yomi is not safely acceptable because of
+resolvable local ambiguity, even if the attached reading is one possible
+reading. For example, an isolated sentence such as `辛いね` should remain in
+the repair/review path if the available unit does not decide between readings
+such as `カライ` and `ツライ`. The triage label is operational: it answers
+whether the unit can be accepted as final now, not whether the current reading
+is linguistically imaginable.
+
+By contrast, inherently unresolved but acceptable reading variation should not
+be forced into `FIX`. Examples such as `日本/ニッポン` or `私/ワタクシ` can be
+slightly marked or less frequent, but they are not errors if context cannot
+reliably force another reading. These cases should normally be `OK`; if a
+variant repeatedly distracts the LLM, prefer a deterministic normalization or
+post-hybrid repair rule before triage rather than teaching triage to debate
+acceptable stylistic variants.
+
 This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
 the default production triage prompt.
 
@@ -532,9 +548,11 @@ For `yomi_triage`, the initial gold set should include balanced `OK`, `FIX`,
 and `SKIP` cases, with hard examples deliberately overrepresented. Each example
 should store the original sentence, the exact mechanical yomi annotation that
 the model will see, the expected label, and optional human notes that are not
-included in the production prompt. Optimization priorities are: avoid dangerous
-label errors, preserve parse stability, improve accuracy, then shorten prompt
-tokens.
+included in the production prompt. The eval set should include both clear
+mechanical errors and ambiguity cases that must remain reviewable, while also
+including acceptable variant readings that should not trigger unnecessary
+repair. Optimization priorities are: avoid dangerous label errors, preserve
+parse stability, improve accuracy, then shorten prompt tokens.
 
 Likely current split:
 
