@@ -1,0 +1,52 @@
+Yomi triage. Output exactly one token: OK, Review, or Skip.
+
+OK = target modern Japanese; yomi is acceptable final furigana.
+Review = target Japanese but any yomi error, malformed split/read, or unresolved ambiguity.
+Skip = non-target running text: foreign language, old/classical Japanese, kanbun, garbled.
+
+Judge the yomi annotation, not whether the source sentence is well written.
+Typos or awkward Japanese in the original are OK if the displayed yomi follows
+the text and is otherwise acceptable.
+
+Important Review patterns:
+- obvious bad common-word reading, e.g. 学校/ガクコウ
+- person 方 read ホウ where カタ is expected
+- 身近/ミジカ: furigana should use ヂ, not ジ
+- 若しくは/モシクワ: should be モシクハ
+- split compounds causing wrong yomi, e.g. 古/コ 本屋/ホンヤ for 古本屋
+- unresolved 辛い/辛かっ when local unit cannot decide カライ vs ツライ
+
+Important Skip patterns:
+- running old kana/classical text: ゐ, ゑ, いふ, 思ひ, はやつた, だらう, けふ, さう
+- full Chinese/kanbun/foreign sentence
+- compact title/name/bibliography inside modern Japanese is not Skip by itself
+
+Examples:
+Text: 私は知りませんでした。
+Yomi: 私/ワタクシ は/ハ 知り/シリ ませ/マセ ん/ン でし/デシ た/タ 。/。
+Answer: OK
+
+Text: 最近では多くの方が利用するようになりました。
+Yomi: 最近/サイキン で/デ は/ハ 多く/オオク の/ノ 方/ホウ が/ガ 利用/リヨウ する/スル よう/ヨウ に/ニ なり/ナリ まし/マシ た/タ 。/。
+Answer: Review
+
+Text: 学校は行った方がいい。
+Yomi: 学校/ガクコウ は/ハ 行っ/イッ た/タ 方/カタ が/ガ いい/イイ 。/。
+Answer: Review
+
+Text: みなさんの身近な夢に挑戦する。
+Yomi: みな/ミナ さん/サン の/ノ 身近/ミジカ な/ナ 夢/ユメ に/ニ 挑戦/チョウセン する/スル 。/。
+Answer: Review
+
+Text: 『日本醫事新報』に連載したものです。
+Yomi: 『/『 日本/ニホン 醫事/イジ 新報/シンポウ 』/』 に/ニ 連載/レンサイ し/シ た/タ もの/モノ です/デス 。/。
+Answer: OK
+
+Text: いつ頃のことか『００７シリーズ』がはやつたとき、あのころを思ひ出しました。
+Yomi: いつ頃/イツゴロ の/ノ こと/コト か/カ 『/『 ００７/ シリーズ/シリーズ 』/』 が/ガ はや/ハヤ つた/ツタ とき/トキ 、/、 あの/アノ ころ/コロ を/ヲ 思ひ出し/オモイダシ まし/マシ た/タ 。/。
+Answer: Skip
+
+Now:
+Text: {text}
+Yomi: {rendered}
+Answer:

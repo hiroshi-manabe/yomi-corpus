@@ -43,6 +43,10 @@ Prompt iteration scaffold:
 - For `yomi_triage`, first sweep prompt families and `gpt-5.4-mini` reasoning
   effort settings for both accuracy and cost; promote only the strongest prompt
   candidates to `gpt-5.5` for production-quality evaluation.
+- For cache-sensitive prompt tuning, use the Responses `input_tokens` endpoint
+  for exact GPT-5-family input counts. Local `tiktoken` estimates are fine for
+  rough work, but the API count is the source of truth when aiming just over
+  the 1024-token prompt-cache threshold.
 - Freeze a prompt version before large-scale corpus processing; production
   runs should use only small regression checks unless a deliberate prompt
   upgrade is being evaluated.

@@ -920,6 +920,7 @@ Measure:
 - cost per 10k units
 - distribution of class codes
 - model and reasoning effort
+- exact API input-token counts for cache-sensitive candidate prompts
 
 Search strategy:
 
@@ -931,6 +932,20 @@ Search strategy:
 - rank candidates by dangerous-error avoidance, parse stability, accuracy, then
   token/cost efficiency
 - rerun only the strongest candidates on `gpt-5.5` before freezing production
+
+Cache strategy:
+
+- keep instructions and examples before variable unit text so cacheable content
+  is a stable prefix
+- use local `tiktoken` only as an estimate for GPT-5-family prompts
+- use the Responses `input_tokens` endpoint for exact counts when tuning around
+  the 1024-token cache threshold
+- treat token-count endpoint cost, if any, as negligible relative to prompt eval
+  and corpus annotation costs
+- if examples are accuracy-useful and the prompt is already near 1k tokens,
+  tune the static prefix to about 1050-1150 exact API-counted tokens rather than
+  leaving it just under the cache threshold
+- do not add meaningless filler only to force caching
 
 ### Iteration 3: regex repairs and context repair
 

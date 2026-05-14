@@ -86,9 +86,8 @@ HARD_OLD_KANA_PATTERNS = [
 REVIEW_PATTERNS: list[tuple[str, str]] = [
     ("若しくは/モシクワ", "Known orthographic reading issue: モシクワ should be モシクハ."),
     ("身近/ミジカ", "Known orthographic reading issue: ミジカ should be ミヂカ."),
-    ("短かっ/ミジカカッ", "Known orthographic reading issue: ミジカカッ should be ミヂカカッ."),
-    ("短く/ミジカク", "Known orthographic reading issue: ミジカク should be ミヂカク."),
     ("古/コ 本屋/ホンヤ", "Wrong split/reading for 古本屋; should be treated as a repair case."),
+    ("給料/キュウリョウ 日直/ニッチョク 後/ゴ", "Wrong split/reading for 給料日直後."),
     ("均/ヒトシ", "Wrong reading in 百均 context."),
     ("様々/サマザマ な/ナ 方/ホウ", "Likely person-sense 方; should be カタ."),
     ("多く/オオク の/ノ 方/ホウ", "Likely person-sense 方; should be カタ."),

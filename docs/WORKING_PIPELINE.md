@@ -599,6 +599,21 @@ counts, cached-token counts if reported, estimated cost, parse errors, confusion
 matrix, and dangerous errors. The final production prompt should still be chosen
 from `gpt-5.5` behavior after the mini search narrows the candidate set.
 
+Prompt-cache tuning should be deliberate. OpenAI prompt caching starts at 1024
+input tokens, so the reusable static prefix should eventually be tuned to be
+just over that threshold before the variable `{text}` and `{rendered}` fields.
+Do not guess this boundary from character count. Use local `tiktoken` counts for
+quick iteration, then use the Responses `input_tokens` endpoint for exact
+GPT-5-family input counts when the prompt is close to the threshold. Token-count
+API calls should be treated as operationally negligible compared with real eval
+runs, so exact counting is acceptable when it helps stabilize cache behavior.
+
+The target is not to add filler. If extra examples are useful for accuracy, put
+them in the static prefix and use them to cross the cache threshold. If an
+equally accurate prompt is far below 1024 tokens, keep it short; otherwise, when
+the prompt is already near 1k tokens, prefer moving it to a cache-friendly
+static prefix around 1050-1150 exact API-counted tokens.
+
 Likely current split:
 
 - `non_target_judge`: separate prompt when a standalone non-target classifier
