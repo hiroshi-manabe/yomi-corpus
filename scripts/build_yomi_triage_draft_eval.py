@@ -33,7 +33,38 @@ CHINESE_ONLY_HINTS = set(
     "廣播線氣電視體聽寫"
 )
 OLD_KANA_HINTS = set("ゐゑヰヱ")
-KANBUN_HINTS = set("之爲為無有以故其於者乎也不而天下聖曰謂焉")
+KANBUN_HINTS = set("之爲為無以故其於者乎也而天下聖曰謂焉")
+OLD_KANJI_HINTS = set("醫舊舎臺體國學會號圓當處實氣發讀廣應戰藝價")
+MODERN_FRAME_PATTERNS = [
+    "です",
+    "ます",
+    "ました",
+    "でした",
+    "されています",
+    "されたもの",
+    "したもの",
+    "ございます",
+    "ございました",
+    "本書は",
+    "刊行された",
+    "連載した",
+    "著",
+    "書店",
+    "原材料",
+    "株式会社",
+    "特徴",
+    "活動",
+]
+MODERN_INCIDENTAL_NON_TARGET_SUBSTRINGS = [
+    "東京掃苔録",
+    "東都掃苔記",
+    "日本醫事新報",
+    "黄飛鴻",
+    "中国問題",
+    "原材料",
+    "株式会社",
+    "寛永二十一年",
+]
 HARD_OLD_KANA_PATTERNS = [
     "思ひ",
     "言ふ",
@@ -95,6 +126,73 @@ SYNTHETIC_FIX_REPLACEMENTS: list[tuple[str, str, str]] = [
     ("聞く/キク", "聞く/ブンル", "Synthetic wrong on-yomi-like reading for 聞く."),
 ]
 
+AMBIGUITY_EXAMPLES: list[dict[str, str]] = [
+    {
+        "unit_id": "targeted_ambiguity:unresolved:0001",
+        "text": "ものすごく辛かったんじゃないかな。",
+        "rendered": "ものすごく/モノスゴク 辛かっ/ツラカッ た/タ ん/ン じゃ/ジャ ない/ナイ か/カ な/ナ 。/。",
+        "expected_status": "FIX",
+        "label_source": "targeted_unresolved_context_ambiguity",
+        "note": "Review-needed ambiguity: surrounding context is substantial enough to be nontrivial, but does not safely decide ツライ vs カライ.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:unresolved:0002",
+        "text": "思っていたより辛いですね。",
+        "rendered": "思っ/オモッ て/テ い/イ た/タ より/ヨリ 辛い/ツライ です/デス ね/ネ 。/。",
+        "expected_status": "FIX",
+        "label_source": "targeted_unresolved_context_ambiguity",
+        "note": "Review-needed ambiguity: the sentence gives comparison context, but not enough to decide ツライ vs カライ.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:unresolved:0003",
+        "text": "昨日のあれは本当に辛かったと思う。",
+        "rendered": "昨日/キノウ の/ノ あれ/アレ は/ハ 本当/ホントウ に/ニ 辛かっ/ツラカッ た/タ と/ト 思う/オモウ 。/。",
+        "expected_status": "FIX",
+        "label_source": "targeted_unresolved_context_ambiguity",
+        "note": "Review-needed ambiguity: deictic context makes the reading hard; the unit should remain reviewable.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:resolved:0001",
+        "text": "あとから聞くと、本人も辛かったんじゃないかな。",
+        "rendered": "あと/アト から/カラ 聞く/キク と/ト 、/、 本人/ホンニン も/モ 辛かっ/ツラカッ た/タ ん/ン じゃ/ジャ ない/ナイ か/カ な/ナ 。/。",
+        "expected_status": "OK",
+        "label_source": "targeted_context_resolved_ambiguity_ok",
+        "note": "Context strongly supports ツライ; カライ is only contrived, so the current reading should be accepted.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:resolved:0002",
+        "text": "本人はかなり辛い思いをしたはずです。",
+        "rendered": "本人/ホンニン は/ハ かなり/カナリ 辛い/ツライ 思い/オモイ を/ヲ し/シ た/タ はず/ハズ です/デス 。/。",
+        "expected_status": "OK",
+        "label_source": "targeted_context_resolved_ambiguity_ok",
+        "note": "Context resolves 辛い as ツライ through 辛い思い; the current reading should be accepted.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:acceptable_variant:0001",
+        "text": "日本代表として素晴らしい結果を残しました。",
+        "rendered": "日本/ニッポン 代表/ダイヒョウ と/ト し/シ て/テ 素晴らしい/スバラシイ 結果/ケッカ を/ヲ 残し/ノコシ まし/マシ た/タ 。/。",
+        "expected_status": "OK",
+        "label_source": "targeted_inherently_acceptable_variant",
+        "note": "Acceptable variant: 日本/ニッポン should not be treated as a repair target solely because ニホン is also possible.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:acceptable_variant:0002",
+        "text": "私は知りませんでした。",
+        "rendered": "私/ワタクシ は/ハ 知り/シリ ませ/マセ ん/ン でし/デシ た/タ 。/。",
+        "expected_status": "OK",
+        "label_source": "targeted_inherently_acceptable_variant",
+        "note": "Acceptable variant: 私/ワタクシ should not be nitpicked at triage even when ワタシ is common.",
+    },
+    {
+        "unit_id": "targeted_ambiguity:acceptable_variant:0003",
+        "text": "私と旦那くんは同じ会社です。",
+        "rendered": "私/ワタクシ と/ト 旦那/ダンナ くん/クン は/ハ 同じ/オナジ 会社/カイシャ です/デス 。/。",
+        "expected_status": "OK",
+        "label_source": "targeted_inherently_acceptable_variant",
+        "note": "Acceptable variant in a casual sentence: the triage model should not force 私 to ワタシ.",
+    },
+]
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -129,7 +227,8 @@ def main() -> None:
         args.skip_count_per_source,
         args.config,
     )
-    output_rows = ok_rows + fix_rows + synthetic_fix_rows + skip_rows
+    ambiguity_rows = collect_ambiguity_rows()
+    output_rows = ok_rows + fix_rows + synthetic_fix_rows + skip_rows + ambiguity_rows
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as handle:
@@ -145,6 +244,7 @@ def main() -> None:
         "natural_fix_count": len(fix_rows),
         "synthetic_fix_count": len(synthetic_fix_rows),
         "skip_count": len(skip_rows),
+        "targeted_ambiguity_count": len(ambiguity_rows),
         "status_counts": count_by(output_rows, "expected_status"),
         "label_source_counts": count_by(output_rows, "label_source"),
         "notes": [
@@ -153,6 +253,7 @@ def main() -> None:
             "SKIP rows are sampled from raw skip-source text files with a preference for hard mixed cases.",
             "FIX rows are known or high-confidence suspected repair cases, not a final human-reviewed gold set.",
             "Synthetic FIX rows use real early-corpus text with one injected bad yomi annotation.",
+            "Targeted ambiguity rows test review-needed ambiguity versus acceptable unresolved variants.",
         ],
     }
     args.summary.parent.mkdir(parents=True, exist_ok=True)
@@ -294,6 +395,26 @@ def collect_synthetic_fix_rows(
     return eval_rows
 
 
+def collect_ambiguity_rows() -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for index, example in enumerate(AMBIGUITY_EXAMPLES, start=1):
+        rows.append(
+            {
+                "unit_id": example["unit_id"],
+                "doc_id": "targeted_ambiguity",
+                "source_line_no": None,
+                "unit_seq": index,
+                "text": example["text"],
+                "rendered": example["rendered"],
+                "expected_status": example["expected_status"],
+                "label_source": example["label_source"],
+                "note": example["note"],
+                "source_artifact": "manually curated corpus-inspired targeted ambiguity examples",
+            }
+        )
+    return rows
+
+
 def collect_skip_rows(
     skip_source_dir: Path,
     skip_count_per_source: int,
@@ -410,15 +531,30 @@ def score_skip_candidate(text: str, source_name: str) -> int:
             return -1
         return chinese_hint_score + min(kana_count, 20)
     if source_name == "kanji":
+        if any(pattern in text for pattern in MODERN_INCIDENTAL_NON_TARGET_SUBSTRINGS):
+            return -1
         if text.count(" ") >= 5 or text.count("/") >= 3:
             return -1
         kanji_count = sum(1 for char in text if "\u4e00" <= char <= "\u9fff")
         kana_count = sum(1 for char in text if "\u3040" <= char <= "\u30ff")
         hint_score = sum(5 for char in text if char in KANBUN_HINTS)
         chinese_hint_score = sum(4 for char in text if char in CHINESE_ONLY_HINTS)
+        old_kana_score = sum(4 for pattern in HARD_OLD_KANA_PATTERNS if pattern in text)
+        old_kanji_score = sum(2 for char in text if char in OLD_KANJI_HINTS)
+        modern_frame_score = sum(6 for pattern in MODERN_FRAME_PATTERNS if pattern in text)
+        if modern_frame_score and (old_kana_score + hint_score + chinese_hint_score) < modern_frame_score:
+            return -1
         if hint_score == 0 or kana_count == 0:
             return -1
-        return hint_score + chinese_hint_score + min(kanji_count, 80) + min(kana_count, 20)
+        return (
+            hint_score
+            + chinese_hint_score
+            + old_kana_score
+            + old_kanji_score
+            + min(kanji_count, 80)
+            + min(kana_count, 20)
+            - modern_frame_score
+        )
     return 1
 
 

@@ -1,28 +1,33 @@
 {
   "source": "data/units/batch_0001/units.yomi.aligned_hybrid.jsonl",
   "output": "data/evals/yomi_triage/ok_fix_draft_v1.jsonl",
-  "row_count": 313,
+  "row_count": 321,
   "ok_count": 200,
   "fix_count": 66,
   "natural_fix_count": 16,
   "synthetic_fix_count": 50,
   "skip_count": 47,
+  "targeted_ambiguity_count": 8,
   "status_counts": {
-    "OK": 200,
-    "FIX": 66,
+    "OK": 205,
+    "FIX": 69,
     "SKIP": 47
   },
   "label_source_counts": {
     "heuristic_ok_sudachi_decoder_exact_agreement": 200,
     "known_or_suspected_mechanical_error": 16,
     "synthetic_bad_reading_injected": 50,
-    "hard_raw_skip_source_sample": 47
+    "hard_raw_skip_source_sample": 47,
+    "targeted_unresolved_context_ambiguity": 3,
+    "targeted_context_resolved_ambiguity_ok": 2,
+    "targeted_inherently_acceptable_variant": 3
   },
   "notes": [
     "Draft dataset for yomi_triage prompt optimization.",
     "OK/FIX rows are drawn from early corpus output.",
     "SKIP rows are sampled from raw skip-source text files with a preference for hard mixed cases.",
     "FIX rows are known or high-confidence suspected repair cases, not a final human-reviewed gold set.",
-    "Synthetic FIX rows use real early-corpus text with one injected bad yomi annotation."
+    "Synthetic FIX rows use real early-corpus text with one injected bad yomi annotation.",
+    "Targeted ambiguity rows test review-needed ambiguity versus acceptable unresolved variants."
   ]
 }

@@ -27,6 +27,15 @@ Label policy:
   `FIX` if the unit itself does not decide between `カライ` and `ツライ`.
 - `SKIP` means non-target text that should not be yomi-repaired.
 
+`SKIP` examples should not be selected by isolated markers, but longer
+non-target quotations are excluded aggressively. Modern Japanese remains in
+scope when old kana, old kanji, kanbun, Chinese, or foreign text appears only in
+compact titles, names, bibliographic metadata, proverbs, fixed expressions, or
+short quoted phrases. If a unit contains even one full sentence of non-target
+running text, label the whole unit `SKIP`; modern Japanese is abundant enough
+that losing the surrounding frame is preferable to creating a later `FIX` vs
+`SKIP` review burden.
+
 If an acceptable variant repeatedly attracts unnecessary LLM criticism, prefer
 mechanical normalization or a post-hybrid repair rule before triage rather than
 labeling the variant as `FIX`.
@@ -46,6 +55,15 @@ The current draft uses four label sources:
   otherwise non-trivial examples and avoids easy mechanical cues such as `ゐ`
   / `ゑ`, pure all-kanji strings, or ordinary modern Japanese that merely
   mentions China.
+- `targeted_unresolved_context_ambiguity`: manually curated corpus-inspired
+  examples where the local unit has enough context to be nontrivial but still
+  cannot safely decide the reading; these are labeled `FIX`.
+- `targeted_context_resolved_ambiguity_ok`: manually curated examples where the
+  context resolves an ambiguous surface strongly enough that the current yomi
+  should be accepted as `OK`.
+- `targeted_inherently_acceptable_variant`: manually curated examples where a
+  variant reading such as `日本/ニッポン` or `私/ワタクシ` should be accepted as
+  `OK` rather than flagged for repair.
 
 This file should not be treated as final gold until the rows have been reviewed.
 

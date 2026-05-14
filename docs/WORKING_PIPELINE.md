@@ -503,6 +503,23 @@ sentence, then returns exactly one token:
   example because it is foreign-language text, classical Japanese, kanbun, or
   garbled text
 
+`SKIP` should be decided by the dominant language and style of the unit, not by
+isolated orthographic markers. A modern Japanese sentence remains target text
+when old kana, old kanji, kanbun, Chinese, or foreign text appears only inside
+short titles, names, bibliographic strings, or incidental quoted fragments. For
+example, a modern bibliographic explanation that mentions titles such as
+`東京掃苔録`, `東都掃苔記`, or `日本醫事新報` should not become `SKIP` solely
+because those titles contain old characters.
+
+Longer quotations and citations use a stricter labor-saving exclusion rule. If
+the unit contains even one full sentence of old kana, kanbun, Chinese,
+foreign-language text, or other non-target running text, label the whole unit
+`SKIP`. Modern Japanese is abundant enough that losing the surrounding modern
+frame is acceptable, and this avoids a later `FIX` vs `SKIP` review pass. The
+exceptions are compact embedded material such as proverbs, fixed expressions,
+short titles, proper names, journal/book names, and bibliographic labels; those
+do not make the unit `SKIP` by themselves.
+
 `FIX` is also the right label when the yomi is not safely acceptable because of
 resolvable local ambiguity, even if the attached reading is one possible
 reading. For example, an isolated sentence such as `辛いね` should remain in
