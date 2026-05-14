@@ -19,8 +19,8 @@ from yomi_corpus.yomi.runtime import generate_mechanical_yomi
 
 
 DEFAULT_SOURCE = Path("data/units/batch_0001/units.yomi.aligned_hybrid.jsonl")
-DEFAULT_OUTPUT = Path("data/evals/yomi_triage/ok_fix_draft_v1.jsonl")
-DEFAULT_SUMMARY = Path("data/evals/yomi_triage/ok_fix_draft_v1.summary.json")
+DEFAULT_OUTPUT = Path("data/evals/yomi_triage/ok_review_skip_draft_v1.jsonl")
+DEFAULT_SUMMARY = Path("data/evals/yomi_triage/ok_review_skip_draft_v1.summary.json")
 DEFAULT_SKIP_SOURCE_DIR = Path("data/evals/yomi_triage/raw_skip_sources")
 
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
@@ -63,6 +63,8 @@ MODERN_INCIDENTAL_NON_TARGET_SUBSTRINGS = [
     "中国問題",
     "原材料",
     "株式会社",
+    "ロータリーの樂器",
+    "御帰りあそばされる",
     "寛永二十一年",
 ]
 HARD_OLD_KANA_PATTERNS = [
@@ -81,7 +83,7 @@ HARD_OLD_KANA_PATTERNS = [
     "氣",
 ]
 
-FIX_PATTERNS: list[tuple[str, str]] = [
+REVIEW_PATTERNS: list[tuple[str, str]] = [
     ("若しくは/モシクワ", "Known orthographic reading issue: モシクワ should be モシクハ."),
     ("身近/ミジカ", "Known orthographic reading issue: ミジカ should be ミヂカ."),
     ("短かっ/ミジカカッ", "Known orthographic reading issue: ミジカカッ should be ミヂカカッ."),
@@ -99,7 +101,7 @@ FIX_PATTERNS: list[tuple[str, str]] = [
 ]
 
 SUSPICIOUS_OK_PATTERNS = [
-    pattern for pattern, _ in FIX_PATTERNS
+    pattern for pattern, _ in REVIEW_PATTERNS
 ] + [
     "モシクワ",
     "ミジカ",
@@ -108,7 +110,7 @@ SUSPICIOUS_OK_PATTERNS = [
     "/ /",
 ]
 
-SYNTHETIC_FIX_REPLACEMENTS: list[tuple[str, str, str]] = [
+SYNTHETIC_REVIEW_REPLACEMENTS: list[tuple[str, str, str]] = [
     ("学校/ガッコウ", "学校/ガクコウ", "Synthetic wrong on-yomi-like reading for 学校."),
     ("今日/キョウ", "今日/コンニチ", "Synthetic contextually wrong reading for 今日."),
     ("人/ヒト", "人/ジン", "Synthetic wrong reading for standalone 人."),
@@ -131,7 +133,7 @@ AMBIGUITY_EXAMPLES: list[dict[str, str]] = [
         "unit_id": "targeted_ambiguity:unresolved:0001",
         "text": "ものすごく辛かったんじゃないかな。",
         "rendered": "ものすごく/モノスゴク 辛かっ/ツラカッ た/タ ん/ン じゃ/ジャ ない/ナイ か/カ な/ナ 。/。",
-        "expected_status": "FIX",
+        "expected_status": "Review",
         "label_source": "targeted_unresolved_context_ambiguity",
         "note": "Review-needed ambiguity: surrounding context is substantial enough to be nontrivial, but does not safely decide ツライ vs カライ.",
     },
@@ -139,7 +141,7 @@ AMBIGUITY_EXAMPLES: list[dict[str, str]] = [
         "unit_id": "targeted_ambiguity:unresolved:0002",
         "text": "思っていたより辛いですね。",
         "rendered": "思っ/オモッ て/テ い/イ た/タ より/ヨリ 辛い/ツライ です/デス ね/ネ 。/。",
-        "expected_status": "FIX",
+        "expected_status": "Review",
         "label_source": "targeted_unresolved_context_ambiguity",
         "note": "Review-needed ambiguity: the sentence gives comparison context, but not enough to decide ツライ vs カライ.",
     },
@@ -147,7 +149,7 @@ AMBIGUITY_EXAMPLES: list[dict[str, str]] = [
         "unit_id": "targeted_ambiguity:unresolved:0003",
         "text": "昨日のあれは本当に辛かったと思う。",
         "rendered": "昨日/キノウ の/ノ あれ/アレ は/ハ 本当/ホントウ に/ニ 辛かっ/ツラカッ た/タ と/ト 思う/オモウ 。/。",
-        "expected_status": "FIX",
+        "expected_status": "Review",
         "label_source": "targeted_unresolved_context_ambiguity",
         "note": "Review-needed ambiguity: deictic context makes the reading hard; the unit should remain reviewable.",
     },
@@ -196,13 +198,13 @@ AMBIGUITY_EXAMPLES: list[dict[str, str]] = [
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build a draft OK/FIX yomi triage eval set from early corpus output."
+        description="Build a draft OK/Review/Skip yomi triage eval set from early corpus output."
     )
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
     parser.add_argument("--ok-count", type=int, default=200)
-    parser.add_argument("--synthetic-fix-count", type=int, default=50)
+    parser.add_argument("--synthetic-review-count", type=int, default=50)
     parser.add_argument("--skip-source-dir", type=Path, default=DEFAULT_SKIP_SOURCE_DIR)
     parser.add_argument("--skip-count-per-source", type=int, default=20)
     parser.add_argument("--config", default="config/yomi/default.toml")
@@ -213,14 +215,14 @@ def main() -> None:
     args = parse_args()
     rows = load_jsonl(args.source)
 
-    fix_rows = collect_fix_rows(rows, args.source)
-    fix_ids = {row["unit_id"] for row in fix_rows}
-    ok_rows = collect_ok_rows(rows, args.source, args.ok_count, fix_ids)
-    synthetic_fix_rows = collect_synthetic_fix_rows(
+    review_rows = collect_review_rows(rows, args.source)
+    review_ids = {row["unit_id"] for row in review_rows}
+    ok_rows = collect_ok_rows(rows, args.source, args.ok_count, review_ids)
+    synthetic_review_rows = collect_synthetic_review_rows(
         rows,
         args.source,
-        args.synthetic_fix_count,
-        {row["unit_id"] for row in ok_rows} | {row["unit_id"] for row in fix_rows},
+        args.synthetic_review_count,
+        {row["unit_id"] for row in ok_rows} | {row["unit_id"] for row in review_rows},
     )
     skip_rows = collect_skip_rows(
         args.skip_source_dir,
@@ -228,7 +230,7 @@ def main() -> None:
         args.config,
     )
     ambiguity_rows = collect_ambiguity_rows()
-    output_rows = ok_rows + fix_rows + synthetic_fix_rows + skip_rows + ambiguity_rows
+    output_rows = ok_rows + review_rows + synthetic_review_rows + skip_rows + ambiguity_rows
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as handle:
@@ -240,19 +242,19 @@ def main() -> None:
         "output": str(args.output),
         "row_count": len(output_rows),
         "ok_count": len(ok_rows),
-        "fix_count": len(fix_rows) + len(synthetic_fix_rows),
-        "natural_fix_count": len(fix_rows),
-        "synthetic_fix_count": len(synthetic_fix_rows),
+        "review_count": len(review_rows) + len(synthetic_review_rows),
+        "natural_review_count": len(review_rows),
+        "synthetic_review_count": len(synthetic_review_rows),
         "skip_count": len(skip_rows),
         "targeted_ambiguity_count": len(ambiguity_rows),
         "status_counts": count_by(output_rows, "expected_status"),
         "label_source_counts": count_by(output_rows, "label_source"),
         "notes": [
             "Draft dataset for yomi_triage prompt optimization.",
-            "OK/FIX rows are drawn from early corpus output.",
-            "SKIP rows are sampled from raw skip-source text files with a preference for hard mixed cases.",
-            "FIX rows are known or high-confidence suspected repair cases, not a final human-reviewed gold set.",
-            "Synthetic FIX rows use real early-corpus text with one injected bad yomi annotation.",
+            "OK/Review rows are drawn from early corpus output.",
+            "Skip rows are sampled from raw skip-source text files with a preference for hard mixed cases.",
+            "Review rows are known or high-confidence suspected cases requiring review, not a final human-reviewed gold set.",
+            "Synthetic Review rows use real early-corpus text with one injected bad yomi annotation.",
             "Targeted ambiguity rows test review-needed ambiguity versus acceptable unresolved variants.",
         ],
     }
@@ -273,12 +275,12 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def collect_fix_rows(rows: list[dict[str, Any]], source: Path) -> list[dict[str, Any]]:
+def collect_review_rows(rows: list[dict[str, Any]], source: Path) -> list[dict[str, Any]]:
     notes_by_unit: dict[str, list[str]] = defaultdict(list)
     rows_by_unit: dict[str, dict[str, Any]] = {}
     for row in rows:
         rendered = yomi(row).get("rendered", "")
-        for pattern, note in FIX_PATTERNS:
+        for pattern, note in REVIEW_PATTERNS:
             if pattern in rendered:
                 unit_id = row["unit_id"]
                 rows_by_unit[unit_id] = row
@@ -290,7 +292,7 @@ def collect_fix_rows(rows: list[dict[str, Any]], source: Path) -> list[dict[str,
             build_eval_row(
                 rows_by_unit[unit_id],
                 source,
-                expected_status="FIX",
+                expected_status="Review",
                 label_source="known_or_suspected_mechanical_error",
                 note=" ".join(dict.fromkeys(notes_by_unit[unit_id])),
             )
@@ -339,10 +341,10 @@ def collect_ok_rows(
     return ok_rows
 
 
-def collect_synthetic_fix_rows(
+def collect_synthetic_review_rows(
     rows: list[dict[str, Any]],
     source: Path,
-    synthetic_fix_count: int,
+    synthetic_review_count: int,
     excluded_unit_ids: set[str],
 ) -> list[dict[str, Any]]:
     eval_rows: list[dict[str, Any]] = []
@@ -368,21 +370,21 @@ def collect_synthetic_fix_rows(
             continue
         if any(pattern in rendered for pattern in SUSPICIOUS_OK_PATTERNS):
             continue
-        for original, replacement, replacement_note in SYNTHETIC_FIX_REPLACEMENTS:
+        for original, replacement, replacement_note in SYNTHETIC_REVIEW_REPLACEMENTS:
             if original not in rendered:
                 continue
             mutated = rendered.replace(original, replacement, 1)
             synthetic = build_eval_row(
                 row,
                 source,
-                expected_status="FIX",
+                expected_status="Review",
                 label_source="synthetic_bad_reading_injected",
                 note=(
                     f"{replacement_note} Original annotation had {original}; "
                     f"the eval row intentionally changes it to {replacement}."
                 ),
             )
-            synthetic["unit_id"] = f"{unit_id}:synthetic_fix:{len(eval_rows) + 1:03d}"
+            synthetic["unit_id"] = f"{unit_id}:synthetic_review:{len(eval_rows) + 1:03d}"
             synthetic["rendered"] = mutated
             synthetic["synthetic_source_unit_id"] = unit_id
             synthetic["synthetic_original"] = original
@@ -390,7 +392,7 @@ def collect_synthetic_fix_rows(
             eval_rows.append(synthetic)
             seen_texts.add(text)
             break
-        if len(eval_rows) >= synthetic_fix_count:
+        if len(eval_rows) >= synthetic_review_count:
             break
     return eval_rows
 
@@ -441,10 +443,10 @@ def collect_skip_rows(
                     "unit_seq": index,
                     "text": snippet.text,
                     "rendered": rendered,
-                    "expected_status": "SKIP",
+                    "expected_status": "Skip",
                     "label_source": "hard_raw_skip_source_sample",
                     "note": (
-                        f"Draft hard SKIP candidate sampled from {source_path}; "
+                        f"Draft hard Skip candidate sampled from {source_path}; "
                         "selected to avoid trivial mechanical-only cues where possible. "
                         "Review before final gold."
                     ),
@@ -519,6 +521,8 @@ def normalize_space(text: str) -> str:
 
 
 def score_skip_candidate(text: str, source_name: str) -> int:
+    if any(pattern in text for pattern in MODERN_INCIDENTAL_NON_TARGET_SUBSTRINGS):
+        return -1
     if source_name == "kana":
         if any(char in text for char in OLD_KANA_HINTS):
             return -1
@@ -531,8 +535,6 @@ def score_skip_candidate(text: str, source_name: str) -> int:
             return -1
         return chinese_hint_score + min(kana_count, 20)
     if source_name == "kanji":
-        if any(pattern in text for pattern in MODERN_INCIDENTAL_NON_TARGET_SUBSTRINGS):
-            return -1
         if text.count(" ") >= 5 or text.count("/") >= 3:
             return -1
         kanji_count = sum(1 for char in text if "\u4e00" <= char <= "\u9fff")

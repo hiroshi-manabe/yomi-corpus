@@ -38,6 +38,11 @@ Prompt iteration scaffold:
   set.
 - Use `scripts/compare_prompt_experiments.py` to compare two runs and inspect
   changed failures.
+- Exploratory prompt search should use synchronous Responses API calls, not the
+  Batch API, so failures can be inspected and prompts can be revised quickly.
+- For `yomi_triage`, first sweep prompt families and `gpt-5.4-mini` reasoning
+  effort settings for both accuracy and cost; promote only the strongest prompt
+  candidates to `gpt-5.5` for production-quality evaluation.
 - Freeze a prompt version before large-scale corpus processing; production
   runs should use only small regression checks unless a deliberate prompt
   upgrade is being evaluated.
@@ -131,7 +136,7 @@ Yomi generation scaffold:
   support
 - after yomi auto-acceptance, `yomi_triage_queued` writes
   `yomi_triage_input.jsonl` for non-auto-accepted units; the first LLM pass uses
-  `config/llm/yomi_triage.toml` and returns exactly `OK`, `FIX`, or `SKIP`
+  `config/llm/yomi_triage.toml` and returns exactly `OK`, `Review`, or `Skip`
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

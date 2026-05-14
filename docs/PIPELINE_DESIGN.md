@@ -339,8 +339,8 @@ Output:
 Responsibilities:
 
 - run first-stage yomi triage on units not mechanically auto-accepted
-- return exactly one yomi triage label: `OK`, `FIX`, or `SKIP`
-- treat `SKIP` as non-target material such as foreign-language text,
+- return exactly one yomi triage label: `OK`, `Review`, or `Skip`
+- treat `Skip` as non-target material such as foreign-language text,
   classical Japanese, kanbun, or garbled text
 - judge unresolved alphabetic entity types where needed
 
@@ -357,7 +357,7 @@ Output:
 Responsibilities:
 
 - apply deterministic repair where possible
-- use an LLM repair prompt only for units labeled `FIX` by yomi triage
+- use an LLM repair prompt only for units labeled `Review` by yomi triage
 - never send knowingly bad yomi directly to the first human-review UI
 
 Useful features:
@@ -583,6 +583,12 @@ Keep two operating modes:
 
 Both modes should use the same prompt builder and parser.
 
+Prompt exploration should prefer synchronous Responses API calls even when the
+eventual production path uses batches. The exploration loop needs immediate raw
+outputs, parsed labels, usage, and failure reports so prompts can be revised
+quickly. Batch mode should enter after candidate prompts are already stable
+enough for larger regression checks or production throughput.
+
 ## 9.2 Model configuration
 
 Do not hardcode model choice deep in the pipeline, but the project should still
@@ -609,6 +615,13 @@ Stage-oriented defaults:
 
 This keeps the main path simple and high-quality while still reserving a clear
 escape hatch for the hardest cases.
+
+For prompt exploration, `gpt-5.4-mini` is a reasonable search model because the
+goal is to test prompt shape, label semantics, and sample quality quickly. Its
+results should not be treated as the final production quality estimate. The
+search should sweep mini reasoning effort settings and score each run by both
+quality and cost. Promote only the best few prompt candidates to `gpt-5.5` for
+the final production-quality comparison.
 
 ## 9.3 Cost controls
 
@@ -882,6 +895,11 @@ prompt candidates, and freeze a prompt version before large-scale processing.
 This has an upfront cost, but it avoids paying corpus-scale costs for weak early
 prompts and keeps batch outputs comparable across time.
 
+Use real-time API calls for this search phase. Do not use Batch API for the
+first exploratory loop, because waiting for batch completion slows prompt
+iteration and makes it harder to inspect failures while the prompt is still
+fluid.
+
 Build:
 
 - synchronous prompt-testing command
@@ -893,13 +911,26 @@ Build:
 Measure:
 
 - accuracy against the fixed gold set
-- dangerous confusion types, especially `OK` or `FIX` when the expected label
-  is `SKIP`
+- dangerous confusion types, especially `OK` or `Review` when the expected
+  label is `Skip`
 - parse-error rate
 - input/output token counts
+- cached input token counts when reported
 - estimated cost
 - cost per 10k units
 - distribution of class codes
+- model and reasoning effort
+
+Search strategy:
+
+- start with `gpt-5.4-mini` and synchronous calls
+- test broad prompt families before small wording edits
+- include zero-shot prompts, but expect few-shot boundary examples to be needed
+- compare `low` and `medium` reasoning effort first; add higher effort only if
+  accuracy failures look reasoning-bound
+- rank candidates by dangerous-error avoidance, parse stability, accuracy, then
+  token/cost efficiency
+- rerun only the strongest candidates on `gpt-5.5` before freezing production
 
 ### Iteration 3: regex repairs and context repair
 

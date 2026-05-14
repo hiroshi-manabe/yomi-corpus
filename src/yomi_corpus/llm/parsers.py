@@ -28,6 +28,6 @@ def parse_json_object(text: str) -> dict[str, Any]:
 
 def parse_yomi_triage_label(text: str) -> dict[str, str]:
     label = text.strip()
-    if label not in {"OK", "FIX", "SKIP"}:
-        raise ValueError("Expected exactly one of OK, FIX, or SKIP.")
+    if label not in {"OK", "Review", "Skip"}:
+        raise ValueError("Expected exactly one of OK, Review, or Skip.")
     return {"status": label}

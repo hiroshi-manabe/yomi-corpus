@@ -82,8 +82,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(parsed["status"], "in_scope")
 
     def test_parse_yomi_triage_label_output(self) -> None:
-        parsed = parse_output("FIX", "yomi_triage_label")
-        self.assertEqual(parsed, {"status": "FIX"})
+        parsed = parse_output("Review", "yomi_triage_label")
+        self.assertEqual(parsed, {"status": "Review"})
 
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")

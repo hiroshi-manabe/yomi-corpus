@@ -497,39 +497,41 @@ The model receives the original sentence and the current yomi-annotated
 sentence, then returns exactly one token:
 
 - `OK`: the current yomi annotation is correct
-- `FIX`: the unit is target Japanese, but the yomi annotation has a
-  reading error and should be repaired by a second prompt
-- `SKIP`: the unit is non-target text and should not be yomi-repaired, for
+- `Review`: the unit is target Japanese, but should not be accepted
+  automatically because the yomi has an error, malformed output, or unresolved
+  local ambiguity
+- `Skip`: the unit is non-target text and should not be yomi-repaired, for
   example because it is foreign-language text, classical Japanese, kanbun, or
   garbled text
 
-`SKIP` should be decided by the dominant language and style of the unit, not by
+`Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text
 when old kana, old kanji, kanbun, Chinese, or foreign text appears only inside
 short titles, names, bibliographic strings, or incidental quoted fragments. For
 example, a modern bibliographic explanation that mentions titles such as
-`東京掃苔録`, `東都掃苔記`, or `日本醫事新報` should not become `SKIP` solely
+`東京掃苔録`, `東都掃苔記`, or `日本醫事新報` should not become `Skip` solely
 because those titles contain old characters.
 
 Longer quotations and citations use a stricter labor-saving exclusion rule. If
 the unit contains even one full sentence of old kana, kanbun, Chinese,
 foreign-language text, or other non-target running text, label the whole unit
-`SKIP`. Modern Japanese is abundant enough that losing the surrounding modern
-frame is acceptable, and this avoids a later `FIX` vs `SKIP` review pass. The
+`Skip`. Modern Japanese is abundant enough that losing the surrounding modern
+frame is acceptable, and this avoids a later review pass over whether text is
+target or non-target. The
 exceptions are compact embedded material such as proverbs, fixed expressions,
 short titles, proper names, journal/book names, and bibliographic labels; those
-do not make the unit `SKIP` by themselves.
+do not make the unit `Skip` by themselves.
 
-`FIX` is also the right label when the yomi is not safely acceptable because of
-resolvable local ambiguity, even if the attached reading is one possible
+`Review` is also the right label when the yomi is not safely acceptable because
+of unresolved local ambiguity, even if the attached reading is one possible
 reading. For example, an isolated sentence such as `辛いね` should remain in
-the repair/review path if the available unit does not decide between readings
-such as `カライ` and `ツライ`. The triage label is operational: it answers
+the review path if the available unit does not decide between readings such as
+`カライ` and `ツライ`. The triage label is operational: it answers
 whether the unit can be accepted as final now, not whether the current reading
 is linguistically imaginable.
 
 By contrast, inherently unresolved but acceptable reading variation should not
-be forced into `FIX`. Examples such as `日本/ニッポン` or `私/ワタクシ` can be
+be forced into `Review`. Examples such as `日本/ニッポン` or `私/ワタクシ` can be
 slightly marked or less frequent, but they are not errors if context cannot
 reliably force another reading. These cases should normally be `OK`; if a
 variant repeatedly distracts the LLM, prefer a deterministic normalization or
@@ -561,8 +563,14 @@ it over large corpus batches. Iterating prompts while processing the corpus
 would make early batches less reliable and would make improvement cost scale
 with corpus size.
 
-For `yomi_triage`, the initial gold set should include balanced `OK`, `FIX`,
-and `SKIP` cases, with hard examples deliberately overrepresented. Each example
+Exploratory prompt optimization should use synchronous Responses API calls, not
+the Batch API. The point at this stage is fast inspection and revision: run a
+candidate, inspect failures and usage, edit the prompt, and rerun. Batch mode is
+for production throughput and later regression-scale checks after a prompt
+family is already promising.
+
+For `yomi_triage`, the initial gold set should include balanced `OK`, `Review`,
+and `Skip` cases, with hard examples deliberately overrepresented. Each example
 should store the original sentence, the exact mechanical yomi annotation that
 the model will see, the expected label, and optional human notes that are not
 included in the production prompt. The eval set should include both clear
@@ -571,11 +579,31 @@ including acceptable variant readings that should not trigger unnecessary
 repair. Optimization priorities are: avoid dangerous label errors, preserve
 parse stability, improve accuracy, then shorten prompt tokens.
 
+The prompt search should explicitly include few-shot variants. A no-example
+prompt is worth testing, but the expected winner is likely to be a short prompt
+with a small number of boundary examples. Useful prompt families include:
+
+- zero-shot label definitions
+- terse one-example-per-label prompts
+- boundary-example prompts for `辛い`, `私/ワタクシ`, embedded old-character
+  titles, and full non-target quotations
+- slightly longer examples with short reasons, only if terse examples fail
+- compressed or ungrammatical prompts, if they preserve label behavior
+
+During exploration, `gpt-5.4-mini` is acceptable as the default search model.
+For mini, sweep reasoning effort as an experimental parameter, not a fixed
+assumption. Compare at least `low` and `medium`, and include higher settings if
+the API/model supports them and early results suggest accuracy is effort-bound.
+Every run should record model, reasoning effort, prompt path, input/output token
+counts, cached-token counts if reported, estimated cost, parse errors, confusion
+matrix, and dangerous errors. The final production prompt should still be chosen
+from `gpt-5.5` behavior after the mini search narrows the candidate set.
+
 Likely current split:
 
 - `non_target_judge`: separate prompt when a standalone non-target classifier
   is needed
-- `yomi_triage`: first yomi LLM pass; returns only `OK`, `FIX`, or `SKIP`
+- `yomi_triage`: first yomi LLM pass; returns only `OK`, `Review`, or `Skip`
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type
   because it operates on batch-level entity types rather than sentence units
 - `yomi_repair`: separate prompt because repair should not be mixed into
@@ -610,8 +638,8 @@ So the yomi path becomes:
 
 1. mechanical yomi
 2. mechanical auto-accept for low-risk units
-3. LLM triage for the remaining units: `OK`, `FIX`, or `SKIP`
-4. LLM repair only for `FIX`
+3. LLM triage for the remaining units: `OK`, `Review`, or `Skip`
+4. LLM repair/review path only for `Review`
 5. human review
 
 Regex-based repair rules may still be useful here, and this is the area where
