@@ -25,7 +25,7 @@ from yomi_corpus.alphabetic_state import (
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
 from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
-from yomi_corpus.llm.runner import run_sync_task
+from yomi_corpus.llm.runner import run_llm_task
 from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
@@ -64,6 +64,9 @@ LLM_PROFILES = frozenset(
         LLM_PROFILE_STRONG,
     }
 )
+LLM_EXECUTION_MODE_SYNC = "sync"
+LLM_EXECUTION_MODE_BATCH = "batch"
+LLM_EXECUTION_MODES = frozenset({LLM_EXECUTION_MODE_SYNC, LLM_EXECUTION_MODE_BATCH})
 LLM_TASK_ALPHABETIC_ENTITY_JUDGE = "alphabetic_entity_judge"
 LLM_TASK_NON_TARGET_JUDGE = "non_target_judge"
 LLM_TASK_YOMI_TRIAGE = "yomi_triage"
@@ -148,6 +151,7 @@ class BatchState:
     current_stage: str
     yomi_policy: dict[str, str]
     llm_policy: dict[str, str]
+    llm_execution_policy: dict[str, str]
     blocking_reason: str | None
     skipped_review_gates: list[str]
     artifacts: dict[str, str]
@@ -266,6 +270,38 @@ def normalize_llm_policy(
     return normalized
 
 
+def default_llm_execution_policy(track_name: str) -> dict[str, str]:
+    config = load_pipeline_defaults_config()
+    tracks = config.get("tracks")
+    if not isinstance(tracks, dict):
+        raise ValueError("Pipeline defaults config must define [tracks]")
+    track = tracks.get(track_name)
+    if not isinstance(track, dict):
+        raise ValueError(f"Pipeline defaults config has no track: {track_name}")
+    policy = track.get("llm_execution_policy")
+    if not isinstance(policy, dict):
+        return {task: LLM_EXECUTION_MODE_SYNC for task in LLM_POLICY_TASKS}
+    return {task: str(policy.get(task, LLM_EXECUTION_MODE_SYNC)) for task in LLM_POLICY_TASKS}
+
+
+def normalize_llm_execution_policy(
+    policy: dict[str, object] | None,
+    *,
+    track_name: str,
+) -> dict[str, str]:
+    normalized = default_llm_execution_policy(track_name)
+    if policy:
+        for task, mode in policy.items():
+            task_name = str(task)
+            if task_name not in LLM_POLICY_TASK_SET:
+                raise ValueError(f"Unsupported LLM task in execution policy: {task_name}")
+            normalized[task_name] = str(mode)
+    for task, mode in normalized.items():
+        if mode not in LLM_EXECUTION_MODES:
+            raise ValueError(f"Unsupported LLM execution mode for {task}: {mode}")
+    return normalized
+
+
 class PipelineWorkspace:
     def __init__(self, root: str | Path) -> None:
         self.root = Path(root).resolve()
@@ -353,6 +389,10 @@ class PipelineWorkspace:
                 track_name=track_name,
                 legacy_yomi_policy=raw_yomi_policy,
             )
+            payload["llm_execution_policy"] = normalize_llm_execution_policy(
+                payload.get("llm_execution_policy"),
+                track_name=track_name,
+            )
             return BatchState(**payload)
         return self._infer_batch_state(batch_name)
 
@@ -383,6 +423,7 @@ class PipelineWorkspace:
             "skipped_review_gates": batch_state.skipped_review_gates,
             "yomi_policy": batch_state.yomi_policy,
             "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
             "artifacts": batch_state.artifacts,
             "target_documents": batch_state.target_documents,
             "docs_written": batch_state.docs_written,
@@ -399,10 +440,15 @@ class PipelineWorkspace:
         dataset_config_path: str = "config/datasets/ja_cc_level2.toml",
         yomi_policy: dict[str, object] | None = None,
         llm_policy: dict[str, object] | None = None,
+        llm_execution_policy: dict[str, object] | None = None,
     ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
         normalized_yomi_policy = normalize_yomi_policy(yomi_policy, track_name=normalized)
         normalized_llm_policy = normalize_llm_policy(llm_policy, track_name=normalized)
+        normalized_llm_execution_policy = normalize_llm_execution_policy(
+            llm_execution_policy,
+            track_name=normalized,
+        )
         batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
 
@@ -442,6 +488,7 @@ class PipelineWorkspace:
             "mechanical_analysis_initialized": True,
             "yomi_policy": normalized_yomi_policy,
             "llm_policy": normalized_llm_policy,
+            "llm_execution_policy": normalized_llm_execution_policy,
         }
         self.batch_dir(batch_name).mkdir(parents=True, exist_ok=True)
         self.manifest_path(batch_name).write_text(
@@ -463,6 +510,7 @@ class PipelineWorkspace:
             current_stage="prepared",
             yomi_policy=normalized_yomi_policy,
             llm_policy=normalized_llm_policy,
+            llm_execution_policy=normalized_llm_execution_policy,
             blocking_reason=None,
             skipped_review_gates=[],
             artifacts={
@@ -488,6 +536,7 @@ class PipelineWorkspace:
             "current_stage": "prepared",
             "yomi_policy": normalized_yomi_policy,
             "llm_policy": normalized_llm_policy,
+            "llm_execution_policy": normalized_llm_execution_policy,
         }
 
     def advance(
@@ -524,6 +573,7 @@ class PipelineWorkspace:
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
                     "llm_policy": batch_state.llm_policy,
+                    "llm_execution_policy": batch_state.llm_execution_policy,
                     "blocking_reason": (
                         "Forced rerun is currently limited to the batch's current stage "
                         f"({current_stage})."
@@ -541,6 +591,7 @@ class PipelineWorkspace:
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
                     "llm_policy": batch_state.llm_policy,
+                    "llm_execution_policy": batch_state.llm_execution_policy,
                     "blocking_reason": f"Stage {force_stage} is not rerunnable.",
                 }
             overwrite_paths = self._existing_stage_artifact_paths(
@@ -565,6 +616,7 @@ class PipelineWorkspace:
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
                     "llm_policy": batch_state.llm_policy,
+                    "llm_execution_policy": batch_state.llm_execution_policy,
                     "blocking_reason": (
                         f"Rerunning stage {force_stage} will overwrite existing artifacts "
                         "on the working track."
@@ -572,6 +624,13 @@ class PipelineWorkspace:
                 }
 
             summary = self._run_stage(batch_state.batch_name, force_stage)
+            if not summary.get("stage_complete", True):
+                return self._persist_incomplete_stage_summary(
+                    normalized=normalized,
+                    batch_state=batch_state,
+                    summary=summary,
+                    forced=True,
+                )
             batch_state.current_stage = force_stage
             batch_state.blocking_reason = self._blocking_reason_for_stage(force_stage)
             batch_state.artifacts.update(summary["artifacts"])
@@ -596,6 +655,7 @@ class PipelineWorkspace:
                 "skipped_review_gates": batch_state.skipped_review_gates,
                 "yomi_policy": batch_state.yomi_policy,
                 "llm_policy": batch_state.llm_policy,
+                "llm_execution_policy": batch_state.llm_execution_policy,
                 "artifacts": batch_state.artifacts,
             }
 
@@ -611,11 +671,19 @@ class PipelineWorkspace:
                 "skipped_review_gates": batch_state.skipped_review_gates,
                 "yomi_policy": batch_state.yomi_policy,
                 "llm_policy": batch_state.llm_policy,
+                "llm_execution_policy": batch_state.llm_execution_policy,
                 "blocking_reason": batch_state.blocking_reason
                 or "No automated next stage is implemented for this batch.",
             }
 
         summary = self._run_stage(batch_state.batch_name, next_stage)
+        if not summary.get("stage_complete", True):
+            return self._persist_incomplete_stage_summary(
+                normalized=normalized,
+                batch_state=batch_state,
+                summary=summary,
+                forced=False,
+            )
         batch_state.current_stage = next_stage
         batch_state.blocking_reason = self._blocking_reason_for_stage(next_stage)
         batch_state.artifacts.update(summary["artifacts"])
@@ -640,8 +708,41 @@ class PipelineWorkspace:
             "skipped_review_gates": batch_state.skipped_review_gates,
             "yomi_policy": batch_state.yomi_policy,
             "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
             "artifacts": batch_state.artifacts,
         }
+
+    def _persist_incomplete_stage_summary(
+        self,
+        *,
+        normalized: str,
+        batch_state: BatchState,
+        summary: dict[str, object],
+        forced: bool,
+    ) -> dict[str, object]:
+        batch_state.artifacts.update(summary.get("artifacts", {}))
+        batch_state.blocking_reason = str(
+            summary.get("blocking_reason") or "Stage is still running."
+        )
+        batch_state.updated_at = now_iso()
+        self.save_batch_state(batch_state)
+        result = {
+            "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+            "batch_name": batch_state.batch_name,
+            "advanced": False,
+            "current_stage": batch_state.current_stage,
+            "blocking_reason": batch_state.blocking_reason,
+            "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
+            "artifacts": batch_state.artifacts,
+        }
+        if forced:
+            result["forced"] = True
+        return result
 
     def _run_stage(self, batch_name: str, stage_name: str) -> dict[str, object]:
         if stage_name == "alphabetic_analyzed":
@@ -840,6 +941,10 @@ class PipelineWorkspace:
                 manifest.get("llm_policy"),
                 track_name=track_name,
                 legacy_yomi_policy=raw_yomi_policy,
+            ),
+            llm_execution_policy=normalize_llm_execution_policy(
+                manifest.get("llm_execution_policy"),
+                track_name=track_name,
             ),
             blocking_reason=blocking_reason,
             skipped_review_gates=[] if requires_strict_human_review_gates(track_name) else [
@@ -1195,6 +1300,7 @@ class PipelineWorkspace:
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/yomi_triage.toml"
         llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_TRIAGE]
+        execution_mode = batch_state.llm_execution_policy[LLM_TASK_YOMI_TRIAGE]
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "yomi_triage_input.jsonl"
@@ -1207,14 +1313,40 @@ class PipelineWorkspace:
         queued_count = count_nonempty_lines(input_path)
         job_summary = None
         if queued_count:
-            job_summary = run_sync_task(
+            job_summary = run_llm_task(
                 task_config_path,
                 str(input_path),
                 str(results_path),
+                execution_mode=execution_mode,
                 task_config_override=task_config,
                 job_dir=str(job_dir),
                 show_progress=True,
             )
+            if job_summary.status != "completed":
+                return {
+                    "stage_complete": False,
+                    "blocking_reason": (
+                        f"LLM {execution_mode} job is {job_summary.status}; "
+                        "rerun ./next to poll or resume."
+                    ),
+                    "artifacts": {
+                        "yomi_triage_task_config": task_config_path,
+                        "yomi_triage_model": task_config.model,
+                        "yomi_triage_llm_profile": llm_profile,
+                        "yomi_triage_execution_mode": execution_mode,
+                        "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
+                        "yomi_triage_llm_job_dir": str(job_dir),
+                        "yomi_triage_llm_job_status": job_summary.status,
+                        "yomi_triage_llm_remote_status": job_summary.remote_status or "",
+                        "yomi_triage_llm_remote_batch_id": job_summary.remote_batch_id or "",
+                        "yomi_triage_llm_job_completed": str(job_summary.completed_items),
+                        "yomi_triage_llm_job_failed": str(job_summary.failed_items),
+                        "yomi_triage_llm_job_total": str(job_summary.total_items),
+                        "yomi_triage_prompt_template": task_config.prompt_template,
+                        "yomi_triage_unit_mode": batch_state.yomi_policy["unit_mode"],
+                        "yomi_triage_queued": str(queued_count),
+                    },
+                }
         else:
             results_path.parent.mkdir(parents=True, exist_ok=True)
             results_path.write_text("", encoding="utf-8")
@@ -1245,10 +1377,17 @@ class PipelineWorkspace:
                 "yomi_triage_task_config": task_config_path,
                 "yomi_triage_model": task_config.model,
                 "yomi_triage_llm_profile": llm_profile,
+                "yomi_triage_execution_mode": execution_mode,
                 "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
                 "yomi_triage_llm_job_dir": str(job_dir),
+                "yomi_triage_llm_job_status": "completed",
+                "yomi_triage_llm_remote_status": "" if job_summary is None else (job_summary.remote_status or ""),
+                "yomi_triage_llm_remote_batch_id": "" if job_summary is None else (job_summary.remote_batch_id or ""),
                 "yomi_triage_llm_job_completed": str(
                     0 if job_summary is None else job_summary.completed_items
+                ),
+                "yomi_triage_llm_job_failed": str(
+                    0 if job_summary is None else job_summary.failed_items
                 ),
                 "yomi_triage_llm_job_total": str(
                     0 if job_summary is None else job_summary.total_items

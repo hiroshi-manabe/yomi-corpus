@@ -32,6 +32,48 @@ class ResumableLLMJobSummary:
     results_jsonl: str
     job_dir: str | None
     manifest_json: str | None
+    remote_status: str | None = None
+    remote_batch_id: str | None = None
+
+
+LLM_EXECUTION_MODE_SYNC = "sync"
+LLM_EXECUTION_MODE_BATCH = "batch"
+LLM_EXECUTION_MODES = frozenset({LLM_EXECUTION_MODE_SYNC, LLM_EXECUTION_MODE_BATCH})
+
+
+def run_llm_task(
+    task_config_path: str,
+    input_jsonl_path: str,
+    output_jsonl_path: str,
+    *,
+    execution_mode: str,
+    api_key_file: str | None = None,
+    task_config_override: LLMTaskConfig | None = None,
+    job_dir: str | None = None,
+    show_progress: bool = False,
+) -> ResumableLLMJobSummary:
+    if execution_mode == LLM_EXECUTION_MODE_SYNC:
+        return run_sync_task(
+            task_config_path,
+            input_jsonl_path,
+            output_jsonl_path,
+            api_key_file=api_key_file,
+            task_config_override=task_config_override,
+            job_dir=job_dir,
+            show_progress=show_progress,
+        )
+    if execution_mode == LLM_EXECUTION_MODE_BATCH:
+        if not job_dir:
+            raise ValueError("job_dir is required for batch execution mode.")
+        return run_batch_task(
+            task_config_path,
+            input_jsonl_path,
+            output_jsonl_path,
+            api_key_file=api_key_file,
+            task_config_override=task_config_override,
+            job_dir=job_dir,
+        )
+    raise ValueError(f"Unsupported LLM execution mode: {execution_mode}")
 
 
 def run_sync_task(
@@ -101,6 +143,69 @@ def run_sync_task(
     return summary
 
 
+def run_batch_task(
+    task_config_path: str,
+    input_jsonl_path: str,
+    output_jsonl_path: str,
+    *,
+    api_key_file: str | None = None,
+    task_config_override: LLMTaskConfig | None = None,
+    job_dir: str,
+) -> ResumableLLMJobSummary:
+    task_config = task_config_override or load_llm_task_config(task_config_path)
+    rows = load_jsonl_rows(input_jsonl_path)
+    total_items = len(rows)
+    output_path = resolve_repo_path(output_jsonl_path)
+    job_path = resolve_repo_path(job_dir)
+    status_path = job_path / "status.json"
+    parsed_results_path = job_path / "results.parsed.jsonl"
+
+    if not status_path.exists():
+        prepare_batch_job(
+            task_config_path,
+            input_jsonl_path,
+            str(job_path),
+            task_config_override=task_config,
+        )
+    status = _load_json(status_path)
+
+    if status.get("state") == "prepared":
+        status = submit_batch_job(str(job_path), api_key_file=api_key_file)
+
+    if status.get("state") in {"submitted", "running"}:
+        status = poll_batch_job(str(job_path), api_key_file=api_key_file)
+
+    if status.get("state") == "completed":
+        status = fetch_batch_job(str(job_path), api_key_file=api_key_file)
+
+    if status.get("state") == "fetched":
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(parsed_results_path, output_path)
+
+    request_counts = _request_counts_from_status(status)
+    completed_items = int(request_counts.get("completed") or 0)
+    failed_items = int(request_counts.get("failed") or 0)
+    if status.get("state") == "fetched":
+        completed_items = load_result_item_count(output_path)
+    remote_status = status.get("remote_status")
+    remote_batch_id = status.get("batch_id")
+
+    return ResumableLLMJobSummary(
+        job_id=job_path.name,
+        mode="batch",
+        status="completed" if status.get("state") == "fetched" else str(status.get("state")),
+        total_items=total_items,
+        completed_items=completed_items,
+        skipped_items=0,
+        failed_items=failed_items,
+        results_jsonl=str(output_path),
+        job_dir=str(job_path),
+        manifest_json=str(job_path / "manifest.json"),
+        remote_status=str(remote_status) if remote_status is not None else None,
+        remote_batch_id=str(remote_batch_id) if remote_batch_id is not None else None,
+    )
+
+
 def prepare_batch_task(
     task_config_path: str,
     input_jsonl_path: str,
@@ -162,6 +267,17 @@ def load_result_item_ids(path: Path) -> set[str]:
     return item_ids
 
 
+def load_result_item_count(path: Path) -> int:
+    if not path.exists():
+        return 0
+    count = 0
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if line.strip():
+                count += 1
+    return count
+
+
 def result_to_json_row(result: LLMResult) -> dict[str, object]:
     return {
         "item_id": result.item_id,
@@ -193,3 +309,16 @@ def write_job_manifest(
         "input_jsonl": input_jsonl_path,
     }
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _request_counts_from_status(status: dict[str, object]) -> dict[str, object]:
+    remote_snapshot = status.get("remote_snapshot")
+    if isinstance(remote_snapshot, dict):
+        request_counts = remote_snapshot.get("request_counts")
+        if isinstance(request_counts, dict):
+            return request_counts
+    return {}
+
+
+def _load_json(path: Path) -> dict[str, object]:
+    return json.loads(path.read_text(encoding="utf-8"))

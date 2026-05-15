@@ -43,6 +43,16 @@ def parse_args() -> argparse.Namespace:
             "Repeatable; profiles are smoke, economy, standard, strong."
         ),
     )
+    parser.add_argument(
+        "--llm-execution-mode",
+        action="append",
+        default=[],
+        metavar="TASK=MODE",
+        help=(
+            "Override one LLM task execution mode for this batch. "
+            "Repeatable; modes are sync and batch."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -72,6 +82,16 @@ def main() -> None:
         if not task or not profile:
             raise SystemExit(f"Invalid --llm-profile value: {override}. Expected TASK=PROFILE.")
         llm_policy[task] = profile
+    llm_execution_policy = {}
+    for override in parsed.llm_execution_mode:
+        if "=" not in override:
+            raise SystemExit(f"Invalid --llm-execution-mode value: {override}. Expected TASK=MODE.")
+        task, mode = override.split("=", 1)
+        task = task.strip()
+        mode = mode.strip()
+        if not task or not mode:
+            raise SystemExit(f"Invalid --llm-execution-mode value: {override}. Expected TASK=MODE.")
+        llm_execution_policy[task] = mode
 
     workspace = PipelineWorkspace(PROJECT_ROOT)
     summary = workspace.prepare_next_batch(
@@ -79,6 +99,7 @@ def main() -> None:
         target_documents=target_documents,
         yomi_policy=yomi_policy or None,
         llm_policy=llm_policy or None,
+        llm_execution_policy=llm_execution_policy or None,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 

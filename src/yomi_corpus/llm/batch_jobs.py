@@ -13,6 +13,7 @@ from yomi_corpus.llm.backend import (
 )
 from yomi_corpus.llm.config import load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
+from yomi_corpus.llm.schemas import LLMTaskConfig
 from yomi_corpus.llm.tasks import build_prompt_items, load_jsonl_rows
 from yomi_corpus.paths import resolve_repo_path
 
@@ -24,8 +25,14 @@ RAW_RESULTS_FILENAME = "results.raw.jsonl"
 PARSED_RESULTS_FILENAME = "results.parsed.jsonl"
 
 
-def prepare_batch_job(task_config_path: str, input_jsonl_path: str, job_dir: str) -> None:
-    task_config = load_llm_task_config(task_config_path)
+def prepare_batch_job(
+    task_config_path: str,
+    input_jsonl_path: str,
+    job_dir: str,
+    *,
+    task_config_override: LLMTaskConfig | None = None,
+) -> None:
+    task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
     items = build_prompt_items(task_config, rows)
     job_path = resolve_repo_path(job_dir)

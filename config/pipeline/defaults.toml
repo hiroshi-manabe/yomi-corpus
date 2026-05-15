@@ -9,6 +9,13 @@ yomi_triage = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
+[tracks.working.llm_execution_policy]
+alphabetic_entity_judge = "batch"
+non_target_judge = "batch"
+yomi_triage = "batch"
+yomi_repair = "sync"
+yomi_rescue = "sync"
+
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
@@ -19,3 +26,10 @@ non_target_judge = "economy"
 yomi_triage = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
+
+[tracks.dev.llm_execution_policy]
+alphabetic_entity_judge = "sync"
+non_target_judge = "sync"
+yomi_triage = "sync"
+yomi_repair = "sync"
+yomi_rescue = "sync"

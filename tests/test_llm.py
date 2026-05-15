@@ -19,7 +19,7 @@ from yomi_corpus.llm.backend import (
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_profile, load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
-from yomi_corpus.llm.runner import run_sync_task
+from yomi_corpus.llm.runner import run_llm_task, run_sync_task
 from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.prompts import render_prompt
 from yomi_corpus.llm.tasks import build_prompt_items
@@ -244,6 +244,119 @@ class LLMScaffoldingTests(unittest.TestCase):
             ]
             self.assertEqual([row["item_id"] for row in rows], ["u1", "u2"])
             self.assertTrue((job_dir / "manifest.json").exists())
+
+    def test_run_llm_task_batch_reports_remote_progress(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps({"unit_id": "u1", "text": "大学です。", "rendered": "大学/ダイガク"}),
+                        json.dumps({"unit_id": "u2", "text": "方です。", "rendered": "方/ホウ"}),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            def fake_prepare(*args: object, **kwargs: object) -> None:
+                job_dir.mkdir(parents=True)
+                (job_dir / "status.json").write_text(
+                    json.dumps({"state": "prepared"}),
+                    encoding="utf-8",
+                )
+
+            def fake_submit(*args: object, **kwargs: object) -> dict[str, object]:
+                return {"state": "running", "remote_status": "in_progress", "batch_id": "batch_1"}
+
+            def fake_poll(*args: object, **kwargs: object) -> dict[str, object]:
+                return {
+                    "state": "running",
+                    "remote_status": "in_progress",
+                    "batch_id": "batch_1",
+                    "remote_snapshot": {
+                        "request_counts": {"total": 2, "completed": 1, "failed": 0}
+                    },
+                }
+
+            with (
+                patch("yomi_corpus.llm.runner.prepare_batch_job", side_effect=fake_prepare),
+                patch("yomi_corpus.llm.runner.submit_batch_job", side_effect=fake_submit),
+                patch("yomi_corpus.llm.runner.poll_batch_job", side_effect=fake_poll),
+            ):
+                summary = run_llm_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    execution_mode="batch",
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(summary.mode, "batch")
+            self.assertEqual(summary.status, "running")
+            self.assertEqual(summary.total_items, 2)
+            self.assertEqual(summary.completed_items, 1)
+            self.assertEqual(summary.remote_status, "in_progress")
+            self.assertFalse(output_path.exists())
+
+    def test_run_llm_task_batch_fetches_completed_results(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps({"unit_id": "u1", "text": "大学です。", "rendered": "大学/ダイガク"})
+                + "\n",
+                encoding="utf-8",
+            )
+
+            def fake_prepare(*args: object, **kwargs: object) -> None:
+                job_dir.mkdir(parents=True)
+                (job_dir / "status.json").write_text(
+                    json.dumps({"state": "prepared"}),
+                    encoding="utf-8",
+                )
+
+            def fake_submit(*args: object, **kwargs: object) -> dict[str, object]:
+                return {"state": "completed", "remote_status": "completed", "batch_id": "batch_1"}
+
+            def fake_fetch(*args: object, **kwargs: object) -> dict[str, object]:
+                (job_dir / "results.parsed.jsonl").write_text(
+                    json.dumps(
+                        {
+                            "item_id": "u1",
+                            "raw_text": "OK",
+                            "parsed": {"status": "OK"},
+                            "parse_error": None,
+                            "usage": {},
+                            "metadata": {},
+                        }
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                return {"state": "fetched", "remote_status": "completed", "batch_id": "batch_1"}
+
+            with (
+                patch("yomi_corpus.llm.runner.prepare_batch_job", side_effect=fake_prepare),
+                patch("yomi_corpus.llm.runner.submit_batch_job", side_effect=fake_submit),
+                patch("yomi_corpus.llm.runner.fetch_batch_job", side_effect=fake_fetch),
+            ):
+                summary = run_llm_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    execution_mode="batch",
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(summary.status, "completed")
+            self.assertEqual(summary.completed_items, 1)
+            self.assertTrue(output_path.exists())
 
 
 if __name__ == "__main__":

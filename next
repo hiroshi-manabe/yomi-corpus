@@ -113,7 +113,14 @@ def format_next_summary(summary: dict[str, object]) -> str:
         completed = artifacts.get("yomi_triage_llm_job_completed")
         total = artifacts.get("yomi_triage_llm_job_total")
         if completed is not None and total is not None:
-            lines.append(f"LLM progress: {completed}/{total} completed")
+            failed = artifacts.get("yomi_triage_llm_job_failed")
+            failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
+            lines.append(f"LLM progress: {completed}/{total} completed{failed_text}")
+        job_status = artifacts.get("yomi_triage_llm_job_status")
+        remote_status = artifacts.get("yomi_triage_llm_remote_status")
+        if job_status:
+            suffix = f" remote={remote_status}" if remote_status else ""
+            lines.append(f"LLM job: {job_status}{suffix}")
         output = artifacts.get("units_yomi_triaged_jsonl")
         if output:
             lines.append(f"Output: {output}")

@@ -97,6 +97,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(summary["llm_policy"]["yomi_triage"], "standard")
+            self.assertEqual(summary["llm_execution_policy"]["yomi_triage"], "batch")
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
@@ -123,6 +124,9 @@ class PipelineTrackTests(unittest.TestCase):
                         llm_policy={
                             "yomi_triage": "smoke",
                         },
+                        llm_execution_policy={
+                            "yomi_triage": "batch",
+                        },
                     )
 
             self.assertEqual(
@@ -133,6 +137,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(summary["llm_policy"]["yomi_triage"], "smoke")
+            self.assertEqual(summary["llm_execution_policy"]["yomi_triage"], "batch")
             state = workspace.load_batch_state(summary["batch_name"])
             self.assertEqual(
                 state.yomi_policy,
@@ -142,6 +147,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(state.llm_policy["yomi_triage"], "smoke")
+            self.assertEqual(state.llm_execution_policy["yomi_triage"], "batch")
             manifest = json.loads(
                 (root / "data" / "units" / summary["batch_name"] / "manifest.json").read_text(
                     encoding="utf-8"
@@ -155,6 +161,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(manifest["llm_policy"]["yomi_triage"], "smoke")
+            self.assertEqual(manifest["llm_execution_policy"]["yomi_triage"], "batch")
 
     def test_prepare_next_batch_skips_previous_source_lines_on_same_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -583,14 +590,15 @@ class PipelineTrackTests(unittest.TestCase):
                 )
             )
 
-            def fake_run_sync_task(
+            def fake_run_llm_task(
                 task_config_path: str,
                 input_jsonl_path: str,
                 output_jsonl_path: str,
                 **kwargs: object,
-            ) -> None:
+            ) -> object:
                 self.assertEqual(task_config_path, "config/llm/yomi_triage.toml")
                 self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "yomi_triage_input.jsonl").resolve())
+                self.assertEqual(kwargs["execution_mode"], "sync")
                 self.assertEqual(kwargs["task_config_override"].model, "gpt-5.4-mini")
                 Path(output_jsonl_path).write_text(
                     json.dumps(
@@ -613,8 +621,17 @@ class PipelineTrackTests(unittest.TestCase):
                     + "\n",
                     encoding="utf-8",
                 )
+                class Summary:
+                    status = "completed"
+                    completed_items = 1
+                    total_items = 1
+                    failed_items = 0
+                    remote_status = None
+                    remote_batch_id = None
 
-            with patch("yomi_corpus.pipeline.run_sync_task", side_effect=fake_run_sync_task) as mocked:
+                return Summary()
+
+            with patch("yomi_corpus.pipeline.run_llm_task", side_effect=fake_run_llm_task) as mocked:
                 summary = workspace.advance("dev")
 
             self.assertTrue(summary["advanced"])
@@ -632,6 +649,90 @@ class PipelineTrackTests(unittest.TestCase):
             }
             self.assertEqual(statuses, {"u1": "OK", "u2": "Review"})
             self.assertTrue((batch_dir / "yomi_triage_usage_summary.json").exists())
+
+    def test_batch_yomi_triage_does_not_advance_until_results_are_fetched(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 1,
+                        "llm_execution_policy": {"yomi_triage": "batch"},
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "方です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "方/ホウ です/デス 。/。",
+                                    "auto_accept": {"value": False},
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_triage_input.jsonl").write_text(
+                json.dumps(
+                    {"unit_id": "u1", "text": "方です。", "rendered": "方/ホウ です/デス 。/。"},
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            saved = workspace.load_batch_state("dev_batch_0001")
+            saved.current_stage = "yomi_triage_queued"
+            workspace.save_batch_state(saved)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            class Summary:
+                status = "running"
+                completed_items = 0
+                total_items = 1
+                failed_items = 0
+                remote_status = "in_progress"
+                remote_batch_id = "batch_1"
+
+            with patch("yomi_corpus.pipeline.run_llm_task", return_value=Summary()):
+                summary = workspace.advance("dev")
+
+            self.assertFalse(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_triage_queued")
+            self.assertIn("LLM batch job is running", summary["blocking_reason"])
+            self.assertEqual(summary["artifacts"]["yomi_triage_execution_mode"], "batch")
+            self.assertEqual(summary["artifacts"]["yomi_triage_llm_remote_status"], "in_progress")
+            saved_after = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved_after.current_stage, "yomi_triage_queued")
 
     def test_force_stage_reruns_current_stage_on_dev(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
