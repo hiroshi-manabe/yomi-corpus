@@ -161,6 +161,13 @@ Yomi generation scaffold:
   with `analysis.llm.yomi_triage`; mechanically auto-accepted units are marked
   `OK`, LLM `Skip` units are excluded from later yomi repair, and LLM `Review`
   units remain in the repair/review path
+- LLM work should use a generic resumable job layer shared by alphabetic
+  judgment, yomi triage, yomi repair, and rescue repair; sync mode and batch
+  mode should both report completed/total progress and support interruption and
+  resume
+- `./next` should print concise operator-facing progress by default and write
+  full structured summaries to pipeline logs; `./next --json` should keep the
+  verbose machine-readable output
 - yomi triage/repair should support both `sentence` and `comma_span` work-item
   modes; the final corpus artifact remains sentence-level in both modes, and in
   `comma_span` mode any `Skip` span excludes the whole parent sentence while

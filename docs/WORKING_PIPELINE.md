@@ -1088,20 +1088,120 @@ The intended UX is:
 - let it do one clear thing
 - inspect `./status` when needed
 
-### 10.6.4 Explicit wait states
+### 10.6.4 Resumable LLM Jobs
 
-OpenAI Batch and human review should be treated as first-class wait states.
+LLM calls should be orchestrated through a generic resumable job layer. This is
+needed because the project will use LLMs in multiple stages: alphabetic entity
+judgment, yomi triage, ordinary yomi repair, and rescue repair. Each stage
+should not invent its own sync/batch lifecycle.
 
-Examples:
+The pipeline stage should own the domain transition, while the LLM job owns
+operational execution:
 
-- `waiting_for_openai_batch`
-- `waiting_for_yomi_triage_results` when a batch-mode yomi triage job has been
-  submitted but not fetched
-- `waiting_for_promotion_candidate_review`
-- `waiting_for_sentence_review_pass1`
+- input rows and request JSONL
+- result JSONL
+- mode: `sync` or `batch`
+- task name and resolved LLM profile/model settings
+- total item count, completed item count, failed item count
+- remote batch ID and remote status for batch mode
+- timestamps, attempts, and error information
 
-If the blocking condition has not been satisfied yet, `advance` should report
-that and stop cleanly instead of failing or guessing.
+Sync mode behavior:
+
+- process items sequentially at first; small concurrency can be added later
+- append each completed result to the job result JSONL immediately
+- on resume, skip item IDs already present in the result JSONL
+- show progress from completed item count over total item count
+- allow the operator to interrupt safely and continue with the same `./next`
+
+Batch mode behavior:
+
+- submit remaining items as an OpenAI Batch job
+- store remote job ID, request file, and manifest in the LLM job directory
+- on resume, poll the stored remote job
+- if the remote job is still running, report status and do not advance the
+  domain stage
+- if complete, download and normalize output, then apply results
+- if partially failed, resubmit only missing or failed item IDs when possible
+
+Suggested storage:
+
+```text
+data/llm/jobs/<job_id>/
+  manifest.json
+  input.jsonl
+  requests.jsonl
+  results.jsonl
+  usage_summary.json
+```
+
+Suggested manifest fields:
+
+```json
+{
+  "job_id": "dev_batch_0003_yomi_triage",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0003",
+  "task_name": "yomi_triage",
+  "mode": "sync",
+  "status": "running",
+  "total_items": 559,
+  "completed_items": 184,
+  "profile": "economy",
+  "model": "gpt-5.4-mini"
+}
+```
+
+Domain pipeline stages should not need many operational substages such as
+`queued`, `submitted`, or `batch_completed`. The normal pattern should be:
+
+- if no LLM job exists for the domain stage, create it and start execution
+- if an incomplete job exists, resume or poll it
+- if the job is complete, apply results and advance the domain stage
+
+Human review remains a first-class wait state, but OpenAI sync/batch execution
+should usually be represented as an attached resumable LLM job rather than as
+many stage names.
+
+### 10.6.5 CLI Output and Logs
+
+`PipelineWorkspace.advance()` may continue returning a full structured summary
+for tests and internal callers. The `./next` command should not print that full
+JSON by default. It is too long for ordinary operation and hides the important
+state.
+
+Default `./next` output should be concise and human-readable:
+
+```text
+Track: dev
+Batch: dev_batch_0003
+Stage: yomi_triage
+LLM job: dev_batch_0003_yomi_triage
+Progress: 184/559 completed
+Status: running
+Next: rerun ./next dev to continue
+```
+
+On completion:
+
+```text
+Track: dev
+Batch: dev_batch_0003
+Stage: yomi_triage_completed
+Completed: 559/559
+Output: data/units/dev_batch_0003/units.yomi.triaged.jsonl
+Next: yomi_repair
+```
+
+Full structured summaries should be written to local logs, for example:
+
+```text
+data/pipeline/logs/YYYYMMDD/<timestamp>_<track>_<batch>_<stage>.json
+```
+
+`./next --json` should preserve the current machine-readable behavior by
+printing the full structured summary to stdout. `./status --json` should also be
+available if status becomes human-readable by default later.
 
 
 ## 11. Human Review: Pass 1

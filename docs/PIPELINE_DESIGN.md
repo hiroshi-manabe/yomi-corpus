@@ -369,6 +369,37 @@ must be treated as `Review` so malformed model output cannot silently accept or
 skip a unit. Later yomi repair consumes only `Review` units, while `Skip` is
 excluded and `OK` is accepted subject to later audit sampling.
 
+#### Resumable LLM execution
+
+LLM execution should be handled by a generic resumable job layer rather than by
+adding separate queued/submitted/completed pipeline stages for each LLM-using
+task. The domain pipeline stage starts or resumes an LLM job; the LLM job owns
+request files, result files, remote job IDs, progress, retry state, and logs.
+
+The same job interface should support both sync and OpenAI Batch modes:
+
+- `sync`: process rows sequentially or with small concurrency, append each
+  completed result, and skip already completed item IDs when resumed
+- `batch`: submit the remaining rows as one remote batch job, persist the
+  remote batch ID, poll on later runs, fetch results when complete, and resubmit
+  only missing or failed items if needed
+
+Both modes should report progress as completed items over total items. Sync mode
+can update progress after each response. Batch mode may only have coarse
+progress while the remote job is running, but should still report remote status
+and known completed/request counts when available.
+
+The domain stage should complete only after the job has produced a complete
+result JSONL and those results have been applied to the domain artifact. For
+yomi triage, that means the job can be running while the domain step is still
+`yomi_triage`, and the stage advances to `yomi_triage_completed` only after
+`units.yomi.triaged.jsonl` is written.
+
+Interruptions should be normal. The operator may stop sync mode partway through;
+rerunning `./next` resumes from result rows already present. For batch mode,
+rerunning `./next` polls the stored remote job, reports "still running" without
+advancing if needed, and applies results once the job is complete.
+
 #### Sentence vs comma-span operating modes
 
 The canonical corpus unit remains the sentence-like unit produced from the
