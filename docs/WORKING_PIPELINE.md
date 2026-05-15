@@ -577,7 +577,7 @@ Example policy:
 }
 ```
 
-Example LLM policy:
+Example LLM policies:
 
 ```json
 {
@@ -589,11 +589,22 @@ Example LLM policy:
 }
 ```
 
+```json
+{
+  "alphabetic_entity_judge": "batch",
+  "non_target_judge": "batch",
+  "yomi_triage": "batch",
+  "yomi_repair": "sync",
+  "yomi_rescue": "sync"
+}
+```
+
 Allowed values for now:
 
 - `unit_mode`: `sentence`, `comma_span`
 - `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
 - LLM profiles: `smoke`, `economy`, `standard`, `strong`
+- LLM execution modes: `sync`, `batch`
 
 Suggested defaults are `working={unit_mode=sentence,
 auto_accept_profile=strict}` and
@@ -602,10 +613,14 @@ Operators should still be able to run dev with `off` or `strict`, and later run
 working with `stable_two_kanji` once that policy is trusted. Track defaults
 should also choose LLM profiles per task, so dev can use `economy` for flow
 checks while working uses `standard` for ordinary corpus work and `strong` for
-rescue. `sentence` is the safer unit-mode default while the pipeline is still
-stabilizing. `comma_span` should be available, especially for dev experiments,
-because it can raise the automatic `OK` rate and reduce downstream review
-volume. Its cost is more API calls and extra reconstruction logic.
+rescue. Track defaults should also choose execution modes per task. `sync` is
+best for prompt exploration, small dev runs, and tasks where immediate failure
+inspection matters. `batch` is best for large classification-style tasks where
+latency is acceptable and cost/rate-limit behavior matters. `sentence` is the
+safer unit-mode default while the pipeline is still stabilizing. `comma_span`
+should be available, especially for dev experiments, because it can raise the
+automatic `OK` rate and reduce downstream review volume. Its cost is more API
+calls and extra reconstruction logic.
 
 These defaults should be source-controlled configuration, not hidden Python
 constants. A minimal shape is:
@@ -622,6 +637,13 @@ yomi_triage = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
+[tracks.working.llm_execution_policy]
+alphabetic_entity_judge = "batch"
+non_target_judge = "batch"
+yomi_triage = "batch"
+yomi_repair = "sync"
+yomi_rescue = "sync"
+
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
@@ -632,6 +654,13 @@ non_target_judge = "economy"
 yomi_triage = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
+
+[tracks.dev.llm_execution_policy]
+alphabetic_entity_judge = "sync"
+non_target_judge = "sync"
+yomi_triage = "sync"
+yomi_repair = "sync"
+yomi_rescue = "sync"
 ```
 
 The prepare-time precedence should stay simple:
@@ -1125,10 +1154,15 @@ Batch mode behavior:
 - submit remaining items as an OpenAI Batch job
 - store remote job ID, request file, and manifest in the LLM job directory
 - on resume, poll the stored remote job
-- if the remote job is still running, report status and do not advance the
+- if the remote job is still running, report status and OpenAI
+  `request_counts` (`completed`, `failed`, `total`) and do not advance the
   domain stage
 - if complete, download and normalize output, then apply results
 - if partially failed, resubmit only missing or failed item IDs when possible
+
+The batch output file is available only after completion. Progress before that
+comes from the Batch object's `request_counts`, while final result mapping must
+come from the downloaded output file and each request's `custom_id`.
 
 Suggested storage:
 
@@ -1153,7 +1187,11 @@ Suggested manifest fields:
   "status": "running",
   "total_items": 559,
   "completed_items": 184,
+  "failed_items": 0,
   "profile": "economy",
+  "execution_mode": "batch",
+  "remote_batch_id": "batch_...",
+  "remote_status": "in_progress",
   "model": "gpt-5.4-mini"
 }
 ```

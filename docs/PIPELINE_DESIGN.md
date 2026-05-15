@@ -388,9 +388,11 @@ The same job interface should support both sync and OpenAI Batch modes:
   only missing or failed items if needed
 
 Both modes should report progress as completed items over total items. Sync mode
-can update progress after each response. Batch mode may only have coarse
-progress while the remote job is running, but should still report remote status
-and known completed/request counts when available.
+can update progress after each response. Batch mode should poll the remote
+OpenAI Batch object and use its `request_counts` (`completed`, `failed`,
+`total`) as the progress source while the server-side job is running. The
+output file is still available only after completion, so final result parsing
+must continue to use the downloaded output file and each request's `custom_id`.
 
 The domain stage should complete only after the job has produced a complete
 result JSONL and those results have been applied to the domain artifact. For
@@ -400,8 +402,8 @@ yomi triage, that means the job can be running while the domain step is still
 
 Interruptions should be normal. The operator may stop sync mode partway through;
 rerunning `./next` resumes from result rows already present. For batch mode,
-rerunning `./next` polls the stored remote job, reports "still running" without
-advancing if needed, and applies results once the job is complete.
+rerunning `./next` polls the stored remote job, reports current
+`request_counts`, and applies results once the job is complete.
 
 #### Sentence vs comma-span operating modes
 
@@ -430,8 +432,12 @@ Yomi-specific policy should record only yomi structural decisions:
 }
 ```
 
-Model selection is cross-cutting and should be stored separately as
-`llm_policy`, a task-to-profile map:
+LLM configuration is cross-cutting and should be stored separately as two
+task-to-setting maps:
+
+- `llm_policy`: which model profile each task uses
+- `llm_execution_policy`: whether each task runs through sync calls or OpenAI
+  Batch
 
 ```json
 {
@@ -443,11 +449,22 @@ Model selection is cross-cutting and should be stored separately as
 }
 ```
 
+```json
+{
+  "alphabetic_entity_judge": "batch",
+  "non_target_judge": "batch",
+  "yomi_triage": "batch",
+  "yomi_repair": "sync",
+  "yomi_rescue": "sync"
+}
+```
+
 Initial allowed values:
 
 - `unit_mode`: `sentence`, `comma_span`
 - `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
 - LLM profiles: `smoke`, `economy`, `standard`, `strong`
+- LLM execution modes: `sync`, `batch`
 
 Suggested yomi defaults are `working={unit_mode=sentence,
 auto_accept_profile=strict}` and
@@ -455,8 +472,11 @@ auto_accept_profile=strict}` and
 defaults should also choose an LLM profile per task. Operators should be able to
 override these per batch, so dev can run with no auto-accept, working can later
 run with stable two-kanji auto-accept, and either track can use cheaper or
-stronger model profiles for specific tasks. The selected explicit values must
-be stored with the batch for reproducibility.
+stronger model profiles for specific tasks. Execution mode should be equally
+configurable per task, because prompt exploration and small repair batches are
+often easier in `sync`, while large classification-style tasks are better in
+`batch`. The selected explicit values must be stored with the batch for
+reproducibility.
 
 These defaults should not remain hidden Python constants. They should be moved
 to a small source-controlled project config, for example:
@@ -473,6 +493,13 @@ yomi_triage = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
+[tracks.working.llm_execution_policy]
+alphabetic_entity_judge = "batch"
+non_target_judge = "batch"
+yomi_triage = "batch"
+yomi_repair = "sync"
+yomi_rescue = "sync"
+
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
@@ -483,6 +510,13 @@ non_target_judge = "economy"
 yomi_triage = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
+
+[tracks.dev.llm_execution_policy]
+alphabetic_entity_judge = "sync"
+non_target_judge = "sync"
+yomi_triage = "sync"
+yomi_repair = "sync"
+yomi_rescue = "sync"
 ```
 
 The prepare-time precedence should stay deliberately shallow:
