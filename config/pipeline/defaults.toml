@@ -1,0 +1,21 @@
+[tracks.working.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "strict"
+
+[tracks.working.llm_policy]
+alphabetic_entity_judge = "standard"
+non_target_judge = "standard"
+yomi_triage = "standard"
+yomi_repair = "standard"
+yomi_rescue = "strong"
+
+[tracks.dev.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "stable_two_kanji"
+
+[tracks.dev.llm_policy]
+alphabetic_entity_judge = "economy"
+non_target_judge = "economy"
+yomi_triage = "economy"
+yomi_repair = "economy"
+yomi_rescue = "standard"

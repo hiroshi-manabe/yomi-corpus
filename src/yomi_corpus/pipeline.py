@@ -22,7 +22,8 @@ from yomi_corpus.alphabetic_state import (
     append_alphabetic_evidence,
     load_alphabetic_decisions,
 )
-from yomi_corpus.llm.config import load_llm_task_config
+from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
+from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
 from yomi_corpus.llm.runner import run_sync_task
 from yomi_corpus.llm.usage_report import summarize_results_jsonl
@@ -37,6 +38,7 @@ WORKING_TRACK = "working"
 DEV_TRACK = "dev"
 DEFAULT_TRACK = WORKING_TRACK
 PROTECTED_TRACKS = frozenset({WORKING_TRACK})
+DEFAULT_PIPELINE_DEFAULTS_CONFIG_PATH = "config/pipeline/defaults.toml"
 YOMI_UNIT_MODE_SENTENCE = "sentence"
 YOMI_UNIT_MODE_COMMA_SPAN = "comma_span"
 YOMI_UNIT_MODES = frozenset({YOMI_UNIT_MODE_SENTENCE, YOMI_UNIT_MODE_COMMA_SPAN})
@@ -49,6 +51,44 @@ YOMI_AUTO_ACCEPT_PROFILES = frozenset(
         YOMI_AUTO_ACCEPT_PROFILE_STRICT,
         YOMI_AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
     }
+)
+LLM_PROFILE_SMOKE = "smoke"
+LLM_PROFILE_ECONOMY = "economy"
+LLM_PROFILE_STANDARD = "standard"
+LLM_PROFILE_STRONG = "strong"
+LLM_PROFILES = frozenset(
+    {
+        LLM_PROFILE_SMOKE,
+        LLM_PROFILE_ECONOMY,
+        LLM_PROFILE_STANDARD,
+        LLM_PROFILE_STRONG,
+    }
+)
+LLM_TASK_ALPHABETIC_ENTITY_JUDGE = "alphabetic_entity_judge"
+LLM_TASK_NON_TARGET_JUDGE = "non_target_judge"
+LLM_TASK_YOMI_TRIAGE = "yomi_triage"
+LLM_TASK_YOMI_REPAIR = "yomi_repair"
+LLM_TASK_YOMI_RESCUE = "yomi_rescue"
+LLM_POLICY_TASKS = (
+    LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
+    LLM_TASK_NON_TARGET_JUDGE,
+    LLM_TASK_YOMI_TRIAGE,
+    LLM_TASK_YOMI_REPAIR,
+    LLM_TASK_YOMI_RESCUE,
+)
+LLM_POLICY_TASK_SET = frozenset(LLM_POLICY_TASKS)
+YOMI_LLM_PROFILE_PRODUCTION = "production"
+YOMI_LLM_PROFILE_DEV = "dev"
+YOMI_LLM_PROFILE_SMOKE = "smoke"
+YOMI_LLM_PROFILE_RESCUE = "rescue"
+LEGACY_YOMI_LLM_PROFILE_MAP = {
+    YOMI_LLM_PROFILE_PRODUCTION: LLM_PROFILE_STANDARD,
+    YOMI_LLM_PROFILE_DEV: LLM_PROFILE_ECONOMY,
+    YOMI_LLM_PROFILE_SMOKE: LLM_PROFILE_SMOKE,
+    YOMI_LLM_PROFILE_RESCUE: LLM_PROFILE_STRONG,
+}
+LEGACY_YOMI_LLM_PROFILES = frozenset(
+    LEGACY_YOMI_LLM_PROFILE_MAP
 )
 
 TRACKS: dict[str, dict[str, str]] = {
@@ -107,6 +147,7 @@ class BatchState:
     units_written: int
     current_stage: str
     yomi_policy: dict[str, str]
+    llm_policy: dict[str, str]
     blocking_reason: str | None
     skipped_review_gates: list[str]
     artifacts: dict[str, str]
@@ -141,15 +182,28 @@ def normalize_track_name(name: str | None) -> str:
 
 
 def default_yomi_policy(track_name: str) -> dict[str, str]:
-    auto_accept_profile = (
-        YOMI_AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI
-        if track_name == DEV_TRACK
-        else YOMI_AUTO_ACCEPT_PROFILE_STRICT
-    )
+    config = load_pipeline_defaults_config()
+    tracks = config.get("tracks")
+    if not isinstance(tracks, dict):
+        raise ValueError("Pipeline defaults config must define [tracks]")
+    track = tracks.get(track_name)
+    if not isinstance(track, dict):
+        raise ValueError(f"Pipeline defaults config has no track: {track_name}")
+    yomi_policy = track.get("yomi_policy")
+    if not isinstance(yomi_policy, dict):
+        raise ValueError(f"Pipeline defaults config has no yomi_policy for track: {track_name}")
     return {
-        "unit_mode": YOMI_UNIT_MODE_SENTENCE,
-        "auto_accept_profile": auto_accept_profile,
+        "unit_mode": str(yomi_policy["unit_mode"]),
+        "auto_accept_profile": str(yomi_policy["auto_accept_profile"]),
     }
+
+
+def load_pipeline_defaults_config(
+    path: str | Path = DEFAULT_PIPELINE_DEFAULTS_CONFIG_PATH,
+) -> dict[str, object]:
+    config_path = resolve_repo_path(str(path))
+    with config_path.open("rb") as handle:
+        return tomllib.load(handle)
 
 
 def normalize_yomi_policy(
@@ -169,6 +223,46 @@ def normalize_yomi_policy(
         raise ValueError(
             f"Unsupported yomi auto-accept profile: {normalized['auto_accept_profile']}"
         )
+    return normalized
+
+
+def default_llm_policy(track_name: str) -> dict[str, str]:
+    config = load_pipeline_defaults_config()
+    tracks = config.get("tracks")
+    if not isinstance(tracks, dict):
+        raise ValueError("Pipeline defaults config must define [tracks]")
+    track = tracks.get(track_name)
+    if not isinstance(track, dict):
+        raise ValueError(f"Pipeline defaults config has no track: {track_name}")
+    llm_policy = track.get("llm_policy")
+    if not isinstance(llm_policy, dict):
+        raise ValueError(f"Pipeline defaults config has no llm_policy for track: {track_name}")
+    return {task: str(llm_policy[task]) for task in LLM_POLICY_TASKS}
+
+
+def normalize_llm_policy(
+    policy: dict[str, object] | None,
+    *,
+    track_name: str,
+    legacy_yomi_policy: dict[str, object] | None = None,
+) -> dict[str, str]:
+    normalized = default_llm_policy(track_name)
+    legacy_profile = None
+    if legacy_yomi_policy and "llm_profile" in legacy_yomi_policy:
+        legacy_profile = str(legacy_yomi_policy["llm_profile"])
+    if legacy_profile:
+        if legacy_profile not in LEGACY_YOMI_LLM_PROFILES:
+            raise ValueError(f"Unsupported legacy yomi LLM profile: {legacy_profile}")
+        normalized[LLM_TASK_YOMI_TRIAGE] = LEGACY_YOMI_LLM_PROFILE_MAP[legacy_profile]
+    if policy:
+        for task, profile in policy.items():
+            task_name = str(task)
+            if task_name not in LLM_POLICY_TASK_SET:
+                raise ValueError(f"Unsupported LLM task in policy: {task_name}")
+            normalized[task_name] = str(profile)
+    for task, profile in normalized.items():
+        if profile not in LLM_PROFILES:
+            raise ValueError(f"Unsupported LLM profile for {task}: {profile}")
     return normalized
 
 
@@ -249,9 +343,15 @@ class PipelineWorkspace:
                     "final_edit_review",
                 ],
             )
+            raw_yomi_policy = payload.get("yomi_policy")
             payload["yomi_policy"] = normalize_yomi_policy(
-                payload.get("yomi_policy"),
+                raw_yomi_policy,
                 track_name=track_name,
+            )
+            payload["llm_policy"] = normalize_llm_policy(
+                payload.get("llm_policy"),
+                track_name=track_name,
+                legacy_yomi_policy=raw_yomi_policy,
             )
             return BatchState(**payload)
         return self._infer_batch_state(batch_name)
@@ -282,6 +382,7 @@ class PipelineWorkspace:
             "blocking_reason": batch_state.blocking_reason,
             "skipped_review_gates": batch_state.skipped_review_gates,
             "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
             "artifacts": batch_state.artifacts,
             "target_documents": batch_state.target_documents,
             "docs_written": batch_state.docs_written,
@@ -297,9 +398,11 @@ class PipelineWorkspace:
         target_documents: int,
         dataset_config_path: str = "config/datasets/ja_cc_level2.toml",
         yomi_policy: dict[str, object] | None = None,
+        llm_policy: dict[str, object] | None = None,
     ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
         normalized_yomi_policy = normalize_yomi_policy(yomi_policy, track_name=normalized)
+        normalized_llm_policy = normalize_llm_policy(llm_policy, track_name=normalized)
         batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
 
@@ -338,6 +441,7 @@ class PipelineWorkspace:
             "unit_schema_version": 1,
             "mechanical_analysis_initialized": True,
             "yomi_policy": normalized_yomi_policy,
+            "llm_policy": normalized_llm_policy,
         }
         self.batch_dir(batch_name).mkdir(parents=True, exist_ok=True)
         self.manifest_path(batch_name).write_text(
@@ -358,6 +462,7 @@ class PipelineWorkspace:
             units_written=units_written,
             current_stage="prepared",
             yomi_policy=normalized_yomi_policy,
+            llm_policy=normalized_llm_policy,
             blocking_reason=None,
             skipped_review_gates=[],
             artifacts={
@@ -382,6 +487,7 @@ class PipelineWorkspace:
             "units_written": units_written,
             "current_stage": "prepared",
             "yomi_policy": normalized_yomi_policy,
+            "llm_policy": normalized_llm_policy,
         }
 
     def advance(
@@ -417,6 +523,7 @@ class PipelineWorkspace:
                     "requested_force_stage": force_stage,
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
+                    "llm_policy": batch_state.llm_policy,
                     "blocking_reason": (
                         "Forced rerun is currently limited to the batch's current stage "
                         f"({current_stage})."
@@ -433,6 +540,7 @@ class PipelineWorkspace:
                     "requested_force_stage": force_stage,
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
+                    "llm_policy": batch_state.llm_policy,
                     "blocking_reason": f"Stage {force_stage} is not rerunnable.",
                 }
             overwrite_paths = self._existing_stage_artifact_paths(
@@ -456,6 +564,7 @@ class PipelineWorkspace:
                     "overwrite_paths": overwrite_paths,
                     "skipped_review_gates": batch_state.skipped_review_gates,
                     "yomi_policy": batch_state.yomi_policy,
+                    "llm_policy": batch_state.llm_policy,
                     "blocking_reason": (
                         f"Rerunning stage {force_stage} will overwrite existing artifacts "
                         "on the working track."
@@ -486,6 +595,7 @@ class PipelineWorkspace:
                 "blocking_reason": batch_state.blocking_reason,
                 "skipped_review_gates": batch_state.skipped_review_gates,
                 "yomi_policy": batch_state.yomi_policy,
+                "llm_policy": batch_state.llm_policy,
                 "artifacts": batch_state.artifacts,
             }
 
@@ -500,6 +610,7 @@ class PipelineWorkspace:
                 "current_stage": batch_state.current_stage,
                 "skipped_review_gates": batch_state.skipped_review_gates,
                 "yomi_policy": batch_state.yomi_policy,
+                "llm_policy": batch_state.llm_policy,
                 "blocking_reason": batch_state.blocking_reason
                 or "No automated next stage is implemented for this batch.",
             }
@@ -528,6 +639,7 @@ class PipelineWorkspace:
             "blocking_reason": batch_state.blocking_reason,
             "skipped_review_gates": batch_state.skipped_review_gates,
             "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
             "artifacts": batch_state.artifacts,
         }
 
@@ -707,6 +819,7 @@ class PipelineWorkspace:
             artifacts["yomi_triage_apply_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_triage_apply_summary.json"
             )
+        raw_yomi_policy = manifest.get("yomi_policy")
         state = BatchState(
             batch_name=batch_name,
             track_name=track_name,
@@ -720,8 +833,13 @@ class PipelineWorkspace:
             units_written=int(manifest["units_written"]),
             current_stage=current_stage,
             yomi_policy=normalize_yomi_policy(
-                manifest.get("yomi_policy"),
+                raw_yomi_policy,
                 track_name=track_name,
+            ),
+            llm_policy=normalize_llm_policy(
+                manifest.get("llm_policy"),
+                track_name=track_name,
+                legacy_yomi_policy=raw_yomi_policy,
             ),
             blocking_reason=blocking_reason,
             skipped_review_gates=[] if requires_strict_human_review_gates(track_name) else [
@@ -1076,7 +1194,9 @@ class PipelineWorkspace:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/yomi_triage.toml"
-        task_config = load_llm_task_config(task_config_path)
+        llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_TRIAGE]
+        base_task_config = load_llm_task_config(task_config_path)
+        task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "yomi_triage_input.jsonl"
         results_path = batch_dir / "yomi_triage_results.jsonl"
         usage_summary_path = batch_dir / "yomi_triage_usage_summary.json"
@@ -1089,6 +1209,7 @@ class PipelineWorkspace:
                 task_config_path,
                 str(input_path),
                 str(results_path),
+                task_config_override=task_config,
             )
         else:
             results_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1119,6 +1240,8 @@ class PipelineWorkspace:
                 "yomi_triage_apply_summary_json": str(apply_summary_path),
                 "yomi_triage_task_config": task_config_path,
                 "yomi_triage_model": task_config.model,
+                "yomi_triage_llm_profile": llm_profile,
+                "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
                 "yomi_triage_prompt_template": task_config.prompt_template,
                 "yomi_triage_unit_mode": apply_summary.unit_mode,
                 "yomi_triage_queued": str(queued_count),

@@ -387,14 +387,25 @@ default candidate because it can increase automatic `OK` coverage and reduce
 later review volume, at the cost of more LLM calls and more reconstruction
 logic.
 
-The same `yomi_policy` object should record the auto-accept criterion and the
-LLM profile used by yomi triage/repair:
+Yomi-specific policy should record only yomi structural decisions:
 
 ```json
 {
   "unit_mode": "sentence",
-  "auto_accept_profile": "strict",
-  "llm_profile": "production"
+  "auto_accept_profile": "strict"
+}
+```
+
+Model selection is cross-cutting and should be stored separately as
+`llm_policy`, a task-to-profile map:
+
+```json
+{
+  "alphabetic_entity_judge": "standard",
+  "non_target_judge": "standard",
+  "yomi_triage": "standard",
+  "yomi_repair": "standard",
+  "yomi_rescue": "strong"
 }
 ```
 
@@ -402,15 +413,16 @@ Initial allowed values:
 
 - `unit_mode`: `sentence`, `comma_span`
 - `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
-- `llm_profile`: `production`, `dev`, `smoke`, `rescue`
+- LLM profiles: `smoke`, `economy`, `standard`, `strong`
 
-Suggested track defaults are `working={unit_mode=sentence,
-auto_accept_profile=strict,llm_profile=production}` and
-`dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji,llm_profile=dev}`
-for now. Operators should be able to override these per batch, so dev can run
-with no auto-accept, working can later run with stable two-kanji auto-accept,
-and either track can use a cheaper or stronger model profile when appropriate.
-The selected explicit values must be stored with the batch for reproducibility.
+Suggested yomi defaults are `working={unit_mode=sentence,
+auto_accept_profile=strict}` and
+`dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji}` for now. Track
+defaults should also choose an LLM profile per task. Operators should be able to
+override these per batch, so dev can run with no auto-accept, working can later
+run with stable two-kanji auto-accept, and either track can use cheaper or
+stronger model profiles for specific tasks. The selected explicit values must
+be stored with the batch for reproducibility.
 
 These defaults should not remain hidden Python constants. They should be moved
 to a small source-controlled project config, for example:
@@ -419,19 +431,33 @@ to a small source-controlled project config, for example:
 [tracks.working.yomi_policy]
 unit_mode = "sentence"
 auto_accept_profile = "strict"
-llm_profile = "production"
+
+[tracks.working.llm_policy]
+alphabetic_entity_judge = "standard"
+non_target_judge = "standard"
+yomi_triage = "standard"
+yomi_repair = "standard"
+yomi_rescue = "strong"
 
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
-llm_profile = "dev"
+
+[tracks.dev.llm_policy]
+alphabetic_entity_judge = "economy"
+non_target_judge = "economy"
+yomi_triage = "economy"
+yomi_repair = "economy"
+yomi_rescue = "standard"
 ```
 
-The precedence should stay deliberately shallow:
+The prepare-time precedence should stay deliberately shallow:
 
 - explicit CLI override when preparing a batch
 - configured track default
-- stored resolved batch policy for all later pipeline stages and reruns
+
+After preparation, all later pipeline stages and reruns should use the stored
+resolved batch policy rather than re-reading current track defaults.
 
 There should not be a broad global override layer until repeated operational
 pain justifies it.
@@ -722,31 +748,31 @@ Recommended default policy:
 - do not assume `gpt-5.4-mini` is the normal cost-saving path unless task-level
   evals show that the quality tradeoff is actually worth it
 
-Model selection should be expressed through named profiles, not scattered model
-strings in pipeline branches. The batch should store `yomi_policy.llm_profile`,
-and the runner should resolve that profile into the task config overrides used
-for the actual API call.
+Model selection should be expressed through named capability/cost profiles, not
+scattered model strings in pipeline branches. The batch should store
+`llm_policy`, and the runner should resolve each task's profile into the task
+config overrides used for the actual API call.
 
 Initial profile meanings:
 
-- `production`: production-quality yomi judgment/repair, normally `gpt-5.5`
-- `dev`: cheaper interactive/dev pipeline checks, normally `gpt-5.4-mini`
 - `smoke`: plumbing-only API checks, normally `gpt-5.4-nano`
-- `rescue`: exceptional expensive rescue settings, normally `gpt-5.5-pro` or
+- `economy`: cheaper interactive/dev pipeline checks, normally `gpt-5.4-mini`
+- `standard`: production-quality judgment/repair, normally `gpt-5.5`
+- `strong`: exceptional expensive rescue settings, normally `gpt-5.5-pro` or
   web-search-enabled repair/check tasks
 
-Track defaults should be `working=production` and `dev=dev`, but those are only
-defaults. A dev batch may use `production` for realistic dry runs, and a working
-batch may use `smoke` only for explicit plumbing checks before real annotation.
-The resolved profile should be recorded in batch artifacts together with the
-actual model and reasoning effort so later cost and accuracy audits are
+Track defaults should choose profiles per LLM task, not one profile for the
+whole batch. A dev batch may use `standard` for realistic dry runs, and a
+working batch may use `smoke` only for explicit plumbing checks before real
+annotation. The resolved profile should be recorded in batch artifacts together
+with the actual model and reasoning effort so later cost and accuracy audits are
 unambiguous.
 
-The mapping from track to default LLM profile should come from the same
+The mapping from track/task to default LLM profile should come from the same
 source-controlled defaults config as `unit_mode` and `auto_accept_profile`.
-Profile definitions may live in a separate LLM config file if they grow, but
-the prepared batch should still store only the resolved profile name plus the
-artifacts' resolved model settings.
+Profile definitions live in the LLM profile config, while the prepared batch
+stores the resolved task-to-profile map plus each artifact's resolved model
+settings.
 
 Stage-oriented defaults:
 
@@ -884,7 +910,7 @@ Current intended operator commands:
 
 - `./prepare 100`
 - `./prepare dev 10`
-- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off dev 10`
+- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off --llm-profile yomi_triage=smoke dev 10`
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`

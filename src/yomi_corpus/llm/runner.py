@@ -12,7 +12,7 @@ from yomi_corpus.llm.batch_jobs import (
     submit_batch_job,
 )
 from yomi_corpus.llm.config import load_llm_task_config
-from yomi_corpus.llm.schemas import LLMResult
+from yomi_corpus.llm.schemas import LLMResult, LLMTaskConfig
 from yomi_corpus.llm.tasks import build_prompt_items, load_jsonl_rows
 from yomi_corpus.paths import resolve_repo_path
 
@@ -23,8 +23,9 @@ def run_sync_task(
     output_jsonl_path: str,
     *,
     api_key_file: str | None = None,
+    task_config_override: LLMTaskConfig | None = None,
 ) -> None:
-    task_config = load_llm_task_config(task_config_path)
+    task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
     items = build_prompt_items(task_config, rows)
     results = OpenAIResponsesBackend(api_key_file=api_key_file).run_sync(task_config, items)

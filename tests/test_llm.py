@@ -15,7 +15,7 @@ from yomi_corpus.llm.backend import (
     extract_usage_from_batch_item,
     write_batch_requests,
 )
-from yomi_corpus.llm.config import load_llm_task_config
+from yomi_corpus.llm.config import apply_llm_profile, load_llm_profile, load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
 from yomi_corpus.llm.prompts import render_prompt
 from yomi_corpus.llm.tasks import build_prompt_items
@@ -28,6 +28,15 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.task_name, "alphabetic_entity_judge")
         self.assertEqual(config.model, "gpt-5.5")
         self.assertEqual(config.parser, "json_object")
+
+    def test_apply_llm_profile_overrides_model(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_triage.toml")
+        profile = load_llm_profile("smoke")
+        self.assertEqual(profile["model"], "gpt-5.4-nano")
+
+        updated = apply_llm_profile(config, "smoke")
+        self.assertEqual(updated.model, "gpt-5.4-nano")
+        self.assertEqual(updated.reasoning_effort, config.reasoning_effort)
 
     def test_render_prompt_requires_variables(self) -> None:
         prompt = render_prompt("Hello {name}", {"name": "world"})

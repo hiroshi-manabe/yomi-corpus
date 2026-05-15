@@ -61,8 +61,12 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(status["skipped_review_gates"], [])
             self.assertEqual(
                 status["yomi_policy"],
-                {"unit_mode": "sentence", "auto_accept_profile": "strict"},
+                {
+                    "unit_mode": "sentence",
+                    "auto_accept_profile": "strict",
+                },
             )
+            self.assertEqual(status["llm_policy"]["yomi_triage"], "standard")
 
     def test_prepare_next_batch_allocates_track_specific_name_and_updates_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -87,8 +91,12 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["units_written"], 12)
             self.assertEqual(
                 summary["yomi_policy"],
-                {"unit_mode": "sentence", "auto_accept_profile": "strict"},
+                {
+                    "unit_mode": "sentence",
+                    "auto_accept_profile": "strict",
+                },
             )
+            self.assertEqual(summary["llm_policy"]["yomi_triage"], "standard")
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
@@ -112,17 +120,28 @@ class PipelineTrackTests(unittest.TestCase):
                             "unit_mode": "comma_span",
                             "auto_accept_profile": "off",
                         },
+                        llm_policy={
+                            "yomi_triage": "smoke",
+                        },
                     )
 
             self.assertEqual(
                 summary["yomi_policy"],
-                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+                {
+                    "unit_mode": "comma_span",
+                    "auto_accept_profile": "off",
+                },
             )
+            self.assertEqual(summary["llm_policy"]["yomi_triage"], "smoke")
             state = workspace.load_batch_state(summary["batch_name"])
             self.assertEqual(
                 state.yomi_policy,
-                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+                {
+                    "unit_mode": "comma_span",
+                    "auto_accept_profile": "off",
+                },
             )
+            self.assertEqual(state.llm_policy["yomi_triage"], "smoke")
             manifest = json.loads(
                 (root / "data" / "units" / summary["batch_name"] / "manifest.json").read_text(
                     encoding="utf-8"
@@ -130,8 +149,12 @@ class PipelineTrackTests(unittest.TestCase):
             )
             self.assertEqual(
                 manifest["yomi_policy"],
-                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+                {
+                    "unit_mode": "comma_span",
+                    "auto_accept_profile": "off",
+                },
             )
+            self.assertEqual(manifest["llm_policy"]["yomi_triage"], "smoke")
 
     def test_prepare_next_batch_skips_previous_source_lines_on_same_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -386,6 +409,9 @@ class PipelineTrackTests(unittest.TestCase):
                             "unit_mode": "sentence",
                             "auto_accept_profile": "off",
                         },
+                        "llm_policy": {
+                            "yomi_triage": "economy",
+                        },
                     },
                     ensure_ascii=False,
                 ),
@@ -557,9 +583,15 @@ class PipelineTrackTests(unittest.TestCase):
                 )
             )
 
-            def fake_run_sync_task(task_config_path: str, input_jsonl_path: str, output_jsonl_path: str) -> None:
+            def fake_run_sync_task(
+                task_config_path: str,
+                input_jsonl_path: str,
+                output_jsonl_path: str,
+                **kwargs: object,
+            ) -> None:
                 self.assertEqual(task_config_path, "config/llm/yomi_triage.toml")
                 self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "yomi_triage_input.jsonl").resolve())
+                self.assertEqual(kwargs["task_config_override"].model, "gpt-5.4-mini")
                 Path(output_jsonl_path).write_text(
                     json.dumps(
                         {
@@ -588,6 +620,8 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertTrue(summary["advanced"])
             self.assertEqual(summary["current_stage"], "yomi_triage_completed")
             self.assertEqual(mocked.call_count, 1)
+            self.assertEqual(summary["artifacts"]["yomi_triage_llm_profile"], "economy")
+            self.assertEqual(summary["artifacts"]["yomi_triage_model"], "gpt-5.4-mini")
             rows = [
                 json.loads(line)
                 for line in (batch_dir / "units.yomi.triaged.jsonl").read_text(encoding="utf-8").splitlines()

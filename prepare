@@ -33,6 +33,16 @@ def parse_args() -> argparse.Namespace:
         choices=["off", "strict", "stable_two_kanji"],
         help="Yomi auto-accept profile for this batch.",
     )
+    parser.add_argument(
+        "--llm-profile",
+        action="append",
+        default=[],
+        metavar="TASK=PROFILE",
+        help=(
+            "Override one LLM task profile for this batch. "
+            "Repeatable; profiles are smoke, economy, standard, strong."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -52,12 +62,23 @@ def main() -> None:
         yomi_policy["unit_mode"] = parsed.yomi_unit_mode
     if parsed.yomi_auto_accept_profile:
         yomi_policy["auto_accept_profile"] = parsed.yomi_auto_accept_profile
+    llm_policy = {}
+    for override in parsed.llm_profile:
+        if "=" not in override:
+            raise SystemExit(f"Invalid --llm-profile value: {override}. Expected TASK=PROFILE.")
+        task, profile = override.split("=", 1)
+        task = task.strip()
+        profile = profile.strip()
+        if not task or not profile:
+            raise SystemExit(f"Invalid --llm-profile value: {override}. Expected TASK=PROFILE.")
+        llm_policy[task] = profile
 
     workspace = PipelineWorkspace(PROJECT_ROOT)
     summary = workspace.prepare_next_batch(
         track_name=track_name,
         target_documents=target_documents,
         yomi_policy=yomi_policy or None,
+        llm_policy=llm_policy or None,
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 

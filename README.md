@@ -57,15 +57,14 @@ Default model policy:
 - reserve `gpt-5.5-pro` for a tiny last-resort rescue tail
 - use `gpt-5.4-nano` only for plumbing and instrumentation checks
 - treat `gpt-5.4-mini` as opt-in per task, not the default path
-- yomi batches should eventually store an explicit `yomi_policy.llm_profile`;
-  track names should only provide defaults such as `working=production` and
-  `dev=dev`
-- initial LLM profiles should be `production` (`gpt-5.5`), `dev`
-  (`gpt-5.4-mini`), `smoke` (`gpt-5.4-nano`), and `rescue`
-  (`gpt-5.5-pro` or otherwise expensive rescue settings)
+- batches should store an explicit `llm_policy` task-to-profile map, separate
+  from yomi-specific policy
+- initial LLM profiles are capability/cost tiers: `smoke` (`gpt-5.4-nano`),
+  `economy` (`gpt-5.4-mini`), `standard` (`gpt-5.5`), and `strong`
+  (`gpt-5.5-pro`)
 - track defaults should live in a small project config file rather than in
-  Python code; the precedence should stay simple:
-  CLI explicit override > configured track default > stored batch policy
+  Python code; at prepare time CLI explicit overrides should win over the
+  configured track default, and later stages should use the stored batch policy
 
 Alphabetic entity policy:
 
@@ -95,7 +94,8 @@ Pipeline orchestration policy:
   track
 - `./prepare 100` prepares the next working batch, while `./prepare dev 10`
   prepares the next dev batch; add `--yomi-unit-mode` or
-  `--yomi-auto-accept-profile` to override the per-batch yomi policy
+  `--yomi-auto-accept-profile` to override yomi policy, and repeat
+  `--llm-profile TASK=PROFILE` to override per-task LLM policy
 - `./next` advances the current working batch by one implemented automatic
   stage; `./next dev` does the same for the dev track
 - `./next --force-stage <stage>` reruns the current completed stage; on
@@ -133,8 +133,8 @@ Yomi generation scaffold:
 - yomi triage/repair work-item granularity should likewise be controlled by
   `yomi_policy.unit_mode`; supported values should start with `sentence` and
   `comma_span`, while the final corpus output remains sentence-level
-- yomi LLM model choice should be controlled by `yomi_policy.llm_profile`
-  rather than by hardcoded track checks inside the pipeline
+- LLM model choice should be controlled by `llm_policy` rather than by
+  hardcoded track checks inside the pipeline
 - supported decoder overrides and safe auto-acceptance are separate decisions:
   a supported decoder/Sudachi disagreement may be used as a tentative
   correction because review is still the default, but a unit is only safe when
