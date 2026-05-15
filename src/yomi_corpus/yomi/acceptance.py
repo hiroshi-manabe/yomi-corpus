@@ -13,6 +13,16 @@ from yomi_corpus.yomi.ngram_diagnostics import (
 )
 
 AUTO_ACCEPT_RULE = "sudachi_decoder_agree_repeated_ngram_or_stable_two_kanji_support_v2"
+AUTO_ACCEPT_PROFILE_OFF = "off"
+AUTO_ACCEPT_PROFILE_STRICT = "strict"
+AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI = "stable_two_kanji"
+AUTO_ACCEPT_PROFILES = frozenset(
+    {
+        AUTO_ACCEPT_PROFILE_OFF,
+        AUTO_ACCEPT_PROFILE_STRICT,
+        AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -31,14 +41,25 @@ class YomiAutoAcceptSummary:
     output_jsonl: str
     summary_json: str
     rule: str
+    auto_accept_profile: str
     stable_two_kanji_enabled: bool
 
 
 def judge_yomi_auto_accept(
     unit: dict[str, Any],
     *,
+    auto_accept_profile: str = AUTO_ACCEPT_PROFILE_STRICT,
     stable_two_kanji_checker: StableTwoKanjiChecker | None = None,
 ) -> YomiAutoAcceptance:
+    if auto_accept_profile not in AUTO_ACCEPT_PROFILES:
+        raise ValueError(f"Unsupported yomi auto-accept profile: {auto_accept_profile}")
+    if auto_accept_profile == AUTO_ACCEPT_PROFILE_OFF:
+        return YomiAutoAcceptance(
+            value=False,
+            rule=AUTO_ACCEPT_RULE,
+            signals=["auto_accept_profile_off"],
+        )
+
     yomi = (
         unit.get("analysis", {})
         .get("mechanical", {})
@@ -82,7 +103,9 @@ def judge_yomi_auto_accept(
         signals.append("decoder_lacks_full_repeated_ngram_support")
 
     has_stable_two_kanji_support = False
-    if stable_two_kanji_checker is None:
+    if auto_accept_profile != AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI:
+        signals.append("stable_two_kanji_relaxation_disabled")
+    elif stable_two_kanji_checker is None:
         signals.append("stable_two_kanji_relaxation_disabled")
     elif top_candidate is None:
         signals.append("stable_two_kanji_relaxation_unavailable")
@@ -165,9 +188,21 @@ def apply_yomi_auto_acceptance_file(
     input_jsonl: Path,
     output_jsonl: Path,
     summary_json: Path,
+    auto_accept_profile: str = AUTO_ACCEPT_PROFILE_STRICT,
     enable_stable_two_kanji: bool = False,
     raw_sudachi_dict_dir: Path = DEFAULT_RAW_SUDACHI_DICT_DIR,
 ) -> YomiAutoAcceptSummary:
+    if auto_accept_profile not in AUTO_ACCEPT_PROFILES:
+        raise ValueError(f"Unsupported yomi auto-accept profile: {auto_accept_profile}")
+    if auto_accept_profile == AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI:
+        enable_stable_two_kanji = True
+    elif auto_accept_profile == AUTO_ACCEPT_PROFILE_OFF:
+        enable_stable_two_kanji = False
+    elif enable_stable_two_kanji:
+        auto_accept_profile = AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI
+    elif auto_accept_profile == AUTO_ACCEPT_PROFILE_STRICT:
+        enable_stable_two_kanji = False
+
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
 
@@ -190,7 +225,11 @@ def apply_yomi_auto_acceptance_file(
                 continue
             read += 1
             unit = json.loads(line)
-            judgment = judge_yomi_auto_accept(unit, stable_two_kanji_checker=stable_checker)
+            judgment = judge_yomi_auto_accept(
+                unit,
+                auto_accept_profile=auto_accept_profile,
+                stable_two_kanji_checker=stable_checker,
+            )
             unit["analysis"]["mechanical"]["yomi"]["auto_accept"] = asdict(judgment)
             if judgment.value:
                 accepted += 1
@@ -207,6 +246,7 @@ def apply_yomi_auto_acceptance_file(
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
         rule=AUTO_ACCEPT_RULE,
+        auto_accept_profile=auto_accept_profile,
         stable_two_kanji_enabled=enable_stable_two_kanji,
     )
     summary_json.write_text(

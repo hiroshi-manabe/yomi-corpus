@@ -7,6 +7,8 @@ from pathlib import Path
 
 from yomi_corpus.yomi.acceptance import (
     AUTO_ACCEPT_RULE,
+    AUTO_ACCEPT_PROFILE_OFF,
+    AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
     apply_yomi_auto_acceptance_file,
     judge_yomi_auto_accept,
 )
@@ -83,6 +85,14 @@ class YomiAcceptanceTests(unittest.TestCase):
         judgment = judge_yomi_auto_accept(unit("2021です。", "2021/ です/デス 。/。"))
         self.assertTrue(judgment.value)
 
+    def test_auto_accept_profile_off_rejects_even_supported_unit(self) -> None:
+        judgment = judge_yomi_auto_accept(
+            unit("大学に行く。", "大学/ダイガク に/ニ 行く/イク 。/。"),
+            auto_accept_profile=AUTO_ACCEPT_PROFILE_OFF,
+        )
+        self.assertFalse(judgment.value)
+        self.assertEqual(judgment.signals, ["auto_accept_profile_off"])
+
     def test_rejects_when_sudachi_and_decoder_disagree(self) -> None:
         judgment = judge_yomi_auto_accept(
             unit(
@@ -134,6 +144,7 @@ class YomiAcceptanceTests(unittest.TestCase):
 
         judgment = judge_yomi_auto_accept(
             unit("記事です。", rendered, entries=entries),
+            auto_accept_profile=AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
             stable_two_kanji_checker=checker,
         )
 
@@ -154,6 +165,7 @@ class YomiAcceptanceTests(unittest.TestCase):
 
         judgment = judge_yomi_auto_accept(
             unit("大麻です。", rendered, entries=entries),
+            auto_accept_profile=AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
             stable_two_kanji_checker=checker,
         )
 
@@ -234,8 +246,10 @@ class YomiAcceptanceTests(unittest.TestCase):
 
             self.assertEqual(summary.accepted, 1)
             self.assertTrue(summary.stable_two_kanji_enabled)
+            self.assertEqual(summary.auto_accept_profile, AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI)
             payload = json.loads(summary_path.read_text(encoding="utf-8"))
             self.assertTrue(payload["stable_two_kanji_enabled"])
+            self.assertEqual(payload["auto_accept_profile"], AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI)
 
 
 def make_stable_checker(raw_csv: str) -> StableTwoKanjiChecker:

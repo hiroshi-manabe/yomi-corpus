@@ -37,6 +37,19 @@ WORKING_TRACK = "working"
 DEV_TRACK = "dev"
 DEFAULT_TRACK = WORKING_TRACK
 PROTECTED_TRACKS = frozenset({WORKING_TRACK})
+YOMI_UNIT_MODE_SENTENCE = "sentence"
+YOMI_UNIT_MODE_COMMA_SPAN = "comma_span"
+YOMI_UNIT_MODES = frozenset({YOMI_UNIT_MODE_SENTENCE, YOMI_UNIT_MODE_COMMA_SPAN})
+YOMI_AUTO_ACCEPT_PROFILE_OFF = "off"
+YOMI_AUTO_ACCEPT_PROFILE_STRICT = "strict"
+YOMI_AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI = "stable_two_kanji"
+YOMI_AUTO_ACCEPT_PROFILES = frozenset(
+    {
+        YOMI_AUTO_ACCEPT_PROFILE_OFF,
+        YOMI_AUTO_ACCEPT_PROFILE_STRICT,
+        YOMI_AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
+    }
+)
 
 TRACKS: dict[str, dict[str, str]] = {
     WORKING_TRACK: {
@@ -93,6 +106,7 @@ class BatchState:
     docs_written: int
     units_written: int
     current_stage: str
+    yomi_policy: dict[str, str]
     blocking_reason: str | None
     skipped_review_gates: list[str]
     artifacts: dict[str, str]
@@ -124,6 +138,38 @@ def normalize_track_name(name: str | None) -> str:
     if track_name not in TRACKS:
         raise ValueError(f"Unknown track: {track_name}")
     return track_name
+
+
+def default_yomi_policy(track_name: str) -> dict[str, str]:
+    auto_accept_profile = (
+        YOMI_AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI
+        if track_name == DEV_TRACK
+        else YOMI_AUTO_ACCEPT_PROFILE_STRICT
+    )
+    return {
+        "unit_mode": YOMI_UNIT_MODE_SENTENCE,
+        "auto_accept_profile": auto_accept_profile,
+    }
+
+
+def normalize_yomi_policy(
+    policy: dict[str, object] | None,
+    *,
+    track_name: str,
+) -> dict[str, str]:
+    normalized = default_yomi_policy(track_name)
+    if policy:
+        if "unit_mode" in policy:
+            normalized["unit_mode"] = str(policy["unit_mode"])
+        if "auto_accept_profile" in policy:
+            normalized["auto_accept_profile"] = str(policy["auto_accept_profile"])
+    if normalized["unit_mode"] not in YOMI_UNIT_MODES:
+        raise ValueError(f"Unsupported yomi unit mode: {normalized['unit_mode']}")
+    if normalized["auto_accept_profile"] not in YOMI_AUTO_ACCEPT_PROFILES:
+        raise ValueError(
+            f"Unsupported yomi auto-accept profile: {normalized['auto_accept_profile']}"
+        )
+    return normalized
 
 
 class PipelineWorkspace:
@@ -203,6 +249,10 @@ class PipelineWorkspace:
                     "final_edit_review",
                 ],
             )
+            payload["yomi_policy"] = normalize_yomi_policy(
+                payload.get("yomi_policy"),
+                track_name=track_name,
+            )
             return BatchState(**payload)
         return self._infer_batch_state(batch_name)
 
@@ -231,6 +281,7 @@ class PipelineWorkspace:
             "current_stage": batch_state.current_stage,
             "blocking_reason": batch_state.blocking_reason,
             "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
             "artifacts": batch_state.artifacts,
             "target_documents": batch_state.target_documents,
             "docs_written": batch_state.docs_written,
@@ -245,8 +296,10 @@ class PipelineWorkspace:
         track_name: str | None,
         target_documents: int,
         dataset_config_path: str = "config/datasets/ja_cc_level2.toml",
+        yomi_policy: dict[str, object] | None = None,
     ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
+        normalized_yomi_policy = normalize_yomi_policy(yomi_policy, track_name=normalized)
         batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
 
@@ -284,6 +337,7 @@ class PipelineWorkspace:
             "source_end_line_no": source_end_line_no,
             "unit_schema_version": 1,
             "mechanical_analysis_initialized": True,
+            "yomi_policy": normalized_yomi_policy,
         }
         self.batch_dir(batch_name).mkdir(parents=True, exist_ok=True)
         self.manifest_path(batch_name).write_text(
@@ -303,6 +357,7 @@ class PipelineWorkspace:
             docs_written=docs_written,
             units_written=units_written,
             current_stage="prepared",
+            yomi_policy=normalized_yomi_policy,
             blocking_reason=None,
             skipped_review_gates=[],
             artifacts={
@@ -326,6 +381,7 @@ class PipelineWorkspace:
             "docs_written": docs_written,
             "units_written": units_written,
             "current_stage": "prepared",
+            "yomi_policy": normalized_yomi_policy,
         }
 
     def advance(
@@ -360,6 +416,7 @@ class PipelineWorkspace:
                     "current_stage": current_stage,
                     "requested_force_stage": force_stage,
                     "skipped_review_gates": batch_state.skipped_review_gates,
+                    "yomi_policy": batch_state.yomi_policy,
                     "blocking_reason": (
                         "Forced rerun is currently limited to the batch's current stage "
                         f"({current_stage})."
@@ -375,6 +432,7 @@ class PipelineWorkspace:
                     "current_stage": current_stage,
                     "requested_force_stage": force_stage,
                     "skipped_review_gates": batch_state.skipped_review_gates,
+                    "yomi_policy": batch_state.yomi_policy,
                     "blocking_reason": f"Stage {force_stage} is not rerunnable.",
                 }
             overwrite_paths = self._existing_stage_artifact_paths(
@@ -397,6 +455,7 @@ class PipelineWorkspace:
                     "requires_confirmation": True,
                     "overwrite_paths": overwrite_paths,
                     "skipped_review_gates": batch_state.skipped_review_gates,
+                    "yomi_policy": batch_state.yomi_policy,
                     "blocking_reason": (
                         f"Rerunning stage {force_stage} will overwrite existing artifacts "
                         "on the working track."
@@ -426,6 +485,7 @@ class PipelineWorkspace:
                 "current_stage": batch_state.current_stage,
                 "blocking_reason": batch_state.blocking_reason,
                 "skipped_review_gates": batch_state.skipped_review_gates,
+                "yomi_policy": batch_state.yomi_policy,
                 "artifacts": batch_state.artifacts,
             }
 
@@ -439,6 +499,7 @@ class PipelineWorkspace:
                 "advanced": False,
                 "current_stage": batch_state.current_stage,
                 "skipped_review_gates": batch_state.skipped_review_gates,
+                "yomi_policy": batch_state.yomi_policy,
                 "blocking_reason": batch_state.blocking_reason
                 or "No automated next stage is implemented for this batch.",
             }
@@ -466,6 +527,7 @@ class PipelineWorkspace:
             "current_stage": batch_state.current_stage,
             "blocking_reason": batch_state.blocking_reason,
             "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
             "artifacts": batch_state.artifacts,
         }
 
@@ -657,6 +719,10 @@ class PipelineWorkspace:
             docs_written=int(manifest["docs_written"]),
             units_written=int(manifest["units_written"]),
             current_stage=current_stage,
+            yomi_policy=normalize_yomi_policy(
+                manifest.get("yomi_policy"),
+                track_name=track_name,
+            ),
             blocking_reason=blocking_reason,
             skipped_review_gates=[] if requires_strict_human_review_gates(track_name) else [
                 "promotion_candidate_review",
@@ -963,18 +1029,19 @@ class PipelineWorkspace:
         input_path = batch_dir / "units.yomi.aligned_hybrid.jsonl"
         output_path = batch_dir / "units.yomi.auto_accept.jsonl"
         summary_path = batch_dir / "yomi_auto_accept_summary.json"
-        enable_stable_two_kanji = batch_state.track_name == DEV_TRACK
+        auto_accept_profile = batch_state.yomi_policy["auto_accept_profile"]
         summary = apply_yomi_auto_acceptance_file(
             input_jsonl=input_path,
             output_jsonl=output_path,
             summary_json=summary_path,
-            enable_stable_two_kanji=enable_stable_two_kanji,
+            auto_accept_profile=auto_accept_profile,
         )
         return {
             "artifacts": {
                 "units_yomi_auto_accept_jsonl": str(output_path),
                 "yomi_auto_accept_summary_json": str(summary_path),
                 "yomi_auto_accept_rule": summary.rule,
+                "yomi_auto_accept_profile": summary.auto_accept_profile,
                 "yomi_auto_accept_accepted": str(summary.accepted),
                 "yomi_auto_accept_rejected": str(summary.rejected),
                 "yomi_auto_accept_stable_two_kanji_enabled": str(
@@ -992,12 +1059,14 @@ class PipelineWorkspace:
             input_jsonl=input_path,
             output_jsonl=output_path,
             summary_json=summary_path,
+            unit_mode=self.load_batch_state(batch_name).yomi_policy["unit_mode"],
         )
         return {
             "artifacts": {
                 "yomi_triage_input_jsonl": str(output_path),
                 "yomi_triage_queue_summary_json": str(summary_path),
                 "yomi_triage_task_config": "config/llm/yomi_triage.toml",
+                "yomi_triage_unit_mode": summary.unit_mode,
                 "yomi_triage_queued": str(summary.queued),
                 "yomi_triage_skipped_auto_accepted": str(summary.skipped_auto_accepted),
             }
@@ -1005,6 +1074,7 @@ class PipelineWorkspace:
 
     def _run_yomi_llm_triage(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/yomi_triage.toml"
         task_config = load_llm_task_config(task_config_path)
         input_path = batch_dir / "yomi_triage_input.jsonl"
@@ -1039,6 +1109,7 @@ class PipelineWorkspace:
             results_jsonl=results_path,
             output_jsonl=output_path,
             summary_json=apply_summary_path,
+            unit_mode=batch_state.yomi_policy["unit_mode"],
         )
         return {
             "artifacts": {
@@ -1049,6 +1120,7 @@ class PipelineWorkspace:
                 "yomi_triage_task_config": task_config_path,
                 "yomi_triage_model": task_config.model,
                 "yomi_triage_prompt_template": task_config.prompt_template,
+                "yomi_triage_unit_mode": apply_summary.unit_mode,
                 "yomi_triage_queued": str(queued_count),
                 "yomi_triage_ok": str(apply_summary.auto_accepted_ok + apply_summary.llm_ok),
                 "yomi_triage_review": str(

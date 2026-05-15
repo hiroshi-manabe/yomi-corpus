@@ -27,7 +27,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--force-stage",
-        choices=["alphabetic_analyzed", "alphabetic_reported", "yomi_generated"],
+        choices=[
+            "alphabetic_analyzed",
+            "alphabetic_reported",
+            "yomi_generated",
+            "yomi_auto_accepted",
+            "yomi_triage_queued",
+            "yomi_triage_completed",
+        ],
         help="Rerun the current completed stage instead of advancing to the next one.",
     )
     parser.add_argument(

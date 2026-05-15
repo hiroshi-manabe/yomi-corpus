@@ -272,12 +272,13 @@ write a separate `units.yomi.auto_accept.jsonl` artifact. It should mark
 unresolved non-numeric readings, Sudachi and the decoder agree on the rendered
 output, and either the decoder's top candidate is supported from start to end by
 repeated N-gram evidence or the same support check passes after the stable
-two-kanji relaxation. The stable two-kanji relaxation is enabled by default on
-the `dev` track so it is exercised under realistic pipeline runs. It remains an
-audited criterion: accepted rows should still record whether the relaxation was
-used. The `working` track should keep stricter review gates until the full
-pipeline is wired end-to-end. This is a review-skip flag, not a general proof
-of correctness.
+two-kanji relaxation. The selected criterion should come from the batch's
+explicit `yomi_policy.auto_accept_profile`, not directly from the track name.
+Tracks only provide defaults: `working` should default to `strict`, while `dev`
+can default to `stable_two_kanji` so the relaxation is exercised under
+realistic pipeline runs. It remains an audited criterion: accepted rows should
+still record which profile was used and whether the stable two-kanji relaxation
+was involved. This is a review-skip flag, not a general proof of correctness.
 
 N-gram confidence remains a debug metric rather than a pipeline decision. The
 current useful experiment is to split only on `、`, reject alphabetic-containing
@@ -294,9 +295,11 @@ fallback only for two-kanji compounds that have exactly one reading in the raw
 SudachiDict CSV inventory. This is meant to reduce false negatives caused by
 sparse decoder vocabulary, not to trust decoder over-segmentation.
 
-For `dev`, this relaxation is part of the default yomi auto-accept criterion.
-For `working`, it should remain available and documented but should not silently
-skip review until the full production pipeline is ready.
+As a profile, this relaxation should remain available on any track. For example,
+`dev` can run with `auto_accept_profile=off` or `strict` for conservative
+debugging, and `working` can later run with `stable_two_kanji` once the full
+production pipeline is ready. The chosen profile must be stored with the batch
+so reruns remain reproducible even if track defaults change.
 
 Use separate thresholds for reading changes and review-skipping safety. A
 decoder reading that differs from Sudachi and has repeated 2-gram support can be
@@ -541,6 +544,102 @@ acceptable stylistic variants.
 This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
 the default production triage prompt.
 
+### 9.1 Triage Unit Modes
+
+The canonical output unit remains sentence-level. However, the work item sent to
+LLM triage and later yomi repair can be either the sentence or a comma-delimited
+span.
+
+Supported modes:
+
+- `sentence`: one sentence-like unit is one triage/repair work item
+- `comma_span`: split each sentence-like unit at `、` and use the resulting
+  spans as triage/repair work items
+
+The selected mode should be stored in batch state or yomi config as
+`yomi_policy.unit_mode`, alongside `yomi_policy.auto_accept_profile` and
+`yomi_policy.llm_profile`. Tracks should only provide defaults; the actual
+per-batch values should be explicit so reruns stay reproducible.
+
+Example policy:
+
+```json
+{
+  "unit_mode": "sentence",
+  "auto_accept_profile": "strict",
+  "llm_profile": "production"
+}
+```
+
+Allowed values for now:
+
+- `unit_mode`: `sentence`, `comma_span`
+- `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
+- `llm_profile`: `production`, `dev`, `smoke`, `rescue`
+
+Suggested defaults are `working={unit_mode=sentence,
+auto_accept_profile=strict,llm_profile=production}` and
+`dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji,llm_profile=dev}`.
+Operators should still be able to run dev with `off` or `strict`, and later run
+working with `stable_two_kanji` once that policy is trusted. They should also be
+able to use `dev`/`smoke` model profiles for cheap pipeline checks or
+`production`/`rescue` profiles for realistic or exceptional runs. `sentence` is
+the safer unit-mode default while the pipeline is still stabilizing.
+`comma_span` should be available, especially for dev experiments, because it
+can raise the automatic `OK` rate and reduce downstream review volume. Its cost
+is more API calls and extra reconstruction logic.
+
+These defaults should be source-controlled configuration, not hidden Python
+constants. A minimal shape is:
+
+```toml
+[tracks.working.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "strict"
+llm_profile = "production"
+
+[tracks.dev.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "stable_two_kanji"
+llm_profile = "dev"
+```
+
+The precedence should stay simple:
+
+- explicit `./prepare` CLI override
+- configured track default
+- stored resolved batch policy for every later stage and rerun
+
+Avoid adding a wider global override layer unless this narrower config becomes
+operationally painful.
+
+In `comma_span` mode, each span work item should keep parent metadata:
+
+- span ID
+- parent unit ID
+- span sequence number
+- span text and rendered yomi
+- offsets or rendered-pair ranges when practical
+- optional previous/next span and full parent sentence context
+
+Sentence-level aggregation from span labels is:
+
+- `Skip` if any span is `Skip`
+- `Review` if no span is `Skip` and at least one span is `Review`
+- `OK` only if all spans are `OK`
+
+`Skip` wins over everything else. If any span is `Skip`, the whole parent
+sentence is excluded from the normal yomi corpus pipeline. No other span in that
+sentence proceeds to repair, even if that span was labeled `Review`; all span
+labels are kept only as audit metadata.
+
+If there is no `Skip`, `Review` remains span-local in `comma_span` mode. Later
+repair should target only the reviewed span, while attaching broader context
+when needed. The context is not limited to the parent sentence; it can include
+neighboring spans, previous/next sentence, or source metadata. The final
+dataset, however, is always sentence-level, so repaired spans must be merged
+back into their parent sentence before export.
+
 The default policy should be:
 
 - one prompt per judgment task
@@ -598,6 +697,32 @@ Every run should record model, reasoning effort, prompt path, input/output token
 counts, cached-token counts if reported, estimated cost, parse errors, confusion
 matrix, and dangerous errors. The final production prompt should still be chosen
 from `gpt-5.5` behavior after the mini search narrows the candidate set.
+
+Runtime yomi model selection should use named LLM profiles rather than raw model
+names spread across pipeline branches. The batch should store
+`yomi_policy.llm_profile`, and the runner should resolve that profile into the
+actual task config overrides used for model, reasoning effort, and any expensive
+tool settings.
+
+Initial profile meanings:
+
+- `production`: normal corpus-quality yomi triage/repair, usually `gpt-5.5`
+- `dev`: cheaper flow validation and prompt/pipeline debugging, usually
+  `gpt-5.4-mini`
+- `smoke`: transport and instrumentation checks only, usually `gpt-5.4-nano`
+- `rescue`: exceptional last-resort repair/check settings, usually
+  `gpt-5.5-pro` or web-search-enabled tasks
+
+Track defaults should be `working=production` and `dev=dev`, but these are only
+defaults. Per-batch overrides should allow realistic dev dry runs with
+`production`, cheap plumbing checks with `smoke`, and explicit expensive rescue
+runs without changing the track itself. Artifacts should record both the named
+profile and the resolved model settings for auditability.
+
+The track-to-profile default should come from the same project defaults config
+as the other `yomi_policy` fields. If profile definitions later need more
+detail, they can move to or reference a dedicated LLM profile config, but the
+prepared batch should remain the reproducibility boundary.
 
 Prompt-cache tuning should be deliberate. OpenAI prompt caching starts at 1024
 input tokens, so the reusable static prefix should eventually be tuned to be
@@ -902,6 +1027,7 @@ Current intended commands:
 
 - `./prepare 100`
 - `./prepare dev 10`
+- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off dev 10`
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`

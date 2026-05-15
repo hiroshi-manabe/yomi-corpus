@@ -57,6 +57,15 @@ Default model policy:
 - reserve `gpt-5.5-pro` for a tiny last-resort rescue tail
 - use `gpt-5.4-nano` only for plumbing and instrumentation checks
 - treat `gpt-5.4-mini` as opt-in per task, not the default path
+- yomi batches should eventually store an explicit `yomi_policy.llm_profile`;
+  track names should only provide defaults such as `working=production` and
+  `dev=dev`
+- initial LLM profiles should be `production` (`gpt-5.5`), `dev`
+  (`gpt-5.4-mini`), `smoke` (`gpt-5.4-nano`), and `rescue`
+  (`gpt-5.5-pro` or otherwise expensive rescue settings)
+- track defaults should live in a small project config file rather than in
+  Python code; the precedence should stay simple:
+  CLI explicit override > configured track default > stored batch policy
 
 Alphabetic entity policy:
 
@@ -85,7 +94,8 @@ Pipeline orchestration policy:
 - `working` is the strict protected track; `dev` is the relaxed experimental
   track
 - `./prepare 100` prepares the next working batch, while `./prepare dev 10`
-  prepares the next dev batch
+  prepares the next dev batch; add `--yomi-unit-mode` or
+  `--yomi-auto-accept-profile` to override the per-batch yomi policy
 - `./next` advances the current working batch by one implemented automatic
   stage; `./next dev` does the same for the dev track
 - `./next --force-stage <stage>` reruns the current completed stage; on
@@ -117,9 +127,14 @@ Yomi generation scaffold:
   token is stable only if the raw SudachiDict CSV inventory has exactly one
   reading for that surface, including component-only entries with `-1,-1`
   connection IDs; proper nouns are allowed when their reading is unique
-- the `dev` track enables the stable two-kanji relaxation in the yomi
-  auto-accept stage by default; `working` keeps the stricter default until the
-  full review pipeline is ready
+- yomi auto-accept behavior should be controlled by the per-batch
+  `yomi_policy.auto_accept_profile`; track names only supply defaults
+  (`working=strict`, `dev=stable_two_kanji` for now)
+- yomi triage/repair work-item granularity should likewise be controlled by
+  `yomi_policy.unit_mode`; supported values should start with `sentence` and
+  `comma_span`, while the final corpus output remains sentence-level
+- yomi LLM model choice should be controlled by `yomi_policy.llm_profile`
+  rather than by hardcoded track checks inside the pipeline
 - supported decoder overrides and safe auto-acceptance are separate decisions:
   a supported decoder/Sudachi disagreement may be used as a tentative
   correction because review is still the default, but a unit is only safe when
@@ -146,6 +161,10 @@ Yomi generation scaffold:
   with `analysis.llm.yomi_triage`; mechanically auto-accepted units are marked
   `OK`, LLM `Skip` units are excluded from later yomi repair, and LLM `Review`
   units remain in the repair/review path
+- yomi triage/repair should support both `sentence` and `comma_span` work-item
+  modes; the final corpus artifact remains sentence-level in both modes, and in
+  `comma_span` mode any `Skip` span excludes the whole parent sentence while
+  `Review` spans proceed locally only if no sibling span is `Skip`
 - `scripts/export_yomi_outputs.py` is the main operator helper for generating
   the normal pipeline artifact; it defaults to `aligned_hybrid` JSONL only
 - `scripts/export_yomi_debug_compare.py` is the dedicated debug helper for

@@ -59,6 +59,10 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(status["current_batch_name"], "batch_0001")
             self.assertEqual(status["current_stage"], "prepared")
             self.assertEqual(status["skipped_review_gates"], [])
+            self.assertEqual(
+                status["yomi_policy"],
+                {"unit_mode": "sentence", "auto_accept_profile": "strict"},
+            )
 
     def test_prepare_next_batch_allocates_track_specific_name_and_updates_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -81,9 +85,53 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["batch_name"], "batch_0002")
             self.assertEqual(summary["docs_written"], 5)
             self.assertEqual(summary["units_written"], 12)
+            self.assertEqual(
+                summary["yomi_policy"],
+                {"unit_mode": "sentence", "auto_accept_profile": "strict"},
+            )
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
+
+    def test_prepare_next_batch_accepts_explicit_yomi_policy(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+
+            with patch.object(workspace, "_load_dataset_config") as mocked_load:
+                mocked_load.return_value = {
+                    "name": "demo",
+                    "source_path": root / "source.jsonl.gz",
+                }
+                with patch.object(workspace, "_extract_batch_documents") as mocked_extract:
+                    mocked_extract.return_value = (3, 7, 1, 3)
+                    summary = workspace.prepare_next_batch(
+                        track_name="dev",
+                        target_documents=3,
+                        yomi_policy={
+                            "unit_mode": "comma_span",
+                            "auto_accept_profile": "off",
+                        },
+                    )
+
+            self.assertEqual(
+                summary["yomi_policy"],
+                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+            )
+            state = workspace.load_batch_state(summary["batch_name"])
+            self.assertEqual(
+                state.yomi_policy,
+                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+            )
+            manifest = json.loads(
+                (root / "data" / "units" / summary["batch_name"] / "manifest.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(
+                manifest["yomi_policy"],
+                {"unit_mode": "comma_span", "auto_accept_profile": "off"},
+            )
 
     def test_prepare_next_batch_skips_previous_source_lines_on_same_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -311,6 +359,55 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["current_stage"], "yomi_auto_accepted")
             self.assertIsNone(summary["blocking_reason"])
             self.assertEqual(mocked_stage.call_count, 1)
+
+    def test_yomi_auto_acceptance_uses_batch_policy_profile(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            input_path = batch_dir / "units.yomi.aligned_hybrid.jsonl"
+            input_path.write_text("", encoding="utf-8")
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                        "yomi_policy": {
+                            "unit_mode": "sentence",
+                            "auto_accept_profile": "off",
+                        },
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            state = workspace._infer_batch_state("dev_batch_0001")
+            state.current_stage = "yomi_generated"
+            workspace.save_batch_state(state)
+
+            class FakeSummary:
+                rule = "rule"
+                auto_accept_profile = "off"
+                accepted = 0
+                rejected = 0
+                stable_two_kanji_enabled = False
+
+            with patch("yomi_corpus.pipeline.apply_yomi_auto_acceptance_file") as mocked:
+                mocked.return_value = FakeSummary()
+                summary = workspace._auto_accept_mechanical_yomi("dev_batch_0001")
+
+            self.assertEqual(mocked.call_args.kwargs["auto_accept_profile"], "off")
+            self.assertEqual(summary["artifacts"]["yomi_auto_accept_profile"], "off")
 
     def test_advance_queues_yomi_triage_after_yomi_auto_acceptance(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -321,12 +321,12 @@ Example signals:
 The first yomi auto-accept rule is intentionally narrow. A unit is accepted
 only when it has generated yomi, has no unresolved non-numeric readings,
 Sudachi and the decoder agree on the rendered output, and the decoder top
-candidate has full repeated N-gram support. On the `dev` track, the same rule
-also accepts units whose support check passes only after the stable two-kanji
-relaxation. That relaxation is still conservative because Sudachi/decoder
-agreement remains mandatory and ambiguous raw SudachiDict readings are rejected.
-Grouped numeric runs such as `2021/` are allowed because number pronunciation is
-outside the current yomi task.
+candidate has full repeated N-gram support. The stable two-kanji relaxation is
+an optional auto-accept profile, not a hardcoded `dev` behavior. That relaxation
+is still conservative because Sudachi/decoder agreement remains mandatory and
+ambiguous raw SudachiDict readings are rejected. Grouped numeric runs such as
+`2021/` are allowed because number pronunciation is outside the current yomi
+task.
 
 ### S30 Sentence-Level LLM Classification
 
@@ -368,6 +368,104 @@ Queued units receive the parsed LLM status when parsing succeeds; parse errors
 must be treated as `Review` so malformed model output cannot silently accept or
 skip a unit. Later yomi repair consumes only `Review` units, while `Skip` is
 excluded and `OK` is accepted subject to later audit sampling.
+
+#### Sentence vs comma-span operating modes
+
+The canonical corpus unit remains the sentence-like unit produced from the
+source document. The pipeline may nevertheless run yomi triage and repair on a
+derived work-item layer. Two modes should be supported:
+
+- `sentence`: the current sentence-like unit is the triage and repair work item
+- `comma_span`: each sentence-like unit is split at Japanese commas (`、`), and
+  each span becomes a triage/repair work item
+
+The batch manifest or yomi config should record the selected mode explicitly in
+`yomi_policy.unit_mode`. Track names should provide defaults, not hardcoded
+behavior. `sentence` should remain the conservative default for `working` until
+span-mode export and repair are well tested. `comma_span` is a useful `dev`
+default candidate because it can increase automatic `OK` coverage and reduce
+later review volume, at the cost of more LLM calls and more reconstruction
+logic.
+
+The same `yomi_policy` object should record the auto-accept criterion and the
+LLM profile used by yomi triage/repair:
+
+```json
+{
+  "unit_mode": "sentence",
+  "auto_accept_profile": "strict",
+  "llm_profile": "production"
+}
+```
+
+Initial allowed values:
+
+- `unit_mode`: `sentence`, `comma_span`
+- `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
+- `llm_profile`: `production`, `dev`, `smoke`, `rescue`
+
+Suggested track defaults are `working={unit_mode=sentence,
+auto_accept_profile=strict,llm_profile=production}` and
+`dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji,llm_profile=dev}`
+for now. Operators should be able to override these per batch, so dev can run
+with no auto-accept, working can later run with stable two-kanji auto-accept,
+and either track can use a cheaper or stronger model profile when appropriate.
+The selected explicit values must be stored with the batch for reproducibility.
+
+These defaults should not remain hidden Python constants. They should be moved
+to a small source-controlled project config, for example:
+
+```toml
+[tracks.working.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "strict"
+llm_profile = "production"
+
+[tracks.dev.yomi_policy]
+unit_mode = "sentence"
+auto_accept_profile = "stable_two_kanji"
+llm_profile = "dev"
+```
+
+The precedence should stay deliberately shallow:
+
+- explicit CLI override when preparing a batch
+- configured track default
+- stored resolved batch policy for all later pipeline stages and reruns
+
+There should not be a broad global override layer until repeated operational
+pain justifies it.
+
+In `comma_span` mode, span artifacts should preserve enough parent information
+to reconstruct sentence-level output:
+
+- `span_id`
+- parent `unit_id`
+- `span_seq`
+- span text and rendered yomi
+- character offsets within the parent sentence when practical
+- rendered pair indexes or another stable replacement range when practical
+- optional context fields such as previous span, next span, and full parent
+  sentence
+
+Triage aggregation from spans to the parent sentence is monotonic:
+
+- if any span is `Skip`, the parent sentence is `Skip`
+- else if any span is `Review`, the parent sentence is `Review`
+- else the parent sentence is `OK`
+
+`Skip` is sentence-destructive. If any span in a parent sentence is `Skip`, the
+whole parent sentence is excluded from later yomi repair and final export. Other
+spans in that same sentence, even if labeled `OK` or `Review`, are retained only
+as audit metadata and are not repaired.
+
+`Review` remains local in span mode. If no sibling span is `Skip`, only
+`Review` spans proceed to repair. The repair prompt should target the span, but
+may receive context such as neighboring spans, the full parent sentence,
+previous/next sentences, or source metadata when needed. The final exported
+artifact must still be sentence-level: repaired spans are merged back into the
+parent sentence, `OK` spans are preserved, and span-level decisions remain
+available under audit metadata.
 
 ### S40 Yomi Repair
 
@@ -624,6 +722,32 @@ Recommended default policy:
 - do not assume `gpt-5.4-mini` is the normal cost-saving path unless task-level
   evals show that the quality tradeoff is actually worth it
 
+Model selection should be expressed through named profiles, not scattered model
+strings in pipeline branches. The batch should store `yomi_policy.llm_profile`,
+and the runner should resolve that profile into the task config overrides used
+for the actual API call.
+
+Initial profile meanings:
+
+- `production`: production-quality yomi judgment/repair, normally `gpt-5.5`
+- `dev`: cheaper interactive/dev pipeline checks, normally `gpt-5.4-mini`
+- `smoke`: plumbing-only API checks, normally `gpt-5.4-nano`
+- `rescue`: exceptional expensive rescue settings, normally `gpt-5.5-pro` or
+  web-search-enabled repair/check tasks
+
+Track defaults should be `working=production` and `dev=dev`, but those are only
+defaults. A dev batch may use `production` for realistic dry runs, and a working
+batch may use `smoke` only for explicit plumbing checks before real annotation.
+The resolved profile should be recorded in batch artifacts together with the
+actual model and reasoning effort so later cost and accuracy audits are
+unambiguous.
+
+The mapping from track to default LLM profile should come from the same
+source-controlled defaults config as `unit_mode` and `auto_accept_profile`.
+Profile definitions may live in a separate LLM config file if they grow, but
+the prepared batch should still store only the resolved profile name plus the
+artifacts' resolved model settings.
+
 Stage-oriented defaults:
 
 - `alphabetic_entity_judge`: `gpt-5.5`
@@ -760,6 +884,7 @@ Current intended operator commands:
 
 - `./prepare 100`
 - `./prepare dev 10`
+- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off dev 10`
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`
