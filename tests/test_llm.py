@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = PROJECT_ROOT / "src"
@@ -17,6 +19,8 @@ from yomi_corpus.llm.backend import (
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_profile, load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
+from yomi_corpus.llm.runner import run_sync_task
+from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.prompts import render_prompt
 from yomi_corpus.llm.tasks import build_prompt_items
 from yomi_corpus.llm.usage import normalize_usage
@@ -157,6 +161,89 @@ class LLMScaffoldingTests(unittest.TestCase):
             }
         )
         self.assertEqual(usage["cached_input_tokens"], 512)
+
+    def test_run_sync_task_resumes_from_existing_results(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "unit_id": "u1",
+                                "text": "大学です。",
+                                "rendered": "大学/ダイガク です/デス 。/。",
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "unit_id": "u2",
+                                "text": "方です。",
+                                "rendered": "方/ホウ です/デス 。/。",
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            output_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1",
+                        "raw_text": "OK",
+                        "parsed": {"status": "OK"},
+                        "parse_error": None,
+                        "usage": {},
+                        "metadata": {},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                seen: list[str] = []
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def run_item(self, task_config: object, item: object) -> LLMResult:
+                    self.seen.append(item.item_id)
+                    return LLMResult(
+                        item_id=item.item_id,
+                        raw_text="Review",
+                        parsed={"status": "Review"},
+                        parse_error=None,
+                        usage={"input_tokens": 1},
+                        metadata={},
+                    )
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_sync_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(summary.total_items, 2)
+            self.assertEqual(summary.completed_items, 2)
+            self.assertEqual(summary.skipped_items, 1)
+            self.assertEqual(FakeBackend.seen, ["u2"])
+            rows = [
+                json.loads(line)
+                for line in output_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual([row["item_id"] for row in rows], ["u1", "u2"])
+            self.assertTrue((job_dir / "manifest.json").exists())
 
 
 if __name__ == "__main__":

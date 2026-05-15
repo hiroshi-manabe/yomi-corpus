@@ -31,28 +31,26 @@ class OpenAIResponsesBackend:
         self.api_key_source = api_key_source
         self._client = OpenAI(api_key=resolved_api_key) if resolved_api_key else OpenAI()
 
+    def run_item(self, task_config: LLMTaskConfig, item: PromptItem) -> LLMResult:
+        response = self._client.responses.create(**build_response_create_kwargs(task_config, item.prompt))
+        raw_text = _extract_output_text(response)
+        parsed = None
+        parse_error = None
+        try:
+            parsed = parse_output(raw_text, task_config.parser)
+        except Exception as exc:  # noqa: BLE001
+            parse_error = str(exc)
+        return LLMResult(
+            item_id=item.item_id,
+            raw_text=raw_text,
+            parsed=parsed,
+            parse_error=parse_error,
+            usage=usage_from_response(response),
+            metadata=item.metadata,
+        )
+
     def run_sync(self, task_config: LLMTaskConfig, items: list[PromptItem]) -> list[LLMResult]:
-        results: list[LLMResult] = []
-        for item in items:
-            response = self._client.responses.create(**build_response_create_kwargs(task_config, item.prompt))
-            raw_text = _extract_output_text(response)
-            parsed = None
-            parse_error = None
-            try:
-                parsed = parse_output(raw_text, task_config.parser)
-            except Exception as exc:  # noqa: BLE001
-                parse_error = str(exc)
-            results.append(
-                LLMResult(
-                    item_id=item.item_id,
-                    raw_text=raw_text,
-                    parsed=parsed,
-                    parse_error=parse_error,
-                    usage=usage_from_response(response),
-                    metadata=item.metadata,
-                )
-            )
-        return results
+        return [self.run_item(task_config, item) for item in items]
 
     def submit_batch(
         self,

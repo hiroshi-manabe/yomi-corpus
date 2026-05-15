@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import argparse
+from datetime import datetime, timezone
 from pathlib import Path
 import sys
 
@@ -42,6 +43,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Allow overwriting protected-track artifacts without an interactive prompt.",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print the full structured summary instead of concise operator output.",
+    )
     return parser.parse_args()
 
 
@@ -75,7 +81,58 @@ def main() -> None:
                 )
             else:
                 summary["message"] = "Cancelled."
-    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    log_path = write_pipeline_log(summary)
+    summary["log_path"] = str(log_path)
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print(format_next_summary(summary))
+
+
+def write_pipeline_log(summary: dict[str, object]) -> Path:
+    now = datetime.now(timezone.utc).replace(microsecond=0)
+    date_dir = PROJECT_ROOT / "data" / "pipeline" / "logs" / now.strftime("%Y%m%d")
+    date_dir.mkdir(parents=True, exist_ok=True)
+    track = str(summary.get("track_name", "unknown"))
+    batch = str(summary.get("batch_name") or summary.get("current_batch_name") or "none")
+    stage = str(summary.get("current_stage") or summary.get("requested_force_stage") or "none")
+    timestamp = now.strftime("%H%M%S")
+    path = date_dir / f"{timestamp}_{track}_{batch}_{stage}.json"
+    path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def format_next_summary(summary: dict[str, object]) -> str:
+    lines = [
+        f"Track: {summary.get('track_name', '-')}",
+        f"Batch: {summary.get('batch_name') or summary.get('current_batch_name') or '-'}",
+        f"Stage: {summary.get('current_stage') or '-'}",
+    ]
+    artifacts = summary.get("artifacts")
+    if isinstance(artifacts, dict):
+        completed = artifacts.get("yomi_triage_llm_job_completed")
+        total = artifacts.get("yomi_triage_llm_job_total")
+        if completed is not None and total is not None:
+            lines.append(f"LLM progress: {completed}/{total} completed")
+        output = artifacts.get("units_yomi_triaged_jsonl")
+        if output:
+            lines.append(f"Output: {output}")
+    if summary.get("advanced") is not None:
+        lines.append(f"Advanced: {str(summary.get('advanced')).lower()}")
+    if summary.get("requires_confirmation"):
+        lines.append("Status: confirmation required")
+    elif summary.get("blocking_reason"):
+        lines.append(f"Status: blocked - {summary['blocking_reason']}")
+    elif summary.get("message"):
+        lines.append(f"Status: {summary['message']}")
+    else:
+        lines.append("Status: ok")
+    next_stage = summary.get("next_stage")
+    if next_stage:
+        lines.append(f"Next: {next_stage}")
+    else:
+        lines.append(f"Log: {summary.get('log_path')}")
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

@@ -1202,14 +1202,18 @@ class PipelineWorkspace:
         usage_summary_path = batch_dir / "yomi_triage_usage_summary.json"
         output_path = batch_dir / "units.yomi.triaged.jsonl"
         apply_summary_path = batch_dir / "yomi_triage_apply_summary.json"
+        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_triage"
 
         queued_count = count_nonempty_lines(input_path)
+        job_summary = None
         if queued_count:
-            run_sync_task(
+            job_summary = run_sync_task(
                 task_config_path,
                 str(input_path),
                 str(results_path),
                 task_config_override=task_config,
+                job_dir=str(job_dir),
+                show_progress=True,
             )
         else:
             results_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1242,6 +1246,13 @@ class PipelineWorkspace:
                 "yomi_triage_model": task_config.model,
                 "yomi_triage_llm_profile": llm_profile,
                 "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
+                "yomi_triage_llm_job_dir": str(job_dir),
+                "yomi_triage_llm_job_completed": str(
+                    0 if job_summary is None else job_summary.completed_items
+                ),
+                "yomi_triage_llm_job_total": str(
+                    0 if job_summary is None else job_summary.total_items
+                ),
                 "yomi_triage_prompt_template": task_config.prompt_template,
                 "yomi_triage_unit_mode": apply_summary.unit_mode,
                 "yomi_triage_queued": str(queued_count),
