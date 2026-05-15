@@ -137,7 +137,10 @@ or revert the rule.
 
 Numeric runs are not treated as ordinary yomi targets. Consecutive numeric
 tokens should be grouped and emitted with an empty reading, for example
-`2021/`, so a future number-reading module can handle them separately.
+`2021/`, so a future number-reading module can handle them separately. This
+must also be explicit in any yomi-triage prompt: `2021/`, `30/ 分/フン`, and
+`1/ 回/カイ` are intentional, not malformed yomi, and should not trigger
+`Review` by themselves.
 
 N-gram support is currently an experimental confidence feature, not a committed
 pipeline gate. The useful diagnostic variant is comma-span based: exclude units

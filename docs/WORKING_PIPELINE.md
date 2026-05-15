@@ -541,6 +541,12 @@ variant repeatedly distracts the LLM, prefer a deterministic normalization or
 post-hybrid repair rule before triage rather than teaching triage to debate
 acceptable stylistic variants.
 
+Numeric tokens with empty readings are also normally `OK` for yomi triage.
+The pipeline intentionally emits grouped numbers as surfaces without kana, such
+as `2021/`, `30/ 分/フン`, or `1/ 回/カイ`, because number pronunciation belongs
+to a later number-reading module. A triage prompt must state this explicitly;
+otherwise the LLM will reasonably treat the empty reading as malformed output.
+
 This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
 the default production triage prompt.
 

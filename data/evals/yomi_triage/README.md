@@ -26,6 +26,9 @@ Label policy:
 - `OK` means the current annotation is acceptable as final. This includes
   stable reading variants that context cannot reliably disambiguate, such as
   `日本/ニッポン` or `私/ワタクシ`, even if another reading is more common.
+  Numeric tokens with empty readings, such as `2021/`, `30/ 分/フン`, or
+  `1/ 回/カイ`, are also normally `OK` because number pronunciation is handled
+  by a later number-reading module.
 - `Review` means the unit is target Japanese but should not be accepted
   automatically. This includes clear reading errors, malformed yomi, and
   locally unresolved ambiguity, even when the current reading is one possible

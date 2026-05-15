@@ -36,6 +36,10 @@ General rules:
 - A modern Japanese sentence remains target Japanese even if it contains a short
   title, name, bibliographic phrase, proverb, quotation, archaic character form,
   alphabetic name, or numeric expression.
+- Numeric surfaces may intentionally have an empty reading, such as `2021/`,
+  `30/ 分/フン`, or `1/ 回/カイ`. This is not malformed yomi. Number
+  pronunciation is handled by a later number-reading module, so do not choose
+  Review only because a numeric token has no reading.
 - Running historical-kana or classical-style prose is Skip. Repeated old-style
   spellings, old auxiliaries, old copulas, old sentence endings, or prewar-style
   mixed prose make the whole unit Skip even if the sentence is understandable
@@ -91,6 +95,10 @@ Answer: Review
 
 Text: 机の上に資料があります。
 Yomi: 机/ツクエ の/ノ 上/ウエ に/ニ 資料/シリョウ が/ガ あり/アリ ます/マス 。/。
+Answer: OK
+
+Text: 30分程度でも大丈夫です。
+Yomi: 30/ 分/フン 程度/テイド で/デ も/モ 大丈夫/ダイジョウブ です/デス 。/。
 Answer: OK
 
 Text: かくあらむと候ふこと、いとありがたきものなり。

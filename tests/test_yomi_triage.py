@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.yomi.triage import (
     apply_yomi_triage_results_file,
     build_yomi_triage_item,
@@ -32,6 +33,13 @@ def unit(unit_id: str, text: str, rendered: str, *, accepted: bool) -> dict:
 
 
 class YomiTriageTests(unittest.TestCase):
+    def test_production_prompt_documents_empty_numeric_readings(self) -> None:
+        prompt = resolve_repo_path("config/prompts/yomi_triage_v2.txt").read_text(encoding="utf-8")
+
+        self.assertIn("2021/", prompt)
+        self.assertIn("30/ 分/フン", prompt)
+        self.assertIn("number-reading module", prompt)
+
     def test_build_yomi_triage_item_keeps_minimal_llm_input(self) -> None:
         item = build_yomi_triage_item(
             unit("u1", "大学です。", "大学/ダイガク です/デス 。/。", accepted=False)
