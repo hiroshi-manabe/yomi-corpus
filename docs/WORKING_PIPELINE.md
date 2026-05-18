@@ -851,6 +851,54 @@ At this stage, the LLM is still doing classification, not repair.
 For alphabetic material, the LLM should instead receive unresolved entity types
 plus example sentences from the batch.
 
+For yomi-facing prompts, the stored full yomi annotation remains the source of
+truth, but the prompt may use a compact display form to reduce visual noise.
+In this compact form, entries whose surface contains neither kanji nor Latin
+alphabetic characters may omit the reading and appear as bare surfaces. For
+example:
+
+```text
+こんな 感じ/カンジ で ラミン トン も いろいろ な タイプ が 販売/ハンバイ さ れ て い て 、 お 値段/ネダン も ＄ 2 . 50 ～ ＄ 3 くらい で お 手頃/テゴロ 価格/カカク です 。
+```
+
+This is only an LLM-facing representation. The stored artifact should still
+keep the full rendered form, such as `こんな/コンナ` and `で/デ`, so that
+auditing and deterministic reconstruction remain lossless.
+
+LLM-proposed fixes may include neighboring kana or symbol tokens when the
+needed correction crosses token boundaries. For example, a proposal may replace
+`外出/ガイシュツ て` with `外/ソト 出/デ て`. The application layer should not
+blindly string-replace the compact prompt text. It should align the proposed
+`from` span back to the original full token sequence, allowing compact bare
+tokens to match their full `surface/reading` equivalents. Apply automatically
+only when the match is unique and structurally valid; otherwise keep the item
+for human review.
+
+Implementation plan for compact yomi display:
+
+- Add one shared rendering utility, e.g. `compact_rendered_for_llm(rendered)`.
+  Do not duplicate this logic inside individual prompts or pipeline stages.
+- Preserve the existing full `rendered` string in all stored unit artifacts.
+  Add compact text only at prompt-build time, or store it as explicit derived
+  metadata if caching/debugging requires it.
+- Use compact display for LLM judgment/proposal tasks where the model is not
+  asked to rewrite the full sentence: `yomi_triage`, `yomi_review_resolution`,
+  and possibly `yomi_check`.
+- Do not use compact display for full-sentence repair prompts until there is a
+  deterministic expansion/alignment layer for applying the model output.
+- Add a task-level config switch so prompt experiments can compare full versus
+  compact display without changing code. The default can become compact for
+  judgment/proposal tasks after evals confirm that it does not increase false
+  `OK` or missed `Skip`.
+- Update every prompt that receives compact yomi to say that bare tokens are an
+  intentional display abbreviation, not missing readings. The prompt should
+  tell the model not to flag bare kana, symbols, or numbers merely because they
+  lack `/reading`.
+- For local-fix proposal prompts, tell the model to copy the displayed local
+  span in `fixes.from` and use the desired full local yomi annotation in
+  `fixes.to`. The downstream application layer handles alignment to the full
+  stored token sequence.
+
 Prompt merging should be treated as a later optimization question, not the
 starting architecture. Only tasks with the same unit, same context needs, same
 model policy, and similar failure modes should even be considered as merge

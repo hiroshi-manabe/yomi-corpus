@@ -5,6 +5,11 @@ Return exactly one JSON object with this schema:
 
 Do not output anything except JSON.
 
+The yomi display may be compact. Bare tokens without `/reading` are intentional
+abbreviations for kana, symbols, numbers, and other surfaces that contain no
+kanji or Latin letters. Do not mark the annotation incorrect only because such
+bare tokens lack readings.
+
 Original sentence:
 {text}
 

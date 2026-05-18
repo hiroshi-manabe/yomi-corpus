@@ -591,6 +591,43 @@ Useful features:
 - suspicious token length
 - regex-matchable patterns
 
+LLM-facing yomi text may be more compact than the stored rendered annotation.
+For prompt readability, entries whose surface contains neither kanji nor Latin
+alphabetic characters can be displayed as bare surfaces without their readings.
+This makes the reading-bearing parts stand out, e.g. `感じ/カンジ`,
+`販売/ハンバイ`, `値段/ネダン`, while kana, punctuation, symbols, and numeric
+surfaces can remain bare. This compaction is only a prompt view. The full
+`surface/reading` token sequence remains the source of truth for storage,
+auditing, and replacement.
+
+Because some corrections cross token boundaries, the repair/proposal prompt
+should allow local spans that include neighboring kana or symbols. For example,
+`外出/ガイシュツ て` may need to become `外/ソト 出/デ て`. Proposed `from` spans
+must be aligned back to the full stored annotation before application. Compact
+bare tokens should match their corresponding full tokens, but automatic
+application should require one unique valid span; ambiguous or non-matching
+proposals stay in human review.
+
+Implementation plan:
+
+- Implement compact yomi display as a shared prompt-rendering filter, not as
+  task-specific prompt text.
+- Keep full rendered yomi in all unit artifacts. Compact rendering is either
+  computed at prompt-build time or stored as explicit derived debug metadata.
+- Enable it only for LLM judgment/proposal tasks at first: yomi triage,
+  review-resolution/local-fix proposal, and possibly yomi check.
+- Keep full rendered yomi for prompts that ask the model to return a complete
+  corrected sentence until span alignment and expansion are implemented.
+- Add a task-level configuration flag so experiments can compare full and
+  compact display.
+- When the compact flag is enabled, the prompt must explicitly say that bare
+  kana, symbols, and numbers are intentional abbreviations and are not missing
+  readings.
+- For proposal tasks, parse the model's local `from`/`to` spans as proposals.
+  Align `from` against the full stored token sequence, allowing compact bare
+  tokens to match full `surface/reading` tokens. Apply only unique valid spans;
+  otherwise escalate to human review.
+
 Before repair, the pipeline may run a lightweight router over units that first
 triage labeled `Review`. This router separates operational causes:
 

@@ -31,6 +31,10 @@ Decision procedure:
 General rules:
 
 - Judge the annotation, not the literary quality of the source text.
+- The yomi display is compact. Bare tokens without `/reading` are intentional
+  abbreviations for kana, symbols, numbers, and other surfaces that contain no
+  kanji or Latin letters. Do not choose Review only because a bare token lacks a
+  reading.
 - Web noise, casual writing, punctuation oddities, and source-text typos are not
   by themselves reasons for Review or Skip.
 - A modern Japanese sentence remains target Japanese even if it contains a short
@@ -78,35 +82,35 @@ General rules:
 Representative examples, not corpus examples:
 
 Text: 明日は花屋に行きます。
-Yomi: 明日/アシタ は/ハ 花屋/ハナヤ に/ニ 行き/イキ ます/マス 。/。
+Yomi: 明日/アシタ は 花屋/ハナヤ に 行き/イキ ます 。
 Answer: OK
 
 Text: 花が咲きました。
-Yomi: 花/カ が/ガ 咲き/サキ まし/マシ た/タ 。/。
+Yomi: 花/カ が 咲き/サキ まし た 。
 Answer: Review
 
 Text: 橋を渡って帰りました。
-Yomi: 橋/キョウ を/ヲ 渡っ/ワタッ て/テ 帰り/カエリ まし/マシ た/タ 。/。
+Yomi: 橋/キョウ を 渡っ/ワタッ て 帰り/カエリ まし た 。
 Answer: Review
 
 Text: 小鳥を見ました。
-Yomi: 小/ショウ 鳥/チョウ を/ヲ 見/ミ まし/マシ た/タ 。/。
+Yomi: 小/ショウ 鳥/チョウ を 見 まし た 。
 Answer: Review
 
 Text: 机の上に資料があります。
-Yomi: 机/ツクエ の/ノ 上/ウエ に/ニ 資料/シリョウ が/ガ あり/アリ ます/マス 。/。
+Yomi: 机/ツクエ の 上/ウエ に 資料/シリョウ が あり ます 。
 Answer: OK
 
 Text: 30分程度でも大丈夫です。
-Yomi: 30/ 分/フン 程度/テイド で/デ も/モ 大丈夫/ダイジョウブ です/デス 。/。
+Yomi: 30 分/フン 程度/テイド で も 大丈夫/ダイジョウブ です 。
 Answer: OK
 
 Text: かくあらむと候ふこと、いとありがたきものなり。
-Yomi: かく/カク あら/アラ む/ム と/ト 候ふ/ソウロウ こと/コト 、/、 いと/イト ありがたき/アリガタキ もの/モノ なり/ナリ 。/。
+Yomi: かく あら む と 候ふ/ソウロウ こと 、 いと ありがたき/アリガタキ もの なり 。
 Answer: Skip
 
 Text: 这是中文广告，办理证书请联系以下账号。
-Yomi: 这/这 是/是 中文/中文 广告/广告 ，/， 办理/办理 证书/证书 请/请 联系/联系 以下/以下 账号/账号 。/。
+Yomi: 这/这 是/是 中文/中文 广告/广告 ， 办理/办理 证书/证书 请/请 联系/联系 以下/以下 账号/账号 。
 Answer: Skip
 
 Text: This sentence is primarily English and outside the target corpus.

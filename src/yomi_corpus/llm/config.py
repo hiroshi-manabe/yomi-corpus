@@ -26,6 +26,7 @@ def load_llm_task_config(path: str | Path) -> LLMTaskConfig:
         max_output_tokens=int(payload.get("max_output_tokens", 512)),
         batch_endpoint=str(payload.get("batch_endpoint", "/v1/responses")),
         batch_completion_window=str(payload.get("batch_completion_window", "24h")),
+        rendered_yomi_display=str(payload.get("rendered_yomi_display", "full")),
     )
 
 

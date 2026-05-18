@@ -1,0 +1,107 @@
+You are resolving one yomi-annotated unit that an earlier pass marked Review.
+
+Return exactly one JSON object and nothing else.
+
+Schema:
+{{
+  "status": "OK|Fix|Ambiguous|Skip",
+  "reason": "short reason",
+  "fixes": [
+    {{"from": "surface/current_reading", "to": "surface/correct_reading", "reason": "short reason"}}
+  ],
+  "ambiguous": [
+    {{"surface": "text", "readings": ["READING1", "READING2"], "reason": "short reason"}}
+  ]
+}}
+
+Use empty arrays for fields that do not apply.
+
+Status definitions:
+
+OK:
+The unit is target modern Japanese and the current yomi is acceptable. The
+earlier Review was too conservative.
+
+Fix:
+The unit is target Japanese and at least one concrete local correction can be
+chosen from this unit/context. Use Fix for wrong readings, malformed readings,
+bad compound splits, or a bound/compound reading where a standalone reading is
+required.
+
+Ambiguous:
+The unit is target Japanese, but the correct reading cannot be safely chosen
+from this unit/context. Use this only when the current yomi should not simply be
+accepted and no reliable correction can be chosen.
+
+Skip:
+The unit is outside the target corpus: running classical/old Japanese, kanbun,
+Chinese, foreign-language prose, or heavily garbled spam-like text.
+
+Rules:
+
+- Judge the yomi annotation, not source-text quality.
+- The yomi display is compact. Bare tokens without `/reading` are intentional
+  abbreviations for kana, symbols, numbers, and other surfaces that contain no
+  kanji or Latin letters. Do not treat those bare tokens as malformed yomi.
+- Do not rewrite the whole sentence.
+- For Fix, list only local replacement targets in fixes. In `from`, copy the
+  local span as displayed. In `to`, provide the desired full local yomi
+  annotation for the replacement span.
+- For Ambiguous, list the ambiguous surface and plausible readings.
+- For OK and Skip, fixes and ambiguous must be empty arrays.
+- Numeric surfaces may intentionally have empty readings, such as `2021/` or
+  `30/ 分/フン`; this is not an error by itself.
+- Stable variants that context cannot settle, such as `私/ワタクシ`, should
+  usually be OK rather than Fix.
+- If a correction is clear, prefer Fix over Ambiguous.
+- If a target-Japanese reading problem is real but the correction is not safely
+  decidable, use Ambiguous.
+
+Examples:
+
+Original sentence:
+花が咲きました。
+
+Current yomi-annotated sentence:
+花/カ が 咲き/サキ まし た 。
+
+Output:
+{{"status":"Fix","reason":"花 is the ordinary noun flower here, so ハナ is required.","fixes":[{{"from":"花/カ","to":"花/ハナ","reason":"wrong standalone reading"}}],"ambiguous":[]}}
+
+Original sentence:
+その市場は大きいです。
+
+Current yomi-annotated sentence:
+その 市場/イチバ は 大きい/オオキイ です 。
+
+Output:
+{{"status":"Ambiguous","reason":"市場 can be イチバ or シジョウ; this unit alone does not decide the intended sense.","fixes":[],"ambiguous":[{{"surface":"市場","readings":["イチバ","シジョウ"],"reason":"physical market vs economic market"}}]}}
+
+Original sentence:
+私は参加しませんでした。
+
+Current yomi-annotated sentence:
+私/ワタクシ は 参加/サンカ し ませ ん でし た 。
+
+Output:
+{{"status":"OK","reason":"私/ワタクシ is an acceptable stable variant and no concrete yomi error is present.","fixes":[],"ambiguous":[]}}
+
+Original sentence:
+かくあらむと候ふこと、いとありがたきものなり。
+
+Current yomi-annotated sentence:
+かく あら む と 候ふ/ソウロウ こと 、 いと ありがたき/アリガタキ もの なり 。
+
+Output:
+{{"status":"Skip","reason":"running classical-style Japanese outside the target corpus","fixes":[],"ambiguous":[]}}
+
+Original sentence:
+{text}
+
+Current yomi-annotated sentence:
+{rendered}
+
+Additional guidance:
+{note}
+
+Output:

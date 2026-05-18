@@ -17,6 +17,7 @@ class LLMTaskConfig:
     max_output_tokens: int
     batch_endpoint: str
     batch_completion_window: str
+    rendered_yomi_display: str = "full"
 
 
 @dataclass(frozen=True)

@@ -25,6 +25,7 @@ def score_output(
         "non_target_judge",
         "yomi_check",
         "yomi_triage",
+        "yomi_review_resolution",
     }:
         expected_status = eval_row.get("expected_status")
         actual_status = parsed.get("status") if isinstance(parsed, dict) else None

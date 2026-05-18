@@ -22,6 +22,7 @@ from yomi_corpus.llm.parsers import parse_output
 from yomi_corpus.llm.runner import run_llm_task, run_sync_task
 from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.prompts import render_prompt
+from yomi_corpus.llm.rendering import compact_rendered_for_llm
 from yomi_corpus.llm.tasks import build_prompt_items
 from yomi_corpus.llm.usage import normalize_usage
 
@@ -32,6 +33,11 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.task_name, "alphabetic_entity_judge")
         self.assertEqual(config.model, "gpt-5.5")
         self.assertEqual(config.parser, "json_object")
+        self.assertEqual(config.rendered_yomi_display, "full")
+
+    def test_load_yomi_triage_uses_compact_display(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_triage.toml")
+        self.assertEqual(config.rendered_yomi_display, "compact")
 
     def test_apply_llm_profile_overrides_model(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")
@@ -78,6 +84,20 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(items[0].item_id, "u1")
         self.assertIn("Return exactly one token and nothing else", items[0].prompt)
         self.assertIn("大学/ダイガク", items[0].prompt)
+        self.assertIn("です 。", items[0].prompt)
+        self.assertNotIn("です/デス", items[0].prompt)
+        self.assertEqual(items[0].metadata["rendered_full"], "大学/ダイガク です/デス 。/。")
+        self.assertEqual(items[0].metadata["rendered_prompt"], "大学/ダイガク です 。")
+
+    def test_compact_rendered_for_llm_keeps_kanji_and_latin_readings(self) -> None:
+        rendered = (
+            "こんな/コンナ 感じ/カンジ で/デ ラミン/ラミン トン/トン "
+            "OK/オーケー ＯＫ/オーケー ＄/＄ 2/ ./. 価格/カカク"
+        )
+        self.assertEqual(
+            compact_rendered_for_llm(rendered),
+            "こんな 感じ/カンジ で ラミン トン OK/オーケー ＯＫ/オーケー ＄ 2 . 価格/カカク",
+        )
 
     def test_build_prompt_items_for_non_target_judge(self) -> None:
         config = load_llm_task_config("config/llm/non_target_judge.toml")

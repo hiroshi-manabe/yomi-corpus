@@ -4,6 +4,7 @@ import json
 from typing import Any
 
 from yomi_corpus.llm.prompts import load_prompt_template, render_prompt
+from yomi_corpus.llm.rendering import rendered_for_llm
 from yomi_corpus.llm.schemas import LLMTaskConfig, PromptItem
 from yomi_corpus.paths import resolve_repo_path
 
@@ -22,7 +23,7 @@ def build_prompt_items(task_config: LLMTaskConfig, rows: list[dict[str, Any]]) -
     template = load_prompt_template(task_config.prompt_template)
     items: list[PromptItem] = []
     for index, row in enumerate(rows, start=1):
-        item_id, variables, metadata = build_task_variables(task_config.input_builder, row, index=index)
+        item_id, variables, metadata = build_task_variables(task_config, row, index=index)
         items.append(
             PromptItem(
                 item_id=item_id,
@@ -34,8 +35,9 @@ def build_prompt_items(task_config: LLMTaskConfig, rows: list[dict[str, Any]]) -
 
 
 def build_task_variables(
-    builder_name: str, row: dict[str, Any], *, index: int
+    task_config: LLMTaskConfig, row: dict[str, Any], *, index: int
 ) -> tuple[str, dict[str, Any], dict[str, Any]]:
+    builder_name = task_config.input_builder
     if builder_name == "alphabetic_entity_judge":
         item_id = str(row.get("entity_key", f"item_{index:05d}"))
         return (
@@ -54,28 +56,31 @@ def build_task_variables(
         return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "yomi_check":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
+        rendered = _rendered_variable(task_config, row)
         return (
             item_id,
-            {"text": row["text"], "rendered": row["rendered"]},
-            {"source_row": row},
+            {"text": row["text"], "rendered": rendered},
+            _metadata(row, rendered),
         )
     if builder_name == "yomi_triage":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
+        rendered = _rendered_variable(task_config, row)
         return (
             item_id,
-            {"text": row["text"], "rendered": row["rendered"]},
-            {"source_row": row},
+            {"text": row["text"], "rendered": rendered},
+            _metadata(row, rendered),
         )
     if builder_name == "yomi_repair":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
+        rendered = _rendered_variable(task_config, row)
         return (
             item_id,
             {
                 "text": row["text"],
-                "rendered": row["rendered"],
+                "rendered": rendered,
                 "note": row.get("note", ""),
             },
-            {"source_row": row},
+            _metadata(row, rendered),
         )
     raise ValueError(f"Unsupported input builder: {builder_name}")
 
@@ -84,3 +89,15 @@ def _join_examples(examples: list[str]) -> str:
     if not examples:
         return "(no examples)"
     return "\n".join(f"- {example}" for example in examples)
+
+
+def _rendered_variable(task_config: LLMTaskConfig, row: dict[str, Any]) -> str:
+    return rendered_for_llm(str(row["rendered"]), task_config.rendered_yomi_display)
+
+
+def _metadata(row: dict[str, Any], rendered_prompt: str) -> dict[str, Any]:
+    return {
+        "source_row": row,
+        "rendered_full": row.get("rendered"),
+        "rendered_prompt": rendered_prompt,
+    }
