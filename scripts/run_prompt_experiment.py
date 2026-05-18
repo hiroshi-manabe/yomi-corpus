@@ -27,6 +27,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--verbosity", help="Verbosity override.")
     parser.add_argument("--max-output-tokens", type=int, help="Max output tokens override.")
     parser.add_argument(
+        "--rendered-yomi-display",
+        choices=["full", "compact"],
+        help="Override yomi rendering for prompt inputs. Use full/compact for format A/B tests.",
+    )
+    parser.add_argument(
         "--processing-tier",
         choices=["standard", "batch", "priority", "flex"],
         default="standard",
@@ -52,6 +57,7 @@ def main() -> None:
         reasoning_effort=args.reasoning_effort,
         verbosity=args.verbosity,
         max_output_tokens=args.max_output_tokens,
+        rendered_yomi_display=args.rendered_yomi_display,
         processing_tier=args.processing_tier,
         pricing_config_path=args.pricing_config,
     )

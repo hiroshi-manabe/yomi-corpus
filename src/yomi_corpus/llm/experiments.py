@@ -37,6 +37,7 @@ def run_prompt_experiment(
     reasoning_effort: str | None = None,
     verbosity: str | None = None,
     max_output_tokens: int | None = None,
+    rendered_yomi_display: str | None = None,
     processing_tier: str = "standard",
     pricing_config_path: str = DEFAULT_PRICING_CONFIG_PATH,
     backend: OpenAIResponsesBackend | None = None,
@@ -49,6 +50,7 @@ def run_prompt_experiment(
         reasoning_effort=reasoning_effort,
         verbosity=verbosity,
         max_output_tokens=max_output_tokens,
+        rendered_yomi_display=rendered_yomi_display,
     )
 
     eval_rows = load_jsonl_rows(eval_jsonl_path)
@@ -202,7 +204,10 @@ def _override_task_config(
     reasoning_effort: str | None,
     verbosity: str | None,
     max_output_tokens: int | None,
+    rendered_yomi_display: str | None,
 ):
+    if rendered_yomi_display is not None and rendered_yomi_display not in {"full", "compact"}:
+        raise ValueError(f"Unsupported rendered_yomi_display: {rendered_yomi_display}")
     return replace(
         task_config,
         prompt_template=prompt_template or task_config.prompt_template,
@@ -210,6 +215,9 @@ def _override_task_config(
         reasoning_effort=reasoning_effort if reasoning_effort is not None else task_config.reasoning_effort,
         verbosity=verbosity if verbosity is not None else task_config.verbosity,
         max_output_tokens=max_output_tokens if max_output_tokens is not None else task_config.max_output_tokens,
+        rendered_yomi_display=(
+            rendered_yomi_display if rendered_yomi_display is not None else task_config.rendered_yomi_display
+        ),
     )
 
 

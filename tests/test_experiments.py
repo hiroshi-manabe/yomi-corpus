@@ -149,3 +149,34 @@ class ExperimentHarnessTests(unittest.TestCase):
         self.assertEqual(comparison["changed_case_count"], 2)
         self.assertEqual(comparison["changed_cases"][0]["item_id"], "iphone")
         self.assertEqual(comparison["changed_cases"][0]["change_type"], "fixed")
+
+    def test_run_prompt_experiment_overrides_yomi_rendering(self) -> None:
+        eval_path = self.tmp_root / "yomi_eval.jsonl"
+        eval_path.write_text(
+            json.dumps(
+                {
+                    "unit_id": "u1",
+                    "text": "大学です。",
+                    "rendered": "大学/ダイガク です/デス 。/。",
+                    "expected_status": "OK",
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        backend = FakeExperimentBackend({"u1": {"parsed": {"status": "OK"}, "usage": None}})
+        run_dir = self.tmp_root / "yomi_full"
+
+        summary = run_prompt_experiment(
+            task_config_path="config/llm/yomi_triage.toml",
+            eval_jsonl_path=str(eval_path),
+            run_dir=str(run_dir),
+            rendered_yomi_display="full",
+            backend=backend,
+        )
+
+        self.assertEqual(summary["effective_config"]["rendered_yomi_display"], "full")
+        items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
+        self.assertEqual(items[0]["metadata"]["rendered_prompt"], "大学/ダイガク です/デス 。/。")
+        self.assertIn("です/デス", items[0]["prompt"])
