@@ -1,0 +1,36 @@
+{
+  "source": "data/evals/yomi_triage/ok_review_skip_draft_v1.jsonl",
+  "output": "data/evals/yomi_triage/ok_fix_ambiguous_skip_draft_v1.jsonl",
+  "review_split_tsv": "data/evals/yomi_triage/review_split_draft_v1.tsv",
+  "curator": "manual_review_split_codex_2026-05-18",
+  "item_count": 322,
+  "expected_status_counts": {
+    "OK": 206,
+    "Fix": 60,
+    "Skip": 47,
+    "Ambiguous": 9
+  },
+  "first_pass_expected_status_counts": {
+    "OK": 206,
+    "Review": 69,
+    "Skip": 47
+  },
+  "review_split_counts": {
+    "Fix": 60,
+    "Ambiguous": 9
+  },
+  "policy": {
+    "OK": "low-risk enough to leave focused repair and enter bulk audit",
+    "Fix": "concrete yomi error repairable from available unit/context",
+    "Ambiguous": "target Japanese but no safe correction from available unit/context",
+    "Skip": "non-target text excluded from yomi repair"
+  },
+  "notes": [
+    "This is a reviewable draft, not final gold.",
+    "Existing first-pass Review rows were visually inspected by label source and note.",
+    "Known/synthetic concrete reading-error Review rows were labeled Fix.",
+    "Targeted unresolved ambiguity rows were labeled Ambiguous; these include 辛い plus non-辛い examples such as 方, 市場, and 人気.",
+    "Some theoretically ambiguous but practically resolved readings, such as この方が自然だと思います, are labeled OK rather than Ambiguous.",
+    "Original first-pass labels are preserved as first_pass_expected_status."
+  ]
+}

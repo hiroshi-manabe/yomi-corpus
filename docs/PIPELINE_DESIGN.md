@@ -370,7 +370,14 @@ Mechanically auto-accepted units receive `OK` with source `auto_accept`.
 Queued units receive the parsed LLM status when parsing succeeds; parse errors
 must be treated as `Review` so malformed model output cannot silently accept or
 skip a unit. Later yomi repair consumes only `Review` units, while `Skip` is
-excluded and `OK` is accepted subject to later audit sampling.
+excluded and `OK` enters the bulk-audit path.
+
+In this pipeline, `OK` is operational rather than absolute. It does not mean
+"guaranteed correct forever." It means the unit is low-risk enough that it does
+not need the focused repair path and can instead be reviewed, if at all,
+through high-throughput audit. The source of the `OK` decision must remain
+visible, for example mechanical auto-accept, stable two-kanji support, or LLM
+triage, so later audits can measure false-OK rates separately by source.
 
 #### Resumable LLM execution
 
@@ -583,6 +590,21 @@ Useful features:
 - decoder piece-crossing behavior
 - suspicious token length
 - regex-matchable patterns
+
+Before repair, the pipeline may run a lightweight router over units that first
+triage labeled `Review`. This router separates operational causes:
+
+- `Fix`: concrete yomi repair is possible from the available unit/context
+- `Ambiguous`: target Japanese, but no safe correction can be chosen from the
+  available context
+- `OK`: first-stage triage was a false positive; the unit can move to bulk
+  audit
+- `Skip`: first-stage triage missed non-target text
+
+This router is an operational step, not the conceptual gold taxonomy. Gold data
+should use `OK`, `Fix`, `Ambiguous`, and `Skip`; first-stage `Review` is the
+collapsed production label for both `Fix` and `Ambiguous`, plus possible
+first-stage false positives.
 
 ### S50 Human Review Pass 1
 
@@ -1080,7 +1102,33 @@ Recommended behavior:
 - the submission payload should therefore contain reviewed range metadata plus
   sparse item-level overrides
 
-### 10.4 Multiple partial submissions
+### 10.4 Yomi Audit Queues
+
+Yomi review should distinguish queue semantics from UI widgets. The same
+checkbox-style UI can serve both high-throughput audit and focused review if
+the queue context is explicit.
+
+Recommended yomi queues:
+
+- `bulk_ok_audit`: units with automatic `OK`, including mechanical and LLM
+  `OK`; the reviewer scans quickly and marks only suspicious/problematic
+  sentences
+- `focused_review`: units that remained `Review` after triage and repair; the
+  reviewer inspects carefully and accepts only after resolving the issue
+- `skip_audit`: optional sampling of `Skip` units to check non-target decisions
+
+The checkbox can be identical in both main queues: "problem found" or "needs
+attention." The meaning of an unchecked item depends on queue context:
+
+- in `bulk_ok_audit`, unchecked means accepted by default after fast scanning
+- in `focused_review`, unchecked means accepted after focused inspection
+- checked means the sentence should go to correction or remain unresolved
+
+This keeps the UI simple while still changing the reviewer's posture. `OK`
+queues are designed for anomaly detection over many items; `Review` queues are
+designed for deliberate sentence-by-sentence validation.
+
+### 10.5 Multiple partial submissions
 
 One pack may produce multiple submissions.
 

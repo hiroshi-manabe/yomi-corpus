@@ -1,6 +1,6 @@
 # Yomi Triage Eval Data
 
-This directory contains eval rows for the first-pass yomi LLM triage task.
+This directory contains eval rows for yomi LLM triage and routing tasks.
 
 `ok_review_skip_draft_v1.jsonl` is a draft set built from early corpus output plus
 raw skip-candidate source files.
@@ -9,6 +9,19 @@ raw skip-candidate source files.
 from that draft set, with 20 `OK`, 20 `Review`, and 20 `Skip` rows. It is
 interleaved by label so short smoke runs still see all three labels. Use it for
 quick prompt comparisons; use the full draft set for broader regression runs.
+
+`ok_fix_ambiguous_skip_draft_v1.jsonl` is a reviewable conceptual-label version
+of the full draft set. It uses `OK`, `Fix`, `Ambiguous`, and `Skip` in
+`expected_status`, while preserving the original first-pass label in
+`first_pass_expected_status`.
+
+`balanced_conceptual_test_v1.jsonl` preserves the row order of
+`balanced_test_v1.jsonl` but uses the conceptual labels. Because it preserves
+the old `OK`/`Review`/`Skip` sampling, it is not balanced across all four
+conceptual labels.
+
+`review_split_draft_v1.tsv` contains only rows that were `Review` in the
+first-pass draft, with proposed `Fix` or `Ambiguous` labels for human review.
 
 Each row has the fields consumed by `config/llm/yomi_triage.toml`:
 
@@ -21,7 +34,7 @@ Additional fields such as `label_source`, `note`, and `source_artifact` are
 for dataset review and prompt-error analysis. They are not included in the
 production prompt.
 
-Label policy:
+Current first-pass triage label policy:
 
 - `OK` means the current annotation is acceptable as final. This includes
   stable reading variants that context cannot reliably disambiguate, such as
@@ -33,8 +46,26 @@ Label policy:
   automatically. This includes clear reading errors, malformed yomi, and
   locally unresolved ambiguity, even when the current reading is one possible
   reading. For example, an isolated `辛いね` should be `Review` if the unit
-  itself does not decide between `カライ` and `ツライ`.
+  itself does not decide between `カライ` and `ツライ`. The targeted ambiguity
+  examples also include non-`辛い` cases such as `方`, `市場`, and `人気`, so the
+  prompt is not optimized only for one surface form.
 - `Skip` means non-target text that should not be yomi-repaired.
+
+The long-term conceptual gold labels should be `OK`, `Fix`, `Ambiguous`, and
+`Skip`:
+
+- `OK`: low-risk enough to leave the focused repair path and enter bulk audit.
+- `Fix`: target Japanese with a concrete yomi error that can be repaired from
+  the available unit/context.
+- `Ambiguous`: target Japanese where the current yomi is not safely acceptable,
+  but the correct reading cannot be determined from the available unit/context.
+- `Skip`: non-target text that should not be yomi-repaired.
+
+For the current first-pass `OK`/`Review`/`Skip` prompt, conceptual `Fix` and
+`Ambiguous` both map to `Review`. A downstream review router may split
+first-pass `Review` into operational `Fix`, `Ambiguous`, `OK` for first-pass
+false positives, and `Skip` for missed non-target text. In gold data, those
+false positives should simply be labeled `OK`.
 
 `Skip` examples should not be selected by isolated markers, but longer
 non-target quotations are excluded aggressively. Modern Japanese remains in
@@ -66,7 +97,8 @@ The current draft uses these label sources:
   mentions China.
 - `targeted_unresolved_context_ambiguity`: manually curated corpus-inspired
   examples where the local unit has enough context to be nontrivial but still
-  cannot safely decide the reading; these are labeled `Review`.
+  cannot safely decide the reading; these are labeled `Review`. This set should
+  cover multiple ambiguity types rather than only `辛い`.
 - `targeted_context_resolved_ambiguity_ok`: manually curated examples where the
   context resolves an ambiguous surface strongly enough that the current yomi
   should be accepted as `OK`.

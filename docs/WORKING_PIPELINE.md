@@ -499,7 +499,8 @@ For yomi, the first sentence-level LLM pass should be a compact triage task.
 The model receives the original sentence and the current yomi-annotated
 sentence, then returns exactly one token:
 
-- `OK`: the current yomi annotation is correct
+- `OK`: the current yomi annotation is low-risk enough to leave the focused
+  repair path and enter bulk audit
 - `Review`: the unit is target Japanese, but should not be accepted
   automatically because the yomi has an error, malformed output, or unresolved
   local ambiguity
@@ -549,6 +550,12 @@ otherwise the LLM will reasonably treat the empty reading as malformed output.
 
 This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
 the default production triage prompt.
+
+Operationally, `OK` is not a claim of perfect final correctness. It means the
+unit can be handled through a high-throughput audit workflow rather than the
+focused repair workflow. Mechanical `OK`, LLM-triage `OK`, and later
+repair-verified `OK` should remain distinguishable so their false-OK rates can
+be measured separately.
 
 ### 9.1 Triage Unit Modes
 
@@ -729,15 +736,22 @@ candidate, inspect failures and usage, edit the prompt, and rerun. Batch mode is
 for production throughput and later regression-scale checks after a prompt
 family is already promising.
 
-For `yomi_triage`, the initial gold set should include balanced `OK`, `Review`,
-and `Skip` cases, with hard examples deliberately overrepresented. Each example
-should store the original sentence, the exact mechanical yomi annotation that
-the model will see, the expected label, and optional human notes that are not
-included in the production prompt. The eval set should include both clear
-mechanical errors and ambiguity cases that must remain reviewable, while also
-including acceptable variant readings that should not trigger unnecessary
-repair. Optimization priorities are: avoid dangerous label errors, preserve
-parse stability, improve accuracy, then shorten prompt tokens.
+The conceptual yomi gold set should use four labels: `OK`, `Fix`,
+`Ambiguous`, and `Skip`. `Fix` means the current yomi is wrong but the correct
+reading can be determined from the unit/context and repaired. `Ambiguous` means
+the unit is target Japanese, but the correct reading cannot be safely
+determined from the available context. The first production triage prompt may
+still output only `OK`, `Review`, and `Skip`; in that view, both `Fix` and
+`Ambiguous` collapse into `Review`.
+
+Each example should store the original sentence, the exact mechanical yomi
+annotation that the model will see, the expected conceptual label, and optional
+human notes that are not included in the production prompt. The eval set should
+include clear mechanical errors, genuinely ambiguous cases that must remain
+reviewable, acceptable variant readings that should not trigger unnecessary
+repair, and non-target examples. Optimization priorities are: avoid dangerous
+label errors, preserve parse stability, improve accuracy, then shorten prompt
+tokens.
 
 The prompt search should explicitly include few-shot variants. A no-example
 prompt is worth testing, but the expected winner is likely to be a short prompt
@@ -839,8 +853,16 @@ So the yomi path becomes:
 1. mechanical yomi
 2. mechanical auto-accept for low-risk units
 3. LLM triage for the remaining units: `OK`, `Review`, or `Skip`
-4. LLM repair/review path only for `Review`
-5. human review
+4. optional review routing for `Review` units: `Fix`, `Ambiguous`, operational
+   `OK` for first-stage false positives, or `Skip`
+5. LLM repair path for `Fix`
+6. bulk audit for `OK` items and focused review for unresolved items
+
+The second routing step is deliberately downstream of the first triage step.
+It lets the first prompt stay compact while collecting evidence about whether a
+future single wider label set would be safe. In router output, operational
+`OK` means "the first triage over-called Review"; in the conceptual gold data,
+that item is simply `OK`.
 
 Regex-based repair rules may still be useful here, and this is the area where
 regex currently seems more justified than for whitelist/blacklist classification.
@@ -1250,7 +1272,27 @@ available if status becomes human-readable by default later.
 
 ## 11. Human Review: Pass 1
 
-The first human review UI should be sentence-based.
+The first human review UI should be sentence-based. It can use the same simple
+checkbox interaction for both `OK` and non-`OK` queues, but the queue context
+changes how the reviewer approaches the work.
+
+Recommended queues:
+
+- `bulk_ok_audit`: automatic `OK` items; scan many sentences quickly and mark
+  only sentences with a problem
+- `focused_review`: items that still need attention after repair; inspect each
+  sentence carefully
+
+The core checkbox can simply mean "problem found" or "needs attention":
+
+- in `bulk_ok_audit`, unchecked means accepted by default after scanning
+- in `focused_review`, unchecked means accepted after focused inspection
+- checked means keep unresolved or send to correction
+
+This lets LLM `OK` reduce human workload without pretending that LLM `OK` is
+infallible. The review pack should still record the queue type and the source
+of each automatic `OK`, so later analysis can estimate false-OK rates by
+source.
 
 Display:
 

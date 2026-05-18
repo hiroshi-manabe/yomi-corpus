@@ -1,0 +1,23 @@
+{
+  "source": "data/evals/yomi_triage/balanced_test_v1.jsonl",
+  "conceptual_source": "data/evals/yomi_triage/ok_fix_ambiguous_skip_draft_v1.jsonl",
+  "output": "data/evals/yomi_triage/balanced_conceptual_test_v1.jsonl",
+  "curator": "manual_review_split_codex_2026-05-18",
+  "item_count": 60,
+  "expected_status_counts": {
+    "OK": 21,
+    "Fix": 13,
+    "Skip": 20,
+    "Ambiguous": 6
+  },
+  "first_pass_expected_status_counts": {
+    "OK": 21,
+    "Review": 19,
+    "Skip": 20
+  },
+  "notes": [
+    "Same row order as balanced_test_v1, but expected_status uses conceptual OK/Fix/Ambiguous/Skip labels.",
+    "This subset is not balanced across the four conceptual labels because it preserves the old balanced OK/Review/Skip sampling before manual relabeling.",
+    "The Review slice intentionally includes multiple Ambiguous rows beyond 辛い, including 方, 市場, and 人気 examples."
+  ]
+}
