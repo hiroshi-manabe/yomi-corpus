@@ -606,6 +606,17 @@ should use `OK`, `Fix`, `Ambiguous`, and `Skip`; first-stage `Review` is the
 collapsed production label for both `Fix` and `Ambiguous`, plus possible
 first-stage false positives.
 
+Experiment note, 2026-05-18: direct 4-way triage was tested against a
+two-stage `OK/Review/Skip -> Fix/Ambiguous/OK/Skip` route on the small yomi
+triage eval set. With `gpt-5.4-mini`, the end-to-end two-stage route scored
+47/60 and direct 4-way scored 36/60. With `gpt-5.5`, the two-stage route scored
+49/60 and direct 4-way scored 45/60. The `gpt-5.5` router could emit
+`Ambiguous` when run only on gold Review rows, but the first 3-way prompt sent
+all conceptual `Ambiguous` rows to `OK`, so end-to-end recall for ambiguity was
+still zero. Production should therefore keep the first triage label set at
+`OK/Review/Skip`; conceptual `Ambiguous` remains useful for gold data and
+later repair/proposal-stage evaluation, not as a first-triage requirement.
+
 ### S50 Human Review Pass 1
 
 Output:

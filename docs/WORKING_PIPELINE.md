@@ -744,6 +744,19 @@ determined from the available context. The first production triage prompt may
 still output only `OK`, `Review`, and `Skip`; in that view, both `Fix` and
 `Ambiguous` collapse into `Review`.
 
+Experiment note, 2026-05-18: a small 60-row comparison tested direct
+`OK/Fix/Ambiguous/Skip` triage against a two-stage `OK/Review/Skip` first pass
+plus a downstream `Fix/Ambiguous/OK/Skip` router. With `gpt-5.4-mini`,
+end-to-end `3-way -> router` reached 47/60, while direct 4-way reached 36/60;
+neither route recovered any of the 6 conceptual `Ambiguous` rows. With
+`gpt-5.5`, `3-way -> router` reached 49/60 and direct 4-way reached 45/60. The
+`gpt-5.5` router could identify ambiguity when run on gold Review rows
+(15/19 overall), but the first 3-way pass still sent all 6 gold `Ambiguous`
+rows to `OK`, so they never reached the router in the true end-to-end route.
+Conclusion for now: keep production triage as `OK/Review/Skip`, keep
+conceptual gold labels for later-stage evaluation, and do not depend on
+triage-time `Ambiguous` detection.
+
 Each example should store the original sentence, the exact mechanical yomi
 annotation that the model will see, the expected conceptual label, and optional
 human notes that are not included in the production prompt. The eval set should
