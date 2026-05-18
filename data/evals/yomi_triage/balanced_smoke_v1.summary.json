@@ -1,0 +1,56 @@
+{
+  "test_set_id": "balanced_smoke_v1",
+  "source": "data/evals/yomi_triage/expanded_gold_v1.jsonl",
+  "output": "data/evals/yomi_triage/balanced_smoke_v1.jsonl",
+  "item_count": 90,
+  "status_counts": {
+    "OK": 30,
+    "Review": 30,
+    "Skip": 30
+  },
+  "label_source_counts": {
+    "manual_dev_numeric_expansion_v1": 8,
+    "manual_dev_compact_false_positive_v1": 10,
+    "heuristic_ok_sudachi_decoder_exact_agreement": 9,
+    "targeted_context_resolved_ambiguity_ok": 2,
+    "targeted_inherently_acceptable_variant": 1,
+    "known_or_suspected_mechanical_error": 10,
+    "synthetic_bad_reading_injected": 13,
+    "targeted_unresolved_context_ambiguity": 7,
+    "manual_dev_skip_expansion_v1": 2,
+    "hard_raw_skip_source_sample": 28
+  },
+  "eval_tag_counts": {
+    "dev_batch_0003": 20,
+    "numeric_blank": 16,
+    "compact_false_positive": 10,
+    "segmented_inflection": 16,
+    "segmented_inflection_ok": 10,
+    "person_kata_candidate": 10,
+    "mixed_english_skip": 2
+  },
+  "split_reason_counts": {
+    "ok_numeric_blank": 8,
+    "ok_compact_false_positive": 10,
+    "ok_segmented_inflection_baseline": 5,
+    "ok_acceptable_ambiguity_or_variant": 3,
+    "ok_baseline_fill": 4,
+    "review_person_kata": 8,
+    "review_natural_mechanical_error": 6,
+    "review_synthetic_bad_reading": 8,
+    "review_unresolved_ambiguity": 6,
+    "review_segmented_inflection_error": 2,
+    "skip_mixed_english": 2,
+    "skip_numeric_non_target": 6,
+    "skip_old_style_kana": 10,
+    "skip_chinese_or_foreign": 5,
+    "skip_kanji_kanbun_like": 5,
+    "skip_baseline_fill": 2
+  },
+  "notes": [
+    "Deterministic balanced smoke set derived from expanded_gold_v1.",
+    "Used for fast prompt iteration, not as the full validation set.",
+    "Includes numeric blank readings, compact-render false positives, segmented inflections, person 方 Review cases, and mixed-English Skip cases.",
+    "Rows preserve full rendered yomi; compact rendering should be applied by the prompt/input builder during experiments."
+  ]
+}
