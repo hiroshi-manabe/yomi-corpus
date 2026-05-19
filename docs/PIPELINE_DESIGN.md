@@ -591,42 +591,73 @@ Useful features:
 - suspicious token length
 - regex-matchable patterns
 
-LLM-facing yomi text may be more compact than the stored rendered annotation.
-For prompt readability, entries whose surface contains neither kanji nor Latin
-alphabetic characters can be displayed as bare surfaces without their readings.
-This makes the reading-bearing parts stand out, e.g. `感じ/カンジ`,
-`販売/ハンバイ`, `値段/ネダン`, while kana, punctuation, symbols, and numeric
-surfaces can remain bare. This compaction is only a prompt view. The full
-`surface/reading` token sequence remains the source of truth for storage,
-auditing, and replacement.
+LLM-facing yomi text may be more natural than the stored rendered annotation.
+The stored `surface/reading` token sequence remains the source of truth for
+storage, auditing, deterministic replacement, and N-gram feedback, but prompts
+and human review UIs may use derived display forms.
+
+The preferred display candidate is no-space furigana-style text. It should
+render token readings as inline parenthesized kana and then concatenate tokens
+without token spaces, for example:
+
+```text
+荷物（にもつ）を送（おく）って結果（けっか）を待（ま）ちます。
+```
+
+This is the most familiar Japanese reading-annotation form and should be easier
+for both humans and LLMs to judge than whitespace-separated token pairs. It also
+hides irrelevant segmentation artifacts such as katakana splits (`ラミン トン`)
+when segmentation repair is out of scope for the current task.
+
+The furigana renderer should be dictionary-backed when possible. The Sudachi
+derived CSV can map `(surface, reading)` to annotated surfaces such as
+`読（よ）み仮名（がな）` or `送（おく）っ`; this avoids heuristic reconstruction
+for many inflected forms. If no unique dictionary-backed form exists, the
+renderer can fall back to a simple token-level representation or keep the
+stored `surface/reading` pair for that token.
+
+Whitespace-separated views still have a role:
+
+- full token view: `送っ/オクッ て/テ`
+- compact token view: `送っ/オクッ て`
+- furigana spaced debug view: `送（おく）っ て`
+- furigana no-space prompt view: `送（おく）って`
+
+Use no-space furigana for LLM triage/proposal and human bulk review experiments.
+Use spaced token views for debugging, alignment inspection, deterministic repair
+rules, and N-gram decoder training data, where token boundaries are useful.
 
 Because some corrections cross token boundaries, the repair/proposal prompt
 should allow local spans that include neighboring kana or symbols. For example,
 `外出/ガイシュツ て` may need to become `外/ソト 出/デ て`. Proposed `from` spans
-must be aligned back to the full stored annotation before application. Compact
-bare tokens should match their corresponding full tokens, but automatic
-application should require one unique valid span; ambiguous or non-matching
+must be aligned back to the full stored annotation before application. Display
+strings, including no-space furigana, are views and should not be blindly
+string-replaced as canonical data. Automatic application should require one
+unique valid span in the stored token sequence; ambiguous or non-matching
 proposals stay in human review.
 
 Implementation plan:
 
-- Implement compact yomi display as a shared prompt-rendering filter, not as
-  task-specific prompt text.
-- Keep full rendered yomi in all unit artifacts. Compact rendering is either
-  computed at prompt-build time or stored as explicit derived debug metadata.
-- Enable it only for LLM judgment/proposal tasks at first: yomi triage,
+- Implement yomi display renderers as shared prompt-rendering filters, not as
+  task-specific prompt text. Supported display modes should include at least
+  `full`, `compact`, and `furigana_no_space`; a spaced furigana debug mode is
+  also useful.
+- Keep full rendered yomi in all unit artifacts. Derived display text is
+  computed at prompt-build time or stored as explicit debug metadata only.
+- Enable no-space furigana first for LLM judgment/proposal tasks: yomi triage,
   review-resolution/local-fix proposal, and possibly yomi check.
-- Keep full rendered yomi for prompts that ask the model to return a complete
-  corrected sentence until span alignment and expansion are implemented.
+- Keep full rendered yomi available for prompts or tools that need exact token
+  boundaries until span alignment and expansion are implemented for furigana
+  display.
 - Add a task-level configuration flag so experiments can compare full and
-  compact display.
-- When the compact flag is enabled, the prompt must explicitly say that bare
-  kana, symbols, and numbers are intentional abbreviations and are not missing
-  readings.
+  compact/furigana display.
+- When a prompt receives a derived display, it must state the display policy.
+  For compact display, bare kana, symbols, and numbers are intentional
+  abbreviations. For furigana display, absence of token spaces is intentional
+  and should not be treated as evidence that segmentation was fixed.
 - For proposal tasks, parse the model's local `from`/`to` spans as proposals.
-  Align `from` against the full stored token sequence, allowing compact bare
-  tokens to match full `surface/reading` tokens. Apply only unique valid spans;
-  otherwise escalate to human review.
+  Align `from` against the full stored token sequence. Apply only unique valid
+  spans; otherwise escalate to human review.
 
 Before repair, the pipeline may run a lightweight router over units that first
 triage labeled `Review`. This router separates operational causes:
