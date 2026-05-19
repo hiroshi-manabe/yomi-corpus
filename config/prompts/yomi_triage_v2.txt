@@ -28,22 +28,33 @@ Decision procedure:
 5. If the yomi is plausible and no important unresolved ambiguity remains,
    output OK.
 
+Yomi display:
+
+- Readings are shown as full-width parenthesized kana after the surface:
+  `荷物（にもつ）を送（おく）って`.
+- Original source parentheses are escaped before yomi is added:
+  `-LRB-...-RRB-` means original full-width `（...）`;
+  `-lrb-...-rrb-` means original half-width `(...)`.
+- A leading `|` before a digit-containing annotated surface means that the
+  digit is part of one yomi-bearing token, e.g. `|1人（ひとり）`. Without `|`,
+  a neighboring digit is a separate numeric token, e.g. `1人（にん）`.
+- Kana, symbols, and numbers may appear without readings. This is intentional.
+- Do not choose Review only because kana, symbols, numbers, punctuation, or
+  escaped source parentheses have no reading annotation. Do not treat `|` as
+  source text.
+
 General rules:
 
 - Judge the annotation, not the literary quality of the source text.
-- The yomi display is compact. Bare tokens without `/reading` are intentional
-  abbreviations for kana, symbols, numbers, and other surfaces that contain no
-  kanji or Latin letters. Do not choose Review only because a bare token lacks a
-  reading.
 - Web noise, casual writing, punctuation oddities, and source-text typos are not
   by themselves reasons for Review or Skip.
 - A modern Japanese sentence remains target Japanese even if it contains a short
   title, name, bibliographic phrase, proverb, quotation, archaic character form,
   alphabetic name, or numeric expression.
-- Numeric surfaces may intentionally have an empty reading, such as `2021/`,
-  `30/ 分/フン`, or `1/ 回/カイ`. This is not malformed yomi. Number
+- Numeric surfaces may intentionally appear without readings, such as `2021`,
+  `30分（ぷん）`, or `1回（かい）`. This is not malformed yomi. Number
   pronunciation is handled by a later number-reading module, so do not choose
-  Review only because a numeric token has no reading.
+  Review only because a numeric surface has no reading.
 - Running historical-kana or classical-style prose is Skip. Repeated old-style
   spellings, old auxiliaries, old copulas, old sentence endings, or prewar-style
   mixed prose make the whole unit Skip even if the sentence is understandable
@@ -82,39 +93,39 @@ General rules:
 Representative examples, not corpus examples:
 
 Text: 明日は花屋に行きます。
-Yomi: 明日/アシタ は 花屋/ハナヤ に 行き/イキ ます 。
+Yomi: 明日（あした）は花屋（はなや）に行（い）きます。
 Answer: OK
 
 Text: 花が咲きました。
-Yomi: 花/カ が 咲き/サキ まし た 。
+Yomi: 花（か）が咲（さ）きました。
 Answer: Review
 
 Text: 橋を渡って帰りました。
-Yomi: 橋/キョウ を 渡っ/ワタッ て 帰り/カエリ まし た 。
+Yomi: 橋（きょう）を渡（わた）って帰（かえ）りました。
 Answer: Review
 
 Text: 小鳥を見ました。
-Yomi: 小/ショウ 鳥/チョウ を 見 まし た 。
+Yomi: 小（しょう）鳥（ちょう）を見（み）ました。
 Answer: Review
 
 Text: 机の上に資料があります。
-Yomi: 机/ツクエ の 上/ウエ に 資料/シリョウ が あり ます 。
+Yomi: 机（つくえ）の上（うえ）に資料（しりょう）があります。
 Answer: OK
 
 Text: 30分程度でも大丈夫です。
-Yomi: 30 分/フン 程度/テイド で も 大丈夫/ダイジョウブ です 。
+Yomi: 30分（ぷん）程度（ていど）でも大丈夫（だいじょうぶ）です。
 Answer: OK
 
 Text: かくあらむと候ふこと、いとありがたきものなり。
-Yomi: かく あら む と 候ふ/ソウロウ こと 、 いと ありがたき/アリガタキ もの なり 。
+Yomi: かくあらむと候ふ（そうろう）こと、いとありがたき（ありがたき）ものなり。
 Answer: Skip
 
 Text: 这是中文广告，办理证书请联系以下账号。
-Yomi: 这/这 是/是 中文/中文 广告/广告 ， 办理/办理 证书/证书 请/请 联系/联系 以下/以下 账号/账号 。
+Yomi: 这（这）是（是）中文（中文）广告（广告），办理（办理）证书（证书）请（请）联系（联系）以下（以下）账号（账号）。
 Answer: Skip
 
 Text: This sentence is primarily English and outside the target corpus.
-Yomi: This/This sentence/sentence is/is primarily/primarily English/English and/and outside/outside the/the target/target corpus/corpus ./.
+Yomi: This/This sentence/sentence is/is primarily/primarily English/English and/and outside/outside the/the target/target corpus/corpus.
 Answer: Skip
 
 Text: {text}

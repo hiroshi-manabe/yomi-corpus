@@ -206,7 +206,7 @@ def _override_task_config(
     max_output_tokens: int | None,
     rendered_yomi_display: str | None,
 ):
-    if rendered_yomi_display is not None and rendered_yomi_display not in {"full", "compact"}:
+    if rendered_yomi_display is not None and rendered_yomi_display not in {"full", "compact", "furigana_no_space"}:
         raise ValueError(f"Unsupported rendered_yomi_display: {rendered_yomi_display}")
     return replace(
         task_config,

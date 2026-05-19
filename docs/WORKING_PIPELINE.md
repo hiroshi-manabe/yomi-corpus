@@ -261,6 +261,28 @@ For example, Sudachi-style `2/ニ 0/レイ 2/ニ 1/イチ` should become `2021/`
 Number pronunciation is a separate future module, not part of the current yomi
 pipeline.
 
+The canonical `surface/reading` token format should be structurally validated
+before any automatic or LLM `OK` is trusted:
+
+- if `surface` contains kanji or Latin letters, `reading` must be non-empty and
+  contain only katakana plus `ー`
+- if `surface` is digits only, `reading` must be empty; `2021/` is valid, but
+  `2021/2021` is invalid
+- otherwise, `reading` must equal `surface` with hiragana converted to
+  katakana and all non-kana characters left unchanged; for example `です/デス`
+  and `。/。` are valid
+
+This validation is separate from yomi correctness. A structurally invalid unit
+may still be sent to LLM triage so the model can identify `Skip`, but an LLM
+`OK` must be blocked and converted to `Review`.
+
+Original source whitespace should not be dropped. Before Sudachi and decoder
+processing, convert ASCII space `U+0020` to NBSP `U+00A0`; keep full-width
+space `U+3000` as-is. The canonical rendered yomi should preserve these as
+explicit whitespace tokens, for example ` / ` for NBSP and `　/　` for
+full-width space. Ordinary ASCII space remains only the token separator in the
+rendered yomi string.
+
 Yomi review should prioritize reading correctness over ideal segmentation.
 Katakana expressions may be over-split by the current analyzers, but this is not
 a failure if the readings remain correct. A later token-merge layer can be
@@ -875,6 +897,33 @@ compact:         送っ/オクッ て
 furigana spaced: 送（おく）っ て
 furigana prompt: 送（おく）って
 ```
+
+Because raw corpus text may already contain both `（...）` and `(...)`, prompt
+display must reserve full-width parentheses for yomi annotations. Escape source
+parentheses before adding yomi annotations:
+
+- source `（` -> `-LRB-`
+- source `）` -> `-RRB-`
+- source `(` -> `-lrb-`
+- source `)` -> `-rrb-`
+
+Example:
+
+```text
+raw:             荷物を送って、（明日）届く。
+furigana prompt: 荷物（にもつ）を送（おく）って、-LRB-明日-RRB-届（とど）く。
+```
+
+This is a reversible display-layer transform only. Stored source text, full
+token yomi, debug output, and N-gram feedback should keep the original
+parentheses unless a specific exported view says otherwise.
+
+No-space furigana display should mark rare fused numeric yomi tokens with a
+leading `|`. For example, canonical `1人/ヒトリ` displays as
+`|1人（ひとり）`, while ordinary separated tokens `1/ 人/ニン` display as
+`1人（にん）`. The `|` marker is not source text; it exists only to prevent the
+LLM from confusing a digit that belongs to a yomi-bearing token with a normal
+digit token handled by the future number-reading module.
 
 Furigana rendering should use the Sudachi-derived annotated-form dictionary
 when possible. The dictionary can map `(surface, reading)` pairs such as

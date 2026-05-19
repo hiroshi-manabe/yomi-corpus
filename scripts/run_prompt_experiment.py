@@ -28,8 +28,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-output-tokens", type=int, help="Max output tokens override.")
     parser.add_argument(
         "--rendered-yomi-display",
-        choices=["full", "compact"],
-        help="Override yomi rendering for prompt inputs. Use full/compact for format A/B tests.",
+        choices=["full", "compact", "furigana_no_space"],
+        help="Override yomi rendering for prompt inputs. Use full/compact/furigana_no_space for format A/B tests.",
     )
     parser.add_argument(
         "--processing-tier",

@@ -1,9 +1,17 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
+from pathlib import Path
 
 KANJI_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff]")
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
+SOURCE_PAREN_ESCAPES = {
+    "（": "-LRB-",
+    "）": "-RRB-",
+    "(": "-lrb-",
+    ")": "-rrb-",
+}
 
 
 def rendered_for_llm(rendered: str, display: str = "full") -> str:
@@ -11,12 +19,14 @@ def rendered_for_llm(rendered: str, display: str = "full") -> str:
         return rendered
     if display == "compact":
         return compact_rendered_for_llm(rendered)
+    if display == "furigana_no_space":
+        return furigana_no_space_rendered_for_llm(rendered)
     raise ValueError(f"Unsupported rendered_yomi_display: {display}")
 
 
 def compact_rendered_for_llm(rendered: str) -> str:
     compacted: list[str] = []
-    for token in rendered.split():
+    for token in rendered_tokens(rendered):
         compacted.append(compact_rendered_token_for_llm(token))
     return " ".join(compacted)
 
@@ -30,3 +40,89 @@ def compact_rendered_token_for_llm(token: str) -> str:
     if KANJI_RE.search(surface) or LATIN_RE.search(surface):
         return token
     return surface
+
+
+def furigana_no_space_rendered_for_llm(rendered: str) -> str:
+    return "".join(furigana_no_space_token_for_llm(token) for token in rendered_tokens(rendered))
+
+
+def furigana_no_space_token_for_llm(token: str) -> str:
+    if "/" not in token:
+        return escape_source_parentheses(token)
+    surface, reading = token.rsplit("/", 1)
+    if not surface:
+        return token
+    prefix = "|" if is_fused_digit_yomi_token(surface, reading) else ""
+    if not reading:
+        return escape_source_parentheses(surface)
+    if (KANJI_RE.search(surface) or LATIN_RE.search(surface)) and not is_katakana_reading(reading):
+        return escape_source_parentheses(surface)
+    if KANJI_RE.search(surface):
+        result = _furigana_converter().convert(surface, reading)
+        if result.annotated_surface:
+            return prefix + escape_source_parentheses_in_annotated(result.annotated_surface)
+        return f"{prefix}{escape_source_parentheses(surface)}（{_kata_to_hira(reading)}）"
+    if LATIN_RE.search(surface):
+        return f"{prefix}{escape_source_parentheses(surface)}/{reading}"
+    return escape_source_parentheses(surface)
+
+
+def escape_source_parentheses(text: str) -> str:
+    return "".join(SOURCE_PAREN_ESCAPES.get(char, char) for char in text)
+
+
+def is_fused_digit_yomi_token(surface: str, reading: str) -> bool:
+    return bool(reading) and any(_is_digit(char) for char in surface) and not all(_is_digit(char) for char in surface)
+
+
+def escape_source_parentheses_in_annotated(text: str) -> str:
+    output: list[str] = []
+    index = 0
+    for match in re.finditer(r"（[^（）]*）", text):
+        prefix = text[index : match.start()]
+        if prefix and KANJI_RE.search(prefix[-1]):
+            output.append(escape_source_parentheses(prefix))
+            output.append(match.group(0))
+        else:
+            output.append(escape_source_parentheses(text[index : match.end()]))
+        index = match.end()
+    output.append(escape_source_parentheses(text[index:]))
+    return "".join(output)
+
+
+@lru_cache(maxsize=1)
+def _furigana_converter():
+    from yomi_corpus.yomi.furigana import FuriganaConverter
+    from yomi_corpus.paths import resolve_repo_path
+
+    lookup = resolve_repo_path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
+    if not lookup.exists():
+        return FuriganaConverter()
+    return FuriganaConverter.from_tsv(Path(lookup))
+
+
+def _kata_to_hira(text: str) -> str:
+    chars: list[str] = []
+    for char in text:
+        code = ord(char)
+        if 0x30A1 <= code <= 0x30F6:
+            chars.append(chr(code - 0x60))
+        else:
+            chars.append(char)
+    return "".join(chars)
+
+
+def _is_digit(char: str) -> bool:
+    return "0" <= char <= "9" or "０" <= char <= "９"
+
+
+def is_katakana_reading(reading: str) -> bool:
+    return bool(reading) and all(_is_katakana(char) or char == "ー" for char in reading)
+
+
+def _is_katakana(char: str) -> bool:
+    return "\u30a1" <= char <= "\u30fa"
+
+
+def rendered_tokens(rendered: str) -> list[str]:
+    return [token for token in rendered.split(" ") if token]

@@ -180,3 +180,34 @@ class ExperimentHarnessTests(unittest.TestCase):
         items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
         self.assertEqual(items[0]["metadata"]["rendered_prompt"], "大学/ダイガク です/デス 。/。")
         self.assertIn("です/デス", items[0]["prompt"])
+
+    def test_run_prompt_experiment_supports_furigana_yomi_rendering(self) -> None:
+        eval_path = self.tmp_root / "yomi_eval.jsonl"
+        eval_path.write_text(
+            json.dumps(
+                {
+                    "unit_id": "u1",
+                    "text": "大学です。",
+                    "rendered": "大学/ダイガク です/デス 。/。",
+                    "expected_status": "OK",
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        backend = FakeExperimentBackend({"u1": {"parsed": {"status": "OK"}, "usage": None}})
+        run_dir = self.tmp_root / "yomi_furigana"
+
+        summary = run_prompt_experiment(
+            task_config_path="config/llm/yomi_triage.toml",
+            eval_jsonl_path=str(eval_path),
+            run_dir=str(run_dir),
+            rendered_yomi_display="furigana_no_space",
+            backend=backend,
+        )
+
+        self.assertEqual(summary["effective_config"]["rendered_yomi_display"], "furigana_no_space")
+        items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
+        self.assertEqual(items[0]["metadata"]["rendered_prompt"], "大学（だいがく）です。")
+        self.assertIn("大学（だいがく）です。", items[0]["prompt"])

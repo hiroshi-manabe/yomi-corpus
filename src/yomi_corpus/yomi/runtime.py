@@ -4,7 +4,12 @@ from yomi_corpus.models import MechanicalYomi
 from yomi_corpus.yomi.adapters import run_decoder, run_sudachi
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs
-from yomi_corpus.yomi.strategies import apply_strategy, render_pairs_from_decoder, render_pairs_from_sudachi
+from yomi_corpus.yomi.strategies import (
+    apply_strategy,
+    normalize_ascii_spaces_for_yomi,
+    render_pairs_from_decoder,
+    render_pairs_from_sudachi,
+)
 
 
 def generate_mechanical_yomi(
@@ -13,12 +18,13 @@ def generate_mechanical_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None = None,
 ) -> MechanicalYomi:
-    sudachi_tokens = run_sudachi(text, config)
-    decoder_candidates = run_decoder(text, config)
+    normalized_text = normalize_ascii_spaces_for_yomi(text)
+    sudachi_tokens = run_sudachi(normalized_text, config)
+    decoder_candidates = run_decoder(normalized_text, config)
     resolved_strategy = strategy_name or config.default_strategy
     strategy_result = apply_strategy(
         resolved_strategy,
-        text=text,
+        text=normalized_text,
         sudachi_tokens=sudachi_tokens,
         decoder_candidates=decoder_candidates,
     )

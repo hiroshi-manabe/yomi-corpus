@@ -30,6 +30,14 @@ class RenderedPair:
     reading: str
 
 
+ASCII_SPACE = " "
+NBSP = "\u00a0"
+
+
+def normalize_ascii_spaces_for_yomi(text: str) -> str:
+    return text.replace(ASCII_SPACE, NBSP)
+
+
 def available_strategy_names() -> list[str]:
     return sorted(STRATEGIES)
 
@@ -213,7 +221,8 @@ def strategy_aligned_hybrid_v1(
         token = current.token
 
         if is_whitespace_token(token):
-            signals.append("skip_whitespace_token")
+            rendered_pairs.append(render_sudachi_token(token))
+            signals.append("preserve_whitespace_token")
             index += 1
             continue
 
@@ -409,6 +418,9 @@ def decoder_entry_has_previous_entry_support(entry: DecoderEntry) -> bool:
 
 
 def render_sudachi_token(token: SudachiToken) -> RenderedPair:
+    if is_whitespace_token(token):
+        surface = canonical_whitespace_surface(token.surface)
+        return RenderedPair(surface=surface, reading=surface)
     if is_punctuation_token(token):
         return RenderedPair(surface=token.surface, reading=token.surface)
     if is_numeric_token(token):
@@ -418,6 +430,12 @@ def render_sudachi_token(token: SudachiToken) -> RenderedPair:
 
 def is_whitespace_token(token: SudachiToken) -> bool:
     return token.surface.isspace() or token.pos.startswith("空白")
+
+
+def canonical_whitespace_surface(surface: str) -> str:
+    if surface == ASCII_SPACE:
+        return NBSP
+    return surface
 
 
 def is_punctuation_token(token: SudachiToken) -> bool:
@@ -465,6 +483,7 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
     while index < len(tokens):
         token = tokens[index]
         if is_whitespace_token(token):
+            pairs.append(render_sudachi_token(token))
             index += 1
             continue
         if is_numeric_token(token):

@@ -142,6 +142,27 @@ must also be explicit in any yomi-triage prompt: `2021/`, `30/ 分/フン`, and
 `1/ 回/カイ` are intentional, not malformed yomi, and should not trigger
 `Review` by themselves.
 
+Canonical `surface/reading` tokens should also satisfy a structural validity
+rule before any `OK` decision is trusted:
+
+- if `surface` contains kanji or Latin letters, `reading` must be non-empty and
+  contain only katakana plus the long-vowel mark `ー`
+- if `surface` is digits only, `reading` must be empty, so `2021/` is valid and
+  `2021/2021` is invalid
+- otherwise, `reading` must equal the result of converting hiragana in
+  `surface` to katakana while leaving non-kana characters unchanged, so
+  `です/デス` and `。/。` are valid
+
+This is a format guardrail, not a semantic yomi correctness rule. A unit with a
+structurally invalid token can still be sent to the LLM for `Skip` detection,
+but an LLM `OK` must be forced back to `Review`.
+
+Original source whitespace should be preserved in the canonical yomi token
+stream. Before Sudachi and decoder processing, convert source ASCII space
+`U+0020` to NBSP `U+00A0`; keep full-width space `U+3000` unchanged. Whitespace
+tokens are then rendered explicitly as `NBSP/NBSP` or `　/　` rather than being
+dropped. ASCII space remains reserved as the canonical token separator.
+
 N-gram support is currently an experimental confidence feature, not a committed
 pipeline gate. The useful diagnostic variant is comma-span based: exclude units
 with alphabetic letters; split spans only at `、`; treat empty-reading
@@ -608,6 +629,29 @@ This is the most familiar Japanese reading-annotation form and should be easier
 for both humans and LLMs to judge than whitespace-separated token pairs. It also
 hides irrelevant segmentation artifacts such as katakana splits (`ラミン トン`)
 when segmentation repair is out of scope for the current task.
+
+Raw corpus text often contains both full-width and half-width parentheses, so
+LLM-facing no-space furigana must reserve full-width `（...）` for yomi
+annotations only. Before rendering yomi for an LLM prompt, escape original
+source parentheses as a reversible display-layer transform:
+
+- source `（` -> `-LRB-`
+- source `）` -> `-RRB-`
+- source `(` -> `-lrb-`
+- source `)` -> `-rrb-`
+
+For example, raw `荷物を送って、（明日）届く。` may be displayed as
+`荷物（にもつ）を送（おく）って、-LRB-明日-RRB-届（とど）く。`.
+The stored source text and canonical token sequence remain unescaped. Escapes
+are applied only to human/LLM display text and should be restored or validated
+before any model proposal is applied.
+
+No-space display should also preserve the distinction between ordinary numeric
+tokens and rare fused numeric yomi tokens. If a digit-containing surface is one
+canonical yomi-bearing token, prefix the displayed token with `|`. For example,
+canonical `1人/ヒトリ` displays as `|1人（ひとり）`, while ordinary separated
+tokens `1/ 人/ニン` display as `1人（にん）`. The marker is not source text; it
+only tells the LLM that the digit participates in the annotated token.
 
 The furigana renderer should be dictionary-backed when possible. The Sudachi
 derived CSV can map `(surface, reading)` to annotated surfaces such as

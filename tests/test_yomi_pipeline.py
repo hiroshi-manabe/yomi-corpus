@@ -10,6 +10,7 @@ from yomi_corpus.yomi.experiments import compare_yomi_experiments
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
     available_strategy_names,
+    normalize_ascii_spaces_for_yomi,
     render_pairs_from_decoder,
     render_pairs_from_sudachi,
 )
@@ -160,13 +161,13 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "なくなっ/ナクナッ た/タ")
         self.assertIn("fallback_sudachi_token", result.signals)
 
-    def test_aligned_hybrid_skips_whitespace_and_normalizes_punctuation(self) -> None:
+    def test_aligned_hybrid_preserves_whitespace_and_normalizes_punctuation(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",
-            text="A B？",
+            text="A\u00a0B？",
             sudachi_tokens=[
                 SudachiToken("A", "名詞", "A", "A", "エー"),
-                SudachiToken(" ", "空白,*,*,*,*,*", " ", " ", "キゴウ"),
+                SudachiToken("\u00a0", "空白,*,*,*,*,*", "\u00a0", "\u00a0", "キゴウ"),
                 SudachiToken("B", "名詞", "B", "B", "ビー"),
                 SudachiToken("？", "補助記号,句点,*,*,*,*", "？", "？", "?"),
             ],
@@ -182,8 +183,8 @@ class YomiPipelineTests(unittest.TestCase):
                 )
             ],
         )
-        self.assertEqual(result.rendered, "A/エー B/ビー ？/？")
-        self.assertIn("skip_whitespace_token", result.signals)
+        self.assertEqual(result.rendered, "A/エー \u00a0/\u00a0 B/ビー ？/？")
+        self.assertIn("preserve_whitespace_token", result.signals)
         self.assertIn("normalize_punctuation_surface", result.signals)
 
     def test_aligned_hybrid_groups_numeric_runs_without_reading(self) -> None:
@@ -330,15 +331,19 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(render_pairs_from_decoder(candidate), "。/。")
 
-    def test_render_pairs_from_sudachi_skips_whitespace(self) -> None:
+    def test_render_pairs_from_sudachi_preserves_whitespace(self) -> None:
         rendered = render_pairs_from_sudachi(
             [
                 SudachiToken("不要", "名詞", "不要", "不要", "フヨウ"),
                 SudachiToken(" ", "空白,*,*,*,*,*", " ", " ", "キゴウ"),
+                SudachiToken("\u3000", "空白,*,*,*,*,*", "\u3000", "\u3000", "キゴウ"),
                 SudachiToken("時", "名詞", "時", "時", "トキ"),
             ]
         )
-        self.assertEqual(rendered, "不要/フヨウ 時/トキ")
+        self.assertEqual(rendered, "不要/フヨウ \u00a0/\u00a0 \u3000/\u3000 時/トキ")
+
+    def test_normalize_ascii_spaces_for_yomi(self) -> None:
+        self.assertEqual(normalize_ascii_spaces_for_yomi("A B　C"), "A\u00a0B　C")
 
     def test_render_pairs_from_sudachi_groups_numeric_runs_without_reading(self) -> None:
         rendered = render_pairs_from_sudachi(
