@@ -66,7 +66,7 @@ class PipelineTrackTests(unittest.TestCase):
                     "auto_accept_profile": "strict",
                 },
             )
-            self.assertEqual(status["llm_policy"]["yomi_triage"], "standard")
+            self.assertEqual(status["llm_policy"]["yomi_reading"], "standard")
 
     def test_prepare_next_batch_allocates_track_specific_name_and_updates_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -96,8 +96,8 @@ class PipelineTrackTests(unittest.TestCase):
                     "auto_accept_profile": "strict",
                 },
             )
-            self.assertEqual(summary["llm_policy"]["yomi_triage"], "standard")
-            self.assertEqual(summary["llm_execution_policy"]["yomi_triage"], "batch")
+            self.assertEqual(summary["llm_policy"]["yomi_reading"], "standard")
+            self.assertEqual(summary["llm_execution_policy"]["yomi_reading"], "batch")
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
@@ -122,10 +122,10 @@ class PipelineTrackTests(unittest.TestCase):
                             "auto_accept_profile": "off",
                         },
                         llm_policy={
-                            "yomi_triage": "smoke",
+                            "yomi_reading": "smoke",
                         },
                         llm_execution_policy={
-                            "yomi_triage": "batch",
+                            "yomi_reading": "batch",
                         },
                     )
 
@@ -136,8 +136,8 @@ class PipelineTrackTests(unittest.TestCase):
                     "auto_accept_profile": "off",
                 },
             )
-            self.assertEqual(summary["llm_policy"]["yomi_triage"], "smoke")
-            self.assertEqual(summary["llm_execution_policy"]["yomi_triage"], "batch")
+            self.assertEqual(summary["llm_policy"]["yomi_reading"], "smoke")
+            self.assertEqual(summary["llm_execution_policy"]["yomi_reading"], "batch")
             state = workspace.load_batch_state(summary["batch_name"])
             self.assertEqual(
                 state.yomi_policy,
@@ -146,8 +146,8 @@ class PipelineTrackTests(unittest.TestCase):
                     "auto_accept_profile": "off",
                 },
             )
-            self.assertEqual(state.llm_policy["yomi_triage"], "smoke")
-            self.assertEqual(state.llm_execution_policy["yomi_triage"], "batch")
+            self.assertEqual(state.llm_policy["yomi_reading"], "smoke")
+            self.assertEqual(state.llm_execution_policy["yomi_reading"], "batch")
             manifest = json.loads(
                 (root / "data" / "units" / summary["batch_name"] / "manifest.json").read_text(
                     encoding="utf-8"
@@ -160,8 +160,8 @@ class PipelineTrackTests(unittest.TestCase):
                     "auto_accept_profile": "off",
                 },
             )
-            self.assertEqual(manifest["llm_policy"]["yomi_triage"], "smoke")
-            self.assertEqual(manifest["llm_execution_policy"]["yomi_triage"], "batch")
+            self.assertEqual(manifest["llm_policy"]["yomi_reading"], "smoke")
+            self.assertEqual(manifest["llm_execution_policy"]["yomi_reading"], "batch")
 
     def test_prepare_next_batch_skips_previous_source_lines_on_same_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -417,7 +417,7 @@ class PipelineTrackTests(unittest.TestCase):
                             "auto_accept_profile": "off",
                         },
                         "llm_policy": {
-                            "yomi_triage": "economy",
+                            "yomi_reading": "economy",
                         },
                     },
                     ensure_ascii=False,
@@ -442,7 +442,7 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(mocked.call_args.kwargs["auto_accept_profile"], "off")
             self.assertEqual(summary["artifacts"]["yomi_auto_accept_profile"], "off")
 
-    def test_advance_queues_yomi_triage_after_yomi_auto_acceptance(self) -> None:
+    def test_advance_queues_scope_triage_after_yomi_auto_acceptance(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -497,16 +497,16 @@ class PipelineTrackTests(unittest.TestCase):
             summary = workspace.advance("dev")
 
             self.assertTrue(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "yomi_triage_queued")
+            self.assertEqual(summary["current_stage"], "scope_triage_queued")
             self.assertIsNone(summary["blocking_reason"])
-            self.assertTrue((batch_dir / "yomi_triage_input.jsonl").exists())
+            self.assertTrue((batch_dir / "scope_triage_input.jsonl").exists())
             queued = [
                 json.loads(line)
-                for line in (batch_dir / "yomi_triage_input.jsonl").read_text(encoding="utf-8").splitlines()
+                for line in (batch_dir / "scope_triage_input.jsonl").read_text(encoding="utf-8").splitlines()
             ]
             self.assertEqual(queued[0]["unit_id"], "u1")
 
-    def test_advance_runs_yomi_triage_after_queueing(self) -> None:
+    def test_advance_runs_scope_triage_after_queueing(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -568,7 +568,7 @@ class PipelineTrackTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
-            (batch_dir / "yomi_triage_input.jsonl").write_text(
+            (batch_dir / "scope_triage_input.jsonl").write_text(
                 json.dumps(
                     {
                         "unit_id": "u2",
@@ -580,7 +580,7 @@ class PipelineTrackTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
-            (batch_dir / "yomi_triage_queue_summary.json").write_text("{}", encoding="utf-8")
+            (batch_dir / "scope_triage_queue_summary.json").write_text("{}", encoding="utf-8")
             workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
             workspace.save_track_state(
                 TrackState(
@@ -596,16 +596,16 @@ class PipelineTrackTests(unittest.TestCase):
                 output_jsonl_path: str,
                 **kwargs: object,
             ) -> object:
-                self.assertEqual(task_config_path, "config/llm/yomi_triage.toml")
-                self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "yomi_triage_input.jsonl").resolve())
+                self.assertEqual(task_config_path, "config/llm/scope_triage.toml")
+                self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "scope_triage_input.jsonl").resolve())
                 self.assertEqual(kwargs["execution_mode"], "sync")
                 self.assertEqual(kwargs["task_config_override"].model, "gpt-5.4-mini")
                 Path(output_jsonl_path).write_text(
                     json.dumps(
                         {
                             "item_id": "u2",
-                            "raw_text": "Review",
-                            "parsed": {"status": "Review"},
+                            "raw_text": "Keep",
+                            "parsed": {"status": "Keep"},
                             "parse_error": None,
                             "usage": {
                                 "input_tokens": 10,
@@ -635,22 +635,22 @@ class PipelineTrackTests(unittest.TestCase):
                 summary = workspace.advance("dev")
 
             self.assertTrue(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "yomi_triage_completed")
+            self.assertEqual(summary["current_stage"], "scope_triage_completed")
             self.assertEqual(mocked.call_count, 1)
-            self.assertEqual(summary["artifacts"]["yomi_triage_llm_profile"], "economy")
-            self.assertEqual(summary["artifacts"]["yomi_triage_model"], "gpt-5.4-mini")
+            self.assertEqual(summary["artifacts"]["scope_triage_llm_profile"], "economy")
+            self.assertEqual(summary["artifacts"]["scope_triage_model"], "gpt-5.4-mini")
             rows = [
                 json.loads(line)
-                for line in (batch_dir / "units.yomi.triaged.jsonl").read_text(encoding="utf-8").splitlines()
+                for line in (batch_dir / "units.scope_triaged.jsonl").read_text(encoding="utf-8").splitlines()
             ]
             statuses = {
-                row["unit_id"]: row["analysis"]["llm"]["yomi_triage"]["status"]
+                row["unit_id"]: row["analysis"]["llm"]["scope_triage"]["status"]
                 for row in rows
             }
-            self.assertEqual(statuses, {"u1": "OK", "u2": "Review"})
-            self.assertTrue((batch_dir / "yomi_triage_usage_summary.json").exists())
+            self.assertEqual(statuses, {"u1": "Keep", "u2": "Keep"})
+            self.assertTrue((batch_dir / "scope_triage_usage_summary.json").exists())
 
-    def test_batch_yomi_triage_does_not_advance_until_results_are_fetched(self) -> None:
+    def test_batch_scope_triage_does_not_advance_until_results_are_fetched(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -670,7 +670,7 @@ class PipelineTrackTests(unittest.TestCase):
                         "target_documents": 5,
                         "docs_written": 5,
                         "units_written": 1,
-                        "llm_execution_policy": {"yomi_triage": "batch"},
+                        "llm_execution_policy": {"scope_triage": "batch"},
                     },
                     ensure_ascii=False,
                 ),
@@ -695,9 +695,9 @@ class PipelineTrackTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
-            (batch_dir / "yomi_triage_input.jsonl").write_text(
+            (batch_dir / "scope_triage_input.jsonl").write_text(
                 json.dumps(
-                    {"unit_id": "u1", "text": "方です。", "rendered": "方/ホウ です/デス 。/。"},
+                    {"unit_id": "u1", "text": "方です。"},
                     ensure_ascii=False,
                 )
                 + "\n",
@@ -705,7 +705,7 @@ class PipelineTrackTests(unittest.TestCase):
             )
             workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
             saved = workspace.load_batch_state("dev_batch_0001")
-            saved.current_stage = "yomi_triage_queued"
+            saved.current_stage = "scope_triage_queued"
             workspace.save_batch_state(saved)
             workspace.save_track_state(
                 TrackState(
@@ -727,12 +727,12 @@ class PipelineTrackTests(unittest.TestCase):
                 summary = workspace.advance("dev")
 
             self.assertFalse(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "yomi_triage_queued")
+            self.assertEqual(summary["current_stage"], "scope_triage_queued")
             self.assertIn("LLM batch job is running", summary["blocking_reason"])
-            self.assertEqual(summary["artifacts"]["yomi_triage_execution_mode"], "batch")
-            self.assertEqual(summary["artifacts"]["yomi_triage_llm_remote_status"], "in_progress")
+            self.assertEqual(summary["artifacts"]["scope_triage_execution_mode"], "batch")
+            self.assertEqual(summary["artifacts"]["scope_triage_llm_remote_status"], "in_progress")
             saved_after = workspace.load_batch_state("dev_batch_0001")
-            self.assertEqual(saved_after.current_stage, "yomi_triage_queued")
+            self.assertEqual(saved_after.current_stage, "scope_triage_queued")
 
     def test_force_stage_reruns_current_stage_on_dev(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

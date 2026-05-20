@@ -31,7 +31,11 @@ from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
-from yomi_corpus.yomi.triage import apply_yomi_triage_results_file, build_yomi_triage_queue_file
+from yomi_corpus.yomi.llm_readings import (
+    apply_yomi_llm_reading_results_file,
+    build_yomi_llm_reading_queue_file,
+)
+from yomi_corpus.yomi.scope import apply_scope_triage_results_file, build_scope_triage_queue_file
 
 
 WORKING_TRACK = "working"
@@ -68,18 +72,22 @@ LLM_EXECUTION_MODE_SYNC = "sync"
 LLM_EXECUTION_MODE_BATCH = "batch"
 LLM_EXECUTION_MODES = frozenset({LLM_EXECUTION_MODE_SYNC, LLM_EXECUTION_MODE_BATCH})
 LLM_TASK_ALPHABETIC_ENTITY_JUDGE = "alphabetic_entity_judge"
-LLM_TASK_NON_TARGET_JUDGE = "non_target_judge"
-LLM_TASK_YOMI_TRIAGE = "yomi_triage"
+LLM_TASK_SCOPE_TRIAGE = "scope_triage"
+LLM_TASK_YOMI_READING = "yomi_reading"
 LLM_TASK_YOMI_REPAIR = "yomi_repair"
 LLM_TASK_YOMI_RESCUE = "yomi_rescue"
 LLM_POLICY_TASKS = (
     LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
-    LLM_TASK_NON_TARGET_JUDGE,
-    LLM_TASK_YOMI_TRIAGE,
+    LLM_TASK_SCOPE_TRIAGE,
+    LLM_TASK_YOMI_READING,
     LLM_TASK_YOMI_REPAIR,
     LLM_TASK_YOMI_RESCUE,
 )
 LLM_POLICY_TASK_SET = frozenset(LLM_POLICY_TASKS)
+LEGACY_LLM_TASK_MAP = {
+    "non_target_judge": LLM_TASK_SCOPE_TRIAGE,
+    "yomi_triage": LLM_TASK_YOMI_READING,
+}
 YOMI_LLM_PROFILE_PRODUCTION = "production"
 YOMI_LLM_PROFILE_DEV = "dev"
 YOMI_LLM_PROFILE_SMOKE = "smoke"
@@ -113,8 +121,10 @@ STAGE_SEQUENCE = [
     "alphabetic_reported",
     "yomi_generated",
     "yomi_auto_accepted",
-    "yomi_triage_queued",
-    "yomi_triage_completed",
+    "scope_triage_queued",
+    "scope_triage_completed",
+    "yomi_reading_queued",
+    "yomi_reading_completed",
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -123,8 +133,10 @@ RERUNNABLE_STAGES = frozenset(
         "alphabetic_reported",
         "yomi_generated",
         "yomi_auto_accepted",
-        "yomi_triage_queued",
-        "yomi_triage_completed",
+        "scope_triage_queued",
+        "scope_triage_completed",
+        "yomi_reading_queued",
+        "yomi_reading_completed",
     }
 )
 
@@ -156,6 +168,16 @@ class BatchState:
     skipped_review_gates: list[str]
     artifacts: dict[str, str]
     updated_at: str
+
+
+@dataclass(frozen=True)
+class EmptyJobSummary:
+    status: str = "completed"
+    remote_status: str = ""
+    remote_batch_id: str = ""
+    completed_items: int = 0
+    failed_items: int = 0
+    total_items: int = 0
 
 
 def now_iso() -> str:
@@ -257,10 +279,10 @@ def normalize_llm_policy(
     if legacy_profile:
         if legacy_profile not in LEGACY_YOMI_LLM_PROFILES:
             raise ValueError(f"Unsupported legacy yomi LLM profile: {legacy_profile}")
-        normalized[LLM_TASK_YOMI_TRIAGE] = LEGACY_YOMI_LLM_PROFILE_MAP[legacy_profile]
+        normalized[LLM_TASK_YOMI_READING] = LEGACY_YOMI_LLM_PROFILE_MAP[legacy_profile]
     if policy:
         for task, profile in policy.items():
-            task_name = str(task)
+            task_name = LEGACY_LLM_TASK_MAP.get(str(task), str(task))
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in policy: {task_name}")
             normalized[task_name] = str(profile)
@@ -292,7 +314,7 @@ def normalize_llm_execution_policy(
     normalized = default_llm_execution_policy(track_name)
     if policy:
         for task, mode in policy.items():
-            task_name = str(task)
+            task_name = LEGACY_LLM_TASK_MAP.get(str(task), str(task))
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in execution policy: {task_name}")
             normalized[task_name] = str(mode)
@@ -753,10 +775,14 @@ class PipelineWorkspace:
             return self._generate_mechanical_yomi(batch_name)
         if stage_name == "yomi_auto_accepted":
             return self._auto_accept_mechanical_yomi(batch_name)
-        if stage_name == "yomi_triage_queued":
-            return self._queue_yomi_llm_triage(batch_name)
-        if stage_name == "yomi_triage_completed":
-            return self._run_yomi_llm_triage(batch_name)
+        if stage_name == "scope_triage_queued":
+            return self._queue_scope_triage(batch_name)
+        if stage_name == "scope_triage_completed":
+            return self._run_scope_triage(batch_name)
+        if stage_name == "yomi_reading_queued":
+            return self._queue_yomi_llm_reading(batch_name)
+        if stage_name == "yomi_reading_completed":
+            return self._run_yomi_llm_reading(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -781,17 +807,29 @@ class PipelineWorkspace:
                 batch_dir / "units.yomi.auto_accept.jsonl",
                 batch_dir / "yomi_auto_accept_summary.json",
             ]
-        if stage_name == "yomi_triage_queued":
+        if stage_name == "scope_triage_queued":
             return [
-                batch_dir / "yomi_triage_input.jsonl",
-                batch_dir / "yomi_triage_queue_summary.json",
+                batch_dir / "scope_triage_input.jsonl",
+                batch_dir / "scope_triage_queue_summary.json",
             ]
-        if stage_name == "yomi_triage_completed":
+        if stage_name == "scope_triage_completed":
             return [
-                batch_dir / "yomi_triage_results.jsonl",
-                batch_dir / "yomi_triage_usage_summary.json",
-                batch_dir / "units.yomi.triaged.jsonl",
-                batch_dir / "yomi_triage_apply_summary.json",
+                batch_dir / "scope_triage_results.jsonl",
+                batch_dir / "scope_triage_usage_summary.json",
+                batch_dir / "units.scope_triaged.jsonl",
+                batch_dir / "scope_triage_apply_summary.json",
+            ]
+        if stage_name == "yomi_reading_queued":
+            return [
+                batch_dir / "yomi_reading_input.jsonl",
+                batch_dir / "yomi_reading_queue_summary.json",
+            ]
+        if stage_name == "yomi_reading_completed":
+            return [
+                batch_dir / "yomi_reading_results.jsonl",
+                batch_dir / "yomi_reading_usage_summary.json",
+                batch_dir / "units.yomi.llm_readings.jsonl",
+                batch_dir / "yomi_reading_apply_summary.json",
             ]
         return []
 
@@ -862,8 +900,10 @@ class PipelineWorkspace:
             "alphabetic_reported",
             "yomi_generated",
             "yomi_auto_accepted",
-            "yomi_triage_queued",
-            "yomi_triage_completed",
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
         }:
             artifacts.update(
                 {
@@ -876,8 +916,10 @@ class PipelineWorkspace:
             "alphabetic_reported",
             "yomi_generated",
             "yomi_auto_accepted",
-            "yomi_triage_queued",
-            "yomi_triage_completed",
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
         }:
             artifacts.update(
                 {
@@ -889,36 +931,74 @@ class PipelineWorkspace:
                     ),
                 }
             )
-        if current_stage in {"yomi_generated", "yomi_auto_accepted", "yomi_triage_queued", "yomi_triage_completed"}:
+        if current_stage in {
+            "yomi_generated",
+            "yomi_auto_accepted",
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
+        }:
             artifacts["units_yomi_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.aligned_hybrid.jsonl"
             )
-        if current_stage in {"yomi_auto_accepted", "yomi_triage_queued", "yomi_triage_completed"}:
+        if current_stage in {
+            "yomi_auto_accepted",
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
+        }:
             artifacts["units_yomi_auto_accept_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.auto_accept.jsonl"
             )
             artifacts["yomi_auto_accept_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
             )
-        if current_stage in {"yomi_triage_queued", "yomi_triage_completed"}:
-            artifacts["yomi_triage_input_jsonl"] = str(
-                self.batch_dir(batch_name) / "yomi_triage_input.jsonl"
+        if current_stage in {
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
+        }:
+            artifacts["scope_triage_input_jsonl"] = str(
+                self.batch_dir(batch_name) / "scope_triage_input.jsonl"
             )
-            artifacts["yomi_triage_queue_summary_json"] = str(
-                self.batch_dir(batch_name) / "yomi_triage_queue_summary.json"
+            artifacts["scope_triage_queue_summary_json"] = str(
+                self.batch_dir(batch_name) / "scope_triage_queue_summary.json"
             )
-        if current_stage == "yomi_triage_completed":
-            artifacts["yomi_triage_results_jsonl"] = str(
-                self.batch_dir(batch_name) / "yomi_triage_results.jsonl"
+        if current_stage in {"scope_triage_completed", "yomi_reading_queued", "yomi_reading_completed"}:
+            artifacts["scope_triage_results_jsonl"] = str(
+                self.batch_dir(batch_name) / "scope_triage_results.jsonl"
             )
-            artifacts["yomi_triage_usage_summary_json"] = str(
-                self.batch_dir(batch_name) / "yomi_triage_usage_summary.json"
+            artifacts["scope_triage_usage_summary_json"] = str(
+                self.batch_dir(batch_name) / "scope_triage_usage_summary.json"
             )
-            artifacts["units_yomi_triaged_jsonl"] = str(
-                self.batch_dir(batch_name) / "units.yomi.triaged.jsonl"
+            artifacts["units_scope_triaged_jsonl"] = str(
+                self.batch_dir(batch_name) / "units.scope_triaged.jsonl"
             )
-            artifacts["yomi_triage_apply_summary_json"] = str(
-                self.batch_dir(batch_name) / "yomi_triage_apply_summary.json"
+            artifacts["scope_triage_apply_summary_json"] = str(
+                self.batch_dir(batch_name) / "scope_triage_apply_summary.json"
+            )
+        if current_stage in {"yomi_reading_queued", "yomi_reading_completed"}:
+            artifacts["yomi_reading_input_jsonl"] = str(
+                self.batch_dir(batch_name) / "yomi_reading_input.jsonl"
+            )
+            artifacts["yomi_reading_queue_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_reading_queue_summary.json"
+            )
+        if current_stage == "yomi_reading_completed":
+            artifacts["yomi_reading_results_jsonl"] = str(
+                self.batch_dir(batch_name) / "yomi_reading_results.jsonl"
+            )
+            artifacts["yomi_reading_usage_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_reading_usage_summary.json"
+            )
+            artifacts["units_yomi_llm_readings_jsonl"] = str(
+                self.batch_dir(batch_name) / "units.yomi.llm_readings.jsonl"
+            )
+            artifacts["yomi_reading_apply_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_reading_apply_summary.json"
             )
         raw_yomi_policy = manifest.get("yomi_policy")
         state = BatchState(
@@ -961,10 +1041,18 @@ class PipelineWorkspace:
 
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
+        if (batch_dir / "units.yomi.llm_readings.jsonl").exists():
+            return "yomi_reading_completed"
+        if (batch_dir / "yomi_reading_input.jsonl").exists():
+            return "yomi_reading_queued"
+        if (batch_dir / "units.scope_triaged.jsonl").exists():
+            return "scope_triage_completed"
+        if (batch_dir / "scope_triage_input.jsonl").exists():
+            return "scope_triage_queued"
         if (batch_dir / "units.yomi.triaged.jsonl").exists():
-            return "yomi_triage_completed"
+            return "yomi_reading_completed"
         if (batch_dir / "yomi_triage_input.jsonl").exists():
-            return "yomi_triage_queued"
+            return "scope_triage_queued"
         if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
             return "yomi_auto_accepted"
         if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
@@ -1273,42 +1361,39 @@ class PipelineWorkspace:
             }
         }
 
-    def _queue_yomi_llm_triage(self, batch_name: str) -> dict[str, object]:
+    def _queue_scope_triage(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         input_path = batch_dir / "units.yomi.auto_accept.jsonl"
-        output_path = batch_dir / "yomi_triage_input.jsonl"
-        summary_path = batch_dir / "yomi_triage_queue_summary.json"
-        summary = build_yomi_triage_queue_file(
+        output_path = batch_dir / "scope_triage_input.jsonl"
+        summary_path = batch_dir / "scope_triage_queue_summary.json"
+        summary = build_scope_triage_queue_file(
             input_jsonl=input_path,
             output_jsonl=output_path,
             summary_json=summary_path,
-            unit_mode=self.load_batch_state(batch_name).yomi_policy["unit_mode"],
         )
         return {
             "artifacts": {
-                "yomi_triage_input_jsonl": str(output_path),
-                "yomi_triage_queue_summary_json": str(summary_path),
-                "yomi_triage_task_config": "config/llm/yomi_triage.toml",
-                "yomi_triage_unit_mode": summary.unit_mode,
-                "yomi_triage_queued": str(summary.queued),
-                "yomi_triage_skipped_auto_accepted": str(summary.skipped_auto_accepted),
+                "scope_triage_input_jsonl": str(output_path),
+                "scope_triage_queue_summary_json": str(summary_path),
+                "scope_triage_task_config": "config/llm/scope_triage.toml",
+                "scope_triage_queued": str(summary.queued),
             }
         }
 
-    def _run_yomi_llm_triage(self, batch_name: str) -> dict[str, object]:
+    def _run_scope_triage(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        task_config_path = "config/llm/yomi_triage.toml"
-        llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_TRIAGE]
-        execution_mode = batch_state.llm_execution_policy[LLM_TASK_YOMI_TRIAGE]
+        task_config_path = "config/llm/scope_triage.toml"
+        llm_profile = batch_state.llm_policy[LLM_TASK_SCOPE_TRIAGE]
+        execution_mode = batch_state.llm_execution_policy[LLM_TASK_SCOPE_TRIAGE]
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
-        input_path = batch_dir / "yomi_triage_input.jsonl"
-        results_path = batch_dir / "yomi_triage_results.jsonl"
-        usage_summary_path = batch_dir / "yomi_triage_usage_summary.json"
-        output_path = batch_dir / "units.yomi.triaged.jsonl"
-        apply_summary_path = batch_dir / "yomi_triage_apply_summary.json"
-        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_triage"
+        input_path = batch_dir / "scope_triage_input.jsonl"
+        results_path = batch_dir / "scope_triage_results.jsonl"
+        usage_summary_path = batch_dir / "scope_triage_usage_summary.json"
+        output_path = batch_dir / "units.scope_triaged.jsonl"
+        apply_summary_path = batch_dir / "scope_triage_apply_summary.json"
+        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_scope_triage"
 
         queued_count = count_nonempty_lines(input_path)
         job_summary = None
@@ -1329,23 +1414,16 @@ class PipelineWorkspace:
                         f"LLM {execution_mode} job is {job_summary.status}; "
                         "rerun ./next to poll or resume."
                     ),
-                    "artifacts": {
-                        "yomi_triage_task_config": task_config_path,
-                        "yomi_triage_model": task_config.model,
-                        "yomi_triage_llm_profile": llm_profile,
-                        "yomi_triage_execution_mode": execution_mode,
-                        "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
-                        "yomi_triage_llm_job_dir": str(job_dir),
-                        "yomi_triage_llm_job_status": job_summary.status,
-                        "yomi_triage_llm_remote_status": job_summary.remote_status or "",
-                        "yomi_triage_llm_remote_batch_id": job_summary.remote_batch_id or "",
-                        "yomi_triage_llm_job_completed": str(job_summary.completed_items),
-                        "yomi_triage_llm_job_failed": str(job_summary.failed_items),
-                        "yomi_triage_llm_job_total": str(job_summary.total_items),
-                        "yomi_triage_prompt_template": task_config.prompt_template,
-                        "yomi_triage_unit_mode": batch_state.yomi_policy["unit_mode"],
-                        "yomi_triage_queued": str(queued_count),
-                    },
+                    "artifacts": self._llm_running_artifacts(
+                        prefix="scope_triage",
+                        task_config_path=task_config_path,
+                        task_config=task_config,
+                        llm_profile=llm_profile,
+                        execution_mode=execution_mode,
+                        job_dir=job_dir,
+                        job_summary=job_summary,
+                        queued_count=queued_count,
+                    ),
                 }
         else:
             results_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1361,50 +1439,206 @@ class PipelineWorkspace:
             json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-        apply_summary = apply_yomi_triage_results_file(
+        apply_summary = apply_scope_triage_results_file(
             units_jsonl=batch_dir / "units.yomi.auto_accept.jsonl",
             results_jsonl=results_path,
             output_jsonl=output_path,
             summary_json=apply_summary_path,
-            unit_mode=batch_state.yomi_policy["unit_mode"],
         )
         return {
             "artifacts": {
-                "yomi_triage_results_jsonl": str(results_path),
-                "yomi_triage_usage_summary_json": str(usage_summary_path),
-                "units_yomi_triaged_jsonl": str(output_path),
-                "yomi_triage_apply_summary_json": str(apply_summary_path),
-                "yomi_triage_task_config": task_config_path,
-                "yomi_triage_model": task_config.model,
-                "yomi_triage_llm_profile": llm_profile,
-                "yomi_triage_execution_mode": execution_mode,
-                "yomi_triage_reasoning_effort": task_config.reasoning_effort or "",
-                "yomi_triage_llm_job_dir": str(job_dir),
-                "yomi_triage_llm_job_status": "completed",
-                "yomi_triage_llm_remote_status": "" if job_summary is None else (job_summary.remote_status or ""),
-                "yomi_triage_llm_remote_batch_id": "" if job_summary is None else (job_summary.remote_batch_id or ""),
-                "yomi_triage_llm_job_completed": str(
-                    0 if job_summary is None else job_summary.completed_items
+                **self._llm_completed_artifacts(
+                    prefix="scope_triage",
+                    results_path=results_path,
+                    usage_summary_path=usage_summary_path,
+                    apply_summary_path=apply_summary_path,
+                    task_config_path=task_config_path,
+                    task_config=task_config,
+                    llm_profile=llm_profile,
+                    execution_mode=execution_mode,
+                    job_dir=job_dir,
+                    job_summary=job_summary,
+                    queued_count=queued_count,
                 ),
-                "yomi_triage_llm_job_failed": str(
-                    0 if job_summary is None else job_summary.failed_items
-                ),
-                "yomi_triage_llm_job_total": str(
-                    0 if job_summary is None else job_summary.total_items
-                ),
-                "yomi_triage_prompt_template": task_config.prompt_template,
-                "yomi_triage_unit_mode": apply_summary.unit_mode,
-                "yomi_triage_queued": str(queued_count),
-                "yomi_triage_ok": str(apply_summary.auto_accepted_ok + apply_summary.llm_ok),
-                "yomi_triage_review": str(
-                    apply_summary.llm_review
-                    + apply_summary.parse_error_review
-                    + apply_summary.missing_result_review
-                ),
-                "yomi_triage_skip": str(apply_summary.llm_skip),
+                "units_scope_triaged_jsonl": str(output_path),
+                "scope_triage_keep": str(apply_summary.keep),
+                "scope_triage_skip": str(apply_summary.skip),
+                "scope_triage_parse_error_keep": str(apply_summary.parse_error_keep),
+                "scope_triage_missing_result_keep": str(apply_summary.missing_result_keep),
             }
         }
 
+    def _queue_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        input_path = batch_dir / "units.scope_triaged.jsonl"
+        output_path = batch_dir / "yomi_reading_input.jsonl"
+        summary_path = batch_dir / "yomi_reading_queue_summary.json"
+        summary = build_yomi_llm_reading_queue_file(
+            input_jsonl=input_path,
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        return {
+            "artifacts": {
+                "yomi_reading_input_jsonl": str(output_path),
+                "yomi_reading_queue_summary_json": str(summary_path),
+                "yomi_reading_task_config": "config/llm/yomi_reading.toml",
+                "yomi_reading_queued": str(summary.queued_items),
+                "yomi_reading_skipped": str(summary.skipped_items),
+                "yomi_reading_stable_two_kanji_skipped": str(summary.stable_two_kanji_skipped),
+            }
+        }
+
+    def _run_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
+        task_config_path = "config/llm/yomi_reading.toml"
+        llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_READING]
+        execution_mode = batch_state.llm_execution_policy[LLM_TASK_YOMI_READING]
+        base_task_config = load_llm_task_config(task_config_path)
+        task_config = apply_llm_profile(base_task_config, llm_profile)
+        input_path = batch_dir / "yomi_reading_input.jsonl"
+        results_path = batch_dir / "yomi_reading_results.jsonl"
+        usage_summary_path = batch_dir / "yomi_reading_usage_summary.json"
+        output_path = batch_dir / "units.yomi.llm_readings.jsonl"
+        apply_summary_path = batch_dir / "yomi_reading_apply_summary.json"
+        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_reading"
+
+        queued_count = count_nonempty_lines(input_path)
+        job_summary = None
+        if queued_count:
+            job_summary = run_llm_task(
+                task_config_path,
+                str(input_path),
+                str(results_path),
+                execution_mode=execution_mode,
+                task_config_override=task_config,
+                job_dir=str(job_dir),
+                show_progress=True,
+            )
+            if job_summary.status != "completed":
+                return {
+                    "stage_complete": False,
+                    "blocking_reason": (
+                        f"LLM {execution_mode} job is {job_summary.status}; "
+                        "rerun ./next to poll or resume."
+                    ),
+                    "artifacts": self._llm_running_artifacts(
+                        prefix="yomi_reading",
+                        task_config_path=task_config_path,
+                        task_config=task_config,
+                        llm_profile=llm_profile,
+                        execution_mode=execution_mode,
+                        job_dir=job_dir,
+                        job_summary=job_summary,
+                        queued_count=queued_count,
+                    ),
+                }
+        else:
+            results_path.parent.mkdir(parents=True, exist_ok=True)
+            results_path.write_text("", encoding="utf-8")
+
+        usage_summary = summarize_results_jsonl(
+            str(results_path),
+            model=task_config.model,
+            processing_tier="standard",
+            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
+        )
+        usage_summary_path.write_text(
+            json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        apply_summary = apply_yomi_llm_reading_results_file(
+            units_jsonl=batch_dir / "units.scope_triaged.jsonl",
+            queue_jsonl=input_path,
+            results_jsonl=results_path,
+            output_jsonl=output_path,
+            summary_json=apply_summary_path,
+        )
+        return {
+            "artifacts": {
+                **self._llm_completed_artifacts(
+                    prefix="yomi_reading",
+                    results_path=results_path,
+                    usage_summary_path=usage_summary_path,
+                    apply_summary_path=apply_summary_path,
+                    task_config_path=task_config_path,
+                    task_config=task_config,
+                    llm_profile=llm_profile,
+                    execution_mode=execution_mode,
+                    job_dir=job_dir,
+                    job_summary=job_summary,
+                    queued_count=queued_count,
+                ),
+                "units_yomi_llm_readings_jsonl": str(output_path),
+                "yomi_reading_checked": str(apply_summary.checked_items),
+                "yomi_reading_matched": str(apply_summary.matched_items),
+                "yomi_reading_mismatched": str(apply_summary.mismatched_items),
+                "yomi_reading_parse_error": str(apply_summary.parse_error_items),
+                "yomi_reading_missing_result": str(apply_summary.missing_result_items),
+            }
+        }
+
+    @staticmethod
+    def _llm_running_artifacts(
+        *,
+        prefix: str,
+        task_config_path: str,
+        task_config: object,
+        llm_profile: str,
+        execution_mode: str,
+        job_dir: Path,
+        job_summary: object,
+        queued_count: int,
+    ) -> dict[str, str]:
+        return {
+            f"{prefix}_task_config": task_config_path,
+            f"{prefix}_model": str(task_config.model),
+            f"{prefix}_llm_profile": llm_profile,
+            f"{prefix}_execution_mode": execution_mode,
+            f"{prefix}_reasoning_effort": task_config.reasoning_effort or "",
+            f"{prefix}_llm_job_dir": str(job_dir),
+            f"{prefix}_llm_job_status": str(job_summary.status),
+            f"{prefix}_llm_remote_status": job_summary.remote_status or "",
+            f"{prefix}_llm_remote_batch_id": job_summary.remote_batch_id or "",
+            f"{prefix}_llm_job_completed": str(job_summary.completed_items),
+            f"{prefix}_llm_job_failed": str(job_summary.failed_items),
+            f"{prefix}_llm_job_total": str(job_summary.total_items),
+            f"{prefix}_prompt_template": str(task_config.prompt_template),
+            f"{prefix}_queued": str(queued_count),
+        }
+
+    def _llm_completed_artifacts(
+        self,
+        *,
+        prefix: str,
+        results_path: Path,
+        usage_summary_path: Path,
+        apply_summary_path: Path,
+        task_config_path: str,
+        task_config: object,
+        llm_profile: str,
+        execution_mode: str,
+        job_dir: Path,
+        job_summary: object | None,
+        queued_count: int,
+    ) -> dict[str, str]:
+        return {
+            f"{prefix}_results_jsonl": str(results_path),
+            f"{prefix}_usage_summary_json": str(usage_summary_path),
+            f"{prefix}_apply_summary_json": str(apply_summary_path),
+            **self._llm_running_artifacts(
+                prefix=prefix,
+                task_config_path=task_config_path,
+                task_config=task_config,
+                llm_profile=llm_profile,
+                execution_mode=execution_mode,
+                job_dir=job_dir,
+                job_summary=EmptyJobSummary() if job_summary is None else job_summary,
+                queued_count=queued_count,
+            ),
+            f"{prefix}_llm_job_status": "completed",
+        }
 
 def count_nonempty_lines(path: Path) -> int:
     if not path.exists():

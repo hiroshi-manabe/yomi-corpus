@@ -53,6 +53,8 @@ def build_yomi_llm_reading_queue_file(
     output_jsonl: Path,
     summary_json: Path,
     skip_stable_two_kanji: bool = True,
+    skip_auto_accepted: bool = True,
+    skip_scope_skipped: bool = True,
     raw_sudachi_dict_dir: Path = DEFAULT_RAW_SUDACHI_DICT_DIR,
 ) -> YomiLLMReadingQueueSummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
@@ -77,6 +79,12 @@ def build_yomi_llm_reading_queue_file(
                 continue
             read_units += 1
             unit = json.loads(line)
+            if skip_scope_skipped and is_scope_skipped(unit):
+                skipped_items += 1
+                continue
+            if skip_auto_accepted and is_yomi_auto_accepted(unit):
+                skipped_items += 1
+                continue
             for item in build_yomi_llm_reading_items(
                 unit,
                 stable_checker=stable_checker,
@@ -102,6 +110,26 @@ def build_yomi_llm_reading_queue_file(
         encoding="utf-8",
     )
     return summary
+
+
+def is_scope_skipped(unit: dict[str, Any]) -> bool:
+    return (
+        unit.get("analysis", {})
+        .get("llm", {})
+        .get("scope_triage", {})
+        .get("status")
+        == "Skip"
+    )
+
+
+def is_yomi_auto_accepted(unit: dict[str, Any]) -> bool:
+    return bool(
+        unit.get("analysis", {})
+        .get("mechanical", {})
+        .get("yomi", {})
+        .get("auto_accept", {})
+        .get("value")
+    )
 
 
 def build_yomi_llm_reading_items(

@@ -898,8 +898,7 @@ static prefix around 1050-1150 exact API-counted tokens.
 
 Likely current split:
 
-- `scope_triage` or `non_target_judge`: binary raw-text prompt that returns
-  only `Keep` or `Skip`
+- `scope_triage`: binary raw-text prompt that returns only `Keep` or `Skip`
 - `yomi_reading`: per-target reading prompt that returns one JSON object for
   the marked kanji/Latin target
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type

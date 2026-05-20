@@ -4,15 +4,15 @@ auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
 alphabetic_entity_judge = "standard"
-non_target_judge = "economy"
-yomi_triage = "standard"
+scope_triage = "economy"
+yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
 alphabetic_entity_judge = "batch"
-non_target_judge = "batch"
-yomi_triage = "batch"
+scope_triage = "batch"
+yomi_reading = "batch"
 yomi_repair = "sync"
 yomi_rescue = "sync"
 
@@ -22,14 +22,14 @@ auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
 alphabetic_entity_judge = "economy"
-non_target_judge = "economy"
-yomi_triage = "economy"
+scope_triage = "economy"
+yomi_reading = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
 alphabetic_entity_judge = "sync"
-non_target_judge = "sync"
-yomi_triage = "sync"
+scope_triage = "sync"
+yomi_reading = "sync"
 yomi_repair = "sync"
 yomi_rescue = "sync"
