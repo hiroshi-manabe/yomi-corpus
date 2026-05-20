@@ -54,12 +54,15 @@ def build_task_variables(
     if builder_name == "non_target_judge":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         return item_id, {"text": row["text"]}, {"source_row": row}
+    if builder_name == "scope_triage":
+        item_id = str(row.get("unit_id", f"item_{index:05d}"))
+        return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "yomi_check":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         rendered = _rendered_variable(task_config, row)
         return (
             item_id,
-            {"text": row["text"], "rendered": rendered},
+            _yomi_variables(task_config, row, rendered),
             _metadata(row, rendered),
         )
     if builder_name == "yomi_triage":
@@ -67,8 +70,18 @@ def build_task_variables(
         rendered = _rendered_variable(task_config, row)
         return (
             item_id,
-            {"text": row["text"], "rendered": rendered},
+            _yomi_variables(task_config, row, rendered),
             _metadata(row, rendered),
+        )
+    if builder_name == "yomi_reading":
+        item_id = str(row.get("item_id", f"item_{index:05d}"))
+        return (
+            item_id,
+            {
+                "marked_text": row["marked_text"],
+                "surface": row["surface"],
+            },
+            {"source_row": row},
         )
     if builder_name == "yomi_repair":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
@@ -93,6 +106,16 @@ def _join_examples(examples: list[str]) -> str:
 
 def _rendered_variable(task_config: LLMTaskConfig, row: dict[str, Any]) -> str:
     return rendered_for_llm(str(row["rendered"]), task_config.rendered_yomi_display)
+
+
+def _yomi_variables(task_config: LLMTaskConfig, row: dict[str, Any], rendered: str) -> dict[str, Any]:
+    text = str(row.get("text", ""))
+    text_section = f"Text: {text}\n" if task_config.include_source_text else ""
+    return {
+        "text": text if task_config.include_source_text else "",
+        "text_section": text_section,
+        "rendered": rendered,
+    }
 
 
 def _metadata(row: dict[str, Any], rendered_prompt: str) -> dict[str, Any]:

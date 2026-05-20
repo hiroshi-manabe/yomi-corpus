@@ -32,6 +32,12 @@ def parse_args() -> argparse.Namespace:
         help="Override yomi rendering for prompt inputs. Use full/compact/furigana_no_space for format A/B tests.",
     )
     parser.add_argument(
+        "--include-source-text",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Override whether yomi prompt variables include source text. Default uses task config.",
+    )
+    parser.add_argument(
         "--processing-tier",
         choices=["standard", "batch", "priority", "flex"],
         default="standard",
@@ -58,6 +64,7 @@ def main() -> None:
         verbosity=args.verbosity,
         max_output_tokens=args.max_output_tokens,
         rendered_yomi_display=args.rendered_yomi_display,
+        include_source_text=args.include_source_text,
         processing_tier=args.processing_tier,
         pricing_config_path=args.pricing_config,
     )

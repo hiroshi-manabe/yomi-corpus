@@ -517,18 +517,31 @@ real examples and failure cases.
 
 ## 9. LLM Stage
 
-For yomi, the first sentence-level LLM pass should be a compact triage task.
-The model receives the original sentence and the current yomi-annotated
-sentence, then returns exactly one token:
+The current direction is to split LLM work into two separate questions:
 
-- `OK`: the current yomi annotation is low-risk enough to leave the focused
-  repair path and enter bulk audit
-- `Review`: the unit is target Japanese, but should not be accepted
-  automatically because the yomi has an error, malformed output, or unresolved
-  local ambiguity
-- `Skip`: the unit is non-target text and should not be yomi-repaired, for
-  example because it is foreign-language text, classical Japanese, kanbun, or
-  garbled text
+1. scope triage: should this raw text stay in the modern Japanese reading
+   corpus?
+2. reading generation: for each unresolved kanji/Latin target, what reading
+   does the LLM assign in context?
+
+The LLM should no longer be asked to decide yomi correctness directly as
+`OK/Review/Skip` in the main path. That label set remains useful as historical
+eval context, but the production direction is more diagnostic: compare an
+independent LLM reading against the mechanical Sudachi/hybrid reading, then use
+agreement and disagreement as review-routing signals.
+
+### 9.0 Scope Triage
+
+Scope triage is a compact binary task over raw text. The model returns exactly
+one token:
+
+- `Keep`: process the unit normally
+- `Skip`: exclude the unit as non-target material
+
+`Skip` covers foreign prose, old Japanese prose, kanbun, Chinese, garbled text,
+spam, and similar non-target material. The prompt should avoid project-internal
+terms such as "kobun/kanbun stage" except as examples; the operational concept
+is simply target vs. non-target.
 
 `Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text
@@ -543,41 +556,75 @@ the unit contains even one full sentence of old kana, kanbun, Chinese,
 foreign-language text, or other non-target running text, label the whole unit
 `Skip`. Modern Japanese is abundant enough that losing the surrounding modern
 frame is acceptable, and this avoids a later review pass over whether text is
-target or non-target. The
-exceptions are compact embedded material such as proverbs, fixed expressions,
-short titles, proper names, journal/book names, and bibliographic labels; those
-do not make the unit `Skip` by themselves.
+target or non-target. The exceptions are compact embedded material such as
+proverbs, fixed expressions, short titles, proper names, journal/book names, and
+bibliographic labels; those do not make the unit `Skip` by themselves.
 
-`Review` is also the right label when the yomi is not safely acceptable because
-of unresolved local ambiguity, even if the attached reading is one possible
-reading. For example, an isolated sentence such as `辛いね` should remain in
-the review path if the available unit does not decide between readings such as
-`カライ` and `ツライ`. The triage label is operational: it answers
-whether the unit can be accepted as final now, not whether the current reading
-is linguistically imaginable.
+This task should usually use the `economy` profile for both dev and working
+until evals show a clear reason to spend more. Its output is only a scope gate;
+it is not expected to notice yomi errors.
 
-By contrast, inherently unresolved but acceptable reading variation should not
-be forced into `Review`. Examples such as `日本/ニッポン` or `私/ワタクシ` can be
-slightly marked or less frequent, but they are not errors if context cannot
-reliably force another reading. These cases should normally be `OK`; if a
-variant repeatedly distracts the LLM, prefer a deterministic normalization or
-post-hybrid repair rule before triage rather than teaching triage to debate
-acceptable stylistic variants.
+### 9.0.1 LLM Reading Generation
 
-Numeric tokens with empty readings are also normally `OK` for yomi triage.
-The pipeline intentionally emits grouped numbers as surfaces without kana, such
-as `2021/`, `30/ 分/フン`, or `1/ 回/カイ`, because number pronunciation belongs
-to a later number-reading module. A triage prompt must state this explicitly;
-otherwise the LLM will reasonably treat the empty reading as malformed output.
+LLM reading generation is the main yomi-quality signal being developed now.
+The input is a furigana-style context derived from the current mechanical
+annotation, with exactly one target marked by `**...**`. The model returns JSON
+with exactly one key: the marked target surface, and the value is the target's
+reading in hiragana.
 
-This is deliberately output-cheap. Reasons belong in debug/eval mode, not in
-the default production triage prompt.
+Example:
 
-Operationally, `OK` is not a claim of perfect final correctness. It means the
-unit can be handled through a high-throughput audit workflow rather than the
-focused repair workflow. Mechanical `OK`, LLM-triage `OK`, and later
-repair-verified `OK` should remain distinguishable so their false-OK rates can
-be measured separately.
+```text
+お**話**しします。 -> {"話":"はな"}
+```
+
+The marked target should normally be a kanji run or Latin-containing target
+inside a Sudachi/hybrid token, not an arbitrary whole sentence. The prompt must
+tell the model to ignore unmarked text, including text that already has
+readings in parentheses, and to exclude following kana/okurigana from the
+target reading.
+
+The first implementation should stay deliberately simple:
+
+- start from the stored Sudachi/hybrid token sequence
+- render a furigana context for LLM readability
+- split each annotated token into target chunks by furigana alignment
+- query only chunks that need an independent reading signal
+- keep the original full token yomi as the canonical artifact
+
+Deterministic skip hooks can reduce query volume:
+
+- skip stable two-kanji compounds whose raw SudachiDict surface has exactly one
+  reading and whose current reading matches it
+- later, skip targets whose N-gram evidence is overwhelmingly dominated by one
+  reading, for example at least 99.5% of observed support
+
+Those skips are query suppression, not final acceptance by themselves. Their
+source and reason should be logged so later audits can separate mechanical
+confidence from LLM agreement.
+
+LLM reading results should be applied as comparison metadata:
+
+- `match`: LLM reading equals the current mechanical reading
+- `mismatch`: LLM reading differs from the current mechanical reading
+- `missing_or_parse_error`: the response could not be trusted
+- `skipped`: deterministic rule suppressed the query
+
+Agreement is a candidate signal for bulk review or future auto-acceptance, but
+it should remain distinguishable from N-gram safety, stable two-kanji safety,
+and human approval. Disagreement should route the target or unit to focused
+review or later repair. Ambiguous cases such as `辛い` should eventually be
+handled by explicit ambiguity policy rather than hidden inside an `OK` label.
+
+This per-target design is intentionally less ambitious than asking the LLM to
+repair whole sentences. It avoids relying on the model's token-boundary
+judgment, which has been weak in earlier experiments. Larger-span candidate
+matching, such as asking for the reading of `給料日直後` and choosing among
+Sudachi candidates, can be added later if simple per-token/per-chunk queries
+miss too many segmentation errors.
+
+The prompt is short enough that prompt-cache tuning is not a priority for this
+task. Accuracy, parse stability, and clean comparison metadata matter more.
 
 ### 9.1 Triage Unit Modes
 
@@ -611,8 +658,8 @@ Example LLM policies:
 ```json
 {
   "alphabetic_entity_judge": "standard",
-  "non_target_judge": "standard",
-  "yomi_triage": "standard",
+  "scope_triage": "economy",
+  "yomi_reading": "standard",
   "yomi_repair": "standard",
   "yomi_rescue": "strong"
 }
@@ -621,8 +668,8 @@ Example LLM policies:
 ```json
 {
   "alphabetic_entity_judge": "batch",
-  "non_target_judge": "batch",
-  "yomi_triage": "batch",
+  "scope_triage": "batch",
+  "yomi_reading": "batch",
   "yomi_repair": "sync",
   "yomi_rescue": "sync"
 }
@@ -641,8 +688,9 @@ auto_accept_profile=strict}` and
 Operators should still be able to run dev with `off` or `strict`, and later run
 working with `stable_two_kanji` once that policy is trusted. Track defaults
 should also choose LLM profiles per task, so dev can use `economy` for flow
-checks while working uses `standard` for ordinary corpus work and `strong` for
-rescue. Track defaults should also choose execution modes per task. `sync` is
+checks while working uses `economy` for the scope gate, `standard` for ordinary
+reading work, and `strong` for rescue. Track defaults should also choose
+execution modes per task. `sync` is
 best for prompt exploration, small dev runs, and tasks where immediate failure
 inspection matters. `batch` is best for large classification-style tasks where
 latency is acceptable and cost/rate-limit behavior matters. `sentence` is the
@@ -661,15 +709,15 @@ auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
 alphabetic_entity_judge = "standard"
-non_target_judge = "standard"
-yomi_triage = "standard"
+scope_triage = "economy"
+yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
 alphabetic_entity_judge = "batch"
-non_target_judge = "batch"
-yomi_triage = "batch"
+scope_triage = "batch"
+yomi_reading = "batch"
 yomi_repair = "sync"
 yomi_rescue = "sync"
 
@@ -679,15 +727,15 @@ auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
 alphabetic_entity_judge = "economy"
-non_target_judge = "economy"
-yomi_triage = "economy"
+scope_triage = "economy"
+yomi_reading = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
 alphabetic_entity_judge = "sync"
-non_target_judge = "sync"
-yomi_triage = "sync"
+scope_triage = "sync"
+yomi_reading = "sync"
 yomi_repair = "sync"
 yomi_rescue = "sync"
 ```
@@ -758,13 +806,13 @@ candidate, inspect failures and usage, edit the prompt, and rerun. Batch mode is
 for production throughput and later regression-scale checks after a prompt
 family is already promising.
 
-The conceptual yomi gold set should use four labels: `OK`, `Fix`,
-`Ambiguous`, and `Skip`. `Fix` means the current yomi is wrong but the correct
-reading can be determined from the unit/context and repaired. `Ambiguous` means
-the unit is target Japanese, but the correct reading cannot be safely
-determined from the available context. The first production triage prompt may
-still output only `OK`, `Review`, and `Skip`; in that view, both `Fix` and
-`Ambiguous` collapse into `Review`.
+Historical yomi-triage evals used four conceptual labels: `OK`, `Fix`,
+`Ambiguous`, and `Skip`. `Fix` meant the current yomi was wrong but the correct
+reading could be determined from the unit/context and repaired. `Ambiguous`
+meant the unit was target Japanese, but the correct reading could not be safely
+determined from the available context. Those labels remain useful for analyzing
+old prompt runs and for future repair-stage evals, but they are not the current
+main-path LLM interface.
 
 Experiment note, 2026-05-18: a small 60-row comparison tested direct
 `OK/Fix/Ambiguous/Skip` triage against a two-stage `OK/Review/Skip` first pass
@@ -775,9 +823,9 @@ neither route recovered any of the 6 conceptual `Ambiguous` rows. With
 `gpt-5.5` router could identify ambiguity when run on gold Review rows
 (15/19 overall), but the first 3-way pass still sent all 6 gold `Ambiguous`
 rows to `OK`, so they never reached the router in the true end-to-end route.
-Conclusion for now: keep production triage as `OK/Review/Skip`, keep
-conceptual gold labels for later-stage evaluation, and do not depend on
-triage-time `Ambiguous` detection.
+Conclusion for now: do not depend on triage-time `Ambiguous` detection. The
+main path should use binary scope triage plus independent LLM reading
+generation instead of direct yomi correctness triage.
 
 Each example should store the original sentence, the exact mechanical yomi
 annotation that the model will see, the expected conceptual label, and optional
@@ -850,9 +898,10 @@ static prefix around 1050-1150 exact API-counted tokens.
 
 Likely current split:
 
-- `non_target_judge`: separate prompt when a standalone non-target classifier
-  is needed
-- `yomi_triage`: first yomi LLM pass; returns only `OK`, `Review`, or `Skip`
+- `scope_triage` or `non_target_judge`: binary raw-text prompt that returns
+  only `Keep` or `Skip`
+- `yomi_reading`: per-target reading prompt that returns one JSON object for
+  the marked kanji/Latin target
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type
   because it operates on batch-level entity types rather than sentence units
 - `yomi_repair`: separate prompt because repair should not be mixed into
@@ -860,15 +909,13 @@ Likely current split:
 
 ## 9.1 Inputs to the LLM
 
-For yomi triage, the LLM should receive only units not accepted by mechanical
-auto-acceptance.
+For scope triage, the LLM should receive raw unit text only. It should decide
+whether the text is target material, not whether the current yomi annotation is
+correct.
 
-For each relevant unit, it should jointly judge:
-
-- whether the unit is target Japanese
-- whether the current yomi annotation is correct
-
-At this stage, the LLM is still doing classification, not repair.
+For LLM reading generation, the LLM should receive a furigana-style context
+with exactly one marked target. It should output the target reading, not a
+sentence-level correctness label and not a full rewritten sentence.
 
 For alphabetic material, the LLM should instead receive unresolved entity types
 plus example sentences from the batch.
@@ -948,9 +995,13 @@ Implementation plan for yomi display modes:
   metadata if caching/debugging requires it.
 - Support at least `full`, `compact`, and `furigana_no_space`; a spaced
   furigana debug mode is also useful.
-- Use no-space furigana first for LLM judgment/proposal tasks where the model is
-  not asked to rewrite the full sentence: `yomi_triage`,
-  `yomi_review_resolution`, and possibly `yomi_check`.
+- Allow yomi prompt experiments to omit the separate source `Text:` line. In
+  no-space furigana mode, the displayed yomi already contains the source surface
+  plus readings, so a yomi-only prompt can test whether the extra raw-text line
+  is redundant or distracting.
+- Use no-space furigana first for LLM reading/proposal tasks where the model is
+  not asked to rewrite the full sentence: `yomi_reading`,
+  `yomi_review_resolution`, and possibly later `yomi_check`.
 - Keep full and spaced views available for full-sentence repair prompts until
   there is a deterministic expansion/alignment layer for applying model output.
 - Add a task-level config switch so prompt experiments can compare full,
@@ -1235,7 +1286,7 @@ Current intended commands:
 
 - `./prepare 100`
 - `./prepare dev 10`
-- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off --llm-profile yomi_triage=smoke dev 10`
+- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off --llm-profile yomi_reading=smoke dev 10`
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`
@@ -1254,13 +1305,14 @@ Example behavior:
 - the next `./next` should build the unresolved alphabetic report
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
-- the next `./next` should build `yomi_triage_input.jsonl` from units not
-  mechanically auto-accepted
-- the next `./next` should run the configured yomi LLM triage task and write
-  both raw LLM results and `units.yomi.triaged.jsonl`
-- after that, later repair/review stages should consume only units labeled
-  `Review`; units labeled `Skip` are excluded and units labeled `OK` are
-  accepted subject to later audit sampling
+- the next `./next` should run or resume scope triage and exclude `Skip` units
+- the next `./next` should build a yomi-reading queue from unresolved targets
+- the next `./next` should run or resume the configured yomi-reading LLM task
+  and write comparison metadata
+- after that, later repair/review stages should consume targets or units with
+  LLM/mechanical disagreement, parse failure, or unresolved ambiguity; `Skip`
+  units are excluded and agreement cases enter bulk audit or later
+  auto-acceptance experiments
 - `./next --force-stage <stage>` should rerun the current completed stage
 - on `working`, confirmation should happen only when that rerun would actually
   overwrite existing artifacts
@@ -1275,7 +1327,8 @@ The intended UX is:
 
 LLM calls should be orchestrated through a generic resumable job layer. This is
 needed because the project will use LLMs in multiple stages: alphabetic entity
-judgment, yomi triage, ordinary yomi repair, and rescue repair. Each stage
+judgment, scope triage, yomi reading generation, ordinary yomi repair, and
+rescue repair. Each stage
 should not invent its own sync/batch lifecycle.
 
 The pipeline stage should own the domain transition, while the LLM job owns
@@ -1327,10 +1380,10 @@ Suggested manifest fields:
 
 ```json
 {
-  "job_id": "dev_batch_0003_yomi_triage",
+  "job_id": "dev_batch_0003_yomi_reading",
   "track_name": "dev",
   "batch_name": "dev_batch_0003",
-  "task_name": "yomi_triage",
+  "task_name": "yomi_reading",
   "mode": "sync",
   "status": "running",
   "total_items": 559,
@@ -1367,8 +1420,8 @@ Default `./next` output should be concise and human-readable:
 ```text
 Track: dev
 Batch: dev_batch_0003
-Stage: yomi_triage
-LLM job: dev_batch_0003_yomi_triage
+Stage: yomi_reading
+LLM job: dev_batch_0003_yomi_reading
 Progress: 184/559 completed
 Status: running
 Next: rerun ./next dev to continue
@@ -1379,9 +1432,9 @@ On completion:
 ```text
 Track: dev
 Batch: dev_batch_0003
-Stage: yomi_triage_completed
+Stage: yomi_reading_completed
 Completed: 559/559
-Output: data/units/dev_batch_0003/units.yomi.triaged.jsonl
+Output: data/units/dev_batch_0003/units.yomi.llm_readings.jsonl
 Next: yomi_repair
 ```
 

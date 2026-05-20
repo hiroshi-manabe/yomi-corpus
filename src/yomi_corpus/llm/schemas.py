@@ -18,6 +18,7 @@ class LLMTaskConfig:
     batch_endpoint: str
     batch_completion_window: str
     rendered_yomi_display: str = "full"
+    include_source_text: bool = True
 
 
 @dataclass(frozen=True)

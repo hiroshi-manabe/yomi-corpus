@@ -12,6 +12,8 @@ SOURCE_PAREN_ESCAPES = {
     "(": "-lrb-",
     ")": "-rrb-",
 }
+ASCII_SPACE = " "
+NBSP = "\u00a0"
 
 
 def rendered_for_llm(rendered: str, display: str = "full") -> str:
@@ -63,7 +65,7 @@ def furigana_no_space_token_for_llm(token: str) -> str:
             return prefix + escape_source_parentheses_in_annotated(result.annotated_surface)
         return f"{prefix}{escape_source_parentheses(surface)}（{_kata_to_hira(reading)}）"
     if LATIN_RE.search(surface):
-        return f"{prefix}{escape_source_parentheses(surface)}/{reading}"
+        return f"{prefix}{escape_source_parentheses(surface)}（{reading}）"
     return escape_source_parentheses(surface)
 
 
@@ -126,3 +128,63 @@ def _is_katakana(char: str) -> bool:
 
 def rendered_tokens(rendered: str) -> list[str]:
     return [token for token in rendered.split(" ") if token]
+
+
+def restore_source_whitespace_tokens(text: str, rendered: str) -> tuple[str, list[str]]:
+    """Insert explicit whitespace tokens into an existing rendered yomi string.
+
+    This preserves all non-whitespace rendered tokens and their readings. It is
+    meant for refreshing hand-curated eval rows after whitespace preservation was
+    added to the canonical yomi format.
+    """
+    warnings: list[str] = []
+    output: list[str] = []
+    cursor = 0
+    tokens = [token for token in rendered_tokens(rendered) if not is_rendered_whitespace_pair(token)]
+
+    for token in tokens:
+        surface = rendered_token_surface(token)
+        if not surface:
+            output.append(token)
+            continue
+        index = text.find(surface, cursor)
+        if index < 0:
+            warnings.append(f"surface not found after offset {cursor}: {surface!r}")
+            return rendered, warnings
+        gap = text[cursor:index]
+        if gap:
+            if not all(char.isspace() for char in gap):
+                warnings.append(f"non-whitespace source gap at offset {cursor}: {gap!r}")
+                return rendered, warnings
+            output.extend(render_whitespace_pair(char) for char in gap)
+        output.append(token)
+        cursor = index + len(surface)
+
+    tail = text[cursor:]
+    if tail:
+        if not all(char.isspace() for char in tail):
+            warnings.append(f"non-whitespace source tail at offset {cursor}: {tail!r}")
+            return rendered, warnings
+        output.extend(render_whitespace_pair(char) for char in tail)
+    return " ".join(output), warnings
+
+
+def rendered_token_surface(token: str) -> str:
+    if token == "///":
+        return "/"
+    if "/" not in token:
+        return token
+    surface, _reading = token.rsplit("/", 1)
+    return surface
+
+
+def is_rendered_whitespace_pair(token: str) -> bool:
+    if "/" not in token:
+        return False
+    surface, reading = token.rsplit("/", 1)
+    return bool(surface) and surface == reading and surface.isspace()
+
+
+def render_whitespace_pair(char: str) -> str:
+    surface = NBSP if char == ASCII_SPACE else char
+    return f"{surface}/{surface}"

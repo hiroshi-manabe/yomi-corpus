@@ -8,6 +8,7 @@ from yomi_corpus.llm.rendering import (
     is_fused_digit_yomi_token,
     rendered_for_llm,
     rendered_tokens,
+    restore_source_whitespace_tokens,
 )
 
 
@@ -58,11 +59,41 @@ class LLMRenderingTests(unittest.TestCase):
             "APIは難語です。",
         )
 
+    def test_furigana_no_space_parenthesizes_latin_katakana_readings(self) -> None:
+        self.assertEqual(
+            furigana_no_space_rendered_for_llm("OK/オーケー な/ナ API/エーピーアイ です/デス 。/。"),
+            "OK（オーケー）なAPI（エーピーアイ）です。",
+        )
+
     def test_rendered_tokens_split_only_on_ascii_token_separators(self) -> None:
         self.assertEqual(
             rendered_tokens("A/エー \u00a0/\u00a0 \u3000/\u3000 B/ビー"),
             ["A/エー", "\u00a0/\u00a0", "\u3000/\u3000", "B/ビー"],
         )
+
+    def test_restore_source_whitespace_tokens_preserves_readings(self) -> None:
+        refreshed, warnings = restore_source_whitespace_tokens(
+            "A B　C",
+            "A/エー B/ビー C/シー",
+        )
+        self.assertEqual(warnings, [])
+        self.assertEqual(refreshed, "A/エー \u00a0/\u00a0 B/ビー \u3000/\u3000 C/シー")
+
+    def test_restore_source_whitespace_tokens_is_idempotent(self) -> None:
+        rendered = "A/エー \u00a0/\u00a0 B/ビー \u3000/\u3000 C/シー"
+        refreshed, warnings = restore_source_whitespace_tokens("A B　C", rendered)
+        self.assertEqual(warnings, [])
+        self.assertEqual(refreshed, rendered)
+
+    def test_restore_source_whitespace_tokens_reports_alignment_failure(self) -> None:
+        refreshed, warnings = restore_source_whitespace_tokens("AX B", "A/エー B/ビー")
+        self.assertEqual(refreshed, "A/エー B/ビー")
+        self.assertIn("non-whitespace source gap", warnings[0])
+
+    def test_restore_source_whitespace_tokens_handles_slash_surface(self) -> None:
+        refreshed, warnings = restore_source_whitespace_tokens("Q/微信", "Q/キュー /// 微/ビ 信/シン")
+        self.assertEqual(warnings, [])
+        self.assertEqual(refreshed, "Q/キュー /// 微/ビ 信/シン")
 
 
 if __name__ == "__main__":

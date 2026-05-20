@@ -34,10 +34,16 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.model, "gpt-5.5")
         self.assertEqual(config.parser, "json_object")
         self.assertEqual(config.rendered_yomi_display, "full")
+        self.assertTrue(config.include_source_text)
 
-    def test_load_yomi_triage_uses_compact_display(self) -> None:
+    def test_load_yomi_triage_uses_furigana_display(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")
-        self.assertEqual(config.rendered_yomi_display, "compact")
+        self.assertEqual(config.rendered_yomi_display, "furigana_no_space")
+
+    def test_load_yomi_triage_can_omit_source_text(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_triage_furigana_no_text.toml")
+        self.assertEqual(config.rendered_yomi_display, "furigana_no_space")
+        self.assertFalse(config.include_source_text)
 
     def test_apply_llm_profile_overrides_model(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")
@@ -83,11 +89,11 @@ class LLMScaffoldingTests(unittest.TestCase):
 
         self.assertEqual(items[0].item_id, "u1")
         self.assertIn("Return exactly one token and nothing else", items[0].prompt)
-        self.assertIn("大学/ダイガク", items[0].prompt)
-        self.assertIn("です 。", items[0].prompt)
+        self.assertIn("大学（だいがく）です。", items[0].prompt)
+        self.assertIn("Text: 大学です。", items[0].prompt)
         self.assertNotIn("です/デス", items[0].prompt)
         self.assertEqual(items[0].metadata["rendered_full"], "大学/ダイガク です/デス 。/。")
-        self.assertEqual(items[0].metadata["rendered_prompt"], "大学/ダイガク です 。")
+        self.assertEqual(items[0].metadata["rendered_prompt"], "大学（だいがく）です。")
 
     def test_compact_rendered_for_llm_keeps_kanji_and_latin_readings(self) -> None:
         rendered = (
@@ -117,6 +123,17 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_parse_yomi_triage_label_output(self) -> None:
         parsed = parse_output("Review", "yomi_triage_label")
         self.assertEqual(parsed, {"status": "Review"})
+
+    def test_parse_yomi_triage_reasoned_label_output(self) -> None:
+        parsed = parse_output(
+            "Reason: No correction needed.\nAnswer: OK",
+            "yomi_triage_reasoned_label",
+        )
+        self.assertEqual(parsed, {"status": "OK", "reason": "No correction needed."})
+
+    def test_parse_scope_triage_label_output(self) -> None:
+        parsed = parse_output("Skip", "scope_triage_label")
+        self.assertEqual(parsed, {"status": "Skip"})
 
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")

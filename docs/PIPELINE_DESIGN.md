@@ -189,6 +189,24 @@ to end by repeated 2-gram evidence.
 
 This keeps both cost and failure modes under control.
 
+Current LLM yomi direction:
+
+- use a binary raw-text scope triage (`Keep`/`Skip`) only to exclude non-target
+  material
+- do not ask the first LLM pass to certify yomi correctness as
+  `OK/Review/Skip`
+- ask the LLM for independent readings of marked kanji/Latin targets in
+  furigana-style context
+- compare those readings with the stored Sudachi/hybrid readings
+- route LLM/mechanical agreement to bulk audit or future auto-acceptance
+  experiments, and route disagreement or parse failure to focused review
+
+This makes the LLM a second reading source rather than a black-box correctness
+classifier. It also preserves diagnostic metadata: N-gram support, stable
+two-kanji safety, LLM agreement, and human approval remain separate signals.
+The older `OK/Review/Skip` and `OK/Fix/Ambiguous/Skip` triage experiments are
+kept as prompt-evaluation history, not as the main implementation target.
+
 ### 3.4 Use two judgment granularities
 
 Sentence-level judgments should handle:
@@ -352,53 +370,58 @@ ambiguous raw SudachiDict readings are rejected. Grouped numeric runs such as
 `2021/` are allowed because number pronunciation is outside the current yomi
 task.
 
-### S30 Sentence-Level LLM Classification
+### S30 LLM Scope Gate and Reading Signals
 
 Output:
 
-- unit records enriched with LLM judgments for tasks that were not mechanically
-  certain
+- unit records enriched with binary scope judgments for target/non-target text
+- per-target LLM reading results for yomi targets that were not suppressed by
+  deterministic confidence rules
 - entity-type judgments for unresolved alphabetic entity types
 
 Responsibilities:
 
-- run first-stage yomi triage on units not mechanically auto-accepted
-- return exactly one yomi triage label: `OK`, `Review`, or `Skip`
-- treat `Skip` as non-target material such as foreign-language text,
-  classical Japanese, kanbun, or garbled text
+- run scope triage on raw text when non-target status is not otherwise known
+- return exactly one scope label: `Keep` or `Skip`
+- treat `Skip` as non-target material such as foreign-language text, old
+  Japanese prose, kanbun, Chinese, spam, or garbled text
+- build a yomi-reading queue from unresolved kanji/Latin targets in the
+  Sudachi/hybrid token stream
+- ask the LLM for the reading of exactly one marked target per request
+- compare the LLM reading with the stored mechanical reading
 - judge unresolved alphabetic entity types where needed
 
-The default yomi triage output should be a single token, not JSON. Reasons and
-fine-grained labels belong in debug/eval mode because ordinary production runs
-should minimize expensive model output.
+The default scope-triage output should be a single token, not JSON. Reasons
+belong in debug/eval mode because ordinary production runs should minimize
+expensive model output. Scope triage should normally use the `economy` profile
+unless evals show that a stronger model materially reduces dangerous `Keep` or
+`Skip` errors.
 
-The production yomi triage prompt should use the clean representative boundary
-prompt rather than failure-specific lexical patches. The current baseline is
-`config/prompts/yomi_triage_v2.txt`, derived from the
-`general_representative_v3` prompt experiments, with `gpt-5.5` and
-`reasoning_effort=none`. Synthetic-only failures should not be promoted into
-prompt rules. Recurring real failures can later become deterministic repair or
-review rules.
+The default LLM reading output should be a one-key JSON object such as
+`{"話":"はな"}`. The request context should be furigana-style text with one
+target marked by `**...**`; unmarked furigana is only context and must not be
+returned. The model should not rewrite the whole sentence.
 
-The materialized triage stage writes two artifacts:
+The materialized LLM stage writes separate artifacts:
 
 - raw LLM results, preserving raw text, parsed status, parse errors, usage, and
   metadata for audit and cost reporting
-- `units.yomi.triaged.jsonl`, where every unit has
-  `analysis.llm.yomi_triage.status`
+- scope-gated unit artifacts, where every unit has a parsed `Keep`/`Skip`
+  result or a safe fallback
+- yomi-reading queue/result/apply artifacts, where each requested target has an
+  LLM reading, comparison status, and usage metadata
 
-Mechanically auto-accepted units receive `OK` with source `auto_accept`.
-Queued units receive the parsed LLM status when parsing succeeds; parse errors
-must be treated as `Review` so malformed model output cannot silently accept or
-skip a unit. Later yomi repair consumes only `Review` units, while `Skip` is
-excluded and `OK` enters the bulk-audit path.
+Scope parse errors must be treated conservatively so malformed model output
+cannot silently skip or accept a unit. Yomi-reading parse errors must not become
+agreement; they route the target or unit to focused review.
 
-In this pipeline, `OK` is operational rather than absolute. It does not mean
-"guaranteed correct forever." It means the unit is low-risk enough that it does
-not need the focused repair path and can instead be reviewed, if at all,
-through high-throughput audit. The source of the `OK` decision must remain
-visible, for example mechanical auto-accept, stable two-kanji support, or LLM
-triage, so later audits can measure false-OK rates separately by source.
+In this pipeline, agreement is operational rather than absolute. LLM/mechanical
+agreement does not mean "guaranteed correct forever." It means the target or
+unit may be low-risk enough for high-throughput audit or future auto-acceptance
+experiments. The source of every low-risk signal must remain visible, for
+example N-gram support, stable two-kanji support, LLM reading agreement, or
+human approval, so later audits can measure false-accept rates separately by
+source.
 
 #### Resumable LLM execution
 
@@ -424,9 +447,9 @@ must continue to use the downloaded output file and each request's `custom_id`.
 
 The domain stage should complete only after the job has produced a complete
 result JSONL and those results have been applied to the domain artifact. For
-yomi triage, that means the job can be running while the domain step is still
-`yomi_triage`, and the stage advances to `yomi_triage_completed` only after
-`units.yomi.triaged.jsonl` is written.
+scope triage or yomi reading generation, that means the job can be running
+while the domain step is still active, and the stage advances only after the
+scope artifact or yomi-reading comparison artifact is written.
 
 Interruptions should be normal. The operator may stop sync mode partway through;
 rerunning `./next` resumes from result rows already present. For batch mode,
@@ -470,8 +493,8 @@ task-to-setting maps:
 ```json
 {
   "alphabetic_entity_judge": "standard",
-  "non_target_judge": "standard",
-  "yomi_triage": "standard",
+  "scope_triage": "economy",
+  "yomi_reading": "standard",
   "yomi_repair": "standard",
   "yomi_rescue": "strong"
 }
@@ -480,8 +503,8 @@ task-to-setting maps:
 ```json
 {
   "alphabetic_entity_judge": "batch",
-  "non_target_judge": "batch",
-  "yomi_triage": "batch",
+  "scope_triage": "batch",
+  "yomi_reading": "batch",
   "yomi_repair": "sync",
   "yomi_rescue": "sync"
 }
@@ -516,15 +539,15 @@ auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
 alphabetic_entity_judge = "standard"
-non_target_judge = "standard"
-yomi_triage = "standard"
+scope_triage = "economy"
+yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
 alphabetic_entity_judge = "batch"
-non_target_judge = "batch"
-yomi_triage = "batch"
+scope_triage = "batch"
+yomi_reading = "batch"
 yomi_repair = "sync"
 yomi_rescue = "sync"
 
@@ -534,15 +557,15 @@ auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
 alphabetic_entity_judge = "economy"
-non_target_judge = "economy"
-yomi_triage = "economy"
+scope_triage = "economy"
+yomi_reading = "economy"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
 alphabetic_entity_judge = "sync"
-non_target_judge = "sync"
-yomi_triage = "sync"
+scope_triage = "sync"
+yomi_reading = "sync"
 yomi_repair = "sync"
 yomi_rescue = "sync"
 ```
@@ -990,8 +1013,10 @@ settings.
 Stage-oriented defaults:
 
 - `alphabetic_entity_judge`: `gpt-5.5`
-- `non_target_judge`: `gpt-5.5`
-- `yomi_check`: `gpt-5.5`
+- `scope_triage`: `gpt-5.4-mini` through the `economy` profile unless evals
+  justify a stronger model
+- `yomi_reading`: `gpt-5.5` for production-quality reading comparison,
+  `gpt-5.4-mini` for dev flow checks
 - `yomi_repair`: `gpt-5.5`
 - post-review rescue repair: `gpt-5.5` with web search allowed
 - final emergency escalation: `gpt-5.5-pro` with web search, only after
@@ -1123,7 +1148,7 @@ Current intended operator commands:
 
 - `./prepare 100`
 - `./prepare dev 10`
-- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off --llm-profile yomi_triage=smoke dev 10`
+- `./prepare --yomi-unit-mode comma_span --yomi-auto-accept-profile off --llm-profile yomi_reading=smoke dev 10`
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`
