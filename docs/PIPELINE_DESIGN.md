@@ -690,9 +690,17 @@ Whitespace-separated views still have a role:
 - furigana spaced debug view: `送（おく）っ て`
 - furigana no-space prompt view: `送（おく）って`
 
-Use no-space furigana for LLM triage/proposal and human bulk review experiments.
-Use spaced token views for debugging, alignment inspection, deterministic repair
-rules, and N-gram decoder training data, where token boundaries are useful.
+Use plain marked source text for per-target LLM reading generation by default:
+only the requested target is marked, and the rest of the sentence is unannotated
+context. A 150-item mini-model comparison showed similar match counts to
+no-space furigana context with materially fewer input tokens, so the simpler
+view is the default until larger experiments say otherwise.
+
+Use no-space furigana for LLM triage/proposal and human bulk review experiments
+where the existing yomi annotation itself is what the model or reviewer must
+judge. Use spaced token views for debugging, alignment inspection,
+deterministic repair rules, and N-gram decoder training data, where token
+boundaries are useful.
 
 Because some corrections cross token boundaries, the repair/proposal prompt
 should allow local spans that include neighboring kana or symbols. For example,
@@ -711,8 +719,10 @@ Implementation plan:
   also useful.
 - Keep full rendered yomi in all unit artifacts. Derived display text is
   computed at prompt-build time or stored as explicit debug metadata only.
-- Enable no-space furigana first for LLM judgment/proposal tasks: yomi triage,
-  review-resolution/local-fix proposal, and possibly yomi check.
+- Enable plain marked source text first for `yomi_reading`.
+- Enable no-space furigana first for LLM judgment/proposal tasks that inspect
+  existing yomi annotations: yomi triage, review-resolution/local-fix proposal,
+  and possibly yomi check.
 - Keep full rendered yomi available for prompts or tools that need exact token
   boundaries until span alignment and expansion are implemented for furigana
   display.

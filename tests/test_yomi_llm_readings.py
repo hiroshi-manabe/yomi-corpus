@@ -74,10 +74,11 @@ class YomiLLMReadingsTests(unittest.TestCase):
         items = build_yomi_llm_reading_items(unit())
 
         self.assertEqual([item["surface"] for item in items], ["学校", "上"])
-        self.assertEqual(items[0]["marked_text"], "**学校**は上（うえ）です。")
-        self.assertEqual(items[0]["marked_source_text"], "**学校**は上です。")
+        self.assertEqual(items[0]["marked_text"], "**学校**は上です。")
+        self.assertEqual(items[0]["marked_furigana_text"], "**学校**は上（うえ）です。")
         self.assertEqual(items[0]["current_reading_hiragana"], "がっこう")
-        self.assertEqual(items[1]["marked_text"], "学校（がっこう）は**上**です。")
+        self.assertEqual(items[1]["marked_text"], "学校は**上**です。")
+        self.assertEqual(items[1]["marked_furigana_text"], "学校（がっこう）は**上**です。")
 
     def test_iteration_mark_is_part_of_kanji_target(self) -> None:
         payload = {
@@ -127,7 +128,8 @@ class YomiLLMReadingsTests(unittest.TestCase):
 
         self.assertEqual(items[0]["surface"], "日々")
         self.assertEqual(items[0]["current_reading_hiragana"], "ひび")
-        self.assertEqual(items[0]["marked_text"], "**日々**変（か）わります。")
+        self.assertEqual(items[0]["marked_text"], "**日々**変わります。")
+        self.assertEqual(items[0]["marked_furigana_text"], "**日々**変（か）わります。")
 
     def test_stable_two_kanji_can_be_skipped(self) -> None:
         checker = make_stable_checker(
@@ -222,8 +224,8 @@ class YomiLLMReadingsTests(unittest.TestCase):
 
         self.assertEqual(prompts[0].item_id, item["item_id"])
         self.assertIn("Return JSON only, with exactly one key", prompts[0].prompt)
-        self.assertIn("学校（がっこう）は**上**です。", prompts[0].prompt)
-        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校（がっこう）は**上**です。 ->"))
+        self.assertIn("学校は**上**です。", prompts[0].prompt)
+        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校は**上**です。 ->"))
         self.assertNotIn('"学校"', prompts[0].prompt)
 
     def test_json_parser_accepts_plain_or_fenced_object(self) -> None:

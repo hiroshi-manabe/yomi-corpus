@@ -171,12 +171,12 @@ def build_yomi_llm_reading_items(
                 "current_reading": hira_to_katakana(target["reading"]),
                 "current_reading_hiragana": target["reading"],
                 "text": text,
-                "marked_text": marked_furigana_context(tokens, index, chunk_index - 1),
-                "marked_source_text": mark_span(
+                "marked_text": mark_span(
                     text,
                     span.start + int(target["surface_start"]),
                     span.start + int(target["surface_end"]),
                 ),
+                "marked_furigana_text": marked_furigana_context(tokens, index, chunk_index - 1),
                 "token_start": span.start,
                 "token_end": span.end,
                 "target_start": span.start + int(target["surface_start"]),

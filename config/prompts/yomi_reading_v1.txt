@@ -1,8 +1,8 @@
 Give readings for the **marked** Japanese text only.
-Ignore unmarked text, including text that already has readings in parentheses.
+Use unmarked text only as context.
 Exclude following kana/okurigana from the reading.
 Return JSON only, with exactly one key: the marked text. Use hiragana.
 
-目が**痛**い人（ひと）。 -> {{"痛":"いた"}}
+目が**痛**いです。 -> {{"痛":"いた"}}
 お**話**しします。 -> {{"話":"はな"}}
 {marked_text} ->

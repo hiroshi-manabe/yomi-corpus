@@ -912,8 +912,11 @@ For scope triage, the LLM should receive raw unit text only. It should decide
 whether the text is target material, not whether the current yomi annotation is
 correct.
 
-For LLM reading generation, the LLM should receive a furigana-style context
-with exactly one marked target. It should output the target reading, not a
+For LLM reading generation, the LLM should receive plain source text with
+exactly one marked target. Surrounding tokens should not normally include
+furigana annotations; they are context only. A no-space furigana rendering may
+be stored as debug metadata for comparison, but it is not the default prompt
+input for `yomi_reading`. The LLM should output the target reading, not a
 sentence-level correctness label and not a full rewritten sentence.
 
 For alphabetic material, the LLM should instead receive unresolved entity types
@@ -998,9 +1001,13 @@ Implementation plan for yomi display modes:
   no-space furigana mode, the displayed yomi already contains the source surface
   plus readings, so a yomi-only prompt can test whether the extra raw-text line
   is redundant or distracting.
-- Use no-space furigana first for LLM reading/proposal tasks where the model is
-  not asked to rewrite the full sentence: `yomi_reading`,
-  `yomi_review_resolution`, and possibly later `yomi_check`.
+- Use plain marked source text first for per-target LLM reading generation
+  (`yomi_reading`). A mini-model comparison on a 150-item stratified sample did
+  not show an accuracy drop relative to no-space furigana context, while input
+  tokens fell by roughly 25%.
+- Use no-space furigana first for LLM proposal tasks where the model benefits
+  from seeing existing yomi annotations, such as `yomi_review_resolution` and
+  possibly later `yomi_check`.
 - Keep full and spaced views available for full-sentence repair prompts until
   there is a deterministic expansion/alignment layer for applying model output.
 - Add a task-level config switch so prompt experiments can compare full,
