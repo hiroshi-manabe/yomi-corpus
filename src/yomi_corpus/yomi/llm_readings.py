@@ -296,6 +296,19 @@ def build_item_judgment(
             "raw_text": result.get("raw_text"),
             "parse_error": result.get("parse_error") or "Parsed result is not a JSON object.",
         }
+    expected_key = str(item["surface"])
+    keys = set(parsed)
+    if keys != {expected_key}:
+        return {
+            **base,
+            "status": "parse_error",
+            "llm_reading": None,
+            "raw_text": result.get("raw_text"),
+            "parse_error": (
+                f"Expected exactly one JSON key {expected_key!r}; "
+                f"got {sorted(str(key) for key in keys)!r}."
+            ),
+        }
     raw_reading = parsed.get(str(item["surface"]))
     if not isinstance(raw_reading, str):
         return {
@@ -303,7 +316,7 @@ def build_item_judgment(
             "status": "parse_error",
             "llm_reading": None,
             "raw_text": result.get("raw_text"),
-            "parse_error": f"Missing surface key: {item['surface']}",
+            "parse_error": f"Reading for surface key {item['surface']!r} is not a string.",
         }
     llm_reading = normalize_hiragana_reading(raw_reading)
     current = normalize_hiragana_reading(str(item["current_reading_hiragana"]))

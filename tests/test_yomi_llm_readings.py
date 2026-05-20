@@ -7,9 +7,13 @@ from pathlib import Path
 
 from yomi_corpus.yomi.llm_readings import (
     apply_yomi_llm_reading_results_file,
+    build_item_judgment,
     build_yomi_llm_reading_items,
     build_yomi_llm_reading_queue_file,
 )
+from yomi_corpus.llm.config import load_llm_task_config
+from yomi_corpus.llm.parsers import parse_output
+from yomi_corpus.llm.tasks import build_prompt_items
 from yomi_corpus.yomi.ngram_diagnostics import StableTwoKanjiChecker
 
 
@@ -159,6 +163,78 @@ class YomiLLMReadingsTests(unittest.TestCase):
             row = json.loads(output_path.read_text(encoding="utf-8").splitlines()[0])
             judgments = row["analysis"]["llm"]["yomi_readings"]["items"]
             self.assertEqual([judgment["status"] for judgment in judgments], ["matched", "mismatched"])
+
+    def test_build_prompt_items_marks_only_target_surface(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_reading.toml")
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        prompts = build_prompt_items(config, [item])
+
+        self.assertEqual(prompts[0].item_id, item["item_id"])
+        self.assertIn("Return JSON only, with exactly one key", prompts[0].prompt)
+        self.assertIn("学校（がっこう）は**上**です。", prompts[0].prompt)
+        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校（がっこう）は**上**です。 ->"))
+        self.assertNotIn('"学校"', prompts[0].prompt)
+
+    def test_json_parser_accepts_plain_or_fenced_object(self) -> None:
+        self.assertEqual(parse_output('{"上":"うえ"}', "json_object"), {"上": "うえ"})
+        self.assertEqual(
+            parse_output('```json\n{"上":"うえ"}\n```', "json_object"),
+            {"上": "うえ"},
+        )
+
+    def test_item_judgment_rejects_extra_json_keys(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(
+            item,
+            {
+                "item_id": item["item_id"],
+                "raw_text": '{"上":"うえ","学校":"がっこう"}',
+                "parsed": {"上": "うえ", "学校": "がっこう"},
+            },
+        )
+
+        self.assertEqual(judgment["status"], "parse_error")
+        self.assertIn("Expected exactly one JSON key", judgment["parse_error"])
+
+    def test_item_judgment_rejects_wrong_json_key(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(
+            item,
+            {
+                "item_id": item["item_id"],
+                "raw_text": '{"下":"した"}',
+                "parsed": {"下": "した"},
+            },
+        )
+
+        self.assertEqual(judgment["status"], "parse_error")
+        self.assertIn("'上'", judgment["parse_error"])
+
+    def test_item_judgment_rejects_non_string_reading(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(
+            item,
+            {
+                "item_id": item["item_id"],
+                "raw_text": '{"上":["うえ"]}',
+                "parsed": {"上": ["うえ"]},
+            },
+        )
+
+        self.assertEqual(judgment["status"], "parse_error")
+        self.assertIn("is not a string", judgment["parse_error"])
+
+    def test_item_judgment_marks_missing_result(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(item, None)
+
+        self.assertEqual(judgment["status"], "missing_result")
+        self.assertIsNone(judgment["llm_reading"])
 
 
 def make_stable_checker(raw_csv: str) -> StableTwoKanjiChecker:
