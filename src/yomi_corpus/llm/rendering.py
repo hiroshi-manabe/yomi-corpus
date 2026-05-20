@@ -4,7 +4,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-KANJI_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff]")
+KANJI_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff々〆〻]")
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
 SOURCE_PAREN_ESCAPES = {
     "（": "-LRB-",

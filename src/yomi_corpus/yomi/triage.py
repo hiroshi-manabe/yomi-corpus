@@ -466,7 +466,7 @@ def has_unannotated_kanji(rendered_prompt: str) -> bool:
 
 
 def _is_kanji(char: str) -> bool:
-    return "\u3400" <= char <= "\u9fff" or "\uf900" <= char <= "\ufaff"
+    return "\u3400" <= char <= "\u9fff" or "\uf900" <= char <= "\ufaff" or char in {"々", "〆", "〻"}
 
 
 def has_unannotated_kanji_or_latin_token(rendered: str) -> bool:

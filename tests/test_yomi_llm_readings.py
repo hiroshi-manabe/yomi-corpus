@@ -79,6 +79,56 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(items[0]["current_reading_hiragana"], "がっこう")
         self.assertEqual(items[1]["marked_text"], "学校（がっこう）は**上**です。")
 
+    def test_iteration_mark_is_part_of_kanji_target(self) -> None:
+        payload = {
+            "unit_id": "u2",
+            "text": "日々変わります。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "日々",
+                                    "pos": "名詞,普通名詞,副詞可能,*,*,*",
+                                    "dictionary_form": "日々",
+                                    "normalized_form": "日々",
+                                    "reading": "ヒビ",
+                                },
+                                {
+                                    "surface": "変わり",
+                                    "pos": "動詞,一般,*,*,五段-ラ行,連用形-一般",
+                                    "dictionary_form": "変わる",
+                                    "normalized_form": "変わる",
+                                    "reading": "カワリ",
+                                },
+                                {
+                                    "surface": "ます",
+                                    "pos": "助動詞,*,*,*,助動詞-マス,終止形-一般",
+                                    "dictionary_form": "ます",
+                                    "normalized_form": "ます",
+                                    "reading": "マス",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        }
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual(items[0]["surface"], "日々")
+        self.assertEqual(items[0]["current_reading_hiragana"], "ひび")
+        self.assertEqual(items[0]["marked_text"], "**日々**変（か）わります。")
+
     def test_stable_two_kanji_can_be_skipped(self) -> None:
         checker = make_stable_checker(
             "学校,5146,5146,7253,学校,名詞,普通名詞,一般,*,*,*,ガッコウ,学校,*,A,*,*,*,*\n"
