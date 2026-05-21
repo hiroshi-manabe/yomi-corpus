@@ -567,10 +567,9 @@ it is not expected to notice yomi errors.
 ### 9.0.1 LLM Reading Generation
 
 LLM reading generation is the main yomi-quality signal being developed now.
-The input is a furigana-style context derived from the current mechanical
-annotation, with exactly one target marked by `**...**`. The model returns JSON
-with exactly one key: the marked target surface, and the value is the target's
-reading in hiragana.
+The default input is plain source text with exactly one target marked by
+`**...**`. The model returns JSON with exactly one key: the marked target
+surface, and the value is the target's reading in hiragana.
 
 Example:
 
@@ -580,14 +579,14 @@ Example:
 
 The marked target should normally be a kanji run or Latin-containing target
 inside a Sudachi/hybrid token, not an arbitrary whole sentence. The prompt must
-tell the model to ignore unmarked text, including text that already has
-readings in parentheses, and to exclude following kana/okurigana from the
-target reading.
+tell the model to use unmarked text only as context and to exclude following
+kana/okurigana from the target reading.
 
 The first implementation should stay deliberately simple:
 
 - start from the stored Sudachi/hybrid token sequence
-- render a furigana context for LLM readability
+- render a plain marked-source context for the prompt
+- optionally store a no-space furigana context as debug metadata
 - split each annotated token into target chunks by furigana alignment
 - query only chunks that need an independent reading signal
 - keep the original full token yomi as the canonical artifact
@@ -625,6 +624,101 @@ miss too many segmentation errors.
 
 The prompt is short enough that prompt-cache tuning is not a priority for this
 task. Accuracy, parse stability, and clean comparison metadata matter more.
+
+### 9.0.2 Per-Target Safety Evidence
+
+The current whole-unit auto-accept experiments ask whether an entire sentence
+or comma-span is safe, for example because Sudachi and the decoder agree and
+the span has repeated N-gram support. A more useful future direction is
+per-target safety: every yomi-bearing target gets its own evidence record, and
+only targets without enough evidence are sent to the LLM or highlighted for
+human review.
+
+Candidate per-target signals:
+
+- `safe_by_stable_dictionary`: the target is a stable dictionary item such as a
+  two-kanji compound with exactly one trusted raw SudachiDict reading, and the
+  mechanical reading matches it.
+- `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
+  same `(surface, reading)` pair overwhelmingly dominates that surface, for
+  example at least 99.5% with a minimum count threshold.
+- `safe_by_ngram`: the target's local reading is supported by repeated N-gram
+  evidence, not just by a one-off transition.
+- `safe_by_llm_agreement`: an independent LLM reading query returns the same
+  reading as the mechanical reading.
+- `unresolved`: no safety signal applies, the LLM disagrees, or the LLM result
+  is missing/malformed.
+
+The unit-level status should be derived from target-level evidence:
+
+- if scope triage says `Skip`, the whole unit remains non-target material
+- if every yomi-bearing target has a safety signal, the unit can enter bulk
+  review or a later auto-accept experiment
+- if any target is unresolved, the unit remains reviewable and the unresolved
+  targets should be highlighted
+
+In the human UI, this should support two review modes without changing the
+underlying data. Reviewers can skim unhighlighted units quickly, while units
+with highlighted unresolved targets get focused attention. The highlight should
+encode evidence strength, not just a binary bad/good label. For example,
+LLM-only agreement may be visually weaker than stable dictionary plus corpus
+frequency support.
+
+Safety signals are not final truth. They are risk labels. The output must keep
+the source of each signal, counts, thresholds, and corpus/model versions so
+future audits can estimate false-accept rates separately for dictionary
+evidence, corpus-frequency evidence, N-gram evidence, LLM agreement, and human
+approval.
+
+### 9.0.3 Corpus-Frequency Evidence Interface
+
+Corpus-frequency safety requires this project to read evidence derived from
+the decoder/source training corpus. The main pipeline should consume a stable
+stats artifact rather than reading decoder-internal runtime files directly.
+That artifact can be exported by the decoder, or generated inside this project
+from a configured source corpus. For current experiments, generating it here is
+often more flexible because this repo can control normalization, filtering, and
+threshold policy directly.
+
+Minimum fields:
+
+- `surface`
+- `reading`
+- `count`
+- `surface_total_count`
+- `share`
+- `corpus_version` or `source_corpus_version`
+- optional `exported_at`, `source_corpus_path_or_id`, `decoder_version`, and
+  `normalization_version`
+
+The loader should answer questions such as: "Does this surface have one
+dominant trusted reading above the configured threshold, and does the current
+mechanical reading match it?" It should cache the stats in memory for a
+pipeline run, but should record the source artifact path, version, threshold,
+and minimum count in every generated safety summary.
+
+If this project generates the stats, the source corpus path should be a config
+value and the full corpus may live outside git. The generation command should
+write a manifest containing the source corpus path or ID, checksum when
+feasible, normalization settings, filters, script version, output path, and
+generation time.
+
+Important cautions:
+
+- A high-frequency reading can encode corpus bias or systematic annotation
+  errors, so it should suppress LLM calls only when thresholds are conservative
+  and the evidence remains auditable.
+- The threshold should include both share and count; `1/1 = 100%` is not enough
+  evidence.
+- Surface normalization must be explicit. If the decoder normalizes old
+  characters, Latin width, kana, or symbols differently from this project, the
+  evidence artifact must say so.
+- Changing the source/training corpus changes safety decisions. Pipeline
+  outputs must therefore record the exact evidence artifact version for
+  reproducibility.
+- The raw corpus may be large or have licensing/format constraints. Prefer
+  committing small fixture corpora and derived fixture stats for tests, while
+  keeping full corpora and large evidence artifacts in configured local paths.
 
 ### 9.1 Triage Unit Modes
 
