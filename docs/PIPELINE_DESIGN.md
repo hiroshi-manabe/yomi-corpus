@@ -461,6 +461,14 @@ dictionary source, LLM model/profile, and artifact versions. This lets later
 audits measure which evidence source caused false accepts and retune thresholds
 without losing provenance.
 
+Corpus-frequency evidence is probabilistic and corpus-dependent. A surface such
+as `大麻` may be overwhelmingly observed as `タイマ` in the evidence corpus, while
+a rare place-name reading such as `おおあさ` remains possible. That is an
+accepted residual risk for bulk review/de-emphasis: the signal says "low-risk
+under this corpus and policy," not "lexically impossible to read otherwise." If
+audits show repeated misses of rare proper-noun readings, add targeted
+exceptions or lower the confidence/highlight level for those surfaces.
+
 #### Corpus-frequency evidence interface
 
 Corpus-frequency evidence should be consumed through a stable stats artifact,

@@ -670,6 +670,14 @@ future audits can estimate false-accept rates separately for dictionary
 evidence, corpus-frequency evidence, N-gram evidence, LLM agreement, and human
 approval.
 
+Corpus-frequency evidence is explicitly probabilistic. For example, a training
+corpus may show `大麻/タイマ` as overwhelmingly dominant, while a rare place name
+reading such as `おおあさ` still exists. That does not invalidate the signal; it
+means `safe_by_corpus_frequency` should be interpreted as "low-risk enough to
+de-emphasize for bulk review," not "this surface has no other valid reading."
+Rare proper-noun readings are an accepted residual risk unless later audits show
+they are frequent enough to need exceptions or weaker highlighting.
+
 ### 9.0.3 Corpus-Frequency Evidence Interface
 
 Corpus-frequency safety requires this project to read evidence derived from
