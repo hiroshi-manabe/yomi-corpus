@@ -678,6 +678,106 @@ de-emphasize for bulk review," not "this surface has no other valid reading."
 Rare proper-noun readings are an accepted residual risk unless later audits show
 they are frequent enough to need exceptions or weaker highlighting.
 
+Concrete per-target safety records should live under the unit's yomi analysis,
+for example `analysis.safety.yomi.targets[]` or an equivalent versioned path.
+The exact path can change during implementation, but the record shape should be
+stable enough for review UI and audit tools:
+
+```json
+{
+  "target_id": "ja_cc_level2:0000000020:u0014:r0009c01",
+  "surface": "学校",
+  "token_surface": "学校",
+  "target_start": 18,
+  "target_end": 20,
+  "token_index": 8,
+  "chunk_index": 0,
+  "mechanical_reading": "ガッコウ",
+  "mechanical_reading_hiragana": "がっこう",
+  "is_safe": true,
+  "review_status": "safe",
+  "highlight_level": "none",
+  "accepted_signal_names": ["safe_by_corpus_frequency"],
+  "status_reason": "accepted_by_corpus_frequency",
+  "signals": [
+    {
+      "name": "safe_by_corpus_frequency",
+      "value": true,
+      "count": 337,
+      "surface_total_count": 337,
+      "share": 1.0,
+      "threshold": 0.995,
+      "min_count": 20,
+      "evidence_artifact": "..."
+    }
+  ]
+}
+```
+
+A failing signal should also be recorded, because negative evidence is useful
+for debugging and review:
+
+```json
+{
+  "surface": "方",
+  "mechanical_reading": "カタ",
+  "is_safe": false,
+  "review_status": "unresolved",
+  "highlight_level": "strong",
+  "accepted_signal_names": [],
+  "status_reason": "no_accepted_safety_signal",
+  "signals": [
+    {
+      "name": "safe_by_corpus_frequency",
+      "value": false,
+      "count": 435,
+      "surface_total_count": 729,
+      "share": 0.5967,
+      "threshold": 0.995,
+      "min_count": 20,
+      "evidence_artifact": "..."
+    }
+  ]
+}
+```
+
+The `方` example is a negative control: it correctly fails the corpus-frequency
+rule because its readings are split across `カタ`, `ホウ`, and `ガタ`.
+
+Recommended fields:
+
+- target identity and alignment: `target_id`, `surface`, `token_surface`,
+  `target_start`, `target_end`, `token_index`, `chunk_index`
+- current reading: `mechanical_reading`, `mechanical_reading_hiragana`
+- summary flags: `is_safe`, `review_status`, `highlight_level`,
+  `accepted_signal_names`, `status_reason`
+- evidence: `signals[]`, where each signal stores its own source-specific
+  counts, thresholds, artifact versions, model/profile, or N-gram details
+
+`review_status` should be a small controlled vocabulary, initially:
+
+- `safe`: at least one accepted safety signal applies
+- `unresolved`: no accepted safety signal applies
+- `skipped`: the containing unit is non-target material
+
+`highlight_level` is UI guidance, not truth:
+
+- `none`: hide/de-emphasize in bulk review
+- `weak`: low-risk but worth faint display, for example LLM-only agreement if
+  desired
+- `strong`: unresolved or conflicting evidence; reviewer should focus here
+
+`status_reason` is a short derived explanation, not a replacement for
+`signals[]`. Examples: `accepted_by_corpus_frequency`,
+`accepted_by_llm_agreement`, `no_accepted_safety_signal`, `llm_disagreement`,
+or `llm_parse_error`.
+
+The unit-level yomi safety summary should be derived mechanically from these
+records, for example `all_targets_safe`, `unresolved_target_count`,
+`safe_signal_counts`, and `safety_policy_version`. Do not overwrite or collapse
+source-specific evidence into a single boolean; later audits need to know which
+signal made each target look safe.
+
 ### 9.0.3 Corpus-Frequency Evidence Interface
 
 Corpus-frequency safety requires this project to read evidence derived from

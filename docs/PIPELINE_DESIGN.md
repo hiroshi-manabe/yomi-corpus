@@ -469,6 +469,93 @@ under this corpus and policy," not "lexically impossible to read otherwise." If
 audits show repeated misses of rare proper-noun readings, add targeted
 exceptions or lower the confidence/highlight level for those surfaces.
 
+Concrete per-target safety records should be versioned data, not just UI state.
+A passing corpus-frequency record:
+
+```json
+{
+  "target_id": "ja_cc_level2:0000000020:u0014:r0009c01",
+  "surface": "学校",
+  "token_surface": "学校",
+  "target_start": 18,
+  "target_end": 20,
+  "token_index": 8,
+  "chunk_index": 0,
+  "mechanical_reading": "ガッコウ",
+  "mechanical_reading_hiragana": "がっこう",
+  "is_safe": true,
+  "review_status": "safe",
+  "highlight_level": "none",
+  "accepted_signal_names": ["safe_by_corpus_frequency"],
+  "status_reason": "accepted_by_corpus_frequency",
+  "signals": [
+    {
+      "name": "safe_by_corpus_frequency",
+      "value": true,
+      "count": 337,
+      "surface_total_count": 337,
+      "share": 1.0,
+      "threshold": 0.995,
+      "min_count": 20,
+      "evidence_artifact": "..."
+    }
+  ]
+}
+```
+
+A failing corpus-frequency record should still keep the measured signal:
+
+```json
+{
+  "surface": "方",
+  "mechanical_reading": "カタ",
+  "is_safe": false,
+  "review_status": "unresolved",
+  "highlight_level": "strong",
+  "accepted_signal_names": [],
+  "status_reason": "no_accepted_safety_signal",
+  "signals": [
+    {
+      "name": "safe_by_corpus_frequency",
+      "value": false,
+      "count": 435,
+      "surface_total_count": 729,
+      "share": 0.5967,
+      "threshold": 0.995,
+      "min_count": 20,
+      "evidence_artifact": "..."
+    }
+  ]
+}
+```
+
+The `方` example is a useful negative control: the schema can record the corpus
+counts, but policy must not mark it safe because the surface has genuinely split
+readings and the dominant share is far below 99.5%.
+
+Minimum fields:
+
+- alignment: `target_id`, `surface`, `token_surface`, `target_start`,
+  `target_end`, `token_index`, `chunk_index`
+- mechanical reading: `mechanical_reading`,
+  `mechanical_reading_hiragana`
+- summary: `is_safe`, `review_status`, `highlight_level`,
+  `accepted_signal_names`, `status_reason`
+- evidence list: `signals[]`, with per-signal counts, thresholds, artifact
+  versions, N-gram details, dictionary source, or LLM model/profile
+
+Initial controlled values:
+
+- `review_status`: `safe`, `unresolved`, `skipped`
+- `highlight_level`: `none`, `weak`, `strong`
+
+Unit-level fields such as `all_targets_safe`, `unresolved_target_count`,
+`safe_signal_counts`, and `safety_policy_version` should be derived from the
+target records. Do not collapse evidence into one irreversible boolean.
+`status_reason` should stay a short derived explanation, for example
+`accepted_by_corpus_frequency`, `accepted_by_llm_agreement`,
+`no_accepted_safety_signal`, `llm_disagreement`, or `llm_parse_error`.
+
 #### Corpus-frequency evidence interface
 
 Corpus-frequency evidence should be consumed through a stable stats artifact,
