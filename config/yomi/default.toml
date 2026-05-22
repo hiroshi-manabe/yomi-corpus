@@ -14,3 +14,10 @@ default = "aligned_hybrid_v1"
 
 [post_hybrid_repairs]
 rules = "post_hybrid_repairs.tsv"
+
+[corpus_frequency]
+source_corpus = "/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt"
+source_corpus_version = "core_SUW_yomi_final"
+stats_artifact = "../../data/generated/yomi_surface_reading_stats.tsv"
+manifest = "../../data/generated/yomi_surface_reading_stats.manifest.json"
+surface_filter = "target"

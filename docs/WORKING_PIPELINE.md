@@ -861,6 +861,21 @@ write a manifest containing the source corpus path or ID, checksum when
 feasible, normalization settings, filters, script version, output path, and
 generation time.
 
+Current milestone-1 command:
+
+```bash
+python scripts/build_yomi_surface_reading_stats.py
+```
+
+It reads `[corpus_frequency]` from `config/yomi/default.toml` and writes the
+ignored generated artifacts:
+
+- `data/generated/yomi_surface_reading_stats.tsv`
+- `data/generated/yomi_surface_reading_stats.manifest.json`
+
+Use `--no-checksum` for quick exploratory runs when a SHA-256 of the full source
+corpus is unnecessary.
+
 Important cautions:
 
 - A high-frequency reading can encode corpus bias or systematic annotation
