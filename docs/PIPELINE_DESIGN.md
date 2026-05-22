@@ -556,6 +556,32 @@ target records. Do not collapse evidence into one irreversible boolean.
 `accepted_by_corpus_frequency`, `accepted_by_llm_agreement`,
 `no_accepted_safety_signal`, `llm_disagreement`, or `llm_parse_error`.
 
+Implementation sequence:
+
+1. Generate/load corpus-frequency stats from a configured source corpus path,
+   initially `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
+   The generator writes both stats and a manifest; tests use small committed
+   fixtures.
+2. Add a yomi safety module that builds per-target records using the same
+   target IDs and alignment logic as LLM reading queue items.
+3. Add deterministic signals first: stable dictionary and corpus frequency.
+   Add N-gram target safety after the decoder-entry-to-target mapping is
+   auditable.
+4. Change yomi-reading queue construction to queue only unresolved, non-skipped
+   targets from the pre-LLM safety artifact.
+5. Merge LLM results back into final safety records. LLM/mechanical agreement
+   adds `safe_by_llm_agreement`; disagreement or malformed output leaves the
+   target unresolved.
+6. Produce explicit artifacts and summaries:
+   - `units.yomi.safety_pre_llm.jsonl`
+   - `yomi_reading_input.jsonl`
+   - `units.yomi.safety.jsonl`
+   - counts by safety signal, queued LLM targets, LLM agreement/disagreement,
+     parse errors, and unresolved targets
+7. Add review/debug export that highlights targets by `highlight_level`.
+8. Keep the old whole-unit auto-accept path as legacy/debug until per-target
+   safety has enough validation to replace it.
+
 #### Corpus-frequency evidence interface
 
 Corpus-frequency evidence should be consumed through a stable stats artifact,

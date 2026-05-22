@@ -778,6 +778,56 @@ records, for example `all_targets_safe`, `unresolved_target_count`,
 source-specific evidence into a single boolean; later audits need to know which
 signal made each target look safe.
 
+Implementation plan:
+
+1. Add corpus-frequency evidence generation and loading.
+   - Add a script such as `scripts/build_yomi_surface_reading_stats.py`.
+   - Input is a configured source corpus path, initially
+     `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
+   - Output a stats artifact plus a manifest with source path or ID, size,
+     checksum when feasible, mtime, normalization settings, filters, script
+     version, and generation time.
+   - Add small committed fixture corpora and loader/generator tests.
+2. Add `src/yomi_corpus/yomi/safety.py`.
+   - Reuse the same target extraction logic as `llm_readings.py` so safety
+     records and LLM queue items share stable target IDs.
+   - Build deterministic per-target records with stable dictionary and
+     corpus-frequency signals first.
+   - Add N-gram safety after the mapping from decoder entries to targets is
+     clean enough to audit.
+3. Change LLM reading queueing.
+   - Build pre-LLM safety records first.
+   - Queue only targets whose `is_safe` is false and whose containing unit is
+     not scope-skipped.
+   - Keep deterministic skipped targets in the safety records rather than
+     dropping them from the artifact.
+4. Apply LLM reading results back into safety.
+   - On exact LLM/mechanical agreement, add `safe_by_llm_agreement` and update
+     `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
+   - On mismatch, missing result, or parse error, keep the target unresolved
+     and set `status_reason` to the relevant failure.
+5. Materialize explicit artifacts.
+   - `units.yomi.safety_pre_llm.jsonl`: deterministic target safety before LLM.
+   - `yomi_reading_input.jsonl`: unresolved targets sent to LLM.
+   - `units.yomi.safety.jsonl`: final target safety after LLM agreement.
+   - Summaries should count total targets, safe-by-signal counts, queued LLM
+     targets, LLM agreement, LLM disagreement, parse errors, and unresolved
+     targets.
+6. Integrate review/debug output.
+   - Add an export or UI input that highlights targets by `highlight_level`.
+   - Keep old whole-unit `auto_accept` as legacy/debug until the per-target
+     safety path is trusted enough to replace it.
+
+Suggested milestones:
+
+1. Stats generator/loader only; inspect coverage on the source corpus.
+2. Deterministic safety with stable dictionary plus corpus frequency.
+3. LLM queue based on unresolved safety targets.
+4. LLM agreement merged into final safety records.
+5. Highlighted review/debug export.
+6. Decide whether whole-unit auto-accept should be renamed debug-only or removed
+   from the normal path.
+
 ### 9.0.3 Corpus-Frequency Evidence Interface
 
 Corpus-frequency safety requires this project to read evidence derived from
