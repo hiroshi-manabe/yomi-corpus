@@ -707,7 +707,7 @@ stable enough for review UI and audit tools:
       "surface_total_count": 337,
       "share": 1.0,
       "threshold": 0.995,
-      "min_count": 20,
+      "min_count": 5,
       "evidence_artifact": "..."
     }
   ]
@@ -734,7 +734,7 @@ for debugging and review:
       "surface_total_count": 729,
       "share": 0.5967,
       "threshold": 0.995,
-      "min_count": 20,
+      "min_count": 5,
       "evidence_artifact": "..."
     }
   ]
@@ -875,6 +875,15 @@ ignored generated artifacts:
 
 Use `--no-checksum` for quick exploratory runs when a SHA-256 of the full source
 corpus is unnecessary.
+
+Initial corpus-frequency safety defaults:
+
+- `min_count = 5`
+- `min_share = 0.995`
+
+These defaults came from inspecting exact-boundary samples with count 5. They
+are intentionally "low-risk enough for de-emphasis" thresholds, not proof that
+no alternate reading exists.
 
 Important cautions:
 

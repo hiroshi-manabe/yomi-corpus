@@ -18,6 +18,13 @@ class YomiGenerationConfig:
     decoder_nbest: int
     default_strategy: str
     post_hybrid_repair_rules: str | None = None
+    corpus_frequency_source_corpus: str | None = None
+    corpus_frequency_source_corpus_version: str | None = None
+    corpus_frequency_stats_artifact: str | None = None
+    corpus_frequency_manifest: str | None = None
+    corpus_frequency_surface_filter: str = "target"
+    corpus_frequency_min_count: int = 5
+    corpus_frequency_min_share: float = 0.995
 
 
 def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
@@ -29,6 +36,8 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
     decoder = payload.get("decoder", {})
     strategy = payload.get("strategy", {})
     repairs = payload.get("post_hybrid_repairs", {})
+    corpus_frequency = payload.get("corpus_frequency", {})
+    corpus_frequency_safety = corpus_frequency.get("safety", {})
 
     return YomiGenerationConfig(
         sudachi_command=str(sudachi["command"]),
@@ -40,6 +49,15 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         decoder_nbest=int(decoder.get("nbest", 5)),
         default_strategy=str(strategy.get("default", "agreement_prefer_decoder_v1")),
         post_hybrid_repair_rules=_optional_path(config_path, repairs.get("rules")),
+        corpus_frequency_source_corpus=_optional_path(config_path, corpus_frequency.get("source_corpus")),
+        corpus_frequency_source_corpus_version=_optional_str(
+            corpus_frequency.get("source_corpus_version")
+        ),
+        corpus_frequency_stats_artifact=_optional_path(config_path, corpus_frequency.get("stats_artifact")),
+        corpus_frequency_manifest=_optional_path(config_path, corpus_frequency.get("manifest")),
+        corpus_frequency_surface_filter=str(corpus_frequency.get("surface_filter", "target")),
+        corpus_frequency_min_count=int(corpus_frequency_safety.get("min_count", 5)),
+        corpus_frequency_min_share=float(corpus_frequency_safety.get("min_share", 0.995)),
     )
 
 
@@ -63,3 +81,10 @@ def _optional_path(config_path: Path, value: object) -> str | None:
     if not text:
         return None
     return str(resolve_config_path(config_path, text))
+
+
+def _optional_str(value: object) -> str | None:
+    if value is None:
+        return None
+    text = str(value)
+    return text or None

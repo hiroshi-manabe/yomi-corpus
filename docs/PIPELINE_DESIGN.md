@@ -496,7 +496,7 @@ A passing corpus-frequency record:
       "surface_total_count": 337,
       "share": 1.0,
       "threshold": 0.995,
-      "min_count": 20,
+      "min_count": 5,
       "evidence_artifact": "..."
     }
   ]
@@ -522,7 +522,7 @@ A failing corpus-frequency record should still keep the measured signal:
       "surface_total_count": 729,
       "share": 0.5967,
       "threshold": 0.995,
-      "min_count": 20,
+      "min_count": 5,
       "evidence_artifact": "..."
     }
   ]
@@ -616,6 +616,10 @@ Do not treat high share alone as sufficient. The rule should require both a
 share threshold and a minimum count, because `1/1 = 100%` is weak evidence. The
 normalization policy must also be explicit: old/new forms, Latin width, kana,
 symbols, and `々` handling need to match or be recorded.
+
+The initial default is `min_count = 5` and `min_share = 0.995`. Count-5 boundary
+samples looked acceptable for this signal's intended role: de-emphasizing
+low-risk targets while preserving auditability and bulk review visibility.
 
 Changing the source/training corpus changes safety decisions. Every pipeline
 output using corpus-frequency evidence must record the evidence artifact path
