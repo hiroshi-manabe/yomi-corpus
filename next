@@ -16,6 +16,12 @@ from yomi_corpus.pipeline import PipelineWorkspace
 from yomi_corpus.pipeline import LLM_EXECUTION_MODES
 from yomi_corpus.pipeline import RERUNNABLE_STAGES
 
+LLM_STATUS_STAGE_PREFIXES = {
+    "alphabetic_llm_judged": "alphabetic_judgment",
+    "scope_triage_llm_completed": "scope_triage",
+    "yomi_reading_llm_completed": "yomi_reading",
+}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -149,15 +155,7 @@ def format_next_summary(summary: dict[str, object]) -> str:
             if job_status:
                 suffix = f" remote={remote_status}" if remote_status else ""
                 lines.append(f"LLM job ({prefix}): {job_status}{suffix}")
-        for key in [
-            "units_yomi_llm_readings_jsonl",
-            "units_scope_triaged_jsonl",
-            "units_yomi_auto_accept_jsonl",
-            "units_yomi_jsonl",
-            "alphabetic_promotion_candidates_jsonl",
-            "alphabetic_judgment_results_jsonl",
-            "alphabetic_unresolved_jsonl",
-        ]:
+        for key in output_keys_for_stage(str(summary.get("current_stage") or "")):
             output = artifacts.get(key)
             if output:
                 lines.append(f"Output: {output}")
@@ -182,10 +180,35 @@ def format_next_summary(summary: dict[str, object]) -> str:
 
 def should_show_llm_status(summary: dict[str, object], artifacts: dict, prefix: str) -> bool:
     stage = str(summary.get("current_stage") or "")
-    if stage == prefix or stage.startswith(f"{prefix}_"):
+    if LLM_STATUS_STAGE_PREFIXES.get(stage) == prefix:
         return True
     job_status = artifacts.get(f"{prefix}_llm_job_status")
     return bool(summary.get("blocking_reason") and job_status and job_status != "completed")
+
+
+def output_keys_for_stage(stage: str) -> list[str]:
+    stage_outputs = {
+        "alphabetic_analyzed": ["units_alphabetic_jsonl"],
+        "alphabetic_reported": ["alphabetic_unresolved_jsonl"],
+        "alphabetic_llm_judged": ["alphabetic_judgment_results_jsonl"],
+        "alphabetic_promotion_candidates": ["alphabetic_promotion_candidates_jsonl"],
+        "scope_triage_queued": ["scope_triage_input_jsonl"],
+        "scope_triage_llm_completed": ["units_scope_triaged_jsonl"],
+        "yomi_generated": ["units_yomi_jsonl"],
+        "yomi_auto_accepted": ["units_yomi_auto_accept_jsonl"],
+        "yomi_reading_queued": ["yomi_reading_input_jsonl"],
+        "yomi_reading_llm_completed": ["units_yomi_llm_readings_jsonl"],
+    }
+    return stage_outputs.get(stage, []) + [
+        "units_yomi_llm_readings_jsonl",
+        "yomi_reading_input_jsonl",
+        "units_scope_triaged_jsonl",
+        "units_yomi_auto_accept_jsonl",
+        "units_yomi_jsonl",
+        "alphabetic_promotion_candidates_jsonl",
+        "alphabetic_judgment_results_jsonl",
+        "alphabetic_unresolved_jsonl",
+    ]
 
 
 def human_review_line(artifacts: dict) -> str | None:

@@ -90,6 +90,32 @@ class NextCliTests(unittest.TestCase):
         self.assertIn("LLM requests (yomi_reading): none queued", rendered)
         self.assertNotIn("0/0 completed", rendered)
 
+    def test_format_suppresses_stale_llm_status_on_queue_stage(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "yomi_reading_queued",
+                "next_stage": "yomi_reading_llm_completed",
+                "advanced": True,
+                "artifacts": {
+                    "yomi_reading_queued": "155",
+                    "yomi_reading_llm_job_completed": "0",
+                    "yomi_reading_llm_job_total": "0",
+                    "yomi_reading_llm_job_status": "completed",
+                    "yomi_reading_input_jsonl": "data/units/dev_batch_0001/yomi_reading_input.jsonl",
+                    "units_yomi_llm_readings_jsonl": "data/units/dev_batch_0001/units.yomi.llm_readings.jsonl",
+                },
+            }
+        )
+
+        self.assertNotIn("LLM progress", rendered)
+        self.assertNotIn("LLM job", rendered)
+        self.assertNotIn("0/0 completed", rendered)
+        self.assertIn("Output: data/units/dev_batch_0001/yomi_reading_input.jsonl", rendered)
+        self.assertNotIn("Output: data/units/dev_batch_0001/units.yomi.llm_readings.jsonl", rendered)
+        self.assertIn("Next: yomi_reading_llm_completed", rendered)
+
     def test_format_shows_human_review_required(self) -> None:
         rendered = format_next_summary(
             {
