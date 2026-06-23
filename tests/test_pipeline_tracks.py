@@ -427,6 +427,87 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertIsNone(summary["blocking_reason"])
             self.assertEqual(mocked_stage.call_count, 1)
 
+    def test_yomi_reading_queue_uses_yomi_auto_accept_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 1,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "学校です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "sudachi": {"tokens": []},
+                                    "auto_accept": {"value": False},
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            with patch("yomi_corpus.pipeline.apply_yomi_safety_pre_llm_file") as mocked_safety:
+                mocked_safety.return_value = SimpleNamespace(
+                    target_count=1,
+                    safe_targets=0,
+                    unresolved_targets=1,
+                    stable_two_kanji_safe=0,
+                    corpus_frequency_safe=0,
+                )
+                with patch("yomi_corpus.pipeline.build_yomi_llm_reading_queue_file") as mocked_queue:
+                    mocked_queue.return_value = SimpleNamespace(
+                        queued_items=1,
+                        skipped_items=0,
+                        stable_two_kanji_skipped=0,
+                        safety_skipped=0,
+                    )
+                    summary = workspace.advance("dev")
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_reading_queued")
+            self.assertEqual(
+                mocked_safety.call_args.kwargs["input_jsonl"].resolve(),
+                (batch_dir / "units.yomi.auto_accept.jsonl").resolve(),
+            )
+            self.assertEqual(
+                mocked_queue.call_args.kwargs["input_jsonl"].resolve(),
+                (batch_dir / "units.yomi.safety_pre_llm.jsonl").resolve(),
+            )
+
     def test_advance_generates_yomi_from_scope_triaged_keep_units(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

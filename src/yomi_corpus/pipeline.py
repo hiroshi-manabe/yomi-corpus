@@ -1855,7 +1855,7 @@ class PipelineWorkspace:
 
     def _queue_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
-        input_path = batch_dir / "units.scope_triaged.jsonl"
+        input_path = batch_dir / "units.yomi.auto_accept.jsonl"
         safety_path = batch_dir / "units.yomi.safety_pre_llm.jsonl"
         safety_summary_path = batch_dir / "yomi_safety_pre_llm_summary.json"
         output_path = batch_dir / "yomi_reading_input.jsonl"
