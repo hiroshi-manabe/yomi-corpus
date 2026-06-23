@@ -52,6 +52,16 @@ class OpenAIResponsesBackend:
     def run_sync(self, task_config: LLMTaskConfig, items: list[PromptItem]) -> list[LLMResult]:
         return [self.run_item(task_config, item) for item in items]
 
+    def submit_background_item(self, task_config: LLMTaskConfig, item: PromptItem) -> dict[str, Any]:
+        response = self._client.responses.create(
+            **build_response_create_kwargs(task_config, item.prompt, background=True)
+        )
+        return response_snapshot(response)
+
+    def retrieve_response(self, response_id: str) -> dict[str, Any]:
+        response = self._client.responses.retrieve(response_id)
+        return response_snapshot(response)
+
     def submit_batch(
         self,
         requests_jsonl_path: str | Path,
@@ -117,18 +127,43 @@ def write_batch_requests(
             handle.write(json.dumps(request, ensure_ascii=False) + "\n")
 
 
-def build_response_create_kwargs(task_config: LLMTaskConfig, prompt: str) -> dict[str, Any]:
+def build_response_create_kwargs(
+    task_config: LLMTaskConfig,
+    prompt: str,
+    *,
+    background: bool = False,
+) -> dict[str, Any]:
     kwargs: dict[str, Any] = {
         "model": task_config.model,
         "input": [{"role": "user", "content": prompt}],
         "max_output_tokens": task_config.max_output_tokens,
     }
+    if background:
+        kwargs["background"] = True
     if task_config.model.startswith("gpt-5"):
         if task_config.verbosity:
             kwargs["text"] = {"verbosity": task_config.verbosity}
         if task_config.reasoning_effort:
             kwargs["reasoning"] = {"effort": task_config.reasoning_effort}
     return kwargs
+
+
+def response_snapshot(response: Any) -> dict[str, Any]:
+    raw_text = None
+    try:
+        raw_text = _extract_output_text(response)
+    except ValueError:
+        raw_text = None
+    return {
+        "response_id": getattr(response, "id", None),
+        "status": getattr(response, "status", None),
+        "created_at": getattr(response, "created_at", None),
+        "completed_at": getattr(response, "completed_at", None),
+        "error": _object_to_dict(getattr(response, "error", None)),
+        "incomplete_details": _object_to_dict(getattr(response, "incomplete_details", None)),
+        "raw_text": raw_text,
+        "usage": usage_from_response(response),
+    }
 
 
 def _extract_output_text(response: Any) -> str:

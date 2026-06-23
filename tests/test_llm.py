@@ -19,7 +19,7 @@ from yomi_corpus.llm.backend import (
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_profile, load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
-from yomi_corpus.llm.runner import run_llm_task, run_sync_task
+from yomi_corpus.llm.runner import run_background_task, run_llm_task, run_sync_task
 from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.prompts import render_prompt
 from yomi_corpus.llm.rendering import compact_rendered_for_llm
@@ -141,6 +141,12 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(kwargs["model"], "gpt-5.5")
         self.assertIn("text", kwargs)
         self.assertIn("reasoning", kwargs)
+
+    def test_build_response_kwargs_supports_background(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_reading.toml")
+        kwargs = build_response_create_kwargs(config, "prompt", background=True)
+        self.assertEqual(kwargs["background"], True)
+        self.assertEqual(kwargs["input"][0]["content"], "prompt")
 
     def test_write_batch_requests_jsonl(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
@@ -338,6 +344,135 @@ class LLMScaffoldingTests(unittest.TestCase):
             self.assertEqual(summary.completed_items, 1)
             self.assertEqual(summary.remote_status, "in_progress")
             self.assertFalse(output_path.exists())
+
+    def test_run_background_task_submits_and_parses_completed_responses(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                submitted: list[str] = []
+                retrieved: list[str] = []
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    self.submitted.append(item.item_id)
+                    return {"response_id": f"resp_{item.item_id}", "status": "queued"}
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    self.retrieved.append(response_id)
+                    return {
+                        "response_id": response_id,
+                        "status": "completed",
+                        "raw_text": "OK",
+                        "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
+                    }
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(summary.mode, "background")
+            self.assertEqual(summary.status, "completed")
+            self.assertEqual(summary.completed_items, 1)
+            self.assertEqual(FakeBackend.submitted, ["u1"])
+            self.assertEqual(FakeBackend.retrieved, ["resp_u1"])
+            rows = [
+                json.loads(line)
+                for line in output_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual(rows[0]["item_id"], "u1")
+            self.assertEqual(rows[0]["parsed"], {"status": "OK"})
+            self.assertTrue((job_dir / "responses.jsonl").exists())
+            self.assertTrue((job_dir / "manifest.json").exists())
+
+    def test_run_background_task_resumes_without_resubmitting(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            job_dir.mkdir()
+            (job_dir / "responses.jsonl").write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1",
+                        "response_id": "resp_existing",
+                        "status": "in_progress",
+                        "metadata": {},
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                submitted: list[str] = []
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    self.submitted.append(item.item_id)
+                    return {"response_id": f"resp_{item.item_id}", "status": "queued"}
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    return {
+                        "response_id": response_id,
+                        "status": "completed",
+                        "raw_text": "Review",
+                        "usage": None,
+                    }
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(FakeBackend.submitted, [])
+            self.assertEqual(summary.status, "completed")
+            rows = [
+                json.loads(line)
+                for line in output_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual(rows[0]["parsed"], {"status": "Review"})
 
     def test_run_llm_task_batch_fetches_completed_results(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
