@@ -1228,6 +1228,9 @@ For classification:
   types that are either in scope for modern Japanese text or out of scope
 - match those entity-list entries case-insensitively by default
 - keep exact-case exceptions for short tokens and acronyms
+- treat single alphabetic letters as deterministic low-value exceptions rather
+  than whitelist entries; they should be extracted for auditability but should
+  not be sent to the alphabetic LLM judge
 - judge those entities primarily at the entity-type level, not the sentence
   level
 - remain cautious about rule harvesting for non-target status

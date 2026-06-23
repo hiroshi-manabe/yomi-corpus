@@ -463,6 +463,9 @@ Current preference:
 - use word-boundary-aware matching for Latin/alphanumeric material
 - match case-insensitively by default
 - handle short tokens and acronyms more cautiously with exact-case exceptions
+- treat a single alphabetic letter as a deterministic exception that does not
+  enter LLM judgment; examples include the `T` in `Tシャツ`, but this is a
+  general low-value exception rather than a lexical whitelist entry
 - avoid regex unless there is a clear payoff
 
 This remains a working decision, not a final one.

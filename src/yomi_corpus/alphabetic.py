@@ -108,6 +108,8 @@ def classify_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> str:
         return "blacklist"
     if _is_whitelisted(entity, config):
         return "whitelist"
+    if _is_single_letter_entity(entity):
+        return "single_letter"
     return "unknown"
 
 
@@ -279,6 +281,9 @@ def project_minor_alphabetic_judgment(
     whitelisted = _unique_preserve_order(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "whitelist"]
     )
+    single_letter = _unique_preserve_order(
+        [occ.entity_text for occ in occurrences if occ.resolved_status == "single_letter"]
+    )
 
     if blacklisted:
         return BooleanJudgment(
@@ -292,11 +297,13 @@ def project_minor_alphabetic_judgment(
         signals = ["all_entities_in_scope"]
         if whitelisted:
             signals.append("entity_level_lookup")
+        if single_letter:
+            signals.append("single_letter_exception")
         return BooleanJudgment(
             value=False,
             certain=True,
             signals=signals,
-            matches=whitelisted,
+            matches=whitelisted + single_letter,
         )
 
     signals = ["unresolved_latin_entity_types"]
@@ -324,6 +331,10 @@ def _is_whitelisted(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
 
 def _requires_strict_case(token: AlphabeticToken, config: AlphabeticConfig) -> bool:
     return len(token.text) <= config.strict_case_max_length
+
+
+def _is_single_letter_entity(entity: AlphabeticEntity) -> bool:
+    return len(entity.component_texts) == 1 and len(entity.text) == 1 and entity.text.isalpha()
 
 
 def _build_entity(

@@ -58,6 +58,24 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertTrue(occurrences[0].strict_case)
         self.assertEqual(occurrences[0].base_list_status, "unknown")
 
+    def test_single_letter_entity_is_deterministically_resolved(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "Tシャツを着ています。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+        self.assertEqual(len(occurrences), 1)
+        self.assertEqual(occurrences[0].entity_key, "T")
+        self.assertEqual(occurrences[0].base_list_status, "single_letter")
+        self.assertEqual(occurrences[0].resolved_status, "single_letter")
+
+        judgment = project_minor_alphabetic_judgment(occurrences)
+        self.assertFalse(judgment.value)
+        self.assertTrue(judgment.certain)
+        self.assertIn("single_letter_exception", judgment.signals)
+
     def test_entity_extractor_merges_space_separated_tokens(self) -> None:
         entities = extract_alphabetic_entities("Led Zeppelinが好きです。", self.config)
         self.assertEqual(len(entities), 1)
