@@ -134,9 +134,16 @@ def format_next_summary(summary: dict[str, object]) -> str:
             completed = artifacts.get(f"{prefix}_llm_job_completed")
             total = artifacts.get(f"{prefix}_llm_job_total")
             if completed is not None and total is not None:
-                failed = artifacts.get(f"{prefix}_llm_job_failed")
-                failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
-                lines.append(f"LLM progress ({prefix}): {completed}/{total} completed{failed_text}")
+                if str(total) == "0":
+                    queued = artifacts.get(f"{prefix}_queued")
+                    if queued in (None, "0", 0):
+                        lines.append(f"LLM requests ({prefix}): none queued")
+                    else:
+                        lines.append(f"LLM progress ({prefix}): 0/{total} completed")
+                else:
+                    failed = artifacts.get(f"{prefix}_llm_job_failed")
+                    failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
+                    lines.append(f"LLM progress ({prefix}): {completed}/{total} completed{failed_text}")
             job_status = artifacts.get(f"{prefix}_llm_job_status")
             remote_status = artifacts.get(f"{prefix}_llm_remote_status")
             if job_status:

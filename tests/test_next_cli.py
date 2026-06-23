@@ -71,6 +71,25 @@ class NextCliTests(unittest.TestCase):
         self.assertIn("LLM progress (alphabetic_judgment): 1/2 completed", rendered)
         self.assertIn("LLM job (alphabetic_judgment): running", rendered)
 
+    def test_format_shows_empty_llm_queue_without_zero_over_zero_progress(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "yomi_reading_llm_completed",
+                "advanced": True,
+                "artifacts": {
+                    "yomi_reading_queued": "0",
+                    "yomi_reading_llm_job_completed": "0",
+                    "yomi_reading_llm_job_total": "0",
+                    "yomi_reading_llm_job_status": "completed",
+                },
+            }
+        )
+
+        self.assertIn("LLM requests (yomi_reading): none queued", rendered)
+        self.assertNotIn("0/0 completed", rendered)
+
     def test_format_shows_human_review_required(self) -> None:
         rendered = format_next_summary(
             {
