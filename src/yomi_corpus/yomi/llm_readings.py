@@ -30,6 +30,7 @@ class YomiLLMReadingQueueSummary:
     queued_items: int
     skipped_items: int
     stable_two_kanji_skipped: int
+    safety_skipped: int
     output_jsonl: str
     summary_json: str
 
@@ -73,6 +74,7 @@ def build_yomi_llm_reading_queue_file(
     queued_items = 0
     skipped_items = 0
     stable_two_kanji_skipped = 0
+    safety_skipped = 0
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
             if not line.strip():
@@ -85,10 +87,15 @@ def build_yomi_llm_reading_queue_file(
             if skip_auto_accepted and is_yomi_auto_accepted(unit):
                 skipped_items += 1
                 continue
+            safe_item_ids = safe_yomi_item_ids(unit)
             for item in build_yomi_llm_reading_items(
                 unit,
                 stable_checker=stable_checker,
             ):
+                if item["item_id"] in safe_item_ids:
+                    skipped_items += 1
+                    safety_skipped += 1
+                    continue
                 if item.get("queue_status") == "queued":
                     dst.write(json.dumps(item, ensure_ascii=False) + "\n")
                     queued_items += 1
@@ -102,6 +109,7 @@ def build_yomi_llm_reading_queue_file(
         queued_items=queued_items,
         skipped_items=skipped_items,
         stable_two_kanji_skipped=stable_two_kanji_skipped,
+        safety_skipped=safety_skipped,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
     )
@@ -130,6 +138,22 @@ def is_yomi_auto_accepted(unit: dict[str, Any]) -> bool:
         .get("auto_accept", {})
         .get("value")
     )
+
+
+def safe_yomi_item_ids(unit: dict[str, Any]) -> set[str]:
+    targets = (
+        unit.get("analysis", {})
+        .get("safety", {})
+        .get("yomi", {})
+        .get("targets", [])
+    )
+    if not isinstance(targets, list):
+        return set()
+    return {
+        str(record["item_id"])
+        for record in targets
+        if isinstance(record, dict) and record.get("is_safe") and record.get("item_id")
+    }
 
 
 def build_yomi_llm_reading_items(

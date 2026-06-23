@@ -778,9 +778,9 @@ records, for example `all_targets_safe`, `unresolved_target_count`,
 source-specific evidence into a single boolean; later audits need to know which
 signal made each target look safe.
 
-Implementation plan:
+Implementation status:
 
-1. Add corpus-frequency evidence generation and loading.
+1. Corpus-frequency evidence generation and loading is implemented.
    - Add a script such as `scripts/build_yomi_surface_reading_stats.py`.
    - Input is a configured source corpus path, initially
      `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
@@ -788,32 +788,32 @@ Implementation plan:
      checksum when feasible, mtime, normalization settings, filters, script
      version, and generation time.
    - Add small committed fixture corpora and loader/generator tests.
-2. Add `src/yomi_corpus/yomi/safety.py`.
+2. `src/yomi_corpus/yomi/safety.py` now implements pre-LLM deterministic
+   per-target safety.
    - Reuse the same target extraction logic as `llm_readings.py` so safety
      records and LLM queue items share stable target IDs.
    - Build deterministic per-target records with stable dictionary and
      corpus-frequency signals first.
-   - Add N-gram safety after the mapping from decoder entries to targets is
-     clean enough to audit.
-3. Change LLM reading queueing.
-   - Build pre-LLM safety records first.
-   - Queue only targets whose `is_safe` is false and whose containing unit is
-     not scope-skipped.
-   - Keep deterministic skipped targets in the safety records rather than
-     dropping them from the artifact.
-4. Apply LLM reading results back into safety.
+   - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
+     `yomi_safety_pre_llm_summary.json`, then queues only targets not already
+     marked safe.
+   - N-gram safety is still pending until the mapping from decoder entries to
+     targets is clean enough to audit.
+3. Apply LLM reading results back into safety.
    - On exact LLM/mechanical agreement, add `safe_by_llm_agreement` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
    - On mismatch, missing result, or parse error, keep the target unresolved
      and set `status_reason` to the relevant failure.
-5. Materialize explicit artifacts.
-   - `units.yomi.safety_pre_llm.jsonl`: deterministic target safety before LLM.
-   - `yomi_reading_input.jsonl`: unresolved targets sent to LLM.
-   - `units.yomi.safety.jsonl`: final target safety after LLM agreement.
+4. Materialize explicit final artifacts.
+   - `units.yomi.safety_pre_llm.jsonl`: implemented deterministic target safety
+     before LLM.
+   - `yomi_reading_input.jsonl`: implemented unresolved targets sent to LLM.
+   - `units.yomi.safety.jsonl`: pending final target safety after LLM
+     agreement.
    - Summaries should count total targets, safe-by-signal counts, queued LLM
      targets, LLM agreement, LLM disagreement, parse errors, and unresolved
      targets.
-6. Integrate review/debug output.
+5. Integrate review/debug output.
    - Add an export or UI input that highlights targets by `highlight_level`.
    - Keep old whole-unit `auto_accept` as legacy/debug until the per-target
      safety path is trusted enough to replace it.

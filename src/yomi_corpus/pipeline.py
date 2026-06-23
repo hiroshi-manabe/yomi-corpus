@@ -35,6 +35,7 @@ from yomi_corpus.yomi.llm_readings import (
     apply_yomi_llm_reading_results_file,
     build_yomi_llm_reading_queue_file,
 )
+from yomi_corpus.yomi.safety import apply_yomi_safety_pre_llm_file
 from yomi_corpus.yomi.scope import apply_scope_triage_results_file, build_scope_triage_queue_file
 
 
@@ -824,6 +825,8 @@ class PipelineWorkspace:
             ]
         if stage_name == "yomi_reading_queued":
             return [
+                batch_dir / "units.yomi.safety_pre_llm.jsonl",
+                batch_dir / "yomi_safety_pre_llm_summary.json",
                 batch_dir / "yomi_reading_input.jsonl",
                 batch_dir / "yomi_reading_queue_summary.json",
             ]
@@ -984,6 +987,12 @@ class PipelineWorkspace:
                 self.batch_dir(batch_name) / "scope_triage_apply_summary.json"
             )
         if current_stage in {"yomi_reading_queued", "yomi_reading_completed"}:
+            artifacts["units_yomi_safety_pre_llm_jsonl"] = str(
+                self.batch_dir(batch_name) / "units.yomi.safety_pre_llm.jsonl"
+            )
+            artifacts["yomi_safety_pre_llm_summary_json"] = str(
+                self.batch_dir(batch_name) / "yomi_safety_pre_llm_summary.json"
+            )
             artifacts["yomi_reading_input_jsonl"] = str(
                 self.batch_dir(batch_name) / "yomi_reading_input.jsonl"
             )
@@ -1474,21 +1483,35 @@ class PipelineWorkspace:
     def _queue_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         input_path = batch_dir / "units.scope_triaged.jsonl"
+        safety_path = batch_dir / "units.yomi.safety_pre_llm.jsonl"
+        safety_summary_path = batch_dir / "yomi_safety_pre_llm_summary.json"
         output_path = batch_dir / "yomi_reading_input.jsonl"
         summary_path = batch_dir / "yomi_reading_queue_summary.json"
-        summary = build_yomi_llm_reading_queue_file(
+        safety_summary = apply_yomi_safety_pre_llm_file(
             input_jsonl=input_path,
+            output_jsonl=safety_path,
+            summary_json=safety_summary_path,
+        )
+        summary = build_yomi_llm_reading_queue_file(
+            input_jsonl=safety_path,
             output_jsonl=output_path,
             summary_json=summary_path,
+            skip_stable_two_kanji=False,
         )
         return {
             "artifacts": {
+                "units_yomi_safety_pre_llm_jsonl": str(safety_path),
+                "yomi_safety_pre_llm_summary_json": str(safety_summary_path),
+                "yomi_safety_pre_llm_targets": str(safety_summary.target_count),
+                "yomi_safety_pre_llm_safe": str(safety_summary.safe_targets),
+                "yomi_safety_pre_llm_unresolved": str(safety_summary.unresolved_targets),
                 "yomi_reading_input_jsonl": str(output_path),
                 "yomi_reading_queue_summary_json": str(summary_path),
                 "yomi_reading_task_config": "config/llm/yomi_reading.toml",
                 "yomi_reading_queued": str(summary.queued_items),
                 "yomi_reading_skipped": str(summary.skipped_items),
                 "yomi_reading_stable_two_kanji_skipped": str(summary.stable_two_kanji_skipped),
+                "yomi_reading_safety_skipped": str(summary.safety_skipped),
             }
         }
 
@@ -1552,7 +1575,7 @@ class PipelineWorkspace:
             encoding="utf-8",
         )
         apply_summary = apply_yomi_llm_reading_results_file(
-            units_jsonl=batch_dir / "units.scope_triaged.jsonl",
+            units_jsonl=batch_dir / "units.yomi.safety_pre_llm.jsonl",
             queue_jsonl=input_path,
             results_jsonl=results_path,
             output_jsonl=output_path,
