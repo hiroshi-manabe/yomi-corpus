@@ -131,6 +131,80 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(items[0]["marked_text"], "**日々**変わります。")
         self.assertEqual(items[0]["marked_furigana_text"], "**日々**変（か）わります。")
 
+    def test_alphabetic_target_is_marked_and_compared(self) -> None:
+        payload = {
+            "unit_id": "u3",
+            "text": "30分でもOKです。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "30",
+                                    "pos": "名詞,数詞,*,*,*,*",
+                                    "dictionary_form": "30",
+                                    "normalized_form": "30",
+                                    "reading": "",
+                                },
+                                {
+                                    "surface": "分",
+                                    "pos": "名詞,普通名詞,助数詞可能,*,*,*",
+                                    "dictionary_form": "分",
+                                    "normalized_form": "分",
+                                    "reading": "フン",
+                                },
+                                {
+                                    "surface": "でも",
+                                    "pos": "助詞,副助詞,*,*,*,*",
+                                    "dictionary_form": "でも",
+                                    "normalized_form": "でも",
+                                    "reading": "デモ",
+                                },
+                                {
+                                    "surface": "OK",
+                                    "pos": "名詞,普通名詞,サ変可能,*,*,*",
+                                    "dictionary_form": "OK",
+                                    "normalized_form": "OK",
+                                    "reading": "オーケー",
+                                },
+                                {
+                                    "surface": "です",
+                                    "pos": "助動詞,*,*,*,助動詞-ダ,終止形-一般",
+                                    "dictionary_form": "だ",
+                                    "normalized_form": "だ",
+                                    "reading": "デス",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        }
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual([item["surface"] for item in items], ["分", "OK"])
+        alphabetic = items[1]
+        self.assertEqual(alphabetic["marked_text"], "30分でも**OK**です。")
+        self.assertEqual(alphabetic["current_reading_hiragana"], "おーけー")
+        judgment = build_item_judgment(
+            alphabetic,
+            {
+                "item_id": alphabetic["item_id"],
+                "raw_text": '{"OK":"オーケー"}',
+                "parsed": {"OK": "オーケー"},
+            },
+        )
+        self.assertEqual(judgment["status"], "matched")
+
     def test_stable_two_kanji_can_be_skipped(self) -> None:
         checker = make_stable_checker(
             "学校,5146,5146,7253,学校,名詞,普通名詞,一般,*,*,*,ガッコウ,学校,*,A,*,*,*,*\n"
@@ -223,9 +297,9 @@ class YomiLLMReadingsTests(unittest.TestCase):
         prompts = build_prompt_items(config, [item])
 
         self.assertEqual(prompts[0].item_id, item["item_id"])
-        self.assertIn("Return JSON only, with exactly one key", prompts[0].prompt)
+        self.assertIn('目が**痛**い。->{"痛":"いた"}', prompts[0].prompt)
         self.assertIn("学校は**上**です。", prompts[0].prompt)
-        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校は**上**です。 ->"))
+        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校は**上**です。->"))
         self.assertNotIn('"学校"', prompts[0].prompt)
 
     def test_json_parser_accepts_plain_or_fenced_object(self) -> None:

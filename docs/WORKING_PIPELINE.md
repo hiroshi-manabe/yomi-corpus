@@ -1281,6 +1281,13 @@ Implementation plan for yomi display modes:
   (`yomi_reading`). A mini-model comparison on a 150-item stratified sample did
   not show an accuracy drop relative to no-space furigana context, while input
   tokens fell by roughly 25%.
+- Keep the `yomi_reading` prompt extremely short unless later evidence shows a
+  regression. A GPT-5.5 test on the same 150-item sample with
+  `目が**痛**い。->{"痛":"いた"}\n{marked_text}->` produced no parse errors and
+  fewer input tokens than the earlier explanatory prompt. The main failure mode
+  was not prompt format, but target extraction/expectation boundaries such as
+  `日々`: the queued target must be the whole readable unit (`日々/ひび`), not
+  only the first kanji (`日/ひび`).
 - Use no-space furigana first for LLM proposal tasks where the model benefits
   from seeing existing yomi annotations, such as `yomi_review_resolution` and
   possibly later `yomi_check`.

@@ -244,3 +244,28 @@ class ExperimentHarnessTests(unittest.TestCase):
         items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
         self.assertNotIn("Text:", items[0]["prompt"])
         self.assertIn("Yomi: 大学（だいがく）です。", items[0]["prompt"])
+
+    def test_run_prompt_experiment_scores_yomi_reading(self) -> None:
+        backend = FakeExperimentBackend(
+            {
+                "kanji_pain_001": {"parsed": {"痛": "いた"}, "usage": None},
+                "kanji_middle_001": {"parsed": {"中": "ちゅう"}, "usage": None},
+                "iteration_hibi_001": {"parsed": {"日々": "ひび"}, "usage": None},
+                "alphabetic_ok_001": {"parsed": {"OK": "オーケー"}, "usage": None},
+                "alphabetic_sns_001": {"parsed": {"SNS": "エスエヌエス"}, "usage": None},
+            }
+        )
+        run_dir = self.tmp_root / "yomi_reading"
+
+        summary = run_prompt_experiment(
+            task_config_path="config/llm/yomi_reading.toml",
+            eval_jsonl_path="data/evals/yomi_reading/regression_v1.jsonl",
+            run_dir=str(run_dir),
+            backend=backend,
+        )
+
+        self.assertEqual(summary["score"]["pass_count"], 5)
+        self.assertEqual(summary["score"]["fail_count"], 0)
+        items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
+        self.assertIn("**日々**", items[2]["prompt"])
+        self.assertIn("**OK**", items[3]["prompt"])

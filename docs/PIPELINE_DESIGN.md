@@ -933,6 +933,13 @@ Implementation plan:
   display.
 - Add a task-level configuration flag so experiments can compare full and
   compact/furigana display.
+- For per-target reading generation (`yomi_reading`), prefer an ultra-short
+  pattern prompt unless later tests show a regression:
+  `目が**痛**い。->{"痛":"いた"}\n{marked_text}->`. A GPT-5.5 test on 150
+  current-format items produced no parse errors and materially lower input
+  token use than the older explanatory prompt. Keep target extraction strict:
+  iteration-mark words such as `日々` must be queued and evaluated as the whole
+  readable unit, not as `日` alone.
 - When a prompt receives a derived display, it must state the display policy.
   For compact display, bare kana, symbols, and numbers are intentional
   abbreviations. For furigana display, absence of token spaces is intentional

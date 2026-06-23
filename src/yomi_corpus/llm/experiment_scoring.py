@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any
 
+from yomi_corpus.yomi.llm_readings import normalize_hiragana_reading
+
 
 def score_output(
     *,
@@ -49,6 +51,30 @@ def score_output(
             "notes": [],
         }
 
+    if task_name == "yomi_reading":
+        expected_surface = str(eval_row.get("surface", ""))
+        expected_reading = normalize_hiragana_reading(str(eval_row.get("expected_reading", "")))
+        actual_reading = None
+        notes: list[str] = []
+        if isinstance(parsed, dict):
+            keys = set(str(key) for key in parsed)
+            if keys != {expected_surface}:
+                notes.append("wrong_json_keys")
+            value = parsed.get(expected_surface)
+            if isinstance(value, str):
+                actual_reading = normalize_hiragana_reading(value)
+            else:
+                notes.append("missing_or_non_string_reading")
+        else:
+            notes.append("parsed_result_is_not_object")
+        return {
+            "passed": actual_reading == expected_reading and not notes,
+            "parse_error": None,
+            "expected": {"surface": expected_surface, "reading": expected_reading},
+            "actual": {"reading": actual_reading},
+            "notes": notes,
+        }
+
     raise ValueError(f"Unsupported scoring task: {task_name}")
 
 
@@ -85,4 +111,9 @@ def summarize_scores(scored_rows: list[dict[str, Any]]) -> dict[str, Any]:
 def _expected_payload(task_name: str, eval_row: dict[str, Any]) -> dict[str, Any]:
     if task_name == "yomi_repair":
         return {"rendered": eval_row.get("expected_rendered")}
+    if task_name == "yomi_reading":
+        return {
+            "surface": eval_row.get("surface"),
+            "reading": eval_row.get("expected_reading"),
+        }
     return {"status": eval_row.get("expected_status")}
