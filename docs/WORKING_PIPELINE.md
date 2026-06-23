@@ -963,11 +963,11 @@ Example LLM policies:
 
 ```json
 {
-  "alphabetic_entity_judge": "batch",
-  "scope_triage": "batch",
-  "yomi_reading": "batch",
-  "yomi_repair": "sync",
-  "yomi_rescue": "sync"
+  "alphabetic_entity_judge": "background",
+  "scope_triage": "background",
+  "yomi_reading": "background",
+  "yomi_repair": "background",
+  "yomi_rescue": "background"
 }
 ```
 
@@ -986,13 +986,16 @@ working with `stable_two_kanji` once that policy is trusted. Track defaults
 should also choose LLM profiles per task, so dev can use `economy` for flow
 checks while working uses `economy` for the scope gate, `standard` for ordinary
 reading work, and `strong` for rescue. Track defaults should also choose
-execution modes per task. `sync` is best for prompt exploration, tiny dev runs,
-and tasks where immediate failure inspection matters. `background` is best for
-medium independent request sets, such as roughly 150 yomi-reading requests,
-where sequential sync calls waste wall-clock time but Batch API's 24-hour
-latency model is awkward. `batch` is best for large classification-style tasks
-where latency is acceptable and cost/rate-limit behavior matters. `sentence` is
-the safer unit-mode default while the pipeline is still stabilizing.
+execution modes per task. `background` should be the normal default for both
+`dev` and `working`, because it submits independent requests without blocking
+on slow sequential calls and can be resumed by rerunning `./next`. `sync` is
+best for prompt exploration, smoke tests, tiny runs, and tasks where immediate
+failure inspection matters. `batch` is best for very large low-urgency tasks
+where latency is acceptable and cost/rate-limit behavior matters. In batch
+mode, `./next` should submit any missing remote chunks, poll roughly once per
+minute by default, show aggregate API request-count progress when available,
+and resume from stored local state after interruption. `sentence` is the safer
+unit-mode default while the pipeline is still stabilizing.
 `comma_span` should be available, especially for dev experiments, because it
 can raise the automatic `OK` rate and reduce downstream review volume. Its cost
 is more API calls and extra reconstruction logic.
@@ -1013,11 +1016,11 @@ yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "batch"
-scope_triage = "batch"
-yomi_reading = "batch"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"
 
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
@@ -1031,11 +1034,11 @@ yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "sync"
-scope_triage = "sync"
-yomi_reading = "sync"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"
 ```
 
 The prepare-time precedence should stay simple:
@@ -1603,8 +1606,14 @@ Current intended commands:
 - `./next --force-stage yomi_generated`
 - `./status`
 - `./status dev`
+- `./status dev --stages`
 
 The implicit no-argument track should be `working`.
+
+`./status --stages` is a terse read-only mode. It prints only the completed
+current stage and the next stage, which is useful when the full structured
+status is too noisy. `./next` should not have this mode because it advances the
+pipeline and would be easy to mistake for read-only inspection.
 
 ### 10.6.3 Current one-step progression
 
@@ -1622,9 +1631,10 @@ Example behavior:
 - on non-working tracks, the same gate also blocks by default; rerun with
   `./next dev --skip-review-gates` to continue explicitly while recording the
   skipped gate
+- the next `./next` should queue raw-text scope triage
+- the next `./next` should run or resume scope triage and exclude `Skip` units
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
-- the next `./next` should run or resume scope triage and exclude `Skip` units
 - the next `./next` should build a yomi-reading queue from unresolved targets
 - the next `./next` should run or resume the configured yomi-reading LLM task
   and write comparison metadata

@@ -347,7 +347,6 @@ Output:
 
 Responsibilities:
 
-- judge non-target status
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
 - extract alphabetic entity occurrences and aggregate entity types
@@ -383,7 +382,7 @@ Output:
 
 Responsibilities:
 
-- run scope triage on raw text when non-target status is not otherwise known
+- run scope triage on raw text before mechanical yomi generation
 - return exactly one scope label: `Keep` or `Skip`
 - treat `Skip` as non-target material such as foreign-language text, old
   Japanese prose, kanbun, Chinese, spam, or garbled text
@@ -415,6 +414,11 @@ The materialized LLM stage writes separate artifacts:
 Scope parse errors must be treated conservatively so malformed model output
 cannot silently skip or accept a unit. Yomi-reading parse errors must not become
 agreement; they route the target or unit to focused review.
+
+Scope triage is intentionally ordered before yomi generation. It only needs raw
+unit text, and early `Skip` decisions avoid spending Sudachi, decoder, safety,
+and yomi-reading LLM work on non-target units. Later yomi stages consume the
+scope-triaged artifact and ignore `Skip` rows.
 
 In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or
@@ -646,8 +650,9 @@ and OpenAI Batch mode:
   results as they become available, and avoid resubmitting item IDs that already
   have a response ID or parsed result
 - `batch`: submit the remaining rows as one or more remote batch jobs, persist
-  remote batch IDs, poll on later runs, fetch result files when complete, and
-  resubmit only missing or failed item IDs if needed
+  remote batch IDs, poll at a slow interval until completion or interruption,
+  fetch result files when complete, and resume from stored chunk state on later
+  runs
 
 All modes should report progress as completed items over total items. Sync mode
 can update progress after each response. Background mode should poll stored
@@ -667,9 +672,11 @@ scope artifact or yomi-reading comparison artifact is written.
 Interruptions should be normal. The operator may stop sync mode partway through;
 rerunning `./next` resumes from result rows already present. For background
 mode, rerunning `./next` polls stored response IDs and submits only item IDs
-that were not submitted before the interruption. For batch mode, rerunning
-`./next` polls the stored remote job, reports current `request_counts`, and
-applies results once the job is complete.
+that were not submitted before the interruption. For batch mode, `./next`
+submits any missing remote chunks, polls roughly once per minute by default,
+reports aggregate `request_counts` when available, and applies results once all
+chunks have completed and been fetched. If interrupted, rerunning `./next`
+continues from the stored local `status.json`.
 
 OpenAI API constraints that affect this design:
 
@@ -743,11 +750,11 @@ task-to-setting maps:
 
 ```json
 {
-  "alphabetic_entity_judge": "batch",
-  "scope_triage": "batch",
-  "yomi_reading": "batch",
-  "yomi_repair": "sync",
-  "yomi_rescue": "sync"
+  "alphabetic_entity_judge": "background",
+  "scope_triage": "background",
+  "yomi_reading": "background",
+  "yomi_repair": "background",
+  "yomi_rescue": "background"
 }
 ```
 
@@ -765,11 +772,12 @@ defaults should also choose an LLM profile per task. Operators should be able to
 override these per batch, so dev can run with no auto-accept, working can later
 run with stable two-kanji auto-accept, and either track can use cheaper or
 stronger model profiles for specific tasks. Execution mode should be equally
-configurable per task: prompt exploration and tiny repair batches are often
-easier in `sync`; medium independent request sets are good candidates for
-`background`; large classification-style tasks with acceptable latency are
-better in `batch`. The selected explicit values must be stored with the batch
-for reproducibility.
+configurable per task. `background` should be the normal default for both
+`dev` and `working`, because it avoids slow sequential calls while still
+allowing `./next` polling/resume. Prompt exploration, smoke tests, and tiny
+repair batches are often easier in `sync`; very large low-urgency tasks with
+acceptable latency are better in `batch`. The selected explicit values must be
+stored with the batch for reproducibility.
 
 These defaults should not remain hidden Python constants. They should be moved
 to a small source-controlled project config, for example:
@@ -787,11 +795,11 @@ yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "batch"
-scope_triage = "batch"
-yomi_reading = "batch"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"
 
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
@@ -805,11 +813,11 @@ yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "sync"
-scope_triage = "sync"
-yomi_reading = "sync"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"
 ```
 
 The prepare-time precedence should stay deliberately shallow:
@@ -1472,10 +1480,14 @@ Examples:
 - on non-working tracks, the same review gate also blocks by default; rerun
   with `./next dev --skip-review-gates` to continue explicitly while recording
   the skipped gate
+- the following `./next` should queue raw-text scope triage
+- the following `./next` should run or resume scope triage and write
+  `units.scope_triaged.jsonl`
 - the following `./next` should build the mechanical yomi JSONL
 - the following `./next` should add the yomi auto-accept artifact
-- once no later automated stage is implemented, `./next` should report that
-  blocking reason and stop
+- the following `./next` should build per-target safety evidence and queue LLM
+  readings for unresolved kanji/Latin targets
+- the following `./next` should run or resume the yomi-reading LLM task
 - `./next --force-stage <stage>` should rerun the current completed stage
 - on `working`, a confirmation prompt should appear only when rerunning would
   overwrite existing artifacts

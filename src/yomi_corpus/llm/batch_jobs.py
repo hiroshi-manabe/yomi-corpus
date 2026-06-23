@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from time import time
 from typing import Any
@@ -76,7 +77,7 @@ def prepare_batch_job(
         "remote_batch_count": len(remote_batches),
         "created_at_epoch": int(time()),
     }
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    _write_json(manifest_path, manifest)
 
     status = {
         "state": "prepared",
@@ -88,7 +89,7 @@ def prepare_batch_job(
         "remote_status": None,
         "remote_batches": remote_batches,
     }
-    status_path.write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding="utf-8")
+    _write_json(status_path, status)
 
 
 def submit_batch_job(
@@ -463,4 +464,7 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp_path.replace(path)

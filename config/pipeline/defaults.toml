@@ -10,11 +10,11 @@ yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "batch"
-scope_triage = "batch"
-yomi_reading = "batch"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"
 
 [tracks.dev.yomi_policy]
 unit_mode = "sentence"
@@ -28,8 +28,8 @@ yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "sync"
-scope_triage = "sync"
-yomi_reading = "sync"
-yomi_repair = "sync"
-yomi_rescue = "sync"
+alphabetic_entity_judge = "background"
+scope_triage = "background"
+yomi_reading = "background"
+yomi_repair = "background"
+yomi_rescue = "background"

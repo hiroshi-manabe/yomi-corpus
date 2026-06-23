@@ -68,6 +68,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(status["llm_policy"]["yomi_reading"], "standard")
+            self.assertEqual(status["llm_execution_policy"]["yomi_reading"], "background")
 
     def test_prepare_next_batch_allocates_track_specific_name_and_updates_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -98,7 +99,7 @@ class PipelineTrackTests(unittest.TestCase):
                 },
             )
             self.assertEqual(summary["llm_policy"]["yomi_reading"], "standard")
-            self.assertEqual(summary["llm_execution_policy"]["yomi_reading"], "batch")
+            self.assertEqual(summary["llm_execution_policy"]["yomi_reading"], "background")
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
@@ -383,6 +384,74 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["current_stage"], "yomi_auto_accepted")
             self.assertIsNone(summary["blocking_reason"])
             self.assertEqual(mocked_stage.call_count, 1)
+
+    def test_advance_generates_yomi_from_scope_triaged_keep_units(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 2,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            scope_triaged_path = batch_dir / "units.scope_triaged.jsonl"
+            scope_triaged_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "analysis": {"llm": {"scope_triage": {"status": "Keep"}}},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+                + json.dumps(
+                    {
+                        "unit_id": "u2",
+                        "text": "古文です。",
+                        "analysis": {"llm": {"scope_triage": {"status": "Skip"}}},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            with patch("yomi_corpus.pipeline.export_named_variant") as mocked:
+                mocked.return_value = {"variant_name": "aligned_hybrid"}
+                summary = workspace.advance("dev")
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_generated")
+            self.assertEqual(mocked.call_count, 1)
+            self.assertEqual(
+                Path(mocked.call_args.kwargs["input_jsonl"]).resolve(),
+                scope_triaged_path.resolve(),
+            )
+            self.assertTrue(mocked.call_args.kwargs["skip_scope_skipped"])
 
     def test_yomi_auto_acceptance_uses_batch_policy_profile(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -736,7 +805,7 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(saved_after.current_stage, "alphabetic_promotion_candidates")
             self.assertEqual(saved_after.skipped_review_gates, ["promotion_candidate_review"])
 
-    def test_advance_queues_scope_triage_after_yomi_auto_acceptance(self) -> None:
+    def test_advance_queues_scope_triage_after_alphabetic_promotion_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -760,24 +829,20 @@ class PipelineTrackTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+            (batch_dir / "units.alphabetic.jsonl").write_text(
                 json.dumps(
                     {
                         "unit_id": "u1",
                         "text": "方です。",
-                        "analysis": {
-                            "mechanical": {
-                                "yomi": {
-                                    "rendered": "方/ホウ です/デス 。/。",
-                                    "auto_accept": {"value": False},
-                                }
-                            }
-                        },
+                        "analysis": {"mechanical": {"alphabetic": {}}},
                     },
                     ensure_ascii=False,
                 )
                 + "\n",
                 encoding="utf-8",
+            )
+            (batch_dir / "alphabetic_promotion_candidates_summary.json").write_text(
+                "{}", encoding="utf-8"
             )
             workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
             workspace.save_track_state(
@@ -824,21 +889,14 @@ class PipelineTrackTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+            (batch_dir / "units.alphabetic.jsonl").write_text(
                 "\n".join(
                     [
                         json.dumps(
                             {
                                 "unit_id": "u1",
                                 "text": "大学です。",
-                                "analysis": {
-                                    "mechanical": {
-                                        "yomi": {
-                                            "rendered": "大学/ダイガク です/デス 。/。",
-                                            "auto_accept": {"value": True},
-                                        }
-                                    }
-                                },
+                                "analysis": {"mechanical": {"alphabetic": {}}},
                             },
                             ensure_ascii=False,
                         ),
@@ -846,14 +904,7 @@ class PipelineTrackTests(unittest.TestCase):
                             {
                                 "unit_id": "u2",
                                 "text": "方です。",
-                                "analysis": {
-                                    "mechanical": {
-                                        "yomi": {
-                                            "rendered": "方/ホウ です/デス 。/。",
-                                            "auto_accept": {"value": False},
-                                        }
-                                    }
-                                },
+                                "analysis": {"mechanical": {"alphabetic": {}}},
                             },
                             ensure_ascii=False,
                         ),
@@ -892,7 +943,7 @@ class PipelineTrackTests(unittest.TestCase):
             ) -> object:
                 self.assertEqual(task_config_path, "config/llm/scope_triage.toml")
                 self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "scope_triage_input.jsonl").resolve())
-                self.assertEqual(kwargs["execution_mode"], "sync")
+                self.assertEqual(kwargs["execution_mode"], "background")
                 self.assertEqual(kwargs["task_config_override"].model, "gpt-5.4-mini")
                 Path(output_jsonl_path).write_text(
                     json.dumps(

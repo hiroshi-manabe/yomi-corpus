@@ -87,6 +87,7 @@ def export_jsonl_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None,
     progress_label: str | None = None,
+    skip_scope_skipped: bool = False,
 ) -> dict[str, object]:
     input_path = resolve_repo_path(str(input_jsonl))
     output_path = resolve_repo_path(str(output_jsonl))
@@ -102,6 +103,8 @@ def export_jsonl_yomi(
             if not line.strip():
                 continue
             row = json.loads(line)
+            if skip_scope_skipped and is_scope_skipped(row):
+                continue
             row["analysis"]["mechanical"]["yomi"] = generate_mechanical_yomi(
                 row["text"],
                 config=config,
@@ -130,6 +133,7 @@ def export_plaintext_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None,
     progress_label: str | None = None,
+    skip_scope_skipped: bool = False,
 ) -> dict[str, object]:
     input_path = resolve_repo_path(str(input_jsonl))
     output_path = resolve_repo_path(str(output_txt))
@@ -145,6 +149,8 @@ def export_plaintext_yomi(
             if not line.strip():
                 continue
             row = json.loads(line)
+            if skip_scope_skipped and is_scope_skipped(row):
+                continue
             rendered = (
                 row.get("analysis", {})
                 .get("mechanical", {})
@@ -183,11 +189,14 @@ def export_named_variant(
     config_path: str | Path,
     formats: list[str] | tuple[str, ...],
     show_progress: bool = False,
+    input_jsonl: str | Path | None = None,
+    skip_scope_skipped: bool = False,
 ) -> dict[str, object]:
     variant = resolve_export_variant(variant_name)
     batch_path = resolve_repo_path(str(batch_dir))
     config = load_yomi_generation_config(config_path)
     variant_jsonl_path = batch_path / variant.output_jsonl_filename
+    input_path = resolve_repo_path(str(input_jsonl)) if input_jsonl is not None else batch_path / "units.jsonl"
 
     summary: dict[str, object] = {
         "variant_name": variant.name,
@@ -195,21 +204,33 @@ def export_named_variant(
     }
     if "jsonl" in formats:
         summary["jsonl"] = export_jsonl_yomi(
-            input_jsonl=batch_path / "units.jsonl",
+            input_jsonl=input_path,
             output_jsonl=variant_jsonl_path,
             config=config,
             strategy_name=variant.strategy_name,
             progress_label=f"{variant.name} jsonl" if show_progress else None,
+            skip_scope_skipped=skip_scope_skipped,
         )
     if "txt" in formats:
         summary["txt"] = export_plaintext_yomi(
-            input_jsonl=variant_jsonl_path if "jsonl" in formats else batch_path / "units.jsonl",
+            input_jsonl=variant_jsonl_path if "jsonl" in formats else input_path,
             output_txt=batch_path / variant.output_txt_filename,
             config=config,
             strategy_name=variant.strategy_name,
             progress_label=f"{variant.name} txt" if show_progress else None,
+            skip_scope_skipped=skip_scope_skipped if "jsonl" not in formats else False,
         )
     return summary
+
+
+def is_scope_skipped(row: dict[str, object]) -> bool:
+    return (
+        row.get("analysis", {})
+        .get("llm", {})
+        .get("scope_triage", {})
+        .get("status")
+        == "Skip"
+    )
 
 
 def export_debug_comparison_texts(

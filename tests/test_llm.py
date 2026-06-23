@@ -19,7 +19,16 @@ from yomi_corpus.llm.backend import (
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_profile, load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
-from yomi_corpus.llm.runner import run_background_task, run_llm_task, run_sync_task
+from yomi_corpus.llm.runner import (
+    count_result_parse_errors,
+    load_background_records,
+    load_result_item_count,
+    load_result_item_ids,
+    run_background_task,
+    run_llm_task,
+    run_sync_task,
+    write_background_records,
+)
 from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.prompts import render_prompt
 from yomi_corpus.llm.rendering import compact_rendered_for_llm
@@ -337,6 +346,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                     str(output_path),
                     execution_mode="batch",
                     job_dir=str(job_dir),
+                    batch_wait=False,
                 )
 
             self.assertEqual(summary.mode, "batch")
@@ -474,6 +484,51 @@ class LLMScaffoldingTests(unittest.TestCase):
                 if line.strip()
             ]
             self.assertEqual(rows[0]["parsed"], {"status": "Review"})
+
+    def test_result_loaders_ignore_truncated_tail_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "results.jsonl"
+            path.write_text(
+                json.dumps({"item_id": "u1", "parse_error": None})
+                + "\n"
+                + json.dumps({"item_id": "u2", "parse_error": "bad"})
+                + "\n"
+                + '{"item_id": "u3"',
+                encoding="utf-8",
+            )
+
+            self.assertEqual(load_result_item_ids(path), {"u1", "u2"})
+            self.assertEqual(load_result_item_count(path), 2)
+            self.assertEqual(count_result_parse_errors(path), 1)
+
+    def test_background_records_ignore_truncated_tail_and_write_atomically(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "responses.jsonl"
+            path.write_text(
+                json.dumps({"item_id": "u1", "response_id": "resp_1"})
+                + "\n"
+                + '{"item_id": "u2"',
+                encoding="utf-8",
+            )
+
+            self.assertEqual(load_background_records(path), {"u1": {"item_id": "u1", "response_id": "resp_1"}})
+
+            class Item:
+                def __init__(self, item_id: str) -> None:
+                    self.item_id = item_id
+
+            write_background_records(
+                path,
+                {
+                    "u1": {"item_id": "u1", "response_id": "resp_1"},
+                    "u2": {"item_id": "u2", "response_id": "resp_2"},
+                },
+                [Item("u1"), Item("u2")],
+            )
+
+            self.assertFalse(list(root.glob(".*.tmp")))
+            self.assertEqual(set(load_background_records(path)), {"u1", "u2"})
 
     def test_run_llm_task_batch_fetches_completed_results(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 import json
+import os
 from pathlib import Path
 import shutil
 import sys
-from time import time
+from time import sleep, time
 
 from yomi_corpus.llm.backend import OpenAIResponsesBackend, write_batch_requests
 from yomi_corpus.llm.batch_jobs import (
@@ -49,6 +50,35 @@ BACKGROUND_STATUS_FILENAME = "background_status.json"
 BACKGROUND_ITEMS_FILENAME = "items.jsonl"
 
 
+@dataclass
+class ProgressBar:
+    label: str
+    total: int
+    stream: object = sys.stderr
+    width: int = 28
+    current: int = 0
+
+    def render(self) -> None:
+        completed = min(self.current, self.total) if self.total else self.current
+        ratio = 1.0 if self.total == 0 else min(completed / self.total, 1.0)
+        filled = int(self.width * ratio)
+        bar = "#" * filled + "-" * (self.width - filled)
+        percent = ratio * 100.0
+        self.stream.write(
+            f"\r[{bar}] {completed}/{self.total} {percent:5.1f}% {self.label}"
+        )
+        self.stream.flush()
+
+    def update_to(self, value: int) -> None:
+        self.current = value
+        self.render()
+
+    def finish(self) -> None:
+        self.update_to(self.total)
+        self.stream.write("\n")
+        self.stream.flush()
+
+
 def run_llm_task(
     task_config_path: str,
     input_jsonl_path: str,
@@ -59,6 +89,9 @@ def run_llm_task(
     task_config_override: LLMTaskConfig | None = None,
     job_dir: str | None = None,
     show_progress: bool = False,
+    batch_wait: bool = True,
+    batch_poll_interval_seconds: float = 60.0,
+    batch_max_wait_seconds: float | None = None,
 ) -> ResumableLLMJobSummary:
     if execution_mode == LLM_EXECUTION_MODE_SYNC:
         return run_sync_task(
@@ -92,6 +125,10 @@ def run_llm_task(
             api_key_file=api_key_file,
             task_config_override=task_config_override,
             job_dir=job_dir,
+            show_progress=show_progress,
+            wait=batch_wait,
+            poll_interval_seconds=batch_poll_interval_seconds,
+            max_wait_seconds=batch_max_wait_seconds,
         )
     raise ValueError(f"Unsupported LLM execution mode: {execution_mode}")
 
@@ -122,6 +159,9 @@ def run_sync_task(
 
     skipped_items = 0
     failed_items = 0
+    progress = ProgressBar(label="LLM sync", total=len(items), current=len(completed_ids)) if show_progress else None
+    if progress is not None:
+        progress.render()
     with output_path.open("a", encoding="utf-8") as handle:
         for item in items:
             if item.item_id in completed_ids:
@@ -133,12 +173,10 @@ def run_sync_task(
             completed_ids.add(item.item_id)
             if result.parse_error:
                 failed_items += 1
-            if show_progress:
-                print(
-                    f"LLM sync progress: {len(completed_ids)}/{len(items)} completed",
-                    file=sys.stderr,
-                    flush=True,
-                )
+            if progress is not None:
+                progress.update_to(len(completed_ids))
+    if progress is not None:
+        progress.finish()
 
     summary = ResumableLLMJobSummary(
         job_id=None if job_path is None else job_path.name,
@@ -208,6 +246,13 @@ def run_background_task(
         write_background_records(responses_path, records, items)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    progress = (
+        ProgressBar(label="LLM background", total=len(items), current=len(completed_ids))
+        if show_progress
+        else None
+    )
+    if progress is not None:
+        progress.render()
     with output_path.open("a", encoding="utf-8") as handle:
         for item in items:
             if item.item_id in completed_ids:
@@ -241,12 +286,10 @@ def run_background_task(
             handle.write(json.dumps(result_to_json_row(result), ensure_ascii=False) + "\n")
             handle.flush()
             completed_ids.add(item.item_id)
-            if show_progress:
-                print(
-                    f"LLM background progress: {len(completed_ids)}/{len(items)} completed",
-                    file=sys.stderr,
-                    flush=True,
-                )
+            if progress is not None:
+                progress.update_to(len(completed_ids))
+    if progress is not None:
+        progress.finish()
     write_background_records(responses_path, records, items)
 
     failed_items = count_result_parse_errors(output_path)
@@ -260,7 +303,10 @@ def run_background_task(
         "failed_items": failed_items,
         "pending_items": pending_items,
     }
-    status_path.write_text(json.dumps(status_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_text(
+        status_path,
+        json.dumps(status_payload, ensure_ascii=False, indent=2) + "\n",
+    )
 
     summary = ResumableLLMJobSummary(
         job_id=job_path.name,
@@ -293,6 +339,10 @@ def run_batch_task(
     api_key_file: str | None = None,
     task_config_override: LLMTaskConfig | None = None,
     job_dir: str,
+    show_progress: bool = False,
+    wait: bool = True,
+    poll_interval_seconds: float = 60.0,
+    max_wait_seconds: float | None = None,
 ) -> ResumableLLMJobSummary:
     task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
@@ -301,6 +351,8 @@ def run_batch_task(
     job_path = resolve_repo_path(job_dir)
     status_path = job_path / "status.json"
     parsed_results_path = job_path / "results.parsed.jsonl"
+    progress = ProgressBar(label="LLM batch", total=total_items) if show_progress else None
+    start_time = time()
 
     if not status_path.exists():
         prepare_batch_job(
@@ -311,14 +363,32 @@ def run_batch_task(
         )
     status = _load_json(status_path)
 
-    if status.get("state") == "prepared" or _has_unsubmitted_remote_batches(status):
-        status = submit_batch_job(str(job_path), api_key_file=api_key_file)
+    while True:
+        if status.get("state") == "prepared" or _has_unsubmitted_remote_batches(status):
+            status = submit_batch_job(str(job_path), api_key_file=api_key_file)
 
-    if status.get("state") in {"submitted", "running"}:
-        status = poll_batch_job(str(job_path), api_key_file=api_key_file)
+        if status.get("state") in {"submitted", "running"}:
+            status = poll_batch_job(str(job_path), api_key_file=api_key_file)
 
-    if status.get("state") == "completed":
-        status = fetch_batch_job(str(job_path), api_key_file=api_key_file)
+        if progress is not None:
+            update_batch_progress(progress, status)
+
+        if status.get("state") == "completed":
+            status = fetch_batch_job(str(job_path), api_key_file=api_key_file)
+            if progress is not None:
+                update_batch_progress(progress, status)
+
+        if status.get("state") in {"fetched", "failed", "expired", "cancelled"}:
+            break
+        if not wait:
+            break
+        if max_wait_seconds is not None and time() - start_time >= max_wait_seconds:
+            break
+        sleep(max(poll_interval_seconds, 0.0))
+
+    if progress is not None:
+        progress.stream.write("\n")
+        progress.stream.flush()
 
     if status.get("state") == "fetched":
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -348,6 +418,30 @@ def run_batch_task(
     )
 
 
+def update_batch_progress(progress: ProgressBar, status: dict[str, object]) -> None:
+    counts = _request_counts_from_status(status)
+    completed = int(counts.get("completed") or 0)
+    total = int(counts.get("total") or progress.total)
+    remote_status = status.get("remote_status") or status.get("state") or "unknown"
+    chunks = batch_chunk_state_summary(status)
+    progress.total = total
+    progress.label = f"LLM batch {remote_status}" + (f" ({chunks})" if chunks else "")
+    progress.update_to(completed)
+
+
+def batch_chunk_state_summary(status: dict[str, object]) -> str:
+    remote_batches = status.get("remote_batches")
+    if not isinstance(remote_batches, list):
+        return ""
+    counts: dict[str, int] = {}
+    for batch in remote_batches:
+        if not isinstance(batch, dict):
+            continue
+        state = str(batch.get("remote_status") or batch.get("state") or "unknown")
+        counts[state] = counts.get(state, 0) + 1
+    return ", ".join(f"{state}:{count}" for state, count in sorted(counts.items()))
+
+
 def prepare_batch_task(
     task_config_path: str,
     input_jsonl_path: str,
@@ -369,8 +463,7 @@ def prepare_batch_task(
         "requests_jsonl": str(Path(requests_jsonl_path)),
         "item_count": len(items),
     }
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    atomic_write_text(manifest_path, json.dumps(manifest, ensure_ascii=False, indent=2))
 
 
 def write_results_jsonl(path: str, results: list[LLMResult]) -> None:
@@ -396,41 +489,22 @@ def write_results_jsonl(path: str, results: list[LLMResult]) -> None:
 
 def load_result_item_ids(path: Path) -> set[str]:
     item_ids: set[str] = set()
-    if not path.exists():
-        return item_ids
-    with path.open(encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            item_id = row.get("item_id")
-            if isinstance(item_id, str) and item_id:
-                item_ids.add(item_id)
+    for row in iter_jsonl_rows_tolerating_truncated_tail(path):
+        item_id = row.get("item_id")
+        if isinstance(item_id, str) and item_id:
+            item_ids.add(item_id)
     return item_ids
 
 
 def load_result_item_count(path: Path) -> int:
-    if not path.exists():
-        return 0
-    count = 0
-    with path.open(encoding="utf-8") as handle:
-        for line in handle:
-            if line.strip():
-                count += 1
-    return count
+    return sum(1 for _ in iter_jsonl_rows_tolerating_truncated_tail(path))
 
 
 def count_result_parse_errors(path: Path) -> int:
-    if not path.exists():
-        return 0
     count = 0
-    with path.open(encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            if row.get("parse_error"):
-                count += 1
+    for row in iter_jsonl_rows_tolerating_truncated_tail(path):
+        if row.get("parse_error"):
+            count += 1
     return count
 
 
@@ -464,37 +538,53 @@ def write_job_manifest(
         "task_config_path": task_config_path,
         "input_jsonl": input_jsonl_path,
     }
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_text(path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
 
 
 def write_background_items(path: Path, items: list[object]) -> None:
-    with path.open("w", encoding="utf-8") as handle:
-        for item in items:
-            handle.write(
-                json.dumps(
-                    {
-                        "item_id": item.item_id,
-                        "prompt": item.prompt,
-                        "metadata": item.metadata,
-                    },
-                    ensure_ascii=False,
-                )
-                + "\n"
+    lines: list[str] = []
+    for item in items:
+        lines.append(
+            json.dumps(
+                {
+                    "item_id": item.item_id,
+                    "prompt": item.prompt,
+                    "metadata": item.metadata,
+                },
+                ensure_ascii=False,
             )
+        )
+    atomic_write_text(path, "\n".join(lines) + ("\n" if lines else ""))
+
+
+def atomic_write_text(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    tmp_path.write_text(text, encoding="utf-8")
+    tmp_path.replace(path)
+
+
+def iter_jsonl_rows_tolerating_truncated_tail(path: Path):
+    if not path.exists():
+        return
+    lines = path.read_text(encoding="utf-8").splitlines()
+    for index, line in enumerate(lines):
+        if not line.strip():
+            continue
+        try:
+            yield json.loads(line)
+        except json.JSONDecodeError:
+            if index == len(lines) - 1:
+                return
+            raise
 
 
 def load_background_records(path: Path) -> dict[str, dict[str, object]]:
     records: dict[str, dict[str, object]] = {}
-    if not path.exists():
-        return records
-    with path.open(encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            item_id = row.get("item_id")
-            if isinstance(item_id, str) and item_id:
-                records[item_id] = row
+    for row in iter_jsonl_rows_tolerating_truncated_tail(path):
+        item_id = row.get("item_id")
+        if isinstance(item_id, str) and item_id:
+            records[item_id] = row
     return records
 
 
@@ -503,12 +593,12 @@ def write_background_records(
     records: dict[str, dict[str, object]],
     items: list[object],
 ) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as handle:
-        for item in items:
-            record = records.get(item.item_id)
-            if record:
-                handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+    lines: list[str] = []
+    for item in items:
+        record = records.get(item.item_id)
+        if record:
+            lines.append(json.dumps(record, ensure_ascii=False))
+    atomic_write_text(path, "\n".join(lines) + ("\n" if lines else ""))
 
 
 def background_completed_result(

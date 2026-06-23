@@ -132,10 +132,10 @@ STAGE_SEQUENCE = [
     "alphabetic_reported",
     "alphabetic_judged",
     "alphabetic_promotion_candidates",
-    "yomi_generated",
-    "yomi_auto_accepted",
     "scope_triage_queued",
     "scope_triage_completed",
+    "yomi_generated",
+    "yomi_auto_accepted",
     "yomi_reading_queued",
     "yomi_reading_completed",
 ]
@@ -994,10 +994,10 @@ class PipelineWorkspace:
             )
         if current_stage in {
             "alphabetic_promotion_candidates",
-            "yomi_generated",
-            "yomi_auto_accepted",
             "scope_triage_queued",
             "scope_triage_completed",
+            "yomi_generated",
+            "yomi_auto_accepted",
             "yomi_reading_queued",
             "yomi_reading_completed",
         }:
@@ -1014,8 +1014,6 @@ class PipelineWorkspace:
         if current_stage in {
             "yomi_generated",
             "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
             "yomi_reading_queued",
             "yomi_reading_completed",
         }:
@@ -1024,8 +1022,6 @@ class PipelineWorkspace:
             )
         if current_stage in {
             "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
             "yomi_reading_queued",
             "yomi_reading_completed",
         }:
@@ -1038,6 +1034,8 @@ class PipelineWorkspace:
         if current_stage in {
             "scope_triage_queued",
             "scope_triage_completed",
+            "yomi_generated",
+            "yomi_auto_accepted",
             "yomi_reading_queued",
             "yomi_reading_completed",
         }:
@@ -1047,7 +1045,13 @@ class PipelineWorkspace:
             artifacts["scope_triage_queue_summary_json"] = str(
                 self.batch_dir(batch_name) / "scope_triage_queue_summary.json"
             )
-        if current_stage in {"scope_triage_completed", "yomi_reading_queued", "yomi_reading_completed"}:
+        if current_stage in {
+            "scope_triage_completed",
+            "yomi_generated",
+            "yomi_auto_accepted",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
+        }:
             artifacts["scope_triage_results_jsonl"] = str(
                 self.batch_dir(batch_name) / "scope_triage_results.jsonl"
             )
@@ -1126,6 +1130,10 @@ class PipelineWorkspace:
             return "yomi_reading_completed"
         if (batch_dir / "yomi_reading_input.jsonl").exists():
             return "yomi_reading_queued"
+        if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
+            return "yomi_auto_accepted"
+        if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
+            return "yomi_generated"
         if (batch_dir / "units.scope_triaged.jsonl").exists():
             return "scope_triage_completed"
         if (batch_dir / "scope_triage_input.jsonl").exists():
@@ -1134,10 +1142,6 @@ class PipelineWorkspace:
             return "yomi_reading_completed"
         if (batch_dir / "yomi_triage_input.jsonl").exists():
             return "scope_triage_queued"
-        if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
-            return "yomi_auto_accepted"
-        if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
-            return "yomi_generated"
         if (batch_dir / "alphabetic_promotion_candidates_summary.json").exists():
             return "alphabetic_promotion_candidates"
         if (batch_dir / "alphabetic_judgment_ingest_summary.json").exists():
@@ -1587,17 +1591,21 @@ class PipelineWorkspace:
 
     def _generate_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        input_path = batch_dir / "units.scope_triaged.jsonl"
         summary = export_named_variant(
             variant_name="aligned_hybrid",
             batch_dir=batch_dir,
             config_path="config/yomi/default.toml",
             formats=["jsonl"],
             show_progress=True,
+            input_jsonl=input_path,
+            skip_scope_skipped=True,
         )
         return {
             "artifacts": {
                 "units_yomi_jsonl": str(batch_dir / "units.yomi.aligned_hybrid.jsonl"),
                 "yomi_variant": str(summary["variant_name"]),
+                "yomi_input_jsonl": str(input_path),
             }
         }
 
@@ -1630,7 +1638,7 @@ class PipelineWorkspace:
 
     def _queue_scope_triage(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
-        input_path = batch_dir / "units.yomi.auto_accept.jsonl"
+        input_path = batch_dir / "units.alphabetic.jsonl"
         output_path = batch_dir / "scope_triage_input.jsonl"
         summary_path = batch_dir / "scope_triage_queue_summary.json"
         summary = build_scope_triage_queue_file(
@@ -1641,6 +1649,7 @@ class PipelineWorkspace:
         return {
             "artifacts": {
                 "scope_triage_input_jsonl": str(output_path),
+                "scope_triage_source_jsonl": str(input_path),
                 "scope_triage_queue_summary_json": str(summary_path),
                 "scope_triage_task_config": "config/llm/scope_triage.toml",
                 "scope_triage_queued": str(summary.queued),
@@ -1707,7 +1716,7 @@ class PipelineWorkspace:
             encoding="utf-8",
         )
         apply_summary = apply_scope_triage_results_file(
-            units_jsonl=batch_dir / "units.yomi.auto_accept.jsonl",
+            units_jsonl=batch_dir / "units.alphabetic.jsonl",
             results_jsonl=results_path,
             output_jsonl=output_path,
             summary_json=apply_summary_path,

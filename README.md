@@ -103,6 +103,8 @@ Pipeline orchestration policy:
   actually be replaced
 - `./status` and `./status dev` report the current batch and stage for each
   track
+- `./status --stages` and `./status dev --stages` print only the completed
+  current stage and the next stage without advancing the pipeline
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
 
@@ -149,18 +151,16 @@ Yomi generation scaffold:
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct
+- after alphabetic checks, `scope_triage_queued` and `scope_triage_completed`
+  run a raw-text `Keep`/`Skip` gate before yomi generation; `Skip` units are
+  excluded from later reading work
 - after yomi generation, `yomi_auto_accepted` adds
   `analysis.mechanical.yomi.auto_accept` only for low-risk units where Sudachi
   and the decoder agree and the decoder candidate has full repeated N-gram
   support
-- after yomi auto-acceptance, `yomi_triage_queued` writes
-  `yomi_triage_input.jsonl` for non-auto-accepted units; the first LLM pass uses
-  `config/llm/yomi_triage.toml` and returns exactly `OK`, `Review`, or `Skip`
-- after yomi triage is queued, `yomi_triage_completed` runs the configured LLM
-  triage task, stores raw parsed results, and writes `units.yomi.triaged.jsonl`
-  with `analysis.llm.yomi_triage`; mechanically auto-accepted units are marked
-  `OK`, LLM `Skip` units are excluded from later yomi repair, and LLM `Review`
-  units remain in the repair/review path
+- after scope triage and yomi auto-acceptance, the yomi-reading queue asks for
+  independent LLM readings only for unresolved kanji/Latin targets that were
+  not suppressed by deterministic safety evidence
 - LLM work should use a generic resumable job layer shared by alphabetic
   judgment, yomi triage, yomi repair, and rescue repair; sync mode and batch
   mode should both report completed/total progress and support interruption and
