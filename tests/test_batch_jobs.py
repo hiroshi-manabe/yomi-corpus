@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import sys
 import unittest
+from dataclasses import replace
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +24,7 @@ from yomi_corpus.llm.batch_jobs import (
     prepare_batch_job,
     submit_batch_job,
 )
+from yomi_corpus.llm.config import load_llm_task_config
 
 
 class FakeBatchBackend:
@@ -155,3 +157,177 @@ class BatchJobTests(unittest.TestCase):
         jobs = list_batch_jobs(str(self.tmp_root))
         self.assertEqual(len(jobs), 1)
         self.assertEqual(jobs[0]["state"], "prepared")
+
+    def test_batch_job_splits_requests_by_configured_limit(self) -> None:
+        input_path = self.tmp_root / "multi_input.jsonl"
+        input_path.write_text(
+            "\n".join(
+                json.dumps(
+                    {
+                        "entity_key": key,
+                        "surface_forms": [key],
+                        "occurrence_count": 1,
+                        "unit_count": 1,
+                        "example_texts": [f"{key}です。"],
+                    },
+                    ensure_ascii=False,
+                )
+                for key in ["alpha", "bravo", "charlie"]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        task_config = replace(
+            load_llm_task_config("config/llm/alphabetic_entity_judge.toml"),
+            batch_max_requests_per_batch=2,
+        )
+
+        class ChunkedBackend:
+            submitted_paths: list[str] = []
+
+            def submit_batch(self, requests_jsonl_path, *, endpoint, completion_window):
+                path = Path(requests_jsonl_path)
+                self.submitted_paths.append(path.name)
+                index = len(self.submitted_paths)
+                return {
+                    "input_file_id": f"file-input-{index}",
+                    "batch_id": f"batch-{index}",
+                    "status": "validating",
+                    "created_at": 123 + index,
+                    "output_file_id": None,
+                    "error_file_id": None,
+                }
+
+            def retrieve_batch(self, batch_id):
+                index = int(str(batch_id).split("-")[-1])
+                completed = 2 if index == 1 else 1
+                return {
+                    "batch_id": batch_id,
+                    "status": "completed",
+                    "output_file_id": f"file-output-{index}",
+                    "error_file_id": None,
+                    "request_counts": {
+                        "total": completed,
+                        "completed": completed,
+                        "failed": 0,
+                    },
+                }
+
+            def download_file(self, file_id, output_path):
+                rows = {
+                    "file-output-1": ["alpha", "bravo"],
+                    "file-output-2": ["charlie"],
+                }[file_id]
+                Path(output_path).write_text(
+                    "".join(
+                        json.dumps(
+                            {
+                                "custom_id": key,
+                                "response": {
+                                    "output_text": '{"status":"in_scope"}',
+                                    "body": {"usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2}},
+                                },
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                        for key in rows
+                    ),
+                    encoding="utf-8",
+                )
+
+        backend = ChunkedBackend()
+        prepare_batch_job(
+            "config/llm/alphabetic_entity_judge.toml",
+            str(input_path),
+            str(self.job_dir),
+            task_config_override=task_config,
+        )
+        manifest = json.loads((self.job_dir / MANIFEST_FILENAME).read_text(encoding="utf-8"))
+        status = json.loads((self.job_dir / STATUS_FILENAME).read_text(encoding="utf-8"))
+        self.assertEqual(manifest["remote_batch_count"], 2)
+        self.assertEqual([batch["item_count"] for batch in status["remote_batches"]], [2, 1])
+
+        submit_status = submit_batch_job(str(self.job_dir), backend=backend)
+        self.assertEqual(backend.submitted_paths, ["batch_0001.requests.jsonl", "batch_0002.requests.jsonl"])
+        self.assertEqual(submit_status["state"], "running")
+        self.assertEqual(len(submit_status["remote_batches"]), 2)
+
+        poll_status = poll_batch_job(str(self.job_dir), backend=backend)
+        self.assertEqual(poll_status["state"], "completed")
+        self.assertEqual(
+            poll_status["remote_snapshot"]["request_counts"],
+            {"total": 3, "completed": 3, "failed": 0},
+        )
+
+        fetch_status = fetch_batch_job(str(self.job_dir), backend=backend)
+        self.assertEqual(fetch_status["state"], "fetched")
+        parsed_rows = [
+            json.loads(line)
+            for line in (self.job_dir / PARSED_RESULTS_FILENAME).read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+        self.assertEqual([row["item_id"] for row in parsed_rows], ["alpha", "bravo", "charlie"])
+
+    def test_submit_batch_job_resumes_partially_submitted_chunks(self) -> None:
+        input_path = self.tmp_root / "multi_input.jsonl"
+        input_path.write_text(
+            "\n".join(
+                json.dumps(
+                    {
+                        "entity_key": key,
+                        "surface_forms": [key],
+                        "occurrence_count": 1,
+                        "unit_count": 1,
+                        "example_texts": [f"{key}です。"],
+                    },
+                    ensure_ascii=False,
+                )
+                for key in ["alpha", "bravo", "charlie"]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        task_config = replace(
+            load_llm_task_config("config/llm/alphabetic_entity_judge.toml"),
+            batch_max_requests_per_batch=2,
+        )
+        prepare_batch_job(
+            "config/llm/alphabetic_entity_judge.toml",
+            str(input_path),
+            str(self.job_dir),
+            task_config_override=task_config,
+        )
+        status_path = self.job_dir / STATUS_FILENAME
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+        status["state"] = "running"
+        status["remote_batches"][0].update(
+            {
+                "state": "running",
+                "batch_id": "batch-existing",
+                "input_file_id": "file-existing",
+                "remote_status": "in_progress",
+            }
+        )
+        status_path.write_text(json.dumps(status, ensure_ascii=False, indent=2), encoding="utf-8")
+
+        class ResumeBackend:
+            submitted_paths: list[str] = []
+
+            def submit_batch(self, requests_jsonl_path, *, endpoint, completion_window):
+                path = Path(requests_jsonl_path)
+                self.submitted_paths.append(path.name)
+                return {
+                    "input_file_id": "file-new",
+                    "batch_id": "batch-new",
+                    "status": "validating",
+                    "created_at": 123,
+                    "output_file_id": None,
+                    "error_file_id": None,
+                }
+
+        backend = ResumeBackend()
+        updated = submit_batch_job(str(self.job_dir), backend=backend)
+        self.assertEqual(backend.submitted_paths, ["batch_0002.requests.jsonl"])
+        self.assertEqual(updated["remote_batches"][0]["batch_id"], "batch-existing")
+        self.assertEqual(updated["remote_batches"][1]["batch_id"], "batch-new")

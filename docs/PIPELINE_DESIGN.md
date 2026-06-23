@@ -691,6 +691,11 @@ local chunking with settings such as `max_requests_per_batch` and
 `max_input_file_mb`, while keeping one logical pipeline LLM job that may own
 multiple remote OpenAI batch IDs.
 
+Implementation note: task configs may expose this as
+`batch_max_requests_per_batch`. The default should preserve current behavior up
+to OpenAI's documented per-batch request limit, while tests and smoke runs can
+set a small value to exercise multi-batch behavior.
+
 #### Sentence vs comma-span operating modes
 
 The canonical corpus unit remains the sentence-like unit produced from the

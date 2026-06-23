@@ -35,6 +35,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.parser, "json_object")
         self.assertEqual(config.rendered_yomi_display, "full")
         self.assertTrue(config.include_source_text)
+        self.assertEqual(config.batch_max_requests_per_batch, 50000)
 
     def test_load_yomi_triage_uses_furigana_display(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")

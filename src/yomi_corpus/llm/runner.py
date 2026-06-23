@@ -311,7 +311,7 @@ def run_batch_task(
         )
     status = _load_json(status_path)
 
-    if status.get("state") == "prepared":
+    if status.get("state") == "prepared" or _has_unsubmitted_remote_batches(status):
         status = submit_batch_job(str(job_path), api_key_file=api_key_file)
 
     if status.get("state") in {"submitted", "running"}:
@@ -558,6 +558,13 @@ def _request_counts_from_status(status: dict[str, object]) -> dict[str, object]:
         if isinstance(request_counts, dict):
             return request_counts
     return {}
+
+
+def _has_unsubmitted_remote_batches(status: dict[str, object]) -> bool:
+    remote_batches = status.get("remote_batches")
+    if not isinstance(remote_batches, list):
+        return False
+    return any(isinstance(batch, dict) and not batch.get("batch_id") for batch in remote_batches)
 
 
 def _load_json(path: Path) -> dict[str, object]:

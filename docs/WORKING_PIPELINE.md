@@ -1686,6 +1686,11 @@ production use should add local chunking, for example
 `max_requests_per_batch` and `max_input_file_mb`, while still presenting one
 logical resumable LLM job to the domain pipeline.
 
+The task-config knob for request-count chunking is
+`batch_max_requests_per_batch`. The production default should stay high enough
+to preserve single-batch behavior for ordinary jobs, while tests can set a
+small value to force multiple remote OpenAI batches.
+
 Suggested storage:
 
 ```text

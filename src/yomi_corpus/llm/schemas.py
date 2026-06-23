@@ -17,6 +17,7 @@ class LLMTaskConfig:
     max_output_tokens: int
     batch_endpoint: str
     batch_completion_window: str
+    batch_max_requests_per_batch: int = 50000
     rendered_yomi_display: str = "full"
     include_source_text: bool = True
 
