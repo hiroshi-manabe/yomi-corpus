@@ -10,6 +10,7 @@ from yomi_corpus.yomi.llm_readings import (
     build_item_judgment,
     build_yomi_llm_reading_items,
     build_yomi_llm_reading_queue_file,
+    build_yomi_llm_reading_retry_queue_file,
 )
 from yomi_corpus.llm.config import load_llm_task_config
 from yomi_corpus.llm.parsers import parse_output
@@ -289,6 +290,124 @@ class YomiLLMReadingsTests(unittest.TestCase):
             row = json.loads(output_path.read_text(encoding="utf-8").splitlines()[0])
             judgments = row["analysis"]["llm"]["yomi_readings"]["items"]
             self.assertEqual([judgment["status"] for judgment in judgments], ["matched", "mismatched"])
+
+    def test_retry_queue_includes_only_parse_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            retry_path = root / "retry.jsonl"
+            summary_path = root / "retry_summary.json"
+            items = build_yomi_llm_reading_items(unit())
+            queue_path.write_text(
+                "\n".join(json.dumps(item, ensure_ascii=False) for item in items) + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "item_id": items[0]["item_id"],
+                                "raw_text": '{"学校":"がっこう"}',
+                                "parsed": {"学校": "がっこう"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "item_id": items[1]["item_id"],
+                                "raw_text": '{"下":"した"}',
+                                "parsed": {"下": "した"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = build_yomi_llm_reading_retry_queue_file(
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=retry_path,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(summary.read_items, 2)
+            self.assertEqual(summary.retry_items, 1)
+            rows = [json.loads(line) for line in retry_path.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(rows[0]["item_id"], items[1]["item_id"])
+            self.assertEqual(rows[0]["retry_of"], items[1]["item_id"])
+            self.assertIn("'上'", rows[0]["retry_reason"])
+
+    def test_retry_results_override_first_pass_parse_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            retry_results_path = root / "retry_results.jsonl"
+            output_path = root / "output.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(json.dumps(unit(), ensure_ascii=False) + "\n", encoding="utf-8")
+            items = build_yomi_llm_reading_items(unit())
+            queue_path.write_text(
+                "\n".join(json.dumps(item, ensure_ascii=False) for item in items) + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "item_id": items[0]["item_id"],
+                                "raw_text": '{"学校":"がっこう"}',
+                                "parsed": {"学校": "がっこう"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "item_id": items[1]["item_id"],
+                                "raw_text": '{"下":"した"}',
+                                "parsed": {"下": "した"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            retry_results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": items[1]["item_id"],
+                        "raw_text": '{"上":"うえ"}',
+                        "parsed": {"上": "うえ"},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_llm_reading_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                retry_results_jsonl=retry_results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(summary.matched_items, 2)
+            self.assertEqual(summary.parse_error_items, 0)
+            row = json.loads(output_path.read_text(encoding="utf-8").splitlines()[0])
+            judgments = row["analysis"]["llm"]["yomi_readings"]["items"]
+            self.assertEqual([judgment["status"] for judgment in judgments], ["matched", "matched"])
 
     def test_build_prompt_items_marks_only_target_surface(self) -> None:
         config = load_llm_task_config("config/llm/yomi_reading.toml")

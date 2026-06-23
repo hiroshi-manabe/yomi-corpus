@@ -641,6 +641,122 @@ class PipelineTrackTests(unittest.TestCase):
                 (batch_dir / "units.yomi.safety_pre_llm.jsonl").resolve(),
             )
 
+    def test_advance_retries_yomi_llm_reading_parse_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 1,
+                        "docs_written": 1,
+                        "units_written": 1,
+                        "llm_execution_policy": {"yomi_reading": "sync"},
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (batch_dir / "units.yomi.safety_pre_llm.jsonl").write_text(
+                json.dumps({"unit_id": "u1", "text": "上です。"}, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            item = {
+                "unit_id": "u1",
+                "item_id": "u1:r0001c01",
+                "token_index": 0,
+                "chunk_index": 0,
+                "surface": "上",
+                "token_surface": "上",
+                "current_reading": "ウエ",
+                "current_reading_hiragana": "うえ",
+                "text": "上です。",
+                "marked_text": "**上**です。",
+                "marked_furigana_text": "**上**です。",
+                "token_start": 0,
+                "token_end": 1,
+                "target_start": 0,
+                "target_end": 1,
+                "pos": "名詞,普通名詞,副詞可能,*,*,*",
+                "dictionary_form": "上",
+                "normalized_form": "上",
+                "queue_status": "queued",
+            }
+            (batch_dir / "yomi_reading_input.jsonl").write_text(
+                json.dumps(item, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            calls: list[str] = []
+
+            def fake_run_llm_task(config_path: str, input_path: str, output_path: str, **kwargs):
+                calls.append(config_path)
+                if output_path.endswith("yomi_reading_results.jsonl"):
+                    result = {
+                        "item_id": item["item_id"],
+                        "raw_text": '{"下":"した"}',
+                        "parsed": {"下": "した"},
+                    }
+                else:
+                    result = {
+                        "item_id": item["item_id"],
+                        "raw_text": '{"上":"うえ"}',
+                        "parsed": {"上": "うえ"},
+                    }
+                Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+                Path(output_path).write_text(
+                    json.dumps(result, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+                return SimpleNamespace(
+                    status="completed",
+                    remote_status="",
+                    remote_batch_id="",
+                    completed_items=1,
+                    failed_items=0,
+                    total_items=1,
+                )
+
+            with patch("yomi_corpus.pipeline.run_llm_task", side_effect=fake_run_llm_task):
+                summary = workspace.advance("dev")
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "yomi_reading_llm_completed")
+            self.assertEqual(
+                calls,
+                [
+                    "config/llm/yomi_reading.toml",
+                    "config/llm/yomi_reading_retry.toml",
+                ],
+            )
+            artifacts = summary["artifacts"]
+            self.assertEqual(artifacts["yomi_reading_retry_queued"], "1")
+            self.assertEqual(artifacts["yomi_reading_matched"], "1")
+            self.assertEqual(artifacts["yomi_reading_parse_error"], "0")
+            output_row = json.loads(
+                (batch_dir / "units.yomi.llm_readings.jsonl").read_text(encoding="utf-8").splitlines()[0]
+            )
+            judgment = output_row["analysis"]["llm"]["yomi_readings"]["items"][0]
+            self.assertEqual(judgment["status"], "matched")
+
     def test_advance_generates_yomi_from_scope_triaged_keep_units(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

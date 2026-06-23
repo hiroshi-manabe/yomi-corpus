@@ -134,7 +134,7 @@ def format_next_summary(summary: dict[str, object]) -> str:
         skipped_line = human_review_skipped_line(artifacts)
         if skipped_line:
             lines.append(skipped_line)
-        for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading"]:
+        for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading", "yomi_reading_retry"]:
             if not should_show_llm_status(summary, artifacts, prefix):
                 continue
             completed = artifacts.get(f"{prefix}_llm_job_completed")

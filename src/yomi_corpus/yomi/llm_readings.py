@@ -36,6 +36,14 @@ class YomiLLMReadingQueueSummary:
 
 
 @dataclass(frozen=True)
+class YomiLLMReadingRetryQueueSummary:
+    read_items: int
+    retry_items: int
+    output_jsonl: str
+    summary_json: str
+
+
+@dataclass(frozen=True)
 class YomiLLMReadingApplySummary:
     read_units: int
     result_count: int
@@ -110,6 +118,48 @@ def build_yomi_llm_reading_queue_file(
         skipped_items=skipped_items,
         stable_two_kanji_skipped=stable_two_kanji_skipped,
         safety_skipped=safety_skipped,
+        output_jsonl=str(output_jsonl),
+        summary_json=str(summary_json),
+    )
+    summary_json.write_text(
+        json.dumps(asdict(summary), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return summary
+
+
+def build_yomi_llm_reading_retry_queue_file(
+    *,
+    queue_jsonl: Path,
+    results_jsonl: Path,
+    output_jsonl: Path,
+    summary_json: Path,
+) -> YomiLLMReadingRetryQueueSummary:
+    output_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    summary_json.parent.mkdir(parents=True, exist_ok=True)
+    queue_items = load_queue_items(queue_jsonl)
+    results = load_results(results_jsonl)
+
+    read_items = 0
+    retry_items = 0
+    with output_jsonl.open("w", encoding="utf-8") as dst:
+        for item_id, item in queue_items.items():
+            read_items += 1
+            judgment = build_item_judgment(item, results.get(item_id))
+            if judgment.get("status") != "parse_error":
+                continue
+            retry_item = {
+                **item,
+                "retry_of": item_id,
+                "retry_reason": judgment.get("parse_error", ""),
+                "retry_raw_text": judgment.get("raw_text"),
+            }
+            dst.write(json.dumps(retry_item, ensure_ascii=False) + "\n")
+            retry_items += 1
+
+    summary = YomiLLMReadingRetryQueueSummary(
+        read_items=read_items,
+        retry_items=retry_items,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
     )
@@ -232,11 +282,14 @@ def apply_yomi_llm_reading_results_file(
     results_jsonl: Path,
     output_jsonl: Path,
     summary_json: Path,
+    retry_results_jsonl: Path | None = None,
 ) -> YomiLLMReadingApplySummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     queue_items = load_queue_items(queue_jsonl)
     results = load_results(results_jsonl)
+    if retry_results_jsonl is not None:
+        results.update(load_results(retry_results_jsonl))
     by_unit: dict[str, list[dict[str, Any]]] = {}
 
     checked_items = 0

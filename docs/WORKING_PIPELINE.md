@@ -822,12 +822,17 @@ Implementation status:
 3. Apply LLM reading results back into safety.
    - On exact LLM/mechanical agreement, add `safe_by_llm_agreement` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
-   - On mismatch, missing result, or parse error, keep the target unresolved
-     and set `status_reason` to the relevant failure.
+   - On yomi-reading format/key parse errors, retry once with a stricter
+     one-key JSON prompt before applying results. Retry results override the
+     first pass for the same item ID.
+   - On mismatch, missing result, or parse error after retry, keep the target
+     unresolved and set `status_reason` to the relevant failure.
 4. Materialize explicit final artifacts.
    - `units.yomi.safety_pre_llm.jsonl`: implemented deterministic target safety
      before LLM.
    - `yomi_reading_input.jsonl`: implemented unresolved targets sent to LLM.
+   - `yomi_reading_retry_input.jsonl`: implemented parse-error targets sent to
+     the stricter retry prompt.
    - `units.yomi.safety.jsonl`: pending final target safety after LLM
      agreement.
    - Summaries should count total targets, safe-by-signal counts, queued LLM

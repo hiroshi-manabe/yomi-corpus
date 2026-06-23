@@ -398,9 +398,10 @@ unless evals show that a stronger model materially reduces dangerous `Keep` or
 `Skip` errors.
 
 The default LLM reading output should be a one-key JSON object such as
-`{"話":"はな"}`. The request context should be furigana-style text with one
-target marked by `**...**`; unmarked furigana is only context and must not be
-returned. The model should not rewrite the whole sentence.
+`{"話":"はな"}`. The current default request context is plain source text with
+one target marked by `**...**`, using the ultra-short pattern prompt
+`目が**痛**い。->{"痛":"いた"}\n{marked_text}->`. The model should return only
+the marked target's reading and must not rewrite the whole sentence.
 
 The materialized LLM stage writes separate artifacts:
 
@@ -413,7 +414,11 @@ The materialized LLM stage writes separate artifacts:
 
 Scope parse errors must be treated conservatively so malformed model output
 cannot silently skip or accept a unit. Yomi-reading parse errors must not become
-agreement; they route the target or unit to focused review.
+agreement. Because yomi-reading requests ask for a tiny one-key JSON object,
+format/key parse errors should first be retried once with a stricter prompt:
+`Return exactly one JSON object with key "{surface}"; no explanation.` Retry
+results override first-pass results for the same item ID. Any remaining parse
+error after retry routes the target or unit to focused review.
 
 Scope triage is intentionally ordered before yomi generation. It only needs raw
 unit text, and early `Skip` decisions avoid spending Sudachi, decoder, safety,
