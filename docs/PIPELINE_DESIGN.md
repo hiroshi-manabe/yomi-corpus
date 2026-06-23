@@ -220,8 +220,11 @@ level:
 - extract alphabetic entity occurrences from all units in the batch
 - aggregate them into entity types
 - resolve entity types through whitelist/blacklist lookup first
-- send only unresolved entity types to the LLM or human review
-- project entity-type decisions back onto units afterward
+- send only unresolved entity types to the LLM for reusable evidence
+- aggregate LLM evidence across batches before surfacing promotion candidates
+- require human approval before promoting an entity type to the global
+  whitelist or blacklist
+- project approved entity-type decisions back onto units afterward
 
 This matters because the alphabetic long tail is primarily a repeated entity
 problem, not a repeated sentence problem.
@@ -377,7 +380,6 @@ Output:
 - unit records enriched with binary scope judgments for target/non-target text
 - per-target LLM reading results for yomi targets that were not suppressed by
   deterministic confidence rules
-- entity-type judgments for unresolved alphabetic entity types
 
 Responsibilities:
 
@@ -389,7 +391,6 @@ Responsibilities:
   Sudachi/hybrid token stream
 - ask the LLM for the reading of exactly one marked target per request
 - compare the LLM reading with the stored mechanical reading
-- judge unresolved alphabetic entity types where needed
 
 The default scope-triage output should be a single token, not JSON. Reasons
 belong in debug/eval mode because ordinary production runs should minimize
@@ -1048,6 +1049,34 @@ Responsibilities:
 
 This should remain conservative and is still an open design area.
 
+### S62 Alphabetic Entity Judgment
+
+Output:
+
+- LLM evidence records for unresolved alphabetic entity types
+- no direct global whitelist or blacklist mutation
+
+Responsibilities:
+
+- read the unresolved entity-type report produced after alphabetic extraction
+- ask the LLM once per unresolved entity type, using a few short batch examples
+  as context
+- judge whether the entity is naturally usable in modern Japanese context or is
+  obscure/foreign/noisy enough to skip
+- store the answer as evidence in the cross-batch alphabetic judgment ledger
+- preserve raw model output and usage metadata for later audit
+
+The LLM answer is evidence, not policy. It should not directly decide whether
+the current batch is accepted, and it should not directly update the global
+whitelist or blacklist. The same entity may appear in later batches; repeated
+consistent evidence is what makes it worth asking a human to approve a global
+promotion.
+
+For `dev`, the pipeline may continue after this stage even when promotion
+candidate review is pending, but it must report that the review gate was
+skipped. For `working`, unresolved alphabetic issues or unreviewed promotion
+candidates should not be allowed to pass silently once strict gates are active.
+
 ### S65 Promotion Candidate Review
 
 Output:
@@ -1429,6 +1458,10 @@ Examples:
 - if a batch is freshly prepared, `./next` should build the alphabetic
   artifacts
 - the following `./next` should build the unresolved alphabetic report
+- a future alphabetic LLM stage should judge unresolved entity types and append
+  evidence without directly mutating whitelist/blacklist state
+- a future promotion-candidate stage should surface only repeated consistent
+  entity-type evidence for human approval
 - the following `./next` should build the mechanical yomi JSONL
 - the following `./next` should add the yomi auto-accept artifact
 - once no later automated stage is implemented, `./next` should report that

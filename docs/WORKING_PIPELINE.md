@@ -341,9 +341,11 @@ Instead, for each batch:
 - extract all alphabetic entity occurrences mechanically from all units
 - aggregate them into entity types
 - apply current whitelist/blacklist lookup
-- send only unresolved entity types to the LLM or human review
+- send only unresolved entity types to the LLM for reusable evidence
+- aggregate evidence across batches before proposing global list changes
+- show only repeated consistent promotion candidates to a human
 
-Then project the entity-type decisions back onto units.
+Then project approved entity-type decisions back onto units.
 
 This is not limited to English. The problem includes other Latin-script foreign
 material such as French.
@@ -403,6 +405,7 @@ For alphabetic material, the equivalent branching point is the entity type:
 - if an entity type is already covered by whitelist/blacklist rules, do not ask
   the LLM
 - otherwise send that entity type, not the whole sentence, to the LLM
+- treat the LLM answer as evidence, not as an immediate global decision
 
 
 ## 7. Minor Alphabetic Sequences
@@ -473,11 +476,24 @@ Recommended flow:
 
 - extract alphabetic entities mechanically
 - remove already known whitelist/blacklist entries
-- ask the LLM to classify unresolved entity types
-- ask humans to review unresolved entity types, ideally with example sentences
+- ask the LLM to classify unresolved entity types, with short example snippets
+  from the batch
+- append the LLM results to the cross-batch evidence ledger
+- build promotion candidates only after repeated consistent evidence
+- ask humans to review promotion candidates, not every unresolved entity type
 
 Sentence context is still useful, but mainly as supporting evidence for the
 entity-level decision.
+
+The LLM stage should answer whether the entity is naturally usable in modern
+Japanese context or is obscure/foreign/noisy enough to skip. This answer should
+not directly mutate the whitelist or blacklist. It is deliberately weaker than
+human approval because a promoted entity affects future batches.
+
+For `dev`, pending alphabetic promotion review may be skipped so that pipeline
+development can continue, but the skipped gate should be reported explicitly.
+For `working`, strict mode should not silently pass unresolved alphabetic issues
+or unreviewed promotion candidates once those gates are implemented.
 
 ## 7.5 Rule harvesting
 
@@ -1594,6 +1610,10 @@ Example behavior:
 
 - if a batch is only prepared, `./next` should build the alphabetic artifacts
 - the next `./next` should build the unresolved alphabetic report
+- a future `./next` stage should run or resume alphabetic entity LLM judgment
+  for unresolved entity types and append reusable evidence
+- a future `./next` stage should build whitelist/blacklist promotion candidates
+  from repeated consistent evidence
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should run or resume scope triage and exclude `Skip` units
