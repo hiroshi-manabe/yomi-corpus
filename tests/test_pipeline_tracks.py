@@ -275,6 +275,7 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["track_policy"], "relaxed")
             self.assertEqual(summary["requires_strict_human_review_gates"], False)
             self.assertEqual(summary["current_stage"], "alphabetic_analyzed")
+            self.assertEqual(summary["next_stage"], "alphabetic_reported")
             self.assertEqual(summary["skipped_review_gates"], [])
             saved = workspace.load_batch_state("dev_batch_0001")
             self.assertEqual(saved.current_stage, "alphabetic_analyzed")
