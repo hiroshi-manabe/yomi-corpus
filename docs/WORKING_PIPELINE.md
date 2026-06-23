@@ -956,7 +956,7 @@ Allowed values for now:
 - `unit_mode`: `sentence`, `comma_span`
 - `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
 - LLM profiles: `smoke`, `economy`, `standard`, `strong`
-- LLM execution modes: `sync`, `batch`
+- LLM execution modes: `sync`, `background`, `batch`
 
 Suggested defaults are `working={unit_mode=sentence,
 auto_accept_profile=strict}` and
@@ -966,14 +966,16 @@ working with `stable_two_kanji` once that policy is trusted. Track defaults
 should also choose LLM profiles per task, so dev can use `economy` for flow
 checks while working uses `economy` for the scope gate, `standard` for ordinary
 reading work, and `strong` for rescue. Track defaults should also choose
-execution modes per task. `sync` is
-best for prompt exploration, small dev runs, and tasks where immediate failure
-inspection matters. `batch` is best for large classification-style tasks where
-latency is acceptable and cost/rate-limit behavior matters. `sentence` is the
-safer unit-mode default while the pipeline is still stabilizing. `comma_span`
-should be available, especially for dev experiments, because it can raise the
-automatic `OK` rate and reduce downstream review volume. Its cost is more API
-calls and extra reconstruction logic.
+execution modes per task. `sync` is best for prompt exploration, tiny dev runs,
+and tasks where immediate failure inspection matters. `background` is best for
+medium independent request sets, such as roughly 150 yomi-reading requests,
+where sequential sync calls waste wall-clock time but Batch API's 24-hour
+latency model is awkward. `batch` is best for large classification-style tasks
+where latency is acceptable and cost/rate-limit behavior matters. `sentence` is
+the safer unit-mode default while the pipeline is still stabilizing.
+`comma_span` should be available, especially for dev experiments, because it
+can raise the automatic `OK` rate and reduce downstream review volume. Its cost
+is more API calls and extra reconstruction logic.
 
 These defaults should be source-controlled configuration, not hidden Python
 constants. A minimal shape is:
@@ -1617,18 +1619,19 @@ The intended UX is:
 LLM calls should be orchestrated through a generic resumable job layer. This is
 needed because the project will use LLMs in multiple stages: alphabetic entity
 judgment, scope triage, yomi reading generation, ordinary yomi repair, and
-rescue repair. Each stage
-should not invent its own sync/batch lifecycle.
+rescue repair. Each stage should not invent its own
+sync/background/batch lifecycle.
 
 The pipeline stage should own the domain transition, while the LLM job owns
 operational execution:
 
 - input rows and request JSONL
 - result JSONL
-- mode: `sync` or `batch`
+- mode: `sync`, `background`, or `batch`
 - task name and resolved LLM profile/model settings
 - total item count, completed item count, failed item count
-- remote batch ID and remote status for batch mode
+- remote response IDs and remote status for background mode
+- remote batch IDs and remote status for batch mode
 - timestamps, attempts, and error information
 
 Sync mode behavior:
@@ -1639,10 +1642,24 @@ Sync mode behavior:
 - show progress from completed item count over total item count
 - allow the operator to interrupt safely and continue with the same `./next`
 
+Background mode behavior:
+
+- submit one Responses API background request per item, preferably submitting
+  all missing items before entering the polling loop
+- store each `item_id -> response_id` mapping in the LLM job directory
+- on resume, do not resubmit item IDs that already have either a response ID or
+  a parsed result
+- poll stored response IDs and append completed results immediately
+- report progress from parsed completed result count over total item count
+- treat incomplete background responses as an active resumable job, not as a
+  separate domain pipeline stage
+- do not postpone polling indefinitely; OpenAI documents background response
+  storage as roughly a 10-minute polling window
+
 Batch mode behavior:
 
-- submit remaining items as an OpenAI Batch job
-- store remote job ID, request file, and manifest in the LLM job directory
+- submit remaining items as one or more OpenAI Batch jobs
+- store remote job IDs, request files, and manifest in the LLM job directory
 - on resume, poll the stored remote job
 - if the remote job is still running, report status and OpenAI
   `request_counts` (`completed`, `failed`, `total`) and do not advance the
@@ -1653,6 +1670,21 @@ Batch mode behavior:
 The batch output file is available only after completion. Progress before that
 comes from the Batch object's `request_counts`, while final result mapping must
 come from the downloaded output file and each request's `custom_id`.
+
+Batch API operational limits that should shape implementation:
+
+- one OpenAI batch can include up to 50,000 requests
+- one batch input file can be up to 200 MB
+- pending batch prompt tokens count against a per-model enqueued-token limit
+- batch creation is rate-limited, documented as up to 2,000 batches per hour
+- a batch can expire; completed request outputs remain available, and
+  unfinished requests are returned as errors
+
+Current implementation gap: batch mode currently uses one OpenAI batch per
+pipeline LLM stage. That is acceptable for small and medium jobs, but
+production use should add local chunking, for example
+`max_requests_per_batch` and `max_input_file_mb`, while still presenting one
+logical resumable LLM job to the domain pipeline.
 
 Suggested storage:
 
@@ -1679,7 +1711,8 @@ Suggested manifest fields:
   "completed_items": 184,
   "failed_items": 0,
   "profile": "economy",
-  "execution_mode": "batch",
+  "execution_mode": "background",
+  "remote_response_ids_path": "responses.jsonl",
   "remote_batch_id": "batch_...",
   "remote_status": "in_progress",
   "model": "gpt-5.4-mini"
@@ -1693,9 +1726,9 @@ Domain pipeline stages should not need many operational substages such as
 - if an incomplete job exists, resume or poll it
 - if the job is complete, apply results and advance the domain stage
 
-Human review remains a first-class wait state, but OpenAI sync/batch execution
-should usually be represented as an attached resumable LLM job rather than as
-many stage names.
+Human review remains a first-class wait state, but OpenAI sync/background/batch
+execution should usually be represented as an attached resumable LLM job rather
+than as many stage names.
 
 ### 10.6.5 CLI Output and Logs
 

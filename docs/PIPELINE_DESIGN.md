@@ -635,20 +635,27 @@ adding separate queued/submitted/completed pipeline stages for each LLM-using
 task. The domain pipeline stage starts or resumes an LLM job; the LLM job owns
 request files, result files, remote job IDs, progress, retry state, and logs.
 
-The same job interface should support both sync and OpenAI Batch modes:
+The same job interface should support sync, OpenAI Responses background mode,
+and OpenAI Batch mode:
 
 - `sync`: process rows sequentially or with small concurrency, append each
   completed result, and skip already completed item IDs when resumed
-- `batch`: submit the remaining rows as one remote batch job, persist the
-  remote batch ID, poll on later runs, fetch results when complete, and resubmit
-  only missing or failed items if needed
+- `background`: submit one Responses API background request per item, persist
+  each response ID, poll response objects on later runs, append completed
+  results as they become available, and avoid resubmitting item IDs that already
+  have a response ID or parsed result
+- `batch`: submit the remaining rows as one or more remote batch jobs, persist
+  remote batch IDs, poll on later runs, fetch result files when complete, and
+  resubmit only missing or failed item IDs if needed
 
-Both modes should report progress as completed items over total items. Sync mode
-can update progress after each response. Batch mode should poll the remote
-OpenAI Batch object and use its `request_counts` (`completed`, `failed`,
-`total`) as the progress source while the server-side job is running. The
-output file is still available only after completion, so final result parsing
-must continue to use the downloaded output file and each request's `custom_id`.
+All modes should report progress as completed items over total items. Sync mode
+can update progress after each response. Background mode should poll stored
+Responses API response IDs; completed responses can be parsed and appended
+immediately. Batch mode should poll each remote OpenAI Batch object and use its
+`request_counts` (`completed`, `failed`, `total`) as the progress source while
+the server-side job is running. Batch output files are still available only
+after completion, so final result parsing must continue to use downloaded output
+files and each request's `custom_id`.
 
 The domain stage should complete only after the job has produced a complete
 result JSONL and those results have been applied to the domain artifact. For
@@ -657,9 +664,32 @@ while the domain step is still active, and the stage advances only after the
 scope artifact or yomi-reading comparison artifact is written.
 
 Interruptions should be normal. The operator may stop sync mode partway through;
-rerunning `./next` resumes from result rows already present. For batch mode,
-rerunning `./next` polls the stored remote job, reports current
-`request_counts`, and applies results once the job is complete.
+rerunning `./next` resumes from result rows already present. For background
+mode, rerunning `./next` polls stored response IDs and submits only item IDs
+that were not submitted before the interruption. For batch mode, rerunning
+`./next` polls the stored remote job, reports current `request_counts`, and
+applies results once the job is complete.
+
+OpenAI API constraints that affect this design:
+
+- Responses background mode stores response data only for a limited polling
+  window, documented as roughly 10 minutes. It is useful for medium interactive
+  runs such as about 150 requests, but local polling should not be postponed
+  indefinitely.
+- A single Batch API input file may contain up to 50,000 requests and may be up
+  to 200 MB.
+- Batch API also has a per-model enqueued prompt-token limit. Pending batch
+  input tokens count against that queue limit until the batch completes.
+- Batch creation is rate-limited, documented as up to 2,000 batches per hour.
+- Batch jobs can expire if they do not complete within the completion window;
+  completed requests remain available and unfinished requests appear as errors.
+
+Current implementation gap: batch mode currently writes one request JSONL file
+and submits one OpenAI batch job per pipeline LLM stage. That is fine for small
+stages but should not be treated as unbounded. Before production-scale runs, add
+local chunking with settings such as `max_requests_per_batch` and
+`max_input_file_mb`, while keeping one logical pipeline LLM job that may own
+multiple remote OpenAI batch IDs.
 
 #### Sentence vs comma-span operating modes
 
@@ -692,8 +722,8 @@ LLM configuration is cross-cutting and should be stored separately as two
 task-to-setting maps:
 
 - `llm_policy`: which model profile each task uses
-- `llm_execution_policy`: whether each task runs through sync calls or OpenAI
-  Batch
+- `llm_execution_policy`: whether each task runs through sync calls, Responses
+  background mode, or OpenAI Batch
 
 ```json
 {
@@ -720,7 +750,7 @@ Initial allowed values:
 - `unit_mode`: `sentence`, `comma_span`
 - `auto_accept_profile`: `off`, `strict`, `stable_two_kanji`
 - LLM profiles: `smoke`, `economy`, `standard`, `strong`
-- LLM execution modes: `sync`, `batch`
+- LLM execution modes: `sync`, `background`, `batch`
 
 Suggested yomi defaults are `working={unit_mode=sentence,
 auto_accept_profile=strict}` and
@@ -729,10 +759,11 @@ defaults should also choose an LLM profile per task. Operators should be able to
 override these per batch, so dev can run with no auto-accept, working can later
 run with stable two-kanji auto-accept, and either track can use cheaper or
 stronger model profiles for specific tasks. Execution mode should be equally
-configurable per task, because prompt exploration and small repair batches are
-often easier in `sync`, while large classification-style tasks are better in
-`batch`. The selected explicit values must be stored with the batch for
-reproducibility.
+configurable per task: prompt exploration and tiny repair batches are often
+easier in `sync`; medium independent request sets are good candidates for
+`background`; large classification-style tasks with acceptable latency are
+better in `batch`. The selected explicit values must be stored with the batch
+for reproducibility.
 
 These defaults should not remain hidden Python constants. They should be moved
 to a small source-controlled project config, for example:
