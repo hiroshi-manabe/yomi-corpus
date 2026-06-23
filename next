@@ -115,6 +115,8 @@ def format_next_summary(summary: dict[str, object]) -> str:
     artifacts = summary.get("artifacts")
     if isinstance(artifacts, dict):
         for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading"]:
+            if not should_show_llm_status(summary, artifacts, prefix):
+                continue
             completed = artifacts.get(f"{prefix}_llm_job_completed")
             total = artifacts.get(f"{prefix}_llm_job_total")
             if completed is not None and total is not None:
@@ -155,6 +157,14 @@ def format_next_summary(summary: dict[str, object]) -> str:
     else:
         lines.append(f"Log: {summary.get('log_path')}")
     return "\n".join(lines)
+
+
+def should_show_llm_status(summary: dict[str, object], artifacts: dict, prefix: str) -> bool:
+    stage = str(summary.get("current_stage") or "")
+    if stage == prefix or stage.startswith(f"{prefix}_"):
+        return True
+    job_status = artifacts.get(f"{prefix}_llm_job_status")
+    return bool(summary.get("blocking_reason") and job_status and job_status != "completed")
 
 
 if __name__ == "__main__":
