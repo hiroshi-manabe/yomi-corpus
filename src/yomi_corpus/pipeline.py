@@ -489,6 +489,83 @@ class PipelineWorkspace:
             "updated_at": batch_state.updated_at,
         }
 
+    def set_stage(
+        self,
+        track_name: str | None,
+        stage_name: str,
+        *,
+        allow_protected: bool = False,
+        allow_forward: bool = False,
+    ) -> dict[str, object]:
+        normalized = normalize_track_name(track_name)
+        target_stage = normalize_stage_name(stage_name)
+        if target_stage not in STAGE_SEQUENCE:
+            raise ValueError(f"Unsupported pipeline stage: {stage_name}")
+        track_state = self.load_track_state(normalized)
+        if not track_state.current_batch_name:
+            return {
+                "track_name": normalized,
+                "track_policy": track_policy_name(normalized),
+                "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+                "stage_changed": False,
+                "message": "No current batch is set for this track. Run prepare first.",
+            }
+        batch_state = self.load_batch_state(track_state.current_batch_name)
+        previous_stage = batch_state.current_stage
+        previous_index = STAGE_SEQUENCE.index(previous_stage)
+        target_index = STAGE_SEQUENCE.index(target_stage)
+        base_summary = {
+            "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+            "batch_name": batch_state.batch_name,
+            "stage_changed": False,
+            "previous_stage": previous_stage,
+            "current_stage": previous_stage,
+            "requested_stage": target_stage,
+            "next_stage": self._next_stage_name(previous_stage),
+            "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
+            "artifacts": batch_state.artifacts,
+        }
+        if target_stage == previous_stage:
+            return {
+                **base_summary,
+                "message": "Stage is already set.",
+            }
+        if target_index > previous_index and not allow_forward:
+            return {
+                **base_summary,
+                "blocking_reason": (
+                    f"Refusing to move stage forward from {previous_stage} to {target_stage}. "
+                    "Use ./next to advance the pipeline."
+                ),
+            }
+        if requires_strict_human_review_gates(normalized) and not allow_protected:
+            return {
+                **base_summary,
+                "requires_confirmation": True,
+                "blocking_reason": (
+                    f"Changing the protected working-track stage from {previous_stage} "
+                    f"to {target_stage} requires confirmation."
+                ),
+            }
+
+        batch_state.current_stage = target_stage
+        batch_state.blocking_reason = self._blocking_reason_for_stage(target_stage)
+        batch_state.updated_at = now_iso()
+        self.save_batch_state(batch_state)
+        return {
+            **base_summary,
+            "stage_changed": True,
+            "current_stage": target_stage,
+            "next_stage": self._next_stage_name(target_stage),
+            "blocking_reason": batch_state.blocking_reason,
+            "updated_at": batch_state.updated_at,
+        }
+
     def prepare_next_batch(
         self,
         *,

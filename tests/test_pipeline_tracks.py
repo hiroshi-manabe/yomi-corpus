@@ -324,6 +324,139 @@ class PipelineTrackTests(unittest.TestCase):
             saved = workspace.load_batch_state("dev_batch_0001")
             self.assertEqual(saved.current_stage, "prepared")
 
+    def test_set_stage_rewinds_current_batch_without_touching_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            artifact_path = batch_dir / "units.yomi.llm_readings.jsonl"
+            artifact_path.write_text("kept\n", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.set_stage("dev", "yomi_auto_accepted")
+
+            self.assertTrue(summary["stage_changed"])
+            self.assertEqual(summary["previous_stage"], "yomi_reading_llm_completed")
+            self.assertEqual(summary["current_stage"], "yomi_auto_accepted")
+            self.assertEqual(summary["next_stage"], "yomi_reading_queued")
+            self.assertEqual(artifact_path.read_text(encoding="utf-8"), "kept\n")
+            saved = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved.current_stage, "yomi_auto_accepted")
+
+    def test_set_stage_refuses_forward_moves(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.set_stage("dev", "yomi_generated")
+
+            self.assertFalse(summary["stage_changed"])
+            self.assertIn("Refusing to move stage forward", summary["blocking_reason"])
+            saved = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved.current_stage, "prepared")
+
+    def test_set_stage_requires_confirmation_on_working(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "units.yomi.llm_readings.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "batch_0001",
+                        "track_name": "working",
+                        "batch_kind": "working",
+                        "pipeline_profile": "working",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="working",
+                    current_batch_name="batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            blocked = workspace.set_stage("working", "yomi_auto_accepted")
+
+            self.assertFalse(blocked["stage_changed"])
+            self.assertTrue(blocked["requires_confirmation"])
+            self.assertIn("requires confirmation", blocked["blocking_reason"])
+            saved = workspace.load_batch_state("batch_0001")
+            self.assertEqual(saved.current_stage, "yomi_reading_llm_completed")
+
+            changed = workspace.set_stage("working", "yomi_auto_accepted", allow_protected=True)
+
+            self.assertTrue(changed["stage_changed"])
+            saved = workspace.load_batch_state("batch_0001")
+            self.assertEqual(saved.current_stage, "yomi_auto_accepted")
+
     def test_infer_stage_prefers_latest_materialized_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

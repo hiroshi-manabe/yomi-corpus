@@ -1610,6 +1610,8 @@ Current intended commands:
 - `./status`
 - `./status dev`
 - `./status dev --stages`
+- `./set-stage dev yomi_auto_accepted`
+- `./set-stage working yomi_auto_accepted --yes`
 
 The implicit no-argument track should be `working`.
 
@@ -1631,6 +1633,11 @@ LLM-calling stages. `./next --llm-mode <mode>` is a per-invocation override for
 the stage being run. It should be accepted only when that stage calls the LLM;
 on deterministic stages it should fail explicitly rather than being silently
 ignored. The saved track policy remains unchanged.
+
+`./set-stage <track> <stage>` is an explicit pointer-only rewind tool. It should
+change only the saved `current_stage` for the current batch and must not delete
+or rewrite artifacts. It refuses forward moves; use `./next` to advance. On the
+protected `working` track it requires interactive confirmation or `--yes`.
 
 ### 10.6.3 Current one-step progression
 

@@ -107,6 +107,8 @@ Pipeline orchestration policy:
   track
 - `./status --stages` and `./status dev --stages` print only the completed
   current stage and the next stage without advancing the pipeline
+- `./set-stage dev <stage>` rewinds the current dev batch stage without
+  deleting artifacts; `working` requires confirmation or `--yes`
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
 

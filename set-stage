@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.pipeline import LEGACY_STAGE_MAP
+from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.pipeline import STAGE_SEQUENCE
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Set the current batch stage for a pipeline track without touching artifacts."
+    )
+    parser.add_argument(
+        "track",
+        choices=["working", "dev"],
+        help="Track whose current batch stage should be changed.",
+    )
+    parser.add_argument(
+        "stage",
+        choices=sorted(set(STAGE_SEQUENCE) | set(LEGACY_STAGE_MAP)),
+        help="Target stage. Moving forward is refused; use ./next to advance.",
+    )
+    parser.add_argument(
+        "--yes",
+        action="store_true",
+        help="Confirm protected-track stage changes without an interactive prompt.",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print the full structured summary.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    workspace = PipelineWorkspace(PROJECT_ROOT)
+    summary = workspace.set_stage(
+        args.track,
+        args.stage,
+        allow_protected=args.yes,
+    )
+    if summary.get("requires_confirmation") and not args.yes:
+        if not sys.stdin.isatty():
+            summary["message"] = "Confirmation required. Re-run interactively or add --yes."
+        else:
+            prompt = (
+                f"Set {summary['track_name']} batch {summary['batch_name']} "
+                f"from {summary['previous_stage']} to {summary['requested_stage']}? [y/N] "
+            )
+            answer = input(prompt).strip().lower()
+            if answer in {"y", "yes"}:
+                summary = workspace.set_stage(
+                    args.track,
+                    args.stage,
+                    allow_protected=True,
+                )
+            else:
+                summary["message"] = "Cancelled."
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print(format_set_stage_summary(summary))
+
+
+def format_set_stage_summary(summary: dict[str, object]) -> str:
+    lines = [
+        f"Track: {summary.get('track_name', '-')}",
+        f"Batch: {summary.get('batch_name') or '-'}",
+        f"Previous: {summary.get('previous_stage') or '-'}",
+        f"Current: {summary.get('current_stage') or '-'}",
+    ]
+    next_stage = summary.get("next_stage")
+    if next_stage:
+        lines.append(f"Next: {next_stage}")
+    if summary.get("stage_changed"):
+        lines.append("Status: changed")
+    elif summary.get("requires_confirmation"):
+        lines.append("Status: confirmation required")
+    elif summary.get("blocking_reason"):
+        lines.append(f"Status: blocked - {summary['blocking_reason']}")
+    elif summary.get("message"):
+        lines.append(f"Status: {summary['message']}")
+    else:
+        lines.append("Status: unchanged")
+    return "\n".join(lines)
+
+
+if __name__ == "__main__":
+    main()
