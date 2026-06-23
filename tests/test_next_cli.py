@@ -50,6 +50,50 @@ class NextCliTests(unittest.TestCase):
         self.assertIn("LLM progress (alphabetic_judgment): 1/2 completed", rendered)
         self.assertIn("LLM job (alphabetic_judgment): running", rendered)
 
+    def test_format_shows_human_review_required(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "alphabetic_judged",
+                "advanced": False,
+                "blocking_reason": "Alphabetic promotion candidates require human review.",
+                "artifacts": {
+                    "human_review_required": "true",
+                    "human_review_gate": "promotion_candidate_review",
+                    "human_review_item_count": "3",
+                },
+            }
+        )
+
+        self.assertIn(
+            "Human review: required - promotion_candidate_review (3)",
+            rendered,
+        )
+        self.assertIn("Status: blocked - Alphabetic promotion candidates require human review.", rendered)
+
+    def test_format_shows_human_review_skipped(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "alphabetic_promotion_candidates",
+                "advanced": True,
+                "artifacts": {
+                    "human_review_required": "true",
+                    "human_review_skipped": "true",
+                    "human_review_gate": "promotion_candidate_review",
+                    "human_review_item_count": "3",
+                },
+            }
+        )
+
+        self.assertIn(
+            "Human review: required - promotion_candidate_review (3)",
+            rendered,
+        )
+        self.assertIn("Human review skipped: promotion_candidate_review", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

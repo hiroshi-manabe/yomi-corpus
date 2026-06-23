@@ -493,10 +493,11 @@ Japanese context or is obscure/foreign/noisy enough to skip. This answer should
 not directly mutate the whitelist or blacklist. It is deliberately weaker than
 human approval because a promoted entity affects future batches.
 
-For `dev`, pending alphabetic promotion review may be skipped so that pipeline
-development can continue, but the skipped gate should be reported explicitly.
-For `working`, strict mode should not silently pass unresolved alphabetic issues
-or unreviewed promotion candidates once those gates are implemented.
+For `dev`, pending alphabetic promotion review may be skipped only with an
+explicit operator option such as `./next dev --skip-review-gates`. The skipped
+gate should be reported in concise output and recorded in batch state. For
+`working`, strict mode should not silently pass unresolved alphabetic issues or
+unreviewed promotion candidates once those gates are implemented.
 
 ## 7.5 Rule harvesting
 
@@ -1618,6 +1619,9 @@ Example behavior:
 - the next `./next` should build whitelist/blacklist promotion candidates from
   repeated consistent evidence; on `working`, current-batch candidates block
   progress until human review updates the global decisions
+- on non-working tracks, the same gate also blocks by default; rerun with
+  `./next dev --skip-review-gates` to continue explicitly while recording the
+  skipped gate
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should run or resume scope triage and exclude `Skip` units

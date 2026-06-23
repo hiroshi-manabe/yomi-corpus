@@ -405,17 +405,7 @@ class PipelineWorkspace:
             with path.open(encoding="utf-8") as handle:
                 payload = json.load(handle)
             track_name = str(payload["track_name"])
-            payload.setdefault(
-                "skipped_review_gates",
-                []
-                if requires_strict_human_review_gates(track_name)
-                else [
-                    "promotion_candidate_review",
-                    "sentence_review_pass1",
-                    "sentence_review_pass2",
-                    "final_edit_review",
-                ],
-            )
+            payload.setdefault("skipped_review_gates", [])
             raw_yomi_policy = payload.get("yomi_policy")
             payload["yomi_policy"] = normalize_yomi_policy(
                 raw_yomi_policy,
@@ -582,6 +572,7 @@ class PipelineWorkspace:
         *,
         force_stage: str | None = None,
         allow_overwrite: bool = False,
+        skip_review_gates: bool = False,
     ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
         track_state = self.load_track_state(normalized)
@@ -660,7 +651,11 @@ class PipelineWorkspace:
                     ),
                 }
 
-            summary = self._run_stage(batch_state.batch_name, force_stage)
+            summary = self._run_stage(
+                batch_state.batch_name,
+                force_stage,
+                skip_review_gates=skip_review_gates,
+            )
             if not summary.get("stage_complete", True):
                 return self._persist_incomplete_stage_summary(
                     normalized=normalized,
@@ -671,13 +666,10 @@ class PipelineWorkspace:
             batch_state.current_stage = force_stage
             batch_state.blocking_reason = self._blocking_reason_for_stage(force_stage)
             batch_state.artifacts.update(summary["artifacts"])
-            if not requires_strict_human_review_gates(normalized):
-                batch_state.skipped_review_gates = [
-                    "promotion_candidate_review",
-                    "sentence_review_pass1",
-                    "sentence_review_pass2",
-                    "final_edit_review",
-                ]
+            batch_state.skipped_review_gates = merge_review_gates(
+                batch_state.skipped_review_gates,
+                summary.get("skipped_review_gates", []),
+            )
             batch_state.updated_at = now_iso()
             self.save_batch_state(batch_state)
             return {
@@ -713,7 +705,11 @@ class PipelineWorkspace:
                 or "No automated next stage is implemented for this batch.",
             }
 
-        summary = self._run_stage(batch_state.batch_name, next_stage)
+        summary = self._run_stage(
+            batch_state.batch_name,
+            next_stage,
+            skip_review_gates=skip_review_gates,
+        )
         if not summary.get("stage_complete", True):
             return self._persist_incomplete_stage_summary(
                 normalized=normalized,
@@ -724,14 +720,10 @@ class PipelineWorkspace:
         batch_state.current_stage = next_stage
         batch_state.blocking_reason = self._blocking_reason_for_stage(next_stage)
         batch_state.artifacts.update(summary["artifacts"])
-
-        if not requires_strict_human_review_gates(normalized):
-            batch_state.skipped_review_gates = [
-                "promotion_candidate_review",
-                "sentence_review_pass1",
-                "sentence_review_pass2",
-                "final_edit_review",
-            ]
+        batch_state.skipped_review_gates = merge_review_gates(
+            batch_state.skipped_review_gates,
+            summary.get("skipped_review_gates", []),
+        )
         batch_state.updated_at = now_iso()
         self.save_batch_state(batch_state)
         return {
@@ -781,7 +773,13 @@ class PipelineWorkspace:
             result["forced"] = True
         return result
 
-    def _run_stage(self, batch_name: str, stage_name: str) -> dict[str, object]:
+    def _run_stage(
+        self,
+        batch_name: str,
+        stage_name: str,
+        *,
+        skip_review_gates: bool = False,
+    ) -> dict[str, object]:
         if stage_name == "alphabetic_analyzed":
             return self._run_alphabetic_analysis(batch_name)
         if stage_name == "alphabetic_reported":
@@ -789,7 +787,10 @@ class PipelineWorkspace:
         if stage_name == "alphabetic_judged":
             return self._run_alphabetic_entity_judgment(batch_name)
         if stage_name == "alphabetic_promotion_candidates":
-            return self._build_alphabetic_promotion_candidates(batch_name)
+            return self._build_alphabetic_promotion_candidates(
+                batch_name,
+                skip_review_gates=skip_review_gates,
+            )
         if stage_name == "yomi_generated":
             return self._generate_mechanical_yomi(batch_name)
         if stage_name == "yomi_auto_accepted":
@@ -1110,12 +1111,7 @@ class PipelineWorkspace:
                 track_name=track_name,
             ),
             blocking_reason=blocking_reason,
-            skipped_review_gates=[] if requires_strict_human_review_gates(track_name) else [
-                "promotion_candidate_review",
-                "sentence_review_pass1",
-                "sentence_review_pass2",
-                "final_edit_review",
-            ],
+            skipped_review_gates=[],
             artifacts=artifacts,
             updated_at=now_iso(),
         )
@@ -1504,7 +1500,12 @@ class PipelineWorkspace:
             }
         }
 
-    def _build_alphabetic_promotion_candidates(self, batch_name: str) -> dict[str, object]:
+    def _build_alphabetic_promotion_candidates(
+        self,
+        batch_name: str,
+        *,
+        skip_review_gates: bool = False,
+    ) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         threshold_observations = 3
@@ -1551,17 +1552,34 @@ class PipelineWorkspace:
             "alphabetic_current_batch_promotion_candidates": str(len(current_batch_candidates)),
             "alphabetic_promotion_threshold_observations": str(threshold_observations),
         }
-        if (
-            requires_strict_human_review_gates(batch_state.track_name)
-            and current_batch_candidates
-        ):
+        if current_batch_candidates:
+            artifacts.update(
+                {
+                    "human_review_required": "true",
+                    "human_review_gate": "promotion_candidate_review",
+                    "human_review_item_count": str(len(current_batch_candidates)),
+                    "human_review_reason": "alphabetic_promotion_candidates",
+                }
+            )
+        can_skip_review = skip_review_gates and not requires_strict_human_review_gates(
+            batch_state.track_name
+        )
+        if current_batch_candidates and not can_skip_review:
             return {
                 "stage_complete": False,
                 "blocking_reason": (
                     "Alphabetic promotion candidates require human review before "
-                    "the working track can continue."
+                    "the batch can continue. Re-run with --skip-review-gates on "
+                    "a non-working track to continue without review."
                 ),
                 "artifacts": artifacts,
+            }
+        if current_batch_candidates and can_skip_review:
+            artifacts["human_review_skipped"] = "true"
+            artifacts["human_review_skip_reason"] = "operator_requested_skip_review_gates"
+            return {
+                "artifacts": artifacts,
+                "skipped_review_gates": ["promotion_candidate_review"],
             }
         return {"artifacts": artifacts}
 
@@ -1910,3 +1928,17 @@ def count_nonempty_lines(path: Path) -> int:
             if line.strip():
                 count += 1
     return count
+
+
+def merge_review_gates(existing: list[str], incoming: object) -> list[str]:
+    merged = list(existing)
+    if not isinstance(incoming, list):
+        return merged
+    seen = set(merged)
+    for gate in incoming:
+        gate_text = str(gate)
+        if gate_text in seen:
+            continue
+        seen.add(gate_text)
+        merged.append(gate_text)
+    return merged

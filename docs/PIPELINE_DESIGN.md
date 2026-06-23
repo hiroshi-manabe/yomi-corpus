@@ -1073,9 +1073,11 @@ consistent evidence is what makes it worth asking a human to approve a global
 promotion.
 
 For `dev`, the pipeline may continue after this stage even when promotion
-candidate review is pending, but it must report that the review gate was
-skipped. For `working`, unresolved alphabetic issues or unreviewed promotion
-candidates should not be allowed to pass silently once strict gates are active.
+candidate review is pending only when the operator explicitly requests a review
+skip. The skip must be recorded in the batch state and printed in concise
+operator output. For `working`, unresolved alphabetic issues or unreviewed
+promotion candidates should not be allowed to pass silently once strict gates
+are active.
 
 ### S65 Promotion Candidate Review
 
@@ -1467,6 +1469,9 @@ Examples:
 - the following `./next` should rebuild promotion candidates from repeated
   consistent entity-type evidence; on `working`, current-batch candidates block
   progress until human review updates the global decisions
+- on non-working tracks, the same review gate also blocks by default; rerun
+  with `./next dev --skip-review-gates` to continue explicitly while recording
+  the skipped gate
 - the following `./next` should build the mechanical yomi JSONL
 - the following `./next` should add the yomi auto-accept artifact
 - once no later automated stage is implemented, `./next` should report that

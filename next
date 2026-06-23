@@ -48,6 +48,11 @@ def parse_args() -> argparse.Namespace:
         help="Allow overwriting protected-track artifacts without an interactive prompt.",
     )
     parser.add_argument(
+        "--skip-review-gates",
+        action="store_true",
+        help="Allow non-working tracks to continue past a generated human-review gate.",
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="Print the full structured summary instead of concise operator output.",
@@ -62,6 +67,7 @@ def main() -> None:
         track_name=args.track,
         force_stage=args.force_stage,
         allow_overwrite=args.yes,
+        skip_review_gates=args.skip_review_gates,
     )
     if summary.get("requires_confirmation") and not args.yes:
         if not sys.stdin.isatty():
@@ -82,6 +88,7 @@ def main() -> None:
                     track_name=args.track,
                     force_stage=args.force_stage,
                     allow_overwrite=True,
+                    skip_review_gates=args.skip_review_gates,
                 )
             else:
                 summary["message"] = "Cancelled."
@@ -114,6 +121,12 @@ def format_next_summary(summary: dict[str, object]) -> str:
     ]
     artifacts = summary.get("artifacts")
     if isinstance(artifacts, dict):
+        review_line = human_review_line(artifacts)
+        if review_line:
+            lines.append(review_line)
+        skipped_line = human_review_skipped_line(artifacts)
+        if skipped_line:
+            lines.append(skipped_line)
         for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading"]:
             if not should_show_llm_status(summary, artifacts, prefix):
                 continue
@@ -165,6 +178,22 @@ def should_show_llm_status(summary: dict[str, object], artifacts: dict, prefix: 
         return True
     job_status = artifacts.get(f"{prefix}_llm_job_status")
     return bool(summary.get("blocking_reason") and job_status and job_status != "completed")
+
+
+def human_review_line(artifacts: dict) -> str | None:
+    if str(artifacts.get("human_review_required", "")).lower() != "true":
+        return None
+    gate = str(artifacts.get("human_review_gate") or "unknown")
+    count = artifacts.get("human_review_item_count")
+    suffix = f" ({count})" if count not in (None, "") else ""
+    return f"Human review: required - {gate}{suffix}"
+
+
+def human_review_skipped_line(artifacts: dict) -> str | None:
+    if str(artifacts.get("human_review_skipped", "")).lower() != "true":
+        return None
+    gate = str(artifacts.get("human_review_gate") or "unknown")
+    return f"Human review skipped: {gate}"
 
 
 if __name__ == "__main__":

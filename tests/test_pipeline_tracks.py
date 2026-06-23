@@ -275,15 +275,7 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["track_policy"], "relaxed")
             self.assertEqual(summary["requires_strict_human_review_gates"], False)
             self.assertEqual(summary["current_stage"], "alphabetic_analyzed")
-            self.assertEqual(
-                summary["skipped_review_gates"],
-                [
-                    "promotion_candidate_review",
-                    "sentence_review_pass1",
-                    "sentence_review_pass2",
-                    "final_edit_review",
-                ],
-            )
+            self.assertEqual(summary["skipped_review_gates"], [])
             saved = workspace.load_batch_state("dev_batch_0001")
             self.assertEqual(saved.current_stage, "alphabetic_analyzed")
             self.assertEqual(saved.skipped_review_gates, summary["skipped_review_gates"])
@@ -599,9 +591,149 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertFalse(summary["advanced"])
             self.assertEqual(summary["current_stage"], "alphabetic_judged")
             self.assertIn("human review", summary["blocking_reason"])
+            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
+            self.assertEqual(summary["artifacts"]["human_review_gate"], "promotion_candidate_review")
             self.assertTrue((batch_dir / "alphabetic_promotion_candidates_summary.json").exists())
             saved_after = workspace.load_batch_state("batch_0001")
             self.assertEqual(saved_after.current_stage, "alphabetic_judged")
+
+    def test_dev_track_blocks_on_alphabetic_promotion_candidates_without_skip(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            ledger_path = root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
+            ledger_path.parent.mkdir(parents=True, exist_ok=True)
+            ledger_path.write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "entity_key": "ok",
+                        "strict_case": True,
+                        "llm_status": "in_scope",
+                        "confidence": "high",
+                        "note": "common",
+                        "occurrence_count": 3,
+                        "unit_count": 3,
+                        "surface_forms": ["OK"],
+                        "example_unit_ids": ["u1"],
+                        "example_texts": ["OKを押してください。"],
+                        "source_path": "x.jsonl",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            saved = workspace.load_batch_state("dev_batch_0001")
+            saved.current_stage = "alphabetic_judged"
+            workspace.save_batch_state(saved)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("dev")
+
+            self.assertFalse(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "alphabetic_judged")
+            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
+            self.assertEqual(summary["skipped_review_gates"], [])
+            saved_after = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved_after.current_stage, "alphabetic_judged")
+
+    def test_dev_track_can_skip_alphabetic_promotion_review_explicitly(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            ledger_path = root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
+            ledger_path.parent.mkdir(parents=True, exist_ok=True)
+            ledger_path.write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "entity_key": "ok",
+                        "strict_case": True,
+                        "llm_status": "in_scope",
+                        "confidence": "high",
+                        "note": "common",
+                        "occurrence_count": 3,
+                        "unit_count": 3,
+                        "surface_forms": ["OK"],
+                        "example_unit_ids": ["u1"],
+                        "example_texts": ["OKを押してください。"],
+                        "source_path": "x.jsonl",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            saved = workspace.load_batch_state("dev_batch_0001")
+            saved.current_stage = "alphabetic_judged"
+            workspace.save_batch_state(saved)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("dev", skip_review_gates=True)
+
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "alphabetic_promotion_candidates")
+            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
+            self.assertEqual(summary["artifacts"]["human_review_skipped"], "true")
+            self.assertEqual(summary["skipped_review_gates"], ["promotion_candidate_review"])
+            saved_after = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved_after.current_stage, "alphabetic_promotion_candidates")
+            self.assertEqual(saved_after.skipped_review_gates, ["promotion_candidate_review"])
 
     def test_advance_queues_scope_triage_after_yomi_auto_acceptance(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
