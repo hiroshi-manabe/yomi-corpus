@@ -101,6 +101,8 @@ Pipeline orchestration policy:
 - `./next --force-stage <stage>` reruns the current completed stage; on
   `working`, an overwrite prompt appears only if existing artifacts would
   actually be replaced
+- `./next --llm-mode sync|background|batch` temporarily overrides the execution
+  mode only when the stage being run calls the LLM
 - `./status` and `./status dev` report the current batch and stage for each
   track
 - `./status --stages` and `./status dev --stages` print only the completed
@@ -151,9 +153,9 @@ Yomi generation scaffold:
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct
-- after alphabetic checks, `scope_triage_queued` and `scope_triage_completed`
-  run a raw-text `Keep`/`Skip` gate before yomi generation; `Skip` units are
-  excluded from later reading work
+- after alphabetic checks, `scope_triage_queued` builds raw-text `Keep`/`Skip`
+  input and `scope_triage_llm_completed` calls the LLM before yomi generation;
+  `Skip` units are excluded from later reading work
 - after yomi generation, `yomi_auto_accepted` adds
   `analysis.mechanical.yomi.auto_accept` only for low-risk units where Sudachi
   and the decoder agree and the decoder candidate has full repeated N-gram

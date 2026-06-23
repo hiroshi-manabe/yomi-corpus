@@ -112,6 +112,27 @@ LEGACY_YOMI_LLM_PROFILE_MAP = {
 LEGACY_YOMI_LLM_PROFILES = frozenset(
     LEGACY_YOMI_LLM_PROFILE_MAP
 )
+STAGE_PREPARED = "prepared"
+STAGE_ALPHABETIC_ANALYZED = "alphabetic_analyzed"
+STAGE_ALPHABETIC_REPORTED = "alphabetic_reported"
+STAGE_ALPHABETIC_LLM_JUDGED = "alphabetic_llm_judged"
+STAGE_ALPHABETIC_PROMOTION_CANDIDATES = "alphabetic_promotion_candidates"
+STAGE_SCOPE_TRIAGE_QUEUED = "scope_triage_queued"
+STAGE_SCOPE_TRIAGE_LLM_COMPLETED = "scope_triage_llm_completed"
+STAGE_YOMI_GENERATED = "yomi_generated"
+STAGE_YOMI_AUTO_ACCEPTED = "yomi_auto_accepted"
+STAGE_YOMI_READING_QUEUED = "yomi_reading_queued"
+STAGE_YOMI_READING_LLM_COMPLETED = "yomi_reading_llm_completed"
+LEGACY_STAGE_MAP = {
+    "alphabetic_judged": STAGE_ALPHABETIC_LLM_JUDGED,
+    "scope_triage_completed": STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+    "yomi_reading_completed": STAGE_YOMI_READING_LLM_COMPLETED,
+}
+STAGE_LLM_TASKS = {
+    STAGE_ALPHABETIC_LLM_JUDGED: LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
+    STAGE_SCOPE_TRIAGE_LLM_COMPLETED: LLM_TASK_SCOPE_TRIAGE,
+    STAGE_YOMI_READING_LLM_COMPLETED: LLM_TASK_YOMI_READING,
+}
 
 TRACKS: dict[str, dict[str, str]] = {
     WORKING_TRACK: {
@@ -127,31 +148,31 @@ TRACKS: dict[str, dict[str, str]] = {
 }
 
 STAGE_SEQUENCE = [
-    "prepared",
-    "alphabetic_analyzed",
-    "alphabetic_reported",
-    "alphabetic_judged",
-    "alphabetic_promotion_candidates",
-    "scope_triage_queued",
-    "scope_triage_completed",
-    "yomi_generated",
-    "yomi_auto_accepted",
-    "yomi_reading_queued",
-    "yomi_reading_completed",
+    STAGE_PREPARED,
+    STAGE_ALPHABETIC_ANALYZED,
+    STAGE_ALPHABETIC_REPORTED,
+    STAGE_ALPHABETIC_LLM_JUDGED,
+    STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+    STAGE_SCOPE_TRIAGE_QUEUED,
+    STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+    STAGE_YOMI_GENERATED,
+    STAGE_YOMI_AUTO_ACCEPTED,
+    STAGE_YOMI_READING_QUEUED,
+    STAGE_YOMI_READING_LLM_COMPLETED,
 ]
 
 RERUNNABLE_STAGES = frozenset(
     {
-        "alphabetic_analyzed",
-        "alphabetic_reported",
-        "alphabetic_judged",
-        "alphabetic_promotion_candidates",
-        "yomi_generated",
-        "yomi_auto_accepted",
-        "scope_triage_queued",
-        "scope_triage_completed",
-        "yomi_reading_queued",
-        "yomi_reading_completed",
+        STAGE_ALPHABETIC_ANALYZED,
+        STAGE_ALPHABETIC_REPORTED,
+        STAGE_ALPHABETIC_LLM_JUDGED,
+        STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+        STAGE_YOMI_GENERATED,
+        STAGE_YOMI_AUTO_ACCEPTED,
+        STAGE_SCOPE_TRIAGE_QUEUED,
+        STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+        STAGE_YOMI_READING_QUEUED,
+        STAGE_YOMI_READING_LLM_COMPLETED,
     }
 )
 
@@ -220,6 +241,14 @@ def normalize_track_name(name: str | None) -> str:
     if track_name not in TRACKS:
         raise ValueError(f"Unknown track: {track_name}")
     return track_name
+
+
+def normalize_stage_name(stage_name: str) -> str:
+    return LEGACY_STAGE_MAP.get(stage_name, stage_name)
+
+
+def llm_task_for_stage(stage_name: str) -> str | None:
+    return STAGE_LLM_TASKS.get(normalize_stage_name(stage_name))
 
 
 def default_yomi_policy(track_name: str) -> dict[str, str]:
@@ -406,6 +435,7 @@ class PipelineWorkspace:
                 payload = json.load(handle)
             track_name = str(payload["track_name"])
             payload.setdefault("skipped_review_gates", [])
+            payload["current_stage"] = normalize_stage_name(str(payload["current_stage"]))
             raw_yomi_policy = payload.get("yomi_policy")
             payload["yomi_policy"] = normalize_yomi_policy(
                 raw_yomi_policy,
@@ -573,8 +603,11 @@ class PipelineWorkspace:
         force_stage: str | None = None,
         allow_overwrite: bool = False,
         skip_review_gates: bool = False,
+        llm_execution_mode_override: str | None = None,
     ) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
+        if llm_execution_mode_override is not None and llm_execution_mode_override not in LLM_EXECUTION_MODES:
+            raise ValueError(f"Unsupported LLM execution mode override: {llm_execution_mode_override}")
         track_state = self.load_track_state(normalized)
         if not track_state.current_batch_name:
             return {
@@ -589,6 +622,7 @@ class PipelineWorkspace:
         current_stage = batch_state.current_stage
 
         if force_stage is not None:
+            force_stage = normalize_stage_name(force_stage)
             if force_stage != current_stage:
                 return {
                     "track_name": normalized,
@@ -651,10 +685,18 @@ class PipelineWorkspace:
                     ),
                 }
 
+            if llm_execution_mode_override is not None and llm_task_for_stage(force_stage) is None:
+                return self._llm_override_rejected_summary(
+                    normalized=normalized,
+                    batch_state=batch_state,
+                    stage_name=force_stage,
+                    forced=True,
+                )
             summary = self._run_stage(
                 batch_state.batch_name,
                 force_stage,
                 skip_review_gates=skip_review_gates,
+                llm_execution_mode_override=llm_execution_mode_override,
             )
             if not summary.get("stage_complete", True):
                 return self._persist_incomplete_stage_summary(
@@ -706,10 +748,18 @@ class PipelineWorkspace:
                 or "No automated next stage is implemented for this batch.",
             }
 
+        if llm_execution_mode_override is not None and llm_task_for_stage(next_stage) is None:
+            return self._llm_override_rejected_summary(
+                normalized=normalized,
+                batch_state=batch_state,
+                stage_name=next_stage,
+                forced=False,
+            )
         summary = self._run_stage(
             batch_state.batch_name,
             next_stage,
             skip_review_gates=skip_review_gates,
+            llm_execution_mode_override=llm_execution_mode_override,
         )
         if not summary.get("stage_complete", True):
             return self._persist_incomplete_stage_summary(
@@ -775,90 +825,132 @@ class PipelineWorkspace:
             result["forced"] = True
         return result
 
+    def _llm_override_rejected_summary(
+        self,
+        *,
+        normalized: str,
+        batch_state: BatchState,
+        stage_name: str | None,
+        forced: bool,
+    ) -> dict[str, object]:
+        result = {
+            "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+            "batch_name": batch_state.batch_name,
+            "advanced": False,
+            "current_stage": batch_state.current_stage,
+            "next_stage": self._next_stage_name(batch_state.current_stage),
+            "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
+            "artifacts": batch_state.artifacts,
+            "blocking_reason": (
+                f"LLM execution mode override is only valid for LLM stages; "
+                f"stage {stage_name or '-'} does not call the LLM."
+            ),
+        }
+        if forced:
+            result["forced"] = True
+        return result
+
     def _run_stage(
         self,
         batch_name: str,
         stage_name: str,
         *,
         skip_review_gates: bool = False,
+        llm_execution_mode_override: str | None = None,
     ) -> dict[str, object]:
-        if stage_name == "alphabetic_analyzed":
+        stage_name = normalize_stage_name(stage_name)
+        if stage_name == STAGE_ALPHABETIC_ANALYZED:
             return self._run_alphabetic_analysis(batch_name)
-        if stage_name == "alphabetic_reported":
+        if stage_name == STAGE_ALPHABETIC_REPORTED:
             return self._build_unresolved_alphabetic_report(batch_name)
-        if stage_name == "alphabetic_judged":
-            return self._run_alphabetic_entity_judgment(batch_name)
-        if stage_name == "alphabetic_promotion_candidates":
+        if stage_name == STAGE_ALPHABETIC_LLM_JUDGED:
+            return self._run_alphabetic_entity_judgment(
+                batch_name,
+                llm_execution_mode_override=llm_execution_mode_override,
+            )
+        if stage_name == STAGE_ALPHABETIC_PROMOTION_CANDIDATES:
             return self._build_alphabetic_promotion_candidates(
                 batch_name,
                 skip_review_gates=skip_review_gates,
             )
-        if stage_name == "yomi_generated":
+        if stage_name == STAGE_YOMI_GENERATED:
             return self._generate_mechanical_yomi(batch_name)
-        if stage_name == "yomi_auto_accepted":
+        if stage_name == STAGE_YOMI_AUTO_ACCEPTED:
             return self._auto_accept_mechanical_yomi(batch_name)
-        if stage_name == "scope_triage_queued":
+        if stage_name == STAGE_SCOPE_TRIAGE_QUEUED:
             return self._queue_scope_triage(batch_name)
-        if stage_name == "scope_triage_completed":
-            return self._run_scope_triage(batch_name)
-        if stage_name == "yomi_reading_queued":
+        if stage_name == STAGE_SCOPE_TRIAGE_LLM_COMPLETED:
+            return self._run_scope_triage(
+                batch_name,
+                llm_execution_mode_override=llm_execution_mode_override,
+            )
+        if stage_name == STAGE_YOMI_READING_QUEUED:
             return self._queue_yomi_llm_reading(batch_name)
-        if stage_name == "yomi_reading_completed":
-            return self._run_yomi_llm_reading(batch_name)
+        if stage_name == STAGE_YOMI_READING_LLM_COMPLETED:
+            return self._run_yomi_llm_reading(
+                batch_name,
+                llm_execution_mode_override=llm_execution_mode_override,
+            )
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
+        stage_name = normalize_stage_name(stage_name)
         batch_dir = self.batch_dir(batch_state.batch_name)
-        if stage_name == "alphabetic_analyzed":
+        if stage_name == STAGE_ALPHABETIC_ANALYZED:
             return [
                 batch_dir / "units.alphabetic.jsonl",
                 batch_dir / "alphabetic_occurrences.jsonl",
                 batch_dir / "alphabetic_types.jsonl",
             ]
-        if stage_name == "alphabetic_reported":
+        if stage_name == STAGE_ALPHABETIC_REPORTED:
             return [
                 batch_dir / "alphabetic_unresolved_entities.jsonl",
                 batch_dir / "alphabetic_unresolved_entities.tsv",
             ]
-        if stage_name == "alphabetic_judged":
+        if stage_name == STAGE_ALPHABETIC_LLM_JUDGED:
             return [
                 batch_dir / "alphabetic_judgment_results.jsonl",
                 batch_dir / "alphabetic_judgment_usage_summary.json",
                 batch_dir / "alphabetic_judgment_ingest_summary.json",
             ]
-        if stage_name == "alphabetic_promotion_candidates":
+        if stage_name == STAGE_ALPHABETIC_PROMOTION_CANDIDATES:
             return [
                 batch_dir / "alphabetic_promotion_candidates_summary.json",
             ]
-        if stage_name == "yomi_generated":
+        if stage_name == STAGE_YOMI_GENERATED:
             return [
                 batch_dir / "units.yomi.aligned_hybrid.jsonl",
             ]
-        if stage_name == "yomi_auto_accepted":
+        if stage_name == STAGE_YOMI_AUTO_ACCEPTED:
             return [
                 batch_dir / "units.yomi.auto_accept.jsonl",
                 batch_dir / "yomi_auto_accept_summary.json",
             ]
-        if stage_name == "scope_triage_queued":
+        if stage_name == STAGE_SCOPE_TRIAGE_QUEUED:
             return [
                 batch_dir / "scope_triage_input.jsonl",
                 batch_dir / "scope_triage_queue_summary.json",
             ]
-        if stage_name == "scope_triage_completed":
+        if stage_name == STAGE_SCOPE_TRIAGE_LLM_COMPLETED:
             return [
                 batch_dir / "scope_triage_results.jsonl",
                 batch_dir / "scope_triage_usage_summary.json",
                 batch_dir / "units.scope_triaged.jsonl",
                 batch_dir / "scope_triage_apply_summary.json",
             ]
-        if stage_name == "yomi_reading_queued":
+        if stage_name == STAGE_YOMI_READING_QUEUED:
             return [
                 batch_dir / "units.yomi.safety_pre_llm.jsonl",
                 batch_dir / "yomi_safety_pre_llm_summary.json",
                 batch_dir / "yomi_reading_input.jsonl",
                 batch_dir / "yomi_reading_queue_summary.json",
             ]
-        if stage_name == "yomi_reading_completed":
+        if stage_name == STAGE_YOMI_READING_LLM_COMPLETED:
             return [
                 batch_dir / "yomi_reading_results.jsonl",
                 batch_dir / "yomi_reading_usage_summary.json",
@@ -875,6 +967,7 @@ class PipelineWorkspace:
         ]
 
     def _next_stage_name(self, current_stage: str) -> str | None:
+        current_stage = normalize_stage_name(current_stage)
         try:
             index = STAGE_SEQUENCE.index(current_stage)
         except ValueError:
@@ -930,16 +1023,16 @@ class PipelineWorkspace:
             "manifest": str(manifest_path),
         }
         if current_stage in {
-            "alphabetic_analyzed",
-            "alphabetic_reported",
-            "alphabetic_judged",
-            "alphabetic_promotion_candidates",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_ALPHABETIC_ANALYZED,
+            STAGE_ALPHABETIC_REPORTED,
+            STAGE_ALPHABETIC_LLM_JUDGED,
+            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_SCOPE_TRIAGE_QUEUED,
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts.update(
                 {
@@ -949,15 +1042,15 @@ class PipelineWorkspace:
                 }
             )
         if current_stage in {
-            "alphabetic_reported",
-            "alphabetic_judged",
-            "alphabetic_promotion_candidates",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_ALPHABETIC_REPORTED,
+            STAGE_ALPHABETIC_LLM_JUDGED,
+            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_SCOPE_TRIAGE_QUEUED,
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts.update(
                 {
@@ -970,14 +1063,14 @@ class PipelineWorkspace:
                 }
             )
         if current_stage in {
-            "alphabetic_judged",
-            "alphabetic_promotion_candidates",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_ALPHABETIC_LLM_JUDGED,
+            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_SCOPE_TRIAGE_QUEUED,
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts.update(
                 {
@@ -993,13 +1086,13 @@ class PipelineWorkspace:
                 }
             )
         if current_stage in {
-            "alphabetic_promotion_candidates",
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
+            STAGE_SCOPE_TRIAGE_QUEUED,
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts.update(
                 {
@@ -1012,18 +1105,18 @@ class PipelineWorkspace:
                 }
             )
         if current_stage in {
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts["units_yomi_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.aligned_hybrid.jsonl"
             )
         if current_stage in {
-            "yomi_auto_accepted",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts["units_yomi_auto_accept_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.auto_accept.jsonl"
@@ -1032,12 +1125,12 @@ class PipelineWorkspace:
                 self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
             )
         if current_stage in {
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_SCOPE_TRIAGE_QUEUED,
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts["scope_triage_input_jsonl"] = str(
                 self.batch_dir(batch_name) / "scope_triage_input.jsonl"
@@ -1046,11 +1139,11 @@ class PipelineWorkspace:
                 self.batch_dir(batch_name) / "scope_triage_queue_summary.json"
             )
         if current_stage in {
-            "scope_triage_completed",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
+            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+            STAGE_YOMI_GENERATED,
+            STAGE_YOMI_AUTO_ACCEPTED,
+            STAGE_YOMI_READING_QUEUED,
+            STAGE_YOMI_READING_LLM_COMPLETED,
         }:
             artifacts["scope_triage_results_jsonl"] = str(
                 self.batch_dir(batch_name) / "scope_triage_results.jsonl"
@@ -1064,7 +1157,7 @@ class PipelineWorkspace:
             artifacts["scope_triage_apply_summary_json"] = str(
                 self.batch_dir(batch_name) / "scope_triage_apply_summary.json"
             )
-        if current_stage in {"yomi_reading_queued", "yomi_reading_completed"}:
+        if current_stage in {STAGE_YOMI_READING_QUEUED, STAGE_YOMI_READING_LLM_COMPLETED}:
             artifacts["units_yomi_safety_pre_llm_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.safety_pre_llm.jsonl"
             )
@@ -1077,7 +1170,7 @@ class PipelineWorkspace:
             artifacts["yomi_reading_queue_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_reading_queue_summary.json"
             )
-        if current_stage == "yomi_reading_completed":
+        if current_stage == STAGE_YOMI_READING_LLM_COMPLETED:
             artifacts["yomi_reading_results_jsonl"] = str(
                 self.batch_dir(batch_name) / "yomi_reading_results.jsonl"
             )
@@ -1127,30 +1220,30 @@ class PipelineWorkspace:
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
         if (batch_dir / "units.yomi.llm_readings.jsonl").exists():
-            return "yomi_reading_completed"
+            return STAGE_YOMI_READING_LLM_COMPLETED
         if (batch_dir / "yomi_reading_input.jsonl").exists():
-            return "yomi_reading_queued"
+            return STAGE_YOMI_READING_QUEUED
         if (batch_dir / "units.yomi.auto_accept.jsonl").exists():
-            return "yomi_auto_accepted"
+            return STAGE_YOMI_AUTO_ACCEPTED
         if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
-            return "yomi_generated"
+            return STAGE_YOMI_GENERATED
         if (batch_dir / "units.scope_triaged.jsonl").exists():
-            return "scope_triage_completed"
+            return STAGE_SCOPE_TRIAGE_LLM_COMPLETED
         if (batch_dir / "scope_triage_input.jsonl").exists():
-            return "scope_triage_queued"
+            return STAGE_SCOPE_TRIAGE_QUEUED
         if (batch_dir / "units.yomi.triaged.jsonl").exists():
-            return "yomi_reading_completed"
+            return STAGE_YOMI_READING_LLM_COMPLETED
         if (batch_dir / "yomi_triage_input.jsonl").exists():
-            return "scope_triage_queued"
+            return STAGE_SCOPE_TRIAGE_QUEUED
         if (batch_dir / "alphabetic_promotion_candidates_summary.json").exists():
-            return "alphabetic_promotion_candidates"
+            return STAGE_ALPHABETIC_PROMOTION_CANDIDATES
         if (batch_dir / "alphabetic_judgment_ingest_summary.json").exists():
-            return "alphabetic_judged"
+            return STAGE_ALPHABETIC_LLM_JUDGED
         if (batch_dir / "alphabetic_unresolved_entities.jsonl").exists():
-            return "alphabetic_reported"
+            return STAGE_ALPHABETIC_REPORTED
         if (batch_dir / "units.alphabetic.jsonl").exists():
-            return "alphabetic_analyzed"
-        return "prepared"
+            return STAGE_ALPHABETIC_ANALYZED
+        return STAGE_PREPARED
 
     def _load_dataset_config(self, path_str: str) -> dict[str, object]:
         path = self.root / path_str
@@ -1407,12 +1500,20 @@ class PipelineWorkspace:
             }
         }
 
-    def _run_alphabetic_entity_judgment(self, batch_name: str) -> dict[str, object]:
+    def _run_alphabetic_entity_judgment(
+        self,
+        batch_name: str,
+        *,
+        llm_execution_mode_override: str | None = None,
+    ) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/alphabetic_entity_judge.toml"
         llm_profile = batch_state.llm_policy[LLM_TASK_ALPHABETIC_ENTITY_JUDGE]
-        execution_mode = batch_state.llm_execution_policy[LLM_TASK_ALPHABETIC_ENTITY_JUDGE]
+        execution_mode = (
+            llm_execution_mode_override
+            or batch_state.llm_execution_policy[LLM_TASK_ALPHABETIC_ENTITY_JUDGE]
+        )
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "alphabetic_unresolved_entities.jsonl"
@@ -1656,12 +1757,20 @@ class PipelineWorkspace:
             }
         }
 
-    def _run_scope_triage(self, batch_name: str) -> dict[str, object]:
+    def _run_scope_triage(
+        self,
+        batch_name: str,
+        *,
+        llm_execution_mode_override: str | None = None,
+    ) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/scope_triage.toml"
         llm_profile = batch_state.llm_policy[LLM_TASK_SCOPE_TRIAGE]
-        execution_mode = batch_state.llm_execution_policy[LLM_TASK_SCOPE_TRIAGE]
+        execution_mode = (
+            llm_execution_mode_override
+            or batch_state.llm_execution_policy[LLM_TASK_SCOPE_TRIAGE]
+        )
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "scope_triage_input.jsonl"
@@ -1779,12 +1888,20 @@ class PipelineWorkspace:
             }
         }
 
-    def _run_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
+    def _run_yomi_llm_reading(
+        self,
+        batch_name: str,
+        *,
+        llm_execution_mode_override: str | None = None,
+    ) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/yomi_reading.toml"
         llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_READING]
-        execution_mode = batch_state.llm_execution_policy[LLM_TASK_YOMI_READING]
+        execution_mode = (
+            llm_execution_mode_override
+            or batch_state.llm_execution_policy[LLM_TASK_YOMI_READING]
+        )
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "yomi_reading_input.jsonl"

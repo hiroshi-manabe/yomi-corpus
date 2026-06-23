@@ -13,6 +13,8 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.pipeline import LLM_EXECUTION_MODES
+from yomi_corpus.pipeline import RERUNNABLE_STAGES
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,18 +30,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--force-stage",
-        choices=[
-            "alphabetic_analyzed",
-            "alphabetic_reported",
-            "alphabetic_judged",
-            "alphabetic_promotion_candidates",
-            "yomi_generated",
-            "yomi_auto_accepted",
-            "scope_triage_queued",
-            "scope_triage_completed",
-            "yomi_reading_queued",
-            "yomi_reading_completed",
-        ],
+        choices=sorted(RERUNNABLE_STAGES),
         help="Rerun the current completed stage instead of advancing to the next one.",
     )
     parser.add_argument(
@@ -57,6 +48,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print the full structured summary instead of concise operator output.",
     )
+    parser.add_argument(
+        "--llm-mode",
+        choices=sorted(LLM_EXECUTION_MODES),
+        help=(
+            "Override the LLM execution mode for this invocation only. "
+            "Valid only when the stage being run calls the LLM."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -68,6 +67,7 @@ def main() -> None:
         force_stage=args.force_stage,
         allow_overwrite=args.yes,
         skip_review_gates=args.skip_review_gates,
+        llm_execution_mode_override=args.llm_mode,
     )
     if summary.get("requires_confirmation") and not args.yes:
         if not sys.stdin.isatty():
@@ -89,6 +89,7 @@ def main() -> None:
                     force_stage=args.force_stage,
                     allow_overwrite=True,
                     skip_review_gates=args.skip_review_gates,
+                    llm_execution_mode_override=args.llm_mode,
                 )
             else:
                 summary["message"] = "Cancelled."

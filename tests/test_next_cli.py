@@ -17,7 +17,7 @@ class NextCliTests(unittest.TestCase):
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "scope_triage_completed",
+                "current_stage": "scope_triage_llm_completed",
                 "next_stage": "yomi_generated",
                 "advanced": True,
                 "artifacts": {
@@ -29,7 +29,7 @@ class NextCliTests(unittest.TestCase):
 
         self.assertEqual(
             rendered,
-            "current_stage: scope_triage_completed\nnext_stage: yomi_generated",
+            "current_stage: scope_triage_llm_completed\nnext_stage: yomi_generated",
         )
 
     def test_format_suppresses_completed_prior_llm_status_on_non_llm_stage(self) -> None:
@@ -57,7 +57,7 @@ class NextCliTests(unittest.TestCase):
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "alphabetic_judged",
+                "current_stage": "alphabetic_llm_judged",
                 "advanced": False,
                 "blocking_reason": "LLM background job is running; rerun ./next to poll or resume.",
                 "artifacts": {
@@ -76,7 +76,7 @@ class NextCliTests(unittest.TestCase):
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "alphabetic_judged",
+                "current_stage": "alphabetic_llm_judged",
                 "advanced": False,
                 "blocking_reason": "Alphabetic promotion candidates require human review.",
                 "artifacts": {

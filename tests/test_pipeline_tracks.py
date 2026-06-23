@@ -282,6 +282,48 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(saved.current_stage, "alphabetic_analyzed")
             self.assertEqual(saved.skipped_review_gates, summary["skipped_review_gates"])
 
+    def test_llm_execution_override_is_rejected_on_non_llm_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("dev", llm_execution_mode_override="sync")
+
+            self.assertFalse(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "prepared")
+            self.assertEqual(summary["next_stage"], "alphabetic_analyzed")
+            self.assertIn("does not call the LLM", summary["blocking_reason"])
+            saved = workspace.load_batch_state("dev_batch_0001")
+            self.assertEqual(saved.current_stage, "prepared")
+
     def test_infer_stage_prefers_latest_materialized_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -590,7 +632,7 @@ class PipelineTrackTests(unittest.TestCase):
                 summary = workspace.advance("dev")
 
             self.assertTrue(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "alphabetic_judged")
+            self.assertEqual(summary["current_stage"], "alphabetic_llm_judged")
             ledger_path = root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
             rows = [json.loads(line) for line in ledger_path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(len(rows), 1)
@@ -646,7 +688,7 @@ class PipelineTrackTests(unittest.TestCase):
             )
             workspace.save_batch_state(workspace._infer_batch_state("batch_0001"))
             saved = workspace.load_batch_state("batch_0001")
-            saved.current_stage = "alphabetic_judged"
+            saved.current_stage = "alphabetic_llm_judged"
             workspace.save_batch_state(saved)
             workspace.save_track_state(
                 TrackState(
@@ -659,13 +701,13 @@ class PipelineTrackTests(unittest.TestCase):
             summary = workspace.advance("working")
 
             self.assertFalse(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "alphabetic_judged")
+            self.assertEqual(summary["current_stage"], "alphabetic_llm_judged")
             self.assertIn("human review", summary["blocking_reason"])
             self.assertEqual(summary["artifacts"]["human_review_required"], "true")
             self.assertEqual(summary["artifacts"]["human_review_gate"], "promotion_candidate_review")
             self.assertTrue((batch_dir / "alphabetic_promotion_candidates_summary.json").exists())
             saved_after = workspace.load_batch_state("batch_0001")
-            self.assertEqual(saved_after.current_stage, "alphabetic_judged")
+            self.assertEqual(saved_after.current_stage, "alphabetic_llm_judged")
 
     def test_dev_track_blocks_on_alphabetic_promotion_candidates_without_skip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -716,7 +758,7 @@ class PipelineTrackTests(unittest.TestCase):
             )
             workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
             saved = workspace.load_batch_state("dev_batch_0001")
-            saved.current_stage = "alphabetic_judged"
+            saved.current_stage = "alphabetic_llm_judged"
             workspace.save_batch_state(saved)
             workspace.save_track_state(
                 TrackState(
@@ -729,11 +771,11 @@ class PipelineTrackTests(unittest.TestCase):
             summary = workspace.advance("dev")
 
             self.assertFalse(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "alphabetic_judged")
+            self.assertEqual(summary["current_stage"], "alphabetic_llm_judged")
             self.assertEqual(summary["artifacts"]["human_review_required"], "true")
             self.assertEqual(summary["skipped_review_gates"], [])
             saved_after = workspace.load_batch_state("dev_batch_0001")
-            self.assertEqual(saved_after.current_stage, "alphabetic_judged")
+            self.assertEqual(saved_after.current_stage, "alphabetic_llm_judged")
 
     def test_dev_track_can_skip_alphabetic_promotion_review_explicitly(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -784,7 +826,7 @@ class PipelineTrackTests(unittest.TestCase):
             )
             workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
             saved = workspace.load_batch_state("dev_batch_0001")
-            saved.current_stage = "alphabetic_judged"
+            saved.current_stage = "alphabetic_llm_judged"
             workspace.save_batch_state(saved)
             workspace.save_track_state(
                 TrackState(
@@ -943,7 +985,7 @@ class PipelineTrackTests(unittest.TestCase):
             ) -> object:
                 self.assertEqual(task_config_path, "config/llm/scope_triage.toml")
                 self.assertEqual(Path(input_jsonl_path).resolve(), (batch_dir / "scope_triage_input.jsonl").resolve())
-                self.assertEqual(kwargs["execution_mode"], "background")
+                self.assertEqual(kwargs["execution_mode"], "sync")
                 self.assertEqual(kwargs["task_config_override"].model, "gpt-5.4-mini")
                 Path(output_jsonl_path).write_text(
                     json.dumps(
@@ -977,13 +1019,14 @@ class PipelineTrackTests(unittest.TestCase):
                 return Summary()
 
             with patch("yomi_corpus.pipeline.run_llm_task", side_effect=fake_run_llm_task) as mocked:
-                summary = workspace.advance("dev")
+                summary = workspace.advance("dev", llm_execution_mode_override="sync")
 
             self.assertTrue(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "scope_triage_completed")
+            self.assertEqual(summary["current_stage"], "scope_triage_llm_completed")
             self.assertEqual(mocked.call_count, 1)
             self.assertEqual(summary["artifacts"]["scope_triage_llm_profile"], "economy")
             self.assertEqual(summary["artifacts"]["scope_triage_model"], "gpt-5.4-mini")
+            self.assertEqual(summary["artifacts"]["scope_triage_execution_mode"], "sync")
             rows = [
                 json.loads(line)
                 for line in (batch_dir / "units.scope_triaged.jsonl").read_text(encoding="utf-8").splitlines()

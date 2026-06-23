@@ -1604,6 +1604,9 @@ Current intended commands:
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`
+- `./next dev --llm-mode sync`
+- `./next dev --llm-mode background`
+- `./next dev --llm-mode batch`
 - `./status`
 - `./status dev`
 - `./status dev --stages`
@@ -1614,6 +1617,20 @@ The implicit no-argument track should be `working`.
 current stage and the next stage, which is useful when the full structured
 status is too noisy. `./next` should not have this mode because it advances the
 pipeline and would be easy to mistake for read-only inspection.
+
+Stages that call the LLM should include `llm` in the stage name. Current
+LLM-calling stages are:
+
+- `alphabetic_llm_judged`
+- `scope_triage_llm_completed`
+- `yomi_reading_llm_completed`
+
+Queue-building stages such as `scope_triage_queued` and `yomi_reading_queued`
+prepare LLM inputs but do not call the API, so they should not be treated as
+LLM-calling stages. `./next --llm-mode <mode>` is a per-invocation override for
+the stage being run. It should be accepted only when that stage calls the LLM;
+on deterministic stages it should fail explicitly rather than being silently
+ignored. The saved track policy remains unchanged.
 
 ### 10.6.3 Current one-step progression
 
@@ -1797,7 +1814,7 @@ On completion:
 ```text
 Track: dev
 Batch: dev_batch_0003
-Stage: yomi_reading_completed
+Stage: yomi_reading_llm_completed
 Completed: 559/559
 Output: data/units/dev_batch_0003/units.yomi.llm_readings.jsonl
 Next: yomi_repair
