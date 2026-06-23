@@ -1610,10 +1610,11 @@ Example behavior:
 
 - if a batch is only prepared, `./next` should build the alphabetic artifacts
 - the next `./next` should build the unresolved alphabetic report
-- a future `./next` stage should run or resume alphabetic entity LLM judgment
-  for unresolved entity types and append reusable evidence
-- a future `./next` stage should build whitelist/blacklist promotion candidates
-  from repeated consistent evidence
+- the next `./next` should run or resume alphabetic entity LLM judgment for
+  unresolved entity types and append reusable evidence
+- the next `./next` should build whitelist/blacklist promotion candidates from
+  repeated consistent evidence; on `working`, current-batch candidates block
+  progress until human review updates the global decisions
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should run or resume scope triage and exclude `Skip` units

@@ -28,7 +28,7 @@ class TokenCountTests(unittest.TestCase):
     def test_count_task_prompt_tokens_counts_rendered_prompt(self, mock_load_encoding) -> None:
         rows = count_task_prompt_tokens(
             "config/llm/alphabetic_entity_judge.toml",
-            "data/units/batch_0001/alphabetic_unresolved_entities.jsonl",
+            "data/evals/alphabetic_entity_judge/dev.jsonl",
         )
         self.assertTrue(rows)
         self.assertIn("item_id", rows[0])

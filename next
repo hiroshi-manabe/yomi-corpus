@@ -31,10 +31,14 @@ def parse_args() -> argparse.Namespace:
         choices=[
             "alphabetic_analyzed",
             "alphabetic_reported",
+            "alphabetic_judged",
+            "alphabetic_promotion_candidates",
             "yomi_generated",
             "yomi_auto_accepted",
-            "yomi_triage_queued",
-            "yomi_triage_completed",
+            "scope_triage_queued",
+            "scope_triage_completed",
+            "yomi_reading_queued",
+            "yomi_reading_completed",
         ],
         help="Rerun the current completed stage instead of advancing to the next one.",
     )
@@ -110,20 +114,31 @@ def format_next_summary(summary: dict[str, object]) -> str:
     ]
     artifacts = summary.get("artifacts")
     if isinstance(artifacts, dict):
-        completed = artifacts.get("yomi_triage_llm_job_completed")
-        total = artifacts.get("yomi_triage_llm_job_total")
-        if completed is not None and total is not None:
-            failed = artifacts.get("yomi_triage_llm_job_failed")
-            failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
-            lines.append(f"LLM progress: {completed}/{total} completed{failed_text}")
-        job_status = artifacts.get("yomi_triage_llm_job_status")
-        remote_status = artifacts.get("yomi_triage_llm_remote_status")
-        if job_status:
-            suffix = f" remote={remote_status}" if remote_status else ""
-            lines.append(f"LLM job: {job_status}{suffix}")
-        output = artifacts.get("units_yomi_triaged_jsonl")
-        if output:
-            lines.append(f"Output: {output}")
+        for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading"]:
+            completed = artifacts.get(f"{prefix}_llm_job_completed")
+            total = artifacts.get(f"{prefix}_llm_job_total")
+            if completed is not None and total is not None:
+                failed = artifacts.get(f"{prefix}_llm_job_failed")
+                failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
+                lines.append(f"LLM progress ({prefix}): {completed}/{total} completed{failed_text}")
+            job_status = artifacts.get(f"{prefix}_llm_job_status")
+            remote_status = artifacts.get(f"{prefix}_llm_remote_status")
+            if job_status:
+                suffix = f" remote={remote_status}" if remote_status else ""
+                lines.append(f"LLM job ({prefix}): {job_status}{suffix}")
+        for key in [
+            "units_yomi_llm_readings_jsonl",
+            "units_scope_triaged_jsonl",
+            "units_yomi_auto_accept_jsonl",
+            "units_yomi_jsonl",
+            "alphabetic_promotion_candidates_jsonl",
+            "alphabetic_judgment_results_jsonl",
+            "alphabetic_unresolved_jsonl",
+        ]:
+            output = artifacts.get(key)
+            if output:
+                lines.append(f"Output: {output}")
+                break
     if summary.get("advanced") is not None:
         lines.append(f"Advanced: {str(summary.get('advanced')).lower()}")
     if summary.get("requires_confirmation"):

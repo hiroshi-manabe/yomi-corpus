@@ -1458,10 +1458,12 @@ Examples:
 - if a batch is freshly prepared, `./next` should build the alphabetic
   artifacts
 - the following `./next` should build the unresolved alphabetic report
-- a future alphabetic LLM stage should judge unresolved entity types and append
-  evidence without directly mutating whitelist/blacklist state
-- a future promotion-candidate stage should surface only repeated consistent
-  entity-type evidence for human approval
+- the following `./next` should judge unresolved alphabetic entity types with
+  the configured LLM mode and append evidence without directly mutating
+  whitelist/blacklist state
+- the following `./next` should rebuild promotion candidates from repeated
+  consistent entity-type evidence; on `working`, current-batch candidates block
+  progress until human review updates the global decisions
 - the following `./next` should build the mechanical yomi JSONL
 - the following `./next` should add the yomi auto-accept artifact
 - once no later automated stage is implemented, `./next` should report that
