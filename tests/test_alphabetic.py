@@ -15,12 +15,14 @@ from yomi_corpus.alphabetic import (
     build_occurrences_for_unit,
     extract_alphabetic_entities,
     load_alphabetic_config,
+    project_alphabetic_scope,
     project_minor_alphabetic_judgment,
 )
 from yomi_corpus.alphabetic_state import (
     AlphabeticDecision,
     AlphabeticEvidence,
     append_alphabetic_evidence,
+    decision_status_to_resolved_status,
     load_alphabetic_decisions,
     upsert_alphabetic_decision,
 )
@@ -186,6 +188,37 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertFalse(judgment.value)
         self.assertTrue(judgment.certain)
         self.assertIn("zoom", judgment.matches)
+
+    def test_llm_decision_status_maps_to_legacy_resolved_status(self) -> None:
+        self.assertEqual(decision_status_to_resolved_status("in_scope"), "whitelist")
+        self.assertEqual(decision_status_to_resolved_status("out_of_scope"), "blacklist")
+        self.assertEqual(decision_status_to_resolved_status("blacklist"), "blacklist")
+
+    def test_alphabetic_scope_projects_out_of_scope_as_provisional_skip(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "zoomで参加します。",
+        }
+        decision = AlphabeticDecision(
+            entity_key="zoom",
+            strict_case=False,
+            status="out_of_scope",
+            source="llm",
+            note="low-value foreign term",
+        )
+        occurrences = apply_global_decisions(
+            build_occurrences_for_unit(unit, self.config),
+            {"zoom": decision_status_to_resolved_status(decision.status)},
+        )
+
+        scope = project_alphabetic_scope(occurrences, {"zoom": decision})
+
+        self.assertTrue(scope["provisional_skip"])
+        self.assertEqual(scope["status"], "provisional_skip")
+        self.assertEqual(scope["reasons"][0]["entity_key"], "zoom")
+        self.assertEqual(scope["reasons"][0]["source"], "llm")
 
     def test_upsert_and_load_decision_registry(self) -> None:
         temp_path = PROJECT_ROOT / "tests" / "tmp_token_decisions.jsonl"

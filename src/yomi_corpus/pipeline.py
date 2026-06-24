@@ -14,20 +14,22 @@ from yomi_corpus.alphabetic import (
     attach_examples_to_types,
     build_occurrences_for_unit,
     load_alphabetic_config,
+    project_alphabetic_scope,
     project_minor_alphabetic_judgment,
 )
 from yomi_corpus.alphabetic_reports import build_unresolved_entity_rows
 from yomi_corpus.alphabetic_review import (
     append_alphabetic_llm_judgments,
     build_llm_judgments_from_results,
-    build_promotion_candidates,
     load_jsonl as load_alphabetic_review_jsonl,
-    write_jsonl as write_alphabetic_review_jsonl,
 )
 from yomi_corpus.alphabetic_state import (
+    AlphabeticDecision,
     AlphabeticEvidence,
     append_alphabetic_evidence,
+    decision_status_to_resolved_status,
     load_alphabetic_decisions,
+    upsert_alphabetic_decision,
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
 from yomi_corpus.paths import resolve_repo_path
@@ -992,6 +994,7 @@ class PipelineWorkspace:
             ]
         if stage_name == STAGE_ALPHABETIC_LLM_JUDGED:
             return [
+                batch_dir / "alphabetic_judgment_input.jsonl",
                 batch_dir / "alphabetic_judgment_results.jsonl",
                 batch_dir / "alphabetic_judgment_usage_summary.json",
                 batch_dir / "alphabetic_judgment_ingest_summary.json",
@@ -1167,6 +1170,9 @@ class PipelineWorkspace:
                     "alphabetic_judgment_results_jsonl": str(
                         self.batch_dir(batch_name) / "alphabetic_judgment_results.jsonl"
                     ),
+                    "alphabetic_judgment_input_jsonl": str(
+                        self.batch_dir(batch_name) / "alphabetic_judgment_input.jsonl"
+                    ),
                     "alphabetic_judgment_usage_summary_json": str(
                         self.batch_dir(batch_name) / "alphabetic_judgment_usage_summary.json"
                     ),
@@ -1189,8 +1195,11 @@ class PipelineWorkspace:
                     "alphabetic_promotion_candidates_summary_json": str(
                         self.batch_dir(batch_name) / "alphabetic_promotion_candidates_summary.json"
                     ),
-                    "alphabetic_promotion_candidates_jsonl": str(
-                        self.root / "data" / "state" / "alphabetic" / "promotion_candidates.jsonl"
+                    "alphabetic_projection_summary_json": str(
+                        self.batch_dir(batch_name) / "alphabetic_promotion_candidates_summary.json"
+                    ),
+                    "alphabetic_token_decisions_jsonl": str(
+                        self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
                     ),
                 }
             )
@@ -1475,9 +1484,10 @@ class PipelineWorkspace:
         all_occurrences = []
         unit_text_by_id: dict[str, str] = {}
         decision_status_by_key = {
-            entity_key: decision.status
+            entity_key: decision_status_to_resolved_status(decision.status)
             for entity_key, decision in load_alphabetic_decisions(global_decisions_path).items()
         }
+        decisions_by_key = load_alphabetic_decisions(global_decisions_path)
 
         with input_path.open(encoding="utf-8") as src:
             for line in src:
@@ -1532,6 +1542,10 @@ class PipelineWorkspace:
                     "matches": judgment.matches,
                     "decision_granularity": "entity_type",
                 }
+                unit["analysis"]["mechanical"]["alphabetic_scope"] = project_alphabetic_scope(
+                    occurrences_by_unit[str(unit["unit_id"])],
+                    decisions_by_key,
+                )
                 dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
 
         return {
@@ -1621,18 +1635,35 @@ class PipelineWorkspace:
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
         input_path = batch_dir / "alphabetic_unresolved_entities.jsonl"
+        llm_input_path = batch_dir / "alphabetic_judgment_input.jsonl"
         results_path = batch_dir / "alphabetic_judgment_results.jsonl"
         usage_summary_path = batch_dir / "alphabetic_judgment_usage_summary.json"
         ingest_summary_path = batch_dir / "alphabetic_judgment_ingest_summary.json"
         ledger_path = self.root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
+        decisions_path = self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
         job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_alphabetic_judgment"
 
-        queued_count = count_nonempty_lines(input_path)
+        existing_decisions = load_alphabetic_decisions(decisions_path)
+        llm_input_path.parent.mkdir(parents=True, exist_ok=True)
+        input_entities = 0
+        cached_entity_skips = 0
+        with input_path.open(encoding="utf-8") as src, llm_input_path.open("w", encoding="utf-8") as dst:
+            for line in src:
+                if not line.strip():
+                    continue
+                input_entities += 1
+                row = json.loads(line)
+                if str(row.get("entity_key", "")) in existing_decisions:
+                    cached_entity_skips += 1
+                    continue
+                dst.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+        queued_count = count_nonempty_lines(llm_input_path)
         job_summary = None
         if queued_count:
             job_summary = run_llm_task(
                 task_config_path,
-                str(input_path),
+                str(llm_input_path),
                 str(results_path),
                 execution_mode=execution_mode,
                 task_config_override=task_config,
@@ -1679,12 +1710,32 @@ class PipelineWorkspace:
             source_path=str(results_path),
         )
         append_alphabetic_llm_judgments(ledger_path, judgments)
+        cached_decisions = 0
+        for judgment in judgments:
+            existing = existing_decisions.get(judgment.entity_key)
+            if existing is not None and existing.source not in {"llm", "unknown"}:
+                continue
+            upsert_alphabetic_decision(
+                decisions_path,
+                AlphabeticDecision(
+                    entity_key=judgment.entity_key,
+                    strict_case=judgment.strict_case,
+                    status=judgment.llm_status,
+                    source="llm",
+                    note=judgment.note,
+                ),
+            )
+            cached_decisions += 1
         ingest_summary = {
             "batch_name": batch_name,
-            "input_entities": queued_count,
+            "input_entities": input_entities,
+            "queued_entities": queued_count,
+            "cached_entity_skips": cached_entity_skips,
             "result_rows": len(result_rows),
             "ingested_judgments": len(judgments),
+            "cached_decisions": cached_decisions,
             "ledger_jsonl": str(ledger_path),
+            "decisions_jsonl": str(decisions_path),
         }
         ingest_summary_path.write_text(
             json.dumps(ingest_summary, ensure_ascii=False, indent=2) + "\n",
@@ -1706,8 +1757,12 @@ class PipelineWorkspace:
                     job_summary=job_summary,
                     queued_count=queued_count,
                 ),
+                "alphabetic_judgment_input_jsonl": str(llm_input_path),
                 "alphabetic_judgment_ingested": str(len(judgments)),
+                "alphabetic_judgment_cached_decisions": str(cached_decisions),
+                "alphabetic_judgment_cached_entity_skips": str(cached_entity_skips),
                 "alphabetic_llm_judgments_jsonl": str(ledger_path),
+                "alphabetic_token_decisions_jsonl": str(decisions_path),
             }
         }
 
@@ -1718,81 +1773,88 @@ class PipelineWorkspace:
         skip_review_gates: bool = False,
     ) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
-        batch_state = self.load_batch_state(batch_name)
-        threshold_observations = 3
-        ledger_path = self.root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
         decisions_path = self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
-        candidates_path = self.root / "data" / "state" / "alphabetic" / "promotion_candidates.jsonl"
         summary_path = batch_dir / "alphabetic_promotion_candidates_summary.json"
-
-        judgments = load_alphabetic_review_jsonl(ledger_path)
         decisions = load_alphabetic_decisions(decisions_path)
-        candidates = build_promotion_candidates(
-            judgments,
-            threshold_observations=threshold_observations,
-            existing_decisions=decisions,
-        )
-        write_alphabetic_review_jsonl(
-            candidates_path,
-            [asdict(candidate) for candidate in candidates],
-        )
+        input_path = batch_dir / "units.alphabetic.jsonl"
+        config = load_alphabetic_config("config/alphabetic/default.toml")
+        decision_status_by_key = {
+            entity_key: decision_status_to_resolved_status(decision.status)
+            for entity_key, decision in decisions.items()
+        }
 
-        current_batch_candidates = [
-            candidate
-            for candidate in candidates
-            if batch_name in candidate.source_batches
-        ]
+        read_units = 0
+        provisional_skip_units = 0
+        unresolved_units = 0
+        in_scope_units = 0
+        updated_units: list[dict] = []
+        if input_path.exists():
+            with input_path.open(encoding="utf-8") as src:
+                for line in src:
+                    if not line.strip():
+                        continue
+                    read_units += 1
+                    unit = json.loads(line)
+                    occurrences = apply_global_decisions(
+                        build_occurrences_for_unit(unit, config),
+                        decision_status_by_key,
+                    )
+                    judgment = project_minor_alphabetic_judgment(occurrences)
+                    alphabetic_scope = project_alphabetic_scope(occurrences, decisions)
+                    mechanical = unit.setdefault("analysis", {}).setdefault("mechanical", {})
+                    mechanical["minor_alphabetic_sequence"] = {
+                        "value": judgment.value,
+                        "certain": judgment.certain,
+                        "signals": judgment.signals,
+                        "matches": judgment.matches,
+                        "decision_granularity": "entity_type",
+                    }
+                    mechanical["alphabetic_scope"] = alphabetic_scope
+                    if alphabetic_scope["status"] == "provisional_skip":
+                        provisional_skip_units += 1
+                    elif alphabetic_scope["status"] == "unresolved":
+                        unresolved_units += 1
+                    else:
+                        in_scope_units += 1
+                    updated_units.append(unit)
+
+            with input_path.open("w", encoding="utf-8") as dst:
+                for unit in updated_units:
+                    dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+
         summary = {
             "batch_name": batch_name,
-            "threshold_observations": threshold_observations,
-            "judgment_rows": len(judgments),
+            "read_units": read_units,
             "existing_decisions": len(decisions),
-            "promotion_candidates": len(candidates),
-            "current_batch_promotion_candidates": len(current_batch_candidates),
-            "promotion_candidates_jsonl": str(candidates_path),
+            "provisional_skip_units": provisional_skip_units,
+            "unresolved_units": unresolved_units,
+            "in_scope_units": in_scope_units,
+            "units_alphabetic_jsonl": str(input_path),
+            "decisions_jsonl": str(decisions_path),
         }
         summary_path.write_text(
             json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
 
-        artifacts = {
-            "alphabetic_promotion_candidates_summary_json": str(summary_path),
-            "alphabetic_promotion_candidates_jsonl": str(candidates_path),
-            "alphabetic_promotion_candidates": str(len(candidates)),
-            "alphabetic_current_batch_promotion_candidates": str(len(current_batch_candidates)),
-            "alphabetic_promotion_threshold_observations": str(threshold_observations),
-        }
-        if current_batch_candidates:
-            artifacts.update(
-                {
-                    "human_review_required": "true",
-                    "human_review_gate": "promotion_candidate_review",
-                    "human_review_item_count": str(len(current_batch_candidates)),
-                    "human_review_reason": "alphabetic_promotion_candidates",
-                }
+        if skip_review_gates:
+            summary["skip_review_gates_ignored"] = True
+            summary_path.write_text(
+                json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
             )
-        can_skip_review = skip_review_gates and not requires_strict_human_review_gates(
-            batch_state.track_name
-        )
-        if current_batch_candidates and not can_skip_review:
-            return {
-                "stage_complete": False,
-                "blocking_reason": (
-                    "Alphabetic promotion candidates require human review before "
-                    "the batch can continue. Re-run with --skip-review-gates on "
-                    "a non-working track to continue without review."
-                ),
-                "artifacts": artifacts,
+
+        return {
+            "artifacts": {
+                "alphabetic_promotion_candidates_summary_json": str(summary_path),
+                "alphabetic_projection_summary_json": str(summary_path),
+                "alphabetic_token_decisions_jsonl": str(decisions_path),
+                "alphabetic_provisional_skip_units": str(provisional_skip_units),
+                "alphabetic_unresolved_units": str(unresolved_units),
+                "alphabetic_in_scope_units": str(in_scope_units),
+                "alphabetic_projection_units_jsonl": str(input_path),
             }
-        if current_batch_candidates and can_skip_review:
-            artifacts["human_review_skipped"] = "true"
-            artifacts["human_review_skip_reason"] = "operator_requested_skip_review_gates"
-            return {
-                "artifacts": artifacts,
-                "skipped_review_gates": ["promotion_candidate_review"],
-            }
-        return {"artifacts": artifacts}
+        }
 
     def _generate_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
@@ -1858,6 +1920,9 @@ class PipelineWorkspace:
                 "scope_triage_queue_summary_json": str(summary_path),
                 "scope_triage_task_config": "config/llm/scope_triage.toml",
                 "scope_triage_queued": str(summary.queued),
+                "scope_triage_provisional_alphabetic_skip": str(
+                    summary.provisional_alphabetic_skip
+                ),
             }
         }
 
@@ -1952,6 +2017,9 @@ class PipelineWorkspace:
                 "units_scope_triaged_jsonl": str(output_path),
                 "scope_triage_keep": str(apply_summary.keep),
                 "scope_triage_skip": str(apply_summary.skip),
+                "scope_triage_provisional_alphabetic_skip": str(
+                    apply_summary.provisional_alphabetic_skip
+                ),
                 "scope_triage_parse_error_keep": str(apply_summary.parse_error_keep),
                 "scope_triage_missing_result_keep": str(apply_summary.missing_result_keep),
             }

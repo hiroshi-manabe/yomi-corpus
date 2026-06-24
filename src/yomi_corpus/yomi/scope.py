@@ -10,6 +10,7 @@ from typing import Any
 class ScopeTriageQueueSummary:
     read: int
     queued: int
+    provisional_alphabetic_skip: int
     output_jsonl: str
     summary_json: str
 
@@ -20,6 +21,7 @@ class ScopeTriageApplySummary:
     llm_result_count: int
     keep: int
     skip: int
+    provisional_alphabetic_skip: int
     parse_error_keep: int
     missing_result_keep: int
     output_jsonl: str
@@ -37,12 +39,16 @@ def build_scope_triage_queue_file(
 
     read = 0
     queued = 0
+    provisional_alphabetic_skip = 0
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
             if not line.strip():
                 continue
             read += 1
             unit = json.loads(line)
+            if is_provisional_alphabetic_skip(unit):
+                provisional_alphabetic_skip += 1
+                continue
             item = {
                 "unit_id": str(unit.get("unit_id", "")),
                 "text": str(unit.get("text", "")),
@@ -53,6 +59,7 @@ def build_scope_triage_queue_file(
     summary = ScopeTriageQueueSummary(
         read=read,
         queued=queued,
+        provisional_alphabetic_skip=provisional_alphabetic_skip,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
     )
@@ -77,6 +84,7 @@ def apply_scope_triage_results_file(
     read_units = 0
     keep = 0
     skip = 0
+    provisional_alphabetic_skip = 0
     parse_error_keep = 0
     missing_result_keep = 0
 
@@ -87,6 +95,14 @@ def apply_scope_triage_results_file(
             read_units += 1
             unit = json.loads(line)
             unit_id = str(unit.get("unit_id", ""))
+            if is_provisional_alphabetic_skip(unit):
+                judgment = build_provisional_alphabetic_scope_judgment(unit)
+                skip += 1
+                provisional_alphabetic_skip += 1
+                unit.setdefault("analysis", {}).setdefault("llm", {})["scope_triage"] = judgment
+                dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+                continue
+
             result = results.get(unit_id)
             judgment = build_scope_judgment(unit_id, result)
             if judgment["status"] == "Skip":
@@ -107,6 +123,7 @@ def apply_scope_triage_results_file(
         llm_result_count=len(results),
         keep=keep,
         skip=skip,
+        provisional_alphabetic_skip=provisional_alphabetic_skip,
         parse_error_keep=parse_error_keep,
         missing_result_keep=missing_result_keep,
         output_jsonl=str(output_jsonl),
@@ -117,6 +134,34 @@ def apply_scope_triage_results_file(
         encoding="utf-8",
     )
     return summary
+
+
+def is_provisional_alphabetic_skip(unit: dict[str, Any]) -> bool:
+    return bool(
+        unit.get("analysis", {})
+        .get("mechanical", {})
+        .get("alphabetic_scope", {})
+        .get("provisional_skip")
+    )
+
+
+def build_provisional_alphabetic_scope_judgment(unit: dict[str, Any]) -> dict[str, Any]:
+    alphabetic_scope = (
+        unit.get("analysis", {})
+        .get("mechanical", {})
+        .get("alphabetic_scope", {})
+    )
+    return {
+        "status": "Skip",
+        "source": "provisional_alphabetic_skip",
+        "parse_error": None,
+        "raw_text": None,
+        "result_item_id": str(unit.get("unit_id", "")),
+        "provisional": True,
+        "reasons": list(alphabetic_scope.get("reasons", []))
+        if isinstance(alphabetic_scope.get("reasons"), list)
+        else [],
+    }
 
 
 def load_scope_results(results_jsonl: Path) -> dict[str, dict[str, Any]]:

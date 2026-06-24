@@ -317,6 +317,64 @@ def project_minor_alphabetic_judgment(
     )
 
 
+def project_alphabetic_scope(
+    occurrences: list[AlphabeticOccurrence],
+    decisions_by_key: dict[str, object] | None = None,
+) -> dict:
+    decisions_by_key = decisions_by_key or {}
+    reasons = []
+    unresolved = []
+    in_scope = []
+
+    for occurrence in occurrences:
+        decision = decisions_by_key.get(occurrence.entity_key)
+        source = str(getattr(decision, "source", ""))
+        effective_status = _effective_scope_status(occurrence.resolved_status)
+        reason = {
+            "entity_key": occurrence.entity_key,
+            "entity_text": occurrence.entity_text,
+            "effective_status": effective_status,
+            "resolved_status": occurrence.resolved_status,
+            "source": source or _default_scope_source(occurrence),
+        }
+        if decision is not None:
+            reason["decision_status"] = str(getattr(decision, "status", ""))
+            note = str(getattr(decision, "note", ""))
+            if note:
+                reason["note"] = note
+
+        if effective_status == "out_of_scope":
+            reasons.append(reason)
+        elif effective_status == "unknown":
+            unresolved.append(reason)
+        else:
+            in_scope.append(reason)
+
+    if reasons:
+        return {
+            "provisional_skip": True,
+            "status": "provisional_skip",
+            "source": "alphabetic_entity_status",
+            "reasons": _dedupe_reason_rows(reasons),
+            "unresolved": _dedupe_reason_rows(unresolved),
+        }
+    if unresolved:
+        return {
+            "provisional_skip": False,
+            "status": "unresolved",
+            "source": "alphabetic_entity_status",
+            "reasons": [],
+            "unresolved": _dedupe_reason_rows(unresolved),
+        }
+    return {
+        "provisional_skip": False,
+        "status": "in_scope",
+        "source": "alphabetic_entity_status",
+        "reasons": [],
+        "in_scope": _dedupe_reason_rows(in_scope),
+    }
+
+
 def _is_blacklisted(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
     if entity.strict_case:
         return entity.text in config.case_sensitive_blacklist
@@ -389,3 +447,37 @@ def _unique_preserve_order(items: list[str]) -> list[str]:
         seen.add(item)
         ordered.append(item)
     return ordered
+
+
+def _effective_scope_status(resolved_status: str) -> str:
+    if resolved_status == "blacklist":
+        return "out_of_scope"
+    if resolved_status in {"whitelist", "single_letter"}:
+        return "in_scope"
+    return "unknown"
+
+
+def _default_scope_source(occurrence: AlphabeticOccurrence) -> str:
+    if occurrence.resolved_status == "blacklist" and occurrence.base_list_status == "blacklist":
+        return "static_blacklist"
+    if occurrence.resolved_status == "whitelist" and occurrence.base_list_status == "whitelist":
+        return "static_whitelist"
+    if occurrence.resolved_status == "single_letter":
+        return "single_letter_exception"
+    return "unknown"
+
+
+def _dedupe_reason_rows(rows: list[dict]) -> list[dict]:
+    seen: set[tuple[str, str, str]] = set()
+    deduped: list[dict] = []
+    for row in rows:
+        key = (
+            str(row.get("entity_key", "")),
+            str(row.get("effective_status", "")),
+            str(row.get("source", "")),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
+    return deduped

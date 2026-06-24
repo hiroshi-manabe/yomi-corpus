@@ -52,6 +52,14 @@ def load_alphabetic_decisions(path: str | Path) -> dict[str, AlphabeticDecision]
     return decisions
 
 
+def decision_status_to_resolved_status(status: str) -> str:
+    if status == "in_scope":
+        return "whitelist"
+    if status == "out_of_scope":
+        return "blacklist"
+    return status
+
+
 def append_alphabetic_evidence(path: str | Path, records: list[AlphabeticEvidence]) -> None:
     evidence_path = Path(path)
     evidence_path.parent.mkdir(parents=True, exist_ok=True)

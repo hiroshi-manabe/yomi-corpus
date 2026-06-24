@@ -968,8 +968,17 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(len(rows), 1)
             self.assertEqual(rows[0]["entity_key"], "ok")
             self.assertEqual(rows[0]["llm_status"], "in_scope")
+            decisions_path = root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
+            decisions = [
+                json.loads(line)
+                for line in decisions_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual(decisions[0]["entity_key"], "ok")
+            self.assertEqual(decisions[0]["status"], "in_scope")
+            self.assertEqual(decisions[0]["source"], "llm")
 
-    def test_working_track_blocks_on_alphabetic_promotion_candidates(self) -> None:
+    def test_working_track_projects_alphabetic_status_without_review_gate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -1030,16 +1039,15 @@ class PipelineTrackTests(unittest.TestCase):
 
             summary = workspace.advance("working")
 
-            self.assertFalse(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "alphabetic_llm_judged")
-            self.assertIn("human review", summary["blocking_reason"])
-            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
-            self.assertEqual(summary["artifacts"]["human_review_gate"], "promotion_candidate_review")
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "alphabetic_promotion_candidates")
+            self.assertIsNone(summary["blocking_reason"])
+            self.assertNotIn("human_review_required", summary["artifacts"])
             self.assertTrue((batch_dir / "alphabetic_promotion_candidates_summary.json").exists())
             saved_after = workspace.load_batch_state("batch_0001")
-            self.assertEqual(saved_after.current_stage, "alphabetic_llm_judged")
+            self.assertEqual(saved_after.current_stage, "alphabetic_promotion_candidates")
 
-    def test_dev_track_blocks_on_alphabetic_promotion_candidates_without_skip(self) -> None:
+    def test_dev_track_projects_alphabetic_status_without_skip_review_gate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -1100,14 +1108,14 @@ class PipelineTrackTests(unittest.TestCase):
 
             summary = workspace.advance("dev")
 
-            self.assertFalse(summary["advanced"])
-            self.assertEqual(summary["current_stage"], "alphabetic_llm_judged")
-            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
+            self.assertTrue(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "alphabetic_promotion_candidates")
+            self.assertNotIn("human_review_required", summary["artifacts"])
             self.assertEqual(summary["skipped_review_gates"], [])
             saved_after = workspace.load_batch_state("dev_batch_0001")
-            self.assertEqual(saved_after.current_stage, "alphabetic_llm_judged")
+            self.assertEqual(saved_after.current_stage, "alphabetic_promotion_candidates")
 
-    def test_dev_track_can_skip_alphabetic_promotion_review_explicitly(self) -> None:
+    def test_dev_skip_review_gates_is_ignored_for_alphabetic_projection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -1170,12 +1178,11 @@ class PipelineTrackTests(unittest.TestCase):
 
             self.assertTrue(summary["advanced"])
             self.assertEqual(summary["current_stage"], "alphabetic_promotion_candidates")
-            self.assertEqual(summary["artifacts"]["human_review_required"], "true")
-            self.assertEqual(summary["artifacts"]["human_review_skipped"], "true")
-            self.assertEqual(summary["skipped_review_gates"], ["promotion_candidate_review"])
+            self.assertNotIn("human_review_required", summary["artifacts"])
+            self.assertEqual(summary["skipped_review_gates"], [])
             saved_after = workspace.load_batch_state("dev_batch_0001")
             self.assertEqual(saved_after.current_stage, "alphabetic_promotion_candidates")
-            self.assertEqual(saved_after.skipped_review_gates, ["promotion_candidate_review"])
+            self.assertEqual(saved_after.skipped_review_gates, [])
 
     def test_advance_queues_scope_triage_after_alphabetic_promotion_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

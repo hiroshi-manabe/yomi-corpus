@@ -1510,7 +1510,7 @@ state.
 
 ### 10.5.3 Reviewed range semantics
 
-For promotion-candidate review, the important concept is reviewed coverage, not
+For review export, the important concept is reviewed coverage, not
 explicit clicks on every approved item.
 
 Default UI behavior:
