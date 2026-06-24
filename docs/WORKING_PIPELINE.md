@@ -341,11 +341,13 @@ Instead, for each batch:
 - extract all alphabetic entity occurrences mechanically from all units
 - aggregate them into entity types
 - apply current whitelist/blacklist lookup
-- send only unresolved entity types to the LLM for reusable evidence
-- aggregate evidence across batches before proposing global list changes
-- show only repeated consistent promotion candidates to a human
+- send only unresolved entity types to the LLM once, then cache the judgment
+  globally
+- project cached `out_of_scope` judgments back to units as provisional skip
+- let final human review correct provisional skip with the same `Skip` checkbox
 
-Then project approved entity-type decisions back onto units.
+The cache keeps source metadata for audit/debug, but behavior should only need
+the effective status: `in_scope`, `out_of_scope`, or `unknown`.
 
 This is not limited to English. The problem includes other Latin-script foreign
 material such as French.
@@ -405,7 +407,8 @@ For alphabetic material, the equivalent branching point is the entity type:
 - if an entity type is already covered by whitelist/blacklist rules, do not ask
   the LLM
 - otherwise send that entity type, not the whole sentence, to the LLM
-- treat the LLM answer as evidence, not as an immediate global decision
+- treat the LLM answer as a cached provisional decision, not as final human
+  corpus review
 
 
 ## 7. Minor Alphabetic Sequences
@@ -481,23 +484,24 @@ Recommended flow:
 - remove already known whitelist/blacklist entries
 - ask the LLM to classify unresolved entity types, with short example snippets
   from the batch
-- append the LLM results to the cross-batch evidence ledger
-- build promotion candidates only after repeated consistent evidence
-- ask humans to review promotion candidates, not every unresolved entity type
+- append the LLM results to the cross-batch judgment cache
+- do not ask the LLM again for the same effective entity key unless a cache
+  entry is explicitly superseded
+- mark units containing any cached `out_of_scope` entity as provisional skip
 
 Sentence context is still useful, but mainly as supporting evidence for the
 entity-level decision.
 
 The LLM stage should answer whether the entity is naturally usable in modern
-Japanese context or is obscure/foreign/noisy enough to skip. This answer should
-not directly mutate the whitelist or blacklist. It is deliberately weaker than
-human approval because a promoted entity affects future batches.
+Japanese context or is obscure/foreign/noisy enough to skip. This answer may
+pre-check `Skip` for affected units, but it is not final deletion.
 
-For `dev`, pending alphabetic promotion review may be skipped only with an
-explicit operator option such as `./next dev --skip-review-gates`. The skipped
-gate should be reported in concise output and recorded in batch state. For
-`working`, strict mode should not silently pass unresolved alphabetic issues or
-unreviewed promotion candidates once those gates are implemented.
+At final review time, provisional alphabetic skip units should be greyed out
+with the same `Skip` checkbox already checked. If the human leaves the checkbox
+checked, no entity-level status changes. If the human unchecks it, the
+triggering `out_of_scope` entities become effective `in_scope` entries. If a
+human checks `Skip` for a normal unit, that also does not change entity status,
+because the reason may be unrelated to alphabetic material.
 
 ## 7.5 Rule harvesting
 
@@ -1403,35 +1407,29 @@ propose a reusable entity-level entry.
 Current preference is still to keep these as simple entity-level entries rather
 than general regexes.
 
-## 10.4 Promotion candidate review
+## 10.4 Provisional alphabetic skip review
 
-Whitelist and blacklist promotion should not happen automatically from one LLM
-answer.
+Alphabetic review should piggyback on final unit review rather than introducing
+a separate routine promotion-candidate surface.
 
 Recommended flow:
 
-- accumulate evidence for each entity type across batches
-- let deterministic rules or the LLM generate promotion candidates
-- use a temporary threshold of `3` consistent observations to surface either a
-  whitelist or blacklist candidate
-- show only those promotion candidates to a human
-- promote to global whitelist or blacklist only after human approval
+- keep cached LLM judgments for entity types
+- mark units with `out_of_scope` entities as provisional skip
+- display provisional skip units greyed out, with `Skip` pre-checked
+- show concise reasons such as the triggering entity and cached status
+- if the reviewer unchecks `Skip`, store an effective `in_scope` override for
+  the triggering entities
 
-This is meant to minimize human effort while still keeping globally reused list
-entries trustworthy.
+This is meant to minimize human effort while keeping all final skip decisions
+visible in the same review interface used for yomi quality.
 
-This `3`-observation rule is only a temporary operating rule. It can be made
-stricter later if the evidence quality turns out to be noisier than expected.
-
-The review unit here is the entity type, not the sentence.
-
-For each promotion candidate, show:
+The review unit remains the sentence/unit. For each provisional skip, show:
 
 - entity key
-- proposed direction: whitelist or blacklist
-- evidence summary such as observation counts and recent judgments
-- a few short example snippets
-- optional short rationale
+- effective status
+- source, such as static blacklist or LLM cache
+- optional short rationale and example snippets for debugging
 
 Human actions can stay simple:
 
@@ -1653,13 +1651,9 @@ Example behavior:
 - if a batch is only prepared, `./next` should build the alphabetic artifacts
 - the next `./next` should build the unresolved alphabetic report
 - the next `./next` should run or resume alphabetic entity LLM judgment for
-  unresolved entity types and append reusable evidence
-- the next `./next` should build whitelist/blacklist promotion candidates from
-  repeated consistent evidence; on `working`, current-batch candidates block
-  progress until human review updates the global decisions
-- on non-working tracks, the same gate also blocks by default; rerun with
-  `./next dev --skip-review-gates` to continue explicitly while recording the
-  skipped gate
+  unresolved entity types and update the global judgment cache
+- the next `./next` should project cached `out_of_scope` entity status to
+  provisional skip reasons before general scope/yomi processing
 - the next `./next` should queue raw-text scope triage
 - the next `./next` should run or resume scope triage and exclude `Skip` units
 - the next `./next` should build the mechanical yomi JSONL
@@ -1886,8 +1880,9 @@ Important intended behavior:
 - a sentence that is already known to have incorrect yomi should not be shown as
   a knowingly bad candidate; instead the pipeline should first attempt repair
 
-Minor alphabetic review should not be mixed into this sentence-level UI. It
-should live in an entity-level review flow with example sentences.
+Minor alphabetic review should be visible in this sentence-level UI only as
+pre-checked `Skip` suggestions with reasons. The reviewer should not have to
+visit a separate entity-level UI for routine cases.
 
 
 ## 12. Human Review: Pass 2

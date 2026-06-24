@@ -220,11 +220,13 @@ level:
 - extract alphabetic entity occurrences from all units in the batch
 - aggregate them into entity types
 - resolve entity types through whitelist/blacklist lookup first
-- send only unresolved entity types to the LLM for reusable evidence
-- aggregate LLM evidence across batches before surfacing promotion candidates
-- require human approval before promoting an entity type to the global
-  whitelist or blacklist
-- project approved entity-type decisions back onto units afterward
+- send only unresolved entity types to the LLM once, then cache the judgment
+  globally
+- use the effective entity status immediately for provisional unit-level skip
+- let final human review override provisional skip with the same `Skip`
+  checkbox used for ordinary skip decisions
+- keep the judgment source for audit/debug, but make behavior depend only on
+  effective `in_scope`, `out_of_scope`, or `unknown`
 
 This matters because the alphabetic long tail is primarily a repeated entity
 problem, not a repeated sentence problem.
@@ -1044,20 +1046,22 @@ Important UI rule:
 - do not show the raw sentence separately in this UI; the yomi-annotated
   sentence already contains the original text
 
-Minor alphabetic review should live in a separate entity-level flow with example
-sentences, not in this sentence-level UI.
+Minor alphabetic review should not be a separate routine human surface. Entity
+judgments are cached and projected to provisional unit skip; the final
+sentence/unit review UI is where a human restores wrongly skipped units.
 
 ### S60 Rule Harvesting
 
 Output:
 
 - candidate reusable rules derived from reviewed cases
-- candidate whitelist or blacklist promotions for alphabetic entity types
+- candidate human overrides for alphabetic entity types
 
 Responsibilities:
 
 - propose non-target triggers
-- propose minor-alphabetic whitelist or blacklist entries
+- propose minor-alphabetic entity status updates when human review contradicts
+  provisional skip
 - keep yomi repair rules separate from classification lists
 
 This should remain conservative and is still an open design area.
@@ -1066,8 +1070,8 @@ This should remain conservative and is still an open design area.
 
 Output:
 
-- LLM evidence records for unresolved alphabetic entity types
-- no direct global whitelist or blacklist mutation
+- cached LLM judgments for unresolved alphabetic entity types
+- unit-level provisional skip reasons derived from effective entity status
 
 Responsibilities:
 
@@ -1076,49 +1080,55 @@ Responsibilities:
   as context
 - judge whether the entity is naturally usable in modern Japanese context or is
   obscure/foreign/noisy enough to skip
-- store the answer as evidence in the cross-batch alphabetic judgment ledger
+- store the answer in the cross-batch alphabetic judgment cache
+- do not ask again for the same effective entity key unless the cache is
+  explicitly invalidated or superseded
+- mark a unit as provisional skip when any effective entity status is
+  `out_of_scope`
 - preserve raw model output and usage metadata for later audit
 
-The LLM answer is evidence, not policy. It should not directly decide whether
-the current batch is accepted, and it should not directly update the global
-whitelist or blacklist. The same entity may appear in later batches; repeated
-consistent evidence is what makes it worth asking a human to approve a global
-promotion.
+The LLM answer is provisional policy, not a final corpus decision. It may cause
+a unit to start with `Skip` checked, but that unit remains visible in final
+review. If the human unchecks `Skip` for a provisional alphabetic skip, the
+triggering `out_of_scope` entities become effective `in_scope` entries from then
+on. If the human leaves the unit skipped, or manually skips a unit that was not
+provisionally skipped, entity status does not change.
 
-For `dev`, the pipeline may continue after this stage even when promotion
-candidate review is pending only when the operator explicitly requests a review
-skip. The skip must be recorded in the batch state and printed in concise
-operator output. For `working`, unresolved alphabetic issues or unreviewed
-promotion candidates should not be allowed to pass silently once strict gates
-are active.
+The cache should preserve source metadata such as `static_whitelist`,
+`static_blacklist`, `llm`, or `human_unskip`, but ordinary behavior should not
+depend on the source. The effective status is just `in_scope`, `out_of_scope`,
+or `unknown`.
 
-### S65 Promotion Candidate Review
+### S65 Provisional Skip Review
 
 Output:
 
-- human-reviewed decisions on whether candidate alphabetic entity types should
-  be promoted to the global whitelist or blacklist
+- final review records containing the displayed `Skip` checkbox state
+- optional human overrides for alphabetic entities when provisional skip is
+  restored
 
 Responsibilities:
 
-- review only promotion candidates, not every unresolved entity type
-- confirm or reject globally reused list entries
-- keep this policy-level review separate from sentence-level corpus review
+- show provisional alphabetic skip units greyed out with `Skip` pre-checked
+- show concise skip reasons such as the triggering entity key and cached status
+- let the human uncheck `Skip` to restore the unit
+- write effective `in_scope` overrides for triggering `out_of_scope` entities
+  only when the human restores a provisional alphabetic skip
 
-Temporary candidate threshold:
+Asymmetric update rule:
 
-- treat `3` consistent observations as enough to surface a candidate for either
-  whitelist or blacklist review
-- keep actual promotion gated on human approval
-- treat this as a provisional operational rule, not a final policy
+- human keeps a provisional skip checked: no entity-level change
+- human checks `Skip` on a normal unit: no entity-level change
+- human unchecks a provisional alphabetic skip: triggering entities become
+  effective `in_scope`
 
 Rationale:
 
-- promotion decisions have high leverage because they affect future batches
-- candidate review is a better use of human time than broad manual screening of
-  every entity occurrence
-- blacklist promotion may later need to stay more conservative than whitelist
-  promotion, but the temporary threshold is currently `3` for both directions
+- final review is already required for yomi quality, so skip correction should
+  piggyback on the same UI
+- provisional skips reduce downstream cost without requiring a separate
+  promotion-candidate review loop
+- source-aware audit records remain available if the LLM cache proves noisy
 
 ### S70 Expensive Yomi Recovery
 
@@ -1477,14 +1487,9 @@ Examples:
   artifacts
 - the following `./next` should build the unresolved alphabetic report
 - the following `./next` should judge unresolved alphabetic entity types with
-  the configured LLM mode and append evidence without directly mutating
-  whitelist/blacklist state
-- the following `./next` should rebuild promotion candidates from repeated
-  consistent entity-type evidence; on `working`, current-batch candidates block
-  progress until human review updates the global decisions
-- on non-working tracks, the same review gate also blocks by default; rerun
-  with `./next dev --skip-review-gates` to continue explicitly while recording
-  the skipped gate
+  the configured LLM mode and update the cached effective entity status
+- the following `./next` should project cached alphabetic status back to units
+  as provisional skip reasons before general scope/yomi processing
 - the following `./next` should queue raw-text scope triage
 - the following `./next` should run or resume scope triage and write
   `units.scope_triaged.jsonl`
@@ -1555,8 +1560,8 @@ reviewer can leave the page and return later.
 
 ### 10.3 Reviewed ranges and overrides
 
-For promotion-candidate review, a reviewed range matters more than explicit
-marks on every approved item.
+For review export, a reviewed range matters more than explicit marks on every
+approved item.
 
 Recommended behavior:
 

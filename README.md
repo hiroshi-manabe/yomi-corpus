@@ -68,11 +68,16 @@ Default model policy:
 
 Alphabetic entity policy:
 
-- unresolved Latin/alphanumeric entity types are judged in batches
-- whitelist/blacklist promotions should be proposed from accumulated evidence
-- use a temporary promotion-candidate threshold of `3` consistent observations
-  for both whitelist and blacklist directions
-- humans review only promotion candidates before global list entries are added
+- unresolved Latin/alphanumeric entity types are judged once and cached globally
+- cached judgments are operational: an `out_of_scope` entity causes provisional
+  skip for units that contain it
+- provisional skip is not deletion; final review shows the same `Skip` checkbox
+  pre-checked and greyed so the human can restore the unit
+- if a human restores a provisional alphabetic skip, the triggering entity is
+  treated as `in_scope` from then on; human skip decisions do not change entity
+  status
+- judgment source is kept for audit/debug, but behavior only needs
+  `in_scope`, `out_of_scope`, or `unknown`
 
 Review transport policy:
 
@@ -155,9 +160,9 @@ Yomi generation scaffold:
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct
-- after alphabetic checks, `scope_triage_queued` builds raw-text `Keep`/`Skip`
-  input and `scope_triage_llm_completed` calls the LLM before yomi generation;
-  `Skip` units are excluded from later reading work
+- after alphabetic checks, units with cached `out_of_scope` alphabetic entities
+  are marked as provisional skip; raw-text scope triage still handles general
+  non-target material before yomi generation
 - after yomi generation, `yomi_auto_accepted` adds
   `analysis.mechanical.yomi.auto_accept` only for low-risk units where Sudachi
   and the decoder agree and the decoder candidate has full repeated N-gram
