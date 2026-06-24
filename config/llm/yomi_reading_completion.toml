@@ -1,9 +1,9 @@
-task_name = "yomi_reading_retry"
+task_name = "yomi_reading"
 input_builder = "yomi_reading"
-parser = "json_object"
+parser = "yomi_reading_completion_json"
 mode = "sync"
-model = "gpt-5.5"
-prompt_template = "config/prompts/yomi_reading_retry_v1.txt"
+model = "gpt-5.4-mini"
+prompt_template = "config/prompts/yomi_reading_completion_v1.txt"
 reasoning_effort = "none"
 verbosity = "low"
 max_output_tokens = 1024

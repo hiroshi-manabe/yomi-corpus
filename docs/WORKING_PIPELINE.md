@@ -826,17 +826,17 @@ Implementation status:
 3. Apply LLM reading results back into safety.
    - On exact LLM/mechanical agreement, add `safe_by_llm_agreement` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
-   - On yomi-reading format/key parse errors, retry once with a stricter
-     one-key JSON prompt before applying results. Retry results override the
-     first pass for the same item ID.
+   - On yomi-reading format/key parse errors after parser salvage, retry with
+     the same prompt and task config up to 3 total attempts. Retry results
+     override earlier attempts for the same item ID.
    - On mismatch, missing result, or parse error after retry, keep the target
      unresolved and set `status_reason` to the relevant failure.
 4. Materialize explicit final artifacts.
    - `units.yomi.safety_pre_llm.jsonl`: implemented deterministic target safety
      before LLM.
    - `yomi_reading_input.jsonl`: implemented unresolved targets sent to LLM.
-   - `yomi_reading_retry_input.jsonl`: implemented parse-error targets sent to
-     the stricter retry prompt.
+   - `yomi_reading_retry2_input.jsonl` and `yomi_reading_retry3_input.jsonl`:
+     implemented parse-error targets resent with the same prompt.
    - `units.yomi.safety.jsonl`: pending final target safety after LLM
      agreement.
    - Summaries should count total targets, safe-by-signal counts, queued LLM
@@ -992,12 +992,16 @@ auto_accept_profile=strict}` and
 `dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji}`.
 Operators should still be able to run dev with `off` or `strict`, and later run
 working with `stable_two_kanji` once that policy is trusted. Track defaults
-should also choose LLM profiles per task, so dev can use `economy` for flow
-checks while working uses `economy` for the scope gate, `standard` for ordinary
-reading work, and `strong` for rescue. Track defaults should also choose
-execution modes per task. `background` should be the normal default for both
-`dev` and `working`, because it submits independent requests without blocking
-on slow sequential calls and can be resumed by rerunning `./next`. `sync` is
+should also choose LLM profiles per task. Dev can use `economy` for scope gates
+and plumbing-oriented tasks, but `yomi_reading` should default to `standard`
+even on dev: cheaper mini-model mistakes create false engineering problems and
+make prompt/pipeline evaluation noisier. Working likewise uses `economy` for
+the scope gate, `standard` for ordinary reading work, and `strong` for rescue.
+Track defaults should also choose execution modes per task. `background` should
+be the normal default for both
+`dev` and `working`, because it submits independent requests, polls until
+completion by default, avoids slow sequential calls, and can be resumed by
+rerunning `./next` after interruption. `sync` is
 best for prompt exploration, smoke tests, tiny runs, and tasks where immediate
 failure inspection matters. `batch` is best for very large low-urgency tasks
 where latency is acceptable and cost/rate-limit behavior matters. In batch
@@ -1038,7 +1042,7 @@ auto_accept_profile = "stable_two_kanji"
 [tracks.dev.llm_policy]
 alphabetic_entity_judge = "economy"
 scope_triage = "economy"
-yomi_reading = "economy"
+yomi_reading = "standard"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
@@ -1710,7 +1714,8 @@ Background mode behavior:
 - store each `item_id -> response_id` mapping in the LLM job directory
 - on resume, do not resubmit item IDs that already have either a response ID or
   a parsed result
-- poll stored response IDs and append completed results immediately
+- poll stored response IDs until completion or interruption by default, and
+  append completed results immediately
 - report progress from parsed completed result count over total item count
 - treat incomplete background responses as an active resumable job, not as a
   separate domain pipeline stage

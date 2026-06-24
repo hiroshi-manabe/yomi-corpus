@@ -114,6 +114,9 @@ def run_llm_task(
             task_config_override=task_config_override,
             job_dir=job_dir,
             show_progress=show_progress,
+            wait=batch_wait,
+            poll_interval_seconds=batch_poll_interval_seconds,
+            max_wait_seconds=batch_max_wait_seconds,
         )
     if execution_mode == LLM_EXECUTION_MODE_BATCH:
         if not job_dir:
@@ -210,6 +213,9 @@ def run_background_task(
     task_config_override: LLMTaskConfig | None = None,
     job_dir: str,
     show_progress: bool = False,
+    wait: bool = True,
+    poll_interval_seconds: float = 60.0,
+    max_wait_seconds: float | None = None,
 ) -> ResumableLLMJobSummary:
     task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
@@ -245,7 +251,6 @@ def run_background_task(
         }
         write_background_records(responses_path, records, items)
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
     progress = (
         ProgressBar(label="LLM background", total=len(items), current=len(completed_ids))
         if show_progress
@@ -253,44 +258,28 @@ def run_background_task(
     )
     if progress is not None:
         progress.render()
-    with output_path.open("a", encoding="utf-8") as handle:
-        for item in items:
-            if item.item_id in completed_ids:
-                continue
-            record = records.get(item.item_id)
-            if not record:
-                continue
-            status = str(record.get("status") or "")
-            if status in {"failed", "cancelled", "incomplete"}:
-                result = background_failure_result(item, record)
-            else:
-                snapshot = backend.retrieve_response(str(record["response_id"]))
-                status = str(snapshot.get("status") or "")
-                record.update(
-                    {
-                        "status": status,
-                        "updated_at_epoch": int(time()),
-                        "completed_at": snapshot.get("completed_at"),
-                        "error": snapshot.get("error"),
-                        "incomplete_details": snapshot.get("incomplete_details"),
-                    }
-                )
-                if status == "completed":
-                    result = background_completed_result(task_config, item, snapshot)
-                elif status in {"failed", "cancelled", "incomplete"}:
-                    result = background_failure_result(item, record)
-                else:
-                    result = None
-            if result is None:
-                continue
-            handle.write(json.dumps(result_to_json_row(result), ensure_ascii=False) + "\n")
-            handle.flush()
-            completed_ids.add(item.item_id)
-            if progress is not None:
-                progress.update_to(len(completed_ids))
+    start_time = time()
+    while True:
+        completed_ids = poll_background_records_once(
+            task_config=task_config,
+            items=items,
+            records=records,
+            completed_ids=completed_ids,
+            output_path=output_path,
+            backend=backend,
+            progress=progress,
+        )
+        write_background_records(responses_path, records, items)
+        pending_items = len(item_ids - completed_ids)
+        if pending_items == 0:
+            break
+        if not wait:
+            break
+        if max_wait_seconds is not None and time() - start_time >= max_wait_seconds:
+            break
+        sleep(max(poll_interval_seconds, 0.0))
     if progress is not None:
         progress.finish()
-    write_background_records(responses_path, records, items)
 
     failed_items = count_result_parse_errors(output_path)
     pending_items = len(item_ids - completed_ids)
@@ -466,6 +455,55 @@ def prepare_batch_task(
     atomic_write_text(manifest_path, json.dumps(manifest, ensure_ascii=False, indent=2))
 
 
+def poll_background_records_once(
+    *,
+    task_config: LLMTaskConfig,
+    items: list[object],
+    records: dict[str, dict[str, object]],
+    completed_ids: set[str],
+    output_path: Path,
+    backend: OpenAIResponsesBackend,
+    progress: ProgressBar | None = None,
+) -> set[str]:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("a", encoding="utf-8") as handle:
+        for item in items:
+            if item.item_id in completed_ids:
+                continue
+            record = records.get(item.item_id)
+            if not record:
+                continue
+            status = str(record.get("status") or "")
+            if status in {"failed", "cancelled", "incomplete"}:
+                result = background_failure_result(item, record)
+            else:
+                snapshot = backend.retrieve_response(str(record["response_id"]))
+                status = str(snapshot.get("status") or "")
+                record.update(
+                    {
+                        "status": status,
+                        "updated_at_epoch": int(time()),
+                        "completed_at": snapshot.get("completed_at"),
+                        "error": snapshot.get("error"),
+                        "incomplete_details": snapshot.get("incomplete_details"),
+                    }
+                )
+                if status == "completed":
+                    result = background_completed_result(task_config, item, snapshot)
+                elif status in {"failed", "cancelled", "incomplete"}:
+                    result = background_failure_result(item, record)
+                else:
+                    result = None
+            if result is None:
+                continue
+            handle.write(json.dumps(result_to_json_row(result), ensure_ascii=False) + "\n")
+            handle.flush()
+            completed_ids.add(item.item_id)
+            if progress is not None:
+                progress.update_to(len(completed_ids))
+    return completed_ids
+
+
 def write_results_jsonl(path: str, results: list[LLMResult]) -> None:
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -615,7 +653,7 @@ def background_completed_result(
         try:
             from yomi_corpus.llm.parsers import parse_output
 
-            parsed = parse_output(raw_text, task_config.parser)
+            parsed = parse_output(raw_text, task_config.parser, metadata=item.metadata)
         except Exception as exc:  # noqa: BLE001
             parse_error = str(exc)
     return LLMResult(

@@ -1,0 +1,27 @@
+{
+  "queue_jsonl": "data/units/dev_batch_0001/yomi_reading_input.jsonl",
+  "regression_jsonl": "data/evals/yomi_reading/regression_v1.jsonl",
+  "scored_jsonl": "runs/prompt_experiments/yomi_reading_completion_v1_latin_gpt54mini_dev155/scored.jsonl",
+  "output_tsv": "data/evals/yomi_reading/gold_review_seed_v1.tsv",
+  "output_jsonl": "data/evals/yomi_reading/gold_review_seed_v1.jsonl",
+  "target_size": 120,
+  "selected_count": 120,
+  "seed": 17,
+  "seed_source_counts": {
+    "regression_gold_seed": 5,
+    "llm_failure_seed": 13,
+    "stratified_queue_sample": 102
+  },
+  "feature_bucket_counts": {
+    "single_kanji_context": 39,
+    "iteration_mark": 3,
+    "latin": 5,
+    "okurigana_chunk": 62,
+    "multi_kanji_compound": 11
+  },
+  "notes": [
+    "Rows with seed_source=regression_gold_seed have expected_reading prefilled.",
+    "Other rows intentionally leave expected_reading blank for human review.",
+    "current_reading_hiragana is context, not gold."
+  ]
+}

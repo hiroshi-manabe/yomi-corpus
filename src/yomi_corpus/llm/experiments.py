@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import asdict, replace
 import json
 from pathlib import Path
+import shutil
 import subprocess
 from time import time
 from typing import Any
@@ -11,7 +12,13 @@ from yomi_corpus.llm.backend import OpenAIResponsesBackend
 from yomi_corpus.llm.config import load_llm_task_config
 from yomi_corpus.llm.experiment_scoring import score_output, summarize_scores
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
-from yomi_corpus.llm.runner import write_results_jsonl
+from yomi_corpus.llm.runner import (
+    LLM_EXECUTION_MODE_SYNC,
+    LLM_EXECUTION_MODES,
+    run_llm_task,
+    write_results_jsonl,
+)
+from yomi_corpus.llm.schemas import LLMResult
 from yomi_corpus.llm.tasks import build_prompt_items, load_jsonl_rows
 from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.paths import resolve_repo_path
@@ -39,10 +46,20 @@ def run_prompt_experiment(
     max_output_tokens: int | None = None,
     rendered_yomi_display: str | None = None,
     include_source_text: bool | None = None,
+    execution_mode: str = LLM_EXECUTION_MODE_SYNC,
+    show_progress: bool = False,
+    batch_wait: bool = True,
+    batch_poll_interval_seconds: float = 60.0,
+    batch_max_wait_seconds: float | None = None,
     processing_tier: str = "standard",
     pricing_config_path: str = DEFAULT_PRICING_CONFIG_PATH,
     backend: OpenAIResponsesBackend | None = None,
 ) -> dict[str, Any]:
+    if execution_mode not in LLM_EXECUTION_MODES:
+        raise ValueError(f"Unsupported LLM execution mode: {execution_mode}")
+    if backend is not None and execution_mode != LLM_EXECUTION_MODE_SYNC:
+        raise ValueError("Injected backends are only supported for sync prompt experiments.")
+
     task_config = load_llm_task_config(task_config_path)
     task_config = _override_task_config(
         task_config,
@@ -66,14 +83,33 @@ def run_prompt_experiment(
     _write_items_jsonl(run_path / ITEMS_FILENAME, items, eval_row_by_id)
     _snapshot_prompt_template(task_config.prompt_template, run_path / PROMPT_SNAPSHOT_FILENAME)
 
-    active_backend = backend or OpenAIResponsesBackend(api_key_file=api_key_file)
-    results = active_backend.run_sync(task_config, items)
-
     raw_results_path = run_path / RAW_RESULTS_FILENAME
     parsed_results_path = run_path / PARSED_RESULTS_FILENAME
     scored_results_path = run_path / SCORED_RESULTS_FILENAME
-    write_results_jsonl(str(raw_results_path), results)
-    write_results_jsonl(str(parsed_results_path), results)
+    job_summary = None
+    if backend is not None:
+        results = backend.run_sync(task_config, items)
+        write_results_jsonl(str(raw_results_path), results)
+    else:
+        job_summary = run_llm_task(
+            task_config_path,
+            eval_jsonl_path,
+            str(raw_results_path),
+            execution_mode=execution_mode,
+            api_key_file=api_key_file,
+            task_config_override=task_config,
+            job_dir=str(run_path / "llm_job"),
+            show_progress=show_progress,
+            batch_wait=batch_wait,
+            batch_poll_interval_seconds=batch_poll_interval_seconds,
+            batch_max_wait_seconds=batch_max_wait_seconds,
+        )
+        results = _load_results_jsonl(raw_results_path)
+    api_key_source = getattr(backend, "api_key_source", None) if backend is not None else None
+    if raw_results_path.exists():
+        shutil.copyfile(raw_results_path, parsed_results_path)
+    else:
+        parsed_results_path.write_text("", encoding="utf-8")
 
     scored_rows: list[dict[str, Any]] = []
     with scored_results_path.open("w", encoding="utf-8") as handle:
@@ -111,9 +147,11 @@ def run_prompt_experiment(
         "eval_jsonl_path": str(eval_jsonl_path),
         "run_dir": str(run_path),
         "effective_config": asdict(task_config),
+        "llm_execution_mode": execution_mode,
+        "llm_job": None if job_summary is None else asdict(job_summary),
         "processing_tier": processing_tier,
         "git_commit": _git_commit(),
-        "api_key_source": getattr(active_backend, "api_key_source", None),
+        "api_key_source": api_key_source,
         "created_at_epoch": int(time()),
         "score": score_summary,
         "usage": usage_summary["usage"],
@@ -129,6 +167,8 @@ def run_prompt_experiment(
             "task_config_path": str(task_config_path),
             "eval_jsonl_path": str(eval_jsonl_path),
             "effective_config": asdict(task_config),
+            "llm_execution_mode": execution_mode,
+            "llm_job": None if job_summary is None else asdict(job_summary),
             "processing_tier": processing_tier,
             "pricing_config_path": pricing_config_path,
             "created_at_epoch": int(time()),
@@ -257,6 +297,28 @@ def _load_scored_rows(path: Path) -> list[dict[str, Any]]:
                 continue
             rows.append(json.loads(line))
     return rows
+
+
+def _load_results_jsonl(path: Path) -> list[LLMResult]:
+    if not path.exists():
+        return []
+    results: list[LLMResult] = []
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            results.append(
+                LLMResult(
+                    item_id=str(row["item_id"]),
+                    raw_text=str(row.get("raw_text") or ""),
+                    parsed=row.get("parsed"),
+                    parse_error=row.get("parse_error"),
+                    usage=row.get("usage"),
+                    metadata=row.get("metadata") or {},
+                )
+            )
+    return results
 
 
 def _score_delta(base_score: dict[str, Any], candidate_score: dict[str, Any]) -> dict[str, Any]:

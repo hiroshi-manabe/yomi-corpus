@@ -340,6 +340,7 @@ class YomiLLMReadingsTests(unittest.TestCase):
             rows = [json.loads(line) for line in retry_path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual(rows[0]["item_id"], items[1]["item_id"])
             self.assertEqual(rows[0]["retry_of"], items[1]["item_id"])
+            self.assertEqual(rows[0]["attempt"], 2)
             self.assertIn("'上'", rows[0]["retry_reason"])
 
     def test_retry_results_override_first_pass_parse_errors(self) -> None:
@@ -409,6 +410,83 @@ class YomiLLMReadingsTests(unittest.TestCase):
             judgments = row["analysis"]["llm"]["yomi_readings"]["items"]
             self.assertEqual([judgment["status"] for judgment in judgments], ["matched", "matched"])
 
+    def test_multiple_retry_result_files_are_merged_in_order(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            retry2_results_path = root / "retry2_results.jsonl"
+            retry3_results_path = root / "retry3_results.jsonl"
+            output_path = root / "output.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(json.dumps(unit(), ensure_ascii=False) + "\n", encoding="utf-8")
+            items = build_yomi_llm_reading_items(unit())
+            queue_path.write_text(
+                "\n".join(json.dumps(item, ensure_ascii=False) for item in items) + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "item_id": items[0]["item_id"],
+                                "raw_text": '{"下":"した"}',
+                                "parsed": {"下": "した"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "item_id": items[1]["item_id"],
+                                "raw_text": '{"下":"した"}',
+                                "parsed": {"下": "した"},
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            retry2_results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": items[0]["item_id"],
+                        "raw_text": '{"学校":"がっこう"}',
+                        "parsed": {"学校": "がっこう"},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            retry3_results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": items[1]["item_id"],
+                        "raw_text": '{"上":"うえ"}',
+                        "parsed": {"上": "うえ"},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_llm_reading_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                retry_results_jsonls=[retry2_results_path, retry3_results_path],
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(summary.matched_items, 2)
+            self.assertEqual(summary.parse_error_items, 0)
+
     def test_build_prompt_items_marks_only_target_surface(self) -> None:
         config = load_llm_task_config("config/llm/yomi_reading.toml")
         item = build_yomi_llm_reading_items(unit())[1]
@@ -421,6 +499,16 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertTrue(prompts[0].prompt.rstrip().endswith("学校は**上**です。->"))
         self.assertNotIn('"学校"', prompts[0].prompt)
 
+    def test_build_completion_prompt_prefills_target_key(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_reading_completion.toml")
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        prompts = build_prompt_items(config, [item])
+
+        self.assertIn('目が**痛**い。->{"痛":"いた"}', prompts[0].prompt)
+        self.assertTrue(prompts[0].prompt.rstrip().endswith('学校は**上**です。->{"上":'))
+        self.assertEqual(prompts[0].metadata["surface"], "上")
+
     def test_json_parser_accepts_plain_or_fenced_object(self) -> None:
         self.assertEqual(parse_output('{"上":"うえ"}', "json_object"), {"上": "うえ"})
         self.assertEqual(
@@ -428,7 +516,7 @@ class YomiLLMReadingsTests(unittest.TestCase):
             {"上": "うえ"},
         )
 
-    def test_item_judgment_rejects_extra_json_keys(self) -> None:
+    def test_item_judgment_accepts_extra_json_keys_when_target_key_is_present(self) -> None:
         item = build_yomi_llm_reading_items(unit())[1]
 
         judgment = build_item_judgment(
@@ -440,8 +528,24 @@ class YomiLLMReadingsTests(unittest.TestCase):
             },
         )
 
-        self.assertEqual(judgment["status"], "parse_error")
-        self.assertIn("Expected exactly one JSON key", judgment["parse_error"])
+        self.assertEqual(judgment["status"], "matched")
+        self.assertEqual(judgment["extra_json_keys"], ["学校"])
+
+    def test_item_judgment_salvages_echoed_prompt_json(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(
+            item,
+            {
+                "item_id": item["item_id"],
+                "raw_text": '学校は**上**です。->{"上":"うえ"}',
+                "parsed": None,
+                "parse_error": "Expected a JSON object in model output.",
+            },
+        )
+
+        self.assertEqual(judgment["status"], "matched")
+        self.assertEqual(judgment["llm_reading"], "うえ")
 
     def test_item_judgment_rejects_wrong_json_key(self) -> None:
         item = build_yomi_llm_reading_items(unit())[1]

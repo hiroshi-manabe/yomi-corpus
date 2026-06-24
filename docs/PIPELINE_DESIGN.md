@@ -653,9 +653,9 @@ and OpenAI Batch mode:
 - `sync`: process rows sequentially or with small concurrency, append each
   completed result, and skip already completed item IDs when resumed
 - `background`: submit one Responses API background request per item, persist
-  each response ID, poll response objects on later runs, append completed
-  results as they become available, and avoid resubmitting item IDs that already
-  have a response ID or parsed result
+  each response ID, poll response objects until completion or interruption by
+  default, append completed results as they become available, and avoid
+  resubmitting item IDs that already have a response ID or parsed result
 - `batch`: submit the remaining rows as one or more remote batch jobs, persist
   remote batch IDs, poll at a slow interval until completion or interruption,
   fetch result files when complete, and resume from stored chunk state on later
@@ -678,12 +678,13 @@ scope artifact or yomi-reading comparison artifact is written.
 
 Interruptions should be normal. The operator may stop sync mode partway through;
 rerunning `./next` resumes from result rows already present. For background
-mode, rerunning `./next` polls stored response IDs and submits only item IDs
-that were not submitted before the interruption. For batch mode, `./next`
-submits any missing remote chunks, polls roughly once per minute by default,
-reports aggregate `request_counts` when available, and applies results once all
-chunks have completed and been fetched. If interrupted, rerunning `./next`
-continues from the stored local `status.json`.
+mode, `./next` submits any missing Responses background requests, polls stored
+response IDs roughly once per minute by default, and applies results once all
+responses have completed. For batch mode, `./next` submits any missing remote
+chunks, polls roughly once per minute by default, reports aggregate
+`request_counts` when available, and applies results once all chunks have
+completed and been fetched. If either remote mode is interrupted, rerunning
+`./next` continues from stored local job state.
 
 OpenAI API constraints that affect this design:
 
@@ -778,8 +779,10 @@ auto_accept_profile=strict}` and
 defaults should also choose an LLM profile per task. Operators should be able to
 override these per batch, so dev can run with no auto-accept, working can later
 run with stable two-kanji auto-accept, and either track can use cheaper or
-stronger model profiles for specific tasks. Execution mode should be equally
-configurable per task. `background` should be the normal default for both
+stronger model profiles for specific tasks. `yomi_reading` should default to
+`standard` even on dev, because mini-model reading errors create noisy false
+problems and can distort prompt/pipeline design. Execution mode should be
+equally configurable per task. `background` should be the normal default for both
 `dev` and `working`, because it avoids slow sequential calls while still
 allowing `./next` polling/resume. Prompt exploration, smoke tests, and tiny
 repair batches are often easier in `sync`; very large low-urgency tasks with
@@ -815,7 +818,7 @@ auto_accept_profile = "stable_two_kanji"
 [tracks.dev.llm_policy]
 alphabetic_entity_judge = "economy"
 scope_triage = "economy"
-yomi_reading = "economy"
+yomi_reading = "standard"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 

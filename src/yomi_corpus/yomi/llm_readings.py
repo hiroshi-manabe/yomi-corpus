@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from yomi_corpus.llm.parsers import parse_output
 from yomi_corpus.llm.rendering import (
     escape_source_parentheses,
     furigana_no_space_token_for_llm,
@@ -134,6 +135,7 @@ def build_yomi_llm_reading_retry_queue_file(
     results_jsonl: Path,
     output_jsonl: Path,
     summary_json: Path,
+    attempt: int = 2,
 ) -> YomiLLMReadingRetryQueueSummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
@@ -151,6 +153,7 @@ def build_yomi_llm_reading_retry_queue_file(
             retry_item = {
                 **item,
                 "retry_of": item_id,
+                "attempt": attempt,
                 "retry_reason": judgment.get("parse_error", ""),
                 "retry_raw_text": judgment.get("raw_text"),
             }
@@ -283,6 +286,7 @@ def apply_yomi_llm_reading_results_file(
     output_jsonl: Path,
     summary_json: Path,
     retry_results_jsonl: Path | None = None,
+    retry_results_jsonls: list[Path] | None = None,
 ) -> YomiLLMReadingApplySummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
@@ -290,6 +294,8 @@ def apply_yomi_llm_reading_results_file(
     results = load_results(results_jsonl)
     if retry_results_jsonl is not None:
         results.update(load_results(retry_results_jsonl))
+    for retry_path in retry_results_jsonls or []:
+        results.update(load_results(retry_path))
     by_unit: dict[str, list[dict[str, Any]]] = {}
 
     checked_items = 0
@@ -366,23 +372,30 @@ def build_item_judgment(
         return {**base, "status": "missing_result", "llm_reading": None, "raw_text": None}
     parsed = result.get("parsed")
     if not isinstance(parsed, dict):
-        return {
-            **base,
-            "status": "parse_error",
-            "llm_reading": None,
-            "raw_text": result.get("raw_text"),
-            "parse_error": result.get("parse_error") or "Parsed result is not a JSON object.",
-        }
+        try:
+            parsed = parse_output(
+                str(result.get("raw_text") or ""),
+                "yomi_reading_completion_json",
+                metadata={"surface": item["surface"], "source_row": item},
+            )
+        except Exception as exc:  # noqa: BLE001
+            return {
+                **base,
+                "status": "parse_error",
+                "llm_reading": None,
+                "raw_text": result.get("raw_text"),
+                "parse_error": result.get("parse_error") or str(exc),
+            }
     expected_key = str(item["surface"])
     keys = set(parsed)
-    if keys != {expected_key}:
+    if expected_key not in keys:
         return {
             **base,
             "status": "parse_error",
             "llm_reading": None,
             "raw_text": result.get("raw_text"),
             "parse_error": (
-                f"Expected exactly one JSON key {expected_key!r}; "
+                f"Expected JSON key {expected_key!r}; "
                 f"got {sorted(str(key) for key in keys)!r}."
             ),
         }
@@ -402,6 +415,7 @@ def build_item_judgment(
         "status": "matched" if llm_reading == current else "mismatched",
         "llm_reading": llm_reading,
         "raw_text": result.get("raw_text"),
+        "extra_json_keys": sorted(str(key) for key in keys - {expected_key}),
     }
 
 

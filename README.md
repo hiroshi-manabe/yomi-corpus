@@ -31,15 +31,19 @@ Prompt iteration scaffold:
 - Prompt optimization is a separate pre-production phase, not something to
   do continuously inside corpus batch progression.
 - Fixed eval sets live under `data/evals/<task>/`.
-- Sync experiment runs live under `runs/experiments/<task>/<run_name>/`.
+- Experiment runs live under `runs/experiments/<task>/<run_name>/` or another
+  explicit run directory.
 - Each run writes `items.jsonl`, `results.raw.jsonl`, `results.parsed.jsonl`,
   `scored.jsonl`, `summary.json`, and a prompt snapshot.
 - Use `scripts/run_prompt_experiment.py` to run one prompt version on an eval
-  set.
+  set. The default is sync mode; add `--llm-mode background` for resumable
+  Responses background runs, or `--llm-mode batch` for Batch API runs.
 - Use `scripts/compare_prompt_experiments.py` to compare two runs and inspect
   changed failures.
-- Exploratory prompt search should use synchronous Responses API calls, not the
-  Batch API, so failures can be inspected and prompts can be revised quickly.
+- Exploratory prompt search should usually use sync or background Responses API
+  calls, not the Batch API, so failures can be inspected and prompts can be
+  revised quickly. Background mode is preferred when many independent requests
+  would make sequential sync execution slow.
 - For `yomi_triage`, first sweep prompt families and `gpt-5.4-mini` reasoning
   effort settings for both accuracy and cost; promote only the strongest prompt
   candidates to `gpt-5.5` for production-quality evaluation.

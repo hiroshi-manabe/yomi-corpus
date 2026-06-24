@@ -81,7 +81,7 @@ def build_task_variables(
                 "marked_text": row["marked_text"],
                 "surface": row["surface"],
             },
-            {"source_row": row},
+            {"surface": row["surface"], "source_row": row},
         )
     if builder_name == "yomi_repair":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))

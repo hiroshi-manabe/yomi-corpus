@@ -19,7 +19,7 @@ from yomi_corpus.llm.batch_jobs import (
     prepare_batch_job,
     submit_batch_job,
 )
-from yomi_corpus.llm.runner import prepare_batch_task, run_sync_task
+from yomi_corpus.llm.runner import prepare_batch_task, run_llm_task, run_sync_task
 
 
 def parse_args() -> argparse.Namespace:
@@ -36,6 +36,8 @@ def parse_args() -> argparse.Namespace:
         "--mode",
         choices=[
             "sync",
+            "background",
+            "batch",
             "batch_prepare",
             "prepare_batch_job",
             "submit_batch_job",
@@ -48,7 +50,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output-jsonl",
-        help="Output JSONL path for sync mode.",
+        help="Output JSONL path for sync/background/batch modes.",
     )
     parser.add_argument(
         "--requests-jsonl",
@@ -74,6 +76,27 @@ def parse_args() -> argparse.Namespace:
             "then OPENAI_API_KEY_FILE, then ~/.config/api_keys/openai/default.txt."
         ),
     )
+    parser.add_argument(
+        "--show-progress",
+        action="store_true",
+        help="Show runner progress for sync/background/batch modes.",
+    )
+    parser.add_argument(
+        "--no-wait",
+        action="store_true",
+        help="For background/batch modes, submit/poll once and exit instead of waiting.",
+    )
+    parser.add_argument(
+        "--poll-interval-seconds",
+        type=float,
+        default=60.0,
+        help="For background/batch modes, polling interval while waiting. Default: 60.",
+    )
+    parser.add_argument(
+        "--max-wait-seconds",
+        type=float,
+        help="For background/batch modes, stop waiting after this many seconds.",
+    )
     return parser.parse_args()
 
 
@@ -87,7 +110,26 @@ def main() -> None:
             args.input_jsonl,
             args.output_jsonl,
             api_key_file=args.api_key_file,
+            show_progress=args.show_progress,
         )
+        return
+
+    if args.mode in {"background", "batch"}:
+        if not args.task_config or not args.input_jsonl or not args.output_jsonl or not args.job_dir:
+            raise SystemExit("--task-config, --input-jsonl, --output-jsonl, and --job-dir are required.")
+        summary = run_llm_task(
+            args.task_config,
+            args.input_jsonl,
+            args.output_jsonl,
+            execution_mode=args.mode,
+            api_key_file=args.api_key_file,
+            job_dir=args.job_dir,
+            show_progress=args.show_progress,
+            batch_wait=not args.no_wait,
+            batch_poll_interval_seconds=args.poll_interval_seconds,
+            batch_max_wait_seconds=args.max_wait_seconds,
+        )
+        print(json.dumps(summary.__dict__, ensure_ascii=False, indent=2))
         return
 
     if args.mode == "prepare_batch_job":

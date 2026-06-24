@@ -13,10 +13,11 @@ if str(SRC_ROOT) not in sys.path:
 
 from yomi_corpus.llm.experiments import run_prompt_experiment
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
+from yomi_corpus.llm.runner import LLM_EXECUTION_MODES
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run one sync prompt experiment on a fixed eval set.")
+    parser = argparse.ArgumentParser(description="Run one prompt experiment on a fixed eval set.")
     parser.add_argument("--task-config", required=True, help="Task config TOML path relative to repo root.")
     parser.add_argument("--eval-jsonl", required=True, help="Eval JSONL path relative to repo root.")
     parser.add_argument("--run-dir", required=True, help="Experiment run directory relative to repo root.")
@@ -44,6 +45,33 @@ def parse_args() -> argparse.Namespace:
         help="Pricing tier used for cost estimation. Default: standard.",
     )
     parser.add_argument(
+        "--llm-mode",
+        choices=sorted(LLM_EXECUTION_MODES),
+        default="sync",
+        help="LLM execution mode. Default: sync.",
+    )
+    parser.add_argument(
+        "--show-progress",
+        action="store_true",
+        help="Show runner progress for sync/background/batch modes.",
+    )
+    parser.add_argument(
+        "--batch-no-wait",
+        action="store_true",
+        help="For --llm-mode background/batch, submit/poll once and exit instead of waiting.",
+    )
+    parser.add_argument(
+        "--batch-poll-interval-seconds",
+        type=float,
+        default=60.0,
+        help="For --llm-mode background/batch, polling interval while waiting. Default: 60.",
+    )
+    parser.add_argument(
+        "--batch-max-wait-seconds",
+        type=float,
+        help="For --llm-mode background/batch, stop waiting after this many seconds.",
+    )
+    parser.add_argument(
         "--pricing-config",
         default=DEFAULT_PRICING_CONFIG_PATH,
         help=f"Pricing config path relative to repo root. Default: {DEFAULT_PRICING_CONFIG_PATH}.",
@@ -65,6 +93,11 @@ def main() -> None:
         max_output_tokens=args.max_output_tokens,
         rendered_yomi_display=args.rendered_yomi_display,
         include_source_text=args.include_source_text,
+        execution_mode=args.llm_mode,
+        show_progress=args.show_progress,
+        batch_wait=not args.batch_no_wait,
+        batch_poll_interval_seconds=args.batch_poll_interval_seconds,
+        batch_max_wait_seconds=args.batch_max_wait_seconds,
         processing_tier=args.processing_tier,
         pricing_config_path=args.pricing_config,
     )

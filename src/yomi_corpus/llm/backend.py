@@ -37,7 +37,7 @@ class OpenAIResponsesBackend:
         parsed = None
         parse_error = None
         try:
-            parsed = parse_output(raw_text, task_config.parser)
+            parsed = parse_output(raw_text, task_config.parser, metadata=item.metadata)
         except Exception as exc:  # noqa: BLE001
             parse_error = str(exc)
         return LLMResult(

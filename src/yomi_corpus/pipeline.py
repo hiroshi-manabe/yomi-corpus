@@ -1036,6 +1036,14 @@ class PipelineWorkspace:
                 batch_dir / "yomi_reading_retry_queue_summary.json",
                 batch_dir / "yomi_reading_retry_results.jsonl",
                 batch_dir / "yomi_reading_retry_usage_summary.json",
+                batch_dir / "yomi_reading_retry2_input.jsonl",
+                batch_dir / "yomi_reading_retry2_queue_summary.json",
+                batch_dir / "yomi_reading_retry2_results.jsonl",
+                batch_dir / "yomi_reading_retry2_usage_summary.json",
+                batch_dir / "yomi_reading_retry3_input.jsonl",
+                batch_dir / "yomi_reading_retry3_queue_summary.json",
+                batch_dir / "yomi_reading_retry3_results.jsonl",
+                batch_dir / "yomi_reading_retry3_usage_summary.json",
                 batch_dir / "units.yomi.llm_readings.jsonl",
                 batch_dir / "yomi_reading_apply_summary.json",
             ]
@@ -1259,18 +1267,20 @@ class PipelineWorkspace:
             artifacts["yomi_reading_usage_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_reading_usage_summary.json"
             )
-            artifacts["yomi_reading_retry_input_jsonl"] = str(
-                self.batch_dir(batch_name) / "yomi_reading_retry_input.jsonl"
-            )
-            artifacts["yomi_reading_retry_queue_summary_json"] = str(
-                self.batch_dir(batch_name) / "yomi_reading_retry_queue_summary.json"
-            )
-            artifacts["yomi_reading_retry_results_jsonl"] = str(
-                self.batch_dir(batch_name) / "yomi_reading_retry_results.jsonl"
-            )
-            artifacts["yomi_reading_retry_usage_summary_json"] = str(
-                self.batch_dir(batch_name) / "yomi_reading_retry_usage_summary.json"
-            )
+            for attempt in (2, 3):
+                prefix = f"yomi_reading_retry{attempt}"
+                artifacts[f"{prefix}_input_jsonl"] = str(
+                    self.batch_dir(batch_name) / f"{prefix}_input.jsonl"
+                )
+                artifacts[f"{prefix}_queue_summary_json"] = str(
+                    self.batch_dir(batch_name) / f"{prefix}_queue_summary.json"
+                )
+                artifacts[f"{prefix}_results_jsonl"] = str(
+                    self.batch_dir(batch_name) / f"{prefix}_results.jsonl"
+                )
+                artifacts[f"{prefix}_usage_summary_json"] = str(
+                    self.batch_dir(batch_name) / f"{prefix}_usage_summary.json"
+                )
             artifacts["units_yomi_llm_readings_jsonl"] = str(
                 self.batch_dir(batch_name) / "units.yomi.llm_readings.jsonl"
             )
@@ -1991,7 +2001,6 @@ class PipelineWorkspace:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         task_config_path = "config/llm/yomi_reading.toml"
-        retry_task_config_path = "config/llm/yomi_reading_retry.toml"
         llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_READING]
         execution_mode = (
             llm_execution_mode_override
@@ -1999,19 +2008,12 @@ class PipelineWorkspace:
         )
         base_task_config = load_llm_task_config(task_config_path)
         task_config = apply_llm_profile(base_task_config, llm_profile)
-        retry_base_task_config = load_llm_task_config(retry_task_config_path)
-        retry_task_config = apply_llm_profile(retry_base_task_config, llm_profile)
         input_path = batch_dir / "yomi_reading_input.jsonl"
         results_path = batch_dir / "yomi_reading_results.jsonl"
         usage_summary_path = batch_dir / "yomi_reading_usage_summary.json"
-        retry_input_path = batch_dir / "yomi_reading_retry_input.jsonl"
-        retry_queue_summary_path = batch_dir / "yomi_reading_retry_queue_summary.json"
-        retry_results_path = batch_dir / "yomi_reading_retry_results.jsonl"
-        retry_usage_summary_path = batch_dir / "yomi_reading_retry_usage_summary.json"
         output_path = batch_dir / "units.yomi.llm_readings.jsonl"
         apply_summary_path = batch_dir / "yomi_reading_apply_summary.json"
         job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_reading"
-        retry_job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_reading_retry"
 
         queued_count = count_nonempty_lines(input_path)
         job_summary = None
@@ -2057,78 +2059,120 @@ class PipelineWorkspace:
             json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-        retry_queue_summary = build_yomi_llm_reading_retry_queue_file(
-            queue_jsonl=input_path,
-            results_jsonl=results_path,
-            output_jsonl=retry_input_path,
-            summary_json=retry_queue_summary_path,
-        )
-        retry_queued_count = retry_queue_summary.retry_items
-        retry_job_summary = None
-        if retry_queued_count:
-            retry_job_summary = run_llm_task(
-                retry_task_config_path,
-                str(retry_input_path),
-                str(retry_results_path),
-                execution_mode=execution_mode,
-                task_config_override=retry_task_config,
-                job_dir=str(retry_job_dir),
-                show_progress=True,
+        retry_artifacts: dict[str, str] = {}
+        retry_results_paths: list[Path] = []
+        previous_results_path = results_path
+        max_attempts = 3
+        for attempt in range(2, max_attempts + 1):
+            retry_prefix = f"yomi_reading_retry{attempt}"
+            retry_input_path = batch_dir / f"{retry_prefix}_input.jsonl"
+            retry_queue_summary_path = batch_dir / f"{retry_prefix}_queue_summary.json"
+            retry_results_path = batch_dir / f"{retry_prefix}_results.jsonl"
+            retry_usage_summary_path = batch_dir / f"{retry_prefix}_usage_summary.json"
+            retry_job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_{retry_prefix}"
+            retry_queue_summary = build_yomi_llm_reading_retry_queue_file(
+                queue_jsonl=input_path,
+                results_jsonl=previous_results_path,
+                output_jsonl=retry_input_path,
+                summary_json=retry_queue_summary_path,
+                attempt=attempt,
             )
-            if retry_job_summary.status != "completed":
-                return {
-                    "stage_complete": False,
-                    "blocking_reason": (
-                        f"LLM {execution_mode} retry job is {retry_job_summary.status}; "
-                        "rerun ./next to poll or resume."
+            retry_queued_count = retry_queue_summary.retry_items
+            retry_job_summary = None
+            if retry_queued_count:
+                retry_job_summary = run_llm_task(
+                    task_config_path,
+                    str(retry_input_path),
+                    str(retry_results_path),
+                    execution_mode=execution_mode,
+                    task_config_override=task_config,
+                    job_dir=str(retry_job_dir),
+                    show_progress=True,
+                )
+                if retry_job_summary.status != "completed":
+                    return {
+                        "stage_complete": False,
+                        "blocking_reason": (
+                            f"LLM {execution_mode} retry attempt {attempt} is {retry_job_summary.status}; "
+                            "rerun ./next to poll or resume."
+                        ),
+                        "artifacts": {
+                            **self._llm_completed_artifacts(
+                                prefix="yomi_reading",
+                                results_path=results_path,
+                                usage_summary_path=usage_summary_path,
+                                apply_summary_path=retry_queue_summary_path,
+                                task_config_path=task_config_path,
+                                task_config=task_config,
+                                llm_profile=llm_profile,
+                                execution_mode=execution_mode,
+                                job_dir=job_dir,
+                                job_summary=job_summary,
+                                queued_count=queued_count,
+                            ),
+                            **retry_artifacts,
+                            **self._llm_running_artifacts(
+                                prefix=retry_prefix,
+                                task_config_path=task_config_path,
+                                task_config=task_config,
+                                llm_profile=llm_profile,
+                                execution_mode=execution_mode,
+                                job_dir=retry_job_dir,
+                                job_summary=retry_job_summary,
+                                queued_count=retry_queued_count,
+                            ),
+                            f"{retry_prefix}_input_jsonl": str(retry_input_path),
+                            f"{retry_prefix}_queue_summary_json": str(retry_queue_summary_path),
+                        },
+                    }
+            else:
+                retry_results_path.parent.mkdir(parents=True, exist_ok=True)
+                retry_results_path.write_text("", encoding="utf-8")
+
+            retry_usage_summary = summarize_results_jsonl(
+                str(retry_results_path),
+                model=task_config.model,
+                processing_tier="standard",
+                pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
+            )
+            retry_usage_summary_path.write_text(
+                json.dumps(retry_usage_summary, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            retry_results_paths.append(retry_results_path)
+            retry_artifacts.update(
+                {
+                    **self._llm_completed_artifacts(
+                        prefix=retry_prefix,
+                        results_path=retry_results_path,
+                        usage_summary_path=retry_usage_summary_path,
+                        apply_summary_path=retry_queue_summary_path,
+                        task_config_path=task_config_path,
+                        task_config=task_config,
+                        llm_profile=llm_profile,
+                        execution_mode=execution_mode,
+                        job_dir=retry_job_dir,
+                        job_summary=retry_job_summary,
+                        queued_count=retry_queued_count,
                     ),
-                    "artifacts": {
-                        **self._llm_completed_artifacts(
-                            prefix="yomi_reading",
-                            results_path=results_path,
-                            usage_summary_path=usage_summary_path,
-                            apply_summary_path=retry_queue_summary_path,
-                            task_config_path=task_config_path,
-                            task_config=task_config,
-                            llm_profile=llm_profile,
-                            execution_mode=execution_mode,
-                            job_dir=job_dir,
-                            job_summary=job_summary,
-                            queued_count=queued_count,
-                        ),
-                        **self._llm_running_artifacts(
-                            prefix="yomi_reading_retry",
-                            task_config_path=retry_task_config_path,
-                            task_config=retry_task_config,
-                            llm_profile=llm_profile,
-                            execution_mode=execution_mode,
-                            job_dir=retry_job_dir,
-                            job_summary=retry_job_summary,
-                            queued_count=retry_queued_count,
-                        ),
-                        "yomi_reading_retry_input_jsonl": str(retry_input_path),
-                        "yomi_reading_retry_queue_summary_json": str(retry_queue_summary_path),
-                    },
+                    f"{retry_prefix}_input_jsonl": str(retry_input_path),
+                    f"{retry_prefix}_queue_summary_json": str(retry_queue_summary_path),
+                    f"{retry_prefix}_queued": str(retry_queued_count),
                 }
-        else:
+            )
+            previous_results_path = retry_results_path
+            if retry_queued_count == 0:
+                break
+
+        retry_results_path = retry_results_paths[-1] if retry_results_paths else batch_dir / "yomi_reading_retry2_results.jsonl"
+        if not retry_results_path.exists():
             retry_results_path.parent.mkdir(parents=True, exist_ok=True)
             retry_results_path.write_text("", encoding="utf-8")
-
-        retry_usage_summary = summarize_results_jsonl(
-            str(retry_results_path),
-            model=retry_task_config.model,
-            processing_tier="standard",
-            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
-        )
-        retry_usage_summary_path.write_text(
-            json.dumps(retry_usage_summary, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
         apply_summary = apply_yomi_llm_reading_results_file(
             units_jsonl=batch_dir / "units.yomi.safety_pre_llm.jsonl",
             queue_jsonl=input_path,
             results_jsonl=results_path,
-            retry_results_jsonl=retry_results_path,
+            retry_results_jsonls=retry_results_paths,
             output_jsonl=output_path,
             summary_json=apply_summary_path,
         )
@@ -2147,22 +2191,7 @@ class PipelineWorkspace:
                     job_summary=job_summary,
                     queued_count=queued_count,
                 ),
-                **self._llm_completed_artifacts(
-                    prefix="yomi_reading_retry",
-                    results_path=retry_results_path,
-                    usage_summary_path=retry_usage_summary_path,
-                    apply_summary_path=retry_queue_summary_path,
-                    task_config_path=retry_task_config_path,
-                    task_config=retry_task_config,
-                    llm_profile=llm_profile,
-                    execution_mode=execution_mode,
-                    job_dir=retry_job_dir,
-                    job_summary=retry_job_summary,
-                    queued_count=retry_queued_count,
-                ),
-                "yomi_reading_retry_input_jsonl": str(retry_input_path),
-                "yomi_reading_retry_queue_summary_json": str(retry_queue_summary_path),
-                "yomi_reading_retry_queued": str(retry_queued_count),
+                **retry_artifacts,
                 "units_yomi_llm_readings_jsonl": str(output_path),
                 "yomi_reading_checked": str(apply_summary.checked_items),
                 "yomi_reading_matched": str(apply_summary.matched_items),

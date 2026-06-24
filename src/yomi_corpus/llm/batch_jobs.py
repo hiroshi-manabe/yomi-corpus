@@ -206,7 +206,11 @@ def fetch_batch_job(
                     parse_error = None
                     if raw_text:
                         try:
-                            parsed = parse_output(raw_text, str(manifest["parser"]))
+                            parsed = parse_output(
+                                raw_text,
+                                str(manifest["parser"]),
+                                metadata=items_by_id.get(item_id, {}).get("metadata", {}),
+                            )
                         except Exception as exc:  # noqa: BLE001
                             parse_error = str(exc)
                     parsed_dst.write(

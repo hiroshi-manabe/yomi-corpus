@@ -58,8 +58,10 @@ def score_output(
         notes: list[str] = []
         if isinstance(parsed, dict):
             keys = set(str(key) for key in parsed)
-            if keys != {expected_surface}:
+            if expected_surface not in keys:
                 notes.append("wrong_json_keys")
+            elif keys != {expected_surface}:
+                notes.append("extra_json_keys")
             value = parsed.get(expected_surface)
             if isinstance(value, str):
                 actual_reading = normalize_hiragana_reading(value)
@@ -68,7 +70,9 @@ def score_output(
         else:
             notes.append("parsed_result_is_not_object")
         return {
-            "passed": actual_reading == expected_reading and not notes,
+            "passed": actual_reading == expected_reading and "wrong_json_keys" not in notes
+            and "missing_or_non_string_reading" not in notes
+            and "parsed_result_is_not_object" not in notes,
             "parse_error": None,
             "expected": {"surface": expected_surface, "reading": expected_reading},
             "actual": {"reading": actual_reading},

@@ -8,9 +8,11 @@ from typing import Any
 CODE_BLOCK_RE = re.compile(r"```(?:json)?\s*(\{.*\})\s*```", re.DOTALL)
 
 
-def parse_output(text: str, parser_name: str) -> Any:
+def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None = None) -> Any:
     if parser_name == "json_object":
         return parse_json_object(text)
+    if parser_name == "yomi_reading_completion_json":
+        return parse_yomi_reading_completion_json(text, metadata=metadata)
     if parser_name == "yomi_triage_label":
         return parse_yomi_triage_label(text)
     if parser_name == "yomi_triage_reasoned_label":
@@ -27,7 +29,84 @@ def parse_json_object(text: str) -> dict[str, Any]:
     match = CODE_BLOCK_RE.search(stripped)
     if match:
         return json.loads(match.group(1))
+    extracted = extract_first_json_object(stripped)
+    if extracted is not None:
+        return json.loads(extracted)
     raise ValueError("Expected a JSON object in model output.")
+
+
+def extract_first_json_object(text: str) -> str | None:
+    start = text.find("{")
+    if start < 0:
+        return None
+    depth = 0
+    in_string = False
+    escape = False
+    for index in range(start, len(text)):
+        char = text[index]
+        if in_string:
+            if escape:
+                escape = False
+            elif char == "\\":
+                escape = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start : index + 1]
+    return None
+
+
+def parse_yomi_reading_completion_json(
+    text: str,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    try:
+        return parse_json_object(text)
+    except ValueError:
+        pass
+    surface = _expected_surface(metadata)
+    stripped = text.strip()
+    try:
+        parsed_string = json.loads(stripped)
+    except json.JSONDecodeError:
+        parsed_string = None
+    if isinstance(parsed_string, str):
+        return {surface: parsed_string}
+    candidate = "{" + json.dumps(surface, ensure_ascii=False) + ":" + stripped
+    try:
+        parsed = json.loads(candidate)
+    except json.JSONDecodeError as exc:
+        if _looks_like_bare_reading(stripped):
+            return {surface: stripped}
+        raise ValueError("Expected a JSON object, a completion like \"よみ\"}, or a bare reading.") from exc
+    if not isinstance(parsed, dict):
+        raise ValueError("Expected a JSON object after completing model output.")
+    return parsed
+
+
+def _looks_like_bare_reading(text: str) -> bool:
+    return bool(text) and "\n" not in text and not any(char in text for char in "{}[]:,")
+
+
+def _expected_surface(metadata: dict[str, Any] | None) -> str:
+    if isinstance(metadata, dict):
+        surface = metadata.get("surface")
+        if isinstance(surface, str) and surface:
+            return surface
+        source_row = metadata.get("source_row")
+        if isinstance(source_row, dict):
+            surface = source_row.get("surface")
+            if isinstance(surface, str) and surface:
+                return surface
+    raise ValueError("Missing expected surface metadata for completion-style yomi parser.")
 
 
 def parse_yomi_triage_label(text: str) -> dict[str, str]:

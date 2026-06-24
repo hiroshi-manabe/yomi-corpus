@@ -269,3 +269,87 @@ class ExperimentHarnessTests(unittest.TestCase):
         items = [json.loads(line) for line in (run_dir / "items.jsonl").read_text().splitlines()]
         self.assertIn("**日々**", items[2]["prompt"])
         self.assertIn("**OK**", items[3]["prompt"])
+
+    def test_run_prompt_experiment_accepts_extra_yomi_reading_keys(self) -> None:
+        eval_path = self.tmp_root / "yomi_reading_extra_keys.jsonl"
+        eval_path.write_text(
+            json.dumps(
+                {
+                    "item_id": "fx_001",
+                    "surface": "FX",
+                    "expected_reading": "えふえっくす",
+                    "marked_text": "**FX**取引・CFD取引",
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        backend = FakeExperimentBackend(
+            {
+                "fx_001": {
+                    "parsed": {"FX": "エフエックス", "CFD": "シーエフディー"},
+                    "usage": None,
+                },
+            }
+        )
+        run_dir = self.tmp_root / "yomi_reading_extra_keys"
+
+        summary = run_prompt_experiment(
+            task_config_path="config/llm/yomi_reading.toml",
+            eval_jsonl_path=str(eval_path),
+            run_dir=str(run_dir),
+            backend=backend,
+        )
+
+        self.assertEqual(summary["score"]["pass_count"], 1)
+        scored = [json.loads(line) for line in (run_dir / "scored.jsonl").read_text().splitlines()]
+        self.assertEqual(scored[0]["notes"], ["extra_json_keys"])
+
+    def test_run_prompt_experiment_supports_background_mode(self) -> None:
+        eval_path = self.tmp_root / "background_eval.jsonl"
+        eval_path.write_text(
+            json.dumps(
+                {
+                    "unit_id": "u1",
+                    "text": "大学です。",
+                    "rendered": "大学/ダイガク です/デス 。/。",
+                    "expected_status": "OK",
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        run_dir = self.tmp_root / "background_run"
+
+        class FakeBackgroundBackend:
+            def __init__(self, **kwargs: object) -> None:
+                pass
+
+            def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                return {"response_id": f"resp_{item.item_id}", "status": "queued"}
+
+            def retrieve_response(self, response_id: str) -> dict[str, object]:
+                return {
+                    "response_id": response_id,
+                    "status": "completed",
+                    "raw_text": "OK",
+                    "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
+                }
+
+        from unittest.mock import patch
+
+        with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackgroundBackend):
+            summary = run_prompt_experiment(
+                task_config_path="config/llm/yomi_triage.toml",
+                eval_jsonl_path=str(eval_path),
+                run_dir=str(run_dir),
+                execution_mode="background",
+            )
+
+        self.assertEqual(summary["llm_execution_mode"], "background")
+        self.assertEqual(summary["llm_job"]["mode"], "background")
+        self.assertEqual(summary["score"]["pass_count"], 1)
+        self.assertTrue((run_dir / "llm_job" / "responses.jsonl").exists())
+        self.assertTrue((run_dir / "results.raw.jsonl").exists())

@@ -130,6 +130,40 @@ class LLMScaffoldingTests(unittest.TestCase):
         parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
         self.assertEqual(parsed["status"], "in_scope")
 
+    def test_parse_yomi_reading_completion_output(self) -> None:
+        self.assertEqual(
+            parse_output('{"年":"ねん"}', "yomi_reading_completion_json", metadata={"surface": "年"}),
+            {"年": "ねん"},
+        )
+        self.assertEqual(
+            parse_output('"ねん"}', "yomi_reading_completion_json", metadata={"surface": "年"}),
+            {"年": "ねん"},
+        )
+        self.assertEqual(
+            parse_output("オーケー", "yomi_reading_completion_json", metadata={"surface": "OK"}),
+            {"OK": "オーケー"},
+        )
+        self.assertEqual(
+            parse_output('"し"', "yomi_reading_completion_json", metadata={"surface": "占"}),
+            {"占": "し"},
+        )
+        self.assertEqual(
+            parse_output(
+                'と**思**い、2017年7月に立ち上げた。->{"思":"おも"}',
+                "yomi_reading_completion_json",
+                metadata={"surface": "思"},
+            ),
+            {"思": "おも"},
+        )
+        self.assertEqual(
+            parse_output(
+                '{"FX":"エフエックス","CFD":"シーエフディー"}',
+                "yomi_reading_completion_json",
+                metadata={"surface": "FX"},
+            ),
+            {"FX": "エフエックス", "CFD": "シーエフディー"},
+        )
+
     def test_parse_yomi_triage_label_output(self) -> None:
         parsed = parse_output("Review", "yomi_triage_label")
         self.assertEqual(parsed, {"status": "Review"})
@@ -484,6 +518,63 @@ class LLMScaffoldingTests(unittest.TestCase):
                 if line.strip()
             ]
             self.assertEqual(rows[0]["parsed"], {"status": "Review"})
+
+    def test_run_background_task_waits_and_polls_until_completed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                polls = 0
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    return {"response_id": "resp_u1", "status": "queued"}
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    self.polls += 1
+                    if self.polls == 1:
+                        return {"response_id": response_id, "status": "in_progress"}
+                    return {
+                        "response_id": response_id,
+                        "status": "completed",
+                        "raw_text": "OK",
+                        "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
+                    }
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                    poll_interval_seconds=0,
+                )
+
+            self.assertEqual(summary.status, "completed")
+            self.assertEqual(summary.completed_items, 1)
+            rows = [
+                json.loads(line)
+                for line in output_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual(rows[0]["parsed"], {"status": "OK"})
 
     def test_result_loaders_ignore_truncated_tail_only(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

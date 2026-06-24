@@ -744,11 +744,11 @@ class PipelineTrackTests(unittest.TestCase):
                 calls,
                 [
                     "config/llm/yomi_reading.toml",
-                    "config/llm/yomi_reading_retry.toml",
+                    "config/llm/yomi_reading.toml",
                 ],
             )
             artifacts = summary["artifacts"]
-            self.assertEqual(artifacts["yomi_reading_retry_queued"], "1")
+            self.assertEqual(artifacts["yomi_reading_retry2_queued"], "1")
             self.assertEqual(artifacts["yomi_reading_matched"], "1")
             self.assertEqual(artifacts["yomi_reading_parse_error"], "0")
             output_row = json.loads(
