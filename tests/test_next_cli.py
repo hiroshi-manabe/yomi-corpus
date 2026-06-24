@@ -90,6 +90,39 @@ class NextCliTests(unittest.TestCase):
         self.assertIn("LLM requests (yomi_reading): none queued", rendered)
         self.assertNotIn("0/0 completed", rendered)
 
+    def test_format_distinguishes_yomi_raw_parse_failures_from_final_apply(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "yomi_reading_llm_completed",
+                "advanced": True,
+                "artifacts": {
+                    "yomi_reading_queued": "155",
+                    "yomi_reading_llm_job_completed": "155",
+                    "yomi_reading_llm_job_total": "155",
+                    "yomi_reading_llm_job_failed": "3",
+                    "yomi_reading_llm_job_status": "completed",
+                    "yomi_reading_apply_summary_json": "data/units/dev_batch_0001/yomi_reading_apply_summary.json",
+                    "yomi_reading_checked": "155",
+                    "yomi_reading_matched": "154",
+                    "yomi_reading_mismatched": "1",
+                    "yomi_reading_parse_error": "0",
+                    "yomi_reading_missing_result": "0",
+                },
+            }
+        )
+
+        self.assertIn(
+            "LLM progress (yomi_reading): 155/155 completed, 3 raw parse failures",
+            rendered,
+        )
+        self.assertIn(
+            "Yomi reading final: 155 checked, 154 matched, 1 mismatched, 0 final parse errors, 0 missing",
+            rendered,
+        )
+        self.assertNotIn("3 failed", rendered)
+
     def test_format_suppresses_stale_llm_status_on_queue_stage(self) -> None:
         rendered = format_next_summary(
             {

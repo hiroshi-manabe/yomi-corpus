@@ -85,6 +85,21 @@ class YomiSafetyTests(unittest.TestCase):
         self.assertIn("safe_by_corpus_frequency", by_surface["学校"]["accepted_signal_names"])
         self.assertFalse(by_surface["上"]["is_safe"])
 
+    def test_whole_unit_auto_accept_marks_all_targets_safe(self) -> None:
+        payload = unit()
+        payload["analysis"]["mechanical"]["yomi"]["auto_accept"] = {
+            "value": True,
+            "rule": "fixture_auto_accept",
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        self.assertEqual([record["surface"] for record in records], ["学校", "上"])
+        self.assertTrue(all(record["is_safe"] for record in records))
+        self.assertTrue(
+            all("safe_by_unit_auto_accept" in record["accepted_signal_names"] for record in records)
+        )
+
     def test_queue_skips_targets_marked_safe_by_safety_records(self) -> None:
         payload = unit()
         records = build_pre_llm_safety_records(

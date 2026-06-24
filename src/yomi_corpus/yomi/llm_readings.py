@@ -328,6 +328,7 @@ def apply_yomi_llm_reading_results_file(
                 by_unit.get(str(unit.get("unit_id", "")), []),
                 key=lambda row: int(row.get("token_index", -1)),
             )
+            merge_yomi_reading_judgments_into_safety(unit, judgments)
             unit.setdefault("analysis", {}).setdefault("llm", {})["yomi_readings"] = {
                 "rule": "llm_reading_generation_sudachi_token_v1",
                 "items": judgments,
@@ -361,12 +362,17 @@ def build_item_judgment(
     result: dict[str, Any] | None,
 ) -> dict[str, Any]:
     base = {
+        "unit_id": item["unit_id"],
         "item_id": item["item_id"],
         "token_index": item["token_index"],
+        "chunk_index": item["chunk_index"],
         "surface": item["surface"],
+        "token_surface": item["token_surface"],
         "current_reading": item["current_reading"],
         "current_reading_hiragana": item["current_reading_hiragana"],
         "marked_text": item["marked_text"],
+        "target_start": item["target_start"],
+        "target_end": item["target_end"],
     }
     if result is None:
         return {**base, "status": "missing_result", "llm_reading": None, "raw_text": None}
@@ -416,6 +422,133 @@ def build_item_judgment(
         "llm_reading": llm_reading,
         "raw_text": result.get("raw_text"),
         "extra_json_keys": sorted(str(key) for key in keys - {expected_key}),
+    }
+
+
+def merge_yomi_reading_judgments_into_safety(
+    unit: dict[str, Any],
+    judgments: list[dict[str, Any]],
+) -> None:
+    if not judgments:
+        refresh_yomi_safety_summary(unit)
+        return
+
+    safety = unit.setdefault("analysis", {}).setdefault("safety", {}).setdefault("yomi", {})
+    targets = safety.setdefault("targets", [])
+    if not isinstance(targets, list):
+        targets = []
+        safety["targets"] = targets
+    by_item_id = {
+        str(record.get("item_id")): record
+        for record in targets
+        if isinstance(record, dict) and record.get("item_id")
+    }
+
+    for judgment in judgments:
+        item_id = str(judgment.get("item_id", ""))
+        if not item_id:
+            continue
+        record = by_item_id.get(item_id)
+        if record is None:
+            record = safety_record_from_judgment(judgment)
+            targets.append(record)
+            by_item_id[item_id] = record
+        apply_llm_judgment_to_safety_record(record, judgment)
+    refresh_yomi_safety_summary(unit)
+
+
+def safety_record_from_judgment(judgment: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "rule": "per_target_pre_llm_safety_v1",
+        "item_id": judgment.get("item_id"),
+        "unit_id": judgment.get("unit_id"),
+        "token_index": judgment.get("token_index"),
+        "chunk_index": judgment.get("chunk_index"),
+        "surface": judgment.get("surface"),
+        "token_surface": judgment.get("token_surface"),
+        "current_reading": judgment.get("current_reading"),
+        "current_reading_hiragana": judgment.get("current_reading_hiragana"),
+        "target_start": judgment.get("target_start"),
+        "target_end": judgment.get("target_end"),
+        "is_safe": False,
+        "review_status": "unresolved",
+        "highlight_level": "target",
+        "accepted_signal_names": [],
+        "signals": [],
+        "status_reason": "no_accepted_safety_signal",
+    }
+
+
+def apply_llm_judgment_to_safety_record(
+    record: dict[str, Any],
+    judgment: dict[str, Any],
+) -> None:
+    status = str(judgment.get("status") or "")
+    accepted = status == "matched"
+    signal = {
+        "name": "safe_by_llm_match",
+        "accepted": accepted,
+        "status": status,
+        "llm_reading": judgment.get("llm_reading"),
+        "current_reading_hiragana": judgment.get("current_reading_hiragana"),
+    }
+    if judgment.get("parse_error"):
+        signal["parse_error"] = judgment.get("parse_error")
+    replace_signal(record, signal)
+
+    accepted_signal_names = record.setdefault("accepted_signal_names", [])
+    if not isinstance(accepted_signal_names, list):
+        accepted_signal_names = []
+        record["accepted_signal_names"] = accepted_signal_names
+    if accepted:
+        if "safe_by_llm_match" not in accepted_signal_names:
+            accepted_signal_names.append("safe_by_llm_match")
+        record["is_safe"] = True
+        record["review_status"] = "safe"
+        record["highlight_level"] = "none"
+        record["status_reason"] = "accepted_llm_match"
+        return
+
+    record["accepted_signal_names"] = [
+        name for name in accepted_signal_names if name != "safe_by_llm_match"
+    ]
+    if not record["accepted_signal_names"]:
+        record["is_safe"] = False
+        record["review_status"] = "unresolved"
+        record["highlight_level"] = "target"
+        record["status_reason"] = f"llm_reading_{status or 'unresolved'}"
+
+
+def replace_signal(record: dict[str, Any], signal: dict[str, Any]) -> None:
+    signals = record.setdefault("signals", [])
+    if not isinstance(signals, list):
+        signals = []
+        record["signals"] = signals
+    signals[:] = [
+        existing
+        for existing in signals
+        if not (isinstance(existing, dict) and existing.get("name") == signal["name"])
+    ]
+    signals.append(signal)
+
+
+def refresh_yomi_safety_summary(unit: dict[str, Any]) -> None:
+    safety = unit.setdefault("analysis", {}).setdefault("safety", {}).setdefault("yomi", {})
+    targets = safety.get("targets", [])
+    if not isinstance(targets, list):
+        targets = []
+        safety["targets"] = targets
+    safety.setdefault("rule", "per_target_pre_llm_safety_v1")
+    safety["summary"] = {
+        "target_count": len(targets),
+        "safe_count": sum(
+            1 for record in targets if isinstance(record, dict) and record.get("is_safe")
+        ),
+        "unresolved_count": sum(
+            1 for record in targets if isinstance(record, dict) and not record.get("is_safe")
+        ),
+        "all_targets_safe": bool(targets)
+        and all(isinstance(record, dict) and record.get("is_safe") for record in targets),
     }
 
 

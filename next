@@ -148,8 +148,12 @@ def format_next_summary(summary: dict[str, object]) -> str:
                         lines.append(f"LLM progress ({prefix}): 0/{total} completed")
                 else:
                     failed = artifacts.get(f"{prefix}_llm_job_failed")
-                    failed_text = "" if failed in (None, "0", 0) else f", {failed} failed"
+                    failure_label = llm_failure_label(artifacts, prefix)
+                    failed_text = "" if failed in (None, "0", 0) else f", {failed} {failure_label}"
                     lines.append(f"LLM progress ({prefix}): {completed}/{total} completed{failed_text}")
+                    final_line = final_apply_line(artifacts, prefix)
+                    if final_line:
+                        lines.append(final_line)
             job_status = artifacts.get(f"{prefix}_llm_job_status")
             remote_status = artifacts.get(f"{prefix}_llm_remote_status")
             if job_status:
@@ -184,6 +188,32 @@ def should_show_llm_status(summary: dict[str, object], artifacts: dict, prefix: 
         return True
     job_status = artifacts.get(f"{prefix}_llm_job_status")
     return bool(summary.get("blocking_reason") and job_status and job_status != "completed")
+
+
+def llm_failure_label(artifacts: dict, prefix: str) -> str:
+    if prefix == "yomi_reading" and artifacts.get("yomi_reading_apply_summary_json"):
+        return "raw parse failures"
+    return "failed"
+
+
+def final_apply_line(artifacts: dict, prefix: str) -> str | None:
+    if prefix != "yomi_reading":
+        return None
+    checked = artifacts.get("yomi_reading_checked")
+    matched = artifacts.get("yomi_reading_matched")
+    mismatched = artifacts.get("yomi_reading_mismatched")
+    parse_error = artifacts.get("yomi_reading_parse_error")
+    missing = artifacts.get("yomi_reading_missing_result")
+    if checked is None or matched is None:
+        return None
+    parts = [f"{checked} checked", f"{matched} matched"]
+    if mismatched is not None:
+        parts.append(f"{mismatched} mismatched")
+    if parse_error is not None:
+        parts.append(f"{parse_error} final parse errors")
+    if missing is not None:
+        parts.append(f"{missing} missing")
+    return "Yomi reading final: " + ", ".join(str(part) for part in parts)
 
 
 def output_keys_for_stage(stage: str) -> list[str]:

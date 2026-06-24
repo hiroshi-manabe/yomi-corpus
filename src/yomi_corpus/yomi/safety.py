@@ -27,6 +27,7 @@ class YomiSafetySummary:
     unresolved_targets: int
     stable_two_kanji_safe: int
     corpus_frequency_safe: int
+    unit_auto_accept_safe: int
     output_jsonl: str
     summary_json: str
     rule: str = SAFETY_RULE
@@ -63,6 +64,7 @@ def apply_yomi_safety_pre_llm_file(
     safe_targets = 0
     stable_two_kanji_safe = 0
     corpus_frequency_safe = 0
+    unit_auto_accept_safe = 0
 
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
@@ -85,6 +87,8 @@ def apply_yomi_safety_pre_llm_file(
                     stable_two_kanji_safe += 1
                 if "safe_by_corpus_frequency" in record["accepted_signal_names"]:
                     corpus_frequency_safe += 1
+                if "safe_by_unit_auto_accept" in record["accepted_signal_names"]:
+                    unit_auto_accept_safe += 1
             set_yomi_safety_records(unit, records)
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
@@ -97,6 +101,7 @@ def apply_yomi_safety_pre_llm_file(
         unresolved_targets=target_count - safe_targets,
         stable_two_kanji_safe=stable_two_kanji_safe,
         corpus_frequency_safe=corpus_frequency_safe,
+        unit_auto_accept_safe=unit_auto_accept_safe,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
     )
@@ -116,9 +121,21 @@ def build_pre_llm_safety_records(
     corpus_frequency_min_share: float = 0.995,
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
+    unit_auto_accept = yomi_auto_accept_payload(unit)
     for item in build_yomi_llm_reading_items(unit, stable_checker=None):
         signals: list[dict[str, Any]] = []
         accepted_signal_names: list[str] = []
+
+        if unit_auto_accept is not None:
+            signals.append(
+                {
+                    "name": "safe_by_unit_auto_accept",
+                    "accepted": True,
+                    "rule": unit_auto_accept.get("rule"),
+                    "reason": "whole_unit_yomi_auto_accept",
+                }
+            )
+            accepted_signal_names.append("safe_by_unit_auto_accept")
 
         if stable_checker is not None:
             stable = stable_checker.judge(str(item["surface"]), str(item["current_reading"]))
@@ -184,6 +201,18 @@ def build_pre_llm_safety_records(
             }
         )
     return records
+
+
+def yomi_auto_accept_payload(unit: dict[str, Any]) -> dict[str, Any] | None:
+    auto_accept = (
+        unit.get("analysis", {})
+        .get("mechanical", {})
+        .get("yomi", {})
+        .get("auto_accept")
+    )
+    if isinstance(auto_accept, dict) and auto_accept.get("value"):
+        return auto_accept
+    return None
 
 
 def set_yomi_safety_records(unit: dict[str, Any], records: list[dict[str, Any]]) -> None:

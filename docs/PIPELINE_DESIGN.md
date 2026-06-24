@@ -456,6 +456,9 @@ Candidate safety signals:
   support, not a one-off transition
 - LLM agreement: an independent per-target reading query returns the same
   reading as the mechanical reading
+- unit auto-accept evidence: a legacy whole-unit auto-accept decision can mark
+  every target in that unit low-risk, but it should remain a distinct signal so
+  later audits can separate it from per-target evidence
 - unresolved evidence: no signal applies, the LLM disagrees, or the LLM output
   is missing/malformed
 
@@ -582,12 +585,15 @@ Implementation sequence:
 4. Change yomi-reading queue construction to queue only unresolved, non-skipped
    targets from the pre-LLM safety artifact.
 5. Merge LLM results back into final safety records. LLM/mechanical agreement
-   adds `safe_by_llm_agreement`; disagreement or malformed output leaves the
-   target unresolved.
+   adds `safe_by_llm_match`; disagreement or malformed output leaves the target
+   unresolved. Legacy whole-unit auto-accept decisions should be projected into
+   target records as `safe_by_unit_auto_accept`, not left only as a unit-level
+   flag.
 6. Produce explicit artifacts and summaries:
    - `units.yomi.safety_pre_llm.jsonl`
    - `yomi_reading_input.jsonl`
-   - `units.yomi.safety.jsonl`
+   - `units.yomi.llm_readings.jsonl`, containing the merged post-LLM target
+     safety records until a separate final safety artifact is needed
    - counts by safety signal, queued LLM targets, LLM agreement/disagreement,
      parse errors, and unresolved targets
 7. Add review/debug export that highlights targets by `highlight_level`.
@@ -1549,6 +1555,61 @@ The important point is not the exact directory names but the separation:
 - Python pipeline code should stay independent of frontend tooling
 - the review UI should remain versioned with this project
 - GitHub Pages output should be a normal repo artifact, not a separate system
+
+For yomi review, use the same transport model as alphabetic review: the cluster
+writes a review-pack JSON file, GitHub Pages displays it, the browser keeps
+local draft state, and the reviewer returns exported JSON through GitHub
+Issues/comments/attachments. The page should default to the latest review pack
+but keep older packs readable as immutable history.
+
+The review pack should be a flat, continuous list grouped by visible document
+separators rather than a hard document-switching UI. Each item still carries
+`doc_id`, `unit_id`, and stable local/global indexes. This keeps review and
+range export simple while preserving enough metadata to add document tabs or a
+sidebar later. Document boundaries should be visually clear, for example:
+
+```text
+Document 3 / ja_cc_level2:0000000004
+```
+
+Global UI controls should include:
+
+- `all`, `unresolved only`, `provisional skip`, and `reviewed` filters
+- `from here` and `to here` range marks
+- export for all visible items or for the marked range
+
+For each sentence/unit, show the current yomi-annotated text plus the
+provisional `Skip` checkbox. Provisional alphabetic skip should appear as a
+greyed or otherwise subdued default state, but the reviewer can clear the
+checkbox. If a reviewer clears a provisional alphabetic skip, the relevant
+alphabetic entities in that unit can be treated as in-scope for future
+decisions.
+
+For each unresolved yomi target, the UI should show a per-target dropdown.
+Candidate choices should be derived from the evidence already stored in the
+target record:
+
+- current mechanical/hybrid reading
+- LLM reading when it differs
+- corpus-frequency dominant reading when available
+- stable dictionary reading when available
+- `Other / none of these`
+
+`Other / none of these` should reveal a small manual reading input. Store the
+submission as structured data, not just a final string, for example:
+
+```json
+{
+  "item_id": "...",
+  "choice": "llm",
+  "selected_reading": "ちかぢか",
+  "custom_reading": null
+}
+```
+
+The review screen is sentence-level even though the choices are target-level:
+the sentence gives enough context for skip and reading decisions, while
+per-target controls keep common corrections fast.
 
 ### 10.2 Review state model
 

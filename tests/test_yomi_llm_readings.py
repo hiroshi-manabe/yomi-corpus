@@ -290,6 +290,24 @@ class YomiLLMReadingsTests(unittest.TestCase):
             row = json.loads(output_path.read_text(encoding="utf-8").splitlines()[0])
             judgments = row["analysis"]["llm"]["yomi_readings"]["items"]
             self.assertEqual([judgment["status"] for judgment in judgments], ["matched", "mismatched"])
+            safety_targets = row["analysis"]["safety"]["yomi"]["targets"]
+            self.assertEqual([target["surface"] for target in safety_targets], ["学校", "上"])
+            self.assertEqual([target["is_safe"] for target in safety_targets], [True, False])
+            self.assertEqual(
+                [target["review_status"] for target in safety_targets],
+                ["safe", "unresolved"],
+            )
+            self.assertIn("safe_by_llm_match", safety_targets[0]["accepted_signal_names"])
+            self.assertNotIn("safe_by_llm_match", safety_targets[1]["accepted_signal_names"])
+            self.assertEqual(
+                row["analysis"]["safety"]["yomi"]["summary"],
+                {
+                    "target_count": 2,
+                    "safe_count": 1,
+                    "unresolved_count": 1,
+                    "all_targets_safe": False,
+                },
+            )
 
     def test_retry_queue_includes_only_parse_errors(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

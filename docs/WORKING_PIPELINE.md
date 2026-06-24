@@ -824,8 +824,11 @@ Implementation status:
    - N-gram safety is still pending until the mapping from decoder entries to
      targets is clean enough to audit.
 3. Apply LLM reading results back into safety.
-   - On exact LLM/mechanical agreement, add `safe_by_llm_agreement` and update
+   - On exact LLM/mechanical agreement, add `safe_by_llm_match` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
+   - If a unit was already whole-unit auto-accepted, project that decision into
+     each target as `safe_by_unit_auto_accept` so target-level review does not
+     show false unresolved highlights.
    - On yomi-reading format/key parse errors after parser salvage, retry with
      the same prompt and task config up to 3 total attempts. Retry results
      override earlier attempts for the same item ID.
@@ -837,8 +840,10 @@ Implementation status:
    - `yomi_reading_input.jsonl`: implemented unresolved targets sent to LLM.
    - `yomi_reading_retry2_input.jsonl` and `yomi_reading_retry3_input.jsonl`:
      implemented parse-error targets resent with the same prompt.
-   - `units.yomi.safety.jsonl`: pending final target safety after LLM
-     agreement.
+   - `units.yomi.llm_readings.jsonl`: currently implemented post-LLM artifact
+     containing both LLM reading judgments and merged target safety records.
+   - `units.yomi.safety.jsonl`: optional future alias/final target safety
+     artifact if the review/export stages need a narrower file.
    - Summaries should count total targets, safe-by-signal counts, queued LLM
      targets, LLM agreement, LLM disagreement, parse errors, and unresolved
      targets.
@@ -1479,6 +1484,21 @@ Practical layout direction:
 
 This keeps hosting simple while still letting the UI evolve together with the
 pack format, submission format, and review workflow.
+
+For final yomi review, use a sentence-level review pack with visible document
+separators inside one continuous list. Avoid making each document a separate
+page unless later batch sizes require it. A flat list works better with the
+existing range-export model: default export covers everything, `from here` and
+`to here` marks narrow the exported range, and multiple returned files can be
+merged by stable item IDs.
+
+Each unresolved yomi target should be editable through a dropdown. Candidate
+readings should come from the recorded evidence: current mechanical/hybrid
+reading, LLM reading, corpus-frequency dominant reading when available, stable
+dictionary reading when available, plus `Other / none of these`. Choosing
+`Other / none of these` should reveal a manual reading field. Store both the
+selected source and the selected/custom reading so later analysis can learn
+which signal was accepted or rejected.
 
 ### 10.5.1 Review packs
 

@@ -2050,6 +2050,9 @@ class PipelineWorkspace:
                 "yomi_safety_pre_llm_targets": str(safety_summary.target_count),
                 "yomi_safety_pre_llm_safe": str(safety_summary.safe_targets),
                 "yomi_safety_pre_llm_unresolved": str(safety_summary.unresolved_targets),
+                "yomi_safety_pre_llm_unit_auto_accept": str(
+                    getattr(safety_summary, "unit_auto_accept_safe", 0)
+                ),
                 "yomi_reading_input_jsonl": str(output_path),
                 "yomi_reading_queue_summary_json": str(summary_path),
                 "yomi_reading_task_config": "config/llm/yomi_reading.toml",
