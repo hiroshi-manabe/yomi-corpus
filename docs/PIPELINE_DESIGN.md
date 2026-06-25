@@ -1688,6 +1688,45 @@ Merge rule:
 
 This is intentionally simple and leaves conflict responsibility to the user.
 
+### 10.6 Current yomi final-review application path
+
+After `final_review_prepared`, the concrete pipeline stages are:
+
+- `final_review_applied`
+- `yomi_strong_repair_queued`
+- `yomi_finalized`
+
+`final_review_applied` consumes local JSON submissions under
+`data/review_submissions/yomi_final/`. These are the files exported by the
+GitHub Pages review UI or imported from GitHub Issues by a separate ingestion
+step. The replay semantics match the review UI:
+
+- reviewed ranges define coverage
+- no explicit override inside a reviewed range means accept
+- sparse overrides can set sentence skip, sentence escalation, or target-level
+  reading choices
+- later overlapping submissions overwrite earlier ones
+
+If no matching submission exists, the stage blocks as a human review gate.
+
+`yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a queue
+for cases that need the future stronger model:
+
+- sentence-level escalation
+- target-level `No ruby`
+
+No expensive correction call is made yet. This keeps implementation ordered by
+actual evidence: first complete the no-escalation path, then implement strong
+correction once real examples exist.
+
+`yomi_finalized` writes the no-escalation final output when the strong queue is
+empty. If the queue is non-empty, it blocks rather than pretending the batch is
+done.
+
+`./next --auto` may be used to advance repeatedly through non-human stages. It
+stops on human gates, incomplete stages, confirmation requirements, blocking
+errors, or final completion. Single-step `./next` remains the debugging default.
+
 
 ## 11. Recommended First Iterations
 

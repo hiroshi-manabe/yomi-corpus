@@ -877,6 +877,98 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(mocked.call_args.kwargs["auto_accept_profile"], "off")
             self.assertEqual(summary["artifacts"]["yomi_auto_accept_profile"], "off")
 
+    def test_final_review_apply_blocks_without_submission(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = make_final_review_batch(root)
+            state = workspace._infer_batch_state("dev_batch_0001")
+            state.current_stage = "final_review_prepared"
+            state.artifacts["final_review_pack_id"] = "pack_1"
+            workspace.save_batch_state(state)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            summary = workspace.advance("dev")
+
+            self.assertFalse(summary["advanced"])
+            self.assertEqual(summary["current_stage"], "final_review_prepared")
+            self.assertIn("No yomi final review submissions", summary["blocking_reason"])
+            self.assertEqual(
+                Path(summary["artifacts"]["final_review_submission_store"]).resolve(),
+                (root / "data" / "review_submissions" / "yomi_final").resolve(),
+            )
+            self.assertTrue(batch_dir.exists())
+
+    def test_final_review_no_escalation_path_finalizes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            make_final_review_batch(root)
+            store_dir = root / "data" / "review_submissions" / "yomi_final"
+            store_dir.mkdir(parents=True)
+            (store_dir / "s1.json").write_text(
+                json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_final_review",
+                        "pack_id": "pack_1",
+                        "submission_id": "s1",
+                        "generated_at_epoch": 1,
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                        "overrides": [
+                            {
+                                "item_id": "u1",
+                                "targets": [
+                                    {
+                                        "item_id": "u1:r0001c01",
+                                        "choice_source": "llm",
+                                        "selected_reading": "ちかぢか",
+                                    }
+                                ],
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            state = workspace._infer_batch_state("dev_batch_0001")
+            state.current_stage = "final_review_prepared"
+            state.artifacts["final_review_pack_id"] = "pack_1"
+            workspace.save_batch_state(state)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name="dev_batch_0001",
+                    updated_at="2026-04-09T00:00:00Z",
+                )
+            )
+
+            first = workspace.advance("dev")
+            second = workspace.advance("dev")
+            third = workspace.advance("dev")
+
+            self.assertEqual(first["current_stage"], "final_review_applied")
+            self.assertEqual(second["current_stage"], "yomi_strong_repair_queued")
+            self.assertEqual(third["current_stage"], "yomi_finalized")
+            self.assertEqual(third["artifacts"]["yomi_final_written_units"], "1")
+            final_row = json.loads(
+                (root / "data" / "units" / "dev_batch_0001" / "units.yomi.final.jsonl")
+                .read_text(encoding="utf-8")
+                .strip()
+            )
+            self.assertEqual(
+                final_row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "近々/チカヂカ です/デス 。/。",
+            )
+
     def test_advance_runs_alphabetic_judgment_and_ingests_ledger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1565,6 +1657,119 @@ class PipelineTrackTests(unittest.TestCase):
                 [str(Path(path).resolve()) for path in summary["overwrite_paths"]],
                 [str(yomi_path.resolve())],
             )
+
+
+def make_final_review_batch(root: Path) -> Path:
+    batch_dir = root / "data" / "units" / "dev_batch_0001"
+    batch_dir.mkdir(parents=True)
+    (batch_dir / "manifest.json").write_text(
+        json.dumps(
+            {
+                "batch_name": "dev_batch_0001",
+                "track_name": "dev",
+                "batch_kind": "dev",
+                "pipeline_profile": "dev",
+                "dataset_name": "demo",
+                "dataset_config_path": "config/datasets/demo.toml",
+                "dataset_source_path": "/tmp/source.jsonl.gz",
+                "target_documents": 5,
+                "docs_written": 5,
+                "units_written": 1,
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    unit = {
+        "doc_id": "doc1",
+        "unit_id": "u1",
+        "unit_seq": 1,
+        "text": "近々です。",
+        "analysis": {
+            "mechanical": {
+                "yomi": {
+                    "rendered": "近々/キンキン です/デス 。/。",
+                }
+            },
+            "safety": {
+                "yomi": {
+                    "targets": [
+                        {
+                            "item_id": "u1:r0001c01",
+                            "unit_id": "u1",
+                            "token_index": 0,
+                            "chunk_index": 0,
+                            "surface": "近々",
+                            "token_surface": "近々",
+                            "current_reading": "キンキン",
+                            "current_reading_hiragana": "きんきん",
+                            "target_start": 0,
+                            "target_end": 2,
+                            "is_safe": False,
+                            "review_status": "unresolved",
+                            "highlight_level": "target",
+                            "accepted_signal_names": [],
+                            "signals": [
+                                {
+                                    "name": "safe_by_llm_match",
+                                    "accepted": False,
+                                    "status": "mismatched",
+                                    "llm_reading": "ちかぢか",
+                                    "current_reading_hiragana": "きんきん",
+                                }
+                            ],
+                            "status_reason": "llm_reading_mismatched",
+                        }
+                    ]
+                }
+            },
+        },
+    }
+    (batch_dir / "units.jsonl").write_text(json.dumps(unit, ensure_ascii=False) + "\n", encoding="utf-8")
+    (batch_dir / "units.yomi.llm_readings.jsonl").write_text(
+        json.dumps(unit, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    pack = {
+        "schema_version": 1,
+        "review_stage": "yomi_final_review",
+        "pack_id": "pack_1",
+        "track_name": "dev",
+        "batch_name": "dev_batch_0001",
+        "item_count": 1,
+        "summary": {
+            "document_count": 1,
+            "unresolved_item_count": 1,
+            "unresolved_target_count": 1,
+            "provisional_skip_item_count": 0,
+        },
+        "items": [
+            {
+                "item_id": "u1",
+                "seq": 1,
+                "doc_id": "doc1",
+                "doc_seq": 1,
+                "unit_id": "u1",
+                "text": "近々です。",
+                "skip_default": False,
+                "targets": [
+                    {
+                        "item_id": "u1:r0001c01",
+                        "surface": "近々",
+                        "token_surface": "近々",
+                        "token_index": 0,
+                        "chunk_index": 0,
+                        "current_reading_hiragana": "きんきん",
+                    }
+                ],
+            }
+        ],
+    }
+    (batch_dir / "final_review_pack.json").write_text(
+        json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return batch_dir
 
 
 if __name__ == "__main__":

@@ -41,7 +41,10 @@ from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
 from yomi_corpus.yomi.final_review import (
+    apply_final_review_file,
+    build_strong_repair_queue_file,
     build_yomi_final_review_pack_file,
+    finalize_reviewed_yomi_file,
     write_summary as write_yomi_final_review_summary,
 )
 from yomi_corpus.yomi.llm_readings import (
@@ -131,6 +134,9 @@ STAGE_YOMI_AUTO_ACCEPTED = "yomi_auto_accepted"
 STAGE_YOMI_READING_QUEUED = "yomi_reading_queued"
 STAGE_YOMI_READING_LLM_COMPLETED = "yomi_reading_llm_completed"
 STAGE_FINAL_REVIEW_PREPARED = "final_review_prepared"
+STAGE_FINAL_REVIEW_APPLIED = "final_review_applied"
+STAGE_YOMI_STRONG_REPAIR_QUEUED = "yomi_strong_repair_queued"
+STAGE_YOMI_FINALIZED = "yomi_finalized"
 LEGACY_STAGE_MAP = {
     "alphabetic_judged": STAGE_ALPHABETIC_LLM_JUDGED,
     "scope_triage_completed": STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
@@ -168,6 +174,9 @@ STAGE_SEQUENCE = [
     STAGE_YOMI_READING_QUEUED,
     STAGE_YOMI_READING_LLM_COMPLETED,
     STAGE_FINAL_REVIEW_PREPARED,
+    STAGE_FINAL_REVIEW_APPLIED,
+    STAGE_YOMI_STRONG_REPAIR_QUEUED,
+    STAGE_YOMI_FINALIZED,
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -183,6 +192,9 @@ RERUNNABLE_STAGES = frozenset(
         STAGE_YOMI_READING_QUEUED,
         STAGE_YOMI_READING_LLM_COMPLETED,
         STAGE_FINAL_REVIEW_PREPARED,
+        STAGE_FINAL_REVIEW_APPLIED,
+        STAGE_YOMI_STRONG_REPAIR_QUEUED,
+        STAGE_YOMI_FINALIZED,
     }
 )
 
@@ -985,6 +997,12 @@ class PipelineWorkspace:
             )
         if stage_name == STAGE_FINAL_REVIEW_PREPARED:
             return self._prepare_final_review(batch_name)
+        if stage_name == STAGE_FINAL_REVIEW_APPLIED:
+            return self._apply_final_review(batch_name)
+        if stage_name == STAGE_YOMI_STRONG_REPAIR_QUEUED:
+            return self._queue_yomi_strong_repair(batch_name)
+        if stage_name == STAGE_YOMI_FINALIZED:
+            return self._finalize_yomi(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -1063,6 +1081,21 @@ class PipelineWorkspace:
             return [
                 batch_dir / "final_review_pack.json",
                 batch_dir / "final_review_pack_summary.json",
+            ]
+        if stage_name == STAGE_FINAL_REVIEW_APPLIED:
+            return [
+                batch_dir / "units.yomi.reviewed.jsonl",
+                batch_dir / "final_review_apply_summary.json",
+            ]
+        if stage_name == STAGE_YOMI_STRONG_REPAIR_QUEUED:
+            return [
+                batch_dir / "yomi_strong_repair_queue.jsonl",
+                batch_dir / "yomi_strong_repair_queue_summary.json",
+            ]
+        if stage_name == STAGE_YOMI_FINALIZED:
+            return [
+                batch_dir / "units.yomi.final.jsonl",
+                batch_dir / "yomi_finalize_summary.json",
             ]
         return []
 
@@ -2351,6 +2384,117 @@ class PipelineWorkspace:
                     summary.provisional_skip_item_count
                 ),
                 "review_site_default_stage": str(manifest.get("default_stage") or ""),
+            }
+        }
+
+    def _apply_final_review(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
+        pack_id = str(batch_state.artifacts.get("final_review_pack_id") or f"yomi_final_{batch_name}_v1")
+        pack_path = batch_dir / "final_review_pack.json"
+        output_path = batch_dir / "units.yomi.reviewed.jsonl"
+        summary_path = batch_dir / "final_review_apply_summary.json"
+        submission_store_dir = self.root / "data" / "review_submissions" / "yomi_final"
+        summary = apply_final_review_file(
+            units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
+            pack_json=pack_path,
+            submission_store_dir=submission_store_dir,
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        artifacts = {
+            "final_review_pack_id": pack_id,
+            "final_review_submission_store": str(submission_store_dir),
+            "final_review_apply_summary_json": str(summary_path),
+        }
+        if not summary.get("stage_complete", True):
+            return {
+                "stage_complete": False,
+                "blocking_reason": str(summary["blocking_reason"]),
+                "artifacts": {
+                    **artifacts,
+                    "human_review_required": "true",
+                    "human_review_gate": "yomi_final_review",
+                    "human_review_item_count": str(batch_state.artifacts.get("final_review_items", "")),
+                    "final_review_submissions": "0",
+                },
+            }
+        return {
+            "artifacts": {
+                **artifacts,
+                "units_yomi_reviewed_jsonl": str(output_path),
+                "final_review_submissions": str(summary["submission_count"]),
+                "final_review_reviewed_units": str(summary["reviewed_units"]),
+                "final_review_unreviewed_units": str(summary["unreviewed_units"]),
+                "final_review_skipped_units": str(summary["skipped_units"]),
+                "final_review_escalated_units": str(summary["escalated_units"]),
+                "final_review_target_overrides": str(summary["target_override_count"]),
+                "final_review_no_ruby_targets": str(summary["no_ruby_target_count"]),
+                "final_review_exact_rendered_updates": str(summary["exact_rendered_updates"]),
+                "human_review_required": "false",
+                "human_review_gate": "",
+                "human_review_item_count": "",
+            }
+        }
+
+    def _queue_yomi_strong_repair(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        output_path = batch_dir / "yomi_strong_repair_queue.jsonl"
+        summary_path = batch_dir / "yomi_strong_repair_queue_summary.json"
+        summary = build_strong_repair_queue_file(
+            units_jsonl=batch_dir / "units.yomi.reviewed.jsonl",
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        return {
+            "artifacts": {
+                "yomi_strong_repair_queue_jsonl": str(output_path),
+                "yomi_strong_repair_queue_summary_json": str(summary_path),
+                "yomi_strong_repair_queued": str(summary["queued_items"]),
+                "yomi_strong_repair_sentence_escalations": str(summary["sentence_escalations"]),
+                "yomi_strong_repair_target_escalations": str(summary["target_escalations"]),
+                "yomi_strong_repair_mock_only": "true",
+                "human_review_required": "false",
+                "human_review_gate": "",
+                "human_review_item_count": "",
+            }
+        }
+
+    def _finalize_yomi(self, batch_name: str) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        output_path = batch_dir / "units.yomi.final.jsonl"
+        summary_path = batch_dir / "yomi_finalize_summary.json"
+        summary = finalize_reviewed_yomi_file(
+            units_jsonl=batch_dir / "units.yomi.reviewed.jsonl",
+            strong_queue_summary_json=batch_dir / "yomi_strong_repair_queue_summary.json",
+            output_jsonl=output_path,
+            summary_json=summary_path,
+        )
+        artifacts = {
+            "units_yomi_final_jsonl": str(output_path),
+            "yomi_finalize_summary_json": str(summary_path),
+        }
+        if not summary.get("stage_complete", True):
+            return {
+                "stage_complete": False,
+                "blocking_reason": str(summary["blocking_reason"]),
+                "artifacts": {
+                    **artifacts,
+                    "yomi_strong_repair_queued": str(summary["queued_items"]),
+                    "human_review_required": "true",
+                    "human_review_gate": "yomi_strong_repair_mock",
+                    "human_review_item_count": str(summary["queued_items"]),
+                },
+            }
+        return {
+            "artifacts": {
+                **artifacts,
+                "yomi_final_written_units": str(summary["written_units"]),
+                "yomi_final_skipped_units": str(summary["skipped_units"]),
+                "yomi_final_unreviewed_units": str(summary["unreviewed_units"]),
+                "human_review_required": "false",
+                "human_review_gate": "",
+                "human_review_item_count": "",
             }
         }
 

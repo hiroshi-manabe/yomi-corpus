@@ -55,6 +55,11 @@ def parse_args() -> argparse.Namespace:
         help="Print the full structured summary instead of concise operator output.",
     )
     parser.add_argument(
+        "--auto",
+        action="store_true",
+        help="Keep advancing until a human gate, incomplete stage, or final stage is reached.",
+    )
+    parser.add_argument(
         "--llm-mode",
         choices=sorted(LLM_EXECUTION_MODES),
         help=(
@@ -68,12 +73,18 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     workspace = PipelineWorkspace(PROJECT_ROOT)
-    summary = workspace.advance(
-        track_name=args.track,
-        force_stage=args.force_stage,
-        allow_overwrite=args.yes,
-        skip_review_gates=args.skip_review_gates,
-        llm_execution_mode_override=args.llm_mode,
+    if args.auto and args.force_stage:
+        raise SystemExit("--auto cannot be combined with --force-stage")
+    summary = (
+        advance_auto(workspace, args)
+        if args.auto
+        else workspace.advance(
+            track_name=args.track,
+            force_stage=args.force_stage,
+            allow_overwrite=args.yes,
+            skip_review_gates=args.skip_review_gates,
+            llm_execution_mode_override=args.llm_mode,
+        )
     )
     if summary.get("requires_confirmation") and not args.yes:
         if not sys.stdin.isatty():
@@ -90,12 +101,16 @@ def main() -> None:
             )
             answer = input(prompt).strip().lower()
             if answer in {"y", "yes"}:
-                summary = workspace.advance(
-                    track_name=args.track,
-                    force_stage=args.force_stage,
-                    allow_overwrite=True,
-                    skip_review_gates=args.skip_review_gates,
-                    llm_execution_mode_override=args.llm_mode,
+                summary = (
+                    advance_auto(workspace, args, allow_overwrite=True)
+                    if args.auto
+                    else workspace.advance(
+                        track_name=args.track,
+                        force_stage=args.force_stage,
+                        allow_overwrite=True,
+                        skip_review_gates=args.skip_review_gates,
+                        llm_execution_mode_override=args.llm_mode,
+                    )
                 )
             else:
                 summary["message"] = "Cancelled."
@@ -105,6 +120,46 @@ def main() -> None:
         print(json.dumps(summary, ensure_ascii=False, indent=2))
     else:
         print(format_next_summary(summary))
+
+
+def advance_auto(
+    workspace: PipelineWorkspace,
+    args: argparse.Namespace,
+    *,
+    allow_overwrite: bool | None = None,
+) -> dict[str, object]:
+    steps = []
+    final_summary: dict[str, object] | None = None
+    overwrite = args.yes if allow_overwrite is None else allow_overwrite
+    for _ in range(100):
+        summary = workspace.advance(
+            track_name=args.track,
+            allow_overwrite=overwrite,
+            skip_review_gates=args.skip_review_gates,
+            llm_execution_mode_override=args.llm_mode,
+        )
+        steps.append(
+            {
+                "stage": summary.get("current_stage"),
+                "advanced": summary.get("advanced"),
+                "blocking_reason": summary.get("blocking_reason"),
+                "next_stage": summary.get("next_stage"),
+            }
+        )
+        final_summary = summary
+        if summary.get("requires_confirmation"):
+            break
+        if summary.get("blocking_reason"):
+            break
+        if not summary.get("advanced"):
+            break
+        if not summary.get("next_stage"):
+            break
+    if final_summary is None:
+        final_summary = workspace.status(args.track)
+    final_summary["auto"] = True
+    final_summary["auto_steps"] = steps
+    return final_summary
 
 
 def write_pipeline_log(summary: dict[str, object]) -> Path:
@@ -166,6 +221,18 @@ def format_next_summary(summary: dict[str, object]) -> str:
                 break
     if summary.get("advanced") is not None:
         lines.append(f"Advanced: {str(summary.get('advanced')).lower()}")
+    if summary.get("auto"):
+        steps = summary.get("auto_steps")
+        if isinstance(steps, list):
+            advanced_stages = [
+                str(step.get("stage"))
+                for step in steps
+                if isinstance(step, dict) and step.get("advanced")
+            ]
+            lines.append(
+                "Auto stages: "
+                + (", ".join(advanced_stages) if advanced_stages else "none")
+            )
     if summary.get("requires_confirmation"):
         lines.append("Status: confirmation required")
     elif summary.get("blocking_reason"):
@@ -229,9 +296,15 @@ def output_keys_for_stage(stage: str) -> list[str]:
         "yomi_reading_queued": ["yomi_reading_input_jsonl"],
         "yomi_reading_llm_completed": ["units_yomi_llm_readings_jsonl"],
         "final_review_prepared": ["final_review_pack_json", "review_site_manifest_json"],
+        "final_review_applied": ["units_yomi_reviewed_jsonl"],
+        "yomi_strong_repair_queued": ["yomi_strong_repair_queue_jsonl"],
+        "yomi_finalized": ["units_yomi_final_jsonl"],
     }
     return stage_outputs.get(stage, []) + [
         "units_yomi_llm_readings_jsonl",
+        "units_yomi_reviewed_jsonl",
+        "yomi_strong_repair_queue_jsonl",
+        "units_yomi_final_jsonl",
         "yomi_reading_input_jsonl",
         "units_scope_triaged_jsonl",
         "units_yomi_auto_accept_jsonl",

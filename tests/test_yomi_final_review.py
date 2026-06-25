@@ -5,7 +5,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from yomi_corpus.yomi.final_review import build_yomi_final_review_pack_file
+from yomi_corpus.yomi.final_review import (
+    apply_final_review_file,
+    build_strong_repair_queue_file,
+    build_yomi_final_review_pack_file,
+    finalize_reviewed_yomi_file,
+    replay_review_submissions,
+    store_review_submission,
+)
 
 
 class YomiFinalReviewTests(unittest.TestCase):
@@ -70,6 +77,149 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(pack["items"][1]["all_targets_safe"])
 
             summary_path.write_text(json.dumps(summary.__dict__), encoding="utf-8")
+
+    def test_replay_yomi_review_submissions_applies_later_overlap(self) -> None:
+        pack = {
+            "pack_id": "pack_1",
+            "items": [
+                {"item_id": "u1", "seq": 1, "skip_default": False},
+                {"item_id": "u2", "seq": 2, "skip_default": False},
+            ],
+        }
+        first = {
+            "submission_id": "s1",
+            "generated_at_epoch": 1,
+            "reviewed_ranges": [{"from_seq": 1, "to_seq": 2}],
+            "overrides": [{"item_id": "u2", "skip": True}],
+        }
+        second = {
+            "submission_id": "s2",
+            "generated_at_epoch": 2,
+            "reviewed_ranges": [{"from_seq": 2, "to_seq": 2}],
+            "overrides": [],
+        }
+
+        effective = replay_review_submissions(pack, [first, second])
+
+        self.assertFalse(effective["u1"]["skip"])
+        self.assertFalse(effective["u2"]["skip"])
+        self.assertEqual(effective["u2"]["submission_id"], "s2")
+
+    def test_apply_final_review_updates_exact_rendered_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            output_path = root / "reviewed.jsonl"
+            summary_path = root / "summary.json"
+            payload = unit("doc1", "u1", "近々です。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = "近々/キンキン です/デス 。/。"
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0001c01",
+                                    "choice_source": "llm",
+                                    "selected_reading": "ちかぢか",
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            self.assertEqual(summary["exact_rendered_updates"], 1)
+            row = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "近々/チカヂカ です/デス 。/。",
+            )
+            review = row["analysis"]["human_review"]["yomi_final"]
+            self.assertTrue(review["reviewed"])
+            self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
+
+    def test_strong_queue_blocks_finalize_when_no_ruby_target_exists(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reviewed_path = root / "reviewed.jsonl"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            final_path = root / "final.jsonl"
+            final_summary_path = root / "final_summary.json"
+            reviewed_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "近々です。",
+                        "analysis": {
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "skip": False,
+                                    "escalate_sentence": False,
+                                    "target_overrides": [
+                                        {
+                                            "item_id": "u1:r0001c01",
+                                            "choice_source": "none",
+                                        }
+                                    ],
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            queue_summary = build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+            final_summary = finalize_reviewed_yomi_file(
+                units_jsonl=reviewed_path,
+                strong_queue_summary_json=queue_summary_path,
+                output_jsonl=final_path,
+                summary_json=final_summary_path,
+            )
+
+            self.assertEqual(queue_summary["queued_items"], 1)
+            self.assertFalse(final_summary["stage_complete"])
+            self.assertIn("not implemented", final_summary["blocking_reason"])
 
 
 def unit(doc_id: str, unit_id: str, text: str, *, safe: bool = False) -> dict:

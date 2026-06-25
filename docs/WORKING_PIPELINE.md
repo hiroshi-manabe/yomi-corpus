@@ -1999,6 +1999,85 @@ Within a batch:
 - run LLM yomi repair where needed
 - build human review queues
 
+### 13.1 Current post-review stages
+
+The current yomi pipeline now continues after `final_review_prepared`.
+
+Implemented stages:
+
+- `final_review_applied`
+- `yomi_strong_repair_queued`
+- `yomi_finalized`
+
+`final_review_applied` reads local review submission JSON files from:
+
+```text
+data/review_submissions/yomi_final/
+```
+
+The submission format is the JSON exported by the GitHub Pages review UI:
+
+- `review_stage` must be `yomi_final_review`
+- `pack_id` must match the generated review pack
+- `reviewed_ranges` define which sentence items were actually reviewed
+- sparse `overrides` carry `skip`, `escalate_sentence`, and target-level reading
+  choices
+
+Merge rule:
+
+- replay submissions by `generated_at_epoch`, `submission_id`, and source path
+- a reviewed range defaults every item in that range to accepted
+- sparse overrides apply on top of that default
+- later overlapping submissions overwrite earlier ones
+
+If no matching submission exists, `final_review_applied` blocks with a human
+review gate. This is intentional: even on `dev`, final yomi review should not be
+silently skipped.
+
+`yomi_strong_repair_queued` is currently a mock/plumbing stage. It creates:
+
+```text
+data/units/<batch>/yomi_strong_repair_queue.jsonl
+data/units/<batch>/yomi_strong_repair_queue_summary.json
+```
+
+Queue entries are generated for:
+
+- sentence-level `escalate_sentence`
+- target-level `choice_source: "none"`
+
+The actual expensive strong-LLM correction stage is intentionally not
+implemented yet. It should be added only after real examples appear.
+
+`yomi_finalized` finalizes only the no-escalation path. If the strong repair
+queue is non-empty, it blocks. If the queue is empty, it writes:
+
+```text
+data/units/<batch>/units.yomi.final.jsonl
+data/units/<batch>/yomi_finalize_summary.json
+```
+
+Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
+units are retained.
+
+Simple target reading choices are applied directly to exact rendered yomi
+tokens when the reviewed target covers the whole token. Harder cases, such as
+no-ruby targets or future token-boundary corrections, should go through the
+strong repair queue.
+
+### 13.2 Auto advancement
+
+`./next --auto` repeatedly advances the current batch until one of these happens:
+
+- a human gate blocks progress
+- a stage is still incomplete
+- confirmation is required
+- the final stage is reached
+- an error/blocking reason appears
+
+Plain `./next` remains single-step and should be preferred while debugging a
+specific stage.
+
 
 ## 14. Unclear or Open Points
 

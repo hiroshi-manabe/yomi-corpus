@@ -193,6 +193,31 @@ class NextCliTests(unittest.TestCase):
         )
         self.assertIn("Human review skipped: promotion_candidate_review", rendered)
 
+    def test_format_shows_auto_stage_trace(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "yomi_finalized",
+                "advanced": True,
+                "auto": True,
+                "auto_steps": [
+                    {"stage": "final_review_applied", "advanced": True},
+                    {"stage": "yomi_strong_repair_queued", "advanced": True},
+                    {"stage": "yomi_finalized", "advanced": True},
+                ],
+                "artifacts": {
+                    "units_yomi_final_jsonl": "data/units/dev_batch_0001/units.yomi.final.jsonl",
+                },
+            }
+        )
+
+        self.assertIn(
+            "Auto stages: final_review_applied, yomi_strong_repair_queued, yomi_finalized",
+            rendered,
+        )
+        self.assertIn("Output: data/units/dev_batch_0001/units.yomi.final.jsonl", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()
