@@ -140,6 +140,7 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
         "source_file": unit.get("source_file"),
         "source_line_no": unit.get("source_line_no"),
         "text": str(unit.get("text") or ""),
+        "ruby_segments": build_ruby_segments(str(unit.get("text") or ""), review_targets),
         "rendered_yomi": str(
             unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
         ),
@@ -230,13 +231,50 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             )
     candidates.append(
         {
-            "source": "other",
-            "label": "Other / none of these",
+            "source": "none",
+            "label": "No ruby",
             "reading": None,
             "accepted": False,
         }
     )
     return candidates
+
+
+def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    segments: list[dict[str, Any]] = []
+    cursor = 0
+    ordered_targets = sorted(
+        [
+            target
+            for target in targets
+            if isinstance(target.get("target_start"), int)
+            and isinstance(target.get("target_end"), int)
+            and int(target["target_start"]) >= 0
+            and int(target["target_end"]) > int(target["target_start"])
+        ],
+        key=lambda target: (int(target["target_start"]), int(target["target_end"])),
+    )
+    for target in ordered_targets:
+        start = int(target["target_start"])
+        end = int(target["target_end"])
+        if start < cursor:
+            continue
+        if cursor < start:
+            segments.append({"type": "text", "text": text[cursor:start]})
+        segments.append(
+            {
+                "type": "ruby",
+                "text": text[start:end],
+                "target_item_id": target["item_id"],
+                "reading": target.get("current_reading_hiragana"),
+                "is_safe": target.get("is_safe"),
+                "highlight_level": target.get("highlight_level"),
+            }
+        )
+        cursor = end
+    if cursor < len(text):
+        segments.append({"type": "text", "text": text[cursor:]})
+    return segments
 
 
 def current_epoch() -> int:

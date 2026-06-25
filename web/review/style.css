@@ -393,12 +393,17 @@ button {
   border-color: rgba(45, 106, 79, 0.36);
 }
 
+.item-card.yomi-card {
+  padding: 12px 14px 16px;
+  background: rgba(255, 253, 249, 0.96);
+}
+
 .item-card.yomi-card.has-unresolved {
-  border-color: rgba(156, 79, 30, 0.32);
+  border-color: rgba(156, 79, 30, 0.24);
 }
 
 .item-card.yomi-card.all-safe {
-  opacity: 0.82;
+  opacity: 0.9;
 }
 
 .item-card.marker-start,
@@ -476,41 +481,86 @@ button {
   gap: 8px;
 }
 
-.yomi-lines {
-  padding-left: 0;
-  list-style: none;
-}
-
-.yomi-target {
-  list-style: none;
-  margin: 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 250, 242, 0.78);
-}
-
-.target-heading {
+.yomi-controls {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
-.target-choice,
-.target-custom-reading {
-  width: 100%;
-  margin-top: 6px;
-  border: 1px solid var(--line);
-  background: #fffdf9;
-  border-radius: 12px;
-  padding: 9px 10px;
-}
-
-.skip-toggle {
+.yomi-control {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
+}
+
+.yomi-menu {
+  position: relative;
+}
+
+.yomi-menu summary {
+  cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 10px 4px;
+  background: rgba(31, 28, 23, 0.04);
+}
+
+.yomi-menu-body {
+  position: absolute;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
+  min-width: 150px;
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf9;
+  box-shadow: var(--shadow);
+}
+
+.ruby-line {
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+}
+
+.ruby-token {
+  display: inline;
+  margin: 0 1px;
+  border: 0;
+  border-radius: 7px;
+  padding: 1px 3px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.ruby-token:disabled {
+  cursor: default;
+}
+
+.ruby-token.unresolved {
+  background: rgba(156, 79, 30, 0.16);
+}
+
+.ruby-token.changed {
+  background: rgba(45, 106, 79, 0.18);
+}
+
+.ruby-token ruby {
+  ruby-position: over;
+}
+
+.ruby-token rt {
+  font-size: 0.48em;
+  color: var(--muted);
 }
 
 .readonly-only.hidden,

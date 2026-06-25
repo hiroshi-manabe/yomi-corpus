@@ -334,13 +334,8 @@ function renderItems() {
   const editable = isEditable();
   el.itemsSummary.textContent = `${pack.items.length} total item(s)`;
   el.itemsContainer.innerHTML = "";
-  let previousDocId = null;
 
   for (const item of pack.items) {
-    if (pack.review_stage === "yomi_final_review" && item.doc_id !== previousDocId) {
-      el.itemsContainer.append(renderDocumentSeparator(item));
-      previousDocId = item.doc_id;
-    }
     const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
     const inRange = item.seq >= fromSeq && item.seq <= toSeq;
     const override = state.currentDraft.overrides[item.item_id] || null;
@@ -481,212 +476,176 @@ function setOverride(itemId, decision) {
   render();
 }
 
-function renderDocumentSeparator(item) {
-  const section = document.createElement("section");
-  section.className = "document-separator";
-  section.innerHTML = `
-    <span>Document ${escapeHtml(String(item.doc_seq || ""))}</span>
-    <strong>${escapeHtml(item.doc_id || "unknown")}</strong>
-  `;
-  return section;
-}
-
 function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
+  node.innerHTML = "";
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
-  node.querySelector(".item-title").textContent = item.unit_id;
 
-  const proposedBadge = node.querySelector(".proposed-badge");
-  proposedBadge.textContent =
-    item.unresolved_target_count > 0 ? `${item.unresolved_target_count} unresolved` : "all targets safe";
-  proposedBadge.classList.add(item.unresolved_target_count > 0 ? "unresolved" : "safe");
+  const controls = document.createElement("div");
+  controls.className = "yomi-controls";
 
-  const markerBadge = node.querySelector(".marker-badge");
-  if (isFrom && isTo) {
-    markerBadge.textContent = "from + to";
-    markerBadge.classList.remove("hidden");
-  } else if (isFrom) {
-    markerBadge.textContent = "from";
-    markerBadge.classList.remove("hidden");
-  } else if (isTo) {
-    markerBadge.textContent = "to";
-    markerBadge.classList.remove("hidden");
-  } else {
-    markerBadge.classList.add("hidden");
-  }
+  const skipLabel = document.createElement("label");
+  skipLabel.className = "yomi-control";
+  const skipCheckbox = document.createElement("input");
+  skipCheckbox.type = "checkbox";
+  skipCheckbox.disabled = !editable;
+  skipCheckbox.checked = override?.skip ?? item.skip_default ?? false;
+  skipLabel.append(skipCheckbox, document.createTextNode("Skip"));
+  controls.append(skipLabel);
 
-  const overrideBadge = node.querySelector(".override-badge");
-  if (override) {
-    overrideBadge.textContent = "edited";
-    overrideBadge.classList.remove("hidden");
-  } else {
-    overrideBadge.classList.add("hidden");
-  }
+  const escalateLabel = document.createElement("label");
+  escalateLabel.className = "yomi-control";
+  const escalateCheckbox = document.createElement("input");
+  escalateCheckbox.type = "checkbox";
+  escalateCheckbox.disabled = !editable;
+  escalateCheckbox.checked = Boolean(override?.escalate_sentence);
+  escalateLabel.append(escalateCheckbox, document.createTextNode("Escalate whole sentence"));
+  controls.append(escalateLabel);
 
-  node.querySelector(".item-meta").innerHTML = [
-    ["Document", item.doc_id || "-"],
-    ["Targets", `${item.safe_target_count}/${item.target_count} safe`],
-    ["Scope", item.scope_status || "Keep"],
-    ["Skip Default", item.skip_default ? "yes" : "no"],
-  ]
-    .map(
-      ([label, value]) => `
-        <div>
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(String(value))}</dd>
-        </div>
-      `
-    )
-    .join("");
+  const menu = document.createElement("details");
+  menu.className = "yomi-menu";
+  const summary = document.createElement("summary");
+  summary.textContent = "...";
+  menu.append(summary);
+  const menuBody = document.createElement("div");
+  menuBody.className = "yomi-menu-body";
+  const fromButton = document.createElement("button");
+  fromButton.type = "button";
+  fromButton.className = "secondary-button";
+  fromButton.textContent = isFrom ? "From here ✓" : "From here";
+  fromButton.disabled = !editable;
+  const toButton = document.createElement("button");
+  toButton.type = "button";
+  toButton.className = "secondary-button";
+  toButton.textContent = isTo ? "To here ✓" : "To here";
+  toButton.disabled = !editable;
+  menuBody.append(fromButton, toButton);
+  menu.append(menuBody);
+  controls.append(menu);
+  node.append(controls);
 
-  const examples = node.querySelector(".example-list");
-  examples.classList.add("yomi-lines");
-  examples.innerHTML = "";
-  appendYomiLine(examples, "Text", item.text || "");
-  appendYomiLine(examples, "Yomi", item.rendered_yomi || "");
-
-  const notes = node.querySelector(".note-list");
-  notes.innerHTML = "";
-  const targets = item.targets || [];
-  const shownTargets = targets.filter((target) => !target.is_safe);
-  if (shownTargets.length === 0) {
-    const li = document.createElement("li");
-    li.className = "muted";
-    li.textContent = "No unresolved yomi targets.";
-    notes.append(li);
-  } else {
-    for (const target of shownTargets) {
-      notes.append(renderYomiTarget(target, item, override, editable));
-    }
-  }
-
-  const editableSections = node.querySelectorAll(".editable-only");
-  const readonlySections = node.querySelectorAll(".readonly-only");
-  editableSections.forEach((section) => section.classList.toggle("hidden", !editable));
-  readonlySections.forEach((section) => section.classList.toggle("hidden", editable));
+  const rubyLine = document.createElement("p");
+  rubyLine.className = "ruby-line";
+  rubyLine.append(...renderRubySegments(item, override, editable));
+  node.append(rubyLine);
 
   if (!editable) {
     return;
   }
-  node.querySelector(".set-from").addEventListener("click", () => {
-    state.currentDraft.from_seq = item.seq;
-    touchDraft();
-    render();
-  });
-  node.querySelector(".set-to").addEventListener("click", () => {
-    state.currentDraft.to_seq = item.seq;
-    touchDraft();
-    render();
-  });
-  const overrideSection = Array.from(node.querySelectorAll(".editable-only")).at(-1);
-  overrideSection.querySelector("h4").textContent = "Sentence Review";
-  const buttonRow = overrideSection.querySelector(".button-row");
-  buttonRow.innerHTML = "";
-  const skipLabel = document.createElement("label");
-  skipLabel.className = "skip-toggle";
-  const skipCheckbox = document.createElement("input");
-  skipCheckbox.type = "checkbox";
-  skipCheckbox.checked = override?.skip ?? item.skip_default ?? false;
   skipCheckbox.addEventListener("change", () => {
     const draft = ensureYomiOverride(item.item_id);
     draft.skip = skipCheckbox.checked;
     touchDraft();
     renderSubmissionPreview();
   });
-  skipLabel.append(skipCheckbox, document.createTextNode(" Skip this sentence"));
-  buttonRow.append(skipLabel);
-
-  const noteField = node.querySelector(".override-note");
-  noteField.value = override?.note || "";
-  noteField.placeholder = "Optional sentence-level review note";
-  noteField.addEventListener("input", () => {
+  escalateCheckbox.addEventListener("change", () => {
     const draft = ensureYomiOverride(item.item_id);
-    draft.note = noteField.value;
+    draft.escalate_sentence = escalateCheckbox.checked;
     touchDraft();
     renderSubmissionPreview();
   });
+  fromButton.addEventListener("click", () => {
+    state.currentDraft.from_seq = item.seq;
+    touchDraft();
+    render();
+  });
+  toButton.addEventListener("click", () => {
+    state.currentDraft.to_seq = item.seq;
+    touchDraft();
+    render();
+  });
 }
 
-function appendYomiLine(parent, label, value) {
-  const li = document.createElement("li");
-  li.innerHTML = `<strong>${escapeHtml(label)}:</strong> <span>${escapeHtml(value)}</span>`;
-  parent.append(li);
+function renderRubySegments(item, override, editable) {
+  const nodes = [];
+  const targetsById = Object.fromEntries((item.targets || []).map((target) => [target.item_id, target]));
+  for (const segment of item.ruby_segments || [{ type: "text", text: item.text || "" }]) {
+    if (segment.type !== "ruby") {
+      nodes.push(document.createTextNode(segment.text || ""));
+      continue;
+    }
+    const target = targetsById[segment.target_item_id];
+    if (!target) {
+      nodes.push(document.createTextNode(segment.text || ""));
+      continue;
+    }
+    nodes.push(renderRubySpan(item, target, override, editable));
+  }
+  return nodes;
 }
 
-function renderYomiTarget(target, item, override, editable) {
-  const li = document.createElement("li");
-  li.className = "yomi-target";
-  const targetDraft = override?.targets?.[target.item_id] || {};
-  const currentChoice =
-    targetDraft.choice_source || defaultCandidateSource(target.candidates || []) || "other";
-  li.innerHTML = `
-    <div class="target-heading">
-      <strong>${escapeHtml(target.surface)}</strong>
-      <span class="muted">${escapeHtml(target.status_reason || "unresolved")}</span>
-    </div>
-  `;
-  if (!editable) {
-    const selected = (target.candidates || []).find((candidate) => candidate.source === currentChoice);
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = selected ? `${selected.label}: ${selected.reading || ""}` : "No selection.";
-    li.append(p);
-    return li;
+function renderRubySpan(item, target, override, editable) {
+  const targetDraft = override?.targets?.[target.item_id] || null;
+  const candidate = selectedCandidate(target, targetDraft);
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ruby-token";
+  button.classList.toggle("unresolved", !target.is_safe);
+  button.classList.toggle("safe", Boolean(target.is_safe));
+  button.classList.toggle("changed", Boolean(targetDraft));
+  button.disabled = !editable;
+  button.title = rubyTitle(target, candidate);
+
+  if (candidate?.reading) {
+    const ruby = document.createElement("ruby");
+    ruby.append(document.createTextNode(target.surface));
+    const rt = document.createElement("rt");
+    rt.textContent = candidate.reading;
+    ruby.append(rt);
+    button.append(ruby);
+  } else {
+    button.textContent = target.surface;
   }
 
-  const select = document.createElement("select");
-  select.className = "target-choice";
-  for (const candidate of target.candidates || []) {
-    const option = document.createElement("option");
-    option.value = candidate.source;
-    option.textContent =
-      candidate.source === "other"
-        ? candidate.label
-        : `${candidate.label}: ${candidate.reading}`;
-    select.append(option);
+  if (editable) {
+    button.addEventListener("click", () => {
+      cycleYomiTarget(item, target, candidate);
+    });
   }
-  select.value = currentChoice;
-  const manual = document.createElement("input");
-  manual.className = "target-custom-reading";
-  manual.placeholder = "manual reading";
-  manual.value = targetDraft.custom_reading || "";
-  manual.classList.toggle("hidden", select.value !== "other");
+  return button;
+}
 
-  select.addEventListener("change", () => {
-    const draft = ensureYomiOverride(item.item_id);
-    const selected = (target.candidates || []).find((candidate) => candidate.source === select.value);
+function selectedCandidate(target, targetDraft) {
+  const candidates = target.candidates || [];
+  if (targetDraft?.choice_source) {
+    return (
+      candidates.find((candidate) => candidate.source === targetDraft.choice_source) ||
+      candidates[0] ||
+      null
+    );
+  }
+  return candidates.find((candidate) => candidate.source === "current") || candidates[0] || null;
+}
+
+function rubyTitle(target, candidate) {
+  const reading = candidate?.reading ? ` / ${candidate.reading}` : " / no ruby";
+  return `${target.surface}${reading}`;
+}
+
+function cycleYomiTarget(item, target, currentCandidate) {
+  const candidates = target.candidates || [];
+  if (candidates.length === 0) {
+    return;
+  }
+  const currentIndex = Math.max(
+    candidates.findIndex((candidate) => candidate.source === currentCandidate?.source),
+    0
+  );
+  const next = candidates[(currentIndex + 1) % candidates.length];
+  const draft = ensureYomiOverride(item.item_id);
+  if (next.source === "current") {
+    delete draft.targets[target.item_id];
+    cleanupYomiOverride(item.item_id);
+  } else {
     draft.targets[target.item_id] = {
-      choice_source: select.value,
-      selected_reading: selected?.reading || null,
-      custom_reading: manual.value.trim() || null,
+      choice_source: next.source,
+      selected_reading: next.reading ?? null,
+      custom_reading: null,
     };
-    manual.classList.toggle("hidden", select.value !== "other");
-    touchDraft();
-    renderSubmissionPreview();
-  });
-  manual.addEventListener("input", () => {
-    const draft = ensureYomiOverride(item.item_id);
-    const selected = (target.candidates || []).find((candidate) => candidate.source === select.value);
-    draft.targets[target.item_id] = {
-      choice_source: select.value,
-      selected_reading: selected?.reading || null,
-      custom_reading: manual.value.trim() || null,
-    };
-    touchDraft();
-    renderSubmissionPreview();
-  });
-  li.append(select, manual);
-  return li;
-}
-
-function defaultCandidateSource(candidates) {
-  const preferred = candidates.find((candidate) => candidate.source === "llm");
-  if (preferred) {
-    return preferred.source;
   }
-  const current = candidates.find((candidate) => candidate.source === "current");
-  return current?.source || candidates[0]?.source || null;
+  touchDraft();
+  render();
 }
 
 function ensureYomiOverride(itemId) {
@@ -697,6 +656,17 @@ function ensureYomiOverride(itemId) {
     state.currentDraft.overrides[itemId].targets = {};
   }
   return state.currentDraft.overrides[itemId];
+}
+
+function cleanupYomiOverride(itemId) {
+  const draft = state.currentDraft.overrides[itemId];
+  if (!draft) {
+    return;
+  }
+  const hasTargets = Object.keys(draft.targets || {}).length > 0;
+  if (!hasTargets && !draft.skip && !draft.escalate_sentence && !draft.note) {
+    delete state.currentDraft.overrides[itemId];
+  }
 }
 
 function renderSubmissionPreview() {
@@ -755,17 +725,21 @@ function getActiveYomiOverrides() {
       return {
         item_id: itemId,
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
+        ...(typeof override.escalate_sentence === "boolean"
+          ? { escalate_sentence: override.escalate_sentence }
+          : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_source: target.choice_source,
           selected_reading: target.selected_reading ?? null,
-          custom_reading: target.custom_reading ?? null,
         })),
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
     })
     .filter(Boolean)
-    .filter((row) => row.targets.length > 0 || "skip" in row || row.note);
+    .filter(
+      (row) => row.targets.length > 0 || "skip" in row || "escalate_sentence" in row || row.note
+    );
 }
 
 function getActiveOverrides() {

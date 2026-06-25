@@ -9,7 +9,7 @@ from yomi_corpus.yomi.final_review import build_yomi_final_review_pack_file
 
 
 class YomiFinalReviewTests(unittest.TestCase):
-    def test_build_pack_groups_units_and_exposes_dropdown_candidates(self) -> None:
+    def test_build_pack_groups_units_and_exposes_tappable_ruby_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             units_path = root / "units.jsonl"
@@ -49,7 +49,21 @@ class YomiFinalReviewTests(unittest.TestCase):
                 [
                     ("current", "きんきん"),
                     ("llm", "ちかぢか"),
-                    ("other", None),
+                    ("none", None),
+                ],
+            )
+            self.assertEqual(
+                pack["items"][0]["ruby_segments"],
+                [
+                    {
+                        "type": "ruby",
+                        "text": "近々",
+                        "target_item_id": "u1:r0001c01",
+                        "reading": "きんきん",
+                        "is_safe": False,
+                        "highlight_level": "target",
+                    },
+                    {"type": "text", "text": "です。"},
                 ],
             )
             self.assertFalse(pack["items"][0]["all_targets_safe"])
