@@ -1572,44 +1572,50 @@ sidebar later. Document boundaries should be visually clear, for example:
 Document 3 / ja_cc_level2:0000000004
 ```
 
-Global UI controls should include:
+The first final-yomi review UI should be ruby-first and look like normal text,
+not like a table of pipeline metadata. For each sentence/unit, show only:
 
-- `all`, `unresolved only`, `provisional skip`, and `reviewed` filters
-- `from here` and `to here` range marks
-- export for all visible items or for the marked range
+- ruby-rendered text
+- a `Skip` checkbox
+- an `Escalate whole sentence` checkbox for cases that cannot be fixed by
+  simple reading swaps, such as wrong segmentation
+- a compact `...` menu for range marks such as `from here` and `to here`
 
-For each sentence/unit, show the current yomi-annotated text plus the
-provisional `Skip` checkbox. Provisional alphabetic skip should appear as a
-greyed or otherwise subdued default state, but the reviewer can clear the
-checkbox. If a reviewer clears a provisional alphabetic skip, the relevant
-alphabetic entities in that unit can be treated as in-scope for future
-decisions.
+Do not show document IDs, unit IDs, target IDs, or signal details in the normal
+view. Keep them in the review pack for audit/debugging, but hide them from the
+main workflow.
 
-For each unresolved yomi target, the UI should show a per-target dropdown.
-Candidate choices should be derived from the evidence already stored in the
-target record:
+Yomi targets are edited inline by tapping/clicking the ruby span, not by using
+dropdowns. Unresolved targets should have a visible highlight. Safe targets
+should not be visually noisy, but they may still be tappable if the pack has
+useful candidate readings. A tap cycles through candidates, for example:
+
+```text
+近々(きんきん) -> 近々(ちかぢか) -> 近々 -> 近々(きんきん)
+```
+
+The candidate list should be derived from recorded evidence:
 
 - current mechanical/hybrid reading
 - LLM reading when it differs
 - corpus-frequency dominant reading when available
 - stable dictionary reading when available
-- `Other / none of these`
+- no-ruby / remove reading
 
-`Other / none of these` should reveal a small manual reading input. Store the
-submission as structured data, not just a final string, for example:
+Changed spans should use a separate color from unresolved highlights. Removing
+the ruby or choosing an available alternate reading is a span-level override,
+not a whole-sentence rejection.
 
-```json
-{
-  "item_id": "...",
-  "choice": "llm",
-  "selected_reading": "ちかぢか",
-  "custom_reading": null
-}
-```
+If a target cannot be corrected by cycling through candidates, mark it for
+strong-model handling at span level. If the problem is larger than one target,
+for example wrong segmentation or a structurally bad analysis, use `Escalate
+whole sentence`. Strong-model handling must be a separate later stage, and its
+output should return to a final confirmation UI.
 
-The review screen is sentence-level even though the choices are target-level:
-the sentence gives enough context for skip and reading decisions, while
-per-target controls keep common corrections fast.
+The final confirmation UI for strong-model outputs should be different from
+the quick review UI. It should show ruby-rendered text and also expose raw
+editable structured data, so a human can directly correct the result before it
+enters the final corpus.
 
 ### 10.2 Review state model
 

@@ -1485,20 +1485,31 @@ Practical layout direction:
 This keeps hosting simple while still letting the UI evolve together with the
 pack format, submission format, and review workflow.
 
-For final yomi review, use a sentence-level review pack with visible document
-separators inside one continuous list. Avoid making each document a separate
-page unless later batch sizes require it. A flat list works better with the
-existing range-export model: default export covers everything, `from here` and
-`to here` marks narrow the exported range, and multiple returned files can be
-merged by stable item IDs.
+For final yomi review, use a sentence-level review pack in one continuous list,
+but make the normal view look like ruby-rendered text rather than pipeline
+metadata. Avoid making each document a separate page unless later batch sizes
+require it. A flat list works better with the existing range-export model:
+default export covers everything, `from here` and `to here` marks narrow the
+exported range, and multiple returned files can be merged by stable item IDs.
 
-Each unresolved yomi target should be editable through a dropdown. Candidate
-readings should come from the recorded evidence: current mechanical/hybrid
-reading, LLM reading, corpus-frequency dominant reading when available, stable
-dictionary reading when available, plus `Other / none of these`. Choosing
-`Other / none of these` should reveal a manual reading field. Store both the
-selected source and the selected/custom reading so later analysis can learn
-which signal was accepted or rejected.
+Each sentence should have only three visible controls:
+
+- `Skip`
+- `Escalate whole sentence`
+- `...` for range marks and other low-frequency actions
+
+Yomi targets should be edited inline. Unresolved targets are highlighted;
+safe targets are visually quiet but may still be tappable if candidate readings
+exist. Tapping a target cycles through known candidates and then no-ruby, for
+example `きんきん -> ちかぢか -> none`. Candidate readings should come from the
+recorded evidence: current mechanical/hybrid reading, LLM reading,
+corpus-frequency dominant reading, and stable dictionary reading.
+
+Changed spans should be colored differently from unresolved spans. A changed
+span is a local override. A span or sentence that cannot be fixed by candidate
+cycling should be marked for strong-model handling in a later stage, followed
+by a separate final confirmation UI. That final confirmation UI should expose
+both ruby-rendered text and raw editable structured data.
 
 ### 10.5.1 Review packs
 
