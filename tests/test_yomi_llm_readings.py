@@ -206,6 +206,63 @@ class YomiLLMReadingsTests(unittest.TestCase):
         )
         self.assertEqual(judgment["status"], "matched")
 
+    def test_ascii_space_text_aligns_with_nbsp_yomi_token(self) -> None:
+        payload = {
+            "unit_id": "u4",
+            "text": "お金 人生です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "お金",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "お金",
+                                    "normalized_form": "お金",
+                                    "reading": "オカネ",
+                                },
+                                {
+                                    "surface": "\u00a0",
+                                    "pos": "空白,*,*,*,*,*",
+                                    "dictionary_form": " ",
+                                    "normalized_form": " ",
+                                    "reading": "キゴウ",
+                                },
+                                {
+                                    "surface": "人生",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "人生",
+                                    "normalized_form": "人生",
+                                    "reading": "ジンセイ",
+                                },
+                                {
+                                    "surface": "です",
+                                    "pos": "助動詞,*,*,*,助動詞-ダ,終止形-一般",
+                                    "dictionary_form": "だ",
+                                    "normalized_form": "だ",
+                                    "reading": "デス",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        }
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual([item["surface"] for item in items], ["金", "人生"])
+        self.assertEqual(items[0]["marked_text"], "お**金** 人生です。")
+        self.assertEqual(items[1]["marked_text"], "お金 **人生**です。")
+
     def test_stable_two_kanji_can_be_skipped(self) -> None:
         checker = make_stable_checker(
             "学校,5146,5146,7253,学校,名詞,普通名詞,一般,*,*,*,ガッコウ,学校,*,A,*,*,*,*\n"

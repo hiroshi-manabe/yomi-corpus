@@ -282,7 +282,7 @@ def span_sudachi_tokens(text: str, tokens: list[SudachiToken]) -> list[SpannedSu
     spans: list[SpannedSudachiToken] = []
     cursor = 0
     for token in tokens:
-        start = text.find(token.surface, cursor)
+        start = find_surface_start(text, token.surface, cursor)
         if start < 0:
             raise ValueError(f"Could not align Sudachi token surface {token.surface!r} in text {text!r}")
         end = start + len(token.surface)
@@ -295,13 +295,38 @@ def span_decoder_entries(text: str, candidate: DecoderCandidate) -> list[Spanned
     spans: list[SpannedDecoderEntry] = []
     cursor = 0
     for entry in candidate.entries:
-        start = text.find(entry.surface, cursor)
+        start = find_surface_start(text, entry.surface, cursor)
         if start < 0:
             raise ValueError(f"Could not align decoder entry surface {entry.surface!r} in text {text!r}")
         end = start + len(entry.surface)
         spans.append(SpannedDecoderEntry(entry=entry, start=start, end=end))
         cursor = end
     return spans
+
+
+def find_surface_start(text: str, surface: str, cursor: int = 0) -> int:
+    start = text.find(surface, cursor)
+    if start >= 0:
+        return start
+    if not surface:
+        return -1
+    max_start = len(text) - len(surface)
+    for index in range(cursor, max_start + 1):
+        if surface_matches_at(text, surface, index):
+            return index
+    return -1
+
+
+def surface_matches_at(text: str, surface: str, start: int) -> bool:
+    if start < 0 or start + len(surface) > len(text):
+        return False
+    return all(chars_align(text[start + offset], char) for offset, char in enumerate(surface))
+
+
+def chars_align(left: str, right: str) -> bool:
+    if left == right:
+        return True
+    return left in {ASCII_SPACE, NBSP} and right in {ASCII_SPACE, NBSP}
 
 
 def collect_decoder_entries_for_exact_span(

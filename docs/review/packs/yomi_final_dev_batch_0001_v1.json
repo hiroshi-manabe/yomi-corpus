@@ -4,8 +4,8 @@
   "pack_id": "yomi_final_dev_batch_0001_v1",
   "track_name": "dev",
   "batch_name": "dev_batch_0001",
-  "created_at_epoch": 1782370471,
-  "created_at": "2026-06-25T06:54:31Z",
+  "created_at_epoch": 1782371200,
+  "created_at": "2026-06-25T07:06:40Z",
   "item_count": 64,
   "summary": {
     "document_count": 5,
@@ -26,19 +26,675 @@
       "text": "連休で予想以上に散財してお金がなくなった 人生において誰でも1度は直面する問題でしょう。",
       "ruby_segments": [
         {
+          "type": "ruby",
+          "text": "連休",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0001c01",
+          "reading": "れんきゅう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
           "type": "text",
-          "text": "連休で予想以上に散財してお金がなくなった 人生において誰でも1度は直面する問題でしょう。"
+          "text": "で"
+        },
+        {
+          "type": "ruby",
+          "text": "予想",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0003c01",
+          "reading": "よそう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "ruby",
+          "text": "以上",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0004c01",
+          "reading": "いじょう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "散財",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0006c01",
+          "reading": "さんざい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "してお"
+        },
+        {
+          "type": "ruby",
+          "text": "金",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0009c01",
+          "reading": "かね",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "がなくなった "
+        },
+        {
+          "type": "ruby",
+          "text": "人生",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0014c01",
+          "reading": "じんせい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "において"
+        },
+        {
+          "type": "ruby",
+          "text": "誰",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0018c01",
+          "reading": "だれ",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "でも1"
+        },
+        {
+          "type": "ruby",
+          "text": "度",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0022c01",
+          "reading": "ど",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "は"
+        },
+        {
+          "type": "ruby",
+          "text": "直面",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0024c01",
+          "reading": "ちょくめん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "する"
+        },
+        {
+          "type": "ruby",
+          "text": "問題",
+          "target_item_id": "ja_cc_level2:0000000001:u0001:r0026c01",
+          "reading": "もんだい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "でしょう。"
         }
       ],
       "rendered_yomi": "連休/レンキュウ で/デ 予想/ヨソウ 以上/イジョウ に/ニ 散財/サンザイ し/シ て/テ お金/オカネ が/ガ なくなっ/ナクナッ た/タ  /  人生/ジンセイ に/ニ おい/オイ て/テ 誰/ダレ で/デ も/モ 1/ 度/ド は/ハ 直面/チョクメン する/スル 問題/モンダイ でしょう/デショウ 。/。",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 10,
+      "safe_target_count": 10,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0001c01",
+          "surface": "連休",
+          "token_surface": "連休",
+          "target_start": 0,
+          "target_end": 2,
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading": "レンキュウ",
+          "current_reading_hiragana": "れんきゅう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "れんきゅう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "レンキュウ",
+                "count": 14,
+                "surface_total_count": 14,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0003c01",
+          "surface": "予想",
+          "token_surface": "予想",
+          "target_start": 3,
+          "target_end": 5,
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading": "ヨソウ",
+          "current_reading_hiragana": "よそう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "よそう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ヨソウ",
+                "count": 92,
+                "surface_total_count": 92,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0004c01",
+          "surface": "以上",
+          "token_surface": "以上",
+          "target_start": 5,
+          "target_end": 7,
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading": "イジョウ",
+          "current_reading_hiragana": "いじょう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "いじょう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "イジョウ",
+                "count": 504,
+                "surface_total_count": 504,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0006c01",
+          "surface": "散財",
+          "token_surface": "散財",
+          "target_start": 8,
+          "target_end": 10,
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading": "サンザイ",
+          "current_reading_hiragana": "さんざい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "さんざい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0009c01",
+          "surface": "金",
+          "token_surface": "お金",
+          "target_start": 13,
+          "target_end": 14,
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading": "カネ",
+          "current_reading_hiragana": "かね",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かね",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "かね",
+              "current_reading_hiragana": "かね"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0014c01",
+          "surface": "人生",
+          "token_surface": "人生",
+          "target_start": 21,
+          "target_end": 23,
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading": "ジンセイ",
+          "current_reading_hiragana": "じんせい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "じんせい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ジンセイ",
+                "count": 77,
+                "surface_total_count": 77,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0018c01",
+          "surface": "誰",
+          "token_surface": "誰",
+          "target_start": 27,
+          "target_end": 28,
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading": "ダレ",
+          "current_reading_hiragana": "だれ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "だれ",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "だれ",
+              "current_reading_hiragana": "だれ"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0022c01",
+          "surface": "度",
+          "token_surface": "度",
+          "target_start": 31,
+          "target_end": 32,
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading": "ド",
+          "current_reading_hiragana": "ど",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ど",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "ど",
+              "current_reading_hiragana": "ど"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0024c01",
+          "surface": "直面",
+          "token_surface": "直面",
+          "target_start": 33,
+          "target_end": 35,
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading": "チョクメン",
+          "current_reading_hiragana": "ちょくめん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ちょくめん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "チョクメン",
+                "count": 23,
+                "surface_total_count": 23,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0001:r0026c01",
+          "surface": "問題",
+          "token_surface": "問題",
+          "target_start": 37,
+          "target_end": 39,
+          "token_index": 25,
+          "chunk_index": 0,
+          "current_reading": "モンダイ",
+          "current_reading_hiragana": "もんだい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "もんだい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "モンダイ",
+                "count": 761,
+                "surface_total_count": 761,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0002",
@@ -153,19 +809,752 @@
       "text": "低学歴だからまともな会社に就職できなくて給料もあまりもらえない 進学しなかったことを社会人になってから悔いているそこのあなた、勉強していなかったことを今さら悔やんでも手遅れです！",
       "ruby_segments": [
         {
+          "type": "ruby",
+          "text": "低学歴",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0001c01",
+          "reading": "ていがくれき",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
           "type": "text",
-          "text": "低学歴だからまともな会社に就職できなくて給料もあまりもらえない 進学しなかったことを社会人になってから悔いているそこのあなた、勉強していなかったことを今さら悔やんでも手遅れです！"
+          "text": "だからまともな"
+        },
+        {
+          "type": "ruby",
+          "text": "会社",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0006c01",
+          "reading": "かいしゃ",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "就職",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0008c01",
+          "reading": "しゅうしょく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "できなくて"
+        },
+        {
+          "type": "ruby",
+          "text": "給料",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0012c01",
+          "reading": "きゅうりょう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "もあまりもらえない "
+        },
+        {
+          "type": "ruby",
+          "text": "進学",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0018c01",
+          "reading": "しんがく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "しなかったことを"
+        },
+        {
+          "type": "ruby",
+          "text": "社会人",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0024c01",
+          "reading": "しゃかいじん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "になってから"
+        },
+        {
+          "type": "ruby",
+          "text": "悔",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0029c01",
+          "reading": "く",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "いているそこのあなた、"
+        },
+        {
+          "type": "ruby",
+          "text": "勉強",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0036c01",
+          "reading": "べんきょう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "していなかったことを"
+        },
+        {
+          "type": "ruby",
+          "text": "今",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0044c01",
+          "reading": "いま",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "さら"
+        },
+        {
+          "type": "ruby",
+          "text": "悔",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0045c01",
+          "reading": "く",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "やんでも"
+        },
+        {
+          "type": "ruby",
+          "text": "手遅",
+          "target_item_id": "ja_cc_level2:0000000001:u0003:r0048c01",
+          "reading": "ておく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "れです！"
         }
       ],
       "rendered_yomi": "低学歴/テイガクレキ だ/ダ から/カラ まとも/マトモ な/ナ 会社/カイシャ に/ニ 就職/シュウショク でき/デキ なく/ナク て/テ 給料/キュウリョウ も/モ あまり/アマリ もらえ/モラエ ない/ナイ  /  進学/シンガク し/シ なかっ/ナカッ た/タ こと/コト を/ヲ 社会人/シャカイジン に/ニ なっ/ナッ て/テ から/カラ 悔い/クイ て/テ いる/イル そこ/ソコ の/ノ あなた/アナタ 、/、 勉強/ベンキョウ し/シ て/テ い/イ なかっ/ナカッ た/タ こと/コト を/ヲ 今さら/イマサラ 悔やん/クヤン で/デ も/モ 手遅れ/テオクレ です/デス ！/！",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 11,
+      "safe_target_count": 11,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0001c01",
+          "surface": "低学歴",
+          "token_surface": "低学歴",
+          "target_start": 0,
+          "target_end": 3,
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading": "テイガクレキ",
+          "current_reading_hiragana": "ていがくれき",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ていがくれき",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "ていがくれき",
+              "current_reading_hiragana": "ていがくれき"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0006c01",
+          "surface": "会社",
+          "token_surface": "会社",
+          "target_start": 10,
+          "target_end": 12,
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading": "カイシャ",
+          "current_reading_hiragana": "かいしゃ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かいしゃ",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "multi_reading_raw_sudachi:カイシャ|ガイシャ"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "かいしゃ",
+              "current_reading_hiragana": "かいしゃ"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0008c01",
+          "surface": "就職",
+          "token_surface": "就職",
+          "target_start": 13,
+          "target_end": 15,
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading": "シュウショク",
+          "current_reading_hiragana": "しゅうしょく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "しゅうしょく",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "シュウショク",
+                "count": 62,
+                "surface_total_count": 62,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0012c01",
+          "surface": "給料",
+          "token_surface": "給料",
+          "target_start": 20,
+          "target_end": 22,
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading": "キュウリョウ",
+          "current_reading_hiragana": "きゅうりょう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "きゅうりょう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "キュウリョウ",
+                "count": 18,
+                "surface_total_count": 18,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0018c01",
+          "surface": "進学",
+          "token_surface": "進学",
+          "target_start": 32,
+          "target_end": 34,
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading": "シンガク",
+          "current_reading_hiragana": "しんがく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "しんがく",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "シンガク",
+                "count": 35,
+                "surface_total_count": 35,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0024c01",
+          "surface": "社会人",
+          "token_surface": "社会人",
+          "target_start": 42,
+          "target_end": 45,
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading": "シャカイジン",
+          "current_reading_hiragana": "しゃかいじん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "しゃかいじん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "シャカイジン",
+                "count": 41,
+                "surface_total_count": 41,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0029c01",
+          "surface": "悔",
+          "token_surface": "悔い",
+          "target_start": 51,
+          "target_end": 52,
+          "token_index": 28,
+          "chunk_index": 0,
+          "current_reading": "ク",
+          "current_reading_hiragana": "く",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "く",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "く",
+              "current_reading_hiragana": "く"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0036c01",
+          "surface": "勉強",
+          "token_surface": "勉強",
+          "target_start": 63,
+          "target_end": 65,
+          "token_index": 35,
+          "chunk_index": 0,
+          "current_reading": "ベンキョウ",
+          "current_reading_hiragana": "べんきょう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "べんきょう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ベンキョウ",
+                "count": 69,
+                "surface_total_count": 69,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0044c01",
+          "surface": "今",
+          "token_surface": "今さら",
+          "target_start": 75,
+          "target_end": 76,
+          "token_index": 43,
+          "chunk_index": 0,
+          "current_reading": "イマ",
+          "current_reading_hiragana": "いま",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "いま",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "いま",
+              "current_reading_hiragana": "いま"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0045c01",
+          "surface": "悔",
+          "token_surface": "悔やん",
+          "target_start": 78,
+          "target_end": 79,
+          "token_index": 44,
+          "chunk_index": 0,
+          "current_reading": "ク",
+          "current_reading_hiragana": "く",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "く",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "く",
+              "current_reading_hiragana": "く"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0003:r0048c01",
+          "surface": "手遅",
+          "token_surface": "手遅れ",
+          "target_start": 83,
+          "target_end": 85,
+          "token_index": 47,
+          "chunk_index": 0,
+          "current_reading": "テオク",
+          "current_reading_hiragana": "ておく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ておく",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "missing_raw_sudachi_reading"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "ておく",
+              "current_reading_hiragana": "ておく"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0004",
@@ -1293,19 +2682,631 @@
       "text": "背に腹は代えられない… と思った時でも、絶対にやってはいけないお金を用意する方法があります。",
       "ruby_segments": [
         {
+          "type": "ruby",
+          "text": "背",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0001c01",
+          "reading": "せ",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
           "type": "text",
-          "text": "背に腹は代えられない… と思った時でも、絶対にやってはいけないお金を用意する方法があります。"
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "腹",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0003c01",
+          "reading": "はら",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "は"
+        },
+        {
+          "type": "ruby",
+          "text": "代",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0005c01",
+          "reading": "か",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "えられない… と"
+        },
+        {
+          "type": "ruby",
+          "text": "思",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0013c01",
+          "reading": "おも",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "った"
+        },
+        {
+          "type": "ruby",
+          "text": "時",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0015c01",
+          "reading": "とき",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "でも、"
+        },
+        {
+          "type": "ruby",
+          "text": "絶対",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0019c01",
+          "reading": "ぜったい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "にやってはいけないお"
+        },
+        {
+          "type": "ruby",
+          "text": "金",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0026c01",
+          "reading": "かね",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "を"
+        },
+        {
+          "type": "ruby",
+          "text": "用意",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0028c01",
+          "reading": "ようい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "する"
+        },
+        {
+          "type": "ruby",
+          "text": "方法",
+          "target_item_id": "ja_cc_level2:0000000001:u0007:r0030c01",
+          "reading": "ほうほう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "があります。"
         }
       ],
       "rendered_yomi": "背/セ に/ニ 腹/ハラ は/ハ 代え/カエ られ/ラレ ない/ナイ …/… / /  /  と/ト 思っ/オモッ た/タ 時/トキ で/デ も/モ 、/、 絶対/ゼッタイ に/ニ やっ/ヤッ て/テ は/ハ いけ/イケ ない/ナイ お金/オカネ を/ヲ 用意/ヨウイ する/スル 方法/ホウホウ が/ガ あり/アリ ます/マス 。/。",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 9,
+      "safe_target_count": 9,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0001c01",
+          "surface": "背",
+          "token_surface": "背",
+          "target_start": 0,
+          "target_end": 1,
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading": "セ",
+          "current_reading_hiragana": "せ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "せ",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "せ",
+              "current_reading_hiragana": "せ"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0003c01",
+          "surface": "腹",
+          "token_surface": "腹",
+          "target_start": 2,
+          "target_end": 3,
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading": "ハラ",
+          "current_reading_hiragana": "はら",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "はら",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "はら",
+              "current_reading_hiragana": "はら"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0005c01",
+          "surface": "代",
+          "token_surface": "代え",
+          "target_start": 4,
+          "target_end": 5,
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading": "カ",
+          "current_reading_hiragana": "か",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "か",
+              "accepted": true
+            },
+            {
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
+              "reading": "だい",
+              "accepted": false
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ダイ",
+                "count": 270,
+                "surface_total_count": 270,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "か",
+              "current_reading_hiragana": "か"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0013c01",
+          "surface": "思",
+          "token_surface": "思っ",
+          "target_start": 13,
+          "target_end": 14,
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading": "オモ",
+          "current_reading_hiragana": "おも",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "おも",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "おも",
+              "current_reading_hiragana": "おも"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0015c01",
+          "surface": "時",
+          "token_surface": "時",
+          "target_start": 16,
+          "target_end": 17,
+          "token_index": 14,
+          "chunk_index": 0,
+          "current_reading": "トキ",
+          "current_reading_hiragana": "とき",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "とき",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "とき",
+              "current_reading_hiragana": "とき"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0019c01",
+          "surface": "絶対",
+          "token_surface": "絶対",
+          "target_start": 20,
+          "target_end": 22,
+          "token_index": 18,
+          "chunk_index": 0,
+          "current_reading": "ゼッタイ",
+          "current_reading_hiragana": "ぜったい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ぜったい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ゼッタイ",
+                "count": 87,
+                "surface_total_count": 87,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0026c01",
+          "surface": "金",
+          "token_surface": "お金",
+          "target_start": 32,
+          "target_end": 33,
+          "token_index": 25,
+          "chunk_index": 0,
+          "current_reading": "カネ",
+          "current_reading_hiragana": "かね",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かね",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "かね",
+              "current_reading_hiragana": "かね"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0028c01",
+          "surface": "用意",
+          "token_surface": "用意",
+          "target_start": 34,
+          "target_end": 36,
+          "token_index": 27,
+          "chunk_index": 0,
+          "current_reading": "ヨウイ",
+          "current_reading_hiragana": "ようい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ようい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ヨウイ",
+                "count": 66,
+                "surface_total_count": 66,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0007:r0030c01",
+          "surface": "方法",
+          "token_surface": "方法",
+          "target_start": 38,
+          "target_end": 40,
+          "token_index": 29,
+          "chunk_index": 0,
+          "current_reading": "ホウホウ",
+          "current_reading_hiragana": "ほうほう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ほうほう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ホウホウ",
+                "count": 238,
+                "surface_total_count": 238,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0008",
@@ -3494,19 +5495,150 @@
       "text": "不要なゲームをどうにかしたい そんな時、どうしますか？",
       "ruby_segments": [
         {
+          "type": "ruby",
+          "text": "不要",
+          "target_item_id": "ja_cc_level2:0000000001:u0011:r0001c01",
+          "reading": "ふよう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
           "type": "text",
-          "text": "不要なゲームをどうにかしたい そんな時、どうしますか？"
+          "text": "なゲームをどうにかしたい そんな"
+        },
+        {
+          "type": "ruby",
+          "text": "時",
+          "target_item_id": "ja_cc_level2:0000000001:u0011:r0012c01",
+          "reading": "とき",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "、どうしますか？"
         }
       ],
       "rendered_yomi": "不要/フヨウ な/ナ ゲーム/ゲーム を/ヲ どう/ドウ に/ニ か/カ し/シ たい/タイ  /  そんな/ソンナ 時/トキ 、/、 どう/ドウ し/シ ます/マス か/カ ？/？",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 2,
+      "safe_target_count": 2,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0011:r0001c01",
+          "surface": "不要",
+          "token_surface": "不要",
+          "target_start": 0,
+          "target_end": 2,
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading": "フヨウ",
+          "current_reading_hiragana": "ふよう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふよう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "フヨウ",
+                "count": 23,
+                "surface_total_count": 23,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0011:r0012c01",
+          "surface": "時",
+          "token_surface": "時",
+          "target_start": 18,
+          "target_end": 19,
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading": "トキ",
+          "current_reading_hiragana": "とき",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "とき",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "とき",
+              "current_reading_hiragana": "とき"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0012",
@@ -3761,18 +5893,842 @@
       "ruby_segments": [
         {
           "type": "text",
-          "text": "クレジットカードが作れなくてすごく不便・・・ 審査に通らなかったり年齢制限に満たなかったりと、クレジットカードを作れない理由はさまざまですが、クレカをもてなくてネットショッピンなどで不便を感じている人もいるでしょう。"
+          "text": "クレジットカードが"
+        },
+        {
+          "type": "ruby",
+          "text": "作",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0004c01",
+          "reading": "つく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "れなくてすごく"
+        },
+        {
+          "type": "ruby",
+          "text": "不便",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0008c01",
+          "reading": "ふべん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "・・・ "
+        },
+        {
+          "type": "ruby",
+          "text": "審査",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0013c01",
+          "reading": "しんさ",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "通",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0015c01",
+          "reading": "とお",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "らなかったり"
+        },
+        {
+          "type": "ruby",
+          "text": "年齢",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0018c01",
+          "reading": "ねんれい",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "ruby",
+          "text": "制限",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0019c01",
+          "reading": "せいげん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "満",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0021c01",
+          "reading": "み",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "たなかったりと、クレジットカードを"
+        },
+        {
+          "type": "ruby",
+          "text": "作",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0029c01",
+          "reading": "つく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "れない"
+        },
+        {
+          "type": "ruby",
+          "text": "理由",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0031c01",
+          "reading": "りゆう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "はさまざまですが、クレカをもてなくてネットショッピンなどで"
+        },
+        {
+          "type": "ruby",
+          "text": "不便",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0048c01",
+          "reading": "ふべん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "を"
+        },
+        {
+          "type": "ruby",
+          "text": "感",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0050c01",
+          "reading": "かん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "じている"
+        },
+        {
+          "type": "ruby",
+          "text": "人",
+          "target_item_id": "ja_cc_level2:0000000001:u0013:r0053c01",
+          "reading": "ひと",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "もいるでしょう。"
         }
       ],
       "rendered_yomi": "クレジット/クレジット カード/カード が/ガ 作れ/ツクレ なく/ナク て/テ すごく/スゴク 不便/フベン ・/・ ・/・ ・/・  /  審査/シンサ に/ニ 通ら/トオラ なかっ/ナカッ たり/タリ 年齢/ネンレイ 制限/セイゲン に/ニ 満た/ミタ なかっ/ナカッ たり/タリ と/ト 、/、 クレジット/クレジット カード/カード を/ヲ 作れ/ツクレ ない/ナイ 理由/リユウ は/ハ さまざま/サマザマ です/デス が/ガ 、/、 クレカ/クレカ を/ヲ もて/モテ なく/ナク て/テ ネット/ネット ショ/ショ ッ/ッ ピン/ピン など/ナド で/デ 不便/フベン を/ヲ 感じ/カンジ て/テ いる/イル 人/ヒト も/モ いる/イル でしょう/デショウ 。/。",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 12,
+      "safe_target_count": 12,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0004c01",
+          "surface": "作",
+          "token_surface": "作れ",
+          "target_start": 9,
+          "target_end": 10,
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading": "ツク",
+          "current_reading_hiragana": "つく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "つく",
+              "accepted": true
+            },
+            {
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
+              "reading": "さく",
+              "accepted": false
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "サク",
+                "count": 38,
+                "surface_total_count": 38,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "つく",
+              "current_reading_hiragana": "つく"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0008c01",
+          "surface": "不便",
+          "token_surface": "不便",
+          "target_start": 17,
+          "target_end": 19,
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading": "フベン",
+          "current_reading_hiragana": "ふべん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふべん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "フベン",
+                "count": 11,
+                "surface_total_count": 11,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0013c01",
+          "surface": "審査",
+          "token_surface": "審査",
+          "target_start": 23,
+          "target_end": 25,
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading": "シンサ",
+          "current_reading_hiragana": "しんさ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "しんさ",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "シンサ",
+                "count": 80,
+                "surface_total_count": 80,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0015c01",
+          "surface": "通",
+          "token_surface": "通ら",
+          "target_start": 26,
+          "target_end": 27,
+          "token_index": 14,
+          "chunk_index": 0,
+          "current_reading": "トオ",
+          "current_reading_hiragana": "とお",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "とお",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "とお",
+              "current_reading_hiragana": "とお"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0018c01",
+          "surface": "年齢",
+          "token_surface": "年齢",
+          "target_start": 33,
+          "target_end": 35,
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading": "ネンレイ",
+          "current_reading_hiragana": "ねんれい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ねんれい",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "ネンレイ",
+                "count": 96,
+                "surface_total_count": 96,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0019c01",
+          "surface": "制限",
+          "token_surface": "制限",
+          "target_start": 35,
+          "target_end": 37,
+          "token_index": 18,
+          "chunk_index": 0,
+          "current_reading": "セイゲン",
+          "current_reading_hiragana": "せいげん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "せいげん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "セイゲン",
+                "count": 84,
+                "surface_total_count": 84,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0021c01",
+          "surface": "満",
+          "token_surface": "満た",
+          "target_start": 38,
+          "target_end": 39,
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading": "ミ",
+          "current_reading_hiragana": "み",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "み",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "み",
+              "current_reading_hiragana": "み"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0029c01",
+          "surface": "作",
+          "token_surface": "作れ",
+          "target_start": 56,
+          "target_end": 57,
+          "token_index": 28,
+          "chunk_index": 0,
+          "current_reading": "ツク",
+          "current_reading_hiragana": "つく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "つく",
+              "accepted": true
+            },
+            {
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
+              "reading": "さく",
+              "accepted": false
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "サク",
+                "count": 38,
+                "surface_total_count": 38,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "つく",
+              "current_reading_hiragana": "つく"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0031c01",
+          "surface": "理由",
+          "token_surface": "理由",
+          "target_start": 60,
+          "target_end": 62,
+          "token_index": 30,
+          "chunk_index": 0,
+          "current_reading": "リユウ",
+          "current_reading_hiragana": "りゆう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "りゆう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "リユウ",
+                "count": 254,
+                "surface_total_count": 254,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0048c01",
+          "surface": "不便",
+          "token_surface": "不便",
+          "target_start": 91,
+          "target_end": 93,
+          "token_index": 47,
+          "chunk_index": 0,
+          "current_reading": "フベン",
+          "current_reading_hiragana": "ふべん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふべん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "フベン",
+                "count": 11,
+                "surface_total_count": 11,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0050c01",
+          "surface": "感",
+          "token_surface": "感じ",
+          "target_start": 94,
+          "target_end": 95,
+          "token_index": 49,
+          "chunk_index": 0,
+          "current_reading": "カン",
+          "current_reading_hiragana": "かん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "カン",
+                "count": 67,
+                "surface_total_count": 67,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0013:r0053c01",
+          "surface": "人",
+          "token_surface": "人",
+          "target_start": 99,
+          "target_end": 100,
+          "token_index": 52,
+          "chunk_index": 0,
+          "current_reading": "ヒト",
+          "current_reading_hiragana": "ひと",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ひと",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "ひと",
+              "current_reading_hiragana": "ひと"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0014",
@@ -3787,18 +6743,547 @@
       "ruby_segments": [
         {
           "type": "text",
-          "text": "やめておけば良かった・・・ 給料日直後にギャンブルや支払いで一円も無くなってしまうこと、ありますよね？"
+          "text": "やめておけば"
+        },
+        {
+          "type": "ruby",
+          "text": "良",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0005c01",
+          "reading": "よ",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "かった・・・ "
+        },
+        {
+          "type": "ruby",
+          "text": "給料",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0011c01",
+          "reading": "きゅうりょう",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "ruby",
+          "text": "日直",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0012c01",
+          "reading": "にっちょく",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "ruby",
+          "text": "後",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0013c01",
+          "reading": "ご",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "にギャンブルや"
+        },
+        {
+          "type": "ruby",
+          "text": "支払",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0017c01",
+          "reading": "しはら",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "いで"
+        },
+        {
+          "type": "ruby",
+          "text": "一",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0019c01",
+          "reading": "いち",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "ruby",
+          "text": "円",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0020c01",
+          "reading": "えん",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "も"
+        },
+        {
+          "type": "ruby",
+          "text": "無",
+          "target_item_id": "ja_cc_level2:0000000001:u0014:r0022c01",
+          "reading": "な",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
+          "type": "text",
+          "text": "くなってしまうこと、ありますよね？"
         }
       ],
       "rendered_yomi": "やめ/ヤメ て/テ おけ/オケ ば/バ 良かっ/ヨカッ た/タ ・/・ ・/・ ・/・  /  給料/キュウリョウ 日直/ニッチョク 後/ゴ に/ニ ギャンブル/ギャンブル や/ヤ 支払い/シハライ で/デ 一/イチ 円/エン も/モ 無くなっ/ナクナッ て/テ しまう/シマウ こと/コト 、/、 あり/アリ ます/マス よ/ヨ ね/ネ ？/？",
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 0,
-      "safe_target_count": 0,
+      "target_count": 8,
+      "safe_target_count": 8,
       "unresolved_target_count": 0,
-      "all_targets_safe": false,
-      "targets": []
+      "all_targets_safe": true,
+      "targets": [
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0005c01",
+          "surface": "良",
+          "token_surface": "良かっ",
+          "target_start": 6,
+          "target_end": 7,
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading": "ヨ",
+          "current_reading_hiragana": "よ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "よ",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "よ",
+              "current_reading_hiragana": "よ"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0011c01",
+          "surface": "給料",
+          "token_surface": "給料",
+          "target_start": 14,
+          "target_end": 16,
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading": "キュウリョウ",
+          "current_reading_hiragana": "きゅうりょう",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary",
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "きゅうりょう",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "キュウリョウ",
+                "count": 18,
+                "surface_total_count": 18,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0012c01",
+          "surface": "日直",
+          "token_surface": "日直",
+          "target_start": 16,
+          "target_end": 18,
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading": "ニッチョク",
+          "current_reading_hiragana": "にっちょく",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_stable_dictionary"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "にっちょく",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": true,
+              "reason": "stable_two_kanji_unique_raw_sudachi"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0013c01",
+          "surface": "後",
+          "token_surface": "後",
+          "target_start": 18,
+          "target_end": 19,
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading": "ゴ",
+          "current_reading_hiragana": "ご",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ご",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "ご",
+              "current_reading_hiragana": "ご"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0017c01",
+          "surface": "支払",
+          "token_surface": "支払い",
+          "target_start": 26,
+          "target_end": 28,
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading": "シハラ",
+          "current_reading_hiragana": "しはら",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "しはら",
+              "accepted": true
+            },
+            {
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
+              "reading": "しはらい",
+              "accepted": false
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "multi_reading_raw_sudachi:シハライ|シハラエ"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "シハライ",
+                "count": 14,
+                "surface_total_count": 14,
+                "share": 1.0,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "しはら",
+              "current_reading_hiragana": "しはら"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0019c01",
+          "surface": "一",
+          "token_surface": "一",
+          "target_start": 30,
+          "target_end": 31,
+          "token_index": 18,
+          "chunk_index": 0,
+          "current_reading": "イチ",
+          "current_reading_hiragana": "いち",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "いち",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "いち",
+              "current_reading_hiragana": "いち"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0020c01",
+          "surface": "円",
+          "token_surface": "円",
+          "target_start": 31,
+          "target_end": 32,
+          "token_index": 19,
+          "chunk_index": 0,
+          "current_reading": "エン",
+          "current_reading_hiragana": "えん",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_corpus_frequency"
+          ],
+          "status_reason": "accepted_pre_llm_signal",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "えん",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": true,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": {
+                "reading": "エン",
+                "count": 1283,
+                "surface_total_count": 1284,
+                "share": 0.999221183801,
+                "source_corpus_version": "core_SUW_yomi_final"
+              },
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000001:u0014:r0022c01",
+          "surface": "無",
+          "token_surface": "無くなっ",
+          "target_start": 33,
+          "target_end": 34,
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading": "ナ",
+          "current_reading_hiragana": "な",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_llm_match"
+          ],
+          "status_reason": "accepted_llm_match",
+          "candidates": [
+            {
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "な",
+              "accepted": true
+            },
+            {
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "min_count": 5,
+              "min_share": 0.995,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/generated/yomi_surface_reading_stats.tsv",
+              "source_corpus_version": "core_SUW_yomi_final"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": true,
+              "status": "matched",
+              "llm_reading": "な",
+              "current_reading_hiragana": "な"
+            }
+          ]
+        }
+      ]
     },
     {
       "item_id": "ja_cc_level2:0000000001:u0015",
