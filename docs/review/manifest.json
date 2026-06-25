@@ -11,6 +11,16 @@
       "path": "./packs/alphabetic_candidates_batch_0001_v1.json",
       "created_at_epoch": 1775611201,
       "item_count": 15
+    },
+    "dev": {
+      "track_name": "dev",
+      "review_stage": "yomi_final_review",
+      "label": "Yomi Final Review",
+      "pack_id": "yomi_final_dev_batch_0001_v1",
+      "title": "Yomi final review / dev_batch_0001 / v1",
+      "path": "./packs/yomi_final_dev_batch_0001_v1.json",
+      "created_at_epoch": 1782284531,
+      "item_count": 64
     }
   },
   "stages": {
@@ -30,6 +40,25 @@
           "created_at_epoch": 1775611201,
           "item_count": 15,
           "status": "active-working"
+        }
+      ]
+    },
+    "yomi_final_review": {
+      "review_stage": "yomi_final_review",
+      "label": "Yomi Final Review",
+      "latest_pack_id": "yomi_final_dev_batch_0001_v1",
+      "latest_pack_ids_by_track": {
+        "dev": "yomi_final_dev_batch_0001_v1"
+      },
+      "packs": [
+        {
+          "pack_id": "yomi_final_dev_batch_0001_v1",
+          "title": "Yomi final review / dev_batch_0001 / v1",
+          "path": "./packs/yomi_final_dev_batch_0001_v1.json",
+          "track_name": "dev",
+          "created_at_epoch": 1782284531,
+          "item_count": 64,
+          "status": "active-dev"
         }
       ]
     }

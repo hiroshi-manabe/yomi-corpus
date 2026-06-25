@@ -228,6 +228,7 @@ def output_keys_for_stage(stage: str) -> list[str]:
         "yomi_auto_accepted": ["units_yomi_auto_accept_jsonl"],
         "yomi_reading_queued": ["yomi_reading_input_jsonl"],
         "yomi_reading_llm_completed": ["units_yomi_llm_readings_jsonl"],
+        "final_review_prepared": ["final_review_pack_json", "review_site_manifest_json"],
     }
     return stage_outputs.get(stage, []) + [
         "units_yomi_llm_readings_jsonl",

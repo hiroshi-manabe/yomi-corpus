@@ -302,6 +302,16 @@ button:focus-visible {
   color: var(--warning);
 }
 
+.badge.safe {
+  background: rgba(45, 106, 79, 0.12);
+  color: var(--accent);
+}
+
+.badge.unresolved {
+  background: rgba(156, 79, 30, 0.12);
+  color: var(--warning);
+}
+
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -348,6 +358,25 @@ button {
   gap: 16px;
 }
 
+.document-separator {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(45, 106, 79, 0.18);
+  border-radius: 16px;
+  background: rgba(239, 229, 214, 0.96);
+  padding: 10px 14px;
+  color: var(--muted);
+}
+
+.document-separator strong {
+  color: var(--text);
+}
+
 .item-card {
   border: 1px solid var(--line);
   background: #fffdf9;
@@ -362,6 +391,14 @@ button {
 
 .item-card.has-override {
   border-color: rgba(45, 106, 79, 0.36);
+}
+
+.item-card.yomi-card.has-unresolved {
+  border-color: rgba(156, 79, 30, 0.32);
+}
+
+.item-card.yomi-card.all-safe {
+  opacity: 0.82;
 }
 
 .item-card.marker-start,
@@ -436,6 +473,43 @@ button {
   padding-left: 18px;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+.yomi-lines {
+  padding-left: 0;
+  list-style: none;
+}
+
+.yomi-target {
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 250, 242, 0.78);
+}
+
+.target-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.target-choice,
+.target-custom-reading {
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  border-radius: 12px;
+  padding: 9px 10px;
+}
+
+.skip-toggle {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
 }
 

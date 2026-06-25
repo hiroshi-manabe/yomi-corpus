@@ -198,17 +198,22 @@ def write_root_redirect(path: Path) -> None:
 
 
 def build_pack_title(payload: dict, path: Path) -> str:
-    batch_match = re.search(r"(batch_\d+)", path.stem)
+    batch_match = re.search(r"(dev_batch_\d+|batch_\d+)", path.stem)
     batch_label = batch_match.group(1) if batch_match else None
     if payload.get("review_stage") == "alphabetic_candidate_review" and batch_label:
         version = path.stem.split("_")[-1]
         return f"Alphabetic candidates / {batch_label} / {version}"
+    if payload.get("review_stage") == "yomi_final_review" and batch_label:
+        version = path.stem.split("_")[-1]
+        return f"Yomi final review / {batch_label} / {version}"
     return str(payload["pack_id"])
 
 
 def humanize_stage_label(stage_id: str) -> str:
     if stage_id == "alphabetic_candidate_review":
         return "Alphabetic Promotion Candidates"
+    if stage_id == "yomi_final_review":
+        return "Yomi Final Review"
     return stage_id.replace("_", " ").title()
 
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import gzip
 import json
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 import tomllib
@@ -40,6 +40,10 @@ from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
+from yomi_corpus.yomi.final_review import (
+    build_yomi_final_review_pack_file,
+    write_summary as write_yomi_final_review_summary,
+)
 from yomi_corpus.yomi.llm_readings import (
     apply_yomi_llm_reading_results_file,
     build_yomi_llm_reading_queue_file,
@@ -126,6 +130,7 @@ STAGE_YOMI_GENERATED = "yomi_generated"
 STAGE_YOMI_AUTO_ACCEPTED = "yomi_auto_accepted"
 STAGE_YOMI_READING_QUEUED = "yomi_reading_queued"
 STAGE_YOMI_READING_LLM_COMPLETED = "yomi_reading_llm_completed"
+STAGE_FINAL_REVIEW_PREPARED = "final_review_prepared"
 LEGACY_STAGE_MAP = {
     "alphabetic_judged": STAGE_ALPHABETIC_LLM_JUDGED,
     "scope_triage_completed": STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
@@ -162,6 +167,7 @@ STAGE_SEQUENCE = [
     STAGE_YOMI_AUTO_ACCEPTED,
     STAGE_YOMI_READING_QUEUED,
     STAGE_YOMI_READING_LLM_COMPLETED,
+    STAGE_FINAL_REVIEW_PREPARED,
 ]
 
 RERUNNABLE_STAGES = frozenset(
@@ -176,6 +182,7 @@ RERUNNABLE_STAGES = frozenset(
         STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
         STAGE_YOMI_READING_QUEUED,
         STAGE_YOMI_READING_LLM_COMPLETED,
+        STAGE_FINAL_REVIEW_PREPARED,
     }
 )
 
@@ -976,6 +983,8 @@ class PipelineWorkspace:
                 batch_name,
                 llm_execution_mode_override=llm_execution_mode_override,
             )
+        if stage_name == STAGE_FINAL_REVIEW_PREPARED:
+            return self._prepare_final_review(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
 
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
@@ -1049,6 +1058,11 @@ class PipelineWorkspace:
                 batch_dir / "yomi_reading_retry3_usage_summary.json",
                 batch_dir / "units.yomi.llm_readings.jsonl",
                 batch_dir / "yomi_reading_apply_summary.json",
+            ]
+        if stage_name == STAGE_FINAL_REVIEW_PREPARED:
+            return [
+                batch_dir / "final_review_pack.json",
+                batch_dir / "final_review_pack_summary.json",
             ]
         return []
 
@@ -1296,6 +1310,23 @@ class PipelineWorkspace:
             artifacts["yomi_reading_apply_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_reading_apply_summary.json"
             )
+        if current_stage == STAGE_FINAL_REVIEW_PREPARED:
+            artifacts["final_review_pack_json"] = str(
+                self.batch_dir(batch_name) / "final_review_pack.json"
+            )
+            artifacts["final_review_pack_summary_json"] = str(
+                self.batch_dir(batch_name) / "final_review_pack_summary.json"
+            )
+            artifacts["review_pack_json"] = str(
+                self.root
+                / "data"
+                / "review_packs"
+                / "yomi_final"
+                / f"yomi_final_{batch_name}_v1.json"
+            )
+            artifacts["review_site_manifest_json"] = str(
+                self.root / "docs" / "review" / "manifest.json"
+            )
         raw_yomi_policy = manifest.get("yomi_policy")
         state = BatchState(
             batch_name=batch_name,
@@ -1332,6 +1363,8 @@ class PipelineWorkspace:
 
     def _infer_stage_from_artifacts(self, batch_name: str) -> str:
         batch_dir = self.batch_dir(batch_name)
+        if (batch_dir / "final_review_pack.json").exists():
+            return STAGE_FINAL_REVIEW_PREPARED
         if (batch_dir / "units.yomi.llm_readings.jsonl").exists():
             return STAGE_YOMI_READING_LLM_COMPLETED
         if (batch_dir / "yomi_reading_input.jsonl").exists():
@@ -2269,6 +2302,55 @@ class PipelineWorkspace:
                 "yomi_reading_mismatched": str(apply_summary.mismatched_items),
                 "yomi_reading_parse_error": str(apply_summary.parse_error_items),
                 "yomi_reading_missing_result": str(apply_summary.missing_result_items),
+            }
+        }
+
+    def _prepare_final_review(self, batch_name: str) -> dict[str, object]:
+        from yomi_corpus.review_site import publish_review_site
+
+        batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
+        source_path = batch_dir / "units.yomi.llm_readings.jsonl"
+        pack_id = f"yomi_final_{batch_name}_v1"
+        batch_pack_path = batch_dir / "final_review_pack.json"
+        summary_path = batch_dir / "final_review_pack_summary.json"
+        review_pack_path = self.root / "data" / "review_packs" / "yomi_final" / f"{pack_id}.json"
+        summary = build_yomi_final_review_pack_file(
+            units_jsonl=source_path,
+            output_json=batch_pack_path,
+            pack_id=pack_id,
+            track_name=batch_state.track_name,
+            batch_name=batch_name,
+        )
+        review_pack_path.parent.mkdir(parents=True, exist_ok=True)
+        review_pack_path.write_text(
+            batch_pack_path.read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+        summary = replace(summary, latest_json=str(review_pack_path))
+        write_yomi_final_review_summary(summary, summary_path)
+        manifest = publish_review_site(
+            web_review_dir=self.root / "web" / "review",
+            docs_dir=self.root / "docs",
+            review_pack_root=self.root / "data" / "review_packs",
+        )
+        manifest_path = self.root / "docs" / "review" / "manifest.json"
+        return {
+            "artifacts": {
+                "final_review_pack_json": str(batch_pack_path),
+                "final_review_pack_summary_json": str(summary_path),
+                "review_pack_json": str(review_pack_path),
+                "review_site_manifest_json": str(manifest_path),
+                "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
+                "final_review_stage": summary.review_stage,
+                "final_review_pack_id": summary.pack_id,
+                "final_review_items": str(summary.item_count),
+                "final_review_unresolved_items": str(summary.unresolved_item_count),
+                "final_review_unresolved_targets": str(summary.unresolved_target_count),
+                "final_review_provisional_skip_items": str(
+                    summary.provisional_skip_item_count
+                ),
+                "review_site_default_stage": str(manifest.get("default_stage") or ""),
             }
         }
 

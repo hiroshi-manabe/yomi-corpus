@@ -71,6 +71,26 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(stage["packs"][0]["status"], "active-working")
         self.assertEqual(stage["packs"][1]["status"], "active-dev")
 
+    def test_build_review_manifest_labels_yomi_final_review(self) -> None:
+        manifest = build_review_manifest(
+            [
+                {
+                    "pack_id": "yomi_final_dev_batch_0001_v1",
+                    "title": "Yomi final review / dev_batch_0001 / v1",
+                    "review_stage": "yomi_final_review",
+                    "track_name": "dev",
+                    "created_at_epoch": 10,
+                    "item_count": 64,
+                    "site_filename": "yomi_final_dev_batch_0001_v1.json",
+                },
+            ]
+        )
+
+        stage = manifest["stages"]["yomi_final_review"]
+        self.assertEqual(stage["label"], "Yomi Final Review")
+        self.assertEqual(stage["latest_pack_id"], "yomi_final_dev_batch_0001_v1")
+        self.assertEqual(manifest["current_tracks"]["dev"]["review_stage"], "yomi_final_review")
+
     def test_publish_review_site_copies_assets_and_packs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
