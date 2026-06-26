@@ -17,6 +17,7 @@ class YomiGenerationConfig:
     decoder_beam: int | None
     decoder_nbest: int
     default_strategy: str
+    decoder_model_dir: str | None = None
     post_hybrid_repair_rules: str | None = None
     corpus_frequency_source_corpus: str | None = None
     corpus_frequency_source_corpus_version: str | None = None
@@ -48,6 +49,7 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         decoder_beam=_optional_int(decoder.get("beam")),
         decoder_nbest=int(decoder.get("nbest", 5)),
         default_strategy=str(strategy.get("default", "agreement_prefer_decoder_v1")),
+        decoder_model_dir=_optional_path(config_path, decoder.get("model_dir")),
         post_hybrid_repair_rules=_optional_path(config_path, repairs.get("rules")),
         corpus_frequency_source_corpus=_optional_path(config_path, corpus_frequency.get("source_corpus")),
         corpus_frequency_source_corpus_version=_optional_str(

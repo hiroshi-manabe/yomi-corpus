@@ -1743,16 +1743,19 @@ Division of responsibility:
 The intended shape is:
 
 ```bash
-yomi-decoder build-model \
+python /path/yomi-corpus/scripts/export_decoder_corpus.py \
+  --batch reviewed_batch_name
+
+python /path/yomi-decoder/scripts/build_model.py \
   --base-corpus /path/core_SUW_yomi_final.txt \
-  --extra-corpus /path/yomi-corpus/exports/decoder_corpus/reviewed_*.txt \
+  --extra-corpus /path/yomi-corpus/data/exports/decoder_corpus/reviewed_batch_name.txt \
   --output-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD
 ```
 
 and later:
 
 ```bash
-yomi-decoder decode \
+python /path/yomi-decoder/scripts/decode.py \
   --model-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD \
   ...
 ```

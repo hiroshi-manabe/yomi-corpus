@@ -52,6 +52,8 @@ def run_decoder(text: str, config: YomiGenerationConfig) -> list[DecoderCandidat
         "--nbest",
         str(config.decoder_nbest),
     ]
+    if config.decoder_model_dir:
+        command.extend(["--model-dir", config.decoder_model_dir])
     if config.decoder_beam is not None:
         command.extend(["--beam", str(config.decoder_beam)])
 

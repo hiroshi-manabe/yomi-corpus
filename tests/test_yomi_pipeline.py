@@ -4,8 +4,11 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
-from yomi_corpus.yomi.adapters import parse_decoder_output, parse_sudachi_output
+from yomi_corpus.yomi.adapters import parse_decoder_output, parse_sudachi_output, run_decoder
+from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.experiments import compare_yomi_experiments
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
@@ -51,6 +54,28 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(len(candidates), 1)
         self.assertEqual(candidates[0].entries[0].reading, "ホウ")
+
+    def test_run_decoder_passes_model_dir(self) -> None:
+        config = YomiGenerationConfig(
+            sudachi_command="sudachi",
+            sudachi_args=(),
+            decoder_python="python",
+            decoder_script="decode.py",
+            decoder_config="config.toml",
+            decoder_beam=10,
+            decoder_nbest=5,
+            default_strategy="aligned_hybrid_v1",
+            decoder_model_dir="/tmp/yomi-model",
+        )
+        with patch("yomi_corpus.yomi.adapters.subprocess.run") as mocked_run:
+            mocked_run.return_value = SimpleNamespace(
+                stdout=json.dumps({"results": []}),
+            )
+            run_decoder("方", config)
+
+        command = mocked_run.call_args.args[0]
+        self.assertIn("--model-dir", command)
+        self.assertEqual(command[command.index("--model-dir") + 1], "/tmp/yomi-model")
 
     def test_agreement_prefer_decoder_marks_exact_agreement_certain(self) -> None:
         result = apply_strategy(
