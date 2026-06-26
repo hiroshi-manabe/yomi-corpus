@@ -220,6 +220,26 @@ class NextCliTests(unittest.TestCase):
         )
         self.assertIn("Output: data/units/dev_batch_0001/units.yomi.final.jsonl", rendered)
 
+    def test_format_final_review_prepared_shows_push_hint(self) -> None:
+        rendered = format_next_summary(
+            {
+                "track_name": "dev",
+                "batch_name": "dev_batch_0001",
+                "current_stage": "final_review_prepared",
+                "advanced": True,
+                "artifacts": {
+                    "final_review_pack_json": "docs/review/packs/yomi_final_dev_batch_0001_v1.json",
+                    "review_site_manifest_json": "docs/review/manifest.json",
+                },
+            }
+        )
+
+        self.assertIn("Output: docs/review/packs/yomi_final_dev_batch_0001_v1.json", rendered)
+        self.assertIn(
+            "Review page: commit and push the generated docs/review artifacts, then open GitHub Pages.",
+            rendered,
+        )
+
     def test_format_auto_progress_start_shows_next_stage(self) -> None:
         rendered = format_auto_progress_start(
             {

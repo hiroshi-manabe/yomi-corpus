@@ -247,6 +247,9 @@ def format_next_summary(summary: dict[str, object]) -> str:
             if output:
                 lines.append(f"Output: {output}")
                 break
+        review_publish_line = final_review_publish_line(summary, artifacts)
+        if review_publish_line:
+            lines.append(review_publish_line)
     if summary.get("advanced") is not None:
         lines.append(f"Advanced: {str(summary.get('advanced')).lower()}")
     if summary.get("auto"):
@@ -283,6 +286,14 @@ def should_show_llm_status(summary: dict[str, object], artifacts: dict, prefix: 
         return True
     job_status = artifacts.get(f"{prefix}_llm_job_status")
     return bool(summary.get("blocking_reason") and job_status and job_status != "completed")
+
+
+def final_review_publish_line(summary: dict[str, object], artifacts: dict) -> str | None:
+    if summary.get("current_stage") != "final_review_prepared":
+        return None
+    if not artifacts.get("review_site_manifest_json") and not artifacts.get("final_review_pack_json"):
+        return None
+    return "Review page: commit and push the generated docs/review artifacts, then open GitHub Pages."
 
 
 def llm_failure_label(artifacts: dict, prefix: str) -> str:
