@@ -118,6 +118,8 @@ Pipeline orchestration policy:
   current stage and the next stage without advancing the pipeline
 - `./set-stage dev <stage>` rewinds the current dev batch stage without
   deleting artifacts; `working` requires confirmation or `--yes`
+- `./publish-review` commits and pushes only generated review-page artifacts
+  (`docs/review/manifest.json` and referenced review pack JSON files)
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
 

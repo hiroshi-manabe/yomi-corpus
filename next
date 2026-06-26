@@ -293,7 +293,7 @@ def final_review_publish_line(summary: dict[str, object], artifacts: dict) -> st
         return None
     if not artifacts.get("review_site_manifest_json") and not artifacts.get("final_review_pack_json"):
         return None
-    return "Review page: commit and push the generated docs/review artifacts, then open GitHub Pages."
+    return "Review page: run ./publish-review to commit and push the generated docs/review artifacts."
 
 
 def llm_failure_label(artifacts: dict, prefix: str) -> str:

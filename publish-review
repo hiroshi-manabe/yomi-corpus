@@ -1,0 +1,135 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+from pathlib import Path
+from typing import Any
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
+REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
+DEFAULT_MESSAGE = "Publish review page artifacts"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Commit and push only generated review-page artifacts."
+    )
+    parser.add_argument(
+        "-m",
+        "--message",
+        default=DEFAULT_MESSAGE,
+        help=f"Commit message. Default: {DEFAULT_MESSAGE!r}.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show which paths would be committed and pushed without changing git state.",
+    )
+    parser.add_argument(
+        "--no-push",
+        action="store_true",
+        help="Commit the review artifacts but do not run git push.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    artifact_paths = collect_review_artifact_paths(PROJECT_ROOT)
+    if not artifact_paths:
+        raise SystemExit("No review artifacts found under docs/review.")
+
+    rel_paths = [str(path.relative_to(PROJECT_ROOT)) for path in artifact_paths]
+    print("Review artifacts:")
+    for rel_path in rel_paths:
+        print(f"  {rel_path}")
+
+    if args.dry_run:
+        print("Dry run: would run git add, git commit, and git push for the paths above.")
+        return
+
+    run_git(["add", "--", *rel_paths])
+    if not has_staged_changes(rel_paths):
+        print("No review artifact changes to publish.")
+        return
+
+    run_git(["commit", "-m", args.message, "--", *rel_paths])
+    if args.no_push:
+        print("Committed review artifacts; skipped git push because --no-push was set.")
+        return
+    run_git(["push"])
+
+
+def collect_review_artifact_paths(project_root: Path) -> list[Path]:
+    project_root = project_root.resolve()
+    review_root = project_root / "docs" / "review"
+    manifest_path = review_root / "manifest.json"
+    paths: set[Path] = set()
+    if manifest_path.exists():
+        paths.add(manifest_path)
+        for raw_path in referenced_manifest_paths(manifest_path):
+            resolved = resolve_manifest_path(review_root, raw_path)
+            if is_review_pack_path(review_root, resolved) and resolved.exists():
+                paths.add(resolved)
+    else:
+        paths.update((review_root / "packs").glob("*.json"))
+    return sorted(paths)
+
+
+def referenced_manifest_paths(manifest_path: Path) -> list[str]:
+    try:
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"Invalid review manifest JSON: {manifest_path}: {exc}") from exc
+    refs: list[str] = []
+    collect_path_values(payload, refs)
+    return refs
+
+
+def collect_path_values(value: Any, refs: list[str]) -> None:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if key == "path" and isinstance(child, str) and child.endswith(".json"):
+                refs.append(child)
+            else:
+                collect_path_values(child, refs)
+    elif isinstance(value, list):
+        for child in value:
+            collect_path_values(child, refs)
+
+
+def resolve_manifest_path(review_root: Path, raw_path: str) -> Path:
+    path = Path(raw_path)
+    if path.is_absolute():
+        return path.resolve()
+    return (review_root / path).resolve()
+
+
+def is_review_pack_path(review_root: Path, path: Path) -> bool:
+    packs_root = (review_root / "packs").resolve()
+    try:
+        path.relative_to(packs_root)
+    except ValueError:
+        return False
+    return path.suffix == ".json"
+
+
+def has_staged_changes(rel_paths: list[str]) -> bool:
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet", "--", *rel_paths],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
+    return result.returncode == 1
+
+
+def run_git(args: list[str]) -> None:
+    subprocess.run(["git", *args], cwd=PROJECT_ROOT, check=True)
+
+
+if __name__ == "__main__":
+    main()
