@@ -170,6 +170,94 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(review["reviewed"])
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
 
+    def test_sentence_escalation_preserves_target_reading_override_as_constraint(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            reviewed_path = root / "reviewed.jsonl"
+            review_summary_path = root / "review_summary.json"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            payload = unit("doc1", "u1", "近々です。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = "近々/キンキン です/デス 。/。"
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "escalate_sentence": True,
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0001c01",
+                                    "choice_source": "llm",
+                                    "selected_reading": "ちかぢか",
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=reviewed_path,
+                summary_json=review_summary_path,
+            )
+            queue_summary = build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+
+            self.assertEqual(queue_summary["queued_items"], 1)
+            reviewed = json.loads(reviewed_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                reviewed["analysis"]["mechanical"]["yomi"]["rendered"],
+                "近々/チカヂカ です/デス 。/。",
+            )
+            queued = json.loads(queue_path.read_text(encoding="utf-8"))
+            self.assertEqual(queued["reasons"], ["sentence_escalation"])
+            self.assertEqual(queued["target_escalations"], [])
+            self.assertEqual(queued["target_overrides"], [])
+            self.assertEqual(
+                queued["target_constraints"],
+                [
+                    {
+                        "item_id": "u1:r0001c01",
+                        "choice_source": "llm",
+                        "selected_reading": "ちかぢか",
+                        "surface": "近々",
+                        "token_surface": "近々",
+                        "token_index": 0,
+                        "chunk_index": 0,
+                        "current_reading_hiragana": "きんきん",
+                    }
+                ],
+            )
+
     def test_strong_queue_blocks_finalize_when_no_ruby_target_exists(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

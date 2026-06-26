@@ -2020,6 +2020,9 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `reviewed_ranges` define which sentence items were actually reviewed
 - sparse `overrides` carry `skip`, `escalate_sentence`, and target-level reading
   choices
+- `escalate_sentence` and target-level reading choices are independent: a
+  reviewer may escalate a whole sentence while still locking in local readings
+  such as `方/かた`
 
 When `./next` reaches `final_review_applied`, it first scans open GitHub Issues
 for yomi final-review submissions and stores matching payloads in that local
@@ -2033,6 +2036,12 @@ explicitly:
 ```bash
 python scripts/import_yomi_final_review_issue.py --issue-number 1
 ```
+
+`yomi_strong_repair_queued` should preserve both layers. Sentence escalation
+adds a strong-repair reason, while all target-level overrides are passed forward
+as `target_constraints`. Only target choices with `choice_source == "none"`
+also appear in `target_escalations`, because those specific spans need strong
+repair rather than serving as confirmed local constraints.
 
 The same open-Issue scan that `./next` runs can also be invoked manually:
 

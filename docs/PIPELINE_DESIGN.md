@@ -1700,6 +1700,9 @@ step. The replay semantics match the review UI:
 - no explicit override inside a reviewed range means accept
 - sparse overrides can set sentence skip, sentence escalation, or target-level
   reading choices
+- sentence escalation and target-level reading choices are not mutually
+  exclusive; local readings confirmed by the reviewer should remain usable as
+  constraints for later strong repair
 - later overlapping submissions overwrite earlier ones
 
 At `final_review_applied`, `./next` first runs the open-Issue ingestion path and

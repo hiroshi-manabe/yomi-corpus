@@ -604,14 +604,19 @@ def build_strong_repair_queue_file(
             if review.get("escalate_sentence"):
                 reasons.append("sentence_escalation")
                 sentence_escalations += 1
-            target_overrides = [
+            target_constraints = [
                 row
                 for row in review.get("target_overrides", [])
-                if isinstance(row, dict) and row.get("choice_source") == "none"
+                if isinstance(row, dict)
             ]
-            if target_overrides:
+            target_escalation_overrides = [
+                row
+                for row in target_constraints
+                if row.get("choice_source") == "none"
+            ]
+            if target_escalation_overrides:
                 reasons.append("target_no_ruby")
-                target_escalations += len(target_overrides)
+                target_escalations += len(target_escalation_overrides)
             if not reasons:
                 continue
             dst.write(
@@ -626,7 +631,10 @@ def build_strong_repair_queue_file(
                             .get("rendered")
                         ),
                         "reasons": reasons,
-                        "target_overrides": target_overrides,
+                        "target_constraints": target_constraints,
+                        "target_escalations": target_escalation_overrides,
+                        # Backward-compatible alias for existing mock consumers.
+                        "target_overrides": target_escalation_overrides,
                         "status": "mock_pending",
                     },
                     ensure_ascii=False,
