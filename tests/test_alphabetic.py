@@ -93,6 +93,32 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(entities[0].normalized, "v6")
         self.assertEqual(entities[0].component_texts, ["V6"])
 
+    def test_entity_extractor_normalizes_fullwidth_long_entity_key(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "ＩＯＮＤ大学について調べました。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+        self.assertEqual(len(occurrences), 1)
+        self.assertEqual(occurrences[0].entity_text, "ＩＯＮＤ")
+        self.assertEqual(occurrences[0].entity_key, "iond")
+        self.assertFalse(occurrences[0].strict_case)
+
+    def test_fullwidth_strict_case_entity_uses_ascii_key(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "ＡＩを使っています。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+        self.assertEqual(len(occurrences), 1)
+        self.assertEqual(occurrences[0].entity_text, "ＡＩ")
+        self.assertEqual(occurrences[0].entity_key, "AI")
+        self.assertTrue(occurrences[0].strict_case)
+
     def test_entity_extractor_does_not_absorb_standalone_number(self) -> None:
         entities = extract_alphabetic_entities("iPhone 16が発売されました。", self.config)
         self.assertEqual(len(entities), 1)
@@ -219,6 +245,48 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(scope["status"], "provisional_skip")
         self.assertEqual(scope["reasons"][0]["entity_key"], "zoom")
         self.assertEqual(scope["reasons"][0]["source"], "llm")
+
+    def test_fullwidth_iond_decision_projects_as_provisional_skip(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "イオンド大学（ＩＯＮＤ大学）について。",
+        }
+        decision = AlphabeticDecision(
+            entity_key="iond",
+            strict_case=False,
+            status="out_of_scope",
+            source="manual",
+            note="diploma mill name",
+        )
+        occurrences = apply_global_decisions(
+            build_occurrences_for_unit(unit, self.config),
+            {"iond": decision_status_to_resolved_status(decision.status)},
+        )
+
+        scope = project_alphabetic_scope(occurrences, {"iond": decision})
+
+        self.assertTrue(scope["provisional_skip"])
+        self.assertEqual(scope["reasons"][0]["entity_key"], "iond")
+        self.assertEqual(scope["reasons"][0]["entity_text"], "ＩＯＮＤ")
+
+    def test_fullwidth_iond_static_blacklist_projects_as_provisional_skip(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "イオンド大学（ＩＯＮＤ大学）について。",
+        }
+        config = load_alphabetic_config("config/alphabetic/default.toml")
+        occurrences = build_occurrences_for_unit(unit, config)
+
+        scope = project_alphabetic_scope(occurrences, {})
+
+        self.assertTrue(scope["provisional_skip"])
+        self.assertEqual(scope["reasons"][0]["entity_key"], "iond")
+        self.assertEqual(scope["reasons"][0]["entity_text"], "ＩＯＮＤ")
+        self.assertEqual(scope["reasons"][0]["source"], "static_blacklist")
 
     def test_upsert_and_load_decision_registry(self) -> None:
         temp_path = PROJECT_ROOT / "tests" / "tmp_token_decisions.jsonl"

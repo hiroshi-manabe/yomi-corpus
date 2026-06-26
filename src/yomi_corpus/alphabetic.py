@@ -4,12 +4,18 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 import tomllib
+import unicodedata
 from typing import Iterable
 
 from yomi_corpus.models import BooleanJudgment
 from yomi_corpus.paths import resolve_repo_path
 
-TOKEN_RE = re.compile(r"(?<![A-Za-z0-9])(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]+(?:[-'’][A-Za-z0-9]+)*(?![A-Za-z0-9])")
+ALNUM_CLASS = r"A-Za-z0-9Ａ-Ｚａ-ｚ０-９"
+ALPHA_CLASS = r"A-Za-zＡ-Ｚａ-ｚ"
+TOKEN_RE = re.compile(
+    rf"(?<![{ALNUM_CLASS}])(?=[{ALNUM_CLASS}]*[{ALPHA_CLASS}])"
+    rf"[{ALNUM_CLASS}]+(?:[-'’][{ALNUM_CLASS}]+)*(?![{ALNUM_CLASS}])"
+)
 ENTITY_JOINER_RE = re.compile(r"^(?:[ \t\u3000]+|[ \t\u3000]*[-'’][ \t\u3000]*)$")
 SPACE_RE = re.compile(r"[ \t\u3000]+")
 SPACE_AROUND_HYPHEN_RE = re.compile(r"[ \t\u3000]*-[ \t\u3000]*")
@@ -95,7 +101,7 @@ def extract_alphabetic_tokens(text: str) -> list[AlphabeticToken]:
     return [
         AlphabeticToken(
             text=match.group(0),
-            normalized=match.group(0).lower(),
+            normalized=_normalize_width(match.group(0)).lower(),
             start=match.start(),
             end=match.end(),
         )
@@ -114,7 +120,7 @@ def classify_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> str:
 
 
 def entity_key(entity: AlphabeticEntity) -> str:
-    return entity.text if entity.strict_case else entity.normalized
+    return _strict_case_key(entity.text) if entity.strict_case else entity.normalized
 
 
 def extract_alphabetic_entities(text: str, config: AlphabeticConfig) -> list[AlphabeticEntity]:
@@ -377,22 +383,31 @@ def project_alphabetic_scope(
 
 def _is_blacklisted(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
     if entity.strict_case:
-        return entity.text in config.case_sensitive_blacklist
-    return entity.normalized in config.blacklist or entity.text in config.case_sensitive_blacklist
+        return _strict_case_key(entity.text) in config.case_sensitive_blacklist
+    return (
+        entity.normalized in config.blacklist
+        or entity.text in config.case_sensitive_blacklist
+        or _strict_case_key(entity.text) in config.case_sensitive_blacklist
+    )
 
 
 def _is_whitelisted(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
     if entity.strict_case:
-        return entity.text in config.case_sensitive_whitelist
-    return entity.normalized in config.whitelist or entity.text in config.case_sensitive_whitelist
+        return _strict_case_key(entity.text) in config.case_sensitive_whitelist
+    return (
+        entity.normalized in config.whitelist
+        or entity.text in config.case_sensitive_whitelist
+        or _strict_case_key(entity.text) in config.case_sensitive_whitelist
+    )
 
 
 def _requires_strict_case(token: AlphabeticToken, config: AlphabeticConfig) -> bool:
-    return len(token.text) <= config.strict_case_max_length
+    return len(_normalize_width(token.text)) <= config.strict_case_max_length
 
 
 def _is_single_letter_entity(entity: AlphabeticEntity) -> bool:
-    return len(entity.component_texts) == 1 and len(entity.text) == 1 and entity.text.isalpha()
+    text = _normalize_width(entity.text)
+    return len(entity.component_texts) == 1 and len(text) == 1 and text.isalpha()
 
 
 def _build_entity(
@@ -419,11 +434,19 @@ def _can_join_entity_gap(gap: str) -> bool:
 
 
 def _normalize_entity_text(text: str) -> str:
-    normalized = text.lower()
+    normalized = _normalize_width(text).lower()
     normalized = SPACE_AROUND_HYPHEN_RE.sub("-", normalized)
     normalized = SPACE_AROUND_APOSTROPHE_RE.sub("'", normalized)
     normalized = SPACE_RE.sub(" ", normalized)
     return normalized.strip()
+
+
+def _strict_case_key(text: str) -> str:
+    return _normalize_width(text).strip()
+
+
+def _normalize_width(text: str) -> str:
+    return unicodedata.normalize("NFKC", text)
 
 
 def _load_word_list(path_str: str, *, normalize: bool) -> list[str]:
