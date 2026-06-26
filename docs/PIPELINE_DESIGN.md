@@ -1730,11 +1730,15 @@ overrides are collected through the yomi final-review path.
 
 If no matching submission exists, the stage blocks as a human review gate.
 
-`yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a queue
-for cases that need the future stronger model:
+`yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a
+target-first queue for cases that need the future stronger model:
 
-- sentence-level escalation
-- target-level `No ruby`
+- target-level `No ruby` as `repair_scope: "target"` and `repair_order: 1`
+- sentence-level escalation as `repair_scope: "sentence"` and `repair_order: 2`
+
+If both are present on the same unit, the target row is emitted before the
+sentence row. The sentence row still carries all target constraints so later
+whole-sentence repair can respect human-selected or human-canceled readings.
 
 No expensive correction call is made yet. This keeps implementation ordered by
 actual evidence: first complete the no-escalation path, then implement strong

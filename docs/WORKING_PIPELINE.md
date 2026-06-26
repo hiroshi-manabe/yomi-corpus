@@ -2048,11 +2048,13 @@ python scripts/import_yomi_final_review_issue.py --issue-number 1
 ```
 
 `yomi_strong_repair_queued` should preserve both non-skipped repair layers.
-Sentence escalation adds a strong-repair reason, while all target-level
-overrides are passed forward as `target_constraints`. Only target choices with
-`choice_source == "none"` also appear in `target_escalations`, because those
-specific spans need strong repair rather than serving as confirmed local
-constraints. Skipped sentences are excluded from this queue.
+Target-level `choice_source == "none"` choices are queued first as target-scope
+repair items, because those spans need focused strong repair rather than serving
+as confirmed local constraints. Sentence escalation is queued after target
+repair as a sentence-scope item. All target-level overrides are still passed
+forward as `target_constraints` on sentence-scope items, so a later sentence
+repair can respect local human choices such as `方/かた` or a canceled ruby.
+Skipped sentences are excluded from this queue.
 
 The same open-Issue scan that `./next` runs can also be invoked manually:
 
@@ -2084,8 +2086,10 @@ data/units/<batch>/yomi_strong_repair_queue_summary.json
 
 Queue entries are generated for:
 
-- sentence-level `escalate_sentence`
-- target-level `choice_source: "none"`
+- target-level `choice_source: "none"` as `repair_scope: "target"` and
+  `repair_order: 1`
+- sentence-level `escalate_sentence` as `repair_scope: "sentence"` and
+  `repair_order: 2`
 
 The actual expensive strong-LLM correction stage is intentionally not
 implemented yet. It should be added only after real examples appear.

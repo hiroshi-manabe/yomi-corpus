@@ -606,9 +606,9 @@ def build_strong_repair_queue_file(
                 continue
             if review.get("skip"):
                 continue
-            reasons = []
+            sentence_reasons = []
             if review.get("escalate_sentence"):
-                reasons.append("sentence_escalation")
+                sentence_reasons.append("sentence_escalation")
                 sentence_escalations += 1
             target_constraints = [
                 row
@@ -620,34 +620,59 @@ def build_strong_repair_queue_file(
                 for row in target_constraints
                 if row.get("choice_source") == "none"
             ]
-            if target_escalation_overrides:
-                reasons.append("target_no_ruby")
-                target_escalations += len(target_escalation_overrides)
-            if not reasons:
+            if not sentence_reasons and not target_escalation_overrides:
                 continue
-            dst.write(
-                json.dumps(
-                    {
-                        "unit_id": unit.get("unit_id"),
-                        "text": unit.get("text"),
-                        "rendered_yomi": (
-                            unit.get("analysis", {})
-                            .get("mechanical", {})
-                            .get("yomi", {})
-                            .get("rendered")
-                        ),
-                        "reasons": reasons,
-                        "target_constraints": target_constraints,
-                        "target_escalations": target_escalation_overrides,
-                        # Backward-compatible alias for existing mock consumers.
-                        "target_overrides": target_escalation_overrides,
-                        "status": "mock_pending",
-                    },
-                    ensure_ascii=False,
-                )
-                + "\n"
+            rendered_yomi = (
+                unit.get("analysis", {})
+                .get("mechanical", {})
+                .get("yomi", {})
+                .get("rendered")
             )
-            queued_items += 1
+            for target in target_escalation_overrides:
+                target_escalations += 1
+                dst.write(
+                    json.dumps(
+                        {
+                            "item_id": f"{unit.get('unit_id')}::{target.get('item_id')}",
+                            "unit_id": unit.get("unit_id"),
+                            "text": unit.get("text"),
+                            "rendered_yomi": rendered_yomi,
+                            "repair_scope": "target",
+                            "repair_order": 1,
+                            "reasons": ["target_no_ruby"],
+                            "target_constraints": [target],
+                            "target_escalations": [target],
+                            # Backward-compatible alias for existing mock consumers.
+                            "target_overrides": [target],
+                            "status": "mock_pending",
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n"
+                )
+                queued_items += 1
+            if sentence_reasons:
+                dst.write(
+                    json.dumps(
+                        {
+                            "item_id": f"{unit.get('unit_id')}::sentence",
+                            "unit_id": unit.get("unit_id"),
+                            "text": unit.get("text"),
+                            "rendered_yomi": rendered_yomi,
+                            "repair_scope": "sentence",
+                            "repair_order": 2,
+                            "reasons": sentence_reasons,
+                            "target_constraints": target_constraints,
+                            "target_escalations": target_escalation_overrides,
+                            # Backward-compatible alias for existing mock consumers.
+                            "target_overrides": target_escalation_overrides,
+                            "status": "mock_pending",
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n"
+                )
+                queued_items += 1
     summary = {
         "rule": "yomi_strong_repair_queue_v1",
         "read_units": read_units,
