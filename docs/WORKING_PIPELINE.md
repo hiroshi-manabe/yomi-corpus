@@ -2023,6 +2023,9 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `escalate_sentence` and target-level reading choices are independent: a
   reviewer may escalate a whole sentence while still locking in local readings
   such as `方/かた`
+- `skip` dominates operational output: target choices on a skipped sentence are
+  preserved as audit data, but they are not applied to rendered yomi and do not
+  trigger strong repair
 
 When `./next` reaches `final_review_applied`, it first scans open GitHub Issues
 for yomi final-review submissions and stores matching payloads in that local
@@ -2037,11 +2040,12 @@ explicitly:
 python scripts/import_yomi_final_review_issue.py --issue-number 1
 ```
 
-`yomi_strong_repair_queued` should preserve both layers. Sentence escalation
-adds a strong-repair reason, while all target-level overrides are passed forward
-as `target_constraints`. Only target choices with `choice_source == "none"`
-also appear in `target_escalations`, because those specific spans need strong
-repair rather than serving as confirmed local constraints.
+`yomi_strong_repair_queued` should preserve both non-skipped repair layers.
+Sentence escalation adds a strong-repair reason, while all target-level
+overrides are passed forward as `target_constraints`. Only target choices with
+`choice_source == "none"` also appear in `target_escalations`, because those
+specific spans need strong repair rather than serving as confirmed local
+constraints. Skipped sentences are excluded from this queue.
 
 The same open-Issue scan that `./next` runs can also be invoked manually:
 

@@ -461,7 +461,11 @@ def apply_final_review_file(
                     skipped_units += 1
                 if item_state.get("escalate_sentence"):
                     escalated_units += 1
-                exact_updates = apply_exact_rendered_target_overrides(unit, target_overrides)
+                exact_updates = (
+                    0
+                    if item_state.get("skip")
+                    else apply_exact_rendered_target_overrides(unit, target_overrides)
+                )
                 exact_rendered_updates += exact_updates
                 set_final_review_payload(
                     unit,
@@ -599,6 +603,8 @@ def build_strong_repair_queue_file(
                 .get("yomi_final", {})
             )
             if not isinstance(review, dict) or not review.get("reviewed"):
+                continue
+            if review.get("skip"):
                 continue
             reasons = []
             if review.get("escalate_sentence"):

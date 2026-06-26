@@ -1703,6 +1703,9 @@ step. The replay semantics match the review UI:
 - sentence escalation and target-level reading choices are not mutually
   exclusive; local readings confirmed by the reviewer should remain usable as
   constraints for later strong repair
+- sentence skip dominates operational processing; target choices on skipped
+  rows are retained as audit data but do not update rendered yomi or trigger
+  strong repair
 - later overlapping submissions overwrite earlier ones
 
 At `final_review_applied`, `./next` first runs the open-Issue ingestion path and
