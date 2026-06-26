@@ -4,14 +4,8 @@ import json
 import unittest
 
 from pathlib import Path
-import sys
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
-if str(SCRIPTS_ROOT) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS_ROOT))
-
-from import_yomi_final_review_issue import (
+from yomi_corpus.yomi.final_review_issue_import import (
     extract_attachment_records,
     extract_attachment_urls,
     extract_inline_submission_records,

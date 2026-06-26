@@ -1707,7 +1707,12 @@ step. The replay semantics match the review UI:
   reading choices
 - later overlapping submissions overwrite earlier ones
 
-Implemented ingestion commands:
+At `final_review_applied`, `./next` first runs the open-Issue ingestion path and
+then applies the local submission store. The importer is non-fatal: network
+errors are recorded in the import summary, after which the stage behaves as if
+no new submissions were imported.
+
+Manual ingestion commands remain available for debugging:
 
 ```bash
 python scripts/import_yomi_final_review_issue.py --issue-number 1

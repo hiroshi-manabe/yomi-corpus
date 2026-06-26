@@ -894,11 +894,20 @@ class PipelineTrackTests(unittest.TestCase):
                 )
             )
 
-            summary = workspace.advance("dev")
+            with patch("yomi_corpus.pipeline.import_open_issue_inbox") as mocked_import:
+                mocked_import.return_value = {
+                    "imported_submission_count": 0,
+                    "summaries": [],
+                    "skipped": [],
+                }
+                summary = workspace.advance("dev")
 
             self.assertFalse(summary["advanced"])
             self.assertEqual(summary["current_stage"], "final_review_prepared")
             self.assertIn("No yomi final review submissions", summary["blocking_reason"])
+            self.assertEqual(mocked_import.call_count, 1)
+            self.assertEqual(summary["artifacts"]["final_review_issue_import_status"], "ok")
+            self.assertEqual(summary["artifacts"]["final_review_issue_imported_submissions"], "0")
             self.assertEqual(
                 Path(summary["artifacts"]["final_review_submission_store"]).resolve(),
                 (root / "data" / "review_submissions" / "yomi_final").resolve(),
@@ -951,11 +960,19 @@ class PipelineTrackTests(unittest.TestCase):
                 )
             )
 
-            first = workspace.advance("dev")
+            with patch("yomi_corpus.pipeline.import_open_issue_inbox") as mocked_import:
+                mocked_import.return_value = {
+                    "imported_submission_count": 0,
+                    "summaries": [],
+                    "skipped": [],
+                }
+                first = workspace.advance("dev")
             second = workspace.advance("dev")
             third = workspace.advance("dev")
 
             self.assertEqual(first["current_stage"], "final_review_applied")
+            self.assertEqual(mocked_import.call_count, 1)
+            self.assertEqual(first["artifacts"]["final_review_issue_import_status"], "ok")
             self.assertEqual(second["current_stage"], "yomi_strong_repair_queued")
             self.assertEqual(third["current_stage"], "yomi_finalized")
             self.assertEqual(third["artifacts"]["yomi_final_written_units"], "1")

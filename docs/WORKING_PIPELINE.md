@@ -2023,15 +2023,20 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - sparse `overrides` carry `skip`, `escalate_sentence`, and target-level reading
   choices
 
-Submissions pasted into GitHub Issues or attached as JSON can be imported into
-that local store before running `./next`:
+When `./next` reaches `final_review_applied`, it first scans open GitHub Issues
+for yomi final-review submissions and stores matching payloads in that local
+store. The apply step then replays the local store. If GitHub import fails or
+finds no matching submission, the stage falls back to the existing local-store
+check and blocks as a human review gate.
+
+For debugging or manual recovery, a single Issue can still be imported
+explicitly:
 
 ```bash
 python scripts/import_yomi_final_review_issue.py --issue-number 1
 ```
 
-For the deliberately loose mailbox workflow, all open non-PR Issues can be
-scanned:
+The same open-Issue scan that `./next` runs can also be invoked manually:
 
 ```bash
 python scripts/import_yomi_final_review_inbox.py

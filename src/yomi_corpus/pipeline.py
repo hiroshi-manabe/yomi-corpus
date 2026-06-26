@@ -47,6 +47,7 @@ from yomi_corpus.yomi.final_review import (
     finalize_reviewed_yomi_file,
     write_summary as write_yomi_final_review_summary,
 )
+from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
 from yomi_corpus.yomi.llm_readings import (
     apply_yomi_llm_reading_results_file,
     build_yomi_llm_reading_queue_file,
@@ -2395,6 +2396,7 @@ class PipelineWorkspace:
         output_path = batch_dir / "units.yomi.reviewed.jsonl"
         summary_path = batch_dir / "final_review_apply_summary.json"
         submission_store_dir = self.root / "data" / "review_submissions" / "yomi_final"
+        import_summary = self._import_final_review_submissions(submission_store_dir)
         summary = apply_final_review_file(
             units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
             pack_json=pack_path,
@@ -2405,6 +2407,13 @@ class PipelineWorkspace:
         artifacts = {
             "final_review_pack_id": pack_id,
             "final_review_submission_store": str(submission_store_dir),
+            "final_review_issue_import_summary_json": str(
+                self.root / "data" / "state" / "yomi_final" / "last_review_inbox_import_summary.json"
+            ),
+            "final_review_issue_import_status": str(import_summary.get("status", "")),
+            "final_review_issue_imported_submissions": str(
+                import_summary.get("imported_submission_count", "")
+            ),
             "final_review_apply_summary_json": str(summary_path),
         }
         if not summary.get("stage_complete", True):
@@ -2436,6 +2445,34 @@ class PipelineWorkspace:
                 "human_review_item_count": "",
             }
         }
+
+    def _import_final_review_submissions(self, submission_store_dir: Path) -> dict[str, object]:
+        summary_path = self.root / "data" / "state" / "yomi_final" / "last_review_inbox_import_summary.json"
+        try:
+            summary = import_open_issue_inbox(
+                repo="hiroshi-manabe/yomi-corpus",
+                review_pack_root=self.root / "data" / "review_packs",
+                submission_store_dir=submission_store_dir,
+            )
+            summary = {"status": "ok", **summary}
+        except SystemExit as exc:
+            summary = {
+                "status": "failed",
+                "error": str(exc),
+                "imported_submission_count": 0,
+            }
+        except Exception as exc:
+            summary = {
+                "status": "failed",
+                "error": f"{type(exc).__name__}: {exc}",
+                "imported_submission_count": 0,
+            }
+        summary_path.parent.mkdir(parents=True, exist_ok=True)
+        summary_path.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        return summary
 
     def _queue_yomi_strong_repair(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)

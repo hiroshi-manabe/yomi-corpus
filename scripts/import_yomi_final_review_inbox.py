@@ -8,22 +8,10 @@ import sys
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SRC_ROOT = PROJECT_ROOT / "src"
-SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
-if str(SCRIPTS_ROOT) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS_ROOT))
 
-from yomi_corpus.yomi.final_review import REVIEW_STAGE
-from import_yomi_final_review_issue import (
-    download_submission,
-    extract_attachment_records,
-    extract_inline_submission_records,
-    fetch_issue_comments,
-    fetch_open_issues,
-    process_submission_record,
-    write_json,
-)
+from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,65 +43,18 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    issues = fetch_open_issues(args.repo, state="open")
-    summaries = []
-    skipped = []
-    seen_submission_ids: set[str] = set()
-    attachment_count = 0
-    inline_submission_count = 0
-    open_issue_count = 0
+    summary = import_open_issue_inbox(
+        repo=args.repo,
+        review_pack_root=PROJECT_ROOT / args.review_pack_root,
+        submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+    )
+    write_json(PROJECT_ROOT / args.summary_json, summary)
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
 
-    for issue in issues:
-        if "pull_request" in issue:
-            continue
-        open_issue_count += 1
-        issue_number = int(issue["number"])
-        comments = fetch_issue_comments(args.repo, issue_number)
-        attachments = extract_attachment_records(issue, comments)
-        inline_submissions = extract_inline_submission_records(issue, comments)
-        attachment_count += len(attachments)
-        inline_submission_count += len(inline_submissions)
 
-        for attachment in attachments:
-            submission = download_submission(attachment["url"])
-            process_submission_record(
-                submission,
-                source_record=attachment,
-                repo=args.repo,
-                issue_number=issue_number,
-                review_pack_root=PROJECT_ROOT / args.review_pack_root,
-                submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-                seen_submission_ids=seen_submission_ids,
-                summaries=summaries,
-                skipped=skipped,
-            )
-
-        for inline_record in inline_submissions:
-            submission = dict(inline_record["submission"])
-            process_submission_record(
-                submission,
-                source_record=inline_record,
-                repo=args.repo,
-                issue_number=issue_number,
-                review_pack_root=PROJECT_ROOT / args.review_pack_root,
-                submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-                seen_submission_ids=seen_submission_ids,
-                summaries=summaries,
-                skipped=skipped,
-            )
-
-    aggregate = {
-        "repo": args.repo,
-        "open_issue_count": open_issue_count,
-        "review_stage": REVIEW_STAGE,
-        "attachment_count": attachment_count,
-        "inline_submission_count": inline_submission_count,
-        "imported_submission_count": len(summaries),
-        "summaries": summaries,
-        "skipped": skipped,
-    }
-    write_json(PROJECT_ROOT / args.summary_json, aggregate)
-    print(json.dumps(aggregate, ensure_ascii=False, indent=2))
+def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
