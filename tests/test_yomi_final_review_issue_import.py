@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import unittest
 
 from pathlib import Path
@@ -10,16 +11,17 @@ SCRIPTS_ROOT = PROJECT_ROOT / "scripts"
 if str(SCRIPTS_ROOT) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_ROOT))
 
-from import_alphabetic_review_issue import (
+from import_yomi_final_review_issue import (
     extract_attachment_records,
     extract_attachment_urls,
     extract_inline_submission_records,
     fetch_issue_comments,
+    import_issue_payloads,
     parse_submissions_from_text,
 )
 
 
-class AlphabeticReviewIssueImportTests(unittest.TestCase):
+class YomiFinalReviewIssueImportTests(unittest.TestCase):
     def test_extract_attachment_urls_from_issue_and_comments(self) -> None:
         payloads = [
             {
@@ -73,15 +75,17 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
     def test_fetch_issue_comments_is_defined(self) -> None:
         self.assertTrue(callable(fetch_issue_comments))
 
-    def test_parse_submissions_from_text_accepts_raw_json(self) -> None:
+    def test_parse_submissions_from_text_accepts_raw_json_with_surrounding_text(self) -> None:
         submissions = parse_submissions_from_text(
             """
+            Here is the result:
             {
               "submission_type": "review_patch",
-              "review_stage": "alphabetic_candidate_review",
+              "review_stage": "yomi_final_review",
               "pack_id": "pack_1",
               "submission_id": "sub_1"
             }
+            Thanks.
             """
         )
         self.assertEqual(len(submissions), 1)
@@ -95,7 +99,7 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
             ```json
             {
               "submission_type": "review_patch",
-              "review_stage": "alphabetic_candidate_review",
+              "review_stage": "yomi_final_review",
               "pack_id": "pack_2",
               "submission_id": "sub_2"
             }
@@ -112,7 +116,7 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
                 "body": """
                 {
                   "submission_type": "review_patch",
-                  "review_stage": "alphabetic_candidate_review",
+                  "review_stage": "yomi_final_review",
                   "pack_id": "pack_1",
                   "submission_id": "sub_1"
                 }
@@ -125,7 +129,7 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
                     ```json
                     {
                       "submission_type": "review_patch",
-                      "review_stage": "alphabetic_candidate_review",
+                      "review_stage": "yomi_final_review",
                       "pack_id": "pack_2",
                       "submission_id": "sub_2"
                     }
@@ -140,6 +144,80 @@ class AlphabeticReviewIssueImportTests(unittest.TestCase):
         self.assertEqual(records[1]["comment_id"], 101)
         self.assertEqual(records[0]["submission"]["submission_id"], "sub_1")
         self.assertEqual(records[1]["submission"]["submission_id"], "sub_2")
+
+    def test_import_issue_payloads_stores_matching_yomi_submission(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            review_pack_root = root / "review_packs"
+            submission_store_dir = root / "submissions"
+            (review_pack_root / "yomi_final").mkdir(parents=True)
+            (review_pack_root / "yomi_final" / "pack_1.json").write_text(
+                json.dumps({"pack_id": "pack_1"}),
+                encoding="utf-8",
+            )
+            issue = {
+                "number": 7,
+                "body": json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_final_review",
+                        "pack_id": "pack_1",
+                        "submission_id": "sub_1",
+                        "generated_at_epoch": 10,
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                        "overrides": [],
+                    },
+                    ensure_ascii=False,
+                ),
+            }
+            comments = [
+                {
+                    "id": 101,
+                    "body": json.dumps(
+                        {
+                            "submission_type": "review_patch",
+                            "review_stage": "alphabetic_candidate_review",
+                            "pack_id": "pack_1",
+                            "submission_id": "sub_wrong",
+                        },
+                        ensure_ascii=False,
+                    ),
+                },
+                {
+                    "id": 102,
+                    "body": json.dumps(
+                        {
+                            "submission_type": "review_patch",
+                            "review_stage": "yomi_final_review",
+                            "pack_id": "unknown",
+                            "submission_id": "sub_unknown",
+                        },
+                        ensure_ascii=False,
+                    ),
+                },
+            ]
+
+            summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=comments,
+                repo="owner/repo",
+                issue_number=7,
+                review_pack_root=review_pack_root,
+                submission_store_dir=submission_store_dir,
+            )
+
+            self.assertEqual(summary["imported_submission_count"], 1)
+            self.assertEqual(summary["inline_submission_count"], 3)
+            self.assertEqual(
+                [row["reason"] for row in summary["skipped"]],
+                ["wrong_review_stage", "unknown_pack_id"],
+            )
+            stored = submission_store_dir / "sub_1.json"
+            self.assertTrue(stored.exists())
+            payload = json.loads(stored.read_text(encoding="utf-8"))
+            self.assertEqual(payload["_source_issue"]["issue_number"], 7)
 
 
 if __name__ == "__main__":

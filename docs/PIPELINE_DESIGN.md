@@ -1707,6 +1707,17 @@ step. The replay semantics match the review UI:
   reading choices
 - later overlapping submissions overwrite earlier ones
 
+Implemented ingestion commands:
+
+```bash
+python scripts/import_yomi_final_review_issue.py --issue-number 1
+python scripts/import_yomi_final_review_inbox.py
+```
+
+The old alphabetic Issue importer is intentionally retired. Alphabetic
+classification remains cached as provisional evidence, but final human
+overrides are collected through the yomi final-review path.
+
 If no matching submission exists, the stage blocks as a human review gate.
 
 `yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a queue

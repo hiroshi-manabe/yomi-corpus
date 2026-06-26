@@ -14,10 +14,7 @@ SRC_ROOT = PROJECT_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from yomi_corpus.alphabetic_review import (
-    apply_alphabetic_review_submission,
-    write_json,
-)
+from yomi_corpus.yomi.final_review import REVIEW_STAGE, store_review_submission
 
 ATTACHMENT_RE = re.compile(r"https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+\.json")
 FENCED_JSON_RE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
@@ -25,7 +22,7 @@ FENCED_JSON_RE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Import alphabetic review submissions from JSON attachments in a GitHub issue."
+        description="Import yomi final review submissions from a GitHub issue."
     )
     parser.add_argument(
         "--repo",
@@ -36,7 +33,7 @@ def parse_args() -> argparse.Namespace:
         "--issue-number",
         type=int,
         required=True,
-        help="Issue number containing review submission attachments.",
+        help="Issue number containing review submission attachments or inline JSON.",
     )
     parser.add_argument(
         "--review-pack-root",
@@ -45,17 +42,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--submission-store-dir",
-        default="data/review_submissions/alphabetic_candidate_review",
-        help="Directory where imported review submissions are stored.",
-    )
-    parser.add_argument(
-        "--decisions-jsonl",
-        default="data/state/alphabetic/token_decisions.jsonl",
-        help="Global alphabetic decision registry path.",
+        default="data/review_submissions/yomi_final",
+        help="Directory where imported yomi final review submissions are stored.",
     )
     parser.add_argument(
         "--summary-json",
-        default="data/state/alphabetic/last_review_import_summary.json",
+        default="data/state/yomi_final/last_review_import_summary.json",
         help="Path to write the aggregate import summary JSON.",
     )
     return parser.parse_args()
@@ -65,24 +57,44 @@ def main() -> None:
     args = parse_args()
     issue_payload = fetch_issue(args.repo, args.issue_number)
     comment_payloads = fetch_issue_comments(args.repo, args.issue_number)
+    aggregate = import_issue_payloads(
+        issue_payload=issue_payload,
+        comment_payloads=comment_payloads,
+        repo=args.repo,
+        issue_number=args.issue_number,
+        review_pack_root=PROJECT_ROOT / args.review_pack_root,
+        submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+    )
+    write_json(PROJECT_ROOT / args.summary_json, aggregate)
+    print(json.dumps(aggregate, ensure_ascii=False, indent=2))
+
+
+def import_issue_payloads(
+    *,
+    issue_payload: dict,
+    comment_payloads: list[dict],
+    repo: str,
+    issue_number: int,
+    review_pack_root: Path,
+    submission_store_dir: Path,
+) -> dict:
     attachments = extract_attachment_records(issue_payload, comment_payloads)
     inline_submissions = extract_inline_submission_records(issue_payload, comment_payloads)
     if not attachments and not inline_submissions:
         raise SystemExit("No JSON review submissions found in the issue body or comments.")
 
-    summaries = []
+    summaries: list[dict] = []
+    skipped: list[dict] = []
     seen_submission_ids: set[str] = set()
-    skipped = []
     for attachment in attachments:
         submission = download_submission(attachment["url"])
         process_submission_record(
             submission,
             source_record=attachment,
-            repo=args.repo,
-            issue_number=args.issue_number,
-            review_pack_root=PROJECT_ROOT / args.review_pack_root,
-            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            repo=repo,
+            issue_number=issue_number,
+            review_pack_root=review_pack_root,
+            submission_store_dir=submission_store_dir,
             seen_submission_ids=seen_submission_ids,
             summaries=summaries,
             skipped=skipped,
@@ -93,27 +105,25 @@ def main() -> None:
         process_submission_record(
             submission,
             source_record=inline_record,
-            repo=args.repo,
-            issue_number=args.issue_number,
-            review_pack_root=PROJECT_ROOT / args.review_pack_root,
-            submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
-            decisions_jsonl=PROJECT_ROOT / args.decisions_jsonl,
+            repo=repo,
+            issue_number=issue_number,
+            review_pack_root=review_pack_root,
+            submission_store_dir=submission_store_dir,
             seen_submission_ids=seen_submission_ids,
             summaries=summaries,
             skipped=skipped,
         )
 
-    aggregate = {
-        "repo": args.repo,
-        "issue_number": args.issue_number,
+    return {
+        "repo": repo,
+        "issue_number": issue_number,
+        "review_stage": REVIEW_STAGE,
         "attachment_count": len(attachments),
         "inline_submission_count": len(inline_submissions),
         "imported_submission_count": len(summaries),
         "summaries": summaries,
         "skipped": skipped,
     }
-    write_json(PROJECT_ROOT / args.summary_json, aggregate)
-    print(json.dumps(aggregate, ensure_ascii=False, indent=2))
 
 
 def fetch_issue(repo: str, issue_number: int) -> dict:
@@ -193,7 +203,7 @@ def extract_inline_submission_records(issue_payload: dict, comment_payloads: lis
     rows: list[dict] = []
     ordered_payloads = [("issue", issue_payload)] + [("comment", row) for row in comment_payloads]
     for source_kind, payload in ordered_payloads:
-        body = str(payload.get("body", "")).strip()
+        body = str(payload.get("body", ""))
         for submission in parse_submissions_from_text(body):
             rows.append(
                 {
@@ -208,30 +218,47 @@ def extract_inline_submission_records(issue_payload: dict, comment_payloads: lis
 
 def parse_submissions_from_text(text: str) -> list[dict]:
     submissions: list[dict] = []
-    seen_ids: set[str] = set()
-    candidates: list[str] = []
-
-    stripped = text.strip()
-    if stripped.startswith("{") and stripped.endswith("}"):
-        candidates.append(stripped)
-
-    for match in FENCED_JSON_RE.finditer(text):
-        candidates.append(match.group(1).strip())
+    seen_keys: set[str] = set()
+    candidates = [match.group(1).strip() for match in FENCED_JSON_RE.finditer(text)]
+    candidates.extend(scan_json_object_strings(text))
 
     for candidate in candidates:
         try:
             payload = json.loads(candidate)
         except json.JSONDecodeError:
             continue
-        if not isinstance(payload, dict):
+        if not is_review_submission_like(payload):
             continue
-        submission_id = str(payload.get("submission_id", ""))
-        if submission_id and submission_id in seen_ids:
+        key = str(payload.get("submission_id") or json.dumps(payload, sort_keys=True))
+        if key in seen_keys:
             continue
-        if submission_id:
-            seen_ids.add(submission_id)
+        seen_keys.add(key)
         submissions.append(payload)
     return submissions
+
+
+def scan_json_object_strings(text: str) -> list[str]:
+    decoder = json.JSONDecoder()
+    rows: list[str] = []
+    for index, char in enumerate(text):
+        if char != "{":
+            continue
+        try:
+            _, end = decoder.raw_decode(text[index:])
+        except json.JSONDecodeError:
+            continue
+        rows.append(text[index : index + end])
+    return rows
+
+
+def is_review_submission_like(payload: object) -> bool:
+    return (
+        isinstance(payload, dict)
+        and payload.get("submission_type") == "review_patch"
+        and "review_stage" in payload
+        and "pack_id" in payload
+        and "submission_id" in payload
+    )
 
 
 def process_submission_record(
@@ -242,7 +269,6 @@ def process_submission_record(
     issue_number: int,
     review_pack_root: Path,
     submission_store_dir: Path,
-    decisions_jsonl: Path,
     seen_submission_ids: set[str],
     summaries: list[dict],
     skipped: list[dict],
@@ -250,7 +276,7 @@ def process_submission_record(
     if str(submission.get("submission_type")) != "review_patch":
         skipped.append({"reason": "wrong_submission_type", "source": source_record})
         return
-    if str(submission.get("review_stage")) != "alphabetic_candidate_review":
+    if str(submission.get("review_stage")) != REVIEW_STAGE:
         skipped.append({"reason": "wrong_review_stage", "source": source_record})
         return
     submission_id = str(submission.get("submission_id", ""))
@@ -266,6 +292,19 @@ def process_submission_record(
             }
         )
         return
+    pack_id = str(submission.get("pack_id") or "")
+    pack_path = resolve_review_pack_path(review_pack_root, pack_id)
+    if pack_path is None:
+        skipped.append(
+            {
+                "reason": "unknown_pack_id",
+                "source": source_record,
+                "pack_id": pack_id,
+                "submission_id": submission_id,
+            }
+        )
+        return
+
     seen_submission_ids.add(submission_id)
     source_issue = {
         "repo": repo,
@@ -275,24 +314,33 @@ def process_submission_record(
     if "url" in source_record:
         source_issue["attachment_url"] = source_record["url"]
     submission["_source_issue"] = source_issue
-    try:
-        summaries.append(
-            apply_alphabetic_review_submission(
-                submission,
-                review_pack_root=review_pack_root,
-                submission_store_dir=submission_store_dir,
-                decisions_jsonl=decisions_jsonl,
-            )
-        )
-    except FileNotFoundError:
-        skipped.append(
-            {
-                "reason": "unknown_pack_id",
-                "source": source_record,
-                "pack_id": submission.get("pack_id"),
-                "submission_id": submission_id,
-            }
-        )
+    stored_path = store_review_submission(
+        submission,
+        submission_store_dir=submission_store_dir,
+    )
+    summaries.append(
+        {
+            "submission_id": submission_id,
+            "pack_id": pack_id,
+            "review_stage": REVIEW_STAGE,
+            "stored_path": str(stored_path),
+            "review_pack_path": str(pack_path),
+            "source": source_record,
+        }
+    )
+
+
+def resolve_review_pack_path(review_pack_root: Path, pack_id: str) -> Path | None:
+    if not pack_id:
+        return None
+    candidates = [
+        review_pack_root / "yomi_final" / f"{pack_id}.json",
+        review_pack_root / f"{pack_id}.json",
+    ]
+    for path in candidates:
+        if path.exists():
+            return path
+    return None
 
 
 def download_submission(url: str) -> dict:
@@ -304,6 +352,11 @@ def download_submission(url: str) -> dict:
         raise SystemExit(f"HTTP {exc.code} while downloading attachment {url}") from exc
     except URLError as exc:
         raise SystemExit(f"Network error while downloading attachment {url}: {exc.reason}") from exc
+
+
+def write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
