@@ -1756,7 +1756,26 @@ Division of responsibility:
 - `yomi-decoder` writes model artifacts to a caller-specified output directory
 - `yomi-corpus` records and selects the decoder model used for later batches
 
-The intended shape is:
+Track-scoped model policy:
+
+- keep `dev` and `working` decoder additions separate by default
+- `dev` refreshes may be frequent and experimental
+- `working` refreshes should use only reviewed working material, or dev material
+  that has been explicitly promoted
+- each track records its latest decoder model path
+- each new batch copies the track's latest model path into its own batch state
+- a running batch never changes decoder model implicitly
+
+Recommended artifact layout:
+
+```text
+data/decoder_corpora/dev/<batch>.txt
+data/decoder_corpora/working/<batch>.txt
+data/decoder_models/dev/<model-id>/
+data/decoder_models/working/<model-id>/
+```
+
+The low-level shape is:
 
 ```bash
 python /path/yomi-corpus/scripts/export_decoder_corpus.py \
@@ -1775,6 +1794,17 @@ python /path/yomi-decoder/scripts/decode.py \
   --model-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD \
   ...
 ```
+
+The eventual operator-facing wrapper should be:
+
+```bash
+python scripts/refresh_decoder_model.py --track dev
+python scripts/refresh_decoder_model.py --track working
+```
+
+It should export missing finalized corpora for that track, build a new decoder
+model, and update that track's latest decoder model pointer. New batches should
+copy that pointer into their batch manifest/state for reproducibility.
 
 Batch manifests should record enough information to reproduce decoder behavior:
 

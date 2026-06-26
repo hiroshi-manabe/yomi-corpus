@@ -2107,7 +2107,27 @@ Boundary:
 - `yomi-corpus` owns reviewed-corpus export and model-version selection
 - `yomi-decoder` owns model building and decoder internals
 
-Implemented interface:
+Track policy:
+
+- `dev` and `working` should have separate reviewed-corpus exports
+- `dev` model refreshes may use dev-finalized batches, but should not
+  automatically affect `working`
+- `working` model refreshes should use only accepted working material, or
+  explicitly promoted dev material
+- a batch should pin the decoder model it used at batch creation time
+- model changes should affect only later batches, never a batch already in
+  progress
+
+Recommended artifact layout:
+
+```text
+data/decoder_corpora/dev/<batch>.txt
+data/decoder_corpora/working/<batch>.txt
+data/decoder_models/dev/<model-id>/
+data/decoder_models/working/<model-id>/
+```
+
+Implemented low-level interface:
 
 ```bash
 python /path/yomi-corpus/scripts/export_decoder_corpus.py \
@@ -2126,6 +2146,24 @@ python /path/yomi-decoder/scripts/decode.py \
   --model-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD \
   ...
 ```
+
+Future wrapper command:
+
+```bash
+python scripts/refresh_decoder_model.py --track dev
+python scripts/refresh_decoder_model.py --track working
+```
+
+That wrapper should:
+
+- find finalized batches for the selected track
+- export missing decoder corpora
+- build a new model under `data/decoder_models/<track>/...`
+- update the track state with the latest model path
+
+When `prepare` or `./next` starts a new batch, it should copy the track's latest
+decoder model path into the batch state. The batch then uses that pinned path
+for all Sudachi/decoder hybrid generation.
 
 Each batch manifest should eventually record:
 
