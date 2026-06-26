@@ -127,17 +127,23 @@ def advance_auto(
     args: argparse.Namespace,
     *,
     allow_overwrite: bool | None = None,
+    progress_stream=sys.stderr,
 ) -> dict[str, object]:
     steps = []
     final_summary: dict[str, object] | None = None
     overwrite = args.yes if allow_overwrite is None else allow_overwrite
     for _ in range(100):
+        status_before = workspace.status(args.track)
+        if progress_stream is not None:
+            print(format_auto_progress_start(status_before), file=progress_stream, flush=True)
         summary = workspace.advance(
             track_name=args.track,
             allow_overwrite=overwrite,
             skip_review_gates=args.skip_review_gates,
             llm_execution_mode_override=args.llm_mode,
         )
+        if progress_stream is not None:
+            print(format_auto_progress_done(summary), file=progress_stream, flush=True)
         steps.append(
             {
                 "stage": summary.get("current_stage"),
@@ -160,6 +166,28 @@ def advance_auto(
     final_summary["auto"] = True
     final_summary["auto_steps"] = steps
     return final_summary
+
+
+def format_auto_progress_start(status: dict[str, object]) -> str:
+    track = status.get("track_name", "-")
+    batch = status.get("batch_name") or status.get("current_batch_name") or "-"
+    current_stage = status.get("current_stage") or "-"
+    next_stage = status.get("next_stage") or "-"
+    if next_stage == "-":
+        return f"Auto: checking {track} {batch} (current: {current_stage})"
+    return f"Auto: running {next_stage} for {track} {batch} (current: {current_stage})"
+
+
+def format_auto_progress_done(summary: dict[str, object]) -> str:
+    current_stage = summary.get("current_stage") or "-"
+    advanced = str(summary.get("advanced")).lower()
+    blocking_reason = summary.get("blocking_reason")
+    next_stage = summary.get("next_stage")
+    if blocking_reason:
+        return f"Auto: stopped at {current_stage} (advanced: {advanced}; blocked: {blocking_reason})"
+    if next_stage:
+        return f"Auto: completed {current_stage} (advanced: {advanced}; next: {next_stage})"
+    return f"Auto: completed {current_stage} (advanced: {advanced})"
 
 
 def write_pipeline_log(summary: dict[str, object]) -> Path:

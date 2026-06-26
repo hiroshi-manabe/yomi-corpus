@@ -8,6 +8,8 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NEXT_MODULE = runpy.run_path(str(PROJECT_ROOT / "next"), run_name="next_cli_test")
 format_next_summary = NEXT_MODULE["format_next_summary"]
+format_auto_progress_start = NEXT_MODULE["format_auto_progress_start"]
+format_auto_progress_done = NEXT_MODULE["format_auto_progress_done"]
 from yomi_corpus.cli_format import format_stage_summary
 
 
@@ -217,6 +219,37 @@ class NextCliTests(unittest.TestCase):
             rendered,
         )
         self.assertIn("Output: data/units/dev_batch_0001/units.yomi.final.jsonl", rendered)
+
+    def test_format_auto_progress_start_shows_next_stage(self) -> None:
+        rendered = format_auto_progress_start(
+            {
+                "track_name": "dev",
+                "current_batch_name": "dev_batch_0001",
+                "current_stage": "yomi_reading_queued",
+                "next_stage": "yomi_reading_llm_completed",
+            }
+        )
+
+        self.assertEqual(
+            rendered,
+            "Auto: running yomi_reading_llm_completed for dev dev_batch_0001 "
+            "(current: yomi_reading_queued)",
+        )
+
+    def test_format_auto_progress_done_shows_blocking_reason(self) -> None:
+        rendered = format_auto_progress_done(
+            {
+                "current_stage": "yomi_reading_llm_completed",
+                "advanced": False,
+                "blocking_reason": "LLM background job is running; rerun ./next to poll or resume.",
+            }
+        )
+
+        self.assertEqual(
+            rendered,
+            "Auto: stopped at yomi_reading_llm_completed (advanced: false; "
+            "blocked: LLM background job is running; rerun ./next to poll or resume.)",
+        )
 
 
 if __name__ == "__main__":
