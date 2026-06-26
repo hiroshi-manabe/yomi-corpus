@@ -2065,7 +2065,56 @@ tokens when the reviewed target covers the whole token. Harder cases, such as
 no-ruby targets or future token-boundary corrections, should go through the
 strong repair queue.
 
-### 13.2 Auto advancement
+### 13.2 Decoder model refresh boundary
+
+Updating the `yomi-decoder` language model should be an explicit maintenance
+workflow, not a normal per-batch `./next` stage.
+
+Reason:
+
+- a decoder model refresh changes future batch behavior
+- several finalized batches may be aggregated before rebuilding
+- small `dev` batches are often experimental and should not automatically
+  affect the decoder
+- comparisons are easier when model refreshes are deliberate experiment
+  boundaries
+
+Boundary:
+
+- `yomi-corpus` owns reviewed-corpus export and model-version selection
+- `yomi-decoder` owns model building and decoder internals
+
+Expected interface direction:
+
+```bash
+yomi-decoder build-model \
+  --base-corpus /path/core_SUW_yomi_final.txt \
+  --extra-corpus /path/yomi-corpus/exports/decoder_corpus/reviewed_*.txt \
+  --output-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD
+```
+
+Then this project should call the decoder with the chosen model directory:
+
+```bash
+yomi-decoder decode \
+  --model-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD \
+  ...
+```
+
+Each batch manifest should eventually record:
+
+- decoder executable/version
+- base corpus path or version
+- extra reviewed-corpus inputs
+- model output directory or model ID
+- build timestamp
+- relevant build parameters
+
+For now, the pipeline should only produce stable finalized artifacts. A separate
+export/update command can later consume `units.yomi.final.jsonl` files when the
+operator decides that enough reviewed material has accumulated.
+
+### 13.3 Auto advancement
 
 `./next --auto` repeatedly advances the current batch until one of these happens:
 

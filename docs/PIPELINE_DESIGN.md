@@ -1727,6 +1727,47 @@ done.
 stops on human gates, incomplete stages, confirmation requirements, blocking
 errors, or final completion. Single-step `./next` remains the debugging default.
 
+### 10.7 Decoder model refresh as maintenance
+
+Refreshing the `yomi-decoder` language model should not be a standard per-batch
+stage. It should be an explicit maintenance workflow run after one or more
+batches have been finalized.
+
+Division of responsibility:
+
+- `yomi-corpus` exports reviewed additions in a stable decoder-training format
+- `yomi-decoder` accepts base corpus plus one or more extra reviewed corpora
+- `yomi-decoder` writes model artifacts to a caller-specified output directory
+- `yomi-corpus` records and selects the decoder model used for later batches
+
+The intended shape is:
+
+```bash
+yomi-decoder build-model \
+  --base-corpus /path/core_SUW_yomi_final.txt \
+  --extra-corpus /path/yomi-corpus/exports/decoder_corpus/reviewed_*.txt \
+  --output-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD
+```
+
+and later:
+
+```bash
+yomi-decoder decode \
+  --model-dir /path/yomi-corpus/data/decoder_models/model_YYYYMMDD \
+  ...
+```
+
+Batch manifests should record enough information to reproduce decoder behavior:
+
+- decoder executable/version
+- base corpus version
+- extra corpus input manifest
+- model directory or model ID
+- build timestamp and build parameters
+
+This keeps model refreshes as deliberate experiment boundaries rather than
+implicit side effects of finishing a batch.
+
 
 ## 11. Recommended First Iterations
 
