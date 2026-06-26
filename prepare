@@ -11,7 +11,7 @@ SRC_ROOT = PROJECT_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.pipeline import LLM_EXECUTION_MODES, PipelineWorkspace
 
 
 def parse_args() -> argparse.Namespace:
@@ -50,7 +50,7 @@ def parse_args() -> argparse.Namespace:
         metavar="TASK=MODE",
         help=(
             "Override one LLM task execution mode for this batch. "
-            "Repeatable; modes are sync and batch."
+            f"Repeatable; modes are {', '.join(sorted(LLM_EXECUTION_MODES))}."
         ),
     )
     return parser.parse_args()
@@ -91,6 +91,11 @@ def main() -> None:
         mode = mode.strip()
         if not task or not mode:
             raise SystemExit(f"Invalid --llm-execution-mode value: {override}. Expected TASK=MODE.")
+        if mode not in LLM_EXECUTION_MODES:
+            raise SystemExit(
+                f"Invalid --llm-execution-mode mode: {mode}. "
+                f"Expected one of {', '.join(sorted(LLM_EXECUTION_MODES))}."
+            )
         llm_execution_policy[task] = mode
 
     workspace = PipelineWorkspace(PROJECT_ROOT)

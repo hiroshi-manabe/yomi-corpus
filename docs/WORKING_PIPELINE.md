@@ -1777,14 +1777,12 @@ Batch API operational limits that should shape implementation:
 - a batch can expire; completed request outputs remain available, and
   unfinished requests are returned as errors
 
-Current implementation gap: batch mode currently uses one OpenAI batch per
-pipeline LLM stage. That is acceptable for small and medium jobs, but
-production use should add local chunking, for example
-`max_requests_per_batch` and `max_input_file_mb`, while still presenting one
-logical resumable LLM job to the domain pipeline.
+Current implementation: batch mode presents one logical resumable LLM job to the
+domain pipeline, while request-count chunking may split it into multiple remote
+OpenAI batch jobs.
 
 The task-config knob for request-count chunking is
-`batch_max_requests_per_batch`. The production default should stay high enough
+`batch_max_requests_per_batch`. The production default stays high enough
 to preserve single-batch behavior for ordinary jobs, while tests can set a
 small value to force multiple remote OpenAI batches.
 

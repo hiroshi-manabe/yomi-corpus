@@ -174,10 +174,9 @@ Yomi generation scaffold:
 - after scope triage and yomi auto-acceptance, the yomi-reading queue asks for
   independent LLM readings only for unresolved kanji/Latin targets that were
   not suppressed by deterministic safety evidence
-- LLM work should use a generic resumable job layer shared by alphabetic
-  judgment, yomi triage, yomi repair, and rescue repair; sync mode and batch
-  mode should both report completed/total progress and support interruption and
-  resume
+- LLM work uses a generic resumable job layer shared by alphabetic judgment,
+  yomi triage, yomi repair, and rescue repair; sync, background, and batch
+  modes report completed/total progress and support interruption and resume
 - `./next` should print concise operator-facing progress by default and write
   full structured summaries to pipeline logs; `./next --json` should keep the
   verbose machine-readable output

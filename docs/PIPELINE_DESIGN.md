@@ -706,17 +706,12 @@ OpenAI API constraints that affect this design:
 - Batch jobs can expire if they do not complete within the completion window;
   completed requests remain available and unfinished requests appear as errors.
 
-Current implementation gap: batch mode currently writes one request JSONL file
-and submits one OpenAI batch job per pipeline LLM stage. That is fine for small
-stages but should not be treated as unbounded. Before production-scale runs, add
-local chunking with settings such as `max_requests_per_batch` and
-`max_input_file_mb`, while keeping one logical pipeline LLM job that may own
-multiple remote OpenAI batch IDs.
-
-Implementation note: task configs may expose this as
-`batch_max_requests_per_batch`. The default should preserve current behavior up
-to OpenAI's documented per-batch request limit, while tests and smoke runs can
-set a small value to exercise multi-batch behavior.
+Current implementation: batch mode keeps one logical pipeline LLM job, but may
+split requests into multiple remote OpenAI batch jobs. The task-config knob is
+`batch_max_requests_per_batch`; the default preserves single-batch behavior up
+to OpenAI's documented request limit, while tests and smoke runs can set a small
+value to exercise multi-batch behavior. A future size-based guard such as
+`max_input_file_mb` may still be useful before very large production runs.
 
 #### Sentence vs comma-span operating modes
 
