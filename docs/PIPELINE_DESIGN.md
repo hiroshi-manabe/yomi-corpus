@@ -388,6 +388,10 @@ Responsibilities:
 - return exactly one scope label: `Keep` or `Skip`
 - treat `Skip` as non-target material such as foreign-language text, old
   Japanese prose, kanbun, Chinese, spam, or garbled text
+- treat `Skip` as a conservative privacy/reputational-risk gate when a unit
+  identifies a private person together with sensitive negative information such
+  as arrest, criminal suspicion, accusations, scandal, disciplinary action, or
+  illness
 - build a yomi-reading queue from unresolved kanji/Latin targets in the
   Sudachi/hybrid token stream
 - ask the LLM for the reading of exactly one marked target per request

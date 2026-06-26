@@ -567,6 +567,13 @@ spam, and similar non-target material. The prompt should avoid project-internal
 terms such as "kobun/kanbun stage" except as examples; the operational concept
 is simply target vs. non-target.
 
+`Skip` also covers privacy or reputational-risk material that identifies a
+private person together with sensitive negative information. Examples include
+arrest, criminal suspicion, accusations, scandals, disciplinary action,
+illness, or similar private/reputational details. This is a conservative
+labor-saving rule: the corpus has enough ordinary modern Japanese text, so when
+scope triage is unsure about this risk, it should choose `Skip`.
+
 `Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text
 when old kana, old kanji, kanbun, Chinese, or foreign text appears only inside

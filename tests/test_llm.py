@@ -55,6 +55,14 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.rendered_yomi_display, "furigana_no_space")
         self.assertFalse(config.include_source_text)
 
+    def test_scope_triage_prompt_mentions_sensitive_private_person_skip(self) -> None:
+        config = load_llm_task_config("config/llm/scope_triage.toml")
+        prompt = Path(config.prompt_template).read_text(encoding="utf-8")
+
+        self.assertIn("private person", prompt)
+        self.assertIn("criminal suspicion", prompt)
+        self.assertIn("When unsure, Skip", prompt)
+
     def test_apply_llm_profile_overrides_model(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")
         profile = load_llm_profile("smoke")
