@@ -24,10 +24,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--batch", help="Batch name used when --input is omitted")
     parser.add_argument(
+        "--track",
+        choices=["dev", "working"],
+        help="Track name for the default output path.",
+    )
+    parser.add_argument(
         "--output",
         help=(
             "Output raw corpus text. Defaults to "
-            "data/exports/decoder_corpus/<batch>.txt when --batch is given."
+            "data/decoder_corpora/<track>/<batch>.txt when --track and --batch are given, "
+            "otherwise data/exports/decoder_corpus/<batch>.txt."
         ),
     )
     parser.add_argument("--manifest", help="Output manifest JSON path")
@@ -65,6 +71,8 @@ def resolve_input(args: argparse.Namespace) -> Path:
 def resolve_output(args: argparse.Namespace, input_path: Path) -> Path:
     if args.output:
         return Path(args.output)
+    if args.track and args.batch:
+        return PROJECT_ROOT / "data" / "decoder_corpora" / args.track / f"{args.batch}.txt"
     if args.batch:
         return PROJECT_ROOT / "data" / "exports" / "decoder_corpus" / f"{args.batch}.txt"
     return input_path.with_suffix(".decoder_corpus.txt")

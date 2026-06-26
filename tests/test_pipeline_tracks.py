@@ -104,6 +104,43 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(track_state.current_batch_name, "batch_0002")
             self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
 
+    def test_prepare_next_batch_pins_track_decoder_model(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            workspace.save_track_state(
+                TrackState(
+                    track_name="dev",
+                    current_batch_name=None,
+                    updated_at="2026-04-09T00:00:00Z",
+                    decoder_model_dir=str(root / "data" / "decoder_models" / "dev" / "m1"),
+                )
+            )
+
+            with patch.object(workspace, "_load_dataset_config") as mocked_load:
+                mocked_load.return_value = {
+                    "name": "demo",
+                    "source_path": root / "source.jsonl.gz",
+                }
+                with patch.object(workspace, "_extract_batch_documents") as mocked_extract:
+                    mocked_extract.return_value = (2, 4, 1, 2)
+                    summary = workspace.prepare_next_batch(
+                        track_name="dev",
+                        target_documents=2,
+                    )
+
+            batch_state = workspace.load_batch_state(str(summary["batch_name"]))
+            self.assertEqual(
+                batch_state.decoder_model_dir,
+                str(root / "data" / "decoder_models" / "dev" / "m1"),
+            )
+            self.assertEqual(summary["decoder_model_dir"], batch_state.decoder_model_dir)
+            manifest = json.loads(
+                (root / "data" / "units" / str(summary["batch_name"]) / "manifest.json")
+                .read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest["decoder_model_dir"], batch_state.decoder_model_dir)
+
     def test_prepare_next_batch_accepts_explicit_yomi_policy(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1622,6 +1659,40 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertTrue(summary["forced"])
             self.assertEqual(summary["current_stage"], "yomi_generated")
             self.assertEqual(mocked_stage.call_count, 1)
+
+    def test_generate_mechanical_yomi_uses_pinned_decoder_model(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "units.scope_triaged.jsonl").write_text("", encoding="utf-8")
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 5,
+                        "docs_written": 5,
+                        "units_written": 10,
+                        "decoder_model_dir": "/tmp/model-dev-m1",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+
+            with patch("yomi_corpus.pipeline.export_named_variant") as mocked:
+                mocked.return_value = {"variant_name": "aligned_hybrid"}
+                summary = workspace._generate_mechanical_yomi("dev_batch_0001")
+
+            self.assertEqual(mocked.call_args.kwargs["decoder_model_dir"], "/tmp/model-dev-m1")
+            self.assertEqual(summary["artifacts"]["decoder_model_dir"], "/tmp/model-dev-m1")
 
     def test_force_stage_requires_confirmation_on_working_overwrite(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

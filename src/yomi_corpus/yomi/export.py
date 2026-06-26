@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 import sys
 
@@ -191,16 +191,20 @@ def export_named_variant(
     show_progress: bool = False,
     input_jsonl: str | Path | None = None,
     skip_scope_skipped: bool = False,
+    decoder_model_dir: str | None = None,
 ) -> dict[str, object]:
     variant = resolve_export_variant(variant_name)
     batch_path = resolve_repo_path(str(batch_dir))
     config = load_yomi_generation_config(config_path)
+    if decoder_model_dir:
+        config = replace(config, decoder_model_dir=decoder_model_dir)
     variant_jsonl_path = batch_path / variant.output_jsonl_filename
     input_path = resolve_repo_path(str(input_jsonl)) if input_jsonl is not None else batch_path / "units.jsonl"
 
     summary: dict[str, object] = {
         "variant_name": variant.name,
         "strategy_name": variant.strategy_name,
+        "decoder_model_dir": config.decoder_model_dir,
     }
     if "jsonl" in formats:
         summary["jsonl"] = export_jsonl_yomi(

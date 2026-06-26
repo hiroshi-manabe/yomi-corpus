@@ -2147,21 +2147,21 @@ python /path/yomi-decoder/scripts/decode.py \
   ...
 ```
 
-Future wrapper command:
+Operator-facing refresh command:
 
 ```bash
 python scripts/refresh_decoder_model.py --track dev
 python scripts/refresh_decoder_model.py --track working
 ```
 
-That wrapper should:
+That wrapper:
 
 - find finalized batches for the selected track
 - export missing decoder corpora
 - build a new model under `data/decoder_models/<track>/...`
 - update the track state with the latest model path
 
-When `prepare` or `./next` starts a new batch, it should copy the track's latest
+When `prepare` or `./next` starts a new batch, it copies the track's latest
 decoder model path into the batch state. The batch then uses that pinned path
 for all Sudachi/decoder hybrid generation.
 

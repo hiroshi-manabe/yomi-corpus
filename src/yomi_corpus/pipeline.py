@@ -205,6 +205,7 @@ class TrackState:
     track_name: str
     current_batch_name: str | None
     updated_at: str
+    decoder_model_dir: str | None = None
 
 
 @dataclass
@@ -227,6 +228,7 @@ class BatchState:
     skipped_review_gates: list[str]
     artifacts: dict[str, str]
     updated_at: str
+    decoder_model_dir: str | None = None
 
 
 @dataclass(frozen=True)
@@ -433,6 +435,7 @@ class PipelineWorkspace:
                 track_name=str(payload["track_name"]),
                 current_batch_name=payload.get("current_batch_name"),
                 updated_at=str(payload["updated_at"]),
+                decoder_model_dir=payload.get("decoder_model_dir"),
             )
 
         inferred_batch_name = self._infer_latest_batch_name_for_track(normalized)
@@ -440,6 +443,7 @@ class PipelineWorkspace:
             track_name=normalized,
             current_batch_name=inferred_batch_name,
             updated_at=now_iso(),
+            decoder_model_dir=None,
         )
         self.save_track_state(state)
         return state
@@ -473,6 +477,7 @@ class PipelineWorkspace:
                 payload.get("llm_execution_policy"),
                 track_name=track_name,
             )
+            payload.setdefault("decoder_model_dir", None)
             return BatchState(**payload)
         return self._infer_batch_state(batch_name)
 
@@ -504,6 +509,7 @@ class PipelineWorkspace:
             "yomi_policy": batch_state.yomi_policy,
             "llm_policy": batch_state.llm_policy,
             "llm_execution_policy": batch_state.llm_execution_policy,
+            "decoder_model_dir": batch_state.decoder_model_dir,
             "artifacts": batch_state.artifacts,
             "target_documents": batch_state.target_documents,
             "docs_written": batch_state.docs_written,
@@ -608,6 +614,8 @@ class PipelineWorkspace:
         )
         batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
+        track_state = self.load_track_state(normalized)
+        decoder_model_dir = track_state.decoder_model_dir
 
         skip_source_line_no = self._latest_source_line_no_for_track(
             track_name=normalized,
@@ -646,6 +654,7 @@ class PipelineWorkspace:
             "yomi_policy": normalized_yomi_policy,
             "llm_policy": normalized_llm_policy,
             "llm_execution_policy": normalized_llm_execution_policy,
+            "decoder_model_dir": decoder_model_dir,
         }
         self.batch_dir(batch_name).mkdir(parents=True, exist_ok=True)
         self.manifest_path(batch_name).write_text(
@@ -668,6 +677,7 @@ class PipelineWorkspace:
             yomi_policy=normalized_yomi_policy,
             llm_policy=normalized_llm_policy,
             llm_execution_policy=normalized_llm_execution_policy,
+            decoder_model_dir=decoder_model_dir,
             blocking_reason=None,
             skipped_review_gates=[],
             artifacts={
@@ -681,6 +691,7 @@ class PipelineWorkspace:
             TrackState(
                 track_name=normalized,
                 current_batch_name=batch_name,
+                decoder_model_dir=decoder_model_dir,
                 updated_at=now_iso(),
             )
         )
@@ -694,6 +705,7 @@ class PipelineWorkspace:
             "yomi_policy": normalized_yomi_policy,
             "llm_policy": normalized_llm_policy,
             "llm_execution_policy": normalized_llm_execution_policy,
+            "decoder_model_dir": decoder_model_dir,
         }
 
     def advance(
@@ -1387,6 +1399,7 @@ class PipelineWorkspace:
                 manifest.get("llm_execution_policy"),
                 track_name=track_name,
             ),
+            decoder_model_dir=manifest.get("decoder_model_dir"),
             blocking_reason=blocking_reason,
             skipped_review_gates=[],
             artifacts=artifacts,
@@ -1925,6 +1938,7 @@ class PipelineWorkspace:
 
     def _generate_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
         input_path = batch_dir / "units.scope_triaged.jsonl"
         summary = export_named_variant(
             variant_name="aligned_hybrid",
@@ -1934,14 +1948,16 @@ class PipelineWorkspace:
             show_progress=True,
             input_jsonl=input_path,
             skip_scope_skipped=True,
+            decoder_model_dir=batch_state.decoder_model_dir,
         )
-        return {
-            "artifacts": {
-                "units_yomi_jsonl": str(batch_dir / "units.yomi.aligned_hybrid.jsonl"),
-                "yomi_variant": str(summary["variant_name"]),
-                "yomi_input_jsonl": str(input_path),
-            }
+        artifacts = {
+            "units_yomi_jsonl": str(batch_dir / "units.yomi.aligned_hybrid.jsonl"),
+            "yomi_variant": str(summary["variant_name"]),
+            "yomi_input_jsonl": str(input_path),
         }
+        if batch_state.decoder_model_dir:
+            artifacts["decoder_model_dir"] = batch_state.decoder_model_dir
+        return {"artifacts": artifacts}
 
     def _auto_accept_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)

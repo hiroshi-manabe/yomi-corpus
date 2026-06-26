@@ -1795,16 +1795,16 @@ python /path/yomi-decoder/scripts/decode.py \
   ...
 ```
 
-The eventual operator-facing wrapper should be:
+The operator-facing refresh command is:
 
 ```bash
 python scripts/refresh_decoder_model.py --track dev
 python scripts/refresh_decoder_model.py --track working
 ```
 
-It should export missing finalized corpora for that track, build a new decoder
-model, and update that track's latest decoder model pointer. New batches should
-copy that pointer into their batch manifest/state for reproducibility.
+It exports finalized corpora for that track, builds a new decoder model, and
+updates that track's latest decoder model pointer. New batches copy that
+pointer into their batch manifest/state for reproducibility.
 
 Batch manifests should record enough information to reproduce decoder behavior:
 
