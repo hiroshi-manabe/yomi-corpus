@@ -109,16 +109,30 @@ def build_review_manifest(entries: list[dict]) -> dict:
                         "item_count": pack["item_count"],
                     }
 
+    default_current = latest_current_track(current_tracks)
     return {
         "schema_version": 1,
         "default_stage": (
-            current_tracks[WORKING_TRACK]["review_stage"]
-            if WORKING_TRACK in current_tracks
+            default_current["review_stage"]
+            if default_current is not None
             else ordered_stage_ids[0] if ordered_stage_ids else None
         ),
         "current_tracks": current_tracks,
         "stages": {stage_id: stages[stage_id] for stage_id in ordered_stage_ids},
     }
+
+
+def latest_current_track(current_tracks: dict[str, dict]) -> dict | None:
+    if not current_tracks:
+        return None
+    return max(
+        current_tracks.values(),
+        key=lambda row: (
+            int(row.get("created_at_epoch", 0)),
+            1 if row.get("track_name") == WORKING_TRACK else 0,
+            str(row.get("pack_id", "")),
+        ),
+    )
 
 
 def publish_review_site(
