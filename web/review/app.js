@@ -494,15 +494,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipLabel.append(skipCheckbox, document.createTextNode("Skip"));
   controls.append(skipLabel);
 
-  const escalateLabel = document.createElement("label");
-  escalateLabel.className = "yomi-control";
-  const escalateCheckbox = document.createElement("input");
-  escalateCheckbox.type = "checkbox";
-  escalateCheckbox.disabled = !editable;
-  escalateCheckbox.checked = Boolean(override?.escalate_sentence);
-  escalateLabel.append(escalateCheckbox, document.createTextNode("Escalate whole sentence"));
-  controls.append(escalateLabel);
-
   const menu = document.createElement("details");
   menu.className = "yomi-menu";
   const summary = document.createElement("summary");
@@ -536,12 +527,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipCheckbox.addEventListener("change", () => {
     const draft = ensureYomiOverride(item.item_id);
     draft.skip = skipCheckbox.checked;
-    touchDraft();
-    renderSubmissionPreview();
-  });
-  escalateCheckbox.addEventListener("change", () => {
-    const draft = ensureYomiOverride(item.item_id);
-    draft.escalate_sentence = escalateCheckbox.checked;
     touchDraft();
     renderSubmissionPreview();
   });
@@ -670,7 +655,7 @@ function cleanupYomiOverride(itemId) {
     return;
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
-  if (!hasTargets && !draft.skip && !draft.escalate_sentence && !draft.note) {
+  if (!hasTargets && !draft.skip && !draft.note) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -731,9 +716,6 @@ function getActiveYomiOverrides() {
       return {
         item_id: itemId,
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
-        ...(typeof override.escalate_sentence === "boolean"
-          ? { escalate_sentence: override.escalate_sentence }
-          : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_source: target.choice_source,
@@ -744,7 +726,7 @@ function getActiveYomiOverrides() {
     })
     .filter(Boolean)
     .filter(
-      (row) => row.targets.length > 0 || "skip" in row || "escalate_sentence" in row || row.note
+      (row) => row.targets.length > 0 || "skip" in row || row.note
     );
 }
 
