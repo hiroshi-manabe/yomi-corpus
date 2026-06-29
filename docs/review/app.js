@@ -500,21 +500,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipLabel.append(skipCheckbox, skipGlyph);
   controls.append(skipLabel);
 
-  const webSearchLabel = document.createElement("label");
-  webSearchLabel.className = "yomi-control yomi-flag yomi-web-flag";
-  webSearchLabel.title = "Use web search for strong repair";
-  const webSearchCheckbox = document.createElement("input");
-  webSearchCheckbox.type = "checkbox";
-  webSearchCheckbox.disabled = !editable;
-  webSearchCheckbox.checked = Boolean(override?.web_search);
-  webSearchCheckbox.setAttribute("aria-label", "Use web search for strong repair");
-  const webSearchGlyph = document.createElement("span");
-  webSearchGlyph.className = "control-glyph";
-  webSearchGlyph.setAttribute("aria-hidden", "true");
-  webSearchGlyph.textContent = "⌕";
-  webSearchLabel.append(webSearchCheckbox, webSearchGlyph);
-  controls.append(webSearchLabel);
-
   const menu = document.createElement("details");
   menu.className = "yomi-menu";
   const summary = document.createElement("summary");
@@ -550,12 +535,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipCheckbox.addEventListener("change", () => {
     const draft = ensureYomiOverride(item.item_id);
     draft.skip = skipCheckbox.checked;
-    touchDraft();
-    renderSubmissionPreview();
-  });
-  webSearchCheckbox.addEventListener("change", () => {
-    const draft = ensureYomiOverride(item.item_id);
-    draft.web_search = webSearchCheckbox.checked;
     touchDraft();
     renderSubmissionPreview();
   });
@@ -670,7 +649,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
 
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
-    state.currentDraft.overrides[itemId] = { skip: false, web_search: false, targets: {}, note: "" };
+    state.currentDraft.overrides[itemId] = { skip: false, targets: {}, note: "" };
   }
   if (!state.currentDraft.overrides[itemId].targets) {
     state.currentDraft.overrides[itemId].targets = {};
@@ -684,7 +663,7 @@ function cleanupYomiOverride(itemId) {
     return;
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
-  if (!hasTargets && !draft.skip && !draft.web_search && !draft.note) {
+  if (!hasTargets && !draft.skip && !draft.note) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -745,7 +724,6 @@ function getActiveYomiOverrides() {
       return {
         item_id: itemId,
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
-        ...(typeof override.web_search === "boolean" ? { web_search: override.web_search } : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_source: target.choice_source,
@@ -756,7 +734,7 @@ function getActiveYomiOverrides() {
     })
     .filter(Boolean)
     .filter(
-      (row) => row.targets.length > 0 || "skip" in row || "web_search" in row || row.note
+      (row) => row.targets.length > 0 || "skip" in row || row.note
     );
 }
 
