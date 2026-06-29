@@ -1956,14 +1956,22 @@ Build:
 - promotion pipeline into decoder training data
 
 
-## 12. Immediate Next Step
+## 12. Immediate Next Steps
 
-The next implementation step should be small and measurable:
+The skeleton, unit extraction, mechanical yomi generation, LLM execution modes,
+review-pack generation, and GitHub-Issue review import are now implemented.
+Current work should focus on closing the real review loop and then making later
+batches benefit from reviewed data:
 
-1. create the skeleton package and config layout
-2. implement import plus unit extraction
-3. implement a Python Sudachi adapter that reproduces the current shell-wrapper
-   behavior
-4. write one schema-checked artifact for unit records
-
-That gives the project a stable spine before adding model calls.
+1. regenerate any active review packs after candidate-selection changes
+2. import and apply final-review submissions for the active dev batch
+3. finalize batches that have no strong-repair queue
+4. implement the real `yomi_strong_repair` stage for canceled ruby target groups
+   and optional web-search repair
+5. harvest accepted repairs into conservative learned default rules
+6. feed human skip/unskip decisions back into alphabetic token decisions where
+   appropriate
+7. export finalized yomi into the decoder supplemental corpus and refresh the
+   track-local decoder model
+8. repeat small dev batches until the process is stable enough to set strict
+   `working` defaults

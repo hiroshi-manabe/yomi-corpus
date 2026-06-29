@@ -2291,17 +2291,21 @@ questions:
 
 ## 15. Immediate Next Steps
 
-The most useful next implementation steps appear to be:
+The basic small-batch loop exists. The next work should be done in this order:
 
-1. finalize the minimal unit schema
-2. implement document-to-unit segmentation with stable offsets
-3. implement a nested unit-local analysis structure
-4. run Sudachi and `yomi-decoder` on a small batch of real data
-5. inspect real failure examples for:
-   - non-target status
-   - unresolved alphabetic entity types
-   - yomi errors
-6. only then define the first reviewed-data-backed certainty rules
+1. regenerate the active `dev` final-review pack whenever candidate-generation
+   logic changes
+2. complete the current dev final review, import the GitHub-Issue submission,
+   and apply it
+3. finalize the batch if no strong-repair targets remain
+4. implement real strong repair for canceled ruby target groups, using optional
+   sentence-level web search when the reviewer requests it
+5. add conservative learned default repairs from accepted human/strong-LLM fixes
+6. propagate human skip/unskip decisions back into alphabetic token decisions
+   once the final-review UI exposes that override cleanly
+7. export finalized yomi into a supplemental decoder corpus and rebuild the
+   track-local decoder model
+8. run several more small dev batches before changing `working` defaults
 
-The project is not blocked on perfect theory. It is mainly blocked on getting a
-small real-data loop running and looking at concrete examples.
+The immediate blocker is no longer theory or initial infrastructure; it is
+closing the review-to-finalization loop on concrete dev batches.
