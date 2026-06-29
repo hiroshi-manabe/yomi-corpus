@@ -557,7 +557,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(queue_summary["queued_items"], 1)
             self.assertEqual(queue_summary["target_escalations"], 1)
             queued = json.loads(queue_path.read_text(encoding="utf-8"))
-            self.assertEqual(queued["repair_scope"], "target")
+            self.assertEqual(queued["repair_scope"], "target_group")
             self.assertEqual(queued["repair_order"], 1)
             self.assertEqual(queued["reasons"], ["target_no_ruby"])
             self.assertEqual(queued["target_escalations"][0]["surface"], "元")
@@ -646,7 +646,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
 
             queued = json.loads(queue_path.read_text(encoding="utf-8"))
-            self.assertEqual(queued["repair_scope"], "target")
+            self.assertEqual(queued["repair_scope"], "target_group")
             self.assertEqual(queued["target_escalations"][0]["surface"], "史輝")
             self.assertEqual(
                 queued["target_escalations"][0]["rejected_readings"],
@@ -667,8 +667,21 @@ class YomiFinalReviewTests(unittest.TestCase):
             payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
                 "真光/シンコウ 元/モト 被害者/ヒガイシャ の/ノ 会/カイ が/ガ 発足/ホッソク し/シ まし/マシ た/タ 。/。"
             )
-            target = payload["analysis"]["safety"]["yomi"]["targets"][0]
-            target.update(
+            target0 = payload["analysis"]["safety"]["yomi"]["targets"][0]
+            target0.update(
+                {
+                    "item_id": "u1:r0001c01",
+                    "token_index": 0,
+                    "surface": "真光",
+                    "token_surface": "真光",
+                    "current_reading": "シンコウ",
+                    "current_reading_hiragana": "しんこう",
+                    "target_start": 0,
+                    "target_end": 2,
+                }
+            )
+            target1 = dict(target0)
+            target1.update(
                 {
                     "item_id": "u1:r0002c01",
                     "token_index": 1,
@@ -680,6 +693,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                     "target_end": 3,
                 }
             )
+            payload["analysis"]["safety"]["yomi"]["targets"].append(target1)
             units_path.write_text(
                 json.dumps(payload, ensure_ascii=False) + "\n",
                 encoding="utf-8",
@@ -707,6 +721,11 @@ class YomiFinalReviewTests(unittest.TestCase):
                             "escalate_sentence": True,
                             "targets": [
                                 {
+                                    "item_id": "u1:r0001c01",
+                                    "choice_source": "none",
+                                    "selected_reading": None,
+                                },
+                                {
                                     "item_id": "u1:r0002c01",
                                     "choice_source": "none",
                                     "selected_reading": None,
@@ -732,13 +751,21 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
 
             self.assertEqual(queue_summary["queued_items"], 2)
+            self.assertEqual(queue_summary["target_escalations"], 2)
             rows = [
                 json.loads(line)
                 for line in queue_path.read_text(encoding="utf-8").splitlines()
             ]
-            self.assertEqual([row["repair_scope"] for row in rows], ["target", "sentence"])
+            self.assertEqual([row["repair_scope"] for row in rows], ["target_group", "sentence"])
             self.assertEqual([row["repair_order"] for row in rows], [1, 2])
-            self.assertEqual(rows[1]["target_constraints"][0]["surface"], "元")
+            self.assertEqual(
+                [target["surface"] for target in rows[0]["target_escalations"]],
+                ["真光", "元"],
+            )
+            self.assertEqual(
+                [target["surface"] for target in rows[1]["target_constraints"]],
+                ["真光", "元"],
+            )
 
     def test_strong_queue_blocks_finalize_when_no_ruby_target_exists(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -789,7 +816,7 @@ class YomiFinalReviewTests(unittest.TestCase):
 
             self.assertEqual(queue_summary["queued_items"], 1)
             queued = json.loads(queue_path.read_text(encoding="utf-8"))
-            self.assertEqual(queued["repair_scope"], "target")
+            self.assertEqual(queued["repair_scope"], "target_group")
             self.assertEqual(queued["repair_order"], 1)
             self.assertFalse(final_summary["stage_complete"])
             self.assertIn("not implemented", final_summary["blocking_reason"])

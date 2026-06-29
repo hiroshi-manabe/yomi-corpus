@@ -707,22 +707,23 @@ def build_strong_repair_queue_file(
                 .get("yomi", {})
                 .get("rendered")
             )
-            for target in target_escalation_overrides:
-                target_escalations += 1
+            target_groups = group_consecutive_target_overrides(target_escalation_overrides)
+            target_escalations += len(target_escalation_overrides)
+            for group_index, target_group in enumerate(target_groups, start=1):
                 dst.write(
                     json.dumps(
                         {
-                            "item_id": f"{unit.get('unit_id')}::{target.get('item_id')}",
+                            "item_id": f"{unit.get('unit_id')}::target_group:{group_index}",
                             "unit_id": unit.get("unit_id"),
                             "text": unit.get("text"),
                             "rendered_yomi": rendered_yomi,
-                            "repair_scope": "target",
+                            "repair_scope": "target_group",
                             "repair_order": 1,
                             "reasons": ["target_no_ruby"],
-                            "target_constraints": [target],
-                            "target_escalations": [target],
+                            "target_constraints": target_group,
+                            "target_escalations": target_group,
                             # Backward-compatible alias for existing mock consumers.
-                            "target_overrides": [target],
+                            "target_overrides": target_group,
                             "status": "mock_pending",
                         },
                         ensure_ascii=False,
@@ -767,6 +768,45 @@ def build_strong_repair_queue_file(
         encoding="utf-8",
     )
     return summary
+
+
+def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
+    def sort_key(target: dict[str, Any]) -> tuple[int, int, str]:
+        token_index = target.get("token_index")
+        chunk_index = target.get("chunk_index")
+        return (
+            int(chunk_index) if isinstance(chunk_index, int) else 0,
+            int(token_index) if isinstance(token_index, int) else 10**9,
+            str(target.get("item_id", "")),
+        )
+
+    groups: list[list[dict[str, Any]]] = []
+    current: list[dict[str, Any]] = []
+    previous_chunk: int | None = None
+    previous_token: int | None = None
+    for target in sorted(targets, key=sort_key):
+        chunk_index = target.get("chunk_index")
+        token_index = target.get("token_index")
+        chunk = chunk_index if isinstance(chunk_index, int) else None
+        token = token_index if isinstance(token_index, int) else None
+        continues_previous = (
+            bool(current)
+            and chunk is not None
+            and token is not None
+            and previous_chunk == chunk
+            and previous_token is not None
+            and token == previous_token + 1
+        )
+        if not continues_previous:
+            if current:
+                groups.append(current)
+            current = []
+        current.append(target)
+        previous_chunk = chunk
+        previous_token = token
+    if current:
+        groups.append(current)
+    return groups
 
 
 def finalize_reviewed_yomi_file(
