@@ -831,8 +831,14 @@ Implementation status:
    - N-gram safety is still pending until the mapping from decoder entries to
      targets is clean enough to audit.
 3. Apply LLM reading results back into safety.
-   - On exact LLM/mechanical agreement, add `safe_by_llm_match` and update
+   - The LLM target's `current_reading` is the current hybrid rendered reading
+     when the rendered token stream aligns one-to-one with Sudachi tokens; raw
+     Sudachi readings are only a fallback.
+   - On exact LLM/hybrid agreement, add `safe_by_llm_match` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
+   - On valid LLM/hybrid disagreement, keep the target unresolved but default
+     final review to the LLM candidate. The reviewer can still cycle back to
+     the current hybrid candidate explicitly.
    - If a unit was already whole-unit auto-accepted, project that decision into
      each target as `safe_by_unit_auto_accept` so target-level review does not
      show false unresolved highlights.

@@ -81,6 +81,89 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(items[1]["marked_text"], "学校は**上**です。")
         self.assertEqual(items[1]["marked_furigana_text"], "学校（がっこう）は**上**です。")
 
+    def test_build_items_uses_hybrid_rendered_reading_as_current(self) -> None:
+        payload = {
+            "unit_id": "u_hybrid",
+            "text": "ご興味がわいた方は。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "ご/ゴ 興味/キョウミ が/ガ わい/ワイ た/タ 方/カタ は/ハ 。/。",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "ご",
+                                    "pos": "接頭辞,*,*,*,*,*",
+                                    "dictionary_form": "御",
+                                    "normalized_form": "ご",
+                                    "reading": "ゴ",
+                                },
+                                {
+                                    "surface": "興味",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "興味",
+                                    "normalized_form": "興味",
+                                    "reading": "キョウミ",
+                                },
+                                {
+                                    "surface": "が",
+                                    "pos": "助詞,格助詞,*,*,*,*",
+                                    "dictionary_form": "が",
+                                    "normalized_form": "が",
+                                    "reading": "ガ",
+                                },
+                                {
+                                    "surface": "わい",
+                                    "pos": "動詞,一般,*,*,五段-カ行,連用形-イ音便",
+                                    "dictionary_form": "わく",
+                                    "normalized_form": "わく",
+                                    "reading": "ワイ",
+                                },
+                                {
+                                    "surface": "た",
+                                    "pos": "助動詞,*,*,*,助動詞-タ,連体形-一般",
+                                    "dictionary_form": "た",
+                                    "normalized_form": "た",
+                                    "reading": "タ",
+                                },
+                                {
+                                    "surface": "方",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "方",
+                                    "normalized_form": "方",
+                                    "reading": "ホウ",
+                                },
+                                {
+                                    "surface": "は",
+                                    "pos": "助詞,係助詞,*,*,*,*",
+                                    "dictionary_form": "は",
+                                    "normalized_form": "は",
+                                    "reading": "ハ",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        item = next(row for row in items if row["surface"] == "方")
+        self.assertEqual(item["current_reading"], "カタ")
+        self.assertEqual(item["current_reading_hiragana"], "かた")
+        self.assertEqual(
+            item["marked_furigana_text"],
+            "ご興味（きょうみ）がわいた**方**は。",
+        )
+
     def test_iteration_mark_is_part_of_kanji_target(self) -> None:
         payload = {
             "unit_id": "u2",

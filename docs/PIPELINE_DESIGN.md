@@ -587,10 +587,15 @@ Implementation sequence:
    Add N-gram target safety after the decoder-entry-to-target mapping is
    auditable.
 4. Change yomi-reading queue construction to queue only unresolved, non-skipped
-   targets from the pre-LLM safety artifact.
-5. Merge LLM results back into final safety records. LLM/mechanical agreement
-   adds `safe_by_llm_match`; disagreement or malformed output leaves the target
-   unresolved. Legacy whole-unit auto-accept decisions should be projected into
+   targets from the pre-LLM safety artifact. The comparison baseline is the
+   current hybrid rendered reading when the rendered token stream aligns with
+   Sudachi tokens; raw Sudachi readings are only a fallback. This avoids false
+   LLM mismatches such as Sudachi `方/ほう` versus hybrid `方/かた`.
+5. Merge LLM results back into final safety records. LLM/hybrid agreement adds
+   `safe_by_llm_match`; disagreement or malformed output leaves the target
+   unresolved. For an unresolved disagreement with a valid LLM reading, final
+   review should default to the LLM candidate while visibly keeping the target
+   reviewable. Legacy whole-unit auto-accept decisions should be projected into
    target records as `safe_by_unit_auto_accept`, not left only as a unit-level
    flag.
 6. Produce explicit artifacts and summaries:

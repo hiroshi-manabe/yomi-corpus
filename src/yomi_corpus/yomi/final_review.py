@@ -158,6 +158,8 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
 
 def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
     candidates = reading_candidates(target)
+    default_choice_source = default_candidate_source(target, candidates)
+    default_candidate = candidate_by_source(candidates, default_choice_source)
     return {
         "item_id": str(target.get("item_id") or ""),
         "surface": str(target.get("surface") or ""),
@@ -173,9 +175,44 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "highlight_level": target.get("highlight_level"),
         "accepted_signal_names": list(target.get("accepted_signal_names") or []),
         "status_reason": target.get("status_reason"),
+        "default_choice_source": default_choice_source,
+        "default_reading": default_candidate.get("reading") if default_candidate else None,
         "candidates": candidates,
         "signals": target.get("signals") if isinstance(target.get("signals"), list) else [],
     }
+
+
+def default_candidate_source(
+    target: dict[str, Any],
+    candidates: list[dict[str, Any]],
+) -> str:
+    if bool(target.get("is_safe")):
+        return "current"
+    for signal in target.get("signals") or []:
+        if not isinstance(signal, dict):
+            continue
+        if signal.get("name") != "safe_by_llm_match":
+            continue
+        if signal.get("accepted"):
+            continue
+        if signal.get("status") != "mismatched":
+            continue
+        llm_reading = signal.get("llm_reading")
+        if not isinstance(llm_reading, str) or not llm_reading:
+            continue
+        if candidate_by_source(candidates, "llm") is not None:
+            return "llm"
+    return "current"
+
+
+def candidate_by_source(
+    candidates: list[dict[str, Any]],
+    source: str,
+) -> dict[str, Any] | None:
+    for candidate in candidates:
+        if candidate.get("source") == source:
+            return candidate
+    return None
 
 
 def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
@@ -267,7 +304,7 @@ def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[s
                 "type": "ruby",
                 "text": text[start:end],
                 "target_item_id": target["item_id"],
-                "reading": target.get("current_reading_hiragana"),
+                "reading": target.get("default_reading") or target.get("current_reading_hiragana"),
                 "is_safe": target.get("is_safe"),
                 "highlight_level": target.get("highlight_level"),
             }
@@ -361,7 +398,7 @@ def replay_review_submissions(
                     "reviewed": True,
                     "skip": bool(item.get("skip_default", False)),
                     "escalate_sentence": False,
-                    "targets": [],
+                    "targets": default_target_rows(item),
                     "note": "",
                     "submission_id": str(submission.get("submission_id", "")),
                     "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),
@@ -378,7 +415,7 @@ def replay_review_submissions(
                         "reviewed": True,
                         "skip": bool(item.get("skip_default", False)),
                         "escalate_sentence": False,
-                        "targets": [],
+                        "targets": default_target_rows(item),
                         "note": "",
                     },
                 )
@@ -386,13 +423,44 @@ def replay_review_submissions(
                     current["skip"] = bool(override["skip"])
                 if "escalate_sentence" in override:
                     current["escalate_sentence"] = bool(override["escalate_sentence"])
-                current["targets"] = [
-                    row for row in override.get("targets", []) if isinstance(row, dict)
-                ]
+                current["targets"] = merge_default_and_explicit_target_rows(
+                    item,
+                    [row for row in override.get("targets", []) if isinstance(row, dict)],
+                )
                 current["note"] = str(override.get("note", "")).strip()
                 current["submission_id"] = str(submission.get("submission_id", ""))
                 current["generated_at_epoch"] = int(submission.get("generated_at_epoch", 0))
     return effective
+
+
+def default_target_rows(item: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    for target in item.get("targets", []):
+        if not isinstance(target, dict):
+            continue
+        source = str(target.get("default_choice_source") or "current")
+        if source == "current":
+            continue
+        rows.append(
+            {
+                "item_id": str(target.get("item_id") or ""),
+                "choice_source": source,
+                "selected_reading": target.get("default_reading"),
+            }
+        )
+    return [row for row in rows if row["item_id"]]
+
+
+def merge_default_and_explicit_target_rows(
+    item: dict[str, Any],
+    explicit_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    merged = {str(row["item_id"]): row for row in default_target_rows(item)}
+    for row in explicit_rows:
+        item_id = str(row.get("item_id") or "")
+        if item_id:
+            merged[item_id] = row
+    return list(merged.values())
 
 
 def apply_final_review_file(

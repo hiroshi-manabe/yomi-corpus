@@ -228,14 +228,16 @@ def build_yomi_llm_reading_items(
     except ValueError:
         return []
 
+    rendered_readings = rendered_readings_by_token_index(yomi, tokens)
     items: list[dict[str, Any]] = []
     for index, span in enumerate(spans):
         token = span.token
         if not is_llm_reading_target(token.surface):
             continue
-        if not token.reading:
+        current_reading = rendered_readings.get(index, token.reading)
+        if not current_reading:
             continue
-        targets = target_reading_chunks(token.surface, token.reading)
+        targets = target_reading_chunks(token.surface, current_reading)
         for chunk_index, target in enumerate(targets, start=1):
             item_id = f"{unit.get('unit_id', '')}:r{index + 1:04d}c{chunk_index:02d}"
             base_item = {
@@ -253,7 +255,12 @@ def build_yomi_llm_reading_items(
                     span.start + int(target["surface_start"]),
                     span.start + int(target["surface_end"]),
                 ),
-                "marked_furigana_text": marked_furigana_context(tokens, index, chunk_index - 1),
+                "marked_furigana_text": marked_furigana_context(
+                    tokens,
+                    index,
+                    chunk_index - 1,
+                    token_readings=rendered_readings,
+                ),
                 "token_start": span.start,
                 "token_end": span.end,
                 "target_start": span.start + int(target["surface_start"]),
@@ -276,6 +283,31 @@ def build_yomi_llm_reading_items(
                     continue
             items.append({**base_item, "queue_status": "queued"})
     return items
+
+
+def rendered_readings_by_token_index(yomi: dict[str, Any], tokens: list[Any]) -> dict[int, str]:
+    rendered = str(yomi.get("rendered") or "")
+    if not rendered:
+        return {}
+    pairs = parse_rendered_pairs(rendered)
+    if len(pairs) != len(tokens):
+        return {}
+    readings: dict[int, str] = {}
+    for index, ((surface, reading), token) in enumerate(zip(pairs, tokens, strict=True)):
+        if surface == token.surface and reading:
+            readings[index] = reading
+    return readings
+
+
+def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
+    pairs: list[tuple[str, str]] = []
+    for token in rendered.split():
+        if "/" not in token:
+            pairs.append((token, ""))
+            continue
+        surface, reading = token.rsplit("/", 1)
+        pairs.append((surface, reading))
+    return pairs
 
 
 def apply_yomi_llm_reading_results_file(
@@ -633,13 +665,20 @@ def target_reading_chunks(surface: str, reading: str) -> list[dict[str, object]]
     ]
 
 
-def marked_furigana_context(tokens: list[Any], target_index: int, target_chunk_index: int) -> str:
+def marked_furigana_context(
+    tokens: list[Any],
+    target_index: int,
+    target_chunk_index: int,
+    *,
+    token_readings: dict[int, str] | None = None,
+) -> str:
     rendered: list[str] = []
     for index, token in enumerate(tokens):
+        reading = token_readings.get(index, token.reading) if token_readings else token.reading
         if index == target_index:
-            rendered.append(marked_furigana_token(token.surface, token.reading, target_chunk_index))
+            rendered.append(marked_furigana_token(token.surface, reading, target_chunk_index))
             continue
-        rendered.append(furigana_no_space_token_for_llm(f"{token.surface}/{token.reading}"))
+        rendered.append(furigana_no_space_token_for_llm(f"{token.surface}/{reading}"))
     return "".join(rendered)
 
 

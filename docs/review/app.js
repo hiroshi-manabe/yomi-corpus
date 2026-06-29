@@ -615,7 +615,13 @@ function selectedCandidate(target, targetDraft) {
       null
     );
   }
-  return candidates.find((candidate) => candidate.source === "current") || candidates[0] || null;
+  const defaultSource = target.default_choice_source || "current";
+  return (
+    candidates.find((candidate) => candidate.source === defaultSource) ||
+    candidates.find((candidate) => candidate.source === "current") ||
+    candidates[0] ||
+    null
+  );
 }
 
 function rubyTitle(target, candidate) {
@@ -634,7 +640,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
   );
   const next = candidates[(currentIndex + 1) % candidates.length];
   const draft = ensureYomiOverride(item.item_id);
-  if (next.source === "current") {
+  if (next.source === "current" && (target.default_choice_source || "current") === "current") {
     delete draft.targets[target.item_id];
     cleanupYomiOverride(item.item_id);
   } else {

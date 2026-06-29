@@ -51,6 +51,8 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack["items"][1]["doc_seq"], 2)
             target = pack["items"][0]["targets"][0]
             self.assertFalse(target["is_safe"])
+            self.assertEqual(target["default_choice_source"], "llm")
+            self.assertEqual(target["default_reading"], "ちかぢか")
             self.assertEqual(
                 [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
                 [
@@ -66,7 +68,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                         "type": "ruby",
                         "text": "近々",
                         "target_item_id": "u1:r0001c01",
-                        "reading": "きんきん",
+                        "reading": "ちかぢか",
                         "is_safe": False,
                         "highlight_level": "target",
                     },
@@ -168,6 +170,60 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
             review = row["analysis"]["human_review"]["yomi_final"]
             self.assertTrue(review["reviewed"])
+            self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
+
+    def test_apply_final_review_applies_llm_default_for_reviewed_range(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            output_path = root / "reviewed.jsonl"
+            summary_path = root / "summary.json"
+            payload = unit("doc1", "u1", "近々です。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = "近々/キンキン です/デス 。/。"
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            self.assertEqual(summary["exact_rendered_updates"], 1)
+            row = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "近々/チカヂカ です/デス 。/。",
+            )
+            review = row["analysis"]["human_review"]["yomi_final"]
+            self.assertEqual(review["target_overrides"][0]["choice_source"], "llm")
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
 
     def test_sentence_escalation_preserves_target_reading_override_as_constraint(self) -> None:
