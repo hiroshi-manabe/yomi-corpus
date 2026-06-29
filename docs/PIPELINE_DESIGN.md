@@ -1576,8 +1576,7 @@ not like a table of pipeline metadata. For each sentence/unit, show only:
 
 - ruby-rendered text
 - a `Skip` checkbox
-- an `Escalate whole sentence` checkbox for cases that cannot be fixed by
-  simple reading swaps, such as wrong segmentation
+- a `Use web search for strong repair` checkbox
 - a compact `...` menu for range marks such as `from here` and `to here`
 
 Do not show document IDs, unit IDs, target IDs, or signal details in the normal
@@ -1605,11 +1604,16 @@ Changed spans should use a separate color from unresolved highlights. Removing
 the ruby or choosing an available alternate reading is a span-level override,
 not a whole-sentence rejection.
 
-If a target cannot be corrected by cycling through candidates, mark it for
-strong-model handling at span level. If the problem is larger than one target,
-for example wrong segmentation or a structurally bad analysis, use `Escalate
-whole sentence`. Strong-model handling must be a separate later stage, and its
-output should return to a final confirmation UI.
+No-ruby is the normal way to request strong-model handling. If consecutive
+targets are canceled in the same sentence, group them into one repair span. Use
+the sentence-level web-search checkbox when any local repair in that sentence
+likely needs external lookup. This is deliberately sentence-level rather than
+span-level: occasional extra web-search cost is preferable to an awkward
+per-span UI.
+
+Whole-sentence escalation should be reserved for a future advanced fallback if
+real examples require it. Strong-model handling must be a separate later stage,
+and its output should return to a final confirmation UI.
 
 The final confirmation UI for strong-model outputs should be different from
 the quick review UI. It should show ruby-rendered text and also expose raw
@@ -1702,11 +1706,10 @@ step. The replay semantics match the review UI:
 
 - reviewed ranges define coverage
 - no explicit override inside a reviewed range means accept
-- sparse overrides can set sentence skip, sentence escalation, or target-level
-  reading choices
-- sentence escalation and target-level reading choices are not mutually
-  exclusive; local readings confirmed by the reviewer should remain usable as
-  constraints for later strong repair
+- sparse overrides can set sentence skip, sentence-level web-search preference,
+  or target-level reading choices
+- target-level `No ruby` means the current reading was rejected and should be
+  grouped with adjacent canceled targets for focused strong repair
 - sentence skip dominates operational processing; target choices on skipped
   rows are retained as audit data but do not update rendered yomi or trigger
   strong repair
@@ -1731,14 +1734,19 @@ overrides are collected through the yomi final-review path.
 If no matching submission exists, the stage blocks as a human review gate.
 
 `yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a
-target-first queue for cases that need the future stronger model:
+target-group queue for cases that need the future stronger model:
 
-- target-level `No ruby` as `repair_scope: "target"` and `repair_order: 1`
-- sentence-level escalation as `repair_scope: "sentence"` and `repair_order: 2`
+- consecutive target-level `No ruby` overrides as `repair_scope:
+  "target_group"` and `repair_order: 1`
 
-If both are present on the same unit, the target row is emitted before the
-sentence row. The sentence row still carries all target constraints so later
-whole-sentence repair can respect human-selected or human-canceled readings.
+The queue row should carry the grouped targets, any human-selected local
+constraints, and the sentence-level `web_search_required` value. Sentence-level
+escalation is legacy/fallback plumbing, not the preferred path.
+
+Canceled target readings should carry `rejected_readings` in the strong queue.
+That gives the future strong/web repair prompt negative evidence such as
+`史輝` is not `ふみてる` in a publisher-name context, or `元` is not `もと`
+inside `真光元`.
 
 No expensive correction call is made yet. This keeps implementation ordered by
 actual evidence: first complete the no-escalation path, then implement strong

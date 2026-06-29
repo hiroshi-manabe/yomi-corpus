@@ -510,7 +510,7 @@ def build_target_override(
     target = targets_by_id.get(target_id)
     if target is None:
         return None
-    return {
+    override = {
         "item_id": target_id,
         "choice_source": str(row.get("choice_source") or ""),
         "selected_reading": row.get("selected_reading"),
@@ -520,6 +520,15 @@ def build_target_override(
         "chunk_index": target.get("chunk_index"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
     }
+    if override["choice_source"] == "none" and override["current_reading_hiragana"]:
+        override["rejected_readings"] = [
+            {
+                "surface": target.get("surface"),
+                "reading": override["current_reading_hiragana"],
+                "source": "human_no_ruby",
+            }
+        ]
+    return override
 
 
 def apply_exact_rendered_target_overrides(

@@ -1502,7 +1502,7 @@ exported range, and multiple returned files can be merged by stable item IDs.
 Each sentence should have only three visible controls:
 
 - `Skip`
-- `Escalate whole sentence`
+- `Use web search for strong repair`
 - `...` for range marks and other low-frequency actions
 
 Yomi targets should be edited inline. Unresolved targets are highlighted;
@@ -1513,10 +1513,22 @@ recorded evidence: current mechanical/hybrid reading, LLM reading,
 corpus-frequency dominant reading, and stable dictionary reading.
 
 Changed spans should be colored differently from unresolved spans. A changed
-span is a local override. A span or sentence that cannot be fixed by candidate
-cycling should be marked for strong-model handling in a later stage, followed
-by a separate final confirmation UI. That final confirmation UI should expose
-both ruby-rendered text and raw editable structured data.
+span is a local override. A no-ruby choice means the reviewer rejects the
+current reading and wants strong-model handling for that local area. Consecutive
+no-ruby targets in the same sentence should be grouped automatically into one
+strong-repair span. The sentence-level web-search checkbox applies to every
+strong-repair span in that sentence. This is intentionally sentence-level rather
+than span-level: occasional extra web search is cheaper than making the review
+UI awkward.
+
+Whole-sentence escalation should not be a primary control. So far, real cases
+look like local boundary/reading failures that can be handled by canceling a
+2-3-token area. If a future example truly needs whole-sentence repair, add it as
+an advanced/fallback path rather than the default review action.
+
+Strong-repaired spans must go through a separate final confirmation UI. That
+final confirmation UI should expose both ruby-rendered text and raw editable
+structured data.
 
 ### 10.5.1 Review packs
 
@@ -2025,11 +2037,11 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `review_stage` must be `yomi_final_review`
 - `pack_id` must match the generated review pack
 - `reviewed_ranges` define which sentence items were actually reviewed
-- sparse `overrides` carry `skip`, `escalate_sentence`, and target-level reading
-  choices
-- `escalate_sentence` and target-level reading choices are independent: a
-  reviewer may escalate a whole sentence while still locking in local readings
-  such as `方/かた`
+- sparse `overrides` carry `skip`, sentence-level `web_search_required`, and
+  target-level reading choices
+- target-level `choice_source: "none"` means the previous reading was rejected
+  and should enter the strong-repair queue; consecutive no-ruby targets are
+  grouped into one strong-repair span
 - `skip` dominates operational output: target choices on a skipped sentence are
   preserved as audit data, but they are not applied to rendered yomi and do not
   trigger strong repair
@@ -2047,14 +2059,21 @@ explicitly:
 python scripts/import_yomi_final_review_issue.py --issue-number 1
 ```
 
-`yomi_strong_repair_queued` should preserve both non-skipped repair layers.
-Target-level `choice_source == "none"` choices are queued first as target-scope
-repair items, because those spans need focused strong repair rather than serving
-as confirmed local constraints. Sentence escalation is queued after target
-repair as a sentence-scope item. All target-level overrides are still passed
-forward as `target_constraints` on sentence-scope items, so a later sentence
-repair can respect local human choices such as `方/かた` or a canceled ruby.
-Skipped sentences are excluded from this queue.
+`yomi_strong_repair_queued` should focus on canceled target groups. Target-level
+`choice_source == "none"` choices are collected in token order, and consecutive
+canceled targets in the same sentence become one `repair_scope:
+"target_group"` queue entry. These groups need focused strong repair rather
+than serving as confirmed local constraints. Sentence-level
+`web_search_required` is copied onto each group in that sentence. Skipped
+sentences are excluded from this queue.
+
+For a canceled ruby, the queue should preserve the rejected reading explicitly
+as `rejected_readings`. This is useful for strong/web repair cases: for example,
+if human review rejects `史輝/ふみてる` in the publisher-name context
+`史輝出版`, the strong model should receive both the canceled span and the fact
+that `ふみてる` is known wrong. The fixture
+`data/evals/yomi_strong_repair/regression_v1.jsonl` records this kind of
+target-level web-repair case.
 
 The same open-Issue scan that `./next` runs can also be invoked manually:
 
@@ -2086,10 +2105,12 @@ data/units/<batch>/yomi_strong_repair_queue_summary.json
 
 Queue entries are generated for:
 
-- target-level `choice_source: "none"` as `repair_scope: "target"` and
-  `repair_order: 1`
-- sentence-level `escalate_sentence` as `repair_scope: "sentence"` and
-  `repair_order: 2`
+- consecutive target-level `choice_source: "none"` overrides as `repair_scope:
+  "target_group"` and `repair_order: 1`
+
+Older sentence-level escalation should be treated as legacy/fallback plumbing,
+not the preferred review path. The current design expects reviewers to cancel
+the local problematic targets instead.
 
 The actual expensive strong-LLM correction stage is intentionally not
 implemented yet. It should be added only after real examples appear.

@@ -432,7 +432,96 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(queued["reasons"], ["target_no_ruby"])
             self.assertEqual(queued["target_escalations"][0]["surface"], "元")
             self.assertEqual(queued["target_escalations"][0]["choice_source"], "none")
+            self.assertEqual(
+                queued["target_escalations"][0]["rejected_readings"],
+                [{"surface": "元", "reading": "もと", "source": "human_no_ruby"}],
+            )
             self.assertIn("真光元被害者", queued["text"])
+
+    def test_target_no_ruby_queue_can_carry_rejected_publisher_name_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            reviewed_path = root / "reviewed.jsonl"
+            review_summary_path = root / "review_summary.json"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            payload = unit("doc1", "u1", "この本は「史輝出版」から刊行されました。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
+                "この/コノ 本/ホン は/ハ 「/「 史輝/フミテル 出版/シュッパン 」/」 から/カラ 刊行/カンコウ さ/サ れ/レ まし/マシ た/タ 。/。"
+            )
+            target = payload["analysis"]["safety"]["yomi"]["targets"][0]
+            target.update(
+                {
+                    "item_id": "u1:r0005c01",
+                    "token_index": 4,
+                    "surface": "史輝",
+                    "token_surface": "史輝",
+                    "current_reading": "フミテル",
+                    "current_reading_hiragana": "ふみてる",
+                    "target_start": 5,
+                    "target_end": 7,
+                }
+            )
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0002",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "skip": False,
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0005c01",
+                                    "choice_source": "none",
+                                    "selected_reading": None,
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=reviewed_path,
+                summary_json=review_summary_path,
+            )
+            build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+
+            queued = json.loads(queue_path.read_text(encoding="utf-8"))
+            self.assertEqual(queued["repair_scope"], "target")
+            self.assertEqual(queued["target_escalations"][0]["surface"], "史輝")
+            self.assertEqual(
+                queued["target_escalations"][0]["rejected_readings"],
+                [{"surface": "史輝", "reading": "ふみてる", "source": "human_no_ruby"}],
+            )
 
     def test_target_no_ruby_is_queued_before_sentence_escalation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
