@@ -1464,6 +1464,21 @@ reinterpretations.
 
 This area needs experimentation.
 
+Future task: learn exact surface-span defaults from confirmed strong repairs.
+When a strong repair changes a local span and the final human confirmation
+accepts it, record the whole repaired surface span as a default for future
+batches. Examples:
+
+- `一発 -> いっぱつ`
+- `池尻中学校 -> いけじり ちゅうがっこう`
+
+These learned defaults should apply to the exact surface span, even if the
+original analyzer split it differently. This is intentionally narrower than
+general regex promotion: `池尻中学校` should not automatically imply a global
+`中学校 -> ちゅうがっこう` rule unless that broader rule is separately approved.
+The rule should be auditable and should record the source batch, repaired
+rendering, rejected readings, and whether web search was used.
+
 ## 10.5 Review transport and UI state
 
 Because the working environment is a Linux cluster accessed over SSH, the human

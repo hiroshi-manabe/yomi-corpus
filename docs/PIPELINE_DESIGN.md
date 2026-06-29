@@ -1748,6 +1748,13 @@ That gives the future strong/web repair prompt negative evidence such as
 `史輝` is not `ふみてる` in a publisher-name context, or `元` is not `もと`
 inside `真光元`.
 
+Future work: after a strong repair is accepted in final confirmation, promote
+the repaired surface span into an exact learned default for later batches. This
+is useful for multi-token or boundary-crossing repairs such as `一発` becoming
+`いっぱつ` or `池尻中学校` becoming `いけじり ちゅうがっこう`. Promotion should
+use the whole confirmed surface span by default, not infer a broader regex or
+subspan rule unless separately approved.
+
 No expensive correction call is made yet. This keeps implementation ordered by
 actual evidence: first complete the no-escalation path, then implement strong
 correction once real examples exist.
