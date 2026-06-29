@@ -12,6 +12,12 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
 REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
 DEFAULT_MESSAGE = "Publish review page artifacts"
+STATIC_REVIEW_ARTIFACTS = (
+    "index.html",
+    "app.js",
+    "style.css",
+    "README.md",
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -69,6 +75,10 @@ def collect_review_artifact_paths(project_root: Path) -> list[Path]:
     review_root = project_root / "docs" / "review"
     manifest_path = review_root / "manifest.json"
     paths: set[Path] = set()
+    for rel_path in STATIC_REVIEW_ARTIFACTS:
+        static_path = review_root / rel_path
+        if static_path.exists():
+            paths.add(static_path)
     if manifest_path.exists():
         paths.add(manifest_path)
         for raw_path in referenced_manifest_paths(manifest_path):

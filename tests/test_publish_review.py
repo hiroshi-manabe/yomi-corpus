@@ -22,7 +22,10 @@ class PublishReviewTests(unittest.TestCase):
             (packs_root / "current.json").write_text("{}", encoding="utf-8")
             (packs_root / "archived.json").write_text("{}", encoding="utf-8")
             (packs_root / "unreferenced.json").write_text("{}", encoding="utf-8")
-            (review_root / "app.js").write_text("// not a publish artifact\n", encoding="utf-8")
+            (review_root / "app.js").write_text("// publish artifact\n", encoding="utf-8")
+            (review_root / "style.css").write_text("/* publish artifact */\n", encoding="utf-8")
+            (review_root / "index.html").write_text("<!doctype html>\n", encoding="utf-8")
+            (review_root / "README.md").write_text("publish artifact\n", encoding="utf-8")
             (review_root / "manifest.json").write_text(
                 json.dumps(
                     {
@@ -50,9 +53,13 @@ class PublishReviewTests(unittest.TestCase):
         self.assertEqual(
             rel_paths,
             [
+                "docs/review/README.md",
+                "docs/review/app.js",
+                "docs/review/index.html",
                 "docs/review/manifest.json",
                 "docs/review/packs/archived.json",
                 "docs/review/packs/current.json",
+                "docs/review/style.css",
             ],
         )
 
