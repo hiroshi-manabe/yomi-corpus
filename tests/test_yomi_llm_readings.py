@@ -475,8 +475,8 @@ class YomiLLMReadingsTests(unittest.TestCase):
                         json.dumps(
                             {
                                 "item_id": items[1]["item_id"],
-                                "raw_text": '{"下":"した"}',
-                                "parsed": {"下": "した"},
+                                "raw_text": '{"上":"ue"}',
+                                "parsed": {"上": "ue"},
                             },
                             ensure_ascii=False,
                         ),
@@ -499,7 +499,7 @@ class YomiLLMReadingsTests(unittest.TestCase):
             self.assertEqual(rows[0]["item_id"], items[1]["item_id"])
             self.assertEqual(rows[0]["retry_of"], items[1]["item_id"])
             self.assertEqual(rows[0]["attempt"], 2)
-            self.assertIn("'上'", rows[0]["retry_reason"])
+            self.assertIn("is not kana", rows[0]["retry_reason"])
 
     def test_retry_results_override_first_pass_parse_errors(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
