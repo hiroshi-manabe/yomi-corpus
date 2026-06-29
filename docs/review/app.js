@@ -486,27 +486,41 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   controls.className = "yomi-controls";
 
   const skipLabel = document.createElement("label");
-  skipLabel.className = "yomi-control";
+  skipLabel.className = "yomi-control yomi-flag yomi-skip-flag";
+  skipLabel.title = "Skip this sentence";
   const skipCheckbox = document.createElement("input");
   skipCheckbox.type = "checkbox";
   skipCheckbox.disabled = !editable;
   skipCheckbox.checked = override?.skip ?? item.skip_default ?? false;
-  skipLabel.append(skipCheckbox, document.createTextNode("Skip"));
+  skipCheckbox.setAttribute("aria-label", "Skip this sentence");
+  const skipGlyph = document.createElement("span");
+  skipGlyph.className = "control-glyph";
+  skipGlyph.setAttribute("aria-hidden", "true");
+  skipGlyph.textContent = "×";
+  skipLabel.append(skipCheckbox, skipGlyph);
   controls.append(skipLabel);
 
-  const escalateLabel = document.createElement("label");
-  escalateLabel.className = "yomi-control";
-  const escalateCheckbox = document.createElement("input");
-  escalateCheckbox.type = "checkbox";
-  escalateCheckbox.disabled = !editable;
-  escalateCheckbox.checked = Boolean(override?.escalate_sentence);
-  escalateLabel.append(escalateCheckbox, document.createTextNode("Escalate whole sentence"));
-  controls.append(escalateLabel);
+  const webSearchLabel = document.createElement("label");
+  webSearchLabel.className = "yomi-control yomi-flag yomi-web-flag";
+  webSearchLabel.title = "Use web search for strong repair";
+  const webSearchCheckbox = document.createElement("input");
+  webSearchCheckbox.type = "checkbox";
+  webSearchCheckbox.disabled = !editable;
+  webSearchCheckbox.checked = Boolean(override?.web_search);
+  webSearchCheckbox.setAttribute("aria-label", "Use web search for strong repair");
+  const webSearchGlyph = document.createElement("span");
+  webSearchGlyph.className = "control-glyph";
+  webSearchGlyph.setAttribute("aria-hidden", "true");
+  webSearchGlyph.textContent = "⌕";
+  webSearchLabel.append(webSearchCheckbox, webSearchGlyph);
+  controls.append(webSearchLabel);
 
   const menu = document.createElement("details");
   menu.className = "yomi-menu";
   const summary = document.createElement("summary");
-  summary.textContent = "...";
+  summary.title = "Range markers";
+  summary.setAttribute("aria-label", "Range markers");
+  summary.textContent = "⋯";
   menu.append(summary);
   const menuBody = document.createElement("div");
   menuBody.className = "yomi-menu-body";
@@ -539,9 +553,9 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     touchDraft();
     renderSubmissionPreview();
   });
-  escalateCheckbox.addEventListener("change", () => {
+  webSearchCheckbox.addEventListener("change", () => {
     const draft = ensureYomiOverride(item.item_id);
-    draft.escalate_sentence = escalateCheckbox.checked;
+    draft.web_search = webSearchCheckbox.checked;
     touchDraft();
     renderSubmissionPreview();
   });
@@ -656,7 +670,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
 
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
-    state.currentDraft.overrides[itemId] = { skip: false, targets: {}, note: "" };
+    state.currentDraft.overrides[itemId] = { skip: false, web_search: false, targets: {}, note: "" };
   }
   if (!state.currentDraft.overrides[itemId].targets) {
     state.currentDraft.overrides[itemId].targets = {};
@@ -670,7 +684,7 @@ function cleanupYomiOverride(itemId) {
     return;
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
-  if (!hasTargets && !draft.skip && !draft.escalate_sentence && !draft.note) {
+  if (!hasTargets && !draft.skip && !draft.web_search && !draft.note) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -731,9 +745,7 @@ function getActiveYomiOverrides() {
       return {
         item_id: itemId,
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
-        ...(typeof override.escalate_sentence === "boolean"
-          ? { escalate_sentence: override.escalate_sentence }
-          : {}),
+        ...(typeof override.web_search === "boolean" ? { web_search: override.web_search } : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_source: target.choice_source,
@@ -744,7 +756,7 @@ function getActiveYomiOverrides() {
     })
     .filter(Boolean)
     .filter(
-      (row) => row.targets.length > 0 || "skip" in row || "escalate_sentence" in row || row.note
+      (row) => row.targets.length > 0 || "skip" in row || "web_search" in row || row.note
     );
 }
 
