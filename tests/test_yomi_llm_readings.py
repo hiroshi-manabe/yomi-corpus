@@ -735,6 +735,22 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(judgment["status"], "parse_error")
         self.assertIn("is not a string", judgment["parse_error"])
 
+    def test_item_judgment_rejects_non_kana_reading(self) -> None:
+        item = build_yomi_llm_reading_items(unit())[1]
+
+        judgment = build_item_judgment(
+            item,
+            {
+                "item_id": item["item_id"],
+                "raw_text": '{"上":"ue"}',
+                "parsed": {"上": "ue"},
+            },
+        )
+
+        self.assertEqual(judgment["status"], "parse_error")
+        self.assertIn("is not kana", judgment["parse_error"])
+        self.assertIsNone(judgment["llm_reading"])
+
     def test_item_judgment_marks_missing_result(self) -> None:
         item = build_yomi_llm_reading_items(unit())[1]
 

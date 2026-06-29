@@ -80,6 +80,80 @@ class YomiFinalReviewTests(unittest.TestCase):
 
             summary_path.write_text(json.dumps(summary.__dict__), encoding="utf-8")
 
+    def test_pack_drops_non_kana_reading_candidates(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            output_path = root / "pack.json"
+            payload = {
+                "doc_id": "doc1",
+                "unit_id": "u1",
+                "unit_seq": 1,
+                "text": "Diploma Mill",
+                "source_file": "source.jsonl.gz",
+                "source_line_no": 1,
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "Diploma/ディプロマ Mill/mill",
+                        }
+                    },
+                    "llm": {"scope_triage": {"status": "Keep", "source": "llm"}},
+                    "safety": {
+                        "yomi": {
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0002c01",
+                                    "unit_id": "u1",
+                                    "token_index": 1,
+                                    "chunk_index": 0,
+                                    "surface": "Mill",
+                                    "token_surface": "Mill",
+                                    "current_reading": "mill",
+                                    "current_reading_hiragana": "mill",
+                                    "target_start": 8,
+                                    "target_end": 12,
+                                    "is_safe": False,
+                                    "review_status": "unresolved",
+                                    "highlight_level": "target",
+                                    "accepted_signal_names": [],
+                                    "signals": [
+                                        {
+                                            "name": "safe_by_llm_match",
+                                            "accepted": False,
+                                            "status": "mismatched",
+                                            "llm_reading": "みる",
+                                            "current_reading_hiragana": "mill",
+                                        }
+                                    ],
+                                    "status_reason": "llm_reading_mismatched",
+                                }
+                            ]
+                        }
+                    },
+                },
+            }
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=output_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(output_path.read_text(encoding="utf-8"))
+            target = pack["items"][0]["targets"][0]
+            self.assertEqual(target["default_choice_source"], "llm")
+            self.assertEqual(target["default_reading"], "みる")
+            self.assertEqual(
+                [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
+                [("llm", "みる"), ("none", None)],
+            )
+            self.assertEqual(pack["items"][0]["ruby_segments"][1]["reading"], "みる")
+
     def test_replay_yomi_review_submissions_applies_later_overlap(self) -> None:
         pack = {
             "pack_id": "pack_1",

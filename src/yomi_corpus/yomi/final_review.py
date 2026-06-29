@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from yomi_corpus.yomi.llm_readings import normalize_hiragana_reading
+from yomi_corpus.yomi.llm_readings import is_valid_yomi_reading, normalize_hiragana_reading
 
 
 REVIEW_STAGE = "yomi_final_review"
@@ -222,6 +222,8 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         if not isinstance(reading, str) or not reading:
             return
         normalized = normalize_hiragana_reading(reading)
+        if not is_valid_yomi_reading(normalized):
+            return
         if any(candidate["reading"] == normalized for candidate in candidates):
             return
         candidates.append(

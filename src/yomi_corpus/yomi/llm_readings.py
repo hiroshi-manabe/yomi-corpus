@@ -447,6 +447,17 @@ def build_item_judgment(
             "parse_error": f"Reading for surface key {item['surface']!r} is not a string.",
         }
     llm_reading = normalize_hiragana_reading(raw_reading)
+    if not is_valid_yomi_reading(llm_reading):
+        return {
+            **base,
+            "status": "parse_error",
+            "llm_reading": None,
+            "raw_text": result.get("raw_text"),
+            "parse_error": (
+                f"Reading for surface key {item['surface']!r} is not kana: "
+                f"{raw_reading!r}."
+            ),
+        }
     current = normalize_hiragana_reading(str(item["current_reading_hiragana"]))
     return {
         **base,
@@ -736,3 +747,14 @@ def hira_to_katakana(text: str) -> str:
 
 def normalize_hiragana_reading(text: str) -> str:
     return katakana_to_hiragana(text.strip())
+
+
+def is_valid_yomi_reading(text: str) -> bool:
+    if not text:
+        return False
+    normalized = normalize_hiragana_reading(text)
+    return all(is_yomi_reading_char(char) for char in normalized)
+
+
+def is_yomi_reading_char(char: str) -> bool:
+    return "\u3041" <= char <= "\u3096" or char == "ー"
