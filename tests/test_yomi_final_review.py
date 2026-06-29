@@ -528,6 +528,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                         {
                             "item_id": "u1",
                             "skip": False,
+                            "web_search": True,
                             "targets": [
                                 {
                                     "item_id": "u1:r0002c01",
@@ -559,6 +560,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             queued = json.loads(queue_path.read_text(encoding="utf-8"))
             self.assertEqual(queued["repair_scope"], "target")
             self.assertEqual(queued["repair_order"], 1)
+            self.assertTrue(queued["web_search"])
             self.assertEqual(queued["reasons"], ["target_no_ruby"])
             self.assertEqual(queued["target_escalations"][0]["surface"], "元")
             self.assertEqual(queued["target_escalations"][0]["choice_source"], "none")
@@ -567,6 +569,10 @@ class YomiFinalReviewTests(unittest.TestCase):
                 [{"surface": "元", "reading": "もと", "source": "human_no_ruby"}],
             )
             self.assertIn("真光元被害者", queued["text"])
+            review = json.loads(reviewed_path.read_text(encoding="utf-8"))["analysis"][
+                "human_review"
+            ]["yomi_final"]
+            self.assertTrue(review["web_search"])
 
     def test_target_no_ruby_queue_can_carry_rejected_publisher_name_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

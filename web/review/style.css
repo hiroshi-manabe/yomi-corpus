@@ -355,7 +355,8 @@ button {
 .items-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
+  border-top: 1px solid var(--line);
 }
 
 .document-separator {
@@ -394,16 +395,24 @@ button {
 }
 
 .item-card.yomi-card {
-  padding: 12px 14px 16px;
-  background: rgba(255, 253, 249, 0.96);
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: rgba(255, 253, 249, 0.78);
 }
 
 .item-card.yomi-card.has-unresolved {
-  border-color: rgba(156, 79, 30, 0.24);
+  border-color: var(--line);
+  background: rgba(255, 250, 243, 0.9);
 }
 
 .item-card.yomi-card.all-safe {
-  opacity: 0.9;
+  opacity: 0.82;
 }
 
 .item-card.marker-start,
@@ -482,36 +491,104 @@ button {
 }
 
 .yomi-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 28px);
+  align-items: stretch;
+  justify-content: start;
+  gap: 0;
+  margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
+  border-right: 1px solid var(--line);
 }
 
 .yomi-control {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  min-height: 48px;
+  border-right: 1px solid rgba(58, 48, 33, 0.08);
+}
+
+.yomi-flag {
+  position: relative;
+  cursor: pointer;
+}
+
+.yomi-flag input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.yomi-flag input:disabled {
+  cursor: default;
+}
+
+.control-glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(58, 48, 33, 0.22);
+  color: rgba(58, 48, 33, 0.34);
+  background: rgba(255, 253, 249, 0.66);
+  font-size: 0.9rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.yomi-skip-flag .control-glyph {
+  border-radius: 4px;
+}
+
+.yomi-web-flag .control-glyph {
+  border-radius: 999px;
+}
+
+.yomi-skip-flag input:checked + .control-glyph {
+  border-color: rgba(31, 28, 23, 0.72);
+  background: rgba(31, 28, 23, 0.82);
+  color: #fffdf9;
+}
+
+.yomi-web-flag input:checked + .control-glyph {
+  border-color: rgba(45, 106, 79, 0.82);
+  background: rgba(45, 106, 79, 0.82);
+  color: #fffdf9;
 }
 
 .yomi-menu {
   position: relative;
+  display: grid;
+  place-items: center;
 }
 
 .yomi-menu summary {
+  list-style: none;
   cursor: pointer;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 2px 10px 4px;
+  border-radius: 7px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  padding: 0 0 2px;
   background: rgba(31, 28, 23, 0.04);
+  color: rgba(58, 48, 33, 0.48);
+}
+
+.yomi-menu summary::-webkit-details-marker {
+  display: none;
 }
 
 .yomi-menu-body {
   position: absolute;
-  right: 0;
+  left: 0;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -526,8 +603,11 @@ button {
 }
 
 .ruby-line {
-  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
-  line-height: 2.2;
+  min-width: 0;
+  margin: 0;
+  padding: 4px 8px 5px 10px;
+  font-size: clamp(1.08rem, 1.8vw, 1.45rem);
+  line-height: 2.05;
   letter-spacing: 0.02em;
 }
 
