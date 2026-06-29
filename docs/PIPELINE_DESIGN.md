@@ -1581,7 +1581,6 @@ not like a table of pipeline metadata. For each sentence/unit, show only:
 
 - ruby-rendered text
 - a `Skip` checkbox
-- a `Use web search for strong repair` checkbox
 - a compact `...` menu for range marks such as `from here` and `to here`
 
 Do not show document IDs, unit IDs, target IDs, or signal details in the normal
@@ -1610,11 +1609,11 @@ the ruby or choosing an available alternate reading is a span-level override,
 not a whole-sentence rejection.
 
 No-ruby is the normal way to request strong-model handling. If consecutive
-targets are canceled in the same sentence, group them into one repair span. Use
-the sentence-level web-search checkbox when any local repair in that sentence
-likely needs external lookup. This is deliberately sentence-level rather than
-span-level: occasional extra web-search cost is preferable to an awkward
-per-span UI.
+targets are canceled in the same sentence, group them into one repair span. Do
+not ask the human reviewer to decide whether web search is needed. The
+strong-repair prompt/model should make that decision from the local target
+context, rejected readings, and entity-like cues, and should record whether web
+search was actually used.
 
 Whole-sentence escalation should be reserved for a future advanced fallback if
 real examples require it. Strong-model handling must be a separate later stage,
@@ -1711,8 +1710,7 @@ step. The replay semantics match the review UI:
 
 - reviewed ranges define coverage
 - no explicit override inside a reviewed range means accept
-- sparse overrides can set sentence skip, sentence-level web-search preference,
-  or target-level reading choices
+- sparse overrides can set sentence skip or target-level reading choices
 - target-level `No ruby` means the current reading was rejected and should be
   grouped with adjacent canceled targets for focused strong repair
 - sentence skip dominates operational processing; target choices on skipped
@@ -1745,8 +1743,9 @@ target-group queue for cases that need the future stronger model:
   "target_group"` and `repair_order: 1`
 
 The queue row should carry the grouped targets, any human-selected local
-constraints, and the sentence-level `web_search_required` value. Sentence-level
-escalation is legacy/fallback plumbing, not the preferred path.
+constraints, and enough sentence context for the strong model to decide whether
+web search is needed. Sentence-level escalation is legacy/fallback plumbing, not
+the preferred path.
 
 Canceled target readings should carry `rejected_readings` in the strong queue.
 That gives the future strong/web repair prompt negative evidence such as
@@ -1966,8 +1965,8 @@ batches benefit from reviewed data:
 1. regenerate any active review packs after candidate-selection changes
 2. import and apply final-review submissions for the active dev batch
 3. finalize batches that have no strong-repair queue
-4. implement the real `yomi_strong_repair` stage for canceled ruby target groups
-   and optional web-search repair
+4. implement the real `yomi_strong_repair` stage for canceled ruby target groups,
+   with model-side web-search judgment when context is insufficient
 5. harvest accepted repairs into conservative learned default rules
 6. feed human skip/unskip decisions back into alphabetic token decisions where
    appropriate

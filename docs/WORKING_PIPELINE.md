@@ -1520,10 +1520,9 @@ require it. A flat list works better with the existing range-export model:
 default export covers everything, `from here` and `to here` marks narrow the
 exported range, and multiple returned files can be merged by stable item IDs.
 
-Each sentence should have only three visible controls:
+Each sentence should have only two visible controls:
 
 - `Skip`
-- `Use web search for strong repair`
 - `...` for range marks and other low-frequency actions
 
 Yomi targets should be edited inline. Unresolved targets are highlighted;
@@ -1537,7 +1536,8 @@ Changed spans should be colored differently from unresolved spans. A changed
 span is a local override. A no-ruby choice means the reviewer rejects the
 current reading and wants strong-model handling for that local area. Consecutive
 no-ruby targets in the same sentence should be grouped automatically into one
-strong-repair span. The sentence-level web-search checkbox applies to every
+strong-repair span. Whether to use web search should be decided by the strong
+repair prompt/model from the target context, not by a human review checkbox.
 strong-repair span in that sentence. This is intentionally sentence-level rather
 than span-level: occasional extra web search is cheaper than making the review
 UI awkward.
@@ -2058,8 +2058,7 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `review_stage` must be `yomi_final_review`
 - `pack_id` must match the generated review pack
 - `reviewed_ranges` define which sentence items were actually reviewed
-- sparse `overrides` carry `skip`, sentence-level `web_search_required`, and
-  target-level reading choices
+- sparse `overrides` carry `skip` and target-level reading choices
 - target-level `choice_source: "none"` means the previous reading was rejected
   and should enter the strong-repair queue; consecutive no-ruby targets are
   grouped into one strong-repair span
@@ -2084,9 +2083,10 @@ python scripts/import_yomi_final_review_issue.py --issue-number 1
 `choice_source == "none"` choices are collected in token order, and consecutive
 canceled targets in the same sentence become one `repair_scope:
 "target_group"` queue entry. These groups need focused strong repair rather
-than serving as confirmed local constraints. Sentence-level
-`web_search_required` is copied onto each group in that sentence. Skipped
-sentences are excluded from this queue.
+than serving as confirmed local constraints. Skipped sentences are excluded
+from this queue. The future strong-repair prompt should decide whether web
+search is needed from the target context and rejected readings, and should
+record whether search was actually used.
 
 For a canceled ruby, the queue should preserve the rejected reading explicitly
 as `rejected_readings`. This is useful for strong/web repair cases: for example,

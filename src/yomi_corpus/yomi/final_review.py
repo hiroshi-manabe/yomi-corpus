@@ -400,7 +400,6 @@ def replay_review_submissions(
                     "reviewed": True,
                     "skip": bool(item.get("skip_default", False)),
                     "escalate_sentence": False,
-                    "web_search": False,
                     "targets": default_target_rows(item),
                     "note": "",
                     "submission_id": str(submission.get("submission_id", "")),
@@ -418,7 +417,6 @@ def replay_review_submissions(
                         "reviewed": True,
                         "skip": bool(item.get("skip_default", False)),
                         "escalate_sentence": False,
-                        "web_search": False,
                         "targets": default_target_rows(item),
                         "note": "",
                     },
@@ -427,8 +425,6 @@ def replay_review_submissions(
                     current["skip"] = bool(override["skip"])
                 if "escalate_sentence" in override:
                     current["escalate_sentence"] = bool(override["escalate_sentence"])
-                if "web_search" in override:
-                    current["web_search"] = bool(override["web_search"])
                 current["targets"] = merge_default_and_explicit_target_rows(
                     item,
                     [row for row in override.get("targets", []) if isinstance(row, dict)],
@@ -654,7 +650,6 @@ def set_final_review_payload(
         "item_id": item.get("item_id"),
         "skip": bool(item_state.get("skip")),
         "escalate_sentence": bool(item_state.get("escalate_sentence")),
-        "web_search": bool(item_state.get("web_search")),
         "target_overrides": target_overrides,
         "note": str(item_state.get("note", "")),
         "submission_id": str(item_state.get("submission_id", "")),
@@ -723,7 +718,6 @@ def build_strong_repair_queue_file(
                             "rendered_yomi": rendered_yomi,
                             "repair_scope": "target",
                             "repair_order": 1,
-                            "web_search": bool(review.get("web_search")),
                             "reasons": ["target_no_ruby"],
                             "target_constraints": [target],
                             "target_escalations": [target],
@@ -746,7 +740,6 @@ def build_strong_repair_queue_file(
                             "rendered_yomi": rendered_yomi,
                             "repair_scope": "sentence",
                             "repair_order": 2,
-                            "web_search": bool(review.get("web_search")),
                             "reasons": sentence_reasons,
                             "target_constraints": target_constraints,
                             "target_escalations": target_escalation_overrides,
