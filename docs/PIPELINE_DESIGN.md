@@ -829,7 +829,7 @@ auto_accept_profile = "stable_two_kanji"
 alphabetic_entity_judge = "economy"
 scope_triage = "economy"
 yomi_reading = "standard"
-yomi_repair = "economy"
+yomi_repair = "standard"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
@@ -1736,8 +1736,8 @@ overrides are collected through the yomi final-review path.
 
 If no matching submission exists, the stage blocks as a human review gate.
 
-`yomi_strong_repair_queued` is currently a mock/plumbing stage. It writes a
-target-group queue for cases that need the future stronger model:
+`yomi_strong_repair_queued` writes a target-group queue for cases that need the
+stronger repair model:
 
 - consecutive target-level `No ruby` overrides as `repair_scope:
   "target_group"` and `repair_order: 1`
@@ -1748,9 +1748,22 @@ web search is needed. Sentence-level escalation is legacy/fallback plumbing, not
 the preferred path.
 
 Canceled target readings should carry `rejected_readings` in the strong queue.
-That gives the future strong/web repair prompt negative evidence such as
+That gives the strong/web repair prompt negative evidence such as
 `史輝` is not `ふみてる` in a publisher-name context, or `元` is not `もと`
 inside `真光元`.
+
+`yomi_strong_repair_llm_completed` runs `config/llm/yomi_repair.toml` on the
+queue and applies valid target-group repairs to:
+
+```text
+data/units/<batch>/units.yomi.strong_repaired.jsonl
+```
+
+The applier is deliberately narrow. It accepts only valid parsed JSON arrays
+whose concatenated surfaces exactly match the rejected span, and it converts
+readings to the pipeline's katakana `surface/READING` representation. Missing
+results, parse errors, sentence-scope repairs, invalid readings, or surface
+mismatches remain blocking.
 
 Future work: after a strong repair is accepted in final confirmation, promote
 the repaired surface span into an exact learned default for later batches. This
@@ -1759,9 +1772,11 @@ is useful for multi-token or boundary-crossing repairs such as `一発` becoming
 use the whole confirmed surface span by default, not infer a broader regex or
 subspan rule unless separately approved.
 
-No expensive correction call is made yet. This keeps implementation ordered by
-actual evidence: first complete the no-escalation path, then implement strong
-correction once real examples exist.
+`yomi_finalized` consumes `units.yomi.strong_repaired.jsonl` when it exists, but
+strong repair results are still candidates. If the strong queue is non-empty,
+finalization blocks until a later human confirmation stage marks the strong
+repair apply summary as confirmed. Missing or incomplete strong-repair apply
+summaries also block finalization.
 
 `yomi_finalized` writes the no-escalation final output when the strong queue is
 empty. If the queue is non-empty, it blocks rather than pretending the batch is

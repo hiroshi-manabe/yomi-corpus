@@ -8,6 +8,7 @@ Input:
 
 Task:
 Return the correct reading for the rejected span.
+The rejected readings are negative evidence; do not return the same surface/reading pair unchanged.
 First check whether the entire rejected span is an established name/entity/term. If yes, return one item for the whole span.
 If not, prefer word-level segmentation. Split proper-name prefixes from common suffixes when natural.
 Use one item only for an established unsplittable name.

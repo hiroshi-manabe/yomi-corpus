@@ -1061,7 +1061,7 @@ auto_accept_profile = "stable_two_kanji"
 alphabetic_entity_judge = "economy"
 scope_triage = "economy"
 yomi_reading = "standard"
-yomi_repair = "economy"
+yomi_repair = "standard"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
@@ -2084,7 +2084,7 @@ python scripts/import_yomi_final_review_issue.py --issue-number 1
 canceled targets in the same sentence become one `repair_scope:
 "target_group"` queue entry. These groups need focused strong repair rather
 than serving as confirmed local constraints. Skipped sentences are excluded
-from this queue. The future strong-repair prompt should decide whether web
+from this queue. The strong-repair prompt should decide whether web
 search is needed from the target context and rejected readings, and should
 record whether search was actually used.
 
@@ -2117,7 +2117,7 @@ If no matching submission exists, `final_review_applied` blocks with a human
 review gate. This is intentional: even on `dev`, final yomi review should not be
 silently skipped.
 
-`yomi_strong_repair_queued` is currently a mock/plumbing stage. It creates:
+`yomi_strong_repair_queued` creates the local strong-repair input queue:
 
 ```text
 data/units/<batch>/yomi_strong_repair_queue.jsonl
@@ -2133,11 +2133,33 @@ Older sentence-level escalation should be treated as legacy/fallback plumbing,
 not the preferred review path. The current design expects reviewers to cancel
 the local problematic targets instead.
 
-The actual expensive strong-LLM correction stage is intentionally not
-implemented yet. It should be added only after real examples appear.
+`yomi_strong_repair_llm_completed` runs `config/llm/yomi_repair.toml` on that
+queue, using the track's `yomi_repair` profile and execution mode. The default
+dev and working profile is `standard` because local target repair needs the
+stronger `gpt-5.5` behavior seen in examples such as `真光元`; cheaper mini
+models are too noisy for this stage.
 
-`yomi_finalized` finalizes only the no-escalation path. If the strong repair
-queue is non-empty, it blocks. If the queue is empty, it writes:
+The stage writes:
+
+```text
+data/units/<batch>/yomi_strong_repair_results.jsonl
+data/units/<batch>/yomi_strong_repair_usage_summary.json
+data/units/<batch>/units.yomi.strong_repaired.jsonl
+data/units/<batch>/yomi_strong_repair_apply_summary.json
+```
+
+Application is intentionally conservative. For now, target-group repairs are
+applied only when the parsed JSON array is valid, every reading is kana-only,
+and the concatenated returned surfaces exactly match the rejected span. Missing,
+parse-failed, sentence-scope, or surface-mismatched rows block the stage rather
+than being silently accepted.
+
+`yomi_finalized` reads `units.yomi.strong_repaired.jsonl` when it exists. If the
+strong repair queue is non-empty, finalization requires a later human
+confirmation step even when every LLM repair was mechanically applied. This is
+intentional: strong repair results are candidates, not final truth. If no
+successful apply summary exists, or if confirmation is missing, finalization
+blocks. Otherwise it writes:
 
 ```text
 data/units/<batch>/units.yomi.final.jsonl

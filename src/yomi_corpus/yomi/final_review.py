@@ -761,13 +761,264 @@ def build_strong_repair_queue_file(
         "target_escalations": target_escalations,
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
-        "mock_only": True,
+        "mock_only": False,
     }
     summary_json.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     return summary
+
+
+def apply_yomi_strong_repair_results_file(
+    *,
+    units_jsonl: Path,
+    queue_jsonl: Path,
+    results_jsonl: Path,
+    output_jsonl: Path,
+    summary_json: Path,
+) -> dict[str, Any]:
+    queue_rows = load_jsonl(queue_jsonl)
+    result_rows = {str(row.get("item_id") or ""): row for row in load_jsonl(results_jsonl)}
+    rows_by_unit: dict[str, list[dict[str, Any]]] = {}
+    for row in queue_rows:
+        unit_id = str(row.get("unit_id") or "")
+        if unit_id:
+            rows_by_unit.setdefault(unit_id, []).append(row)
+
+    read_units = 0
+    written_units = 0
+    queued_items = len(queue_rows)
+    applied_items = 0
+    missing_results = 0
+    parse_error_items = 0
+    invalid_items = 0
+    unsupported_items = 0
+    output_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    summary_json.parent.mkdir(parents=True, exist_ok=True)
+    with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
+        for line in src:
+            if not line.strip():
+                continue
+            read_units += 1
+            unit = json.loads(line)
+            unit_id = str(unit.get("unit_id") or "")
+            repair_log: list[dict[str, Any]] = []
+            for queue_row in sorted(
+                rows_by_unit.get(unit_id, []),
+                key=strong_repair_apply_sort_key,
+                reverse=True,
+            ):
+                item_id = str(queue_row.get("item_id") or "")
+                result = result_rows.get(item_id)
+                if result is None:
+                    missing_results += 1
+                    repair_log.append({"item_id": item_id, "status": "missing_result"})
+                    continue
+                if result.get("parse_error"):
+                    parse_error_items += 1
+                    repair_log.append(
+                        {
+                            "item_id": item_id,
+                            "status": "parse_error",
+                            "parse_error": result.get("parse_error"),
+                        }
+                    )
+                    continue
+                if queue_row.get("repair_scope") != "target_group":
+                    unsupported_items += 1
+                    repair_log.append(
+                        {
+                            "item_id": item_id,
+                            "status": "unsupported_scope",
+                            "repair_scope": queue_row.get("repair_scope"),
+                        }
+                    )
+                    continue
+                apply_result = apply_target_group_strong_repair(unit, queue_row, result)
+                repair_log.append({"item_id": item_id, **apply_result})
+                if apply_result["status"] == "applied":
+                    applied_items += 1
+                else:
+                    invalid_items += 1
+            if repair_log:
+                unit.setdefault("analysis", {}).setdefault("llm", {})["yomi_strong_repair"] = {
+                    "rule": "yomi_strong_repair_apply_v1",
+                    "repairs": repair_log,
+                }
+            dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+            written_units += 1
+
+    unapplied_items = queued_items - applied_items
+    summary = {
+        "rule": "yomi_strong_repair_apply_v1",
+        "stage_complete": unapplied_items == 0,
+        "read_units": read_units,
+        "written_units": written_units,
+        "queued_items": queued_items,
+        "result_count": len(result_rows),
+        "applied_items": applied_items,
+        "unapplied_items": unapplied_items,
+        "missing_results": missing_results,
+        "parse_error_items": parse_error_items,
+        "invalid_items": invalid_items,
+        "unsupported_items": unsupported_items,
+        "output_jsonl": str(output_jsonl),
+        "summary_json": str(summary_json),
+    }
+    if unapplied_items:
+        summary["blocking_reason"] = (
+            "Strong yomi repair has unapplied items; inspect yomi_strong_repair_apply_summary.json."
+        )
+    summary_json.write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return summary
+
+
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    rows = []
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            if isinstance(row, dict):
+                rows.append(row)
+    return rows
+
+
+def strong_repair_apply_sort_key(row: dict[str, Any]) -> tuple[int, int, str]:
+    targets = [target for target in row.get("target_escalations", []) if isinstance(target, dict)]
+    token_indexes = [
+        int(target["token_index"])
+        for target in targets
+        if isinstance(target.get("token_index"), int)
+    ]
+    return (
+        int(row.get("repair_order") or 0),
+        max(token_indexes) if token_indexes else -1,
+        str(row.get("item_id") or ""),
+    )
+
+
+def apply_target_group_strong_repair(
+    unit: dict[str, Any],
+    queue_row: dict[str, Any],
+    result: dict[str, Any],
+) -> dict[str, Any]:
+    parsed = result.get("parsed")
+    if not isinstance(parsed, list) or not parsed:
+        return {"status": "invalid_result", "reason": "parsed result is not a non-empty array"}
+    replacement_pairs = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            return {"status": "invalid_result", "reason": "parsed item is not an object"}
+        surface = str(item.get("surface") or "")
+        reading = str(item.get("reading") or "")
+        if not surface:
+            return {"status": "invalid_result", "reason": "empty replacement surface"}
+        normalized = normalize_hiragana_reading(reading)
+        if not is_valid_yomi_reading(normalized):
+            return {
+                "status": "invalid_result",
+                "reason": "invalid replacement reading",
+                "surface": surface,
+                "reading": reading,
+            }
+        replacement_pairs.append((surface, hira_to_kata(normalized)))
+
+    targets = [target for target in queue_row.get("target_escalations", []) if isinstance(target, dict)]
+    rejected_pairs = rejected_surface_reading_pairs(targets)
+    for surface, reading in replacement_pairs:
+        if (surface, normalize_hiragana_reading(reading)) in rejected_pairs:
+            return {
+                "status": "invalid_result",
+                "reason": "replacement reused rejected reading",
+                "surface": surface,
+                "reading": reading,
+            }
+    token_indexes = [
+        int(target["token_index"])
+        for target in targets
+        if isinstance(target.get("token_index"), int)
+    ]
+    if not targets or len(token_indexes) != len(targets):
+        return {"status": "invalid_queue", "reason": "target group lacks token indexes"}
+    start = min(token_indexes)
+    end = max(token_indexes) + 1
+    rejected_span = "".join(str(target.get("surface") or "") for target in targets)
+    replacement_span = "".join(surface for surface, _reading in replacement_pairs)
+    if replacement_span != rejected_span:
+        return {
+            "status": "surface_mismatch",
+            "rejected_span": rejected_span,
+            "replacement_span": replacement_span,
+        }
+
+    yomi = unit.setdefault("analysis", {}).setdefault("mechanical", {}).setdefault("yomi", {})
+    rendered = str(yomi.get("rendered") or "")
+    if not rendered:
+        return {"status": "invalid_unit", "reason": "missing rendered yomi"}
+    pairs = parse_rendered_pairs(rendered)
+    if end > len(pairs):
+        return {"status": "invalid_queue", "reason": "target token index out of range"}
+    original_span = "".join(surface for surface, _reading in pairs[start:end])
+    if original_span != rejected_span:
+        fallback = find_unique_rendered_span(pairs, rejected_span)
+        if fallback is None:
+            return {
+                "status": "surface_mismatch",
+                "rejected_span": rejected_span,
+                "original_span": original_span,
+            }
+        start, end = fallback
+    yomi.setdefault("rendered_before_strong_repair", rendered)
+    pairs[start:end] = replacement_pairs
+    yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+    return {
+        "status": "applied",
+        "rejected_span": rejected_span,
+        "replacement": [
+            {"surface": surface, "reading": reading}
+            for surface, reading in replacement_pairs
+        ],
+    }
+
+
+def rejected_surface_reading_pairs(targets: list[dict[str, Any]]) -> set[tuple[str, str]]:
+    pairs: set[tuple[str, str]] = set()
+    for target in targets:
+        for rejected in target.get("rejected_readings", []) or []:
+            if not isinstance(rejected, dict):
+                continue
+            surface = str(rejected.get("surface") or "")
+            reading = str(rejected.get("reading") or "")
+            if surface and reading:
+                pairs.add((surface, normalize_hiragana_reading(reading)))
+    return pairs
+
+
+def find_unique_rendered_span(
+    pairs: list[tuple[str, str]],
+    surface_span: str,
+) -> tuple[int, int] | None:
+    matches: list[tuple[int, int]] = []
+    for start in range(len(pairs)):
+        joined = ""
+        for end in range(start + 1, len(pairs) + 1):
+            joined += pairs[end - 1][0]
+            if joined == surface_span:
+                matches.append((start, end))
+                break
+            if not surface_span.startswith(joined):
+                break
+    if len(matches) != 1:
+        return None
+    return matches[0]
 
 
 def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
@@ -813,19 +1064,39 @@ def finalize_reviewed_yomi_file(
     *,
     units_jsonl: Path,
     strong_queue_summary_json: Path,
+    strong_apply_summary_json: Path | None = None,
     output_jsonl: Path,
     summary_json: Path,
 ) -> dict[str, Any]:
     strong_summary = load_json(strong_queue_summary_json)
     queued_items = int(strong_summary.get("queued_items", 0))
     if queued_items:
-        return {
-            "stage_complete": False,
-            "queued_items": queued_items,
-            "blocking_reason": (
-                "Strong yomi repair queue is not empty; real strong-LLM repair is not implemented yet."
-            ),
-        }
+        if strong_apply_summary_json is None or not strong_apply_summary_json.exists():
+            return {
+                "stage_complete": False,
+                "queued_items": queued_items,
+                "blocking_reason": "Strong yomi repair queue is not empty and has not been applied yet.",
+            }
+        strong_apply_summary = load_json(strong_apply_summary_json)
+        if not strong_apply_summary.get("stage_complete"):
+            return {
+                "stage_complete": False,
+                "queued_items": queued_items,
+                "blocking_reason": str(
+                    strong_apply_summary.get(
+                        "blocking_reason",
+                        "Strong yomi repair has unapplied items.",
+                    )
+                ),
+            }
+        if not strong_apply_summary.get("confirmed"):
+            return {
+                "stage_complete": False,
+                "queued_items": queued_items,
+                "blocking_reason": (
+                    "Strong yomi repair results require human confirmation before finalization."
+                ),
+            }
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     read_units = 0

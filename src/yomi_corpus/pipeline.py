@@ -42,6 +42,7 @@ from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
 from yomi_corpus.yomi.final_review import (
     apply_final_review_file,
+    apply_yomi_strong_repair_results_file,
     build_strong_repair_queue_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
@@ -137,6 +138,7 @@ STAGE_YOMI_READING_LLM_COMPLETED = "yomi_reading_llm_completed"
 STAGE_FINAL_REVIEW_PREPARED = "final_review_prepared"
 STAGE_FINAL_REVIEW_APPLIED = "final_review_applied"
 STAGE_YOMI_STRONG_REPAIR_QUEUED = "yomi_strong_repair_queued"
+STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED = "yomi_strong_repair_llm_completed"
 STAGE_YOMI_FINALIZED = "yomi_finalized"
 LEGACY_STAGE_MAP = {
     "alphabetic_judged": STAGE_ALPHABETIC_LLM_JUDGED,
@@ -147,6 +149,7 @@ STAGE_LLM_TASKS = {
     STAGE_ALPHABETIC_LLM_JUDGED: LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
     STAGE_SCOPE_TRIAGE_LLM_COMPLETED: LLM_TASK_SCOPE_TRIAGE,
     STAGE_YOMI_READING_LLM_COMPLETED: LLM_TASK_YOMI_READING,
+    STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED: LLM_TASK_YOMI_REPAIR,
 }
 
 TRACKS: dict[str, dict[str, str]] = {
@@ -177,6 +180,7 @@ STAGE_SEQUENCE = [
     STAGE_FINAL_REVIEW_PREPARED,
     STAGE_FINAL_REVIEW_APPLIED,
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
+    STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
     STAGE_YOMI_FINALIZED,
 ]
 
@@ -195,6 +199,7 @@ RERUNNABLE_STAGES = frozenset(
         STAGE_FINAL_REVIEW_PREPARED,
         STAGE_FINAL_REVIEW_APPLIED,
         STAGE_YOMI_STRONG_REPAIR_QUEUED,
+        STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
         STAGE_YOMI_FINALIZED,
     }
 )
@@ -1014,6 +1019,11 @@ class PipelineWorkspace:
             return self._apply_final_review(batch_name)
         if stage_name == STAGE_YOMI_STRONG_REPAIR_QUEUED:
             return self._queue_yomi_strong_repair(batch_name)
+        if stage_name == STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED:
+            return self._run_yomi_strong_repair(
+                batch_name,
+                llm_execution_mode_override=llm_execution_mode_override,
+            )
         if stage_name == STAGE_YOMI_FINALIZED:
             return self._finalize_yomi(batch_name)
         raise ValueError(f"Unsupported pipeline stage: {stage_name}")
@@ -1104,6 +1114,13 @@ class PipelineWorkspace:
             return [
                 batch_dir / "yomi_strong_repair_queue.jsonl",
                 batch_dir / "yomi_strong_repair_queue_summary.json",
+            ]
+        if stage_name == STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED:
+            return [
+                batch_dir / "yomi_strong_repair_results.jsonl",
+                batch_dir / "yomi_strong_repair_usage_summary.json",
+                batch_dir / "units.yomi.strong_repaired.jsonl",
+                batch_dir / "yomi_strong_repair_apply_summary.json",
             ]
         if stage_name == STAGE_YOMI_FINALIZED:
             return [
@@ -2506,20 +2523,128 @@ class PipelineWorkspace:
                 "yomi_strong_repair_queued": str(summary["queued_items"]),
                 "yomi_strong_repair_sentence_escalations": str(summary["sentence_escalations"]),
                 "yomi_strong_repair_target_escalations": str(summary["target_escalations"]),
-                "yomi_strong_repair_mock_only": "true",
+                "yomi_strong_repair_mock_only": "false",
                 "human_review_required": "false",
                 "human_review_gate": "",
                 "human_review_item_count": "",
             }
         }
 
+    def _run_yomi_strong_repair(
+        self,
+        batch_name: str,
+        *,
+        llm_execution_mode_override: str | None = None,
+    ) -> dict[str, object]:
+        batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
+        task_config_path = "config/llm/yomi_repair.toml"
+        llm_profile = batch_state.llm_policy[LLM_TASK_YOMI_REPAIR]
+        execution_mode = (
+            llm_execution_mode_override
+            or batch_state.llm_execution_policy[LLM_TASK_YOMI_REPAIR]
+        )
+        base_task_config = load_llm_task_config(task_config_path)
+        task_config = apply_llm_profile(base_task_config, llm_profile)
+        input_path = batch_dir / "yomi_strong_repair_queue.jsonl"
+        results_path = batch_dir / "yomi_strong_repair_results.jsonl"
+        usage_summary_path = batch_dir / "yomi_strong_repair_usage_summary.json"
+        output_path = batch_dir / "units.yomi.strong_repaired.jsonl"
+        apply_summary_path = batch_dir / "yomi_strong_repair_apply_summary.json"
+        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_strong_repair"
+
+        queued_count = count_nonempty_lines(input_path)
+        job_summary = None
+        if queued_count:
+            job_summary = run_llm_task(
+                task_config_path,
+                str(input_path),
+                str(results_path),
+                execution_mode=execution_mode,
+                task_config_override=task_config,
+                job_dir=str(job_dir),
+                show_progress=True,
+            )
+            if job_summary.status != "completed":
+                return {
+                    "stage_complete": False,
+                    "blocking_reason": (
+                        f"LLM {execution_mode} job is {job_summary.status}; "
+                        "rerun ./next to poll or resume."
+                    ),
+                    "artifacts": self._llm_running_artifacts(
+                        prefix="yomi_strong_repair",
+                        task_config_path=task_config_path,
+                        task_config=task_config,
+                        llm_profile=llm_profile,
+                        execution_mode=execution_mode,
+                        job_dir=job_dir,
+                        job_summary=job_summary,
+                        queued_count=queued_count,
+                    ),
+                }
+        else:
+            results_path.parent.mkdir(parents=True, exist_ok=True)
+            results_path.write_text("", encoding="utf-8")
+
+        usage_summary = summarize_results_jsonl(
+            str(results_path),
+            model=task_config.model,
+            processing_tier="standard",
+            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
+        )
+        usage_summary_path.write_text(
+            json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        apply_summary = apply_yomi_strong_repair_results_file(
+            units_jsonl=batch_dir / "units.yomi.reviewed.jsonl",
+            queue_jsonl=input_path,
+            results_jsonl=results_path,
+            output_jsonl=output_path,
+            summary_json=apply_summary_path,
+        )
+        completed_artifacts = self._llm_completed_artifacts(
+            prefix="yomi_strong_repair",
+            results_path=results_path,
+            usage_summary_path=usage_summary_path,
+            apply_summary_path=apply_summary_path,
+            task_config_path=task_config_path,
+            task_config=task_config,
+            llm_profile=llm_profile,
+            execution_mode=execution_mode,
+            job_dir=job_dir,
+            job_summary=job_summary,
+            queued_count=queued_count,
+        )
+        artifacts = {
+            **completed_artifacts,
+            "units_yomi_strong_repaired_jsonl": str(output_path),
+            "yomi_strong_repair_applied": str(apply_summary["applied_items"]),
+            "yomi_strong_repair_unapplied": str(apply_summary["unapplied_items"]),
+            "yomi_strong_repair_parse_error": str(apply_summary["parse_error_items"]),
+            "yomi_strong_repair_missing_result": str(apply_summary["missing_results"]),
+            "human_review_required": "false",
+            "human_review_gate": "",
+            "human_review_item_count": "",
+        }
+        if not apply_summary.get("stage_complete", True):
+            return {
+                "stage_complete": False,
+                "blocking_reason": str(apply_summary["blocking_reason"]),
+                "artifacts": artifacts,
+            }
+        return {"artifacts": artifacts}
+
     def _finalize_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         output_path = batch_dir / "units.yomi.final.jsonl"
         summary_path = batch_dir / "yomi_finalize_summary.json"
+        strong_repaired_path = batch_dir / "units.yomi.strong_repaired.jsonl"
         summary = finalize_reviewed_yomi_file(
-            units_jsonl=batch_dir / "units.yomi.reviewed.jsonl",
+            units_jsonl=strong_repaired_path if strong_repaired_path.exists() else batch_dir / "units.yomi.reviewed.jsonl",
             strong_queue_summary_json=batch_dir / "yomi_strong_repair_queue_summary.json",
+            strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
             output_jsonl=output_path,
             summary_json=summary_path,
         )
@@ -2535,7 +2660,7 @@ class PipelineWorkspace:
                     **artifacts,
                     "yomi_strong_repair_queued": str(summary["queued_items"]),
                     "human_review_required": "true",
-                    "human_review_gate": "yomi_strong_repair_mock",
+                    "human_review_gate": "yomi_strong_repair_review",
                     "human_review_item_count": str(summary["queued_items"]),
                 },
             }

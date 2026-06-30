@@ -1006,13 +1006,15 @@ class PipelineTrackTests(unittest.TestCase):
                 first = workspace.advance("dev")
             second = workspace.advance("dev")
             third = workspace.advance("dev")
+            fourth = workspace.advance("dev")
 
             self.assertEqual(first["current_stage"], "final_review_applied")
             self.assertEqual(mocked_import.call_count, 1)
             self.assertEqual(first["artifacts"]["final_review_issue_import_status"], "ok")
             self.assertEqual(second["current_stage"], "yomi_strong_repair_queued")
-            self.assertEqual(third["current_stage"], "yomi_finalized")
-            self.assertEqual(third["artifacts"]["yomi_final_written_units"], "1")
+            self.assertEqual(third["current_stage"], "yomi_strong_repair_llm_completed")
+            self.assertEqual(fourth["current_stage"], "yomi_finalized")
+            self.assertEqual(fourth["artifacts"]["yomi_final_written_units"], "1")
             final_row = json.loads(
                 (root / "data" / "units" / "dev_batch_0001" / "units.yomi.final.jsonl")
                 .read_text(encoding="utf-8")

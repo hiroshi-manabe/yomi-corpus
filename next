@@ -20,6 +20,7 @@ LLM_STATUS_STAGE_PREFIXES = {
     "alphabetic_llm_judged": "alphabetic_judgment",
     "scope_triage_llm_completed": "scope_triage",
     "yomi_reading_llm_completed": "yomi_reading",
+    "yomi_strong_repair_llm_completed": "yomi_strong_repair",
 }
 
 
@@ -217,7 +218,13 @@ def format_next_summary(summary: dict[str, object]) -> str:
         skipped_line = human_review_skipped_line(artifacts)
         if skipped_line:
             lines.append(skipped_line)
-        for prefix in ["alphabetic_judgment", "scope_triage", "yomi_reading", "yomi_reading_retry"]:
+        for prefix in [
+            "alphabetic_judgment",
+            "scope_triage",
+            "yomi_reading",
+            "yomi_reading_retry",
+            "yomi_strong_repair",
+        ]:
             if not should_show_llm_status(summary, artifacts, prefix):
                 continue
             completed = artifacts.get(f"{prefix}_llm_job_completed")
@@ -337,10 +344,12 @@ def output_keys_for_stage(stage: str) -> list[str]:
         "final_review_prepared": ["final_review_pack_json", "review_site_manifest_json"],
         "final_review_applied": ["units_yomi_reviewed_jsonl"],
         "yomi_strong_repair_queued": ["yomi_strong_repair_queue_jsonl"],
+        "yomi_strong_repair_llm_completed": ["units_yomi_strong_repaired_jsonl"],
         "yomi_finalized": ["units_yomi_final_jsonl"],
     }
     return stage_outputs.get(stage, []) + [
         "units_yomi_llm_readings_jsonl",
+        "units_yomi_strong_repaired_jsonl",
         "units_yomi_reviewed_jsonl",
         "yomi_strong_repair_queue_jsonl",
         "units_yomi_final_jsonl",

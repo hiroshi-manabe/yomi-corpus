@@ -7,6 +7,7 @@ from pathlib import Path
 
 from yomi_corpus.yomi.final_review import (
     apply_final_review_file,
+    apply_yomi_strong_repair_results_file,
     build_strong_repair_queue_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
@@ -767,7 +768,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                 ["真光", "元"],
             )
 
-    def test_strong_queue_blocks_finalize_when_no_ruby_target_exists(self) -> None:
+    def test_strong_queue_blocks_finalize_before_repair_is_applied(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             reviewed_path = root / "reviewed.jsonl"
@@ -819,7 +820,251 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(queued["repair_scope"], "target_group")
             self.assertEqual(queued["repair_order"], 1)
             self.assertFalse(final_summary["stage_complete"])
-            self.assertIn("not implemented", final_summary["blocking_reason"])
+            self.assertIn("has not been applied", final_summary["blocking_reason"])
+
+    def test_applies_target_group_strong_repair_and_blocks_finalize_until_confirmation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reviewed_path = root / "reviewed.jsonl"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            results_path = root / "results.jsonl"
+            strong_path = root / "strong.jsonl"
+            strong_summary_path = root / "strong_summary.json"
+            final_path = root / "final.jsonl"
+            final_summary_path = root / "final_summary.json"
+            reviewed_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "それを、旧池尻中学校を改装した。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中/イケジリナカ 学校/ガッコウ を/ヲ 改装/カイソウ し/シ た/タ 。/。"
+                                }
+                            },
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "skip": False,
+                                    "escalate_sentence": False,
+                                    "target_overrides": [
+                                        {
+                                            "item_id": "u1:r0005c01",
+                                            "choice_source": "none",
+                                            "surface": "池尻中",
+                                            "token_index": 4,
+                                            "chunk_index": 0,
+                                            "current_reading_hiragana": "いけじりなか",
+                                        },
+                                        {
+                                            "item_id": "u1:r0006c01",
+                                            "choice_source": "none",
+                                            "surface": "学校",
+                                            "token_index": 5,
+                                            "chunk_index": 0,
+                                            "current_reading_hiragana": "がっこう",
+                                        },
+                                    ],
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+            queued = json.loads(queue_path.read_text(encoding="utf-8"))
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": queued["item_id"],
+                        "parsed": [
+                            {"surface": "池尻", "reading": "いけじり", "used_web_search": False},
+                            {"surface": "中学校", "reading": "ちゅうがっこう", "used_web_search": False},
+                        ],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            strong_summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=reviewed_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=strong_path,
+                summary_json=strong_summary_path,
+            )
+            final_summary = finalize_reviewed_yomi_file(
+                units_jsonl=strong_path,
+                strong_queue_summary_json=queue_summary_path,
+                strong_apply_summary_json=strong_summary_path,
+                output_jsonl=final_path,
+                summary_json=final_summary_path,
+            )
+
+            self.assertTrue(strong_summary["stage_complete"])
+            self.assertEqual(strong_summary["applied_items"], 1)
+            repaired = json.loads(strong_path.read_text(encoding="utf-8"))
+            self.assertIn("池尻/イケジリ 中学校/チュウガッコウ", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
+            self.assertFalse(final_summary["stage_complete"])
+            self.assertIn("require human confirmation", final_summary["blocking_reason"])
+
+    def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "reviewed.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            output_path = root / "strong.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "山根視来選手です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "山根/ヤマネ 視/シ 来/ライ 選手/センシュ です/デス 。/。"
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "unit_id": "u1",
+                        "repair_scope": "target_group",
+                        "target_escalations": [
+                            {"surface": "視", "token_index": 2, "chunk_index": 0},
+                            {"surface": "来", "token_index": 3, "chunk_index": 0},
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "parsed": [{"surface": "視来", "reading": "ミキ"}],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            repaired = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertIn("山根/ヤマネ 視来/ミキ 選手/センシュ", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
+
+    def test_strong_repair_rejects_reused_rejected_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "reviewed.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            output_path = root / "strong.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "真光元被害者の会です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "真光/シンコウ 元/モト 被害者/ヒガイシャ の/ノ 会/カイ です/デス 。/。"
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "unit_id": "u1",
+                        "repair_scope": "target_group",
+                        "target_escalations": [
+                            {
+                                "surface": "真光",
+                                "token_index": 0,
+                                "chunk_index": 0,
+                                "rejected_readings": [{"surface": "真光", "reading": "しんこう"}],
+                            },
+                            {
+                                "surface": "元",
+                                "token_index": 1,
+                                "chunk_index": 0,
+                                "rejected_readings": [{"surface": "元", "reading": "もと"}],
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "parsed": [
+                            {"surface": "真光", "reading": "まひかり"},
+                            {"surface": "元", "reading": "もと"},
+                        ],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertFalse(summary["stage_complete"])
+            self.assertEqual(summary["invalid_items"], 1)
 
 
 def unit(doc_id: str, unit_id: str, text: str, *, safe: bool = False) -> dict:
