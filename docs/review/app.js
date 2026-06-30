@@ -353,6 +353,11 @@ function renderItems() {
       el.itemsContainer.append(node);
       continue;
     }
+    if (pack.review_stage === "yomi_strong_repair_review") {
+      renderStrongRepairItem({ node, item, override, editable, isFrom, isTo });
+      el.itemsContainer.append(node);
+      continue;
+    }
     node.querySelector(".item-title").textContent = item.entity_key;
 
     const proposedBadge = node.querySelector(".proposed-badge");
@@ -467,6 +472,134 @@ function renderItems() {
 
     el.itemsContainer.append(node);
   }
+}
+
+function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }) {
+  node.innerHTML = "";
+  node.classList.add("strong-repair-card");
+  node.classList.toggle("has-override", Boolean(override));
+  node.classList.toggle("marker-start", isFrom);
+  node.classList.toggle("marker-end", isTo);
+
+  const header = document.createElement("header");
+  header.className = "item-header";
+  const titleWrap = document.createElement("div");
+  const titleRow = document.createElement("div");
+  titleRow.className = "item-title-row";
+  const seq = document.createElement("span");
+  seq.className = "item-seq";
+  seq.textContent = `#${item.seq}`;
+  const title = document.createElement("h3");
+  title.className = "item-title";
+  title.textContent = item.rejected_span || item.item_id;
+  titleRow.append(seq, title);
+
+  const badges = document.createElement("div");
+  badges.className = "item-badges";
+  const statusBadge = document.createElement("span");
+  statusBadge.className = "badge proposed-badge";
+  statusBadge.textContent = item.repair_status || "pending";
+  badges.append(statusBadge);
+  if (item.used_web_search) {
+    const webBadge = document.createElement("span");
+    webBadge.className = "badge";
+    webBadge.textContent = "web";
+    badges.append(webBadge);
+  }
+  if (override?.decision) {
+    const overrideBadge = document.createElement("span");
+    overrideBadge.className = "badge override-badge";
+    overrideBadge.textContent = override.decision;
+    badges.append(overrideBadge);
+  }
+  titleWrap.append(titleRow, badges);
+  header.append(titleWrap);
+
+  if (editable) {
+    const controls = document.createElement("div");
+    controls.className = "item-controls editable-only";
+    const acceptButton = document.createElement("button");
+    acceptButton.className = "secondary-button";
+    acceptButton.type = "button";
+    acceptButton.textContent = "Accept";
+    acceptButton.addEventListener("click", () => {
+      delete state.currentDraft.overrides[item.item_id];
+      touchDraft();
+      render();
+    });
+    const rejectButton = document.createElement("button");
+    rejectButton.className = "secondary-button danger-button";
+    rejectButton.type = "button";
+    rejectButton.textContent = "Reject";
+    rejectButton.addEventListener("click", () => {
+      setOverride(item.item_id, "reject");
+    });
+    controls.append(acceptButton, rejectButton);
+    header.append(controls);
+  }
+  node.append(header);
+
+  const text = document.createElement("p");
+  text.className = "strong-repair-text";
+  text.textContent = item.text || "";
+  node.append(text);
+
+  const grid = document.createElement("dl");
+  grid.className = "strong-repair-grid";
+  for (const [label, value] of [
+    ["Rejected", formatRejectedReadings(item)],
+    ["Proposal", formatRepairProposal(item.llm_parsed || [])],
+    ["Before", item.rendered_yomi_before || ""],
+    ["After", item.rendered_yomi_after || ""],
+  ]) {
+    const wrap = document.createElement("div");
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    wrap.append(dt, dd);
+    grid.append(wrap);
+  }
+  node.append(grid);
+
+  if (editable) {
+    const noteLabel = document.createElement("label");
+    noteLabel.className = "note-field strong-repair-note";
+    const noteTitle = document.createElement("span");
+    noteTitle.textContent = "Note";
+    const note = document.createElement("textarea");
+    note.className = "override-note";
+    note.rows = 2;
+    note.value = override?.note || "";
+    note.addEventListener("input", () => {
+      const current = state.currentDraft.overrides[item.item_id] || { decision: "reject", note: "" };
+      current.note = note.value;
+      state.currentDraft.overrides[item.item_id] = current;
+      touchDraft();
+      renderSubmissionPreview();
+    });
+    noteLabel.append(noteTitle, note);
+    node.append(noteLabel);
+  }
+}
+
+function formatRejectedReadings(item) {
+  const readings = item.rejected_readings || [];
+  if (!readings.length) {
+    return item.rejected_span || "";
+  }
+  return readings
+    .map((row) => `${row.surface || ""}=${row.reading || ""}`)
+    .join("; ");
+}
+
+function formatRepairProposal(rows) {
+  if (!rows.length) {
+    return "";
+  }
+  return rows
+    .map((row) => `${row.surface || ""}/${row.reading || ""}`)
+    .join(" + ");
 }
 
 function setOverride(itemId, decision) {

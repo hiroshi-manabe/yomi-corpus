@@ -490,6 +490,48 @@ button {
   gap: 8px;
 }
 
+.strong-repair-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.strong-repair-text {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.strong-repair-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 0;
+}
+
+.strong-repair-grid div {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(31, 28, 23, 0.03);
+  padding: 10px;
+}
+
+.strong-repair-grid dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.strong-repair-grid dd {
+  margin: 5px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.strong-repair-note textarea {
+  min-height: 64px;
+}
+
 .yomi-controls {
   display: grid;
   grid-template-columns: repeat(2, 28px);
