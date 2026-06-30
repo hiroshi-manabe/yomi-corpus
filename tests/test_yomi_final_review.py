@@ -7,8 +7,10 @@ from pathlib import Path
 
 from yomi_corpus.yomi.final_review import (
     apply_final_review_file,
+    apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
     build_strong_repair_queue_file,
+    build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
     replay_review_submissions,
@@ -942,6 +944,9 @@ class YomiFinalReviewTests(unittest.TestCase):
             results_path = root / "results.jsonl"
             strong_path = root / "strong.jsonl"
             strong_summary_path = root / "strong_summary.json"
+            pack_path = root / "strong_pack.json"
+            submission_store = root / "strong_submissions"
+            confirmation_summary_path = root / "strong_confirmation_summary.json"
             final_path = root / "final.jsonl"
             final_summary_path = root / "final_summary.json"
             reviewed_path.write_text(
@@ -1030,6 +1035,54 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertIn("池尻/イケジリ 中学校/チュウガッコウ", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
             self.assertFalse(final_summary["stage_complete"])
             self.assertIn("require human confirmation", final_summary["blocking_reason"])
+
+            pack_summary = build_yomi_strong_repair_review_pack_file(
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                units_jsonl=strong_path,
+                output_json=pack_path,
+                pack_id="strong_pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            self.assertEqual(pack_summary.item_count, 1)
+            pack = json.loads(pack_path.read_text(encoding="utf-8"))
+            self.assertEqual(pack["review_stage"], "yomi_strong_repair_review")
+            self.assertEqual(pack["items"][0]["rejected_span"], "池尻中学校")
+            self.assertEqual(pack["items"][0]["repair_status"], "applied")
+
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_strong_repair_review",
+                    "pack_id": "strong_pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [],
+                },
+                submission_store_dir=submission_store,
+            )
+            confirmation_summary = apply_strong_repair_review_file(
+                pack_json=pack_path,
+                submission_store_dir=submission_store,
+                strong_apply_summary_json=strong_summary_path,
+                output_summary_json=confirmation_summary_path,
+            )
+            self.assertTrue(confirmation_summary["stage_complete"])
+            confirmed_repair_summary = json.loads(strong_summary_path.read_text(encoding="utf-8"))
+            self.assertTrue(confirmed_repair_summary["confirmed"])
+
+            final_summary = finalize_reviewed_yomi_file(
+                units_jsonl=strong_path,
+                strong_queue_summary_json=queue_summary_path,
+                strong_apply_summary_json=strong_summary_path,
+                output_jsonl=final_path,
+                summary_json=final_summary_path,
+            )
+            self.assertTrue(final_summary["stage_complete"])
+            self.assertEqual(final_summary["written_units"], 1)
 
     def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

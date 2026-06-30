@@ -91,6 +91,29 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(stage["latest_pack_id"], "yomi_final_dev_batch_0001_v1")
         self.assertEqual(manifest["current_tracks"]["dev"]["review_stage"], "yomi_final_review")
 
+    def test_build_review_manifest_labels_yomi_strong_repair_review(self) -> None:
+        manifest = build_review_manifest(
+            [
+                {
+                    "pack_id": "yomi_strong_repair_dev_batch_0001_v1",
+                    "title": "Yomi strong repair review / dev_batch_0001 / v1",
+                    "review_stage": "yomi_strong_repair_review",
+                    "track_name": "dev",
+                    "created_at_epoch": 10,
+                    "item_count": 6,
+                    "site_filename": "yomi_strong_repair_dev_batch_0001_v1.json",
+                },
+            ]
+        )
+
+        stage = manifest["stages"]["yomi_strong_repair_review"]
+        self.assertEqual(stage["label"], "Yomi Strong Repair Review")
+        self.assertEqual(stage["latest_pack_id"], "yomi_strong_repair_dev_batch_0001_v1")
+        self.assertEqual(
+            manifest["current_tracks"]["dev"]["review_stage"],
+            "yomi_strong_repair_review",
+        )
+
     def test_build_review_manifest_defaults_to_newest_current_pack(self) -> None:
         manifest = build_review_manifest(
             [

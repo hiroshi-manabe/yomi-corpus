@@ -220,6 +220,9 @@ def build_pack_title(payload: dict, path: Path) -> str:
     if payload.get("review_stage") == "yomi_final_review" and batch_label:
         version = path.stem.split("_")[-1]
         return f"Yomi final review / {batch_label} / {version}"
+    if payload.get("review_stage") == "yomi_strong_repair_review" and batch_label:
+        version = path.stem.split("_")[-1]
+        return f"Yomi strong repair review / {batch_label} / {version}"
     return str(payload["pack_id"])
 
 
@@ -228,6 +231,8 @@ def humanize_stage_label(stage_id: str) -> str:
         return "Alphabetic Promotion Candidates"
     if stage_id == "yomi_final_review":
         return "Yomi Final Review"
+    if stage_id == "yomi_strong_repair_review":
+        return "Yomi Strong Repair Review"
     return stage_id.replace("_", " ").title()
 
 

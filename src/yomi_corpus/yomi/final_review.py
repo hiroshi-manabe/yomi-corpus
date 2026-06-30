@@ -11,8 +11,10 @@ from yomi_corpus.yomi.llm_readings import is_valid_yomi_reading, normalize_hirag
 
 
 REVIEW_STAGE = "yomi_final_review"
+STRONG_REPAIR_REVIEW_STAGE = "yomi_strong_repair_review"
 SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
+STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
 SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
@@ -27,6 +29,15 @@ class YomiFinalReviewPackSummary:
     unresolved_item_count: int
     unresolved_target_count: int
     provisional_skip_item_count: int
+    output_json: str
+    latest_json: str | None
+
+
+@dataclass(frozen=True)
+class YomiStrongRepairReviewPackSummary:
+    pack_id: str
+    review_stage: str
+    item_count: int
     output_json: str
     latest_json: str | None
 
@@ -66,6 +77,47 @@ def build_yomi_final_review_pack_file(
         unresolved_item_count=int(pack["summary"]["unresolved_item_count"]),
         unresolved_target_count=int(pack["summary"]["unresolved_target_count"]),
         provisional_skip_item_count=int(pack["summary"]["provisional_skip_item_count"]),
+        output_json=str(output_json),
+        latest_json=str(latest_json) if latest_json is not None else None,
+    )
+
+
+def build_yomi_strong_repair_review_pack_file(
+    *,
+    queue_jsonl: Path,
+    results_jsonl: Path,
+    units_jsonl: Path,
+    output_json: Path,
+    pack_id: str,
+    track_name: str,
+    batch_name: str,
+    latest_json: Path | None = None,
+    created_at_epoch: int | None = None,
+) -> YomiStrongRepairReviewPackSummary:
+    pack = build_yomi_strong_repair_review_pack(
+        queue_jsonl=queue_jsonl,
+        results_jsonl=results_jsonl,
+        units_jsonl=units_jsonl,
+        pack_id=pack_id,
+        track_name=track_name,
+        batch_name=batch_name,
+        created_at_epoch=created_at_epoch,
+    )
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(
+        json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    if latest_json is not None:
+        latest_json.parent.mkdir(parents=True, exist_ok=True)
+        latest_json.write_text(
+            json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    return YomiStrongRepairReviewPackSummary(
+        pack_id=pack_id,
+        review_stage=STRONG_REPAIR_REVIEW_STAGE,
+        item_count=int(pack["item_count"]),
         output_json=str(output_json),
         latest_json=str(latest_json) if latest_json is not None else None,
     )
@@ -116,6 +168,109 @@ def build_yomi_final_review_pack(
             "provisional_skip_item_count": len(provisional_skip_items),
         },
         "items": items,
+    }
+
+
+def build_yomi_strong_repair_review_pack(
+    *,
+    queue_jsonl: Path,
+    results_jsonl: Path,
+    units_jsonl: Path,
+    pack_id: str,
+    track_name: str,
+    batch_name: str,
+    created_at_epoch: int | None = None,
+) -> dict[str, Any]:
+    queue_rows = load_jsonl(queue_jsonl)
+    result_rows = {str(row.get("item_id") or ""): row for row in load_jsonl(results_jsonl)}
+    units_by_id = {str(row.get("unit_id") or ""): row for row in load_jsonl(units_jsonl)}
+    created = created_at_epoch if created_at_epoch is not None else current_epoch()
+    items = []
+    for seq, queue_row in enumerate(queue_rows, start=1):
+        item_id = str(queue_row.get("item_id") or "")
+        result = result_rows.get(item_id, {})
+        unit = units_by_id.get(str(queue_row.get("unit_id") or ""), {})
+        items.append(build_strong_repair_review_item(queue_row, result, unit, seq=seq))
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "review_stage": STRONG_REPAIR_REVIEW_STAGE,
+        "pack_id": pack_id,
+        "track_name": track_name,
+        "batch_name": batch_name,
+        "created_at_epoch": created,
+        "created_at": datetime.fromtimestamp(created, timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
+        "item_count": len(items),
+        "summary": {
+            "document_count": len({str(item.get("unit_id") or "") for item in items}),
+            "repaired_item_count": len(items),
+        },
+        "items": items,
+    }
+
+
+def build_strong_repair_review_item(
+    queue_row: dict[str, Any],
+    result: dict[str, Any],
+    unit: dict[str, Any],
+    *,
+    seq: int,
+) -> dict[str, Any]:
+    parsed = result.get("parsed")
+    if not isinstance(parsed, list):
+        parsed = []
+    repairs = (
+        unit.get("analysis", {})
+        .get("llm", {})
+        .get("yomi_strong_repair", {})
+        .get("repairs", [])
+    )
+    repair_log = next(
+        (
+            row
+            for row in repairs
+            if isinstance(row, dict) and row.get("item_id") == queue_row.get("item_id")
+        ),
+        {},
+    )
+    rejected_readings = []
+    for target in queue_row.get("target_escalations", []):
+        if not isinstance(target, dict):
+            continue
+        rejected_readings.extend(
+            row for row in target.get("rejected_readings", []) if isinstance(row, dict)
+        )
+    return {
+        "item_id": str(queue_row.get("item_id") or ""),
+        "seq": seq,
+        "unit_id": str(queue_row.get("unit_id") or ""),
+        "text": str(queue_row.get("text") or ""),
+        "rendered_yomi_before": str(queue_row.get("rendered_yomi") or ""),
+        "rendered_yomi_after": str(
+            unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+        ),
+        "repair_scope": str(queue_row.get("repair_scope") or ""),
+        "reasons": list(queue_row.get("reasons") or []),
+        "target_constraints": [
+            row for row in queue_row.get("target_constraints", []) if isinstance(row, dict)
+        ],
+        "target_escalations": [
+            row for row in queue_row.get("target_escalations", []) if isinstance(row, dict)
+        ],
+        "rejected_span": "".join(
+            str(row.get("surface") or "")
+            for row in queue_row.get("target_escalations", [])
+            if isinstance(row, dict)
+        ),
+        "rejected_readings": rejected_readings,
+        "llm_raw_text": str(result.get("raw_text") or ""),
+        "llm_parsed": parsed,
+        "llm_parse_error": result.get("parse_error"),
+        "used_web_search": any(bool(row.get("used_web_search")) for row in parsed if isinstance(row, dict)),
+        "repair_status": repair_log.get("status"),
+        "repair_log": repair_log,
     }
 
 
@@ -525,6 +680,145 @@ def replay_review_submissions(
                 current["note"] = str(override.get("note", "")).strip()
                 current["submission_id"] = str(submission.get("submission_id", ""))
                 current["generated_at_epoch"] = int(submission.get("generated_at_epoch", 0))
+    return effective
+
+
+def apply_strong_repair_review_file(
+    *,
+    pack_json: Path,
+    submission_store_dir: Path,
+    strong_apply_summary_json: Path,
+    output_summary_json: Path,
+) -> dict[str, Any]:
+    pack = load_json(pack_json)
+    submissions = load_review_submissions_for_stage(
+        submission_store_dir,
+        pack_id=str(pack["pack_id"]),
+        review_stage=STRONG_REPAIR_REVIEW_STAGE,
+    )
+    output_summary_json.parent.mkdir(parents=True, exist_ok=True)
+    if not submissions:
+        summary = {
+            "stage_complete": False,
+            "rule": STRONG_REPAIR_REVIEW_RULE,
+            "pack_id": str(pack["pack_id"]),
+            "submission_count": 0,
+            "blocking_reason": (
+                f"No strong yomi repair review submissions found for pack {pack['pack_id']}."
+            ),
+        }
+        output_summary_json.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        return summary
+
+    effective = replay_simple_accept_reject_submissions(pack, submissions)
+    items = [row for row in pack.get("items", []) if isinstance(row, dict)]
+    reviewed_items = [row for row in items if str(row.get("item_id") or "") in effective]
+    rejected_items = [
+        item_id
+        for item_id, state in effective.items()
+        if str(state.get("decision") or "accept") == "reject"
+    ]
+    unreviewed_count = len(items) - len(reviewed_items)
+    stage_complete = unreviewed_count == 0 and not rejected_items
+    strong_summary = load_json(strong_apply_summary_json)
+    strong_summary["confirmed"] = bool(stage_complete)
+    strong_summary["confirmation_pack_id"] = str(pack["pack_id"])
+    strong_summary["confirmation_submission_count"] = len(submissions)
+    strong_summary["confirmation_rejected_items"] = rejected_items
+    strong_summary["confirmation_unreviewed_items"] = unreviewed_count
+    strong_apply_summary_json.write_text(
+        json.dumps(strong_summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    summary = {
+        "stage_complete": stage_complete,
+        "rule": STRONG_REPAIR_REVIEW_RULE,
+        "pack_id": str(pack["pack_id"]),
+        "submission_count": len(submissions),
+        "submission_paths": [str(row.get("_source_path", "")) for row in submissions],
+        "item_count": len(items),
+        "reviewed_items": len(reviewed_items),
+        "unreviewed_items": unreviewed_count,
+        "rejected_items": rejected_items,
+        "strong_apply_summary_json": str(strong_apply_summary_json),
+        "summary_json": str(output_summary_json),
+    }
+    if not stage_complete:
+        summary["blocking_reason"] = (
+            "Strong yomi repair review is incomplete or contains rejected repairs."
+        )
+    output_summary_json.write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return summary
+
+
+def load_review_submissions_for_stage(
+    submission_store_dir: str | Path,
+    *,
+    pack_id: str,
+    review_stage: str,
+) -> list[dict[str, Any]]:
+    store_dir = Path(submission_store_dir)
+    rows: list[dict[str, Any]] = []
+    if not store_dir.exists():
+        return rows
+    for path in sorted(store_dir.glob("*.json")):
+        try:
+            payload = load_json(path)
+        except json.JSONDecodeError:
+            continue
+        if str(payload.get("review_stage")) != review_stage:
+            continue
+        if str(payload.get("pack_id")) != pack_id:
+            continue
+        payload["_source_path"] = str(path)
+        rows.append(payload)
+    rows.sort(
+        key=lambda row: (
+            int(row.get("generated_at_epoch", 0)),
+            str(row.get("submission_id", "")),
+            str(row.get("_source_path", "")),
+        )
+    )
+    return rows
+
+
+def replay_simple_accept_reject_submissions(
+    pack: dict[str, Any],
+    submissions: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    items_by_id = {str(item["item_id"]): item for item in pack.get("items", [])}
+    items_by_seq = {int(item["seq"]): item for item in pack.get("items", [])}
+    effective: dict[str, dict[str, Any]] = {}
+    for submission in submissions:
+        overrides = {
+            str(row["item_id"]): row
+            for row in submission.get("overrides", [])
+            if isinstance(row, dict) and str(row.get("item_id", "")) in items_by_id
+        }
+        for reviewed_range in submission.get("reviewed_ranges", []):
+            from_seq = int(reviewed_range["from_seq"])
+            to_seq = int(reviewed_range["to_seq"])
+            if from_seq > to_seq:
+                from_seq, to_seq = to_seq, from_seq
+            for seq in range(from_seq, to_seq + 1):
+                item = items_by_seq.get(seq)
+                if item is None:
+                    continue
+                item_id = str(item["item_id"])
+                override = overrides.get(item_id, {})
+                effective[item_id] = {
+                    "item_id": item_id,
+                    "decision": str(override.get("decision") or "accept"),
+                    "note": str(override.get("note", "")).strip(),
+                    "submission_id": str(submission.get("submission_id", "")),
+                    "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),
+                }
     return effective
 
 

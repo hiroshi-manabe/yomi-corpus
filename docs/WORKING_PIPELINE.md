@@ -1547,9 +1547,12 @@ look like local boundary/reading failures that can be handled by canceling a
 2-3-token area. If a future example truly needs whole-sentence repair, add it as
 an advanced/fallback path rather than the default review action.
 
-Strong-repaired spans must go through a separate final confirmation UI. That
-final confirmation UI should expose both ruby-rendered text and raw editable
-structured data.
+Strong-repaired spans go through a separate final confirmation UI published as
+the `yomi_strong_repair_review` stage. The current first pass exposes the source
+text, rejected readings, LLM proposal, and before/after yomi, with accept/reject
+review decisions. Rejected repairs block finalization rather than being silently
+included in the corpus. A later pass can add direct structured editing for
+confirmed-but-imperfect repairs.
 
 ### 10.5.1 Review packs
 
@@ -2161,7 +2164,10 @@ strong repair queue is non-empty, finalization requires a later human
 confirmation step even when every LLM repair was mechanically applied. This is
 intentional: strong repair results are candidates, not final truth. If no
 successful apply summary exists, or if confirmation is missing, finalization
-blocks. Otherwise it writes:
+blocks. The confirmation is stored by applying submissions for the
+`yomi_strong_repair_review` pack; when all repair items are reviewed and none is
+rejected, `yomi_strong_repair_apply_summary.json` is marked `confirmed`.
+Otherwise finalization remains blocked. When confirmed, finalization writes:
 
 ```text
 data/units/<batch>/units.yomi.final.jsonl
