@@ -178,7 +178,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(items[0].item_id, "u1::target_group:1")
         self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
         self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
-        self.assertIn("Prefer word-level segmentation", items[0].prompt)
+        self.assertIn("First check whether the entire rejected span", items[0].prompt)
+        self.assertIn("whole-span evidence beats part-by-part readings", items[0].prompt)
         self.assertIn('"used_web_search":true/false', items[0].prompt)
         self.assertNotIn("e.g.", items[0].prompt)
 

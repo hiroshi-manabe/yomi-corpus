@@ -8,6 +8,8 @@ Input:
 
 Task:
 Return the correct reading for the rejected span.
-Prefer word-level segmentation. Split proper-name prefixes from common suffixes when natural. Use one item only for an established unsplittable name.
-Use web search if needed.
+First check whether the entire rejected span is an established name/entity/term. If yes, return one item for the whole span.
+If not, prefer word-level segmentation. Split proper-name prefixes from common suffixes when natural.
+Use one item only for an established unsplittable name.
+If web search is available, search the whole rejected span before splitting; whole-span evidence beats part-by-part readings.
 Format: [{{"surface":"（表記）", "reading":"（読み）","used_web_search":true/false}}...]
