@@ -172,7 +172,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
         self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
         self.assertIn("Prefer word-level segmentation", items[0].prompt)
-        self.assertIn('"used_web_search":"(true/false)"', items[0].prompt)
+        self.assertIn('"used_web_search":true/false', items[0].prompt)
         self.assertNotIn("e.g.", items[0].prompt)
 
     def test_parse_json_output(self) -> None:
