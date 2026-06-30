@@ -134,9 +134,57 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(items[0].item_id, "u1")
         self.assertIn("non-target", items[0].prompt)
 
+    def test_build_prompt_items_for_yomi_repair_target_group(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_repair.toml")
+        items = build_prompt_items(
+            config,
+            [
+                {
+                    "item_id": "u1::target_group:1",
+                    "unit_id": "u1",
+                    "text": "それを、旧池尻中学校を改装した世田谷ものづくり学校で行われます。",
+                    "rendered_yomi": (
+                        "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中/イケジリナカ 学校/ガッコウ "
+                        "を/ヲ 改装/カイソウ し/シ た/タ 世田谷/セタガヤ ものづくり/モノヅクリ "
+                        "学校/ガッコウ で/デ 行わ/オコナワ れ/レ ます/マス 。/。"
+                    ),
+                    "repair_scope": "target_group",
+                    "target_escalations": [
+                        {
+                            "surface": "池尻中",
+                            "rejected_readings": [
+                                {"surface": "池尻中", "reading": "いけじりなか"}
+                            ],
+                        },
+                        {
+                            "surface": "学校",
+                            "rejected_readings": [
+                                {"surface": "学校", "reading": "がっこう"}
+                            ],
+                        },
+                    ],
+                }
+            ],
+        )
+
+        self.assertEqual(config.parser, "json_array")
+        self.assertEqual(items[0].item_id, "u1::target_group:1")
+        self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
+        self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
+        self.assertIn("Prefer word-level segmentation", items[0].prompt)
+        self.assertIn('"used_web_search":"(true/false)"', items[0].prompt)
+        self.assertNotIn("e.g.", items[0].prompt)
+
     def test_parse_json_output(self) -> None:
         parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
         self.assertEqual(parsed["status"], "in_scope")
+
+    def test_parse_json_array_output(self) -> None:
+        parsed = parse_output(
+            '[{"surface":"池尻","reading":"いけじり","used_web_search":false}]',
+            "json_array",
+        )
+        self.assertEqual(parsed[0]["surface"], "池尻")
 
     def test_parse_yomi_reading_completion_output(self) -> None:
         self.assertEqual(

@@ -84,16 +84,25 @@ def build_task_variables(
             {"surface": row["surface"], "source_row": row},
         )
     if builder_name == "yomi_repair":
-        item_id = str(row.get("unit_id", f"item_{index:05d}"))
-        rendered = _rendered_variable(task_config, row)
+        item_id = str(row.get("item_id") or row.get("unit_id") or f"item_{index:05d}")
+        rendered = rendered_for_llm(
+            str(row.get("rendered_yomi") or row.get("rendered") or ""),
+            task_config.rendered_yomi_display,
+        )
         return (
             item_id,
             {
                 "text": row["text"],
-                "rendered": rendered,
+                "current_yomi": rendered,
+                "rejected_span": rejected_span_for_repair(row),
+                "rejected_readings": rejected_readings_for_repair(row),
                 "note": row.get("note", ""),
             },
-            _metadata(row, rendered),
+            {
+                **_metadata(row, rendered),
+                "repair_scope": row.get("repair_scope"),
+                "target_escalations": row.get("target_escalations", []),
+            },
         )
     raise ValueError(f"Unsupported input builder: {builder_name}")
 
@@ -124,3 +133,29 @@ def _metadata(row: dict[str, Any], rendered_prompt: str) -> dict[str, Any]:
         "rendered_full": row.get("rendered"),
         "rendered_prompt": rendered_prompt,
     }
+
+
+def rejected_span_for_repair(row: dict[str, Any]) -> str:
+    targets = [target for target in row.get("target_escalations", []) if isinstance(target, dict)]
+    span = "".join(str(target.get("surface", "")) for target in targets)
+    return span or str(row.get("rejected_span") or "")
+
+
+def rejected_readings_for_repair(row: dict[str, Any]) -> str:
+    parts: list[str] = []
+    targets = [target for target in row.get("target_escalations", []) if isinstance(target, dict)]
+    for target in targets:
+        surface = str(target.get("surface") or "")
+        readings = target.get("rejected_readings")
+        if isinstance(readings, list):
+            for reading in readings:
+                if not isinstance(reading, dict):
+                    continue
+                value = reading.get("reading")
+                if surface and isinstance(value, str) and value:
+                    parts.append(f"{surface}={value}")
+        elif surface:
+            value = target.get("current_reading_hiragana")
+            if isinstance(value, str) and value:
+                parts.append(f"{surface}={value}")
+    return "; ".join(parts) if parts else str(row.get("rejected_readings") or "")
