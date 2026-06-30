@@ -55,6 +55,13 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.rendered_yomi_display, "furigana_no_space")
         self.assertFalse(config.include_source_text)
 
+    def test_load_yomi_repair_uses_web_search_profile(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_repair.toml")
+        self.assertEqual(config.reasoning_effort, "medium")
+        self.assertEqual(config.verbosity, "medium")
+        self.assertEqual(config.text_format, "text")
+        self.assertTrue(config.enable_web_search)
+
     def test_scope_triage_prompt_mentions_sensitive_private_person_skip(self) -> None:
         config = load_llm_task_config("config/llm/scope_triage.toml")
         prompt = Path(config.prompt_template).read_text(encoding="utf-8")
@@ -241,6 +248,15 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(kwargs["model"], "gpt-5.5")
         self.assertIn("text", kwargs)
         self.assertIn("reasoning", kwargs)
+        self.assertNotIn("tools", kwargs)
+
+    def test_build_response_kwargs_for_yomi_repair_enables_web_search(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_repair.toml")
+        kwargs = build_response_create_kwargs(config, "prompt")
+        self.assertEqual(kwargs["model"], "gpt-5.5")
+        self.assertEqual(kwargs["text"], {"verbosity": "medium", "format": {"type": "text"}})
+        self.assertEqual(kwargs["reasoning"], {"effort": "medium"})
+        self.assertEqual(kwargs["tools"], [{"type": "web_search"}])
 
     def test_build_response_kwargs_supports_background(self) -> None:
         config = load_llm_task_config("config/llm/yomi_reading.toml")

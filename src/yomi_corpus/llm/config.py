@@ -29,6 +29,8 @@ def load_llm_task_config(path: str | Path) -> LLMTaskConfig:
         batch_max_requests_per_batch=int(payload.get("batch_max_requests_per_batch", 50000)),
         rendered_yomi_display=str(payload.get("rendered_yomi_display", "full")),
         include_source_text=bool(payload.get("include_source_text", True)),
+        text_format=_optional_str(payload.get("text_format")),
+        enable_web_search=bool(payload.get("enable_web_search", False)),
     )
 
 

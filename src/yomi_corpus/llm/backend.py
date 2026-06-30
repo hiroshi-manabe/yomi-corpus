@@ -141,10 +141,17 @@ def build_response_create_kwargs(
     if background:
         kwargs["background"] = True
     if task_config.model.startswith("gpt-5"):
+        text_options: dict[str, Any] = {}
         if task_config.verbosity:
-            kwargs["text"] = {"verbosity": task_config.verbosity}
+            text_options["verbosity"] = task_config.verbosity
+        if task_config.text_format:
+            text_options["format"] = {"type": task_config.text_format}
+        if text_options:
+            kwargs["text"] = text_options
         if task_config.reasoning_effort:
             kwargs["reasoning"] = {"effort": task_config.reasoning_effort}
+    if task_config.enable_web_search:
+        kwargs["tools"] = [{"type": "web_search"}]
     return kwargs
 
 

@@ -20,6 +20,8 @@ class LLMTaskConfig:
     batch_max_requests_per_batch: int = 50000
     rendered_yomi_display: str = "full"
     include_source_text: bool = True
+    text_format: str | None = None
+    enable_web_search: bool = False
 
 
 @dataclass(frozen=True)
