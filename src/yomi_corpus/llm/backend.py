@@ -151,7 +151,10 @@ def build_response_create_kwargs(
         if task_config.reasoning_effort:
             kwargs["reasoning"] = {"effort": task_config.reasoning_effort}
     if task_config.enable_web_search:
-        kwargs["tools"] = [{"type": "web_search"}]
+        web_search_tool = {"type": "web_search"}
+        if task_config.web_search_context_size:
+            web_search_tool["search_context_size"] = task_config.web_search_context_size
+        kwargs["tools"] = [web_search_tool]
     return kwargs
 
 

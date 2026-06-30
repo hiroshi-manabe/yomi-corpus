@@ -61,6 +61,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(config.verbosity, "medium")
         self.assertEqual(config.text_format, "text")
         self.assertTrue(config.enable_web_search)
+        self.assertEqual(config.web_search_context_size, "medium")
 
     def test_scope_triage_prompt_mentions_sensitive_private_person_skip(self) -> None:
         config = load_llm_task_config("config/llm/scope_triage.toml")
@@ -257,7 +258,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(kwargs["model"], "gpt-5.5")
         self.assertEqual(kwargs["text"], {"verbosity": "medium", "format": {"type": "text"}})
         self.assertEqual(kwargs["reasoning"], {"effort": "medium"})
-        self.assertEqual(kwargs["tools"], [{"type": "web_search"}])
+        self.assertEqual(kwargs["tools"], [{"type": "web_search", "search_context_size": "medium"}])
 
     def test_build_response_kwargs_supports_background(self) -> None:
         config = load_llm_task_config("config/llm/yomi_reading.toml")

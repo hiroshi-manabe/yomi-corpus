@@ -31,6 +31,7 @@ def load_llm_task_config(path: str | Path) -> LLMTaskConfig:
         include_source_text=bool(payload.get("include_source_text", True)),
         text_format=_optional_str(payload.get("text_format")),
         enable_web_search=bool(payload.get("enable_web_search", False)),
+        web_search_context_size=_optional_str(payload.get("web_search_context_size")),
     )
 
 

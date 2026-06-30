@@ -22,6 +22,7 @@ class LLMTaskConfig:
     include_source_text: bool = True
     text_format: str | None = None
     enable_web_search: bool = False
+    web_search_context_size: str | None = None
 
 
 @dataclass(frozen=True)
