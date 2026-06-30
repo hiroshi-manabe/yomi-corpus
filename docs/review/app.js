@@ -123,15 +123,26 @@ function resolveInitialTarget(stageIds) {
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
   }
-  const currentWorking = state.manifest.current_tracks?.working;
-  if (currentWorking) {
-    return { stageId: currentWorking.review_stage, packId: currentWorking.pack_id };
+
+  if (requestedPackId) {
+    for (const stageId of stageIds) {
+      const stage = state.manifest.stages?.[stageId];
+      if (stage?.packs?.some((pack) => pack.pack_id === requestedPackId)) {
+        return { stageId, packId: requestedPackId };
+      }
+    }
   }
-  const currentDev = state.manifest.current_tracks?.dev;
-  if (currentDev) {
-    return { stageId: currentDev.review_stage, packId: currentDev.pack_id };
+
+  const defaultStageId = stageIds.includes(state.manifest.default_stage)
+    ? state.manifest.default_stage
+    : stageIds[0];
+  const defaultTrack = Object.values(state.manifest.current_tracks || {}).find(
+    (track) => track.review_stage === defaultStageId,
+  );
+  if (defaultTrack) {
+    return { stageId: defaultTrack.review_stage, packId: defaultTrack.pack_id };
   }
-  return { stageId: state.manifest.default_stage || stageIds[0], packId: null };
+  return { stageId: defaultStageId, packId: null };
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
