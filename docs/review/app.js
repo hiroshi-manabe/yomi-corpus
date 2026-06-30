@@ -553,9 +553,20 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
 function renderRubySegments(item, override, editable) {
   const nodes = [];
   const targetsById = Object.fromEntries((item.targets || []).map((target) => [target.item_id, target]));
+  const groups = buildYomiSpanGroups(item);
+  const groupByFirstTargetId = Object.fromEntries(groups.map((group) => [group.targetIds[0], group]));
+  const hiddenTargetIds = new Set(groups.flatMap((group) => group.targetIds.slice(1)));
   for (const segment of item.ruby_segments || [{ type: "text", text: item.text || "" }]) {
     if (segment.type !== "ruby") {
       nodes.push(document.createTextNode(segment.text || ""));
+      continue;
+    }
+    if (hiddenTargetIds.has(segment.target_item_id)) {
+      continue;
+    }
+    const group = groupByFirstTargetId[segment.target_item_id];
+    if (group) {
+      nodes.push(renderYomiSpanGroup(item, group, override, editable));
       continue;
     }
     const target = targetsById[segment.target_item_id];
@@ -566,6 +577,315 @@ function renderRubySegments(item, override, editable) {
     nodes.push(renderRubySpan(item, target, override, editable));
   }
   return nodes;
+}
+
+function buildYomiSpanGroups(item) {
+  const targets = (item.targets || [])
+    .filter(
+      (target) =>
+        target &&
+        Number.isInteger(target.target_start) &&
+        Number.isInteger(target.target_end)
+    )
+    .sort((a, b) => a.target_start - b.target_start || a.target_end - b.target_end);
+  const groups = [];
+  const consumed = new Set();
+  for (let index = 0; index < targets.length; index += 1) {
+    const target = targets[index];
+    if (consumed.has(target.item_id) || target.is_safe) {
+      continue;
+    }
+    let endIndex = index;
+    while (
+      endIndex + 1 < targets.length &&
+      targets[endIndex].target_end === targets[endIndex + 1].target_start
+    ) {
+      endIndex += 1;
+    }
+    const groupTargets = targets.slice(index, endIndex + 1);
+    groupTargets.forEach((row) => consumed.add(row.item_id));
+    groups.push(makeYomiSpanGroup(groupTargets, item.reading_hints || {}));
+  }
+  return groups;
+}
+
+function makeYomiSpanGroup(targets, readingHints) {
+  const targetIds = targets.map((target) => target.item_id);
+  const originalSurface = targets.map((target) => target.surface || "").join("");
+  const id = targetIds.join("|");
+  return {
+    id,
+    targetIds,
+    targets,
+    originalSurface,
+    readingHints,
+    unresolved: targets.some((target) => !target.is_safe),
+  };
+}
+
+function renderYomiSpanGroup(item, group, override, editable) {
+  const spanDraft = override?.span_overrides?.[group.id] || null;
+  const mode = spanDraft?.decision || "ok";
+  const wrapper = document.createElement("span");
+  wrapper.className = "yomi-span-group";
+  wrapper.classList.toggle("changed", Boolean(spanDraft));
+  wrapper.classList.toggle("unresolved", group.unresolved);
+  wrapper.append(renderYomiSpanPreview(item, group, spanDraft, editable));
+  if (editable && mode !== "ok") {
+    wrapper.append(renderYomiSpanEditor(item, group, spanDraft, mode));
+  }
+  return wrapper;
+}
+
+function renderYomiSpanPreview(item, group, spanDraft, editable) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ruby-token span-token";
+  button.classList.toggle("changed", Boolean(spanDraft));
+  button.disabled = !editable;
+  button.title = "Span review: OK / fix readings / fix segmentation";
+  const segments = spanSegmentsForDisplay(group, spanDraft);
+  for (const segment of segments) {
+    if (segment.reading) {
+      const ruby = document.createElement("ruby");
+      ruby.append(document.createTextNode(segment.surface));
+      const rt = document.createElement("rt");
+      rt.textContent = segment.reading;
+      ruby.append(rt);
+      button.append(ruby);
+    } else {
+      button.append(document.createTextNode(segment.surface));
+    }
+  }
+  if (editable) {
+    button.addEventListener("click", () => cycleYomiSpanMode(item, group));
+  }
+  return button;
+}
+
+function spanSegmentsForDisplay(group, spanDraft) {
+  if (spanDraft?.segments?.length) {
+    return spanDraft.segments;
+  }
+  return group.targets.map((target) => {
+    const candidate = selectedCandidate(target, null);
+    return {
+      surface: target.surface || "",
+      reading: candidate?.reading || null,
+    };
+  });
+}
+
+function cycleYomiSpanMode(item, group) {
+  const draft = ensureYomiOverride(item.item_id);
+  if (!draft.span_overrides) {
+    draft.span_overrides = {};
+  }
+  const current = draft.span_overrides[group.id] || null;
+  const currentMode = current?.decision || "ok";
+  const nextMode =
+    currentMode === "ok" ? "reading" : currentMode === "reading" ? "segmentation" : "ok";
+  if (nextMode === "ok") {
+    delete draft.span_overrides[group.id];
+    cleanupYomiOverride(item.item_id);
+  } else {
+    const nextSegments =
+      nextMode === "reading"
+        ? readingModeSegments(group, current)
+        : segmentationModeSegments(group, current);
+    draft.span_overrides[group.id] = {
+      id: group.id,
+      decision: nextMode,
+      target_item_ids: group.targetIds,
+      original_surface: group.originalSurface,
+      segments: nextSegments,
+    };
+  }
+  touchDraft();
+  render();
+}
+
+function readingModeSegments(group, current) {
+  if (current?.decision === "reading" && current.segments?.length) {
+    return current.segments;
+  }
+  return group.targets.map((target) => {
+    const candidate = selectedCandidate(target, null);
+    return {
+      surface: target.surface || "",
+      reading: candidate?.reading || "",
+    };
+  });
+}
+
+function segmentationModeSegments(group, current) {
+  if (current?.decision === "segmentation" && current.segments?.length) {
+    return current.segments;
+  }
+  return [
+    {
+      surface: group.originalSurface,
+      reading: defaultReadingForSpanSegment(group, group.originalSurface, current?.segments || []),
+    },
+  ];
+}
+
+function joinedGroupReading(group) {
+  return group.targets
+    .map((target) => selectedCandidate(target, null)?.reading || "")
+    .join("");
+}
+
+function renderYomiSpanEditor(item, group, spanDraft, mode) {
+  const panel = document.createElement("span");
+  panel.className = "span-editor";
+
+  const modeLabel = document.createElement("span");
+  modeLabel.className = "span-editor-mode";
+  modeLabel.textContent = mode === "reading" ? "Fix readings" : "Fix segmentation";
+  panel.append(modeLabel);
+
+  if (mode === "segmentation") {
+    panel.append(renderSplitControls(item, group, spanDraft));
+  }
+
+  const fieldList = document.createElement("span");
+  fieldList.className = "span-reading-fields";
+  for (const [index, segment] of (spanDraft.segments || []).entries()) {
+    const label = document.createElement("label");
+    label.className = "span-reading-field";
+    const surface = document.createElement("span");
+    surface.textContent = segment.surface || "";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = segment.reading || "";
+    input.placeholder = "reading";
+    input.addEventListener("input", () => {
+      const draft = ensureYomiOverride(item.item_id);
+      const current = draft.span_overrides?.[group.id];
+      if (!current) {
+        return;
+      }
+      current.segments[index].reading = input.value;
+      touchDraft();
+      renderSubmissionPreview();
+    });
+    label.append(surface, input);
+    fieldList.append(label);
+  }
+  panel.append(fieldList);
+  return panel;
+}
+
+function renderSplitControls(item, group, spanDraft) {
+  const wrap = document.createElement("span");
+  wrap.className = "split-controls";
+  const chars = Array.from(group.originalSurface);
+  for (let index = 0; index < chars.length; index += 1) {
+    const charSpan = document.createElement("span");
+    charSpan.className = "split-char";
+    charSpan.textContent = chars[index];
+    wrap.append(charSpan);
+    if (index < chars.length - 1) {
+      const boundaryIndex = index + 1;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "split-toggle";
+      button.textContent = splitIndexes(spanDraft).has(boundaryIndex) ? "|" : "·";
+      button.title = "Toggle split";
+      button.addEventListener("click", () => {
+        updateSegmentationSplit(item, group, boundaryIndex);
+      });
+      wrap.append(button);
+    }
+  }
+  return wrap;
+}
+
+function splitIndexes(spanDraft) {
+  const indexes = new Set();
+  let cursor = 0;
+  for (const segment of spanDraft?.segments || []) {
+    cursor += Array.from(segment.surface || "").length;
+    indexes.add(cursor);
+  }
+  indexes.delete(0);
+  indexes.delete(Array.from(spanDraft?.original_surface || "").length);
+  return indexes;
+}
+
+function updateSegmentationSplit(item, group, boundaryIndex) {
+  const draft = ensureYomiOverride(item.item_id);
+  const spanDraft = draft.span_overrides?.[group.id];
+  if (!spanDraft || spanDraft.decision !== "segmentation") {
+    return;
+  }
+  const existingReadings = (spanDraft.segments || []).some((segment) => segment.reading);
+  if (
+    existingReadings &&
+    !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
+  ) {
+    return;
+  }
+  const indexes = splitIndexes(spanDraft);
+  if (indexes.has(boundaryIndex)) {
+    indexes.delete(boundaryIndex);
+  } else {
+    indexes.add(boundaryIndex);
+  }
+  const ordered = [...indexes].sort((a, b) => a - b);
+  const chars = Array.from(group.originalSurface);
+  let start = 0;
+  const previousSegments = spanDraft.segments || [];
+  spanDraft.segments = [];
+  for (const end of [...ordered, chars.length]) {
+    const surface = chars.slice(start, end).join("");
+    spanDraft.segments.push({
+      surface,
+      reading: defaultReadingForSpanSegment(group, surface, previousSegments),
+    });
+    start = end;
+  }
+  touchDraft();
+  render();
+}
+
+function defaultReadingForSpanSegment(group, surface, previousSegments) {
+  const previous = (previousSegments || []).find(
+    (segment) => segment.surface === surface && segment.reading
+  );
+  if (previous) {
+    return previous.reading;
+  }
+  if (group.readingHints?.[surface]) {
+    return group.readingHints[surface];
+  }
+  const targetReading = readingFromConsecutiveTargets(group.targets, surface);
+  if (targetReading) {
+    return targetReading;
+  }
+  if (surface === group.originalSurface) {
+    return joinedGroupReading(group);
+  }
+  return "";
+}
+
+function readingFromConsecutiveTargets(targets, surface) {
+  for (let start = 0; start < targets.length; start += 1) {
+    let joinedSurface = "";
+    let joinedReading = "";
+    for (let end = start; end < targets.length; end += 1) {
+      joinedSurface += targets[end].surface || "";
+      joinedReading += selectedCandidate(targets[end], null)?.reading || "";
+      if (joinedSurface === surface) {
+        return joinedReading;
+      }
+      if (!surface.startsWith(joinedSurface)) {
+        break;
+      }
+    }
+  }
+  return "";
 }
 
 function renderRubySpan(item, target, override, editable) {
@@ -649,10 +969,13 @@ function cycleYomiTarget(item, target, currentCandidate) {
 
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
-    state.currentDraft.overrides[itemId] = { skip: false, targets: {}, note: "" };
+    state.currentDraft.overrides[itemId] = { skip: false, targets: {}, span_overrides: {}, note: "" };
   }
   if (!state.currentDraft.overrides[itemId].targets) {
     state.currentDraft.overrides[itemId].targets = {};
+  }
+  if (!state.currentDraft.overrides[itemId].span_overrides) {
+    state.currentDraft.overrides[itemId].span_overrides = {};
   }
   return state.currentDraft.overrides[itemId];
 }
@@ -663,7 +986,8 @@ function cleanupYomiOverride(itemId) {
     return;
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
-  if (!hasTargets && !draft.skip && !draft.note) {
+  const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
+  if (!hasTargets && !hasSpanOverrides && !draft.skip && !draft.note) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -729,12 +1053,22 @@ function getActiveYomiOverrides() {
           choice_source: target.choice_source,
           selected_reading: target.selected_reading ?? null,
         })),
+        span_overrides: Object.values(override.span_overrides || {}).map((span) => ({
+          id: span.id,
+          decision: span.decision,
+          target_item_ids: span.target_item_ids || [],
+          original_surface: span.original_surface,
+          segments: (span.segments || []).map((segment) => ({
+            surface: segment.surface,
+            reading: segment.reading || "",
+          })),
+        })),
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
     })
     .filter(Boolean)
     .filter(
-      (row) => row.targets.length > 0 || "skip" in row || row.note
+      (row) => row.targets.length > 0 || row.span_overrides.length > 0 || "skip" in row || row.note
     );
 }
 

@@ -1976,45 +1976,47 @@ Only if that still fails after human review should the pipeline consider a
 `gpt-5.5-pro` escalation. That should be treated as a last resort for a very
 small tail, not part of the normal path.
 
-## 12.2 Second review UI
+## 12.2 Final review UI
 
-The second review UI should show:
+The final review UI should look primarily like ruby-annotated text, not like a
+table of records. Sentence-level metadata should be hidden except for compact
+controls:
 
-- the yomi-annotated sentence
-- a free-text comment box
+- skip checkbox
+- range-marker menu
+- tappable ruby spans
 
-Reviewer behavior:
+For each highlighted yomi span, the reviewer should choose one of three states:
 
-- leave the comment blank if the yomi now looks correct
-- if it is still wrong, describe the mistake in natural language
+- accept the current segmentation and reading
+- keep segmentation but edit only readings
+- edit segmentation and readings
 
-## 12.3 Final correction loop
+When editing segmentation, the UI should let the reviewer toggle split points
+between characters. For example, `池尻中学校` can become `池尻 + 中学校` and
+the reading fields should follow that split. If the reviewer has already typed
+readings and then changes a split in a way that discards fields, the UI should
+warn before rebuilding the fields.
 
-Then feed that human free-text feedback to a regular LLM and let it revise the
-output again.
+Direct span fixes are applied to the rendered yomi immediately when they can be
+matched uniquely in the current rendered string. Ruby-cancelled spans are not
+treated as direct fixes; they are queued for strong LLM repair as local target
+groups.
 
-This is not actually the final step.
+## 12.3 Strong repair and finalization
 
-## 12.4 Final editable review pass
+Strong repair should operate on local target groups produced by human ruby
+cancellation, not on whole sentences by default. The model receives the source
+text, current yomi, rejected span, and rejected readings, and returns replacement
+surface/reading items. The application step validates that replacement surfaces
+concatenate to the rejected span and that readings are valid kana.
 
-After the LLM revises the yomi based on the human comment, the result should go
-back to a human reviewer one more time.
+After strong repairs are applied, the reviewed units can be finalized. Final
+postprocessing should continue to validate:
 
-The final review UI should show:
-
-- a fully editable text box containing the entire yomi-annotated sentence
-
-Reviewer behavior:
-
-- directly edit the full yomi-annotated sentence into the correct final form
-
-After the human edit, the pipeline should run postprocessing such as:
-
-- format validation
-- normalization
-- checks that the edited output still matches the required annotation format
-
-This is the actual final correction step for the hard yomi cases.
+- rendered-yomi format
+- surface preservation
+- reading normalization
 
 
 ## 13. Batch Execution Model

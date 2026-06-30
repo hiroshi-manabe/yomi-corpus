@@ -301,6 +301,117 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(review["target_overrides"][0]["choice_source"], "llm")
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
 
+    def test_apply_final_review_applies_span_segmentation_override(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            output_path = root / "reviewed.jsonl"
+            summary_path = root / "summary.json"
+            payload = unit("doc1", "u1", "それを、旧池尻中学校を改装した。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
+                "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中/イケジリナカ 学校/ガッコウ を/ヲ 改装/カイソウ し/シ た/タ 。/。"
+            )
+            base_target = payload["analysis"]["safety"]["yomi"]["targets"][0]
+            target0 = {**base_target}
+            target0.update(
+                {
+                    "item_id": "u1:r0005c01",
+                    "token_index": 4,
+                    "surface": "池尻中",
+                    "token_surface": "池尻中",
+                    "current_reading": "イケジリナカ",
+                    "current_reading_hiragana": "いけじりなか",
+                    "target_start": 5,
+                    "target_end": 8,
+                    "is_safe": False,
+                    "review_status": "unresolved",
+                    "accepted_signal_names": [],
+                    "signals": [],
+                }
+            )
+            target1 = {**base_target}
+            target1.update(
+                {
+                    "item_id": "u1:r0006c01",
+                    "token_index": 5,
+                    "surface": "学校",
+                    "token_surface": "学校",
+                    "current_reading": "ガッコウ",
+                    "current_reading_hiragana": "がっこう",
+                    "target_start": 8,
+                    "target_end": 10,
+                    "is_safe": True,
+                    "review_status": "safe",
+                    "accepted_signal_names": [],
+                    "signals": [],
+                }
+            )
+            payload["analysis"]["safety"]["yomi"]["targets"] = [target0, target1]
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            pack = json.loads(pack_path.read_text(encoding="utf-8"))
+            self.assertEqual(pack["items"][0]["reading_hints"].get("中学校"), "ちゅうがっこう")
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "span_overrides": [
+                                {
+                                    "id": "u1:r0005c01|u1:r0006c01",
+                                    "decision": "segmentation",
+                                    "target_item_ids": ["u1:r0005c01", "u1:r0006c01"],
+                                    "original_surface": "池尻中学校",
+                                    "segments": [
+                                        {"surface": "池尻", "reading": "いけじり"},
+                                        {"surface": "中学校", "reading": "ちゅうがっこう"},
+                                    ],
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            self.assertEqual(summary["span_override_count"], 1)
+            self.assertEqual(summary["exact_rendered_span_updates"], 1)
+            row = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻/イケジリ 中学校/チュウガッコウ を/ヲ 改装/カイソウ し/シ た/タ 。/。",
+            )
+            review = row["analysis"]["human_review"]["yomi_final"]
+            self.assertEqual(review["span_overrides"][0]["decision"], "segmentation")
+            self.assertEqual(review["exact_rendered_span_updates"], 1)
+
     def test_sentence_escalation_preserves_target_reading_override_as_constraint(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

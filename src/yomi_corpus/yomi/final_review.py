@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,10 @@ from yomi_corpus.yomi.llm_readings import is_valid_yomi_reading, normalize_hirag
 REVIEW_STAGE = "yomi_final_review"
 SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
+SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
+READING_HINT_MIN_COUNT = 2
+READING_HINT_MIN_SHARE = 0.995
+MAX_READING_HINT_SURFACE_LENGTH = 12
 
 
 @dataclass(frozen=True)
@@ -153,6 +158,7 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
         "unresolved_target_count": unresolved_count,
         "all_targets_safe": bool(review_targets) and unresolved_count == 0,
         "targets": review_targets,
+        "reading_hints": build_reading_hints(review_targets),
     }
 
 
@@ -280,6 +286,88 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
     return candidates
 
 
+def build_reading_hints(targets: list[dict[str, Any]]) -> dict[str, str]:
+    hints: dict[str, str] = {}
+    for target in targets:
+        surface = str(target.get("surface") or "")
+        for candidate in target.get("candidates", []):
+            if not isinstance(candidate, dict):
+                continue
+            reading = candidate.get("reading")
+            if isinstance(reading, str) and reading and surface:
+                hints.setdefault(surface, reading)
+                break
+
+    stats = load_surface_reading_stats()
+    for surface in target_substrings_for_hints(targets):
+        if surface in hints:
+            continue
+        reading = stats.get(surface)
+        if reading:
+            hints[surface] = reading
+    return hints
+
+
+def target_substrings_for_hints(targets: list[dict[str, Any]]) -> set[str]:
+    ordered = sorted(
+        [
+            target
+            for target in targets
+            if isinstance(target.get("target_start"), int)
+            and isinstance(target.get("target_end"), int)
+        ],
+        key=lambda target: (int(target["target_start"]), int(target["target_end"])),
+    )
+    surfaces: set[str] = set()
+    for index, target in enumerate(ordered):
+        if target.get("is_safe"):
+            continue
+        end_index = index
+        while (
+            end_index + 1 < len(ordered)
+            and ordered[end_index].get("target_end") == ordered[end_index + 1].get("target_start")
+        ):
+            end_index += 1
+        span = "".join(str(row.get("surface") or "") for row in ordered[index : end_index + 1])
+        chars = list(span)
+        for start in range(len(chars)):
+            for end in range(start + 2, min(len(chars), start + MAX_READING_HINT_SURFACE_LENGTH) + 1):
+                surfaces.add("".join(chars[start:end]))
+    return surfaces
+
+
+@lru_cache(maxsize=1)
+def load_surface_reading_stats() -> dict[str, str]:
+    if not SURFACE_READING_STATS_PATH.exists():
+        return {}
+    stats: dict[str, str] = {}
+    with SURFACE_READING_STATS_PATH.open(encoding="utf-8") as handle:
+        header = next(handle, "").rstrip("\n").split("\t")
+        columns = {name: index for index, name in enumerate(header)}
+        required = {"surface", "reading", "count", "share"}
+        if not required.issubset(columns):
+            return {}
+        for line in handle:
+            fields = line.rstrip("\n").split("\t")
+            try:
+                surface = fields[columns["surface"]]
+                reading = fields[columns["reading"]]
+                count = int(fields[columns["count"]])
+                share = float(fields[columns["share"]])
+            except (IndexError, ValueError):
+                continue
+            normalized = normalize_hiragana_reading(reading)
+            if (
+                surface
+                and normalized
+                and is_valid_yomi_reading(normalized)
+                and count >= READING_HINT_MIN_COUNT
+                and share >= READING_HINT_MIN_SHARE
+            ):
+                stats[surface] = normalized
+    return stats
+
+
 def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
     segments: list[dict[str, Any]] = []
     cursor = 0
@@ -401,6 +489,7 @@ def replay_review_submissions(
                     "skip": bool(item.get("skip_default", False)),
                     "escalate_sentence": False,
                     "targets": default_target_rows(item),
+                    "span_overrides": [],
                     "note": "",
                     "submission_id": str(submission.get("submission_id", "")),
                     "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),
@@ -418,6 +507,7 @@ def replay_review_submissions(
                         "skip": bool(item.get("skip_default", False)),
                         "escalate_sentence": False,
                         "targets": default_target_rows(item),
+                        "span_overrides": [],
                         "note": "",
                     },
                 )
@@ -429,6 +519,9 @@ def replay_review_submissions(
                     item,
                     [row for row in override.get("targets", []) if isinstance(row, dict)],
                 )
+                current["span_overrides"] = [
+                    row for row in override.get("span_overrides", []) if isinstance(row, dict)
+                ]
                 current["note"] = str(override.get("note", "")).strip()
                 current["submission_id"] = str(submission.get("submission_id", ""))
                 current["generated_at_epoch"] = int(submission.get("generated_at_epoch", 0))
@@ -502,7 +595,9 @@ def apply_final_review_file(
     skipped_units = 0
     escalated_units = 0
     target_override_count = 0
+    span_override_count = 0
     exact_rendered_updates = 0
+    exact_rendered_span_updates = 0
     no_ruby_target_count = 0
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
@@ -523,7 +618,9 @@ def apply_final_review_file(
                     if isinstance(row, dict)
                 ]
                 target_overrides = [row for row in target_overrides if row is not None]
+                span_overrides = normalize_span_overrides(item_state.get("span_overrides", []))
                 target_override_count += len(target_overrides)
+                span_override_count += len(span_overrides)
                 no_ruby_target_count += sum(
                     1 for row in target_overrides if row.get("choice_source") == "none"
                 )
@@ -531,19 +628,24 @@ def apply_final_review_file(
                     skipped_units += 1
                 if item_state.get("escalate_sentence"):
                     escalated_units += 1
-                exact_updates = (
-                    0
-                    if item_state.get("skip")
-                    else apply_exact_rendered_target_overrides(unit, target_overrides)
-                )
+                if item_state.get("skip"):
+                    exact_target_updates = 0
+                    exact_span_updates = 0
+                else:
+                    exact_target_updates = apply_exact_rendered_target_overrides(unit, target_overrides)
+                    exact_span_updates = apply_exact_rendered_span_overrides(unit, span_overrides)
+                exact_updates = exact_target_updates + exact_span_updates
                 exact_rendered_updates += exact_updates
+                exact_rendered_span_updates += exact_span_updates
                 set_final_review_payload(
                     unit,
                     pack_id=str(pack["pack_id"]),
                     item_state=item_state,
                     item=item,
                     target_overrides=target_overrides,
+                    span_overrides=span_overrides,
                     exact_rendered_updates=exact_updates,
+                    exact_rendered_span_updates=exact_span_updates,
                 )
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
@@ -560,8 +662,10 @@ def apply_final_review_file(
         "skipped_units": skipped_units,
         "escalated_units": escalated_units,
         "target_override_count": target_override_count,
+        "span_override_count": span_override_count,
         "no_ruby_target_count": no_ruby_target_count,
         "exact_rendered_updates": exact_rendered_updates,
+        "exact_rendered_span_updates": exact_rendered_span_updates,
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
     }
@@ -601,6 +705,43 @@ def build_target_override(
     return override
 
 
+def normalize_span_overrides(rows: object) -> list[dict[str, Any]]:
+    normalized_rows: list[dict[str, Any]] = []
+    if not isinstance(rows, list):
+        return normalized_rows
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        decision = str(row.get("decision") or "")
+        if decision not in {"reading", "segmentation"}:
+            continue
+        original_surface = str(row.get("original_surface") or "")
+        segments = []
+        for segment in row.get("segments", []):
+            if not isinstance(segment, dict):
+                continue
+            segments.append(
+                {
+                    "surface": str(segment.get("surface") or ""),
+                    "reading": str(segment.get("reading") or ""),
+                }
+            )
+        normalized_rows.append(
+            {
+                "id": str(row.get("id") or ""),
+                "decision": decision,
+                "target_item_ids": [
+                    str(target_id)
+                    for target_id in row.get("target_item_ids", [])
+                    if str(target_id)
+                ],
+                "original_surface": original_surface,
+                "segments": segments,
+            }
+        )
+    return normalized_rows
+
+
 def apply_exact_rendered_target_overrides(
     unit: dict[str, Any],
     target_overrides: list[dict[str, Any]],
@@ -633,6 +774,53 @@ def apply_exact_rendered_target_overrides(
     return updated
 
 
+def apply_exact_rendered_span_overrides(
+    unit: dict[str, Any],
+    span_overrides: list[dict[str, Any]],
+) -> int:
+    yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+    rendered = str(yomi.get("rendered") or "")
+    if not rendered:
+        return 0
+    pairs = parse_rendered_pairs(rendered)
+    updated = 0
+    for override in span_overrides:
+        original_surface = str(override.get("original_surface") or "")
+        replacement_pairs = replacement_pairs_from_span_override(override)
+        if not original_surface or not replacement_pairs:
+            continue
+        if "".join(surface for surface, _reading in replacement_pairs) != original_surface:
+            continue
+        span = find_unique_rendered_span(pairs, original_surface)
+        if span is None:
+            continue
+        start, end = span
+        if pairs[start:end] == replacement_pairs:
+            continue
+        pairs[start:end] = replacement_pairs
+        updated += 1
+    if updated:
+        yomi.setdefault("rendered_before_final_review", rendered)
+        yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+    return updated
+
+
+def replacement_pairs_from_span_override(
+    override: dict[str, Any],
+) -> list[tuple[str, str]]:
+    pairs: list[tuple[str, str]] = []
+    for segment in override.get("segments", []):
+        if not isinstance(segment, dict):
+            return []
+        surface = str(segment.get("surface") or "")
+        reading = str(segment.get("reading") or "")
+        normalized = normalize_hiragana_reading(reading)
+        if not surface or not normalized or not is_valid_yomi_reading(normalized):
+            return []
+        pairs.append((surface, hira_to_kata(normalized)))
+    return pairs
+
+
 def set_final_review_payload(
     unit: dict[str, Any],
     *,
@@ -640,7 +828,9 @@ def set_final_review_payload(
     item_state: dict[str, Any],
     item: dict[str, Any],
     target_overrides: list[dict[str, Any]],
+    span_overrides: list[dict[str, Any]],
     exact_rendered_updates: int,
+    exact_rendered_span_updates: int,
 ) -> None:
     human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
     human_review["yomi_final"] = {
@@ -651,10 +841,12 @@ def set_final_review_payload(
         "skip": bool(item_state.get("skip")),
         "escalate_sentence": bool(item_state.get("escalate_sentence")),
         "target_overrides": target_overrides,
+        "span_overrides": span_overrides,
         "note": str(item_state.get("note", "")),
         "submission_id": str(item_state.get("submission_id", "")),
         "generated_at_epoch": int(item_state.get("generated_at_epoch", 0)),
         "exact_rendered_updates": exact_rendered_updates,
+        "exact_rendered_span_updates": exact_rendered_span_updates,
     }
 
 
