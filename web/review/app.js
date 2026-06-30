@@ -20,8 +20,6 @@ const el = {
   rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
-  showAllYomiWrap: document.querySelector("#show-all-yomi-wrap"),
-  showAllYomi: document.querySelector("#show-all-yomi"),
   statusBanner: document.querySelector("#status-banner"),
   submissionPreview: document.querySelector("#submission-preview"),
   openLatest: document.querySelector("#open-latest"),
@@ -115,10 +113,6 @@ function bindEvents() {
   el.reviewerName.addEventListener("input", () => {
     saveSettings();
     renderSubmissionPreview();
-  });
-
-  el.showAllYomi?.addEventListener("change", () => {
-    renderItems();
   });
 }
 
@@ -338,20 +332,10 @@ function renderItems() {
   const pack = state.currentPack;
   const { fromSeq, toSeq } = getEffectiveRange();
   const editable = isEditable();
-  const isYomiFinal = pack.review_stage === "yomi_final_review";
-  const showAllYomi = !isYomiFinal || Boolean(el.showAllYomi?.checked);
-  const visibleItems = isYomiFinal
-    ? pack.items.filter((item) => showAllYomi || isRelevantYomiReviewItem(item))
-    : pack.items;
-  if (el.showAllYomiWrap) {
-    el.showAllYomiWrap.classList.toggle("hidden", !isYomiFinal);
-  }
-  el.itemsSummary.textContent = isYomiFinal
-    ? `${visibleItems.length} shown / ${pack.items.length} total item(s)`
-    : `${pack.items.length} total item(s)`;
+  el.itemsSummary.textContent = `${pack.items.length} total item(s)`;
   el.itemsContainer.innerHTML = "";
 
-  for (const item of visibleItems) {
+  for (const item of pack.items) {
     const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
     const inRange = item.seq >= fromSeq && item.seq <= toSeq;
     const override = state.currentDraft.overrides[item.item_id] || null;
@@ -483,14 +467,6 @@ function renderItems() {
 
     el.itemsContainer.append(node);
   }
-}
-
-function isRelevantYomiReviewItem(item) {
-  return (
-    Number(item.unresolved_target_count || 0) > 0 ||
-    Boolean(item.provisional_skip) ||
-    Boolean(item.skip_default)
-  );
 }
 
 function setOverride(itemId, decision) {
