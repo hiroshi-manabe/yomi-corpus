@@ -570,8 +570,13 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
       const current = state.currentDraft.overrides[item.item_id] || { decision: "accept", note: "" };
       current.note = note.value;
       state.currentDraft.overrides[item.item_id] = current;
+      cleanupStrongRepairOverride(item.item_id);
       touchDraft();
-      renderSubmissionPreview();
+      if (!state.currentDraft.overrides[item.item_id]) {
+        render();
+      } else {
+        renderSubmissionPreview();
+      }
     });
     noteLabel.append(noteTitle, note);
     node.append(noteLabel);
@@ -670,11 +675,16 @@ function renderStrongRepairSpanEditor(item, override, editable) {
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
         : defaultStrongRepairSegments(item);
+      const hadManualSegments = Boolean(current.manual_segments?.length);
       currentSegments[index].reading = input.value;
       currentSegments[index].edited = true;
-      current.manual_segments = currentSegments;
+      setStrongRepairManualSegments(item, currentSegments);
       touchDraft();
-      renderSubmissionPreview();
+      if (hadManualSegments !== Boolean(state.currentDraft.overrides[item.item_id]?.manual_segments?.length)) {
+        render();
+      } else {
+        renderSubmissionPreview();
+      }
     });
     label.append(surface, input);
     fields.append(label);
@@ -728,7 +738,7 @@ function cycleStrongRepairSegmentReading(item, index) {
     reading: next,
     edited: true,
   };
-  current.manual_segments = segments;
+  setStrongRepairManualSegments(item, segments);
   touchDraft();
   render();
 }
@@ -826,16 +836,17 @@ function updateStrongRepairSplit(item, boundaryIndex) {
   const ordered = [...indexes].sort((a, b) => a - b);
   const chars = Array.from(item.rejected_span || "");
   let start = 0;
-  current.manual_segments = [];
+  const nextSegments = [];
   for (const end of [...ordered, chars.length]) {
     const surface = chars.slice(start, end).join("");
-    current.manual_segments.push({
+    nextSegments.push({
       surface,
       reading: defaultStrongRepairReadingForSegment(item, surface, previousSegments),
       edited: false,
     });
     start = end;
   }
+  setStrongRepairManualSegments(item, nextSegments);
   touchDraft();
   render();
 }
@@ -848,6 +859,57 @@ function ensureStrongRepairOverride(itemId) {
     manual_segments: current.manual_segments || null,
   };
   return state.currentDraft.overrides[itemId];
+}
+
+function setStrongRepairManualSegments(item, segments) {
+  const current = ensureStrongRepairOverride(item.item_id);
+  const normalized = normalizeStrongRepairSegments(segments);
+  if (strongRepairSegmentsEqual(normalized, defaultStrongRepairSegments(item))) {
+    delete current.manual_segments;
+  } else {
+    current.manual_segments = normalized;
+  }
+  cleanupStrongRepairOverride(item.item_id);
+}
+
+function cleanupStrongRepairOverride(itemId) {
+  const current = state.currentDraft.overrides[itemId];
+  if (!current) {
+    return;
+  }
+  const note = String(current.note || "").trim();
+  if (note) {
+    current.note = note;
+    return;
+  }
+  if (current.manual_segments?.length) {
+    current.note = "";
+    return;
+  }
+  delete state.currentDraft.overrides[itemId];
+}
+
+function normalizeStrongRepairSegments(segments) {
+  return (segments || [])
+    .filter((segment) => segment && segment.surface)
+    .map((segment) => ({
+      surface: String(segment.surface || ""),
+      reading: String(segment.reading || ""),
+      ...(segment.edited ? { edited: true } : {}),
+    }));
+}
+
+function strongRepairSegmentsEqual(left, right) {
+  const normalizedLeft = normalizeStrongRepairSegments(left);
+  const normalizedRight = normalizeStrongRepairSegments(right);
+  if (normalizedLeft.length !== normalizedRight.length) {
+    return false;
+  }
+  return normalizedLeft.every(
+    (segment, index) =>
+      segment.surface === normalizedRight[index].surface &&
+      segment.reading === normalizedRight[index].reading
+  );
 }
 
 function defaultStrongRepairSegments(item) {
