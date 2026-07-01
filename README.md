@@ -96,6 +96,9 @@ Review transport policy:
 - a separate review-UI project is a long-term option after review-pack and
   submission schemas stabilize, but the current repo-local UI keeps iteration
   cheap while those contracts are still changing
+- a long-term review-queue goal is large durable pipeline batches with smaller
+  browser-selected work slices, imported from GitHub Issues and replayed into
+  per-batch pending lists
 
 Pipeline orchestration policy:
 

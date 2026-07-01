@@ -1705,6 +1705,55 @@ This keeps the UI simple while still changing the reviewer's posture. `OK`
 queues are designed for anomaly detection over many items; `Review` queues are
 designed for deliberate sentence-by-sentence validation.
 
+### 10.4.1 Long-term large-batch work queues
+
+Long-term target: use larger durable pipeline batches, such as 100 documents,
+while letting the browser expose smaller review work slices selected by range
+or checkbox. The batch should be the pipeline unit; a browser work slice should
+be only a claim/submission unit.
+
+The intended model has three layers:
+
+- batch state: the durable set of documents owned by the pipeline
+- review queues inside the batch, especially `final_review_pending` and
+  `strong_repair_pending`
+- review submissions returned through GitHub Issues/comments, keyed by stable
+  item IDs and queue/stage IDs
+
+Workflow target:
+
+1. A large batch is prepared and items enter the final-review pending list.
+2. The UI lets a reviewer choose a range or checked subset from that list and
+   keeps the in-progress slice in browser storage.
+3. When the reviewer submits JSON to GitHub Issues, an importer periodically
+   polls Issues/comments, validates matching payloads, and applies them
+   idempotently.
+4. Applied final-review submissions grey out or remove completed items from the
+   final-review list.
+5. Items that need strong repair move to a second list,
+   `strong_repair_pending`.
+6. Strong-repair submissions are imported the same way. When accepted, those
+   items disappear from the second list.
+7. When both lists are empty, the polling/orchestration process finalizes the
+   batch and prepares the next large batch.
+
+Design constraints:
+
+- browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
+  selected item IDs or range
+- greyed-out/completed state comes from imported pipeline queue state, not from
+  browser-only state
+- imports must be idempotent; re-reading the same Issue/comment must not
+  duplicate work
+- later valid submissions still use the existing replay rule for overlapping
+  ranges/items
+- strong repair should be a derived queue from final-review output, not a
+  separately hand-managed batch
+
+Do not implement this before the current final-review and strong-repair schemas
+stabilize. The goal is to let human work scale to large batches without making
+each browser session large or fragile.
+
 ### 10.5 Multiple partial submissions
 
 One pack may produce multiple submissions.

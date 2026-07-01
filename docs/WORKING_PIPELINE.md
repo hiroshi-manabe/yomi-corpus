@@ -1969,6 +1969,47 @@ infallible. The review pack should still record the queue type and the source
 of each automatic `OK`, so later analysis can estimate false-OK rates by
 source.
 
+### 11.1 Long-term large-batch review queues
+
+Long-term target: keep pipeline batches large, for example 100 documents, but
+make human review operate on smaller browser-selected slices. The pipeline batch
+is durable state; the UI-selected range or checkbox subset is only a work unit
+for one submission.
+
+The target queue lifecycle is:
+
+1. Prepare one large batch.
+2. Put items needing human final review into a `final_review_pending` list.
+3. Let the UI show that list, let the reviewer choose a range or checked
+   subset, and persist that in-progress work in browser storage.
+4. The reviewer exports/submits JSON through GitHub Issues/comments.
+5. A periodic importer polls Issues/comments, applies matching submissions
+   idempotently, and updates local queue state.
+6. Completed final-review items are greyed out or removed from the first list.
+7. Items needing strong repair move into `strong_repair_pending`.
+8. Strong-repair review works the same way; completed items disappear from the
+   second list.
+9. When both pending lists are empty, the orchestrator finalizes the batch and
+   prepares the next large batch.
+
+Operational requirements:
+
+- submission payloads must carry stable item IDs, queue/stage IDs, pack IDs,
+  and reviewed range/subset metadata
+- browser draft state should be keyed by `pack_id`, `queue_id`, and selected
+  item IDs or range
+- completed/greyed-out state should be rendered from imported local queue
+  state, not from browser-only local storage
+- importer replay must be idempotent and tolerate many open Issues/comments
+- overlapping submissions should continue to use the existing later-wins replay
+  rule
+- strong repair should be derived from final-review submissions, not from a
+  separately prepared manual batch
+
+This is not the current implementation target. It should wait until the
+final-review and strong-repair schemas are stable enough that a larger queue
+manager will not churn every batch.
+
 Display:
 
 - the current best-effort yomi-annotated sentence
