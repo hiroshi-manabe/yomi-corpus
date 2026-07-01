@@ -1344,6 +1344,12 @@ annotation. The resolved profile should be recorded in batch artifacts together
 with the actual model and reasoning effort so later cost and accuracy audits are
 unambiguous.
 
+Scope triage is an intentional exception to "working means standard model".
+Use the `economy` profile for scope triage on both `dev` and `working` by
+default. Its job is to provide a recoverable scope/skip signal, not to certify
+yomi quality, and `dev_batch_0002` showed that promoting it to `gpt-5.5` would
+be a material cost increase without directly improving the final readings.
+
 The mapping from track/task to default LLM profile should come from the same
 source-controlled defaults config as `unit_mode` and `auto_accept_profile`.
 Profile definitions live in the LLM profile config, while the prepared batch

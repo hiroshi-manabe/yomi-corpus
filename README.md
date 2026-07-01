@@ -58,9 +58,12 @@ Prompt iteration scaffold:
 Default model policy:
 
 - use `gpt-5.5` for normal judgment and repair tasks
+- use `gpt-5.4-mini` / `economy` for scope triage on both `dev` and
+  `working`; triage is a recoverable scope gate, not the final yomi-quality
+  signal
 - reserve `gpt-5.5-pro` for a tiny last-resort rescue tail
 - use `gpt-5.4-nano` only for plumbing and instrumentation checks
-- treat `gpt-5.4-mini` as opt-in per task, not the default path
+- treat other `gpt-5.4-mini` use as opt-in per task, not the default path
 - batches should store an explicit `llm_policy` task-to-profile map, separate
   from yomi-specific policy
 - initial LLM profiles are capability/cost tiers: `smoke` (`gpt-5.4-nano`),

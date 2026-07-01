@@ -594,6 +594,78 @@ class LLMScaffoldingTests(unittest.TestCase):
             ]
             self.assertEqual(rows[0]["parsed"], {"status": "Review"})
 
+    def test_run_background_task_resubmits_stale_pending_response(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            job_dir.mkdir()
+            (job_dir / "responses.jsonl").write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1",
+                        "response_id": "resp_stale",
+                        "status": "queued",
+                        "submitted_at_epoch": 1,
+                        "updated_at_epoch": 1,
+                        "metadata": {},
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                submitted: list[str] = []
+                retrieved: list[str] = []
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    self.submitted.append(item.item_id)
+                    return {"response_id": "resp_new", "status": "queued"}
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    self.retrieved.append(response_id)
+                    return {
+                        "response_id": response_id,
+                        "status": "completed",
+                        "raw_text": "OK",
+                        "usage": None,
+                    }
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                )
+
+            self.assertEqual(FakeBackend.submitted, ["u1"])
+            self.assertEqual(FakeBackend.retrieved, ["resp_new"])
+            self.assertEqual(summary.status, "completed")
+            records = load_background_records(job_dir / "responses.jsonl")
+            self.assertEqual(records["u1"]["response_id"], "resp_new")
+            previous_attempts = records["u1"].get("previous_attempts")
+            self.assertIsInstance(previous_attempts, list)
+            self.assertEqual(previous_attempts[0]["response_id"], "resp_stale")
+            self.assertEqual(previous_attempts[0]["superseded_reason"], "stale_background_response")
+
     def test_run_background_task_waits_and_polls_until_completed(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

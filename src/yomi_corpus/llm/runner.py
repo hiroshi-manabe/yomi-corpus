@@ -48,6 +48,7 @@ LLM_EXECUTION_MODES = frozenset(
 BACKGROUND_RESPONSES_FILENAME = "responses.jsonl"
 BACKGROUND_STATUS_FILENAME = "background_status.json"
 BACKGROUND_ITEMS_FILENAME = "items.jsonl"
+DEFAULT_BACKGROUND_STALE_SECONDS = 30 * 60
 
 
 @dataclass
@@ -233,6 +234,15 @@ def run_background_task(
     completed_ids = load_result_item_ids(output_path) & item_ids
     records = load_background_records(responses_path)
     backend = OpenAIResponsesBackend(api_key_file=api_key_file)
+    stale_attempts: dict[str, list[dict[str, object]]] = {}
+
+    now = int(time())
+    for item_id, record in list(records.items()):
+        if item_id in completed_ids:
+            continue
+        if is_stale_background_record(record, now_epoch=now):
+            stale_attempts[item_id] = [archived_background_record(record)]
+            del records[item_id]
 
     for item in items:
         if item.item_id in completed_ids or item.item_id in records:
@@ -249,6 +259,8 @@ def run_background_task(
             "updated_at_epoch": int(time()),
             "metadata": item.metadata,
         }
+        if item.item_id in stale_attempts:
+            records[item.item_id]["previous_attempts"] = stale_attempts[item.item_id]
         write_background_records(responses_path, records, items)
 
     progress = (
@@ -637,6 +649,36 @@ def write_background_records(
         if record:
             lines.append(json.dumps(record, ensure_ascii=False))
     atomic_write_text(path, "\n".join(lines) + ("\n" if lines else ""))
+
+
+def background_stale_seconds() -> int:
+    raw_value = os.environ.get("YOMI_BACKGROUND_STALE_SECONDS")
+    if raw_value is None or raw_value == "":
+        return DEFAULT_BACKGROUND_STALE_SECONDS
+    try:
+        return max(int(raw_value), 0)
+    except ValueError:
+        return DEFAULT_BACKGROUND_STALE_SECONDS
+
+
+def is_stale_background_record(record: dict[str, object], *, now_epoch: int) -> bool:
+    threshold = background_stale_seconds()
+    if threshold <= 0:
+        return False
+    status = str(record.get("status") or "")
+    if status not in {"queued", "in_progress"}:
+        return False
+    submitted_at = record.get("submitted_at_epoch")
+    if not isinstance(submitted_at, int | float):
+        return False
+    return now_epoch - int(submitted_at) >= threshold
+
+
+def archived_background_record(record: dict[str, object]) -> dict[str, object]:
+    archived = dict(record)
+    archived["superseded_at_epoch"] = int(time())
+    archived["superseded_reason"] = "stale_background_response"
+    return archived
 
 
 def background_completed_result(
