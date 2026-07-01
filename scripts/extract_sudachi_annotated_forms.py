@@ -12,6 +12,12 @@ DEFAULT_INPUT = Path("/panfs/panmt22/users/hmanabe/yomi_tagger/sudachi_20251022/
 DEFAULT_OUTPUT = Path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
 
 
+def has_digit_and_han(text: str) -> bool:
+    has_digit = any(char.isdigit() for char in text)
+    has_han = any("\u3400" <= char <= "\u9fff" or "\uf900" <= char <= "\ufaff" for char in text)
+    return has_digit and has_han
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
@@ -71,13 +77,21 @@ def main() -> None:
             if not args.keep_boundaries:
                 annotated = annotated.replace("|", "")
 
-            if not args.include_non_furigana and not ("（" in annotated and "）" in annotated):
+            keep_plain_digit_han = annotated == surface and has_digit_and_han(surface)
+
+            if (
+                not args.include_non_furigana
+                and not keep_plain_digit_han
+                and not ("（" in annotated and "）" in annotated)
+            ):
                 stats["non_furigana_rows_skipped"] += 1
                 continue
 
-            if not args.include_plain and annotated == surface:
+            if not args.include_plain and not keep_plain_digit_han and annotated == surface:
                 stats["plain_rows_skipped"] += 1
                 continue
+            if keep_plain_digit_han:
+                stats["plain_digit_han_rows_kept"] += 1
 
             value_counts[(surface, reading)][annotated] += 1
             stats["candidate_rows"] += 1

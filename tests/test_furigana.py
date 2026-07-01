@@ -47,6 +47,18 @@ class FuriganaConverterTests(unittest.TestCase):
             self.assertEqual(converter.convert("送っ", "オクッ").annotated_surface, "送（おく）っ")
             self.assertEqual(converter.convert("決め", "キメ").annotated_surface, "決（き）め")
 
+    def test_plain_digit_han_lookup_blocks_bad_fallback_alignment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            lookup = Path(tmp) / "lookup.tsv"
+            write_lookup(lookup, [("1人1人", "ヒトリヒトリ", "1人1人")])
+
+            converter = FuriganaConverter.from_tsv(lookup)
+            result = converter.convert("1人1人", "ヒトリヒトリ")
+
+            self.assertEqual(result.annotated_surface, "1人1人")
+            self.assertEqual(result.method, "exact_lookup")
+            self.assertEqual(result.confidence, "high")
+
     def test_unique_alignment_handles_okurigana(self) -> None:
         converter = FuriganaConverter()
         result = converter.convert("読み仮名", "ヨミガナ")
