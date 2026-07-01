@@ -520,34 +520,11 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   if (override?.decision) {
     const overrideBadge = document.createElement("span");
     overrideBadge.className = "badge override-badge";
-    overrideBadge.textContent = override.decision;
+    overrideBadge.textContent = "edited";
     badges.append(overrideBadge);
   }
   titleWrap.append(titleRow, badges);
   header.append(titleWrap);
-
-  if (editable) {
-    const controls = document.createElement("div");
-    controls.className = "item-controls editable-only";
-    const acceptButton = document.createElement("button");
-    acceptButton.className = "secondary-button";
-    acceptButton.type = "button";
-    acceptButton.textContent = "Accept";
-    acceptButton.addEventListener("click", () => {
-      delete state.currentDraft.overrides[item.item_id];
-      touchDraft();
-      render();
-    });
-    const rejectButton = document.createElement("button");
-    rejectButton.className = "secondary-button danger-button";
-    rejectButton.type = "button";
-    rejectButton.textContent = "Reject";
-    rejectButton.addEventListener("click", () => {
-      setOverride(item.item_id, "reject");
-    });
-    controls.append(acceptButton, rejectButton);
-    header.append(controls);
-  }
   node.append(header);
 
   const afterLine = document.createElement("p");
@@ -590,7 +567,7 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
     note.rows = 2;
     note.value = override?.note || "";
     note.addEventListener("input", () => {
-      const current = state.currentDraft.overrides[item.item_id] || { decision: "reject", note: "" };
+      const current = state.currentDraft.overrides[item.item_id] || { decision: "accept", note: "" };
       current.note = note.value;
       state.currentDraft.overrides[item.item_id] = current;
       touchDraft();
