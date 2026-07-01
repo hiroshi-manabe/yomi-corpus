@@ -666,7 +666,7 @@ function renderStrongRepairSpanEditor(item, override, editable) {
 
   const preview = document.createElement("span");
   preview.className = "strong-repair-span-preview";
-  preview.append(...renderStrongRepairSegmentRuby(segments));
+  preview.append(...renderStrongRepairSegmentRuby(item, segments, editable));
   wrapper.append(preview);
 
   if (!editable) {
@@ -707,21 +707,87 @@ function renderStrongRepairSpanEditor(item, override, editable) {
   return wrapper;
 }
 
-function renderStrongRepairSegmentRuby(segments) {
+function renderStrongRepairSegmentRuby(item, segments, editable) {
   const nodes = [];
-  for (const segment of segments) {
+  for (const [index, segment] of segments.entries()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "strong-repair-segment-token";
+    button.disabled = !editable;
+    button.title = editable ? "Cycle reading candidate" : "";
     if (segment.reading) {
       const ruby = document.createElement("ruby");
       ruby.append(document.createTextNode(segment.surface || ""));
       const rt = document.createElement("rt");
       rt.textContent = segment.reading;
       ruby.append(rt);
-      nodes.push(ruby);
+      button.append(ruby);
     } else {
-      nodes.push(document.createTextNode(segment.surface || ""));
+      button.append(document.createTextNode(segment.surface || ""));
     }
+    if (editable) {
+      button.addEventListener("click", () => cycleStrongRepairSegmentReading(item, index));
+    }
+    nodes.push(button);
   }
   return nodes;
+}
+
+function cycleStrongRepairSegmentReading(item, index) {
+  const current = ensureStrongRepairOverride(item.item_id);
+  const segments = current.manual_segments?.length
+    ? current.manual_segments
+    : defaultStrongRepairSegments(item);
+  const segment = segments[index];
+  if (!segment) {
+    return;
+  }
+  const candidates = strongRepairReadingCycleCandidates(item, segment.surface || "");
+  const values = [...candidates, ""];
+  const currentIndex = values.indexOf(segment.reading || "");
+  const next = values[(currentIndex + 1) % values.length];
+  segments[index] = {
+    ...segment,
+    reading: next,
+    edited: true,
+  };
+  current.manual_segments = segments;
+  touchDraft();
+  render();
+}
+
+function strongRepairReadingCycleCandidates(item, surface) {
+  const values = [];
+  for (const reading of item.reading_candidates?.[surface] || []) {
+    if (reading && !values.includes(reading)) {
+      values.push(reading);
+    }
+  }
+  const hint = item.reading_hints?.[surface];
+  if (hint && !values.includes(hint)) {
+    values.push(hint);
+  }
+  const targetReading = readingFromStrongRepairTargets(item.target_escalations || [], surface);
+  if (targetReading && !values.includes(targetReading)) {
+    values.push(targetReading);
+  }
+  for (const row of item.llm_parsed || []) {
+    if (row?.surface === surface && row.reading) {
+      const reading = katakanaToHiragana(String(row.reading));
+      if (!values.includes(reading)) {
+        values.push(reading);
+      }
+    }
+  }
+  for (const row of item.repair_log?.replacement || []) {
+    if (row?.surface === surface && row.reading) {
+      const reading = katakanaToHiragana(String(row.reading));
+      if (!values.includes(reading)) {
+        values.push(reading);
+      }
+    }
+  }
+  return values;
 }
 
 function renderStrongRepairSplitControls(item, segments) {

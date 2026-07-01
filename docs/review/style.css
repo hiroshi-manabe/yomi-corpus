@@ -546,7 +546,8 @@ button {
   margin-top: 10px;
 }
 
-.readonly-ruby-token {
+.readonly-ruby-token,
+.readonly-ruby-token ruby {
   cursor: default;
 }
 
@@ -561,7 +562,22 @@ button {
   background: rgba(45, 106, 79, 0.18);
 }
 
-.strong-repair-span-preview ruby + ruby {
+.strong-repair-segment-token {
+  display: inline;
+  margin: 0 1px;
+  border: 0;
+  border-radius: 7px;
+  padding: 1px 3px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.strong-repair-segment-token:disabled {
+  cursor: default;
+}
+
+.strong-repair-segment-token + .strong-repair-segment-token {
   margin-left: 0.08em;
 }
 
