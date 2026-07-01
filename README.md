@@ -86,16 +86,21 @@ Alphabetic entity policy:
 Review transport policy:
 
 - assume static browser UI rather than cluster-hosted writable UI
-- keep the review UI in this same repository rather than a separate UI repo
+- treat this repository's GitHub Pages review UI as dev-only while the workflow
+  is still experimental
+- keep the dev review UI in this same repository rather than a separate UI repo
 - isolate the static review app in its own directory so it does not mix with
   the Python pipeline code
 - GitHub Pages is the preferred first host for review HTML
 - GitHub Issues are the preferred first mailbox for returned review submissions
 - browser UI should persist local drafts and support partial range-based
   submissions
-- a separate review-UI project is a long-term option after review-pack and
-  submission schemas stabilize, but the current repo-local UI keeps iteration
-  cheap while those contracts are still changing
+- a separate review-UI project should be considered for future `working`
+  review once review-pack and submission schemas stabilize; that UI should be
+  stable/production-oriented and should not inherit dev UI churn
+- the next dev trial should use a small batch, around 10 documents, to exercise
+  browser-selected work slices and partial returned submissions before changing
+  larger-batch behavior
 - a long-term review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-batch pending lists

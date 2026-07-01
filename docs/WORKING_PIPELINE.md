@@ -1508,7 +1508,10 @@ review UI should not assume that it can write directly back to the cluster.
 
 Current preferred review transport:
 
-- keep the static review UI in this repository, not a separate UI repository
+- treat this repository's GitHub Pages review UI as the `dev` review surface
+  while the workflow and review-pack schemas are still changing
+- keep the static dev review UI in this repository, not a separate UI
+  repository
 - isolate it in its own web-facing directory so the Python pipeline and static
   frontend remain loosely coupled
 - host the static review UI on GitHub Pages
@@ -1530,12 +1533,13 @@ This keeps hosting simple while still letting the UI evolve together with the
 pack format, submission format, and review workflow.
 
 Long-term task: after the review flow has stabilized over multiple batches,
-revisit whether the static review UI and GitHub-Issue submission workflow should
-move to an independent project. That would keep UI publishing commits and review
-traffic out of the corpus/pipeline repository. Do not split early: this repo
-should continue to own review-pack generation, submission ingestion, replay
-semantics, and corpus state. A split is only attractive once the boundary is a
-stable versioned contract:
+prepare a separate static review project for the `working` track. That project
+should be stable and production-oriented, while this repository's Pages site can
+remain a fast-changing dev UI. A split would also keep UI publishing commits and
+review traffic out of the corpus/pipeline repository. Do not split early: this
+repo should continue to own review-pack generation, submission ingestion,
+replay semantics, and corpus state. A split is only attractive once the boundary
+is a stable versioned contract:
 
 - review-pack JSON schema
 - review-submission JSON schema
@@ -1543,6 +1547,13 @@ stable versioned contract:
 - GitHub Issue/comment ingestion convention back into this repository
 
 Until then, the monorepo layout is intentionally pragmatic.
+
+Near-term dev trial: the next dev batch should use a small batch size, around
+10 documents, to test browser-selected work slices and partial returned
+submissions. Treat that run as a workflow/UI implementation trial rather than a
+quality benchmark. It should verify that local draft state, range/subset export,
+Issue submission import, and later-wins replay work before applying the same
+pattern to larger batches.
 
 For final yomi review, use a sentence-level review pack in one continuous list,
 but make the normal view look like ruby-rendered text rather than pipeline
@@ -1569,9 +1580,6 @@ current reading and wants strong-model handling for that local area. Consecutive
 no-ruby targets in the same sentence should be grouped automatically into one
 strong-repair span. Whether to use web search should be decided by the strong
 repair prompt/model from the target context, not by a human review checkbox.
-strong-repair span in that sentence. This is intentionally sentence-level rather
-than span-level: occasional extra web search is cheaper than making the review
-UI awkward.
 
 Whole-sentence escalation should not be a primary control. So far, real cases
 look like local boundary/reading failures that can be handled by canceling a
