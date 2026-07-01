@@ -2707,6 +2707,7 @@ class PipelineWorkspace:
                 submission_store_dir=strong_submission_store_dir,
                 strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
                 output_summary_json=strong_review_summary_path,
+                units_jsonl=strong_repaired_path if strong_repaired_path.exists() else None,
             )
             if not strong_review_summary.get("stage_complete", True):
                 return {

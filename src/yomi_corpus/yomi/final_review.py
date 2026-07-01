@@ -689,6 +689,7 @@ def apply_strong_repair_review_file(
     submission_store_dir: Path,
     strong_apply_summary_json: Path,
     output_summary_json: Path,
+    units_jsonl: Path | None = None,
 ) -> dict[str, Any]:
     pack = load_json(pack_json)
     submissions = load_review_submissions_for_stage(
@@ -722,13 +723,21 @@ def apply_strong_repair_review_file(
         if str(state.get("decision") or "accept") == "reject"
     ]
     unreviewed_count = len(items) - len(reviewed_items)
-    stage_complete = unreviewed_count == 0 and not rejected_items
+    manual_summary = apply_manual_strong_repair_review_segments_file(
+        pack=pack,
+        effective=effective,
+        units_jsonl=units_jsonl,
+    )
+    invalid_manual_items = manual_summary["invalid_items"]
+    stage_complete = unreviewed_count == 0 and not rejected_items and invalid_manual_items == 0
     strong_summary = load_json(strong_apply_summary_json)
     strong_summary["confirmed"] = bool(stage_complete)
     strong_summary["confirmation_pack_id"] = str(pack["pack_id"])
     strong_summary["confirmation_submission_count"] = len(submissions)
     strong_summary["confirmation_rejected_items"] = rejected_items
     strong_summary["confirmation_unreviewed_items"] = unreviewed_count
+    strong_summary["confirmation_manual_segment_overrides"] = manual_summary["applied_items"]
+    strong_summary["confirmation_invalid_manual_segment_overrides"] = invalid_manual_items
     strong_apply_summary_json.write_text(
         json.dumps(strong_summary, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -743,6 +752,7 @@ def apply_strong_repair_review_file(
         "reviewed_items": len(reviewed_items),
         "unreviewed_items": unreviewed_count,
         "rejected_items": rejected_items,
+        "manual_segment_overrides": manual_summary,
         "strong_apply_summary_json": str(strong_apply_summary_json),
         "summary_json": str(output_summary_json),
     }
@@ -755,6 +765,131 @@ def apply_strong_repair_review_file(
         encoding="utf-8",
     )
     return summary
+
+
+def apply_manual_strong_repair_review_segments_file(
+    *,
+    pack: dict[str, Any],
+    effective: dict[str, dict[str, Any]],
+    units_jsonl: Path | None,
+) -> dict[str, Any]:
+    item_states = [
+        (item, effective[str(item.get("item_id") or "")])
+        for item in pack.get("items", [])
+        if isinstance(item, dict)
+        and str(item.get("item_id") or "") in effective
+        and str(effective[str(item.get("item_id") or "")].get("decision") or "accept") != "reject"
+        and effective[str(item.get("item_id") or "")].get("manual_segments")
+    ]
+    if not item_states:
+        return {"applied_items": 0, "invalid_items": 0, "invalid": []}
+    if units_jsonl is None:
+        return {
+            "applied_items": 0,
+            "invalid_items": len(item_states),
+            "invalid": [
+                {
+                    "item_id": str(item.get("item_id") or ""),
+                    "reason": "manual segments require units_jsonl",
+                }
+                for item, _state in item_states
+            ],
+        }
+
+    overrides_by_unit: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = {}
+    for item, state in item_states:
+        unit_id = str(item.get("unit_id") or "")
+        if unit_id:
+            overrides_by_unit.setdefault(unit_id, []).append((item, state))
+
+    applied_items = 0
+    invalid: list[dict[str, Any]] = []
+    output_rows: list[str] = []
+    with units_jsonl.open(encoding="utf-8") as src:
+        for line in src:
+            if not line.strip():
+                continue
+            unit = json.loads(line)
+            unit_id = str(unit.get("unit_id") or "")
+            for item, state in overrides_by_unit.get(unit_id, []):
+                result = apply_manual_strong_repair_segments(unit, item, state)
+                if result["status"] == "applied":
+                    applied_items += 1
+                elif result["status"] != "unchanged":
+                    invalid.append(
+                        {
+                            "item_id": str(item.get("item_id") or ""),
+                            **result,
+                        }
+                    )
+            output_rows.append(json.dumps(unit, ensure_ascii=False))
+
+    tmp_path = units_jsonl.with_suffix(units_jsonl.suffix + ".tmp")
+    tmp_path.write_text("\n".join(output_rows) + ("\n" if output_rows else ""), encoding="utf-8")
+    tmp_path.replace(units_jsonl)
+    return {
+        "applied_items": applied_items,
+        "invalid_items": len(invalid),
+        "invalid": invalid,
+    }
+
+
+def apply_manual_strong_repair_segments(
+    unit: dict[str, Any],
+    item: dict[str, Any],
+    state: dict[str, Any],
+) -> dict[str, Any]:
+    original_surface = str(item.get("rejected_span") or "")
+    override = {
+        "original_surface": original_surface,
+        "segments": state.get("manual_segments") or [],
+    }
+    replacement_pairs = replacement_pairs_from_span_override(override)
+    if not original_surface:
+        return {"status": "invalid_manual_segments", "reason": "missing rejected span"}
+    if not replacement_pairs:
+        return {"status": "invalid_manual_segments", "reason": "invalid manual segment readings"}
+    if "".join(surface for surface, _reading in replacement_pairs) != original_surface:
+        return {
+            "status": "invalid_manual_segments",
+            "reason": "manual segment surfaces do not match rejected span",
+            "rejected_span": original_surface,
+            "replacement_span": "".join(surface for surface, _reading in replacement_pairs),
+        }
+    yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+    rendered = str(yomi.get("rendered") or "")
+    if not rendered:
+        return {"status": "invalid_unit", "reason": "missing rendered yomi"}
+    pairs = parse_rendered_pairs(rendered)
+    span = find_unique_rendered_span(pairs, original_surface)
+    if span is None:
+        return {
+            "status": "surface_mismatch",
+            "reason": "manual rejected span is not unique in rendered yomi",
+            "rejected_span": original_surface,
+        }
+    start, end = span
+    if pairs[start:end] == replacement_pairs:
+        return {"status": "unchanged", "rejected_span": original_surface}
+    yomi.setdefault("rendered_before_strong_repair_review", rendered)
+    pairs[start:end] = replacement_pairs
+    yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+    unit.setdefault("analysis", {}).setdefault("human_review", {})["yomi_strong_repair"] = {
+        "rule": STRONG_REPAIR_REVIEW_RULE,
+        "item_id": str(item.get("item_id") or ""),
+        "manual_segments": [
+            {"surface": surface, "reading": reading}
+            for surface, reading in replacement_pairs
+        ],
+    }
+    return {
+        "status": "applied",
+        "rejected_span": original_surface,
+        "replacement": [
+            {"surface": surface, "reading": reading}
+            for surface, reading in replacement_pairs
+        ],
+    }
 
 
 def load_review_submissions_for_stage(
@@ -815,6 +950,9 @@ def replay_simple_accept_reject_submissions(
                 effective[item_id] = {
                     "item_id": item_id,
                     "decision": str(override.get("decision") or "accept"),
+                    "manual_segments": [
+                        row for row in override.get("manual_segments", []) if isinstance(row, dict)
+                    ],
                     "note": str(override.get("note", "")).strip(),
                     "submission_id": str(submission.get("submission_id", "")),
                     "generated_at_epoch": int(submission.get("generated_at_epoch", 0)),

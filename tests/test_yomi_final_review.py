@@ -1151,6 +1151,92 @@ class YomiFinalReviewTests(unittest.TestCase):
             repaired = json.loads(output_path.read_text(encoding="utf-8"))
             self.assertIn("山根/ヤマネ 視来/ミキ 選手/センシュ", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
 
+    def test_strong_repair_review_manual_segments_override_llm_repair(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            strong_path = root / "strong.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            strong_summary_path = root / "strong_summary.json"
+            confirmation_summary_path = root / "confirmation_summary.json"
+            unit_payload = {
+                "unit_id": "u1",
+                "text": "それを、旧池尻中学校を改装した。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中学校/イケジリチュウガッコウ を/ヲ 改装/カイソウ し/シ た/タ 。/。"
+                        }
+                    },
+                    "human_review": {"yomi_final": {"reviewed": True, "skip": False}},
+                },
+            }
+            strong_path.write_text(
+                json.dumps(unit_payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            pack_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack_1",
+                        "item_count": 1,
+                        "items": [
+                            {
+                                "item_id": "u1::target_group:1",
+                                "seq": 1,
+                                "unit_id": "u1",
+                                "rejected_span": "池尻中学校",
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            strong_summary_path.write_text(
+                json.dumps({"stage_complete": True, "confirmed": False}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_strong_repair_review",
+                    "pack_id": "strong_pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1::target_group:1",
+                            "decision": "accept",
+                            "manual_segments": [
+                                {"surface": "池尻", "reading": "いけじり"},
+                                {"surface": "中学校", "reading": "ちゅうがっこう"},
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_strong_repair_review_file(
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                strong_apply_summary_json=strong_summary_path,
+                output_summary_json=confirmation_summary_path,
+                units_jsonl=strong_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            self.assertEqual(summary["manual_segment_overrides"]["applied_items"], 1)
+            repaired = json.loads(strong_path.read_text(encoding="utf-8"))
+            self.assertIn(
+                "池尻/イケジリ 中学校/チュウガッコウ",
+                repaired["analysis"]["mechanical"]["yomi"]["rendered"],
+            )
+
     def test_strong_repair_rejects_reused_rejected_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

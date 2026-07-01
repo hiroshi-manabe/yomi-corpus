@@ -1784,6 +1784,14 @@ is useful for multi-token or boundary-crossing repairs such as `一発` becoming
 use the whole confirmed surface span by default, not infer a broader regex or
 subspan rule unless separately approved.
 
+The strong-repair confirmation UI can also accept a human-edited segmentation
+for the rejected local span. The intended first UI is a boundary-toggle editor:
+characters inside the rejected span are joined with `=` and split with `/`, and
+one reading input is shown for each resulting segment. The submitted
+`manual_segments` remain canonical `surface/reading` data. They override the
+LLM repair only after validation confirms that segment surfaces concatenate
+exactly to the rejected span and readings are valid kana.
+
 `yomi_finalized` consumes `units.yomi.strong_repaired.jsonl` when it exists, but
 strong repair results are still candidates. If the strong queue is non-empty,
 finalization blocks until a later human confirmation stage marks the strong

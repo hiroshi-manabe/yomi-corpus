@@ -2190,6 +2190,15 @@ data/units/<batch>/units.yomi.final.jsonl
 data/units/<batch>/yomi_finalize_summary.json
 ```
 
+The `yomi_strong_repair_review` UI may also submit `manual_segments` for a
+repair item. This is the first manual correction path for local strong repairs:
+the rejected span is displayed inline, boundaries between characters can be
+toggled, and the UI emits segment-level `surface/reading` pairs. During
+confirmation these manual segments override the LLM repair only if their
+surfaces concatenate exactly to the rejected span and all readings are valid
+kana. Invalid manual segments keep confirmation incomplete rather than being
+silently applied.
+
 Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
 units are retained.
 
