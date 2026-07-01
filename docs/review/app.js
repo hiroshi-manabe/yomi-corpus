@@ -294,7 +294,7 @@ function renderPackSummary() {
 
   const draft = state.currentDraft;
   const { fromSeq, toSeq, includedCount } = getEffectiveRange();
-  const overrides = getActiveOverrides();
+  const overrides = getSubmissionOverridesForCurrentStage();
   const cards = [
     ["Stage", stage.label || stage.review_stage],
     ["Track", trackName],
@@ -318,7 +318,7 @@ function renderPackSummary() {
 
 function renderRangeSummary() {
   const { fromSeq, toSeq, includedCount } = getEffectiveRange();
-  const overrides = getActiveOverrides();
+  const overrides = getSubmissionOverridesForCurrentStage();
   const defaultAcceptCount = Math.max(includedCount - overrides.length, 0);
   const summaryCards = [
     makeSummaryCard("From", String(fromSeq)),
@@ -552,7 +552,7 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
 
   const afterLine = document.createElement("p");
   afterLine.className = "ruby-line strong-repair-after";
-  afterLine.append(...renderReadonlyRubyFromRendered(item.rendered_yomi_after || ""));
+  afterLine.append(...renderStrongRepairAfterLine(item, override, editable));
   node.append(afterLine);
 
   const details = document.createElement("details");
@@ -620,9 +620,267 @@ function formatRepairProposal(rows) {
     .join(" + ");
 }
 
-function renderReadonlyRubyFromRendered(rendered) {
+function renderStrongRepairAfterLine(item, override, editable) {
+  const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
+  const span = item.rejected_span || "";
+  const match = findRenderedTokenSpan(tokens, span);
+  if (!span || !match) {
+    return renderReadonlyRubyFromRendered(item.rendered_yomi_after || "");
+  }
   const nodes = [];
-  for (const token of parseRenderedYomiTokens(rendered)) {
+  for (let index = 0; index < tokens.length; index += 1) {
+    if (index === match.start) {
+      nodes.push(renderStrongRepairSpanEditor(item, override, editable));
+      index = match.end - 1;
+      continue;
+    }
+    nodes.push(...renderReadonlyRubyFromTokens([tokens[index]]));
+  }
+  return nodes;
+}
+
+function findRenderedTokenSpan(tokens, surfaceSpan) {
+  const matches = [];
+  for (let start = 0; start < tokens.length; start += 1) {
+    let surface = "";
+    for (let end = start + 1; end <= tokens.length; end += 1) {
+      surface += tokens[end - 1].surface || "";
+      if (surface === surfaceSpan) {
+        matches.push({ start, end });
+        break;
+      }
+      if (!surfaceSpan.startsWith(surface)) {
+        break;
+      }
+    }
+  }
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function renderStrongRepairSpanEditor(item, override, editable) {
+  const manualSegments = override?.manual_segments || null;
+  const segments = manualSegments?.length ? manualSegments : defaultStrongRepairSegments(item);
+  const wrapper = document.createElement("span");
+  wrapper.className = "strong-repair-span-editor";
+  wrapper.classList.toggle("changed", Boolean(manualSegments?.length));
+
+  const preview = document.createElement("span");
+  preview.className = "strong-repair-span-preview";
+  preview.append(...renderStrongRepairSegmentRuby(segments));
+  wrapper.append(preview);
+
+  if (!editable) {
+    return wrapper;
+  }
+
+  const editor = document.createElement("span");
+  editor.className = "span-editor strong-repair-boundary-editor";
+  editor.append(renderStrongRepairSplitControls(item, segments));
+
+  const fields = document.createElement("span");
+  fields.className = "span-reading-fields";
+  for (const [index, segment] of segments.entries()) {
+    const label = document.createElement("label");
+    label.className = "span-reading-field";
+    const surface = document.createElement("span");
+    surface.textContent = segment.surface || "";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = segment.reading || "";
+    input.placeholder = "reading";
+    input.addEventListener("input", () => {
+      const current = ensureStrongRepairOverride(item.item_id);
+      const currentSegments = current.manual_segments?.length
+        ? current.manual_segments
+        : defaultStrongRepairSegments(item);
+      currentSegments[index].reading = input.value;
+      current.manual_segments = currentSegments;
+      touchDraft();
+      renderSubmissionPreview();
+    });
+    label.append(surface, input);
+    fields.append(label);
+  }
+  editor.append(fields);
+  wrapper.append(editor);
+  return wrapper;
+}
+
+function renderStrongRepairSegmentRuby(segments) {
+  const nodes = [];
+  for (const segment of segments) {
+    if (segment.reading) {
+      const ruby = document.createElement("ruby");
+      ruby.append(document.createTextNode(segment.surface || ""));
+      const rt = document.createElement("rt");
+      rt.textContent = segment.reading;
+      ruby.append(rt);
+      nodes.push(ruby);
+    } else {
+      nodes.push(document.createTextNode(segment.surface || ""));
+    }
+  }
+  return nodes;
+}
+
+function renderStrongRepairSplitControls(item, segments) {
+  const wrap = document.createElement("span");
+  wrap.className = "split-controls";
+  const chars = Array.from(item.rejected_span || "");
+  const indexes = strongRepairSplitIndexes(segments);
+  for (let index = 0; index < chars.length; index += 1) {
+    const charSpan = document.createElement("span");
+    charSpan.className = "split-char";
+    charSpan.textContent = chars[index];
+    wrap.append(charSpan);
+    if (index < chars.length - 1) {
+      const boundaryIndex = index + 1;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "split-toggle";
+      button.textContent = indexes.has(boundaryIndex) ? "/" : "=";
+      button.title = "Toggle split";
+      button.addEventListener("click", () => updateStrongRepairSplit(item, boundaryIndex));
+      wrap.append(button);
+    }
+  }
+  return wrap;
+}
+
+function strongRepairSplitIndexes(segments) {
+  const indexes = new Set();
+  let cursor = 0;
+  for (const segment of segments || []) {
+    cursor += Array.from(segment.surface || "").length;
+    indexes.add(cursor);
+  }
+  indexes.delete(0);
+  indexes.delete(
+    (segments || []).reduce((total, segment) => total + Array.from(segment.surface || "").length, 0)
+  );
+  return indexes;
+}
+
+function updateStrongRepairSplit(item, boundaryIndex) {
+  const current = ensureStrongRepairOverride(item.item_id);
+  const previousSegments = current.manual_segments?.length
+    ? current.manual_segments
+    : defaultStrongRepairSegments(item);
+  const existingReadings = previousSegments.some((segment) => segment.reading);
+  if (
+    existingReadings &&
+    !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
+  ) {
+    return;
+  }
+  const indexes = strongRepairSplitIndexes(previousSegments);
+  if (indexes.has(boundaryIndex)) {
+    indexes.delete(boundaryIndex);
+  } else {
+    indexes.add(boundaryIndex);
+  }
+  const ordered = [...indexes].sort((a, b) => a - b);
+  const chars = Array.from(item.rejected_span || "");
+  let start = 0;
+  current.manual_segments = [];
+  for (const end of [...ordered, chars.length]) {
+    const surface = chars.slice(start, end).join("");
+    current.manual_segments.push({
+      surface,
+      reading: defaultStrongRepairReadingForSegment(item, surface, previousSegments),
+    });
+    start = end;
+  }
+  touchDraft();
+  render();
+}
+
+function ensureStrongRepairOverride(itemId) {
+  const current = state.currentDraft.overrides[itemId] || {};
+  state.currentDraft.overrides[itemId] = {
+    decision: "accept",
+    note: current.note || "",
+    manual_segments: current.manual_segments || null,
+  };
+  return state.currentDraft.overrides[itemId];
+}
+
+function defaultStrongRepairSegments(item) {
+  const parsed = item.llm_parsed || [];
+  if (parsed.length) {
+    return parsed
+      .filter((row) => row && row.surface)
+      .map((row) => ({
+        surface: String(row.surface || ""),
+        reading: katakanaToHiragana(String(row.reading || "")),
+      }));
+  }
+  const replacement = item.repair_log?.replacement || [];
+  if (replacement.length) {
+    return replacement
+      .filter((row) => row && row.surface)
+      .map((row) => ({
+        surface: String(row.surface || ""),
+        reading: katakanaToHiragana(String(row.reading || "")),
+      }));
+  }
+  return [
+    {
+      surface: item.rejected_span || "",
+      reading: "",
+    },
+  ];
+}
+
+function defaultStrongRepairReadingForSegment(item, surface, previousSegments) {
+  const previous = (previousSegments || []).find(
+    (segment) => segment.surface === surface && segment.reading
+  );
+  if (previous) {
+    return previous.reading;
+  }
+  for (const row of item.llm_parsed || []) {
+    if (row?.surface === surface && row.reading) {
+      return katakanaToHiragana(String(row.reading));
+    }
+  }
+  for (const row of item.repair_log?.replacement || []) {
+    if (row?.surface === surface && row.reading) {
+      return katakanaToHiragana(String(row.reading));
+    }
+  }
+  const targetReading = readingFromStrongRepairTargets(item.target_escalations || [], surface);
+  if (targetReading) {
+    return targetReading;
+  }
+  return "";
+}
+
+function readingFromStrongRepairTargets(targets, surface) {
+  for (let start = 0; start < targets.length; start += 1) {
+    let joinedSurface = "";
+    let joinedReading = "";
+    for (let end = start; end < targets.length; end += 1) {
+      joinedSurface += targets[end].surface || "";
+      joinedReading += targets[end].current_reading_hiragana || "";
+      if (joinedSurface === surface) {
+        return joinedReading;
+      }
+      if (!surface.startsWith(joinedSurface)) {
+        break;
+      }
+    }
+  }
+  return "";
+}
+
+function renderReadonlyRubyFromRendered(rendered) {
+  return renderReadonlyRubyFromTokens(parseRenderedYomiTokens(rendered));
+}
+
+function renderReadonlyRubyFromTokens(tokens) {
+  const nodes = [];
+  for (const token of tokens) {
     if (!shouldDisplayRuby(token.surface, token.reading)) {
       nodes.push(document.createTextNode(token.surface));
       continue;
@@ -1218,14 +1476,7 @@ function buildSubmissionPayload() {
   const pack = state.currentPack;
   const { fromSeq, toSeq } = getEffectiveRange();
   const reviewer = el.reviewerName.value.trim();
-  const overrides =
-    pack.review_stage === "yomi_final_review"
-      ? getActiveYomiOverrides()
-      : getActiveOverrides().map((item) => ({
-          item_id: item.item_id,
-          decision: item.decision,
-          ...(item.note ? { note: item.note } : {}),
-        }));
+  const overrides = getSubmissionOverridesForCurrentStage();
   const now = Date.now();
 
   return {
@@ -1239,6 +1490,21 @@ function buildSubmissionPayload() {
     reviewed_ranges: pack.item_count > 0 ? [{ from_seq: fromSeq, to_seq: toSeq }] : [],
     overrides,
   };
+}
+
+function getSubmissionOverridesForCurrentStage() {
+  const pack = state.currentPack;
+  if (pack.review_stage === "yomi_final_review") {
+    return getActiveYomiOverrides();
+  }
+  if (pack.review_stage === "yomi_strong_repair_review") {
+    return getActiveStrongRepairOverrides();
+  }
+  return getActiveOverrides().map((item) => ({
+    item_id: item.item_id,
+    decision: item.decision,
+    ...(item.note ? { note: item.note } : {}),
+  }));
 }
 
 function getActiveYomiOverrides() {
@@ -1294,6 +1560,36 @@ function getActiveOverrides() {
       };
     })
     .filter(Boolean);
+}
+
+function getActiveStrongRepairOverrides() {
+  const { fromSeq, toSeq } = getEffectiveRange();
+  return Object.entries(state.currentDraft.overrides)
+    .map(([itemId, override]) => {
+      const item = state.currentPack.items.find((row) => row.item_id === itemId);
+      if (!item || item.seq < fromSeq || item.seq > toSeq) {
+        return null;
+      }
+      const row = {
+        item_id: itemId,
+        decision: override.decision || "accept",
+        ...(override.note ? { note: String(override.note).trim() } : {}),
+      };
+      if (override.manual_segments?.length) {
+        row.manual_segments = override.manual_segments.map((segment) => ({
+          surface: segment.surface || "",
+          reading: segment.reading || "",
+        }));
+      }
+      return row;
+    })
+    .filter(Boolean)
+    .filter(
+      (row) =>
+        row.decision === "reject" ||
+        row.note ||
+        (row.manual_segments && row.manual_segments.length > 0)
+    );
 }
 
 function getEffectiveRange() {

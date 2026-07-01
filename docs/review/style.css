@@ -550,6 +550,25 @@ button {
   cursor: default;
 }
 
+.strong-repair-span-editor {
+  display: inline;
+  padding: 1px 3px;
+  border-radius: 7px;
+  background: rgba(156, 79, 30, 0.16);
+}
+
+.strong-repair-span-editor.changed {
+  background: rgba(45, 106, 79, 0.18);
+}
+
+.strong-repair-span-preview ruby + ruby {
+  margin-left: 0.08em;
+}
+
+.strong-repair-boundary-editor {
+  margin-left: 6px;
+}
+
 .yomi-controls {
   display: grid;
   grid-template-columns: repeat(2, 28px);
