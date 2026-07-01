@@ -98,9 +98,8 @@ def _furigana_converter():
     from yomi_corpus.paths import resolve_repo_path
 
     lookup = resolve_repo_path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
-    if not lookup.exists():
-        return FuriganaConverter()
-    return FuriganaConverter.from_tsv(Path(lookup))
+    supplemental = resolve_repo_path("data/lexicon/supplemental_furigana.tsv")
+    return FuriganaConverter.from_tsv_many([Path(lookup), Path(supplemental)])
 
 
 def _kata_to_hira(text: str) -> str:

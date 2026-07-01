@@ -41,6 +41,7 @@ from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.export import export_named_variant
 from yomi_corpus.yomi.final_review import (
+    STRONG_REPAIR_REVIEW_STAGE,
     apply_final_review_file,
     apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
@@ -48,6 +49,7 @@ from yomi_corpus.yomi.final_review import (
     build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
+    harvest_yomi_finalization_artifacts_file,
     write_summary as write_yomi_final_review_summary,
 )
 from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
@@ -2482,12 +2484,40 @@ class PipelineWorkspace:
         }
 
     def _import_final_review_submissions(self, submission_store_dir: Path) -> dict[str, object]:
-        summary_path = self.root / "data" / "state" / "yomi_final" / "last_review_inbox_import_summary.json"
+        return self._import_review_submissions(
+            submission_store_dir,
+            review_stage="yomi_final_review",
+            summary_path=self.root
+            / "data"
+            / "state"
+            / "yomi_final"
+            / "last_review_inbox_import_summary.json",
+        )
+
+    def _import_strong_repair_review_submissions(self, submission_store_dir: Path) -> dict[str, object]:
+        return self._import_review_submissions(
+            submission_store_dir,
+            review_stage=STRONG_REPAIR_REVIEW_STAGE,
+            summary_path=self.root
+            / "data"
+            / "state"
+            / "yomi_strong_repair"
+            / "last_review_inbox_import_summary.json",
+        )
+
+    def _import_review_submissions(
+        self,
+        submission_store_dir: Path,
+        *,
+        review_stage: str,
+        summary_path: Path,
+    ) -> dict[str, object]:
         try:
             summary = import_open_issue_inbox(
                 repo="hiroshi-manabe/yomi-corpus",
                 review_pack_root=self.root / "data" / "review_packs",
                 submission_store_dir=submission_store_dir,
+                review_stage=review_stage,
             )
             summary = {"status": "ok", **summary}
         except SystemExit as exc:
@@ -2695,13 +2725,33 @@ class PipelineWorkspace:
 
     def _finalize_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
         output_path = batch_dir / "units.yomi.final.jsonl"
         summary_path = batch_dir / "yomi_finalize_summary.json"
         strong_repaired_path = batch_dir / "units.yomi.strong_repaired.jsonl"
         strong_review_pack = batch_dir / "yomi_strong_repair_review_pack.json"
         strong_review_summary_path = batch_dir / "yomi_strong_repair_review_apply_summary.json"
         strong_submission_store_dir = self.root / "data" / "review_submissions" / "yomi_strong_repair"
+        strong_import_artifacts: dict[str, str] = {}
         if strong_review_pack.exists():
+            import_summary = self._import_strong_repair_review_submissions(
+                strong_submission_store_dir
+            )
+            strong_import_artifacts = {
+                "yomi_strong_repair_review_issue_import_summary_json": str(
+                    self.root
+                    / "data"
+                    / "state"
+                    / "yomi_strong_repair"
+                    / "last_review_inbox_import_summary.json"
+                ),
+                "yomi_strong_repair_review_issue_import_status": str(
+                    import_summary.get("status", "")
+                ),
+                "yomi_strong_repair_review_imported_submissions": str(
+                    import_summary.get("imported_submission_count", "")
+                ),
+            }
             strong_review_summary = apply_strong_repair_review_file(
                 pack_json=strong_review_pack,
                 submission_store_dir=strong_submission_store_dir,
@@ -2723,6 +2773,7 @@ class PipelineWorkspace:
                         "yomi_strong_repair_review_submission_store": str(
                             strong_submission_store_dir
                         ),
+                        **strong_import_artifacts,
                         "human_review_required": "true",
                         "human_review_gate": "yomi_strong_repair_review",
                         "human_review_item_count": str(strong_review_summary.get("item_count", "")),
@@ -2738,6 +2789,7 @@ class PipelineWorkspace:
         artifacts = {
             "units_yomi_final_jsonl": str(output_path),
             "yomi_finalize_summary_json": str(summary_path),
+            **strong_import_artifacts,
         }
         if not summary.get("stage_complete", True):
             return {
@@ -2751,12 +2803,38 @@ class PipelineWorkspace:
                     "human_review_item_count": str(summary["queued_items"]),
                 },
             }
+        harvest_summary_path = batch_dir / "yomi_finalization_harvest_summary.json"
+        harvest_summary = harvest_yomi_finalization_artifacts_file(
+            final_units_jsonl=output_path,
+            batch_manual_rewrites_jsonl=batch_dir / "manual_yomi_rewrites.jsonl",
+            batch_supplemental_furigana_tsv=batch_dir / "supplemental_furigana.tsv",
+            global_manual_rewrites_jsonl=self.root / "data" / "lexicon" / "manual_yomi_rewrites.jsonl",
+            global_supplemental_furigana_tsv=self.root / "data" / "lexicon" / "supplemental_furigana.tsv",
+            summary_json=harvest_summary_path,
+            batch_name=batch_name,
+            track_name=batch_state.track_name,
+        )
         return {
             "artifacts": {
                 **artifacts,
                 "yomi_final_written_units": str(summary["written_units"]),
                 "yomi_final_skipped_units": str(summary["skipped_units"]),
                 "yomi_final_unreviewed_units": str(summary["unreviewed_units"]),
+                "yomi_finalization_harvest_summary_json": str(harvest_summary_path),
+                "manual_yomi_rewrites_jsonl": str(batch_dir / "manual_yomi_rewrites.jsonl"),
+                "manual_yomi_rewrites_appended": str(
+                    harvest_summary["manual_rewrite_appended_count"]
+                ),
+                "supplemental_furigana_tsv": str(batch_dir / "supplemental_furigana.tsv"),
+                "supplemental_furigana_appended": str(
+                    harvest_summary["supplemental_furigana_appended_count"]
+                ),
+                "global_manual_yomi_rewrites_jsonl": str(
+                    self.root / "data" / "lexicon" / "manual_yomi_rewrites.jsonl"
+                ),
+                "global_supplemental_furigana_tsv": str(
+                    self.root / "data" / "lexicon" / "supplemental_furigana.tsv"
+                ),
                 "human_review_required": "false",
                 "human_review_gate": "",
                 "human_review_item_count": "",

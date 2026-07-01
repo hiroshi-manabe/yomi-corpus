@@ -34,6 +34,19 @@ class FuriganaConverterTests(unittest.TestCase):
         self.assertEqual(result.method, "exact_lookup")
         self.assertEqual(result.confidence, "high")
 
+    def test_from_tsv_many_merges_supplemental_lookup(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base = root / "base.tsv"
+            supplemental = root / "supplemental.tsv"
+            write_lookup(base, [("送っ", "オクッ", "送（おく）っ")])
+            write_lookup(supplemental, [("決め", "キメ", "決（き）め")])
+
+            converter = FuriganaConverter.from_tsv_many([base, supplemental])
+
+            self.assertEqual(converter.convert("送っ", "オクッ").annotated_surface, "送（おく）っ")
+            self.assertEqual(converter.convert("決め", "キメ").annotated_surface, "決（き）め")
+
     def test_unique_alignment_handles_okurigana(self) -> None:
         converter = FuriganaConverter()
         result = converter.convert("読み仮名", "ヨミガナ")

@@ -213,6 +213,66 @@ class YomiFinalReviewIssueImportTests(unittest.TestCase):
             payload = json.loads(stored.read_text(encoding="utf-8"))
             self.assertEqual(payload["_source_issue"]["issue_number"], 7)
 
+    def test_import_issue_payloads_can_target_strong_repair_review(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            review_pack_root = root / "review_packs"
+            submission_store_dir = root / "strong_submissions"
+            (review_pack_root / "yomi_strong_repair").mkdir(parents=True)
+            (review_pack_root / "yomi_strong_repair" / "strong_pack_1.json").write_text(
+                json.dumps({"pack_id": "strong_pack_1"}),
+                encoding="utf-8",
+            )
+            issue = {
+                "number": 8,
+                "body": json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack_1",
+                        "submission_id": "strong_sub_1",
+                        "generated_at_epoch": 10,
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                        "overrides": [],
+                    },
+                    ensure_ascii=False,
+                ),
+            }
+            comments = [
+                {
+                    "id": 101,
+                    "body": json.dumps(
+                        {
+                            "submission_type": "review_patch",
+                            "review_stage": "yomi_final_review",
+                            "pack_id": "strong_pack_1",
+                            "submission_id": "wrong_stage",
+                        },
+                        ensure_ascii=False,
+                    ),
+                }
+            ]
+
+            summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=comments,
+                repo="owner/repo",
+                issue_number=8,
+                review_pack_root=review_pack_root,
+                submission_store_dir=submission_store_dir,
+                review_stage="yomi_strong_repair_review",
+            )
+
+            self.assertEqual(summary["review_stage"], "yomi_strong_repair_review")
+            self.assertEqual(summary["imported_submission_count"], 1)
+            self.assertEqual([row["reason"] for row in summary["skipped"]], ["wrong_review_stage"])
+            stored = submission_store_dir / "strong_sub_1.json"
+            self.assertTrue(stored.exists())
+            payload = json.loads(stored.read_text(encoding="utf-8"))
+            self.assertEqual(payload["review_stage"], "yomi_strong_repair_review")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1875,6 +1875,28 @@ summaries also block finalization.
 empty. If the queue is non-empty, it blocks rather than pretending the batch is
 done.
 
+Successful finalization also harvests conservative reusable artifacts:
+
+```text
+data/units/<batch>/manual_yomi_rewrites.jsonl
+data/units/<batch>/supplemental_furigana.tsv
+data/units/<batch>/yomi_finalization_harvest_summary.json
+data/lexicon/manual_yomi_rewrites.jsonl
+data/lexicon/supplemental_furigana.tsv
+```
+
+Manual yomi rewrite rows come from accepted strong-repair results or human
+`manual_segments`. They are exact surface-span defaults only. For example,
+`池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ` may be reused
+when the exact same surface span appears later. These rows should not be
+generalized automatically.
+
+Supplemental furigana rows are display/allocation knowledge only. They record
+final accepted `surface`, `reading`, and `annotated_surface` triples not already
+available as exact Sudachi-derived annotated-form entries. Future ruby
+rendering should load this TSV together with the base annotated-form TSV, but
+the underlying yomi corpus remains `surface/reading`.
+
 `./next --auto` may be used to advance repeatedly through non-human stages. It
 stops on human gates, incomplete stages, confirmation requirements, blocking
 errors, or final completion. Single-step `./next` remains the debugging default.

@@ -1025,6 +1025,127 @@ class PipelineTrackTests(unittest.TestCase):
                 "近々/チカヂカ です/デス 。/。",
             )
 
+    def test_finalize_imports_strong_repair_review_submission_from_issues(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            (batch_dir / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "batch_kind": "dev",
+                        "pipeline_profile": "dev",
+                        "dataset_name": "demo",
+                        "dataset_config_path": "config/datasets/demo.toml",
+                        "dataset_source_path": "/tmp/source.jsonl.gz",
+                        "target_documents": 1,
+                        "docs_written": 1,
+                        "units_written": 1,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            unit = {
+                "unit_id": "u1",
+                "text": "池尻中学校です。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "池尻/イケジリ 中学校/チュウガッコウ です/デス 。/。"
+                        }
+                    },
+                    "human_review": {
+                        "yomi_final": {
+                            "reviewed": True,
+                            "skip": False,
+                        }
+                    },
+                },
+            }
+            (batch_dir / "units.yomi.strong_repaired.jsonl").write_text(
+                json.dumps(unit, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_strong_repair_queue_summary.json").write_text(
+                json.dumps({"queued_items": 1}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_strong_repair_apply_summary.json").write_text(
+                json.dumps({"stage_complete": True, "applied_items": 1}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (batch_dir / "yomi_strong_repair_review_pack.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack_1",
+                        "track_name": "dev",
+                        "batch_name": "dev_batch_0001",
+                        "item_count": 1,
+                        "items": [
+                            {
+                                "item_id": "u1::target_group:1",
+                                "seq": 1,
+                                "unit_id": "u1",
+                                "rejected_span": "池尻中学校",
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            def fake_import(**kwargs):
+                self.assertEqual(kwargs["review_stage"], "yomi_strong_repair_review")
+                store_dir = kwargs["submission_store_dir"]
+                store_dir.mkdir(parents=True, exist_ok=True)
+                (store_dir / "strong_sub_1.json").write_text(
+                    json.dumps(
+                        {
+                            "submission_type": "review_patch",
+                            "review_stage": "yomi_strong_repair_review",
+                            "pack_id": "strong_pack_1",
+                            "submission_id": "strong_sub_1",
+                            "generated_at_epoch": 1,
+                            "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                            "overrides": [],
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                return {
+                    "review_stage": "yomi_strong_repair_review",
+                    "imported_submission_count": 1,
+                    "summaries": [],
+                    "skipped": [],
+                }
+
+            with patch("yomi_corpus.pipeline.import_open_issue_inbox", side_effect=fake_import):
+                summary = workspace._finalize_yomi("dev_batch_0001")
+
+            self.assertEqual(summary["artifacts"]["yomi_final_written_units"], "1")
+            self.assertEqual(
+                summary["artifacts"]["yomi_strong_repair_review_issue_import_status"],
+                "ok",
+            )
+            self.assertEqual(
+                summary["artifacts"]["yomi_strong_repair_review_imported_submissions"],
+                "1",
+            )
+            strong_apply = json.loads(
+                (batch_dir / "yomi_strong_repair_apply_summary.json").read_text(encoding="utf-8")
+            )
+            self.assertTrue(strong_apply["confirmed"])
+            self.assertTrue((batch_dir / "units.yomi.final.jsonl").exists())
+
     def test_advance_runs_alphabetic_judgment_and_ingests_ledger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

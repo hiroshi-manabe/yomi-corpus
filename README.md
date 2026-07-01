@@ -99,6 +99,8 @@ Review transport policy:
 - a long-term review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-batch pending lists
+- finalized batches harvest exact strong-repair rewrite defaults and
+  supplemental furigana display entries under `data/lexicon/`
 
 Pipeline orchestration policy:
 

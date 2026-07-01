@@ -40,6 +40,11 @@ def parse_args() -> argparse.Namespace:
         help="Directory where imported yomi final review submissions are stored.",
     )
     parser.add_argument(
+        "--review-stage",
+        default="yomi_final_review",
+        help="Review stage to import, e.g. yomi_final_review or yomi_strong_repair_review.",
+    )
+    parser.add_argument(
         "--summary-json",
         default="data/state/yomi_final/last_review_import_summary.json",
         help="Path to write the aggregate import summary JSON.",
@@ -54,6 +59,7 @@ def main() -> None:
         issue_number=args.issue_number,
         review_pack_root=PROJECT_ROOT / args.review_pack_root,
         submission_store_dir=PROJECT_ROOT / args.submission_store_dir,
+        review_stage=args.review_stage,
     )
     write_json(PROJECT_ROOT / args.summary_json, summary)
     print(json.dumps(summary, ensure_ascii=False, indent=2))

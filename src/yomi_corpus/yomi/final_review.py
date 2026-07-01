@@ -21,6 +21,7 @@ APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
 SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
 ANNOTATED_FORMS_PATH = Path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
+SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
@@ -688,9 +689,7 @@ def split_trailing_ruby_surface(text: str) -> tuple[str, str]:
 
 @lru_cache(maxsize=1)
 def furigana_converter() -> FuriganaConverter:
-    if ANNOTATED_FORMS_PATH.exists():
-        return FuriganaConverter.from_tsv(ANNOTATED_FORMS_PATH)
-    return FuriganaConverter()
+    return FuriganaConverter.from_tsv_many([ANNOTATED_FORMS_PATH, SUPPLEMENTAL_FURIGANA_PATH])
 
 
 def load_json(path: str | Path) -> dict[str, Any]:
@@ -1894,6 +1893,292 @@ def finalize_reviewed_yomi_file(
         encoding="utf-8",
     )
     return {"stage_complete": True, **summary}
+
+
+def harvest_yomi_finalization_artifacts_file(
+    *,
+    final_units_jsonl: Path,
+    batch_manual_rewrites_jsonl: Path,
+    batch_supplemental_furigana_tsv: Path,
+    global_manual_rewrites_jsonl: Path,
+    global_supplemental_furigana_tsv: Path,
+    summary_json: Path,
+    batch_name: str,
+    track_name: str,
+) -> dict[str, Any]:
+    units = load_jsonl(final_units_jsonl)
+    manual_rewrites = harvest_manual_yomi_rewrites(
+        units,
+        batch_name=batch_name,
+        track_name=track_name,
+    )
+    supplemental_furigana = harvest_supplemental_furigana(
+        units,
+        batch_name=batch_name,
+        track_name=track_name,
+    )
+    write_jsonl(batch_manual_rewrites_jsonl, manual_rewrites)
+    write_tsv(
+        batch_supplemental_furigana_tsv,
+        supplemental_furigana,
+        [
+            "surface",
+            "reading",
+            "annotated_surface",
+            "source_batch",
+            "source_track",
+            "source_unit_id",
+            "source_method",
+        ],
+    )
+    appended_rewrites = append_unique_jsonl(
+        global_manual_rewrites_jsonl,
+        manual_rewrites,
+        key_fields=["original_surface", "replacement_rendered"],
+    )
+    appended_furigana = append_unique_tsv(
+        global_supplemental_furigana_tsv,
+        supplemental_furigana,
+        [
+            "surface",
+            "reading",
+            "annotated_surface",
+            "source_batch",
+            "source_track",
+            "source_unit_id",
+            "source_method",
+        ],
+        key_fields=["surface", "reading", "annotated_surface"],
+    )
+    summary = {
+        "rule": "yomi_finalization_harvest_v1",
+        "batch_name": batch_name,
+        "track_name": track_name,
+        "unit_count": len(units),
+        "manual_rewrite_count": len(manual_rewrites),
+        "manual_rewrite_appended_count": appended_rewrites,
+        "supplemental_furigana_count": len(supplemental_furigana),
+        "supplemental_furigana_appended_count": appended_furigana,
+        "batch_manual_rewrites_jsonl": str(batch_manual_rewrites_jsonl),
+        "batch_supplemental_furigana_tsv": str(batch_supplemental_furigana_tsv),
+        "global_manual_rewrites_jsonl": str(global_manual_rewrites_jsonl),
+        "global_supplemental_furigana_tsv": str(global_supplemental_furigana_tsv),
+    }
+    summary_json.parent.mkdir(parents=True, exist_ok=True)
+    summary_json.write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return summary
+
+
+def harvest_manual_yomi_rewrites(
+    units: list[dict[str, Any]],
+    *,
+    batch_name: str,
+    track_name: str,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for unit in units:
+        unit_id = str(unit.get("unit_id") or "")
+        for repair in (
+            unit.get("analysis", {})
+            .get("llm", {})
+            .get("yomi_strong_repair", {})
+            .get("repairs", [])
+        ):
+            if not isinstance(repair, dict) or repair.get("status") != "applied":
+                continue
+            row = manual_rewrite_row_from_repair(
+                repair,
+                batch_name=batch_name,
+                track_name=track_name,
+                unit_id=unit_id,
+                source="llm_strong_repair",
+            )
+            if row and (row["original_surface"], row["replacement_rendered"]) not in seen:
+                seen.add((row["original_surface"], row["replacement_rendered"]))
+                rows.append(row)
+        manual = (
+            unit.get("analysis", {})
+            .get("human_review", {})
+            .get("yomi_strong_repair", {})
+        )
+        if isinstance(manual, dict) and manual.get("manual_segments"):
+            row = manual_rewrite_row_from_repair(
+                {
+                    "rejected_span": "".join(
+                        str(segment.get("surface") or "")
+                        for segment in manual.get("manual_segments", [])
+                        if isinstance(segment, dict)
+                    ),
+                    "replacement": manual.get("manual_segments"),
+                    "item_id": manual.get("item_id"),
+                },
+                batch_name=batch_name,
+                track_name=track_name,
+                unit_id=unit_id,
+                source="human_strong_repair",
+            )
+            if row and (row["original_surface"], row["replacement_rendered"]) not in seen:
+                seen.add((row["original_surface"], row["replacement_rendered"]))
+                rows.append(row)
+    return rows
+
+
+def manual_rewrite_row_from_repair(
+    repair: dict[str, Any],
+    *,
+    batch_name: str,
+    track_name: str,
+    unit_id: str,
+    source: str,
+) -> dict[str, Any] | None:
+    original_surface = str(repair.get("rejected_span") or "")
+    replacement = [row for row in repair.get("replacement", []) if isinstance(row, dict)]
+    if not original_surface or not replacement:
+        return None
+    replacement_pairs: list[tuple[str, str]] = []
+    for row in replacement:
+        surface = str(row.get("surface") or "")
+        reading = str(row.get("reading") or "")
+        if not surface:
+            return None
+        replacement_pairs.append((surface, hira_to_kata(reading)))
+    if "".join(surface for surface, _reading in replacement_pairs) != original_surface:
+        return None
+    replacement_rendered = " ".join(f"{surface}/{reading}" for surface, reading in replacement_pairs)
+    return {
+        "original_surface": original_surface,
+        "replacement_rendered": replacement_rendered,
+        "replacement": [
+            {"surface": surface, "reading": reading}
+            for surface, reading in replacement_pairs
+        ],
+        "source": source,
+        "source_batch": batch_name,
+        "source_track": track_name,
+        "source_unit_id": unit_id,
+        "source_item_id": str(repair.get("item_id") or ""),
+    }
+
+
+def harvest_supplemental_furigana(
+    units: list[dict[str, Any]],
+    *,
+    batch_name: str,
+    track_name: str,
+) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+    converter = base_furigana_converter()
+    for unit in units:
+        unit_id = str(unit.get("unit_id") or "")
+        rendered = str(
+            unit.get("analysis", {})
+            .get("mechanical", {})
+            .get("yomi", {})
+            .get("rendered")
+            or ""
+        )
+        for surface, reading in parse_rendered_pairs(rendered):
+            if not surface or not reading or not has_han(surface):
+                continue
+            result = converter.convert(surface, reading)
+            if not result.annotated_surface or result.method == "exact_lookup":
+                continue
+            key = (surface, result.reading, result.annotated_surface)
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(
+                {
+                    "surface": surface,
+                    "reading": result.reading,
+                    "annotated_surface": result.annotated_surface,
+                    "source_batch": batch_name,
+                    "source_track": track_name,
+                    "source_unit_id": unit_id,
+                    "source_method": result.method,
+                }
+            )
+    return rows
+
+
+@lru_cache(maxsize=1)
+def base_furigana_converter() -> FuriganaConverter:
+    return FuriganaConverter.from_tsv_many([ANNOTATED_FORMS_PATH])
+
+
+def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
+
+
+def write_tsv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, delimiter="\t", lineterminator="\n")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in fieldnames})
+
+
+def append_unique_jsonl(
+    path: Path,
+    rows: list[dict[str, Any]],
+    *,
+    key_fields: list[str],
+) -> int:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    existing: set[tuple[str, ...]] = set()
+    if path.exists():
+        for row in load_jsonl(path):
+            existing.add(tuple(str(row.get(field) or "") for field in key_fields))
+    appended = 0
+    with path.open("a", encoding="utf-8") as handle:
+        for row in rows:
+            key = tuple(str(row.get(field) or "") for field in key_fields)
+            if key in existing:
+                continue
+            existing.add(key)
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+            appended += 1
+    return appended
+
+
+def append_unique_tsv(
+    path: Path,
+    rows: list[dict[str, Any]],
+    fieldnames: list[str],
+    *,
+    key_fields: list[str],
+) -> int:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    existing: set[tuple[str, ...]] = set()
+    if path.exists():
+        with path.open(encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            for row in reader:
+                existing.add(tuple(str(row.get(field) or "") for field in key_fields))
+    needs_header = not path.exists() or path.stat().st_size == 0
+    appended = 0
+    with path.open("a", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, delimiter="\t", lineterminator="\n")
+        if needs_header:
+            writer.writeheader()
+        for row in rows:
+            key = tuple(str(row.get(field) or "") for field in key_fields)
+            if key in existing:
+                continue
+            existing.add(key)
+            writer.writerow({field: row.get(field, "") for field in fieldnames})
+            appended += 1
+    return appended
 
 
 def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:

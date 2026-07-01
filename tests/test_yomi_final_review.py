@@ -14,6 +14,7 @@ from yomi_corpus.yomi.final_review import (
     build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
+    harvest_yomi_finalization_artifacts_file,
     rendered_yomi_ruby_tokens,
     replay_review_submissions,
     store_review_submission,
@@ -954,6 +955,57 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(queued["repair_order"], 1)
             self.assertFalse(final_summary["stage_complete"])
             self.assertIn("has not been applied", final_summary["blocking_reason"])
+
+    def test_harvest_yomi_finalization_artifacts_writes_rewrites_and_furigana(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            final_units = root / "units.yomi.final.jsonl"
+            unit = {
+                "unit_id": "u1",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "池尻/イケジリ 中学校/チュウガッコウ 架空語/カクウゴ 。/。"
+                        }
+                    },
+                    "llm": {
+                        "yomi_strong_repair": {
+                            "repairs": [
+                                {
+                                    "item_id": "u1::target_group:1",
+                                    "status": "applied",
+                                    "rejected_span": "池尻中学校",
+                                    "replacement": [
+                                        {"surface": "池尻", "reading": "イケジリ"},
+                                        {"surface": "中学校", "reading": "チュウガッコウ"},
+                                    ],
+                                }
+                            ]
+                        }
+                    },
+                },
+            }
+            final_units.write_text(json.dumps(unit, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            summary = harvest_yomi_finalization_artifacts_file(
+                final_units_jsonl=final_units,
+                batch_manual_rewrites_jsonl=root / "batch_rewrites.jsonl",
+                batch_supplemental_furigana_tsv=root / "batch_furigana.tsv",
+                global_manual_rewrites_jsonl=root / "global" / "manual_yomi_rewrites.jsonl",
+                global_supplemental_furigana_tsv=root / "global" / "supplemental_furigana.tsv",
+                summary_json=root / "summary.json",
+                batch_name="dev_batch_0001",
+                track_name="dev",
+            )
+
+            self.assertEqual(summary["manual_rewrite_count"], 1)
+            rewrite = json.loads((root / "batch_rewrites.jsonl").read_text(encoding="utf-8"))
+            self.assertEqual(rewrite["original_surface"], "池尻中学校")
+            self.assertEqual(rewrite["replacement_rendered"], "池尻/イケジリ 中学校/チュウガッコウ")
+            furigana_text = (root / "batch_furigana.tsv").read_text(encoding="utf-8")
+            self.assertIn("架空語\tカクウゴ\t架空語（かくうご）", furigana_text)
+            self.assertTrue((root / "global" / "manual_yomi_rewrites.jsonl").exists())
+            self.assertTrue((root / "global" / "supplemental_furigana.tsv").exists())
 
     def test_applies_target_group_strong_repair_and_blocks_finalize_until_confirmation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

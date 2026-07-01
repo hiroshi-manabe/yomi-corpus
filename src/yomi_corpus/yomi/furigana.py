@@ -82,21 +82,33 @@ class FuriganaConverter:
 
     @classmethod
     def from_tsv(cls, path: Path, *, max_candidates: int = 2000) -> FuriganaConverter:
+        return cls.from_tsv_many([path], max_candidates=max_candidates)
+
+    @classmethod
+    def from_tsv_many(
+        cls,
+        paths: Iterable[Path],
+        *,
+        max_candidates: int = 2000,
+    ) -> FuriganaConverter:
         exact_lookup: dict[tuple[str, str], set[str]] = defaultdict(set)
         evidence: Counter[tuple[str, str]] = Counter()
-        with path.open(encoding="utf-8", newline="") as handle:
-            reader = csv.DictReader(handle, delimiter="\t")
-            required = {"surface", "reading", "annotated_surface"}
-            if not required.issubset(reader.fieldnames or set()):
-                raise ValueError(f"{path} must contain columns: {', '.join(sorted(required))}")
-            for row in reader:
-                surface = row["surface"]
-                reading = row["reading"]
-                annotated = row["annotated_surface"]
-                if not surface or not reading or not annotated:
-                    continue
-                exact_lookup[(surface, reading)].add(annotated)
-                evidence.update(parse_annotated_chunks(annotated))
+        for path in paths:
+            if not path.exists():
+                continue
+            with path.open(encoding="utf-8", newline="") as handle:
+                reader = csv.DictReader(handle, delimiter="\t")
+                required = {"surface", "reading", "annotated_surface"}
+                if not required.issubset(reader.fieldnames or set()):
+                    raise ValueError(f"{path} must contain columns: {', '.join(sorted(required))}")
+                for row in reader:
+                    surface = row["surface"]
+                    reading = row["reading"]
+                    annotated = row["annotated_surface"]
+                    if not surface or not reading or not annotated:
+                        continue
+                    exact_lookup[(surface, reading)].add(annotated)
+                    evidence.update(parse_annotated_chunks(annotated))
         return cls(dict(exact_lookup), evidence, max_candidates=max_candidates)
 
     def convert(self, surface: str, reading: str) -> FuriganaResult:

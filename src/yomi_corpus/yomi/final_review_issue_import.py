@@ -6,7 +6,11 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from yomi_corpus.yomi.final_review import REVIEW_STAGE, store_review_submission
+from yomi_corpus.yomi.final_review import (
+    REVIEW_STAGE,
+    STRONG_REPAIR_REVIEW_STAGE,
+    store_review_submission,
+)
 
 
 ATTACHMENT_RE = re.compile(r"https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+\.json")
@@ -19,6 +23,7 @@ def import_issue(
     issue_number: int,
     review_pack_root: Path,
     submission_store_dir: Path,
+    review_stage: str = REVIEW_STAGE,
 ) -> dict:
     issue_payload = fetch_issue(repo, issue_number)
     comment_payloads = fetch_issue_comments(repo, issue_number)
@@ -29,6 +34,7 @@ def import_issue(
         issue_number=issue_number,
         review_pack_root=review_pack_root,
         submission_store_dir=submission_store_dir,
+        review_stage=review_stage,
     )
 
 
@@ -37,6 +43,7 @@ def import_open_issue_inbox(
     repo: str,
     review_pack_root: Path,
     submission_store_dir: Path,
+    review_stage: str = REVIEW_STAGE,
 ) -> dict:
     issues = fetch_open_issues(repo, state="open")
     summaries = []
@@ -66,6 +73,7 @@ def import_open_issue_inbox(
                 issue_number=issue_number,
                 review_pack_root=review_pack_root,
                 submission_store_dir=submission_store_dir,
+                review_stage=review_stage,
                 seen_submission_ids=seen_submission_ids,
                 summaries=summaries,
                 skipped=skipped,
@@ -80,6 +88,7 @@ def import_open_issue_inbox(
                 issue_number=issue_number,
                 review_pack_root=review_pack_root,
                 submission_store_dir=submission_store_dir,
+                review_stage=review_stage,
                 seen_submission_ids=seen_submission_ids,
                 summaries=summaries,
                 skipped=skipped,
@@ -88,7 +97,7 @@ def import_open_issue_inbox(
     return {
         "repo": repo,
         "open_issue_count": open_issue_count,
-        "review_stage": REVIEW_STAGE,
+        "review_stage": review_stage,
         "attachment_count": attachment_count,
         "inline_submission_count": inline_submission_count,
         "imported_submission_count": len(summaries),
@@ -105,6 +114,7 @@ def import_issue_payloads(
     issue_number: int,
     review_pack_root: Path,
     submission_store_dir: Path,
+    review_stage: str = REVIEW_STAGE,
 ) -> dict:
     attachments = extract_attachment_records(issue_payload, comment_payloads)
     inline_submissions = extract_inline_submission_records(issue_payload, comment_payloads)
@@ -123,6 +133,7 @@ def import_issue_payloads(
             issue_number=issue_number,
             review_pack_root=review_pack_root,
             submission_store_dir=submission_store_dir,
+            review_stage=review_stage,
             seen_submission_ids=seen_submission_ids,
             summaries=summaries,
             skipped=skipped,
@@ -137,6 +148,7 @@ def import_issue_payloads(
             issue_number=issue_number,
             review_pack_root=review_pack_root,
             submission_store_dir=submission_store_dir,
+            review_stage=review_stage,
             seen_submission_ids=seen_submission_ids,
             summaries=summaries,
             skipped=skipped,
@@ -145,7 +157,7 @@ def import_issue_payloads(
     return {
         "repo": repo,
         "issue_number": issue_number,
-        "review_stage": REVIEW_STAGE,
+        "review_stage": review_stage,
         "attachment_count": len(attachments),
         "inline_submission_count": len(inline_submissions),
         "imported_submission_count": len(summaries),
@@ -300,6 +312,7 @@ def process_submission_record(
     issue_number: int,
     review_pack_root: Path,
     submission_store_dir: Path,
+    review_stage: str,
     seen_submission_ids: set[str],
     summaries: list[dict],
     skipped: list[dict],
@@ -307,7 +320,7 @@ def process_submission_record(
     if str(submission.get("submission_type")) != "review_patch":
         skipped.append({"reason": "wrong_submission_type", "source": source_record})
         return
-    if str(submission.get("review_stage")) != REVIEW_STAGE:
+    if str(submission.get("review_stage")) != review_stage:
         skipped.append({"reason": "wrong_review_stage", "source": source_record})
         return
     submission_id = str(submission.get("submission_id", ""))
@@ -324,7 +337,7 @@ def process_submission_record(
         )
         return
     pack_id = str(submission.get("pack_id") or "")
-    pack_path = resolve_review_pack_path(review_pack_root, pack_id)
+    pack_path = resolve_review_pack_path(review_pack_root, pack_id, review_stage=review_stage)
     if pack_path is None:
         skipped.append(
             {
@@ -353,7 +366,7 @@ def process_submission_record(
         {
             "submission_id": submission_id,
             "pack_id": pack_id,
-            "review_stage": REVIEW_STAGE,
+            "review_stage": review_stage,
             "stored_path": str(stored_path),
             "review_pack_path": str(pack_path),
             "source": source_record,
@@ -361,16 +374,31 @@ def process_submission_record(
     )
 
 
-def resolve_review_pack_path(review_pack_root: Path, pack_id: str) -> Path | None:
+def resolve_review_pack_path(
+    review_pack_root: Path,
+    pack_id: str,
+    *,
+    review_stage: str = REVIEW_STAGE,
+) -> Path | None:
     if not pack_id:
         return None
     candidates = [
-        review_pack_root / "yomi_final" / f"{pack_id}.json",
         review_pack_root / f"{pack_id}.json",
     ]
+    stage_dir = review_stage_directory(review_stage)
+    if stage_dir:
+        candidates.insert(0, review_pack_root / stage_dir / f"{pack_id}.json")
     for path in candidates:
         if path.exists():
             return path
+    return None
+
+
+def review_stage_directory(review_stage: str) -> str | None:
+    if review_stage == REVIEW_STAGE:
+        return "yomi_final"
+    if review_stage == STRONG_REPAIR_REVIEW_STAGE:
+        return "yomi_strong_repair"
     return None
 
 

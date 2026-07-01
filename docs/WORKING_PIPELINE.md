@@ -2244,6 +2244,9 @@ Otherwise finalization remains blocked. When confirmed, finalization writes:
 ```text
 data/units/<batch>/units.yomi.final.jsonl
 data/units/<batch>/yomi_finalize_summary.json
+data/units/<batch>/manual_yomi_rewrites.jsonl
+data/units/<batch>/supplemental_furigana.tsv
+data/units/<batch>/yomi_finalization_harvest_summary.json
 ```
 
 The `yomi_strong_repair_review` UI may also submit `manual_segments` for a
@@ -2265,6 +2268,26 @@ the full candidate list is preserved in JSON for later richer controls.
 
 Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
 units are retained.
+
+At batch finalization, the pipeline also harvests two conservative reusable
+artifacts:
+
+- exact strong-repair rewrite rules, appended de-duplicated to
+  `data/lexicon/manual_yomi_rewrites.jsonl`
+- supplemental furigana allocations, appended de-duplicated to
+  `data/lexicon/supplemental_furigana.tsv`
+
+Manual yomi rewrites affect future tokenization/readings only by exact surface
+span match at first. For example, if a reviewed repair establishes
+`池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ`, a later exact
+`池尻中学校` occurrence can use that as a default. Do not generalize these
+rules into regexes until there is explicit evidence.
+
+Supplemental furigana is display-only. It records accepted `surface/reading` to
+annotated-form mappings not already present as exact Sudachi-derived dictionary
+entries, so future ruby rendering can load it alongside
+`sudachi_20251022.tsv`. It must not change the underlying corpus format, which
+remains `surface/reading`.
 
 Simple target reading choices are applied directly to exact rendered yomi
 tokens when the reviewed target covers the whole token. Harder cases, such as
