@@ -694,6 +694,7 @@ function renderStrongRepairSpanEditor(item, override, editable) {
         ? current.manual_segments
         : defaultStrongRepairSegments(item);
       currentSegments[index].reading = input.value;
+      currentSegments[index].edited = true;
       current.manual_segments = currentSegments;
       touchDraft();
       renderSubmissionPreview();
@@ -766,9 +767,9 @@ function updateStrongRepairSplit(item, boundaryIndex) {
   const previousSegments = current.manual_segments?.length
     ? current.manual_segments
     : defaultStrongRepairSegments(item);
-  const existingReadings = previousSegments.some((segment) => segment.reading);
+  const hasUserEditedReadings = previousSegments.some((segment) => segment.edited);
   if (
-    existingReadings &&
+    hasUserEditedReadings &&
     !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
   ) {
     return;
@@ -788,6 +789,7 @@ function updateStrongRepairSplit(item, boundaryIndex) {
     current.manual_segments.push({
       surface,
       reading: defaultStrongRepairReadingForSegment(item, surface, previousSegments),
+      edited: false,
     });
     start = end;
   }
