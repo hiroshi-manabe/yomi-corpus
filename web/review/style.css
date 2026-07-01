@@ -496,11 +496,6 @@ button {
   gap: 12px;
 }
 
-.strong-repair-text {
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-
 .strong-repair-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -530,6 +525,29 @@ button {
 
 .strong-repair-note textarea {
   min-height: 64px;
+}
+
+.strong-repair-after {
+  padding: 8px 10px 6px;
+}
+
+.strong-repair-debug {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.strong-repair-debug summary {
+  width: max-content;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.strong-repair-debug .strong-repair-grid {
+  margin-top: 10px;
+}
+
+.readonly-ruby-token {
+  cursor: default;
 }
 
 .yomi-controls {
