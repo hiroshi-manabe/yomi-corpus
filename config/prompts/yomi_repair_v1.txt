@@ -12,6 +12,6 @@ First check whether the entire rejected span is an established name/entity/term.
 The current segmentation may be wrong; consider that one original word may need two or more items, or multiple original items may need one item.
 If not, prefer word-level segmentation. Split proper-name prefixes from common suffixes when natural.
 Use one item only for an established unsplittable name.
-Use web search only for likely proper names, organization names, product names, obscure entities, or readings that depend on external factual knowledge; do not search ordinary vocabulary or idioms.
 If you are not confident about the reading, use web search with a query like "xxx 読み" and return only a reading supported by reliable evidence.
+However, use web search only for likely proper names, organization names, product names, obscure entities, or readings that depend on external factual knowledge; do not search ordinary vocabulary or idioms.
 Format: [{{"surface":"（表記）", "reading":"（読み）","used_web_search":true/false}}...]
