@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -10,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.llm_readings import is_valid_yomi_reading, normalize_hiragana_reading
+from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
 
 
 REVIEW_STAGE = "yomi_final_review"
@@ -251,15 +253,17 @@ def build_strong_repair_review_item(
         if isinstance(row, dict)
     )
     span_reading_candidates = build_strong_repair_reading_candidates(rejected_span)
+    rendered_after = str(
+        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+    )
     return {
         "item_id": str(queue_row.get("item_id") or ""),
         "seq": seq,
         "unit_id": str(queue_row.get("unit_id") or ""),
         "text": str(queue_row.get("text") or ""),
         "rendered_yomi_before": str(queue_row.get("rendered_yomi") or ""),
-        "rendered_yomi_after": str(
-            unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
-        ),
+        "rendered_yomi_after": rendered_after,
+        "rendered_yomi_after_ruby_tokens": rendered_yomi_ruby_tokens(rendered_after),
         "repair_scope": str(queue_row.get("repair_scope") or ""),
         "reasons": list(queue_row.get("reasons") or []),
         "target_constraints": [
@@ -616,6 +620,77 @@ def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[s
     if cursor < len(text):
         segments.append({"type": "text", "text": text[cursor:]})
     return segments
+
+
+def rendered_yomi_ruby_tokens(rendered: str) -> list[dict[str, Any]]:
+    tokens: list[dict[str, Any]] = []
+    for raw_token in str(rendered or "").strip().split():
+        surface, reading = split_rendered_yomi_token(raw_token)
+        tokens.append(
+            {
+                "surface": surface,
+                "reading": reading,
+                "nodes": ruby_nodes_for_surface_reading(surface, reading),
+            }
+        )
+    return tokens
+
+
+def split_rendered_yomi_token(token: str) -> tuple[str, str]:
+    separator = token.rfind("/")
+    if separator < 0:
+        return token, ""
+    return token[:separator], token[separator + 1 :]
+
+
+def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str, str]]:
+    if not should_display_ruby(surface, reading):
+        return [{"type": "text", "text": surface}]
+    reading_hira = kata_to_hira(reading)
+    if has_han(surface):
+        result = furigana_converter().convert(surface, reading)
+        if result.annotated_surface:
+            return annotated_furigana_nodes(result.annotated_surface)
+        return [{"type": "ruby", "text": surface, "reading": reading_hira}]
+    return [{"type": "ruby", "text": surface, "reading": reading_hira}]
+
+
+def should_display_ruby(surface: str, reading: str) -> bool:
+    if not surface or not reading or surface == reading:
+        return False
+    return bool(re.search(r"[一-龯々〆ヵヶA-Za-z]", surface))
+
+
+def annotated_furigana_nodes(annotated: str) -> list[dict[str, str]]:
+    nodes: list[dict[str, str]] = []
+    cursor = 0
+    for match in re.finditer(r"([^（）]+?)（([^（）]+)）", annotated):
+        if cursor < match.start():
+            nodes.append({"type": "text", "text": annotated[cursor : match.start()]})
+        surface_prefix, ruby_surface = split_trailing_ruby_surface(match.group(1))
+        if surface_prefix:
+            nodes.append({"type": "text", "text": surface_prefix})
+        if ruby_surface:
+            nodes.append({"type": "ruby", "text": ruby_surface, "reading": match.group(2)})
+        cursor = match.end()
+    if cursor < len(annotated):
+        nodes.append({"type": "text", "text": annotated[cursor:]})
+    return [node for node in nodes if node.get("text")]
+
+
+def split_trailing_ruby_surface(text: str) -> tuple[str, str]:
+    end = len(text)
+    start = end
+    while start > 0 and has_han(text[start - 1]):
+        start -= 1
+    return text[:start], text[start:end]
+
+
+@lru_cache(maxsize=1)
+def furigana_converter() -> FuriganaConverter:
+    if ANNOTATED_FORMS_PATH.exists():
+        return FuriganaConverter.from_tsv(ANNOTATED_FORMS_PATH)
+    return FuriganaConverter()
 
 
 def load_json(path: str | Path) -> dict[str, Any]:

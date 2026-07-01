@@ -14,12 +14,31 @@ from yomi_corpus.yomi.final_review import (
     build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
+    rendered_yomi_ruby_tokens,
     replay_review_submissions,
     store_review_submission,
 )
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_rendered_yomi_ruby_tokens_use_python_furigana_alignment(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("決め/キメ お金/オカネ")
+
+        self.assertEqual(
+            tokens[0]["nodes"],
+            [
+                {"type": "ruby", "text": "決", "reading": "き"},
+                {"type": "text", "text": "め"},
+            ],
+        )
+        self.assertEqual(
+            tokens[1]["nodes"],
+            [
+                {"type": "text", "text": "お"},
+                {"type": "ruby", "text": "金", "reading": "かね"},
+            ],
+        )
+
     def test_build_pack_groups_units_and_exposes_tappable_ruby_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

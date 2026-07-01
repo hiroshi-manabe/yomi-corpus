@@ -4,8 +4,8 @@
   "pack_id": "yomi_strong_repair_dev_batch_0002_v1",
   "track_name": "dev",
   "batch_name": "dev_batch_0002",
-  "created_at_epoch": 1782869701,
-  "created_at": "2026-07-01T01:35:01Z",
+  "created_at_epoch": 1782871104,
+  "created_at": "2026-07-01T01:58:24Z",
   "item_count": 6,
   "summary": {
     "document_count": 6,
@@ -19,6 +19,188 @@
       "text": "それを、旧池尻中学校を改装した世田谷ものづくり学校で行われます。",
       "rendered_yomi_before": "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中/イケジリナカ 学校/ガッコウ を/ヲ 改装/カイソウ し/シ た/タ 世田谷/セタガヤ ものづくり/モノヅクリ 学校/ガッコウ で/デ 行わ/オコナワ れ/レ ます/マス 。/。",
       "rendered_yomi_after": "それ/ソレ を/ヲ 、/、 旧/キュウ 池尻中学校/イケジリチュウガッコウ を/ヲ 改装/カイソウ し/シ た/タ 世田谷/セタガヤ ものづくり/モノヅクリ 学校/ガッコウ で/デ 行わ/オコナワ れ/レ ます/マス 。/。",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "旧",
+          "reading": "キュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧",
+              "reading": "きゅう"
+            }
+          ]
+        },
+        {
+          "surface": "池尻中学校",
+          "reading": "イケジリチュウガッコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "池尻中学校",
+              "reading": "いけじりちゅうがっこう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "改装",
+          "reading": "カイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "改装",
+              "reading": "かいそう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "世田谷",
+          "reading": "セタガヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "世田谷",
+              "reading": "せたがや"
+            }
+          ]
+        },
+        {
+          "surface": "ものづくり",
+          "reading": "モノヅクリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ものづくり"
+            }
+          ]
+        },
+        {
+          "surface": "学校",
+          "reading": "ガッコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学校",
+              "reading": "がっこう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "行わ",
+          "reading": "オコナワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"
@@ -97,10 +279,11 @@
       ],
       "rejected_span": "池尻中学校",
       "reading_candidates": {
-        "池": [
-          "いけ",
-          "いけの",
-          "ち"
+        "中学": [
+          "ちゅうがく"
+        ],
+        "中学校": [
+          "ちゅうがっこう"
         ],
         "学": [
           "あきら",
@@ -112,18 +295,23 @@
           "まなび",
           "まなぶ"
         ],
-        "池尻": [
-          "いけじり",
-          "いけのしり"
-        ],
-        "池尻中": [
-          "いけじりなか"
+        "尻": [
+          "しり",
+          "じり"
         ],
         "学校": [
           "がっこう"
         ],
-        "中学校": [
-          "ちゅうがっこう"
+        "校": [
+          "こう"
+        ],
+        "池尻中": [
+          "いけじりなか"
+        ],
+        "池": [
+          "いけ",
+          "いけの",
+          "ち"
         ],
         "中": [
           "あたり",
@@ -136,28 +324,22 @@
           "なか",
           "なかば"
         ],
-        "中学": [
-          "ちゅうがく"
-        ],
-        "尻": [
-          "しり",
-          "じり"
-        ],
-        "校": [
-          "こう"
+        "池尻": [
+          "いけじり",
+          "いけのしり"
         ]
       },
       "reading_hints": {
-        "池": "いけ",
-        "学": "あきら",
-        "池尻": "いけじり",
-        "池尻中": "いけじりなか",
-        "学校": "がっこう",
-        "中学校": "ちゅうがっこう",
-        "中": "あたり",
         "中学": "ちゅうがく",
+        "中学校": "ちゅうがっこう",
+        "学": "あきら",
         "尻": "しり",
-        "校": "こう"
+        "学校": "がっこう",
+        "校": "こう",
+        "池尻中": "いけじりなか",
+        "池": "いけ",
+        "中": "あたり",
+        "池尻": "いけじり"
       },
       "rejected_readings": [
         {
@@ -201,6 +383,295 @@
       "text": "前半17分に山根視来選手が日本代表初ゴールとなる先制点を見事に決め、勝利に貢献しました！",
       "rendered_yomi_before": "前半/ゼンハン 17/ 分/フン に/ニ 山根/ヤマネ 視/シ 来/ライ 選手/センシュ が/ガ 日本/ニッポン 代表/ダイヒョウ 初/ハツ ゴール/ゴール と/ト なる/ナル 先制点/センセイテン を/ヲ 見事/ミゴト に/ニ 決め/キメ 、/、 勝利/ショウリ に/ニ 貢献/コウケン し/シ まし/マシ た/タ ！/！",
       "rendered_yomi_after": "前半/ゼンハン 17/ 分/フン に/ニ 山根/ヤマネ 視来/ミキ 選手/センシュ が/ガ 日本/ニッポン 代表/ダイヒョウ 初/ハツ ゴール/ゴール と/ト なる/ナル 先制点/センセイテン を/ヲ 見事/ミゴト に/ニ 決め/キメ 、/、 勝利/ショウリ に/ニ 貢献/コウケン し/シ まし/マシ た/タ ！/！",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "前半",
+          "reading": "ゼンハン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前半",
+              "reading": "ぜんはん"
+            }
+          ]
+        },
+        {
+          "surface": "17",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "17"
+            }
+          ]
+        },
+        {
+          "surface": "分",
+          "reading": "フン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "ふん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "山根",
+          "reading": "ヤマネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山根",
+              "reading": "やまね"
+            }
+          ]
+        },
+        {
+          "surface": "視来",
+          "reading": "ミキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "視来",
+              "reading": "みき"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニッポン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にっぽん"
+            }
+          ]
+        },
+        {
+          "surface": "代表",
+          "reading": "ダイヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代表",
+              "reading": "だいひょう"
+            }
+          ]
+        },
+        {
+          "surface": "初",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "初",
+              "reading": "はつ"
+            }
+          ]
+        },
+        {
+          "surface": "ゴール",
+          "reading": "ゴール",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゴール"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "先制点",
+          "reading": "センセイテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先制点",
+              "reading": "せんせいてん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "見事",
+          "reading": "ミゴト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "見事",
+              "reading": "みごと"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "決め",
+          "reading": "キメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "勝利",
+          "reading": "ショウリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勝利",
+              "reading": "しょうり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "貢献",
+          "reading": "コウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "貢献",
+              "reading": "こうけん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"
@@ -340,6 +811,243 @@
       "text": "第一学院サッカー部卒業生の山根視来さん（川崎フロンターレ所属）が初選出されました。",
       "rendered_yomi_before": "第/ダイ 一/イチ 学院/ガクイン サッカー部/サッカーブ 卒業生/ソツギョウセイ の/ノ 山根/ヤマネ 視/シ 来/キ さん/サン （/（ 川崎/カワサキ フロンターレ/フロンターレ 所属/ショゾク ）/） が/ガ 初/ハツ 選出/センシュツ さ/サ れ/レ まし/マシ た/タ 。/。",
       "rendered_yomi_after": "第/ダイ 一/イチ 学院/ガクイン サッカー部/サッカーブ 卒業生/ソツギョウセイ の/ノ 山根/ヤマネ 視来/ミキ さん/サン （/（ 川崎/カワサキ フロンターレ/フロンターレ 所属/ショゾク ）/） が/ガ 初/ハツ 選出/センシュツ さ/サ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
+            }
+          ]
+        },
+        {
+          "surface": "学院",
+          "reading": "ガクイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学院",
+              "reading": "がくいん"
+            }
+          ]
+        },
+        {
+          "surface": "サッカー部",
+          "reading": "サッカーブ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "サッカー"
+            },
+            {
+              "type": "ruby",
+              "text": "部",
+              "reading": "ぶ"
+            }
+          ]
+        },
+        {
+          "surface": "卒業生",
+          "reading": "ソツギョウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "卒業生",
+              "reading": "そつぎょうせい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "山根",
+          "reading": "ヤマネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山根",
+              "reading": "やまね"
+            }
+          ]
+        },
+        {
+          "surface": "視来",
+          "reading": "ミキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "視来",
+              "reading": "みき"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "川崎",
+          "reading": "カワサキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "川崎",
+              "reading": "かわさき"
+            }
+          ]
+        },
+        {
+          "surface": "フロンターレ",
+          "reading": "フロンターレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フロンターレ"
+            }
+          ]
+        },
+        {
+          "surface": "所属",
+          "reading": "ショゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "所属",
+              "reading": "しょぞく"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "初",
+          "reading": "ハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "初",
+              "reading": "はつ"
+            }
+          ]
+        },
+        {
+          "surface": "選出",
+          "reading": "センシュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選出",
+              "reading": "せんしゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"
@@ -479,6 +1187,284 @@
       "text": "そんな超絶狭き門のロトに、なんと一発で当選した方の話を聞くチャンスがありました。",
       "rendered_yomi_before": "そんな/ソンナ 超絶/チョウゼツ 狭き/セマキ 門/モン の/ノ ロト/ロト に/ニ 、/、 なん/ナン と/ト 一/イチ 発/ハツ で/デ 当選/トウセン し/シ た/タ 方/カタ の/ノ 話/ハナシ を/ヲ 聞く/キク チャンス/チャンス が/ガ あり/アリ まし/マシ た/タ 。/。",
       "rendered_yomi_after": "そんな/ソンナ 超絶/チョウゼツ 狭き/セマキ 門/モン の/ノ ロト/ロト に/ニ 、/、 なん/ナン と/ト 一発/イッパツ で/デ 当選/トウセン し/シ た/タ 方/カタ の/ノ 話/ハナシ を/ヲ 聞く/キク チャンス/チャンス が/ガ あり/アリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "そんな",
+          "reading": "ソンナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そんな"
+            }
+          ]
+        },
+        {
+          "surface": "超絶",
+          "reading": "チョウゼツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "超絶",
+              "reading": "ちょうぜつ"
+            }
+          ]
+        },
+        {
+          "surface": "狭き",
+          "reading": "セマキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "狭",
+              "reading": "せま"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "門",
+          "reading": "モン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "門",
+              "reading": "もん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ロト",
+          "reading": "ロト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ロト"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "なん",
+          "reading": "ナン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "一発",
+          "reading": "イッパツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一発",
+              "reading": "いっぱつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "当選",
+          "reading": "トウセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当選",
+              "reading": "とうせん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "方",
+          "reading": "カタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方",
+              "reading": "かた"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ハナシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "はなし"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "聞く",
+          "reading": "キク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聞",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "チャンス",
+          "reading": "チャンス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "チャンス"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"
@@ -557,14 +1543,6 @@
       ],
       "rejected_span": "一発",
       "reading_candidates": {
-        "一発": [
-          "いっぱつ"
-        ],
-        "発": [
-          "はつ",
-          "ぱつ",
-          "ひらく"
-        ],
         "一": [
           "いち",
           "いっ",
@@ -581,12 +1559,20 @@
           "ひとつ",
           "びと",
           "まこと"
+        ],
+        "一発": [
+          "いっぱつ"
+        ],
+        "発": [
+          "はつ",
+          "ぱつ",
+          "ひらく"
         ]
       },
       "reading_hints": {
+        "一": "いち",
         "一発": "いっぱつ",
-        "発": "はつ",
-        "一": "いち"
+        "発": "はつ"
       },
       "rejected_readings": [
         {
@@ -630,6 +1616,112 @@
       "text": "真光元被害者の会が発足しました。",
       "rendered_yomi_before": "真光/シンコウ 元/モト 被害者/ヒガイシャ の/ノ 会/カイ が/ガ 発足/ホッソク し/シ まし/マシ た/タ 。/。",
       "rendered_yomi_after": "真光元/マコモ 被害者/ヒガイシャ の/ノ 会/カイ が/ガ 発足/ホッソク し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "真光元",
+          "reading": "マコモ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "真光元",
+              "reading": "まこも"
+            }
+          ]
+        },
+        {
+          "surface": "被害者",
+          "reading": "ヒガイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "被害者",
+              "reading": "ひがいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "会",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "発足",
+          "reading": "ホッソク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発足",
+              "reading": "ほっそく"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"
@@ -708,6 +1800,13 @@
       ],
       "rejected_span": "真光元",
       "reading_candidates": {
+        "真光元": [
+          "しんこうげん"
+        ],
+        "真光": [
+          "しんこう",
+          "ただみつ"
+        ],
         "真": [
           "しん",
           "ただし",
@@ -715,9 +1814,15 @@
           "まこと",
           "まっ"
         ],
-        "真光": [
-          "しんこう",
-          "ただみつ"
+        "元": [
+          "がん",
+          "げん",
+          "はじむ",
+          "はじめ",
+          "もと"
+        ],
+        "光元": [
+          "みつもと"
         ],
         "光": [
           "あかり",
@@ -732,28 +1837,15 @@
           "みつ",
           "みつる",
           "れい"
-        ],
-        "光元": [
-          "みつもと"
-        ],
-        "元": [
-          "がん",
-          "げん",
-          "はじむ",
-          "はじめ",
-          "もと"
-        ],
-        "真光元": [
-          "しんこうげん"
         ]
       },
       "reading_hints": {
-        "真": "しん",
+        "真光元": "しんこうげん",
         "真光": "しんこう",
-        "光": "あかり",
-        "光元": "みつもと",
+        "真": "しん",
         "元": "がん",
-        "真光元": "しんこうげん"
+        "光元": "みつもと",
+        "光": "あかり"
       },
       "rejected_readings": [
         {
@@ -797,6 +1889,601 @@
       "text": "靏見嘉弘氏（鶴見嘉弘氏）は、確かグロービートジャパンのアメリカ法人の代表者もされていた筈ですが、同氏が非公認大学の学位を使用して不幸な目にあわないよう人事ながら心配でなりません・・・。",
       "rendered_yomi_before": "靏/靏 見/ミ 嘉弘/ヨシヒロ 氏/シ （/（ 鶴見/ツルミ 嘉弘/ヨシヒロ 氏/シ ）/） は/ハ 、/、 確か/タシカ グロー/グロー ビート/ビート ジャパン/ジャパン の/ノ アメリカ/アメリカ 法人/ホウジン の/ノ 代表者/ダイヒョウシャ も/モ さ/サ れ/レ て/テ い/イ た/タ 筈/ハズ です/デス が/ガ 、/、 同氏/ドウシ が/ガ 非公認/ヒコウニン 大学/ダイガク の/ノ 学位/ガクイ を/ヲ 使用/シヨウ し/シ て/テ 不幸/フコウ な/ナ 目/メ に/ニ あわ/アワ ない/ナイ よう/ヨウ 人事/ヒトゴト ながら/ナガラ 心配/シンパイ で/デ なり/ナリ ませ/マセ ん/ン ・/・ ・/・ ・/・ 。/。",
       "rendered_yomi_after": "靏見/ツルミ 嘉弘/ヨシヒロ 氏/シ （/（ 鶴見/ツルミ 嘉弘/ヨシヒロ 氏/シ ）/） は/ハ 、/、 確か/タシカ グロー/グロー ビート/ビート ジャパン/ジャパン の/ノ アメリカ/アメリカ 法人/ホウジン の/ノ 代表者/ダイヒョウシャ も/モ さ/サ れ/レ て/テ い/イ た/タ 筈/ハズ です/デス が/ガ 、/、 同氏/ドウシ が/ガ 非公認/ヒコウニン 大学/ダイガク の/ノ 学位/ガクイ を/ヲ 使用/シヨウ し/シ て/テ 不幸/フコウ な/ナ 目/メ に/ニ あわ/アワ ない/ナイ よう/ヨウ 人事/ヒトゴト ながら/ナガラ 心配/シンパイ で/デ なり/ナリ ませ/マセ ん/ン ・/・ ・/・ ・/・ 。/。",
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "靏見",
+          "reading": "ツルミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "靏見",
+              "reading": "つるみ"
+            }
+          ]
+        },
+        {
+          "surface": "嘉弘",
+          "reading": "ヨシヒロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嘉弘",
+              "reading": "よしひろ"
+            }
+          ]
+        },
+        {
+          "surface": "氏",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "氏",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "鶴見",
+          "reading": "ツルミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鶴見",
+              "reading": "つるみ"
+            }
+          ]
+        },
+        {
+          "surface": "嘉弘",
+          "reading": "ヨシヒロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嘉弘",
+              "reading": "よしひろ"
+            }
+          ]
+        },
+        {
+          "surface": "氏",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "氏",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "確か",
+          "reading": "タシカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "確",
+              "reading": "たし"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "グロー",
+          "reading": "グロー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "グロー"
+            }
+          ]
+        },
+        {
+          "surface": "ビート",
+          "reading": "ビート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ビート"
+            }
+          ]
+        },
+        {
+          "surface": "ジャパン",
+          "reading": "ジャパン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジャパン"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "アメリカ",
+          "reading": "アメリカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アメリカ"
+            }
+          ]
+        },
+        {
+          "surface": "法人",
+          "reading": "ホウジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法人",
+              "reading": "ほうじん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "代表者",
+          "reading": "ダイヒョウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代表者",
+              "reading": "だいひょうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "筈",
+          "reading": "ハズ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "筈",
+              "reading": "はず"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "同氏",
+          "reading": "ドウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同氏",
+              "reading": "どうし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "非公認",
+          "reading": "ヒコウニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "非公認",
+              "reading": "ひこうにん"
+            }
+          ]
+        },
+        {
+          "surface": "大学",
+          "reading": "ダイガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大学",
+              "reading": "だいがく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "学位",
+          "reading": "ガクイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学位",
+              "reading": "がくい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "使用",
+          "reading": "シヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使用",
+              "reading": "しよう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "不幸",
+          "reading": "フコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "不幸",
+              "reading": "ふこう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あわ",
+          "reading": "アワ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あわ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "人事",
+          "reading": "ヒトゴト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人事",
+              "reading": "ひとごと"
+            }
+          ]
+        },
+        {
+          "surface": "ながら",
+          "reading": "ナガラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ながら"
+            }
+          ]
+        },
+        {
+          "surface": "心配",
+          "reading": "シンパイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "心配",
+              "reading": "しんぱい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "ませ",
+          "reading": "マセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ませ"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
       "repair_scope": "target_group",
       "reasons": [
         "target_no_ruby"

@@ -611,7 +611,7 @@ function renderStrongRepairAfterLine(item, override, editable) {
       index = match.end - 1;
       continue;
     }
-    nodes.push(...renderReadonlyRubyFromTokens([tokens[index]]));
+    nodes.push(...renderReadonlyRubyFromToken(item, tokens[index], index));
   }
   return nodes;
 }
@@ -933,23 +933,52 @@ function renderReadonlyRubyFromRendered(rendered) {
 
 function renderReadonlyRubyFromTokens(tokens) {
   const nodes = [];
-  for (const token of tokens) {
-    if (!shouldDisplayRuby(token.surface, token.reading)) {
-      nodes.push(document.createTextNode(token.surface));
-      continue;
-    }
-    const span = document.createElement("span");
-    span.className = "ruby-token readonly-ruby-token";
-    const ruby = document.createElement("ruby");
-    ruby.append(document.createTextNode(token.surface));
-    const rt = document.createElement("rt");
-    rt.textContent = katakanaToHiragana(token.reading);
-    ruby.append(rt);
-    span.append(ruby);
-    nodes.push(span);
+  for (const [index, token] of tokens.entries()) {
+    nodes.push(...renderReadonlyRubyFromToken(null, token, index));
   }
   if (!nodes.length) {
     nodes.push(document.createTextNode(""));
+  }
+  return nodes;
+}
+
+function renderReadonlyRubyFromToken(item, token, index) {
+  const tokenNodes = item?.rendered_yomi_after_ruby_tokens?.[index]?.nodes || null;
+  if (tokenNodes?.length) {
+    return renderRubyDisplayNodes(tokenNodes);
+  }
+  if (!shouldDisplayRuby(token.surface, token.reading)) {
+    return [document.createTextNode(token.surface)];
+  }
+  const span = document.createElement("span");
+  span.className = "ruby-token readonly-ruby-token";
+  const ruby = document.createElement("ruby");
+  ruby.append(document.createTextNode(token.surface));
+  const rt = document.createElement("rt");
+  rt.textContent = katakanaToHiragana(token.reading);
+  ruby.append(rt);
+  span.append(ruby);
+  return [span];
+}
+
+function renderRubyDisplayNodes(displayNodes) {
+  const nodes = [];
+  for (const displayNode of displayNodes || []) {
+    if (displayNode?.type === "ruby" && displayNode.text && displayNode.reading) {
+      const span = document.createElement("span");
+      span.className = "ruby-token readonly-ruby-token";
+      const ruby = document.createElement("ruby");
+      ruby.append(document.createTextNode(displayNode.text));
+      const rt = document.createElement("rt");
+      rt.textContent = displayNode.reading;
+      ruby.append(rt);
+      span.append(ruby);
+      nodes.push(span);
+      continue;
+    }
+    if (displayNode?.text) {
+      nodes.push(document.createTextNode(displayNode.text));
+    }
   }
   return nodes;
 }
