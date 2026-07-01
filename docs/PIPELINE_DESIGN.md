@@ -1792,6 +1792,13 @@ one reading input is shown for each resulting segment. The submitted
 LLM repair only after validation confirms that segment surfaces concatenate
 exactly to the rejected span and readings are valid kana.
 
+The pack builder should provide reading candidates for possible segments before
+the reviewer edits boundaries. Use the annotated-form dictionary as a
+prefix-style source: from every character position in the rejected span, collect
+dictionary readings for substrings up to the configured maximum length. This
+lets splits such as `池尻/中学校` or `池尻中/学校` prefill known readings while
+preserving all dictionary candidates for ambiguous substrings.
+
 `yomi_finalized` consumes `units.yomi.strong_repaired.jsonl` when it exists, but
 strong repair results are still candidates. If the strong queue is non-empty,
 finalization blocks until a later human confirmation stage marks the strong

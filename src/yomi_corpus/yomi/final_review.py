@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import csv
 import json
+from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from functools import lru_cache
@@ -16,6 +18,7 @@ SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
 SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
+ANNOTATED_FORMS_PATH = Path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
@@ -242,6 +245,12 @@ def build_strong_repair_review_item(
         rejected_readings.extend(
             row for row in target.get("rejected_readings", []) if isinstance(row, dict)
         )
+    rejected_span = "".join(
+        str(row.get("surface") or "")
+        for row in queue_row.get("target_escalations", [])
+        if isinstance(row, dict)
+    )
+    span_reading_candidates = build_strong_repair_reading_candidates(rejected_span)
     return {
         "item_id": str(queue_row.get("item_id") or ""),
         "seq": seq,
@@ -259,11 +268,13 @@ def build_strong_repair_review_item(
         "target_escalations": [
             row for row in queue_row.get("target_escalations", []) if isinstance(row, dict)
         ],
-        "rejected_span": "".join(
-            str(row.get("surface") or "")
-            for row in queue_row.get("target_escalations", [])
-            if isinstance(row, dict)
-        ),
+        "rejected_span": rejected_span,
+        "reading_candidates": span_reading_candidates,
+        "reading_hints": {
+            surface: readings[0]
+            for surface, readings in span_reading_candidates.items()
+            if readings
+        },
         "rejected_readings": rejected_readings,
         "llm_raw_text": str(result.get("raw_text") or ""),
         "llm_parsed": parsed,
@@ -489,6 +500,53 @@ def target_substrings_for_hints(targets: list[dict[str, Any]]) -> set[str]:
             for end in range(start + 2, min(len(chars), start + MAX_READING_HINT_SURFACE_LENGTH) + 1):
                 surfaces.add("".join(chars[start:end]))
     return surfaces
+
+
+def build_strong_repair_reading_candidates(rejected_span: str) -> dict[str, list[str]]:
+    candidates: dict[str, list[str]] = {}
+    surface_readings = load_annotated_form_surface_readings()
+    for surface in substrings_for_reading_candidates(rejected_span):
+        readings = surface_readings.get(surface)
+        if readings:
+            candidates[surface] = list(readings)
+    return candidates
+
+
+def substrings_for_reading_candidates(surface: str) -> set[str]:
+    chars = list(surface)
+    surfaces: set[str] = set()
+    for start in range(len(chars)):
+        for end in range(start + 1, min(len(chars), start + MAX_READING_HINT_SURFACE_LENGTH) + 1):
+            surfaces.add("".join(chars[start:end]))
+    return surfaces
+
+
+@lru_cache(maxsize=1)
+def load_annotated_form_surface_readings() -> dict[str, tuple[str, ...]]:
+    if not ANNOTATED_FORMS_PATH.exists():
+        return {}
+    counts: dict[str, Counter[str]] = {}
+    with ANNOTATED_FORMS_PATH.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        required = {"surface", "reading"}
+        if not required.issubset(reader.fieldnames or set()):
+            return {}
+        for row in reader:
+            surface = row["surface"]
+            reading = normalize_hiragana_reading(row["reading"])
+            if not surface or not reading or not is_valid_yomi_reading(reading):
+                continue
+            counts.setdefault(surface, Counter())[reading] += 1
+    return {
+        surface: tuple(
+            reading
+            for reading, _count in sorted(
+                counter.items(),
+                key=lambda item: (-item[1], item[0]),
+            )
+        )
+        for surface, counter in counts.items()
+    }
 
 
 @lru_cache(maxsize=1)

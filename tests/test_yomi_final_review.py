@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from yomi_corpus.yomi.final_review import (
     apply_final_review_file,
@@ -1083,6 +1084,85 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
             self.assertTrue(final_summary["stage_complete"])
             self.assertEqual(final_summary["written_units"], 1)
+
+    def test_strong_repair_pack_exposes_dictionary_substring_reading_candidates(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "unit_id": "u1",
+                        "text": "旧池尻中学校です。",
+                        "rendered_yomi": "旧/キュウ 池尻中/イケジリナカ 学校/ガッコウ です/デス 。/。",
+                        "repair_scope": "target_group",
+                        "target_escalations": [
+                            {"surface": "池尻中"},
+                            {"surface": "学校"},
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "parsed": [{"surface": "池尻中学校", "reading": "いけじりちゅうがっこう"}],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "旧/キュウ 池尻中学校/イケジリチュウガッコウ です/デス 。/。"
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            with patch(
+                "yomi_corpus.yomi.final_review.load_annotated_form_surface_readings",
+                return_value={
+                    "池尻": ("いけじり", "いけのしり"),
+                    "中学校": ("ちゅうがっこう",),
+                    "学校": ("がっこう",),
+                },
+            ):
+                build_yomi_strong_repair_review_pack_file(
+                    queue_jsonl=queue_path,
+                    results_jsonl=results_path,
+                    units_jsonl=units_path,
+                    output_json=pack_path,
+                    pack_id="strong_pack_1",
+                    track_name="dev",
+                    batch_name="dev_batch_0001",
+                    created_at_epoch=123,
+                )
+
+            item = json.loads(pack_path.read_text(encoding="utf-8"))["items"][0]
+            self.assertEqual(item["reading_candidates"]["中学校"], ["ちゅうがっこう"])
+            self.assertEqual(item["reading_candidates"]["学校"], ["がっこう"])
+            self.assertEqual(item["reading_candidates"]["池尻"], ["いけじり", "いけのしり"])
+            self.assertEqual(item["reading_hints"]["中学校"], "ちゅうがっこう")
 
     def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

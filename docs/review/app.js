@@ -851,6 +851,14 @@ function defaultStrongRepairReadingForSegment(item, surface, previousSegments) {
       return katakanaToHiragana(String(row.reading));
     }
   }
+  const readingCandidates = item.reading_candidates?.[surface] || [];
+  if (readingCandidates.length) {
+    return readingCandidates[0];
+  }
+  const readingHint = item.reading_hints?.[surface];
+  if (readingHint) {
+    return readingHint;
+  }
   const targetReading = readingFromStrongRepairTargets(item.target_escalations || [], surface);
   if (targetReading) {
     return targetReading;

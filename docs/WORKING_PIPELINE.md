@@ -2199,6 +2199,14 @@ surfaces concatenate exactly to the rejected span and all readings are valid
 kana. Invalid manual segments keep confirmation incomplete rather than being
 silently applied.
 
+For each rejected strong-repair span, the review pack should include
+dictionary-backed reading candidates for substrings found by prefix-style
+lookup from every character position. For example, `池尻中学校` should carry
+candidates for substrings such as `中学校` and `学校`, and ambiguous entries
+such as `池尻` may carry multiple readings. The UI currently uses the first
+candidate as the default reading when a boundary edit creates that segment, but
+the full candidate list is preserved in JSON for later richer controls.
+
 Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
 units are retained.
 
