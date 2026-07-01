@@ -953,6 +953,18 @@ for many inflected forms. If no unique dictionary-backed form exists, the
 renderer can fall back to a simple token-level representation or keep the
 stored `surface/reading` pair for that token.
 
+This projection is deliberately separate from the accepted corpus format. The
+canonical data remains `surface/reading` tokens; furigana text is a derived UI,
+LLM, or export view. After a document/unit is accepted, persist any
+non-dictionary or inferred furigana projection that the reviewer effectively
+accepted. The metadata should include the surface, normalized reading, accepted
+annotated form, converter method/confidence, source such as
+`human_accepted_review_ui`, dictionary version, and batch/unit IDs. Future UI
+rendering can prefer this accepted projection cache before falling back to the
+base dictionary/scored converter, and repeated accepted projections can later be
+promoted into the annotated-form dictionary. The cache is evidence and display
+support, not a replacement for canonical `surface/reading`.
+
 Whitespace-separated views still have a role:
 
 - full token view: `送っ/オクッ て/テ`

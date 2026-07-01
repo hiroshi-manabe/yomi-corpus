@@ -1312,6 +1312,22 @@ when possible. The dictionary can map `(surface, reading)` pairs such as
 `読（よ）み仮名（がな）`. If a pair has no unique mapping, the renderer should
 fall back conservatively rather than inventing a fragile annotation.
 
+Treat this as a display/projection layer, not as the corpus format. The
+canonical accepted corpus remains a token sequence of `surface/reading` pairs.
+Furigana text such as `振（ふ）り仮名（がな）` is a review/UI projection derived
+from those pairs.
+
+When a document or unit is finally accepted, any non-dictionary or inferred
+furigana projection that the reviewer saw and accepted should be persisted as
+validated projection metadata. Store at least the `surface`, normalized
+`reading`, accepted annotated form, converter method/confidence, source
+(`human_accepted_review_ui` or equivalent), dictionary version, and the
+batch/unit IDs where it was accepted. Future UI rendering may prefer these
+accepted projections before falling back to dictionary/scored alignment, and a
+later promotion step may fold repeated accepted projections into the
+annotated-form dictionary. This cache is audit/training evidence; it does not
+replace the canonical `surface/reading` corpus representation.
+
 LLM-proposed fixes may include neighboring kana or symbol tokens when the
 needed correction crosses token boundaries. For example, a proposal may replace
 `外出/ガイシュツ て` with `外/ソト 出/デ て`. The application layer should not
