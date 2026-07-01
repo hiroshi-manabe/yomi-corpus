@@ -1,5 +1,7 @@
 const manifestUrl = "./manifest.json";
 const submissionSchemaVersion = 1;
+const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/new";
+const reliablePrefilledIssueUrlLimit = 1800;
 
 const state = {
   manifest: null,
@@ -22,9 +24,12 @@ const el = {
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
   submissionPreview: document.querySelector("#submission-preview"),
+  issueUrlSummary: document.querySelector("#issue-url-summary"),
   openLatest: document.querySelector("#open-latest"),
   clearRange: document.querySelector("#clear-range"),
   resetDraft: document.querySelector("#reset-draft"),
+  openIssueFull: document.querySelector("#open-issue-full"),
+  openIssueTitle: document.querySelector("#open-issue-title"),
   copyJson: document.querySelector("#copy-json"),
   downloadJson: document.querySelector("#download-json"),
   reviewerName: document.querySelector("#reviewer-name"),
@@ -108,6 +113,20 @@ function bindEvents() {
     a.download = `${state.currentPack.pack_id || "review_submission"}.json`;
     a.click();
     URL.revokeObjectURL(url);
+  });
+
+  el.openIssueFull.addEventListener("click", () => {
+    const urls = buildIssueUrls();
+    if (!urls.full.enabled) {
+      showStatus("The full prefilled GitHub Issue URL is too long. Use title-only plus Copy JSON.", true);
+      return;
+    }
+    window.open(urls.full.url, "_blank", "noopener,noreferrer");
+  });
+
+  el.openIssueTitle.addEventListener("click", () => {
+    const urls = buildIssueUrls();
+    window.open(urls.titleOnly.url, "_blank", "noopener,noreferrer");
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -1602,18 +1621,88 @@ function renderSubmissionPreview() {
   if (!isEditable()) {
     el.submissionPreview.value =
       "Archived pack. Submission export is disabled for read-only history views.";
+    renderIssueUrlSummary(null);
     return;
   }
   const payload = buildSubmissionPayload();
   el.submissionPreview.value = JSON.stringify(payload, null, 2);
+  renderIssueUrlSummary(buildIssueUrls(payload));
 }
 
 function renderControlState() {
   const editable = isEditable();
   el.clearRange.disabled = !editable;
   el.resetDraft.disabled = !editable;
+  el.openIssueFull.disabled = !editable;
+  el.openIssueTitle.disabled = !editable;
   el.copyJson.disabled = !editable;
   el.downloadJson.disabled = !editable;
+  if (editable) {
+    const urls = buildIssueUrls();
+    el.openIssueFull.disabled = !urls.full.enabled;
+  }
+}
+
+function buildIssueUrls(payload = buildSubmissionPayload()) {
+  const title = buildIssueTitle(payload);
+  const body = buildIssueBody(payload);
+  const fullUrl = buildGithubIssueUrl(title, body);
+  const titleOnlyUrl = buildGithubIssueUrl(title);
+  return {
+    full: {
+      url: fullUrl,
+      length: fullUrl.length,
+      enabled: fullUrl.length <= reliablePrefilledIssueUrlLimit,
+    },
+    titleOnly: {
+      url: titleOnlyUrl,
+      length: titleOnlyUrl.length,
+      enabled: true,
+    },
+  };
+}
+
+function buildGithubIssueUrl(title, body = null) {
+  const params = new URLSearchParams();
+  params.set("title", title);
+  if (body !== null) {
+    params.set("body", body);
+  }
+  return `${githubNewIssueUrl}?${params.toString()}`;
+}
+
+function buildIssueTitle(payload) {
+  const packId = payload.pack_id || "review";
+  const { fromSeq, toSeq } = getEffectiveRange();
+  const range = fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
+  return `[yomi-review] ${packId} ${range}`;
+}
+
+function buildIssueBody(payload) {
+  return [
+    "Review submission JSON:",
+    "",
+    "```json",
+    JSON.stringify(payload, null, 2),
+    "```",
+  ].join("\n");
+}
+
+function renderIssueUrlSummary(urls) {
+  if (!el.issueUrlSummary) {
+    return;
+  }
+  if (!urls) {
+    el.issueUrlSummary.textContent = "Issue export is disabled for read-only history views.";
+    return;
+  }
+  if (urls.full.enabled) {
+    el.issueUrlSummary.textContent = `Full Issue URL: ${urls.full.length} chars.`;
+    return;
+  }
+  el.issueUrlSummary.textContent =
+    `Full Issue URL: ${urls.full.length} chars, too long for reliable prefilling. ` +
+    "Use title-only plus Copy JSON.";
 }
 
 function buildSubmissionPayload() {
