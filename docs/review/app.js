@@ -550,14 +550,20 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   }
   node.append(header);
 
-  const text = document.createElement("p");
-  text.className = "strong-repair-text";
-  text.textContent = item.text || "";
-  node.append(text);
+  const afterLine = document.createElement("p");
+  afterLine.className = "ruby-line strong-repair-after";
+  afterLine.append(...renderReadonlyRubyFromRendered(item.rendered_yomi_after || ""));
+  node.append(afterLine);
 
+  const details = document.createElement("details");
+  details.className = "strong-repair-debug";
+  const summary = document.createElement("summary");
+  summary.textContent = "Details";
+  details.append(summary);
   const grid = document.createElement("dl");
   grid.className = "strong-repair-grid";
   for (const [label, value] of [
+    ["Text", item.text || ""],
     ["Rejected", formatRejectedReadings(item)],
     ["Proposal", formatRepairProposal(item.llm_parsed || [])],
     ["Before", item.rendered_yomi_before || ""],
@@ -571,7 +577,8 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
     wrap.append(dt, dd);
     grid.append(wrap);
   }
-  node.append(grid);
+  details.append(grid);
+  node.append(details);
 
   if (editable) {
     const noteLabel = document.createElement("label");
@@ -611,6 +618,59 @@ function formatRepairProposal(rows) {
   return rows
     .map((row) => `${row.surface || ""}/${row.reading || ""}`)
     .join(" + ");
+}
+
+function renderReadonlyRubyFromRendered(rendered) {
+  const nodes = [];
+  for (const token of parseRenderedYomiTokens(rendered)) {
+    if (!shouldDisplayRuby(token.surface, token.reading)) {
+      nodes.push(document.createTextNode(token.surface));
+      continue;
+    }
+    const span = document.createElement("span");
+    span.className = "ruby-token readonly-ruby-token";
+    const ruby = document.createElement("ruby");
+    ruby.append(document.createTextNode(token.surface));
+    const rt = document.createElement("rt");
+    rt.textContent = katakanaToHiragana(token.reading);
+    ruby.append(rt);
+    span.append(ruby);
+    nodes.push(span);
+  }
+  if (!nodes.length) {
+    nodes.push(document.createTextNode(""));
+  }
+  return nodes;
+}
+
+function parseRenderedYomiTokens(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => {
+      const separator = token.lastIndexOf("/");
+      if (separator < 0) {
+        return { surface: token, reading: "" };
+      }
+      return {
+        surface: token.slice(0, separator),
+        reading: token.slice(separator + 1),
+      };
+    });
+}
+
+function shouldDisplayRuby(surface, reading) {
+  if (!surface || !reading || surface === reading) {
+    return false;
+  }
+  return /[一-龯々〆ヵヶA-Za-z]/u.test(surface);
+}
+
+function katakanaToHiragana(text) {
+  return String(text || "").replace(/[ァ-ン]/g, (char) =>
+    String.fromCharCode(char.charCodeAt(0) - 0x60)
+  );
 }
 
 function setOverride(itemId, decision) {
