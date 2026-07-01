@@ -1529,6 +1529,21 @@ Practical layout direction:
 This keeps hosting simple while still letting the UI evolve together with the
 pack format, submission format, and review workflow.
 
+Long-term task: after the review flow has stabilized over multiple batches,
+revisit whether the static review UI and GitHub-Issue submission workflow should
+move to an independent project. That would keep UI publishing commits and review
+traffic out of the corpus/pipeline repository. Do not split early: this repo
+should continue to own review-pack generation, submission ingestion, replay
+semantics, and corpus state. A split is only attractive once the boundary is a
+stable versioned contract:
+
+- review-pack JSON schema
+- review-submission JSON schema
+- publishing/sync mechanism from pipeline artifacts to the UI project
+- GitHub Issue/comment ingestion convention back into this repository
+
+Until then, the monorepo layout is intentionally pragmatic.
+
 For final yomi review, use a sentence-level review pack in one continuous list,
 but make the normal view look like ruby-rendered text rather than pipeline
 metadata. Avoid making each document a separate page unless later batch sizes

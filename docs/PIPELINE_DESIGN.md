@@ -1572,6 +1572,23 @@ The important point is not the exact directory names but the separation:
 - the review UI should remain versioned with this project
 - GitHub Pages output should be a normal repo artifact, not a separate system
 
+Long-term task: once several batches have gone through the full review flow and
+the review-pack and review-submission schemas stop changing frequently,
+consider splitting the static review UI and its GitHub-Issue workflow into a
+separate project. The split should be limited to UI hosting and review-return
+conventions. Pack generation, submission ingestion, replay semantics, and
+corpus state should remain in this repository because they are pipeline-coupled.
+The prerequisite is a stable contract:
+
+- immutable review-pack schema with versioned stage-specific extensions
+- exported review-submission schema with replay/overwrite semantics
+- publishing contract from this repo to the UI repo or Pages branch
+- importer contract for fetching matching Issue/comment payloads back into this
+  repo
+
+Until those contracts stabilize, keeping the UI source and Pages artifacts in
+this repository is the lower-friction choice.
+
 For yomi review, use the same transport model as alphabetic review: the cluster
 writes a review-pack JSON file, GitHub Pages displays it, the browser keeps
 local draft state, and the reviewer returns exported JSON through GitHub

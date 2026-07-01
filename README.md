@@ -93,6 +93,9 @@ Review transport policy:
 - GitHub Issues are the preferred first mailbox for returned review submissions
 - browser UI should persist local drafts and support partial range-based
   submissions
+- a separate review-UI project is a long-term option after review-pack and
+  submission schemas stabilize, but the current repo-local UI keeps iteration
+  cheap while those contracts are still changing
 
 Pipeline orchestration policy:
 
