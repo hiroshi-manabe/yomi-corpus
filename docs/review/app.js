@@ -1341,33 +1341,7 @@ function renderRubySegments(item, override, editable) {
 }
 
 function buildYomiSpanGroups(item) {
-  const targets = (item.targets || [])
-    .filter(
-      (target) =>
-        target &&
-        Number.isInteger(target.target_start) &&
-        Number.isInteger(target.target_end)
-    )
-    .sort((a, b) => a.target_start - b.target_start || a.target_end - b.target_end);
-  const groups = [];
-  const consumed = new Set();
-  for (let index = 0; index < targets.length; index += 1) {
-    const target = targets[index];
-    if (consumed.has(target.item_id) || target.is_safe) {
-      continue;
-    }
-    let endIndex = index;
-    while (
-      endIndex + 1 < targets.length &&
-      targets[endIndex].target_end === targets[endIndex + 1].target_start
-    ) {
-      endIndex += 1;
-    }
-    const groupTargets = targets.slice(index, endIndex + 1);
-    groupTargets.forEach((row) => consumed.add(row.item_id));
-    groups.push(makeYomiSpanGroup(groupTargets, item.reading_hints || {}));
-  }
-  return groups;
+  return [];
 }
 
 function makeYomiSpanGroup(targets, readingHints) {
