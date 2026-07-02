@@ -327,6 +327,14 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  background: rgba(31, 28, 23, 0.12);
+  border-color: transparent;
+  color: rgba(31, 28, 23, 0.38);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .secondary-button {
   background: #fffdf9;
   color: var(--text);

@@ -1,7 +1,7 @@
 const manifestUrl = "./manifest.json";
 const submissionSchemaVersion = 1;
 const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/new";
-const reliablePrefilledIssueUrlLimit = 1800;
+const reliablePrefilledIssueUrlLimit = 1200;
 
 const state = {
   manifest: null,
@@ -164,12 +164,13 @@ function bindEvents() {
       showStatus("The full prefilled GitHub Issue URL is too long. Use title-only plus Copy JSON.", true);
       return;
     }
-    window.open(urls.full.url, "_blank", "noopener,noreferrer");
+    openUrlInNewTab(urls.full.url);
+    showStatus("Opened a prefilled GitHub Issue. If GitHub drops the body, use Copy JSON.");
   });
 
   el.openIssueTitle.addEventListener("click", () => {
     const urls = buildIssueUrls();
-    window.open(urls.titleOnly.url, "_blank", "noopener,noreferrer");
+    openUrlInNewTab(urls.titleOnly.url);
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -1779,6 +1780,16 @@ function buildGithubIssueUrl(title, body = null) {
     params.set("body", body);
   }
   return `${githubNewIssueUrl}?${params.toString()}`;
+}
+
+function openUrlInNewTab(url) {
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.target = "_blank";
+  anchor.rel = "noopener noreferrer";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
 }
 
 function buildIssueTitle(payload) {
