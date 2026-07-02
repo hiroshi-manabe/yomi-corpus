@@ -1349,9 +1349,11 @@ function renderRubySegments(item, override, editable) {
   const groups = buildYomiSpanGroups(item);
   const groupByFirstTargetId = Object.fromEntries(groups.map((group) => [group.targetIds[0], group]));
   const hiddenTargetIds = new Set(groups.flatMap((group) => group.targetIds.slice(1)));
-  for (const segment of item.ruby_segments || [{ type: "text", text: item.text || "" }]) {
+  const segments = item.ruby_segments || [{ type: "text", text: item.text || "" }];
+  for (let index = 0; index < segments.length; index += 1) {
+    const segment = segments[index];
     if (segment.type !== "ruby") {
-      nodes.push(document.createTextNode(segment.text || ""));
+      nodes.push(...renderYomiTextSegmentWithNumericMerge(item, segment, segments[index - 1], segments[index + 1], override, editable, targetsById));
       continue;
     }
     if (hiddenTargetIds.has(segment.target_item_id)) {
@@ -1370,6 +1372,103 @@ function renderRubySegments(item, override, editable) {
     nodes.push(renderRubySpan(item, target, override, editable));
   }
   return nodes;
+}
+
+function renderYomiTextSegmentWithNumericMerge(
+  item,
+  segment,
+  previousSegment,
+  nextSegment,
+  override,
+  editable,
+  targetsById,
+) {
+  const text = segment.text || "";
+  const nodes = [];
+  const previousTarget = targetForRubySegment(previousSegment, targetsById);
+  const nextTarget = targetForRubySegment(nextSegment, targetsById);
+  const previousNoRuby = previousTarget && isNoRubyTarget(previousTarget, override);
+  const nextNoRuby = nextTarget && isNoRubyTarget(nextTarget, override);
+  let remaining = text;
+
+  const trailing = nextNoRuby ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
+  const leading = previousNoRuby ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
+  if (trailing && trailing.length < remaining.length) {
+    nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
+    remaining = trailing;
+  }
+  if (trailing && nextTarget) {
+    nodes.push(renderNumericMergeButton(item, nextTarget, trailing, "before", override, editable));
+    remaining = "";
+  }
+  if (leading && previousTarget) {
+    nodes.push(renderNumericMergeButton(item, previousTarget, leading, "after", override, editable));
+    remaining = remaining.slice(leading.length);
+  }
+  if (remaining) {
+    nodes.push(document.createTextNode(remaining));
+  }
+  return nodes;
+}
+
+function targetForRubySegment(segment, targetsById) {
+  if (!segment || segment.type !== "ruby") {
+    return null;
+  }
+  return targetsById[segment.target_item_id] || null;
+}
+
+function isNoRubyTarget(target, override) {
+  const targetDraft = override?.targets?.[target.item_id] || null;
+  return selectedCandidate(target, targetDraft)?.source === "none";
+}
+
+function renderNumericMergeButton(item, target, digits, side, override, editable) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ruby-token numeric-merge-token";
+  const span = numericMergeSpanDraft(target, digits, side);
+  const active = Boolean(override?.span_overrides?.[span.id]);
+  button.classList.toggle("changed", active);
+  button.disabled = !editable;
+  button.title = active
+    ? "Numeric merge is active; tap to clear."
+    : "Merge this number with the no-ruby target for strong repair.";
+  button.textContent = digits;
+  if (editable) {
+    button.addEventListener("click", () => toggleNumericMergeSpan(item, span));
+  }
+  return button;
+}
+
+function numericMergeSpanDraft(target, digits, side) {
+  const originalSurface = side === "before"
+    ? `${digits}${target.surface || ""}`
+    : `${target.surface || ""}${digits}`;
+  return {
+    id: `numeric-merge:${target.item_id}:${side}:${digits}`,
+    decision: "segmentation",
+    target_item_ids: [target.item_id],
+    original_surface: originalSurface,
+    segments: [{ surface: originalSurface, reading: "" }],
+    repair_required: true,
+    repair_reason: "numeric_merge_no_reading",
+  };
+}
+
+function toggleNumericMergeSpan(item, span) {
+  const draft = ensureYomiOverride(item.item_id);
+  if (!draft.span_overrides) {
+    draft.span_overrides = {};
+  }
+  if (draft.span_overrides[span.id]) {
+    delete draft.span_overrides[span.id];
+  } else {
+    draft.span_overrides[span.id] = span;
+  }
+  cleanupYomiOverride(item.item_id);
+  touchDraft();
+  render();
 }
 
 function buildYomiSpanGroups(item) {
@@ -1732,8 +1831,23 @@ function cycleYomiTarget(item, target, currentCandidate) {
       custom_reading: null,
     };
   }
+  if (next.source !== "none") {
+    removeNumericMergeSpansForTarget(draft, target.item_id);
+    cleanupYomiOverride(item.item_id);
+  }
   touchDraft();
   render();
+}
+
+function removeNumericMergeSpansForTarget(draft, targetItemId) {
+  for (const [spanId, span] of Object.entries(draft.span_overrides || {})) {
+    if (
+      span?.repair_reason === "numeric_merge_no_reading" &&
+      (span.target_item_ids || []).includes(targetItemId)
+    ) {
+      delete draft.span_overrides[spanId];
+    }
+  }
 }
 
 function ensureYomiOverride(itemId) {
@@ -1937,6 +2051,8 @@ function getActiveYomiOverrides() {
             surface: segment.surface,
             reading: segment.reading || "",
           })),
+          ...(span.repair_required ? { repair_required: true } : {}),
+          ...(span.repair_reason ? { repair_reason: span.repair_reason } : {}),
         })),
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };

@@ -823,6 +823,15 @@ button:disabled {
   background: rgba(45, 106, 79, 0.18);
 }
 
+.numeric-merge-token {
+  outline: 1px dashed rgba(45, 106, 79, 0.4);
+  outline-offset: -1px;
+}
+
+.numeric-merge-token.changed {
+  box-shadow: inset 0 -3px 0 rgba(45, 106, 79, 0.35);
+}
+
 .yomi-span-group {
   position: relative;
   display: inline;

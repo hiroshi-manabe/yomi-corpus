@@ -1436,6 +1436,8 @@ def normalize_span_overrides(rows: object) -> list[dict[str, Any]]:
                 ],
                 "original_surface": original_surface,
                 "segments": segments,
+                "repair_required": bool(row.get("repair_required")),
+                "repair_reason": str(row.get("repair_reason") or ""),
             }
         )
     return normalized_rows
@@ -1585,12 +1587,23 @@ def build_strong_repair_queue_file(
                 for row in review.get("target_overrides", [])
                 if isinstance(row, dict)
             ]
+            span_repair_overrides = [
+                row
+                for row in review.get("span_overrides", [])
+                if isinstance(row, dict) and row.get("repair_required")
+            ]
+            span_repair_target_ids = {
+                str(target_id)
+                for span in span_repair_overrides
+                for target_id in span.get("target_item_ids", [])
+                if str(target_id)
+            }
             target_escalation_overrides = [
                 row
                 for row in target_constraints
-                if row.get("choice_source") == "none"
+                if row.get("choice_source") == "none" and str(row.get("item_id") or "") not in span_repair_target_ids
             ]
-            if not sentence_reasons and not target_escalation_overrides:
+            if not sentence_reasons and not target_escalation_overrides and not span_repair_overrides:
                 continue
             rendered_yomi = (
                 unit.get("analysis", {})
@@ -1615,6 +1628,32 @@ def build_strong_repair_queue_file(
                             "target_escalations": target_group,
                             # Backward-compatible alias for existing mock consumers.
                             "target_overrides": target_group,
+                            "status": "mock_pending",
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n"
+                )
+                queued_items += 1
+            for span_index, span_override in enumerate(span_repair_overrides, start=1):
+                span_target = span_repair_target(span_override)
+                if not span_target:
+                    continue
+                target_escalations += 1
+                dst.write(
+                    json.dumps(
+                        {
+                            "item_id": f"{unit.get('unit_id')}::span_group:{span_index}",
+                            "unit_id": unit.get("unit_id"),
+                            "text": unit.get("text"),
+                            "rendered_yomi": rendered_yomi,
+                            "repair_scope": "target_group",
+                            "repair_order": 1,
+                            "reasons": [span_override.get("repair_reason") or "span_repair_required"],
+                            "target_constraints": [span_target],
+                            "target_escalations": [span_target],
+                            "target_overrides": [span_target],
+                            "span_override": span_override,
                             "status": "mock_pending",
                         },
                         ensure_ascii=False,
@@ -1659,6 +1698,33 @@ def build_strong_repair_queue_file(
         encoding="utf-8",
     )
     return summary
+
+
+def span_repair_target(span_override: dict[str, Any]) -> dict[str, Any] | None:
+    surface = str(span_override.get("original_surface") or "")
+    if not surface:
+        segment_surfaces = [
+            str(segment.get("surface") or "")
+            for segment in span_override.get("segments", [])
+            if isinstance(segment, dict)
+        ]
+        surface = "".join(segment_surfaces)
+    if not surface:
+        return None
+    return {
+        "surface": surface,
+        "token_surface": surface,
+        "choice_source": "none",
+        "selected_reading": None,
+        "source_span_override_id": str(span_override.get("id") or ""),
+        "rejected_readings": [
+            {
+                "surface": surface,
+                "reading": "",
+                "source": span_override.get("repair_reason") or "human_span_repair",
+            }
+        ],
+    }
 
 
 def apply_yomi_strong_repair_results_file(
@@ -1837,10 +1903,8 @@ def apply_target_group_strong_repair(
         for target in targets
         if isinstance(target.get("token_index"), int)
     ]
-    if not targets or len(token_indexes) != len(targets):
-        return {"status": "invalid_queue", "reason": "target group lacks token indexes"}
-    start = min(token_indexes)
-    end = max(token_indexes) + 1
+    if not targets:
+        return {"status": "invalid_queue", "reason": "target group lacks targets"}
     rejected_span = "".join(str(target.get("surface") or "") for target in targets)
     replacement_span = "".join(surface for surface, _reading in replacement_pairs)
     if replacement_span != rejected_span:
@@ -1855,16 +1919,28 @@ def apply_target_group_strong_repair(
     if not rendered:
         return {"status": "invalid_unit", "reason": "missing rendered yomi"}
     pairs = parse_rendered_pairs(rendered)
-    if end > len(pairs):
-        return {"status": "invalid_queue", "reason": "target token index out of range"}
-    original_span = "".join(surface for surface, _reading in pairs[start:end])
-    if original_span != rejected_span:
+    if len(token_indexes) == len(targets):
+        start = min(token_indexes)
+        end = max(token_indexes) + 1
+        if end > len(pairs):
+            return {"status": "invalid_queue", "reason": "target token index out of range"}
+        original_span = "".join(surface for surface, _reading in pairs[start:end])
+        if original_span != rejected_span:
+            fallback = find_unique_rendered_span(pairs, rejected_span)
+            if fallback is None:
+                return {
+                    "status": "surface_mismatch",
+                    "rejected_span": rejected_span,
+                    "original_span": original_span,
+                }
+            start, end = fallback
+    else:
         fallback = find_unique_rendered_span(pairs, rejected_span)
         if fallback is None:
             return {
-                "status": "surface_mismatch",
+                "status": "invalid_queue",
+                "reason": "target group lacks token indexes and surface span is not unique",
                 "rejected_span": rejected_span,
-                "original_span": original_span,
             }
         start, end = fallback
     yomi.setdefault("rendered_before_strong_repair", rendered)

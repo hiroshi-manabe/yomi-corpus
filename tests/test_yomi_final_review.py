@@ -938,6 +938,125 @@ class YomiFinalReviewTests(unittest.TestCase):
                 [{"surface": "史輝", "reading": "ふみてる", "source": "human_no_ruby"}],
             )
 
+    def test_numeric_merge_span_queues_and_applies_strong_repair(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            reviewed_path = root / "reviewed.jsonl"
+            review_summary_path = root / "review_summary.json"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            results_path = root / "results.jsonl"
+            repaired_path = root / "repaired.jsonl"
+            repair_summary_path = root / "repair_summary.json"
+            payload = unit("doc1", "u1", "2ndです。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = "2/ nd/エヌディー です/デス 。/。"
+            target = payload["analysis"]["safety"]["yomi"]["targets"][0]
+            target.update(
+                {
+                    "item_id": "u1:r0002c01",
+                    "surface": "nd",
+                    "token_surface": "nd",
+                    "current_reading": "エヌディー",
+                    "current_reading_hiragana": "えぬでぃー",
+                    "target_start": 1,
+                    "target_end": 3,
+                    "token_index": 1,
+                    "is_safe": False,
+                    "review_status": "unresolved",
+                    "highlight_level": "target",
+                    "accepted_signal_names": [],
+                    "signals": [],
+                }
+            )
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0002c01",
+                                    "choice_source": "none",
+                                    "selected_reading": None,
+                                }
+                            ],
+                            "span_overrides": [
+                                {
+                                    "id": "numeric-merge:u1:r0002c01:before:2",
+                                    "decision": "segmentation",
+                                    "target_item_ids": ["u1:r0002c01"],
+                                    "original_surface": "2nd",
+                                    "repair_required": True,
+                                    "repair_reason": "numeric_merge_no_reading",
+                                    "segments": [{"surface": "2nd", "reading": ""}],
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+            apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=reviewed_path,
+                summary_json=review_summary_path,
+            )
+            queue_summary = build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+
+            queued = json.loads(queue_path.read_text(encoding="utf-8"))
+            self.assertEqual(queue_summary["queued_items"], 1)
+            self.assertEqual(queued["reasons"], ["numeric_merge_no_reading"])
+            self.assertEqual(queued["target_escalations"][0]["surface"], "2nd")
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": queued["item_id"],
+                        "parsed": [{"surface": "2nd", "reading": "せかんど"}],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=reviewed_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=repaired_path,
+                summary_json=repair_summary_path,
+            )
+            self.assertEqual(summary["applied_items"], 1)
+            row = json.loads(repaired_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "2nd/セカンド です/デス 。/。",
+            )
+
     def test_target_no_ruby_is_queued_before_sentence_escalation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
