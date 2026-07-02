@@ -1722,7 +1722,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
   );
   const next = candidates[(currentIndex + 1) % candidates.length];
   const draft = ensureYomiOverride(item.item_id);
-  if (next.source === "current" && (target.default_choice_source || "current") === "current") {
+  if (next.source === (target.default_choice_source || "current")) {
     delete draft.targets[target.item_id];
     cleanupYomiOverride(item.item_id);
   } else {
