@@ -6,6 +6,7 @@ from typing import Any
 
 
 CODE_BLOCK_RE = re.compile(r"```(?:json)?\s*(\{.*\})\s*```", re.DOTALL)
+ARRAY_CODE_BLOCK_RE = re.compile(r"```(?:json)?\s*(\[.*\])\s*```", re.DOTALL)
 
 
 def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None = None) -> Any:
@@ -44,9 +45,16 @@ def parse_json_array(text: str) -> list[Any]:
         if isinstance(parsed, list):
             return parsed
         raise ValueError("Expected a JSON array in model output.")
-    extracted = extract_first_json_array(stripped)
-    if extracted is not None:
-        parsed = json.loads(extracted)
+    match = ARRAY_CODE_BLOCK_RE.search(stripped)
+    if match:
+        parsed = json.loads(match.group(1))
+        if isinstance(parsed, list):
+            return parsed
+    for extracted in extract_json_arrays(stripped):
+        try:
+            parsed = json.loads(extracted)
+        except json.JSONDecodeError:
+            continue
         if isinstance(parsed, list):
             return parsed
     raise ValueError("Expected a JSON array in model output.")
@@ -81,8 +89,22 @@ def extract_first_json_object(text: str) -> str | None:
 
 
 def extract_first_json_array(text: str) -> str | None:
-    start = text.find("[")
-    if start < 0:
+    return next(iter(extract_json_arrays(text)), None)
+
+
+def extract_json_arrays(text: str) -> list[str]:
+    arrays: list[str] = []
+    for start, char in enumerate(text):
+        if char != "[":
+            continue
+        extracted = extract_json_array_at(text, start)
+        if extracted is not None:
+            arrays.append(extracted)
+    return arrays
+
+
+def extract_json_array_at(text: str, start: int) -> str | None:
+    if start < 0 or start >= len(text) or text[start] != "[":
         return None
     depth = 0
     in_string = False

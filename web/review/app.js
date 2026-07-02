@@ -19,6 +19,9 @@ const el = {
   packTitle: document.querySelector("#pack-title"),
   packBadge: document.querySelector("#pack-badge"),
   packMeta: document.querySelector("#pack-meta"),
+  taskDocSelect: document.querySelector("#task-doc-select"),
+  taskSummary: document.querySelector("#task-summary"),
+  clearTask: document.querySelector("#clear-task"),
   rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
@@ -70,6 +73,25 @@ function bindEvents() {
       return;
     }
     await openStage(state.currentStageId, { preferLatest: true });
+  });
+
+  el.taskDocSelect.addEventListener("change", () => {
+    if (!isEditable()) {
+      return;
+    }
+    const docId = el.taskDocSelect.value;
+    if (!docId) {
+      clearTaskSelection();
+      return;
+    }
+    selectDocumentTask(docId);
+  });
+
+  el.clearTask.addEventListener("click", () => {
+    if (!isEditable()) {
+      return;
+    }
+    clearTaskSelection();
   });
 
   el.clearRange.addEventListener("click", () => {
@@ -222,6 +244,7 @@ function render() {
   renderCurrentTracks();
   renderPackList();
   renderPackSummary();
+  renderTaskSelector();
   renderRangeSummary();
   renderItems();
   renderControlState();
@@ -335,6 +358,40 @@ function renderPackSummary() {
     .join("");
 }
 
+function renderTaskSelector() {
+  if (!el.taskDocSelect || !el.taskSummary) {
+    return;
+  }
+  const docs = buildDocumentTasks(state.currentPack);
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  el.taskDocSelect.innerHTML = "";
+  const allOption = document.createElement("option");
+  allOption.value = "";
+  allOption.textContent = `Full pack (${state.currentPack.item_count || 0} items)`;
+  el.taskDocSelect.append(allOption);
+  for (const doc of docs) {
+    const option = document.createElement("option");
+    option.value = doc.doc_id;
+    option.textContent = `Doc ${doc.doc_seq}: ${doc.item_count} items, ${doc.unresolved_count} review targets`;
+    el.taskDocSelect.append(option);
+  }
+  el.taskDocSelect.value = task.mode === "document" ? task.doc_id : "";
+  el.taskDocSelect.disabled = !isEditable() || docs.length === 0;
+  el.clearTask.disabled = !isEditable() || task.mode === "all";
+
+  if (task.mode === "document") {
+    const doc = docs.find((row) => row.doc_id === task.doc_id);
+    el.taskSummary.textContent = doc
+      ? `${doc.doc_id} · seq ${doc.from_seq}-${doc.to_seq} · ${doc.preview}`
+      : "Selected document is no longer available; full pack will be used.";
+    return;
+  }
+  el.taskSummary.textContent =
+    docs.length > 0
+      ? "Full pack mode. Choose a document to create a smaller review task."
+      : "This pack has no document grouping metadata.";
+}
+
 function renderRangeSummary() {
   const { fromSeq, toSeq, includedCount } = getEffectiveRange();
   const overrides = getSubmissionOverridesForCurrentStage();
@@ -362,10 +419,16 @@ function renderItems() {
   const pack = state.currentPack;
   const { fromSeq, toSeq } = getEffectiveRange();
   const editable = isEditable();
-  el.itemsSummary.textContent = `${pack.items.length} total item(s)`;
+  const visibleItems = getVisibleItems();
+  el.itemsSummary.textContent = `${visibleItems.length} shown / ${pack.items.length} total item(s)`;
   el.itemsContainer.innerHTML = "";
 
-  for (const item of pack.items) {
+  let lastDocId = null;
+  for (const item of visibleItems) {
+    if (item.doc_id && item.doc_id !== lastDocId) {
+      el.itemsContainer.append(renderDocumentSeparator(item));
+      lastDocId = item.doc_id;
+    }
     const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
     const inRange = item.seq >= fromSeq && item.seq <= toSeq;
     const override = state.currentDraft.overrides[item.item_id] || null;
@@ -502,6 +565,17 @@ function renderItems() {
 
     el.itemsContainer.append(node);
   }
+}
+
+function renderDocumentSeparator(item) {
+  const separator = document.createElement("div");
+  separator.className = "document-separator";
+  const left = document.createElement("strong");
+  left.textContent = `Document ${item.doc_seq || ""}`;
+  const right = document.createElement("span");
+  right.textContent = item.doc_id || "";
+  separator.append(left, right);
+  return separator;
 }
 
 function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }) {
@@ -1675,7 +1749,8 @@ function buildIssueTitle(payload) {
   const packId = payload.pack_id || "review";
   const { fromSeq, toSeq } = getEffectiveRange();
   const range = fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
-  return `[yomi-review] ${packId} ${range}`;
+  const task = payload.task?.mode === "document" ? ` doc ${payload.task.doc_seq}` : "";
+  return `[yomi-review] ${packId}${task} ${range}`;
 }
 
 function buildIssueBody(payload) {
@@ -1720,8 +1795,25 @@ function buildSubmissionPayload() {
     submission_id: `${pack.pack_id}__${new Date(now).toISOString()}`,
     reviewer,
     generated_at_epoch: Math.floor(now / 1000),
+    task: buildSubmissionTaskMetadata(),
     reviewed_ranges: pack.item_count > 0 ? [{ from_seq: fromSeq, to_seq: toSeq }] : [],
     overrides,
+  };
+}
+
+function buildSubmissionTaskMetadata() {
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  if (task.mode !== "document") {
+    return { mode: "full_pack" };
+  }
+  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === task.doc_id);
+  return {
+    mode: "document",
+    doc_id: task.doc_id,
+    doc_seq: doc?.doc_seq ?? null,
+    from_seq: doc?.from_seq ?? task.from_seq,
+    to_seq: doc?.to_seq ?? task.to_seq,
+    item_count: doc?.item_count ?? null,
   };
 }
 
@@ -1830,14 +1922,103 @@ function getEffectiveRange() {
   if (itemCount === 0) {
     return { fromSeq: 0, toSeq: 0, includedCount: 0 };
   }
-  let fromSeq = state.currentDraft?.from_seq ?? 1;
-  let toSeq = state.currentDraft?.to_seq ?? itemCount;
-  fromSeq = clamp(fromSeq, 1, itemCount);
-  toSeq = clamp(toSeq, 1, itemCount);
+  const base = getTaskRange();
+  let fromSeq = state.currentDraft?.from_seq ?? base.fromSeq;
+  let toSeq = state.currentDraft?.to_seq ?? base.toSeq;
+  fromSeq = clamp(fromSeq, base.fromSeq, base.toSeq);
+  toSeq = clamp(toSeq, base.fromSeq, base.toSeq);
   if (fromSeq > toSeq) {
     [fromSeq, toSeq] = [toSeq, fromSeq];
   }
   return { fromSeq, toSeq, includedCount: toSeq - fromSeq + 1 };
+}
+
+function getTaskRange() {
+  const itemCount = state.currentPack?.item_count || 0;
+  const task = normalizeTask(state.currentDraft?.task, state.currentPack);
+  if (task.mode === "document") {
+    return { fromSeq: task.from_seq, toSeq: task.to_seq };
+  }
+  return { fromSeq: itemCount ? 1 : 0, toSeq: itemCount };
+}
+
+function getVisibleItems() {
+  const task = normalizeTask(state.currentDraft?.task, state.currentPack);
+  const items = state.currentPack?.items || [];
+  if (task.mode === "document") {
+    return items.filter((item) => item.doc_id === task.doc_id);
+  }
+  return items;
+}
+
+function buildDocumentTasks(pack) {
+  const docs = [];
+  const byId = new Map();
+  for (const item of pack?.items || []) {
+    const docId = item.doc_id || "";
+    if (!docId) {
+      continue;
+    }
+    if (!byId.has(docId)) {
+      const doc = {
+        doc_id: docId,
+        doc_seq: item.doc_seq || docs.length + 1,
+        from_seq: item.seq,
+        to_seq: item.seq,
+        item_count: 0,
+        unresolved_count: 0,
+        preview: item.text || "",
+      };
+      byId.set(docId, doc);
+      docs.push(doc);
+    }
+    const doc = byId.get(docId);
+    doc.from_seq = Math.min(doc.from_seq, item.seq);
+    doc.to_seq = Math.max(doc.to_seq, item.seq);
+    doc.item_count += 1;
+    doc.unresolved_count += Number(item.unresolved_target_count || 0);
+  }
+  return docs.sort((left, right) => left.from_seq - right.from_seq);
+}
+
+function normalizeTask(task, pack) {
+  if (task?.mode !== "document") {
+    return { mode: "all" };
+  }
+  const doc = buildDocumentTasks(pack).find((row) => row.doc_id === task.doc_id);
+  if (!doc) {
+    return { mode: "all" };
+  }
+  return {
+    mode: "document",
+    doc_id: doc.doc_id,
+    from_seq: doc.from_seq,
+    to_seq: doc.to_seq,
+  };
+}
+
+function selectDocumentTask(docId) {
+  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  if (!doc) {
+    clearTaskSelection();
+    return;
+  }
+  state.currentDraft.task = {
+    mode: "document",
+    doc_id: doc.doc_id,
+  };
+  state.currentDraft.from_seq = doc.from_seq;
+  state.currentDraft.to_seq = doc.to_seq;
+  touchDraft();
+  render();
+}
+
+function clearTaskSelection() {
+  state.currentDraft.task = { mode: "all" };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
 }
 
 function isEditable() {
@@ -1849,6 +2030,7 @@ function createEmptyDraft(pack) {
     schema_version: 1,
     review_stage: pack.review_stage,
     pack_id: pack.pack_id,
+    task: { mode: "all" },
     from_seq: null,
     to_seq: null,
     overrides: {},
@@ -1867,6 +2049,7 @@ function loadDraft(pack) {
     return {
       ...createEmptyDraft(pack),
       ...parsed,
+      task: normalizeTask(parsed.task, pack),
       overrides: parsed.overrides || {},
     };
   } catch {

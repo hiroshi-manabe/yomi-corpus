@@ -344,6 +344,31 @@ button {
   gap: 12px;
 }
 
+.task-selector {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: end;
+}
+
+.task-selector label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.task-selector select {
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.task-summary {
+  padding: 10px 0;
+  overflow-wrap: anywhere;
+}
+
 .issue-url-summary {
   margin: -4px 0 10px;
   font-size: 0.86rem;
@@ -828,5 +853,9 @@ button {
 
   .topbar-actions {
     align-items: stretch;
+  }
+
+  .task-selector {
+    grid-template-columns: 1fr;
   }
 }

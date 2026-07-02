@@ -180,8 +180,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
         self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
         self.assertIn("First check whether the entire rejected span", items[0].prompt)
-        self.assertIn('query like "xxx 読み"', items[0].prompt)
-        self.assertIn("return only a reading supported by reliable evidence", items[0].prompt)
+        self.assertIn("answer directly without web search", items[0].prompt)
+        self.assertIn("output the final JSON together with your investigation process", items[0].prompt)
         self.assertIn('"used_web_search":true/false', items[0].prompt)
         self.assertNotIn("e.g.", items[0].prompt)
 
@@ -195,6 +195,17 @@ class LLMScaffoldingTests(unittest.TestCase):
             "json_array",
         )
         self.assertEqual(parsed[0]["surface"], "池尻")
+
+    def test_parse_json_array_ignores_markdown_links_before_fenced_json(self) -> None:
+        parsed = parse_output(
+            "Found evidence ([source](https://example.com)).\n"
+            "```json\n"
+            '[{"surface":"真光元","reading":"しんこうげん","used_web_search":true}]\n'
+            "```",
+            "json_array",
+        )
+        self.assertEqual(parsed[0]["surface"], "真光元")
+        self.assertEqual(parsed[0]["reading"], "しんこうげん")
 
     def test_parse_yomi_reading_completion_output(self) -> None:
         self.assertEqual(
