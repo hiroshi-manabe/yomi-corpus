@@ -366,6 +366,38 @@ button:disabled {
   padding-right: 4px;
 }
 
+.task-draft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.task-draft-heading {
+  font-size: 0.86rem;
+}
+
+.task-draft-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(45, 106, 79, 0.22);
+  border-radius: 14px;
+  background: rgba(45, 106, 79, 0.07);
+  padding: 10px 12px;
+}
+
+.task-draft-body {
+  min-width: 0;
+}
+
+.task-draft-meta {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+
 .task-doc-row {
   display: grid;
   grid-template-columns: minmax(120px, 160px) minmax(190px, 240px) minmax(0, 1fr) auto;

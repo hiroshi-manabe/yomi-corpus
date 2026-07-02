@@ -20,11 +20,13 @@ const el = {
   packMeta: document.querySelector("#pack-meta"),
   taskPickerPanel: document.querySelector("#task-picker-panel"),
   taskDocList: document.querySelector("#task-doc-list"),
+  taskDraftList: document.querySelector("#task-draft-list"),
   taskSummary: document.querySelector("#task-summary"),
   selectAllDocs: document.querySelector("#select-all-docs"),
   clearDocSelection: document.querySelector("#clear-doc-selection"),
   startTask: document.querySelector("#start-task"),
   backToTaskPicker: document.querySelector("#back-to-task-picker"),
+  completeTask: document.querySelector("#complete-task"),
   taskWorkPanels: document.querySelectorAll(".task-work-panel"),
   rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
@@ -103,14 +105,14 @@ function bindEvents() {
     if (!isEditable()) {
       return;
     }
-    state.currentDraft.task = {
-      ...normalizeTask(state.currentDraft.task, state.currentPack),
-      started: false,
-    };
-    state.currentDraft.from_seq = null;
-    state.currentDraft.to_seq = null;
-    touchDraft();
-    render();
+    deferCurrentTask();
+  });
+
+  el.completeTask.addEventListener("click", () => {
+    if (!isEditable()) {
+      return;
+    }
+    completeCurrentTask();
   });
 
   el.clearRange.addEventListener("click", () => {
@@ -383,6 +385,7 @@ function renderTaskSelector() {
     return;
   }
 
+  renderSavedTaskDrafts(docs);
   el.taskDocList.innerHTML = "";
   for (const doc of docs) {
     el.taskDocList.append(renderTaskDocumentRow(doc, task));
@@ -396,6 +399,46 @@ function renderTaskSelector() {
   el.startTask.disabled = docs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
   el.selectAllDocs.disabled = docs.length === 0 || selectedCount === docs.length;
+}
+
+function renderSavedTaskDrafts(docs) {
+  if (!el.taskDraftList) {
+    return;
+  }
+  const savedTasks = listSavedTaskDrafts();
+  el.taskDraftList.innerHTML = "";
+  if (savedTasks.length === 0) {
+    return;
+  }
+
+  const heading = document.createElement("div");
+  heading.className = "task-draft-heading muted";
+  heading.textContent = "Deferred local tasks";
+  el.taskDraftList.append(heading);
+
+  for (const record of savedTasks) {
+    const row = document.createElement("article");
+    row.className = "task-draft-row";
+
+    const body = document.createElement("div");
+    body.className = "task-draft-body";
+    const title = document.createElement("strong");
+    title.textContent = record.task_label || record.task_id || "Deferred Task";
+    const meta = document.createElement("div");
+    meta.className = "task-draft-meta";
+    meta.textContent = formatTaskDraftMeta(record, docs);
+    body.append(title, meta);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = `Return to ${record.task_label || "Task"}`;
+    button.addEventListener("click", () => {
+      resumeTaskDraft(record.task_id);
+    });
+
+    row.append(body, button);
+    el.taskDraftList.append(row);
+  }
 }
 
 function renderTaskDocumentRow(doc, task) {
@@ -1730,6 +1773,9 @@ function renderSubmissionPreview() {
 
 function renderControlState() {
   const editable = isEditable();
+  const started = isTaskStarted();
+  el.backToTaskPicker.disabled = !editable || !started;
+  el.completeTask.disabled = !editable || !started;
   el.clearRange.disabled = !editable;
   el.resetDraft.disabled = !editable;
   el.openIssueTitle.disabled = !editable;
@@ -1842,6 +1888,8 @@ function buildSubmissionTaskMetadata() {
   const docs = buildDocumentTasks(state.currentPack).filter((row) => task.doc_ids.includes(row.doc_id));
   return {
     mode: "documents",
+    task_id: state.currentDraft.active_task_id || null,
+    task_label: state.currentDraft.active_task_label || null,
     doc_ids: docs.map((doc) => doc.doc_id),
     doc_seqs: docs.map((doc) => doc.doc_seq),
     item_count: itemsForTask(task).length,
@@ -2077,6 +2125,99 @@ function normalizeTask(task, pack) {
   };
 }
 
+function listSavedTaskDrafts() {
+  const records = Object.values(state.currentDraft?.saved_tasks || {});
+  return records
+    .filter((record) => record?.task_id)
+    .sort((left, right) => {
+      const leftNumber = Number(left.task_number || 0);
+      const rightNumber = Number(right.task_number || 0);
+      if (leftNumber !== rightNumber) {
+        return leftNumber - rightNumber;
+      }
+      return String(left.task_id).localeCompare(String(right.task_id));
+    });
+}
+
+function findSavedTaskDraftByDocIds(docIds) {
+  const key = canonicalDocIdKey(docIds);
+  return listSavedTaskDrafts().find((record) => canonicalDocIdKey(record.task?.doc_ids || []) === key) || null;
+}
+
+function canonicalDocIdKey(docIds) {
+  const order = new Map(buildDocumentTasks(state.currentPack).map((doc, index) => [doc.doc_id, index]));
+  return [...new Set((docIds || []).map(String))]
+    .filter((docId) => order.has(docId))
+    .sort((left, right) => order.get(left) - order.get(right))
+    .join("\u001f");
+}
+
+function allocateTaskIdentity() {
+  const number = Math.max(1, Number(state.currentDraft.next_task_number || 1));
+  state.currentDraft.next_task_number = number + 1;
+  return {
+    task_id: `task_${number}`,
+    task_label: `Task ${number}`,
+    task_number: number,
+  };
+}
+
+function currentTaskDraftRecord() {
+  const existingId = state.currentDraft.active_task_id;
+  const existing = existingId ? state.currentDraft.saved_tasks?.[existingId] : null;
+  const identity = existing
+    ? {
+        task_id: existing.task_id,
+        task_label: existing.task_label,
+        task_number: existing.task_number,
+      }
+    : existingId
+      ? {
+          task_id: existingId,
+          task_label: state.currentDraft.active_task_label || existingId,
+          task_number: taskNumberFromId(existingId),
+        }
+      : allocateTaskIdentity();
+  state.currentDraft.active_task_id = identity.task_id;
+  state.currentDraft.active_task_label = identity.task_label;
+  return {
+    ...identity,
+    task: {
+      ...normalizeTask(state.currentDraft.task, state.currentPack),
+      started: false,
+    },
+    from_seq: state.currentDraft.from_seq ?? null,
+    to_seq: state.currentDraft.to_seq ?? null,
+    overrides: cloneJson(state.currentDraft.overrides || {}),
+    updated_at_epoch: Math.floor(Date.now() / 1000),
+  };
+}
+
+function taskNumberFromId(taskId) {
+  const match = String(taskId || "").match(/^task_(\d+)$/);
+  return match ? Number(match[1]) : null;
+}
+
+function formatTaskDraftMeta(record, docs) {
+  const docIds = new Set(record.task?.doc_ids || []);
+  const selectedDocs = docs.filter((doc) => docIds.has(doc.doc_id));
+  const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
+  const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
+  const parts = [];
+  if (docSeqs.length) {
+    parts.push(`docs ${formatDocSeqs(docSeqs)}`);
+  }
+  parts.push(`${itemCount} item(s)`);
+  if (record.updated_at_epoch) {
+    parts.push(`saved ${formatDate(record.updated_at_epoch)}`);
+  }
+  return parts.join(" · ");
+}
+
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
 function toggleDocumentTask(docId, selected) {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const docIds = new Set(task.doc_ids);
@@ -2155,11 +2296,20 @@ function startReviewTask() {
     showStatus("Select at least one document before starting a task.", true);
     return;
   }
+  const matchingDraft = findSavedTaskDraftByDocIds(task.doc_ids);
+  if (matchingDraft) {
+    resumeTaskDraft(matchingDraft.task_id);
+    showStatus(`Returned to ${matchingDraft.task_label || "deferred task"}.`);
+    return;
+  }
+  const identity = allocateTaskIdentity();
   state.currentDraft.task = {
     ...task,
     mode: "documents",
     started: true,
   };
+  state.currentDraft.active_task_id = identity.task_id;
+  state.currentDraft.active_task_label = identity.task_label;
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
@@ -2172,10 +2322,75 @@ function isTaskStarted() {
 
 function clearTaskSelection() {
   state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
+  state.currentDraft.active_task_id = null;
+  state.currentDraft.active_task_label = null;
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
   render();
+}
+
+function deferCurrentTask() {
+  if (!isTaskStarted()) {
+    clearTaskSelection();
+    return;
+  }
+  const record = currentTaskDraftRecord();
+  state.currentDraft.saved_tasks[record.task_id] = record;
+  clearActiveTaskState();
+  touchDraft();
+  showStatus(`${record.task_label || "Task"} deferred locally.`);
+  render();
+}
+
+function completeCurrentTask() {
+  if (!isTaskStarted()) {
+    clearTaskSelection();
+    return;
+  }
+  if (
+    !window.confirm(
+      "Mark this local task complete and discard its draft? Copy or submit the JSON first if needed.",
+    )
+  ) {
+    return;
+  }
+  const taskId = state.currentDraft.active_task_id;
+  if (taskId && state.currentDraft.saved_tasks?.[taskId]) {
+    delete state.currentDraft.saved_tasks[taskId];
+  }
+  clearActiveTaskState();
+  touchDraft();
+  showStatus("Task marked complete locally.");
+  render();
+}
+
+function resumeTaskDraft(taskId) {
+  const record = state.currentDraft.saved_tasks?.[taskId];
+  if (!record) {
+    showStatus("Deferred task was not found in local storage.", true);
+    return;
+  }
+  state.currentDraft.active_task_id = record.task_id;
+  state.currentDraft.active_task_label = record.task_label || record.task_id;
+  state.currentDraft.task = {
+    ...normalizeTask(record.task, state.currentPack),
+    started: true,
+  };
+  state.currentDraft.from_seq = record.from_seq ?? null;
+  state.currentDraft.to_seq = record.to_seq ?? null;
+  state.currentDraft.overrides = cloneJson(record.overrides || {});
+  touchDraft();
+  render();
+}
+
+function clearActiveTaskState() {
+  state.currentDraft.active_task_id = null;
+  state.currentDraft.active_task_label = null;
+  state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  state.currentDraft.overrides = {};
 }
 
 function isEditable() {
@@ -2184,9 +2399,13 @@ function isEditable() {
 
 function createEmptyDraft(pack) {
   return {
-    schema_version: 1,
+    schema_version: 2,
     review_stage: pack.review_stage,
     pack_id: pack.pack_id,
+    active_task_id: null,
+    active_task_label: null,
+    next_task_number: 1,
+    saved_tasks: {},
     task: { mode: "documents", doc_ids: [], started: false },
     from_seq: null,
     to_seq: null,
@@ -2203,15 +2422,56 @@ function loadDraft(pack) {
   }
   try {
     const parsed = JSON.parse(raw);
-    return {
-      ...createEmptyDraft(pack),
-      ...parsed,
-      task: normalizeTask(parsed.task, pack),
-      overrides: parsed.overrides || {},
-    };
+    return normalizeReviewDraft(parsed, pack);
   } catch {
     return createEmptyDraft(pack);
   }
+}
+
+function normalizeReviewDraft(parsed, pack) {
+  const base = createEmptyDraft(pack);
+  const draft = {
+    ...base,
+    ...parsed,
+    schema_version: 2,
+    task: normalizeTask(parsed?.task, pack),
+    overrides: parsed?.overrides || {},
+    saved_tasks: {},
+    next_task_number: Math.max(1, Number(parsed?.next_task_number || 1)),
+  };
+
+  const rawSavedTasks = parsed?.saved_tasks || {};
+  let maxTaskNumber = 0;
+  for (const [taskId, rawRecord] of Object.entries(rawSavedTasks)) {
+    const task = normalizeTask(rawRecord?.task, pack);
+    if (task.mode !== "documents" || task.doc_ids.length === 0) {
+      continue;
+    }
+    const taskNumber = Number(rawRecord?.task_number || taskNumberFromId(taskId) || 0);
+    maxTaskNumber = Math.max(maxTaskNumber, taskNumber);
+    draft.saved_tasks[taskId] = {
+      task_id: taskId,
+      task_label: rawRecord?.task_label || (taskNumber ? `Task ${taskNumber}` : taskId),
+      task_number: taskNumber || null,
+      task: { ...task, started: false },
+      from_seq: rawRecord?.from_seq ?? null,
+      to_seq: rawRecord?.to_seq ?? null,
+      overrides: rawRecord?.overrides || {},
+      updated_at_epoch: rawRecord?.updated_at_epoch || null,
+    };
+  }
+
+  draft.active_task_id = parsed?.active_task_id || null;
+  draft.active_task_label = parsed?.active_task_label || draft.active_task_id || null;
+  if (!draft.task.started) {
+    draft.active_task_id = null;
+    draft.active_task_label = null;
+  }
+  if (draft.active_task_id) {
+    maxTaskNumber = Math.max(maxTaskNumber, taskNumberFromId(draft.active_task_id) || 0);
+  }
+  draft.next_task_number = Math.max(draft.next_task_number, maxTaskNumber + 1);
+  return draft;
 }
 
 function touchDraft() {
