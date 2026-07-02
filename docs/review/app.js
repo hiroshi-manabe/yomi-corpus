@@ -19,9 +19,14 @@ const el = {
   packTitle: document.querySelector("#pack-title"),
   packBadge: document.querySelector("#pack-badge"),
   packMeta: document.querySelector("#pack-meta"),
-  taskDocSelect: document.querySelector("#task-doc-select"),
+  taskPickerPanel: document.querySelector("#task-picker-panel"),
+  taskDocList: document.querySelector("#task-doc-list"),
   taskSummary: document.querySelector("#task-summary"),
-  clearTask: document.querySelector("#clear-task"),
+  selectAllDocs: document.querySelector("#select-all-docs"),
+  clearDocSelection: document.querySelector("#clear-doc-selection"),
+  startTask: document.querySelector("#start-task"),
+  backToTaskPicker: document.querySelector("#back-to-task-picker"),
+  taskWorkPanels: document.querySelectorAll(".task-work-panel"),
   rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
@@ -75,23 +80,39 @@ function bindEvents() {
     await openStage(state.currentStageId, { preferLatest: true });
   });
 
-  el.taskDocSelect.addEventListener("change", () => {
+  el.selectAllDocs.addEventListener("click", () => {
     if (!isEditable()) {
       return;
     }
-    const docId = el.taskDocSelect.value;
-    if (!docId) {
-      clearTaskSelection();
-      return;
-    }
-    selectDocumentTask(docId);
+    selectAllDocumentTasks();
   });
 
-  el.clearTask.addEventListener("click", () => {
+  el.clearDocSelection.addEventListener("click", () => {
     if (!isEditable()) {
       return;
     }
     clearTaskSelection();
+  });
+
+  el.startTask.addEventListener("click", () => {
+    if (!isEditable()) {
+      return;
+    }
+    startReviewTask();
+  });
+
+  el.backToTaskPicker.addEventListener("click", () => {
+    if (!isEditable()) {
+      return;
+    }
+    state.currentDraft.task = {
+      ...normalizeTask(state.currentDraft.task, state.currentPack),
+      started: false,
+    };
+    state.currentDraft.from_seq = null;
+    state.currentDraft.to_seq = null;
+    touchDraft();
+    render();
   });
 
   el.clearRange.addEventListener("click", () => {
@@ -255,9 +276,6 @@ function renderCurrentTracks() {
   const currentTracks = state.manifest.current_tracks || {};
   el.currentTrackList.innerHTML = "";
   const cards = [];
-  if (currentTracks.working) {
-    cards.push({ ...currentTracks.working, track_name: "working", emphasis: "primary-track" });
-  }
   if (currentTracks.dev) {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
@@ -265,7 +283,7 @@ function renderCurrentTracks() {
   if (cards.length === 0) {
     const p = document.createElement("p");
     p.className = "muted";
-    p.textContent = "No active track packs were published.";
+    p.textContent = "No active dev review packs were published.";
     el.currentTrackList.append(p);
     return;
   }
@@ -276,7 +294,7 @@ function renderCurrentTracks() {
     button.className = `track-card ${card.emphasis}`;
     button.innerHTML = `
       <div class="track-card-header">
-        <strong>${escapeHtml(card.track_name === "working" ? "Current Working Review" : "Dev Review")}</strong>
+        <strong>Dev Review</strong>
         <span class="badge ${escapeHtml(card.track_name)}">${escapeHtml(card.track_name)}</span>
       </div>
       <div class="track-card-stage">${escapeHtml(card.label || card.review_stage)}</div>
@@ -313,7 +331,7 @@ function renderPackList() {
         <strong>${escapeHtml(pack.title || pack.pack_id)}</strong>
         <span class="badge ${escapeHtml(pack.status || "archived")}">${escapeHtml(pack.status || "archived")}</span>
       </div>
-      <div class="pack-meta-line">${pack.item_count} item(s) · ${escapeHtml(pack.track_name || "working")}</div>
+      <div class="pack-meta-line">${pack.item_count} item(s) · ${escapeHtml(pack.track_name || "dev")}</div>
     `;
     button.addEventListener("click", () => {
       openPack(state.currentStageId, pack.pack_id).catch((error) => {
@@ -330,7 +348,7 @@ function renderPackSummary() {
   const packMeta = state.currentPackMeta;
   const editable = isEditable();
   el.packTitle.textContent = packMeta.title || pack.pack_id;
-  const trackName = packMeta.track_name || "working";
+  const trackName = packMeta.track_name || "dev";
   el.packBadge.textContent = editable ? `${trackName} / active` : `${trackName} / read-only`;
   el.packBadge.className = `badge ${editable ? "active" : "archived"} ${trackName}`;
 
@@ -359,37 +377,81 @@ function renderPackSummary() {
 }
 
 function renderTaskSelector() {
-  if (!el.taskDocSelect || !el.taskSummary) {
+  if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
   }
   const docs = buildDocumentTasks(state.currentPack);
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  el.taskDocSelect.innerHTML = "";
-  const allOption = document.createElement("option");
-  allOption.value = "";
-  allOption.textContent = `Full pack (${state.currentPack.item_count || 0} items)`;
-  el.taskDocSelect.append(allOption);
-  for (const doc of docs) {
-    const option = document.createElement("option");
-    option.value = doc.doc_id;
-    option.textContent = `Doc ${doc.doc_seq}: ${doc.item_count} items, ${doc.unresolved_count} review targets`;
-    el.taskDocSelect.append(option);
-  }
-  el.taskDocSelect.value = task.mode === "document" ? task.doc_id : "";
-  el.taskDocSelect.disabled = !isEditable() || docs.length === 0;
-  el.clearTask.disabled = !isEditable() || task.mode === "all";
+  const editable = isEditable();
+  const started = isTaskStarted();
 
-  if (task.mode === "document") {
-    const doc = docs.find((row) => row.doc_id === task.doc_id);
-    el.taskSummary.textContent = doc
-      ? `${doc.doc_id} · seq ${doc.from_seq}-${doc.to_seq} · ${doc.preview}`
-      : "Selected document is no longer available; full pack will be used.";
+  el.taskPickerPanel.classList.toggle("hidden", !editable || started);
+  el.taskWorkPanels.forEach((panel) => {
+    panel.classList.toggle("hidden", editable && !started);
+  });
+  if (!editable) {
+    el.taskSummary.textContent = "Archived packs are read-only.";
     return;
   }
+
+  el.taskDocList.innerHTML = "";
+  for (const doc of docs) {
+    el.taskDocList.append(renderTaskDocumentRow(doc, task));
+  }
+  const selectedCount = task.doc_ids.length;
+  const selectedItems = itemsForTask(task);
   el.taskSummary.textContent =
-    docs.length > 0
-      ? "Full pack mode. Choose a document to create a smaller review task."
-      : "This pack has no document grouping metadata.";
+    selectedCount > 0
+      ? `${selectedCount} document(s), ${selectedItems.length} item(s) selected.`
+      : "Choose documents, then start a review task.";
+  el.startTask.disabled = docs.length === 0 || selectedCount === 0;
+  el.clearDocSelection.disabled = selectedCount === 0;
+  el.selectAllDocs.disabled = docs.length === 0 || selectedCount === docs.length;
+}
+
+function renderTaskDocumentRow(doc, task) {
+  const row = document.createElement("article");
+  row.className = "task-doc-row";
+  row.classList.toggle("selected", task.doc_ids.includes(doc.doc_id));
+
+  const label = document.createElement("label");
+  label.className = "task-doc-check";
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = task.doc_ids.includes(doc.doc_id);
+  checkbox.addEventListener("change", () => {
+    toggleDocumentTask(doc.doc_id, checkbox.checked);
+  });
+  const title = document.createElement("span");
+  title.className = "task-doc-title";
+  title.textContent = `Doc ${doc.doc_seq}`;
+  label.append(checkbox, title);
+
+  const meta = document.createElement("div");
+  meta.className = "task-doc-meta";
+  meta.textContent = `${doc.item_count} items · ${doc.unresolved_count} review targets · seq ${doc.from_seq}-${doc.to_seq}`;
+
+  const preview = document.createElement("div");
+  preview.className = "task-doc-preview";
+  preview.textContent = doc.preview;
+
+  const actions = document.createElement("div");
+  actions.className = "task-doc-actions";
+  for (const [labelText, handler] of [
+    ["From", () => setDocumentRangeBoundary(doc.doc_id, "start")],
+    ["To", () => setDocumentRangeBoundary(doc.doc_id, "end")],
+    ["Only", () => selectOnlyDocumentTask(doc.doc_id)],
+  ]) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary-button";
+    button.textContent = labelText;
+    button.addEventListener("click", handler);
+    actions.append(button);
+  }
+
+  row.append(label, meta, preview, actions);
+  return row;
 }
 
 function renderRangeSummary() {
@@ -1747,10 +1809,37 @@ function buildGithubIssueUrl(title, body = null) {
 
 function buildIssueTitle(payload) {
   const packId = payload.pack_id || "review";
-  const { fromSeq, toSeq } = getEffectiveRange();
-  const range = fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
-  const task = payload.task?.mode === "document" ? ` doc ${payload.task.doc_seq}` : "";
+  const ranges = payload.reviewed_ranges || [];
+  const range = ranges.length === 1
+    ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
+    : `${ranges.length} ranges`;
+  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
   return `[yomi-review] ${packId}${task} ${range}`;
+}
+
+function formatSeqRange(fromSeq, toSeq) {
+  return fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
+}
+
+function formatDocSeqs(docSeqs) {
+  if (!docSeqs.length) {
+    return "";
+  }
+  const sorted = [...docSeqs].sort((a, b) => a - b);
+  const ranges = [];
+  let start = sorted[0];
+  let end = sorted[0];
+  for (const seq of sorted.slice(1)) {
+    if (seq === end + 1) {
+      end = seq;
+      continue;
+    }
+    ranges.push(start === end ? String(start) : `${start}-${end}`);
+    start = seq;
+    end = seq;
+  }
+  ranges.push(start === end ? String(start) : `${start}-${end}`);
+  return ranges.join(",");
 }
 
 function buildIssueBody(payload) {
@@ -1796,24 +1885,22 @@ function buildSubmissionPayload() {
     reviewer,
     generated_at_epoch: Math.floor(now / 1000),
     task: buildSubmissionTaskMetadata(),
-    reviewed_ranges: pack.item_count > 0 ? [{ from_seq: fromSeq, to_seq: toSeq }] : [],
+    reviewed_ranges: buildReviewedRanges(),
     overrides,
   };
 }
 
 function buildSubmissionTaskMetadata() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  if (task.mode !== "document") {
+  if (task.mode !== "documents") {
     return { mode: "full_pack" };
   }
-  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === task.doc_id);
+  const docs = buildDocumentTasks(state.currentPack).filter((row) => task.doc_ids.includes(row.doc_id));
   return {
-    mode: "document",
-    doc_id: task.doc_id,
-    doc_seq: doc?.doc_seq ?? null,
-    from_seq: doc?.from_seq ?? task.from_seq,
-    to_seq: doc?.to_seq ?? task.to_seq,
-    item_count: doc?.item_count ?? null,
+    mode: "documents",
+    doc_ids: docs.map((doc) => doc.doc_id),
+    doc_seqs: docs.map((doc) => doc.doc_seq),
+    item_count: itemsForTask(task).length,
   };
 }
 
@@ -1833,11 +1920,10 @@ function getSubmissionOverridesForCurrentStage() {
 }
 
 function getActiveYomiOverrides() {
-  const { fromSeq, toSeq } = getEffectiveRange();
   return Object.entries(state.currentDraft.overrides)
     .map(([itemId, override]) => {
       const item = state.currentPack.items.find((row) => row.item_id === itemId);
-      if (!item || item.seq < fromSeq || item.seq > toSeq) {
+      if (!item || !isItemIncludedInSubmission(item)) {
         return null;
       }
       return {
@@ -1868,14 +1954,13 @@ function getActiveYomiOverrides() {
 }
 
 function getActiveOverrides() {
-  const { fromSeq, toSeq } = getEffectiveRange();
   return Object.entries(state.currentDraft.overrides)
     .map(([itemId, override]) => {
       const item = state.currentPack.items.find((row) => row.item_id === itemId);
       if (!item) {
         return null;
       }
-      if (item.seq < fromSeq || item.seq > toSeq) {
+      if (!isItemIncludedInSubmission(item)) {
         return null;
       }
       return {
@@ -1888,11 +1973,10 @@ function getActiveOverrides() {
 }
 
 function getActiveStrongRepairOverrides() {
-  const { fromSeq, toSeq } = getEffectiveRange();
   return Object.entries(state.currentDraft.overrides)
     .map(([itemId, override]) => {
       const item = state.currentPack.items.find((row) => row.item_id === itemId);
-      if (!item || item.seq < fromSeq || item.seq > toSeq) {
+      if (!item || !isItemIncludedInSubmission(item)) {
         return null;
       }
       const row = {
@@ -1930,25 +2014,74 @@ function getEffectiveRange() {
   if (fromSeq > toSeq) {
     [fromSeq, toSeq] = [toSeq, fromSeq];
   }
-  return { fromSeq, toSeq, includedCount: toSeq - fromSeq + 1 };
+  const includedCount = getVisibleItems().filter(
+    (item) => item.seq >= fromSeq && item.seq <= toSeq
+  ).length;
+  return { fromSeq, toSeq, includedCount };
 }
 
 function getTaskRange() {
-  const itemCount = state.currentPack?.item_count || 0;
-  const task = normalizeTask(state.currentDraft?.task, state.currentPack);
-  if (task.mode === "document") {
-    return { fromSeq: task.from_seq, toSeq: task.to_seq };
+  const selected = getVisibleItems();
+  if (selected.length > 0) {
+    return {
+      fromSeq: Math.min(...selected.map((item) => item.seq)),
+      toSeq: Math.max(...selected.map((item) => item.seq)),
+    };
   }
+  const itemCount = state.currentPack?.item_count || 0;
   return { fromSeq: itemCount ? 1 : 0, toSeq: itemCount };
 }
 
 function getVisibleItems() {
   const task = normalizeTask(state.currentDraft?.task, state.currentPack);
+  return itemsForTask(task);
+}
+
+function itemsForTask(task) {
   const items = state.currentPack?.items || [];
-  if (task.mode === "document") {
-    return items.filter((item) => item.doc_id === task.doc_id);
+  if (task.mode !== "documents" || task.doc_ids.length === 0) {
+    return items;
   }
-  return items;
+  const docIds = new Set(task.doc_ids);
+  return items.filter((item) => docIds.has(item.doc_id));
+}
+
+function isItemIncludedInSubmission(item) {
+  const { fromSeq, toSeq } = getEffectiveRange();
+  return (
+    item.seq >= fromSeq &&
+    item.seq <= toSeq &&
+    getVisibleItems().some((row) => row.item_id === item.item_id)
+  );
+}
+
+function buildReviewedRanges() {
+  const items = getIncludedItems()
+    .map((item) => item.seq)
+    .filter((seq) => Number.isInteger(seq))
+    .sort((a, b) => a - b);
+  if (items.length === 0) {
+    return [];
+  }
+  const ranges = [];
+  let fromSeq = items[0];
+  let toSeq = items[0];
+  for (const seq of items.slice(1)) {
+    if (seq === toSeq + 1) {
+      toSeq = seq;
+      continue;
+    }
+    ranges.push({ from_seq: fromSeq, to_seq: toSeq });
+    fromSeq = seq;
+    toSeq = seq;
+  }
+  ranges.push({ from_seq: fromSeq, to_seq: toSeq });
+  return ranges;
+}
+
+function getIncludedItems() {
+  const { fromSeq, toSeq } = getEffectiveRange();
+  return getVisibleItems().filter((item) => item.seq >= fromSeq && item.seq <= toSeq);
 }
 
 function buildDocumentTasks(pack) {
@@ -1982,39 +2115,119 @@ function buildDocumentTasks(pack) {
 }
 
 function normalizeTask(task, pack) {
-  if (task?.mode !== "document") {
-    return { mode: "all" };
+  const docs = buildDocumentTasks(pack);
+  const validDocIds = new Set(docs.map((doc) => doc.doc_id));
+  let docIds = [];
+  if (task?.mode === "document" && task.doc_id) {
+    docIds = [task.doc_id];
+  } else if (task?.mode === "documents" && Array.isArray(task.doc_ids)) {
+    docIds = task.doc_ids;
   }
-  const doc = buildDocumentTasks(pack).find((row) => row.doc_id === task.doc_id);
-  if (!doc) {
-    return { mode: "all" };
-  }
+  docIds = [...new Set(docIds.map(String))].filter((docId) => validDocIds.has(docId));
   return {
-    mode: "document",
-    doc_id: doc.doc_id,
-    from_seq: doc.from_seq,
-    to_seq: doc.to_seq,
+    mode: docIds.length > 0 ? "documents" : "all",
+    doc_ids: docIds,
+    started: Boolean(task?.started),
+    range_start_doc_id: validDocIds.has(task?.range_start_doc_id) ? task.range_start_doc_id : null,
+    range_end_doc_id: validDocIds.has(task?.range_end_doc_id) ? task.range_end_doc_id : null,
   };
 }
 
-function selectDocumentTask(docId) {
-  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
-  if (!doc) {
-    clearTaskSelection();
-    return;
+function toggleDocumentTask(docId, selected) {
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  const docIds = new Set(task.doc_ids);
+  if (selected) {
+    docIds.add(docId);
+  } else {
+    docIds.delete(docId);
   }
   state.currentDraft.task = {
-    mode: "document",
-    doc_id: doc.doc_id,
+    ...task,
+    mode: docIds.size > 0 ? "documents" : "all",
+    doc_ids: [...docIds],
+    started: false,
   };
-  state.currentDraft.from_seq = doc.from_seq;
-  state.currentDraft.to_seq = doc.to_seq;
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
 
+function selectOnlyDocumentTask(docId) {
+  state.currentDraft.task = {
+    mode: "documents",
+    doc_ids: [docId],
+    started: false,
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function selectAllDocumentTasks() {
+  const docs = buildDocumentTasks(state.currentPack);
+  state.currentDraft.task = {
+    mode: "documents",
+    doc_ids: docs.map((doc) => doc.doc_id),
+    started: false,
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function setDocumentRangeBoundary(docId, side) {
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  const next = {
+    ...task,
+    mode: "documents",
+    started: false,
+    [side === "start" ? "range_start_doc_id" : "range_end_doc_id"]: docId,
+  };
+  const docs = buildDocumentTasks(state.currentPack);
+  const startId = next.range_start_doc_id;
+  const endId = next.range_end_doc_id;
+  if (startId && endId) {
+    const startIndex = docs.findIndex((doc) => doc.doc_id === startId);
+    const endIndex = docs.findIndex((doc) => doc.doc_id === endId);
+    const fromIndex = Math.min(startIndex, endIndex);
+    const toIndex = Math.max(startIndex, endIndex);
+    next.doc_ids = docs.slice(fromIndex, toIndex + 1).map((doc) => doc.doc_id);
+  } else {
+    next.doc_ids = [docId];
+  }
+  state.currentDraft.task = next;
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function startReviewTask() {
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  if (task.doc_ids.length === 0) {
+    showStatus("Select at least one document before starting a task.", true);
+    return;
+  }
+  state.currentDraft.task = {
+    ...task,
+    mode: "documents",
+    started: true,
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function isTaskStarted() {
+  return Boolean(normalizeTask(state.currentDraft?.task, state.currentPack).started);
+}
+
 function clearTaskSelection() {
-  state.currentDraft.task = { mode: "all" };
+  state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
@@ -2030,7 +2243,7 @@ function createEmptyDraft(pack) {
     schema_version: 1,
     review_stage: pack.review_stage,
     pack_id: pack.pack_id,
-    task: { mode: "all" },
+    task: { mode: "documents", doc_ids: [], started: false },
     from_seq: null,
     to_seq: null,
     overrides: {},
