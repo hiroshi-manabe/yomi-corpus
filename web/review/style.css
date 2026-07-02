@@ -344,29 +344,63 @@ button {
   gap: 12px;
 }
 
-.task-selector {
-  display: grid;
-  grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
-  gap: 12px;
-  align-items: end;
+.task-summary {
+  margin-bottom: 12px;
+  overflow-wrap: anywhere;
 }
 
-.task-selector label {
+.task-doc-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  max-height: 58vh;
+  overflow: auto;
+  padding-right: 4px;
 }
 
-.task-selector select {
+.task-doc-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 160px) minmax(190px, 240px) minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
   border: 1px solid var(--line);
+  border-radius: 14px;
   background: #fffdf9;
-  border-radius: 12px;
   padding: 10px 12px;
 }
 
-.task-summary {
-  padding: 10px 0;
-  overflow-wrap: anywhere;
+.task-doc-row.selected {
+  border-color: rgba(45, 106, 79, 0.36);
+  background: rgba(45, 106, 79, 0.08);
+}
+
+.task-doc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.task-doc-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.task-doc-preview {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-doc-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.task-doc-actions button {
+  padding: 6px 8px;
+  font-size: 0.84rem;
 }
 
 .issue-url-summary {
@@ -855,7 +889,11 @@ button {
     align-items: stretch;
   }
 
-  .task-selector {
+  .task-doc-row {
     grid-template-columns: 1fr;
+  }
+
+  .task-doc-actions {
+    justify-content: start;
   }
 }

@@ -37,7 +37,7 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(stage["packs"][0]["status"], "archived")
         self.assertEqual(stage["packs"][1]["status"], "active-working")
 
-    def test_build_review_manifest_exposes_current_working_and_dev_tracks(self) -> None:
+    def test_build_review_manifest_exposes_current_tracks_from_given_entries(self) -> None:
         manifest = build_review_manifest(
             [
                 {
@@ -70,6 +70,46 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(stage["latest_pack_ids_by_track"]["dev"], "alphabetic_candidates_dev_batch_0001_v1")
         self.assertEqual(stage["packs"][0]["status"], "active-working")
         self.assertEqual(stage["packs"][1]["status"], "active-dev")
+
+    def test_collect_review_pack_entries_keeps_only_dev_packs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pack_root = root / "data" / "review_packs"
+            pack_root.mkdir(parents=True)
+            (pack_root / "working.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "review_stage": "alphabetic_candidate_review",
+                        "pack_id": "alphabetic_candidates_batch_0001_v1",
+                        "track_name": "working",
+                        "created_at_epoch": 10,
+                        "item_count": 1,
+                        "items": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (pack_root / "dev.json").write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "review_stage": "yomi_final_review",
+                        "pack_id": "yomi_final_dev_batch_0001_v1",
+                        "track_name": "dev",
+                        "created_at_epoch": 20,
+                        "item_count": 1,
+                        "items": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            from yomi_corpus.review_site import collect_review_pack_entries
+
+            entries = collect_review_pack_entries(pack_root)
+
+        self.assertEqual([entry["pack_id"] for entry in entries], ["yomi_final_dev_batch_0001_v1"])
 
     def test_build_review_manifest_labels_yomi_final_review(self) -> None:
         manifest = build_review_manifest(
@@ -158,6 +198,7 @@ class ReviewSiteTests(unittest.TestCase):
                         "schema_version": 1,
                         "review_stage": "alphabetic_candidate_review",
                         "pack_id": "alphabetic_candidates_batch_0001_v1",
+                        "track_name": "dev",
                         "created_at_epoch": 123,
                         "item_count": 1,
                         "items": [],

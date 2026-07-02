@@ -20,6 +20,9 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
 
     for path in sorted(root.rglob("*.json")):
         payload = load_review_pack(path)
+        track_name = infer_track_name(payload, path)
+        if track_name != DEV_TRACK:
+            continue
         pack_id = str(payload["pack_id"])
         title = build_pack_title(payload, path)
         entries.append(
@@ -27,7 +30,7 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
                 "pack_id": pack_id,
                 "title": title,
                 "review_stage": str(payload["review_stage"]),
-                "track_name": infer_track_name(payload, path),
+                "track_name": track_name,
                 "created_at_epoch": int(payload.get("created_at_epoch", 0)),
                 "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
                 "source_path": path,

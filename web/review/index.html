@@ -67,26 +67,24 @@
             <div id="pack-meta" class="meta-grid"></div>
           </section>
 
-          <section class="panel controls-panel">
+          <section id="task-picker-panel" class="panel controls-panel">
             <div class="panel-heading">
-              <h2>Review Task</h2>
+              <h2>Select Review Task</h2>
               <div class="button-row">
-                <button id="clear-task" class="secondary-button" type="button">Full Pack</button>
+                <button id="select-all-docs" class="secondary-button" type="button">Select All</button>
+                <button id="clear-doc-selection" class="secondary-button" type="button">Clear</button>
+                <button id="start-task" type="button">Start Review Task</button>
               </div>
             </div>
-            <div class="task-selector">
-              <label>
-                <span>Document</span>
-                <select id="task-doc-select"></select>
-              </label>
-              <div id="task-summary" class="task-summary muted"></div>
-            </div>
+            <div id="task-summary" class="task-summary muted"></div>
+            <div id="task-doc-list" class="task-doc-list"></div>
           </section>
 
-          <section class="panel controls-panel">
+          <section class="panel controls-panel task-work-panel">
             <div class="panel-heading">
               <h2>Submission Range</h2>
               <div class="button-row">
+                <button id="back-to-task-picker" class="secondary-button" type="button">Change Task</button>
                 <button id="clear-range" class="secondary-button" type="button">Clear Markers</button>
                 <button id="reset-draft" class="secondary-button danger-button" type="button">Reset Draft</button>
               </div>
@@ -94,7 +92,7 @@
             <div id="range-summary" class="range-summary"></div>
           </section>
 
-          <section class="panel export-panel">
+          <section class="panel export-panel task-work-panel">
             <div class="panel-heading">
               <h2>Submission Export</h2>
               <div class="button-row">
@@ -108,7 +106,7 @@
             <textarea id="submission-preview" spellcheck="false" readonly></textarea>
           </section>
 
-          <section class="panel items-panel">
+          <section class="panel items-panel task-work-panel">
             <div class="panel-heading">
               <h2>Items</h2>
               <span id="items-summary" class="muted"></span>
