@@ -178,6 +178,83 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
             self.assertEqual(pack["items"][0]["ruby_segments"][1]["reading"], "みる")
 
+    def test_pack_defaults_laughter_w_to_no_ruby(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            output_path = root / "pack.json"
+            payload = {
+                "doc_id": "doc1",
+                "unit_id": "u_w",
+                "unit_seq": 1,
+                "text": "ｗ　そして学校です。",
+                "source_file": "source.jsonl.gz",
+                "source_line_no": 1,
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "ｗ/ワット 　/　 そして/ソシテ 学校/ガッコウ です/デス 。/。",
+                        }
+                    },
+                    "llm": {"scope_triage": {"status": "Keep", "source": "llm"}},
+                    "safety": {
+                        "yomi": {
+                            "targets": [
+                                {
+                                    "item_id": "u_w:r0001c01",
+                                    "unit_id": "u_w",
+                                    "token_index": 0,
+                                    "chunk_index": 0,
+                                    "surface": "ｗ",
+                                    "token_surface": "ｗ",
+                                    "current_reading": "ワット",
+                                    "current_reading_hiragana": "わっと",
+                                    "target_start": 0,
+                                    "target_end": 1,
+                                    "is_safe": True,
+                                    "review_status": "safe",
+                                    "highlight_level": "none",
+                                    "accepted_signal_names": ["safe_by_no_ruby_laughter_w"],
+                                    "signals": [
+                                        {
+                                            "name": "safe_by_no_ruby_laughter_w",
+                                            "accepted": True,
+                                            "reason": "standalone_lowercase_w_laughter_marker",
+                                            "preferred_choice_source": "none",
+                                        }
+                                    ],
+                                    "status_reason": "accepted_pre_llm_signal",
+                                }
+                            ]
+                        }
+                    },
+                },
+            }
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=output_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(output_path.read_text(encoding="utf-8"))
+            target = pack["items"][0]["targets"][0]
+            self.assertTrue(target["is_safe"])
+            self.assertEqual(target["default_choice_source"], "none")
+            self.assertIsNone(target["default_reading"])
+            self.assertEqual(
+                [
+                    (candidate["source"], candidate["reading"], candidate["accepted"])
+                    for candidate in target["candidates"]
+                ],
+                [("current", "わっと", False), ("none", None, True)],
+            )
+            self.assertEqual(pack["items"][0]["ruby_segments"][0]["reading"], None)
+
     def test_replay_yomi_review_submissions_applies_later_overlap(self) -> None:
         pack = {
             "pack_id": "pack_1",

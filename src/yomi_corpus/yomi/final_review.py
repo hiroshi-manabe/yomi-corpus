@@ -10,7 +10,10 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from yomi_corpus.yomi.llm_readings import is_valid_yomi_reading, normalize_hiragana_reading
+from yomi_corpus.yomi.llm_readings import (
+    is_valid_yomi_reading,
+    normalize_hiragana_reading,
+)
 from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
 
 
@@ -363,6 +366,8 @@ def default_candidate_source(
     target: dict[str, Any],
     candidates: list[dict[str, Any]],
 ) -> str:
+    if has_accepted_no_ruby_signal(target):
+        return "none"
     if bool(target.get("is_safe")):
         return "current"
     for signal in target.get("signals") or []:
@@ -382,6 +387,15 @@ def default_candidate_source(
     return "current"
 
 
+def has_accepted_no_ruby_signal(target: dict[str, Any]) -> bool:
+    for signal in target.get("signals") or []:
+        if not isinstance(signal, dict):
+            continue
+        if signal.get("accepted") and signal.get("preferred_choice_source") == "none":
+            return True
+    return False
+
+
 def candidate_by_source(
     candidates: list[dict[str, Any]],
     source: str,
@@ -394,6 +408,7 @@ def candidate_by_source(
 
 def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
+    accepted_no_ruby = has_accepted_no_ruby_signal(target)
 
     def add(source: str, label: str, reading: object, *, accepted: bool = False) -> None:
         if not isinstance(reading, str) or not reading:
@@ -417,7 +432,7 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         "current",
         "Current mechanical/hybrid",
         target.get("current_reading_hiragana") or target.get("current_reading"),
-        accepted=bool(target.get("is_safe")),
+        accepted=bool(target.get("is_safe")) and not accepted_no_ruby,
     )
     for signal in target.get("signals") or []:
         if not isinstance(signal, dict):
@@ -451,7 +466,7 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             "source": "none",
             "label": "No ruby",
             "reading": None,
-            "accepted": False,
+            "accepted": accepted_no_ruby,
         }
     )
     return candidates
@@ -612,7 +627,7 @@ def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[s
                 "type": "ruby",
                 "text": text[start:end],
                 "target_item_id": target["item_id"],
-                "reading": target.get("default_reading") or target.get("current_reading_hiragana"),
+                "reading": ruby_segment_reading(target),
                 "is_safe": target.get("is_safe"),
                 "highlight_level": target.get("highlight_level"),
             }
@@ -621,6 +636,12 @@ def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[s
     if cursor < len(text):
         segments.append({"type": "text", "text": text[cursor:]})
     return segments
+
+
+def ruby_segment_reading(target: dict[str, Any]) -> str | None:
+    if target.get("default_choice_source") == "none":
+        return None
+    return target.get("default_reading") or target.get("current_reading_hiragana")
 
 
 def rendered_yomi_ruby_tokens(rendered: str) -> list[dict[str, Any]]:

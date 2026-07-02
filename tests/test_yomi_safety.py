@@ -100,6 +100,75 @@ class YomiSafetyTests(unittest.TestCase):
             all("safe_by_unit_auto_accept" in record["accepted_signal_names"] for record in records)
         )
 
+    def test_standalone_laughter_w_is_safe_with_no_ruby_preference(self) -> None:
+        payload = {
+            "unit_id": "u_w",
+            "text": "ｗ　そして学校です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "ｗ/ワット 　/　 そして/ソシテ 学校/ガッコウ です/デス 。/。",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "ｗ",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "ｗ",
+                                    "normalized_form": "ｗ",
+                                    "reading": "ワット",
+                                },
+                                {
+                                    "surface": "　",
+                                    "pos": "空白,*,*,*,*,*",
+                                    "dictionary_form": "　",
+                                    "normalized_form": "　",
+                                    "reading": "　",
+                                },
+                                {
+                                    "surface": "そして",
+                                    "pos": "接続詞,*,*,*,*,*",
+                                    "dictionary_form": "そして",
+                                    "normalized_form": "そして",
+                                    "reading": "ソシテ",
+                                },
+                                {
+                                    "surface": "学校",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "学校",
+                                    "normalized_form": "学校",
+                                    "reading": "ガッコウ",
+                                },
+                                {
+                                    "surface": "です",
+                                    "pos": "助動詞,*,*,*,助動詞-ダ,終止形-一般",
+                                    "dictionary_form": "だ",
+                                    "normalized_form": "だ",
+                                    "reading": "デス",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        by_surface = {record["surface"]: record for record in records}
+        self.assertTrue(by_surface["ｗ"]["is_safe"])
+        self.assertIn("safe_by_no_ruby_laughter_w", by_surface["ｗ"]["accepted_signal_names"])
+        signal = next(
+            row for row in by_surface["ｗ"]["signals"] if row["name"] == "safe_by_no_ruby_laughter_w"
+        )
+        self.assertEqual(signal["preferred_choice_source"], "none")
+
     def test_queue_skips_targets_marked_safe_by_safety_records(self) -> None:
         payload = unit()
         records = build_pre_llm_safety_records(

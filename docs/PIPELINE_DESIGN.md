@@ -460,6 +460,9 @@ Candidate safety signals:
   support, not a one-off transition
 - LLM agreement: an independent per-target reading query returns the same
   reading as the mechanical reading
+- no-ruby laughter marker: a standalone lower-case `w`/`ｗ` run such as `ｗ` or
+  `ww` is treated as an internet laughter marker, not as the letter name; it is
+  low-risk with `No ruby` as the preferred candidate
 - unit auto-accept evidence: a legacy whole-unit auto-accept decision can mark
   every target in that unit low-risk, but it should remain a distinct signal so
   later audits can separate it from per-target evidence
@@ -479,6 +482,12 @@ source and parameters: signal name, counts, threshold, N-gram order/count,
 dictionary source, LLM model/profile, and artifact versions. This lets later
 audits measure which evidence source caused false accepts and retune thresholds
 without losing provenance.
+
+The `w`/`ｗ` exception must stay narrow. It applies only to standalone
+lower-case runs used as laughter markers. It should not apply to uppercase `W`,
+to embedded alphabetic strings, or to lexicalized/product-name cases such as
+`W主演`, `W杯`, `Wii`, `Web`, or `WiFi`; those remain normal alphabetic/yomi
+targets.
 
 Corpus-frequency evidence is probabilistic and corpus-dependent. A surface such
 as `大麻` may be overwhelmingly observed as `タイマ` in the evidence corpus, while

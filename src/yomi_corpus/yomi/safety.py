@@ -7,7 +7,7 @@ from typing import Any
 
 from yomi_corpus.yomi.config import load_yomi_generation_config
 from yomi_corpus.yomi.corpus_frequency import SurfaceReadingStats
-from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_items
+from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_items, is_standalone_laughter_w
 from yomi_corpus.yomi.ngram_diagnostics import (
     DEFAULT_DECODER_LEXICON_PATH,
     DEFAULT_RAW_SUDACHI_DICT_DIR,
@@ -136,6 +136,17 @@ def build_pre_llm_safety_records(
                 }
             )
             accepted_signal_names.append("safe_by_unit_auto_accept")
+
+        if is_standalone_laughter_w(str(item["surface"])):
+            signals.append(
+                {
+                    "name": "safe_by_no_ruby_laughter_w",
+                    "accepted": True,
+                    "reason": "standalone_lowercase_w_laughter_marker",
+                    "preferred_choice_source": "none",
+                }
+            )
+            accepted_signal_names.append("safe_by_no_ruby_laughter_w")
 
         if stable_checker is not None:
             stable = stable_checker.judge(str(item["surface"]), str(item["current_reading"]))

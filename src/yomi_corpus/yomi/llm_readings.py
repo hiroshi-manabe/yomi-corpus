@@ -23,6 +23,7 @@ from yomi_corpus.yomi.furigana import FuriganaConverter, parse_annotated_chunks
 
 KANJI_RE = re.compile(r"[\u3400-\u9fff々〆〻]")
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
+LAUGHTER_W_RE = re.compile(r"[wｗ]+")
 
 
 @dataclass(frozen=True)
@@ -627,6 +628,10 @@ def load_results(path: Path) -> dict[str, dict[str, Any]]:
 
 def is_llm_reading_target(surface: str) -> bool:
     return bool(KANJI_RE.search(surface) or LATIN_RE.search(surface))
+
+
+def is_standalone_laughter_w(surface: str) -> bool:
+    return bool(LAUGHTER_W_RE.fullmatch(surface))
 
 
 def mark_span(text: str, start: int, end: int) -> str:

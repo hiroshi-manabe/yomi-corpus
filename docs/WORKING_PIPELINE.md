@@ -825,6 +825,12 @@ Implementation status:
      records and LLM queue items share stable target IDs.
    - Build deterministic per-target records with stable dictionary and
      corpus-frequency signals first.
+   - Standalone lower-case `w`/`ｗ` runs, for example `ｗ` or `ww`, are treated
+     as internet laughter markers. They are marked safe with `No ruby` as the
+     preferred candidate and skipped by the LLM reading queue.
+   - Keep that rule narrow: uppercase `W`, embedded alphabetic strings, and
+     lexicalized cases such as `W主演`, `W杯`, `Wii`, `Web`, or `WiFi` must stay
+     normal yomi/alphabetic targets.
    - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
      `yomi_safety_pre_llm_summary.json`, then queues only targets not already
      marked safe.
