@@ -340,9 +340,11 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
     candidates = reading_candidates(target)
     default_choice_source = default_candidate_source(target, candidates)
     default_candidate = candidate_by_source(candidates, default_choice_source)
+    surface = str(target.get("surface") or "")
+    candidates = [with_ruby_display_nodes(surface, candidate) for candidate in candidates]
     return {
         "item_id": str(target.get("item_id") or ""),
-        "surface": str(target.get("surface") or ""),
+        "surface": surface,
         "token_surface": str(target.get("token_surface") or ""),
         "target_start": target.get("target_start"),
         "target_end": target.get("target_end"),
@@ -359,6 +361,19 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "default_reading": default_candidate.get("reading") if default_candidate else None,
         "candidates": candidates,
         "signals": target.get("signals") if isinstance(target.get("signals"), list) else [],
+    }
+
+
+def with_ruby_display_nodes(surface: str, candidate: dict[str, Any]) -> dict[str, Any]:
+    reading = candidate.get("reading")
+    if isinstance(reading, str) and reading:
+        return {
+            **candidate,
+            "ruby_nodes": ruby_nodes_for_surface_reading(surface, reading),
+        }
+    return {
+        **candidate,
+        "ruby_nodes": [{"type": "text", "text": surface}],
     }
 
 
@@ -674,13 +689,112 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
         if result.annotated_surface:
             return annotated_furigana_nodes(result.annotated_surface)
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
+    mixed_nodes = mixed_latin_kana_ruby_nodes(surface, reading_hira)
+    if mixed_nodes is not None:
+        return mixed_nodes
     return [{"type": "ruby", "text": surface, "reading": reading_hira}]
 
 
 def should_display_ruby(surface: str, reading: str) -> bool:
     if not surface or not reading or surface == reading:
         return False
-    return bool(re.search(r"[一-龯々〆ヵヶA-Za-z]", surface))
+    return bool(re.search(r"[一-龯々〆ヵヶA-Za-zＡ-Ｚａ-ｚ]", surface))
+
+
+def mixed_latin_kana_ruby_nodes(surface: str, reading_hira: str) -> list[dict[str, str]] | None:
+    if not has_latin(surface) or not has_kana(surface):
+        return None
+    elements = surface_reading_elements(surface)
+    if not any(kind == "latin" for kind, _ in elements):
+        return None
+
+    result: list[dict[str, str]] | None = None
+
+    def rec(index: int, reading_index: int, nodes: list[dict[str, str]]) -> None:
+        nonlocal result
+        if result is not None:
+            return
+        if index == len(elements):
+            if reading_index == len(reading_hira):
+                result = [node for node in nodes if node.get("text")]
+            return
+        kind, text = elements[index]
+        if kind == "kana":
+            fixed = kana_surface_to_hira(text)
+            if reading_hira.startswith(fixed, reading_index):
+                nodes.append({"type": "text", "text": text})
+                rec(index + 1, reading_index + len(fixed), nodes)
+                nodes.pop()
+            return
+        if kind == "other":
+            if reading_hira.startswith(text, reading_index):
+                nodes.append({"type": "text", "text": text})
+                rec(index + 1, reading_index + len(text), nodes)
+                nodes.pop()
+            return
+
+        remaining_min = minimum_remaining_surface_reading(elements[index + 1 :])
+        max_end = len(reading_hira) - remaining_min
+        for end in range(reading_index + 1, max_end + 1):
+            nodes.append({"type": "ruby", "text": text, "reading": reading_hira[reading_index:end]})
+            rec(index + 1, end, nodes)
+            nodes.pop()
+            if result is not None:
+                return
+
+    rec(0, 0, [])
+    return result
+
+
+def surface_reading_elements(surface: str) -> list[tuple[str, str]]:
+    elements: list[tuple[str, str]] = []
+    for char in surface:
+        kind = surface_reading_kind(char)
+        if elements and elements[-1][0] == kind:
+            elements[-1] = (kind, elements[-1][1] + char)
+        else:
+            elements.append((kind, char))
+    return elements
+
+
+def surface_reading_kind(char: str) -> str:
+    if is_latin(char):
+        return "latin"
+    if is_kana(char):
+        return "kana"
+    return "other"
+
+
+def minimum_remaining_surface_reading(elements: list[tuple[str, str]]) -> int:
+    total = 0
+    for kind, text in elements:
+        if kind == "kana":
+            total += len(kana_surface_to_hira(text))
+        elif kind == "other":
+            total += len(text)
+        else:
+            total += 1
+    return total
+
+
+def has_latin(text: str) -> bool:
+    return any(is_latin(char) for char in text)
+
+
+def is_latin(char: str) -> bool:
+    return bool(re.match(r"[A-Za-zＡ-Ｚａ-ｚ]", char))
+
+
+def has_kana(text: str) -> bool:
+    return any(is_kana(char) for char in text)
+
+
+def is_kana(char: str) -> bool:
+    return "\u3041" <= char <= "\u3096" or "\u30a1" <= char <= "\u30fa" or char in {"ー", "ｰ"}
+
+
+def kana_surface_to_hira(text: str) -> str:
+    return kata_to_hira(text).replace("ｰ", "ー")
 
 
 def annotated_furigana_nodes(annotated: str) -> list[dict[str, str]]:

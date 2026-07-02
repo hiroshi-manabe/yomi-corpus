@@ -1667,7 +1667,9 @@ function renderRubySpan(item, target, override, editable) {
   button.disabled = !editable;
   button.title = rubyTitle(target, candidate);
 
-  if (candidate?.reading) {
+  if (candidate?.ruby_nodes?.length) {
+    button.append(...renderRubyDisplayNodes(candidate.ruby_nodes));
+  } else if (candidate?.reading) {
     const ruby = document.createElement("ruby");
     ruby.append(document.createTextNode(target.surface));
     const rt = document.createElement("rt");

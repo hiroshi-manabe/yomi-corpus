@@ -40,6 +40,79 @@ class YomiFinalReviewTests(unittest.TestCase):
             ],
         )
 
+    def test_rendered_yomi_ruby_tokens_keep_kana_outside_latin_ruby(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("Tシャツ/ティーシャツ ロンT/ロンティー")
+
+        self.assertEqual(
+            tokens[0]["nodes"],
+            [
+                {"type": "ruby", "text": "T", "reading": "てぃー"},
+                {"type": "text", "text": "シャツ"},
+            ],
+        )
+        self.assertEqual(
+            tokens[1]["nodes"],
+            [
+                {"type": "text", "text": "ロン"},
+                {"type": "ruby", "text": "T", "reading": "てぃー"},
+            ],
+        )
+
+    def test_pack_candidate_nodes_keep_kana_outside_latin_ruby(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "unit_id": "u1",
+            "token_index": 0,
+            "chunk_index": 0,
+            "surface": "Tシャツ",
+            "token_surface": "Tシャツ",
+            "current_reading": "ティーシャツ",
+            "current_reading_hiragana": "てぃーしゃつ",
+            "target_start": 0,
+            "target_end": 4,
+            "is_safe": True,
+            "review_status": "safe",
+            "highlight_level": "none",
+            "accepted_signal_names": ["safe_by_llm_match"],
+            "signals": [
+                {
+                    "name": "safe_by_llm_match",
+                    "accepted": True,
+                    "status": "matched",
+                    "llm_reading": "てぃーしゃつ",
+                    "current_reading_hiragana": "てぃーしゃつ",
+                }
+            ],
+            "status_reason": "accepted_pre_llm_signal",
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            output_path = root / "pack.json"
+            payload = unit("doc1", "u1", "Tシャツです。", safe=True)
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = "Tシャツ/ティーシャツ です/デス 。/。"
+            payload["analysis"]["safety"]["yomi"]["targets"] = [target]
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=output_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(output_path.read_text(encoding="utf-8"))
+            candidate = pack["items"][0]["targets"][0]["candidates"][0]
+            self.assertEqual(
+                candidate["ruby_nodes"],
+                [
+                    {"type": "ruby", "text": "T", "reading": "てぃー"},
+                    {"type": "text", "text": "シャツ"},
+                ],
+            )
+
     def test_build_pack_groups_units_and_exposes_tappable_ruby_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
