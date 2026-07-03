@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.llm_readings import (
+    is_standalone_laughter_w,
     is_valid_yomi_reading,
     normalize_hiragana_reading,
 )
@@ -1608,7 +1609,9 @@ def build_strong_repair_queue_file(
             target_escalation_overrides = [
                 row
                 for row in target_constraints
-                if row.get("choice_source") == "none" and str(row.get("item_id") or "") not in span_repair_target_ids
+                if row.get("choice_source") == "none"
+                and str(row.get("item_id") or "") not in span_repair_target_ids
+                and not is_no_ruby_laughter_w_override(row)
             ]
             if not sentence_reasons and not target_escalation_overrides and not span_repair_overrides:
                 continue
@@ -1705,6 +1708,12 @@ def build_strong_repair_queue_file(
         encoding="utf-8",
     )
     return summary
+
+
+def is_no_ruby_laughter_w_override(row: dict[str, Any]) -> bool:
+    if row.get("choice_source") != "none":
+        return False
+    return is_standalone_laughter_w(str(row.get("surface") or ""))
 
 
 def span_repair_target(span_override: dict[str, Any]) -> dict[str, Any] | None:

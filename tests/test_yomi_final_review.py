@@ -906,6 +906,94 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
             self.assertIn("真光元被害者", queued["text"])
 
+    def test_laughter_w_no_ruby_override_does_not_queue_strong_repair(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            reviewed_path = root / "reviewed.jsonl"
+            review_summary_path = root / "review_summary.json"
+            queue_path = root / "queue.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            payload = unit("doc1", "u1", "ｗ　そして学校です。")
+            payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
+                "ｗ/ワット 　/　 そして/ソシテ 学校/ガッコウ です/デス 。/。"
+            )
+            target = payload["analysis"]["safety"]["yomi"]["targets"][0]
+            target.update(
+                {
+                    "item_id": "u1:r0001c01",
+                    "token_index": 0,
+                    "surface": "ｗ",
+                    "token_surface": "ｗ",
+                    "current_reading": "ワット",
+                    "current_reading_hiragana": "わっと",
+                    "target_start": 0,
+                    "target_end": 1,
+                    # Simulate an older artifact generated before the laughter-w
+                    # safety rule was applied.
+                    "is_safe": False,
+                    "review_status": "unresolved",
+                    "highlight_level": "target",
+                    "accepted_signal_names": [],
+                    "signals": [],
+                }
+            )
+            units_path.write_text(
+                json.dumps(payload, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0002",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "skip": False,
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0001c01",
+                                    "choice_source": "none",
+                                    "selected_reading": None,
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=reviewed_path,
+                summary_json=review_summary_path,
+            )
+            queue_summary = build_strong_repair_queue_file(
+                units_jsonl=reviewed_path,
+                output_jsonl=queue_path,
+                summary_json=queue_summary_path,
+            )
+
+            self.assertEqual(queue_summary["queued_items"], 0)
+            self.assertEqual(queue_summary["target_escalations"], 0)
+            self.assertEqual(queue_path.read_text(encoding="utf-8"), "")
+
     def test_target_no_ruby_queue_can_carry_rejected_publisher_name_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
