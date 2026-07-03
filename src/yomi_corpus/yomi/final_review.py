@@ -196,18 +196,30 @@ def build_yomi_strong_repair_review_pack(
     units_by_id = {str(row.get("unit_id") or ""): row for row in load_jsonl(units_jsonl)}
     doc_order: dict[str, int] = {}
     created = created_at_epoch if created_at_epoch is not None else current_epoch()
+    rows_by_unit: dict[str, list[dict[str, Any]]] = {}
+    for queue_row in queue_rows:
+        unit_id = str(queue_row.get("unit_id") or "")
+        if unit_id:
+            rows_by_unit.setdefault(unit_id, []).append(queue_row)
+
     items = []
-    for seq, queue_row in enumerate(queue_rows, start=1):
-        item_id = str(queue_row.get("item_id") or "")
-        result = result_rows.get(item_id, {})
-        unit = units_by_id.get(str(queue_row.get("unit_id") or ""), {})
+    for seq, (unit_id, unit_queue_rows) in enumerate(rows_by_unit.items(), start=1):
+        unit = units_by_id.get(unit_id, {})
         doc_id = str(unit.get("doc_id") or "")
         if doc_id and doc_id not in doc_order:
             doc_order[doc_id] = len(doc_order) + 1
-        items.append(
-            build_strong_repair_review_item(
+        regions = [
+            build_strong_repair_review_region(
                 queue_row,
-                result,
+                result_rows.get(str(queue_row.get("item_id") or ""), {}),
+                unit,
+            )
+            for queue_row in unit_queue_rows
+        ]
+        items.append(
+            build_strong_repair_review_sentence_item(
+                unit_queue_rows,
+                regions,
                 unit,
                 seq=seq,
                 doc_seq=doc_order.get(doc_id),
@@ -233,13 +245,54 @@ def build_yomi_strong_repair_review_pack(
     }
 
 
-def build_strong_repair_review_item(
-    queue_row: dict[str, Any],
-    result: dict[str, Any],
+def build_strong_repair_review_sentence_item(
+    queue_rows: list[dict[str, Any]],
+    regions: list[dict[str, Any]],
     unit: dict[str, Any],
     *,
     seq: int,
     doc_seq: int | None,
+) -> dict[str, Any]:
+    first_row = queue_rows[0] if queue_rows else {}
+    first_region = regions[0] if regions else {}
+    rendered_after = str(
+        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+    )
+    return {
+        "item_id": f"{unit.get('unit_id')}::strong_repair",
+        "seq": seq,
+        "doc_id": str(unit.get("doc_id") or ""),
+        "doc_seq": doc_seq,
+        "unit_id": str(unit.get("unit_id") or first_row.get("unit_id") or ""),
+        "unit_seq": unit.get("unit_seq"),
+        "source_file": unit.get("source_file"),
+        "source_line_no": unit.get("source_line_no"),
+        "text": str(unit.get("text") or first_row.get("text") or ""),
+        "rendered_yomi_before": str(first_row.get("rendered_yomi") or ""),
+        "rendered_yomi_after": rendered_after,
+        "rendered_yomi_after_ruby_tokens": rendered_yomi_ruby_tokens(rendered_after),
+        "repair_scope": "sentence_regions",
+        "region_count": len(regions),
+        "regions": regions,
+        # Compatibility aliases for consumers that still expect one region per item.
+        "rejected_span": first_region.get("rejected_span", ""),
+        "target_escalations": first_region.get("target_escalations", []),
+        "rejected_readings": first_region.get("rejected_readings", []),
+        "reading_candidates": first_region.get("reading_candidates", {}),
+        "reading_hints": first_region.get("reading_hints", {}),
+        "llm_parsed": first_region.get("llm_parsed", []),
+        "llm_raw_text": first_region.get("llm_raw_text", ""),
+        "llm_parse_error": first_region.get("llm_parse_error"),
+        "used_web_search": any(bool(region.get("used_web_search")) for region in regions),
+        "repair_status": first_region.get("repair_status"),
+        "repair_log": first_region.get("repair_log", {}),
+    }
+
+
+def build_strong_repair_review_region(
+    queue_row: dict[str, Any],
+    result: dict[str, Any],
+    unit: dict[str, Any],
 ) -> dict[str, Any]:
     parsed = result.get("parsed")
     if not isinstance(parsed, list):
@@ -275,18 +328,12 @@ def build_strong_repair_review_item(
         unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
     )
     return {
+        "region_id": str(queue_row.get("item_id") or ""),
         "item_id": str(queue_row.get("item_id") or ""),
-        "seq": seq,
-        "doc_id": str(unit.get("doc_id") or ""),
-        "doc_seq": doc_seq,
         "unit_id": str(queue_row.get("unit_id") or ""),
-        "unit_seq": unit.get("unit_seq"),
-        "source_file": unit.get("source_file"),
-        "source_line_no": unit.get("source_line_no"),
         "text": str(queue_row.get("text") or ""),
         "rendered_yomi_before": str(queue_row.get("rendered_yomi") or ""),
         "rendered_yomi_after": rendered_after,
-        "rendered_yomi_after_ruby_tokens": rendered_yomi_ruby_tokens(rendered_after),
         "repair_scope": str(queue_row.get("repair_scope") or ""),
         "reasons": list(queue_row.get("reasons") or []),
         "target_constraints": [
@@ -1055,14 +1102,28 @@ def apply_manual_strong_repair_review_segments_file(
     effective: dict[str, dict[str, Any]],
     units_jsonl: Path | None,
 ) -> dict[str, Any]:
-    item_states = [
-        (item, effective[str(item.get("item_id") or "")])
-        for item in pack.get("items", [])
-        if isinstance(item, dict)
-        and str(item.get("item_id") or "") in effective
-        and str(effective[str(item.get("item_id") or "")].get("decision") or "accept") != "reject"
-        and effective[str(item.get("item_id") or "")].get("manual_segments")
-    ]
+    item_states: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for item in pack.get("items", []):
+        if not isinstance(item, dict):
+            continue
+        item_id = str(item.get("item_id") or "")
+        state = effective.get(item_id)
+        if not state or str(state.get("decision") or "accept") == "reject":
+            continue
+        if state.get("manual_segments"):
+            item_states.append((item, state))
+        region_by_id = {
+            str(region.get("region_id") or region.get("item_id") or ""): region
+            for region in item.get("regions", [])
+            if isinstance(region, dict)
+        }
+        for region_state in state.get("regions", []):
+            if not isinstance(region_state, dict) or not region_state.get("manual_segments"):
+                continue
+            region_id = str(region_state.get("region_id") or "")
+            region = region_by_id.get(region_id)
+            if region is not None:
+                item_states.append((region, region_state))
     if not item_states:
         return {"applied_items": 0, "invalid_items": 0, "invalid": []}
     if units_jsonl is None:
@@ -1071,7 +1132,7 @@ def apply_manual_strong_repair_review_segments_file(
             "invalid_items": len(item_states),
             "invalid": [
                 {
-                    "item_id": str(item.get("item_id") or ""),
+                    "item_id": str(item.get("region_id") or item.get("item_id") or ""),
                     "reason": "manual segments require units_jsonl",
                 }
                 for item, _state in item_states
@@ -1100,7 +1161,7 @@ def apply_manual_strong_repair_review_segments_file(
                 elif result["status"] != "unchanged":
                     invalid.append(
                         {
-                            "item_id": str(item.get("item_id") or ""),
+                            "item_id": str(item.get("region_id") or item.get("item_id") or ""),
                             **result,
                         }
                     )
@@ -1234,6 +1295,9 @@ def replay_simple_accept_reject_submissions(
                     "decision": str(override.get("decision") or "accept"),
                     "manual_segments": [
                         row for row in override.get("manual_segments", []) if isinstance(row, dict)
+                    ],
+                    "regions": [
+                        row for row in override.get("regions", []) if isinstance(row, dict)
                     ],
                     "note": str(override.get("note", "")).strip(),
                     "submission_id": str(submission.get("submission_id", "")),
@@ -1475,17 +1539,24 @@ def apply_exact_rendered_target_overrides(
         selected = override.get("selected_reading")
         if not isinstance(selected, str) or not selected:
             continue
-        if override.get("surface") != override.get("token_surface"):
+        token_surface = str(override.get("token_surface") or "")
+        if override.get("surface") != token_surface:
             continue
+        replacement_index: int | None = None
         token_index = override.get("token_index")
-        if not isinstance(token_index, int) or token_index < 0 or token_index >= len(pairs):
+        if isinstance(token_index, int) and 0 <= token_index < len(pairs):
+            if pairs[token_index][0] == token_surface:
+                replacement_index = token_index
+        if replacement_index is None:
+            span = find_unique_rendered_span(pairs, token_surface)
+            if span is not None and span[1] - span[0] == 1:
+                replacement_index = span[0]
+        if replacement_index is None:
             continue
-        surface, old_reading = pairs[token_index]
-        if surface != override.get("token_surface"):
-            continue
+        surface, old_reading = pairs[replacement_index]
         new_reading = hira_to_kata(selected)
         if old_reading != new_reading:
-            pairs[token_index] = (surface, new_reading)
+            pairs[replacement_index] = (surface, new_reading)
             updated += 1
     if updated:
         yomi["rendered_before_final_review"] = rendered
@@ -1747,6 +1818,7 @@ def apply_yomi_strong_repair_results_file(
     missing_results = 0
     parse_error_items = 0
     invalid_items = 0
+    noop_items = 0
     unsupported_items = 0
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
@@ -1793,6 +1865,8 @@ def apply_yomi_strong_repair_results_file(
                 repair_log.append({"item_id": item_id, **apply_result})
                 if apply_result["status"] == "applied":
                     applied_items += 1
+                elif apply_result["status"] in {"reused_rejected_reading", "unchanged"}:
+                    noop_items += 1
                 else:
                     invalid_items += 1
             if repair_log:
@@ -1816,6 +1890,7 @@ def apply_yomi_strong_repair_results_file(
         "missing_results": missing_results,
         "parse_error_items": parse_error_items,
         "invalid_items": invalid_items,
+        "noop_items": noop_items,
         "unsupported_items": unsupported_items,
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
@@ -1890,7 +1965,7 @@ def apply_target_group_strong_repair(
     for surface, reading in replacement_pairs:
         if (surface, normalize_hiragana_reading(reading)) in rejected_pairs:
             return {
-                "status": "invalid_result",
+                "status": "reused_rejected_reading",
                 "reason": "replacement reused rejected reading",
                 "surface": surface,
                 "reading": reading,

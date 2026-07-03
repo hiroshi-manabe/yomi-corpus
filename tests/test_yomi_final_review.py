@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from yomi_corpus.yomi.final_review import (
+    apply_exact_rendered_target_overrides,
     apply_final_review_file,
     apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
@@ -419,6 +420,35 @@ class YomiFinalReviewTests(unittest.TestCase):
             review = row["analysis"]["human_review"]["yomi_final"]
             self.assertTrue(review["reviewed"])
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
+
+    def test_exact_rendered_target_override_falls_back_when_token_index_is_stale(self) -> None:
+        payload = {
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "『/『 Led/エルイーディー / Zeppelin/ツェッペリン 』/』"
+                    }
+                }
+            }
+        }
+
+        updated = apply_exact_rendered_target_overrides(
+            payload,
+            [
+                {
+                    "surface": "Led",
+                    "token_surface": "Led",
+                    "token_index": 3,
+                    "selected_reading": "れっど",
+                }
+            ],
+        )
+
+        self.assertEqual(updated, 1)
+        self.assertEqual(
+            payload["analysis"]["mechanical"]["yomi"]["rendered"],
+            "『/『 Led/レッド / Zeppelin/ツェッペリン 』/』",
+        )
 
     def test_apply_final_review_applies_llm_default_for_reviewed_range(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1707,7 +1737,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                 repaired["analysis"]["mechanical"]["yomi"]["rendered"],
             )
 
-    def test_strong_repair_rejects_reused_rejected_reading(self) -> None:
+    def test_strong_repair_keeps_reused_rejected_reading_as_noop(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             units_path = root / "reviewed.jsonl"
@@ -1784,7 +1814,11 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
 
             self.assertFalse(summary["stage_complete"])
-            self.assertEqual(summary["invalid_items"], 1)
+            self.assertEqual(summary["invalid_items"], 0)
+            self.assertEqual(summary["noop_items"], 1)
+            repaired = json.loads(output_path.read_text(encoding="utf-8"))
+            repair = repaired["analysis"]["llm"]["yomi_strong_repair"]["repairs"][0]
+            self.assertEqual(repair["status"], "reused_rejected_reading")
 
 
 def unit(doc_id: str, unit_id: str, text: str, *, safe: bool = False) -> dict:

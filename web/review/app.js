@@ -691,14 +691,16 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   seq.textContent = `#${item.seq}`;
   const title = document.createElement("h3");
   title.className = "item-title";
-  title.textContent = item.rejected_span || item.item_id;
+  title.textContent = item.text || item.rejected_span || item.item_id;
   titleRow.append(seq, title);
 
   const badges = document.createElement("div");
   badges.className = "item-badges";
   const statusBadge = document.createElement("span");
   statusBadge.className = "badge proposed-badge";
-  statusBadge.textContent = item.repair_status || "pending";
+  statusBadge.textContent = item.region_count
+    ? `${item.region_count} region(s)`
+    : item.repair_status || "pending";
   badges.append(statusBadge);
   if (item.used_web_search) {
     const webBadge = document.createElement("span");
@@ -730,8 +732,8 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   grid.className = "strong-repair-grid";
   for (const [label, value] of [
     ["Text", item.text || ""],
-    ["Rejected", formatRejectedReadings(item)],
-    ["Proposal", formatRepairProposal(item.llm_parsed || [])],
+    ["Rejected", strongRepairRegions(item).map(formatRejectedReadings).join(" | ")],
+    ["Proposal", strongRepairRegions(item).map((region) => formatRepairProposal(region.llm_parsed || [])).join(" | ")],
     ["Before", item.rendered_yomi_before || ""],
     ["After", item.rendered_yomi_after || ""],
   ]) {
@@ -793,21 +795,42 @@ function formatRepairProposal(rows) {
 
 function renderStrongRepairAfterLine(item, override, editable) {
   const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
-  const span = item.rejected_span || "";
-  const match = findRenderedTokenSpan(tokens, span);
-  if (!span || !match) {
+  const matches = [];
+  for (const region of strongRepairRegions(item)) {
+    const span = region.rejected_span || "";
+    const match = span ? findRenderedTokenSpan(tokens, span) : null;
+    if (match) {
+      matches.push({ ...match, region });
+    }
+  }
+  matches.sort((left, right) => left.start - right.start || left.end - right.end);
+  const usableMatches = [];
+  let cursor = -1;
+  for (const match of matches) {
+    if (match.start >= cursor) {
+      usableMatches.push(match);
+      cursor = match.end;
+    }
+  }
+  if (!usableMatches.length) {
     return renderReadonlyRubyFromRendered(item.rendered_yomi_after || "");
   }
   const nodes = [];
+  const byStart = new Map(usableMatches.map((match) => [match.start, match]));
   for (let index = 0; index < tokens.length; index += 1) {
-    if (index === match.start) {
-      nodes.push(renderStrongRepairSpanEditor(item, override, editable));
+    const match = byStart.get(index);
+    if (match) {
+      nodes.push(renderStrongRepairSpanEditor(item, match.region, override, editable));
       index = match.end - 1;
       continue;
     }
     nodes.push(...renderReadonlyRubyFromToken(item, tokens[index], index));
   }
   return nodes;
+}
+
+function strongRepairRegions(item) {
+  return item.regions?.length ? item.regions : [item];
 }
 
 function findRenderedTokenSpan(tokens, surfaceSpan) {
@@ -828,16 +851,17 @@ function findRenderedTokenSpan(tokens, surfaceSpan) {
   return matches.length === 1 ? matches[0] : null;
 }
 
-function renderStrongRepairSpanEditor(item, override, editable) {
-  const manualSegments = override?.manual_segments || null;
-  const segments = manualSegments?.length ? manualSegments : defaultStrongRepairSegments(item);
+function renderStrongRepairSpanEditor(item, region, override, editable) {
+  const regionOverride = strongRepairRegionOverride(override, region);
+  const manualSegments = regionOverride?.manual_segments || null;
+  const segments = manualSegments?.length ? manualSegments : defaultStrongRepairSegments(region);
   const wrapper = document.createElement("span");
   wrapper.className = "strong-repair-span-editor";
   wrapper.classList.toggle("changed", Boolean(manualSegments?.length));
 
   const preview = document.createElement("span");
   preview.className = "strong-repair-span-preview";
-  preview.append(...renderStrongRepairSegmentRuby(item, segments, editable));
+  preview.append(...renderStrongRepairSegmentRuby(item, region, segments, editable));
   wrapper.append(preview);
 
   if (!editable) {
@@ -846,7 +870,7 @@ function renderStrongRepairSpanEditor(item, override, editable) {
 
   const editor = document.createElement("span");
   editor.className = "span-editor strong-repair-boundary-editor";
-  editor.append(renderStrongRepairSplitControls(item, segments));
+  editor.append(renderStrongRepairSplitControls(item, region, segments));
 
   const fields = document.createElement("span");
   fields.className = "span-reading-fields";
@@ -860,16 +884,17 @@ function renderStrongRepairSpanEditor(item, override, editable) {
     input.value = segment.reading || "";
     input.placeholder = "reading";
     input.addEventListener("input", () => {
-      const current = ensureStrongRepairOverride(item.item_id);
+      const current = ensureStrongRepairRegionOverride(item.item_id, region.region_id || region.item_id);
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
-        : defaultStrongRepairSegments(item);
+        : defaultStrongRepairSegments(region);
       const hadManualSegments = Boolean(current.manual_segments?.length);
       currentSegments[index].reading = input.value;
       currentSegments[index].edited = true;
-      setStrongRepairManualSegments(item, currentSegments);
+      setStrongRepairManualSegments(item, region, currentSegments);
       touchDraft();
-      if (hadManualSegments !== Boolean(state.currentDraft.overrides[item.item_id]?.manual_segments?.length)) {
+      const nextRegion = strongRepairRegionOverride(state.currentDraft.overrides[item.item_id], region);
+      if (hadManualSegments !== Boolean(nextRegion?.manual_segments?.length)) {
         render();
       } else {
         renderSubmissionPreview();
@@ -883,7 +908,15 @@ function renderStrongRepairSpanEditor(item, override, editable) {
   return wrapper;
 }
 
-function renderStrongRepairSegmentRuby(item, segments, editable) {
+function strongRepairRegionOverride(override, region) {
+  const regionId = region.region_id || region.item_id;
+  if (!override || !regionId) {
+    return null;
+  }
+  return override.regions?.[regionId] || null;
+}
+
+function renderStrongRepairSegmentRuby(item, region, segments, editable) {
   const nodes = [];
   for (const [index, segment] of segments.entries()) {
     const button = document.createElement("button");
@@ -902,23 +935,23 @@ function renderStrongRepairSegmentRuby(item, segments, editable) {
       button.append(document.createTextNode(segment.surface || ""));
     }
     if (editable) {
-      button.addEventListener("click", () => cycleStrongRepairSegmentReading(item, index));
+      button.addEventListener("click", () => cycleStrongRepairSegmentReading(item, region, index));
     }
     nodes.push(button);
   }
   return nodes;
 }
 
-function cycleStrongRepairSegmentReading(item, index) {
-  const current = ensureStrongRepairOverride(item.item_id);
+function cycleStrongRepairSegmentReading(item, region, index) {
+  const current = ensureStrongRepairRegionOverride(item.item_id, region.region_id || region.item_id);
   const segments = current.manual_segments?.length
     ? current.manual_segments
-    : defaultStrongRepairSegments(item);
+    : defaultStrongRepairSegments(region);
   const segment = segments[index];
   if (!segment) {
     return;
   }
-  const candidates = strongRepairReadingCycleCandidates(item, segment.surface || "");
+  const candidates = strongRepairReadingCycleCandidates(region, segment.surface || "");
   const values = [...candidates, ""];
   const currentIndex = values.indexOf(segment.reading || "");
   const next = values[(currentIndex + 1) % values.length];
@@ -927,7 +960,7 @@ function cycleStrongRepairSegmentReading(item, index) {
     reading: next,
     edited: true,
   };
-  setStrongRepairManualSegments(item, segments);
+  setStrongRepairManualSegments(item, region, segments);
   touchDraft();
   render();
 }
@@ -966,10 +999,10 @@ function strongRepairReadingCycleCandidates(item, surface) {
   return values;
 }
 
-function renderStrongRepairSplitControls(item, segments) {
+function renderStrongRepairSplitControls(item, region, segments) {
   const wrap = document.createElement("span");
   wrap.className = "split-controls";
-  const chars = Array.from(item.rejected_span || "");
+  const chars = Array.from(region.rejected_span || "");
   const indexes = strongRepairSplitIndexes(segments);
   for (let index = 0; index < chars.length; index += 1) {
     const charSpan = document.createElement("span");
@@ -983,7 +1016,7 @@ function renderStrongRepairSplitControls(item, segments) {
       button.className = "split-toggle";
       button.textContent = indexes.has(boundaryIndex) ? "/" : "=";
       button.title = "Toggle split";
-      button.addEventListener("click", () => updateStrongRepairSplit(item, boundaryIndex));
+      button.addEventListener("click", () => updateStrongRepairSplit(item, region, boundaryIndex));
       wrap.append(button);
     }
   }
@@ -1004,11 +1037,11 @@ function strongRepairSplitIndexes(segments) {
   return indexes;
 }
 
-function updateStrongRepairSplit(item, boundaryIndex) {
-  const current = ensureStrongRepairOverride(item.item_id);
+function updateStrongRepairSplit(item, region, boundaryIndex) {
+  const current = ensureStrongRepairRegionOverride(item.item_id, region.region_id || region.item_id);
   const previousSegments = current.manual_segments?.length
     ? current.manual_segments
-    : defaultStrongRepairSegments(item);
+    : defaultStrongRepairSegments(region);
   const hasUserEditedReadings = previousSegments.some((segment) => segment.edited);
   if (
     hasUserEditedReadings &&
@@ -1023,19 +1056,19 @@ function updateStrongRepairSplit(item, boundaryIndex) {
     indexes.add(boundaryIndex);
   }
   const ordered = [...indexes].sort((a, b) => a - b);
-  const chars = Array.from(item.rejected_span || "");
+  const chars = Array.from(region.rejected_span || "");
   let start = 0;
   const nextSegments = [];
   for (const end of [...ordered, chars.length]) {
     const surface = chars.slice(start, end).join("");
     nextSegments.push({
       surface,
-      reading: defaultStrongRepairReadingForSegment(item, surface, previousSegments),
+      reading: defaultStrongRepairReadingForSegment(region, surface, previousSegments),
       edited: false,
     });
     start = end;
   }
-  setStrongRepairManualSegments(item, nextSegments);
+  setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
   render();
 }
@@ -1045,18 +1078,36 @@ function ensureStrongRepairOverride(itemId) {
   state.currentDraft.overrides[itemId] = {
     decision: "accept",
     note: current.note || "",
-    manual_segments: current.manual_segments || null,
+    regions: current.regions || {},
   };
   return state.currentDraft.overrides[itemId];
 }
 
-function setStrongRepairManualSegments(item, segments) {
+function ensureStrongRepairRegionOverride(itemId, regionId) {
+  const current = ensureStrongRepairOverride(itemId);
+  if (!current.regions) {
+    current.regions = {};
+  }
+  if (!current.regions[regionId]) {
+    current.regions[regionId] = { region_id: regionId, manual_segments: null };
+  }
+  return current.regions[regionId];
+}
+
+function setStrongRepairManualSegments(item, region, segments) {
   const current = ensureStrongRepairOverride(item.item_id);
+  const regionId = region.region_id || region.item_id;
+  if (!current.regions) {
+    current.regions = {};
+  }
   const normalized = normalizeStrongRepairSegments(segments);
-  if (strongRepairSegmentsEqual(normalized, defaultStrongRepairSegments(item))) {
-    delete current.manual_segments;
+  if (strongRepairSegmentsEqual(normalized, defaultStrongRepairSegments(region))) {
+    delete current.regions[regionId];
   } else {
-    current.manual_segments = normalized;
+    current.regions[regionId] = {
+      region_id: regionId,
+      manual_segments: normalized,
+    };
   }
   cleanupStrongRepairOverride(item.item_id);
 }
@@ -1071,8 +1122,7 @@ function cleanupStrongRepairOverride(itemId) {
     current.note = note;
     return;
   }
-  if (current.manual_segments?.length) {
-    current.note = "";
+  if (Object.keys(current.regions || {}).length > 0) {
     return;
   }
   delete state.currentDraft.overrides[itemId];
@@ -1101,8 +1151,8 @@ function strongRepairSegmentsEqual(left, right) {
   );
 }
 
-function defaultStrongRepairSegments(item) {
-  const parsed = item.llm_parsed || [];
+function defaultStrongRepairSegments(region) {
+  const parsed = region.llm_parsed || [];
   if (parsed.length) {
     return parsed
       .filter((row) => row && row.surface)
@@ -1111,7 +1161,7 @@ function defaultStrongRepairSegments(item) {
         reading: katakanaToHiragana(String(row.reading || "")),
       }));
   }
-  const replacement = item.repair_log?.replacement || [];
+  const replacement = region.repair_log?.replacement || [];
   if (replacement.length) {
     return replacement
       .filter((row) => row && row.surface)
@@ -1122,38 +1172,38 @@ function defaultStrongRepairSegments(item) {
   }
   return [
     {
-      surface: item.rejected_span || "",
+      surface: region.rejected_span || "",
       reading: "",
     },
   ];
 }
 
-function defaultStrongRepairReadingForSegment(item, surface, previousSegments) {
+function defaultStrongRepairReadingForSegment(region, surface, previousSegments) {
   const previous = (previousSegments || []).find(
     (segment) => segment.surface === surface && segment.reading
   );
   if (previous) {
     return previous.reading;
   }
-  for (const row of item.llm_parsed || []) {
+  for (const row of region.llm_parsed || []) {
     if (row?.surface === surface && row.reading) {
       return katakanaToHiragana(String(row.reading));
     }
   }
-  for (const row of item.repair_log?.replacement || []) {
+  for (const row of region.repair_log?.replacement || []) {
     if (row?.surface === surface && row.reading) {
       return katakanaToHiragana(String(row.reading));
     }
   }
-  const readingCandidates = item.reading_candidates?.[surface] || [];
+  const readingCandidates = region.reading_candidates?.[surface] || [];
   if (readingCandidates.length) {
     return readingCandidates[0];
   }
-  const readingHint = item.reading_hints?.[surface];
+  const readingHint = region.reading_hints?.[surface];
   if (readingHint) {
     return readingHint;
   }
-  const targetReading = readingFromStrongRepairTargets(item.target_escalations || [], surface);
+  const targetReading = readingFromStrongRepairTargets(region.target_escalations || [], surface);
   if (targetReading) {
     return targetReading;
   }
@@ -2121,11 +2171,17 @@ function getActiveStrongRepairOverrides() {
         decision: override.decision || "accept",
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
-      if (override.manual_segments?.length) {
-        row.manual_segments = override.manual_segments.map((segment) => ({
-          surface: segment.surface || "",
-          reading: segment.reading || "",
+      const regions = Object.values(override.regions || {})
+        .filter((region) => region?.region_id && region.manual_segments?.length)
+        .map((region) => ({
+          region_id: region.region_id,
+          manual_segments: region.manual_segments.map((segment) => ({
+            surface: segment.surface || "",
+            reading: segment.reading || "",
+          })),
         }));
+      if (regions.length) {
+        row.regions = regions;
       }
       return row;
     })
@@ -2134,7 +2190,7 @@ function getActiveStrongRepairOverrides() {
       (row) =>
         row.decision === "reject" ||
         row.note ||
-        (row.manual_segments && row.manual_segments.length > 0)
+        (row.regions && row.regions.length > 0)
     );
 }
 
