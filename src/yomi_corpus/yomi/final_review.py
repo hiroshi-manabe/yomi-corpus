@@ -194,7 +194,8 @@ def build_yomi_strong_repair_review_pack(
     queue_rows = load_jsonl(queue_jsonl)
     result_rows = {str(row.get("item_id") or ""): row for row in load_jsonl(results_jsonl)}
     units_by_id = {str(row.get("unit_id") or ""): row for row in load_jsonl(units_jsonl)}
-    doc_order: dict[str, int] = {}
+    documents = build_pack_documents(units_by_id.values())
+    doc_seq_by_id = {str(row["doc_id"]): int(row["doc_seq"]) for row in documents}
     created = created_at_epoch if created_at_epoch is not None else current_epoch()
     rows_by_unit: dict[str, list[dict[str, Any]]] = {}
     for queue_row in queue_rows:
@@ -206,8 +207,6 @@ def build_yomi_strong_repair_review_pack(
     for seq, (unit_id, unit_queue_rows) in enumerate(rows_by_unit.items(), start=1):
         unit = units_by_id.get(unit_id, {})
         doc_id = str(unit.get("doc_id") or "")
-        if doc_id and doc_id not in doc_order:
-            doc_order[doc_id] = len(doc_order) + 1
         regions = [
             build_strong_repair_review_region(
                 queue_row,
@@ -222,7 +221,7 @@ def build_yomi_strong_repair_review_pack(
                 regions,
                 unit,
                 seq=seq,
-                doc_seq=doc_order.get(doc_id),
+                doc_seq=doc_seq_by_id.get(doc_id),
             )
         )
     return {
@@ -238,11 +237,54 @@ def build_yomi_strong_repair_review_pack(
         .replace("+00:00", "Z"),
         "item_count": len(items),
         "summary": {
-            "document_count": len(doc_order),
+            "document_count": len(documents),
             "repaired_item_count": len(items),
         },
+        "documents": with_repair_document_counts(documents, items),
         "items": items,
     }
+
+
+def build_pack_documents(units: Any) -> list[dict[str, Any]]:
+    documents: list[dict[str, Any]] = []
+    by_id: dict[str, dict[str, Any]] = {}
+    for unit in units:
+        if not isinstance(unit, dict):
+            continue
+        doc_id = str(unit.get("doc_id") or "")
+        if not doc_id:
+            continue
+        if doc_id not in by_id:
+            doc = {
+                "doc_id": doc_id,
+                "doc_seq": len(documents) + 1,
+                "unit_count": 0,
+                "source_file": unit.get("source_file"),
+                "source_line_no": unit.get("source_line_no"),
+                "preview": str(unit.get("text") or ""),
+            }
+            by_id[doc_id] = doc
+            documents.append(doc)
+        by_id[doc_id]["unit_count"] += 1
+    return documents
+
+
+def with_repair_document_counts(
+    documents: list[dict[str, Any]],
+    items: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    item_counts = Counter(str(item.get("doc_id") or "") for item in items)
+    region_counts = Counter()
+    for item in items:
+        region_counts[str(item.get("doc_id") or "")] += int(item.get("region_count") or 0)
+    return [
+        {
+            **doc,
+            "item_count": int(item_counts.get(str(doc.get("doc_id") or ""), 0)),
+            "region_count": int(region_counts.get(str(doc.get("doc_id") or ""), 0)),
+        }
+        for doc in documents
+    ]
 
 
 def build_strong_repair_review_sentence_item(

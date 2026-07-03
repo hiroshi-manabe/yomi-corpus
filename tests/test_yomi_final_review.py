@@ -1584,6 +1584,85 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(item["reading_candidates"]["池尻"], ["いけじり", "いけのしり"])
             self.assertEqual(item["reading_hints"]["中学校"], "ちゅうがっこう")
 
+    def test_strong_repair_pack_preserves_full_batch_document_sequence(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u2::target_group:1",
+                        "unit_id": "u2",
+                        "text": "Led Zeppelinです。",
+                        "rendered_yomi": "Led/レッド Zeppelin/ツェッペリン です/デス 。/。",
+                        "repair_scope": "target_group",
+                        "target_escalations": [{"surface": "Zeppelin"}],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u2::target_group:1",
+                        "parsed": [{"surface": "Zeppelin", "reading": "ツェッペリン"}],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc1",
+                        "unit_id": "u1",
+                        "text": "修正なし。",
+                        "analysis": {"mechanical": {"yomi": {"rendered": "修正/シュウセイ なし/ナシ 。/。"}}},
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+                + json.dumps(
+                    {
+                        "doc_id": "doc2",
+                        "unit_id": "u2",
+                        "text": "Led Zeppelinです。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "Led/レッド Zeppelin/ツェッペリン です/デス 。/。"}
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            build_yomi_strong_repair_review_pack_file(
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="strong_pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(pack_path.read_text(encoding="utf-8"))
+            self.assertEqual(pack["summary"]["document_count"], 2)
+            self.assertEqual([doc["doc_id"] for doc in pack["documents"]], ["doc1", "doc2"])
+            self.assertEqual(pack["documents"][0]["item_count"], 0)
+            self.assertEqual(pack["documents"][1]["item_count"], 1)
+            self.assertEqual(pack["items"][0]["doc_seq"], 2)
+
     def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
