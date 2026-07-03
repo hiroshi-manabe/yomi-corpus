@@ -396,7 +396,7 @@ function renderTaskSelector() {
   const selectedItems = itemsForTask(task);
   el.taskSummary.textContent =
     selectedCount > 0
-      ? `${selectedCount} document(s), ${selectedItems.length} item(s) selected.`
+      ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
       : "Choose documents, then start a review task.";
   el.startTask.disabled = docs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
@@ -447,6 +447,7 @@ function renderTaskDocumentRow(doc, task) {
   const row = document.createElement("article");
   row.className = "task-doc-row";
   row.classList.toggle("selected", task.doc_ids.includes(doc.doc_id));
+  row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
 
   const label = document.createElement("label");
   label.className = "task-doc-check";
