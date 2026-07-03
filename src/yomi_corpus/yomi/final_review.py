@@ -1349,6 +1349,8 @@ def apply_final_review_file(
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
 
+    unreviewed_units = read_units - reviewed_units
+    stage_complete = unreviewed_units == 0
     summary = {
         "rule": APPLY_RULE,
         "pack_id": str(pack["pack_id"]),
@@ -1357,7 +1359,7 @@ def apply_final_review_file(
         "read_units": read_units,
         "written_units": written_units,
         "reviewed_units": reviewed_units,
-        "unreviewed_units": read_units - reviewed_units,
+        "unreviewed_units": unreviewed_units,
         "skipped_units": skipped_units,
         "escalated_units": escalated_units,
         "target_override_count": target_override_count,
@@ -1368,11 +1370,16 @@ def apply_final_review_file(
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
     }
+    if not stage_complete:
+        summary["blocking_reason"] = (
+            f"Yomi final review is incomplete: {unreviewed_units} of {read_units} "
+            "units have not been reviewed."
+        )
     summary_json.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    return {"stage_complete": True, **summary}
+    return {"stage_complete": stage_complete, **summary}
 
 
 def build_target_override(

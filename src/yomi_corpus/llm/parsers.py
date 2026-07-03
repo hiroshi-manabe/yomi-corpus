@@ -61,8 +61,22 @@ def parse_json_array(text: str) -> list[Any]:
 
 
 def extract_first_json_object(text: str) -> str | None:
-    start = text.find("{")
-    if start < 0:
+    return next(iter(extract_json_objects(text)), None)
+
+
+def extract_json_objects(text: str) -> list[str]:
+    objects: list[str] = []
+    for start, char in enumerate(text):
+        if char != "{":
+            continue
+        extracted = extract_json_object_at(text, start)
+        if extracted is not None:
+            objects.append(extracted)
+    return objects
+
+
+def extract_json_object_at(text: str, start: int) -> str | None:
+    if start < 0 or start >= len(text) or text[start] != "{":
         return None
     depth = 0
     in_string = False
@@ -135,11 +149,18 @@ def parse_yomi_reading_completion_json(
     *,
     metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    surface = _expected_surface(metadata)
+    for extracted in extract_json_objects(text.strip()):
+        try:
+            parsed = json.loads(extracted)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict) and surface in parsed:
+            return parsed
     try:
         return parse_json_object(text)
     except ValueError:
         pass
-    surface = _expected_surface(metadata)
     stripped = text.strip()
     try:
         parsed_string = json.loads(stripped)

@@ -474,6 +474,59 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(review["target_overrides"][0]["choice_source"], "llm")
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
 
+    def test_apply_final_review_blocks_when_review_coverage_is_partial(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            output_path = root / "reviewed.jsonl"
+            summary_path = root / "summary.json"
+            first = unit("doc1", "u1", "近々です。")
+            second = unit("doc2", "u2", "近々です。")
+            second["unit_seq"] = 2
+            units_path.write_text(
+                json.dumps(first, ensure_ascii=False)
+                + "\n"
+                + json.dumps(second, ensure_ascii=False)
+                + "\n",
+                encoding="utf-8",
+            )
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertFalse(summary["stage_complete"])
+            self.assertEqual(summary["reviewed_units"], 1)
+            self.assertEqual(summary["unreviewed_units"], 1)
+            self.assertIn("not been reviewed", summary["blocking_reason"])
+            self.assertTrue(output_path.exists())
+
     def test_apply_final_review_applies_span_segmentation_override(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

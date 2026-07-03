@@ -240,6 +240,22 @@ class LLMScaffoldingTests(unittest.TestCase):
             ),
             {"FX": "エフエックス", "CFD": "シーエフディー"},
         )
+        self.assertEqual(
+            parse_output(
+                '{"ID":"アイディー"}\n{"Cookie":"クッキー"}',
+                "yomi_reading_completion_json",
+                metadata={"surface": "Cookie"},
+            ),
+            {"Cookie": "クッキー"},
+        )
+        self.assertEqual(
+            parse_output(
+                'extra text {"ID":"アイディー"} then {"FX":"エフエックス","CFD":"シーエフディー"}',
+                "yomi_reading_completion_json",
+                metadata={"surface": "FX"},
+            ),
+            {"FX": "エフエックス", "CFD": "シーエフディー"},
+        )
 
     def test_parse_yomi_triage_label_output(self) -> None:
         parsed = parse_output("Review", "yomi_triage_label")
