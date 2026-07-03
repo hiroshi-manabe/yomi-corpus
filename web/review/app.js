@@ -1389,10 +1389,12 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextTarget = targetForRubySegment(nextSegment, targetsById);
   const previousNoRuby = previousTarget && isNoRubyTarget(previousTarget, override);
   const nextNoRuby = nextTarget && isNoRubyTarget(nextTarget, override);
+  const previousMergeEligible = previousNoRuby || isNumericMergeEligibleTarget(previousTarget);
+  const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
   let remaining = text;
 
-  const trailing = nextNoRuby ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
-  const leading = previousNoRuby ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
+  const trailing = nextMergeEligible ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
+  const leading = previousMergeEligible ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
   if (trailing && trailing.length < remaining.length) {
     nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
     remaining = trailing;
@@ -1421,6 +1423,17 @@ function targetForRubySegment(segment, targetsById) {
 function isNoRubyTarget(target, override) {
   const targetDraft = override?.targets?.[target.item_id] || null;
   return selectedCandidate(target, targetDraft)?.source === "none";
+}
+
+function isNumericMergeEligibleTarget(target) {
+  if (!target || !hasNoRubyCandidate(target)) {
+    return false;
+  }
+  return /[A-Za-z]/.test(target.surface || "");
+}
+
+function hasNoRubyCandidate(target) {
+  return (target?.candidates || []).some((candidate) => candidate.source === "none");
 }
 
 function renderNumericMergeButton(item, target, digits, side, override, editable) {
@@ -1464,6 +1477,13 @@ function toggleNumericMergeSpan(item, span) {
   if (draft.span_overrides[span.id]) {
     delete draft.span_overrides[span.id];
   } else {
+    for (const targetItemId of span.target_item_ids || []) {
+      draft.targets[targetItemId] = {
+        choice_source: "none",
+        selected_reading: null,
+        custom_reading: null,
+      };
+    }
     draft.span_overrides[span.id] = span;
   }
   cleanupYomiOverride(item.item_id);
