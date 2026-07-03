@@ -1808,14 +1808,19 @@ function renderRubySpan(item, target, override, editable) {
 }
 
 function selectedCandidate(target, targetDraft) {
-  const candidates = target.candidates || [];
   if (targetDraft?.choice_source) {
-    return (
-      candidates.find((candidate) => candidate.source === targetDraft.choice_source) ||
-      candidates[0] ||
-      null
-    );
+    return candidateForSource(target, targetDraft.choice_source);
   }
+  return defaultCandidate(target);
+}
+
+function candidateForSource(target, source) {
+  const candidates = target.candidates || [];
+  return candidates.find((candidate) => candidate.source === source) || candidates[0] || null;
+}
+
+function defaultCandidate(target) {
+  const candidates = target.candidates || [];
   const defaultSource = target.default_choice_source || "current";
   return (
     candidates.find((candidate) => candidate.source === defaultSource) ||
@@ -1841,7 +1846,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
   );
   const next = candidates[(currentIndex + 1) % candidates.length];
   const draft = ensureYomiOverride(item.item_id);
-  if (next.source === (target.default_choice_source || "current")) {
+  if (next.source === defaultCandidate(target)?.source) {
     delete draft.targets[target.item_id];
     cleanupYomiOverride(item.item_id);
   } else {
