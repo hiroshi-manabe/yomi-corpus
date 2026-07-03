@@ -414,6 +414,17 @@ button:disabled {
   background: rgba(45, 106, 79, 0.08);
 }
 
+.task-doc-row.empty-task-doc {
+  color: var(--muted);
+  background: rgba(255, 253, 249, 0.52);
+  opacity: 0.64;
+}
+
+.task-doc-row.empty-task-doc.selected {
+  opacity: 0.78;
+  background: rgba(45, 106, 79, 0.05);
+}
+
 .task-doc-check {
   display: inline-flex;
   align-items: center;
