@@ -141,9 +141,11 @@ function bindEvents() {
     const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
     try {
       await navigator.clipboard.writeText(payload);
-      showStatus("Submission JSON copied to clipboard.");
+      showStatus("Submission JSON copied. Open an issue and paste it into the body.");
     } catch (error) {
-      showStatus("Clipboard copy failed. Use the download button instead.", true);
+      el.submissionPreview.focus();
+      el.submissionPreview.select();
+      showStatus("Clipboard copy failed. The JSON text is selected; copy it manually, then open an issue.", true);
     }
   });
 
