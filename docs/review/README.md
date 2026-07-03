@@ -21,3 +21,13 @@ generated artifacts with:
 The helper stages and commits `docs/review/manifest.json` plus review-pack JSON
 files referenced by that manifest, then runs `git push`. Use
 `./publish-review --dry-run` to inspect the exact path set first.
+
+Tracking policy:
+
+- `docs/review/` is intentionally tracked because GitHub Pages serves it
+  directly.
+- source review packs and pipeline intermediates under `data/` are generated
+  local state and remain ignored by `.gitignore`.
+- if `docs/review/manifest.json` or pack JSON changes only because of a
+  regenerated timestamp or object-key ordering, discard that noise instead of
+  committing it.
