@@ -1102,7 +1102,16 @@ def apply_strong_repair_review_file(
     invalid_manual_items = manual_summary["invalid_items"]
     stage_complete = unreviewed_count == 0 and not rejected_items and invalid_manual_items == 0
     strong_summary = load_json(strong_apply_summary_json)
+    if "stage_complete_before_confirmation" not in strong_summary:
+        strong_summary["stage_complete_before_confirmation"] = bool(
+            strong_summary.get("stage_complete")
+        )
     strong_summary["confirmed"] = bool(stage_complete)
+    if stage_complete:
+        # Human review can explicitly accept a no-op strong-repair result. In that case the
+        # raw LLM apply step remains diagnostic, but the overall strong-repair gate is complete.
+        strong_summary["stage_complete"] = True
+        strong_summary.pop("blocking_reason", None)
     strong_summary["confirmation_pack_id"] = str(pack["pack_id"])
     strong_summary["confirmation_submission_count"] = len(submissions)
     strong_summary["confirmation_rejected_items"] = rejected_items

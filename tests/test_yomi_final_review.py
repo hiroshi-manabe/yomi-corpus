@@ -1824,6 +1824,12 @@ class YomiFinalReviewTests(unittest.TestCase):
             results_path = root / "results.jsonl"
             output_path = root / "strong.jsonl"
             summary_path = root / "summary.json"
+            queue_summary_path = root / "queue_summary.json"
+            pack_path = root / "pack.json"
+            submission_store = root / "submissions"
+            confirmation_summary_path = root / "confirmation_summary.json"
+            final_path = root / "final.jsonl"
+            final_summary_path = root / "final_summary.json"
             units_path.write_text(
                 json.dumps(
                     {
@@ -1868,6 +1874,10 @@ class YomiFinalReviewTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
+            queue_summary_path.write_text(
+                json.dumps({"queued_items": 1}, ensure_ascii=False),
+                encoding="utf-8",
+            )
             results_path.write_text(
                 json.dumps(
                     {
@@ -1898,6 +1908,51 @@ class YomiFinalReviewTests(unittest.TestCase):
             repaired = json.loads(output_path.read_text(encoding="utf-8"))
             repair = repaired["analysis"]["llm"]["yomi_strong_repair"]["repairs"][0]
             self.assertEqual(repair["status"], "reused_rejected_reading")
+
+            pack_summary = build_yomi_strong_repair_review_pack_file(
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                units_jsonl=output_path,
+                output_json=pack_path,
+                pack_id="strong_pack_noop",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+            self.assertEqual(pack_summary.item_count, 1)
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_strong_repair_review",
+                    "pack_id": "strong_pack_noop",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [],
+                },
+                submission_store_dir=submission_store,
+            )
+            confirmation = apply_strong_repair_review_file(
+                pack_json=pack_path,
+                submission_store_dir=submission_store,
+                strong_apply_summary_json=summary_path,
+                output_summary_json=confirmation_summary_path,
+                units_jsonl=output_path,
+            )
+            self.assertTrue(confirmation["stage_complete"])
+            confirmed_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            self.assertFalse(confirmed_summary["stage_complete_before_confirmation"])
+            self.assertTrue(confirmed_summary["stage_complete"])
+            self.assertTrue(confirmed_summary["confirmed"])
+
+            final_summary = finalize_reviewed_yomi_file(
+                units_jsonl=output_path,
+                strong_queue_summary_json=queue_summary_path,
+                strong_apply_summary_json=summary_path,
+                output_jsonl=final_path,
+                summary_json=final_summary_path,
+            )
+            self.assertTrue(final_summary["stage_complete"])
 
 
 def unit(doc_id: str, unit_id: str, text: str, *, safe: bool = False) -> dict:

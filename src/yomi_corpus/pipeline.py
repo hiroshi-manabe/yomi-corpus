@@ -2598,6 +2598,26 @@ class PipelineWorkspace:
         job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_strong_repair"
 
         queued_count = count_nonempty_lines(input_path)
+        if apply_summary_path.exists():
+            existing_apply_summary = json.loads(apply_summary_path.read_text(encoding="utf-8"))
+            if existing_apply_summary.get("confirmed"):
+                return {
+                    "artifacts": {
+                        "units_yomi_strong_repaired_jsonl": str(output_path),
+                        "yomi_strong_repair_apply_summary_json": str(apply_summary_path),
+                        "yomi_strong_repair_queued": str(queued_count),
+                        "yomi_strong_repair_applied": str(
+                            existing_apply_summary.get("applied_items", "")
+                        ),
+                        "yomi_strong_repair_unapplied": str(
+                            existing_apply_summary.get("unapplied_items", "")
+                        ),
+                        "yomi_strong_repair_confirmed": "true",
+                        "human_review_required": "false",
+                        "human_review_gate": "",
+                        "human_review_item_count": "",
+                    }
+                }
         job_summary = None
         if queued_count:
             job_summary = run_llm_task(
