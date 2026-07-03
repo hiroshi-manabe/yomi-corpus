@@ -463,7 +463,9 @@ function renderTaskDocumentRow(doc, task) {
 
   const meta = document.createElement("div");
   meta.className = "task-doc-meta";
-  meta.textContent = `${doc.item_count} items · ${doc.unresolved_count} review targets · seq ${doc.from_seq}-${doc.to_seq}`;
+  const itemSeq = doc.item_count > 0 ? `seq ${doc.from_seq}-${doc.to_seq}` : "no review cards";
+  meta.textContent =
+    `${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
 
   const preview = document.createElement("div");
   preview.className = "task-doc-preview";
@@ -2085,6 +2087,7 @@ function buildSubmissionTaskMetadata() {
     task_label: state.currentDraft.active_task_label || null,
     doc_ids: docs.map((doc) => doc.doc_id),
     doc_seqs: docs.map((doc) => doc.doc_seq),
+    doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
   };
 }
@@ -2272,12 +2275,76 @@ function buildReviewedRanges() {
   return ranges;
 }
 
+function buildReviewedDocumentRanges(docs = null) {
+  const sourceDocs = docs || buildDocumentTasks(state.currentPack).filter((doc) =>
+    normalizeTask(state.currentDraft.task, state.currentPack).doc_ids.includes(doc.doc_id)
+  );
+  const seqs = sourceDocs
+    .map((doc) => doc.doc_seq)
+    .filter((seq) => Number.isInteger(seq))
+    .sort((a, b) => a - b);
+  if (!seqs.length) {
+    return [];
+  }
+  const ranges = [];
+  let fromDocSeq = seqs[0];
+  let toDocSeq = seqs[0];
+  for (const seq of seqs.slice(1)) {
+    if (seq === toDocSeq + 1) {
+      toDocSeq = seq;
+      continue;
+    }
+    ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+    fromDocSeq = seq;
+    toDocSeq = seq;
+  }
+  ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+  return ranges;
+}
+
 function getIncludedItems() {
   const { fromSeq, toSeq } = getEffectiveRange();
   return getVisibleItems().filter((item) => item.seq >= fromSeq && item.seq <= toSeq);
 }
 
 function buildDocumentTasks(pack) {
+  if (pack?.documents?.length) {
+    const itemStats = new Map();
+    for (const item of pack.items || []) {
+      const docId = item.doc_id || "";
+      if (!docId) {
+        continue;
+      }
+      if (!itemStats.has(docId)) {
+        itemStats.set(docId, {
+          from_seq: item.seq,
+          to_seq: item.seq,
+          item_count: 0,
+          unresolved_count: 0,
+        });
+      }
+      const stats = itemStats.get(docId);
+      stats.from_seq = Math.min(stats.from_seq, item.seq);
+      stats.to_seq = Math.max(stats.to_seq, item.seq);
+      stats.item_count += 1;
+      stats.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
+    }
+    return pack.documents
+      .map((doc) => {
+        const stats = itemStats.get(doc.doc_id) || {};
+        return {
+          doc_id: doc.doc_id || "",
+          doc_seq: doc.doc_seq || 0,
+          from_seq: stats.from_seq ?? 0,
+          to_seq: stats.to_seq ?? 0,
+          item_count: stats.item_count ?? Number(doc.item_count || 0),
+          unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
+          unit_count: Number(doc.unit_count || 0),
+          preview: doc.preview || "",
+        };
+      })
+      .sort((left, right) => left.doc_seq - right.doc_seq);
+  }
   const docs = [];
   const byId = new Map();
   for (const item of pack?.items || []) {
