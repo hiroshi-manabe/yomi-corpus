@@ -61,6 +61,11 @@ def parse_args() -> argparse.Namespace:
         help="Keep advancing until a human gate, incomplete stage, or final stage is reached.",
     )
     parser.add_argument(
+        "--status",
+        action="store_true",
+        help="Report the current batch and stage without advancing the pipeline.",
+    )
+    parser.add_argument(
         "--llm-mode",
         choices=sorted(LLM_EXECUTION_MODES),
         help=(
@@ -76,6 +81,28 @@ def main() -> None:
     workspace = PipelineWorkspace(PROJECT_ROOT)
     if args.auto and args.force_stage:
         raise SystemExit("--auto cannot be combined with --force-stage")
+    if args.status:
+        conflicting = []
+        if args.auto:
+            conflicting.append("--auto")
+        if args.force_stage:
+            conflicting.append("--force-stage")
+        if args.yes:
+            conflicting.append("--yes")
+        if args.skip_review_gates:
+            conflicting.append("--skip-review-gates")
+        if args.llm_mode:
+            conflicting.append("--llm-mode")
+        if conflicting:
+            raise SystemExit("--status cannot be combined with " + ", ".join(conflicting))
+        summary = workspace.status(args.track)
+        log_path = write_pipeline_log(summary)
+        summary["log_path"] = str(log_path)
+        if args.json:
+            print(json.dumps(summary, ensure_ascii=False, indent=2))
+        else:
+            print(format_next_summary(summary))
+        return
     summary = (
         advance_auto(workspace, args)
         if args.auto

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import subprocess
+import sys
 import runpy
 import unittest
 from pathlib import Path
@@ -270,6 +272,47 @@ class NextCliTests(unittest.TestCase):
             "Auto: stopped at yomi_reading_llm_completed (advanced: false; "
             "blocked: LLM background job is running; rerun ./next to poll or resume.)",
         )
+
+    def test_next_status_reports_without_advancing(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--status"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Track: dev", result.stdout)
+        self.assertIn("Stage:", result.stdout)
+        self.assertNotIn("Advanced:", result.stdout)
+
+    def test_next_status_rejects_advancing_options(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--status", "--auto"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("--status cannot be combined with --auto", result.stderr)
+
+    def test_next_rejects_unknown_options(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--not-a-real-option"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("unrecognized arguments: --not-a-real-option", result.stderr)
 
 
 if __name__ == "__main__":
