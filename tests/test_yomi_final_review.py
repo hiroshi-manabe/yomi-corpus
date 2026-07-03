@@ -1229,6 +1229,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             reviewed_path.write_text(
                 json.dumps(
                     {
+                        "doc_id": "doc1",
                         "unit_id": "u1",
                         "text": "近々です。",
                         "analysis": {
@@ -1339,6 +1340,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             reviewed_path.write_text(
                 json.dumps(
                     {
+                        "doc_id": "doc1",
                         "unit_id": "u1",
                         "text": "それを、旧池尻中学校を改装した。",
                         "analysis": {
@@ -1435,6 +1437,9 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack_summary.item_count, 1)
             pack = json.loads(pack_path.read_text(encoding="utf-8"))
             self.assertEqual(pack["review_stage"], "yomi_strong_repair_review")
+            self.assertEqual(pack["summary"]["document_count"], 1)
+            self.assertEqual(pack["items"][0]["doc_id"], "doc1")
+            self.assertEqual(pack["items"][0]["doc_seq"], 1)
             self.assertEqual(pack["items"][0]["rejected_span"], "池尻中学校")
             self.assertEqual(pack["items"][0]["repair_status"], "applied")
 

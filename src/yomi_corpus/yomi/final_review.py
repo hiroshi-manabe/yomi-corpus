@@ -194,13 +194,25 @@ def build_yomi_strong_repair_review_pack(
     queue_rows = load_jsonl(queue_jsonl)
     result_rows = {str(row.get("item_id") or ""): row for row in load_jsonl(results_jsonl)}
     units_by_id = {str(row.get("unit_id") or ""): row for row in load_jsonl(units_jsonl)}
+    doc_order: dict[str, int] = {}
     created = created_at_epoch if created_at_epoch is not None else current_epoch()
     items = []
     for seq, queue_row in enumerate(queue_rows, start=1):
         item_id = str(queue_row.get("item_id") or "")
         result = result_rows.get(item_id, {})
         unit = units_by_id.get(str(queue_row.get("unit_id") or ""), {})
-        items.append(build_strong_repair_review_item(queue_row, result, unit, seq=seq))
+        doc_id = str(unit.get("doc_id") or "")
+        if doc_id and doc_id not in doc_order:
+            doc_order[doc_id] = len(doc_order) + 1
+        items.append(
+            build_strong_repair_review_item(
+                queue_row,
+                result,
+                unit,
+                seq=seq,
+                doc_seq=doc_order.get(doc_id),
+            )
+        )
     return {
         "schema_version": SCHEMA_VERSION,
         "review_stage": STRONG_REPAIR_REVIEW_STAGE,
@@ -214,7 +226,7 @@ def build_yomi_strong_repair_review_pack(
         .replace("+00:00", "Z"),
         "item_count": len(items),
         "summary": {
-            "document_count": len({str(item.get("unit_id") or "") for item in items}),
+            "document_count": len(doc_order),
             "repaired_item_count": len(items),
         },
         "items": items,
@@ -227,6 +239,7 @@ def build_strong_repair_review_item(
     unit: dict[str, Any],
     *,
     seq: int,
+    doc_seq: int | None,
 ) -> dict[str, Any]:
     parsed = result.get("parsed")
     if not isinstance(parsed, list):
@@ -264,7 +277,12 @@ def build_strong_repair_review_item(
     return {
         "item_id": str(queue_row.get("item_id") or ""),
         "seq": seq,
+        "doc_id": str(unit.get("doc_id") or ""),
+        "doc_seq": doc_seq,
         "unit_id": str(queue_row.get("unit_id") or ""),
+        "unit_seq": unit.get("unit_seq"),
+        "source_file": unit.get("source_file"),
+        "source_line_no": unit.get("source_line_no"),
         "text": str(queue_row.get("text") or ""),
         "rendered_yomi_before": str(queue_row.get("rendered_yomi") or ""),
         "rendered_yomi_after": rendered_after,
