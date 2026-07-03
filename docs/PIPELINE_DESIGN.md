@@ -1679,6 +1679,26 @@ the quick review UI. It should show ruby-rendered text and also expose raw
 editable structured data, so a human can directly correct the result before it
 enters the final corpus.
 
+Review entry point migration:
+
+- replace the main stage dropdown with one task dashboard
+- show at least three sections: `Final review`, `Strong repair`, and
+  `Deferred local tasks`
+- let the reviewer start a task from either active queue; task start should
+  move into the existing focused task screen for that queue type
+- use the same task shell for both queue types: selected documents, queue ID,
+  local draft key, copy/open-Issue controls, defer, and complete
+- `Defer` should save the local task draft and return it to the dashboard
+- `Complete` should clear only the local draft after the reviewer has copied or
+  submitted JSON; imported pipeline state, not local storage, decides whether a
+  document is actually complete
+- the old stage selector may remain temporarily as a debug/deep-link fallback,
+  but it should stop being the normal workflow
+
+This depends on review packs carrying document-level queue state. The UI should
+render from that explicit metadata rather than inferring pending/completed
+documents from old batch-level stages.
+
 ### 10.2 Review state model
 
 Separate three things:

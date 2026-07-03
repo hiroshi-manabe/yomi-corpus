@@ -2072,6 +2072,30 @@ This is now the preferred migration direction, but it should be implemented in
 small steps: first document-level state, then issue closing, then periodic sync,
 then separate review repositories.
 
+Review dashboard target:
+
+- the review page should have one dashboard rather than a primary stage
+  dropdown
+- the dashboard should show `Final review`, `Strong repair`, and `Deferred local
+  tasks` together
+- both active queues should allow starting a task from selected documents or a
+  selected document range
+- final-review and strong-repair task screens should share the same shell:
+  selected documents, queue ID, local draft key, copy/open-Issue controls,
+  `Defer`, and `Complete`
+- `Defer` only preserves browser-local work and returns it to `Deferred local
+  tasks`
+- `Complete` only clears the browser-local draft after the reviewer has copied
+  or submitted JSON
+- actual pending/completed state must come from imported pipeline document
+  state, not from browser-local draft state
+- the old stage dropdown can remain temporarily as a debug or deep-link
+  fallback, but it should not be the main workflow
+
+The next implementation step is to make review packs queue-aware by embedding
+document-level state and selectable flags. The dashboard should render this
+explicit metadata instead of inferring state from batch-level stages.
+
 Display:
 
 - the current best-effort yomi-annotated sentence
