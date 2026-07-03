@@ -1755,6 +1755,7 @@ def build_strong_repair_queue_file(
                         {
                             "item_id": f"{unit.get('unit_id')}::target_group:{group_index}",
                             "unit_id": unit.get("unit_id"),
+                            "doc_id": unit.get("doc_id"),
                             "text": unit.get("text"),
                             "rendered_yomi": rendered_yomi,
                             "repair_scope": "target_group",
@@ -1781,6 +1782,7 @@ def build_strong_repair_queue_file(
                         {
                             "item_id": f"{unit.get('unit_id')}::span_group:{span_index}",
                             "unit_id": unit.get("unit_id"),
+                            "doc_id": unit.get("doc_id"),
                             "text": unit.get("text"),
                             "rendered_yomi": rendered_yomi,
                             "repair_scope": "target_group",

@@ -951,6 +951,26 @@ class PipelineTrackTests(unittest.TestCase):
             )
             self.assertTrue(batch_dir.exists())
 
+    def test_final_review_prepare_creates_document_review_state(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            make_final_review_batch(root)
+
+            with patch("yomi_corpus.review_site.publish_review_site") as mocked_publish:
+                mocked_publish.return_value = {"default_stage": "yomi_final_review"}
+                summary = workspace._prepare_final_review("dev_batch_0001")
+
+            state_path = root / "data" / "pipeline" / "document_states" / "dev_batch_0001.json"
+            payload = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual(payload["summary"]["document_count"], 1)
+            self.assertEqual(payload["summary"]["state_counts"]["final_pending"], 1)
+            self.assertEqual(
+                Path(summary["artifacts"]["document_review_state_json"]).resolve(),
+                state_path.resolve(),
+            )
+            self.assertEqual(summary["artifacts"]["document_review_state_final_pending"], "1")
+
     def test_final_review_no_escalation_path_finalizes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

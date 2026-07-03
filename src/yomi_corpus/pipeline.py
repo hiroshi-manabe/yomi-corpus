@@ -31,6 +31,14 @@ from yomi_corpus.alphabetic_state import (
     load_alphabetic_decisions,
     upsert_alphabetic_decision,
 )
+from yomi_corpus.document_review_state import (
+    build_initial_document_review_state,
+    load_document_review_state,
+    mark_document_review_state_finalized,
+    update_document_review_state_after_final_review,
+    update_document_review_state_after_strong_queue,
+    write_document_review_state,
+)
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
 from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
@@ -429,11 +437,17 @@ class PipelineWorkspace:
     def batches_root(self) -> Path:
         return self.pipeline_root() / "batches"
 
+    def document_states_root(self) -> Path:
+        return self.pipeline_root() / "document_states"
+
     def track_state_path(self, track_name: str) -> Path:
         return self.tracks_root() / f"{track_name}.json"
 
     def batch_state_path(self, batch_name: str) -> Path:
         return self.batches_root() / f"{batch_name}.json"
+
+    def document_review_state_path(self, batch_name: str) -> Path:
+        return self.document_states_root() / f"{batch_name}.json"
 
     def batch_dir(self, batch_name: str) -> Path:
         return self.units_root() / batch_name
@@ -444,6 +458,7 @@ class PipelineWorkspace:
     def ensure_dirs(self) -> None:
         self.tracks_root().mkdir(parents=True, exist_ok=True)
         self.batches_root().mkdir(parents=True, exist_ok=True)
+        self.document_states_root().mkdir(parents=True, exist_ok=True)
 
     def load_track_state(self, track_name: str) -> TrackState:
         normalized = normalize_track_name(track_name)
@@ -1122,16 +1137,19 @@ class PipelineWorkspace:
             return [
                 batch_dir / "final_review_pack.json",
                 batch_dir / "final_review_pack_summary.json",
+                self.document_review_state_path(batch_state.batch_name),
             ]
         if stage_name == STAGE_FINAL_REVIEW_APPLIED:
             return [
                 batch_dir / "units.yomi.reviewed.jsonl",
                 batch_dir / "final_review_apply_summary.json",
+                self.document_review_state_path(batch_state.batch_name),
             ]
         if stage_name == STAGE_YOMI_STRONG_REPAIR_QUEUED:
             return [
                 batch_dir / "yomi_strong_repair_queue.jsonl",
                 batch_dir / "yomi_strong_repair_queue_summary.json",
+                self.document_review_state_path(batch_state.batch_name),
             ]
         if stage_name == STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED:
             return [
@@ -2407,6 +2425,13 @@ class PipelineWorkspace:
             track_name=batch_state.track_name,
             batch_name=batch_name,
         )
+        document_state_path = self.document_review_state_path(batch_name)
+        document_state = build_initial_document_review_state(
+            units_jsonl=source_path,
+            batch_name=batch_name,
+            track_name=batch_state.track_name,
+        )
+        write_document_review_state(document_state_path, document_state)
         review_pack_path.parent.mkdir(parents=True, exist_ok=True)
         review_pack_path.write_text(
             batch_pack_path.read_text(encoding="utf-8"),
@@ -2424,6 +2449,13 @@ class PipelineWorkspace:
             "artifacts": {
                 "final_review_pack_json": str(batch_pack_path),
                 "final_review_pack_summary_json": str(summary_path),
+                "document_review_state_json": str(document_state_path),
+                "document_review_state_documents": str(
+                    document_state["summary"]["document_count"]
+                ),
+                "document_review_state_final_pending": str(
+                    document_state["summary"]["state_counts"].get("final_pending", 0)
+                ),
                 "review_pack_json": str(review_pack_path),
                 "review_site_manifest_json": str(manifest_path),
                 "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
@@ -2455,6 +2487,42 @@ class PipelineWorkspace:
             output_jsonl=output_path,
             summary_json=summary_path,
         )
+        document_state_path = self.document_review_state_path(batch_name)
+        document_state_artifacts: dict[str, str] = {
+            "document_review_state_json": str(document_state_path),
+        }
+        if output_path.exists():
+            if document_state_path.exists():
+                document_state = load_document_review_state(document_state_path)
+            else:
+                document_state = build_initial_document_review_state(
+                    units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
+                    batch_name=batch_name,
+                    track_name=batch_state.track_name,
+                )
+            document_state = update_document_review_state_after_final_review(
+                state=document_state,
+                reviewed_units_jsonl=output_path,
+            )
+            write_document_review_state(document_state_path, document_state)
+            state_counts = document_state["summary"]["state_counts"]
+            document_state_artifacts.update(
+                {
+                    "document_review_state_documents": str(
+                        document_state["summary"]["document_count"]
+                    ),
+                    "document_review_state_final_pending": str(
+                        state_counts.get("final_pending", 0)
+                    ),
+                    "document_review_state_final_in_review": str(
+                        state_counts.get("final_in_review", 0)
+                    ),
+                    "document_review_state_final_reviewed": str(
+                        state_counts.get("final_reviewed", 0)
+                    ),
+                    "document_review_state_skipped": str(state_counts.get("skipped", 0)),
+                }
+            )
         artifacts = {
             "final_review_pack_id": pack_id,
             "final_review_submission_store": str(submission_store_dir),
@@ -2466,6 +2534,7 @@ class PipelineWorkspace:
                 import_summary.get("imported_submission_count", "")
             ),
             "final_review_apply_summary_json": str(summary_path),
+            **document_state_artifacts,
         }
         if not summary.get("stage_complete", True):
             return {
@@ -2561,10 +2630,32 @@ class PipelineWorkspace:
             output_jsonl=output_path,
             summary_json=summary_path,
         )
+        document_state_path = self.document_review_state_path(batch_name)
+        document_state_artifacts: dict[str, str] = {
+            "document_review_state_json": str(document_state_path),
+        }
+        if document_state_path.exists():
+            document_state = load_document_review_state(document_state_path)
+            document_state = update_document_review_state_after_strong_queue(
+                state=document_state,
+                queue_jsonl=output_path,
+            )
+            write_document_review_state(document_state_path, document_state)
+            state_counts = document_state["summary"]["state_counts"]
+            document_state_artifacts.update(
+                {
+                    "document_review_state_strong_pending": str(
+                        state_counts.get("strong_pending", 0)
+                    ),
+                    "document_review_state_complete": str(state_counts.get("complete", 0)),
+                    "document_review_state_skipped": str(state_counts.get("skipped", 0)),
+                }
+            )
         return {
             "artifacts": {
                 "yomi_strong_repair_queue_jsonl": str(output_path),
                 "yomi_strong_repair_queue_summary_json": str(summary_path),
+                **document_state_artifacts,
                 "yomi_strong_repair_queued": str(summary["queued_items"]),
                 "yomi_strong_repair_target_escalations": str(summary["target_escalations"]),
                 "yomi_strong_repair_mock_only": "false",
@@ -2835,6 +2926,22 @@ class PipelineWorkspace:
                     "human_review_item_count": str(summary["queued_items"]),
                 },
             }
+        document_state_path = self.document_review_state_path(batch_name)
+        document_state_artifacts: dict[str, str] = {
+            "document_review_state_json": str(document_state_path),
+        }
+        if document_state_path.exists():
+            document_state = mark_document_review_state_finalized(
+                load_document_review_state(document_state_path)
+            )
+            write_document_review_state(document_state_path, document_state)
+            state_counts = document_state["summary"]["state_counts"]
+            document_state_artifacts.update(
+                {
+                    "document_review_state_complete": str(state_counts.get("complete", 0)),
+                    "document_review_state_skipped": str(state_counts.get("skipped", 0)),
+                }
+            )
         harvest_summary_path = batch_dir / "yomi_finalization_harvest_summary.json"
         harvest_summary = harvest_yomi_finalization_artifacts_file(
             final_units_jsonl=output_path,
@@ -2849,6 +2956,7 @@ class PipelineWorkspace:
         return {
             "artifacts": {
                 **artifacts,
+                **document_state_artifacts,
                 "yomi_final_written_units": str(summary["written_units"]),
                 "yomi_final_skipped_units": str(summary["skipped_units"]),
                 "yomi_final_unreviewed_units": str(summary["unreviewed_units"]),
