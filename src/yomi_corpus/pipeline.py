@@ -66,6 +66,12 @@ WORKING_TRACK = "working"
 DEV_TRACK = "dev"
 DEFAULT_TRACK = WORKING_TRACK
 PROTECTED_TRACKS = frozenset({WORKING_TRACK})
+DEPRECATED_ARTIFACT_KEYS = frozenset(
+    {
+        "final_review_escalated_units",
+        "yomi_strong_repair_sentence_escalations",
+    }
+)
 DEFAULT_PIPELINE_DEFAULTS_CONFIG_PATH = "config/pipeline/defaults.toml"
 YOMI_UNIT_MODE_SENTENCE = "sentence"
 YOMI_UNIT_MODE_COMMA_SPAN = "comma_span"
@@ -264,6 +270,11 @@ def is_protected_track(track_name: str) -> bool:
 
 def requires_strict_human_review_gates(track_name: str) -> bool:
     return is_protected_track(track_name)
+
+
+def prune_deprecated_artifact_keys(artifacts: dict[str, str]) -> None:
+    for key in DEPRECATED_ARTIFACT_KEYS:
+        artifacts.pop(key, None)
 
 
 def track_policy_name(track_name: str) -> str:
@@ -829,6 +840,7 @@ class PipelineWorkspace:
             batch_state.current_stage = force_stage
             batch_state.blocking_reason = self._blocking_reason_for_stage(force_stage)
             batch_state.artifacts.update(summary["artifacts"])
+            prune_deprecated_artifact_keys(batch_state.artifacts)
             batch_state.skipped_review_gates = merge_review_gates(
                 batch_state.skipped_review_gates,
                 summary.get("skipped_review_gates", []),
@@ -892,6 +904,7 @@ class PipelineWorkspace:
         batch_state.current_stage = next_stage
         batch_state.blocking_reason = self._blocking_reason_for_stage(next_stage)
         batch_state.artifacts.update(summary["artifacts"])
+        prune_deprecated_artifact_keys(batch_state.artifacts)
         batch_state.skipped_review_gates = merge_review_gates(
             batch_state.skipped_review_gates,
             summary.get("skipped_review_gates", []),
@@ -923,6 +936,7 @@ class PipelineWorkspace:
         forced: bool,
     ) -> dict[str, object]:
         batch_state.artifacts.update(summary.get("artifacts", {}))
+        prune_deprecated_artifact_keys(batch_state.artifacts)
         batch_state.blocking_reason = str(
             summary.get("blocking_reason") or "Stage is still running."
         )
@@ -2473,7 +2487,6 @@ class PipelineWorkspace:
                 "final_review_reviewed_units": str(summary["reviewed_units"]),
                 "final_review_unreviewed_units": str(summary["unreviewed_units"]),
                 "final_review_skipped_units": str(summary["skipped_units"]),
-                "final_review_escalated_units": str(summary["escalated_units"]),
                 "final_review_target_overrides": str(summary["target_override_count"]),
                 "final_review_no_ruby_targets": str(summary["no_ruby_target_count"]),
                 "final_review_exact_rendered_updates": str(summary["exact_rendered_updates"]),
@@ -2553,7 +2566,6 @@ class PipelineWorkspace:
                 "yomi_strong_repair_queue_jsonl": str(output_path),
                 "yomi_strong_repair_queue_summary_json": str(summary_path),
                 "yomi_strong_repair_queued": str(summary["queued_items"]),
-                "yomi_strong_repair_sentence_escalations": str(summary["sentence_escalations"]),
                 "yomi_strong_repair_target_escalations": str(summary["target_escalations"]),
                 "yomi_strong_repair_mock_only": "false",
                 "human_review_required": "false",

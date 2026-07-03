@@ -910,7 +910,6 @@ def replay_review_submissions(
                     "item_id": item_id,
                     "reviewed": True,
                     "skip": bool(item.get("skip_default", False)),
-                    "escalate_sentence": False,
                     "targets": default_target_rows(item),
                     "span_overrides": [],
                     "note": "",
@@ -928,7 +927,6 @@ def replay_review_submissions(
                         "item_id": item_id,
                         "reviewed": True,
                         "skip": bool(item.get("skip_default", False)),
-                        "escalate_sentence": False,
                         "targets": default_target_rows(item),
                         "span_overrides": [],
                         "note": "",
@@ -936,8 +934,6 @@ def replay_review_submissions(
                 )
                 if "skip" in override:
                     current["skip"] = bool(override["skip"])
-                if "escalate_sentence" in override:
-                    current["escalate_sentence"] = bool(override["escalate_sentence"])
                 current["targets"] = merge_default_and_explicit_target_rows(
                     item,
                     [row for row in override.get("targets", []) if isinstance(row, dict)],
@@ -1293,7 +1289,6 @@ def apply_final_review_file(
     written_units = 0
     reviewed_units = 0
     skipped_units = 0
-    escalated_units = 0
     target_override_count = 0
     span_override_count = 0
     exact_rendered_updates = 0
@@ -1326,8 +1321,6 @@ def apply_final_review_file(
                 )
                 if item_state.get("skip"):
                     skipped_units += 1
-                if item_state.get("escalate_sentence"):
-                    escalated_units += 1
                 if item_state.get("skip"):
                     exact_target_updates = 0
                     exact_span_updates = 0
@@ -1362,7 +1355,6 @@ def apply_final_review_file(
         "reviewed_units": reviewed_units,
         "unreviewed_units": unreviewed_units,
         "skipped_units": skipped_units,
-        "escalated_units": escalated_units,
         "target_override_count": target_override_count,
         "span_override_count": span_override_count,
         "no_ruby_target_count": no_ruby_target_count,
@@ -1548,7 +1540,6 @@ def set_final_review_payload(
         "reviewed": True,
         "item_id": item.get("item_id"),
         "skip": bool(item_state.get("skip")),
-        "escalate_sentence": bool(item_state.get("escalate_sentence")),
         "target_overrides": target_overrides,
         "span_overrides": span_overrides,
         "note": str(item_state.get("note", "")),
@@ -1569,7 +1560,6 @@ def build_strong_repair_queue_file(
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     read_units = 0
     queued_items = 0
-    sentence_escalations = 0
     target_escalations = 0
     with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
@@ -1586,10 +1576,6 @@ def build_strong_repair_queue_file(
                 continue
             if review.get("skip"):
                 continue
-            sentence_reasons = []
-            if review.get("escalate_sentence"):
-                sentence_reasons.append("sentence_escalation")
-                sentence_escalations += 1
             target_constraints = [
                 row
                 for row in review.get("target_overrides", [])
@@ -1613,7 +1599,7 @@ def build_strong_repair_queue_file(
                 and str(row.get("item_id") or "") not in span_repair_target_ids
                 and not is_no_ruby_laughter_w_override(row)
             ]
-            if not sentence_reasons and not target_escalation_overrides and not span_repair_overrides:
+            if not target_escalation_overrides and not span_repair_overrides:
                 continue
             rendered_yomi = (
                 unit.get("analysis", {})
@@ -1671,33 +1657,10 @@ def build_strong_repair_queue_file(
                     + "\n"
                 )
                 queued_items += 1
-            if sentence_reasons:
-                dst.write(
-                    json.dumps(
-                        {
-                            "item_id": f"{unit.get('unit_id')}::sentence",
-                            "unit_id": unit.get("unit_id"),
-                            "text": unit.get("text"),
-                            "rendered_yomi": rendered_yomi,
-                            "repair_scope": "sentence",
-                            "repair_order": 2,
-                            "reasons": sentence_reasons,
-                            "target_constraints": target_constraints,
-                            "target_escalations": target_escalation_overrides,
-                            # Backward-compatible alias for existing mock consumers.
-                            "target_overrides": target_escalation_overrides,
-                            "status": "mock_pending",
-                        },
-                        ensure_ascii=False,
-                    )
-                    + "\n"
-                )
-                queued_items += 1
     summary = {
         "rule": "yomi_strong_repair_queue_v1",
         "read_units": read_units,
         "queued_items": queued_items,
-        "sentence_escalations": sentence_escalations,
         "target_escalations": target_escalations,
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
