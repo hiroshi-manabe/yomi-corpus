@@ -1988,46 +1988,89 @@ infallible. The review pack should still record the queue type and the source
 of each automatic `OK`, so later analysis can estimate false-OK rates by
 source.
 
-### 11.1 Long-term large-batch review queues
+### 11.1 Migration target: document-level review queues
 
-Long-term target: keep pipeline batches large, for example 100 documents, but
-make human review operate on smaller browser-selected slices. The pipeline batch
-is durable state; the UI-selected range or checkbox subset is only a work unit
-for one submission.
+The next dev implementation should prototype the intended `working` workflow.
+The main shift is from a single global batch stage to durable per-document task
+state. The batch remains the data boundary, but different documents in the same
+batch may be at different review phases:
+
+- a document may still be waiting for final review
+- another document may have final review applied and be waiting for strong
+  repair
+- another document may have both final review and strong repair complete
+- another document may be skipped
+
+This should be implemented in `dev` first, then copied to `working` only after
+the workflow is stable.
+
+Target: keep pipeline batches large, for example 100 documents, but make human
+review operate on smaller browser-selected slices. The pipeline batch is
+durable state; the UI-selected range or checkbox subset is only a work unit for
+one submission.
 
 The target queue lifecycle is:
 
 1. Prepare one large batch.
-2. Put items needing human final review into a `final_review_pending` list.
+2. Put documents needing human final review into a `final_review_pending` list.
 3. Let the UI show that list, let the reviewer choose a range or checked
    subset, and persist that in-progress work in browser storage.
-4. The reviewer exports/submits JSON through GitHub Issues/comments.
+4. Starting a UI task creates or names one GitHub Issue for that selected work
+   unit; submitting review JSON appends to that Issue.
 5. A periodic importer polls Issues/comments, applies matching submissions
-   idempotently, and updates local queue state.
-6. Completed final-review items are greyed out or removed from the first list.
-7. Items needing strong repair move into `strong_repair_pending`.
-8. Strong-repair review works the same way; completed items disappear from the
-   second list.
-9. When both pending lists are empty, the orchestrator finalizes the batch and
-   prepares the next large batch.
+   idempotently, updates local document queue state, and closes successfully
+   applied Issues as `completed`.
+6. Documents with completed final review are greyed out or removed from the
+   final-review list.
+7. Documents with canceled/local unresolved readings move into
+   `strong_repair_pending`.
+8. Strong-repair review works the same way; completed documents disappear from
+   the second list.
+9. Documents with no strong-repair need can move directly from final review to
+   `complete`.
+10. When every document in the batch is `complete` or `skipped`, the
+    orchestrator finalizes the batch and prepares the next large batch.
 
 Operational requirements:
 
-- submission payloads must carry stable item IDs, queue/stage IDs, pack IDs,
-  and reviewed range/subset metadata
+- store per-document state, not only one batch-level stage. A minimal state
+  vocabulary should include `final_pending`, `final_in_review`,
+  `final_reviewed`, `strong_pending`, `strong_in_review`, `strong_reviewed`,
+  `complete`, and `skipped`
+- submission payloads must carry stable document IDs, item IDs, queue/stage IDs,
+  pack IDs, selected range/subset metadata, and source Issue/comment IDs
 - browser draft state should be keyed by `pack_id`, `queue_id`, and selected
-  item IDs or range
+  document IDs or range
 - completed/greyed-out state should be rendered from imported local queue
   state, not from browser-only local storage
 - importer replay must be idempotent and tolerate many open Issues/comments
+- successfully applied Issues should be closed as completed; invalid or
+  mismatched Issues should remain open with a clear reason or be ignored until
+  a later sync
 - overlapping submissions should continue to use the existing later-wins replay
   rule
 - strong repair should be derived from final-review submissions, not from a
   separately prepared manual batch
+- periodic sync should be a distinct operator command, not a hidden side effect
+  of ordinary review UI generation. A future command such as `./review-sync dev`
+  should import Issues, update document states, publish updated review packs if
+  needed, and start the next batch only when the current batch is complete
 
-This is not the current implementation target. It should wait until the
-final-review and strong-repair schemas are stable enough that a larger queue
-manager will not churn every batch.
+Repository layout migration:
+
+- this repository continues to own pipeline code, review-pack generation,
+  submission ingestion, replay semantics, and corpus state
+- the current in-repo GitHub Pages UI remains acceptable while schemas churn
+- the next target is a dedicated `dev` review repository for Pages and Issues
+- a separate `working` review repository should come later, with stricter and
+  more stable behavior
+- review repositories should own only UI publication and GitHub Issues; this
+  repository remains the source of truth after importing and replaying
+  submissions
+
+This is now the preferred migration direction, but it should be implemented in
+small steps: first document-level state, then issue closing, then periodic sync,
+then separate review repositories.
 
 Display:
 

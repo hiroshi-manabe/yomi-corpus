@@ -1593,10 +1593,12 @@ The important point is not the exact directory names but the separation:
 - the review UI should remain versioned with this project
 - GitHub Pages output should be a normal repo artifact, not a separate system
 
-Long-term task: once several batches have gone through the full review flow and
-the review-pack and review-submission schemas stop changing frequently,
-consider splitting the static review UI and its GitHub-Issue workflow into a
-separate project. The split should be limited to UI hosting and review-return
+Migration target: implement the intended `working` review workflow in `dev`
+first, then move UI hosting and GitHub Issues into dedicated review
+repositories. The current in-repo Pages UI remains acceptable while schemas
+churn, but the next target should be a separate dev review repository, followed
+later by a separate working review repository with stricter, more stable
+behavior. The split should be limited to UI hosting and review-return
 conventions. Pack generation, submission ingestion, replay semantics, and
 corpus state should remain in this repository because they are pipeline-coupled.
 The prerequisite is a stable contract:
@@ -1608,7 +1610,10 @@ The prerequisite is a stable contract:
   repo
 
 Until those contracts stabilize, keeping the UI source and Pages artifacts in
-this repository is the lower-friction choice.
+this repository is the lower-friction choice. The dev workflow should still be
+designed as if the split already existed: review repositories own Pages and
+Issues only; this repository remains the source of truth after importing and
+replaying submissions.
 
 For yomi review, use the same transport model as alphabetic review: the cluster
 writes a review-pack JSON file, GitHub Pages displays it, the browser keeps
@@ -1726,42 +1731,62 @@ This keeps the UI simple while still changing the reviewer's posture. `OK`
 queues are designed for anomaly detection over many items; `Review` queues are
 designed for deliberate sentence-by-sentence validation.
 
-### 10.4.1 Long-term large-batch work queues
+### 10.4.1 Migration target: document-level work queues
 
-Long-term target: use larger durable pipeline batches, such as 100 documents,
-while letting the browser expose smaller review work slices selected by range
-or checkbox. The batch should be the pipeline unit; a browser work slice should
-be only a claim/submission unit.
+Target: use larger durable pipeline batches, such as 100 documents, while
+letting the browser expose smaller review work slices selected by document,
+range, or checkbox. The batch should remain the pipeline data unit; a browser
+work slice should be only a claim/submission unit.
+
+The next dev implementation should prototype the intended `working` workflow.
+That means the pipeline should stop treating final review and strong repair as
+one global batch stage. Different documents in the same batch may be in
+different states:
+
+- waiting for final review
+- final review applied, waiting for strong repair
+- strong repair complete
+- skipped
+- complete
 
 The intended model has three layers:
 
 - batch state: the durable set of documents owned by the pipeline
-- review queues inside the batch, especially `final_review_pending` and
-  `strong_repair_pending`
+- per-document review state inside the batch, especially final-review and
+  strong-repair pending states
 - review submissions returned through GitHub Issues/comments, keyed by stable
-  item IDs and queue/stage IDs
+  document IDs, item IDs, queue/stage IDs, and pack IDs
 
 Workflow target:
 
-1. A large batch is prepared and items enter the final-review pending list.
-2. The UI lets a reviewer choose a range or checked subset from that list and
-   keeps the in-progress slice in browser storage.
-3. When the reviewer submits JSON to GitHub Issues, an importer periodically
-   polls Issues/comments, validates matching payloads, and applies them
-   idempotently.
-4. Applied final-review submissions grey out or remove completed items from the
-   final-review list.
-5. Items that need strong repair move to a second list,
+1. A large batch is prepared and documents enter the final-review pending list.
+2. The UI lets a reviewer choose a document range or checked subset and keeps
+   the in-progress slice in browser storage.
+3. Starting or submitting a browser task uses one GitHub Issue for that selected
+   work slice.
+4. A periodic importer polls Issues/comments, validates matching payloads, and
+   applies them idempotently.
+5. Successfully applied Issues are closed as `completed`; invalid or mismatched
+   Issues remain open with a clear reason or are ignored until a later sync.
+6. Applied final-review submissions grey out or remove completed documents from
+   the final-review list.
+7. Documents with canceled/local unresolved readings move to
    `strong_repair_pending`.
-6. Strong-repair submissions are imported the same way. When accepted, those
-   items disappear from the second list.
-7. When both lists are empty, the polling/orchestration process finalizes the
-   batch and prepares the next large batch.
+8. Strong-repair submissions are imported the same way. Accepted documents
+   disappear from the second list.
+9. Documents with no strong-repair need can move directly from final review to
+   `complete`.
+10. When every document is `complete` or `skipped`, the polling/orchestration
+    process finalizes the batch and prepares the next large batch.
 
 Design constraints:
 
+- local state should be per-document, not only one batch-level stage. A minimal
+  state vocabulary is `final_pending`, `final_in_review`, `final_reviewed`,
+  `strong_pending`, `strong_in_review`, `strong_reviewed`, `complete`, and
+  `skipped`
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
-  selected item IDs or range
+  selected document IDs or range
 - greyed-out/completed state comes from imported pipeline queue state, not from
   browser-only state
 - imports must be idempotent; re-reading the same Issue/comment must not
@@ -1770,10 +1795,15 @@ Design constraints:
   ranges/items
 - strong repair should be a derived queue from final-review output, not a
   separately hand-managed batch
+- periodic sync should be explicit operator behavior, for example a future
+  `./review-sync dev` command that imports Issues, updates document states,
+  republishes review packs when needed, and starts the next batch only when the
+  current batch is complete
 
-Do not implement this before the current final-review and strong-repair schemas
-stabilize. The goal is to let human work scale to large batches without making
-each browser session large or fragile.
+This should be implemented in small steps: document-level state, issue closing,
+periodic sync, and then separate review repositories. The goal is to let human
+work scale to large batches without making each browser session large or
+fragile.
 
 ### 10.5 Multiple partial submissions
 

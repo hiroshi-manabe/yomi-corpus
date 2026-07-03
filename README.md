@@ -91,7 +91,9 @@ Review transport policy:
 - assume static browser UI rather than cluster-hosted writable UI
 - treat this repository's GitHub Pages review UI as dev-only while the workflow
   is still experimental
-- keep the dev review UI in this same repository rather than a separate UI repo
+- current state: the dev review UI is still in this repository; migration
+  target: give `dev` its own review repository too, separate from the future
+  `working` review repository
 - isolate the static review app in its own directory so it does not mix with
   the Python pipeline code
 - GitHub Pages is the preferred first host for review HTML
@@ -102,15 +104,12 @@ Review transport policy:
   `https://hiroshi-manabe.github.io/yomi-corpus/review/?stage=yomi_final_review&track=dev&v=dev`
   from documentation links; once the UI stabilizes, the cache-busting parameter
   can be removed
-- a separate review-UI project should be considered for future `working`
-  review once review-pack and submission schemas stabilize; that UI should be
-  stable/production-oriented and should not inherit dev UI churn
-- the next dev trial should use a small batch, around 10 documents, to exercise
-  browser-selected work slices and partial returned submissions before changing
-  larger-batch behavior
-- a long-term review-queue goal is large durable pipeline batches with smaller
+- implement the intended `working` workflow in `dev` first: separate review
+  repository, document-level task state, GitHub Issue closing after import, and
+  periodic sync that imports Issues and starts the next batch when appropriate
+- a review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
-  per-batch pending lists
+  per-document pending/completed state
 - finalized batches harvest exact strong-repair rewrite defaults and
   supplemental furigana display entries under `data/lexicon/`
 
