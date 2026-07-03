@@ -145,6 +145,13 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(summary.unresolved_item_count, 1)
             self.assertEqual(summary.unresolved_target_count, 1)
             self.assertEqual(pack["review_stage"], "yomi_final_review")
+            self.assertEqual(pack["queue_id"], "final_review")
+            self.assertEqual([doc["doc_id"] for doc in pack["documents"]], ["doc1", "doc2"])
+            self.assertEqual(pack["documents"][0]["state"], "final_pending")
+            self.assertTrue(pack["documents"][0]["selectable"])
+            self.assertEqual(pack["documents"][0]["item_count"], 1)
+            self.assertEqual(pack["documents"][0]["unresolved_count"], 1)
+            self.assertEqual(pack["summary"]["selectable_document_count"], 2)
             self.assertEqual(pack["items"][0]["doc_seq"], 1)
             self.assertEqual(pack["items"][1]["doc_seq"], 2)
             target = pack["items"][0]["targets"][0]
@@ -177,6 +184,78 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(pack["items"][1]["all_targets_safe"])
 
             summary_path.write_text(json.dumps(summary.__dict__), encoding="utf-8")
+
+    def test_final_review_pack_uses_document_state_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            output_path = root / "pack.json"
+            state_path = root / "document_state.json"
+            units_path.write_text(
+                "\n".join(
+                    [
+                        json.dumps(unit("doc1", "u1", "近々です。"), ensure_ascii=False),
+                        json.dumps(unit("doc2", "u2", "学校です。", safe=True), ensure_ascii=False),
+                    ]
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "created_at": "2026-07-03T00:00:00Z",
+                        "updated_at": "2026-07-03T00:00:00Z",
+                        "summary": {"document_count": 2, "state_counts": {}},
+                        "documents": [
+                            {
+                                "doc_id": "doc1",
+                                "doc_seq": 1,
+                                "state": "final_pending",
+                                "unit_count": 1,
+                                "reviewed_unit_count": 0,
+                                "skipped_unit_count": 0,
+                                "strong_repair_item_count": 0,
+                                "updated_at": "2026-07-03T00:00:00Z",
+                            },
+                            {
+                                "doc_id": "doc2",
+                                "doc_seq": 2,
+                                "state": "complete",
+                                "unit_count": 1,
+                                "reviewed_unit_count": 1,
+                                "skipped_unit_count": 0,
+                                "strong_repair_item_count": 0,
+                                "updated_at": "2026-07-03T00:00:00Z",
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=output_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                document_state_json=state_path,
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(output_path.read_text(encoding="utf-8"))
+            docs = {doc["doc_id"]: doc for doc in pack["documents"]}
+            self.assertTrue(docs["doc1"]["selectable"])
+            self.assertFalse(docs["doc2"]["selectable"])
+            self.assertEqual(docs["doc2"]["state"], "complete")
+            self.assertEqual(pack["summary"]["document_state_counts"]["complete"], 1)
 
     def test_pack_drops_non_kana_reading_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -1591,6 +1670,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             results_path = root / "results.jsonl"
             units_path = root / "units.jsonl"
             pack_path = root / "pack.json"
+            state_path = root / "document_state.json"
             queue_path.write_text(
                 json.dumps(
                     {
@@ -1644,6 +1724,44 @@ class YomiFinalReviewTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "created_at": "2026-07-03T00:00:00Z",
+                        "updated_at": "2026-07-03T00:00:00Z",
+                        "summary": {"document_count": 2, "state_counts": {}},
+                        "documents": [
+                            {
+                                "doc_id": "doc1",
+                                "doc_seq": 1,
+                                "state": "complete",
+                                "unit_count": 1,
+                                "reviewed_unit_count": 1,
+                                "skipped_unit_count": 0,
+                                "strong_repair_item_count": 0,
+                                "updated_at": "2026-07-03T00:00:00Z",
+                            },
+                            {
+                                "doc_id": "doc2",
+                                "doc_seq": 2,
+                                "state": "strong_pending",
+                                "unit_count": 1,
+                                "reviewed_unit_count": 1,
+                                "skipped_unit_count": 0,
+                                "strong_repair_item_count": 1,
+                                "updated_at": "2026-07-03T00:00:00Z",
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
 
             build_yomi_strong_repair_review_pack_file(
                 queue_jsonl=queue_path,
@@ -1653,14 +1771,21 @@ class YomiFinalReviewTests(unittest.TestCase):
                 pack_id="strong_pack_1",
                 track_name="dev",
                 batch_name="dev_batch_0001",
+                document_state_json=state_path,
                 created_at_epoch=123,
             )
 
             pack = json.loads(pack_path.read_text(encoding="utf-8"))
+            self.assertEqual(pack["queue_id"], "strong_repair")
             self.assertEqual(pack["summary"]["document_count"], 2)
+            self.assertEqual(pack["summary"]["selectable_document_count"], 1)
             self.assertEqual([doc["doc_id"] for doc in pack["documents"]], ["doc1", "doc2"])
             self.assertEqual(pack["documents"][0]["item_count"], 0)
+            self.assertEqual(pack["documents"][0]["state"], "complete")
+            self.assertFalse(pack["documents"][0]["selectable"])
             self.assertEqual(pack["documents"][1]["item_count"], 1)
+            self.assertEqual(pack["documents"][1]["state"], "strong_pending")
+            self.assertTrue(pack["documents"][1]["selectable"])
             self.assertEqual(pack["items"][0]["doc_seq"], 2)
 
     def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:

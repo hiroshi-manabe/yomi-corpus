@@ -2418,13 +2418,6 @@ class PipelineWorkspace:
         batch_pack_path = batch_dir / "final_review_pack.json"
         summary_path = batch_dir / "final_review_pack_summary.json"
         review_pack_path = self.root / "data" / "review_packs" / "yomi_final" / f"{pack_id}.json"
-        summary = build_yomi_final_review_pack_file(
-            units_jsonl=source_path,
-            output_json=batch_pack_path,
-            pack_id=pack_id,
-            track_name=batch_state.track_name,
-            batch_name=batch_name,
-        )
         document_state_path = self.document_review_state_path(batch_name)
         document_state = build_initial_document_review_state(
             units_jsonl=source_path,
@@ -2432,6 +2425,14 @@ class PipelineWorkspace:
             track_name=batch_state.track_name,
         )
         write_document_review_state(document_state_path, document_state)
+        summary = build_yomi_final_review_pack_file(
+            units_jsonl=source_path,
+            output_json=batch_pack_path,
+            pack_id=pack_id,
+            track_name=batch_state.track_name,
+            batch_name=batch_name,
+            document_state_json=document_state_path,
+        )
         review_pack_path.parent.mkdir(parents=True, exist_ok=True)
         review_pack_path.write_text(
             batch_pack_path.read_text(encoding="utf-8"),
@@ -2826,6 +2827,7 @@ class PipelineWorkspace:
             pack_id=pack_id,
             track_name=batch_state.track_name,
             batch_name=batch_name,
+            document_state_json=self.document_review_state_path(batch_name),
             latest_json=review_pack_path,
         )
         write_yomi_final_review_summary(summary, summary_path)

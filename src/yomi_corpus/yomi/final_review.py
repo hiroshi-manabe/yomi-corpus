@@ -20,6 +20,8 @@ from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
 
 REVIEW_STAGE = "yomi_final_review"
 STRONG_REPAIR_REVIEW_STAGE = "yomi_strong_repair_review"
+QUEUE_ID_FINAL_REVIEW = "final_review"
+QUEUE_ID_STRONG_REPAIR = "strong_repair"
 SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
@@ -29,6 +31,17 @@ SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
+DOCUMENT_STATE_FINAL_PENDING = "final_pending"
+DOCUMENT_STATE_FINAL_IN_REVIEW = "final_in_review"
+DOCUMENT_STATE_STRONG_PENDING = "strong_pending"
+DOCUMENT_STATE_STRONG_IN_REVIEW = "strong_in_review"
+DOCUMENT_STATE_COMPLETE = "complete"
+FINAL_REVIEW_SELECTABLE_STATES = frozenset(
+    {DOCUMENT_STATE_FINAL_PENDING, DOCUMENT_STATE_FINAL_IN_REVIEW}
+)
+STRONG_REPAIR_SELECTABLE_STATES = frozenset(
+    {DOCUMENT_STATE_STRONG_PENDING, DOCUMENT_STATE_STRONG_IN_REVIEW}
+)
 
 
 @dataclass(frozen=True)
@@ -59,6 +72,7 @@ def build_yomi_final_review_pack_file(
     pack_id: str,
     track_name: str,
     batch_name: str,
+    document_state_json: Path | None = None,
     latest_json: Path | None = None,
     created_at_epoch: int | None = None,
 ) -> YomiFinalReviewPackSummary:
@@ -67,6 +81,7 @@ def build_yomi_final_review_pack_file(
         pack_id=pack_id,
         track_name=track_name,
         batch_name=batch_name,
+        document_state_json=document_state_json,
         created_at_epoch=created_at_epoch,
     )
     output_json.parent.mkdir(parents=True, exist_ok=True)
@@ -101,6 +116,7 @@ def build_yomi_strong_repair_review_pack_file(
     pack_id: str,
     track_name: str,
     batch_name: str,
+    document_state_json: Path | None = None,
     latest_json: Path | None = None,
     created_at_epoch: int | None = None,
 ) -> YomiStrongRepairReviewPackSummary:
@@ -111,6 +127,7 @@ def build_yomi_strong_repair_review_pack_file(
         pack_id=pack_id,
         track_name=track_name,
         batch_name=batch_name,
+        document_state_json=document_state_json,
         created_at_epoch=created_at_epoch,
     )
     output_json.parent.mkdir(parents=True, exist_ok=True)
@@ -139,29 +156,37 @@ def build_yomi_final_review_pack(
     pack_id: str,
     track_name: str,
     batch_name: str,
+    document_state_json: Path | None = None,
     created_at_epoch: int | None = None,
 ) -> dict[str, Any]:
     items: list[dict[str, Any]] = []
-    doc_order: dict[str, int] = {}
     created = created_at_epoch if created_at_epoch is not None else current_epoch()
+    units = load_jsonl(units_jsonl)
+    documents = build_pack_documents(units)
+    doc_seq_by_id = {str(row["doc_id"]): int(row["doc_seq"]) for row in documents}
 
-    with units_jsonl.open(encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip():
-                continue
-            unit = json.loads(line)
-            doc_id = str(unit.get("doc_id") or "")
-            if doc_id not in doc_order:
-                doc_order[doc_id] = len(doc_order) + 1
-            item = build_review_item(unit, seq=len(items) + 1, doc_seq=doc_order[doc_id])
-            items.append(item)
+    for unit in units:
+        doc_id = str(unit.get("doc_id") or "")
+        item = build_review_item(
+            unit,
+            seq=len(items) + 1,
+            doc_seq=doc_seq_by_id.get(doc_id, len(doc_seq_by_id) + 1),
+        )
+        items.append(item)
 
     unresolved_items = [item for item in items if item["unresolved_target_count"] > 0]
     unresolved_targets = sum(int(item["unresolved_target_count"]) for item in items)
     provisional_skip_items = [item for item in items if item["provisional_skip"]]
+    documents = with_queue_document_metadata(
+        documents,
+        items,
+        queue_id=QUEUE_ID_FINAL_REVIEW,
+        document_state_json=document_state_json,
+    )
     return {
         "schema_version": SCHEMA_VERSION,
         "review_stage": REVIEW_STAGE,
+        "queue_id": QUEUE_ID_FINAL_REVIEW,
         "pack_id": pack_id,
         "track_name": track_name,
         "batch_name": batch_name,
@@ -172,11 +197,14 @@ def build_yomi_final_review_pack(
         .replace("+00:00", "Z"),
         "item_count": len(items),
         "summary": {
-            "document_count": len(doc_order),
+            "document_count": len(documents),
+            "selectable_document_count": sum(1 for doc in documents if doc.get("selectable")),
+            "document_state_counts": document_state_counts(documents),
             "unresolved_item_count": len(unresolved_items),
             "unresolved_target_count": unresolved_targets,
             "provisional_skip_item_count": len(provisional_skip_items),
         },
+        "documents": documents,
         "items": items,
     }
 
@@ -189,6 +217,7 @@ def build_yomi_strong_repair_review_pack(
     pack_id: str,
     track_name: str,
     batch_name: str,
+    document_state_json: Path | None = None,
     created_at_epoch: int | None = None,
 ) -> dict[str, Any]:
     queue_rows = load_jsonl(queue_jsonl)
@@ -224,9 +253,16 @@ def build_yomi_strong_repair_review_pack(
                 doc_seq=doc_seq_by_id.get(doc_id),
             )
         )
+    documents = with_queue_document_metadata(
+        documents,
+        items,
+        queue_id=QUEUE_ID_STRONG_REPAIR,
+        document_state_json=document_state_json,
+    )
     return {
         "schema_version": SCHEMA_VERSION,
         "review_stage": STRONG_REPAIR_REVIEW_STAGE,
+        "queue_id": QUEUE_ID_STRONG_REPAIR,
         "pack_id": pack_id,
         "track_name": track_name,
         "batch_name": batch_name,
@@ -238,9 +274,11 @@ def build_yomi_strong_repair_review_pack(
         "item_count": len(items),
         "summary": {
             "document_count": len(documents),
+            "selectable_document_count": sum(1 for doc in documents if doc.get("selectable")),
+            "document_state_counts": document_state_counts(documents),
             "repaired_item_count": len(items),
         },
-        "documents": with_repair_document_counts(documents, items),
+        "documents": documents,
         "items": items,
     }
 
@@ -285,6 +323,117 @@ def with_repair_document_counts(
         }
         for doc in documents
     ]
+
+
+def with_queue_document_metadata(
+    documents: list[dict[str, Any]],
+    items: list[dict[str, Any]],
+    *,
+    queue_id: str,
+    document_state_json: Path | None,
+) -> list[dict[str, Any]]:
+    item_stats = document_item_stats(items)
+    state_rows = load_document_state_rows(document_state_json)
+    enriched: list[dict[str, Any]] = []
+    for doc in documents:
+        doc_id = str(doc.get("doc_id") or "")
+        stats = item_stats.get(doc_id, {})
+        state_row = state_rows.get(doc_id, {})
+        state = str(
+            state_row.get("state")
+            or default_document_state_for_queue(queue_id, int(stats.get("item_count") or 0))
+        )
+        selectable = document_is_selectable_for_queue(
+            queue_id=queue_id,
+            state=state,
+            item_count=int(stats.get("item_count") or 0),
+        )
+        enriched.append(
+            {
+                **doc,
+                "queue_id": queue_id,
+                "state": state,
+                "selectable": selectable,
+                "state_updated_at": str(state_row.get("updated_at") or ""),
+                "item_count": int(stats.get("item_count") or 0),
+                "region_count": int(stats.get("region_count") or 0),
+                "unresolved_count": int(stats.get("unresolved_count") or 0),
+                "from_seq": stats.get("from_seq"),
+                "to_seq": stats.get("to_seq"),
+                "reviewed_unit_count": int(state_row.get("reviewed_unit_count") or 0),
+                "skipped_unit_count": int(state_row.get("skipped_unit_count") or 0),
+                "strong_repair_item_count": int(
+                    state_row.get("strong_repair_item_count") or stats.get("region_count") or 0
+                ),
+            }
+        )
+    return enriched
+
+
+def document_item_stats(items: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    stats_by_doc: dict[str, dict[str, Any]] = {}
+    for item in items:
+        doc_id = str(item.get("doc_id") or "")
+        if not doc_id:
+            continue
+        stats = stats_by_doc.setdefault(
+            doc_id,
+            {
+                "from_seq": int(item.get("seq") or 0),
+                "to_seq": int(item.get("seq") or 0),
+                "item_count": 0,
+                "region_count": 0,
+                "unresolved_count": 0,
+            },
+        )
+        seq = int(item.get("seq") or 0)
+        if seq:
+            stats["from_seq"] = min(int(stats["from_seq"] or seq), seq)
+            stats["to_seq"] = max(int(stats["to_seq"] or seq), seq)
+        stats["item_count"] += 1
+        stats["region_count"] += int(item.get("region_count") or 0)
+        stats["unresolved_count"] += int(
+            item.get("unresolved_target_count") or item.get("region_count") or 0
+        )
+    return stats_by_doc
+
+
+def load_document_state_rows(path: Path | None) -> dict[str, dict[str, Any]]:
+    if path is None or not path.exists():
+        return {}
+    with path.open(encoding="utf-8") as handle:
+        payload = json.load(handle)
+    rows = payload.get("documents")
+    if not isinstance(rows, list):
+        return {}
+    return {
+        str(row.get("doc_id") or ""): row
+        for row in rows
+        if isinstance(row, dict) and str(row.get("doc_id") or "")
+    }
+
+
+def default_document_state_for_queue(queue_id: str, item_count: int) -> str:
+    if queue_id == QUEUE_ID_FINAL_REVIEW:
+        return DOCUMENT_STATE_FINAL_PENDING
+    if queue_id == QUEUE_ID_STRONG_REPAIR:
+        return DOCUMENT_STATE_STRONG_PENDING if item_count else DOCUMENT_STATE_COMPLETE
+    return DOCUMENT_STATE_COMPLETE
+
+
+def document_is_selectable_for_queue(*, queue_id: str, state: str, item_count: int) -> bool:
+    if item_count <= 0:
+        return False
+    if queue_id == QUEUE_ID_FINAL_REVIEW:
+        return state in FINAL_REVIEW_SELECTABLE_STATES
+    if queue_id == QUEUE_ID_STRONG_REPAIR:
+        return state in STRONG_REPAIR_SELECTABLE_STATES
+    return False
+
+
+def document_state_counts(documents: list[dict[str, Any]]) -> dict[str, int]:
+    counts = Counter(str(doc.get("state") or "") for doc in documents)
+    return {state: count for state, count in sorted(counts.items()) if state}
 
 
 def build_strong_repair_review_sentence_item(
