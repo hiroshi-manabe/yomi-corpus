@@ -288,6 +288,59 @@ class NextCliTests(unittest.TestCase):
         self.assertIn("Stage:", result.stdout)
         self.assertNotIn("Advanced:", result.stdout)
 
+    def test_next_status_stages_reports_only_current_and_next(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--status", "--stages"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertRegex(result.stdout, r"^current_stage: .+\nnext_stage: .+\n?$")
+
+    def test_next_stages_requires_status(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--stages"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("--stages requires --status", result.stderr)
+
+    def test_status_wrapper_uses_next_status_json(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "status"), "dev"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('"track_name": "dev"', result.stdout)
+        self.assertIn('"current_stage":', result.stdout)
+
+    def test_status_wrapper_stages_uses_next_status_stages(self) -> None:
+        result = subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "status"), "dev", "--stages"],
+            cwd=PROJECT_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertRegex(result.stdout, r"^current_stage: .+\nnext_stage: .+\n?$")
+
     def test_next_status_rejects_advancing_options(self) -> None:
         result = subprocess.run(
             [sys.executable, str(PROJECT_ROOT / "next"), "dev", "--status", "--auto"],

@@ -1507,10 +1507,16 @@ Current intended operator commands:
 - `./next`
 - `./next dev`
 - `./next --force-stage yomi_generated`
+- `./next --status`
+- `./next dev --status`
+- `./next dev --status --stages`
 - `./status`
 - `./status dev`
 
 The implicit no-argument track should be `working`.
+
+`./next --status` is the canonical read-only inspection command. `./status` is
+kept as a compatibility wrapper around it.
 
 ### 9.6.3 Current one-step behavior
 

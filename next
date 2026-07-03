@@ -15,6 +15,7 @@ if str(SRC_ROOT) not in sys.path:
 from yomi_corpus.pipeline import PipelineWorkspace
 from yomi_corpus.pipeline import LLM_EXECUTION_MODES
 from yomi_corpus.pipeline import RERUNNABLE_STAGES
+from yomi_corpus.cli_format import format_stage_summary
 
 LLM_STATUS_STAGE_PREFIXES = {
     "alphabetic_llm_judged": "alphabetic_judgment",
@@ -66,6 +67,13 @@ def parse_args() -> argparse.Namespace:
         help="Report the current batch and stage without advancing the pipeline.",
     )
     parser.add_argument(
+        "--stages",
+        "--stage",
+        action="store_true",
+        dest="stages",
+        help="With --status, print only the completed current stage and the next stage.",
+    )
+    parser.add_argument(
         "--llm-mode",
         choices=sorted(LLM_EXECUTION_MODES),
         help=(
@@ -98,11 +106,15 @@ def main() -> None:
         summary = workspace.status(args.track)
         log_path = write_pipeline_log(summary)
         summary["log_path"] = str(log_path)
-        if args.json:
+        if args.stages:
+            print(format_stage_summary(summary))
+        elif args.json:
             print(json.dumps(summary, ensure_ascii=False, indent=2))
         else:
             print(format_next_summary(summary))
         return
+    if args.stages:
+        raise SystemExit("--stages requires --status")
     summary = (
         advance_auto(workspace, args)
         if args.auto

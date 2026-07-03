@@ -132,10 +132,12 @@ Pipeline orchestration policy:
   actually be replaced
 - `./next --llm-mode sync|background|batch` temporarily overrides the execution
   mode only when the stage being run calls the LLM
-- `./status` and `./status dev` report the current batch and stage for each
-  track
-- `./status --stages` and `./status dev --stages` print only the completed
-  current stage and the next stage without advancing the pipeline
+- `./next --status` and `./next dev --status` report the current batch and
+  stage without advancing the pipeline
+- `./next --status --stages` and `./next dev --status --stages` print only the
+  completed current stage and the next stage
+- `./status` remains as a compatibility wrapper around `./next --status --json`;
+  `./status --stages` wraps `./next --status --stages`
 - `./set-stage dev <stage>` rewinds the current dev batch stage without
   deleting artifacts; `working` requires confirmation or `--yes`
 - `./publish-review` commits and pushes only generated review-page artifacts

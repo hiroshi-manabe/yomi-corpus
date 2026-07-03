@@ -1733,6 +1733,9 @@ Current intended commands:
 - `./next dev --llm-mode sync`
 - `./next dev --llm-mode background`
 - `./next dev --llm-mode batch`
+- `./next --status`
+- `./next dev --status`
+- `./next dev --status --stages`
 - `./status`
 - `./status dev`
 - `./status dev --stages`
@@ -1741,10 +1744,12 @@ Current intended commands:
 
 The implicit no-argument track should be `working`.
 
-`./status --stages` is a terse read-only mode. It prints only the completed
-current stage and the next stage, which is useful when the full structured
-status is too noisy. `./next` should not have this mode because it advances the
-pipeline and would be easy to mistake for read-only inspection.
+`./next --status` is the canonical read-only inspection mode. It uses the same
+operator-facing formatting as `./next`, but does not advance the pipeline.
+`./next --status --stages` is the terse form that prints only the completed
+current stage and the next stage. `./status` is a compatibility wrapper:
+without `--stages` it calls `./next --status --json`, and with `--stages` it
+calls `./next --status --stages`.
 
 Stages that call the LLM should include `llm` in the stage name. Current
 LLM-calling stages are:
