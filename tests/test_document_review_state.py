@@ -12,11 +12,13 @@ from yomi_corpus.document_review_state import (
     STATE_FINAL_REVIEWED,
     STATE_SKIPPED,
     STATE_STRONG_PENDING,
+    STATE_STRONG_REVIEWED,
     build_initial_document_review_state,
     load_document_review_state,
     mark_document_review_state_finalized,
     update_document_review_state_after_final_review,
     update_document_review_state_after_strong_queue,
+    update_document_review_state_after_strong_review,
     write_document_review_state,
 )
 
@@ -143,6 +145,83 @@ class DocumentReviewStateTests(unittest.TestCase):
 
             states = {row["doc_id"]: row["state"] for row in state["documents"]}
             self.assertEqual(states["doc1"], STATE_COMPLETE)
+            self.assertEqual(states["doc2"], STATE_STRONG_PENDING)
+
+    def test_strong_review_update_marks_reviewed_or_partial_documents(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units = root / "units.jsonl"
+            reviewed = root / "reviewed.jsonl"
+            queue = root / "queue.jsonl"
+            pack = root / "pack.json"
+            submission = root / "submission.json"
+            write_jsonl(
+                units,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1"},
+                    {"doc_id": "doc2", "unit_id": "u2"},
+                ],
+            )
+            write_jsonl(reviewed, [reviewed_unit("doc1", "u1"), reviewed_unit("doc2", "u2")])
+            write_jsonl(
+                queue,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q1"},
+                    {"doc_id": "doc2", "unit_id": "u2", "item_id": "q2"},
+                ],
+            )
+            pack.write_text(
+                json.dumps(
+                    {
+                        "pack_id": "strong_pack",
+                        "items": [
+                            {"item_id": "q1", "seq": 1, "doc_id": "doc1"},
+                            {"item_id": "q2", "seq": 2, "doc_id": "doc2"},
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            submission.write_text(
+                json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack",
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                        "overrides": [],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            state = build_initial_document_review_state(
+                units_jsonl=units,
+                batch_name="dev_batch_0001",
+                track_name="dev",
+            )
+            state = update_document_review_state_after_final_review(
+                state=state,
+                reviewed_units_jsonl=reviewed,
+            )
+            state = update_document_review_state_after_strong_queue(
+                state=state,
+                queue_jsonl=queue,
+            )
+
+            state = update_document_review_state_after_strong_review(
+                state=state,
+                pack_json=pack,
+                review_summary={
+                    "submission_paths": [str(submission)],
+                    "rejected_items": [],
+                    "manual_segment_overrides": {"invalid_items": 0},
+                },
+            )
+
+            states = {row["doc_id"]: row["state"] for row in state["documents"]}
+            self.assertEqual(states["doc1"], STATE_STRONG_REVIEWED)
             self.assertEqual(states["doc2"], STATE_STRONG_PENDING)
 
     def test_finalized_state_marks_non_skipped_documents_complete(self) -> None:

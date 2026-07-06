@@ -154,6 +154,45 @@ class ReviewSiteTests(unittest.TestCase):
             "yomi_strong_repair_review",
         )
 
+    def test_build_review_manifest_exposes_current_dev_review_queues(self) -> None:
+        manifest = build_review_manifest(
+            [
+                {
+                    "pack_id": "yomi_final_dev_batch_0001_v1",
+                    "title": "Yomi final review / dev_batch_0001 / v1",
+                    "review_stage": "yomi_final_review",
+                    "track_name": "dev",
+                    "created_at_epoch": 10,
+                    "item_count": 64,
+                    "document_count": 5,
+                    "selectable_document_count": 3,
+                    "queue_id": "final_review",
+                    "site_filename": "yomi_final_dev_batch_0001_v1.json",
+                },
+                {
+                    "pack_id": "yomi_strong_repair_dev_batch_0001_v1",
+                    "title": "Yomi strong repair review / dev_batch_0001 / v1",
+                    "review_stage": "yomi_strong_repair_review",
+                    "track_name": "dev",
+                    "created_at_epoch": 20,
+                    "item_count": 6,
+                    "document_count": 5,
+                    "selectable_document_count": 1,
+                    "queue_id": "strong_repair",
+                    "site_filename": "yomi_strong_repair_dev_batch_0001_v1.json",
+                },
+            ]
+        )
+
+        queues = manifest["current_review_queues"]
+        self.assertEqual(
+            [row["review_stage"] for row in queues],
+            ["yomi_final_review", "yomi_strong_repair_review"],
+        )
+        self.assertEqual(queues[0]["queue_id"], "final_review")
+        self.assertEqual(queues[0]["selectable_document_count"], 3)
+        self.assertEqual(queues[1]["queue_id"], "strong_repair")
+
     def test_build_review_manifest_defaults_to_newest_current_pack(self) -> None:
         manifest = build_review_manifest(
             [

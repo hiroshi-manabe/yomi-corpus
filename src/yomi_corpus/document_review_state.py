@@ -184,6 +184,45 @@ def update_document_review_state_after_strong_queue(
     return with_summary(updated)
 
 
+def update_document_review_state_after_strong_review(
+    *,
+    state: dict[str, Any],
+    pack_json: Path,
+    review_summary: dict[str, Any],
+) -> dict[str, Any]:
+    updated = clone_state(state)
+    pack = load_json(pack_json)
+    reviewed_doc_counts = reviewed_strong_item_counts_by_doc(pack, review_summary)
+    rejected_items = set(str(item_id) for item_id in review_summary.get("rejected_items", []))
+    item_doc_ids = {
+        str(item.get("item_id") or ""): str(item.get("doc_id") or "")
+        for item in pack.get("items", [])
+        if isinstance(item, dict) and item.get("item_id")
+    }
+    rejected_doc_ids = {item_doc_ids.get(item_id, "") for item_id in rejected_items}
+    invalid_manual_count = int(
+        review_summary.get("manual_segment_overrides", {}).get("invalid_items", 0)
+    )
+    now = now_iso()
+    for document in updated["documents"]:
+        if document["state"] not in {STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW}:
+            continue
+        doc_id = str(document["doc_id"])
+        total = int(document.get("strong_repair_item_count") or 0)
+        reviewed = int(reviewed_doc_counts.get(doc_id, 0))
+        if total <= 0:
+            document["state"] = STATE_COMPLETE
+        elif reviewed < total:
+            document["state"] = STATE_STRONG_IN_REVIEW if reviewed else STATE_STRONG_PENDING
+        elif doc_id in rejected_doc_ids or invalid_manual_count:
+            document["state"] = STATE_STRONG_IN_REVIEW
+        else:
+            document["state"] = STATE_STRONG_REVIEWED
+        document["updated_at"] = now
+    updated["updated_at"] = now
+    return with_summary(updated)
+
+
 def mark_document_review_state_finalized(state: dict[str, Any]) -> dict[str, Any]:
     updated = clone_state(state)
     now = now_iso()
@@ -193,6 +232,14 @@ def mark_document_review_state_finalized(state: dict[str, Any]) -> dict[str, Any
             document["updated_at"] = now
     updated["updated_at"] = now
     return with_summary(updated)
+
+
+def load_json(path: Path) -> dict[str, Any]:
+    with path.open(encoding="utf-8") as handle:
+        payload = json.load(handle)
+    if not isinstance(payload, dict):
+        raise ValueError(f"Expected JSON object: {path}")
+    return payload
 
 
 def clone_state(state: dict[str, Any]) -> dict[str, Any]:
@@ -206,6 +253,56 @@ def group_units_by_doc(units: list[dict[str, Any]]) -> dict[str, list[dict[str, 
         if doc_id:
             grouped.setdefault(doc_id, []).append(unit)
     return grouped
+
+
+def reviewed_strong_item_counts_by_doc(
+    pack: dict[str, Any],
+    review_summary: dict[str, Any],
+) -> Counter[str]:
+    reviewed_ids = set()
+    for path in review_summary.get("submission_paths", []):
+        if not path:
+            continue
+        submission_path = Path(str(path))
+        if not submission_path.exists():
+            continue
+        submission = load_json(submission_path)
+        reviewed_ids.update(reviewed_item_ids_from_submission(pack, submission))
+    by_id = {
+        str(item.get("item_id") or ""): item
+        for item in pack.get("items", [])
+        if isinstance(item, dict) and item.get("item_id")
+    }
+    counts: Counter[str] = Counter()
+    for item_id in reviewed_ids:
+        doc_id = str(by_id.get(item_id, {}).get("doc_id") or "")
+        if doc_id:
+            counts[doc_id] += 1
+    return counts
+
+
+def reviewed_item_ids_from_submission(pack: dict[str, Any], submission: dict[str, Any]) -> set[str]:
+    items = [
+        item
+        for item in pack.get("items", [])
+        if isinstance(item, dict) and str(item.get("item_id") or "")
+    ]
+    reviewed: set[str] = set()
+    for review_range in submission.get("reviewed_ranges", []):
+        if not isinstance(review_range, dict):
+            continue
+        from_seq = int(review_range.get("from_seq") or 0)
+        to_seq = int(review_range.get("to_seq") or 0)
+        if from_seq > to_seq:
+            from_seq, to_seq = to_seq, from_seq
+        for item in items:
+            seq = int(item.get("seq") or 0)
+            if from_seq <= seq <= to_seq:
+                reviewed.add(str(item["item_id"]))
+    for override in submission.get("overrides", []):
+        if isinstance(override, dict) and override.get("item_id"):
+            reviewed.add(str(override["item_id"]))
+    return reviewed
 
 
 def with_summary(payload: dict[str, Any]) -> dict[str, Any]:

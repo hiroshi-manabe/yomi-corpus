@@ -30,9 +30,19 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
                 "pack_id": pack_id,
                 "title": title,
                 "review_stage": str(payload["review_stage"]),
+                "queue_id": str(payload.get("queue_id") or payload["review_stage"]),
                 "track_name": track_name,
                 "created_at_epoch": int(payload.get("created_at_epoch", 0)),
                 "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
+                "document_count": int(
+                    payload.get("summary", {}).get("document_count", len(payload.get("documents", [])))
+                ),
+                "selectable_document_count": int(
+                    payload.get("summary", {}).get("selectable_document_count", 0)
+                ),
+                "document_state_counts": payload.get("summary", {}).get(
+                    "document_state_counts", {}
+                ),
                 "source_path": path,
                 "site_filename": f"{pack_id}.json",
             }
@@ -62,6 +72,10 @@ def build_review_manifest(entries: list[dict]) -> dict:
                 "track_name": entry.get("track_name", WORKING_TRACK),
                 "created_at_epoch": entry["created_at_epoch"],
                 "item_count": entry["item_count"],
+                "document_count": int(entry.get("document_count", 0)),
+                "selectable_document_count": int(entry.get("selectable_document_count", 0)),
+                "document_state_counts": entry.get("document_state_counts", {}),
+                "queue_id": entry.get("queue_id", stage_id),
                 "status": "archived",
             }
         )
@@ -113,6 +127,7 @@ def build_review_manifest(entries: list[dict]) -> dict:
                     }
 
     default_current = latest_current_track(current_tracks)
+    current_queues = build_current_review_queues(stages)
     return {
         "schema_version": 1,
         "default_stage": (
@@ -121,8 +136,48 @@ def build_review_manifest(entries: list[dict]) -> dict:
             else ordered_stage_ids[0] if ordered_stage_ids else None
         ),
         "current_tracks": current_tracks,
+        "current_review_queues": current_queues,
         "stages": {stage_id: stages[stage_id] for stage_id in ordered_stage_ids},
     }
+
+
+def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
+    queues: list[dict] = []
+    preferred_stage_order = {
+        "yomi_final_review": 0,
+        "yomi_strong_repair_review": 1,
+    }
+    for stage_id, stage in stages.items():
+        latest_dev_id = stage.get("latest_pack_ids_by_track", {}).get(DEV_TRACK)
+        if not latest_dev_id:
+            continue
+        pack = next((row for row in stage.get("packs", []) if row["pack_id"] == latest_dev_id), None)
+        if not pack:
+            continue
+        queues.append(
+            {
+                "track_name": DEV_TRACK,
+                "review_stage": stage_id,
+                "label": stage.get("label", stage_id),
+                "pack_id": pack["pack_id"],
+                "title": pack["title"],
+                "path": pack["path"],
+                "created_at_epoch": pack["created_at_epoch"],
+                "item_count": pack["item_count"],
+                "document_count": pack.get("document_count", 0),
+                "selectable_document_count": pack.get("selectable_document_count", 0),
+                "document_state_counts": pack.get("document_state_counts", {}),
+                "queue_id": pack.get("queue_id", stage_id),
+                "status": pack.get("status", "active-dev"),
+            }
+        )
+    queues.sort(
+        key=lambda row: (
+            preferred_stage_order.get(str(row.get("review_stage")), 99),
+            str(row.get("pack_id", "")),
+        )
+    )
+    return queues
 
 
 def latest_current_track(current_tracks: dict[str, dict]) -> dict | None:

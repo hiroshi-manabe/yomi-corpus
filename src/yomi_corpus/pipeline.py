@@ -37,6 +37,7 @@ from yomi_corpus.document_review_state import (
     mark_document_review_state_finalized,
     update_document_review_state_after_final_review,
     update_document_review_state_after_strong_queue,
+    update_document_review_state_after_strong_review,
     write_document_review_state,
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
@@ -2892,6 +2893,14 @@ class PipelineWorkspace:
                 output_summary_json=strong_review_summary_path,
                 units_jsonl=strong_repaired_path if strong_repaired_path.exists() else None,
             )
+            document_state_path = self.document_review_state_path(batch_name)
+            if document_state_path.exists():
+                document_state = update_document_review_state_after_strong_review(
+                    state=load_document_review_state(document_state_path),
+                    pack_json=strong_review_pack,
+                    review_summary=strong_review_summary,
+                )
+                write_document_review_state(document_state_path, document_state)
             if not strong_review_summary.get("stage_complete", True):
                 return {
                     "stage_complete": False,
