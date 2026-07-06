@@ -1,6 +1,7 @@
 const manifestUrl = "./manifest.json";
 const submissionSchemaVersion = 1;
 const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/new";
+const yomiLongPressMs = 550;
 
 const state = {
   manifest: null,
@@ -1868,7 +1869,36 @@ function renderRubySpan(item, target, override, editable) {
   }
 
   if (editable) {
+    let longPressTimer = null;
+    let suppressNextClick = false;
+    const clearLongPressTimer = () => {
+      if (longPressTimer !== null) {
+        window.clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+    };
+    button.addEventListener("pointerdown", () => {
+      clearLongPressTimer();
+      suppressNextClick = false;
+      longPressTimer = window.setTimeout(() => {
+        longPressTimer = null;
+        suppressNextClick = true;
+        toggleYomiNoRubyDefault(item, target, candidate);
+      }, yomiLongPressMs);
+    });
+    button.addEventListener("pointerup", clearLongPressTimer);
+    button.addEventListener("pointercancel", clearLongPressTimer);
+    button.addEventListener("pointerleave", clearLongPressTimer);
+    button.addEventListener("contextmenu", (event) => {
+      if (suppressNextClick) {
+        event.preventDefault();
+      }
+    });
     button.addEventListener("click", () => {
+      if (suppressNextClick) {
+        suppressNextClick = false;
+        return;
+      }
       cycleYomiTarget(item, target, candidate);
     });
   }
@@ -1876,10 +1906,25 @@ function renderRubySpan(item, target, override, editable) {
 }
 
 function selectedCandidate(target, targetDraft) {
+  if (targetDraft?.choice_id) {
+    return candidateForId(target, targetDraft.choice_id);
+  }
   if (targetDraft?.choice_source) {
     return candidateForSource(target, targetDraft.choice_source);
   }
   return defaultCandidate(target);
+}
+
+function candidateKey(candidate) {
+  if (!candidate) {
+    return "";
+  }
+  return candidate.id || candidate.source || "";
+}
+
+function candidateForId(target, id) {
+  const candidates = target.candidates || [];
+  return candidates.find((candidate) => candidateKey(candidate) === id) || null;
 }
 
 function candidateForSource(target, source) {
@@ -1889,6 +1934,13 @@ function candidateForSource(target, source) {
 
 function defaultCandidate(target) {
   const candidates = target.candidates || [];
+  const defaultId = target.default_candidate_id;
+  if (defaultId) {
+    const candidate = candidateForId(target, defaultId);
+    if (candidate) {
+      return candidate;
+    }
+  }
   const defaultSource = target.default_choice_source || "current";
   return (
     candidates.find((candidate) => candidate.source === defaultSource) ||
@@ -1909,16 +1961,31 @@ function cycleYomiTarget(item, target, currentCandidate) {
     return;
   }
   const currentIndex = Math.max(
-    candidates.findIndex((candidate) => candidate.source === currentCandidate?.source),
+    candidates.findIndex((candidate) => candidateKey(candidate) === candidateKey(currentCandidate)),
     0
   );
   const next = candidates[(currentIndex + 1) % candidates.length];
+  applyYomiCandidate(item, target, next);
+}
+
+function toggleYomiNoRubyDefault(item, target, currentCandidate) {
+  const noneCandidate = candidateForSource(target, "none");
+  const defaultChoice = defaultCandidate(target);
+  const next = currentCandidate?.source === "none" ? defaultChoice : noneCandidate;
+  if (!next) {
+    return;
+  }
+  applyYomiCandidate(item, target, next);
+}
+
+function applyYomiCandidate(item, target, next) {
   const draft = ensureYomiOverride(item.item_id);
-  if (next.source === defaultCandidate(target)?.source) {
+  if (candidateKey(next) === candidateKey(defaultCandidate(target))) {
     delete draft.targets[target.item_id];
     cleanupYomiOverride(item.item_id);
   } else {
     draft.targets[target.item_id] = {
+      choice_id: candidateKey(next),
       choice_source: next.source,
       selected_reading: next.reading ?? null,
       custom_reading: null,
@@ -2133,6 +2200,7 @@ function getActiveYomiOverrides() {
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
+          choice_id: target.choice_id || null,
           choice_source: target.choice_source,
           selected_reading: target.selected_reading ?? null,
         })),

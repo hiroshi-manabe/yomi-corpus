@@ -597,6 +597,7 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
     candidates = reading_candidates(target)
     default_choice_source = default_candidate_source(target, candidates)
     default_candidate = candidate_by_source(candidates, default_choice_source)
+    default_candidate_id = default_candidate.get("id") if default_candidate else None
     surface = str(target.get("surface") or "")
     candidates = [with_ruby_display_nodes(surface, candidate) for candidate in candidates]
     return {
@@ -614,6 +615,7 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "highlight_level": target.get("highlight_level"),
         "accepted_signal_names": list(target.get("accepted_signal_names") or []),
         "status_reason": target.get("status_reason"),
+        "default_candidate_id": default_candidate_id,
         "default_choice_source": default_choice_source,
         "default_reading": default_candidate.get("reading") if default_candidate else None,
         "candidates": candidates,
@@ -682,7 +684,14 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     accepted_no_ruby = has_accepted_no_ruby_signal(target)
 
-    def add(source: str, label: str, reading: object, *, accepted: bool = False) -> None:
+    def add(
+        source: str,
+        label: str,
+        reading: object,
+        *,
+        accepted: bool = False,
+        candidate_id: str | None = None,
+    ) -> None:
         if not isinstance(reading, str) or not reading:
             return
         normalized = normalize_hiragana_reading(reading)
@@ -692,6 +701,7 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             return
         candidates.append(
             {
+                "id": candidate_id or source,
                 "source": source,
                 "label": label,
                 "reading": normalized,
@@ -733,8 +743,16 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
                 target.get("current_reading_hiragana") or target.get("current_reading"),
                 accepted=True,
             )
+    for index, reading in enumerate(final_review_dictionary_readings(target)):
+        add(
+            "dictionary",
+            "Dictionary",
+            reading,
+            candidate_id=f"dictionary:{index}",
+        )
     candidates.append(
         {
+            "id": "none",
             "source": "none",
             "label": "No ruby",
             "reading": None,
@@ -742,6 +760,13 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         }
     )
     return candidates
+
+
+def final_review_dictionary_readings(target: dict[str, Any]) -> tuple[str, ...]:
+    surface = str(target.get("surface") or "")
+    if not surface:
+        return ()
+    return load_final_review_surface_readings().get(surface, ())
 
 
 def build_reading_hints(targets: list[dict[str, Any]]) -> dict[str, str]:
@@ -815,20 +840,30 @@ def substrings_for_reading_candidates(surface: str) -> set[str]:
 
 @lru_cache(maxsize=1)
 def load_annotated_form_surface_readings() -> dict[str, tuple[str, ...]]:
-    if not ANNOTATED_FORMS_PATH.exists():
-        return {}
+    return load_surface_readings_from_tsv_paths((ANNOTATED_FORMS_PATH,))
+
+
+@lru_cache(maxsize=1)
+def load_final_review_surface_readings() -> dict[str, tuple[str, ...]]:
+    return load_surface_readings_from_tsv_paths((SUPPLEMENTAL_FURIGANA_PATH, ANNOTATED_FORMS_PATH))
+
+
+def load_surface_readings_from_tsv_paths(paths: tuple[Path, ...]) -> dict[str, tuple[str, ...]]:
     counts: dict[str, Counter[str]] = {}
-    with ANNOTATED_FORMS_PATH.open(encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle, delimiter="\t")
-        required = {"surface", "reading"}
-        if not required.issubset(reader.fieldnames or set()):
-            return {}
-        for row in reader:
-            surface = row["surface"]
-            reading = normalize_hiragana_reading(row["reading"])
-            if not surface or not reading or not is_valid_yomi_reading(reading):
+    for path in paths:
+        if not path.exists():
+            continue
+        with path.open(encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            required = {"surface", "reading"}
+            if not required.issubset(reader.fieldnames or set()):
                 continue
-            counts.setdefault(surface, Counter())[reading] += 1
+            for row in reader:
+                surface = row["surface"]
+                reading = normalize_hiragana_reading(row["reading"])
+                if not surface or not reading or not is_valid_yomi_reading(reading):
+                    continue
+                counts.setdefault(surface, Counter())[reading] += 1
     return {
         surface: tuple(
             reading
@@ -1671,6 +1706,7 @@ def build_target_override(
         return None
     override = {
         "item_id": target_id,
+        "choice_id": str(row.get("choice_id") or ""),
         "choice_source": str(row.get("choice_source") or ""),
         "selected_reading": row.get("selected_reading"),
         "surface": target.get("surface"),

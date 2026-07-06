@@ -11,6 +11,7 @@ from yomi_corpus.yomi.final_review import (
     apply_final_review_file,
     apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
+    build_review_target,
     build_strong_repair_queue_file,
     build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
@@ -114,6 +115,35 @@ class YomiFinalReviewTests(unittest.TestCase):
                 ],
             )
 
+    def test_review_target_exposes_multiple_dictionary_readings_with_stable_ids(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "打ち壊す",
+            "current_reading": "ウチコワス",
+            "current_reading_hiragana": "うちこわす",
+            "is_safe": False,
+            "signals": [],
+        }
+
+        with patch(
+            "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+            return_value={"打ち壊す": ("うちこわす", "ぶちこわす")},
+        ):
+            review_target = build_review_target(target)
+
+        self.assertEqual(review_target["default_candidate_id"], "current")
+        self.assertEqual(
+            [
+                (candidate["id"], candidate["source"], candidate["reading"])
+                for candidate in review_target["candidates"]
+            ],
+            [
+                ("current", "current", "うちこわす"),
+                ("dictionary:1", "dictionary", "ぶちこわす"),
+                ("none", "none", None),
+            ],
+        )
+
     def test_build_pack_groups_units_and_exposes_tappable_ruby_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -131,14 +161,18 @@ class YomiFinalReviewTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            summary = build_yomi_final_review_pack_file(
-                units_jsonl=units_path,
-                output_json=output_path,
-                pack_id="yomi_final_dev_batch_0001_v1",
-                track_name="dev",
-                batch_name="dev_batch_0001",
-                created_at_epoch=123,
-            )
+            with patch(
+                "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+                return_value={},
+            ):
+                summary = build_yomi_final_review_pack_file(
+                    units_jsonl=units_path,
+                    output_json=output_path,
+                    pack_id="yomi_final_dev_batch_0001_v1",
+                    track_name="dev",
+                    batch_name="dev_batch_0001",
+                    created_at_epoch=123,
+                )
 
             pack = json.loads(output_path.read_text(encoding="utf-8"))
             self.assertEqual(summary.item_count, 2)
