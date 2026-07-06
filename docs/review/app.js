@@ -266,10 +266,11 @@ function render() {
 }
 
 function renderCurrentTracks() {
+  const currentQueues = state.manifest.current_review_queues || [];
   const currentTracks = state.manifest.current_tracks || {};
   el.currentTrackList.innerHTML = "";
-  const cards = [];
-  if (currentTracks.dev) {
+  let cards = currentQueues.filter((queue) => queue.track_name === "dev");
+  if (cards.length === 0 && currentTracks.dev) {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
@@ -284,14 +285,19 @@ function renderCurrentTracks() {
   for (const card of cards) {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = `track-card ${card.emphasis}`;
+    button.className = `track-card ${card.emphasis || "secondary-track"}`;
+    const selectableDocs = Number(card.selectable_document_count || 0);
+    const totalDocs = Number(card.document_count || 0);
+    const docSummary = totalDocs
+      ? `${selectableDocs}/${totalDocs} selectable doc(s)`
+      : `${card.item_count} item(s)`;
     button.innerHTML = `
       <div class="track-card-header">
-        <strong>Dev Review</strong>
+        <strong>${escapeHtml(card.label || card.review_stage || "Dev Review")}</strong>
         <span class="badge ${escapeHtml(card.track_name)}">${escapeHtml(card.track_name)}</span>
       </div>
-      <div class="track-card-stage">${escapeHtml(card.label || card.review_stage)}</div>
-      <div class="pack-meta-line">${escapeHtml(card.title)} · ${card.item_count} item(s)</div>
+      <div class="track-card-stage">${escapeHtml(card.title || card.pack_id)}</div>
+      <div class="pack-meta-line">${escapeHtml(docSummary)} · ${card.item_count} item(s)</div>
     `;
     button.addEventListener("click", () => {
       openStage(card.review_stage, {
@@ -392,15 +398,18 @@ function renderTaskSelector() {
   for (const doc of docs) {
     el.taskDocList.append(renderTaskDocumentRow(doc, task));
   }
+  const selectableDocs = docs.filter((doc) => doc.selectable !== false);
   const selectedCount = task.doc_ids.length;
   const selectedItems = itemsForTask(task);
   el.taskSummary.textContent =
     selectedCount > 0
       ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
-      : "Choose documents, then start a review task.";
-  el.startTask.disabled = docs.length === 0 || selectedCount === 0;
+      : selectableDocs.length
+        ? "Choose documents, then start a review task."
+        : "No selectable documents in this queue.";
+  el.startTask.disabled = selectableDocs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
-  el.selectAllDocs.disabled = docs.length === 0 || selectedCount === docs.length;
+  el.selectAllDocs.disabled = selectableDocs.length === 0 || selectedCount === selectableDocs.length;
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -448,11 +457,13 @@ function renderTaskDocumentRow(doc, task) {
   row.className = "task-doc-row";
   row.classList.toggle("selected", task.doc_ids.includes(doc.doc_id));
   row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
+  row.classList.toggle("unselectable-task-doc", doc.selectable === false);
 
   const label = document.createElement("label");
   label.className = "task-doc-check";
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
+  checkbox.disabled = doc.selectable === false;
   checkbox.checked = task.doc_ids.includes(doc.doc_id);
   checkbox.addEventListener("change", () => {
     toggleDocumentTask(doc.doc_id, checkbox.checked);
@@ -465,8 +476,9 @@ function renderTaskDocumentRow(doc, task) {
   const meta = document.createElement("div");
   meta.className = "task-doc-meta";
   const itemSeq = doc.item_count > 0 ? `seq ${doc.from_seq}-${doc.to_seq}` : "no review cards";
+  const stateText = doc.state ? `${doc.state} · ` : "";
   meta.textContent =
-    `${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
+    `${stateText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
 
   const preview = document.createElement("div");
   preview.className = "task-doc-preview";
@@ -482,6 +494,7 @@ function renderTaskDocumentRow(doc, task) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "secondary-button";
+    button.disabled = doc.selectable === false;
     button.textContent = labelText;
     button.addEventListener("click", handler);
     actions.append(button);
@@ -1863,10 +1876,25 @@ function renderRubySpan(item, target, override, editable) {
 }
 
 function selectedCandidate(target, targetDraft) {
+  if (targetDraft?.choice_id) {
+    return candidateForId(target, targetDraft.choice_id);
+  }
   if (targetDraft?.choice_source) {
     return candidateForSource(target, targetDraft.choice_source);
   }
   return defaultCandidate(target);
+}
+
+function candidateKey(candidate) {
+  if (!candidate) {
+    return "";
+  }
+  return candidate.id || candidate.source || "";
+}
+
+function candidateForId(target, id) {
+  const candidates = target.candidates || [];
+  return candidates.find((candidate) => candidateKey(candidate) === id) || null;
 }
 
 function candidateForSource(target, source) {
@@ -1876,6 +1904,13 @@ function candidateForSource(target, source) {
 
 function defaultCandidate(target) {
   const candidates = target.candidates || [];
+  const defaultId = target.default_candidate_id;
+  if (defaultId) {
+    const candidate = candidateForId(target, defaultId);
+    if (candidate) {
+      return candidate;
+    }
+  }
   const defaultSource = target.default_choice_source || "current";
   return (
     candidates.find((candidate) => candidate.source === defaultSource) ||
@@ -1896,16 +1931,17 @@ function cycleYomiTarget(item, target, currentCandidate) {
     return;
   }
   const currentIndex = Math.max(
-    candidates.findIndex((candidate) => candidate.source === currentCandidate?.source),
+    candidates.findIndex((candidate) => candidateKey(candidate) === candidateKey(currentCandidate)),
     0
   );
   const next = candidates[(currentIndex + 1) % candidates.length];
   const draft = ensureYomiOverride(item.item_id);
-  if (next.source === defaultCandidate(target)?.source) {
+  if (candidateKey(next) === candidateKey(defaultCandidate(target))) {
     delete draft.targets[target.item_id];
     cleanupYomiOverride(item.item_id);
   } else {
     draft.targets[target.item_id] = {
+      choice_id: candidateKey(next),
       choice_source: next.source,
       selected_reading: next.reading ?? null,
       custom_reading: null,
@@ -2120,6 +2156,7 @@ function getActiveYomiOverrides() {
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
+          choice_id: target.choice_id || null,
           choice_source: target.choice_source,
           selected_reading: target.selected_reading ?? null,
         })),
@@ -2341,6 +2378,8 @@ function buildDocumentTasks(pack) {
           item_count: stats.item_count ?? Number(doc.item_count || 0),
           unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
           unit_count: Number(doc.unit_count || 0),
+          state: doc.state || "",
+          selectable: "selectable" in doc ? Boolean(doc.selectable) : Number(doc.item_count || 0) > 0,
           preview: doc.preview || "",
         };
       })
@@ -2488,6 +2527,10 @@ function cloneJson(value) {
 }
 
 function toggleDocumentTask(docId, selected) {
+  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  if (doc?.selectable === false) {
+    return;
+  }
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const docIds = new Set(task.doc_ids);
   if (selected) {
@@ -2508,6 +2551,10 @@ function toggleDocumentTask(docId, selected) {
 }
 
 function selectOnlyDocumentTask(docId) {
+  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  if (doc?.selectable === false) {
+    return;
+  }
   state.currentDraft.task = {
     mode: "documents",
     doc_ids: [docId],
@@ -2520,7 +2567,7 @@ function selectOnlyDocumentTask(docId) {
 }
 
 function selectAllDocumentTasks() {
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildDocumentTasks(state.currentPack).filter((doc) => doc.selectable !== false);
   state.currentDraft.task = {
     mode: "documents",
     doc_ids: docs.map((doc) => doc.doc_id),
@@ -2533,6 +2580,10 @@ function selectAllDocumentTasks() {
 }
 
 function setDocumentRangeBoundary(docId, side) {
+  const currentDoc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  if (currentDoc?.selectable === false) {
+    return;
+  }
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const next = {
     ...task,
@@ -2548,7 +2599,10 @@ function setDocumentRangeBoundary(docId, side) {
     const endIndex = docs.findIndex((doc) => doc.doc_id === endId);
     const fromIndex = Math.min(startIndex, endIndex);
     const toIndex = Math.max(startIndex, endIndex);
-    next.doc_ids = docs.slice(fromIndex, toIndex + 1).map((doc) => doc.doc_id);
+    next.doc_ids = docs
+      .slice(fromIndex, toIndex + 1)
+      .filter((doc) => doc.selectable !== false)
+      .map((doc) => doc.doc_id);
   } else {
     next.doc_ids = [docId];
   }

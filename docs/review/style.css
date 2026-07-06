@@ -425,6 +425,16 @@ button:disabled {
   background: rgba(45, 106, 79, 0.05);
 }
 
+.task-doc-row.unselectable-task-doc {
+  color: var(--muted);
+  background: rgba(31, 28, 23, 0.035);
+}
+
+.task-doc-row.unselectable-task-doc input,
+.task-doc-row.unselectable-task-doc button {
+  cursor: not-allowed;
+}
+
 .task-doc-check {
   display: inline-flex;
   align-items: center;
