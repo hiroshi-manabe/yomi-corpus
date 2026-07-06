@@ -273,6 +273,87 @@ class YomiFinalReviewIssueImportTests(unittest.TestCase):
             payload = json.loads(stored.read_text(encoding="utf-8"))
             self.assertEqual(payload["review_stage"], "yomi_strong_repair_review")
 
+    def test_import_issue_payloads_unpacks_review_bundle_by_stage(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            review_pack_root = root / "review_packs"
+            final_store = root / "final_submissions"
+            strong_store = root / "strong_submissions"
+            (review_pack_root / "yomi_final").mkdir(parents=True)
+            (review_pack_root / "yomi_strong_repair").mkdir(parents=True)
+            (review_pack_root / "yomi_final" / "final_pack_1.json").write_text(
+                json.dumps({"pack_id": "final_pack_1"}),
+                encoding="utf-8",
+            )
+            (review_pack_root / "yomi_strong_repair" / "strong_pack_1.json").write_text(
+                json.dumps({"pack_id": "strong_pack_1"}),
+                encoding="utf-8",
+            )
+            issue = {
+                "number": 9,
+                "body": json.dumps(
+                    {
+                        "submission_type": "review_bundle",
+                        "review_stage": "unified_yomi_review",
+                        "pack_id": "unified_pack",
+                        "submission_id": "bundle_1",
+                        "submissions": [
+                            {
+                                "submission_type": "review_patch",
+                                "review_stage": "yomi_final_review",
+                                "pack_id": "final_pack_1",
+                                "submission_id": "final_sub_1",
+                                "generated_at_epoch": 10,
+                                "reviewed_ranges": [{"from_seq": 1, "to_seq": 2}],
+                                "overrides": [],
+                            },
+                            {
+                                "submission_type": "review_patch",
+                                "review_stage": "yomi_strong_repair_review",
+                                "pack_id": "strong_pack_1",
+                                "submission_id": "strong_sub_1",
+                                "generated_at_epoch": 10,
+                                "reviewed_ranges": [{"from_seq": 3, "to_seq": 3}],
+                                "overrides": [],
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+            }
+
+            final_summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=[],
+                repo="owner/repo",
+                issue_number=9,
+                review_pack_root=review_pack_root,
+                submission_store_dir=final_store,
+                review_stage="yomi_final_review",
+            )
+            strong_summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=[],
+                repo="owner/repo",
+                issue_number=9,
+                review_pack_root=review_pack_root,
+                submission_store_dir=strong_store,
+                review_stage="yomi_strong_repair_review",
+            )
+
+            self.assertEqual(final_summary["imported_submission_count"], 1)
+            self.assertEqual(strong_summary["imported_submission_count"], 1)
+            self.assertTrue((final_store / "final_sub_1.json").exists())
+            self.assertTrue((strong_store / "strong_sub_1.json").exists())
+            self.assertEqual(
+                json.loads((final_store / "final_sub_1.json").read_text(encoding="utf-8"))[
+                    "_source_issue"
+                ]["issue_number"],
+                9,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

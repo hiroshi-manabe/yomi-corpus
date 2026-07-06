@@ -295,13 +295,13 @@ def scan_json_object_strings(text: str) -> list[str]:
 
 
 def is_review_submission_like(payload: object) -> bool:
-    return (
-        isinstance(payload, dict)
-        and payload.get("submission_type") == "review_patch"
-        and "review_stage" in payload
-        and "pack_id" in payload
-        and "submission_id" in payload
-    )
+    if not isinstance(payload, dict):
+        return False
+    if payload.get("submission_type") == "review_patch":
+        return "review_stage" in payload and "pack_id" in payload and "submission_id" in payload
+    if payload.get("submission_type") == "review_bundle":
+        return "submission_id" in payload and isinstance(payload.get("submissions"), list)
+    return False
 
 
 def process_submission_record(
@@ -317,6 +317,20 @@ def process_submission_record(
     summaries: list[dict],
     skipped: list[dict],
 ) -> None:
+    if str(submission.get("submission_type")) == "review_bundle":
+        process_submission_bundle(
+            submission,
+            source_record=source_record,
+            repo=repo,
+            issue_number=issue_number,
+            review_pack_root=review_pack_root,
+            submission_store_dir=submission_store_dir,
+            review_stage=review_stage,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
+        return
     if str(submission.get("submission_type")) != "review_patch":
         skipped.append({"reason": "wrong_submission_type", "source": source_record})
         return
@@ -374,6 +388,58 @@ def process_submission_record(
     )
 
 
+def process_submission_bundle(
+    submission: dict,
+    *,
+    source_record: dict,
+    repo: str,
+    issue_number: int,
+    review_pack_root: Path,
+    submission_store_dir: Path,
+    review_stage: str,
+    seen_submission_ids: set[str],
+    summaries: list[dict],
+    skipped: list[dict],
+) -> None:
+    matched = False
+    for index, child in enumerate(submission.get("submissions") or []):
+        if not isinstance(child, dict):
+            skipped.append({"reason": "invalid_bundle_child", "source": source_record})
+            continue
+        if str(child.get("review_stage")) != review_stage:
+            continue
+        matched = True
+        child_submission = dict(child)
+        child_submission.setdefault(
+            "submission_id",
+            f"{submission.get('submission_id', 'bundle')}__{review_stage}__{index}",
+        )
+        child_source = {
+            **source_record,
+            "bundle_submission_id": submission.get("submission_id"),
+            "bundle_index": index,
+        }
+        process_submission_record(
+            child_submission,
+            source_record=child_source,
+            repo=repo,
+            issue_number=issue_number,
+            review_pack_root=review_pack_root,
+            submission_store_dir=submission_store_dir,
+            review_stage=review_stage,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
+    if not matched:
+        skipped.append(
+            {
+                "reason": "bundle_has_no_matching_stage",
+                "source": source_record,
+                "submission_id": submission.get("submission_id"),
+                "review_stage": review_stage,
+            }
+        )
 def resolve_review_pack_path(
     review_pack_root: Path,
     pack_id: str,

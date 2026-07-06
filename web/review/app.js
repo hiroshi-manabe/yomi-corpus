@@ -9,6 +9,7 @@ const state = {
   currentPackMeta: null,
   currentPack: null,
   currentDraft: null,
+  unifiedSources: [],
 };
 
 const el = {
@@ -63,18 +64,30 @@ async function boot() {
   }
   populateStageSelect(stageIds);
   const initialTarget = resolveInitialTarget(stageIds);
-  await openStage(initialTarget.stageId, {
-    preferLatest: !initialTarget.packId,
-    preferredPackId: initialTarget.packId,
-  });
+  if (initialTarget.stageId === "unified_yomi_review") {
+    await openUnifiedReview();
+  } else {
+    await openStage(initialTarget.stageId, {
+      preferLatest: !initialTarget.packId,
+      preferredPackId: initialTarget.packId,
+    });
+  }
 }
 
 function bindEvents() {
   el.stageSelect.addEventListener("change", async (event) => {
+    if (event.target.value === "unified_yomi_review") {
+      await openUnifiedReview();
+      return;
+    }
     await openStage(event.target.value, { preferLatest: true });
   });
 
   el.openLatest.addEventListener("click", async () => {
+    if (state.currentStageId === "unified_yomi_review") {
+      await openUnifiedReview();
+      return;
+    }
     if (!state.currentStageId) {
       return;
     }
@@ -179,6 +192,9 @@ function resolveInitialTarget(stageIds) {
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
   }
+  if (!requested && activeDevReviewQueues().length > 1) {
+    return { stageId: "unified_yomi_review", packId: null };
+  }
 
   if (requestedPackId) {
     for (const stageId of stageIds) {
@@ -199,6 +215,15 @@ function resolveInitialTarget(stageIds) {
     return { stageId: defaultTrack.review_stage, packId: defaultTrack.pack_id };
   }
   return { stageId: defaultStageId, packId: null };
+}
+
+function activeDevReviewQueues() {
+  return (state.manifest.current_review_queues || []).filter(
+    (queue) =>
+      queue.track_name === "dev" &&
+      ["yomi_final_review", "yomi_strong_repair_review"].includes(queue.review_stage) &&
+      String(queue.status || "").startsWith("active"),
+  );
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
@@ -245,8 +270,129 @@ async function openPack(stageId, packId) {
   render();
 }
 
+async function openUnifiedReview() {
+  const queues = activeDevReviewQueues();
+  if (queues.length === 0) {
+    const fallbackStage = Object.keys(state.manifest.stages || {})[0];
+    await openStage(fallbackStage, { preferLatest: true });
+    return;
+  }
+  const sources = [];
+  for (const queue of queues) {
+    const pack = await fetchJson(queue.path);
+    sources.push({ meta: queue, pack });
+  }
+  const unified = buildUnifiedReviewPack(sources);
+  state.currentStageId = "unified_yomi_review";
+  state.currentPackMeta = {
+    pack_id: unified.pack_id,
+    title: unified.title,
+    track_name: "dev",
+    status: "active-dev",
+  };
+  state.currentPack = unified;
+  state.unifiedSources = sources;
+  state.currentDraft = loadDraft(unified);
+  updateLocation("unified_yomi_review", unified.pack_id);
+  render();
+}
+
+function buildUnifiedReviewPack(sources) {
+  const sourceIds = sources.map(({ pack }) => pack.pack_id);
+  const items = [];
+  const documents = new Map();
+  let nextSeq = 1;
+  for (const { pack } of sources) {
+    for (const item of pack.items || []) {
+      const unifiedItem = {
+        ...item,
+        item_id: `${pack.review_stage}:${pack.pack_id}:${item.item_id}`,
+        original_item_id: item.item_id,
+        original_seq: item.seq,
+        source_review_stage: pack.review_stage,
+        source_pack_id: pack.pack_id,
+      };
+      unifiedItem.seq = nextSeq++;
+      items.push(unifiedItem);
+    }
+    for (const doc of pack.documents || []) {
+      const docId = String(doc.doc_id || "");
+      if (!docId) {
+        continue;
+      }
+      const existing = documents.get(docId) || {
+        ...doc,
+        item_count: 0,
+        unresolved_count: 0,
+        final_item_count: 0,
+        strong_repair_item_count: 0,
+        selectable: false,
+      };
+      existing.doc_seq = Math.min(Number(existing.doc_seq || doc.doc_seq || 0), Number(doc.doc_seq || existing.doc_seq || 0)) || doc.doc_seq;
+      existing.unit_count = Math.max(Number(existing.unit_count || 0), Number(doc.unit_count || 0));
+      existing.preview = existing.preview || doc.preview || "";
+      documents.set(docId, existing);
+    }
+  }
+  for (const item of items) {
+    const docId = String(item.doc_id || "");
+    if (!docId) {
+      continue;
+    }
+    const doc = documents.get(docId) || {
+      doc_id: docId,
+      doc_seq: item.doc_seq || documents.size + 1,
+      item_count: 0,
+      unresolved_count: 0,
+      final_item_count: 0,
+      strong_repair_item_count: 0,
+      selectable: false,
+      preview: item.text || "",
+    };
+    doc.item_count += 1;
+    doc.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
+    if (item.source_review_stage === "yomi_final_review") {
+      doc.final_item_count += 1;
+    }
+    if (item.source_review_stage === "yomi_strong_repair_review") {
+      doc.strong_repair_item_count += 1;
+    }
+    doc.selectable = true;
+    documents.set(docId, doc);
+  }
+  const documentRows = [...documents.values()].sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  return {
+    schema_version: 1,
+    review_stage: "unified_yomi_review",
+    queue_id: "unified_yomi_review",
+    pack_id: `unified_${sourceIds.join("__")}`,
+    title: "Unified yomi review",
+    track_name: "dev",
+    item_count: items.length,
+    summary: {
+      document_count: documentRows.length,
+      selectable_document_count: documentRows.filter((doc) => doc.selectable !== false).length,
+      source_pack_ids: sourceIds,
+    },
+    source_packs: sources.map(({ pack, meta }) => ({
+      review_stage: pack.review_stage,
+      pack_id: pack.pack_id,
+      title: meta.title || pack.pack_id,
+      item_count: pack.item_count,
+    })),
+    documents: documentRows,
+    items,
+  };
+}
+
 function populateStageSelect(stageIds) {
   el.stageSelect.innerHTML = "";
+  if (activeDevReviewQueues().length > 1) {
+    const option = document.createElement("option");
+    option.value = "unified_yomi_review";
+    option.textContent = "Unified Yomi Review";
+    el.stageSelect.append(option);
+  }
   for (const stageId of stageIds) {
     const option = document.createElement("option");
     option.value = stageId;
@@ -283,6 +429,28 @@ function renderCurrentTracks() {
     return;
   }
 
+  if (cards.length > 1) {
+    const unifiedButton = document.createElement("button");
+    unifiedButton.type = "button";
+    unifiedButton.className = "track-card primary-track";
+    const totalItems = cards.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
+    const totalDocs = Math.max(...cards.map((card) => Number(card.document_count || 0)));
+    unifiedButton.innerHTML = `
+      <div class="track-card-header">
+        <strong>Unified Yomi Review</strong>
+        <span class="badge dev">dev</span>
+      </div>
+      <div class="track-card-stage">Final + strong repair task workspace</div>
+      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${cards.length} queue(s)</div>
+    `;
+    unifiedButton.addEventListener("click", () => {
+      openUnifiedReview().catch((error) => {
+        showStatus(`Failed to open unified review: ${error.message}`, true);
+      });
+    });
+    el.currentTrackList.append(unifiedButton);
+  }
+
   for (const card of cards) {
     const button = document.createElement("button");
     button.type = "button";
@@ -313,6 +481,32 @@ function renderCurrentTracks() {
 }
 
 function renderPackList() {
+  if (state.currentStageId === "unified_yomi_review") {
+    el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
+    el.packList.innerHTML = "";
+    for (const { meta } of state.unifiedSources) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pack-button active-pack";
+      button.innerHTML = `
+        <div class="pack-title-line">
+          <strong>${escapeHtml(meta.title || meta.pack_id)}</strong>
+          <span class="badge active">${escapeHtml(meta.review_stage)}</span>
+        </div>
+        <div class="pack-meta-line">${meta.item_count} item(s) · ${escapeHtml(meta.track_name || "dev")}</div>
+      `;
+      button.addEventListener("click", () => {
+        openStage(meta.review_stage, {
+          preferLatest: false,
+          preferredPackId: meta.pack_id,
+        }).catch((error) => {
+          showStatus(`Failed to open pack: ${error.message}`, true);
+        });
+      });
+      el.packList.append(button);
+    }
+    return;
+  }
   const stage = state.manifest.stages[state.currentStageId];
   el.historyCount.textContent = `${stage.packs.length} pack(s)`;
   el.packList.innerHTML = "";
@@ -343,7 +537,9 @@ function renderPackList() {
 }
 
 function renderPackSummary() {
-  const stage = state.manifest.stages[state.currentStageId];
+  const stage = state.currentStageId === "unified_yomi_review"
+    ? { label: "Unified Yomi Review", review_stage: "unified_yomi_review" }
+    : state.manifest.stages[state.currentStageId];
   const pack = state.currentPack;
   const packMeta = state.currentPackMeta;
   const editable = isEditable();
@@ -478,8 +674,11 @@ function renderTaskDocumentRow(doc, task) {
   meta.className = "task-doc-meta";
   const itemSeq = doc.item_count > 0 ? `seq ${doc.from_seq}-${doc.to_seq}` : "no review cards";
   const stateText = doc.state ? `${doc.state} · ` : "";
+  const sourceText = isUnifiedReviewPack(state.currentPack)
+    ? `final ${doc.final_item_count || 0} / strong ${doc.strong_repair_item_count || 0} · `
+    : "";
   meta.textContent =
-    `${stateText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
+    `${stateText}${sourceText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
 
   const preview = document.createElement("div");
   preview.className = "task-doc-preview";
@@ -554,12 +753,12 @@ function renderItems() {
     node.classList.toggle("marker-end", isTo);
 
     node.querySelector(".item-seq").textContent = `#${item.seq}`;
-    if (pack.review_stage === "yomi_final_review") {
+    if (itemReviewStage(item) === "yomi_final_review") {
       renderYomiItem({ node, item, override, editable, isFrom, isTo });
       el.itemsContainer.append(node);
       continue;
     }
-    if (pack.review_stage === "yomi_strong_repair_review") {
+    if (itemReviewStage(item) === "yomi_strong_repair_review") {
       renderStrongRepairItem({ node, item, override, editable, isFrom, isTo });
       el.itemsContainer.append(node);
       continue;
@@ -2088,6 +2287,10 @@ function openUrlInNewTab(url) {
 }
 
 function buildIssueTitle(payload) {
+  if (payload.submission_type === "review_bundle") {
+    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+    return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
+  }
   const packId = payload.pack_id || "review";
   const ranges = payload.reviewed_ranges || [];
   const range = ranges.length === 1
@@ -2137,6 +2340,9 @@ function renderIssueUrlSummary(urls, payload = null) {
 
 function buildSubmissionPayload() {
   const pack = state.currentPack;
+  if (isUnifiedReviewPack(pack)) {
+    return buildUnifiedSubmissionPayload();
+  }
   const { fromSeq, toSeq } = getEffectiveRange();
   const reviewer = el.reviewerName.value.trim();
   const overrides = getSubmissionOverridesForCurrentStage();
@@ -2153,6 +2359,51 @@ function buildSubmissionPayload() {
     task: buildSubmissionTaskMetadata(),
     reviewed_ranges: buildReviewedRanges(),
     overrides,
+  };
+}
+
+function buildUnifiedSubmissionPayload() {
+  const pack = state.currentPack;
+  const now = Date.now();
+  const reviewer = el.reviewerName.value.trim();
+  const generatedAt = Math.floor(now / 1000);
+  const iso = new Date(now).toISOString();
+  const submissions = [];
+  for (const source of pack.source_packs || []) {
+    const items = getIncludedItems().filter(
+      (item) => item.source_review_stage === source.review_stage && item.source_pack_id === source.pack_id,
+    );
+    if (!items.length) {
+      continue;
+    }
+    const overrides = source.review_stage === "yomi_final_review"
+      ? getActiveYomiOverrides(source.review_stage, source.pack_id)
+      : source.review_stage === "yomi_strong_repair_review"
+        ? getActiveStrongRepairOverrides(source.review_stage, source.pack_id)
+        : [];
+    submissions.push({
+      schema_version: submissionSchemaVersion,
+      submission_type: "review_patch",
+      review_stage: source.review_stage,
+      pack_id: source.pack_id,
+      submission_id: `${source.pack_id}__${iso}`,
+      reviewer,
+      generated_at_epoch: generatedAt,
+      task: buildSubmissionTaskMetadata(),
+      reviewed_ranges: buildReviewedRangesForItems(items),
+      overrides,
+    });
+  }
+  return {
+    schema_version: submissionSchemaVersion,
+    submission_type: "review_bundle",
+    review_stage: "unified_yomi_review",
+    pack_id: pack.pack_id,
+    submission_id: `${pack.pack_id}__${iso}`,
+    reviewer,
+    generated_at_epoch: generatedAt,
+    task: buildSubmissionTaskMetadata(),
+    submissions,
   };
 }
 
@@ -2181,6 +2432,12 @@ function getSubmissionOverridesForCurrentStage() {
   if (pack.review_stage === "yomi_strong_repair_review") {
     return getActiveStrongRepairOverrides();
   }
+  if (isUnifiedReviewPack(pack)) {
+    return [
+      ...getActiveYomiOverrides("yomi_final_review"),
+      ...getActiveStrongRepairOverrides("yomi_strong_repair_review"),
+    ];
+  }
   return getActiveOverrides().map((item) => ({
     item_id: item.item_id,
     decision: item.decision,
@@ -2188,15 +2445,20 @@ function getSubmissionOverridesForCurrentStage() {
   }));
 }
 
-function getActiveYomiOverrides() {
+function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null) {
   return Object.entries(state.currentDraft.overrides)
     .map(([itemId, override]) => {
       const item = state.currentPack.items.find((row) => row.item_id === itemId);
-      if (!item || !isItemIncludedInSubmission(item)) {
+      if (
+        !item ||
+        !isItemIncludedInSubmission(item) ||
+        itemReviewStage(item) !== reviewStage ||
+        (packId && item.source_pack_id !== packId)
+      ) {
         return null;
       }
       return {
-        item_id: itemId,
+        item_id: originalItemId(item),
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
@@ -2244,15 +2506,20 @@ function getActiveOverrides() {
     .filter(Boolean);
 }
 
-function getActiveStrongRepairOverrides() {
+function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review", packId = null) {
   return Object.entries(state.currentDraft.overrides)
     .map(([itemId, override]) => {
       const item = state.currentPack.items.find((row) => row.item_id === itemId);
-      if (!item || !isItemIncludedInSubmission(item)) {
+      if (
+        !item ||
+        !isItemIncludedInSubmission(item) ||
+        itemReviewStage(item) !== reviewStage ||
+        (packId && item.source_pack_id !== packId)
+      ) {
         return null;
       }
       const row = {
-        item_id: itemId,
+        item_id: originalItemId(item),
         decision: override.decision || "accept",
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
@@ -2324,6 +2591,18 @@ function itemsForTask(task) {
   return items.filter((item) => docIds.has(item.doc_id));
 }
 
+function isUnifiedReviewPack(pack) {
+  return pack?.review_stage === "unified_yomi_review";
+}
+
+function itemReviewStage(item) {
+  return item.source_review_stage || state.currentPack?.review_stage || "";
+}
+
+function originalItemId(item) {
+  return item.original_item_id || item.item_id;
+}
+
 function isItemIncludedInSubmission(item) {
   const { fromSeq, toSeq } = getEffectiveRange();
   return (
@@ -2345,6 +2624,30 @@ function buildReviewedRanges() {
   let fromSeq = items[0];
   let toSeq = items[0];
   for (const seq of items.slice(1)) {
+    if (seq === toSeq + 1) {
+      toSeq = seq;
+      continue;
+    }
+    ranges.push({ from_seq: fromSeq, to_seq: toSeq });
+    fromSeq = seq;
+    toSeq = seq;
+  }
+  ranges.push({ from_seq: fromSeq, to_seq: toSeq });
+  return ranges;
+}
+
+function buildReviewedRangesForItems(sourceItems) {
+  const seqs = sourceItems
+    .map((item) => Number(item.original_seq || item.seq))
+    .filter((seq) => Number.isInteger(seq))
+    .sort((a, b) => a - b);
+  if (seqs.length === 0) {
+    return [];
+  }
+  const ranges = [];
+  let fromSeq = seqs[0];
+  let toSeq = seqs[0];
+  for (const seq of seqs.slice(1)) {
     if (seq === toSeq + 1) {
       toSeq = seq;
       continue;
@@ -2403,6 +2706,8 @@ function buildDocumentTasks(pack) {
           to_seq: item.seq,
           item_count: 0,
           unresolved_count: 0,
+          final_item_count: 0,
+          strong_repair_item_count: 0,
         });
       }
       const stats = itemStats.get(docId);
@@ -2410,6 +2715,12 @@ function buildDocumentTasks(pack) {
       stats.to_seq = Math.max(stats.to_seq, item.seq);
       stats.item_count += 1;
       stats.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
+      if (itemReviewStage(item) === "yomi_final_review") {
+        stats.final_item_count += 1;
+      }
+      if (itemReviewStage(item) === "yomi_strong_repair_review") {
+        stats.strong_repair_item_count += 1;
+      }
     }
     return pack.documents
       .map((doc) => {
@@ -2421,6 +2732,9 @@ function buildDocumentTasks(pack) {
           to_seq: stats.to_seq ?? 0,
           item_count: stats.item_count ?? Number(doc.item_count || 0),
           unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
+          final_item_count: stats.final_item_count ?? Number(doc.final_item_count || 0),
+          strong_repair_item_count:
+            stats.strong_repair_item_count ?? Number(doc.strong_repair_item_count || 0),
           unit_count: Number(doc.unit_count || 0),
           state: doc.state || "",
           selectable: "selectable" in doc ? Boolean(doc.selectable) : Number(doc.item_count || 0) > 0,
