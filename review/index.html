@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>yomi-corpus review</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">yomi-corpus</p>
+          <h1>Review Workspace</h1>
+          <p class="subtitle">
+            Latest active pack by default, immutable pack history on the side.
+          </p>
+        </div>
+        <div class="topbar-actions">
+          <label class="reviewer-field">
+            <span>Reviewer</span>
+            <input id="reviewer-name" type="text" placeholder="Optional name" />
+          </label>
+          <button id="open-latest" class="secondary-button" type="button">Open Latest</button>
+        </div>
+      </header>
+
+      <div id="status-banner" class="status-banner hidden"></div>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Current Work</h2>
+              <span class="muted">Tracks</span>
+            </div>
+            <div id="current-track-list" class="track-card-list"></div>
+          </section>
+
+          <section class="panel">
+            <h2>Stage</h2>
+            <select id="stage-select"></select>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Pack History</h2>
+              <span id="history-count" class="muted"></span>
+            </div>
+            <div id="pack-list" class="pack-list"></div>
+          </section>
+
+          <section class="panel">
+            <h2>History Notes</h2>
+            <p class="muted">
+              Active packs are editable. Archived packs remain browsable but read-only.
+            </p>
+          </section>
+        </aside>
+
+        <main class="main">
+          <section class="panel summary-panel">
+            <div class="panel-heading">
+              <h2 id="pack-title">Loading…</h2>
+              <span id="pack-badge" class="badge">pending</span>
+            </div>
+            <div id="pack-meta" class="meta-grid"></div>
+          </section>
+
+          <section id="task-picker-panel" class="panel controls-panel">
+            <div class="panel-heading">
+              <h2>Select Review Task</h2>
+              <div class="button-row">
+                <button id="select-all-docs" class="secondary-button" type="button">Select All</button>
+                <button id="clear-doc-selection" class="secondary-button" type="button">Clear</button>
+                <button id="start-task" type="button">Start Review Task</button>
+              </div>
+            </div>
+            <div id="task-summary" class="task-summary muted"></div>
+            <div id="task-draft-list" class="task-draft-list"></div>
+            <div id="task-doc-list" class="task-doc-list"></div>
+          </section>
+
+          <section class="panel controls-panel task-work-panel">
+            <div class="panel-heading">
+              <h2>Submission Range</h2>
+              <div class="button-row">
+                <button id="back-to-task-picker" class="secondary-button" type="button">Defer Task</button>
+                <button id="complete-task" class="secondary-button" type="button">Complete Task</button>
+                <button id="clear-range" class="secondary-button" type="button">Clear Markers</button>
+                <button id="reset-draft" class="secondary-button danger-button" type="button">Reset Draft</button>
+              </div>
+            </div>
+            <div id="range-summary" class="range-summary"></div>
+          </section>
+
+          <section class="panel export-panel task-work-panel">
+            <div class="panel-heading">
+              <h2>Submission Export</h2>
+              <div class="button-row">
+                <button id="copy-json" type="button">Copy JSON</button>
+                <button id="open-issue-title" type="button">Open Issue</button>
+                <button id="download-json" class="secondary-button" type="button">Download JSON</button>
+              </div>
+            </div>
+            <div id="issue-url-summary" class="issue-url-summary muted"></div>
+            <textarea id="submission-preview" spellcheck="false" readonly></textarea>
+          </section>
+
+          <section class="panel items-panel task-work-panel">
+            <div class="panel-heading">
+              <h2>Items</h2>
+              <span id="items-summary" class="muted"></span>
+            </div>
+            <div id="items-container" class="items-container"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <template id="item-template">
+      <article class="item-card">
+        <header class="item-header">
+          <div>
+            <div class="item-title-row">
+              <span class="item-seq"></span>
+              <h3 class="item-title"></h3>
+            </div>
+            <div class="item-badges">
+              <span class="badge proposed-badge"></span>
+              <span class="badge marker-badge hidden"></span>
+              <span class="badge override-badge hidden"></span>
+            </div>
+          </div>
+          <div class="item-controls editable-only">
+            <button class="secondary-button set-from" type="button">Set From</button>
+            <button class="secondary-button set-to" type="button">Set To</button>
+          </div>
+        </header>
+
+        <dl class="item-meta"></dl>
+
+        <section class="item-section">
+          <h4>Examples</h4>
+          <ul class="example-list"></ul>
+        </section>
+
+        <section class="item-section">
+          <h4>Notes</h4>
+          <ul class="note-list"></ul>
+        </section>
+
+        <section class="item-section editable-only">
+          <h4>Override</h4>
+          <div class="button-row">
+            <button class="secondary-button accept-default" type="button">Accept Default</button>
+            <button class="secondary-button reject-item" type="button">Reject</button>
+            <button class="secondary-button defer-item" type="button">Defer</button>
+          </div>
+          <label class="note-field">
+            <span>Optional note</span>
+            <textarea class="override-note" rows="2" placeholder="Optional note for this override"></textarea>
+          </label>
+        </section>
+
+        <section class="item-section readonly-only hidden">
+          <h4>Read-only</h4>
+          <p class="muted">Archived packs are visible for reference only.</p>
+        </section>
+      </article>
+    </template>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
