@@ -4,11 +4,18 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.review_site import publish_review_site
+
 REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
 REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
 DEFAULT_MESSAGE = "Publish review page artifacts"
@@ -33,7 +40,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Show which paths would be committed and pushed without changing git state.",
+        help="Regenerate docs/review and show which paths would be committed and pushed.",
+    )
+    parser.add_argument(
+        "--no-generate",
+        action="store_true",
+        help="Do not regenerate docs/review before collecting artifacts.",
     )
     parser.add_argument(
         "--no-push",
@@ -45,6 +57,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if not args.no_generate:
+        manifest = regenerate_review_artifacts()
+        print(
+            "Generated review site: "
+            f"{len(manifest.get('current_review_queues', []))} active queue(s), "
+            f"{len(manifest.get('stages', {}))} stage(s)."
+        )
     artifact_paths = collect_review_artifact_paths(PROJECT_ROOT)
     if not artifact_paths:
         raise SystemExit("No review artifacts found under docs/review.")
@@ -55,7 +74,7 @@ def main() -> None:
         print(f"  {rel_path}")
 
     if args.dry_run:
-        print("Dry run: would run git add, git commit, and git push for the paths above.")
+        print("Dry run: regenerated docs/review; would run git add, git commit, and git push for the paths above.")
         return
 
     run_git(["add", "--", *rel_paths])
@@ -68,6 +87,14 @@ def main() -> None:
         print("Committed review artifacts; skipped git push because --no-push was set.")
         return
     run_git(["push"])
+
+
+def regenerate_review_artifacts(project_root: Path = PROJECT_ROOT) -> dict:
+    return publish_review_site(
+        web_review_dir=project_root / "web" / "review",
+        docs_dir=project_root / "docs",
+        review_pack_root=project_root / "data" / "review_packs",
+    )
 
 
 def collect_review_artifact_paths(project_root: Path) -> list[Path]:
