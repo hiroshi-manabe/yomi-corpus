@@ -358,12 +358,39 @@ button:disabled {
 }
 
 .task-doc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
   max-height: 58vh;
   overflow: auto;
   padding-right: 4px;
+}
+
+.task-queue-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.72);
+  padding: 10px;
+}
+
+.task-queue-heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  background: rgba(255, 253, 249, 0.94);
+  border-bottom: 1px solid rgba(31, 28, 23, 0.08);
+  margin: -10px -10px 10px;
+  padding: 10px;
+}
+
+.task-queue-doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .task-draft-list {
