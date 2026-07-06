@@ -630,6 +630,7 @@ function renderTaskSelector() {
   const editable = isEditable();
   const started = isTaskStarted();
 
+  el.taskPickerPanel.classList.toggle("unified-task-picker", isUnifiedReviewPack(state.currentPack));
   el.taskPickerPanel.classList.toggle("hidden", !editable || started);
   el.taskWorkPanels.forEach((panel) => {
     panel.classList.toggle("hidden", editable && !started);
@@ -643,6 +644,11 @@ function renderTaskSelector() {
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
     renderUnifiedTaskQueues(docs, task);
+    el.taskSummary.textContent = "Choose documents in one queue, then start that review task.";
+    el.startTask.disabled = true;
+    el.clearDocSelection.disabled = true;
+    el.selectAllDocs.disabled = true;
+    return;
   } else {
     for (const doc of docs) {
       el.taskDocList.append(renderTaskDocumentRow(doc, task));
@@ -673,12 +679,39 @@ function renderUnifiedTaskQueues(docs, task) {
     section.className = "task-queue-panel";
     const queueDocs = docs.filter((doc) => doc.queue_stage === queue.stage);
     const selectableCount = queueDocs.filter((doc) => doc.selectable !== false).length;
+    const selectedCount = selectedQueueDocCount(queue.stage, task);
+    const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queue.stage);
     const heading = document.createElement("div");
     heading.className = "task-queue-heading";
-    heading.innerHTML = `
-      <strong>${escapeHtml(queue.title)}</strong>
-      <span class="muted">${selectableCount}/${queueDocs.length} selectable doc(s)</span>
+    const title = document.createElement("div");
+    title.className = "task-queue-title";
+    title.innerHTML = `
+      <h3>Select ${escapeHtml(queue.title)} Task</h3>
+      <div class="muted">${selectedCount > 0
+        ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
+        : `${selectableCount}/${queueDocs.length} selectable document(s).`}</div>
     `;
+    const actions = document.createElement("div");
+    actions.className = "button-row";
+    const selectAllButton = document.createElement("button");
+    selectAllButton.type = "button";
+    selectAllButton.className = "secondary-button";
+    selectAllButton.textContent = "Select All";
+    selectAllButton.disabled = selectableCount === 0 || selectedCount === selectableCount;
+    selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queue.stage));
+    const clearButton = document.createElement("button");
+    clearButton.type = "button";
+    clearButton.className = "secondary-button";
+    clearButton.textContent = "Clear";
+    clearButton.disabled = selectedCount === 0;
+    clearButton.addEventListener("click", () => clearQueueTaskSelection(queue.stage));
+    const startButton = document.createElement("button");
+    startButton.type = "button";
+    startButton.textContent = "Start Review Task";
+    startButton.disabled = selectedCount === 0;
+    startButton.addEventListener("click", () => startReviewTask());
+    actions.append(selectAllButton, clearButton, startButton);
+    heading.append(title, actions);
     section.append(heading);
     const list = document.createElement("div");
     list.className = "task-queue-doc-list";
@@ -694,6 +727,18 @@ function renderUnifiedTaskQueues(docs, task) {
     section.append(list);
     el.taskDocList.append(section);
   }
+}
+
+function selectedQueueDocCount(queueStage, task) {
+  if (task.mode !== "documents" || !task.doc_ids.length) {
+    return 0;
+  }
+  return buildDocumentTasks(state.currentPack).filter(
+    (doc) =>
+      doc.queue_stage === queueStage &&
+      doc.selectable !== false &&
+      task.doc_ids.includes(taskDocKey(doc)),
+  ).length;
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -2912,17 +2957,18 @@ function taskQueueStage(task) {
   return selected?.queue_stage || null;
 }
 
-function selectableDocsForCurrentTask(docs, task) {
+function selectableDocsForCurrentTask(docs, task, queueStage = null) {
   const selectableDocs = docs.filter((doc) => doc.selectable !== false);
   if (!isUnifiedReviewPack(state.currentPack)) {
     return selectableDocs;
   }
-  const queueStage =
+  const targetQueueStage =
+    queueStage ||
     taskQueueStage(task) ||
     (selectableDocs.some((doc) => doc.queue_stage === "yomi_final_review")
       ? "yomi_final_review"
       : selectableDocs[0]?.queue_stage);
-  return selectableDocs.filter((doc) => doc.queue_stage === queueStage);
+  return selectableDocs.filter((doc) => doc.queue_stage === targetQueueStage);
 }
 
 function formatReviewStageLabel(stage) {
@@ -3080,13 +3126,34 @@ function selectOnlyDocumentTask(docId) {
   render();
 }
 
-function selectAllDocumentTasks() {
+function selectAllDocumentTasks(queueStage = null) {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const docs = selectableDocsForCurrentTask(buildDocumentTasks(state.currentPack), task);
+  const docs = selectableDocsForCurrentTask(buildDocumentTasks(state.currentPack), task, queueStage);
   state.currentDraft.task = {
     mode: "documents",
     doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function clearQueueTaskSelection(queueStage) {
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  const docs = buildDocumentTasks(state.currentPack);
+  const docIds = task.doc_ids.filter((docId) => {
+    const doc = docs.find((row) => taskDocKey(row) === docId);
+    return doc?.queue_stage !== queueStage;
+  });
+  state.currentDraft.task = {
+    ...task,
+    mode: docIds.length > 0 ? "documents" : "all",
+    doc_ids: docIds,
+    started: false,
+    range_start_doc_id: null,
+    range_end_doc_id: null,
   };
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;

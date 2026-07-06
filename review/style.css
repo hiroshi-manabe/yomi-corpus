@@ -357,6 +357,11 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
+.unified-task-picker > .panel-heading,
+.unified-task-picker > .task-summary {
+  display: none;
+}
+
 .task-doc-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -385,6 +390,10 @@ button:disabled {
   border-bottom: 1px solid rgba(31, 28, 23, 0.08);
   margin: -10px -10px 10px;
   padding: 10px;
+}
+
+.task-queue-title h3 {
+  margin: 0 0 4px;
 }
 
 .task-queue-doc-list {
