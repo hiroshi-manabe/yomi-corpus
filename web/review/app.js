@@ -300,7 +300,7 @@ async function openUnifiedReview() {
 function buildUnifiedReviewPack(sources) {
   const sourceIds = sources.map(({ pack }) => pack.pack_id);
   const items = [];
-  const documents = new Map();
+  const sourceDocuments = [];
   let nextSeq = 1;
   for (const { pack } of sources) {
     for (const item of pack.items || []) {
@@ -320,47 +320,63 @@ function buildUnifiedReviewPack(sources) {
       if (!docId) {
         continue;
       }
-      const existing = documents.get(docId) || {
+      sourceDocuments.push({
         ...doc,
-        item_count: 0,
-        unresolved_count: 0,
-        final_item_count: 0,
-        strong_repair_item_count: 0,
-        selectable: false,
-      };
-      existing.doc_seq = Math.min(Number(existing.doc_seq || doc.doc_seq || 0), Number(doc.doc_seq || existing.doc_seq || 0)) || doc.doc_seq;
-      existing.unit_count = Math.max(Number(existing.unit_count || 0), Number(doc.unit_count || 0));
-      existing.preview = existing.preview || doc.preview || "";
-      documents.set(docId, existing);
+        queue_stage: pack.review_stage,
+        source_pack_id: pack.pack_id,
+        task_doc_id: queueDocKey(pack.review_stage, docId),
+      });
     }
   }
+  const statsByDoc = new Map();
   for (const item of items) {
     const docId = String(item.doc_id || "");
     if (!docId) {
       continue;
     }
-    const doc = documents.get(docId) || {
-      doc_id: docId,
-      doc_seq: item.doc_seq || documents.size + 1,
-      item_count: 0,
-      unresolved_count: 0,
-      final_item_count: 0,
-      strong_repair_item_count: 0,
-      selectable: false,
-      preview: item.text || "",
-    };
-    doc.item_count += 1;
-    doc.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
+    const key = queueDocKey(item.source_review_stage, docId);
+    if (!statsByDoc.has(key)) {
+      statsByDoc.set(key, {
+        from_seq: item.seq,
+        to_seq: item.seq,
+        item_count: 0,
+        unresolved_count: 0,
+        final_item_count: 0,
+        strong_repair_item_count: 0,
+      });
+    }
+    const stats = statsByDoc.get(key);
+    stats.from_seq = Math.min(stats.from_seq, item.seq);
+    stats.to_seq = Math.max(stats.to_seq, item.seq);
+    stats.item_count += 1;
+    stats.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
     if (item.source_review_stage === "yomi_final_review") {
-      doc.final_item_count += 1;
+      stats.final_item_count += 1;
     }
     if (item.source_review_stage === "yomi_strong_repair_review") {
-      doc.strong_repair_item_count += 1;
+      stats.strong_repair_item_count += 1;
     }
-    doc.selectable = true;
-    documents.set(docId, doc);
   }
-  const documentRows = [...documents.values()].sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  const documentRows = sourceDocuments
+    .map((doc) => {
+      const key = taskDocKey(doc);
+      const stats = statsByDoc.get(key) || {};
+      return {
+        ...doc,
+        from_seq: stats.from_seq ?? 0,
+        to_seq: stats.to_seq ?? 0,
+        item_count: stats.item_count ?? 0,
+        unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
+        final_item_count: stats.final_item_count ?? 0,
+        strong_repair_item_count: stats.strong_repair_item_count ?? 0,
+        selectable: unifiedDocumentIsSelectable(doc, stats),
+      };
+    })
+    .sort(
+      (left, right) =>
+        Number(left.doc_seq || 0) - Number(right.doc_seq || 0) ||
+        queueStageSort(left.queue_stage) - queueStageSort(right.queue_stage),
+    );
   return {
     schema_version: 1,
     review_stage: "unified_yomi_review",
@@ -383,6 +399,39 @@ function buildUnifiedReviewPack(sources) {
     documents: documentRows,
     items,
   };
+}
+
+function queueDocKey(queueStage, docId) {
+  return `${queueStage}::${docId}`;
+}
+
+function taskDocKey(doc) {
+  return doc?.task_doc_id || doc?.doc_id || "";
+}
+
+function queueStageSort(stage) {
+  if (stage === "yomi_final_review") {
+    return 0;
+  }
+  if (stage === "yomi_strong_repair_review") {
+    return 1;
+  }
+  return 99;
+}
+
+function unifiedDocumentIsSelectable(doc, stats) {
+  const stateName = String(doc.state || "");
+  const itemCount = Number(stats?.item_count || 0);
+  if (itemCount <= 0) {
+    return false;
+  }
+  if (doc.queue_stage === "yomi_final_review") {
+    return stateName.startsWith("final_") || (stateName === "" && doc.selectable !== false);
+  }
+  if (doc.queue_stage === "yomi_strong_repair_review") {
+    return stateName.startsWith("strong_");
+  }
+  return Boolean(doc.selectable);
 }
 
 function populateStageSelect(stageIds) {
@@ -592,11 +641,17 @@ function renderTaskSelector() {
 
   renderSavedTaskDrafts(docs);
   el.taskDocList.innerHTML = "";
-  for (const doc of docs) {
-    el.taskDocList.append(renderTaskDocumentRow(doc, task));
+  if (isUnifiedReviewPack(state.currentPack)) {
+    renderUnifiedTaskQueues(docs, task);
+  } else {
+    for (const doc of docs) {
+      el.taskDocList.append(renderTaskDocumentRow(doc, task));
+    }
   }
   const selectableDocs = docs.filter((doc) => doc.selectable !== false);
+  const selectAllDocs = selectableDocsForCurrentTask(docs, task);
   const selectedCount = task.doc_ids.length;
+  const selectedSelectAllCount = selectAllDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc))).length;
   const selectedItems = itemsForTask(task);
   el.taskSummary.textContent =
     selectedCount > 0
@@ -606,7 +661,39 @@ function renderTaskSelector() {
         : "No selectable documents in this queue.";
   el.startTask.disabled = selectableDocs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
-  el.selectAllDocs.disabled = selectableDocs.length === 0 || selectedCount === selectableDocs.length;
+  el.selectAllDocs.disabled = selectAllDocs.length === 0 || selectedSelectAllCount === selectAllDocs.length;
+}
+
+function renderUnifiedTaskQueues(docs, task) {
+  for (const queue of [
+    { stage: "yomi_final_review", title: "Final review" },
+    { stage: "yomi_strong_repair_review", title: "Strong repair" },
+  ]) {
+    const section = document.createElement("section");
+    section.className = "task-queue-panel";
+    const queueDocs = docs.filter((doc) => doc.queue_stage === queue.stage);
+    const selectableCount = queueDocs.filter((doc) => doc.selectable !== false).length;
+    const heading = document.createElement("div");
+    heading.className = "task-queue-heading";
+    heading.innerHTML = `
+      <strong>${escapeHtml(queue.title)}</strong>
+      <span class="muted">${selectableCount}/${queueDocs.length} selectable doc(s)</span>
+    `;
+    section.append(heading);
+    const list = document.createElement("div");
+    list.className = "task-queue-doc-list";
+    for (const doc of queueDocs) {
+      list.append(renderTaskDocumentRow(doc, task));
+    }
+    if (queueDocs.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "muted";
+      empty.textContent = "No documents in this queue.";
+      list.append(empty);
+    }
+    section.append(list);
+    el.taskDocList.append(section);
+  }
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -652,7 +739,8 @@ function renderSavedTaskDrafts(docs) {
 function renderTaskDocumentRow(doc, task) {
   const row = document.createElement("article");
   row.className = "task-doc-row";
-  row.classList.toggle("selected", task.doc_ids.includes(doc.doc_id));
+  const docKey = taskDocKey(doc);
+  row.classList.toggle("selected", task.doc_ids.includes(docKey));
   row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
   row.classList.toggle("unselectable-task-doc", doc.selectable === false);
 
@@ -661,9 +749,9 @@ function renderTaskDocumentRow(doc, task) {
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.disabled = doc.selectable === false;
-  checkbox.checked = task.doc_ids.includes(doc.doc_id);
+  checkbox.checked = task.doc_ids.includes(docKey);
   checkbox.addEventListener("change", () => {
-    toggleDocumentTask(doc.doc_id, checkbox.checked);
+    toggleDocumentTask(docKey, checkbox.checked);
   });
   const title = document.createElement("span");
   title.className = "task-doc-title";
@@ -687,9 +775,9 @@ function renderTaskDocumentRow(doc, task) {
   const actions = document.createElement("div");
   actions.className = "task-doc-actions";
   for (const [labelText, handler] of [
-    ["From", () => setDocumentRangeBoundary(doc.doc_id, "start")],
-    ["To", () => setDocumentRangeBoundary(doc.doc_id, "end")],
-    ["Only", () => selectOnlyDocumentTask(doc.doc_id)],
+    ["From", () => setDocumentRangeBoundary(docKey, "start")],
+    ["To", () => setDocumentRangeBoundary(docKey, "end")],
+    ["Only", () => selectOnlyDocumentTask(docKey)],
   ]) {
     const button = document.createElement("button");
     button.type = "button";
@@ -2389,7 +2477,7 @@ function buildUnifiedSubmissionPayload() {
       submission_id: `${source.pack_id}__${iso}`,
       reviewer,
       generated_at_epoch: generatedAt,
-      task: buildSubmissionTaskMetadata(),
+      task: buildSubmissionTaskMetadata(source.review_stage, source.pack_id),
       reviewed_ranges: buildReviewedRangesForItems(items),
       overrides,
     });
@@ -2407,18 +2495,31 @@ function buildUnifiedSubmissionPayload() {
   };
 }
 
-function buildSubmissionTaskMetadata() {
+function buildSubmissionTaskMetadata(reviewStage = null, packId = null) {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   if (task.mode !== "documents") {
     return { mode: "full_pack" };
   }
-  const docs = buildDocumentTasks(state.currentPack).filter((row) => task.doc_ids.includes(row.doc_id));
+  const docs = buildDocumentTasks(state.currentPack).filter((row) => {
+    if (!task.doc_ids.includes(taskDocKey(row))) {
+      return false;
+    }
+    if (reviewStage && row.queue_stage && row.queue_stage !== reviewStage) {
+      return false;
+    }
+    if (packId && row.source_pack_id && row.source_pack_id !== packId) {
+      return false;
+    }
+    return true;
+  });
   return {
     mode: "documents",
     task_id: state.currentDraft.active_task_id || null,
     task_label: state.currentDraft.active_task_label || null,
+    doc_keys: docs.map((doc) => taskDocKey(doc)),
     doc_ids: docs.map((doc) => doc.doc_id),
     doc_seqs: docs.map((doc) => doc.doc_seq),
+    queue_stages: [...new Set(docs.map((doc) => doc.queue_stage).filter(Boolean))],
     doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
   };
@@ -2587,8 +2688,11 @@ function itemsForTask(task) {
   if (task.mode !== "documents" || task.doc_ids.length === 0) {
     return items;
   }
-  const docIds = new Set(task.doc_ids);
-  return items.filter((item) => docIds.has(item.doc_id));
+  const docKeys = new Set(task.doc_ids);
+  if (isUnifiedReviewPack(state.currentPack)) {
+    return items.filter((item) => docKeys.has(queueDocKey(itemReviewStage(item), item.doc_id)));
+  }
+  return items.filter((item) => docKeys.has(item.doc_id));
 }
 
 function isUnifiedReviewPack(pack) {
@@ -2662,7 +2766,7 @@ function buildReviewedRangesForItems(sourceItems) {
 
 function buildReviewedDocumentRanges(docs = null) {
   const sourceDocs = docs || buildDocumentTasks(state.currentPack).filter((doc) =>
-    normalizeTask(state.currentDraft.task, state.currentPack).doc_ids.includes(doc.doc_id)
+    normalizeTask(state.currentDraft.task, state.currentPack).doc_ids.includes(taskDocKey(doc))
   );
   const seqs = sourceDocs
     .map((doc) => doc.doc_seq)
@@ -2700,8 +2804,9 @@ function buildDocumentTasks(pack) {
       if (!docId) {
         continue;
       }
-      if (!itemStats.has(docId)) {
-        itemStats.set(docId, {
+      const key = isUnifiedReviewPack(pack) ? queueDocKey(itemReviewStage(item), docId) : docId;
+      if (!itemStats.has(key)) {
+        itemStats.set(key, {
           from_seq: item.seq,
           to_seq: item.seq,
           item_count: 0,
@@ -2710,7 +2815,7 @@ function buildDocumentTasks(pack) {
           strong_repair_item_count: 0,
         });
       }
-      const stats = itemStats.get(docId);
+      const stats = itemStats.get(key);
       stats.from_seq = Math.min(stats.from_seq, item.seq);
       stats.to_seq = Math.max(stats.to_seq, item.seq);
       stats.item_count += 1;
@@ -2724,9 +2829,12 @@ function buildDocumentTasks(pack) {
     }
     return pack.documents
       .map((doc) => {
-        const stats = itemStats.get(doc.doc_id) || {};
+        const stats = itemStats.get(taskDocKey(doc)) || {};
         return {
           doc_id: doc.doc_id || "",
+          task_doc_id: taskDocKey(doc),
+          queue_stage: doc.queue_stage || "",
+          source_pack_id: doc.source_pack_id || "",
           doc_seq: doc.doc_seq || 0,
           from_seq: stats.from_seq ?? 0,
           to_seq: stats.to_seq ?? 0,
@@ -2741,7 +2849,11 @@ function buildDocumentTasks(pack) {
           preview: doc.preview || "",
         };
       })
-      .sort((left, right) => left.doc_seq - right.doc_seq);
+      .sort(
+        (left, right) =>
+          left.doc_seq - right.doc_seq ||
+          queueStageSort(left.queue_stage) - queueStageSort(right.queue_stage),
+      );
   }
   const docs = [];
   const byId = new Map();
@@ -2774,7 +2886,7 @@ function buildDocumentTasks(pack) {
 
 function normalizeTask(task, pack) {
   const docs = buildDocumentTasks(pack);
-  const validDocIds = new Set(docs.map((doc) => doc.doc_id));
+  const validDocIds = new Set(docs.map((doc) => taskDocKey(doc)));
   let docIds = [];
   if (task?.mode === "document" && task.doc_id) {
     docIds = [task.doc_id];
@@ -2789,6 +2901,38 @@ function normalizeTask(task, pack) {
     range_start_doc_id: validDocIds.has(task?.range_start_doc_id) ? task.range_start_doc_id : null,
     range_end_doc_id: validDocIds.has(task?.range_end_doc_id) ? task.range_end_doc_id : null,
   };
+}
+
+function taskQueueStage(task) {
+  if (!isUnifiedReviewPack(state.currentPack) || !task?.doc_ids?.length) {
+    return null;
+  }
+  const docs = buildDocumentTasks(state.currentPack);
+  const selected = docs.find((doc) => task.doc_ids.includes(taskDocKey(doc)));
+  return selected?.queue_stage || null;
+}
+
+function selectableDocsForCurrentTask(docs, task) {
+  const selectableDocs = docs.filter((doc) => doc.selectable !== false);
+  if (!isUnifiedReviewPack(state.currentPack)) {
+    return selectableDocs;
+  }
+  const queueStage =
+    taskQueueStage(task) ||
+    (selectableDocs.some((doc) => doc.queue_stage === "yomi_final_review")
+      ? "yomi_final_review"
+      : selectableDocs[0]?.queue_stage);
+  return selectableDocs.filter((doc) => doc.queue_stage === queueStage);
+}
+
+function formatReviewStageLabel(stage) {
+  if (stage === "yomi_final_review") {
+    return "final";
+  }
+  if (stage === "yomi_strong_repair_review") {
+    return "strong repair";
+  }
+  return stage || "review";
 }
 
 function listSavedTaskDrafts() {
@@ -2811,7 +2955,7 @@ function findSavedTaskDraftByDocIds(docIds) {
 }
 
 function canonicalDocIdKey(docIds) {
-  const order = new Map(buildDocumentTasks(state.currentPack).map((doc, index) => [doc.doc_id, index]));
+  const order = new Map(buildDocumentTasks(state.currentPack).map((doc, index) => [taskDocKey(doc), index]));
   return [...new Set((docIds || []).map(String))]
     .filter((docId) => order.has(docId))
     .sort((left, right) => order.get(left) - order.get(right))
@@ -2866,10 +3010,14 @@ function taskNumberFromId(taskId) {
 
 function formatTaskDraftMeta(record, docs) {
   const docIds = new Set(record.task?.doc_ids || []);
-  const selectedDocs = docs.filter((doc) => docIds.has(doc.doc_id));
+  const selectedDocs = docs.filter((doc) => docIds.has(taskDocKey(doc)));
   const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
   const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
   const parts = [];
+  const queueStages = [...new Set(selectedDocs.map((doc) => doc.queue_stage).filter(Boolean))];
+  if (queueStages.length) {
+    parts.push(queueStages.map(formatReviewStageLabel).join(" + "));
+  }
   if (docSeqs.length) {
     parts.push(`docs ${formatDocSeqs(docSeqs)}`);
   }
@@ -2885,12 +3033,20 @@ function cloneJson(value) {
 }
 
 function toggleDocumentTask(docId, selected) {
-  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  const docs = buildDocumentTasks(state.currentPack);
+  const doc = docs.find((row) => taskDocKey(row) === docId);
   if (doc?.selectable === false) {
     return;
   }
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const docIds = new Set(task.doc_ids);
+  let nextDocIds = task.doc_ids;
+  if (selected && isUnifiedReviewPack(state.currentPack)) {
+    nextDocIds = nextDocIds.filter((existingId) => {
+      const existingDoc = docs.find((row) => taskDocKey(row) === existingId);
+      return existingDoc?.queue_stage === doc.queue_stage;
+    });
+  }
+  const docIds = new Set(nextDocIds);
   if (selected) {
     docIds.add(docId);
   } else {
@@ -2909,7 +3065,7 @@ function toggleDocumentTask(docId, selected) {
 }
 
 function selectOnlyDocumentTask(docId) {
-  const doc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  const doc = buildDocumentTasks(state.currentPack).find((row) => taskDocKey(row) === docId);
   if (doc?.selectable === false) {
     return;
   }
@@ -2925,10 +3081,11 @@ function selectOnlyDocumentTask(docId) {
 }
 
 function selectAllDocumentTasks() {
-  const docs = buildDocumentTasks(state.currentPack).filter((doc) => doc.selectable !== false);
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  const docs = selectableDocsForCurrentTask(buildDocumentTasks(state.currentPack), task);
   state.currentDraft.task = {
     mode: "documents",
-    doc_ids: docs.map((doc) => doc.doc_id),
+    doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
   };
   state.currentDraft.from_seq = null;
@@ -2938,7 +3095,8 @@ function selectAllDocumentTasks() {
 }
 
 function setDocumentRangeBoundary(docId, side) {
-  const currentDoc = buildDocumentTasks(state.currentPack).find((row) => row.doc_id === docId);
+  const docs = buildDocumentTasks(state.currentPack);
+  const currentDoc = docs.find((row) => taskDocKey(row) === docId);
   if (currentDoc?.selectable === false) {
     return;
   }
@@ -2949,18 +3107,35 @@ function setDocumentRangeBoundary(docId, side) {
     started: false,
     [side === "start" ? "range_start_doc_id" : "range_end_doc_id"]: docId,
   };
-  const docs = buildDocumentTasks(state.currentPack);
+  if (isUnifiedReviewPack(state.currentPack)) {
+    const otherSide = side === "start" ? "range_end_doc_id" : "range_start_doc_id";
+    const otherDoc = docs.find((doc) => taskDocKey(doc) === next[otherSide]);
+    if (otherDoc && otherDoc.queue_stage !== currentDoc.queue_stage) {
+      next[otherSide] = null;
+    }
+    next.doc_ids = task.doc_ids.filter((existingId) => {
+      const existingDoc = docs.find((doc) => taskDocKey(doc) === existingId);
+      return existingDoc?.queue_stage === currentDoc.queue_stage;
+    });
+  }
   const startId = next.range_start_doc_id;
   const endId = next.range_end_doc_id;
   if (startId && endId) {
-    const startIndex = docs.findIndex((doc) => doc.doc_id === startId);
-    const endIndex = docs.findIndex((doc) => doc.doc_id === endId);
-    const fromIndex = Math.min(startIndex, endIndex);
-    const toIndex = Math.max(startIndex, endIndex);
-    next.doc_ids = docs
-      .slice(fromIndex, toIndex + 1)
-      .filter((doc) => doc.selectable !== false)
-      .map((doc) => doc.doc_id);
+    const rangeDocs = isUnifiedReviewPack(state.currentPack)
+      ? docs.filter((doc) => doc.queue_stage === currentDoc.queue_stage)
+      : docs;
+    const startIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === startId);
+    const endIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === endId);
+    if (startIndex >= 0 && endIndex >= 0) {
+      const fromIndex = Math.min(startIndex, endIndex);
+      const toIndex = Math.max(startIndex, endIndex);
+      next.doc_ids = rangeDocs
+        .slice(fromIndex, toIndex + 1)
+        .filter((doc) => doc.selectable !== false)
+        .map((doc) => taskDocKey(doc));
+    } else {
+      next.doc_ids = [docId];
+    }
   } else {
     next.doc_ids = [docId];
   }

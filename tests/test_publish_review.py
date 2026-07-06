@@ -10,6 +10,7 @@ from tempfile import TemporaryDirectory
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PUBLISH_REVIEW = runpy.run_path(str(PROJECT_ROOT / "publish-review"), run_name="publish_review_test")
 collect_review_artifact_paths = PUBLISH_REVIEW["collect_review_artifact_paths"]
+parse_github_owner_repo = PUBLISH_REVIEW["parse_github_owner_repo"]
 regenerate_review_artifacts = PUBLISH_REVIEW["regenerate_review_artifacts"]
 
 
@@ -126,6 +127,19 @@ class PublishReviewTests(unittest.TestCase):
             self.assertEqual(manifest["default_stage"], "yomi_final_review")
             self.assertEqual((docs_root / "review" / "app.js").read_text(encoding="utf-8"), "// unified source\n")
             self.assertTrue((docs_root / "review" / "packs" / "pack_1.json").exists())
+
+    def test_parse_github_owner_repo_accepts_https_and_ssh_urls(self) -> None:
+        self.assertEqual(
+            parse_github_owner_repo("https://github.com/hiroshi-manabe/yomi-corpus.git"),
+            ("hiroshi-manabe", "yomi-corpus"),
+        )
+        self.assertEqual(
+            parse_github_owner_repo("git@github.com:hiroshi-manabe/yomi-corpus.git"),
+            ("hiroshi-manabe", "yomi-corpus"),
+        )
+
+    def test_parse_github_owner_repo_rejects_non_github_urls(self) -> None:
+        self.assertIsNone(parse_github_owner_repo("https://example.com/owner/repo.git"))
 
 
 if __name__ == "__main__":

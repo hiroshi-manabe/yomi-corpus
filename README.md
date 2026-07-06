@@ -139,9 +139,16 @@ Pipeline orchestration policy:
   `./status --stages` wraps `./next --status --stages`
 - `./set-stage dev <stage>` rewinds the current dev batch stage without
   deleting artifacts; `working` requires confirmation or `--yes`
-- `./publish-review` regenerates the GitHub Pages review site from
-  `web/review` and `data/review_packs`, then commits and pushes only the
-  generated `docs/review` artifacts
+- `./publish-review` regenerates the review site from `web/review` and
+  `data/review_packs`, then publishes `docs/index.html` and `docs/review/**`
+  to the `gh-pages` branch; configure GitHub Pages to deploy from
+  `gh-pages` / root
+- `./publish-review --publish-target main` keeps the older workflow that
+  commits generated `docs/review` artifacts on `main`
+- `./publish-review --wait-pages --rerun-failed-pages --cancel-stale-pages`
+  additionally waits for GitHub Pages to serve the generated `manifest.json`,
+  `app.js`, and `style.css`; if Pages has old queued deployments or a transient
+  failure, it cancels stale runs and reruns the failed deployment once
 - treat OpenAI Batch waits and human-review waits as explicit pipeline states,
   not special cases
 

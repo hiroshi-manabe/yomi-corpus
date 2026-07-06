@@ -3,10 +3,16 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any
+from urllib.error import URLError
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -52,6 +58,43 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Commit the review artifacts but do not run git push.",
     )
+    parser.add_argument(
+        "--publish-target",
+        choices=("gh-pages", "main"),
+        default="gh-pages",
+        help="Where to publish generated review artifacts. Default: gh-pages.",
+    )
+    parser.add_argument(
+        "--wait-pages",
+        action="store_true",
+        help="After push, wait until GitHub Pages serves the generated review artifacts.",
+    )
+    parser.add_argument(
+        "--rerun-failed-pages",
+        action="store_true",
+        help="With --wait-pages, rerun a failed Pages deployment once and continue waiting.",
+    )
+    parser.add_argument(
+        "--cancel-stale-pages",
+        action="store_true",
+        help="With --wait-pages, cancel older queued/in-progress Pages deployments before waiting.",
+    )
+    parser.add_argument(
+        "--pages-timeout",
+        type=int,
+        default=900,
+        help="Seconds to wait for GitHub Pages when --wait-pages is set. Default: 900.",
+    )
+    parser.add_argument(
+        "--pages-poll",
+        type=int,
+        default=10,
+        help="Seconds between GitHub Pages checks. Default: 10.",
+    )
+    parser.add_argument(
+        "--pages-url",
+        help="Override the review page base URL. Default is inferred from origin, e.g. https://OWNER.github.io/REPO/review/.",
+    )
     return parser.parse_args()
 
 
@@ -73,6 +116,30 @@ def main() -> None:
     for rel_path in rel_paths:
         print(f"  {rel_path}")
 
+    if args.publish_target == "gh-pages":
+        if args.dry_run:
+            print(
+                "Dry run: regenerated docs/review; would publish docs/index.html "
+                "and docs/review/** to the gh-pages branch."
+            )
+            return
+        published_sha = publish_to_gh_pages(message=args.message, push=not args.no_push)
+        if args.no_push:
+            print("Committed gh-pages artifacts locally; skipped git push because --no-push was set.")
+            if args.wait_pages:
+                raise SystemExit("--wait-pages cannot be used with --no-push.")
+            return
+        if args.wait_pages:
+            wait_for_pages(
+                pages_url=args.pages_url or infer_pages_review_url(),
+                timeout_seconds=args.pages_timeout,
+                poll_seconds=args.pages_poll,
+                rerun_failed=args.rerun_failed_pages,
+                cancel_stale=args.cancel_stale_pages,
+                expected_commit=published_sha,
+            )
+        return
+
     if args.dry_run:
         print("Dry run: regenerated docs/review; would run git add, git commit, and git push for the paths above.")
         return
@@ -80,13 +147,33 @@ def main() -> None:
     run_git(["add", "--", *rel_paths])
     if not has_staged_changes(rel_paths):
         print("No review artifact changes to publish.")
+        if args.wait_pages:
+            wait_for_pages(
+                pages_url=args.pages_url or infer_pages_review_url(),
+                timeout_seconds=args.pages_timeout,
+                poll_seconds=args.pages_poll,
+                rerun_failed=args.rerun_failed_pages,
+                cancel_stale=args.cancel_stale_pages,
+                expected_commit=git_output(["rev-parse", "HEAD"]),
+            )
         return
 
     run_git(["commit", "-m", args.message, "--", *rel_paths])
     if args.no_push:
         print("Committed review artifacts; skipped git push because --no-push was set.")
+        if args.wait_pages:
+            raise SystemExit("--wait-pages cannot be used with --no-push.")
         return
     run_git(["push"])
+    if args.wait_pages:
+        wait_for_pages(
+            pages_url=args.pages_url or infer_pages_review_url(),
+            timeout_seconds=args.pages_timeout,
+            poll_seconds=args.pages_poll,
+            rerun_failed=args.rerun_failed_pages,
+            cancel_stale=args.cancel_stale_pages,
+            expected_commit=git_output(["rev-parse", "HEAD"]),
+        )
 
 
 def regenerate_review_artifacts(project_root: Path = PROJECT_ROOT) -> dict:
@@ -166,6 +253,280 @@ def has_staged_changes(rel_paths: list[str]) -> bool:
 
 def run_git(args: list[str]) -> None:
     subprocess.run(["git", *args], cwd=PROJECT_ROOT, check=True)
+
+
+def publish_to_gh_pages(*, message: str, push: bool) -> str:
+    docs_index = PROJECT_ROOT / "docs" / "index.html"
+    if not docs_index.exists():
+        raise SystemExit("docs/index.html is missing; regenerate review artifacts first.")
+    if not REVIEW_ROOT.exists():
+        raise SystemExit("docs/review is missing; regenerate review artifacts first.")
+    with TemporaryDirectory(prefix="yomi-corpus-gh-pages-") as tmp:
+        worktree = Path(tmp) / "worktree"
+        branch_exists = remote_branch_exists("gh-pages")
+        if branch_exists:
+            run_git(["fetch", "origin", "gh-pages"])
+            run_git(["worktree", "add", "-B", "gh-pages", str(worktree), "origin/gh-pages"])
+        else:
+            run_git(["worktree", "add", "--detach", str(worktree), "HEAD"])
+            run_git_in(worktree, ["checkout", "--orphan", "gh-pages"])
+        try:
+            clear_pages_worktree(worktree)
+            shutil.copy2(docs_index, worktree / "index.html")
+            shutil.copytree(REVIEW_ROOT, worktree / "review")
+            (worktree / ".nojekyll").write_text("", encoding="utf-8")
+            run_git_in(worktree, ["add", "--all"])
+            if not has_staged_changes_in(worktree):
+                sha = git_output_in(worktree, ["rev-parse", "HEAD"])
+                print(f"No gh-pages artifact changes to publish ({sha[:12]}).")
+                return sha
+            run_git_in(worktree, ["commit", "-m", message])
+            sha = git_output_in(worktree, ["rev-parse", "HEAD"])
+            if push:
+                run_git_in(worktree, ["push", "-u", "origin", "gh-pages"])
+            else:
+                print(f"Created local gh-pages commit {sha[:12]}; push skipped.")
+            return sha
+        finally:
+            subprocess.run(
+                ["git", "worktree", "remove", "--force", str(worktree)],
+                cwd=PROJECT_ROOT,
+                check=False,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+
+
+def clear_pages_worktree(worktree: Path) -> None:
+    for child in worktree.iterdir():
+        if child.name == ".git":
+            continue
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
+
+
+def remote_branch_exists(branch_name: str) -> bool:
+    result = subprocess.run(
+        ["git", "ls-remote", "--exit-code", "--heads", "origin", branch_name],
+        cwd=PROJECT_ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+        timeout=30,
+    )
+    return result.returncode == 0
+
+
+def has_staged_changes_in(repo: Path) -> bool:
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"],
+        cwd=repo,
+        check=False,
+    )
+    return result.returncode == 1
+
+
+def run_git_in(repo: Path, args: list[str]) -> None:
+    subprocess.run(["git", *args], cwd=repo, check=True)
+
+
+def git_output_in(repo: Path, args: list[str]) -> str:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    return result.stdout.strip()
+
+
+def wait_for_pages(
+    *,
+    pages_url: str,
+    timeout_seconds: int,
+    poll_seconds: int,
+    rerun_failed: bool,
+    cancel_stale: bool,
+    expected_commit: str,
+) -> None:
+    if timeout_seconds <= 0:
+        raise SystemExit("--pages-timeout must be positive.")
+    if poll_seconds <= 0:
+        raise SystemExit("--pages-poll must be positive.")
+    deadline = time.monotonic() + timeout_seconds
+    rerun_attempted = False
+    log(f"Waiting for GitHub Pages deployment for {expected_commit[:12]}...")
+    if cancel_stale:
+        cancel_stale_pages_runs(expected_commit)
+    while time.monotonic() < deadline:
+        if live_review_artifacts_match(pages_url, expected_commit):
+            log(f"GitHub Pages is serving the current review artifacts: {pages_url}")
+            return
+        run = latest_pages_run_for_commit(expected_commit)
+        if run:
+            status = run.get("status")
+            conclusion = run.get("conclusion")
+            run_id = str(run.get("databaseId") or "")
+            log(f"Pages run {run_id}: {status}" + (f" / {conclusion}" if conclusion else ""))
+            if status == "completed" and conclusion == "failure":
+                if rerun_failed and not rerun_attempted and run_id:
+                    log(f"Rerunning failed Pages deployment {run_id}...")
+                    subprocess.run(["gh", "run", "rerun", run_id], cwd=PROJECT_ROOT, check=True)
+                    rerun_attempted = True
+                    time.sleep(poll_seconds)
+                    continue
+                raise SystemExit(
+                    f"GitHub Pages deployment failed: {run.get('url') or run_id}. "
+                    "Rerun it or use --rerun-failed-pages."
+                )
+            if status == "completed" and conclusion == "success":
+                if live_review_artifacts_match(pages_url, expected_commit):
+                    log(f"GitHub Pages is serving the current review artifacts: {pages_url}")
+                    return
+                log("Pages deployment succeeded, but live artifacts have not caught up yet.")
+        else:
+            log("No Pages run for this commit yet.")
+        time.sleep(poll_seconds)
+    raise SystemExit(
+        f"Timed out waiting for GitHub Pages to serve current review artifacts after {timeout_seconds}s."
+    )
+
+
+def latest_pages_run_for_commit(commit_sha: str) -> dict | None:
+    if not command_exists("gh"):
+        return None
+    runs = list_pages_runs(limit=20)
+    if runs is None:
+        return None
+    pages_runs = [
+        run
+        for run in runs
+        if run.get("headSha") == commit_sha
+        and "pages" in str(run.get("displayTitle") or "").lower()
+    ]
+    return pages_runs[0] if pages_runs else None
+
+
+def cancel_stale_pages_runs(expected_commit: str) -> None:
+    runs = list_pages_runs(limit=30)
+    if runs is None:
+        return
+    for run in runs:
+        if "pages" not in str(run.get("displayTitle") or "").lower():
+            continue
+        if run.get("headSha") == expected_commit:
+            continue
+        if run.get("status") not in {"queued", "in_progress"}:
+            continue
+        run_id = str(run.get("databaseId") or "")
+        if not run_id:
+            continue
+        log(f"Cancelling stale Pages deployment {run_id} for {str(run.get('headSha') or '')[:12]}...")
+        subprocess.run(["gh", "run", "cancel", run_id], cwd=PROJECT_ROOT, check=False)
+
+
+def list_pages_runs(*, limit: int) -> list[dict] | None:
+    if not command_exists("gh"):
+        return None
+    result = subprocess.run(
+        [
+            "gh",
+            "run",
+            "list",
+            "--limit",
+            str(limit),
+            "--json",
+            "databaseId,headSha,status,conclusion,url,createdAt,displayTitle",
+        ],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        log(f"Could not inspect GitHub Actions runs with gh: {result.stderr.strip()}")
+        return None
+    try:
+        return json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return None
+
+
+def live_review_artifacts_match(pages_url: str, cache_buster: str) -> bool:
+    base_url = pages_url.rstrip("/") + "/"
+    for rel_path in ("manifest.json", "app.js", "style.css"):
+        local_path = REVIEW_ROOT / rel_path
+        if not local_path.exists():
+            log(f"Local review artifact missing: {local_path}")
+            return False
+        try:
+            live = fetch_text(f"{base_url}{rel_path}?v={quote(cache_buster)}")
+        except URLError as exc:
+            log(f"Could not fetch live {rel_path}: {exc}")
+            return False
+        local = local_path.read_text(encoding="utf-8")
+        if live != local:
+            log(f"Live {rel_path} does not match local docs/review/{rel_path}.")
+            return False
+    return True
+
+
+def log(message: str) -> None:
+    print(message, flush=True)
+
+
+def fetch_text(url: str) -> str:
+    request = Request(url, headers={"Cache-Control": "no-cache", "Pragma": "no-cache"})
+    with urlopen(request, timeout=30) as response:
+        return response.read().decode("utf-8")
+
+
+def infer_pages_review_url() -> str:
+    remote_url = git_output(["config", "--get", "remote.origin.url"])
+    owner_repo = parse_github_owner_repo(remote_url)
+    if not owner_repo:
+        raise SystemExit(
+            "Could not infer GitHub Pages URL from remote.origin.url; pass --pages-url."
+        )
+    owner, repo = owner_repo
+    return f"https://{owner}.github.io/{repo}/review/"
+
+
+def parse_github_owner_repo(remote_url: str) -> tuple[str, str] | None:
+    value = remote_url.strip()
+    if value.startswith("git@github.com:"):
+        value = value.removeprefix("git@github.com:")
+    elif value.startswith("https://github.com/"):
+        value = value.removeprefix("https://github.com/")
+    else:
+        return None
+    value = value.removesuffix(".git").strip("/")
+    parts = value.split("/")
+    if len(parts) != 2 or not parts[0] or not parts[1]:
+        return None
+    return parts[0], parts[1]
+
+
+def git_output(args: list[str]) -> str:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    return result.stdout.strip()
+
+
+def command_exists(name: str) -> bool:
+    return subprocess.run(
+        ["bash", "-lc", f"command -v {name} >/dev/null"],
+        cwd=PROJECT_ROOT,
+        check=False,
+    ).returncode == 0
 
 
 if __name__ == "__main__":
