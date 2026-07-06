@@ -1260,6 +1260,10 @@ def apply_strong_repair_review_file(
         # Human review can explicitly accept a no-op strong-repair result. In that case the
         # raw LLM apply step remains diagnostic, but the overall strong-repair gate is complete.
         strong_summary["stage_complete"] = True
+        strong_summary["confirmation_resolved_noop_items"] = int(
+            strong_summary.get("noop_items") or 0
+        )
+        strong_summary["post_confirmation_unresolved_items"] = 0
         strong_summary.pop("blocking_reason", None)
     strong_summary["confirmation_pack_id"] = str(pack["pack_id"])
     strong_summary["confirmation_submission_count"] = len(submissions)
@@ -2079,6 +2083,8 @@ def apply_yomi_strong_repair_results_file(
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
 
+    unresolved_items = missing_results + parse_error_items + invalid_items + unsupported_items
+    review_pending_items = noop_items
     unapplied_items = queued_items - applied_items
     summary = {
         "rule": "yomi_strong_repair_apply_v1",
@@ -2089,6 +2095,8 @@ def apply_yomi_strong_repair_results_file(
         "result_count": len(result_rows),
         "applied_items": applied_items,
         "unapplied_items": unapplied_items,
+        "unresolved_items": unresolved_items,
+        "review_pending_items": review_pending_items,
         "missing_results": missing_results,
         "parse_error_items": parse_error_items,
         "invalid_items": invalid_items,
@@ -2098,9 +2106,16 @@ def apply_yomi_strong_repair_results_file(
         "summary_json": str(summary_json),
     }
     if unapplied_items:
-        summary["blocking_reason"] = (
-            "Strong yomi repair has unapplied items; inspect yomi_strong_repair_apply_summary.json."
-        )
+        if unresolved_items:
+            summary["blocking_reason"] = (
+                "Strong yomi repair has unresolved failed items; inspect "
+                "yomi_strong_repair_apply_summary.json."
+            )
+        else:
+            summary["blocking_reason"] = (
+                "Strong yomi repair has no-op items awaiting human confirmation; inspect "
+                "yomi_strong_repair_apply_summary.json."
+            )
     summary_json.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

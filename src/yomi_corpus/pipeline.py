@@ -2704,6 +2704,12 @@ class PipelineWorkspace:
                         "yomi_strong_repair_unapplied": str(
                             existing_apply_summary.get("unapplied_items", "")
                         ),
+                        "yomi_strong_repair_noop": str(
+                            existing_apply_summary.get("noop_items", "")
+                        ),
+                        "yomi_strong_repair_unresolved": str(
+                            existing_apply_summary.get("unresolved_items", "")
+                        ),
                         "yomi_strong_repair_confirmed": "true",
                         "human_review_required": "false",
                         "human_review_gate": "",
@@ -2787,6 +2793,8 @@ class PipelineWorkspace:
             "units_yomi_strong_repaired_jsonl": str(output_path),
             "yomi_strong_repair_applied": str(apply_summary["applied_items"]),
             "yomi_strong_repair_unapplied": str(apply_summary["unapplied_items"]),
+            "yomi_strong_repair_noop": str(apply_summary["noop_items"]),
+            "yomi_strong_repair_unresolved": str(apply_summary["unresolved_items"]),
             "yomi_strong_repair_parse_error": str(apply_summary["parse_error_items"]),
             "yomi_strong_repair_missing_result": str(apply_summary["missing_results"]),
             "human_review_required": "true" if queued_count else "false",

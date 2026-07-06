@@ -2030,6 +2030,9 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertFalse(summary["stage_complete"])
             self.assertEqual(summary["invalid_items"], 0)
             self.assertEqual(summary["noop_items"], 1)
+            self.assertEqual(summary["review_pending_items"], 1)
+            self.assertEqual(summary["unresolved_items"], 0)
+            self.assertIn("no-op items awaiting human confirmation", summary["blocking_reason"])
             repaired = json.loads(output_path.read_text(encoding="utf-8"))
             repair = repaired["analysis"]["llm"]["yomi_strong_repair"]["repairs"][0]
             self.assertEqual(repair["status"], "reused_rejected_reading")
@@ -2069,6 +2072,8 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertFalse(confirmed_summary["stage_complete_before_confirmation"])
             self.assertTrue(confirmed_summary["stage_complete"])
             self.assertTrue(confirmed_summary["confirmed"])
+            self.assertEqual(confirmed_summary["confirmation_resolved_noop_items"], 1)
+            self.assertEqual(confirmed_summary["post_confirmation_unresolved_items"], 0)
 
             final_summary = finalize_reviewed_yomi_file(
                 units_jsonl=output_path,
