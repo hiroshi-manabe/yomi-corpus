@@ -359,17 +359,17 @@ button:disabled {
 
 .task-doc-list {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 12px;
-  max-height: 58vh;
-  overflow: auto;
-  padding-right: 4px;
+  overflow: visible;
 }
 
 .task-queue-panel {
   border: 1px solid var(--line);
   border-radius: 16px;
   background: rgba(255, 253, 249, 0.72);
+  max-height: 58vh;
+  overflow: auto;
   padding: 10px;
 }
 
