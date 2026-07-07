@@ -421,6 +421,7 @@ function buildUnifiedReviewPack(sources) {
         selectable: unifiedDocumentIsSelectable(doc, stats),
       };
     })
+    .filter((doc) => doc.selectable !== false)
     .sort(
       (left, right) =>
         Number(left.doc_seq || 0) - Number(right.doc_seq || 0) ||
