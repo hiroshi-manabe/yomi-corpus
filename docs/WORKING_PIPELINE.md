@@ -2122,6 +2122,28 @@ This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside
 the project with cron or a lightweight scheduler.
 
+Current dev scheduler:
+
+- `./ensure-review-sync-timer` installs or refreshes
+  `~/.config/systemd/user/yomi-corpus-review-sync-dev.service` and `.timer`
+- the timer runs `./review-sync dev --publish gh-pages` every five minutes
+- it is safe to call the helper repeatedly; it rewrites the unit files, reloads
+  the user manager, and enables/starts the timer
+- because cluster user lingering may be disabled, an optional `.bashrc` guard
+  can call the helper quietly on login:
+
+```bash
+[ -x /panfs/panmt22/users/hmanabe/yomi-corpus/ensure-review-sync-timer ] && \
+  /panfs/panmt22/users/hmanabe/yomi-corpus/ensure-review-sync-timer --quiet
+```
+
+Do not hide sync errors in the helper itself. Operational failures should still
+be inspected through:
+
+```bash
+journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
+```
+
 Browser-local task state is separate from imported pipeline state:
 
 - `Deferred local tasks` are in-progress browser drafts that can be resumed or

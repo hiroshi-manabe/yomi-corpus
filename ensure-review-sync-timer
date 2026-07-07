@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+SYSTEMD_USER_DIR="${HOME}/.config/systemd/user"
+SERVICE_NAME="yomi-corpus-review-sync-dev.service"
+TIMER_NAME="yomi-corpus-review-sync-dev.timer"
+SERVICE_PATH="${SYSTEMD_USER_DIR}/${SERVICE_NAME}"
+TIMER_PATH="${SYSTEMD_USER_DIR}/${TIMER_NAME}"
+
+usage() {
+  cat <<'EOF'
+Usage: ./ensure-review-sync-timer [--quiet]
+
+Install/update and enable the user-level systemd timer that runs:
+  ./review-sync dev --publish gh-pages
+
+This is safe to call from an interactive shell startup file. It is intentionally
+quiet with --quiet and does nothing if user systemd is unavailable.
+EOF
+}
+
+quiet=false
+if [[ "${1:-}" == "--quiet" ]]; then
+  quiet=true
+elif [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+elif [[ $# -gt 0 ]]; then
+  usage >&2
+  exit 2
+fi
+
+log() {
+  if [[ "${quiet}" != true ]]; then
+    printf '%s\n' "$*"
+  fi
+}
+
+if ! command -v systemctl >/dev/null 2>&1; then
+  log "systemctl not found; skipping review sync timer."
+  exit 0
+fi
+
+if ! systemctl --user is-active --quiet default.target >/dev/null 2>&1; then
+  log "systemd --user is not active; skipping review sync timer."
+  exit 0
+fi
+
+mkdir -p "${SYSTEMD_USER_DIR}"
+
+cat >"${SERVICE_PATH}" <<EOF
+[Unit]
+Description=Yomi corpus dev review sync
+Documentation=file:${PROJECT_ROOT}/docs/WORKING_PIPELINE.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=${PROJECT_ROOT}
+Environment=PATH=${HOME}/.local/bin:${HOME}/.local/share/mise/installs/python/3.12.12/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/bash -lc './review-sync dev --publish gh-pages'
+EOF
+
+cat >"${TIMER_PATH}" <<'EOF'
+[Unit]
+Description=Run yomi corpus dev review sync every 5 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+AccuracySec=30s
+Persistent=true
+Unit=yomi-corpus-review-sync-dev.service
+
+[Install]
+WantedBy=timers.target
+EOF
+
+systemctl --user daemon-reload >/dev/null
+systemctl --user enable --now "${TIMER_NAME}" >/dev/null
+
+if systemctl --user is-active --quiet "${TIMER_NAME}"; then
+  log "Review sync timer is active: ${TIMER_NAME}"
+else
+  log "Review sync timer was installed but is not active."
+  exit 1
+fi

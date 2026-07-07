@@ -110,6 +110,10 @@ Review transport policy:
 - `./review-sync <track>` is the operator entry point for polling review Issues,
   applying matching submissions, closing successfully applied Issues, and
   regenerating local review artifacts
+- `./ensure-review-sync-timer` installs/enables the user-level systemd timer for
+  `./review-sync dev --publish gh-pages`. If user lingering is not enabled on
+  the cluster, calling it from `.bashrc` is an acceptable lightweight safety net:
+  `[ -x /panfs/panmt22/users/hmanabe/yomi-corpus/ensure-review-sync-timer ] && /panfs/panmt22/users/hmanabe/yomi-corpus/ensure-review-sync-timer --quiet`
 - review transport defaults live in `config/review_transport/default.toml`;
   changing `repo`, `pages_url`, and `publish_mode` there is the intended path
   toward separate dev/working review repositories
