@@ -421,12 +421,12 @@ function buildUnifiedReviewPack(sources) {
         selectable: unifiedDocumentIsSelectable(doc, stats),
       };
     })
-    .filter((doc) => doc.selectable !== false)
     .sort(
       (left, right) =>
         Number(left.doc_seq || 0) - Number(right.doc_seq || 0) ||
         queueStageSort(left.queue_stage) - queueStageSort(right.queue_stage),
     );
+  const actionableDocumentRows = documentRows.filter((doc) => doc.selectable !== false);
   return {
     schema_version: 1,
     review_stage: "unified_yomi_review",
@@ -447,6 +447,7 @@ function buildUnifiedReviewPack(sources) {
       item_count: pack.item_count,
     })),
     documents: documentRows,
+    actionable_documents: actionableDocumentRows,
     items,
   };
 }
@@ -680,7 +681,8 @@ function renderTaskSelector() {
   if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
   }
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildActionableDocumentTasks(state.currentPack);
+  const actionableDocs = buildActionableDocumentTasks(state.currentPack);
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
   const started = isTaskStarted();
@@ -695,13 +697,13 @@ function renderTaskSelector() {
     return;
   }
 
-  renderSavedTaskDrafts(docs);
+  renderSavedTaskDrafts(actionableDocs);
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
     if (state.uiMode === "workflow") {
-      renderWorkflowTaskDashboard(docs, task);
+      renderWorkflowTaskDashboard(docs, actionableDocs, task);
     } else {
-      renderUnifiedTaskQueues(docs, task);
+      renderUnifiedTaskQueues(actionableDocs, task);
     }
     el.taskSummary.textContent = "Choose documents in one queue, then start that review task.";
     el.startTask.disabled = true;
@@ -713,8 +715,8 @@ function renderTaskSelector() {
       el.taskDocList.append(renderTaskDocumentRow(doc, task));
     }
   }
-  const selectableDocs = docs.filter((doc) => doc.selectable !== false);
-  const selectAllDocs = selectableDocsForCurrentTask(docs, task);
+  const selectableDocs = actionableDocs;
+  const selectAllDocs = selectableDocsForCurrentTask(actionableDocs, task);
   const selectedCount = task.doc_ids.length;
   const selectedSelectAllCount = selectAllDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc))).length;
   const selectedItems = itemsForTask(task);
@@ -792,7 +794,7 @@ function selectedQueueDocCount(queueStage, task) {
   if (task.mode !== "documents" || !task.doc_ids.length) {
     return 0;
   }
-  return buildDocumentTasks(state.currentPack).filter(
+  return buildActionableDocumentTasks(state.currentPack).filter(
     (doc) =>
       doc.queue_stage === queueStage &&
       doc.selectable !== false &&
@@ -800,10 +802,10 @@ function selectedQueueDocCount(queueStage, task) {
   ).length;
 }
 
-function renderWorkflowTaskDashboard(docs, task) {
+function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
   const dashboard = document.createElement("div");
   dashboard.className = "workflow-dashboard";
-  dashboard.append(renderWorkflowPackMap(docs));
+  dashboard.append(renderWorkflowPackMap(allDocs));
 
   const body = document.createElement("div");
   body.className = "workflow-body";
@@ -811,7 +813,7 @@ function renderWorkflowTaskDashboard(docs, task) {
   queues.className = "workflow-queues";
   queues.append(
     renderWorkflowQueue({
-      docs,
+      docs: actionableDocs,
       task,
       queueStage: "yomi_final_review",
       title: "Final Review Queue",
@@ -819,7 +821,7 @@ function renderWorkflowTaskDashboard(docs, task) {
       takeNextCount: 5,
     }),
     renderWorkflowQueue({
-      docs,
+      docs: actionableDocs,
       task,
       queueStage: "yomi_strong_repair_review",
       title: "Strong Repair Queue",
@@ -827,7 +829,7 @@ function renderWorkflowTaskDashboard(docs, task) {
       takeNextCount: 2,
     }),
   );
-  body.append(queues, renderWorkflowResolvedPanel(docs));
+  body.append(queues, renderWorkflowResolvedPanel(allDocs));
   dashboard.append(body);
   el.taskDocList.append(dashboard);
 }
@@ -1009,7 +1011,7 @@ function openWorkflowDocumentPreview(docSeq) {
   if (!el.workflowPreviewModal || !state.currentPack) {
     return;
   }
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildActionableDocumentTasks(state.currentPack);
   const row = workflowDocumentStates(docs).find((candidate) => Number(candidate.doc_seq) === Number(docSeq));
   if (!row) {
     return;
@@ -3512,8 +3514,15 @@ function buildDocumentTasks(pack) {
   return docs.sort((left, right) => left.from_seq - right.from_seq);
 }
 
+function buildActionableDocumentTasks(pack) {
+  if (isUnifiedReviewPack(pack) && Array.isArray(pack.actionable_documents)) {
+    return buildDocumentTasks({ ...pack, documents: pack.actionable_documents });
+  }
+  return buildDocumentTasks(pack).filter((doc) => doc.selectable !== false);
+}
+
 function normalizeTask(task, pack) {
-  const docs = buildDocumentTasks(pack);
+  const docs = buildActionableDocumentTasks(pack);
   const validDocIds = new Set(docs.map((doc) => taskDocKey(doc)));
   let docIds = [];
   if (task?.mode === "document" && task.doc_id) {
@@ -3584,7 +3593,7 @@ function findSavedTaskDraftByDocIds(docIds) {
 }
 
 function canonicalDocIdKey(docIds) {
-  const order = new Map(buildDocumentTasks(state.currentPack).map((doc, index) => [taskDocKey(doc), index]));
+  const order = new Map(buildActionableDocumentTasks(state.currentPack).map((doc, index) => [taskDocKey(doc), index]));
   return [...new Set((docIds || []).map(String))]
     .filter((docId) => order.has(docId))
     .sort((left, right) => order.get(left) - order.get(right))
@@ -3666,7 +3675,7 @@ function cloneJson(value) {
 }
 
 function toggleDocumentTask(docId, selected) {
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildActionableDocumentTasks(state.currentPack);
   const doc = docs.find((row) => taskDocKey(row) === docId);
   if (!docIsActionable(doc)) {
     return;
@@ -3698,7 +3707,7 @@ function toggleDocumentTask(docId, selected) {
 }
 
 function selectOnlyDocumentTask(docId) {
-  const doc = buildDocumentTasks(state.currentPack).find((row) => taskDocKey(row) === docId);
+  const doc = buildActionableDocumentTasks(state.currentPack).find((row) => taskDocKey(row) === docId);
   if (!docIsActionable(doc)) {
     return;
   }
@@ -3715,7 +3724,7 @@ function selectOnlyDocumentTask(docId) {
 
 function selectAllDocumentTasks(queueStage = null) {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const docs = selectableDocsForCurrentTask(buildDocumentTasks(state.currentPack), task, queueStage);
+  const docs = selectableDocsForCurrentTask(buildActionableDocumentTasks(state.currentPack), task, queueStage);
   state.currentDraft.task = {
     mode: "documents",
     doc_ids: docs.map((doc) => taskDocKey(doc)),
@@ -3729,7 +3738,7 @@ function selectAllDocumentTasks(queueStage = null) {
 
 function clearQueueTaskSelection(queueStage) {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildActionableDocumentTasks(state.currentPack);
   const docIds = task.doc_ids.filter((docId) => {
     const doc = docs.find((row) => taskDocKey(row) === docId);
     return doc?.queue_stage !== queueStage;
@@ -3749,7 +3758,7 @@ function clearQueueTaskSelection(queueStage) {
 }
 
 function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
-  const docs = buildDocumentTasks(state.currentPack)
+  const docs = buildActionableDocumentTasks(state.currentPack)
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
@@ -3773,7 +3782,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
 }
 
 function takeNextQueueDocuments(queueStage, count) {
-  const docs = buildDocumentTasks(state.currentPack)
+  const docs = buildActionableDocumentTasks(state.currentPack)
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
     .slice(0, count);
@@ -3794,7 +3803,7 @@ function takeNextQueueDocuments(queueStage, count) {
 }
 
 function setDocumentRangeBoundary(docId, side) {
-  const docs = buildDocumentTasks(state.currentPack);
+  const docs = buildActionableDocumentTasks(state.currentPack);
   const currentDoc = docs.find((row) => taskDocKey(row) === docId);
   if (!docIsActionable(currentDoc)) {
     return;
