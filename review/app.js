@@ -44,6 +44,12 @@ const el = {
   copyJson: document.querySelector("#copy-json"),
   downloadJson: document.querySelector("#download-json"),
   uiModeSelect: document.querySelector("#ui-mode-select"),
+  workflowPreviewModal: document.querySelector("#workflow-preview-modal"),
+  workflowPreviewTitle: document.querySelector("#workflow-preview-title"),
+  workflowPreviewMeta: document.querySelector("#workflow-preview-meta"),
+  workflowPreviewBody: document.querySelector("#workflow-preview-body"),
+  workflowPreviewActions: document.querySelector("#workflow-preview-actions"),
+  workflowPreviewClose: document.querySelector("#workflow-preview-close"),
   reviewerName: document.querySelector("#reviewer-name"),
   itemTemplate: document.querySelector("#item-template"),
 };
@@ -186,6 +192,18 @@ function bindEvents() {
     saveSettings();
     updateLocation(state.currentStageId, state.currentPack?.pack_id || state.currentPackMeta?.pack_id || "");
     render();
+  });
+
+  el.workflowPreviewClose?.addEventListener("click", () => closeWorkflowDocumentPreview());
+  el.workflowPreviewModal?.addEventListener("click", (event) => {
+    if (event.target?.hasAttribute?.("data-preview-close")) {
+      closeWorkflowDocumentPreview();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
+      closeWorkflowDocumentPreview();
+    }
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -800,7 +818,6 @@ function renderWorkflowPackMap(docs) {
         <span><span class="workflow-dot resolved"></span>Resolved</span>
         <span><span class="workflow-dot strong"></span>Strong Repair</span>
         <span><span class="workflow-dot final"></span>Final Review</span>
-        <span><span class="workflow-dot not-started"></span>Not Started</span>
       </div>
     </div>
   `;
@@ -947,7 +964,146 @@ function renderWorkflowTile(row, { compact }) {
   if (!compact && row.preview) {
     tile.title = row.preview;
   }
+  if (!compact) {
+    tile.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
+  }
   return tile;
+}
+
+function openWorkflowDocumentPreview(docSeq) {
+  if (!el.workflowPreviewModal || !state.currentPack) {
+    return;
+  }
+  const docs = buildDocumentTasks(state.currentPack);
+  const row = workflowDocumentStates(docs).find((candidate) => Number(candidate.doc_seq) === Number(docSeq));
+  if (!row) {
+    return;
+  }
+  const previewItems = workflowPreviewItemsForDocument(row);
+  const actionDoc = workflowPreviewActionDocument(docs, row);
+  el.workflowPreviewTitle.textContent = `Document ${row.doc_seq}`;
+  el.workflowPreviewMeta.textContent = workflowPreviewMetaText(row, previewItems, actionDoc);
+  el.workflowPreviewBody.innerHTML = "";
+  if (previewItems.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = row.preview || "No review items were published for this document.";
+    el.workflowPreviewBody.append(empty);
+  } else {
+    let lastDocId = null;
+    for (const item of previewItems) {
+      if (item.doc_id && item.doc_id !== lastDocId) {
+        el.workflowPreviewBody.append(renderDocumentSeparator(item));
+        lastDocId = item.doc_id;
+      }
+      el.workflowPreviewBody.append(renderPreviewItem(item));
+    }
+  }
+
+  el.workflowPreviewActions.innerHTML = "";
+  if (actionDoc) {
+    const startButton = document.createElement("button");
+    startButton.type = "button";
+    startButton.textContent =
+      actionDoc.queue_stage === "yomi_strong_repair_review"
+        ? "Start Strong Repair"
+        : "Start Final Review";
+    startButton.addEventListener("click", () => {
+      closeWorkflowDocumentPreview();
+      startSingleDocumentTask(actionDoc);
+    });
+    el.workflowPreviewActions.append(startButton);
+  } else {
+    const note = document.createElement("span");
+    note.className = "muted";
+    note.textContent = "Read-only preview. This document has no active queue action.";
+    el.workflowPreviewActions.append(note);
+  }
+
+  el.workflowPreviewModal.classList.remove("hidden");
+}
+
+function closeWorkflowDocumentPreview() {
+  el.workflowPreviewModal?.classList.add("hidden");
+}
+
+function workflowPreviewItemsForDocument(row) {
+  const allItems = (state.currentPack?.items || []).filter(
+    (item) => Number(item.doc_seq || 0) === Number(row.doc_seq),
+  );
+  const finalItems = allItems.filter((item) => itemReviewStage(item) === "yomi_final_review");
+  const strongItems = allItems.filter((item) => itemReviewStage(item) === "yomi_strong_repair_review");
+  if (row.status === "final") {
+    return finalItems;
+  }
+  if (row.status === "strong") {
+    return strongItems;
+  }
+  if (strongItems.length > 0) {
+    return strongItems;
+  }
+  if (finalItems.length > 0) {
+    return finalItems;
+  }
+  return allItems;
+}
+
+function workflowPreviewActionDocument(docs, row) {
+  if (!["final", "strong"].includes(row.status)) {
+    return null;
+  }
+  const queueStage = row.status === "strong" ? "yomi_strong_repair_review" : "yomi_final_review";
+  return docs.find(
+    (doc) =>
+      Number(doc.doc_seq) === Number(row.doc_seq) &&
+      doc.queue_stage === queueStage &&
+      doc.selectable !== false,
+  ) || null;
+}
+
+function workflowPreviewMetaText(row, items, actionDoc) {
+  const statusLabel = row.status === "strong"
+    ? "Strong Repair"
+    : row.status === "final"
+      ? "Final Review"
+      : row.status === "resolved"
+        ? "Resolved"
+        : "No active review";
+  const itemText = `${items.length} item(s)`;
+  if (actionDoc) {
+    return `${statusLabel} · ${itemText} · click Start to work on this document`;
+  }
+  return `${statusLabel} · ${itemText}`;
+}
+
+function renderPreviewItem(item) {
+  const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
+  node.classList.add("workflow-preview-item");
+  const override = state.currentDraft?.overrides?.[item.item_id] || null;
+  if (itemReviewStage(item) === "yomi_final_review") {
+    renderYomiItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    return node;
+  }
+  if (itemReviewStage(item) === "yomi_strong_repair_review") {
+    renderStrongRepairItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    return node;
+  }
+  node.querySelector(".item-seq").textContent = `#${item.seq}`;
+  node.querySelector(".item-title").textContent = item.text || item.entity_key || item.item_id;
+  node.querySelectorAll(".editable-only").forEach((element) => element.classList.add("hidden"));
+  node.querySelector(".readonly-only")?.classList.remove("hidden");
+  return node;
+}
+
+function startSingleDocumentTask(doc) {
+  state.currentDraft.task = {
+    mode: "documents",
+    doc_ids: [taskDocKey(doc)],
+    started: false,
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  startReviewTask();
 }
 
 function workflowDocumentStates(docs) {

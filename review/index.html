@@ -125,6 +125,22 @@
       </div>
     </div>
 
+    <div id="workflow-preview-modal" class="workflow-preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="workflow-preview-title">
+      <div class="workflow-preview-backdrop" data-preview-close></div>
+      <section class="workflow-preview-panel">
+        <header class="workflow-preview-header">
+          <div>
+            <p class="eyebrow">Document Preview</p>
+            <h2 id="workflow-preview-title">Document</h2>
+            <div id="workflow-preview-meta" class="muted"></div>
+          </div>
+          <button id="workflow-preview-close" class="secondary-button" type="button">Close</button>
+        </header>
+        <div id="workflow-preview-body" class="workflow-preview-body"></div>
+        <footer id="workflow-preview-actions" class="workflow-preview-actions"></footer>
+      </section>
+    </div>
+
     <template id="item-template">
       <article class="item-card">
         <header class="item-header">
