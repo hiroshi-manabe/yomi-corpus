@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.review_sync import (  # noqa: E402
+    ReviewSyncOptions,
+    compact_console_summary,
+    run_review_sync_loop,
+    run_review_sync_pass,
+)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Import/apply GitHub-Issue review submissions and refresh review state."
+    )
+    parser.add_argument(
+        "track",
+        choices=["dev", "working"],
+        help="Pipeline track to synchronize.",
+    )
+    parser.add_argument(
+        "--repo",
+        default="hiroshi-manabe/yomi-corpus",
+        help="GitHub repository in owner/name form.",
+    )
+    parser.add_argument(
+        "--no-close-issues",
+        action="store_true",
+        help="Apply local state but do not close successfully applied GitHub Issues.",
+    )
+    parser.add_argument(
+        "--no-publish-review",
+        action="store_true",
+        help="Do not regenerate docs/review after a state-changing sync pass.",
+    )
+    parser.add_argument(
+        "--publish-gh-pages",
+        action="store_true",
+        help="After regenerating docs/review, run ./publish-review to publish gh-pages artifacts.",
+    )
+    parser.add_argument(
+        "--max-stages",
+        type=int,
+        default=10,
+        help="Maximum pipeline stages to advance in one pass. Default: 10.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show the next sync-managed action without modifying pipeline state.",
+    )
+    parser.add_argument(
+        "--loop",
+        action="store_true",
+        help="Keep running sync passes until interrupted.",
+    )
+    parser.add_argument(
+        "--interval",
+        type=float,
+        default=60.0,
+        help="Seconds to sleep between --loop passes. Default: 60.",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print the full structured summary.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    options = ReviewSyncOptions(
+        track_name=args.track,
+        repo=args.repo,
+        close_issues=not args.no_close_issues,
+        publish_review=not args.no_publish_review,
+        publish_gh_pages=args.publish_gh_pages,
+        max_stages=args.max_stages,
+        dry_run=args.dry_run,
+    )
+    if args.loop:
+        if args.dry_run:
+            raise SystemExit("--loop cannot be combined with --dry-run")
+        run_review_sync_loop(PROJECT_ROOT, options, interval_seconds=args.interval)
+        return
+    summary = run_review_sync_pass(PROJECT_ROOT, options)
+    if args.json:
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print(json.dumps(compact_console_summary(summary), ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()

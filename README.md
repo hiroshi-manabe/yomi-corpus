@@ -107,6 +107,9 @@ Review transport policy:
 - implement the intended `working` workflow in `dev` first: separate review
   repository, document-level task state, GitHub Issue closing after import, and
   periodic sync that imports Issues and starts the next batch when appropriate
+- `./review-sync <track>` is the operator entry point for polling review Issues,
+  applying matching submissions, closing successfully applied Issues, and
+  regenerating local review artifacts
 - a review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-document pending/completed state

@@ -2065,9 +2065,9 @@ Operational requirements:
 - Escalated Repair should be derived from Bulk Review submissions, not from a
   separately prepared manual batch
 - periodic sync should be a distinct operator command, not a hidden side effect
-  of ordinary review UI generation. A future command such as `./review-sync dev`
-  should import Issues, update document states, publish updated review packs if
-  needed, and start the next batch only when the current batch is complete
+  of ordinary review UI generation. `./review-sync dev` imports Issues, updates
+  document states, and regenerates review packs when needed. Starting the next
+  batch automatically remains a later extension.
 
 ### 11.2 Review sync command
 
@@ -2096,6 +2096,8 @@ Default behavior should be conservative:
   close call fails, the sync still reports applied local state but leaves the
   Issue open
 - the command should be safe to interrupt and safe to rerun
+- local `docs/review` regeneration is enabled by default after a state-changing
+  pass; publishing the gh-pages branch requires `--publish-gh-pages`
 
 This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside

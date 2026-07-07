@@ -1845,13 +1845,15 @@ Review sync command:
 - the command must acquire a per-track lock and be safe to rerun
 - one pass imports matching Bulk Review and Escalated Repair submissions from
   open GitHub Issues/comments, runs the local apply stages that are currently
-  reachable, republishes review artifacts if state changed, and writes a JSON
-  summary
+  reachable, regenerates local review artifacts if state changed, and writes a
+  JSON summary
 - Issues are closed only after their matching submissions were imported and the
   corresponding local apply step succeeded
 - invalid or not-yet-applicable Issues stay open; a later sync may apply them
 - `--loop --interval <seconds>` may be added for unattended polling, but the
   default mode should remain one bounded pass rather than a resident daemon
+- publishing the gh-pages branch is an explicit option, not part of the default
+  one-pass local sync
 
 ### 10.5 Multiple partial submissions
 
