@@ -36,7 +36,7 @@ const el = {
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
-  issueReturnBanner: document.querySelector("#issue-return-banner"),
+  issueReturnModal: document.querySelector("#issue-return-modal"),
   markSubmitted: document.querySelector("#mark-submitted"),
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
@@ -207,7 +207,7 @@ function bindEvents() {
 
   window.addEventListener("focus", () => {
     if (state.pendingIssueTaskId) {
-      showIssueReturnBanner();
+      showIssueReturnModal();
     }
   });
 
@@ -216,12 +216,12 @@ function bindEvents() {
       markSavedTaskSubmitted(state.pendingIssueTaskId);
     }
     state.pendingIssueTaskId = null;
-    hideIssueReturnBanner();
+    hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
     state.pendingIssueTaskId = null;
-    hideIssueReturnBanner();
+    hideIssueReturnModal();
     showStatus("Issue submission not marked complete. The task remains active locally.");
   });
 
@@ -2946,12 +2946,12 @@ async function copySubmissionJsonToClipboard() {
   }
 }
 
-function showIssueReturnBanner() {
-  el.issueReturnBanner?.classList.remove("hidden");
+function showIssueReturnModal() {
+  el.issueReturnModal?.classList.remove("hidden");
 }
 
-function hideIssueReturnBanner() {
-  el.issueReturnBanner?.classList.add("hidden");
+function hideIssueReturnModal() {
+  el.issueReturnModal?.classList.add("hidden");
 }
 
 function buildIssueTitle(payload) {
