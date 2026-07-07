@@ -2096,8 +2096,10 @@ Default behavior should be conservative:
   close call fails, the sync still reports applied local state but leaves the
   Issue open
 - the command should be safe to interrupt and safe to rerun
-- local `docs/review` regeneration is enabled by default after a state-changing
-  pass; publishing the gh-pages branch requires `--publish-gh-pages`
+- review artifact handling is controlled by one option:
+  `--publish {none,local,gh-pages}`. The default `local` regenerates
+  `docs/review` after a state-changing pass without pushing. `none` applies
+  pipeline state only. `gh-pages` regenerates and then runs `./publish-review`.
 
 This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside

@@ -27,6 +27,15 @@ SYNC_STAGE_ALLOWLIST = {
     STAGE_YOMI_FINALIZED,
 }
 
+PUBLISH_MODE_NONE = "none"
+PUBLISH_MODE_LOCAL = "local"
+PUBLISH_MODE_GH_PAGES = "gh-pages"
+PUBLISH_MODES = {
+    PUBLISH_MODE_NONE,
+    PUBLISH_MODE_LOCAL,
+    PUBLISH_MODE_GH_PAGES,
+}
+
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -37,8 +46,7 @@ class ReviewSyncOptions:
     track_name: str
     repo: str = "hiroshi-manabe/yomi-corpus"
     close_issues: bool = True
-    publish_review: bool = True
-    publish_gh_pages: bool = False
+    publish_mode: str = PUBLISH_MODE_LOCAL
     max_stages: int = 10
     dry_run: bool = False
 
@@ -145,8 +153,11 @@ def _run_review_sync_pass_unlocked(
             break
 
     publish_result: dict[str, Any] | None = None
-    if changed and options.publish_review and not options.dry_run:
-        publish_result = publish_review_artifacts(root, push_gh_pages=options.publish_gh_pages)
+    if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
+        publish_result = publish_review_artifacts(
+            root,
+            push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
+        )
 
     completed_at = now_iso()
     final_status = workspace.status(options.track_name)

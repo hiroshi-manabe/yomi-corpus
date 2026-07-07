@@ -13,6 +13,8 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from yomi_corpus.review_sync import (  # noqa: E402
+    PUBLISH_MODES,
+    PUBLISH_MODE_LOCAL,
     ReviewSyncOptions,
     compact_console_summary,
     run_review_sync_loop,
@@ -40,14 +42,14 @@ def parse_args() -> argparse.Namespace:
         help="Apply local state but do not close successfully applied GitHub Issues.",
     )
     parser.add_argument(
-        "--no-publish-review",
-        action="store_true",
-        help="Do not regenerate docs/review after a state-changing sync pass.",
-    )
-    parser.add_argument(
-        "--publish-gh-pages",
-        action="store_true",
-        help="After regenerating docs/review, run ./publish-review to publish gh-pages artifacts.",
+        "--publish",
+        choices=sorted(PUBLISH_MODES),
+        default=PUBLISH_MODE_LOCAL,
+        help=(
+            "Review artifact publish mode after a state-changing sync pass. "
+            "'none' does not regenerate docs/review; 'local' regenerates docs/review; "
+            "'gh-pages' regenerates and runs ./publish-review. Default: local."
+        ),
     )
     parser.add_argument(
         "--max-stages",
@@ -85,8 +87,7 @@ def main() -> None:
         track_name=args.track,
         repo=args.repo,
         close_issues=not args.no_close_issues,
-        publish_review=not args.no_publish_review,
-        publish_gh_pages=args.publish_gh_pages,
+        publish_mode=args.publish,
         max_stages=args.max_stages,
         dry_run=args.dry_run,
     )

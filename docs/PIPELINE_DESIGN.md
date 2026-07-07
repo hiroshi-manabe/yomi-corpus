@@ -1852,8 +1852,10 @@ Review sync command:
 - invalid or not-yet-applicable Issues stay open; a later sync may apply them
 - `--loop --interval <seconds>` may be added for unattended polling, but the
   default mode should remain one bounded pass rather than a resident daemon
-- publishing the gh-pages branch is an explicit option, not part of the default
-  one-pass local sync
+- review artifact handling should be a single mode, not two booleans:
+  `--publish none` applies state only, `--publish local` regenerates local
+  `docs/review`, and `--publish gh-pages` regenerates and runs
+  `./publish-review`. The default is `local`.
 
 ### 10.5 Multiple partial submissions
 
