@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import shutil
+import subprocess
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -15,6 +18,7 @@ from yomi_corpus.yomi.final_review import (
 
 ATTACHMENT_RE = re.compile(r"https://github\.com/user-attachments/files/\d+/[A-Za-z0-9._-]+\.json")
 FENCED_JSON_RE = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
+_GITHUB_TOKEN_CACHE: str | None = None
 
 
 def import_issue(
@@ -201,12 +205,17 @@ def fetch_open_issues(repo: str, *, state: str = "open") -> list[dict]:
 
 
 def fetch_json(url: str) -> dict | list[dict]:
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "yomi-corpus-review-importer",
+    }
+    token = github_token()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+        headers["X-GitHub-Api-Version"] = "2022-11-28"
     request = Request(
         url,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "yomi-corpus-review-importer",
-        },
+        headers=headers,
     )
     try:
         with urlopen(request) as response:
@@ -215,6 +224,30 @@ def fetch_json(url: str) -> dict | list[dict]:
         raise SystemExit(f"HTTP {exc.code} while fetching {url}") from exc
     except URLError as exc:
         raise SystemExit(f"Network error while fetching {url}: {exc.reason}") from exc
+
+
+def github_token() -> str | None:
+    global _GITHUB_TOKEN_CACHE
+    if _GITHUB_TOKEN_CACHE is not None:
+        return _GITHUB_TOKEN_CACHE
+    env_token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if env_token:
+        _GITHUB_TOKEN_CACHE = env_token.strip()
+        return _GITHUB_TOKEN_CACHE
+    if shutil.which("gh") is None:
+        _GITHUB_TOKEN_CACHE = ""
+        return None
+    completed = subprocess.run(
+        ["gh", "auth", "token"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode != 0:
+        _GITHUB_TOKEN_CACHE = ""
+        return None
+    _GITHUB_TOKEN_CACHE = completed.stdout.strip()
+    return _GITHUB_TOKEN_CACHE or None
 
 
 def extract_attachment_urls(payloads: list[dict]) -> list[str]:

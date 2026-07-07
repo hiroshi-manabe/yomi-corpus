@@ -5,6 +5,7 @@ import os
 import shutil
 import subprocess
 import time
+from hashlib import sha256
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -18,7 +19,7 @@ from yomi_corpus.pipeline import (
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
     PipelineWorkspace,
 )
-from yomi_corpus.review_site import publish_review_site
+from yomi_corpus.review_site import collect_review_pack_entries, publish_review_site
 from yomi_corpus.review_transport import (
     PUBLISH_MODE_NONE,
     PUBLISH_MODE_GH_PAGES,
@@ -130,10 +131,20 @@ def _run_review_sync_pass_unlocked(
         if options.dry_run:
             break
 
+        before_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
         result = workspace.advance(track_name=options.track_name)
+        after_status = workspace.status(options.track_name)
+        after_batch_name = str(
+            after_status.get("current_batch_name")
+            or after_status.get("batch_name")
+            or batch_name
+        )
+        after_fingerprint = review_sync_fingerprint(root=root, batch_name=after_batch_name)
+        stage_changed = before_fingerprint != after_fingerprint
         result["attempted_stage"] = next_stage
+        result["stage_changed"] = stage_changed
         stage_results.append(result)
-        if result.get("advanced"):
+        if result.get("advanced") or stage_changed:
             changed = True
             close_results.extend(
                 close_issues_after_stage(
@@ -148,6 +159,12 @@ def _run_review_sync_pass_unlocked(
             break
         if result.get("blocking_reason"):
             break
+
+    site_stale = False
+    if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
+        site_stale = review_site_needs_publish(root)
+        if site_stale:
+            changed = True
 
     publish_result: dict[str, Any] | None = None
     if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
@@ -168,6 +185,7 @@ def _run_review_sync_pass_unlocked(
         "completed_at": completed_at,
         "dry_run": options.dry_run,
         "changed": changed,
+        "site_stale": site_stale,
         "stage_results": stage_results,
         "close_results": close_results,
         "publish_result": publish_result,
@@ -182,6 +200,56 @@ def should_run_stage(*, root: Path, batch_name: str, next_stage: str) -> bool:
     if next_stage == STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED:
         queue_jsonl = root / "data" / "units" / batch_name / "yomi_strong_repair_queue.jsonl"
         return count_nonempty_lines(queue_jsonl) == 0
+    return False
+
+
+def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:
+    paths = [
+        root / "data" / "pipeline" / "batches" / f"{batch_name}.json",
+        root / "data" / "pipeline" / "document_states" / f"{batch_name}.json",
+        root / "data" / "units" / batch_name / "final_review_apply_summary.json",
+        root / "data" / "units" / batch_name / "final_review_pack.json",
+        root
+        / "data"
+        / "review_packs"
+        / "yomi_final"
+        / f"yomi_final_{batch_name}_v1.json",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_apply_summary.json",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_review_pack.json",
+        root
+        / "data"
+        / "review_packs"
+        / "yomi_strong_repair"
+        / f"yomi_strong_repair_{batch_name}_v1.json",
+        root / "data" / "state" / "yomi_final" / "last_review_inbox_import_summary.json",
+        root / "data" / "state" / "yomi_strong_repair" / "last_review_inbox_import_summary.json",
+    ]
+    return {str(path.relative_to(root)): file_fingerprint(path) for path in paths}
+
+
+def file_fingerprint(path: Path) -> str | None:
+    if not path.exists() or not path.is_file():
+        return None
+    digest = sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def review_site_needs_publish(root: Path) -> bool:
+    docs_pack_dir = root / "docs" / "review" / "packs"
+    entries = collect_review_pack_entries(root / "data" / "review_packs")
+    if entries and not (root / "docs" / "review" / "manifest.json").exists():
+        return True
+    for entry in entries:
+        source_path = entry.get("source_path")
+        filename = entry.get("site_filename")
+        if not isinstance(source_path, Path) or not filename:
+            return True
+        destination = docs_pack_dir / str(filename)
+        if file_fingerprint(source_path) != file_fingerprint(destination):
+            return True
     return False
 
 
@@ -353,10 +421,12 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
     return {
         "track_name": summary.get("track_name"),
         "changed": summary.get("changed"),
+        "site_stale": summary.get("site_stale"),
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),
                 "advanced": row.get("advanced"),
+                "stage_changed": row.get("stage_changed"),
                 "blocking_reason": row.get("blocking_reason"),
             }
             for row in summary.get("stage_results", [])

@@ -2416,9 +2416,6 @@ class PipelineWorkspace:
         batch_state = self.load_batch_state(batch_name)
         source_path = batch_dir / "units.yomi.llm_readings.jsonl"
         pack_id = f"yomi_final_{batch_name}_v1"
-        batch_pack_path = batch_dir / "final_review_pack.json"
-        summary_path = batch_dir / "final_review_pack_summary.json"
-        review_pack_path = self.root / "data" / "review_packs" / "yomi_final" / f"{pack_id}.json"
         document_state_path = self.document_review_state_path(batch_name)
         document_state = build_initial_document_review_state(
             units_jsonl=source_path,
@@ -2426,21 +2423,10 @@ class PipelineWorkspace:
             track_name=batch_state.track_name,
         )
         write_document_review_state(document_state_path, document_state)
-        summary = build_yomi_final_review_pack_file(
-            units_jsonl=source_path,
-            output_json=batch_pack_path,
-            pack_id=pack_id,
-            track_name=batch_state.track_name,
+        summary, pack_artifacts = self._refresh_final_review_pack(
             batch_name=batch_name,
-            document_state_json=document_state_path,
+            pack_id=pack_id,
         )
-        review_pack_path.parent.mkdir(parents=True, exist_ok=True)
-        review_pack_path.write_text(
-            batch_pack_path.read_text(encoding="utf-8"),
-            encoding="utf-8",
-        )
-        summary = replace(summary, latest_json=str(review_pack_path))
-        write_yomi_final_review_summary(summary, summary_path)
         manifest = publish_review_site(
             web_review_dir=self.root / "web" / "review",
             docs_dir=self.root / "docs",
@@ -2458,7 +2444,7 @@ class PipelineWorkspace:
                 "document_review_state_final_pending": str(
                     document_state["summary"]["state_counts"].get("final_pending", 0)
                 ),
-                "review_pack_json": str(review_pack_path),
+                **pack_artifacts,
                 "review_site_manifest_json": str(manifest_path),
                 "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
                 "final_review_stage": summary.review_stage,
@@ -2473,10 +2459,43 @@ class PipelineWorkspace:
             }
         }
 
+    def _refresh_final_review_pack(
+        self,
+        *,
+        batch_name: str,
+        pack_id: str,
+    ) -> tuple[object, dict[str, str]]:
+        batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
+        source_path = batch_dir / "units.yomi.llm_readings.jsonl"
+        batch_pack_path = batch_dir / "final_review_pack.json"
+        summary_path = batch_dir / "final_review_pack_summary.json"
+        review_pack_path = (
+            self.root / "data" / "review_packs" / "yomi_final" / f"{pack_id}.json"
+        )
+        document_state_path = self.document_review_state_path(batch_name)
+        summary = build_yomi_final_review_pack_file(
+            units_jsonl=source_path,
+            output_json=batch_pack_path,
+            pack_id=pack_id,
+            track_name=batch_state.track_name,
+            batch_name=batch_name,
+            document_state_json=document_state_path if document_state_path.exists() else None,
+            latest_json=review_pack_path,
+        )
+        write_yomi_final_review_summary(summary, summary_path)
+        return summary, {
+            "final_review_pack_json": str(batch_pack_path),
+            "final_review_pack_summary_json": str(summary_path),
+            "review_pack_json": str(review_pack_path),
+        }
+
     def _apply_final_review(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        pack_id = str(batch_state.artifacts.get("final_review_pack_id") or f"yomi_final_{batch_name}_v1")
+        pack_id = str(
+            batch_state.artifacts.get("final_review_pack_id") or f"yomi_final_{batch_name}_v1"
+        )
         pack_path = batch_dir / "final_review_pack.json"
         output_path = batch_dir / "units.yomi.reviewed.jsonl"
         summary_path = batch_dir / "final_review_apply_summary.json"
@@ -2525,6 +2544,11 @@ class PipelineWorkspace:
                     "document_review_state_skipped": str(state_counts.get("skipped", 0)),
                 }
             )
+            _, pack_artifacts = self._refresh_final_review_pack(
+                batch_name=batch_name,
+                pack_id=pack_id,
+            )
+            document_state_artifacts.update(pack_artifacts)
         artifacts = {
             "final_review_pack_id": pack_id,
             "final_review_submission_store": str(submission_store_dir),
