@@ -1,83 +1,106 @@
 # Yomi Corpus Review UI Workflow Notes
 
+Human-facing review terminology should avoid exposing internal pipeline-stage
+names:
+
+- `Bulk Review` is the reviewer-facing name for internal
+  `yomi_final_review`. It is the high-throughput review pass, not necessarily
+  the final human action in the whole workflow.
+- `Escalated Repair` is the reviewer-facing name for internal
+  `yomi_strong_repair_review`. It handles spans that need a stronger model or
+  manual boundary/reading correction.
+
+Technical file names, pack IDs, and stage IDs may keep the internal names, but
+the browser UI should prefer the reviewer-facing names above.
+
 ## 1. Use a movement model, not a static list model
 
 Documents should move through workflow states.
 
-A document can go directly from final review to resolved:
+A document can go directly from Bulk Review to resolved:
 
 ```text
-Final Review Queue
-    ↓
+Bulk Review Queue
+    |
+    v
 Resolved
 ```
 
-Or, if stronger correction is needed, it can move through strong repair:
+Or, if stronger correction is needed, it can move through Escalated Repair:
 
 ```text
-Final Review Queue
-    ↓
-Strong Repair Queue
-    ↓
+Bulk Review Queue
+    |
+    v
+Escalated Repair Queue
+    |
+    v
 Resolved
 ```
 
 The top-level workflow states should probably be:
 
 ```text
-Pending Final Review
-Pending Strong Repair
+Pending Bulk Review
+Pending Escalated Repair
 Resolved
 ```
 
-“Final review completed, no strong repair needed” and “Strong repair completed” should both be merged into **Resolved**, because operationally they both mean:
+"Bulk Review completed, no Escalated Repair needed" and "Escalated Repair
+completed" should both be merged into **Resolved**, because operationally they
+both mean:
 
-> This document has no remaining work in this pack.
+```text
+This document has no remaining work in this pack.
+```
 
 However, the path can still be kept as metadata:
 
 ```text
-1 — Resolved via final review
-4 — Resolved after strong repair
+1 - Resolved via Bulk Review
+4 - Resolved after Escalated Repair
 ```
 
 ## 2. Active queues should contain only actionable documents
 
-If a document has finished final review, it should leave the Final Review Queue.
+If a document has finished Bulk Review, it should leave the Bulk Review Queue.
 
 Example initial state:
 
 ```text
-Final Review Queue:
+Bulk Review Queue:
 1 2 3 4 5 6 7 8 9 10
 
-Strong Repair Queue:
+Escalated Repair Queue:
 empty
 
 Resolved:
 empty
 ```
 
-After reviewing documents 1–5, with 4 and 5 needing strong repair:
+After reviewing documents 1-5, with 4 and 5 needing Escalated Repair:
 
 ```text
-Final Review Queue:
+Bulk Review Queue:
 6 7 8 9 10
 
-Strong Repair Queue:
+Escalated Repair Queue:
 4 5
 
 Resolved:
 1 2 3
 ```
 
-This keeps the meaning of “queue” clean:
+This keeps the meaning of "queue" clean:
 
-> A queue shows things that can currently be worked on there.
+```text
+A queue shows things that can currently be worked on there.
+```
 
 ## 3. Resolved should be unified and sorted by document number
 
-Resolved should not be grouped primarily by route. It should probably be shown in original document order:
+Resolved should not be grouped primarily by route. It should probably be shown
+in original document order:
 
 ```text
 Resolved:
@@ -87,46 +110,52 @@ Resolved:
 or:
 
 ```text
-1 — final review only
-2 — final review only
-3 — final review only
+1 - Bulk Review only
+2 - Bulk Review only
+3 - Bulk Review only
 ```
 
 The reason is that Resolved is mainly for reassurance and traceability:
 
-> These documents are done; they did not disappear.
+```text
+These documents are done; they did not disappear.
+```
 
 Sorting by document number lets the user understand pack progress naturally.
 
 ## 4. Add a Pack Map as a visual overview
 
-Because the movement model becomes hard to read as vertical lists, a **Pack Map** is useful.
+Because the movement model becomes hard to read as vertical lists, a **Pack
+Map** is useful.
 
 Example:
 
 ```text
 Pack Map
 
-[1✓] [2✓] [3✓] [4!] [5!] [6F] [7F] [8F] [9F] [10F]
+[1 OK] [2 OK] [3 OK] [4 ER] [5 ER] [6 BR] [7 BR] [8 BR] [9 BR] [10 BR]
 ```
 
 Where:
 
 ```text
-✓ = resolved
-! = strong repair pending
-F = final review pending
+OK = resolved
+ER = Escalated Repair pending
+BR = Bulk Review pending
 ```
 
 The Pack Map answers:
 
-> Where is each document in the whole pack?
+```text
+Where is each document in the whole pack?
+```
 
 It should show all documents, regardless of current state.
 
 ## 5. Keep queues as the primary action surface
 
-The Pack Map should mostly be for overview and light navigation. The actual work selection should happen in the queues.
+The Pack Map should mostly be for overview and light navigation. The actual
+work selection should happen in the queues.
 
 Recommended role split:
 
@@ -138,13 +167,16 @@ Queues
 = select work range / start task
 ```
 
-Clicking a tile in the Pack Map might open details or focus the corresponding queue item, but batch selection and task launching should happen in the queue area.
+Clicking a tile in the Pack Map may open a read-only document preview. It
+should not replace the queue controls as the main way to start work.
 
 ## 6. Avoid rectangular selection in 2D grids
 
-A 2D tile layout is good for seeing state, but bad for selecting ordered ranges.
+A 2D tile layout is good for seeing state, but bad for selecting ordered
+ranges.
 
-For example, “6 through 10” is a linear range. Once tiles wrap into rows, rectangular selection can accidentally select strange ranges.
+For example, "6 through 10" is a linear range. Once tiles wrap into rows,
+rectangular selection can accidentally select strange ranges.
 
 Avoid this:
 
@@ -155,58 +187,55 @@ drag rectangle across tiles
 Prefer this:
 
 ```text
-From [6 ▼] to [10 ▼]
-[Start Final Review]
+From [6] to [10]
+[Start Bulk Review]
 ```
 
 ## 7. Range selection can be combo-box based
 
-Combo boxes are not a compromise here. They may actually be the cleanest solution.
+Combo boxes are not a compromise here. They may actually be the cleanest
+solution.
 
 Example:
 
 ```text
-Final Review Queue
+Bulk Review Queue
 [6] [7] [8] [9] [10]
 
-From [6 ▼] to [10 ▼]
+From [6] to [10]
 Selected: 5 documents
-[Start Final Review]
+[Start Bulk Review]
 ```
 
 The dropdowns should list only documents currently available in that queue.
 
-For Strong Repair:
+For Escalated Repair:
 
 ```text
-Strong Repair Queue
+Escalated Repair Queue
 [4] [5]
 
-From [4 ▼] to [5 ▼]
+From [4] to [5]
 Selected: 2 documents
-[Start Strong Repair]
+[Start Escalated Repair]
 ```
 
-You could also add quick actions such as:
-
-```text
-[Take next 5] [Select all] [Clear]
-```
-
-For normal operation, “Take next N” may be more convenient than manually choosing From/To.
+Quick actions such as `[Take next 5]`, `[Select all]`, and `[Clear]` are useful
+for normal operation.
 
 ## 8. Queue tiles can also be 2D, but only visually
 
 It is fine for queues to show document tiles in a wrapped 2D layout:
 
 ```text
-Final Review Queue
+Bulk Review Queue
 
 [11] [12] [13] [14] [15] [16] [17] [18]
 [19] [20] [21] [22] [23] [24]
 ```
 
-But the wrapping should be purely visual. Semantically, the queue is still linear and ordered by document number.
+But the wrapping should be purely visual. Semantically, the queue is still
+linear and ordered by document number.
 
 So:
 
@@ -216,6 +245,30 @@ Combo boxes = actual range selection
 Button = start task
 ```
 
+## 9. Local task states
+
+The browser has local task states in addition to pipeline document states:
+
+- active task: currently open in the browser
+- deferred task: saved locally and resumable later
+- submitted task: JSON was copied and the user reports that a GitHub Issue was
+  created
+
+Because GitHub Pages cannot reliably create Issues with a large body directly,
+the UI should copy JSON and open a pre-titled GitHub Issue page. When the page
+regains focus, a modal asks whether the Issue was created. If the user confirms
+submission, the task moves to submitted local tasks.
+
+Submitted local tasks are a local purgatory state: the user has probably
+submitted the work, but the pipeline has not yet imported and applied the
+Issue. Documents in submitted local tasks should be greyed out in the Pack Map
+and disabled in queues. They should be editable again only through an explicit
+reopen action.
+
+The server-side importer remains authoritative. Once the Issue is imported and
+applied, the generated review pack should move those documents into the next
+pipeline state or resolved state.
+
 ## Overall proposed UI structure
 
 A possible structure:
@@ -224,21 +277,27 @@ A possible structure:
 Unified Yomi Review
 
 Pack Map
-[1✓] [2✓] [3✓] [4!] [5!] [6F] [7F] [8F] [9F] [10F]
+[1 OK] [2 OK] [3 OK] [4 ER] [5 ER] [6 BR] [7 BR] [8 BR] [9 BR] [10 BR]
 
 Work Queues
 
-Final Review
+Bulk Review
 Available: 5 documents
 [6] [7] [8] [9] [10]
-From [6 ▼] to [10 ▼]
-[Start Final Review]
+From [6] to [10]
+[Start Bulk Review]
 
-Strong Repair
+Escalated Repair
 Available: 2 documents
 [4] [5]
-From [4 ▼] to [5 ▼]
-[Start Strong Repair]
+From [4] to [5]
+[Start Escalated Repair]
+
+Deferred local tasks
+[Resume task 1]
+
+Submitted local tasks
+[Reopen submitted task 2]
 
 Resolved
 3 documents
@@ -247,4 +306,9 @@ Resolved
 
 ## Core design principle
 
-> **Pack Map shows the whole pack. Queues show what can be worked on now. Resolved shows what is already done. Range selection stays linear, even if the display is tile-based.**
+```text
+Pack Map shows the whole pack. Queues show what can be worked on now.
+Resolved shows what is already done. Local submitted tasks are not done until
+the importer applies them. Range selection stays linear, even if the display is
+tile-based.
+```

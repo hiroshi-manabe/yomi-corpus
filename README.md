@@ -78,7 +78,7 @@ Alphabetic entity policy:
 - unresolved Latin/alphanumeric entity types are judged once and cached globally
 - cached judgments are operational: an `out_of_scope` entity causes provisional
   skip for units that contain it
-- provisional skip is not deletion; final review shows the same `Skip` checkbox
+- provisional skip is not deletion; Bulk Review shows the same `Skip` checkbox
   pre-checked and greyed so the human can restore the unit
 - if a human restores a provisional alphabetic skip, the triggering entity is
   treated as `in_scope` from then on; human skip decisions do not change entity
@@ -110,7 +110,7 @@ Review transport policy:
 - a review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-document pending/completed state
-- finalized batches harvest exact strong-repair rewrite defaults and
+- finalized batches harvest exact Escalated Repair rewrite defaults and
   supplemental furigana display entries under `data/lexicon/`
 
 Pipeline orchestration policy:

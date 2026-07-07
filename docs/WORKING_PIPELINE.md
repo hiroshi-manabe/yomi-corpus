@@ -496,7 +496,7 @@ The LLM stage should answer whether the entity is naturally usable in modern
 Japanese context or is obscure/foreign/noisy enough to skip. This answer may
 pre-check `Skip` for affected units, but it is not final deletion.
 
-At final review time, provisional alphabetic skip units should be greyed out
+At Bulk Review time, provisional alphabetic skip units should be greyed out
 with the same `Skip` checkbox already checked. If the human leaves the checkbox
 checked, no entity-level status changes. If the human unchecks it, the
 triggering `out_of_scope` entities become effective `in_scope` entries. If a
@@ -843,7 +843,7 @@ Implementation status:
    - On exact LLM/hybrid agreement, add `safe_by_llm_match` and update
      `accepted_signal_names`, `is_safe`, `review_status`, and `highlight_level`.
    - On valid LLM/hybrid disagreement, keep the target unresolved but default
-     final review to the LLM candidate. The reviewer can still cycle back to
+     Bulk Review to the LLM candidate. The reviewer can still cycle back to
      the current hybrid candidate explicitly.
    - If a unit was already whole-unit auto-accepted, project that decision into
      each target as `safe_by_unit_auto_accept` so target-level review does not
@@ -1492,8 +1492,8 @@ reinterpretations.
 
 This area needs experimentation.
 
-Future task: learn exact surface-span defaults from confirmed strong repairs.
-When a strong repair changes a local span and the final human confirmation
+Future task: learn exact surface-span defaults from confirmed Escalated Repairs.
+When an Escalated Repair changes a local span and the final human confirmation
 accepts it, record the whole repaired surface span as a default for future
 batches. Examples:
 
@@ -1582,18 +1582,19 @@ corpus-frequency dominant reading, and stable dictionary reading.
 
 Changed spans should be colored differently from unresolved spans. A changed
 span is a local override. A no-ruby choice means the reviewer rejects the
-current reading and wants strong-model handling for that local area. Consecutive
+current reading and wants Escalated Repair for that local area. Consecutive
 no-ruby targets in the same sentence should be grouped automatically into one
-strong-repair span. Whether to use web search should be decided by the strong
-repair prompt/model from the target context, not by a human review checkbox.
+Escalated Repair span. Whether to use web search should be decided by the
+Escalated Repair prompt/model from the target context, not by a human review
+checkbox.
 
 Whole-sentence escalation should not be a primary control. So far, real cases
 look like local boundary/reading failures that can be handled by canceling a
 2-3-token area. If a future example truly needs whole-sentence repair, add it as
 an advanced/fallback path rather than the default review action.
 
-Strong-repaired spans go through a separate final confirmation UI published as
-the `yomi_strong_repair_review` stage. The current first pass exposes the source
+Escalated Repair spans go through a separate confirmation UI published as the
+`yomi_strong_repair_review` stage. The current first pass exposes the source
 text, rejected readings, LLM proposal, and before/after yomi, with accept/reject
 review decisions. Rejected repairs block finalization rather than being silently
 included in the corpus. A later pass can add direct structured editing for
@@ -1990,15 +1991,27 @@ source.
 
 ### 11.1 Migration target: document-level review queues
 
+Human-facing review labels should be:
+
+- `Bulk Review` for the normal high-throughput human yomi pass. The internal
+  stage and pack IDs may still use `yomi_final_review`.
+- `Escalated Repair` for focused repair confirmation after a canceled or
+  rejected local yomi span. The internal stage and pack IDs may still use
+  `yomi_strong_repair_review`.
+
+The distinction matters because `final review` is an internal pipeline idea,
+not a useful phrase for the reviewer. The reviewer is either doing bulk audit
+work or focused escalated repair work.
+
 The next dev implementation should prototype the intended `working` workflow.
 The main shift is from a single global batch stage to durable per-document task
 state. The batch remains the data boundary, but different documents in the same
 batch may be at different review phases:
 
-- a document may still be waiting for final review
-- another document may have final review applied and be waiting for strong
-  repair
-- another document may have both final review and strong repair complete
+- a document may still be waiting for Bulk Review
+- another document may have Bulk Review applied and be waiting for Escalated
+  Repair
+- another document may have both Bulk Review and Escalated Repair complete
 - another document may be skipped
 
 This should be implemented in `dev` first, then copied to `working` only after
@@ -2012,7 +2025,7 @@ one submission.
 The target queue lifecycle is:
 
 1. Prepare one large batch.
-2. Put documents needing human final review into a `final_review_pending` list.
+2. Put documents needing human Bulk Review into a `final_review_pending` list.
 3. Let the UI show that list, let the reviewer choose a range or checked
    subset, and persist that in-progress work in browser storage.
 4. Starting a UI task creates or names one GitHub Issue for that selected work
@@ -2020,13 +2033,13 @@ The target queue lifecycle is:
 5. A periodic importer polls Issues/comments, applies matching submissions
    idempotently, updates local document queue state, and closes successfully
    applied Issues as `completed`.
-6. Documents with completed final review are greyed out or removed from the
-   final-review list.
+6. Documents with completed Bulk Review are greyed out or removed from the
+   Bulk Review list.
 7. Documents with canceled/local unresolved readings move into
    `strong_repair_pending`.
-8. Strong-repair review works the same way; completed documents disappear from
-   the second list.
-9. Documents with no strong-repair need can move directly from final review to
+8. Escalated Repair review works the same way; completed documents disappear
+   from the second list.
+9. Documents with no Escalated Repair need can move directly from Bulk Review to
    `complete`.
 10. When every document in the batch is `complete` or `skipped`, the
     orchestrator finalizes the batch and prepares the next large batch.
@@ -2049,12 +2062,25 @@ Operational requirements:
   a later sync
 - overlapping submissions should continue to use the existing later-wins replay
   rule
-- strong repair should be derived from final-review submissions, not from a
+- Escalated Repair should be derived from Bulk Review submissions, not from a
   separately prepared manual batch
 - periodic sync should be a distinct operator command, not a hidden side effect
   of ordinary review UI generation. A future command such as `./review-sync dev`
   should import Issues, update document states, publish updated review packs if
   needed, and start the next batch only when the current batch is complete
+
+Browser-local task state is separate from imported pipeline state:
+
+- `Deferred local tasks` are in-progress browser drafts that can be resumed or
+  discarded
+- `Submitted local tasks` are tasks whose JSON was copied and whose GitHub
+  Issue was reported as created, but whose Issue has not necessarily been
+  imported yet
+- submitted local tasks should grey out and disable their documents in the
+  browser queues and Pack Map; editing requires an explicit reopen
+- imported Issue state remains authoritative. Once the importer applies the
+  submission, regenerated packs should move those documents to the next queue
+  or to resolved state
 
 Repository layout migration:
 
@@ -2076,17 +2102,22 @@ Review dashboard target:
 
 - the review page should have one dashboard rather than a primary stage
   dropdown
-- the dashboard should show `Final review`, `Strong repair`, and `Deferred local
+- the dashboard should show `Bulk Review`, `Escalated Repair`, and `Deferred local
   tasks` together
 - both active queues should allow starting a task from selected documents or a
   selected document range
-- final-review and strong-repair task screens should share the same shell:
+- Bulk Review and Escalated Repair task screens should share the same shell:
   selected documents, queue ID, local draft key, copy/open-Issue controls,
   `Defer`, and `Complete`
 - `Defer` only preserves browser-local work and returns it to `Deferred local
   tasks`
 - `Complete` only clears the browser-local draft after the reviewer has copied
   or submitted JSON
+- `Copy JSON and Open Issue` should copy JSON, open a pre-titled GitHub Issue
+  page, and then ask on browser return/focus whether the Issue was created
+- confirmed submissions move to `Submitted local tasks`; these are greyed out
+  and disabled locally until the user explicitly reopens them or the pipeline
+  imports the Issue and regenerates queue state
 - actual pending/completed state must come from imported pipeline document
   state, not from browser-local draft state
 - the old stage dropdown can remain temporarily as a debug or deep-link
@@ -2137,9 +2168,9 @@ Only if that still fails after human review should the pipeline consider a
 `gpt-5.5-pro` escalation. That should be treated as a last resort for a very
 small tail, not part of the normal path.
 
-## 12.2 Final review UI
+## 12.2 Bulk Review UI
 
-The final review UI should look primarily like ruby-annotated text, not like a
+The Bulk Review UI should look primarily like ruby-annotated text, not like a
 table of records. Sentence-level metadata should be hidden except for compact
 controls:
 
@@ -2161,18 +2192,18 @@ warn before rebuilding the fields.
 
 Direct span fixes are applied to the rendered yomi immediately when they can be
 matched uniquely in the current rendered string. Ruby-cancelled spans are not
-treated as direct fixes; they are queued for strong LLM repair as local target
+treated as direct fixes; they are queued for Escalated Repair as local target
 groups.
 
-## 12.3 Strong repair and finalization
+## 12.3 Escalated Repair and finalization
 
-Strong repair should operate on local target groups produced by human ruby
+Escalated Repair should operate on local target groups produced by human ruby
 cancellation, not on whole sentences by default. The model receives the source
 text, current yomi, rejected span, and rejected readings, and returns replacement
 surface/reading items. The application step validates that replacement surfaces
 concatenate to the rejected span and that readings are valid kana.
 
-After strong repairs are applied, the reviewed units can be finalized. Final
+After Escalated Repairs are applied, the reviewed units can be finalized. Final
 postprocessing should continue to validate:
 
 - rendered-yomi format
@@ -2223,14 +2254,14 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `reviewed_ranges` define which sentence items were actually reviewed
 - sparse `overrides` carry `skip` and target-level reading choices
 - target-level `choice_source: "none"` means the previous reading was rejected
-  and should enter the strong-repair queue; consecutive no-ruby targets are
-  grouped into one strong-repair span
+  and should enter the Escalated Repair queue; consecutive no-ruby targets are
+  grouped into one Escalated Repair span
 - `skip` dominates operational output: target choices on a skipped sentence are
   preserved as audit data, but they are not applied to rendered yomi and do not
-  trigger strong repair
+  trigger Escalated Repair
 
 When `./next` reaches `final_review_applied`, it first scans open GitHub Issues
-for yomi final-review submissions and stores matching payloads in that local
+for yomi Bulk Review submissions and stores matching payloads in that local
 store. The apply step then replays the local store. If GitHub import fails or
 finds no matching submission, the stage falls back to the existing local-store
 check and blocks as a human review gate.
@@ -2245,9 +2276,9 @@ python scripts/import_yomi_final_review_issue.py --issue-number 1
 `yomi_strong_repair_queued` should focus on canceled target groups. Target-level
 `choice_source == "none"` choices are collected in token order, and consecutive
 canceled targets in the same sentence become one `repair_scope:
-"target_group"` queue entry. These groups need focused strong repair rather
+"target_group"` queue entry. These groups need focused Escalated Repair rather
 than serving as confirmed local constraints. Skipped sentences are excluded
-from this queue. The strong-repair prompt should decide whether web
+from this queue. The Escalated Repair prompt should decide whether web
 search is needed from the target context and rejected readings, and should
 record whether search was actually used.
 
@@ -2267,7 +2298,7 @@ python scripts/import_yomi_final_review_inbox.py
 
 The older alphabetic Issue importer has been retired. Alphabetic entity
 judgments are now treated as provisional pipeline evidence, while final
-skip/keep corrections are handled in the yomi final-review UI.
+skip/keep corrections are handled in the Bulk Review UI.
 
 Merge rule:
 
@@ -2280,7 +2311,7 @@ If no matching submission exists, `final_review_applied` blocks with a human
 review gate. This is intentional: even on `dev`, final yomi review should not be
 silently skipped.
 
-`yomi_strong_repair_queued` creates the local strong-repair input queue:
+`yomi_strong_repair_queued` creates the local Escalated Repair input queue:
 
 ```text
 data/units/<batch>/yomi_strong_repair_queue.jsonl
@@ -2318,9 +2349,9 @@ parse-failed, sentence-scope, or surface-mismatched rows block the stage rather
 than being silently accepted.
 
 `yomi_finalized` reads `units.yomi.strong_repaired.jsonl` when it exists. If the
-strong repair queue is non-empty, finalization requires a later human
+Escalated Repair queue is non-empty, finalization requires a later human
 confirmation step even when every LLM repair was mechanically applied. This is
-intentional: strong repair results are candidates, not final truth. If no
+intentional: Escalated Repair results are candidates, not final truth. If no
 successful apply summary exists, or if confirmation is missing, finalization
 blocks. The confirmation is stored by applying submissions for the
 `yomi_strong_repair_review` pack; when all repair items are reviewed and none is
@@ -2336,7 +2367,7 @@ data/units/<batch>/yomi_finalization_harvest_summary.json
 ```
 
 The `yomi_strong_repair_review` UI may also submit `manual_segments` for a
-repair item. This is the first manual correction path for local strong repairs:
+repair item. This is the first manual correction path for local Escalated Repairs:
 the rejected span is displayed inline, boundaries between characters can be
 toggled, and the UI emits segment-level `surface/reading` pairs. During
 confirmation these manual segments override the LLM repair only if their
@@ -2344,7 +2375,7 @@ surfaces concatenate exactly to the rejected span and all readings are valid
 kana. Invalid manual segments keep confirmation incomplete rather than being
 silently applied.
 
-For each rejected strong-repair span, the review pack should include
+For each rejected Escalated Repair span, the review pack should include
 dictionary-backed reading candidates for substrings found by prefix-style
 lookup from every character position. For example, `池尻中学校` should carry
 candidates for substrings such as `中学校` and `学校`, and ambiguous entries
@@ -2358,7 +2389,7 @@ units are retained.
 At batch finalization, the pipeline also harvests two conservative reusable
 artifacts:
 
-- exact strong-repair rewrite rules, appended de-duplicated to
+- exact Escalated Repair rewrite rules, appended de-duplicated to
   `data/lexicon/manual_yomi_rewrites.jsonl`
 - supplemental furigana allocations, appended de-duplicated to
   `data/lexicon/supplemental_furigana.tsv`
@@ -2378,7 +2409,7 @@ remains `surface/reading`.
 Simple target reading choices are applied directly to exact rendered yomi
 tokens when the reviewed target covers the whole token. Harder cases, such as
 no-ruby targets or future token-boundary corrections, should go through the
-strong repair queue.
+Escalated Repair queue.
 
 ### 13.2 Decoder model refresh boundary
 
@@ -2521,16 +2552,16 @@ questions:
 
 The basic small-batch loop exists. The next work should be done in this order:
 
-1. regenerate the active `dev` final-review pack whenever candidate-generation
+1. regenerate the active `dev` Bulk Review pack whenever candidate-generation
    logic changes
-2. complete the current dev final review, import the GitHub-Issue submission,
+2. complete the current dev Bulk Review, import the GitHub-Issue submission,
    and apply it
-3. finalize the batch if no strong-repair targets remain
-4. implement real strong repair for canceled ruby target groups, using optional
+3. finalize the batch if no Escalated Repair targets remain
+4. implement real Escalated Repair for canceled ruby target groups, using optional
    sentence-level web search when the reviewer requests it
 5. add conservative learned default repairs from accepted human/strong-LLM fixes
 6. propagate human skip/unskip decisions back into alphabetic token decisions
-   once the final-review UI exposes that override cleanly
+   once the Bulk Review UI exposes that override cleanly
 7. export finalized yomi into a supplemental decoder corpus and rebuild the
    track-local decoder model
 8. run several more small dev batches before changing `working` defaults
