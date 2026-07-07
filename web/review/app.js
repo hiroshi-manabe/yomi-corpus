@@ -10,6 +10,7 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
+  uiMode: "classic",
 };
 
 const el = {
@@ -42,6 +43,7 @@ const el = {
   openIssueTitle: document.querySelector("#open-issue-title"),
   copyJson: document.querySelector("#copy-json"),
   downloadJson: document.querySelector("#download-json"),
+  uiModeSelect: document.querySelector("#ui-mode-select"),
   reviewerName: document.querySelector("#reviewer-name"),
   itemTemplate: document.querySelector("#item-template"),
 };
@@ -177,6 +179,13 @@ function bindEvents() {
   el.openIssueTitle.addEventListener("click", () => {
     const urls = buildIssueUrls();
     openUrlInNewTab(urls.issue.url);
+  });
+
+  el.uiModeSelect?.addEventListener("change", () => {
+    state.uiMode = normalizeUiMode(el.uiModeSelect.value);
+    saveSettings();
+    updateLocation(state.currentStageId, state.currentPack?.pack_id || state.currentPackMeta?.pack_id || "");
+    render();
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -643,7 +652,11 @@ function renderTaskSelector() {
   renderSavedTaskDrafts(docs);
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
-    renderUnifiedTaskQueues(docs, task);
+    if (state.uiMode === "workflow") {
+      renderWorkflowTaskDashboard(docs, task);
+    } else {
+      renderUnifiedTaskQueues(docs, task);
+    }
     el.taskSummary.textContent = "Choose documents in one queue, then start that review task.";
     el.startTask.disabled = true;
     el.clearDocSelection.disabled = true;
@@ -739,6 +752,280 @@ function selectedQueueDocCount(queueStage, task) {
       doc.selectable !== false &&
       task.doc_ids.includes(taskDocKey(doc)),
   ).length;
+}
+
+function renderWorkflowTaskDashboard(docs, task) {
+  const dashboard = document.createElement("div");
+  dashboard.className = "workflow-dashboard";
+  dashboard.append(renderWorkflowPackMap(docs));
+
+  const body = document.createElement("div");
+  body.className = "workflow-body";
+  const queues = document.createElement("div");
+  queues.className = "workflow-queues";
+  queues.append(
+    renderWorkflowQueue({
+      docs,
+      task,
+      queueStage: "yomi_final_review",
+      title: "Final Review Queue",
+      actionLabel: "Start Final Review",
+      takeNextCount: 5,
+    }),
+    renderWorkflowQueue({
+      docs,
+      task,
+      queueStage: "yomi_strong_repair_review",
+      title: "Strong Repair Queue",
+      actionLabel: "Start Strong Repair",
+      takeNextCount: 2,
+    }),
+  );
+  body.append(queues, renderWorkflowResolvedPanel(docs));
+  dashboard.append(body);
+  el.taskDocList.append(dashboard);
+}
+
+function renderWorkflowPackMap(docs) {
+  const section = document.createElement("section");
+  section.className = "workflow-pack-map";
+  const rows = workflowDocumentStates(docs);
+  section.innerHTML = `
+    <div class="workflow-heading">
+      <div>
+        <h3>Pack Map</h3>
+        <p class="muted">Status of all documents in this pack.</p>
+      </div>
+      <div class="workflow-legend-inline">
+        <span><span class="workflow-dot resolved"></span>Resolved</span>
+        <span><span class="workflow-dot strong"></span>Strong Repair</span>
+        <span><span class="workflow-dot final"></span>Final Review</span>
+        <span><span class="workflow-dot not-started"></span>Not Started</span>
+      </div>
+    </div>
+  `;
+  const tileGrid = document.createElement("div");
+  tileGrid.className = "workflow-tile-grid";
+  for (const row of rows) {
+    tileGrid.append(renderWorkflowTile(row, { compact: false }));
+  }
+  section.append(tileGrid);
+  return section;
+}
+
+function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeNextCount }) {
+  const section = document.createElement("section");
+  section.className = `workflow-queue ${queueStage === "yomi_final_review" ? "final" : "strong"}`;
+  const queueDocs = docs
+    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  const selectedDocs = queueDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
+  const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queueStage);
+  const heading = document.createElement("div");
+  heading.className = "workflow-heading";
+  heading.innerHTML = `
+    <div>
+      <h3>${escapeHtml(title)}</h3>
+      <p class="muted">Available: ${queueDocs.length} document(s)</p>
+    </div>
+    <strong class="workflow-selected-count">${selectedDocs.length
+      ? `Selected: ${selectedDocs.length} document(s), ${selectedItems.length} item(s)`
+      : "No selection"}</strong>
+  `;
+  section.append(heading);
+
+  const tiles = document.createElement("div");
+  tiles.className = "workflow-tile-grid queue";
+  for (const doc of queueDocs) {
+    const row = workflowDocumentStateForQueueDoc(doc);
+    const tile = renderWorkflowTile(row, { compact: true });
+    tile.classList.toggle("selected", task.doc_ids.includes(taskDocKey(doc)));
+    tile.addEventListener("click", () => selectOnlyDocumentTask(taskDocKey(doc)));
+    tiles.append(tile);
+  }
+  if (!queueDocs.length) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = "No actionable documents in this queue.";
+    tiles.append(empty);
+  }
+  section.append(tiles);
+
+  const controls = document.createElement("div");
+  controls.className = "workflow-range-controls";
+  const fromSelect = buildWorkflowDocSelect(queueDocs, selectedDocs[0] || queueDocs[0] || null);
+  const toSelect = buildWorkflowDocSelect(queueDocs, selectedDocs[selectedDocs.length - 1] || queueDocs[queueDocs.length - 1] || null);
+  const applyRange = () => {
+    if (fromSelect.value && toSelect.value) {
+      selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value);
+    }
+  };
+  fromSelect.addEventListener("change", applyRange);
+  toSelect.addEventListener("change", applyRange);
+  controls.append(
+    textNodeElement("span", "Select range:"),
+    textNodeElement("span", "From"),
+    fromSelect,
+    textNodeElement("span", "to"),
+    toSelect,
+  );
+  section.append(controls);
+
+  const actions = document.createElement("div");
+  actions.className = "button-row workflow-actions";
+  const startButton = document.createElement("button");
+  startButton.type = "button";
+  startButton.textContent = actionLabel;
+  startButton.disabled = selectedDocs.length === 0;
+  startButton.addEventListener("click", () => startReviewTask());
+  const takeNextButton = document.createElement("button");
+  takeNextButton.type = "button";
+  takeNextButton.className = "secondary-button";
+  takeNextButton.textContent = `Take next ${takeNextCount}`;
+  takeNextButton.disabled = queueDocs.length === 0;
+  takeNextButton.addEventListener("click", () => takeNextQueueDocuments(queueStage, takeNextCount));
+  const selectAllButton = document.createElement("button");
+  selectAllButton.type = "button";
+  selectAllButton.className = "secondary-button";
+  selectAllButton.textContent = "Select all";
+  selectAllButton.disabled = queueDocs.length === 0 || selectedDocs.length === queueDocs.length;
+  selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queueStage));
+  const clearButton = document.createElement("button");
+  clearButton.type = "button";
+  clearButton.className = "secondary-button";
+  clearButton.textContent = "Clear";
+  clearButton.disabled = selectedDocs.length === 0;
+  clearButton.addEventListener("click", () => clearQueueTaskSelection(queueStage));
+  actions.append(startButton, takeNextButton, selectAllButton, clearButton);
+  section.append(actions);
+  return section;
+}
+
+function renderWorkflowResolvedPanel(docs) {
+  const section = document.createElement("section");
+  section.className = "workflow-resolved";
+  const resolved = workflowDocumentStates(docs).filter((row) => row.status === "resolved");
+  section.innerHTML = `
+    <div class="workflow-heading">
+      <div>
+        <h3>Resolved</h3>
+        <p class="muted">${resolved.length} document(s)</p>
+      </div>
+    </div>
+  `;
+  if (!resolved.length) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = "No resolved documents yet.";
+    section.append(empty);
+    return section;
+  }
+  const list = document.createElement("div");
+  list.className = "workflow-resolved-list";
+  for (const row of resolved) {
+    const item = document.createElement("div");
+    item.className = "workflow-resolved-row";
+    item.innerHTML = `
+      <strong>Doc ${escapeHtml(String(row.doc_seq))}</strong>
+      <span>${escapeHtml(row.completed_via || "Resolved")}</span>
+    `;
+    list.append(item);
+  }
+  section.append(list);
+  return section;
+}
+
+function renderWorkflowTile(row, { compact }) {
+  const tile = document.createElement("button");
+  tile.type = "button";
+  tile.className = `workflow-doc-tile ${row.status}`;
+  tile.disabled = row.status === "not-started";
+  tile.innerHTML = `
+    <strong>${escapeHtml(String(row.doc_seq))}</strong>
+    <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
+  `;
+  if (!compact && row.preview) {
+    tile.title = row.preview;
+  }
+  return tile;
+}
+
+function workflowDocumentStates(docs) {
+  const bySeq = new Map();
+  for (const doc of docs) {
+    const seq = Number(doc.doc_seq || 0);
+    if (!bySeq.has(seq)) {
+      bySeq.set(seq, {
+        doc_seq: seq,
+        status: "not-started",
+        preview: doc.preview || "",
+        completed_via: "",
+      });
+    }
+    const row = bySeq.get(seq);
+    row.preview = row.preview || doc.preview || "";
+    if (doc.queue_stage === "yomi_final_review" && doc.selectable !== false) {
+      row.status = "final";
+      row.completed_via = "";
+    } else if (
+      row.status !== "final" &&
+      doc.queue_stage === "yomi_strong_repair_review" &&
+      doc.selectable !== false
+    ) {
+      row.status = "strong";
+      row.completed_via = "";
+    } else if (
+      !["final", "strong"].includes(row.status) &&
+      Number(doc.item_count || 0) > 0
+    ) {
+      row.status = "resolved";
+      row.completed_via =
+        doc.queue_stage === "yomi_strong_repair_review"
+          ? "Resolved after strong repair"
+          : "Final review only";
+    }
+  }
+  return [...bySeq.values()].sort((left, right) => left.doc_seq - right.doc_seq);
+}
+
+function workflowDocumentStateForQueueDoc(doc) {
+  return {
+    doc_seq: doc.doc_seq,
+    status: doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
+    preview: doc.preview || "",
+  };
+}
+
+function workflowStatusGlyph(status) {
+  if (status === "resolved") {
+    return "✓";
+  }
+  if (status === "strong") {
+    return "!";
+  }
+  if (status === "final") {
+    return "F";
+  }
+  return "–";
+}
+
+function buildWorkflowDocSelect(docs, selectedDoc) {
+  const select = document.createElement("select");
+  select.disabled = docs.length === 0;
+  for (const doc of docs) {
+    const option = document.createElement("option");
+    option.value = taskDocKey(doc);
+    option.textContent = String(doc.doc_seq);
+    option.selected = selectedDoc && taskDocKey(selectedDoc) === taskDocKey(doc);
+    select.append(option);
+  }
+  return select;
+}
+
+function textNodeElement(tagName, text) {
+  const element = document.createElement(tagName);
+  element.textContent = text;
+  return element;
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -3161,6 +3448,51 @@ function clearQueueTaskSelection(queueStage) {
   render();
 }
 
+function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
+  const docs = buildDocumentTasks(state.currentPack)
+    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
+  const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
+  if (fromIndex < 0 || toIndex < 0) {
+    return;
+  }
+  const start = Math.min(fromIndex, toIndex);
+  const end = Math.max(fromIndex, toIndex);
+  state.currentDraft.task = {
+    mode: "documents",
+    doc_ids: docs.slice(start, end + 1).map((doc) => taskDocKey(doc)),
+    started: false,
+    range_start_doc_id: taskDocKey(docs[start]),
+    range_end_doc_id: taskDocKey(docs[end]),
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
+function takeNextQueueDocuments(queueStage, count) {
+  const docs = buildDocumentTasks(state.currentPack)
+    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
+    .slice(0, count);
+  if (!docs.length) {
+    return;
+  }
+  state.currentDraft.task = {
+    mode: "documents",
+    doc_ids: docs.map((doc) => taskDocKey(doc)),
+    started: false,
+    range_start_doc_id: taskDocKey(docs[0]),
+    range_end_doc_id: taskDocKey(docs[docs.length - 1]),
+  };
+  state.currentDraft.from_seq = null;
+  state.currentDraft.to_seq = null;
+  touchDraft();
+  render();
+}
+
 function setDocumentRangeBoundary(docId, side) {
   const docs = buildDocumentTasks(state.currentPack);
   const currentDoc = docs.find((row) => taskDocKey(row) === docId);
@@ -3412,15 +3744,22 @@ function draftStorageKey(reviewStage, packId) {
 }
 
 function loadSettings() {
+  const params = new URLSearchParams(window.location.search);
   try {
     const raw = window.localStorage.getItem(settingsKey);
-    if (!raw) {
-      return;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      el.reviewerName.value = parsed.reviewer_name || "";
+      state.uiMode = normalizeUiMode(parsed.ui_mode);
     }
-    const parsed = JSON.parse(raw);
-    el.reviewerName.value = parsed.reviewer_name || "";
   } catch {
     // ignore
+  }
+  if (params.has("ui")) {
+    state.uiMode = normalizeUiMode(params.get("ui"));
+  }
+  if (el.uiModeSelect) {
+    el.uiModeSelect.value = state.uiMode;
   }
 }
 
@@ -3429,6 +3768,7 @@ function saveSettings() {
     settingsKey,
     JSON.stringify({
       reviewer_name: el.reviewerName.value.trim(),
+      ui_mode: state.uiMode,
     })
   );
 }
@@ -3437,7 +3777,12 @@ function updateLocation(stageId, packId) {
   const params = new URLSearchParams(window.location.search);
   params.set("stage", stageId);
   params.set("pack", packId);
+  params.set("ui", state.uiMode);
   window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+}
+
+function normalizeUiMode(mode) {
+  return mode === "workflow" ? "workflow" : "classic";
 }
 
 function formatConfidenceCounts(counts) {
