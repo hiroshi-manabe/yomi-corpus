@@ -681,7 +681,7 @@ function renderTaskSelector() {
   if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
   }
-  const docs = buildActionableDocumentTasks(state.currentPack);
+  const docs = buildDocumentTasks(state.currentPack);
   const actionableDocs = buildActionableDocumentTasks(state.currentPack);
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
