@@ -3003,7 +3003,7 @@ function renderIssueUrlSummary(urls, payload = null) {
   }
   const jsonLength = payload ? JSON.stringify(payload, null, 2).length : 0;
   el.issueUrlSummary.textContent =
-    `Issue URL: ${urls.issue.length} chars. Copy JSON separately (${jsonLength} chars).`;
+    `Issue URL: ${urls.issue.length} chars. The primary button copies ${jsonLength} chars of JSON and opens GitHub.`;
 }
 
 function buildSubmissionPayload() {
@@ -3857,7 +3857,7 @@ function completeCurrentTask() {
   }
   if (
     !window.confirm(
-      "Mark this local task submitted? Use Open Issue first unless you already created the GitHub issue.",
+      "Mark this local task submitted? Use the copy-and-open issue action first unless you already created the GitHub issue.",
     )
   ) {
     return;
