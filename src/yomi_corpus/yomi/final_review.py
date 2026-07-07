@@ -829,12 +829,17 @@ def build_strong_repair_reading_candidates(rejected_span: str) -> dict[str, list
     return candidates
 
 
-def substrings_for_reading_candidates(surface: str) -> set[str]:
+def substrings_for_reading_candidates(surface: str) -> list[str]:
     chars = list(surface)
-    surfaces: set[str] = set()
+    surfaces: list[str] = []
+    seen: set[str] = set()
     for start in range(len(chars)):
         for end in range(start + 1, min(len(chars), start + MAX_READING_HINT_SURFACE_LENGTH) + 1):
-            surfaces.add("".join(chars[start:end]))
+            candidate = "".join(chars[start:end])
+            if candidate in seen:
+                continue
+            seen.add(candidate)
+            surfaces.append(candidate)
     return surfaces
 
 
