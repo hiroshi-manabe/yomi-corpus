@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
+from hashlib import sha256
 from pathlib import Path
 
 from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
@@ -211,6 +212,7 @@ def publish_review_site(
     pack_output_dir.mkdir(parents=True, exist_ok=True)
 
     sync_directory(web_root, review_output_dir)
+    rewrite_index_asset_versions(review_output_dir)
     write_root_redirect(docs_root / "index.html")
 
     entries = collect_review_pack_entries(review_root)
@@ -235,6 +237,27 @@ def sync_directory(source_dir: Path, dest_dir: Path) -> None:
             continue
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, target)
+
+
+def rewrite_index_asset_versions(review_output_dir: Path) -> None:
+    index_path = review_output_dir / "index.html"
+    if not index_path.exists():
+        return
+    html = index_path.read_text(encoding="utf-8")
+    replacements = {
+        "./style.css": versioned_asset_url(review_output_dir / "style.css", "./style.css"),
+        "./app.js": versioned_asset_url(review_output_dir / "app.js", "./app.js"),
+    }
+    for plain, versioned in replacements.items():
+        html = re.sub(rf"{re.escape(plain)}(?:\?v=[A-Za-z0-9._-]+)?", versioned, html)
+    index_path.write_text(html, encoding="utf-8")
+
+
+def versioned_asset_url(path: Path, url: str) -> str:
+    if not path.exists():
+        return url
+    digest = sha256(path.read_bytes()).hexdigest()[:12]
+    return f"{url}?v={digest}"
 
 
 def clear_directory(path: Path) -> None:
