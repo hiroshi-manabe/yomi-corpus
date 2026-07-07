@@ -148,16 +148,35 @@ def update_document_review_state_after_final_review(
                 reviewed += 1
                 if review.get("skip"):
                     skipped += 1
+        old_reviewed = int(document.get("reviewed_unit_count") or 0)
+        old_skipped = int(document.get("skipped_unit_count") or 0)
         document["reviewed_unit_count"] = reviewed
         document["skipped_unit_count"] = skipped
         if reviewed < int(document.get("unit_count", 0)):
-            document["state"] = STATE_FINAL_IN_REVIEW if reviewed else STATE_FINAL_PENDING
+            next_state = STATE_FINAL_IN_REVIEW if reviewed else STATE_FINAL_PENDING
         elif reviewed > 0 and skipped == reviewed:
-            document["state"] = STATE_SKIPPED
+            next_state = STATE_SKIPPED
         else:
-            document["state"] = STATE_FINAL_REVIEWED
+            next_state = STATE_FINAL_REVIEWED
+        current_state = str(document.get("state") or "")
+        beyond_final = {
+            STATE_STRONG_PENDING,
+            STATE_STRONG_IN_REVIEW,
+            STATE_STRONG_REVIEWED,
+            STATE_COMPLETE,
+        }
+        if (
+            current_state in beyond_final
+            and old_reviewed == reviewed
+            and old_skipped == skipped
+        ):
+            continue
+        if current_state == next_state and old_reviewed == reviewed and old_skipped == skipped:
+            continue
+        document["state"] = next_state
         document["updated_at"] = now
-    updated["updated_at"] = now
+    if updated != state:
+        updated["updated_at"] = now
     return with_summary(updated)
 
 

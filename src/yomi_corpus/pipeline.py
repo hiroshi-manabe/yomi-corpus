@@ -224,6 +224,20 @@ RERUNNABLE_STAGES = frozenset(
 )
 
 
+def existing_pack_created_at_epoch(path: Path) -> int | None:
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    try:
+        value = int(payload.get("created_at_epoch"))
+    except (TypeError, ValueError):
+        return None
+    return value if value > 0 else None
+
+
 @dataclass
 class TrackState:
     track_name: str
@@ -2482,6 +2496,7 @@ class PipelineWorkspace:
             batch_name=batch_name,
             document_state_json=document_state_path if document_state_path.exists() else None,
             latest_json=review_pack_path,
+            created_at_epoch=existing_pack_created_at_epoch(review_pack_path),
         )
         write_yomi_final_review_summary(summary, summary_path)
         return summary, {
@@ -2862,6 +2877,7 @@ class PipelineWorkspace:
             batch_name=batch_name,
             document_state_json=self.document_review_state_path(batch_name),
             latest_json=review_pack_path,
+            created_at_epoch=existing_pack_created_at_epoch(review_pack_path),
         )
         write_yomi_final_review_summary(summary, summary_path)
         manifest = publish_review_site(

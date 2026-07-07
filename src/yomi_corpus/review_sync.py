@@ -265,7 +265,6 @@ def maintain_strong_repair_for_reviewed_documents(
 
 def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:
     paths = [
-        root / "data" / "pipeline" / "batches" / f"{batch_name}.json",
         root / "data" / "pipeline" / "document_states" / f"{batch_name}.json",
         root / "data" / "units" / batch_name / "final_review_apply_summary.json",
         root / "data" / "units" / batch_name / "final_review_pack.json",
