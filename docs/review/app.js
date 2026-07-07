@@ -11,6 +11,7 @@ const state = {
   currentDraft: null,
   unifiedSources: [],
   uiMode: "classic",
+  pendingIssueTaskId: null,
 };
 
 const el = {
@@ -35,6 +36,9 @@ const el = {
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
+  issueReturnBanner: document.querySelector("#issue-return-banner"),
+  markSubmitted: document.querySelector("#mark-submitted"),
+  issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
   issueUrlSummary: document.querySelector("#issue-url-summary"),
   openLatest: document.querySelector("#open-latest"),
@@ -160,13 +164,9 @@ function bindEvents() {
   });
 
   el.copyJson.addEventListener("click", async () => {
-    const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
-    try {
-      await navigator.clipboard.writeText(payload);
+    if (await copySubmissionJsonToClipboard()) {
       showStatus("Submission JSON copied. Open an issue and paste it into the body.");
-    } catch (error) {
-      el.submissionPreview.focus();
-      el.submissionPreview.select();
+    } else {
       showStatus("Clipboard copy failed. The JSON text is selected; copy it manually, then open an issue.", true);
     }
   });
@@ -182,9 +182,8 @@ function bindEvents() {
     URL.revokeObjectURL(url);
   });
 
-  el.openIssueTitle.addEventListener("click", () => {
-    const urls = buildIssueUrls();
-    openUrlInNewTab(urls.issue.url);
+  el.openIssueTitle.addEventListener("click", async () => {
+    await openIssueForCurrentTask();
   });
 
   el.uiModeSelect?.addEventListener("change", () => {
@@ -204,6 +203,26 @@ function bindEvents() {
     if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
       closeWorkflowDocumentPreview();
     }
+  });
+
+  window.addEventListener("focus", () => {
+    if (state.pendingIssueTaskId) {
+      showIssueReturnBanner();
+    }
+  });
+
+  el.markSubmitted?.addEventListener("click", () => {
+    if (state.pendingIssueTaskId) {
+      markSavedTaskSubmitted(state.pendingIssueTaskId);
+    }
+    state.pendingIssueTaskId = null;
+    hideIssueReturnBanner();
+  });
+
+  el.issueNotYet?.addEventListener("click", () => {
+    state.pendingIssueTaskId = null;
+    hideIssueReturnBanner();
+    showStatus("Issue submission not marked complete. The task remains active locally.");
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -1194,19 +1213,36 @@ function renderSavedTaskDrafts(docs) {
     return;
   }
 
+  renderSavedTaskGroup(
+    "Deferred local tasks",
+    savedTasks.filter((record) => taskRecordStatus(record) === "deferred"),
+    docs,
+  );
+  renderSavedTaskGroup(
+    "Submitted local tasks",
+    savedTasks.filter((record) => taskRecordStatus(record) === "submitted"),
+    docs,
+  );
+}
+
+function renderSavedTaskGroup(titleText, records, docs) {
+  if (!records.length) {
+    return;
+  }
   const heading = document.createElement("div");
   heading.className = "task-draft-heading muted";
-  heading.textContent = "Deferred local tasks";
+  heading.textContent = titleText;
   el.taskDraftList.append(heading);
 
-  for (const record of savedTasks) {
+  for (const record of records) {
     const row = document.createElement("article");
     row.className = "task-draft-row";
+    row.classList.toggle("submitted-task-draft", taskRecordStatus(record) === "submitted");
 
     const body = document.createElement("div");
     body.className = "task-draft-body";
     const title = document.createElement("strong");
-    title.textContent = record.task_label || record.task_id || "Deferred Task";
+    title.textContent = record.task_label || record.task_id || "Local Task";
     const meta = document.createElement("div");
     meta.className = "task-draft-meta";
     meta.textContent = formatTaskDraftMeta(record, docs);
@@ -1214,7 +1250,10 @@ function renderSavedTaskDrafts(docs) {
 
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = `Return to ${record.task_label || "Task"}`;
+    button.textContent =
+      taskRecordStatus(record) === "submitted"
+        ? `Reopen ${record.task_label || "Task"}`
+        : `Return to ${record.task_label || "Task"}`;
     button.addEventListener("click", () => {
       resumeTaskDraft(record.task_id);
     });
@@ -1222,6 +1261,10 @@ function renderSavedTaskDrafts(docs) {
     row.append(body, button);
     el.taskDraftList.append(row);
   }
+}
+
+function taskRecordStatus(record) {
+  return record?.status === "submitted" ? "submitted" : "deferred";
 }
 
 function renderTaskDocumentRow(doc, task) {
@@ -2862,6 +2905,47 @@ function openUrlInNewTab(url) {
   anchor.remove();
 }
 
+async function openIssueForCurrentTask() {
+  if (!isEditable() || !isTaskStarted()) {
+    const urls = buildIssueUrls();
+    openUrlInNewTab(urls.issue.url);
+    return;
+  }
+  const record = currentTaskDraftRecord();
+  state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
+  touchDraft();
+  const copied = await copySubmissionJsonToClipboard();
+  const urls = buildIssueUrls();
+  openUrlInNewTab(urls.issue.url);
+  state.pendingIssueTaskId = record.task_id;
+  showStatus(
+    copied
+      ? "Submission JSON copied. Paste it into the GitHub issue body, create the issue, then return here."
+      : "Clipboard copy failed. Copy the selected JSON manually, paste it into the GitHub issue body, create the issue, then return here.",
+    !copied,
+  );
+}
+
+async function copySubmissionJsonToClipboard() {
+  const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
+  try {
+    await navigator.clipboard.writeText(payload);
+    return true;
+  } catch {
+    el.submissionPreview.focus();
+    el.submissionPreview.select();
+    return false;
+  }
+}
+
+function showIssueReturnBanner() {
+  el.issueReturnBanner?.classList.remove("hidden");
+}
+
+function hideIssueReturnBanner() {
+  el.issueReturnBanner?.classList.add("hidden");
+}
+
 function buildIssueTitle(payload) {
   if (payload.submission_type === "review_bundle") {
     const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
@@ -3481,6 +3565,7 @@ function currentTaskDraftRecord() {
   state.currentDraft.active_task_label = identity.task_label;
   return {
     ...identity,
+    status: "deferred",
     task: {
       ...normalizeTask(state.currentDraft.task, state.currentPack),
       started: false,
@@ -3513,6 +3598,9 @@ function formatTaskDraftMeta(record, docs) {
   parts.push(`${itemCount} item(s)`);
   if (record.updated_at_epoch) {
     parts.push(`saved ${formatDate(record.updated_at_epoch)}`);
+  }
+  if (record.submitted_at_epoch) {
+    parts.push(`submitted ${formatDate(record.submitted_at_epoch)}`);
   }
   return parts.join(" · ");
 }
@@ -3747,7 +3835,7 @@ function deferCurrentTask() {
     return;
   }
   const record = currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = record;
+  state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
   clearActiveTaskState();
   touchDraft();
   showStatus(`${record.task_label || "Task"} deferred locally.`);
@@ -3761,18 +3849,20 @@ function completeCurrentTask() {
   }
   if (
     !window.confirm(
-      "Mark this local task complete and discard its draft? Copy or submit the JSON first if needed.",
+      "Mark this local task submitted? Use Open Issue first unless you already created the GitHub issue.",
     )
   ) {
     return;
   }
-  const taskId = state.currentDraft.active_task_id;
-  if (taskId && state.currentDraft.saved_tasks?.[taskId]) {
-    delete state.currentDraft.saved_tasks[taskId];
-  }
+  const record = currentTaskDraftRecord();
+  state.currentDraft.saved_tasks[record.task_id] = {
+    ...record,
+    status: "submitted",
+    submitted_at_epoch: Math.floor(Date.now() / 1000),
+  };
   clearActiveTaskState();
   touchDraft();
-  showStatus("Task marked complete locally.");
+  showStatus(`${record.task_label || "Task"} marked submitted locally. Waiting for server-side issue import.`);
   render();
 }
 
@@ -3791,7 +3881,23 @@ function resumeTaskDraft(taskId) {
   state.currentDraft.from_seq = record.from_seq ?? null;
   state.currentDraft.to_seq = record.to_seq ?? null;
   state.currentDraft.overrides = cloneJson(record.overrides || {});
+  delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
+  render();
+}
+
+function markSavedTaskSubmitted(taskId) {
+  const record = state.currentDraft.saved_tasks?.[taskId] || currentTaskDraftRecord();
+  state.currentDraft.saved_tasks[record.task_id] = {
+    ...record,
+    status: "submitted",
+    submitted_at_epoch: Math.floor(Date.now() / 1000),
+  };
+  if (state.currentDraft.active_task_id === record.task_id) {
+    clearActiveTaskState();
+  }
+  touchDraft();
+  showStatus(`${record.task_label || "Task"} marked submitted locally. Waiting for server-side issue import.`);
   render();
 }
 
@@ -3864,11 +3970,13 @@ function normalizeReviewDraft(parsed, pack) {
       task_id: taskId,
       task_label: rawRecord?.task_label || (taskNumber ? `Task ${taskNumber}` : taskId),
       task_number: taskNumber || null,
+      status: rawRecord?.status === "submitted" ? "submitted" : "deferred",
       task: { ...task, started: false },
       from_seq: rawRecord?.from_seq ?? null,
       to_seq: rawRecord?.to_seq ?? null,
       overrides: rawRecord?.overrides || {},
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
+      submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
     };
   }
 

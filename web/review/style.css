@@ -106,6 +106,13 @@ h1 {
   color: var(--warning);
 }
 
+.issue-return-banner {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
 .hidden {
   display: none !important;
 }
@@ -422,6 +429,11 @@ button:disabled {
   border-radius: 14px;
   background: rgba(45, 106, 79, 0.07);
   padding: 10px 12px;
+}
+
+.task-draft-row.submitted-task-draft {
+  border-color: rgba(156, 79, 30, 0.28);
+  background: rgba(255, 244, 214, 0.72);
 }
 
 .task-draft-body {
@@ -1298,6 +1310,11 @@ button:disabled {
 
   .workflow-preview-header,
   .workflow-preview-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .issue-return-banner {
     align-items: stretch;
     flex-direction: column;
   }
