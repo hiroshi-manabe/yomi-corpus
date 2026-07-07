@@ -235,6 +235,9 @@ function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get("stage");
   const requestedPackId = params.get("pack");
+  if (requested === "unified_yomi_review" && activeDevReviewQueues().length > 1) {
+    return { stageId: "unified_yomi_review", packId: requestedPackId };
+  }
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
   }
@@ -528,6 +531,7 @@ function renderCurrentTracks() {
     const unifiedButton = document.createElement("button");
     unifiedButton.type = "button";
     unifiedButton.className = "track-card primary-track";
+    unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
     const totalItems = cards.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
     const totalDocs = Math.max(...cards.map((card) => Number(card.document_count || 0)));
     unifiedButton.innerHTML = `
@@ -550,6 +554,10 @@ function renderCurrentTracks() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `track-card ${card.emphasis || "secondary-track"}`;
+    button.classList.toggle(
+      "active-track",
+      state.currentStageId === card.review_stage && state.currentPackMeta?.pack_id === card.pack_id,
+    );
     const selectableDocs = Number(card.selectable_document_count || 0);
     const totalDocs = Number(card.document_count || 0);
     const docSummary = totalDocs
