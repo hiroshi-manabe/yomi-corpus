@@ -546,6 +546,10 @@ button:disabled {
   background: rgba(34, 106, 214, 0.82);
 }
 
+.workflow-dot.submitted {
+  background: rgba(31, 28, 23, 0.36);
+}
+
 .workflow-dot.not-started {
   background: rgba(31, 28, 23, 0.24);
 }
@@ -615,6 +619,20 @@ button:disabled {
 
 .workflow-doc-tile.final span {
   background: rgba(34, 106, 214, 0.88);
+}
+
+.workflow-doc-tile.submitted {
+  border-color: rgba(31, 28, 23, 0.18);
+  background: rgba(31, 28, 23, 0.07);
+  color: rgba(31, 28, 23, 0.54);
+}
+
+.workflow-doc-tile.submitted span {
+  background: rgba(31, 28, 23, 0.42);
+}
+
+.workflow-doc-tile.submitted:disabled {
+  color: rgba(31, 28, 23, 0.42);
 }
 
 .workflow-doc-tile.not-started span {
@@ -779,6 +797,11 @@ button:disabled {
 .task-doc-row.unselectable-task-doc {
   color: var(--muted);
   background: rgba(31, 28, 23, 0.035);
+}
+
+.task-doc-row.submitted-task-doc {
+  border-color: rgba(31, 28, 23, 0.14);
+  background: rgba(31, 28, 23, 0.04);
 }
 
 .task-doc-row.unselectable-task-doc input,

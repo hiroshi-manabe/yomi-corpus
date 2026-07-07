@@ -842,6 +842,7 @@ function renderWorkflowPackMap(docs) {
         <p class="muted">Status of all documents in this pack.</p>
       </div>
       <div class="workflow-legend-inline">
+        <span><span class="workflow-dot submitted"></span>Submitted</span>
         <span><span class="workflow-dot resolved"></span>Resolved</span>
         <span><span class="workflow-dot strong"></span>Strong Repair</span>
         <span><span class="workflow-dot final"></span>Final Review</span>
@@ -863,14 +864,16 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   const queueDocs = docs
     .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
-  const selectedDocs = queueDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
+  const actionableDocs = queueDocs.filter((doc) => docIsActionable(doc));
+  const selectedDocs = actionableDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
   const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queueStage);
+  const submittedCount = queueDocs.length - actionableDocs.length;
   const heading = document.createElement("div");
   heading.className = "workflow-heading";
   heading.innerHTML = `
     <div>
       <h3>${escapeHtml(title)}</h3>
-      <p class="muted">Available: ${queueDocs.length} document(s)</p>
+      <p class="muted">Available: ${actionableDocs.length} document(s)${submittedCount ? ` · ${submittedCount} submitted locally` : ""}</p>
     </div>
     <strong class="workflow-selected-count">${selectedDocs.length
       ? `Selected: ${selectedDocs.length} document(s), ${selectedItems.length} item(s)`
@@ -883,11 +886,13 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   for (const doc of queueDocs) {
     const row = workflowDocumentStateForQueueDoc(doc);
     const tile = renderWorkflowTile(row, { compact: true });
-    tile.classList.toggle("selected", task.doc_ids.includes(taskDocKey(doc)));
-    tile.addEventListener("click", () => selectOnlyDocumentTask(taskDocKey(doc)));
+    tile.classList.toggle("selected", docIsActionable(doc) && task.doc_ids.includes(taskDocKey(doc)));
+    if (docIsActionable(doc)) {
+      tile.addEventListener("click", () => selectOnlyDocumentTask(taskDocKey(doc)));
+    }
     tiles.append(tile);
   }
-  if (!queueDocs.length) {
+  if (!actionableDocs.length) {
     const empty = document.createElement("p");
     empty.className = "muted";
     empty.textContent = "No actionable documents in this queue.";
@@ -897,8 +902,8 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
 
   const controls = document.createElement("div");
   controls.className = "workflow-range-controls";
-  const fromSelect = buildWorkflowDocSelect(queueDocs, selectedDocs[0] || queueDocs[0] || null);
-  const toSelect = buildWorkflowDocSelect(queueDocs, selectedDocs[selectedDocs.length - 1] || queueDocs[queueDocs.length - 1] || null);
+  const fromSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[0] || actionableDocs[0] || null);
+  const toSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[selectedDocs.length - 1] || actionableDocs[actionableDocs.length - 1] || null);
   const applyRange = () => {
     if (fromSelect.value && toSelect.value) {
       selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value);
@@ -926,13 +931,13 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   takeNextButton.type = "button";
   takeNextButton.className = "secondary-button";
   takeNextButton.textContent = `Take next ${takeNextCount}`;
-  takeNextButton.disabled = queueDocs.length === 0;
+  takeNextButton.disabled = actionableDocs.length === 0;
   takeNextButton.addEventListener("click", () => takeNextQueueDocuments(queueStage, takeNextCount));
   const selectAllButton = document.createElement("button");
   selectAllButton.type = "button";
   selectAllButton.className = "secondary-button";
   selectAllButton.textContent = "Select all";
-  selectAllButton.disabled = queueDocs.length === 0 || selectedDocs.length === queueDocs.length;
+  selectAllButton.disabled = actionableDocs.length === 0 || selectedDocs.length === actionableDocs.length;
   selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queueStage));
   const clearButton = document.createElement("button");
   clearButton.type = "button";
@@ -983,13 +988,15 @@ function renderWorkflowTile(row, { compact }) {
   const tile = document.createElement("button");
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
-  tile.disabled = row.status === "not-started";
+  tile.disabled = row.status === "not-started" || (compact && row.status === "submitted");
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.doc_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
+  } else if (row.status === "submitted") {
+    tile.title = "Submitted locally. Reopen it from Submitted local tasks to edit.";
   }
   if (!compact) {
     tile.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
@@ -1084,7 +1091,7 @@ function workflowPreviewActionDocument(docs, row) {
     (doc) =>
       Number(doc.doc_seq) === Number(row.doc_seq) &&
       doc.queue_stage === queueStage &&
-      doc.selectable !== false,
+      docIsActionable(doc),
   ) || null;
 }
 
@@ -1095,7 +1102,9 @@ function workflowPreviewMetaText(row, items, actionDoc) {
       ? "Final Review"
       : row.status === "resolved"
         ? "Resolved"
-        : "No active review";
+        : row.status === "submitted"
+          ? "Submitted locally"
+          : "No active review";
   const itemText = `${items.length} item(s)`;
   if (actionDoc) {
     return `${statusLabel} · ${itemText} · click Start to work on this document`;
@@ -1143,22 +1152,30 @@ function workflowDocumentStates(docs) {
         status: "not-started",
         preview: doc.preview || "",
         completed_via: "",
+        submitted: false,
       });
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
-    if (doc.queue_stage === "yomi_final_review" && doc.selectable !== false) {
+    if (doc.queue_stage === "yomi_final_review" && docIsActionable(doc)) {
       row.status = "final";
       row.completed_via = "";
     } else if (
       row.status !== "final" &&
       doc.queue_stage === "yomi_strong_repair_review" &&
-      doc.selectable !== false
+      docIsActionable(doc)
     ) {
       row.status = "strong";
       row.completed_via = "";
     } else if (
       !["final", "strong"].includes(row.status) &&
+      docIsSubmittedLocally(doc)
+    ) {
+      row.status = "submitted";
+      row.submitted = true;
+      row.completed_via = "Submitted locally";
+    } else if (
+      !["submitted", "final", "strong"].includes(row.status) &&
       Number(doc.item_count || 0) > 0
     ) {
       row.status = "resolved";
@@ -1174,12 +1191,18 @@ function workflowDocumentStates(docs) {
 function workflowDocumentStateForQueueDoc(doc) {
   return {
     doc_seq: doc.doc_seq,
-    status: doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
+    status: docIsSubmittedLocally(doc)
+      ? "submitted"
+      : doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
     preview: doc.preview || "",
+    submitted: docIsSubmittedLocally(doc),
   };
 }
 
 function workflowStatusGlyph(status) {
+  if (status === "submitted") {
+    return "…";
+  }
   if (status === "resolved") {
     return "✓";
   }
@@ -1275,20 +1298,43 @@ function taskRecordStatus(record) {
   return record?.status === "submitted" ? "submitted" : "deferred";
 }
 
+function submittedTaskDocIds() {
+  const ids = new Set();
+  for (const record of listSavedTaskDrafts()) {
+    if (taskRecordStatus(record) !== "submitted") {
+      continue;
+    }
+    for (const docId of record.task?.doc_ids || []) {
+      ids.add(String(docId));
+    }
+  }
+  return ids;
+}
+
+function docIsSubmittedLocally(doc) {
+  return submittedTaskDocIds().has(taskDocKey(doc));
+}
+
+function docIsActionable(doc) {
+  return doc?.selectable !== false && !docIsSubmittedLocally(doc);
+}
+
 function renderTaskDocumentRow(doc, task) {
   const row = document.createElement("article");
   row.className = "task-doc-row";
   const docKey = taskDocKey(doc);
-  row.classList.toggle("selected", task.doc_ids.includes(docKey));
+  const submitted = docIsSubmittedLocally(doc);
+  row.classList.toggle("selected", !submitted && task.doc_ids.includes(docKey));
   row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
-  row.classList.toggle("unselectable-task-doc", doc.selectable === false);
+  row.classList.toggle("unselectable-task-doc", doc.selectable === false || submitted);
+  row.classList.toggle("submitted-task-doc", submitted);
 
   const label = document.createElement("label");
   label.className = "task-doc-check";
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.disabled = doc.selectable === false;
-  checkbox.checked = task.doc_ids.includes(docKey);
+  checkbox.disabled = doc.selectable === false || submitted;
+  checkbox.checked = !submitted && task.doc_ids.includes(docKey);
   checkbox.addEventListener("change", () => {
     toggleDocumentTask(docKey, checkbox.checked);
   });
@@ -1301,11 +1347,12 @@ function renderTaskDocumentRow(doc, task) {
   meta.className = "task-doc-meta";
   const itemSeq = doc.item_count > 0 ? `seq ${doc.from_seq}-${doc.to_seq}` : "no review cards";
   const stateText = doc.state ? `${doc.state} · ` : "";
+  const submittedText = submitted ? "submitted locally · " : "";
   const sourceText = isUnifiedReviewPack(state.currentPack)
     ? `final ${doc.final_item_count || 0} / strong ${doc.strong_repair_item_count || 0} · `
     : "";
   meta.textContent =
-    `${stateText}${sourceText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
+    `${submittedText}${stateText}${sourceText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
 
   const preview = document.createElement("div");
   preview.className = "task-doc-preview";
@@ -1321,7 +1368,7 @@ function renderTaskDocumentRow(doc, task) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "secondary-button";
-    button.disabled = doc.selectable === false;
+    button.disabled = doc.selectable === false || submitted;
     button.textContent = labelText;
     button.addEventListener("click", handler);
     actions.append(button);
@@ -3493,7 +3540,7 @@ function taskQueueStage(task) {
 }
 
 function selectableDocsForCurrentTask(docs, task, queueStage = null) {
-  const selectableDocs = docs.filter((doc) => doc.selectable !== false);
+  const selectableDocs = docs.filter((doc) => docIsActionable(doc));
   if (!isUnifiedReviewPack(state.currentPack)) {
     return selectableDocs;
   }
@@ -3620,7 +3667,7 @@ function cloneJson(value) {
 function toggleDocumentTask(docId, selected) {
   const docs = buildDocumentTasks(state.currentPack);
   const doc = docs.find((row) => taskDocKey(row) === docId);
-  if (doc?.selectable === false) {
+  if (!docIsActionable(doc)) {
     return;
   }
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
@@ -3651,7 +3698,7 @@ function toggleDocumentTask(docId, selected) {
 
 function selectOnlyDocumentTask(docId) {
   const doc = buildDocumentTasks(state.currentPack).find((row) => taskDocKey(row) === docId);
-  if (doc?.selectable === false) {
+  if (!docIsActionable(doc)) {
     return;
   }
   state.currentDraft.task = {
@@ -3702,7 +3749,7 @@ function clearQueueTaskSelection(queueStage) {
 
 function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
   const docs = buildDocumentTasks(state.currentPack)
-    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
   const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
@@ -3726,7 +3773,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
 
 function takeNextQueueDocuments(queueStage, count) {
   const docs = buildDocumentTasks(state.currentPack)
-    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
     .slice(0, count);
   if (!docs.length) {
@@ -3748,7 +3795,7 @@ function takeNextQueueDocuments(queueStage, count) {
 function setDocumentRangeBoundary(docId, side) {
   const docs = buildDocumentTasks(state.currentPack);
   const currentDoc = docs.find((row) => taskDocKey(row) === docId);
-  if (currentDoc?.selectable === false) {
+  if (!docIsActionable(currentDoc)) {
     return;
   }
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
