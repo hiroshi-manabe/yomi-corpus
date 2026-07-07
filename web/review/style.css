@@ -712,6 +712,10 @@ button:disabled {
   box-shadow: none;
 }
 
+.workflow-preview-item.yomi-card.all-safe {
+  opacity: 1;
+}
+
 .workflow-preview-item .yomi-controls {
   opacity: 0.5;
 }
@@ -1138,6 +1142,8 @@ button:disabled {
   border-color: transparent;
   background: transparent;
   color: inherit;
+  opacity: 1;
+  -webkit-text-fill-color: currentColor;
   cursor: default;
   box-shadow: none;
 }
