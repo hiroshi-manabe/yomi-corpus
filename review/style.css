@@ -1135,7 +1135,11 @@ button:disabled {
 }
 
 .ruby-token:disabled {
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
   cursor: default;
+  box-shadow: none;
 }
 
 .ruby-token.unresolved {
