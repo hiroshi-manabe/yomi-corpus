@@ -155,26 +155,35 @@ def _run_review_sync_pass_unlocked(
                     enabled=options.close_issues,
                 )
             )
-        if attempted_final_review_changed(
-            next_stage=next_stage,
-            result=result,
-            stage_changed=stage_changed,
-        ):
-            partial_results = maintain_strong_repair_for_reviewed_documents(
+        partial_results = maintain_strong_repair_for_reviewed_documents(
+            root=root,
+            workspace=workspace,
+            batch_name=batch_name,
+            allow_queue=attempted_final_review_changed(
+                next_stage=next_stage,
+                result=result,
+                stage_changed=stage_changed,
+            ),
+        )
+        for partial_result in partial_results:
+            partial_result["partial_document_workflow"] = True
+            stage_results.append(partial_result)
+            close_results.extend(
+                close_issues_after_stage(
+                    root=root,
+                    repo=options.repo,
+                    attempted_stage=str(partial_result.get("attempted_stage") or ""),
+                    result=partial_result,
+                    enabled=options.close_issues,
+                )
+            )
+        if partial_results:
+            after_partial_fingerprint = review_sync_fingerprint(
                 root=root,
-                workspace=workspace,
                 batch_name=batch_name,
             )
-            for partial_result in partial_results:
-                partial_result["partial_document_workflow"] = True
-                stage_results.append(partial_result)
-            if partial_results:
-                after_partial_fingerprint = review_sync_fingerprint(
-                    root=root,
-                    batch_name=batch_name,
-                )
-                if after_partial_fingerprint != after_fingerprint:
-                    changed = True
+            if after_partial_fingerprint != after_fingerprint:
+                changed = True
         if not result.get("advanced"):
             break
         if result.get("blocking_reason"):
@@ -244,22 +253,29 @@ def maintain_strong_repair_for_reviewed_documents(
     root: Path,
     workspace: PipelineWorkspace,
     batch_name: str,
+    allow_queue: bool,
 ) -> list[dict[str, Any]]:
     reviewed_units = root / "data" / "units" / batch_name / "units.yomi.reviewed.jsonl"
     if not reviewed_units.exists():
         return []
     results: list[dict[str, Any]] = []
-    queue_result = workspace._queue_yomi_strong_repair(batch_name)
-    queue_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_QUEUED
-    results.append(queue_result)
-    queued = int(
-        queue_result.get("artifacts", {}).get("yomi_strong_repair_queued") or 0
-    )
-    if queued <= 0:
-        return results
-    repair_result = workspace._run_yomi_strong_repair(batch_name)
-    repair_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED
-    results.append(repair_result)
+    if allow_queue:
+        queue_result = workspace._queue_yomi_strong_repair(batch_name)
+        queue_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_QUEUED
+        results.append(queue_result)
+        queued = int(
+            queue_result.get("artifacts", {}).get("yomi_strong_repair_queued") or 0
+        )
+        if queued > 0:
+            repair_result = workspace._run_yomi_strong_repair(batch_name)
+            repair_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED
+            results.append(repair_result)
+
+    strong_review_pack = root / "data" / "units" / batch_name / "yomi_strong_repair_review_pack.json"
+    if strong_review_pack.exists():
+        review_result = workspace._apply_strong_repair_review(batch_name)
+        review_result["attempted_stage"] = STAGE_YOMI_FINALIZED
+        results.append(review_result)
     return results
 
 
