@@ -110,6 +110,9 @@ Review transport policy:
 - `./review-sync <track>` is the operator entry point for polling review Issues,
   applying matching submissions, closing successfully applied Issues, and
   regenerating local review artifacts
+- review transport defaults live in `config/review_transport/default.toml`;
+  changing `repo`, `pages_url`, and `publish_mode` there is the intended path
+  toward separate dev/working review repositories
 - a review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-document pending/completed state

@@ -1623,6 +1623,19 @@ designed as if the split already existed: review repositories own Pages and
 Issues only; this repository remains the source of truth after importing and
 replaying submissions.
 
+Use `config/review_transport/default.toml` as the compatibility seam for that
+future split. Each track should declare:
+
+- `repo`: GitHub Issue mailbox for returned review submissions
+- `pages_url`: expected browser entry point for the static review UI
+- `publish_mode`: sync-time artifact behavior, one of `none`, `local`, or
+  `gh-pages`
+
+CLI overrides such as `./review-sync dev --repo ... --publish ...` are for
+one-off operations. Stable transport choices should live in config so moving
+`dev` and `working` to independent review repositories is mostly a configuration
+and publishing-adapter change.
+
 For yomi review, use the same transport model as alphabetic review: the cluster
 writes a review-pack JSON file, GitHub Pages displays it, the browser keeps
 local draft state, and the reviewer returns exported JSON through GitHub

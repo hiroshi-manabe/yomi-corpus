@@ -19,6 +19,12 @@ from yomi_corpus.pipeline import (
     PipelineWorkspace,
 )
 from yomi_corpus.review_site import publish_review_site
+from yomi_corpus.review_transport import (
+    PUBLISH_MODE_NONE,
+    PUBLISH_MODE_GH_PAGES,
+    PUBLISH_MODE_LOCAL,
+    PUBLISH_MODES,
+)
 
 
 SYNC_STAGE_ALLOWLIST = {
@@ -26,16 +32,6 @@ SYNC_STAGE_ALLOWLIST = {
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
     STAGE_YOMI_FINALIZED,
 }
-
-PUBLISH_MODE_NONE = "none"
-PUBLISH_MODE_LOCAL = "local"
-PUBLISH_MODE_GH_PAGES = "gh-pages"
-PUBLISH_MODES = {
-    PUBLISH_MODE_NONE,
-    PUBLISH_MODE_LOCAL,
-    PUBLISH_MODE_GH_PAGES,
-}
-
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -45,6 +41,7 @@ def now_iso() -> str:
 class ReviewSyncOptions:
     track_name: str
     repo: str = "hiroshi-manabe/yomi-corpus"
+    pages_url: str | None = None
     close_issues: bool = True
     publish_mode: str = PUBLISH_MODE_LOCAL
     max_stages: int = 10
@@ -165,6 +162,8 @@ def _run_review_sync_pass_unlocked(
         "schema_version": 1,
         "track_name": options.track_name,
         "repo": options.repo,
+        "pages_url": options.pages_url,
+        "publish_mode": options.publish_mode,
         "started_at": started_at,
         "completed_at": completed_at,
         "dry_run": options.dry_run,

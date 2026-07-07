@@ -13,12 +13,15 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from yomi_corpus.review_sync import (  # noqa: E402
-    PUBLISH_MODES,
-    PUBLISH_MODE_LOCAL,
     ReviewSyncOptions,
     compact_console_summary,
     run_review_sync_loop,
     run_review_sync_pass,
+)
+from yomi_corpus.review_transport import (  # noqa: E402
+    DEFAULT_REVIEW_TRANSPORT_CONFIG,
+    PUBLISH_MODES,
+    load_review_transport_config,
 )
 
 
@@ -33,8 +36,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--repo",
-        default="hiroshi-manabe/yomi-corpus",
+        default=None,
         help="GitHub repository in owner/name form.",
+    )
+    parser.add_argument(
+        "--transport-config",
+        default=DEFAULT_REVIEW_TRANSPORT_CONFIG,
+        help=f"Review transport TOML config. Default: {DEFAULT_REVIEW_TRANSPORT_CONFIG}.",
     )
     parser.add_argument(
         "--no-close-issues",
@@ -44,11 +52,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--publish",
         choices=sorted(PUBLISH_MODES),
-        default=PUBLISH_MODE_LOCAL,
+        default=None,
         help=(
             "Review artifact publish mode after a state-changing sync pass. "
             "'none' does not regenerate docs/review; 'local' regenerates docs/review; "
-            "'gh-pages' regenerates and runs ./publish-review. Default: local."
+            "'gh-pages' regenerates and runs ./publish-review. Defaults to transport config."
         ),
     )
     parser.add_argument(
@@ -83,11 +91,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    transport = load_review_transport_config(args.track, args.transport_config)
     options = ReviewSyncOptions(
         track_name=args.track,
-        repo=args.repo,
+        repo=args.repo or transport.repo,
+        pages_url=transport.pages_url,
         close_issues=not args.no_close_issues,
-        publish_mode=args.publish,
+        publish_mode=args.publish or transport.publish_mode,
         max_stages=args.max_stages,
         dry_run=args.dry_run,
     )

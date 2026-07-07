@@ -1554,6 +1554,23 @@ is a stable versioned contract:
 
 Until then, the monorepo layout is intentionally pragmatic.
 
+Review transport defaults should still be configured as if the split may happen
+later. `config/review_transport/default.toml` defines per-track transport
+values:
+
+```toml
+[tracks.dev]
+repo = "hiroshi-manabe/yomi-corpus"
+pages_url = "https://hiroshi-manabe.github.io/yomi-corpus/review/"
+publish_mode = "local"
+```
+
+`repo` is the GitHub Issue mailbox used by `./review-sync`. `pages_url` records
+where the static UI is expected to live. `publish_mode` controls the default
+artifact behavior for sync: `none`, `local`, or `gh-pages`. Moving `dev` or
+`working` review to a separate repository should primarily be a config change
+plus a publish adapter update, not a rewrite of review import or replay logic.
+
 Near-term dev trial: the next dev batch should use a small batch size, around
 10 documents, to test browser-selected work slices and partial returned
 submissions. Treat that run as a workflow/UI implementation trial rather than a
