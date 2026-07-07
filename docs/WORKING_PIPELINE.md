@@ -2069,6 +2069,38 @@ Operational requirements:
   should import Issues, update document states, publish updated review packs if
   needed, and start the next batch only when the current batch is complete
 
+### 11.2 Review sync command
+
+`./review-sync <track>` is the operator command for moving GitHub-Issue review
+work back into the local pipeline. It should be an idempotent polling command,
+not a long-running daemon at first.
+
+Responsibilities:
+
+- acquire a per-track lock so two syncs cannot overlap
+- import matching open GitHub Issues/comments for Bulk Review and Escalated
+  Repair
+- run the relevant apply stages for the active batch
+- close Issues only after every matching submission in that Issue was imported
+  and the corresponding pipeline apply step succeeded
+- leave invalid, unknown-pack, or not-yet-applicable Issues open
+- regenerate and publish review artifacts when queue state changes
+- write a machine-readable summary under `data/state/review_sync/`
+
+Default behavior should be conservative:
+
+- one invocation performs one bounded poll/apply/publish pass
+- a `--loop` option may repeat that pass with a sleep interval, making it
+  suitable for `cron`, `systemd --user`, or a terminal left open
+- closing Issues requires an explicit GitHub-authenticated environment; if the
+  close call fails, the sync still reports applied local state but leaves the
+  Issue open
+- the command should be safe to interrupt and safe to rerun
+
+This avoids daemon-specific failure modes while preserving the path to later
+automation. Once the command is stable, periodic execution can be done outside
+the project with cron or a lightweight scheduler.
+
 Browser-local task state is separate from imported pipeline state:
 
 - `Deferred local tasks` are in-progress browser drafts that can be resumed or
