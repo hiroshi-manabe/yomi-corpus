@@ -155,6 +155,26 @@ def _run_review_sync_pass_unlocked(
                     enabled=options.close_issues,
                 )
             )
+        if attempted_final_review_changed(
+            next_stage=next_stage,
+            result=result,
+            stage_changed=stage_changed,
+        ):
+            partial_results = maintain_strong_repair_for_reviewed_documents(
+                root=root,
+                workspace=workspace,
+                batch_name=batch_name,
+            )
+            for partial_result in partial_results:
+                partial_result["partial_document_workflow"] = True
+                stage_results.append(partial_result)
+            if partial_results:
+                after_partial_fingerprint = review_sync_fingerprint(
+                    root=root,
+                    batch_name=batch_name,
+                )
+                if after_partial_fingerprint != after_fingerprint:
+                    changed = True
         if not result.get("advanced"):
             break
         if result.get("blocking_reason"):
@@ -203,6 +223,46 @@ def should_run_stage(*, root: Path, batch_name: str, next_stage: str) -> bool:
     return False
 
 
+def attempted_final_review_changed(
+    *,
+    next_stage: str,
+    result: dict[str, Any],
+    stage_changed: bool,
+) -> bool:
+    if next_stage != STAGE_FINAL_REVIEW_APPLIED:
+        return False
+    if not stage_changed:
+        return False
+    artifacts = result.get("artifacts")
+    if not isinstance(artifacts, dict):
+        return False
+    return bool(artifacts.get("final_review_apply_summary_json"))
+
+
+def maintain_strong_repair_for_reviewed_documents(
+    *,
+    root: Path,
+    workspace: PipelineWorkspace,
+    batch_name: str,
+) -> list[dict[str, Any]]:
+    reviewed_units = root / "data" / "units" / batch_name / "units.yomi.reviewed.jsonl"
+    if not reviewed_units.exists():
+        return []
+    results: list[dict[str, Any]] = []
+    queue_result = workspace._queue_yomi_strong_repair(batch_name)
+    queue_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_QUEUED
+    results.append(queue_result)
+    queued = int(
+        queue_result.get("artifacts", {}).get("yomi_strong_repair_queued") or 0
+    )
+    if queued <= 0:
+        return results
+    repair_result = workspace._run_yomi_strong_repair(batch_name)
+    repair_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED
+    results.append(repair_result)
+    return results
+
+
 def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:
     paths = [
         root / "data" / "pipeline" / "batches" / f"{batch_name}.json",
@@ -214,7 +274,12 @@ def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | N
         / "review_packs"
         / "yomi_final"
         / f"yomi_final_{batch_name}_v1.json",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_queue.jsonl",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_queue_summary.json",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_results.jsonl",
+        root / "data" / "units" / batch_name / "yomi_strong_repair_usage_summary.json",
         root / "data" / "units" / batch_name / "yomi_strong_repair_apply_summary.json",
+        root / "data" / "units" / batch_name / "units.yomi.strong_repaired.jsonl",
         root / "data" / "units" / batch_name / "yomi_strong_repair_review_pack.json",
         root
         / "data"
