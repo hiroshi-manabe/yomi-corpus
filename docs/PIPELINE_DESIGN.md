@@ -1839,6 +1839,11 @@ Design constraints:
 - review packs should expose queue-view metadata such as `queue_member` and
   `selectable`; UI queue panels should use those fields instead of inferring
   membership from whether a document row exists in a pack.
+- the human-facing dashboard should present non-actionable post-submission
+  states as submitted/processing. For example, `final_reviewed` or
+  `strong_pending` without completed repair results should not appear as
+  `Resolved`; it should stay submitted until backend processing either creates
+  an actionable Escalated Repair task or marks the document complete.
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
   selected document IDs or range
 - greyed-out/completed state comes from imported pipeline queue state, not from

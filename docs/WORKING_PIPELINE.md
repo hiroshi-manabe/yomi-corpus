@@ -2079,6 +2079,12 @@ Operational requirements:
   results. A document can be internally marked as needing repair before the
   repair LLM has run, but it should not become an actionable Escalated Repair
   review task until at least one proposal/result is available.
+- in the human-facing dashboard, a document that has left Bulk Review but has
+  not yet become an actionable Escalated Repair task should be shown as
+  `Submitted`, not as `Resolved` or as an active repair task. Backend states
+  such as `final_reviewed` or non-actionable `strong_pending` remain internal
+  processing states until sync/import/LLM repair creates the next actionable
+  queue or completes the document.
 - submission payloads must carry stable document IDs, item IDs, queue/stage IDs,
   pack IDs, selected range/subset metadata, and source Issue/comment IDs
 - browser draft state should be keyed by `pack_id`, `queue_id`, and selected
@@ -2215,6 +2221,8 @@ metadata. The dashboard should render active queue panels from `queue_member`
 and `selectable`, not from the mere presence of a document row in a pack. This
 prevents states such as the same document being simultaneously shown in Bulk
 Review and Escalated Repair.
+Documents that are canonical pending but not actionable should be rendered as
+submitted/processing in the Pack Map.
 
 Display:
 

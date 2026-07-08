@@ -869,7 +869,6 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-legend-inline">
         <span><span class="workflow-dot submitted"></span>Submitted</span>
-        <span><span class="workflow-dot waiting"></span>Waiting</span>
         <span><span class="workflow-dot resolved"></span>Resolved</span>
         <span><span class="workflow-dot strong"></span>Strong Repair</span>
         <span><span class="workflow-dot final"></span>Final Review</span>
@@ -1143,10 +1142,8 @@ function workflowPreviewMetaText(row, items, actionDoc) {
       : row.status === "resolved"
         ? "Resolved"
         : row.status === "submitted"
-          ? "Submitted locally"
-          : row.status === "waiting"
-            ? "Waiting"
-            : "No active review";
+          ? (row.completed_via || "Submitted")
+          : "No active review";
   const itemText = `${items.length} item(s)`;
   if (actionDoc) {
     return `${statusLabel} · ${itemText} · click Start to work on this document`;
@@ -1220,10 +1217,11 @@ function workflowDocumentStates(docs) {
       !["submitted", "final", "strong"].includes(row.status) &&
       documentHasPendingCanonicalState(doc)
     ) {
-      row.status = "waiting";
-      row.completed_via = waitingWorkflowLabel(doc);
+      row.status = "submitted";
+      row.submitted = docIsSubmittedLocally(doc);
+      row.completed_via = submittedWorkflowLabel(doc);
     } else if (
-      !["submitted", "waiting", "final", "strong"].includes(row.status) &&
+      !["submitted", "final", "strong"].includes(row.status) &&
       Number(doc.item_count || 0) > 0
     ) {
       row.status = "resolved";
@@ -1247,15 +1245,15 @@ function documentHasPendingCanonicalState(doc) {
   );
 }
 
-function waitingWorkflowLabel(doc) {
+function submittedWorkflowLabel(doc) {
   const stateName = String(doc?.state || "");
   if (stateName.startsWith("strong_")) {
-    return "Waiting for repair results";
+    return "Submitted, waiting for repair processing";
   }
   if (stateName === "final_reviewed") {
-    return "Waiting for next queue";
+    return "Submitted, waiting for processing";
   }
-  return "Waiting";
+  return "Submitted, waiting for import";
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
@@ -1271,9 +1269,6 @@ function workflowDocumentStateForQueueDoc(doc) {
 
 function workflowStatusGlyph(status) {
   if (status === "submitted") {
-    return "…";
-  }
-  if (status === "waiting") {
     return "…";
   }
   if (status === "resolved") {
