@@ -693,8 +693,23 @@ button:disabled {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 14px;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  background: transparent;
   border-top: 1px solid rgba(31, 28, 23, 0.08);
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
   padding: 10px 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.workflow-resolved-row:hover,
+.workflow-resolved-row:focus-visible {
+  color: var(--accent);
+  background: rgba(45, 106, 79, 0.06);
 }
 
 .workflow-preview-modal {

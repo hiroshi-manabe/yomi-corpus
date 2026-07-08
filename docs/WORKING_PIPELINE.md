@@ -2227,6 +2227,14 @@ submitted/processing in the Pack Map, inside their previous visible bucket.
 Every document should be visible in exactly one of the three user-facing
 buckets: Bulk Review, Escalated Repair, or Resolved.
 
+Pack Map is the read-only overview for the whole active pack. It should include
+resolved documents as well as active and submitted documents. Clicking a Pack
+Map document opens an in-place preview. If the browser has an active, deferred,
+or submitted local draft for that document, the preview may overlay that draft
+so the reviewer sees the latest local state. This never changes canonical queue
+membership; only imported pipeline state moves a document between Bulk Review,
+Escalated Repair, and Resolved.
+
 Display:
 
 - the current best-effort yomi-annotated sentence
