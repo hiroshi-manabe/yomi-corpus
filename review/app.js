@@ -336,6 +336,7 @@ async function openUnifiedReview() {
     sources.push({ meta: source, pack });
   }
   const unified = buildUnifiedReviewPack(sources);
+  pruneSourceDraftsForUnifiedReview(sources);
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -347,6 +348,42 @@ async function openUnifiedReview() {
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
   render();
+}
+
+function pruneSourceDraftsForUnifiedReview(sources) {
+  for (const { pack } of sources || []) {
+    pruneDraftForPack(pack);
+  }
+}
+
+function pruneDraftForPack(pack) {
+  if (!pack?.review_stage || !pack?.pack_id) {
+    return;
+  }
+  const key = draftStorageKey(pack.review_stage, pack.pack_id);
+  const raw = window.localStorage.getItem(key);
+  if (!raw) {
+    return;
+  }
+  try {
+    const normalized = normalizeReviewDraft(JSON.parse(raw), pack);
+    if (draftHasLocalWork(normalized)) {
+      window.localStorage.setItem(key, JSON.stringify(normalized));
+    } else {
+      window.localStorage.removeItem(key);
+    }
+  } catch {
+    window.localStorage.removeItem(key);
+  }
+}
+
+function draftHasLocalWork(draft) {
+  return Boolean(
+    draft?.active_task_id ||
+      Object.keys(draft?.saved_tasks || {}).length > 0 ||
+      Object.keys(draft?.overrides || {}).length > 0 ||
+      draft?.task?.doc_ids?.length > 0,
+  );
 }
 
 function latestDevYomiReviewSources() {
