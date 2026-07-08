@@ -1208,11 +1208,16 @@ function mergeResolvedStrongRepairPreviewItems(finalItems, strongItems) {
   }
   return finalItems.map((item) => {
     const strongItem = strongByUnit.get(String(item.unit_id || ""));
+    const baseResolvedItem = {
+      ...item,
+      resolved_preview_rendered_yomi: item.rendered_yomi || "",
+      resolved_preview_ruby_tokens: item.rendered_yomi_ruby_tokens || [],
+    };
     if (!strongItem) {
-      return item;
+      return baseResolvedItem;
     }
     return {
-      ...item,
+      ...baseResolvedItem,
       resolved_preview_rendered_yomi: strongItem.rendered_yomi_after,
       resolved_preview_ruby_tokens: strongItem.rendered_yomi_after_ruby_tokens || [],
       resolved_preview_source_item_id: strongItem.item_id,
@@ -1255,11 +1260,11 @@ function renderPreviewItem(item) {
   const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
   node.classList.add("workflow-preview-item");
   const override = state.currentDraft?.overrides?.[item.item_id] || null;
+  if (item.resolved_preview_rendered_yomi) {
+    renderResolvedYomiPreviewItem({ node, item });
+    return node;
+  }
   if (itemReviewStage(item) === "yomi_final_review") {
-    if (item.resolved_preview_rendered_yomi) {
-      renderResolvedYomiPreviewItem({ node, item });
-      return node;
-    }
     renderYomiItem({ node, item, override, editable: false, isFrom: false, isTo: false });
     return node;
   }
@@ -1276,10 +1281,9 @@ function renderPreviewItem(item) {
 
 function renderResolvedYomiPreviewItem({ node, item }) {
   node.innerHTML = "";
-  node.classList.add("yomi-card");
-  node.classList.add("resolved-strong-preview");
+  node.classList.add("resolved-yomi-preview");
   const rubyLine = document.createElement("p");
-  rubyLine.className = "ruby-line";
+  rubyLine.className = "ruby-line resolved-ruby-line";
   const tokens = parseRenderedYomiTokens(item.resolved_preview_rendered_yomi || "");
   rubyLine.append(...renderReadonlyRubyFromTokensWithNodes(tokens, item.resolved_preview_ruby_tokens || []));
   node.append(rubyLine);
@@ -3632,6 +3636,10 @@ function itemReviewStage(item) {
   return item.source_review_stage || state.currentPack?.review_stage || "";
 }
 
+function itemReviewStageForPack(item, pack) {
+  return item.source_review_stage || pack?.review_stage || "";
+}
+
 function originalItemId(item) {
   return item.original_item_id || item.item_id;
 }
@@ -3733,7 +3741,7 @@ function buildDocumentTasks(pack) {
       if (!docId) {
         continue;
       }
-      const key = isUnifiedReviewPack(pack) ? queueDocKey(itemReviewStage(item), docId) : docId;
+      const key = isUnifiedReviewPack(pack) ? queueDocKey(itemReviewStageForPack(item, pack), docId) : docId;
       if (!itemStats.has(key)) {
         itemStats.set(key, {
           from_seq: item.seq,
@@ -3749,10 +3757,10 @@ function buildDocumentTasks(pack) {
       stats.to_seq = Math.max(stats.to_seq, item.seq);
       stats.item_count += 1;
       stats.unresolved_count += Number(item.unresolved_target_count ?? item.region_count ?? 0);
-      if (itemReviewStage(item) === "yomi_final_review") {
+      if (itemReviewStageForPack(item, pack) === "yomi_final_review") {
         stats.final_item_count += 1;
       }
-      if (itemReviewStage(item) === "yomi_strong_repair_review") {
+      if (itemReviewStageForPack(item, pack) === "yomi_strong_repair_review") {
         stats.strong_repair_item_count += 1;
       }
     }
@@ -3838,6 +3846,37 @@ function normalizeTask(task, pack) {
     range_start_doc_id: validDocIds.has(task?.range_start_doc_id) ? task.range_start_doc_id : null,
     range_end_doc_id: validDocIds.has(task?.range_end_doc_id) ? task.range_end_doc_id : null,
   };
+}
+
+function itemIdsForTaskDocIds(pack, docIds) {
+  const docIdSet = new Set((docIds || []).map(String));
+  if (docIdSet.size === 0) {
+    return new Set();
+  }
+  const itemIds = new Set();
+  for (const item of pack?.items || []) {
+    const docKey = isUnifiedReviewPack(pack)
+      ? queueDocKey(itemReviewStageForPack(item, pack), item.doc_id)
+      : item.doc_id;
+    if (docIdSet.has(docKey)) {
+      itemIds.add(item.item_id);
+    }
+  }
+  return itemIds;
+}
+
+function filterOverridesForTask(pack, task, overrides) {
+  if (!overrides || task.mode !== "documents" || task.doc_ids.length === 0) {
+    return {};
+  }
+  const itemIds = itemIdsForTaskDocIds(pack, task.doc_ids);
+  const filtered = {};
+  for (const [itemId, override] of Object.entries(overrides || {})) {
+    if (itemIds.has(itemId)) {
+      filtered[itemId] = override;
+    }
+  }
+  return filtered;
 }
 
 function taskQueueStage(task) {
@@ -4326,7 +4365,9 @@ function loadDraft(pack) {
   }
   try {
     const parsed = JSON.parse(raw);
-    return normalizeReviewDraft(parsed, pack);
+    const draft = normalizeReviewDraft(parsed, pack);
+    window.localStorage.setItem(key, JSON.stringify(draft));
+    return draft;
   } catch {
     return createEmptyDraft(pack);
   }
@@ -4334,12 +4375,14 @@ function loadDraft(pack) {
 
 function normalizeReviewDraft(parsed, pack) {
   const base = createEmptyDraft(pack);
+  const activeTask = normalizeTask(parsed?.task, pack);
+  const activeTaskIsValid = activeTask.mode === "documents" && activeTask.doc_ids.length > 0;
   const draft = {
     ...base,
     ...parsed,
     schema_version: 2,
-    task: normalizeTask(parsed?.task, pack),
-    overrides: parsed?.overrides || {},
+    task: activeTaskIsValid ? activeTask : base.task,
+    overrides: activeTaskIsValid ? filterOverridesForTask(pack, activeTask, parsed?.overrides || {}) : {},
     saved_tasks: {},
     next_task_number: Math.max(1, Number(parsed?.next_task_number || 1)),
   };
@@ -4361,7 +4404,7 @@ function normalizeReviewDraft(parsed, pack) {
       task: { ...task, started: false },
       from_seq: rawRecord?.from_seq ?? null,
       to_seq: rawRecord?.to_seq ?? null,
-      overrides: rawRecord?.overrides || {},
+      overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
     };
@@ -4369,9 +4412,10 @@ function normalizeReviewDraft(parsed, pack) {
 
   draft.active_task_id = parsed?.active_task_id || null;
   draft.active_task_label = parsed?.active_task_label || draft.active_task_id || null;
-  if (!draft.task.started) {
+  if (!draft.task.started || draft.task.mode !== "documents" || draft.task.doc_ids.length === 0) {
     draft.active_task_id = null;
     draft.active_task_label = null;
+    draft.overrides = {};
   }
   if (draft.active_task_id) {
     maxTaskNumber = Math.max(maxTaskNumber, taskNumberFromId(draft.active_task_id) || 0);
