@@ -1048,13 +1048,14 @@ function openWorkflowDocumentPreview(docSeq) {
   if (!el.workflowPreviewModal || !state.currentPack) {
     return;
   }
-  const docs = buildActionableDocumentTasks(state.currentPack);
+  const docs = buildDocumentTasks(state.currentPack);
   const row = workflowDocumentStates(docs).find((candidate) => Number(candidate.doc_seq) === Number(docSeq));
   if (!row) {
     return;
   }
   const previewItems = workflowPreviewItemsForDocument(row);
   const actionDoc = workflowPreviewActionDocument(docs, row);
+  const previewDraft = workflowPreviewDraftForRow(row);
   el.workflowPreviewTitle.textContent = `Document ${row.doc_seq}`;
   el.workflowPreviewMeta.textContent = workflowPreviewMetaText(row, previewItems, actionDoc);
   el.workflowPreviewBody.innerHTML = "";
@@ -1065,13 +1066,15 @@ function openWorkflowDocumentPreview(docSeq) {
     el.workflowPreviewBody.append(empty);
   } else {
     let lastDocId = null;
-    for (const item of previewItems) {
-      if (item.doc_id && item.doc_id !== lastDocId) {
-        el.workflowPreviewBody.append(renderDocumentSeparator(item));
-        lastDocId = item.doc_id;
+    withTemporaryPreviewDraft(previewDraft, () => {
+      for (const item of previewItems) {
+        if (item.doc_id && item.doc_id !== lastDocId) {
+          el.workflowPreviewBody.append(renderDocumentSeparator(item));
+          lastDocId = item.doc_id;
+        }
+        el.workflowPreviewBody.append(renderPreviewItem(item));
       }
-      el.workflowPreviewBody.append(renderPreviewItem(item));
-    }
+    });
   }
 
   el.workflowPreviewActions.innerHTML = "";
@@ -1095,6 +1098,55 @@ function openWorkflowDocumentPreview(docSeq) {
   }
 
   el.workflowPreviewModal.classList.remove("hidden");
+}
+
+function withTemporaryPreviewDraft(previewDraft, callback) {
+  if (!previewDraft) {
+    callback();
+    return;
+  }
+  const originalDraft = state.currentDraft;
+  state.currentDraft = previewDraft;
+  try {
+    callback();
+  } finally {
+    state.currentDraft = originalDraft;
+  }
+}
+
+function workflowPreviewDraftForRow(row) {
+  const docKeys = workflowDocKeysForSeq(row.doc_seq);
+  if (!docKeys.length) {
+    return null;
+  }
+  const activeTask = normalizeTask(state.currentDraft.task, state.currentPack);
+  if (
+    activeTask.mode === "documents" &&
+    activeTask.doc_ids.some((docId) => docKeys.includes(docId))
+  ) {
+    return state.currentDraft;
+  }
+  const saved = listSavedTaskDrafts().find(
+    (record) =>
+      Array.isArray(record.task?.doc_ids) &&
+      record.task.doc_ids.some((docId) => docKeys.includes(docId)),
+  );
+  if (!saved) {
+    return null;
+  }
+  return {
+    ...state.currentDraft,
+    task: saved.task,
+    from_seq: saved.from_seq ?? null,
+    to_seq: saved.to_seq ?? null,
+    overrides: cloneJson(saved.overrides || {}),
+  };
+}
+
+function workflowDocKeysForSeq(docSeq) {
+  return buildDocumentTasks(state.currentPack)
+    .filter((doc) => Number(doc.doc_seq) === Number(docSeq))
+    .map((doc) => taskDocKey(doc));
 }
 
 function closeWorkflowDocumentPreview() {
