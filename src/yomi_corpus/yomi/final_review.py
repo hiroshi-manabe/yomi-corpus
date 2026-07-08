@@ -233,7 +233,15 @@ def build_yomi_strong_repair_review_pack(
             rows_by_unit.setdefault(unit_id, []).append(queue_row)
 
     items = []
-    for seq, (unit_id, unit_queue_rows) in enumerate(rows_by_unit.items(), start=1):
+    reviewable_rows_by_unit: dict[str, list[dict[str, Any]]] = {}
+    for unit_id, unit_queue_rows in rows_by_unit.items():
+        for queue_row in unit_queue_rows:
+            item_id = str(queue_row.get("item_id") or "")
+            if item_id and item_id in result_rows:
+                reviewable_rows_by_unit.setdefault(unit_id, []).append(queue_row)
+
+    items = []
+    for seq, (unit_id, unit_queue_rows) in enumerate(reviewable_rows_by_unit.items(), start=1):
         unit = units_by_id.get(unit_id, {})
         doc_id = str(unit.get("doc_id") or "")
         regions = [
@@ -277,6 +285,9 @@ def build_yomi_strong_repair_review_pack(
             "selectable_document_count": sum(1 for doc in documents if doc.get("selectable")),
             "document_state_counts": document_state_counts(documents),
             "repaired_item_count": len(items),
+            "queued_repair_row_count": len(queue_rows),
+            "result_row_count": len(result_rows),
+            "reviewable_repair_row_count": sum(len(rows) for rows in reviewable_rows_by_unit.values()),
         },
         "documents": documents,
         "items": items,
@@ -343,11 +354,14 @@ def with_queue_document_metadata(
             state_row.get("state")
             or default_document_state_for_queue(queue_id, int(stats.get("item_count") or 0))
         )
-        queue_member = document_belongs_to_queue(queue_id=queue_id, state=state)
+        item_count = int(stats.get("item_count") or 0)
+        queue_member = (
+            item_count > 0 and document_belongs_to_queue(queue_id=queue_id, state=state)
+        )
         selectable = document_is_selectable_for_queue(
             queue_id=queue_id,
             state=state,
-            item_count=int(stats.get("item_count") or 0),
+            item_count=item_count,
         )
         enriched.append(
             {
@@ -357,7 +371,7 @@ def with_queue_document_metadata(
                 "queue_member": queue_member,
                 "selectable": selectable,
                 "state_updated_at": str(state_row.get("updated_at") or ""),
-                "item_count": int(stats.get("item_count") or 0),
+                "item_count": item_count,
                 "region_count": int(stats.get("region_count") or 0),
                 "unresolved_count": int(stats.get("unresolved_count") or 0),
                 "from_seq": stats.get("from_seq"),

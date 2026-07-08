@@ -2075,6 +2075,10 @@ Operational requirements:
   queue-view metadata such as `queue_member` and `selectable`. The UI should
   use `queue_member` to decide whether a document belongs in a queue panel; the
   Pack Map may still show all documents from the batch.
+- Escalated Repair review packs should expose only rows with completed repair
+  results. A document can be internally marked as needing repair before the
+  repair LLM has run, but it should not become an actionable Escalated Repair
+  review task until at least one proposal/result is available.
 - submission payloads must carry stable document IDs, item IDs, queue/stage IDs,
   pack IDs, selected range/subset metadata, and source Issue/comment IDs
 - browser draft state should be keyed by `pack_id`, `queue_id`, and selected
