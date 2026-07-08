@@ -756,8 +756,8 @@ function renderTaskSelector() {
 
 function renderUnifiedTaskQueues(docs, task) {
   for (const queue of [
-    { stage: "yomi_final_review", title: "Final review" },
-    { stage: "yomi_strong_repair_review", title: "Strong repair" },
+    { stage: "yomi_final_review", title: "Bulk Review" },
+    { stage: "yomi_strong_repair_review", title: "Escalated Repair" },
   ]) {
     const section = document.createElement("section");
     section.className = "task-queue-panel";
@@ -839,16 +839,16 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       docs: allDocs,
       task,
       queueStage: "yomi_final_review",
-      title: "Final Review Queue",
-      actionLabel: "Start Final Review",
+      title: "Bulk Review",
+      actionLabel: "Start Bulk Review",
       takeNextCount: 5,
     }),
     renderWorkflowQueue({
       docs: allDocs,
       task,
       queueStage: "yomi_strong_repair_review",
-      title: "Strong Repair Queue",
-      actionLabel: "Start Strong Repair",
+      title: "Escalated Repair",
+      actionLabel: "Start Escalated Repair",
       takeNextCount: 2,
     }),
   );
@@ -868,10 +868,9 @@ function renderWorkflowPackMap(docs) {
         <p class="muted">Status of all documents in this pack.</p>
       </div>
       <div class="workflow-legend-inline">
-        <span><span class="workflow-dot submitted"></span>Submitted</span>
         <span><span class="workflow-dot resolved"></span>Resolved</span>
-        <span><span class="workflow-dot strong"></span>Strong Repair</span>
-        <span><span class="workflow-dot final"></span>Final Review</span>
+        <span><span class="workflow-dot strong"></span>Escalated Repair</span>
+        <span><span class="workflow-dot final"></span>Bulk Review</span>
       </div>
     </div>
   `;
@@ -887,13 +886,14 @@ function renderWorkflowPackMap(docs) {
 function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeNextCount }) {
   const section = document.createElement("section");
   section.className = `workflow-queue ${queueStage === "yomi_final_review" ? "final" : "strong"}`;
-  const queueDocs = docs
-    .filter((doc) => doc.queue_stage === queueStage && documentBelongsToQueue(queueStage, doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  const queueDocs = dedupeWorkflowQueueDocs(
+    docs.filter((doc) => workflowDocBelongsInQueue(doc, queueStage)),
+    queueStage,
+  );
   const actionableDocs = queueDocs.filter((doc) => docIsActionable(doc));
   const selectedDocs = actionableDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
   const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queueStage);
-  const submittedCount = queueDocs.length - actionableDocs.length;
+  const submittedCount = queueDocs.filter((doc) => doc.selectable === false || docIsSubmittedLocally(doc)).length;
   const heading = document.createElement("div");
   heading.className = "workflow-heading";
   heading.innerHTML = `
@@ -1027,15 +1027,16 @@ function renderWorkflowTile(row, { compact }) {
   const tile = document.createElement("button");
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
-  tile.disabled = row.status === "not-started" || (compact && row.status === "submitted");
+  tile.classList.toggle("submitted", Boolean(row.submitted));
+  tile.disabled = row.status === "not-started" || (compact && row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.doc_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
-  } else if (row.status === "submitted") {
-    tile.title = "Submitted locally. Reopen it from Submitted local tasks to edit.";
+  } else if (row.submitted) {
+    tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
   if (!compact) {
     tile.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
@@ -1079,8 +1080,8 @@ function openWorkflowDocumentPreview(docSeq) {
     startButton.type = "button";
     startButton.textContent =
       actionDoc.queue_stage === "yomi_strong_repair_review"
-        ? "Start Strong Repair"
-        : "Start Final Review";
+        ? "Start Escalated Repair"
+        : "Start Bulk Review";
     startButton.addEventListener("click", () => {
       closeWorkflowDocumentPreview();
       startSingleDocumentTask(actionDoc);
@@ -1136,17 +1137,18 @@ function workflowPreviewActionDocument(docs, row) {
 
 function workflowPreviewMetaText(row, items, actionDoc) {
   const statusLabel = row.status === "strong"
-    ? "Strong Repair"
+    ? "Escalated Repair"
     : row.status === "final"
-      ? "Final Review"
+      ? "Bulk Review"
       : row.status === "resolved"
         ? "Resolved"
-        : row.status === "submitted"
-          ? (row.completed_via || "Submitted")
-          : "No active review";
+        : "No active review";
   const itemText = `${items.length} item(s)`;
   if (actionDoc) {
     return `${statusLabel} · ${itemText} · click Start to work on this document`;
+  }
+  if (row.submitted) {
+    return `${statusLabel} · ${itemText} · ${row.completed_via || "Submitted"}`;
   }
   return `${statusLabel} · ${itemText}`;
 }
@@ -1196,39 +1198,24 @@ function workflowDocumentStates(docs) {
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
-    if (doc.queue_stage === "yomi_final_review" && docIsActionable(doc)) {
+    const bucketStatus = workflowDocumentBucketStatus(doc);
+    if (bucketStatus === "final") {
       row.status = "final";
-      row.completed_via = "";
-    } else if (
-      row.status !== "final" &&
-      doc.queue_stage === "yomi_strong_repair_review" &&
-      docIsActionable(doc)
-    ) {
+      row.submitted = row.submitted || !docIsActionable(doc);
+      row.completed_via = docIsActionable(doc) ? "" : submittedWorkflowLabel(doc);
+    } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
-      row.completed_via = "";
+      row.submitted = row.submitted || !docIsActionable(doc);
+      row.completed_via = docIsActionable(doc) ? "" : submittedWorkflowLabel(doc);
     } else if (
       !["final", "strong"].includes(row.status) &&
-      docIsSubmittedLocally(doc)
-    ) {
-      row.status = "submitted";
-      row.submitted = true;
-      row.completed_via = "Submitted locally";
-    } else if (
-      !["submitted", "final", "strong"].includes(row.status) &&
-      documentHasPendingCanonicalState(doc)
-    ) {
-      row.status = "submitted";
-      row.submitted = docIsSubmittedLocally(doc);
-      row.completed_via = submittedWorkflowLabel(doc);
-    } else if (
-      !["submitted", "final", "strong"].includes(row.status) &&
       Number(doc.item_count || 0) > 0
     ) {
       row.status = "resolved";
       row.completed_via =
         doc.queue_stage === "yomi_strong_repair_review"
-          ? "Resolved after strong repair"
-          : "Final review only";
+          ? "Resolved after Escalated Repair"
+          : "Bulk Review only";
     }
   }
   return [...bySeq.values()].sort((left, right) => left.doc_seq - right.doc_seq);
@@ -1256,21 +1243,43 @@ function submittedWorkflowLabel(doc) {
   return "Submitted, waiting for import";
 }
 
+function pendingSourceQueueStatus(doc) {
+  const stateName = String(doc?.state || "");
+  if (doc.queue_stage === "yomi_strong_repair_review" && docIsActionable(doc)) {
+    return "strong";
+  }
+  return "final";
+}
+
+function submittedSourceQueueStatus(doc) {
+  const taskKey = taskDocKey(doc);
+  const submittedTask = listSavedTaskDrafts().find(
+    (record) =>
+      taskRecordStatus(record) === "submitted" &&
+      Array.isArray(record.task?.doc_ids) &&
+      record.task.doc_ids.includes(taskKey),
+  );
+  if (submittedTask?.queue_stage === "yomi_strong_repair_review") {
+    return "strong";
+  }
+  if (submittedTask?.queue_stage === "yomi_final_review") {
+    return "final";
+  }
+  return pendingSourceQueueStatus(doc);
+}
+
 function workflowDocumentStateForQueueDoc(doc) {
+  const submitted = docIsSubmittedLocally(doc) || (doc.selectable === false && documentHasPendingCanonicalState(doc));
   return {
     doc_seq: doc.doc_seq,
-    status: docIsSubmittedLocally(doc)
-      ? "submitted"
-      : doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
+    status: doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
     preview: doc.preview || "",
-    submitted: docIsSubmittedLocally(doc),
+    submitted,
+    completed_via: submitted ? submittedWorkflowLabel(doc) : "",
   };
 }
 
 function workflowStatusGlyph(status) {
-  if (status === "submitted") {
-    return "…";
-  }
   if (status === "resolved") {
     return "✓";
   }
@@ -1281,6 +1290,61 @@ function workflowStatusGlyph(status) {
     return "F";
   }
   return "–";
+}
+
+function workflowDocBelongsInQueue(doc, queueStage) {
+  return workflowDocumentBucketStatus(doc) === queueStatusForStage(queueStage);
+}
+
+function workflowDocumentBucketStatus(doc) {
+  if (doc.queue_stage === "yomi_final_review" && docIsActionable(doc)) {
+    return "final";
+  }
+  if (doc.queue_stage === "yomi_strong_repair_review" && docIsActionable(doc)) {
+    return "strong";
+  }
+  if (documentHasPendingCanonicalState(doc)) {
+    return pendingSourceQueueStatus(doc);
+  }
+  if (docIsSubmittedLocally(doc)) {
+    return submittedSourceQueueStatus(doc);
+  }
+  return null;
+}
+
+function queueStatusForStage(queueStage) {
+  if (queueStage === "yomi_final_review") {
+    return "final";
+  }
+  if (queueStage === "yomi_strong_repair_review") {
+    return "strong";
+  }
+  return null;
+}
+
+function dedupeWorkflowQueueDocs(docs, queueStage) {
+  const bySeq = new Map();
+  for (const doc of docs) {
+    const seq = Number(doc.doc_seq || 0);
+    const current = bySeq.get(seq);
+    if (!current || workflowQueueDocRank(doc, queueStage) < workflowQueueDocRank(current, queueStage)) {
+      bySeq.set(seq, doc);
+    }
+  }
+  return [...bySeq.values()].sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+}
+
+function workflowQueueDocRank(doc, queueStage) {
+  if (doc.queue_stage === queueStage && docIsActionable(doc)) {
+    return 0;
+  }
+  if (doc.queue_stage === queueStage && Number(doc.item_count || 0) > 0) {
+    return 1;
+  }
+  if (Number(doc.item_count || 0) > 0) {
+    return 2;
+  }
+  return 3;
 }
 
 function buildWorkflowDocSelect(docs, selectedDoc) {
@@ -2456,7 +2520,7 @@ function renderNumericMergeButton(item, target, digits, side, override, editable
   button.disabled = !editable;
   button.title = active
     ? "Numeric merge is active; tap to clear."
-    : "Merge this number with the no-ruby target for strong repair.";
+    : "Merge this number with the no-ruby target for Escalated Repair.";
   button.textContent = digits;
   if (editable) {
     button.addEventListener("click", () => toggleNumericMergeSpan(item, span));
@@ -3637,10 +3701,10 @@ function selectableDocsForCurrentTask(docs, task, queueStage = null) {
 
 function formatReviewStageLabel(stage) {
   if (stage === "yomi_final_review") {
-    return "final";
+    return "bulk review";
   }
   if (stage === "yomi_strong_repair_review") {
-    return "strong repair";
+    return "escalated repair";
   }
   return stage || "review";
 }
