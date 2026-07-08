@@ -869,6 +869,7 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-legend-inline">
         <span><span class="workflow-dot submitted"></span>Submitted</span>
+        <span><span class="workflow-dot waiting"></span>Waiting</span>
         <span><span class="workflow-dot resolved"></span>Resolved</span>
         <span><span class="workflow-dot strong"></span>Strong Repair</span>
         <span><span class="workflow-dot final"></span>Final Review</span>
@@ -1143,7 +1144,9 @@ function workflowPreviewMetaText(row, items, actionDoc) {
         ? "Resolved"
         : row.status === "submitted"
           ? "Submitted locally"
-          : "No active review";
+          : row.status === "waiting"
+            ? "Waiting"
+            : "No active review";
   const itemText = `${items.length} item(s)`;
   if (actionDoc) {
     return `${statusLabel} · ${itemText} · click Start to work on this document`;
@@ -1215,6 +1218,12 @@ function workflowDocumentStates(docs) {
       row.completed_via = "Submitted locally";
     } else if (
       !["submitted", "final", "strong"].includes(row.status) &&
+      documentHasPendingCanonicalState(doc)
+    ) {
+      row.status = "waiting";
+      row.completed_via = waitingWorkflowLabel(doc);
+    } else if (
+      !["submitted", "waiting", "final", "strong"].includes(row.status) &&
       Number(doc.item_count || 0) > 0
     ) {
       row.status = "resolved";
@@ -1225,6 +1234,28 @@ function workflowDocumentStates(docs) {
     }
   }
   return [...bySeq.values()].sort((left, right) => left.doc_seq - right.doc_seq);
+}
+
+function documentHasPendingCanonicalState(doc) {
+  const stateName = String(doc?.state || "");
+  return (
+    stateName === "final_pending" ||
+    stateName === "final_in_review" ||
+    stateName === "final_reviewed" ||
+    stateName === "strong_pending" ||
+    stateName === "strong_in_review"
+  );
+}
+
+function waitingWorkflowLabel(doc) {
+  const stateName = String(doc?.state || "");
+  if (stateName.startsWith("strong_")) {
+    return "Waiting for repair results";
+  }
+  if (stateName === "final_reviewed") {
+    return "Waiting for next queue";
+  }
+  return "Waiting";
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
@@ -1240,6 +1271,9 @@ function workflowDocumentStateForQueueDoc(doc) {
 
 function workflowStatusGlyph(status) {
   if (status === "submitted") {
+    return "…";
+  }
+  if (status === "waiting") {
     return "…";
   }
   if (status === "resolved") {
