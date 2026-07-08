@@ -2849,16 +2849,22 @@ function rubyTitle(target, candidate) {
 }
 
 function cycleYomiTarget(item, target, currentCandidate) {
-  const candidates = target.candidates || [];
+  const candidates = yomiCycleCandidates(target);
   if (candidates.length === 0) {
     return;
   }
-  const currentIndex = Math.max(
-    candidates.findIndex((candidate) => candidateKey(candidate) === candidateKey(currentCandidate)),
-    0
+  const currentIndex = candidates.findIndex(
+    (candidate) => candidateKey(candidate) === candidateKey(currentCandidate)
   );
-  const next = candidates[(currentIndex + 1) % candidates.length];
+  const next = candidates[(currentIndex + 1 + candidates.length) % candidates.length];
   applyYomiCandidate(item, target, next);
+}
+
+function yomiCycleCandidates(target) {
+  const candidates = target.candidates || [];
+  const readingCandidates = candidates.filter((candidate) => candidate.source !== "none");
+  const noRubyCandidates = candidates.filter((candidate) => candidate.source === "none");
+  return [...readingCandidates, ...noRubyCandidates];
 }
 
 function toggleYomiNoRubyDefault(item, target, currentCandidate) {
