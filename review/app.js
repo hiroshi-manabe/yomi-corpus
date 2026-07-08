@@ -1195,6 +1195,7 @@ function mergeResolvedStrongRepairPreviewItems(finalItems, strongItems) {
     return {
       ...item,
       resolved_preview_rendered_yomi: strongItem.rendered_yomi_after,
+      resolved_preview_ruby_tokens: strongItem.rendered_yomi_after_ruby_tokens || [],
       resolved_preview_source_item_id: strongItem.item_id,
     };
   });
@@ -1260,8 +1261,21 @@ function renderResolvedYomiPreviewItem({ node, item }) {
   node.classList.add("resolved-strong-preview");
   const rubyLine = document.createElement("p");
   rubyLine.className = "ruby-line";
-  rubyLine.append(...renderReadonlyRubyFromRendered(item.resolved_preview_rendered_yomi || ""));
+  const tokens = parseRenderedYomiTokens(item.resolved_preview_rendered_yomi || "");
+  rubyLine.append(...renderReadonlyRubyFromTokensWithNodes(tokens, item.resolved_preview_ruby_tokens || []));
   node.append(rubyLine);
+}
+
+function renderReadonlyRubyFromTokensWithNodes(tokens, rubyTokens) {
+  const previewItem = { rendered_yomi_after_ruby_tokens: rubyTokens || [] };
+  const nodes = [];
+  for (const [index, token] of tokens.entries()) {
+    nodes.push(...renderReadonlyRubyFromToken(previewItem, token, index));
+  }
+  if (!nodes.length) {
+    nodes.push(document.createTextNode(""));
+  }
+  return nodes;
 }
 
 function startSingleDocumentTask(doc) {
