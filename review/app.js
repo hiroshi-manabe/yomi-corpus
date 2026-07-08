@@ -337,6 +337,7 @@ async function openUnifiedReview() {
   }
   const unified = buildUnifiedReviewPack(sources);
   pruneSourceDraftsForUnifiedReview(sources);
+  pruneResolvedDocumentDraftsFromLocalStorage(unified);
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -384,6 +385,109 @@ function draftHasLocalWork(draft) {
       Object.keys(draft?.overrides || {}).length > 0 ||
       draft?.task?.doc_ids?.length > 0,
   );
+}
+
+function pruneResolvedDocumentDraftsFromLocalStorage(pack) {
+  const resolvedDocIds = resolvedBaseDocIdsForPack(pack);
+  if (resolvedDocIds.size === 0) {
+    return;
+  }
+  const draftKeys = [];
+  for (let index = 0; index < window.localStorage.length; index += 1) {
+    const key = window.localStorage.key(index);
+    if (key?.startsWith("yomi-corpus:draft:")) {
+      draftKeys.push(key);
+    }
+  }
+  for (const key of draftKeys) {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) {
+      continue;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      const pruned = pruneResolvedDocumentDraft(parsed, resolvedDocIds);
+      if (draftHasLocalWork(pruned)) {
+        window.localStorage.setItem(key, JSON.stringify(pruned));
+      } else {
+        window.localStorage.removeItem(key);
+      }
+    } catch {
+      window.localStorage.removeItem(key);
+    }
+  }
+}
+
+function resolvedBaseDocIdsForPack(pack) {
+  const resolved = new Set();
+  for (const doc of buildDocumentTasks(pack)) {
+    if (documentIsResolved(doc) && doc.doc_id) {
+      resolved.add(String(doc.doc_id));
+    }
+  }
+  return resolved;
+}
+
+function pruneResolvedDocumentDraft(draft, resolvedDocIds) {
+  const pruned = { ...draft };
+  const activeTask = pruneResolvedDocumentTask(pruned.task, resolvedDocIds);
+  const activeTaskIsValid = activeTask.mode === "documents" && activeTask.doc_ids.length > 0;
+  pruned.task = activeTaskIsValid ? activeTask : { mode: "documents", doc_ids: [], started: false };
+  if (!activeTaskIsValid) {
+    pruned.active_task_id = null;
+    pruned.active_task_label = null;
+    pruned.from_seq = null;
+    pruned.to_seq = null;
+    pruned.overrides = {};
+  }
+
+  const savedTasks = {};
+  for (const [taskId, record] of Object.entries(pruned.saved_tasks || {})) {
+    const task = pruneResolvedDocumentTask(record?.task, resolvedDocIds);
+    if (task.mode !== "documents" || task.doc_ids.length === 0) {
+      continue;
+    }
+    savedTasks[taskId] = {
+      ...record,
+      task: { ...task, started: false },
+    };
+  }
+  pruned.saved_tasks = savedTasks;
+  return pruned;
+}
+
+function pruneResolvedDocumentTask(task, resolvedDocIds) {
+  const docIds = taskDocIdsForStorageTask(task);
+  const filteredDocIds = docIds.filter((docId) => !resolvedDocIds.has(baseDocIdFromTaskDocId(docId)));
+  return {
+    ...task,
+    mode: filteredDocIds.length > 0 ? "documents" : "all",
+    doc_id: undefined,
+    doc_ids: filteredDocIds,
+    started: Boolean(task?.started) && filteredDocIds.length > 0,
+    range_start_doc_id: resolvedDocIds.has(baseDocIdFromTaskDocId(task?.range_start_doc_id))
+      ? null
+      : task?.range_start_doc_id || null,
+    range_end_doc_id: resolvedDocIds.has(baseDocIdFromTaskDocId(task?.range_end_doc_id))
+      ? null
+      : task?.range_end_doc_id || null,
+  };
+}
+
+function taskDocIdsForStorageTask(task) {
+  if (task?.mode === "document" && task.doc_id) {
+    return [String(task.doc_id)];
+  }
+  if (task?.mode === "documents" && Array.isArray(task.doc_ids)) {
+    return [...new Set(task.doc_ids.map(String))];
+  }
+  return [];
+}
+
+function baseDocIdFromTaskDocId(taskDocId) {
+  const value = String(taskDocId || "");
+  const separator = value.indexOf("::");
+  return separator >= 0 ? value.slice(separator + 2) : value;
 }
 
 function latestDevYomiReviewSources() {
