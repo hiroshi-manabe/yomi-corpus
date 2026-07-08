@@ -19,6 +19,10 @@ from yomi_corpus.pipeline import (
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
     PipelineWorkspace,
 )
+from yomi_corpus.document_review_state import (
+    STATE_STRONG_PENDING,
+    load_document_review_state,
+)
 from yomi_corpus.review_site import collect_review_pack_entries, publish_review_site
 from yomi_corpus.review_transport import (
     PUBLISH_MODE_NONE,
@@ -259,7 +263,7 @@ def maintain_strong_repair_for_reviewed_documents(
     if not reviewed_units.exists():
         return []
     results: list[dict[str, Any]] = []
-    if allow_queue:
+    if allow_queue or has_strong_pending_documents(root=root, batch_name=batch_name):
         queue_result = workspace._queue_yomi_strong_repair(batch_name)
         queue_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_QUEUED
         results.append(queue_result)
@@ -277,6 +281,21 @@ def maintain_strong_repair_for_reviewed_documents(
         review_result["attempted_stage"] = STAGE_YOMI_FINALIZED
         results.append(review_result)
     return results
+
+
+def has_strong_pending_documents(*, root: Path, batch_name: str) -> bool:
+    state_path = root / "data" / "pipeline" / "document_states" / f"{batch_name}.json"
+    if not state_path.exists():
+        return False
+    try:
+        state = load_document_review_state(state_path)
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return False
+    return any(
+        document.get("state") == STATE_STRONG_PENDING
+        and int(document.get("strong_repair_item_count") or 0) > 0
+        for document in state.get("documents", [])
+    )
 
 
 def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:

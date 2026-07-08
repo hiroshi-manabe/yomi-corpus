@@ -2732,7 +2732,8 @@ class PipelineWorkspace:
         queued_count = count_nonempty_lines(input_path)
         if apply_summary_path.exists():
             existing_apply_summary = json.loads(apply_summary_path.read_text(encoding="utf-8"))
-            if existing_apply_summary.get("confirmed"):
+            existing_queued_count = int(existing_apply_summary.get("queued_items") or 0)
+            if existing_apply_summary.get("confirmed") and existing_queued_count == queued_count:
                 return {
                     "artifacts": {
                         "units_yomi_strong_repaired_jsonl": str(output_path),
