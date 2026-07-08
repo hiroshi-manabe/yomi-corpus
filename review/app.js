@@ -1011,12 +1011,14 @@ function renderWorkflowResolvedPanel(docs) {
   const list = document.createElement("div");
   list.className = "workflow-resolved-list";
   for (const row of resolved) {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
     item.className = "workflow-resolved-row";
     item.innerHTML = `
       <strong>Doc ${escapeHtml(String(row.doc_seq))}</strong>
       <span>${escapeHtml(row.completed_via || "Resolved")}</span>
     `;
+    item.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
     list.append(item);
   }
   section.append(list);
@@ -1028,7 +1030,7 @@ function renderWorkflowTile(row, { compact }) {
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
   tile.classList.toggle("submitted", Boolean(row.submitted));
-  tile.disabled = row.status === "not-started" || (compact && row.submitted);
+  tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.doc_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
