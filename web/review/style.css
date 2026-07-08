@@ -623,17 +623,28 @@ button:disabled {
 }
 
 .workflow-doc-tile.submitted {
-  border-color: rgba(31, 28, 23, 0.18);
-  background: rgba(31, 28, 23, 0.07);
-  color: rgba(31, 28, 23, 0.54);
+  opacity: 0.58;
+  border-style: dashed;
 }
 
 .workflow-doc-tile.submitted span {
-  background: rgba(31, 28, 23, 0.42);
+  position: relative;
 }
 
-.workflow-doc-tile.submitted:disabled {
-  color: rgba(31, 28, 23, 0.42);
+.workflow-doc-tile.submitted span::after {
+  content: "…";
+  position: absolute;
+  right: -7px;
+  top: -8px;
+  display: inline-grid;
+  width: 16px;
+  height: 16px;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(31, 28, 23, 0.62);
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 1;
 }
 
 .workflow-doc-tile.not-started span {

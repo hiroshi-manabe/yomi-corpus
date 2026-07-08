@@ -2081,7 +2081,8 @@ Operational requirements:
   review task until at least one proposal/result is available.
 - in the human-facing dashboard, a document that has left Bulk Review but has
   not yet become an actionable Escalated Repair task should be shown as
-  `Submitted`, not as `Resolved` or as an active repair task. Backend states
+  submitted in the Bulk Review bucket, not as `Resolved` or as an active repair
+  task. Submitted is an overlay/status, not a fourth bucket. Backend states
   such as `final_reviewed` or non-actionable `strong_pending` remain internal
   processing states until sync/import/LLM repair creates the next actionable
   queue or completes the document.
@@ -2222,7 +2223,9 @@ and `selectable`, not from the mere presence of a document row in a pack. This
 prevents states such as the same document being simultaneously shown in Bulk
 Review and Escalated Repair.
 Documents that are canonical pending but not actionable should be rendered as
-submitted/processing in the Pack Map.
+submitted/processing in the Pack Map, inside their previous visible bucket.
+Every document should be visible in exactly one of the three user-facing
+buckets: Bulk Review, Escalated Repair, or Resolved.
 
 Display:
 

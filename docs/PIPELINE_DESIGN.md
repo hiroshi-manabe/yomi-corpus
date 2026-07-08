@@ -1842,8 +1842,11 @@ Design constraints:
 - the human-facing dashboard should present non-actionable post-submission
   states as submitted/processing. For example, `final_reviewed` or
   `strong_pending` without completed repair results should not appear as
-  `Resolved`; it should stay submitted until backend processing either creates
-  an actionable Escalated Repair task or marks the document complete.
+  `Resolved`; it should stay in the previous visible bucket with a submitted
+  overlay until backend processing either creates an actionable Escalated Repair
+  task or marks the document complete. Submitted is not a fourth bucket; every
+  document should be visible in exactly one of Bulk Review, Escalated Repair,
+  or Resolved.
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
   selected document IDs or range
 - greyed-out/completed state comes from imported pipeline queue state, not from
