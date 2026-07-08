@@ -1117,6 +1117,9 @@ function withTemporaryPreviewDraft(previewDraft, callback) {
 }
 
 function workflowPreviewDraftForRow(row) {
+  if (row.status === "resolved") {
+    return null;
+  }
   const docKeys = workflowDocKeysForSeq(row.doc_seq);
   if (!docKeys.length) {
     return null;
