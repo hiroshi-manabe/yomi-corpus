@@ -174,6 +174,22 @@ class PublishReviewTests(unittest.TestCase):
         self.assertIn("Timed out while running `git fetch origin gh-pages`", message)
         self.assertIn("rerun ./publish-review", message)
 
+    def test_remote_git_push_failure_reports_credential_hint(self) -> None:
+        with patch.object(
+            PUBLISH_REVIEW["subprocess"],
+            "run",
+            side_effect=subprocess.CalledProcessError(
+                128,
+                ["git", "push", "-u", "origin", "gh-pages"],
+            ),
+        ):
+            with self.assertRaises(SystemExit) as raised:
+                run_git_remote(["push", "-u", "origin", "gh-pages"])
+
+        message = str(raised.exception)
+        self.assertIn("Remote Git command failed with exit code 128", message)
+        self.assertIn("gh auth setup-git", message)
+
 
 if __name__ == "__main__":
     unittest.main()

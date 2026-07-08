@@ -268,6 +268,8 @@ def run_git_remote(args: list[str], *, cwd: Path = PROJECT_ROOT) -> None:
         )
     except subprocess.TimeoutExpired as exc:
         raise_git_remote_timeout(command, exc.timeout)
+    except subprocess.CalledProcessError as exc:
+        raise_git_remote_failure(command, exc.returncode)
 
 
 def publish_to_gh_pages(*, message: str, push: bool) -> str:
@@ -346,6 +348,21 @@ def raise_git_remote_timeout(command: list[str], timeout: float | None) -> None:
         "Generated docs/review artifacts were left in the working tree, but the "
         "gh-pages publish did not complete. Check GitHub SSH/network connectivity "
         "and rerun ./publish-review."
+    )
+
+
+def raise_git_remote_failure(command: list[str], returncode: int) -> None:
+    rendered = " ".join(shlex.quote(part) for part in command)
+    hint = ""
+    if "push" in command:
+        hint = (
+            " If origin uses HTTPS on a headless server, run `gh auth setup-git` "
+            "or configure a GitHub token-backed credential helper, then rerun ./publish-review."
+        )
+    raise SystemExit(
+        f"Remote Git command failed with exit code {returncode}: `{rendered}`. "
+        "Generated docs/review artifacts were left in the working tree, but the "
+        f"gh-pages publish did not complete.{hint}"
     )
 
 
