@@ -1297,7 +1297,8 @@ function documentHasPendingCanonicalState(doc) {
     stateName === "final_in_review" ||
     stateName === "final_reviewed" ||
     stateName === "strong_pending" ||
-    stateName === "strong_in_review"
+    stateName === "strong_in_review" ||
+    stateName === "strong_reviewed"
   );
 }
 
@@ -1313,7 +1314,10 @@ function submittedWorkflowLabel(doc) {
 }
 
 function pendingSourceQueueStatus(doc) {
-  const stateName = String(doc?.state || "");
+  const canonical = queueStatusFromDocumentState(doc);
+  if (canonical) {
+    return canonical;
+  }
   if (doc.queue_stage === "yomi_strong_repair_review" && docIsActionable(doc)) {
     return "strong";
   }
@@ -1341,7 +1345,7 @@ function workflowDocumentStateForQueueDoc(doc) {
   const submitted = docIsSubmittedLocally(doc) || (doc.selectable === false && documentHasPendingCanonicalState(doc));
   return {
     doc_seq: doc.doc_seq,
-    status: doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final",
+    status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
     preview: doc.preview || "",
     submitted,
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
@@ -1366,6 +1370,10 @@ function workflowDocBelongsInQueue(doc, queueStage) {
 }
 
 function workflowDocumentBucketStatus(doc) {
+  const canonical = queueStatusFromDocumentState(doc);
+  if (canonical) {
+    return canonical;
+  }
   if (doc.queue_stage === "yomi_final_review" && docIsActionable(doc)) {
     return "final";
   }
@@ -1377,6 +1385,17 @@ function workflowDocumentBucketStatus(doc) {
   }
   if (docIsSubmittedLocally(doc)) {
     return submittedSourceQueueStatus(doc);
+  }
+  return null;
+}
+
+function queueStatusFromDocumentState(doc) {
+  const stateName = String(doc?.state || "");
+  if (stateName.startsWith("final_")) {
+    return "final";
+  }
+  if (stateName.startsWith("strong_")) {
+    return "strong";
   }
   return null;
 }
