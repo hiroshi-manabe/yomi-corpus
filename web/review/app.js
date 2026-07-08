@@ -331,9 +331,9 @@ async function openUnifiedReview() {
     el.stageSelect.value = "unified_yomi_review";
   }
   const sources = [];
-  for (const queue of queues) {
-    const pack = await fetchJson(queue.path);
-    sources.push({ meta: queue, pack });
+  for (const source of latestDevYomiReviewSources()) {
+    const pack = await fetchJson(source.path);
+    sources.push({ meta: source, pack });
   }
   const unified = buildUnifiedReviewPack(sources);
   state.currentPackMeta = {
@@ -347,6 +347,22 @@ async function openUnifiedReview() {
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
   render();
+}
+
+function latestDevYomiReviewSources() {
+  const sources = [];
+  for (const stageId of ["yomi_final_review", "yomi_strong_repair_review"]) {
+    const stage = state.manifest.stages?.[stageId];
+    const packId = stage?.latest_pack_ids_by_track?.dev;
+    if (!stage || !packId) {
+      continue;
+    }
+    const pack = (stage.packs || []).find((row) => row.pack_id === packId);
+    if (pack) {
+      sources.push({ ...pack, review_stage: stageId, label: stage.label || stageId });
+    }
+  }
+  return sources;
 }
 
 function buildUnifiedReviewPack(sources) {
