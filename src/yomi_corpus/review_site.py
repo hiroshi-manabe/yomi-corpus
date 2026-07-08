@@ -155,6 +155,8 @@ def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
         pack = next((row for row in stage.get("packs", []) if row["pack_id"] == latest_dev_id), None)
         if not pack:
             continue
+        if int(pack.get("selectable_document_count") or 0) <= 0:
+            continue
         queues.append(
             {
                 "track_name": DEV_TRACK,
