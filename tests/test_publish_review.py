@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import json
 import runpy
+import subprocess
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -12,6 +14,8 @@ PUBLISH_REVIEW = runpy.run_path(str(PROJECT_ROOT / "publish-review"), run_name="
 collect_review_artifact_paths = PUBLISH_REVIEW["collect_review_artifact_paths"]
 parse_github_owner_repo = PUBLISH_REVIEW["parse_github_owner_repo"]
 regenerate_review_artifacts = PUBLISH_REVIEW["regenerate_review_artifacts"]
+remote_branch_exists = PUBLISH_REVIEW["remote_branch_exists"]
+run_git_remote = PUBLISH_REVIEW["run_git_remote"]
 
 
 class PublishReviewTests(unittest.TestCase):
@@ -140,6 +144,35 @@ class PublishReviewTests(unittest.TestCase):
 
     def test_parse_github_owner_repo_rejects_non_github_urls(self) -> None:
         self.assertIsNone(parse_github_owner_repo("https://example.com/owner/repo.git"))
+
+    def test_remote_branch_exists_reports_timeout_without_traceback(self) -> None:
+        with patch.object(
+            PUBLISH_REVIEW["subprocess"],
+            "run",
+            side_effect=subprocess.TimeoutExpired(
+                ["git", "ls-remote", "--exit-code", "--heads", "origin", "gh-pages"],
+                30,
+            ),
+        ):
+            with self.assertRaises(SystemExit) as raised:
+                remote_branch_exists("gh-pages")
+
+        message = str(raised.exception)
+        self.assertIn("Timed out while running `git ls-remote", message)
+        self.assertIn("Generated docs/review artifacts were left in the working tree", message)
+
+    def test_remote_git_command_reports_timeout_without_traceback(self) -> None:
+        with patch.object(
+            PUBLISH_REVIEW["subprocess"],
+            "run",
+            side_effect=subprocess.TimeoutExpired(["git", "fetch", "origin", "gh-pages"], 30),
+        ):
+            with self.assertRaises(SystemExit) as raised:
+                run_git_remote(["fetch", "origin", "gh-pages"])
+
+        message = str(raised.exception)
+        self.assertIn("Timed out while running `git fetch origin gh-pages`", message)
+        self.assertIn("rerun ./publish-review", message)
 
 
 if __name__ == "__main__":

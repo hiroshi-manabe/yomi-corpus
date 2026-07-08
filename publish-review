@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import shutil
 import subprocess
 import sys
@@ -25,6 +26,7 @@ from yomi_corpus.review_site import publish_review_site
 REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
 REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
 DEFAULT_MESSAGE = "Publish review page artifacts"
+GIT_REMOTE_TIMEOUT_SECONDS = 30
 STATIC_REVIEW_ARTIFACTS = (
     "index.html",
     "app.js",
@@ -255,6 +257,19 @@ def run_git(args: list[str]) -> None:
     subprocess.run(["git", *args], cwd=PROJECT_ROOT, check=True)
 
 
+def run_git_remote(args: list[str], *, cwd: Path = PROJECT_ROOT) -> None:
+    command = ["git", *args]
+    try:
+        subprocess.run(
+            command,
+            cwd=cwd,
+            check=True,
+            timeout=GIT_REMOTE_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise_git_remote_timeout(command, exc.timeout)
+
+
 def publish_to_gh_pages(*, message: str, push: bool) -> str:
     docs_index = PROJECT_ROOT / "docs" / "index.html"
     if not docs_index.exists():
@@ -265,7 +280,7 @@ def publish_to_gh_pages(*, message: str, push: bool) -> str:
         worktree = Path(tmp) / "worktree"
         branch_exists = remote_branch_exists("gh-pages")
         if branch_exists:
-            run_git(["fetch", "origin", "gh-pages"])
+            run_git_remote(["fetch", "origin", "gh-pages"])
             run_git(["worktree", "add", "-B", "gh-pages", str(worktree), "origin/gh-pages"])
         else:
             run_git(["worktree", "add", "--detach", str(worktree), "HEAD"])
@@ -283,7 +298,7 @@ def publish_to_gh_pages(*, message: str, push: bool) -> str:
             run_git_in(worktree, ["commit", "-m", message])
             sha = git_output_in(worktree, ["rev-parse", "HEAD"])
             if push:
-                run_git_in(worktree, ["push", "-u", "origin", "gh-pages"])
+                run_git_remote(["push", "-u", "origin", "gh-pages"], cwd=worktree)
             else:
                 print(f"Created local gh-pages commit {sha[:12]}; push skipped.")
             return sha
@@ -308,15 +323,30 @@ def clear_pages_worktree(worktree: Path) -> None:
 
 
 def remote_branch_exists(branch_name: str) -> bool:
-    result = subprocess.run(
-        ["git", "ls-remote", "--exit-code", "--heads", "origin", branch_name],
-        cwd=PROJECT_ROOT,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        check=False,
-        timeout=30,
-    )
+    command = ["git", "ls-remote", "--exit-code", "--heads", "origin", branch_name]
+    try:
+        result = subprocess.run(
+            command,
+            cwd=PROJECT_ROOT,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            timeout=GIT_REMOTE_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise_git_remote_timeout(command, exc.timeout)
     return result.returncode == 0
+
+
+def raise_git_remote_timeout(command: list[str], timeout: float | None) -> None:
+    rendered = " ".join(shlex.quote(part) for part in command)
+    timeout_text = f"{timeout:g}s" if timeout is not None else "the configured timeout"
+    raise SystemExit(
+        f"Timed out while running `{rendered}` after {timeout_text}. "
+        "Generated docs/review artifacts were left in the working tree, but the "
+        "gh-pages publish did not complete. Check GitHub SSH/network connectivity "
+        "and rerun ./publish-review."
+    )
 
 
 def has_staged_changes_in(repo: Path) -> bool:
