@@ -1167,6 +1167,9 @@ function workflowPreviewItemsForDocument(row) {
   if (row.status === "strong") {
     return strongItems;
   }
+  if (row.status === "resolved" && finalItems.length > 0) {
+    return mergeResolvedStrongRepairPreviewItems(finalItems, strongItems);
+  }
   if (strongItems.length > 0) {
     return strongItems;
   }
@@ -1174,6 +1177,27 @@ function workflowPreviewItemsForDocument(row) {
     return finalItems;
   }
   return allItems;
+}
+
+function mergeResolvedStrongRepairPreviewItems(finalItems, strongItems) {
+  const strongByUnit = new Map();
+  for (const item of strongItems) {
+    const unitId = String(item.unit_id || "");
+    if (unitId && item.rendered_yomi_after) {
+      strongByUnit.set(unitId, item);
+    }
+  }
+  return finalItems.map((item) => {
+    const strongItem = strongByUnit.get(String(item.unit_id || ""));
+    if (!strongItem) {
+      return item;
+    }
+    return {
+      ...item,
+      resolved_preview_rendered_yomi: strongItem.rendered_yomi_after,
+      resolved_preview_source_item_id: strongItem.item_id,
+    };
+  });
 }
 
 function workflowPreviewActionDocument(docs, row) {
@@ -1212,6 +1236,10 @@ function renderPreviewItem(item) {
   node.classList.add("workflow-preview-item");
   const override = state.currentDraft?.overrides?.[item.item_id] || null;
   if (itemReviewStage(item) === "yomi_final_review") {
+    if (!override && item.resolved_preview_rendered_yomi) {
+      renderResolvedYomiPreviewItem({ node, item });
+      return node;
+    }
     renderYomiItem({ node, item, override, editable: false, isFrom: false, isTo: false });
     return node;
   }
@@ -1224,6 +1252,16 @@ function renderPreviewItem(item) {
   node.querySelectorAll(".editable-only").forEach((element) => element.classList.add("hidden"));
   node.querySelector(".readonly-only")?.classList.remove("hidden");
   return node;
+}
+
+function renderResolvedYomiPreviewItem({ node, item }) {
+  node.innerHTML = "";
+  node.classList.add("yomi-card");
+  node.classList.add("resolved-strong-preview");
+  const rubyLine = document.createElement("p");
+  rubyLine.className = "ruby-line";
+  rubyLine.append(...renderReadonlyRubyFromRendered(item.resolved_preview_rendered_yomi || ""));
+  node.append(rubyLine);
 }
 
 function startSingleDocumentTask(doc) {
