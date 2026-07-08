@@ -1240,7 +1240,7 @@ function renderPreviewItem(item) {
   node.classList.add("workflow-preview-item");
   const override = state.currentDraft?.overrides?.[item.item_id] || null;
   if (itemReviewStage(item) === "yomi_final_review") {
-    if (!override && item.resolved_preview_rendered_yomi) {
+    if (item.resolved_preview_rendered_yomi) {
       renderResolvedYomiPreviewItem({ node, item });
       return node;
     }
