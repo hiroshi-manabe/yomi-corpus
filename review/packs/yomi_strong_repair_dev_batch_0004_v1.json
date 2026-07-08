@@ -160,7 +160,7 @@
       "state": "strong_pending",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-08T01:02:06Z",
+      "state_updated_at": "2026-07-08T01:07:21Z",
       "item_count": 0,
       "region_count": 0,
       "unresolved_count": 0,
@@ -246,7 +246,7 @@
       "source_line_no": 30,
       "text": "少し前から断捨離という言葉が流行っている。",
       "rendered_yomi_before": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
-      "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断捨離/ダンシャリ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "少し",
@@ -285,34 +285,13 @@
           ]
         },
         {
-          "surface": "断",
-          "reading": "ダン",
+          "surface": "断捨離",
+          "reading": "ダンシャリ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "断",
-              "reading": "だん"
-            }
-          ]
-        },
-        {
-          "surface": "捨",
-          "reading": "捨",
-          "nodes": [
-            {
-              "type": "text",
-              "text": "捨"
-            }
-          ]
-        },
-        {
-          "surface": "離",
-          "reading": "リ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "離",
-              "reading": "り"
+              "text": "断捨離",
+              "reading": "だんしゃり"
             }
           ]
         },
@@ -412,7 +391,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0016",
           "text": "少し前から断捨離という言葉が流行っている。",
           "rendered_yomi_before": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
-          "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断捨離/ダンシャリ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -580,8 +559,18 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": null,
-          "repair_log": {}
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000030:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "断捨離",
+            "replacement": [
+              {
+                "surface": "断捨離",
+                "reading": "ダンシャリ"
+              }
+            ]
+          }
         }
       ],
       "rejected_span": "断捨離",
@@ -691,8 +680,18 @@
       "llm_raw_text": "[{\"surface\":\"断捨離\",\"reading\":\"だんしゃり\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": null,
-      "repair_log": {}
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000030:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "断捨離",
+        "replacement": [
+          {
+            "surface": "断捨離",
+            "reading": "ダンシャリ"
+          }
+        ]
+      }
     },
     {
       "item_id": "ja_cc_level2:0000000030:u0017::strong_repair",
@@ -705,7 +704,7 @@
       "source_line_no": 30,
       "text": "もうみんな断捨離は終わったかな？",
       "rendered_yomi_before": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
-      "rendered_yomi_after": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
+      "rendered_yomi_after": "もう/モウ みんな/ミンナ 断捨離/ダンシャリ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "もう",
@@ -728,34 +727,13 @@
           ]
         },
         {
-          "surface": "断",
-          "reading": "ダン",
+          "surface": "断捨離",
+          "reading": "ダンシャリ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "断",
-              "reading": "だん"
-            }
-          ]
-        },
-        {
-          "surface": "捨",
-          "reading": "捨",
-          "nodes": [
-            {
-              "type": "text",
-              "text": "捨"
-            }
-          ]
-        },
-        {
-          "surface": "離",
-          "reading": "リ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "離",
-              "reading": "り"
+              "text": "断捨離",
+              "reading": "だんしゃり"
             }
           ]
         },
@@ -834,7 +812,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0017",
           "text": "もうみんな断捨離は終わったかな？",
           "rendered_yomi_before": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
-          "rendered_yomi_after": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
+          "rendered_yomi_after": "もう/モウ みんな/ミンナ 断捨離/ダンシャリ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -1002,8 +980,18 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": null,
-          "repair_log": {}
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000030:u0017::target_group:1",
+            "status": "applied",
+            "rejected_span": "断捨離",
+            "replacement": [
+              {
+                "surface": "断捨離",
+                "reading": "ダンシャリ"
+              }
+            ]
+          }
         }
       ],
       "rejected_span": "断捨離",
@@ -1113,8 +1101,18 @@
       "llm_raw_text": "[{\"surface\":\"断捨離\",\"reading\":\"だんしゃり\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": null,
-      "repair_log": {}
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000030:u0017::target_group:1",
+        "status": "applied",
+        "rejected_span": "断捨離",
+        "replacement": [
+          {
+            "surface": "断捨離",
+            "reading": "ダンシャリ"
+          }
+        ]
+      }
     },
     {
       "item_id": "ja_cc_level2:0000000030:u0019::strong_repair",
@@ -1127,7 +1125,7 @@
       "source_line_no": 30,
       "text": "「断」断つこと、「捨」捨てること、「離」離れること、１つづつに分解して実行していけば簡単だ。",
       "rendered_yomi_before": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
-      "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
+      "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/シャ 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "「",
@@ -1207,11 +1205,12 @@
         },
         {
           "surface": "捨",
-          "reading": "捨",
+          "reading": "シャ",
           "nodes": [
             {
-              "type": "text",
-              "text": "捨"
+              "type": "ruby",
+              "text": "捨",
+              "reading": "しゃ"
             }
           ]
         },
@@ -1489,7 +1488,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0019",
           "text": "「断」断つこと、「捨」捨てること、「離」離れること、１つづつに分解して実行していけば簡単だ。",
           "rendered_yomi_before": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
-          "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
+          "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/シャ 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -1560,8 +1559,18 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": null,
-          "repair_log": {}
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000030:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "捨",
+            "replacement": [
+              {
+                "surface": "捨",
+                "reading": "シャ"
+              }
+            ]
+          }
         }
       ],
       "rejected_span": "捨",
@@ -1610,8 +1619,18 @@
       "llm_raw_text": "[{\"surface\":\"捨\",\"reading\":\"シャ\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": null,
-      "repair_log": {}
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000030:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "捨",
+        "replacement": [
+          {
+            "surface": "捨",
+            "reading": "シャ"
+          }
+        ]
+      }
     }
   ]
 }
