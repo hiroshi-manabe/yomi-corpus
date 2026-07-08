@@ -343,6 +343,7 @@ def with_queue_document_metadata(
             state_row.get("state")
             or default_document_state_for_queue(queue_id, int(stats.get("item_count") or 0))
         )
+        queue_member = document_belongs_to_queue(queue_id=queue_id, state=state)
         selectable = document_is_selectable_for_queue(
             queue_id=queue_id,
             state=state,
@@ -353,6 +354,7 @@ def with_queue_document_metadata(
                 **doc,
                 "queue_id": queue_id,
                 "state": state,
+                "queue_member": queue_member,
                 "selectable": selectable,
                 "state_updated_at": str(state_row.get("updated_at") or ""),
                 "item_count": int(stats.get("item_count") or 0),
@@ -424,10 +426,20 @@ def default_document_state_for_queue(queue_id: str, item_count: int) -> str:
 def document_is_selectable_for_queue(*, queue_id: str, state: str, item_count: int) -> bool:
     if item_count <= 0:
         return False
+    if not document_belongs_to_queue(queue_id=queue_id, state=state):
+        return False
     if queue_id == QUEUE_ID_FINAL_REVIEW:
         return state in FINAL_REVIEW_SELECTABLE_STATES
     if queue_id == QUEUE_ID_STRONG_REPAIR:
         return state in STRONG_REPAIR_SELECTABLE_STATES
+    return False
+
+
+def document_belongs_to_queue(*, queue_id: str, state: str) -> bool:
+    if queue_id == QUEUE_ID_FINAL_REVIEW:
+        return state.startswith("final_")
+    if queue_id == QUEUE_ID_STRONG_REPAIR:
+        return state.startswith("strong_")
     return False
 
 

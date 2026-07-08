@@ -2067,6 +2067,14 @@ Operational requirements:
   vocabulary should include `final_pending`, `final_in_review`,
   `final_reviewed`, `strong_pending`, `strong_in_review`, `strong_reviewed`,
   `complete`, and `skipped`
+- treat that per-document state as the only source of active queue membership.
+  Bulk Review is a view over `final_*` states, and Escalated Repair is a view
+  over `strong_*` states. A document may appear in multiple historical packs,
+  but it must be an active member of at most one queue at a time.
+- review packs should carry both the canonical document state and explicit
+  queue-view metadata such as `queue_member` and `selectable`. The UI should
+  use `queue_member` to decide whether a document belongs in a queue panel; the
+  Pack Map may still show all documents from the batch.
 - submission payloads must carry stable document IDs, item IDs, queue/stage IDs,
   pack IDs, selected range/subset metadata, and source Issue/comment IDs
 - browser draft state should be keyed by `pack_id`, `queue_id`, and selected
@@ -2198,9 +2206,11 @@ Review dashboard target:
 - the old stage dropdown can remain temporarily as a debug or deep-link
   fallback, but it should not be the main workflow
 
-The next implementation step is to make review packs queue-aware by embedding
-document-level state and selectable flags. The dashboard should render this
-explicit metadata instead of inferring state from batch-level stages.
+Review packs are queue-aware: they embed document-level state plus queue-view
+metadata. The dashboard should render active queue panels from `queue_member`
+and `selectable`, not from the mere presence of a document row in a pack. This
+prevents states such as the same document being simultaneously shown in Bulk
+Review and Escalated Repair.
 
 Display:
 

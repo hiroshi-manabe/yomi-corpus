@@ -165,11 +165,7 @@ def update_document_review_state_after_final_review(
             STATE_STRONG_REVIEWED,
             STATE_COMPLETE,
         }
-        if (
-            current_state in beyond_final
-            and old_reviewed == reviewed
-            and old_skipped == skipped
-        ):
+        if current_state in beyond_final:
             continue
         if current_state == next_state and old_reviewed == reviewed and old_skipped == skipped:
             continue

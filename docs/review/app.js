@@ -377,6 +377,7 @@ function buildUnifiedReviewPack(sources) {
         queue_stage: pack.review_stage,
         source_pack_id: pack.pack_id,
         task_doc_id: queueDocKey(pack.review_stage, docId),
+        queue_member: documentBelongsToQueue(pack.review_stage, doc),
       });
     }
   }
@@ -421,6 +422,7 @@ function buildUnifiedReviewPack(sources) {
         unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
         final_item_count: stats.final_item_count ?? 0,
         strong_repair_item_count: stats.strong_repair_item_count ?? 0,
+        queue_member: documentBelongsToQueue(doc.queue_stage, doc),
         selectable: unifiedDocumentIsSelectable(doc, stats),
       };
     })
@@ -479,6 +481,9 @@ function unifiedDocumentIsSelectable(doc, stats) {
   if (itemCount <= 0) {
     return false;
   }
+  if (!documentBelongsToQueue(doc.queue_stage, doc)) {
+    return false;
+  }
   if (doc.queue_stage === "yomi_final_review") {
     return stateName.startsWith("final_") || (stateName === "" && doc.selectable !== false);
   }
@@ -486,6 +491,20 @@ function unifiedDocumentIsSelectable(doc, stats) {
     return stateName.startsWith("strong_");
   }
   return Boolean(doc.selectable);
+}
+
+function documentBelongsToQueue(queueStage, doc) {
+  if (doc && "queue_member" in doc) {
+    return Boolean(doc.queue_member);
+  }
+  const stateName = String(doc?.state || "");
+  if (queueStage === "yomi_final_review") {
+    return stateName.startsWith("final_") || (stateName === "" && doc?.selectable !== false);
+  }
+  if (queueStage === "yomi_strong_repair_review") {
+    return stateName.startsWith("strong_");
+  }
+  return Boolean(doc?.selectable);
 }
 
 function populateStageSelect(stageIds) {
@@ -817,7 +836,7 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
   queues.className = "workflow-queues";
   queues.append(
     renderWorkflowQueue({
-      docs: actionableDocs,
+      docs: allDocs,
       task,
       queueStage: "yomi_final_review",
       title: "Final Review Queue",
@@ -825,7 +844,7 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       takeNextCount: 5,
     }),
     renderWorkflowQueue({
-      docs: actionableDocs,
+      docs: allDocs,
       task,
       queueStage: "yomi_strong_repair_review",
       title: "Strong Repair Queue",
@@ -869,7 +888,7 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   const section = document.createElement("section");
   section.className = `workflow-queue ${queueStage === "yomi_final_review" ? "final" : "strong"}`;
   const queueDocs = docs
-    .filter((doc) => doc.queue_stage === queueStage && doc.selectable !== false)
+    .filter((doc) => doc.queue_stage === queueStage && documentBelongsToQueue(queueStage, doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
   const actionableDocs = queueDocs.filter((doc) => docIsActionable(doc));
   const selectedDocs = actionableDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
@@ -3486,7 +3505,7 @@ function buildDocumentTasks(pack) {
         return {
           doc_id: doc.doc_id || "",
           task_doc_id: taskDocKey(doc),
-          queue_stage: doc.queue_stage || "",
+          queue_stage: doc.queue_stage || pack.review_stage || "",
           source_pack_id: doc.source_pack_id || "",
           doc_seq: doc.doc_seq || 0,
           from_seq: stats.from_seq ?? 0,
@@ -3498,6 +3517,7 @@ function buildDocumentTasks(pack) {
             stats.strong_repair_item_count ?? Number(doc.strong_repair_item_count || 0),
           unit_count: Number(doc.unit_count || 0),
           state: doc.state || "",
+          queue_member: documentBelongsToQueue(doc.queue_stage || pack.review_stage || "", doc),
           selectable: "selectable" in doc ? Boolean(doc.selectable) : Number(doc.item_count || 0) > 0,
           preview: doc.preview || "",
         };

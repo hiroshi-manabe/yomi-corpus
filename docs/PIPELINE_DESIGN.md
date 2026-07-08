@@ -1832,6 +1832,13 @@ Design constraints:
   state vocabulary is `final_pending`, `final_in_review`, `final_reviewed`,
   `strong_pending`, `strong_in_review`, `strong_reviewed`, `complete`, and
   `skipped`
+- this per-document state is the canonical source of active queue membership.
+  Bulk Review is a view over `final_*` states, and Escalated Repair is a view
+  over `strong_*` states. A document may remain present in older/generated
+  packs for preview or audit, but it must be active in at most one queue.
+- review packs should expose queue-view metadata such as `queue_member` and
+  `selectable`; UI queue panels should use those fields instead of inferring
+  membership from whether a document row exists in a pack.
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
   selected document IDs or range
 - greyed-out/completed state comes from imported pipeline queue state, not from
