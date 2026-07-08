@@ -575,6 +575,7 @@ button:disabled {
   color: var(--text);
   border: 1px solid var(--line);
   padding: 8px;
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
 }
 
 .workflow-doc-tile strong {
@@ -640,7 +641,16 @@ button:disabled {
 }
 
 .workflow-doc-tile.selected {
-  box-shadow: 0 0 0 3px rgba(34, 106, 214, 0.18);
+  border-color: rgba(34, 106, 214, 0.78);
+  background: rgba(34, 106, 214, 0.14);
+  box-shadow: 0 0 0 3px rgba(34, 106, 214, 0.2);
+  transform: translateY(-1px);
+}
+
+.workflow-doc-tile.selected strong {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 .workflow-range-controls {

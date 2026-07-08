@@ -893,9 +893,11 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   for (const doc of queueDocs) {
     const row = workflowDocumentStateForQueueDoc(doc);
     const tile = renderWorkflowTile(row, { compact: true });
-    tile.classList.toggle("selected", docIsActionable(doc) && task.doc_ids.includes(taskDocKey(doc)));
+    const docKey = taskDocKey(doc);
+    const isSelected = docIsActionable(doc) && task.doc_ids.includes(docKey);
+    tile.classList.toggle("selected", isSelected);
     if (docIsActionable(doc)) {
-      tile.addEventListener("click", () => selectOnlyDocumentTask(taskDocKey(doc)));
+      tile.addEventListener("click", () => toggleDocumentTask(docKey, !isSelected));
     }
     tiles.append(tile);
   }
@@ -911,19 +913,30 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   controls.className = "workflow-range-controls";
   const fromSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[0] || actionableDocs[0] || null);
   const toSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[selectedDocs.length - 1] || actionableDocs[actionableDocs.length - 1] || null);
-  const applyRange = () => {
-    if (fromSelect.value && toSelect.value) {
-      selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value);
-    }
-  };
-  fromSelect.addEventListener("change", applyRange);
-  toSelect.addEventListener("change", applyRange);
+  const selectRangeButton = document.createElement("button");
+  selectRangeButton.type = "button";
+  selectRangeButton.className = "secondary-button";
+  selectRangeButton.textContent = "Select range";
+  selectRangeButton.disabled = actionableDocs.length === 0;
+  selectRangeButton.addEventListener("click", () => {
+    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, true);
+  });
+  const deselectRangeButton = document.createElement("button");
+  deselectRangeButton.type = "button";
+  deselectRangeButton.className = "secondary-button";
+  deselectRangeButton.textContent = "Deselect range";
+  deselectRangeButton.disabled = actionableDocs.length === 0;
+  deselectRangeButton.addEventListener("click", () => {
+    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, false);
+  });
   controls.append(
-    textNodeElement("span", "Select range:"),
+    textNodeElement("span", "Range:"),
     textNodeElement("span", "From"),
     fromSelect,
     textNodeElement("span", "to"),
     toSelect,
+    selectRangeButton,
+    deselectRangeButton,
   );
   section.append(controls);
 
@@ -3761,8 +3774,9 @@ function clearQueueTaskSelection(queueStage) {
   render();
 }
 
-function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
-  const docs = buildActionableDocumentTasks(state.currentPack)
+function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected) {
+  const allDocs = buildActionableDocumentTasks(state.currentPack);
+  const docs = allDocs
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
     .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
@@ -3772,13 +3786,34 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey) {
   }
   const start = Math.min(fromIndex, toIndex);
   const end = Math.max(fromIndex, toIndex);
+  const rangeDocIds = docs.slice(start, end + 1).map((doc) => taskDocKey(doc));
+  const task = normalizeTask(state.currentDraft.task, state.currentPack);
+  let nextDocIds = task.doc_ids;
+  if (selected && isUnifiedReviewPack(state.currentPack)) {
+    nextDocIds = nextDocIds.filter((existingId) => {
+      const existingDoc = allDocs.find((row) => taskDocKey(row) === existingId);
+      return existingDoc?.queue_stage === queueStage;
+    });
+  }
+  const docIds = new Set(nextDocIds);
+  for (const docId of rangeDocIds) {
+    if (selected) {
+      docIds.add(docId);
+    } else {
+      docIds.delete(docId);
+    }
+  }
   state.currentDraft.task = {
+    ...task,
     mode: "documents",
-    doc_ids: docs.slice(start, end + 1).map((doc) => taskDocKey(doc)),
+    doc_ids: [...docIds],
     started: false,
-    range_start_doc_id: taskDocKey(docs[start]),
-    range_end_doc_id: taskDocKey(docs[end]),
+    range_start_doc_id: selected ? taskDocKey(docs[start]) : null,
+    range_end_doc_id: selected ? taskDocKey(docs[end]) : null,
   };
+  if (docIds.size === 0) {
+    state.currentDraft.task.mode = "all";
+  }
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
