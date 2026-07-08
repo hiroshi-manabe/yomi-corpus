@@ -1297,8 +1297,7 @@ function documentHasPendingCanonicalState(doc) {
     stateName === "final_in_review" ||
     stateName === "final_reviewed" ||
     stateName === "strong_pending" ||
-    stateName === "strong_in_review" ||
-    stateName === "strong_reviewed"
+    stateName === "strong_in_review"
   );
 }
 
@@ -1394,7 +1393,7 @@ function queueStatusFromDocumentState(doc) {
   if (stateName.startsWith("final_")) {
     return "final";
   }
-  if (stateName.startsWith("strong_")) {
+  if (stateName === "strong_pending" || stateName === "strong_in_review") {
     return "strong";
   }
   return null;

@@ -2954,6 +2954,14 @@ class PipelineWorkspace:
             )
             write_document_review_state(document_state_path, document_state)
             state_counts = document_state["summary"]["state_counts"]
+            final_pack_id = str(
+                self.load_batch_state(batch_name).artifacts.get("final_review_pack_id")
+                or f"yomi_final_{batch_name}_v1"
+            )
+            _, final_pack_artifacts = self._refresh_final_review_pack(
+                batch_name=batch_name,
+                pack_id=final_pack_id,
+            )
             artifacts.update(
                 {
                     "document_review_state_json": str(document_state_path),
@@ -2969,6 +2977,7 @@ class PipelineWorkspace:
                     "document_review_state_skipped": str(
                         state_counts.get("skipped", 0)
                     ),
+                    **final_pack_artifacts,
                 }
             )
 

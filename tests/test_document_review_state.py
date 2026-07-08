@@ -224,6 +224,78 @@ class DocumentReviewStateTests(unittest.TestCase):
             self.assertEqual(states["doc1"], STATE_STRONG_REVIEWED)
             self.assertEqual(states["doc2"], STATE_STRONG_PENDING)
 
+    def test_strong_review_counts_regions_for_grouped_sentence_items(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units = root / "units.jsonl"
+            reviewed = root / "reviewed.jsonl"
+            queue = root / "queue.jsonl"
+            pack = root / "pack.json"
+            submission = root / "submission.json"
+            write_jsonl(units, [{"doc_id": "doc1", "unit_id": "u1"}])
+            write_jsonl(reviewed, [reviewed_unit("doc1", "u1")])
+            write_jsonl(
+                queue,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q1"},
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q2"},
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q3"},
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q4"},
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q5"},
+                ],
+            )
+            pack.write_text(
+                json.dumps(
+                    {
+                        "pack_id": "strong_pack",
+                        "items": [
+                            {"item_id": "u1::strong_repair", "seq": 1, "doc_id": "doc1", "region_count": 5}
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            submission.write_text(
+                json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack",
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                        "overrides": [],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            state = build_initial_document_review_state(
+                units_jsonl=units,
+                batch_name="dev_batch_0001",
+                track_name="dev",
+            )
+            state = update_document_review_state_after_final_review(
+                state=state,
+                reviewed_units_jsonl=reviewed,
+            )
+            state = update_document_review_state_after_strong_queue(
+                state=state,
+                queue_jsonl=queue,
+            )
+
+            state = update_document_review_state_after_strong_review(
+                state=state,
+                pack_json=pack,
+                review_summary={
+                    "submission_paths": [str(submission)],
+                    "rejected_items": [],
+                    "manual_segment_overrides": {"invalid_items": 0},
+                },
+            )
+
+            self.assertEqual(state["documents"][0]["strong_repair_item_count"], 5)
+            self.assertEqual(state["documents"][0]["state"], STATE_STRONG_REVIEWED)
+
     def test_finalized_state_marks_non_skipped_documents_complete(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -290,9 +290,10 @@ def reviewed_strong_item_counts_by_doc(
     }
     counts: Counter[str] = Counter()
     for item_id in reviewed_ids:
-        doc_id = str(by_id.get(item_id, {}).get("doc_id") or "")
+        item = by_id.get(item_id, {})
+        doc_id = str(item.get("doc_id") or "")
         if doc_id:
-            counts[doc_id] += 1
+            counts[doc_id] += max(int(item.get("region_count") or 0), 1)
     return counts
 
 
