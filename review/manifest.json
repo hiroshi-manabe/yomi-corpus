@@ -10,7 +10,7 @@
       "title": "Yomi strong repair review / dev_batch_0004 / v1",
       "path": "./packs/yomi_strong_repair_dev_batch_0004_v1.json",
       "created_at_epoch": 1783407433,
-      "item_count": 3
+      "item_count": 6
     }
   },
   "current_review_queues": [
@@ -24,13 +24,34 @@
       "created_at_epoch": 1783407403,
       "item_count": 253,
       "document_count": 10,
-      "selectable_document_count": 4,
+      "selectable_document_count": 2,
       "document_state_counts": {
         "complete": 5,
-        "final_pending": 4,
+        "final_pending": 2,
+        "final_reviewed": 2,
         "strong_reviewed": 1
       },
       "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0004_v1",
+      "title": "Yomi strong repair review / dev_batch_0004 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0004_v1.json",
+      "created_at_epoch": 1783407433,
+      "item_count": 6,
+      "document_count": 10,
+      "selectable_document_count": 1,
+      "document_state_counts": {
+        "complete": 6,
+        "final_pending": 2,
+        "strong_pending": 1,
+        "strong_reviewed": 1
+      },
+      "queue_id": "strong_repair",
       "status": "active-dev"
     }
   ],
@@ -90,10 +111,11 @@
           "created_at_epoch": 1783407403,
           "item_count": 253,
           "document_count": 10,
-          "selectable_document_count": 4,
+          "selectable_document_count": 2,
           "document_state_counts": {
             "complete": 5,
-            "final_pending": 4,
+            "final_pending": 2,
+            "final_reviewed": 2,
             "strong_reviewed": 1
           },
           "queue_id": "final_review",
@@ -141,12 +163,13 @@
           "path": "./packs/yomi_strong_repair_dev_batch_0004_v1.json",
           "track_name": "dev",
           "created_at_epoch": 1783407433,
-          "item_count": 3,
+          "item_count": 6,
           "document_count": 10,
-          "selectable_document_count": 0,
+          "selectable_document_count": 1,
           "document_state_counts": {
-            "complete": 5,
-            "final_pending": 4,
+            "complete": 6,
+            "final_pending": 2,
+            "strong_pending": 1,
             "strong_reviewed": 1
           },
           "queue_id": "strong_repair",
