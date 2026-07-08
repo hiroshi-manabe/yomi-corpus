@@ -29,6 +29,7 @@
       "preview": "東京六大学野球2022秋季リーグ戦の【第1～8週】の席種と入場料は以下のとおりです。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:57:12Z",
       "item_count": 0,
@@ -49,6 +50,7 @@
       "preview": "最初に飲んだ時は正直ちょっと苦手でした。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:57:12Z",
       "item_count": 0,
@@ -69,6 +71,7 @@
       "preview": "新型コロナウイルスの大流行に世界的に騒がれる中、ニューヨーク市のビル・デブラシオ市長は記者会見を開き、新型コロナウイルスが、喫煙者に与える影響について特別な注意喚起をしました。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:57:12Z",
       "item_count": 0,
@@ -89,6 +92,7 @@
       "preview": "小さな会社なので、部署ごとの壁はなくプライベートでも仲が良い。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:57:12Z",
       "item_count": 0,
@@ -109,6 +113,7 @@
       "preview": "ちょっと俗物的な話題で恐縮だが、今日は失敗しにくいプレゼントのコツを書いてみたい。",
       "queue_id": "strong_repair",
       "state": "strong_reviewed",
+      "queue_member": true,
       "selectable": false,
       "state_updated_at": "2026-07-07T08:19:48Z",
       "item_count": 3,
@@ -129,6 +134,7 @@
       "preview": "母親が退職して、今年から年金のみの収入で貯金を崩しながらくらしている。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:57:12Z",
       "item_count": 0,
@@ -149,6 +155,7 @@
       "preview": "京大法学部卒で弁護士資格を持ち、作家になる前には弁護士としても活躍した人気推理作家・和久峻三氏。",
       "queue_id": "strong_repair",
       "state": "strong_pending",
+      "queue_member": true,
       "selectable": true,
       "state_updated_at": "2026-07-08T00:53:14Z",
       "item_count": 3,
@@ -169,6 +176,7 @@
       "preview": "ひんやりアイスバーはいかが。",
       "queue_id": "strong_repair",
       "state": "complete",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-08T00:47:55Z",
       "item_count": 0,
@@ -189,6 +197,7 @@
       "preview": "こんにちは、飲食店で働くと手が血みどろになるカイマルです。",
       "queue_id": "strong_repair",
       "state": "final_pending",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:56:43Z",
       "item_count": 0,
@@ -209,6 +218,7 @@
       "preview": "ハワイ・オアフ島にイルカと触れ合えるホテルがあります。",
       "queue_id": "strong_repair",
       "state": "final_pending",
+      "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-07-07T06:56:43Z",
       "item_count": 0,
@@ -233,7 +243,7 @@
       "source_line_no": 30,
       "text": "少し前から断捨離という言葉が流行っている。",
       "rendered_yomi_before": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
-      "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断捨離/ダンシャリ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "少し",
@@ -272,13 +282,34 @@
           ]
         },
         {
-          "surface": "断捨離",
-          "reading": "ダンシャリ",
+          "surface": "断",
+          "reading": "ダン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "断捨離",
-              "reading": "だんしゃり"
+              "text": "断",
+              "reading": "だん"
+            }
+          ]
+        },
+        {
+          "surface": "捨",
+          "reading": "捨",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "捨"
+            }
+          ]
+        },
+        {
+          "surface": "離",
+          "reading": "リ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "離",
+              "reading": "り"
             }
           ]
         },
@@ -378,7 +409,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0016",
           "text": "少し前から断捨離という言葉が流行っている。",
           "rendered_yomi_before": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
-          "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断捨離/ダンシャリ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "少し/スコシ 前/マエ から/カラ 断/ダン 捨/捨 離/リ と/ト いう/イウ 言葉/コトバ が/ガ 流行っ/ハヤッ て/テ いる/イル 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -546,18 +577,8 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "applied",
-          "repair_log": {
-            "item_id": "ja_cc_level2:0000000030:u0016::target_group:1",
-            "status": "applied",
-            "rejected_span": "断捨離",
-            "replacement": [
-              {
-                "surface": "断捨離",
-                "reading": "ダンシャリ"
-              }
-            ]
-          }
+          "repair_status": null,
+          "repair_log": {}
         }
       ],
       "rejected_span": "断捨離",
@@ -667,18 +688,8 @@
       "llm_raw_text": "[{\"surface\":\"断捨離\",\"reading\":\"だんしゃり\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "applied",
-      "repair_log": {
-        "item_id": "ja_cc_level2:0000000030:u0016::target_group:1",
-        "status": "applied",
-        "rejected_span": "断捨離",
-        "replacement": [
-          {
-            "surface": "断捨離",
-            "reading": "ダンシャリ"
-          }
-        ]
-      }
+      "repair_status": null,
+      "repair_log": {}
     },
     {
       "item_id": "ja_cc_level2:0000000030:u0017::strong_repair",
@@ -691,7 +702,7 @@
       "source_line_no": 30,
       "text": "もうみんな断捨離は終わったかな？",
       "rendered_yomi_before": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
-      "rendered_yomi_after": "もう/モウ みんな/ミンナ 断捨離/ダンシャリ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
+      "rendered_yomi_after": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "もう",
@@ -714,13 +725,34 @@
           ]
         },
         {
-          "surface": "断捨離",
-          "reading": "ダンシャリ",
+          "surface": "断",
+          "reading": "ダン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "断捨離",
-              "reading": "だんしゃり"
+              "text": "断",
+              "reading": "だん"
+            }
+          ]
+        },
+        {
+          "surface": "捨",
+          "reading": "捨",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "捨"
+            }
+          ]
+        },
+        {
+          "surface": "離",
+          "reading": "リ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "離",
+              "reading": "り"
             }
           ]
         },
@@ -799,7 +831,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0017",
           "text": "もうみんな断捨離は終わったかな？",
           "rendered_yomi_before": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
-          "rendered_yomi_after": "もう/モウ みんな/ミンナ 断捨離/ダンシャリ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
+          "rendered_yomi_after": "もう/モウ みんな/ミンナ 断/ダン 捨/捨 離/リ は/ハ 終わっ/オワッ た/タ か/カ な/ナ ？/？",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -967,18 +999,8 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "applied",
-          "repair_log": {
-            "item_id": "ja_cc_level2:0000000030:u0017::target_group:1",
-            "status": "applied",
-            "rejected_span": "断捨離",
-            "replacement": [
-              {
-                "surface": "断捨離",
-                "reading": "ダンシャリ"
-              }
-            ]
-          }
+          "repair_status": null,
+          "repair_log": {}
         }
       ],
       "rejected_span": "断捨離",
@@ -1088,18 +1110,8 @@
       "llm_raw_text": "[{\"surface\":\"断捨離\",\"reading\":\"だんしゃり\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "applied",
-      "repair_log": {
-        "item_id": "ja_cc_level2:0000000030:u0017::target_group:1",
-        "status": "applied",
-        "rejected_span": "断捨離",
-        "replacement": [
-          {
-            "surface": "断捨離",
-            "reading": "ダンシャリ"
-          }
-        ]
-      }
+      "repair_status": null,
+      "repair_log": {}
     },
     {
       "item_id": "ja_cc_level2:0000000030:u0019::strong_repair",
@@ -1112,7 +1124,7 @@
       "source_line_no": 30,
       "text": "「断」断つこと、「捨」捨てること、「離」離れること、１つづつに分解して実行していけば簡単だ。",
       "rendered_yomi_before": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
-      "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/シャ 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
+      "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "「",
@@ -1192,12 +1204,11 @@
         },
         {
           "surface": "捨",
-          "reading": "シャ",
+          "reading": "捨",
           "nodes": [
             {
-              "type": "ruby",
-              "text": "捨",
-              "reading": "しゃ"
+              "type": "text",
+              "text": "捨"
             }
           ]
         },
@@ -1475,7 +1486,7 @@
           "unit_id": "ja_cc_level2:0000000030:u0019",
           "text": "「断」断つこと、「捨」捨てること、「離」離れること、１つづつに分解して実行していけば簡単だ。",
           "rendered_yomi_before": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
-          "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/シャ 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
+          "rendered_yomi_after": "「/「 断/タ 」/」 断つ/タツ こと/コト 、/、 「/「 捨/捨 」/」 捨てる/ステル こと/コト 、/、 「/「 離/リ 」/」 離れる/ハナレル こと/コト 、/、 １/ つ/ツ づつ/ヅツ に/ニ 分解/ブンカイ し/シ て/テ 実行/ジッコウ し/シ て/テ いけ/イケ ば/バ 簡単/カンタン だ/ダ 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -1546,18 +1557,8 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "applied",
-          "repair_log": {
-            "item_id": "ja_cc_level2:0000000030:u0019::target_group:1",
-            "status": "applied",
-            "rejected_span": "捨",
-            "replacement": [
-              {
-                "surface": "捨",
-                "reading": "シャ"
-              }
-            ]
-          }
+          "repair_status": null,
+          "repair_log": {}
         }
       ],
       "rejected_span": "捨",
@@ -1606,18 +1607,8 @@
       "llm_raw_text": "[{\"surface\":\"捨\",\"reading\":\"シャ\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "applied",
-      "repair_log": {
-        "item_id": "ja_cc_level2:0000000030:u0019::target_group:1",
-        "status": "applied",
-        "rejected_span": "捨",
-        "replacement": [
-          {
-            "surface": "捨",
-            "reading": "シャ"
-          }
-        ]
-      }
+      "repair_status": null,
+      "repair_log": {}
     },
     {
       "item_id": "ja_cc_level2:0000000032:u0006::strong_repair",
