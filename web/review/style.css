@@ -776,6 +776,16 @@ button:disabled {
   box-shadow: none;
 }
 
+.workflow-preview-item.yomi-card {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid rgba(45, 106, 79, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 253, 249, 0.96);
+}
+
 .workflow-preview-item.yomi-card.all-safe {
   opacity: 1;
 }
