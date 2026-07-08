@@ -10,7 +10,7 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
-  uiMode: "classic",
+  uiMode: "workflow",
   pendingIssueTaskId: null,
 };
 
@@ -58,7 +58,7 @@ const el = {
   itemTemplate: document.querySelector("#item-template"),
 };
 
-const settingsKey = "yomi-corpus:review-ui:settings:v1";
+const settingsKey = "yomi-corpus:review-ui:settings:v2";
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -235,13 +235,13 @@ function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get("stage");
   const requestedPackId = params.get("pack");
-  if (requested === "unified_yomi_review" && activeDevReviewQueues().length > 1) {
+  if (requested === "unified_yomi_review" && activeDevReviewQueues().length > 0) {
     return { stageId: "unified_yomi_review", packId: requestedPackId };
   }
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
   }
-  if (!requested && activeDevReviewQueues().length > 1) {
+  if (!requested && activeDevReviewQueues().length > 0) {
     return { stageId: "unified_yomi_review", packId: null };
   }
 
@@ -326,13 +326,16 @@ async function openUnifiedReview() {
     await openStage(fallbackStage, { preferLatest: true });
     return;
   }
+  state.currentStageId = "unified_yomi_review";
+  if (el.stageSelect) {
+    el.stageSelect.value = "unified_yomi_review";
+  }
   const sources = [];
   for (const queue of queues) {
     const pack = await fetchJson(queue.path);
     sources.push({ meta: queue, pack });
   }
   const unified = buildUnifiedReviewPack(sources);
-  state.currentStageId = "unified_yomi_review";
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -487,7 +490,7 @@ function unifiedDocumentIsSelectable(doc, stats) {
 
 function populateStageSelect(stageIds) {
   el.stageSelect.innerHTML = "";
-  if (activeDevReviewQueues().length > 1) {
+  if (activeDevReviewQueues().length > 0) {
     const option = document.createElement("option");
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
@@ -529,20 +532,21 @@ function renderCurrentTracks() {
     return;
   }
 
-  if (cards.length > 1) {
+  if (cards.length > 0) {
     const unifiedButton = document.createElement("button");
     unifiedButton.type = "button";
     unifiedButton.className = "track-card primary-track";
     unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
     const totalItems = cards.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
     const totalDocs = Math.max(...cards.map((card) => Number(card.document_count || 0)));
+    const queueText = cards.length === 1 ? "1 queue" : `${cards.length} queues`;
     unifiedButton.innerHTML = `
       <div class="track-card-header">
-        <strong>Unified Yomi Review</strong>
+        <strong>Workflow Review</strong>
         <span class="badge dev">dev</span>
       </div>
-      <div class="track-card-stage">Final + strong repair task workspace</div>
-      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${cards.length} queue(s)</div>
+      <div class="track-card-stage">Document-based review workspace</div>
+      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${queueText}</div>
     `;
     unifiedButton.addEventListener("click", () => {
       openUnifiedReview().catch((error) => {
@@ -4111,7 +4115,7 @@ function updateLocation(stageId, packId) {
 }
 
 function normalizeUiMode(mode) {
-  return mode === "workflow" ? "workflow" : "classic";
+  return mode === "classic" ? "classic" : "workflow";
 }
 
 function formatConfidenceCounts(counts) {
