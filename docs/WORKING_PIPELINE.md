@@ -2113,9 +2113,50 @@ Operational requirements:
 - Escalated Repair should be derived from Bulk Review submissions, not from a
   separately prepared manual batch
 - periodic sync should be a distinct operator command, not a hidden side effect
-  of ordinary review UI generation. `./review-sync dev` imports Issues, updates
-  document states, and regenerates review packs when needed. Starting the next
-  batch automatically remains a later extension.
+  of ordinary review UI generation. `./review-sync dev` imports Issues,
+  updates document states, and regenerates review packs when needed. Starting
+  the next batch automatically remains a later extension.
+
+Rolling refill target:
+
+- the pipeline should eventually keep Bulk Review stocked with a configurable
+  number of actionable documents rather than waiting for one backend batch to
+  finish completely
+- the refill policy should be document-state based: count selectable Bulk Review
+  documents, and if the count is below target, prepare more source documents up
+  to a per-pass limit
+- prepared documents may come from multiple backend batches but should appear in
+  one human-facing Bulk Review queue
+- source selection must be idempotent. A source document already prepared,
+  submitted, resolved, skipped, or partially prepared must not be selected as a
+  fresh document again.
+- refill may run automatic stages and LLM stages, but it must be bounded and
+  resumable. If a sync is interrupted, the next sync should continue from the
+  stored ledger state.
+
+Durable document ledger:
+
+- maintain a per-track ledger keyed by stable source document ID and source
+  order
+- store current state, current queue membership, preparation batch/artifact
+  pointers, imported Issue/comment IDs, and latest canonical output pointers
+- use the ledger as the source of truth for queue membership; generated packs
+  are views or payloads, not authoritative state
+
+Corpus Map target:
+
+- add a read-mostly map view over the document ledger, separate from editable
+  review tasks
+- generate a compact `docs/review/map/index.json` with corpus range metadata,
+  shard names, counts by state, and queue sizes
+- generate sharded `docs/review/map/shard_XXXX.json` files with document ID,
+  source order, state, queue membership, short preview text, and detail pointers
+- processed documents should preview canonical server-side yomi data, active
+  documents should preview current task data, submitted documents may overlay
+  browser-local drafts, and unprocessed documents should show raw text only
+- the first milestone should be overview and preview only; correction of
+  resolved documents should later use a normal auditable submission/replay path
+  rather than direct browser-side mutation
 
 ### 11.2 Review sync command
 

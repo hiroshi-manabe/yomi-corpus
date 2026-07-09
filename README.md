@@ -120,6 +120,13 @@ Review transport policy:
 - a review-queue goal is large durable pipeline batches with smaller
   browser-selected work slices, imported from GitHub Issues and replayed into
   per-document pending/completed state
+- a longer-term review-queue goal is rolling refill: keep a configurable buffer
+  of actionable Bulk Review documents available by preparing more source
+  documents when the queue gets low, using a durable per-document ledger rather
+  than batch-level stage membership
+- a companion Corpus Map should be generated from that ledger as compact static
+  shards so reviewers can inspect unprocessed, active, submitted, and resolved
+  documents without loading one huge editable review pack
 - finalized batches harvest exact Escalated Repair rewrite defaults and
   supplemental furigana display entries under `data/lexicon/`
 

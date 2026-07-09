@@ -1920,6 +1920,55 @@ Implementation requirements:
 - periodic preparation should maintain a buffer of reviewable documents without
   requiring the previous human slice to be fully finalized first
 
+Rolling Bulk Review refill should be implemented as a queue-maintenance policy
+over the document-state ledger, not as a new kind of batch:
+
+- keep a configured target number of actionable Bulk Review documents, for
+  example `bulk_review_target_ready_docs = 50`
+- each `./review-sync <track>` pass should count documents whose canonical
+  state makes them selectable in Bulk Review
+- if the count is below target, the runner may prepare more source documents,
+  run the automatic/LLM stages needed to make them reviewable, append their
+  document states to the ledger, and republish review artifacts
+- refill should be bounded by a per-pass limit so a sync does not unexpectedly
+  launch an unbounded amount of LLM work
+- the UI may show documents from multiple backend preparation batches in one
+  Bulk Review queue; batch IDs remain provenance, not user-facing queue
+  boundaries
+- refill must be idempotent: a source document selected once must not be
+  selected again, and partially prepared documents should resume rather than
+  duplicate
+
+The durable ledger should be the source of truth for this refill behavior. A
+minimal ledger row should include:
+
+- stable source document ID and source ordering key
+- current document state
+- preparation batch/artifact IDs that produced the current review payload
+- current queue membership flags for Bulk Review and Escalated Repair
+- submission/import provenance, including Issue/comment IDs when applicable
+- pointers to the latest canonical yomi payload, repair payload, and finalized
+  output when available
+
+Corpus-wide map viewing should be a separate read-mostly artifact family, not a
+large editable review pack. The map should be generated from the ledger plus
+source/final data:
+
+- `docs/review/map/index.json` should contain corpus range metadata, shard
+  names, counts by document state, and current queue sizes
+- `docs/review/map/shard_XXXX.json` should contain compact rows for a bounded
+  contiguous source range: document ID, source order, state, queue membership,
+  short plain-text preview, and pointers to detail payloads
+- processed rows can link to finalized server-side yomi/ruby data
+- active rows can link to current Bulk Review or Escalated Repair packs
+- submitted rows can show imported server state plus optional browser-local
+  overlay
+- unprocessed rows should initially show only raw text and state
+
+The first Corpus Map milestone should be read-only overview and preview. Editing
+resolved documents should be a later auditable correction workflow that creates
+new submissions and replays them through the same importer.
+
 Resolved-document correction is a later extension of the same model. A resolved
 document may be reopened through a correction task, but the change should be
 recorded as a new auditable submission, replayed by the importer, and harvested
