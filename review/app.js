@@ -336,8 +336,6 @@ async function openUnifiedReview() {
     sources.push({ meta: source, pack });
   }
   const unified = buildUnifiedReviewPack(sources);
-  pruneSourceDraftsForUnifiedReview(sources);
-  pruneResolvedDocumentDraftsFromLocalStorage(unified);
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -349,145 +347,6 @@ async function openUnifiedReview() {
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
   render();
-}
-
-function pruneSourceDraftsForUnifiedReview(sources) {
-  for (const { pack } of sources || []) {
-    pruneDraftForPack(pack);
-  }
-}
-
-function pruneDraftForPack(pack) {
-  if (!pack?.review_stage || !pack?.pack_id) {
-    return;
-  }
-  const key = draftStorageKey(pack.review_stage, pack.pack_id);
-  const raw = window.localStorage.getItem(key);
-  if (!raw) {
-    return;
-  }
-  try {
-    const normalized = normalizeReviewDraft(JSON.parse(raw), pack);
-    if (draftHasLocalWork(normalized)) {
-      window.localStorage.setItem(key, JSON.stringify(normalized));
-    } else {
-      window.localStorage.removeItem(key);
-    }
-  } catch {
-    window.localStorage.removeItem(key);
-  }
-}
-
-function draftHasLocalWork(draft) {
-  return Boolean(
-    draft?.active_task_id ||
-      Object.keys(draft?.saved_tasks || {}).length > 0 ||
-      Object.keys(draft?.overrides || {}).length > 0 ||
-      draft?.task?.doc_ids?.length > 0,
-  );
-}
-
-function pruneResolvedDocumentDraftsFromLocalStorage(pack) {
-  const resolvedDocIds = resolvedBaseDocIdsForPack(pack);
-  if (resolvedDocIds.size === 0) {
-    return;
-  }
-  const draftKeys = [];
-  for (let index = 0; index < window.localStorage.length; index += 1) {
-    const key = window.localStorage.key(index);
-    if (key?.startsWith("yomi-corpus:draft:")) {
-      draftKeys.push(key);
-    }
-  }
-  for (const key of draftKeys) {
-    const raw = window.localStorage.getItem(key);
-    if (!raw) {
-      continue;
-    }
-    try {
-      const parsed = JSON.parse(raw);
-      const pruned = pruneResolvedDocumentDraft(parsed, resolvedDocIds);
-      if (draftHasLocalWork(pruned)) {
-        window.localStorage.setItem(key, JSON.stringify(pruned));
-      } else {
-        window.localStorage.removeItem(key);
-      }
-    } catch {
-      window.localStorage.removeItem(key);
-    }
-  }
-}
-
-function resolvedBaseDocIdsForPack(pack) {
-  const resolved = new Set();
-  for (const doc of buildDocumentTasks(pack)) {
-    if (documentIsResolved(doc) && doc.doc_id) {
-      resolved.add(String(doc.doc_id));
-    }
-  }
-  return resolved;
-}
-
-function pruneResolvedDocumentDraft(draft, resolvedDocIds) {
-  const pruned = { ...draft };
-  const activeTask = pruneResolvedDocumentTask(pruned.task, resolvedDocIds);
-  const activeTaskIsValid = activeTask.mode === "documents" && activeTask.doc_ids.length > 0;
-  pruned.task = activeTaskIsValid ? activeTask : { mode: "documents", doc_ids: [], started: false };
-  if (!activeTaskIsValid) {
-    pruned.active_task_id = null;
-    pruned.active_task_label = null;
-    pruned.from_seq = null;
-    pruned.to_seq = null;
-    pruned.overrides = {};
-  }
-
-  const savedTasks = {};
-  for (const [taskId, record] of Object.entries(pruned.saved_tasks || {})) {
-    const task = pruneResolvedDocumentTask(record?.task, resolvedDocIds);
-    if (task.mode !== "documents" || task.doc_ids.length === 0) {
-      continue;
-    }
-    savedTasks[taskId] = {
-      ...record,
-      task: { ...task, started: false },
-    };
-  }
-  pruned.saved_tasks = savedTasks;
-  return pruned;
-}
-
-function pruneResolvedDocumentTask(task, resolvedDocIds) {
-  const docIds = taskDocIdsForStorageTask(task);
-  const filteredDocIds = docIds.filter((docId) => !resolvedDocIds.has(baseDocIdFromTaskDocId(docId)));
-  return {
-    ...task,
-    mode: filteredDocIds.length > 0 ? "documents" : "all",
-    doc_id: undefined,
-    doc_ids: filteredDocIds,
-    started: Boolean(task?.started) && filteredDocIds.length > 0,
-    range_start_doc_id: resolvedDocIds.has(baseDocIdFromTaskDocId(task?.range_start_doc_id))
-      ? null
-      : task?.range_start_doc_id || null,
-    range_end_doc_id: resolvedDocIds.has(baseDocIdFromTaskDocId(task?.range_end_doc_id))
-      ? null
-      : task?.range_end_doc_id || null,
-  };
-}
-
-function taskDocIdsForStorageTask(task) {
-  if (task?.mode === "document" && task.doc_id) {
-    return [String(task.doc_id)];
-  }
-  if (task?.mode === "documents" && Array.isArray(task.doc_ids)) {
-    return [...new Set(task.doc_ids.map(String))];
-  }
-  return [];
-}
-
-function baseDocIdFromTaskDocId(taskDocId) {
-  const value = String(taskDocId || "");
-  const separator = value.indexOf("::");
-  return separator >= 0 ? value.slice(separator + 2) : value;
 }
 
 function latestDevYomiReviewSources() {
@@ -1679,6 +1538,7 @@ function renderSavedTaskDrafts(docs) {
   if (!el.taskDraftList) {
     return;
   }
+  syncLocalTaskRecordsForCurrentPack();
   const savedTasks = listSavedTaskDrafts();
   el.taskDraftList.innerHTML = "";
   if (savedTasks.length === 0) {
@@ -4053,6 +3913,204 @@ function formatReviewStageLabel(stage) {
   return stage || "review";
 }
 
+function syncLocalTaskRecordsForCurrentPack() {
+  if (!state.currentPack || !state.currentDraft) {
+    return;
+  }
+  const currentKey = currentDraftStorageKey();
+  const currentRecords = {};
+  const changedKeys = new Set();
+  const draftKeys = localDraftStorageKeys();
+
+  for (const key of draftKeys) {
+    let parsed;
+    if (key === currentKey) {
+      parsed = state.currentDraft;
+    } else {
+      const raw = window.localStorage.getItem(key);
+      if (!raw) {
+        continue;
+      }
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        window.localStorage.removeItem(key);
+        continue;
+      }
+    }
+    const sourceStage = reviewStageFromDraftStorageKey(key) || parsed?.review_stage || "";
+    const nextSavedTasks = {};
+    let sourceChanged = false;
+    for (const [taskId, rawRecord] of Object.entries(parsed?.saved_tasks || {})) {
+      const normalized = normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage);
+      if (!normalized) {
+        sourceChanged = true;
+        continue;
+      }
+      const currentTaskId = uniqueTaskIdForRecords(normalized.task_id || taskId, currentRecords);
+      currentRecords[currentTaskId] = { ...normalized, task_id: currentTaskId };
+      if (key === currentKey) {
+        nextSavedTasks[currentTaskId] = { ...normalized, task_id: currentTaskId };
+      } else {
+        sourceChanged = true;
+      }
+    }
+    if (key === currentKey) {
+      continue;
+    }
+    if (sourceChanged) {
+      parsed.saved_tasks = nextSavedTasks;
+      if (draftHasLocalWork(parsed)) {
+        window.localStorage.setItem(key, JSON.stringify(parsed));
+      } else {
+        window.localStorage.removeItem(key);
+      }
+      changedKeys.add(key);
+    }
+  }
+
+  const before = JSON.stringify(state.currentDraft.saved_tasks || {});
+  state.currentDraft.saved_tasks = currentRecords;
+  const after = JSON.stringify(state.currentDraft.saved_tasks || {});
+  if (before !== after || changedKeys.size > 0) {
+    saveDraft();
+  }
+}
+
+function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
+  if (!rawRecord?.task_id && !rawRecord?.task) {
+    return null;
+  }
+  const taskStage = localTaskRecordStage(rawRecord, sourceStage);
+  if (!taskStage) {
+    return null;
+  }
+  const docIds = taskDocIdsForStorageTask(rawRecord.task);
+  const validDocs = docIds
+    .map((docId) => currentQueueDocForTaskDocId(docId, taskStage))
+    .filter(Boolean);
+  if (!validDocs.length) {
+    return null;
+  }
+  const task = {
+    ...rawRecord.task,
+    mode: "documents",
+    doc_id: undefined,
+    doc_ids: validDocs.map((doc) => taskDocKey(doc)),
+    started: false,
+    range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage),
+    range_end_doc_id: validLocalTaskBoundary(rawRecord.task?.range_end_doc_id, taskStage),
+  };
+  return {
+    ...rawRecord,
+    queue_stage: taskStage,
+    status: taskRecordStatus(rawRecord),
+    task,
+    overrides: filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
+  };
+}
+
+function currentQueueDocForTaskDocId(taskDocId, taskStage) {
+  const baseDocId = baseDocIdFromTaskDocId(taskDocId);
+  return buildDocumentTasks(state.currentPack).find(
+    (doc) =>
+      String(doc.doc_id || "") === baseDocId &&
+      doc.queue_stage === taskStage &&
+      docServerStageIsTaskValid(doc),
+  ) || null;
+}
+
+function docServerStageIsTaskValid(doc) {
+  return Boolean(doc) && doc.selectable !== false && !documentIsResolved(doc);
+}
+
+function localTaskRecordStage(record, sourceStage = "") {
+  if (record?.queue_stage) {
+    return record.queue_stage;
+  }
+  const fromDocIds = taskDocIdsForStorageTask(record?.task)
+    .map(stageFromTaskDocId)
+    .find(Boolean);
+  if (fromDocIds) {
+    return fromDocIds;
+  }
+  if (sourceStage === "yomi_final_review" || sourceStage === "yomi_strong_repair_review") {
+    return sourceStage;
+  }
+  return "";
+}
+
+function validLocalTaskBoundary(docId, taskStage) {
+  const doc = currentQueueDocForTaskDocId(docId, taskStage);
+  return doc ? taskDocKey(doc) : null;
+}
+
+function taskDocIdsForStorageTask(task) {
+  if (task?.mode === "document" && task.doc_id) {
+    return [String(task.doc_id)];
+  }
+  if (task?.mode === "documents" && Array.isArray(task.doc_ids)) {
+    return [...new Set(task.doc_ids.map(String))];
+  }
+  return [];
+}
+
+function stageFromTaskDocId(taskDocId) {
+  const value = String(taskDocId || "");
+  const separator = value.indexOf("::");
+  return separator >= 0 ? value.slice(0, separator) : "";
+}
+
+function baseDocIdFromTaskDocId(taskDocId) {
+  const value = String(taskDocId || "");
+  const separator = value.indexOf("::");
+  return separator >= 0 ? value.slice(separator + 2) : value;
+}
+
+function currentDraftStorageKey() {
+  return draftStorageKey(state.currentPack.review_stage, state.currentPack.pack_id);
+}
+
+function localDraftStorageKeys() {
+  const keys = [];
+  for (let index = 0; index < window.localStorage.length; index += 1) {
+    const key = window.localStorage.key(index);
+    if (key?.startsWith("yomi-corpus:draft:")) {
+      keys.push(key);
+    }
+  }
+  if (!keys.includes(currentDraftStorageKey())) {
+    keys.push(currentDraftStorageKey());
+  }
+  return keys;
+}
+
+function reviewStageFromDraftStorageKey(key) {
+  const parts = String(key || "").split(":");
+  return parts.length >= 4 ? parts[2] : "";
+}
+
+function uniqueTaskIdForRecords(taskId, records) {
+  const base = taskId || "task";
+  if (!records[base]) {
+    return base;
+  }
+  let suffix = 2;
+  while (records[`${base}_${suffix}`]) {
+    suffix += 1;
+  }
+  return `${base}_${suffix}`;
+}
+
+function draftHasLocalWork(draft) {
+  return Boolean(
+    draft?.active_task_id ||
+      Object.keys(draft?.saved_tasks || {}).length > 0 ||
+      Object.keys(draft?.overrides || {}).length > 0 ||
+      draft?.task?.doc_ids?.length > 0,
+  );
+}
+
 function listSavedTaskDrafts() {
   const records = Object.values(state.currentDraft?.saved_tasks || {});
   return records
@@ -4111,6 +4169,7 @@ function currentTaskDraftRecord() {
   return {
     ...identity,
     status: "deferred",
+    queue_stage: taskQueueStage(state.currentDraft.task),
     task: {
       ...normalizeTask(state.currentDraft.task, state.currentPack),
       started: false,
@@ -4434,9 +4493,12 @@ function completeCurrentTask() {
 }
 
 function resumeTaskDraft(taskId) {
-  const record = state.currentDraft.saved_tasks?.[taskId];
+  const record = normalizeLocalTaskRecordForCurrentPack(state.currentDraft.saved_tasks?.[taskId], "");
   if (!record) {
-    showStatus("Deferred task was not found in local storage.", true);
+    delete state.currentDraft.saved_tasks?.[taskId];
+    touchDraft();
+    showStatus("That local task no longer applies to the current review stage.", true);
+    render();
     return;
   }
   state.currentDraft.active_task_id = record.task_id;
