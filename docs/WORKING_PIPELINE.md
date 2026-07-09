@@ -2032,6 +2032,12 @@ The distinction matters because `final review` is an internal pipeline idea,
 not a useful phrase for the reviewer. The reviewer is either doing bulk audit
 work or focused escalated repair work.
 
+Unified Yomi Review is the sole normal human-facing review entrypoint. Legacy
+Bulk Review and Escalated Repair packs may continue to exist as internal
+payloads and history while cleanup is incremental, but the public review page
+should not expose Classic mode or direct stage selection when Unified sources
+are available.
+
 The next dev implementation should prototype the intended `working` workflow.
 The main shift is from a single global batch stage to durable per-document task
 state. The batch remains the data boundary, but different documents in the same

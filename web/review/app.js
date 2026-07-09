@@ -233,16 +233,14 @@ function bindEvents() {
 
 function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
+  if (hasDevYomiReviewSources()) {
+    return { stageId: "unified_yomi_review", packId: null };
+  }
+
   const requested = params.get("stage");
   const requestedPackId = params.get("pack");
-  if (requested === "unified_yomi_review" && hasDevYomiReviewSources()) {
-    return { stageId: "unified_yomi_review", packId: requestedPackId };
-  }
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
-  }
-  if (!requested && hasDevYomiReviewSources()) {
-    return { stageId: "unified_yomi_review", packId: null };
   }
 
   if (requestedPackId) {
@@ -534,6 +532,7 @@ function populateStageSelect(stageIds) {
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
     el.stageSelect.append(option);
+    return;
   }
   for (const stageId of stageIds) {
     const option = document.createElement("option");
@@ -560,7 +559,7 @@ function renderCurrentTracks() {
   const workflowCards = currentQueues.filter((queue) => queue.track_name === "dev");
   const workflowSources = workflowCards.length > 0 ? workflowCards : latestDevYomiReviewSources();
   el.currentTrackList.innerHTML = "";
-  let cards = [...workflowCards];
+  let cards = hasDevYomiReviewSources() ? [] : [...workflowCards];
   if (cards.length === 0 && workflowSources.length === 0 && currentTracks.dev) {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
@@ -641,25 +640,16 @@ function renderPackList() {
     el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
     el.packList.innerHTML = "";
     for (const { meta } of state.unifiedSources) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "pack-button active-pack";
-      button.innerHTML = `
+      const row = document.createElement("div");
+      row.className = "pack-button active-pack";
+      row.innerHTML = `
         <div class="pack-title-line">
           <strong>${escapeHtml(meta.title || meta.pack_id)}</strong>
           <span class="badge active">${escapeHtml(meta.review_stage)}</span>
         </div>
         <div class="pack-meta-line">${meta.item_count} item(s) · ${escapeHtml(meta.track_name || "dev")}</div>
       `;
-      button.addEventListener("click", () => {
-        openStage(meta.review_stage, {
-          preferLatest: false,
-          preferredPackId: meta.pack_id,
-        }).catch((error) => {
-          showStatus(`Failed to open pack: ${error.message}`, true);
-        });
-      });
-      el.packList.append(button);
+      el.packList.append(row);
     }
     return;
   }
@@ -751,11 +741,7 @@ function renderTaskSelector() {
   renderSavedTaskDrafts(actionableDocs);
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
-    if (state.uiMode === "workflow") {
-      renderWorkflowTaskDashboard(docs, actionableDocs, task);
-    } else {
-      renderUnifiedTaskQueues(actionableDocs, task);
-    }
+    renderWorkflowTaskDashboard(docs, actionableDocs, task);
     el.taskSummary.textContent = "Choose documents in one queue, then start that review task.";
     el.startTask.disabled = true;
     el.clearDocSelection.disabled = true;
@@ -4684,20 +4670,16 @@ function draftStorageKey(reviewStage, packId) {
 }
 
 function loadSettings() {
-  const params = new URLSearchParams(window.location.search);
   try {
     const raw = window.localStorage.getItem(settingsKey);
     if (raw) {
       const parsed = JSON.parse(raw);
       el.reviewerName.value = parsed.reviewer_name || "";
-      state.uiMode = normalizeUiMode(parsed.ui_mode);
     }
   } catch {
     // ignore
   }
-  if (params.has("ui")) {
-    state.uiMode = normalizeUiMode(params.get("ui"));
-  }
+  state.uiMode = "workflow";
   if (el.uiModeSelect) {
     el.uiModeSelect.value = state.uiMode;
   }
@@ -4717,12 +4699,12 @@ function updateLocation(stageId, packId) {
   const params = new URLSearchParams(window.location.search);
   params.set("stage", stageId);
   params.set("pack", packId);
-  params.set("ui", state.uiMode);
+  params.delete("ui");
   window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
 }
 
 function normalizeUiMode(mode) {
-  return mode === "classic" ? "classic" : "workflow";
+  return "workflow";
 }
 
 function formatConfidenceCounts(counts) {

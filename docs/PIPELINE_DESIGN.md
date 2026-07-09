@@ -1731,8 +1731,10 @@ Review entry point migration:
   If regenerated server-side state moves a document to another stage or to
   resolved, remove that document from the local task. If no documents remain,
   delete the task. Local tasks are resumeable work, not history
-- the old stage selector may remain temporarily as a debug/deep-link fallback,
-  but it should stop being the normal workflow
+- Unified Yomi Review is now the only normal human-facing review entrypoint.
+  Legacy stage packs may remain as internal/history payloads while cleanup is
+  incremental, but the public page should not expose a Classic mode or a stage
+  selector when Unified review sources are available.
 
 This depends on review packs carrying document-level queue state. The UI should
 render from that explicit metadata rather than inferring pending/completed
