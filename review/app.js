@@ -560,8 +560,8 @@ function renderCurrentTracks() {
   const workflowCards = currentQueues.filter((queue) => queue.track_name === "dev");
   const workflowSources = workflowCards.length > 0 ? workflowCards : latestDevYomiReviewSources();
   el.currentTrackList.innerHTML = "";
-  let cards = workflowCards;
-  if (cards.length === 0 && currentTracks.dev) {
+  let cards = [...workflowCards];
+  if (cards.length === 0 && workflowSources.length === 0 && currentTracks.dev) {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
