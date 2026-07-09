@@ -21,6 +21,7 @@ from yomi_corpus.pipeline import (
 )
 from yomi_corpus.document_review_state import (
     STATE_STRONG_PENDING,
+    document_review_queue_summary,
     load_document_review_state,
 )
 from yomi_corpus.review_site import collect_review_pack_entries, publish_review_site
@@ -208,6 +209,11 @@ def _run_review_sync_pass_unlocked(
 
     completed_at = now_iso()
     final_status = workspace.status(options.track_name)
+    final_batch_name = str(
+        final_status.get("current_batch_name")
+        or final_status.get("batch_name")
+        or ""
+    )
     return {
         "schema_version": 1,
         "track_name": options.track_name,
@@ -224,6 +230,10 @@ def _run_review_sync_pass_unlocked(
         "publish_result": publish_result,
         "dry_run_plan": dry_run_plan,
         "final_status": final_status,
+        "document_queue_summary": current_document_queue_summary(
+            root=root,
+            batch_name=final_batch_name,
+        ),
     }
 
 
@@ -296,6 +306,18 @@ def has_strong_pending_documents(*, root: Path, batch_name: str) -> bool:
         and int(document.get("strong_repair_item_count") or 0) > 0
         for document in state.get("documents", [])
     )
+
+
+def current_document_queue_summary(*, root: Path, batch_name: str) -> dict[str, Any] | None:
+    if not batch_name:
+        return None
+    state_path = root / "data" / "pipeline" / "document_states" / f"{batch_name}.json"
+    if not state_path.exists():
+        return None
+    try:
+        return document_review_queue_summary(load_document_review_state(state_path))
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return None
 
 
 def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:
@@ -517,10 +539,16 @@ def run_review_sync_loop(
 
 def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
     final_status = summary.get("final_status") if isinstance(summary.get("final_status"), dict) else {}
+    document_queue_summary = (
+        summary.get("document_queue_summary")
+        if isinstance(summary.get("document_queue_summary"), dict)
+        else {}
+    )
     return {
         "track_name": summary.get("track_name"),
         "changed": summary.get("changed"),
         "site_stale": summary.get("site_stale"),
+        "document_queue_counts": document_queue_summary.get("queue_counts"),
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),

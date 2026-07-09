@@ -31,6 +31,12 @@ VALID_DOCUMENT_STATES = frozenset(
     }
 )
 
+BULK_REVIEW_SELECTABLE_STATES = frozenset({STATE_FINAL_PENDING, STATE_FINAL_IN_REVIEW})
+BULK_REVIEW_SUBMITTED_STATES = frozenset({STATE_FINAL_REVIEWED})
+ESCALATED_REPAIR_SELECTABLE_STATES = frozenset({STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW})
+ESCALATED_REPAIR_SUBMITTED_STATES = frozenset({STATE_STRONG_REVIEWED})
+RESOLVED_STATES = frozenset({STATE_COMPLETE, STATE_SKIPPED})
+
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -326,6 +332,35 @@ def with_summary(payload: dict[str, Any]) -> dict[str, Any]:
     payload["summary"] = {
         "document_count": len(payload.get("documents", [])),
         "state_counts": {state: counts.get(state, 0) for state in sorted(VALID_DOCUMENT_STATES)},
+        "queue_counts": document_review_queue_counts_from_state_counts(counts),
     }
     validate_document_review_state(payload)
     return payload
+
+
+def document_review_queue_summary(state: dict[str, Any]) -> dict[str, Any]:
+    validate_document_review_state(state)
+    state_counts = Counter(str(row.get("state") or "") for row in state.get("documents", []))
+    return {
+        "schema_version": 1,
+        "batch_name": state.get("batch_name"),
+        "track_name": state.get("track_name"),
+        "document_count": len(state.get("documents", [])),
+        "state_counts": {name: state_counts.get(name, 0) for name in sorted(VALID_DOCUMENT_STATES)},
+        "queue_counts": document_review_queue_counts_from_state_counts(state_counts),
+    }
+
+
+def document_review_queue_counts_from_state_counts(state_counts: Counter[str]) -> dict[str, int]:
+    bulk_selectable = sum(state_counts.get(state, 0) for state in BULK_REVIEW_SELECTABLE_STATES)
+    bulk_submitted = sum(state_counts.get(state, 0) for state in BULK_REVIEW_SUBMITTED_STATES)
+    escalated_selectable = sum(state_counts.get(state, 0) for state in ESCALATED_REPAIR_SELECTABLE_STATES)
+    escalated_submitted = sum(state_counts.get(state, 0) for state in ESCALATED_REPAIR_SUBMITTED_STATES)
+    resolved = sum(state_counts.get(state, 0) for state in RESOLVED_STATES)
+    return {
+        "bulk_review_selectable": bulk_selectable,
+        "bulk_review_submitted": bulk_submitted,
+        "escalated_repair_selectable": escalated_selectable,
+        "escalated_repair_submitted": escalated_submitted,
+        "resolved": resolved,
+    }

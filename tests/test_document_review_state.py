@@ -14,6 +14,7 @@ from yomi_corpus.document_review_state import (
     STATE_STRONG_PENDING,
     STATE_STRONG_REVIEWED,
     build_initial_document_review_state,
+    document_review_queue_summary,
     load_document_review_state,
     mark_document_review_state_finalized,
     update_document_review_state_after_final_review,
@@ -44,6 +45,7 @@ class DocumentReviewStateTests(unittest.TestCase):
 
             self.assertEqual(state["summary"]["document_count"], 2)
             self.assertEqual(state["summary"]["state_counts"][STATE_FINAL_PENDING], 2)
+            self.assertEqual(state["summary"]["queue_counts"]["bulk_review_selectable"], 2)
             self.assertEqual(state["documents"][0]["doc_id"], "doc1")
             self.assertEqual(state["documents"][0]["unit_count"], 2)
             self.assertEqual(state["documents"][1]["doc_seq"], 2)
@@ -146,6 +148,10 @@ class DocumentReviewStateTests(unittest.TestCase):
             states = {row["doc_id"]: row["state"] for row in state["documents"]}
             self.assertEqual(states["doc1"], STATE_COMPLETE)
             self.assertEqual(states["doc2"], STATE_STRONG_PENDING)
+            self.assertEqual(state["summary"]["queue_counts"]["bulk_review_selectable"], 0)
+            self.assertEqual(state["summary"]["queue_counts"]["bulk_review_submitted"], 0)
+            self.assertEqual(state["summary"]["queue_counts"]["escalated_repair_selectable"], 1)
+            self.assertEqual(state["summary"]["queue_counts"]["resolved"], 1)
 
     def test_strong_review_update_marks_reviewed_or_partial_documents(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -341,6 +347,32 @@ class DocumentReviewStateTests(unittest.TestCase):
             loaded = load_document_review_state(state_path)
 
             self.assertEqual(loaded["documents"][0]["doc_id"], "doc1")
+
+    def test_document_review_queue_summary_reports_refill_relevant_counts(self) -> None:
+        state = {
+            "schema_version": 1,
+            "batch_name": "dev_batch_0001",
+            "track_name": "dev",
+            "created_at": "2026-01-01T00:00:00Z",
+            "updated_at": "2026-01-01T00:00:00Z",
+            "documents": [
+                {"doc_id": "doc1", "state": STATE_FINAL_PENDING},
+                {"doc_id": "doc2", "state": STATE_FINAL_IN_REVIEW},
+                {"doc_id": "doc3", "state": STATE_FINAL_REVIEWED},
+                {"doc_id": "doc4", "state": STATE_STRONG_PENDING},
+                {"doc_id": "doc5", "state": STATE_STRONG_REVIEWED},
+                {"doc_id": "doc6", "state": STATE_COMPLETE},
+                {"doc_id": "doc7", "state": STATE_SKIPPED},
+            ],
+        }
+
+        summary = document_review_queue_summary(state)
+
+        self.assertEqual(summary["queue_counts"]["bulk_review_selectable"], 2)
+        self.assertEqual(summary["queue_counts"]["bulk_review_submitted"], 1)
+        self.assertEqual(summary["queue_counts"]["escalated_repair_selectable"], 1)
+        self.assertEqual(summary["queue_counts"]["escalated_repair_submitted"], 1)
+        self.assertEqual(summary["queue_counts"]["resolved"], 2)
 
 
 def write_jsonl(path: Path, rows: list[dict]) -> None:

@@ -5,10 +5,17 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from yomi_corpus.document_review_state import STATE_FINAL_PENDING, STATE_STRONG_PENDING
+from yomi_corpus.document_review_state import (
+    STATE_COMPLETE,
+    STATE_FINAL_IN_REVIEW,
+    STATE_FINAL_PENDING,
+    STATE_FINAL_REVIEWED,
+    STATE_STRONG_PENDING,
+)
 from yomi_corpus.review_sync import (
     STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
+    current_document_queue_summary,
     has_strong_pending_documents,
     maintain_strong_repair_for_reviewed_documents,
 )
@@ -129,6 +136,56 @@ class ReviewSyncTests(unittest.TestCase):
                 ],
             )
             self.assertTrue(has_strong_pending_documents(root=root, batch_name=batch_name))
+
+    def test_current_document_queue_summary_reports_visible_queue_counts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_name = "dev_batch_0001"
+            write_document_state(
+                root,
+                batch_name,
+                [
+                    {
+                        "doc_id": "doc1",
+                        "doc_seq": 1,
+                        "state": STATE_FINAL_PENDING,
+                        "strong_repair_item_count": 0,
+                    },
+                    {
+                        "doc_id": "doc2",
+                        "doc_seq": 2,
+                        "state": STATE_FINAL_IN_REVIEW,
+                        "strong_repair_item_count": 0,
+                    },
+                    {
+                        "doc_id": "doc3",
+                        "doc_seq": 3,
+                        "state": STATE_FINAL_REVIEWED,
+                        "strong_repair_item_count": 0,
+                    },
+                    {
+                        "doc_id": "doc4",
+                        "doc_seq": 4,
+                        "state": STATE_STRONG_PENDING,
+                        "strong_repair_item_count": 1,
+                    },
+                    {
+                        "doc_id": "doc5",
+                        "doc_seq": 5,
+                        "state": STATE_COMPLETE,
+                        "strong_repair_item_count": 0,
+                    },
+                ],
+            )
+
+            summary = current_document_queue_summary(root=root, batch_name=batch_name)
+
+            self.assertIsNotNone(summary)
+            assert summary is not None
+            self.assertEqual(summary["queue_counts"]["bulk_review_selectable"], 2)
+            self.assertEqual(summary["queue_counts"]["bulk_review_submitted"], 1)
+            self.assertEqual(summary["queue_counts"]["escalated_repair_selectable"], 1)
+            self.assertEqual(summary["queue_counts"]["resolved"], 1)
 
 
 def write_reviewed_units(root: Path, batch_name: str) -> None:

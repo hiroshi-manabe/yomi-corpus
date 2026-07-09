@@ -1929,6 +1929,9 @@ over the document-state ledger, not as a new kind of batch:
   example `bulk_review_target_ready_docs = 50`
 - each `./review-sync <track>` pass should count documents whose canonical
   state makes them selectable in Bulk Review
+- the initial implementation exposes those counts as `queue_counts` in the
+  document-state summary and the review-sync summary. This is an observability
+  layer only; it does not yet start additional preparation work automatically.
 - if the count is below target, the runner may prepare more source documents,
   run the automatic/LLM stages needed to make them reviewable, append their
   document states to the ledger, and republish review artifacts
@@ -2204,6 +2207,23 @@ python scripts/refresh_decoder_model.py --track working
 It exports finalized corpora for that track, builds a new decoder model, and
 updates that track's latest decoder model pointer. New batches copy that
 pointer into their batch manifest/state for reproducibility.
+
+Model retention should favor reproducibility without retaining every heavy
+artifact forever:
+
+- keep the latest runtime model and a small recent window of full model
+  directories
+- for older models, retain manifest/provenance data rather than all generated
+  files
+- provenance should include model ID, build timestamp, track, yomi-decoder
+  version or commit, base corpus identity, finalized batch/document IDs,
+  exported yomi row versions or hashes, build config, thresholds, aggregate
+  corpus/model counts when available, and hashes of generated runtime artifacts
+- atomically publish refreshed models by building into a versioned directory,
+  validating it, and then updating the latest-model pointer
+- cleanup may delete old `model.arpa`, `ngram_corpus.txt`, `model.klm`, and
+  `lexicon.jsonl` files once their manifest is retained, but it must never
+  delete the current latest-model target
 
 Batch manifests should record enough information to reproduce decoder behavior:
 

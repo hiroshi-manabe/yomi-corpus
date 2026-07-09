@@ -2131,6 +2131,10 @@ Rolling refill target:
 - the refill policy should be document-state based: count selectable Bulk Review
   documents, and if the count is below target, prepare more source documents up
   to a per-pass limit
+- the first implemented primitive is queue observability: per-batch document
+  state summaries and `./review-sync` output report counts for selectable Bulk
+  Review documents, submitted Bulk Review documents, selectable Escalated Repair
+  documents, submitted Escalated Repair documents, and resolved documents
 - prepared documents may come from multiple backend batches but should appear in
   one human-facing Bulk Review queue
 - source selection must be idempotent. A source document already prepared,
@@ -2699,6 +2703,25 @@ That wrapper:
 - build a new model under `data/decoder_models/<track>/...`
 - update the track state with the latest model path
 
+Retention policy:
+
+- frequent refreshes are acceptable because rebuild cost is background compute,
+  not LLM cost, but full model directories are not free to keep forever. Current
+  dev model snapshots are roughly 210 MB each, mostly `model.arpa`,
+  `ngram_corpus.txt`, `model.klm`, and `lexicon.jsonl`.
+- keep the latest model and a small recent window of full model snapshots for
+  debugging and rollback
+- for older models, keep provenance rather than full runtime artifacts. The
+  retained manifest should be enough to reconstruct the model if needed.
+- old-model provenance should include model ID, build timestamp, track,
+  yomi-decoder version or commit, base corpus identity, included finalized
+  batch/document IDs, hashes or versions of exported yomi rows, build config,
+  thresholds, aggregate corpus/model counts when available, and hashes of the
+  generated runtime artifacts
+- publish models atomically: build into a new versioned directory, validate it,
+  then update the track's latest-model pointer. If cleanup removes old heavy
+  artifacts, it must not touch the latest pointer target.
+
 When `prepare` or `./next` starts a new batch, it copies the track's latest
 decoder model path into the batch state. The batch then uses that pinned path
 for all Sudachi/decoder hybrid generation.
@@ -2712,9 +2735,9 @@ Each batch manifest should eventually record:
 - build timestamp
 - relevant build parameters
 
-For now, the pipeline should only produce stable finalized artifacts. A separate
-export/update command can later consume `units.yomi.final.jsonl` files when the
-operator decides that enough reviewed material has accumulated.
+For now, the pipeline should produce stable finalized artifacts and support an
+explicit refresh command. A periodic sync may later trigger that refresh
+automatically whenever newly finalized output makes the decoder corpus dirty.
 
 ### 13.3 Auto advancement
 

@@ -124,6 +124,11 @@ Review transport policy:
   of actionable Bulk Review documents available by preparing more source
   documents when the queue gets low, using a durable per-document ledger rather
   than batch-level stage membership
+- current queue summaries already expose the refill-relevant counts; automatic
+  refill selection/preparation is still a later step
+- decoder model refreshes may be frequent, but old full model artifacts should
+  eventually be garbage-collected after retaining enough manifest provenance to
+  reconstruct them
 - a companion Corpus Map should be generated from that ledger as compact static
   shards so reviewers can inspect unprocessed, active, submitted, and resolved
   documents without loading one huge editable review pack
