@@ -235,13 +235,13 @@ function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
   const requested = params.get("stage");
   const requestedPackId = params.get("pack");
-  if (requested === "unified_yomi_review" && activeDevReviewQueues().length > 0) {
+  if (requested === "unified_yomi_review" && hasDevYomiReviewSources()) {
     return { stageId: "unified_yomi_review", packId: requestedPackId };
   }
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
   }
-  if (!requested && activeDevReviewQueues().length > 0) {
+  if (!requested && hasDevYomiReviewSources()) {
     return { stageId: "unified_yomi_review", packId: null };
   }
 
@@ -273,6 +273,10 @@ function activeDevReviewQueues() {
       ["yomi_final_review", "yomi_strong_repair_review"].includes(queue.review_stage) &&
       String(queue.status || "").startsWith("active"),
   );
+}
+
+function hasDevYomiReviewSources() {
+  return latestDevYomiReviewSources().length > 0;
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
@@ -320,8 +324,8 @@ async function openPack(stageId, packId) {
 }
 
 async function openUnifiedReview() {
-  const queues = activeDevReviewQueues();
-  if (queues.length === 0) {
+  const latestSources = latestDevYomiReviewSources();
+  if (latestSources.length === 0) {
     const fallbackStage = Object.keys(state.manifest.stages || {})[0];
     await openStage(fallbackStage, { preferLatest: true });
     return;
@@ -331,7 +335,7 @@ async function openUnifiedReview() {
     el.stageSelect.value = "unified_yomi_review";
   }
   const sources = [];
-  for (const source of latestDevYomiReviewSources()) {
+  for (const source of latestSources) {
     const pack = await fetchJson(source.path);
     sources.push({ meta: source, pack });
   }
@@ -525,7 +529,7 @@ function documentBelongsToQueue(queueStage, doc) {
 
 function populateStageSelect(stageIds) {
   el.stageSelect.innerHTML = "";
-  if (activeDevReviewQueues().length > 0) {
+  if (hasDevYomiReviewSources()) {
     const option = document.createElement("option");
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
@@ -553,13 +557,15 @@ function render() {
 function renderCurrentTracks() {
   const currentQueues = state.manifest.current_review_queues || [];
   const currentTracks = state.manifest.current_tracks || {};
+  const workflowCards = currentQueues.filter((queue) => queue.track_name === "dev");
+  const workflowSources = workflowCards.length > 0 ? workflowCards : latestDevYomiReviewSources();
   el.currentTrackList.innerHTML = "";
-  let cards = currentQueues.filter((queue) => queue.track_name === "dev");
+  let cards = workflowCards;
   if (cards.length === 0 && currentTracks.dev) {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
-  if (cards.length === 0) {
+  if (cards.length === 0 && workflowSources.length === 0) {
     const p = document.createElement("p");
     p.className = "muted";
     p.textContent = "No active dev review packs were published.";
@@ -567,14 +573,20 @@ function renderCurrentTracks() {
     return;
   }
 
-  if (cards.length > 0) {
+  if (workflowSources.length > 0) {
     const unifiedButton = document.createElement("button");
     unifiedButton.type = "button";
     unifiedButton.className = "track-card primary-track";
     unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
-    const totalItems = cards.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
-    const totalDocs = Math.max(...cards.map((card) => Number(card.document_count || 0)));
-    const queueText = cards.length === 1 ? "1 queue" : `${cards.length} queues`;
+    const totalItems = workflowSources.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
+    const totalDocs = Math.max(...workflowSources.map((card) => Number(card.document_count || 0)));
+    const activeQueueCount = workflowCards.length;
+    const queueText =
+      activeQueueCount > 0
+        ? activeQueueCount === 1
+          ? "1 active queue"
+          : `${activeQueueCount} active queues`
+        : "0 active queues";
     unifiedButton.innerHTML = `
       <div class="track-card-header">
         <strong>Workflow Review</strong>
