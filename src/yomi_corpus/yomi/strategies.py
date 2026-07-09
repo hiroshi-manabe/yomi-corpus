@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
+from functools import lru_cache
 
 from yomi_corpus.yomi.types import (
     DecoderCandidate,
@@ -32,6 +34,7 @@ class RenderedPair:
 
 ASCII_SPACE = " "
 NBSP = "\u00a0"
+SPACE_RUN_RE = re.compile(r"(\s+)")
 
 
 def normalize_ascii_spaces_for_yomi(text: str) -> str:
@@ -223,6 +226,12 @@ def strategy_aligned_hybrid_v1(
         if is_whitespace_token(token):
             rendered_pairs.append(render_sudachi_token(token))
             signals.append("preserve_whitespace_token")
+            index += 1
+            continue
+
+        if token_contains_space(token):
+            rendered_pairs.extend(render_space_spanning_sudachi_token(token))
+            signals.append("split_space_spanning_sudachi_token")
             index += 1
             continue
 
@@ -453,14 +462,136 @@ def render_sudachi_token(token: SudachiToken) -> RenderedPair:
     return RenderedPair(surface=token.surface, reading=token.reading or token.surface)
 
 
+def token_contains_space(token: SudachiToken) -> bool:
+    return any(char.isspace() for char in token.surface) and not is_whitespace_token(token)
+
+
+def render_space_spanning_sudachi_token(token: SudachiToken) -> list[RenderedPair]:
+    parts = split_surface_preserving_spaces(token.surface)
+    component_surfaces = [part for part in parts if not part.isspace()]
+    readings = infer_space_spanning_component_readings(
+        full_reading=token.reading,
+        component_surfaces=component_surfaces,
+    )
+
+    rendered: list[RenderedPair] = []
+    component_index = 0
+    for part in parts:
+        if part.isspace():
+            whitespace = canonical_whitespace_surface(part)
+            rendered.append(RenderedPair(surface=whitespace, reading=whitespace))
+            continue
+        rendered.append(
+            RenderedPair(
+                surface=part,
+                reading=readings[component_index],
+            )
+        )
+        component_index += 1
+    return rendered
+
+
+def split_surface_preserving_spaces(surface: str) -> list[str]:
+    return [part for part in SPACE_RUN_RE.split(surface) if part]
+
+
+def infer_space_spanning_component_readings(
+    *,
+    full_reading: str,
+    component_surfaces: list[str],
+) -> list[str]:
+    if not component_surfaces:
+        return []
+
+    component_readings = [lookup_component_reading(surface) for surface in component_surfaces]
+    if full_reading and is_katakana_reading(full_reading):
+        if all(component_readings) and "".join(component_readings) == full_reading:
+            return component_readings
+
+        inferred = infer_single_residual_reading(
+            full_reading=full_reading,
+            component_readings=component_readings,
+        )
+        if inferred is not None:
+            return inferred
+
+    return component_readings
+
+
+def infer_single_residual_reading(
+    *,
+    full_reading: str,
+    component_readings: list[str],
+) -> list[str] | None:
+    for unknown_index in range(len(component_readings)):
+        if any(
+            not reading
+            for index, reading in enumerate(component_readings)
+            if index != unknown_index
+        ):
+            continue
+        prefix = "".join(component_readings[:unknown_index])
+        suffix = "".join(component_readings[unknown_index + 1 :])
+        if prefix and not full_reading.startswith(prefix):
+            continue
+        if suffix and not full_reading.endswith(suffix):
+            continue
+        residual_start = len(prefix)
+        residual_end = len(full_reading) - len(suffix) if suffix else len(full_reading)
+        if residual_end <= residual_start:
+            continue
+        residual = full_reading[residual_start:residual_end]
+        if not is_katakana_reading(residual):
+            continue
+        inferred = list(component_readings)
+        inferred[unknown_index] = residual
+        return inferred
+    return None
+
+
+def lookup_component_reading(surface: str) -> str:
+    try:
+        tokenizer = component_lookup_tokenizer()
+    except Exception:
+        return ""
+    try:
+        from sudachipy import tokenizer as sudachi_tokenizer
+
+        morphemes = tokenizer.tokenize(surface, sudachi_tokenizer.Tokenizer.SplitMode.C)
+    except Exception:
+        return ""
+    if len(morphemes) != 1:
+        return ""
+    morpheme = morphemes[0]
+    if morpheme.surface() != surface:
+        return ""
+    reading = morpheme.reading_form()
+    if not is_katakana_reading(reading):
+        return ""
+    return reading
+
+
+@lru_cache(maxsize=1)
+def component_lookup_tokenizer():
+    from sudachipy import dictionary
+
+    return dictionary.Dictionary(dict="full").create()
+
+
+def is_katakana_reading(reading: str) -> bool:
+    return bool(reading) and all(is_katakana(char) or char == "ー" for char in reading)
+
+
+def is_katakana(char: str) -> bool:
+    return "\u30a1" <= char <= "\u30fa" or char in {"ヽ", "ヾ"}
+
+
 def is_whitespace_token(token: SudachiToken) -> bool:
     return token.surface.isspace() or token.pos.startswith("空白")
 
 
 def canonical_whitespace_surface(surface: str) -> str:
-    if surface == ASCII_SPACE:
-        return NBSP
-    return surface
+    return surface.replace(ASCII_SPACE, NBSP)
 
 
 def is_punctuation_token(token: SudachiToken) -> bool:
@@ -517,6 +648,10 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
                 surfaces.append(tokens[index].surface)
                 index += 1
             pairs.append(RenderedPair(surface="".join(surfaces), reading=""))
+            continue
+        if token_contains_space(token):
+            pairs.extend(render_space_spanning_sudachi_token(token))
+            index += 1
             continue
         pairs.append(render_sudachi_token(token))
         index += 1

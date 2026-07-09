@@ -206,9 +206,21 @@ For each unit, the mechanical pipeline should produce:
 Those signals will likely include:
 
 - Sudachi behavior
-  The current mechanical baseline should use Sudachi B-mode rather than the
-  default C-mode, so compounds are first split into middle units before hybrid
-  refinement.
+  The current mechanical baseline should use Sudachi B-mode with
+  `sudachidict_full` rather than default C-mode/core dictionary behavior, so
+  compounds are first split into middle units while full-dictionary lexical
+  entries such as `断捨離/ダンシャリ` remain available before hybrid refinement.
+  Sudachi full is still only a candidate source: invalid non-kana readings must
+  be filtered downstream, and tokens spanning spaces need explicit handling if
+  they matter operationally.
+- The yomi renderer must not emit one ruby-bearing token whose surface spans an
+  ASCII/NBSP space. If Sudachi full returns a token such as
+  `Led Zeppelin/レッドツェッペリン`, split it on spaces, preserve the space as a
+  non-ruby token, and look up each component independently. If all component
+  readings concatenate to the full reading, use them. If exactly one component
+  can be inferred as the residual of the full reading after subtracting the
+  other component readings, use that residual. Otherwise use the independently
+  available component readings and leave unresolved components without ruby.
 - N-gram decoder behavior
 - script and orthography heuristics
 

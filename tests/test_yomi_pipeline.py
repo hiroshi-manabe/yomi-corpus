@@ -114,6 +114,51 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "お/オ 金/カネ")
         self.assertIn("fallback_sudachi", result.signals)
 
+    def test_render_pairs_from_sudachi_splits_space_spanning_token(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "The Beatles",
+                    "名詞,固有名詞,一般,*,*,*",
+                    "The Beatles",
+                    "The Beatles",
+                    "ザビートルズ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "The/ザ \u00a0/\u00a0 Beatles/ビートルズ")
+
+    def test_render_pairs_from_sudachi_infers_one_space_component_residual(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "Led Zeppelin",
+                    "名詞,固有名詞,人名,一般,*,*",
+                    "レッド・ツェッペリン",
+                    "Led Zeppelin",
+                    "レッドツェッペリン",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "Led/レッド \u00a0/\u00a0 Zeppelin/ツェッペリン")
+
+    def test_render_pairs_from_sudachi_does_not_infer_two_unknown_space_components(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "Qxz Zxq",
+                    "名詞,固有名詞,一般,*,*,*",
+                    "Qxz Zxq",
+                    "Qxz Zxq",
+                    "フーバー",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "Qxz/ \u00a0/\u00a0 Zxq/")
+
     def test_aligned_hybrid_uses_contextual_override_for_kata(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",

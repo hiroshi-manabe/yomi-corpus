@@ -237,9 +237,18 @@ The existing wrapper at `/home/hmanabe/scripts/sudachi` currently resolves to:
 
 - `sudachipy tokenize -r "$HOME/.config/sudachi/sudachi.json"`
 
-That is useful as the source of truth for configuration, but the production
-pipeline should call SudachiPy from Python and point it at the same config
-path. That avoids shelling out per sentence and makes metadata capture easier.
+The yomi pipeline currently invokes that wrapper with `-a -m B -s full`, so the
+Sudachi baseline comes from Sudachi B-mode with `sudachidict_full`. The full
+dictionary fixes useful cases such as `断捨離/ダンシャリ`, `主演/シュエン`, and
+some named entities, but it is still only a candidate source. Readings that do
+not pass our yomi-format validation, such as alphabetic lowercase readings, must
+not be accepted merely because Sudachi full produced them. Tokens that span
+spaces should be treated explicitly if they become operationally important.
+
+The wrapper is useful as the source of truth for configuration, but the
+production pipeline should eventually call SudachiPy from Python and point it at
+the same config path and dictionary type. That avoids shelling out per sentence
+and makes metadata capture easier.
 
 
 ## 4. Proposed Repository Layout
