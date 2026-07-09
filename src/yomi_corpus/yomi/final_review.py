@@ -593,6 +593,9 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
             or alphabetic_scope.get("provisional_skip")
         )
     )
+    rendered_yomi = str(
+        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+    )
     return {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
@@ -604,9 +607,8 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
         "source_line_no": unit.get("source_line_no"),
         "text": str(unit.get("text") or ""),
         "ruby_segments": build_ruby_segments(str(unit.get("text") or ""), review_targets),
-        "rendered_yomi": str(
-            unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
-        ),
+        "rendered_yomi": rendered_yomi,
+        "rendered_yomi_ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi),
         "scope_status": scope.get("status"),
         "provisional_skip": provisional_skip,
         "skip_default": bool(scope.get("status") == "Skip" or provisional_skip),
