@@ -2170,8 +2170,15 @@ Browser-local task state is separate from imported pipeline state:
 - `Submitted local tasks` are tasks whose JSON was copied and whose GitHub
   Issue was reported as created, but whose Issue has not necessarily been
   imported yet
+- a local task is valid only while each target document remains in that task's
+  stage. If a Bulk Review task's document leaves Bulk Review, or an Escalated
+  Repair task's document leaves Escalated Repair, remove that document from the
+  local task. If no target documents remain, delete the local task. Local tasks
+  are resumeable work, not history
 - submitted local tasks should grey out and disable their documents in the
-  browser queues and Pack Map; editing requires an explicit reopen
+  browser queues and Pack Map only while their documents still remain in the
+  submitted task's stage; editing requires an explicit reopen during that
+  interval
 - imported Issue state remains authoritative. Once the importer applies the
   submission, regenerated packs should move those documents to the next queue
   or to resolved state
@@ -2210,8 +2217,10 @@ Review dashboard target:
 - `Copy JSON and Open Issue` should copy JSON, open a pre-titled GitHub Issue
   page, and then ask on browser return/focus whether the Issue was created
 - confirmed submissions move to `Submitted local tasks`; these are greyed out
-  and disabled locally until the user explicitly reopens them or the pipeline
-  imports the Issue and regenerates queue state
+  and disabled locally only while the target documents remain in the submitted
+  task's stage. If regenerated queue state moves a target document to another
+  stage or to resolved, the local task should drop that document; if no
+  documents remain, the task should disappear
 - actual pending/completed state must come from imported pipeline document
   state, not from browser-local draft state
 - the old stage dropdown can remain temporarily as a debug or deep-link
@@ -2231,9 +2240,10 @@ Pack Map is the read-only overview for the whole active pack. It should include
 resolved documents as well as active and submitted documents. Clicking a Pack
 Map document opens an in-place preview. If the browser has an active, deferred,
 or submitted local draft for that document, the preview may overlay that draft
-so the reviewer sees the latest local state. This never changes canonical queue
-membership; only imported pipeline state moves a document between Bulk Review,
-Escalated Repair, and Resolved.
+so the reviewer sees the latest local state, but only while the draft's task
+stage still matches the document's current stage. This never changes canonical
+queue membership; only imported pipeline state moves a document between Bulk
+Review, Escalated Repair, and Resolved.
 
 Display:
 

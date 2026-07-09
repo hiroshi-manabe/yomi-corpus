@@ -259,11 +259,20 @@ the UI should copy JSON and open a pre-titled GitHub Issue page. When the page
 regains focus, a modal asks whether the Issue was created. If the user confirms
 submission, the task moves to submitted local tasks.
 
-Submitted local tasks are a local purgatory state: the user has probably
+Local tasks are resumable work, not history. A task is valid only while each
+target document remains in that task's stage. If a Bulk Review task's document
+leaves Bulk Review, or an Escalated Repair task's document leaves Escalated
+Repair, that document should be removed from the local task. If no target
+documents remain, the task should be deleted. This applies equally to deferred
+and submitted local tasks.
+
+Submitted local tasks are a temporary local overlay: the user has probably
 submitted the work, but the pipeline has not yet imported and applied the
-Issue. Documents in submitted local tasks should be greyed out in the Pack Map
-and disabled in queues. They should be editable again only through an explicit
-reopen action.
+Issue. While the target document is still in the same stage, it should be
+greyed out in the Pack Map and disabled in queues. It should be editable again
+only through an explicit reopen action. Once the server-side state moves the
+document to another stage or resolved state, the local task is no longer
+resumeable and should disappear.
 
 The server-side importer remains authoritative. Once the Issue is imported and
 applied, the generated review pack should move those documents into the next
@@ -297,7 +306,7 @@ Deferred local tasks
 [Resume task 1]
 
 Submitted local tasks
-[Reopen submitted task 2]
+[Reopen submitted task 2, if its documents are still in that task's stage]
 
 Resolved
 3 documents
@@ -309,6 +318,7 @@ Resolved
 ```text
 Pack Map shows the whole pack. Queues show what can be worked on now.
 Resolved shows what is already done. Local submitted tasks are not done until
-the importer applies them. Range selection stays linear, even if the display is
-tile-based.
+the importer applies them, but they are valid only while their documents remain
+in the submitted task's stage. Range selection stays linear, even if the display
+is tile-based.
 ```

@@ -1718,7 +1718,10 @@ Review entry point migration:
   whether the Issue was created
 - if the user confirms submission, the task should move to `Submitted local
   tasks`; submitted tasks are greyed out in the Pack Map and disabled in the
-  active queues until explicitly reopened or imported by the pipeline
+  active queues only while their documents remain in the submitted task's stage.
+  If regenerated server-side state moves a document to another stage or to
+  resolved, remove that document from the local task. If no documents remain,
+  delete the task. Local tasks are resumeable work, not history
 - the old stage selector may remain temporarily as a debug/deep-link fallback,
   but it should stop being the normal workflow
 
@@ -1851,8 +1854,9 @@ Design constraints:
   including resolved documents. Clicking any Pack Map document should open an
   in-place preview rather than changing queue membership.
 - Pack Map previews should show the latest available local view when possible:
-  active, deferred, or submitted browser drafts can be overlaid for display.
-  This overlay is presentation-only; imported pipeline document state remains
+  active, deferred, or submitted browser drafts can be overlaid for display only
+  while the draft's task stage still matches the document's current stage. This
+  overlay is presentation-only; imported pipeline document state remains
   the canonical source for Bulk Review, Escalated Repair, and Resolved buckets.
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
   selected document IDs or range
