@@ -18,6 +18,7 @@ from yomi_corpus.yomi.final_review import (
     finalize_reviewed_yomi_file,
     harvest_yomi_finalization_artifacts_file,
     rendered_yomi_ruby_tokens,
+    rendered_yomi_with_review_defaults,
     replay_review_submissions,
     store_review_submission,
 )
@@ -218,6 +219,75 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(pack["items"][1]["all_targets_safe"])
 
             summary_path.write_text(json.dumps(summary.__dict__), encoding="utf-8")
+
+    def test_pack_rendered_yomi_uses_same_default_as_accepted_review_range(self) -> None:
+        payload = unit("doc1", "u1", "「断」断つこと。")
+        payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
+            "「/「 断/ダン 」/」 断つ/タツ こと/コト 。/。"
+        )
+        target = payload["analysis"]["safety"]["yomi"]["targets"][0]
+        target.update(
+            {
+                "item_id": "u1:r0002c01",
+                "surface": "断",
+                "token_surface": "断",
+                "current_reading": "ダン",
+                "current_reading_hiragana": "だん",
+                "target_start": 1,
+                "target_end": 2,
+                "token_index": 1,
+                "signals": [
+                    {
+                        "name": "safe_by_llm_match",
+                        "accepted": False,
+                        "status": "mismatched",
+                        "llm_reading": "た",
+                        "current_reading_hiragana": "だん",
+                    }
+                ],
+            }
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            output_path = root / "pack.json"
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+
+            build_yomi_final_review_pack_file(
+                units_jsonl=units_path,
+                output_json=output_path,
+                pack_id="pack_1",
+                track_name="dev",
+                batch_name="dev_batch_0001",
+                created_at_epoch=123,
+            )
+
+            pack = json.loads(output_path.read_text(encoding="utf-8"))
+            item = pack["items"][0]
+            self.assertEqual(item["targets"][0]["default_choice_source"], "llm")
+            self.assertEqual(item["targets"][0]["default_reading"], "た")
+            self.assertEqual(
+                item["rendered_yomi"],
+                "「/「 断/タ 」/」 断つ/タツ こと/コト 。/。",
+            )
+            self.assertEqual(item["rendered_yomi_ruby_tokens"][1]["reading"], "タ")
+
+    def test_rendered_yomi_with_review_defaults_uses_no_ruby_default(self) -> None:
+        rendered = "ZUZU/ズズ です/デス 。/。"
+        targets = [
+            {
+                "surface": "ZUZU",
+                "token_surface": "ZUZU",
+                "token_index": 0,
+                "default_choice_source": "none",
+                "default_reading": None,
+            }
+        ]
+
+        self.assertEqual(
+            rendered_yomi_with_review_defaults(rendered, targets),
+            "ZUZU/ です/デス 。/。",
+        )
 
     def test_final_review_pack_uses_document_state_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

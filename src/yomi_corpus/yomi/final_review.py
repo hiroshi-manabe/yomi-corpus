@@ -596,6 +596,7 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
     rendered_yomi = str(
         unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
     )
+    rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, review_targets)
     return {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
@@ -619,6 +620,48 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
         "targets": review_targets,
         "reading_hints": build_reading_hints(review_targets),
     }
+
+
+def rendered_yomi_with_review_defaults(
+    rendered: str,
+    targets: list[dict[str, Any]],
+) -> str:
+    if not rendered:
+        return rendered
+    pairs = parse_rendered_pairs(rendered)
+    if not pairs:
+        return rendered
+    updated = False
+    for target in targets:
+        if not isinstance(target, dict):
+            continue
+        source = str(target.get("default_choice_source") or "current")
+        if source == "current":
+            continue
+        surface = str(target.get("surface") or "")
+        token_surface = str(target.get("token_surface") or "")
+        if surface != token_surface:
+            continue
+        replacement_index: int | None = None
+        token_index = target.get("token_index")
+        if isinstance(token_index, int) and 0 <= token_index < len(pairs):
+            if pairs[token_index][0] == token_surface:
+                replacement_index = token_index
+        if replacement_index is None:
+            span = find_unique_rendered_span(pairs, token_surface)
+            if span is not None and span[1] - span[0] == 1:
+                replacement_index = span[0]
+        if replacement_index is None:
+            continue
+        selected = target.get("default_reading")
+        new_reading = "" if source == "none" else hira_to_kata(str(selected or ""))
+        old_surface, old_reading = pairs[replacement_index]
+        if old_reading != new_reading:
+            pairs[replacement_index] = (old_surface, new_reading)
+            updated = True
+    if not updated:
+        return rendered
+    return " ".join(f"{surface}/{reading}" for surface, reading in pairs)
 
 
 def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
