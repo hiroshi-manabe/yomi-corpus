@@ -4130,6 +4130,31 @@ function findSavedTaskDraftByDocIds(docIds) {
   return listSavedTaskDrafts().find((record) => canonicalDocIdKey(record.task?.doc_ids || []) === key) || null;
 }
 
+function findSavedTaskDraftOverlap(docIds) {
+  const selected = new Set((docIds || []).map(String));
+  if (selected.size === 0) {
+    return null;
+  }
+  for (const record of listSavedTaskDrafts()) {
+    const recordDocIds = (record.task?.doc_ids || []).map(String);
+    const overlap = recordDocIds.filter((docId) => selected.has(docId));
+    if (overlap.length > 0) {
+      return { record, overlap };
+    }
+  }
+  return null;
+}
+
+function formatTaskOverlapMessage(overlap) {
+  const docs = buildDocumentTasks(state.currentPack);
+  const docSeqs = (overlap?.overlap || [])
+    .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
+    .filter((seq) => Number.isInteger(seq));
+  const label = overlap?.record?.task_label || overlap?.record?.task_id || "another local task";
+  const docsText = docSeqs.length ? `Docs ${formatDocSeqs(docSeqs)}` : "Selected documents";
+  return `${docsText} already belong to ${label}. Resume or reopen that task first.`;
+}
+
 function canonicalDocIdKey(docIds) {
   const order = new Map(buildActionableDocumentTasks(state.currentPack).map((doc, index) => [taskDocKey(doc), index]));
   return [...new Set((docIds || []).map(String))]
@@ -4425,6 +4450,11 @@ function startReviewTask() {
   if (matchingDraft) {
     resumeTaskDraft(matchingDraft.task_id);
     showStatus(`Returned to ${matchingDraft.task_label || "deferred task"}.`);
+    return;
+  }
+  const overlap = findSavedTaskDraftOverlap(task.doc_ids);
+  if (overlap) {
+    showStatus(formatTaskOverlapMessage(overlap), true);
     return;
   }
   const identity = allocateTaskIdentity();
