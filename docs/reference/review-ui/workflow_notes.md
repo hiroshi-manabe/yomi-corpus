@@ -322,3 +322,24 @@ the importer applies them, but they are valid only while their documents remain
 in the submitted task's stage. Range selection stays linear, even if the display
 is tile-based.
 ```
+
+## Long-Term Workspace Direction
+
+The current UI is pack-oriented because that is the easiest way to stabilize
+schemas. The long-term UI should be document-oriented:
+
+- backend batches are processing chunks, not reviewer-facing boundaries
+- the workspace can mix documents prepared by different backend batches
+- a background process can prepare later documents while the reviewer works on
+  the current slice
+- the map can eventually cover thousands of documents, with processed,
+  submitted, active, and unprocessed documents shown together
+- static index data should stay small; full review payloads should be loaded
+  only when needed
+- local task state is only an overlay and expires when the document leaves that
+  task's stage
+
+Resolved documents should not be immutable forever. If a reviewer later finds a
+problem, the UI should create a correction task rather than editing history in
+place. The importer then applies the correction and the pipeline can harvest
+new rewrite defaults or ruby dictionary entries from the accepted correction.

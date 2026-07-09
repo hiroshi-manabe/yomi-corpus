@@ -1878,6 +1878,45 @@ periodic sync, and then separate review repositories. The goal is to let human
 work scale to large batches without making each browser session large or
 fragile.
 
+Long-term workspace target:
+
+- the reviewer should eventually work in a document-centered workspace, not a
+  batch-centered page
+- backend batches become processing chunks that can be prepared ahead of human
+  work
+- while the reviewer works on one slice, such as documents 31-40, the
+  orchestrator may process and append later slices, such as 41-50
+- one UI workspace may contain documents produced by multiple backend batches
+- batch IDs remain important for provenance, artifact lookup, and replay, but
+  they should not define the user-visible queue boundary
+
+The workspace map should be able to cover a large corpus range, for example
+10,000 documents:
+
+- processed documents render from canonical server-side yomi data
+- active documents render from current queue payloads
+- submitted documents render with a temporary local overlay until importer
+  state catches up
+- unprocessed documents render raw text only
+
+Implementation requirements:
+
+- server-side per-document state is authoritative
+- browser-local state is only an overlay for active, deferred, and submitted
+  tasks
+- heavy review payloads should be sharded or lazy-loaded
+- compact map/index data should be separated from full per-document payloads
+- large maps should use virtualization rather than rendering every document
+  body eagerly
+- periodic preparation should maintain a buffer of reviewable documents without
+  requiring the previous human slice to be fully finalized first
+
+Resolved-document correction is a later extension of the same model. A resolved
+document may be reopened through a correction task, but the change should be
+recorded as a new auditable submission, replayed by the importer, and harvested
+for exact rewrite defaults or ruby dictionary additions. The canonical document
+state changes only after that replay succeeds.
+
 Review sync command:
 
 - `./review-sync <track>` is the explicit polling entry point

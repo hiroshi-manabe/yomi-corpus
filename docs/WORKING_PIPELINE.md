@@ -2245,6 +2245,44 @@ stage still matches the document's current stage. This never changes canonical
 queue membership; only imported pipeline state moves a document between Bulk
 Review, Escalated Repair, and Resolved.
 
+Long-term target: move from a batch-centered review page to a document-centered
+workspace.
+
+In that target, backend batches are only processing chunks. They are not the
+main unit the reviewer sees. While a reviewer works on one slice, for example
+documents 31-40, the orchestrator may prepare later slices such as 41-50 and
+append newly reviewable documents to the same workspace. The UI may therefore
+show documents that came from multiple backend batches, as long as every
+document has stable IDs and canonical server-side state.
+
+The workspace should support a much larger map than the current active pack,
+for example a target range of 10,000 documents:
+
+- processed documents show canonical server data
+- active documents show the current Bulk Review or Escalated Repair UI
+- submitted documents show a local submitted overlay until imported
+- unprocessed documents show raw text only
+
+This requires implementation discipline:
+
+- keep server-side document state as the source of truth
+- keep browser-local state as a temporary overlay for active, deferred, and
+  submitted work only
+- treat backend batches as append-only artifacts and logs, not as user-visible
+  queue boundaries
+- load map data lazily or in shards; do not put every full review payload into
+  the first page load
+- use virtualization for large document maps so 10,000-document views remain
+  responsive
+- store compact static index data separately from heavier review payloads
+
+Resolved documents should eventually be correctable too. A correction to a
+resolved document should create a new correction task or Issue, replay through
+the same importer/audit path, update canonical document state, and feed the
+same downstream harvesters for exact rewrite defaults and ruby dictionary
+entries. Resolved correction should be possible, but it should be auditable and
+should not silently mutate historical review submissions.
+
 Display:
 
 - the current best-effort yomi-annotated sentence
