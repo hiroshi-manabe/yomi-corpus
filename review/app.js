@@ -1503,13 +1503,13 @@ function queueStatusForStage(queueStage) {
 function dedupeWorkflowQueueDocs(docs, queueStage) {
   const bySeq = new Map();
   for (const doc of docs) {
-    const seq = Number(doc.doc_seq || 0);
+    const seq = documentDisplaySeq(doc);
     const current = bySeq.get(seq);
     if (!current || workflowQueueDocRank(doc, queueStage) < workflowQueueDocRank(current, queueStage)) {
       bySeq.set(seq, doc);
     }
   }
-  return [...bySeq.values()].sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+  return [...bySeq.values()].sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
 }
 
 function workflowQueueDocRank(doc, queueStage) {
@@ -1531,7 +1531,7 @@ function buildWorkflowDocSelect(docs, selectedDoc) {
   for (const doc of docs) {
     const option = document.createElement("option");
     option.value = taskDocKey(doc);
-    option.textContent = String(doc.doc_seq);
+    option.textContent = String(documentDisplaySeq(doc));
     option.selected = selectedDoc && taskDocKey(selectedDoc) === taskDocKey(doc);
     select.append(option);
   }
@@ -1651,7 +1651,7 @@ function renderTaskDocumentRow(doc, task) {
   });
   const title = document.createElement("span");
   title.className = "task-doc-title";
-  title.textContent = `Doc ${doc.doc_seq}`;
+  title.textContent = `Doc ${documentDisplaySeq(doc)}`;
   label.append(checkbox, title);
 
   const meta = document.createElement("div");
@@ -1868,7 +1868,7 @@ function renderDocumentSeparator(item) {
   const separator = document.createElement("div");
   separator.className = "document-separator";
   const left = document.createElement("strong");
-  left.textContent = `Document ${item.doc_seq || ""}`;
+  left.textContent = `Document ${itemDisplayDocSeq(item) || ""}`;
   const right = document.createElement("span");
   right.textContent = item.doc_id || "";
   separator.append(left, right);
@@ -3717,7 +3717,7 @@ function buildReviewedDocumentRanges(docs = null) {
     normalizeTask(state.currentDraft.task, state.currentPack).doc_ids.includes(taskDocKey(doc))
   );
   const seqs = sourceDocs
-    .map((doc) => doc.doc_seq)
+    .map((doc) => documentDisplaySeq(doc))
     .filter((seq) => Number.isInteger(seq))
     .sort((a, b) => a - b);
   if (!seqs.length) {
@@ -3784,6 +3784,7 @@ function buildDocumentTasks(pack) {
           queue_stage: doc.queue_stage || pack.review_stage || "",
           source_pack_id: doc.source_pack_id || "",
           doc_seq: doc.doc_seq || 0,
+          track_doc_seq: doc.track_doc_seq || doc.doc_seq || 0,
           from_seq: stats.from_seq ?? 0,
           to_seq: stats.to_seq ?? 0,
           item_count: stats.item_count ?? Number(doc.item_count || 0),
@@ -3800,7 +3801,7 @@ function buildDocumentTasks(pack) {
       })
       .sort(
         (left, right) =>
-          left.doc_seq - right.doc_seq ||
+          documentDisplaySeq(left) - documentDisplaySeq(right) ||
           queueStageSort(left.queue_stage) - queueStageSort(right.queue_stage),
       );
   }
@@ -3815,6 +3816,7 @@ function buildDocumentTasks(pack) {
       const doc = {
         doc_id: docId,
         doc_seq: item.doc_seq || docs.length + 1,
+        track_doc_seq: item.track_doc_seq || item.doc_seq || docs.length + 1,
         from_seq: item.seq,
         to_seq: item.seq,
         item_count: 0,
