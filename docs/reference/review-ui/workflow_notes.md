@@ -343,3 +343,44 @@ Resolved documents should not be immutable forever. If a reviewer later finds a
 problem, the UI should create a correction task rather than editing history in
 place. The importer then applies the correction and the pipeline can harvest
 new rewrite defaults or ruby dictionary entries from the accepted correction.
+
+## Resolved Document Corrections
+
+Resolved-document edits should be treated as correction requests, not as local
+mutations of finished data. The browser may show a resolved document as ruby
+text, but that display represents server-applied state. If a reviewer chooses
+to edit it, the UI should switch to a raw yomi editor such as:
+
+```text
+今日/キョウ は/ハ いい/イイ 天気/テンキ です/デス 。/。
+```
+
+The ruby preview should not change immediately after the reviewer edits this
+raw yomi string. It should change only after the correction payload has been
+submitted, imported, validated, and applied by the server-side pipeline. This
+keeps the Pack Map and resolved previews honest: they show what the repository
+currently accepts, not a local draft that might fail validation or never be
+submitted.
+
+The resolved correction path should validate in two places:
+
+- the browser should perform fast validation before allowing submission, mainly
+  to catch obvious formatting mistakes and prevent frustrating issue payloads
+- the importer/server pipeline remains authoritative and must repeat the same
+  validation before applying any correction
+
+Initial validation rules should be conservative:
+
+- each token is represented as `surface/reading`
+- concatenating all surfaces must reproduce the original text, modulo the
+  project's explicit whitespace and bracket-escape conventions
+- no correction may introduce, delete, or reorder original source characters
+- readings for kanji or Latin-containing surfaces must be kana-only, except for
+  explicitly allowed empty readings
+- numeric-only surfaces follow the project numeric policy
+- punctuation and kana-only surfaces may keep identity readings or empty
+  readings according to the existing yomi representation rules
+
+This path is intentionally less convenient than Bulk Review or Escalated Repair.
+It is an exceptional post-resolution correction mechanism, so auditability and
+server-authoritative state are more important than immediate rich editing.
