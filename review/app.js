@@ -446,7 +446,7 @@ function buildUnifiedReviewPack(sources) {
     })
     .sort(
       (left, right) =>
-        Number(left.doc_seq || 0) - Number(right.doc_seq || 0) ||
+        documentDisplaySeq(left) - documentDisplaySeq(right) ||
         queueStageSort(left.queue_stage) - queueStageSort(right.queue_stage),
     );
   const actionableDocumentRows = documentRows.filter((doc) => doc.selectable !== false);
@@ -481,6 +481,14 @@ function queueDocKey(queueStage, docId) {
 
 function taskDocKey(doc) {
   return doc?.task_doc_id || doc?.doc_id || "";
+}
+
+function documentDisplaySeq(doc) {
+  return Number(doc?.track_doc_seq || doc?.doc_seq || 0);
+}
+
+function itemDisplayDocSeq(item) {
+  return Number(item?.track_doc_seq || item?.doc_seq || 0);
 }
 
 function queueStageSort(stage) {
@@ -1029,10 +1037,10 @@ function renderWorkflowResolvedPanel(docs) {
     item.type = "button";
     item.className = "workflow-resolved-row";
     item.innerHTML = `
-      <strong>Doc ${escapeHtml(String(row.doc_seq))}</strong>
+      <strong>Doc ${escapeHtml(String(row.display_seq))}</strong>
       <span>${escapeHtml(row.completed_via || "Resolved")}</span>
     `;
-    item.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
+    item.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
     list.append(item);
   }
   section.append(list);
@@ -1046,7 +1054,7 @@ function renderWorkflowTile(row, { compact }) {
   tile.classList.toggle("submitted", Boolean(row.submitted));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
-    <strong>${escapeHtml(String(row.doc_seq))}</strong>
+    <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
   `;
   if (!compact && row.preview) {
@@ -1055,24 +1063,24 @@ function renderWorkflowTile(row, { compact }) {
     tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
   if (!compact) {
-    tile.addEventListener("click", () => openWorkflowDocumentPreview(row.doc_seq));
+    tile.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
   }
   return tile;
 }
 
-function openWorkflowDocumentPreview(docSeq) {
+function openWorkflowDocumentPreview(displaySeq) {
   if (!el.workflowPreviewModal || !state.currentPack) {
     return;
   }
   const docs = buildDocumentTasks(state.currentPack);
-  const row = workflowDocumentStates(docs).find((candidate) => Number(candidate.doc_seq) === Number(docSeq));
+  const row = workflowDocumentStates(docs).find((candidate) => Number(candidate.display_seq) === Number(displaySeq));
   if (!row) {
     return;
   }
   const previewItems = workflowPreviewItemsForDocument(row);
   const actionDoc = workflowPreviewActionDocument(docs, row);
   const previewDraft = workflowPreviewDraftForRow(row);
-  el.workflowPreviewTitle.textContent = `Document ${row.doc_seq}`;
+  el.workflowPreviewTitle.textContent = `Document ${row.display_seq}`;
   el.workflowPreviewMeta.textContent = workflowPreviewMetaText(row, previewItems, actionDoc);
   el.workflowPreviewBody.innerHTML = "";
   if (previewItems.length === 0) {
@@ -1134,7 +1142,7 @@ function workflowPreviewDraftForRow(row) {
   if (row.status === "resolved") {
     return null;
   }
-  const docKeys = workflowDocKeysForSeq(row.doc_seq);
+  const docKeys = workflowDocKeysForSeq(row.display_seq);
   if (!docKeys.length) {
     return null;
   }
@@ -1162,9 +1170,9 @@ function workflowPreviewDraftForRow(row) {
   };
 }
 
-function workflowDocKeysForSeq(docSeq) {
+function workflowDocKeysForSeq(displaySeq) {
   return buildDocumentTasks(state.currentPack)
-    .filter((doc) => Number(doc.doc_seq) === Number(docSeq))
+    .filter((doc) => documentDisplaySeq(doc) === Number(displaySeq))
     .map((doc) => taskDocKey(doc));
 }
 
@@ -1174,7 +1182,7 @@ function closeWorkflowDocumentPreview() {
 
 function workflowPreviewItemsForDocument(row) {
   const allItems = (state.currentPack?.items || []).filter(
-    (item) => Number(item.doc_seq || 0) === Number(row.doc_seq),
+    (item) => itemDisplayDocSeq(item) === Number(row.display_seq),
   );
   const finalItems = allItems.filter((item) => itemReviewStage(item) === "yomi_final_review");
   const strongItems = allItems.filter((item) => itemReviewStage(item) === "yomi_strong_repair_review");
@@ -1230,7 +1238,7 @@ function workflowPreviewActionDocument(docs, row) {
   const queueStage = row.status === "strong" ? "yomi_strong_repair_review" : "yomi_final_review";
   return docs.find(
     (doc) =>
-      Number(doc.doc_seq) === Number(row.doc_seq) &&
+      documentDisplaySeq(doc) === Number(row.display_seq) &&
       doc.queue_stage === queueStage &&
       docIsActionable(doc),
   ) || null;
@@ -1313,10 +1321,12 @@ function startSingleDocumentTask(doc) {
 function workflowDocumentStates(docs) {
   const bySeq = new Map();
   for (const doc of docs) {
-    const seq = Number(doc.doc_seq || 0);
+    const seq = documentDisplaySeq(doc);
     if (!bySeq.has(seq)) {
       bySeq.set(seq, {
-        doc_seq: seq,
+        doc_seq: Number(doc.doc_seq || seq),
+        track_doc_seq: Number(doc.track_doc_seq || seq),
+        display_seq: seq,
         status: "not-started",
         preview: doc.preview || "",
         completed_via: "",
@@ -1355,7 +1365,7 @@ function workflowDocumentStates(docs) {
           : "Bulk Review only";
     }
   }
-  return [...bySeq.values()].sort((left, right) => left.doc_seq - right.doc_seq);
+  return [...bySeq.values()].sort((left, right) => left.display_seq - right.display_seq);
 }
 
 function documentIsResolved(doc) {
@@ -1417,6 +1427,8 @@ function workflowDocumentStateForQueueDoc(doc) {
   const submitted = docIsSubmittedLocally(doc);
   return {
     doc_seq: doc.doc_seq,
+    track_doc_seq: doc.track_doc_seq || doc.doc_seq,
+    display_seq: documentDisplaySeq(doc),
     status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
     preview: doc.preview || "",
     submitted,
