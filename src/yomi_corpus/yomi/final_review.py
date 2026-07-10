@@ -16,6 +16,17 @@ from yomi_corpus.yomi.llm_readings import (
     normalize_hiragana_reading,
 )
 from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
+from yomi_corpus.document_review_state import (
+    STATE_COMPLETE as DOCUMENT_STATE_COMPLETE,
+    STATE_FINAL_IN_REVIEW as DOCUMENT_STATE_FINAL_IN_REVIEW,
+    STATE_FINAL_PENDING as DOCUMENT_STATE_FINAL_PENDING,
+    STATE_STRONG_IN_REVIEW as DOCUMENT_STATE_STRONG_IN_REVIEW,
+    STATE_STRONG_PENDING as DOCUMENT_STATE_STRONG_PENDING,
+    BULK_REVIEW_SELECTABLE_STATES as FINAL_REVIEW_SELECTABLE_STATES,
+    ESCALATED_REPAIR_SELECTABLE_STATES as STRONG_REPAIR_SELECTABLE_STATES,
+    document_workflow_queue_stage,
+    document_workflow_state,
+)
 
 
 REVIEW_STAGE = "yomi_final_review"
@@ -31,19 +42,6 @@ SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
-DOCUMENT_STATE_FINAL_PENDING = "final_pending"
-DOCUMENT_STATE_FINAL_IN_REVIEW = "final_in_review"
-DOCUMENT_STATE_STRONG_PENDING = "strong_pending"
-DOCUMENT_STATE_STRONG_IN_REVIEW = "strong_in_review"
-DOCUMENT_STATE_COMPLETE = "complete"
-FINAL_REVIEW_SELECTABLE_STATES = frozenset(
-    {DOCUMENT_STATE_FINAL_PENDING, DOCUMENT_STATE_FINAL_IN_REVIEW}
-)
-STRONG_REPAIR_SELECTABLE_STATES = frozenset(
-    {DOCUMENT_STATE_STRONG_PENDING, DOCUMENT_STATE_STRONG_IN_REVIEW}
-)
-
-
 @dataclass(frozen=True)
 class YomiFinalReviewPackSummary:
     pack_id: str
@@ -354,6 +352,8 @@ def with_queue_document_metadata(
             state_row.get("state")
             or default_document_state_for_queue(queue_id, int(stats.get("item_count") or 0))
         )
+        workflow_state = document_workflow_state(state)
+        workflow_queue_stage = document_workflow_queue_stage(state)
         item_count = int(stats.get("item_count") or 0)
         queue_member = (
             item_count > 0 and document_belongs_to_queue(queue_id=queue_id, state=state)
@@ -368,6 +368,8 @@ def with_queue_document_metadata(
                 **doc,
                 "queue_id": queue_id,
                 "state": state,
+                "workflow_state": workflow_state,
+                "workflow_queue_stage": workflow_queue_stage,
                 "queue_member": queue_member,
                 "selectable": selectable,
                 "state_updated_at": str(state_row.get("updated_at") or ""),
@@ -450,10 +452,11 @@ def document_is_selectable_for_queue(*, queue_id: str, state: str, item_count: i
 
 
 def document_belongs_to_queue(*, queue_id: str, state: str) -> bool:
+    workflow_queue_stage = document_workflow_queue_stage(state)
     if queue_id == QUEUE_ID_FINAL_REVIEW:
-        return state.startswith("final_")
+        return workflow_queue_stage == REVIEW_STAGE
     if queue_id == QUEUE_ID_STRONG_REPAIR:
-        return state.startswith("strong_")
+        return workflow_queue_stage == STRONG_REPAIR_REVIEW_STAGE
     return False
 
 

@@ -18,6 +18,12 @@ STATE_STRONG_REVIEWED = "strong_reviewed"
 STATE_COMPLETE = "complete"
 STATE_SKIPPED = "skipped"
 
+WORKFLOW_STATE_BULK_REVIEW = "bulk_review"
+WORKFLOW_STATE_BULK_SUBMITTED = "bulk_submitted"
+WORKFLOW_STATE_ESCALATED_REPAIR = "escalated_repair"
+WORKFLOW_STATE_ESCALATED_SUBMITTED = "escalated_submitted"
+WORKFLOW_STATE_RESOLVED = "resolved"
+
 VALID_DOCUMENT_STATES = frozenset(
     {
         STATE_FINAL_PENDING,
@@ -36,6 +42,19 @@ BULK_REVIEW_SUBMITTED_STATES = frozenset({STATE_FINAL_REVIEWED})
 ESCALATED_REPAIR_SELECTABLE_STATES = frozenset({STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW})
 ESCALATED_REPAIR_SUBMITTED_STATES = frozenset({STATE_STRONG_REVIEWED})
 RESOLVED_STATES = frozenset({STATE_COMPLETE, STATE_SKIPPED})
+
+DOCUMENT_STATE_TO_WORKFLOW_STATE = {
+    STATE_FINAL_PENDING: WORKFLOW_STATE_BULK_REVIEW,
+    STATE_FINAL_IN_REVIEW: WORKFLOW_STATE_BULK_REVIEW,
+    STATE_FINAL_REVIEWED: WORKFLOW_STATE_BULK_SUBMITTED,
+    STATE_STRONG_PENDING: WORKFLOW_STATE_ESCALATED_REPAIR,
+    STATE_STRONG_IN_REVIEW: WORKFLOW_STATE_ESCALATED_REPAIR,
+    STATE_STRONG_REVIEWED: WORKFLOW_STATE_ESCALATED_SUBMITTED,
+    STATE_COMPLETE: WORKFLOW_STATE_RESOLVED,
+    STATE_SKIPPED: WORKFLOW_STATE_RESOLVED,
+}
+
+WORKFLOW_STATES = frozenset(DOCUMENT_STATE_TO_WORKFLOW_STATE.values())
 
 
 def now_iso() -> str:
@@ -86,6 +105,27 @@ def validate_document_review_state(payload: dict[str, Any]) -> None:
         state = str(document.get("state") or "")
         if state not in VALID_DOCUMENT_STATES:
             raise ValueError(f"Unsupported document review state for {doc_id}: {state}")
+
+
+def document_workflow_state(document_state: str) -> str:
+    state = str(document_state or "")
+    try:
+        return DOCUMENT_STATE_TO_WORKFLOW_STATE[state]
+    except KeyError as exc:
+        raise ValueError(f"Unsupported document review state: {state}") from exc
+
+
+def document_workflow_queue_stage(document_state: str) -> str | None:
+    workflow_state = document_workflow_state(document_state)
+    if workflow_state in {WORKFLOW_STATE_BULK_REVIEW, WORKFLOW_STATE_BULK_SUBMITTED}:
+        return "yomi_final_review"
+    if workflow_state in {WORKFLOW_STATE_ESCALATED_REPAIR, WORKFLOW_STATE_ESCALATED_SUBMITTED}:
+        return "yomi_strong_repair_review"
+    return None
+
+
+def document_workflow_is_selectable(document_state: str) -> bool:
+    return str(document_state or "") in BULK_REVIEW_SELECTABLE_STATES | ESCALATED_REPAIR_SELECTABLE_STATES
 
 
 def build_initial_document_review_state(

@@ -13,8 +13,15 @@ from yomi_corpus.document_review_state import (
     STATE_SKIPPED,
     STATE_STRONG_PENDING,
     STATE_STRONG_REVIEWED,
+    WORKFLOW_STATE_BULK_REVIEW,
+    WORKFLOW_STATE_BULK_SUBMITTED,
+    WORKFLOW_STATE_ESCALATED_REPAIR,
+    WORKFLOW_STATE_ESCALATED_SUBMITTED,
+    WORKFLOW_STATE_RESOLVED,
     build_initial_document_review_state,
     document_review_queue_summary,
+    document_workflow_queue_stage,
+    document_workflow_state,
     load_document_review_state,
     mark_document_review_state_finalized,
     update_document_review_state_after_final_review,
@@ -373,6 +380,20 @@ class DocumentReviewStateTests(unittest.TestCase):
         self.assertEqual(summary["queue_counts"]["escalated_repair_selectable"], 1)
         self.assertEqual(summary["queue_counts"]["escalated_repair_submitted"], 1)
         self.assertEqual(summary["queue_counts"]["resolved"], 2)
+
+    def test_document_workflow_state_maps_pipeline_states_to_ui_buckets(self) -> None:
+        self.assertEqual(document_workflow_state(STATE_FINAL_PENDING), WORKFLOW_STATE_BULK_REVIEW)
+        self.assertEqual(document_workflow_state(STATE_FINAL_IN_REVIEW), WORKFLOW_STATE_BULK_REVIEW)
+        self.assertEqual(document_workflow_state(STATE_FINAL_REVIEWED), WORKFLOW_STATE_BULK_SUBMITTED)
+        self.assertEqual(document_workflow_state(STATE_STRONG_PENDING), WORKFLOW_STATE_ESCALATED_REPAIR)
+        self.assertEqual(document_workflow_state(STATE_STRONG_REVIEWED), WORKFLOW_STATE_ESCALATED_SUBMITTED)
+        self.assertEqual(document_workflow_state(STATE_COMPLETE), WORKFLOW_STATE_RESOLVED)
+        self.assertEqual(document_workflow_state(STATE_SKIPPED), WORKFLOW_STATE_RESOLVED)
+
+    def test_document_workflow_queue_stage_maps_submitted_to_original_queue(self) -> None:
+        self.assertEqual(document_workflow_queue_stage(STATE_FINAL_REVIEWED), "yomi_final_review")
+        self.assertEqual(document_workflow_queue_stage(STATE_STRONG_REVIEWED), "yomi_strong_repair_review")
+        self.assertIsNone(document_workflow_queue_stage(STATE_COMPLETE))
 
 
 def write_jsonl(path: Path, rows: list[dict]) -> None:

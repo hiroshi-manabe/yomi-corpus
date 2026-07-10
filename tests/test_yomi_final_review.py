@@ -183,6 +183,8 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack["queue_id"], "final_review")
             self.assertEqual([doc["doc_id"] for doc in pack["documents"]], ["doc1", "doc2"])
             self.assertEqual(pack["documents"][0]["state"], "final_pending")
+            self.assertEqual(pack["documents"][0]["workflow_state"], "bulk_review")
+            self.assertEqual(pack["documents"][0]["workflow_queue_stage"], "yomi_final_review")
             self.assertTrue(pack["documents"][0]["selectable"])
             self.assertEqual(pack["documents"][0]["item_count"], 1)
             self.assertEqual(pack["documents"][0]["unresolved_count"], 1)
@@ -359,6 +361,8 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(docs["doc1"]["selectable"])
             self.assertFalse(docs["doc2"]["selectable"])
             self.assertEqual(docs["doc2"]["state"], "complete")
+            self.assertEqual(docs["doc2"]["workflow_state"], "resolved")
+            self.assertIsNone(docs["doc2"]["workflow_queue_stage"])
             self.assertEqual(pack["summary"]["document_state_counts"]["complete"], 1)
 
     def test_pack_drops_non_kana_reading_candidates(self) -> None:
@@ -1886,9 +1890,12 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual([doc["doc_id"] for doc in pack["documents"]], ["doc1", "doc2"])
             self.assertEqual(pack["documents"][0]["item_count"], 0)
             self.assertEqual(pack["documents"][0]["state"], "complete")
+            self.assertEqual(pack["documents"][0]["workflow_state"], "resolved")
             self.assertFalse(pack["documents"][0]["selectable"])
             self.assertEqual(pack["documents"][1]["item_count"], 1)
             self.assertEqual(pack["documents"][1]["state"], "strong_pending")
+            self.assertEqual(pack["documents"][1]["workflow_state"], "escalated_repair")
+            self.assertEqual(pack["documents"][1]["workflow_queue_stage"], "yomi_strong_repair_review")
             self.assertTrue(pack["documents"][1]["selectable"])
             self.assertEqual(pack["items"][0]["doc_seq"], 2)
 

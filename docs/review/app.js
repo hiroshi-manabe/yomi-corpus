@@ -494,7 +494,6 @@ function queueStageSort(stage) {
 }
 
 function unifiedDocumentIsSelectable(doc, stats) {
-  const stateName = String(doc.state || "");
   const itemCount = Number(stats?.item_count || 0);
   if (itemCount <= 0) {
     return false;
@@ -502,18 +501,15 @@ function unifiedDocumentIsSelectable(doc, stats) {
   if (!documentBelongsToQueue(doc.queue_stage, doc)) {
     return false;
   }
-  if (doc.queue_stage === "yomi_final_review") {
-    return stateName.startsWith("final_") || (stateName === "" && doc.selectable !== false);
-  }
-  if (doc.queue_stage === "yomi_strong_repair_review") {
-    return stateName.startsWith("strong_");
-  }
-  return Boolean(doc.selectable);
+  return doc.selectable !== false && !docIsSubmittedByWorkflowState(doc);
 }
 
 function documentBelongsToQueue(queueStage, doc) {
   if (doc && "queue_member" in doc) {
     return Boolean(doc.queue_member);
+  }
+  if (doc?.workflow_queue_stage) {
+    return doc.workflow_queue_stage === queueStage;
   }
   const stateName = String(doc?.state || "");
   if (queueStage === "yomi_final_review") {
@@ -1338,11 +1334,11 @@ function workflowDocumentStates(docs) {
     const bucketStatus = workflowDocumentBucketStatus(doc);
     if (bucketStatus === "final") {
       row.status = "final";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (
       !["final", "strong"].includes(row.status) &&
@@ -1359,27 +1355,19 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
-  const stateName = String(doc?.state || "");
-  return stateName === "complete" || stateName === "skipped" || stateName === "strong_reviewed";
+  return workflowStateFromDocument(doc) === "resolved";
 }
 
 function documentHasPendingCanonicalState(doc) {
-  const stateName = String(doc?.state || "");
-  return (
-    stateName === "final_pending" ||
-    stateName === "final_in_review" ||
-    stateName === "final_reviewed" ||
-    stateName === "strong_pending" ||
-    stateName === "strong_in_review"
-  );
+  return Boolean(queueStatusFromDocumentState(doc));
 }
 
 function submittedWorkflowLabel(doc) {
-  const stateName = String(doc?.state || "");
-  if (stateName.startsWith("strong_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "escalated_submitted") {
     return "Submitted, waiting for repair processing";
   }
-  if (stateName === "final_reviewed") {
+  if (workflowState === "bulk_submitted") {
     return "Submitted, waiting for processing";
   }
   return "Submitted, waiting for import";
@@ -1414,7 +1402,7 @@ function submittedSourceQueueStatus(doc) {
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
-  const submitted = docIsSubmittedLocally(doc);
+  const submitted = docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
   return {
     doc_seq: doc.doc_seq,
     status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
@@ -1465,17 +1453,43 @@ function workflowDocumentBucketStatus(doc) {
 }
 
 function queueStatusFromDocumentState(doc) {
-  const stateName = String(doc?.state || "");
-  if (documentIsResolved(doc)) {
-    return null;
-  }
-  if (stateName.startsWith("final_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "bulk_review" || workflowState === "bulk_submitted") {
     return "final";
   }
-  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+  if (workflowState === "escalated_repair" || workflowState === "escalated_submitted") {
     return "strong";
   }
   return null;
+}
+
+function workflowStateFromDocument(doc) {
+  const workflowState = String(doc?.workflow_state || "");
+  if (workflowState) {
+    return workflowState;
+  }
+  const stateName = String(doc?.state || "");
+  if (stateName === "final_pending" || stateName === "final_in_review") {
+    return "bulk_review";
+  }
+  if (stateName === "final_reviewed") {
+    return "bulk_submitted";
+  }
+  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+    return "escalated_repair";
+  }
+  if (stateName === "strong_reviewed") {
+    return "escalated_submitted";
+  }
+  if (stateName === "complete" || stateName === "skipped") {
+    return "resolved";
+  }
+  return "";
+}
+
+function docIsSubmittedByWorkflowState(doc) {
+  const workflowState = workflowStateFromDocument(doc);
+  return workflowState === "bulk_submitted" || workflowState === "escalated_submitted";
 }
 
 function queueStatusForStage(queueStage) {
@@ -1615,7 +1629,7 @@ function docIsSubmittedLocally(doc) {
 }
 
 function docIsActionable(doc) {
-  return doc?.selectable !== false && !docIsSubmittedLocally(doc);
+  return doc?.selectable !== false && !docIsSubmittedLocally(doc) && !docIsSubmittedByWorkflowState(doc);
 }
 
 function renderTaskDocumentRow(doc, task) {
