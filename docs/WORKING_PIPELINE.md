@@ -2148,10 +2148,18 @@ Durable document ledger:
 
 - maintain a per-track ledger keyed by stable source document ID and source
   order
+- assign a stable `track_doc_seq` when a source document first enters that
+  track's ledger
 - store current state, current queue membership, preparation batch/artifact
   pointers, imported Issue/comment IDs, and latest canonical output pointers
 - use the ledger as the source of truth for queue membership; generated packs
   are views or payloads, not authoritative state
+- use `track_doc_seq` as the human-facing document number in queues, Pack Map,
+  Issues, and correction payloads. Batch-local `doc_seq` can remain inside
+  artifacts but must not be the public identifier once documents from multiple
+  backend batches are mixed in one workspace.
+- never renumber existing ledger rows. If a batch is regenerated or resumed,
+  reuse the existing `track_doc_seq` for matching `doc_id`.
 
 Corpus Map target:
 

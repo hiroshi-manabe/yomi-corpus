@@ -339,6 +339,14 @@ schemas. The long-term UI should be document-oriented:
 - local task state is only an overlay and expires when the document leaves that
   task's stage
 
+When documents can come from multiple backend batches, document numbers shown
+to reviewers must be stable across refill. The UI should display
+`track_doc_seq`, a per-track monotonic number assigned when a source document
+first enters the track ledger. Batch-local `doc_seq` is still useful for
+artifact debugging, but it should not be the primary reviewer-facing number.
+Issue payloads should include both `track_doc_seq` and the authoritative
+`doc_id`.
+
 Resolved documents should not be immutable forever. If a reviewer later finds a
 problem, the UI should create a correction task rather than editing history in
 place. The importer then applies the correction and the pipeline can harvest

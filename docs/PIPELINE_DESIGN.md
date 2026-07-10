@@ -1948,12 +1948,31 @@ The durable ledger should be the source of truth for this refill behavior. A
 minimal ledger row should include:
 
 - stable source document ID and source ordering key
+- stable track-level document sequence number
 - current document state
 - preparation batch/artifact IDs that produced the current review payload
 - current queue membership flags for Bulk Review and Escalated Repair
 - submission/import provenance, including Issue/comment IDs when applicable
 - pointers to the latest canonical yomi payload, repair payload, and finalized
   output when available
+
+Document numbering must not be batch-local once rolling refill is enabled. The
+UI, Issues, correction payloads, and corpus-wide map should use a stable
+`track_doc_seq` assigned once when a source document first enters a track's
+ledger. Batch-local `doc_seq` may still exist inside preparation artifacts, but
+it is not the reviewer-facing identifier. Rules:
+
+- `doc_id` remains the authoritative stable source identifier
+- `track_doc_seq` is the human-facing stable order number within one track
+- the ledger assigns `track_doc_seq` monotonically and never renumbers existing
+  documents
+- regenerating or resuming a preparation batch must reuse the existing
+  `track_doc_seq` for the same `doc_id`
+- published packs may include batch-local sequence numbers for debugging, but
+  browser queues, Pack Map tiles, and Issue payloads should include both
+  `track_doc_seq` and `doc_id`
+- cross-track numbering is intentionally separate; `dev` and `working` may have
+  different `track_doc_seq` values for the same source document
 
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus
