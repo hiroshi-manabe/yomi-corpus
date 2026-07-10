@@ -55,7 +55,28 @@ class DocumentReviewStateTests(unittest.TestCase):
             self.assertEqual(state["summary"]["queue_counts"]["bulk_review_selectable"], 2)
             self.assertEqual(state["documents"][0]["doc_id"], "doc1")
             self.assertEqual(state["documents"][0]["unit_count"], 2)
+            self.assertEqual(state["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(state["documents"][1]["doc_seq"], 2)
+
+    def test_initial_state_uses_track_doc_seq_from_units(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            units = Path(tmp) / "units.jsonl"
+            write_jsonl(
+                units,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1", "track_doc_seq": 101},
+                    {"doc_id": "doc2", "unit_id": "u2", "track_doc_seq": 102},
+                ],
+            )
+
+            state = build_initial_document_review_state(
+                units_jsonl=units,
+                batch_name="dev_batch_0001",
+                track_name="dev",
+            )
+
+            self.assertEqual([row["doc_seq"] for row in state["documents"]], [1, 2])
+            self.assertEqual([row["track_doc_seq"] for row in state["documents"]], [101, 102])
 
     def test_final_review_update_marks_reviewed_skipped_and_partial_documents(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

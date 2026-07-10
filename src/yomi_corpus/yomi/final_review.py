@@ -162,6 +162,10 @@ def build_yomi_final_review_pack(
     units = load_jsonl(units_jsonl)
     documents = build_pack_documents(units)
     doc_seq_by_id = {str(row["doc_id"]): int(row["doc_seq"]) for row in documents}
+    track_doc_seq_by_id = {
+        str(row["doc_id"]): int(row.get("track_doc_seq") or row["doc_seq"])
+        for row in documents
+    }
 
     for unit in units:
         doc_id = str(unit.get("doc_id") or "")
@@ -169,6 +173,7 @@ def build_yomi_final_review_pack(
             unit,
             seq=len(items) + 1,
             doc_seq=doc_seq_by_id.get(doc_id, len(doc_seq_by_id) + 1),
+            track_doc_seq=track_doc_seq_by_id.get(doc_id),
         )
         items.append(item)
 
@@ -223,6 +228,10 @@ def build_yomi_strong_repair_review_pack(
     units_by_id = {str(row.get("unit_id") or ""): row for row in load_jsonl(units_jsonl)}
     documents = build_pack_documents(units_by_id.values())
     doc_seq_by_id = {str(row["doc_id"]): int(row["doc_seq"]) for row in documents}
+    track_doc_seq_by_id = {
+        str(row["doc_id"]): int(row.get("track_doc_seq") or row["doc_seq"])
+        for row in documents
+    }
     created = created_at_epoch if created_at_epoch is not None else current_epoch()
     rows_by_unit: dict[str, list[dict[str, Any]]] = {}
     for queue_row in queue_rows:
@@ -257,6 +266,7 @@ def build_yomi_strong_repair_review_pack(
                 unit,
                 seq=seq,
                 doc_seq=doc_seq_by_id.get(doc_id),
+                track_doc_seq=track_doc_seq_by_id.get(doc_id),
             )
         )
     documents = with_queue_document_metadata(
@@ -302,9 +312,13 @@ def build_pack_documents(units: Any) -> list[dict[str, Any]]:
         if not doc_id:
             continue
         if doc_id not in by_id:
+            track_doc_seq = unit.get("track_doc_seq")
+            if not isinstance(track_doc_seq, int) or track_doc_seq <= 0:
+                track_doc_seq = len(documents) + 1
             doc = {
                 "doc_id": doc_id,
                 "doc_seq": len(documents) + 1,
+                "track_doc_seq": track_doc_seq,
                 "unit_count": 0,
                 "source_file": unit.get("source_file"),
                 "source_line_no": unit.get("source_line_no"),
@@ -368,6 +382,12 @@ def with_queue_document_metadata(
                 **doc,
                 "queue_id": queue_id,
                 "state": state,
+                "track_doc_seq": int(
+                    state_row.get("track_doc_seq")
+                    or doc.get("track_doc_seq")
+                    or doc.get("doc_seq")
+                    or 0
+                ),
                 "workflow_state": workflow_state,
                 "workflow_queue_stage": workflow_queue_stage,
                 "queue_member": queue_member,
@@ -472,6 +492,7 @@ def build_strong_repair_review_sentence_item(
     *,
     seq: int,
     doc_seq: int | None,
+    track_doc_seq: int | None,
 ) -> dict[str, Any]:
     first_row = queue_rows[0] if queue_rows else {}
     first_region = regions[0] if regions else {}
@@ -483,6 +504,7 @@ def build_strong_repair_review_sentence_item(
         "seq": seq,
         "doc_id": str(unit.get("doc_id") or ""),
         "doc_seq": doc_seq,
+        "track_doc_seq": track_doc_seq,
         "unit_id": str(unit.get("unit_id") or first_row.get("unit_id") or ""),
         "unit_seq": unit.get("unit_seq"),
         "source_file": unit.get("source_file"),
@@ -579,7 +601,13 @@ def build_strong_repair_review_region(
     }
 
 
-def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[str, Any]:
+def build_review_item(
+    unit: dict[str, Any],
+    *,
+    seq: int,
+    doc_seq: int,
+    track_doc_seq: int | None,
+) -> dict[str, Any]:
     safety = unit.get("analysis", {}).get("safety", {}).get("yomi", {})
     targets = safety.get("targets", [])
     if not isinstance(targets, list):
@@ -605,6 +633,7 @@ def build_review_item(unit: dict[str, Any], *, seq: int, doc_seq: int) -> dict[s
         "seq": seq,
         "doc_id": str(unit.get("doc_id") or ""),
         "doc_seq": doc_seq,
+        "track_doc_seq": track_doc_seq,
         "unit_id": str(unit.get("unit_id", "")),
         "unit_seq": unit.get("unit_seq"),
         "source_file": unit.get("source_file"),

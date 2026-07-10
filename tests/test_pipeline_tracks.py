@@ -268,6 +268,23 @@ class PipelineTrackTests(unittest.TestCase):
             )
             self.assertEqual(first_unit["source_line_no"], 1)
             self.assertEqual(second_unit["source_line_no"], 3)
+            self.assertEqual(first_unit["track_doc_seq"], 1)
+            self.assertEqual(second_unit["track_doc_seq"], 3)
+
+            ledger = json.loads(
+                (root / "data" / "pipeline" / "document_ledger" / "dev.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(
+                [(row["doc_id"], row["track_doc_seq"]) for row in ledger["documents"]],
+                [
+                    ("demo:0000000001", 1),
+                    ("demo:0000000002", 2),
+                    ("demo:0000000003", 3),
+                    ("demo:0000000004", 4),
+                ],
+            )
 
     def test_advance_runs_one_stage_and_persists_state(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

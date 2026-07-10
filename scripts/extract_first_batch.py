@@ -67,6 +67,7 @@ def main() -> None:
                     doc_id=doc_id,
                     unit_id=f"{doc_id}:u{unit_seq:04d}",
                     unit_seq=unit_seq,
+                    track_doc_seq=docs_written,
                     char_start=span.start,
                     char_end=span.end,
                     text=span.text,

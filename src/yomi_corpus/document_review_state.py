@@ -145,9 +145,13 @@ def build_initial_document_review_state(
         if not doc_id:
             continue
         if doc_id not in by_doc:
+            track_doc_seq = unit.get("track_doc_seq")
+            if not isinstance(track_doc_seq, int) or track_doc_seq <= 0:
+                track_doc_seq = len(documents) + 1
             row = {
                 "doc_id": doc_id,
                 "doc_seq": len(documents) + 1,
+                "track_doc_seq": track_doc_seq,
                 "state": initial_state,
                 "unit_count": 0,
                 "reviewed_unit_count": 0,

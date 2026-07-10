@@ -185,12 +185,15 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack["documents"][0]["state"], "final_pending")
             self.assertEqual(pack["documents"][0]["workflow_state"], "bulk_review")
             self.assertEqual(pack["documents"][0]["workflow_queue_stage"], "yomi_final_review")
+            self.assertEqual(pack["documents"][0]["track_doc_seq"], 1)
             self.assertTrue(pack["documents"][0]["selectable"])
             self.assertEqual(pack["documents"][0]["item_count"], 1)
             self.assertEqual(pack["documents"][0]["unresolved_count"], 1)
             self.assertEqual(pack["summary"]["selectable_document_count"], 2)
             self.assertEqual(pack["items"][0]["doc_seq"], 1)
+            self.assertEqual(pack["items"][0]["track_doc_seq"], 1)
             self.assertEqual(pack["items"][1]["doc_seq"], 2)
+            self.assertEqual(pack["items"][1]["track_doc_seq"], 2)
             target = pack["items"][0]["targets"][0]
             self.assertFalse(target["is_safe"])
             self.assertEqual(target["default_choice_source"], "llm")
@@ -1896,8 +1899,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack["documents"][1]["state"], "strong_pending")
             self.assertEqual(pack["documents"][1]["workflow_state"], "escalated_repair")
             self.assertEqual(pack["documents"][1]["workflow_queue_stage"], "yomi_strong_repair_review")
+            self.assertEqual(pack["documents"][1]["track_doc_seq"], 2)
             self.assertTrue(pack["documents"][1]["selectable"])
             self.assertEqual(pack["items"][0]["doc_seq"], 2)
+            self.assertEqual(pack["items"][0]["track_doc_seq"], 2)
 
     def test_strong_repair_falls_back_to_unique_surface_span_when_token_index_is_stale(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

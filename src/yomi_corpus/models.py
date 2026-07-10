@@ -54,6 +54,7 @@ class UnitRecord:
     doc_id: str
     unit_id: str
     unit_seq: int
+    track_doc_seq: int | None
     char_start: int
     char_end: int
     text: str

@@ -455,6 +455,9 @@ class PipelineWorkspace:
     def document_states_root(self) -> Path:
         return self.pipeline_root() / "document_states"
 
+    def document_ledger_root(self) -> Path:
+        return self.pipeline_root() / "document_ledger"
+
     def track_state_path(self, track_name: str) -> Path:
         return self.tracks_root() / f"{track_name}.json"
 
@@ -463,6 +466,9 @@ class PipelineWorkspace:
 
     def document_review_state_path(self, batch_name: str) -> Path:
         return self.document_states_root() / f"{batch_name}.json"
+
+    def document_ledger_path(self, track_name: str) -> Path:
+        return self.document_ledger_root() / f"{normalize_track_name(track_name)}.json"
 
     def batch_dir(self, batch_name: str) -> Path:
         return self.units_root() / batch_name
@@ -474,6 +480,7 @@ class PipelineWorkspace:
         self.tracks_root().mkdir(parents=True, exist_ok=True)
         self.batches_root().mkdir(parents=True, exist_ok=True)
         self.document_states_root().mkdir(parents=True, exist_ok=True)
+        self.document_ledger_root().mkdir(parents=True, exist_ok=True)
 
     def load_track_state(self, track_name: str) -> TrackState:
         normalized = normalize_track_name(track_name)
@@ -683,6 +690,7 @@ class PipelineWorkspace:
             dataset_name=dataset["name"],
             target_documents=target_documents,
             batch_name=batch_name,
+            track_name=normalized,
             skip_source_line_no=skip_source_line_no,
         )
 
@@ -1525,6 +1533,7 @@ class PipelineWorkspace:
         dataset_name: str,
         target_documents: int,
         batch_name: str,
+        track_name: str,
         skip_source_line_no: int = 0,
     ) -> tuple[int, int, int | None, int | None]:
         output_dir = self.batch_dir(batch_name)
@@ -1550,6 +1559,14 @@ class PipelineWorkspace:
                     source_start_line_no = source_line_no
                 source_end_line_no = source_line_no
                 doc_id = f"{dataset_name}:{source_line_no:010d}"
+                track_doc_seq = self._assign_track_doc_seq(
+                    track_name=track_name,
+                    doc_id=doc_id,
+                    dataset_name=dataset_name,
+                    source_path=Path(source_path),
+                    source_line_no=source_line_no,
+                    batch_name=batch_name,
+                )
                 source_file = str(payload.get("source_file", ""))
                 spans = split_text_into_units(text)
                 for unit_seq, span in enumerate(spans, start=1):
@@ -1558,6 +1575,7 @@ class PipelineWorkspace:
                         doc_id=doc_id,
                         unit_id=f"{doc_id}:u{unit_seq:04d}",
                         unit_seq=unit_seq,
+                        track_doc_seq=track_doc_seq,
                         char_start=span.start,
                         char_end=span.end,
                         text=span.text,
@@ -1569,6 +1587,84 @@ class PipelineWorkspace:
                 if docs_written >= target_documents:
                     break
         return docs_written, units_written, source_start_line_no, source_end_line_no
+
+    def _assign_track_doc_seq(
+        self,
+        *,
+        track_name: str,
+        doc_id: str,
+        dataset_name: str,
+        source_path: Path,
+        source_line_no: int,
+        batch_name: str,
+    ) -> int:
+        ledger = self._load_document_ledger(track_name)
+        by_doc = {
+            str(row.get("doc_id") or ""): row
+            for row in ledger.get("documents", [])
+            if isinstance(row, dict) and str(row.get("doc_id") or "")
+        }
+        existing = by_doc.get(doc_id)
+        if existing is not None:
+            track_doc_seq = int(existing.get("track_doc_seq") or 0)
+            if track_doc_seq > 0:
+                return track_doc_seq
+
+        track_doc_seq = self._next_track_doc_seq(ledger)
+        row = {
+            "doc_id": doc_id,
+            "track_doc_seq": track_doc_seq,
+            "dataset_name": dataset_name,
+            "dataset_source_path": str(source_path),
+            "source_line_no": source_line_no,
+            "first_batch_name": batch_name,
+            "created_at": now_iso(),
+        }
+        ledger.setdefault("documents", []).append(row)
+        ledger["updated_at"] = now_iso()
+        self._write_document_ledger(track_name, ledger)
+        return track_doc_seq
+
+    def _load_document_ledger(self, track_name: str) -> dict[str, object]:
+        normalized = normalize_track_name(track_name)
+        path = self.document_ledger_path(normalized)
+        if path.exists():
+            with path.open(encoding="utf-8") as handle:
+                payload = json.load(handle)
+            if isinstance(payload.get("documents"), list):
+                return payload
+        created = now_iso()
+        return {
+            "schema_version": 1,
+            "track_name": normalized,
+            "created_at": created,
+            "updated_at": created,
+            "documents": [],
+        }
+
+    def _write_document_ledger(self, track_name: str, ledger: dict[str, object]) -> None:
+        normalized = normalize_track_name(track_name)
+        ledger["track_name"] = normalized
+        ledger["schema_version"] = 1
+        ledger.setdefault("created_at", now_iso())
+        ledger.setdefault("documents", [])
+        self.ensure_dirs()
+        self.document_ledger_path(normalized).write_text(
+            json.dumps(ledger, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+    @staticmethod
+    def _next_track_doc_seq(ledger: dict[str, object]) -> int:
+        max_seq = 0
+        for row in ledger.get("documents", []):
+            if not isinstance(row, dict):
+                continue
+            try:
+                max_seq = max(max_seq, int(row.get("track_doc_seq") or 0))
+            except (TypeError, ValueError):
+                continue
+        return max_seq + 1
 
     def _latest_source_line_no_for_track(
         self,
@@ -2449,8 +2545,6 @@ class PipelineWorkspace:
         manifest_path = self.root / "docs" / "review" / "manifest.json"
         return {
             "artifacts": {
-                "final_review_pack_json": str(batch_pack_path),
-                "final_review_pack_summary_json": str(summary_path),
                 "document_review_state_json": str(document_state_path),
                 "document_review_state_documents": str(
                     document_state["summary"]["document_count"]
