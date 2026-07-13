@@ -352,6 +352,10 @@ async function openUnifiedReview() {
 }
 
 function latestDevYomiReviewSources() {
+  const activeSources = activeDevReviewQueues();
+  if (activeSources.length > 0) {
+    return activeSources;
+  }
   const sources = [];
   for (const stageId of ["yomi_final_review", "yomi_strong_repair_review"]) {
     const stage = state.manifest.stages?.[stageId];
