@@ -2219,6 +2219,71 @@ Corpus Map target:
   resolved documents should later use a normal auditable submission/replay path
   rather than direct browser-side mutation
 
+### 11.1.1 Current-batch assumption audit
+
+The old linear workflow treated `track.current_batch_name` as the single active
+work item. That assumption is now a liability. Refill, background/batch LLM
+jobs, submitted review tasks, and delayed finalization can leave multiple
+batches actionable at the same time. In that world, `current_batch_name` should
+be a source-refill convenience pointer, not the scheduler's authority.
+
+Observed current dependencies:
+
+- `PipelineWorkspace.status()`, `advance()`, and `set_stage()` operate only on
+  `track.current_batch_name`. This is acceptable for manual `./next` debugging
+  but not sufficient for unattended automation.
+- `prepare_next_batch()` still updates `track.current_batch_name` to the newest
+  prepared batch. This is useful for legacy CLI behavior, but it can hide older
+  batches that still need server-side work.
+- `review-sync` currently reads `workspace.status(track)` and advances that one
+  batch first. This is the highest-risk dependency: an older batch can have
+  completed Escalated Repair review and still never reach `yomi_finalized` after
+  the pointer moves to a newer batch.
+- `maintain_bulk_review_refill()` and
+  `advance_current_batch_to_bulk_review_ready()` are explicitly current-batch
+  oriented. They should become source-refill helpers rather than the main
+  scheduler.
+- `./next`, `./next --auto`, and `./set-stage` are intentionally current-batch
+  commands. Keep them as operator/debug tools, but do not model unattended
+  progress on them.
+- Issue application is mostly pack-based and can apply non-current packs, but
+  it is only reached when `review-sync` decides to touch the corresponding
+  batch. The scheduler must therefore enumerate candidate batches.
+- Decoder refresh already discovers all finalized batches via batch state files;
+  it is less pointer-dependent than review-sync.
+- Review dashboard generation already reads review packs broadly, but stale
+  packs and regenerated queue state still depend on backend sync reaching each
+  actionable batch.
+
+Target model:
+
+- derive scheduler candidates from `data/pipeline/batches/*.json`,
+  `data/pipeline/document_states/*.json`, review submission stores, and LLM job
+  state
+- sweep all batches for server-side actionable transitions:
+  final review submissions to apply, strong repair queue/results/review to
+  apply, LLM jobs to poll, and batches ready to finalize
+- keep `current_batch_name` only for legacy command defaults and source refill
+  cursor behavior
+- calculate refill demand from document queue counts across all active batches,
+  not from the current batch alone
+- after finalization, let decoder refresh look at finalized batches globally
+  rather than relying on the batch that happened to be current
+
+Prioritized migration:
+
+1. Stop the dev timer while changing scheduler semantics.
+2. Add a `review-sync` sweep over non-finalized batches before or alongside the
+   current-batch path. The first concrete target is older batches whose
+   Escalated Repair review is complete but whose batch state is not yet
+   `yomi_finalized`.
+3. Move refill logic behind an "ensure Bulk Review buffer" pass that is based
+   on aggregate document queue counts.
+4. Keep `./next` and `./set-stage` as current-batch manual tools, but update
+   help text/docs to say they are not the scheduler model.
+5. Once batch sweeping is stable, treat batch state as provenance/container
+   state and document ledger state as the human-facing operational state.
+
 ### 11.2 Review sync command
 
 `./review-sync <track>` is the operator command for moving GitHub-Issue review

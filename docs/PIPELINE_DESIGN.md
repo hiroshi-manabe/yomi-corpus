@@ -1511,7 +1511,8 @@ The state enum can start small and grow with the actual implementation.
 Track state should record at least:
 
 - `track_name`
-- `current_batch_name`
+- `current_batch_name` as a legacy/manual-command convenience pointer, not as
+  the authoritative scheduler target
 - `updated_at`
 
 ### 9.6.2 Current command surface
@@ -1537,12 +1538,17 @@ kept as a compatibility wrapper around it.
 
 ### 9.6.3 Current one-step behavior
 
-Current recommended behavior for the main orchestration command:
+Current recommended behavior for the manual main orchestration command:
 
 - load the current batch state for the requested track
 - inspect the current stage and prerequisites
 - run the next automatic step if legal
 - stop after that one step and report the updated state
+
+This describes `./next` and related debugging commands. It must not define the
+unattended scheduler model. As refill and review import mature, `review-sync`
+should sweep actionable batch/document state across the track rather than
+touching only `track.current_batch_name`.
 
 Examples:
 
@@ -1971,9 +1977,11 @@ over the document-state ledger, not as a new kind of batch:
   prepares more source documents, runs the automatic/LLM stages needed to make
   them reviewable, appends their document states to the ledger, and republishes
   review artifacts according to `--publish`
-- if the current track batch is already before `final_review_prepared`, refill
-  resumes that batch rather than preparing another one. This makes interrupted
-  or long-running LLM stages safe to continue on the next sync pass.
+- if any prepared/refill batch is already before `final_review_prepared`,
+  refill should resume that batch rather than preparing another duplicate
+  source slice. The current implementation approximates this with
+  `track.current_batch_name`, but the target scheduler should discover such
+  batches from batch/document state.
 - refill should be bounded by a per-pass limit so a sync does not unexpectedly
   launch an unbounded amount of LLM work
 - the UI may show documents from multiple backend preparation batches in one
