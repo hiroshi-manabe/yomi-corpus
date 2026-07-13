@@ -135,6 +135,10 @@ Review transport policy:
   stops after the configured maximum wait or after too long without completed
   result progress, and the next `./next` or `./review-sync` resumes/polls the
   same job instead of starting from scratch
+- `config/review_sync/default.toml` controls review-sync automation that is not
+  review transport. In dev, decoder model refresh defaults to `on-finalize` so
+  a newly finalized batch can rebuild the track decoder model; working still
+  defaults to `never` until the policy is proven.
 - decoder model refreshes may be frequent, but old full model artifacts should
   eventually be garbage-collected after retaining enough manifest provenance to
   reconstruct them

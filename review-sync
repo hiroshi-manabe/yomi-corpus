@@ -13,8 +13,11 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from yomi_corpus.review_sync import (  # noqa: E402
+    DECODER_REFRESH_MODES,
+    DEFAULT_REVIEW_SYNC_CONFIG,
     ReviewSyncOptions,
     compact_console_summary,
+    load_review_sync_config,
     run_review_sync_loop,
     run_review_sync_pass,
 )
@@ -43,6 +46,11 @@ def parse_args() -> argparse.Namespace:
         "--transport-config",
         default=DEFAULT_REVIEW_TRANSPORT_CONFIG,
         help=f"Review transport TOML config. Default: {DEFAULT_REVIEW_TRANSPORT_CONFIG}.",
+    )
+    parser.add_argument(
+        "--sync-config",
+        default=DEFAULT_REVIEW_SYNC_CONFIG,
+        help=f"Review sync TOML config. Default: {DEFAULT_REVIEW_SYNC_CONFIG}.",
     )
     parser.add_argument(
         "--no-close-issues",
@@ -89,6 +97,29 @@ def parse_args() -> argparse.Namespace:
         help="Show the next sync-managed action without modifying pipeline state.",
     )
     parser.add_argument(
+        "--decoder-refresh",
+        choices=sorted(DECODER_REFRESH_MODES),
+        default=None,
+        help="Override decoder model refresh mode for this run.",
+    )
+    parser.add_argument(
+        "--decoder-refresh-min-new-batches",
+        type=int,
+        default=None,
+        help="Override minimum finalized batches since the previous decoder refresh.",
+    )
+    parser.add_argument(
+        "--decoder-refresh-min-interval-minutes",
+        type=float,
+        default=None,
+        help="Override minimum minutes between decoder refreshes.",
+    )
+    parser.add_argument(
+        "--decoder-refresh-skip-kenlm",
+        action="store_true",
+        help="Pass skip_kenlm=true to decoder refresh. Intended for tests.",
+    )
+    parser.add_argument(
         "--loop",
         action="store_true",
         help="Keep running sync passes until interrupted.",
@@ -110,6 +141,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     transport = load_review_transport_config(args.track, args.transport_config)
+    sync_config = load_review_sync_config(args.track, args.sync_config)
     options = ReviewSyncOptions(
         track_name=args.track,
         repo=args.repo or transport.repo,
@@ -120,6 +152,18 @@ def main() -> None:
         bulk_review_target_ready_docs=args.bulk_review_target_ready_docs,
         refill_pass_limit=args.refill_pass_limit,
         dry_run=args.dry_run,
+        decoder_refresh_mode=args.decoder_refresh or sync_config.mode,
+        decoder_refresh_min_new_batches=(
+            args.decoder_refresh_min_new_batches
+            if args.decoder_refresh_min_new_batches is not None
+            else sync_config.min_new_batches
+        ),
+        decoder_refresh_min_interval_minutes=(
+            args.decoder_refresh_min_interval_minutes
+            if args.decoder_refresh_min_interval_minutes is not None
+            else sync_config.min_interval_minutes
+        ),
+        decoder_refresh_skip_kenlm=args.decoder_refresh_skip_kenlm or sync_config.skip_kenlm,
     )
     if args.loop:
         if args.dry_run:

@@ -25,6 +25,7 @@ class DecoderModelRefreshSummary:
     base_corpus: str
     skip_kenlm: bool
     track_state_path: str
+    refreshed_at: str
 
 
 def refresh_decoder_model(
@@ -102,6 +103,7 @@ def refresh_decoder_model(
         base_corpus=str(chosen_base_corpus),
         skip_kenlm=skip_kenlm,
         track_state_path=str(workspace.track_state_path(normalized_track)),
+        refreshed_at=now_iso(),
     )
     write_refresh_manifest(model_dir, summary)
     return summary

@@ -2055,6 +2055,13 @@ Review sync command:
   `--publish none` applies state only, `--publish local` regenerates local
   `docs/review`, and `--publish gh-pages` regenerates and runs
   `./publish-review`. The default is `local`.
+- non-transport automation belongs in `config/review_sync/default.toml`. The
+  current decoder-refresh policy is configurable per track:
+  `never`, `on-finalize`, or `always`, plus minimum new finalized batches and
+  minimum interval.
+- decoder refresh should be a post-finalization hook. It must not roll back or
+  invalidate successful review finalization if the decoder build fails; report
+  the failure in the sync summary and retry in a later pass.
 
 LLM polling policy:
 

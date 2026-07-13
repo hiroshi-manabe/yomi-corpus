@@ -2250,6 +2250,11 @@ Default behavior should be conservative:
   `--publish {none,local,gh-pages}`. The default `local` regenerates
   `docs/review` after a state-changing pass without pushing. `none` applies
   pipeline state only. `gh-pages` regenerates and then runs `./publish-review`.
+- decoder model refresh is controlled separately in
+  `config/review_sync/default.toml` and can be overridden with
+  `--decoder-refresh {never,on-finalize,always}`,
+  `--decoder-refresh-min-new-batches`, and
+  `--decoder-refresh-min-interval-minutes`. It is not a transport setting.
 
 This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside
@@ -2276,6 +2281,21 @@ be inspected through:
 ```bash
 journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 ```
+
+Decoder refresh policy:
+
+- dev defaults to `on-finalize`, `min_new_batches = 1`, and
+  `min_interval_minutes = 0`
+- working defaults to `never`, with stricter thresholds already documented in
+  config for later use
+- `on-finalize` runs when at least one finalized batch is not yet represented
+  in the last successful decoder refresh and the since-last-refresh thresholds
+  are satisfied. This makes failed refreshes retryable on a later sync pass.
+- refresh uses the existing `refresh_decoder_model()` path, exports all
+  finalized track batches, rebuilds a track-scoped model, and updates
+  `decoder_model_dir` only after a successful build
+- refresh failure is non-fatal for review state. The batch remains finalized,
+  the error is recorded in the review-sync summary, and a later sync can retry.
 
 Browser-local task state is separate from imported pipeline state:
 

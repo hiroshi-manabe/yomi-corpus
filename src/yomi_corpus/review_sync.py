@@ -5,13 +5,15 @@ import os
 import shutil
 import subprocess
 import time
+import tomllib
 from hashlib import sha256
 from contextlib import AbstractContextManager
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from yomi_corpus.decoder_models import list_finalized_batches, refresh_decoder_model
 from yomi_corpus.pipeline import (
     STAGE_FINAL_REVIEW_APPLIED,
     STAGE_FINAL_REVIEW_PREPARED,
@@ -35,6 +37,16 @@ from yomi_corpus.review_transport import (
     PUBLISH_MODES,
 )
 
+DEFAULT_REVIEW_SYNC_CONFIG = "config/review_sync/default.toml"
+DECODER_REFRESH_MODE_NEVER = "never"
+DECODER_REFRESH_MODE_ON_FINALIZE = "on-finalize"
+DECODER_REFRESH_MODE_ALWAYS = "always"
+DECODER_REFRESH_MODES = {
+    DECODER_REFRESH_MODE_NEVER,
+    DECODER_REFRESH_MODE_ON_FINALIZE,
+    DECODER_REFRESH_MODE_ALWAYS,
+}
+
 
 SYNC_STAGE_ALLOWLIST = {
     STAGE_FINAL_REVIEW_APPLIED,
@@ -44,6 +56,35 @@ SYNC_STAGE_ALLOWLIST = {
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def load_review_sync_config(
+    track_name: str,
+    path: str | Path = DEFAULT_REVIEW_SYNC_CONFIG,
+) -> DecoderRefreshConfig:
+    config_path = Path(path)
+    if not config_path.is_absolute():
+        config_path = Path(__file__).resolve().parents[2] / config_path
+    if not config_path.exists():
+        return DecoderRefreshConfig()
+    with config_path.open("rb") as handle:
+        payload = tomllib.load(handle)
+    tracks = payload.get("tracks", {})
+    track = tracks.get(track_name)
+    if not isinstance(track, dict):
+        return DecoderRefreshConfig()
+    section = track.get("decoder_refresh", {})
+    if not isinstance(section, dict):
+        section = {}
+    mode = str(section.get("mode") or DECODER_REFRESH_MODE_NEVER).replace("_", "-")
+    if mode not in DECODER_REFRESH_MODES:
+        raise ValueError(f"Unsupported decoder refresh mode for {track_name}: {mode}")
+    return DecoderRefreshConfig(
+        mode=mode,
+        min_new_batches=max(1, int(section.get("min_new_batches") or 1)),
+        min_interval_minutes=max(0.0, float(section.get("min_interval_minutes") or 0.0)),
+        skip_kenlm=bool(section.get("skip_kenlm", False)),
+    )
 
 
 @dataclass(frozen=True)
@@ -57,6 +98,18 @@ class ReviewSyncOptions:
     bulk_review_target_ready_docs: int = 0
     refill_pass_limit: int = 0
     dry_run: bool = False
+    decoder_refresh_mode: str = DECODER_REFRESH_MODE_NEVER
+    decoder_refresh_min_new_batches: int = 1
+    decoder_refresh_min_interval_minutes: float = 0.0
+    decoder_refresh_skip_kenlm: bool = False
+
+
+@dataclass(frozen=True)
+class DecoderRefreshConfig:
+    mode: str = DECODER_REFRESH_MODE_NEVER
+    min_new_batches: int = 1
+    min_interval_minutes: float = 0.0
+    skip_kenlm: bool = False
 
 
 class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
@@ -158,8 +211,10 @@ def _run_review_sync_pass_unlocked(
     stage_results: list[dict[str, Any]] = []
     close_results: list[dict[str, Any]] = []
     refill_results: list[dict[str, Any]] = []
+    decoder_refresh_result: dict[str, Any] | None = None
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
+    finalized_before = set(list_finalized_batches(workspace, options.track_name))
 
     for _ in range(max(1, options.max_stages)):
         status = workspace.status(options.track_name)
@@ -257,6 +312,8 @@ def _run_review_sync_pass_unlocked(
         root=root,
         batch_name=final_batch_name,
     )
+    finalized_after = set(list_finalized_batches(workspace, options.track_name))
+    newly_finalized_batches = sorted(finalized_after - finalized_before)
     refill_plan = build_bulk_review_refill_plan(
         document_queue_summary=document_queue_summary,
         target_ready_docs=options.bulk_review_target_ready_docs,
@@ -304,6 +361,14 @@ def _run_review_sync_pass_unlocked(
         if site_stale:
             changed = True
 
+    if not options.dry_run:
+        decoder_refresh_result = maybe_refresh_decoder_model(
+            root=root,
+            workspace=workspace,
+            options=options,
+            newly_finalized_batches=newly_finalized_batches,
+        )
+
     publish_result: dict[str, Any] | None = None
     if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
         publish_result = publish_review_artifacts(
@@ -326,6 +391,7 @@ def _run_review_sync_pass_unlocked(
             "refill_pass_limit": options.refill_pass_limit,
         },
         "refill_plan": refill_plan,
+        "decoder_refresh_result": decoder_refresh_result,
         "changed": changed,
         "site_stale": site_stale,
         "stage_results": stage_results,
@@ -336,6 +402,143 @@ def _run_review_sync_pass_unlocked(
         "final_status": final_status,
         "document_queue_summary": document_queue_summary,
     }
+
+
+def maybe_refresh_decoder_model(
+    *,
+    root: Path,
+    workspace: PipelineWorkspace,
+    options: ReviewSyncOptions,
+    newly_finalized_batches: list[str],
+) -> dict[str, Any]:
+    plan = build_decoder_refresh_plan(
+        root=root,
+        workspace=workspace,
+        options=options,
+        newly_finalized_batches=newly_finalized_batches,
+    )
+    if not plan["will_refresh"]:
+        return plan
+    try:
+        summary = refresh_decoder_model(
+            root=root,
+            track_name=options.track_name,
+            skip_kenlm=options.decoder_refresh_skip_kenlm,
+        )
+    except Exception as exc:  # noqa: BLE001 - finalization must survive decoder refresh failures.
+        return {
+            **plan,
+            "status": "failed",
+            "error": str(exc),
+            "error_type": type(exc).__name__,
+        }
+    return {
+        **plan,
+        "status": "refreshed",
+        "summary": asdict(summary),
+    }
+
+
+def build_decoder_refresh_plan(
+    *,
+    root: Path,
+    workspace: PipelineWorkspace,
+    options: ReviewSyncOptions,
+    newly_finalized_batches: list[str],
+) -> dict[str, Any]:
+    mode = options.decoder_refresh_mode.replace("_", "-")
+    if mode not in DECODER_REFRESH_MODES:
+        raise ValueError(f"Unsupported decoder refresh mode: {options.decoder_refresh_mode}")
+    finalized_batches = list_finalized_batches(workspace, options.track_name)
+    previous_batches = previous_decoder_refresh_batches(workspace, options.track_name)
+    new_since_refresh = sorted(set(finalized_batches) - set(previous_batches))
+    previous_refreshed_at = previous_decoder_refresh_time(workspace, options.track_name)
+    min_interval_seconds = max(0.0, options.decoder_refresh_min_interval_minutes) * 60.0
+    interval_elapsed = (
+        None
+        if previous_refreshed_at is None
+        else max(0.0, datetime.now(timezone.utc).timestamp() - previous_refreshed_at.timestamp())
+    )
+    interval_satisfied = interval_elapsed is None or interval_elapsed >= min_interval_seconds
+    min_new = max(1, int(options.decoder_refresh_min_new_batches or 1))
+    enough_new_batches = len(new_since_refresh) >= min_new
+    mode_allows = mode == DECODER_REFRESH_MODE_ALWAYS or (
+        mode == DECODER_REFRESH_MODE_ON_FINALIZE and bool(new_since_refresh)
+    )
+    will_refresh = (
+        mode != DECODER_REFRESH_MODE_NEVER
+        and mode_allows
+        and enough_new_batches
+        and interval_satisfied
+    )
+    reason = None
+    if mode == DECODER_REFRESH_MODE_NEVER:
+        reason = "mode_never"
+    elif not mode_allows:
+        reason = "no_unrefreshed_finalized_batches"
+    elif not enough_new_batches:
+        reason = "min_new_batches_not_met"
+    elif not interval_satisfied:
+        reason = "min_interval_not_met"
+    return {
+        "status": "planned" if will_refresh else "skipped",
+        "will_refresh": will_refresh,
+        "reason": reason,
+        "mode": mode,
+        "track_name": options.track_name,
+        "finalized_batches": finalized_batches,
+        "previous_refreshed_batches": previous_batches,
+        "new_since_refresh": new_since_refresh,
+        "newly_finalized_batches": newly_finalized_batches,
+        "min_new_batches": min_new,
+        "min_interval_minutes": max(0.0, options.decoder_refresh_min_interval_minutes),
+        "interval_elapsed_seconds": interval_elapsed,
+        "skip_kenlm": options.decoder_refresh_skip_kenlm,
+    }
+
+
+def previous_decoder_refresh_batches(workspace: PipelineWorkspace, track_name: str) -> list[str]:
+    manifest = previous_decoder_refresh_manifest(workspace, track_name)
+    if not manifest:
+        return []
+    batches = manifest.get("finalized_batches")
+    if not isinstance(batches, list):
+        return []
+    return [str(batch) for batch in batches]
+
+
+def previous_decoder_refresh_time(
+    workspace: PipelineWorkspace,
+    track_name: str,
+) -> datetime | None:
+    manifest = previous_decoder_refresh_manifest(workspace, track_name)
+    if not manifest:
+        return None
+    raw = str(manifest.get("refreshed_at") or manifest.get("created_at") or "")
+    if not raw:
+        return None
+    try:
+        return datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def previous_decoder_refresh_manifest(
+    workspace: PipelineWorkspace,
+    track_name: str,
+) -> dict[str, Any] | None:
+    track_state = workspace.load_track_state(track_name)
+    model_dir = getattr(track_state, "decoder_model_dir", None)
+    if not model_dir:
+        return None
+    manifest_path = Path(str(model_dir)) / "yomi_corpus_refresh.json"
+    if not manifest_path.exists():
+        return None
+    try:
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
 
 
 def build_bulk_review_refill_plan(
@@ -843,6 +1046,11 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         else {}
     )
     refill_plan = summary.get("refill_plan") if isinstance(summary.get("refill_plan"), dict) else {}
+    decoder_refresh = (
+        summary.get("decoder_refresh_result")
+        if isinstance(summary.get("decoder_refresh_result"), dict)
+        else None
+    )
     return {
         "track_name": summary.get("track_name"),
         "changed": summary.get("changed"),
@@ -850,6 +1058,7 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         "document_queue_counts": document_queue_summary.get("queue_counts"),
         "document_pool_counts": document_queue_summary.get("pool_counts"),
         "refill_plan": refill_plan or None,
+        "decoder_refresh": decoder_refresh,
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),

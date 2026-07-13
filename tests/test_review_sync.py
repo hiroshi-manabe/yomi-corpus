@@ -23,11 +23,14 @@ from yomi_corpus.review_sync import (
     ReviewSyncOptions,
     advance_current_batch_to_bulk_review_ready,
     batch_is_before_bulk_review_ready,
+    build_decoder_refresh_plan,
     build_bulk_review_refill_plan,
     current_document_queue_summary,
     has_strong_pending_documents,
+    load_review_sync_config,
     maintain_bulk_review_refill,
     maintain_strong_repair_for_reviewed_documents,
+    maybe_refresh_decoder_model,
     review_sync_lock_stale_reason,
     ReviewSyncLock,
 )
@@ -343,6 +346,155 @@ class ReviewSyncTests(unittest.TestCase):
         self.assertEqual(plan["deficit"], 0)
         self.assertEqual(plan["planned_prepare_documents"], 0)
 
+    def test_review_sync_config_loads_decoder_refresh_defaults(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            config_path = Path(tmp) / "review_sync.toml"
+            config_path.write_text(
+                "\n".join(
+                    [
+                        "[tracks.dev.decoder_refresh]",
+                        'mode = "on-finalize"',
+                        "min_new_batches = 3",
+                        "min_interval_minutes = 15",
+                        "skip_kenlm = true",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            config = load_review_sync_config("dev", config_path)
+
+            self.assertEqual(config.mode, "on-finalize")
+            self.assertEqual(config.min_new_batches, 3)
+            self.assertEqual(config.min_interval_minutes, 15)
+            self.assertTrue(config.skip_kenlm)
+
+    def test_decoder_refresh_plan_skips_never_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="never")
+
+            plan = build_decoder_refresh_plan(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=["dev_batch_0001"],
+            )
+
+            self.assertFalse(plan["will_refresh"])
+            self.assertEqual(plan["reason"], "mode_never")
+
+    def test_decoder_refresh_plan_refreshes_on_finalize_with_new_batch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
+
+            plan = build_decoder_refresh_plan(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=["dev_batch_0001"],
+            )
+
+            self.assertTrue(plan["will_refresh"])
+            self.assertEqual(plan["new_since_refresh"], ["dev_batch_0001"])
+
+    def test_decoder_refresh_plan_retries_unrefreshed_finalized_batch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
+
+            plan = build_decoder_refresh_plan(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=[],
+            )
+
+            self.assertTrue(plan["will_refresh"])
+            self.assertEqual(plan["new_since_refresh"], ["dev_batch_0001"])
+
+    def test_decoder_refresh_plan_respects_min_new_batches(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(
+                track_name="dev",
+                decoder_refresh_mode="on-finalize",
+                decoder_refresh_min_new_batches=2,
+            )
+
+            plan = build_decoder_refresh_plan(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=["dev_batch_0001"],
+            )
+
+            self.assertFalse(plan["will_refresh"])
+            self.assertEqual(plan["reason"], "min_new_batches_not_met")
+
+    def test_decoder_refresh_plan_respects_min_interval(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            model_dir = root / "models" / "dev" / "previous"
+            model_dir.mkdir(parents=True)
+            (model_dir / "yomi_corpus_refresh.json").write_text(
+                json.dumps(
+                    {
+                        "track_name": "dev",
+                        "finalized_batches": [],
+                        "refreshed_at": "2999-01-01T00:00:00Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            track_state = workspace.load_track_state("dev")
+            track_state.decoder_model_dir = str(model_dir)
+            workspace.save_track_state(track_state)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(
+                track_name="dev",
+                decoder_refresh_mode="on-finalize",
+                decoder_refresh_min_interval_minutes=60,
+            )
+
+            plan = build_decoder_refresh_plan(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=["dev_batch_0001"],
+            )
+
+            self.assertFalse(plan["will_refresh"])
+            self.assertEqual(plan["reason"], "min_interval_not_met")
+
+    def test_maybe_refresh_decoder_model_reports_failure_without_raising(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_finalized_batch(root, "dev_batch_0001")
+            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
+
+            with patch("yomi_corpus.review_sync.refresh_decoder_model", side_effect=RuntimeError("boom")):
+                result = maybe_refresh_decoder_model(
+                    root=root,
+                    workspace=workspace,
+                    options=options,
+                    newly_finalized_batches=["dev_batch_0001"],
+                )
+
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["error"], "boom")
+
     def test_preview_next_source_documents_uses_prepare_cursor_without_mutating_ledger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -464,6 +616,29 @@ def write_document_state(root: Path, batch_name: str, documents: list[dict[str, 
             ensure_ascii=False,
         )
         + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_finalized_batch(root: Path, batch_name: str, *, track_name: str = "dev") -> None:
+    batch_state_path = root / "data" / "pipeline" / "batches" / f"{batch_name}.json"
+    batch_state_path.parent.mkdir(parents=True, exist_ok=True)
+    batch_state_path.write_text(
+        json.dumps(
+            {
+                "batch_name": batch_name,
+                "track_name": track_name,
+                "current_stage": "yomi_finalized",
+                "updated_at": "2026-07-13T00:00:00Z",
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    batch_dir = root / "data" / "units" / batch_name
+    batch_dir.mkdir(parents=True, exist_ok=True)
+    (batch_dir / "units.yomi.final.jsonl").write_text(
+        json.dumps({"unit_id": f"{batch_name}:u1", "text": "テストです。"}, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
 

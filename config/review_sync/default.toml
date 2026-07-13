@@ -1,0 +1,11 @@
+[tracks.dev.decoder_refresh]
+mode = "on-finalize"
+min_new_batches = 1
+min_interval_minutes = 0
+skip_kenlm = false
+
+[tracks.working.decoder_refresh]
+mode = "never"
+min_new_batches = 5
+min_interval_minutes = 60
+skip_kenlm = false
