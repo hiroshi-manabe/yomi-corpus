@@ -13,6 +13,7 @@ const state = {
   archiveIndex: null,
   archiveCurrentTrack: "dev",
   archiveCurrentShard: null,
+  archiveCurrentShardPath: "",
   uiMode: "workflow",
   pendingIssueTaskId: null,
 };
@@ -392,6 +393,7 @@ async function openArchiveBrowser() {
   state.archiveCurrentTrack = "dev";
   const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
   state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
+  state.archiveCurrentShardPath = firstShard?.path || "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
     title: "Corpus Map",
@@ -414,6 +416,7 @@ async function openArchiveBrowser() {
 
 async function openArchiveShard(shard) {
   state.archiveCurrentShard = await fetchJson(shard.path);
+  state.archiveCurrentShardPath = shard.path || "";
   render();
 }
 
@@ -1056,11 +1059,206 @@ function openArchiveDocumentPreview(doc) {
     el.workflowPreviewBody.append(node);
   }
   el.workflowPreviewActions.innerHTML = "";
+  const correctionButton = document.createElement("button");
+  correctionButton.type = "button";
+  correctionButton.className = "secondary-button";
+  correctionButton.textContent = "Request Correction";
+  correctionButton.disabled = !units.length;
+  correctionButton.addEventListener("click", () => openArchiveCorrectionEditor(doc));
   const note = document.createElement("p");
   note.className = "muted";
-  note.textContent = "Read-only Corpus Map preview. Correction requests will be added in a later step.";
-  el.workflowPreviewActions.append(note);
+  note.textContent = "Read-only Corpus Map preview. Corrections are submitted as auditable Issues.";
+  el.workflowPreviewActions.append(correctionButton, note);
   el.workflowPreviewModal.classList.remove("hidden");
+}
+
+function openArchiveCorrectionEditor(doc) {
+  const units = doc.units || [];
+  el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request`;
+  el.workflowPreviewBody.innerHTML = "";
+
+  const intro = document.createElement("p");
+  intro.className = "muted archive-correction-help";
+  intro.textContent =
+    "Edit only the yomi field after each tab. Keep unit IDs, line order, and source characters unchanged.";
+  el.workflowPreviewBody.append(intro);
+
+  const textarea = document.createElement("textarea");
+  textarea.className = "archive-correction-textarea";
+  textarea.rows = Math.min(Math.max(units.length + 2, 8), 24);
+  textarea.value = buildArchiveCorrectionText(doc);
+  textarea.dataset.archiveCorrectionEditor = "true";
+  el.workflowPreviewBody.append(textarea);
+
+  const validation = document.createElement("p");
+  validation.className = "archive-correction-validation muted";
+  validation.textContent = "Make at least one yomi change, then copy JSON and open an Issue.";
+  el.workflowPreviewBody.append(validation);
+
+  el.workflowPreviewActions.innerHTML = "";
+  const backButton = document.createElement("button");
+  backButton.type = "button";
+  backButton.className = "secondary-button";
+  backButton.textContent = "Back to Preview";
+  backButton.addEventListener("click", () => openArchiveDocumentPreview(doc));
+
+  const copyOnlyButton = document.createElement("button");
+  copyOnlyButton.type = "button";
+  copyOnlyButton.className = "secondary-button";
+  copyOnlyButton.textContent = "Copy JSON";
+  copyOnlyButton.addEventListener("click", async () => {
+    await copyArchiveCorrectionPayload(doc, { openIssue: false });
+  });
+
+  const openIssueButton = document.createElement("button");
+  openIssueButton.type = "button";
+  openIssueButton.textContent = "Copy JSON and Open Issue";
+  openIssueButton.addEventListener("click", async () => {
+    await copyArchiveCorrectionPayload(doc, { openIssue: true });
+  });
+
+  el.workflowPreviewActions.append(backButton, copyOnlyButton, openIssueButton);
+  textarea.addEventListener("input", () => {
+    const result = parseArchiveCorrectionText(doc, textarea.value);
+    validation.textContent = result.ok
+      ? `${result.changedUnits.length} changed unit(s) ready for correction Issue.`
+      : result.error;
+    validation.classList.toggle("error", !result.ok);
+  });
+  textarea.focus();
+}
+
+function buildArchiveCorrectionText(doc) {
+  return (doc.units || [])
+    .map((unit) => `${unit.unit_id || ""}\t${unit.rendered_yomi || ""}`)
+    .join("\n");
+}
+
+function parseArchiveCorrectionText(doc, text) {
+  const units = doc.units || [];
+  const lines = String(text || "").split(/\r?\n/).filter((line) => line.trim().length > 0);
+  if (lines.length !== units.length) {
+    return {
+      ok: false,
+      error: `Expected ${units.length} non-empty line(s), but found ${lines.length}.`,
+    };
+  }
+  const parsedUnits = [];
+  const changedUnits = [];
+  for (const [index, line] of lines.entries()) {
+    const tabIndex = line.indexOf("\t");
+    if (tabIndex < 0) {
+      return { ok: false, error: `Line ${index + 1} must contain a unit ID, a tab, and rendered yomi.` };
+    }
+    const unit = units[index];
+    const unitId = line.slice(0, tabIndex).trim();
+    const proposed = line.slice(tabIndex + 1).trim();
+    const expectedId = String(unit.unit_id || "");
+    if (unitId !== expectedId) {
+      return { ok: false, error: `Line ${index + 1} has unit ID ${unitId || "(empty)"}, expected ${expectedId}.` };
+    }
+    const validation = validateRenderedYomiCorrection(unit, proposed);
+    if (!validation.ok) {
+      return { ok: false, error: `Line ${index + 1}: ${validation.error}` };
+    }
+    const original = String(unit.rendered_yomi || "").trim();
+    const parsedUnit = {
+      unit_id: expectedId,
+      unit_seq: Number(unit.unit_seq || index + 1),
+      text: unit.text || "",
+      original_rendered_yomi: original,
+      proposed_rendered_yomi: proposed,
+    };
+    parsedUnits.push(parsedUnit);
+    if (proposed !== original) {
+      changedUnits.push(parsedUnit);
+    }
+  }
+  if (!changedUnits.length) {
+    return { ok: false, error: "No yomi changes found." };
+  }
+  return { ok: true, units: parsedUnits, changedUnits };
+}
+
+function validateRenderedYomiCorrection(unit, proposed) {
+  if (!proposed) {
+    return { ok: false, error: "rendered yomi is empty." };
+  }
+  const tokens = String(proposed).trim().split(/\s+/).filter(Boolean);
+  if (!tokens.length) {
+    return { ok: false, error: "rendered yomi has no tokens." };
+  }
+  const surfaceText = [];
+  for (const token of tokens) {
+    const slashIndex = token.lastIndexOf("/");
+    if (slashIndex < 0) {
+      return { ok: false, error: `token ${token} has no slash.` };
+    }
+    const surface = token.slice(0, slashIndex);
+    if (!surface) {
+      return { ok: false, error: `token ${token} has an empty surface.` };
+    }
+    surfaceText.push(surface);
+  }
+  const expectedText = String(unit.text || "").replace(/\s+/g, "");
+  const proposedText = surfaceText.join("").replace(/\s+/g, "");
+  if (expectedText && proposedText !== expectedText) {
+    return {
+      ok: false,
+      error: `source text changed: got ${proposedText}, expected ${expectedText}.`,
+    };
+  }
+  return { ok: true };
+}
+
+function archiveCorrectionIssueTitle(doc) {
+  const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
+  return `[yomi-correction] dev document ${seq}`;
+}
+
+function buildArchiveCorrectionPayload(doc, parsed) {
+  return {
+    submission_type: "finalized_correction_patch",
+    schema_version: 1,
+    track_name: state.archiveCurrentTrack || "dev",
+    review_stage: "finalized_correction",
+    doc_id: doc.doc_id || "",
+    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    batch_name: doc.batch_name || "",
+    generated_at_epoch: Math.floor(Date.now() / 1000),
+    source: {
+      archive_index_path: state.manifest?.archive?.index_path || "",
+      archive_shard: state.archiveCurrentShardPath || "",
+      page_url: window.location.href,
+    },
+    units: parsed.changedUnits,
+  };
+}
+
+async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
+  const editor = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-editor='true']");
+  if (!editor) {
+    showStatus("Correction editor is not available.", true);
+    return false;
+  }
+  const parsed = parseArchiveCorrectionText(doc, editor.value);
+  if (!parsed.ok) {
+    showStatus(parsed.error, true);
+    return false;
+  }
+  const payload = buildArchiveCorrectionPayload(doc, parsed);
+  const copied = await copyTextToClipboard(JSON.stringify(payload, null, 2));
+  if (openIssue) {
+    openUrlInNewTab(buildGithubIssueUrl(archiveCorrectionIssueTitle(doc)));
+  }
+  showStatus(
+    copied
+      ? "Correction JSON copied. Paste it into the GitHub issue body."
+      : "Clipboard copy failed. Copy the correction JSON manually from the editor.",
+    !copied,
+  );
+  return copied;
 }
 
 function renderUnifiedTaskQueues(docs, task) {
@@ -3595,12 +3793,19 @@ async function openIssueForCurrentTask() {
 
 async function copySubmissionJsonToClipboard() {
   const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
+  return copyTextToClipboard(payload);
+}
+
+async function copyTextToClipboard(payload) {
   try {
     await navigator.clipboard.writeText(payload);
     return true;
   } catch {
-    el.submissionPreview.focus();
-    el.submissionPreview.select();
+    if (el.submissionPreview) {
+      el.submissionPreview.value = payload;
+      el.submissionPreview.focus();
+      el.submissionPreview.select();
+    }
     return false;
   }
 }

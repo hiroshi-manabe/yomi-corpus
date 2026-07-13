@@ -2481,12 +2481,60 @@ document between Bulk Review, Escalated Repair, and Resolved.
 
 Finalized documents belong in a separate Archive Browser, not in the active
 Pack Map. The archive is published as static, lazily loadable JSON shards under
-`docs/review/archive/` plus a small `archive/index.json`. The first archive UI
-is read-only: choose a shard, preview finalized documents, and keep mutation out
-of scope. Later, archive correction should create auditable correction Issues
-against finalized raw yomi data, validate them in the browser and server, and
-replay them through the importer. This keeps daily review uncluttered while
-still making completed corpus data inspectable and correctable.
+`docs/review/archive/` plus a small `archive/index.json`. The archive UI is
+read-mostly: choose a shard and preview finalized documents without mutating
+canonical data in the browser. If a resolved document needs correction, the UI
+creates an auditable correction Issue against finalized raw yomi data. This
+keeps daily review uncluttered while still making completed corpus data
+inspectable and correctable.
+
+The first finalized-correction milestone is Issue export only. In the Corpus
+Map preview, "Request Correction" opens a rendered-yomi editor with one
+tab-separated line per finalized unit:
+
+```text
+unit_id<TAB>surface/reading surface/reading ...
+```
+
+Browser validation must reject:
+
+- missing, extra, reordered, or changed unit IDs
+- rendered-yomi tokens without `/`
+- empty token surfaces
+- source-character changes after removing token spaces
+- submissions with no yomi change
+
+Accepted UI payloads use:
+
+```json
+{
+  "submission_type": "finalized_correction_patch",
+  "schema_version": 1,
+  "track_name": "dev",
+  "review_stage": "finalized_correction",
+  "doc_id": "...",
+  "track_doc_seq": 34,
+  "batch_name": "dev_batch_0004",
+  "source": {
+    "archive_index_path": "review/archive/index.json",
+    "archive_shard": "review/archive/docs_000001_000035.json",
+    "page_url": "..."
+  },
+  "units": [
+    {
+      "unit_id": "...",
+      "unit_seq": 1,
+      "text": "...",
+      "original_rendered_yomi": "...",
+      "proposed_rendered_yomi": "..."
+    }
+  ]
+}
+```
+
+Server-side import and replay are separate follow-up work. The importer should
+repeat the same validation, apply accepted patches to canonical finalized
+state, regenerate archive shards, and feed the usual downstream harvesters.
 
 Long-term target: move from a batch-centered review page to a document-centered
 workspace.

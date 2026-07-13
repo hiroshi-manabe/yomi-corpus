@@ -2046,9 +2046,23 @@ source/final data:
   be mixed into Corpus Map until a concrete need appears
 - unprocessed/future documents are out of scope for now
 
-The first Corpus Map milestone should be read-only overview and preview. Editing
-resolved documents should be a later auditable correction workflow that creates
-new submissions and replays them through the same importer.
+The first Corpus Map milestone is read-mostly overview and preview. Editing
+resolved documents starts as an auditable correction Issue export, not an
+in-place archive mutation. The browser can prepare a
+`finalized_correction_patch` payload from a finalized document preview:
+
+- one tab-separated line per finalized unit: `unit_id<TAB>rendered_yomi`
+- unchanged unit IDs and order
+- rendered-yomi tokens in `surface/reading` form
+- source characters preserved after removing token spaces
+- at least one changed unit
+
+The initial payload is copied to a GitHub Issue with
+`submission_type: finalized_correction_patch`,
+`review_stage: finalized_correction`, document identity, archive source
+metadata, and changed units containing original and proposed rendered yomi.
+Server-side import/replay is a follow-up step and must repeat validation before
+updating canonical finalized state.
 
 Resolved-document correction is a later extension of the same model. A resolved
 document may be reopened through a correction task, but the change should be
