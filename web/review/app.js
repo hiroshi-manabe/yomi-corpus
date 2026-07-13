@@ -1081,19 +1081,20 @@ function openArchiveCorrectionEditor(doc) {
   const intro = document.createElement("p");
   intro.className = "muted archive-correction-help";
   intro.textContent =
-    "Edit only the yomi field after each tab. Keep unit IDs, line order, and source characters unchanged.";
+    "Choose the finalized unit(s) to correct. This editor changes yomi inside existing units only; boundary changes are a separate future workflow.";
   el.workflowPreviewBody.append(intro);
 
-  const textarea = document.createElement("textarea");
-  textarea.className = "archive-correction-textarea";
-  textarea.rows = Math.min(Math.max(units.length + 2, 8), 24);
-  textarea.value = buildArchiveCorrectionText(doc);
-  textarea.dataset.archiveCorrectionEditor = "true";
-  el.workflowPreviewBody.append(textarea);
+  const list = document.createElement("div");
+  list.className = "archive-correction-list";
+  for (const [index, unit] of units.entries()) {
+    list.append(renderArchiveCorrectionRow(unit, index));
+  }
+  el.workflowPreviewBody.append(list);
 
   const validation = document.createElement("p");
   validation.className = "archive-correction-validation muted";
-  validation.textContent = "Make at least one yomi change, then copy JSON and open an Issue.";
+  validation.dataset.archiveCorrectionSummary = "true";
+  validation.textContent = "Expand one or more units, edit yomi, then copy JSON and open an Issue.";
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
@@ -1119,73 +1120,158 @@ function openArchiveCorrectionEditor(doc) {
   });
 
   el.workflowPreviewActions.append(backButton, copyOnlyButton, openIssueButton);
-  textarea.addEventListener("input", () => {
-    const result = parseArchiveCorrectionText(doc, textarea.value);
-    validation.textContent = result.ok
-      ? `${result.changedUnits.length} changed unit(s) ready for correction Issue.`
-      : result.error;
-    validation.classList.toggle("error", !result.ok);
-  });
-  textarea.focus();
 }
 
-function buildArchiveCorrectionText(doc) {
-  return (doc.units || [])
-    .map((unit) => `${unit.unit_id || ""}\t${unit.rendered_yomi || ""}`)
-    .join("\n");
-}
+function renderArchiveCorrectionRow(unit, index) {
+  const row = document.createElement("article");
+  row.className = "archive-correction-row";
+  row.dataset.unitIndex = String(index);
 
-function parseArchiveCorrectionText(doc, text) {
-  const units = doc.units || [];
-  const lines = String(text || "").split(/\r?\n/).filter((line) => line.trim().length > 0);
-  if (lines.length !== units.length) {
-    return {
-      ok: false,
-      error: `Expected ${units.length} non-empty line(s), but found ${lines.length}.`,
-    };
+  const summary = document.createElement("div");
+  summary.className = "archive-correction-row-summary";
+  const rubyLine = document.createElement("div");
+  rubyLine.className = "ruby-line resolved-ruby-line";
+  if (unit.rendered_yomi) {
+    rubyLine.append(
+      ...renderReadonlyRubyFromTokensWithNodes(parseRenderedYomiTokens(unit.rendered_yomi || ""), unit.ruby_tokens || []),
+    );
+  } else {
+    rubyLine.textContent = unit.text || "";
   }
-  const parsedUnits = [];
-  const changedUnits = [];
-  for (const [index, line] of lines.entries()) {
-    const tabIndex = line.indexOf("\t");
-    if (tabIndex < 0) {
-      return { ok: false, error: `Line ${index + 1} must contain a unit ID, a tab, and rendered yomi.` };
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "secondary-button compact-button";
+  editButton.textContent = "Edit";
+  editButton.addEventListener("click", () => toggleArchiveCorrectionRow(row, unit));
+  summary.append(rubyLine, editButton);
+
+  const editor = document.createElement("div");
+  editor.className = "archive-correction-editor hidden";
+  editor.dataset.originalYomi = unit.rendered_yomi || "";
+  editor.innerHTML = `
+    <div>
+      <strong>Source</strong>
+      <p class="archive-correction-source">${escapeHtml(unit.text || "")}</p>
+    </div>
+    <label>
+      <span>Rendered yomi</span>
+      <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(unit.rendered_yomi || "")}</textarea>
+    </label>
+    <p class="archive-correction-row-validation muted">No change yet.</p>
+  `;
+  const textarea = editor.querySelector(".archive-correction-unit-textarea");
+  textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
+
+  row.append(summary, editor);
+  return row;
+}
+
+function toggleArchiveCorrectionRow(row, unit) {
+  const editor = row.querySelector(".archive-correction-editor");
+  const button = row.querySelector(".archive-correction-row-summary button");
+  if (!editor || !button) {
+    return;
+  }
+  const isOpen = !editor.classList.contains("hidden");
+  if (isOpen) {
+    const textarea = editor.querySelector(".archive-correction-unit-textarea");
+    const original = editor.dataset.originalYomi || "";
+    const proposed = String(textarea?.value || "").trim();
+    if (proposed !== original && !window.confirm("Discard this unit correction and hide its source editor?")) {
+      return;
     }
+    if (textarea) {
+      textarea.value = original;
+    }
+    editor.classList.add("hidden");
+    row.classList.remove("changed", "invalid");
+    button.textContent = "Edit";
+    updateArchiveCorrectionSummary();
+    return;
+  }
+
+  editor.classList.remove("hidden");
+  button.textContent = "Hide Source";
+  updateArchiveCorrectionRowState(row, unit);
+  editor.querySelector(".archive-correction-unit-textarea")?.focus();
+}
+
+function updateArchiveCorrectionRowState(row, unit) {
+  const editor = row.querySelector(".archive-correction-editor");
+  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
+  const validationNode = editor?.querySelector(".archive-correction-row-validation");
+  if (!editor || !textarea || !validationNode) {
+    return;
+  }
+  const original = editor.dataset.originalYomi || "";
+  const proposed = String(textarea.value || "").trim();
+  const changed = proposed !== original;
+  const validation = changed ? validateRenderedYomiCorrection(unit, proposed) : { ok: true };
+  row.classList.toggle("changed", changed && validation.ok);
+  row.classList.toggle("invalid", changed && !validation.ok);
+  validationNode.textContent = !changed ? "No change yet." : validation.ok ? "Changed unit ready." : validation.error;
+  validationNode.classList.toggle("error", changed && !validation.ok);
+  updateArchiveCorrectionSummary();
+}
+
+function collectArchiveCorrectionChanges(doc) {
+  const units = doc.units || [];
+  const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
+  const changedUnits = [];
+  for (const row of rows) {
+    const editor = row.querySelector(".archive-correction-editor:not(.hidden)");
+    if (!editor) {
+      continue;
+    }
+    const index = Number(row.dataset.unitIndex);
     const unit = units[index];
-    const unitId = line.slice(0, tabIndex).trim();
-    const proposed = line.slice(tabIndex + 1).trim();
-    const expectedId = String(unit.unit_id || "");
-    if (unitId !== expectedId) {
-      return { ok: false, error: `Line ${index + 1} has unit ID ${unitId || "(empty)"}, expected ${expectedId}.` };
+    const textarea = editor.querySelector(".archive-correction-unit-textarea");
+    const original = String(editor.dataset.originalYomi || "").trim();
+    const proposed = String(textarea?.value || "").trim();
+    if (!unit || proposed === original) {
+      continue;
     }
     const validation = validateRenderedYomiCorrection(unit, proposed);
     if (!validation.ok) {
-      return { ok: false, error: `Line ${index + 1}: ${validation.error}` };
+      return { ok: false, error: `Unit ${unit.unit_id || index + 1}: ${validation.error}` };
     }
-    const original = String(unit.rendered_yomi || "").trim();
-    const parsedUnit = {
-      unit_id: expectedId,
+    changedUnits.push({
+      unit_id: String(unit.unit_id || ""),
       unit_seq: Number(unit.unit_seq || index + 1),
       text: unit.text || "",
       original_rendered_yomi: original,
       proposed_rendered_yomi: proposed,
-    };
-    parsedUnits.push(parsedUnit);
-    if (proposed !== original) {
-      changedUnits.push(parsedUnit);
-    }
+    });
   }
   if (!changedUnits.length) {
     return { ok: false, error: "No yomi changes found." };
   }
-  return { ok: true, units: parsedUnits, changedUnits };
+  return { ok: true, changedUnits };
+}
+
+function updateArchiveCorrectionSummary() {
+  const summary = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-summary='true']");
+  if (!summary) {
+    return;
+  }
+  const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
+  const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
+  if (invalid) {
+    summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
+    summary.classList.add("error");
+    return;
+  }
+  summary.textContent = changed
+    ? `${changed} changed unit(s) ready for correction Issue.`
+    : "Expand one or more units, edit yomi, then copy JSON and open an Issue.";
+  summary.classList.remove("error");
 }
 
 function validateRenderedYomiCorrection(unit, proposed) {
   if (!proposed) {
     return { ok: false, error: "rendered yomi is empty." };
   }
-  const tokens = String(proposed).trim().split(/\s+/).filter(Boolean);
+  const tokens = String(proposed).trim().split(/[ \t\r\n]+/).filter(Boolean);
   if (!tokens.length) {
     return { ok: false, error: "rendered yomi has no tokens." };
   }
@@ -1201,8 +1287,11 @@ function validateRenderedYomiCorrection(unit, proposed) {
     }
     surfaceText.push(surface);
   }
-  const expectedText = String(unit.text || "").replace(/\s+/g, "");
-  const proposedText = surfaceText.join("").replace(/\s+/g, "");
+  const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
+    .map((token) => token.surface)
+    .join("");
+  const expectedText = String(originalSurfaceText || unit.text || "").replace(/[ \t\r\n]+/g, "");
+  const proposedText = surfaceText.join("").replace(/[ \t\r\n]+/g, "");
   if (expectedText && proposedText !== expectedText) {
     return {
       ok: false,
@@ -1210,6 +1299,23 @@ function validateRenderedYomiCorrection(unit, proposed) {
     };
   }
   return { ok: true };
+}
+
+function parseRenderedYomiTokensForCorrection(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/[ \t\r\n]+/)
+    .filter(Boolean)
+    .map((token) => {
+      const separator = token.lastIndexOf("/");
+      if (separator < 0) {
+        return { surface: token, reading: "" };
+      }
+      return {
+        surface: token.slice(0, separator),
+        reading: token.slice(separator + 1),
+      };
+    });
 }
 
 function archiveCorrectionIssueTitle(doc) {
@@ -1237,12 +1343,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
 }
 
 async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
-  const editor = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-editor='true']");
-  if (!editor) {
-    showStatus("Correction editor is not available.", true);
-    return false;
-  }
-  const parsed = parseArchiveCorrectionText(doc, editor.value);
+  const parsed = collectArchiveCorrectionChanges(doc);
   if (!parsed.ok) {
     showStatus(parsed.error, true);
     return false;

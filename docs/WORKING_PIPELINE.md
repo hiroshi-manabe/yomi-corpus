@@ -2489,21 +2489,31 @@ keeps daily review uncluttered while still making completed corpus data
 inspectable and correctable.
 
 The first finalized-correction milestone is Issue export only. In the Corpus
-Map preview, "Request Correction" opens a rendered-yomi editor with one
-tab-separated line per finalized unit:
+Map preview, "Request Correction" opens a row-based rendered-yomi editor.
+Each finalized unit remains collapsed by default. The reviewer expands only the
+unit(s) that need correction; expanding reveals the source text, current
+rendered yomi, and a yomi editor for that unit. Hiding an edited unit discards
+that unit's pending change after confirmation. Multiple units can be expanded
+and edited in one correction request.
 
-```text
-unit_id<TAB>surface/reading surface/reading ...
-```
+The normal correction unit is exactly one finalized unit. Changing sentence or
+unit boundaries is intentionally out of scope for this first workflow because
+it affects source identity, review history, archive replay, decoder corpus
+export, and ruby dictionary harvesting. Boundary-changing corrections should
+be a later workflow with a distinct payload type and stronger server-side
+validation.
 
 Browser validation must reject:
 
 - missing, extra, reordered, or changed unit IDs
 - rendered-yomi tokens without `/`
 - empty token surfaces
-- source-character changes after removing token spaces
+- source-surface changes relative to the original rendered-yomi token surfaces
+  after removing ASCII token separator spaces; NBSP is source surface and must
+  not be treated as a separator
 - submissions with no yomi change
 
+The browser exports only changed expanded units, not the whole document.
 Accepted UI payloads use:
 
 ```json

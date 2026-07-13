@@ -843,9 +843,63 @@ button:disabled {
   margin: 0;
 }
 
-.archive-correction-textarea {
+.archive-correction-list {
+  display: grid;
+  gap: 10px;
+}
+
+.archive-correction-row {
+  display: grid;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 28, 23, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 253, 249, 0.82);
+}
+
+.archive-correction-row.changed {
+  border-color: rgba(45, 106, 79, 0.38);
+  background: rgba(45, 106, 79, 0.08);
+}
+
+.archive-correction-row.invalid {
+  border-color: rgba(168, 67, 47, 0.42);
+  background: rgba(168, 67, 47, 0.08);
+}
+
+.archive-correction-row-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.archive-correction-row-summary .ruby-line {
+  margin: 0;
+}
+
+.compact-button {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.archive-correction-editor {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid rgba(31, 28, 23, 0.09);
+}
+
+.archive-correction-source {
+  margin: 4px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(31, 28, 23, 0.05);
+}
+
+.archive-correction-unit-textarea {
   width: 100%;
-  min-height: 240px;
+  min-height: 92px;
   resize: vertical;
   font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
   white-space: pre;

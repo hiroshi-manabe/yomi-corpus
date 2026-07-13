@@ -2051,11 +2051,17 @@ resolved documents starts as an auditable correction Issue export, not an
 in-place archive mutation. The browser can prepare a
 `finalized_correction_patch` payload from a finalized document preview:
 
-- one tab-separated line per finalized unit: `unit_id<TAB>rendered_yomi`
+- row-based editing where only expanded, changed finalized units are exported
 - unchanged unit IDs and order
 - rendered-yomi tokens in `surface/reading` form
-- source characters preserved after removing token spaces
+- source surfaces preserved relative to the original rendered-yomi tokens after
+  removing ASCII token separator spaces; NBSP remains source surface
 - at least one changed unit
+
+This correction payload is unit-scoped. Sentence or unit boundary changes are a
+separate future workflow, probably with a distinct payload type, because they
+affect document identity, audit replay, decoder export, and ruby dictionary
+harvesting.
 
 The initial payload is copied to a GitHub Issue with
 `submission_type: finalized_correction_patch`,
