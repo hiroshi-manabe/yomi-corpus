@@ -1963,6 +1963,11 @@ over the document-state ledger, not as a new kind of batch:
 - the initial implementation exposes those counts as `queue_counts` in the
   document-state summary and the review-sync summary. This is an observability
   layer only; it does not yet start additional preparation work automatically.
+- the next implemented primitive is refill planning:
+  `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
+  reports current `bulk-ready` count, target, deficit, and capped planned
+  prepare count. It deliberately reports `will_prepare: false` until a bounded,
+  resumable preparation runner is added.
 - if the count is below target, the runner may prepare more source documents,
   run the automatic/LLM stages needed to make them reviewable, append their
   document states to the ledger, and republish review artifacts

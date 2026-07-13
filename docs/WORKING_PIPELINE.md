@@ -2168,6 +2168,11 @@ Rolling refill target:
   state summaries and `./review-sync` output report counts for selectable Bulk
   Review documents, submitted Bulk Review documents, selectable Escalated Repair
   documents, submitted Escalated Repair documents, and resolved documents
+- `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
+  currently reports a refill plan without preparing documents. The plan uses
+  `pool_counts["bulk-ready"]`, computes the deficit against `N`, caps the
+  future prepare count at `M`, and reports `will_prepare: false` until the
+  preparation runner is implemented.
 - prepared documents may come from multiple backend batches but should appear in
   one human-facing Bulk Review queue
 - source selection must be idempotent. A source document already prepared,

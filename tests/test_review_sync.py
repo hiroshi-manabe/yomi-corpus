@@ -15,6 +15,7 @@ from yomi_corpus.document_review_state import (
 from yomi_corpus.review_sync import (
     STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
+    build_bulk_review_refill_plan,
     current_document_queue_summary,
     has_strong_pending_documents,
     maintain_strong_repair_for_reviewed_documents,
@@ -186,6 +187,46 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(summary["queue_counts"]["bulk_review_submitted"], 1)
             self.assertEqual(summary["queue_counts"]["escalated_repair_selectable"], 1)
             self.assertEqual(summary["queue_counts"]["resolved"], 1)
+            self.assertEqual(summary["pool_counts"]["bulk-ready"], 2)
+            self.assertEqual(summary["pool_counts"]["bulk-submitted"], 1)
+            self.assertEqual(summary["pool_counts"]["escalated-ready"], 1)
+            self.assertEqual(summary["pool_counts"]["resolved"], 1)
+
+    def test_bulk_review_refill_plan_reports_deficit_without_preparing(self) -> None:
+        plan = build_bulk_review_refill_plan(
+            document_queue_summary={"pool_counts": {"bulk-ready": 12}},
+            target_ready_docs=50,
+            pass_limit=10,
+        )
+
+        self.assertTrue(plan["enabled"])
+        self.assertEqual(plan["status"], "needs_refill")
+        self.assertEqual(plan["bulk_review_ready_docs"], 12)
+        self.assertEqual(plan["deficit"], 38)
+        self.assertEqual(plan["planned_prepare_documents"], 10)
+        self.assertFalse(plan["will_prepare"])
+
+    def test_bulk_review_refill_plan_is_disabled_by_default(self) -> None:
+        plan = build_bulk_review_refill_plan(
+            document_queue_summary={"pool_counts": {"bulk-ready": 12}},
+            target_ready_docs=0,
+            pass_limit=10,
+        )
+
+        self.assertFalse(plan["enabled"])
+        self.assertEqual(plan["status"], "disabled")
+        self.assertEqual(plan["planned_prepare_documents"], 0)
+
+    def test_bulk_review_refill_plan_is_satisfied_when_ready_count_meets_target(self) -> None:
+        plan = build_bulk_review_refill_plan(
+            document_queue_summary={"pool_counts": {"bulk-ready": 50}},
+            target_ready_docs=50,
+            pass_limit=10,
+        )
+
+        self.assertEqual(plan["status"], "satisfied")
+        self.assertEqual(plan["deficit"], 0)
+        self.assertEqual(plan["planned_prepare_documents"], 0)
 
 
 def write_reviewed_units(root: Path, batch_name: str) -> None:

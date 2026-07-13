@@ -20,6 +20,7 @@ from yomi_corpus.pipeline import (
     PipelineWorkspace,
 )
 from yomi_corpus.document_review_state import (
+    POOL_LABEL_BULK_READY,
     STATE_STRONG_PENDING,
     document_review_queue_summary,
     load_document_review_state,
@@ -51,6 +52,8 @@ class ReviewSyncOptions:
     close_issues: bool = True
     publish_mode: str = PUBLISH_MODE_LOCAL
     max_stages: int = 10
+    bulk_review_target_ready_docs: int = 0
+    refill_pass_limit: int = 0
     dry_run: bool = False
 
 
@@ -214,6 +217,15 @@ def _run_review_sync_pass_unlocked(
         or final_status.get("batch_name")
         or ""
     )
+    document_queue_summary = current_document_queue_summary(
+        root=root,
+        batch_name=final_batch_name,
+    )
+    refill_plan = build_bulk_review_refill_plan(
+        document_queue_summary=document_queue_summary,
+        target_ready_docs=options.bulk_review_target_ready_docs,
+        pass_limit=options.refill_pass_limit,
+    )
     return {
         "schema_version": 1,
         "track_name": options.track_name,
@@ -223,6 +235,11 @@ def _run_review_sync_pass_unlocked(
         "started_at": started_at,
         "completed_at": completed_at,
         "dry_run": options.dry_run,
+        "refill_policy": {
+            "bulk_review_target_ready_docs": options.bulk_review_target_ready_docs,
+            "refill_pass_limit": options.refill_pass_limit,
+        },
+        "refill_plan": refill_plan,
         "changed": changed,
         "site_stale": site_stale,
         "stage_results": stage_results,
@@ -230,9 +247,41 @@ def _run_review_sync_pass_unlocked(
         "publish_result": publish_result,
         "dry_run_plan": dry_run_plan,
         "final_status": final_status,
-        "document_queue_summary": current_document_queue_summary(
-            root=root,
-            batch_name=final_batch_name,
+        "document_queue_summary": document_queue_summary,
+    }
+
+
+def build_bulk_review_refill_plan(
+    *,
+    document_queue_summary: dict[str, Any] | None,
+    target_ready_docs: int,
+    pass_limit: int,
+) -> dict[str, Any]:
+    target = max(0, int(target_ready_docs or 0))
+    limit = max(0, int(pass_limit or 0))
+    pool_counts = (
+        document_queue_summary.get("pool_counts", {})
+        if isinstance(document_queue_summary, dict)
+        else {}
+    )
+    if not isinstance(pool_counts, dict):
+        pool_counts = {}
+    ready = int(pool_counts.get(POOL_LABEL_BULK_READY) or 0)
+    deficit = max(0, target - ready)
+    planned = min(deficit, limit) if limit > 0 else 0
+    return {
+        "enabled": target > 0,
+        "status": "disabled" if target <= 0 else ("needs_refill" if deficit > 0 else "satisfied"),
+        "bulk_review_ready_docs": ready,
+        "target_ready_docs": target,
+        "deficit": deficit,
+        "pass_limit": limit,
+        "planned_prepare_documents": planned,
+        "will_prepare": False,
+        "reason": (
+            "refill planning only; automatic preparation is not implemented"
+            if target > 0 and planned > 0
+            else None
         ),
     }
 
@@ -544,11 +593,14 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         if isinstance(summary.get("document_queue_summary"), dict)
         else {}
     )
+    refill_plan = summary.get("refill_plan") if isinstance(summary.get("refill_plan"), dict) else {}
     return {
         "track_name": summary.get("track_name"),
         "changed": summary.get("changed"),
         "site_stale": summary.get("site_stale"),
         "document_queue_counts": document_queue_summary.get("queue_counts"),
+        "document_pool_counts": document_queue_summary.get("pool_counts"),
+        "refill_plan": refill_plan or None,
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),

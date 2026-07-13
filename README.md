@@ -126,6 +126,9 @@ Review transport policy:
   than batch-level stage membership
 - current queue summaries already expose the refill-relevant counts; automatic
   refill selection/preparation is still a later step
+- `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
+  reports a refill plan from current document pool counts, but still does not
+  prepare additional documents automatically
 - decoder model refreshes may be frequent, but old full model artifacts should
   eventually be garbage-collected after retaining enough manifest provenance to
   reconstruct them
