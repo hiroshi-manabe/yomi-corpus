@@ -10,6 +10,9 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
+  archiveIndex: null,
+  archiveCurrentTrack: "dev",
+  archiveCurrentShard: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
 };
@@ -78,6 +81,8 @@ async function boot() {
   const initialTarget = resolveInitialTarget(stageIds);
   if (initialTarget.stageId === "unified_yomi_review") {
     await openUnifiedReview();
+  } else if (initialTarget.stageId === "archive_browser") {
+    await openArchiveBrowser();
   } else {
     await openStage(initialTarget.stageId, {
       preferLatest: !initialTarget.packId,
@@ -92,12 +97,20 @@ function bindEvents() {
       await openUnifiedReview();
       return;
     }
+    if (event.target.value === "archive_browser") {
+      await openArchiveBrowser();
+      return;
+    }
     await openStage(event.target.value, { preferLatest: true });
   });
 
   el.openLatest.addEventListener("click", async () => {
     if (state.currentStageId === "unified_yomi_review") {
       await openUnifiedReview();
+      return;
+    }
+    if (state.currentStageId === "archive_browser") {
+      await openArchiveBrowser();
       return;
     }
     if (!state.currentStageId) {
@@ -233,14 +246,20 @@ function bindEvents() {
 
 function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
-  if (hasDevYomiReviewSources()) {
-    return { stageId: "unified_yomi_review", packId: null };
-  }
-
   const requested = params.get("stage");
   const requestedPackId = params.get("pack");
+  if (requested === "archive_browser") {
+    return { stageId: "archive_browser", packId: null };
+  }
+  if (requested === "unified_yomi_review") {
+    return { stageId: "unified_yomi_review", packId: null };
+  }
   if (requested && stageIds.includes(requested)) {
     return { stageId: requested, packId: requestedPackId };
+  }
+
+  if (hasDevYomiReviewSources()) {
+    return { stageId: "unified_yomi_review", packId: null };
   }
 
   if (requestedPackId) {
@@ -275,6 +294,10 @@ function activeDevReviewQueues() {
 
 function hasDevYomiReviewSources() {
   return latestDevYomiReviewSources().length > 0;
+}
+
+function hasReviewArchive() {
+  return Boolean(state.manifest?.archive?.index_path);
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
@@ -348,6 +371,45 @@ async function openUnifiedReview() {
   state.unifiedSources = sources;
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
+  render();
+}
+
+async function openArchiveBrowser() {
+  if (!hasReviewArchive()) {
+    showStatus("No finalized archive was published yet.", true);
+    return;
+  }
+  state.currentStageId = "archive_browser";
+  if (el.stageSelect) {
+    el.stageSelect.value = "archive_browser";
+  }
+  if (!state.archiveIndex) {
+    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
+  }
+  state.archiveCurrentTrack = "dev";
+  state.archiveCurrentShard = null;
+  state.currentPackMeta = {
+    pack_id: "archive_browser",
+    title: "Finalized Archive",
+    track_name: "dev",
+    status: "archive",
+  };
+  state.currentPack = {
+    schema_version: 1,
+    review_stage: "archive_browser",
+    pack_id: "archive_browser",
+    track_name: "dev",
+    item_count: state.archiveIndex?.tracks?.dev?.document_count || 0,
+    items: [],
+    documents: [],
+  };
+  state.currentDraft = loadDraft(state.currentPack);
+  updateLocation("archive_browser", "archive_browser");
+  render();
+}
+
+async function openArchiveShard(shard) {
+  state.archiveCurrentShard = await fetchJson(shard.path);
   render();
 }
 
@@ -544,6 +606,12 @@ function populateStageSelect(stageIds) {
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
     el.stageSelect.append(option);
+    if (hasReviewArchive()) {
+      const archiveOption = document.createElement("option");
+      archiveOption.value = "archive_browser";
+      archiveOption.textContent = "Finalized Archive";
+      el.stageSelect.append(archiveOption);
+    }
     return;
   }
   for (const stageId of stageIds) {
@@ -551,6 +619,12 @@ function populateStageSelect(stageIds) {
     option.value = stageId;
     option.textContent = state.manifest.stages[stageId].label || stageId;
     el.stageSelect.append(option);
+  }
+  if (hasReviewArchive()) {
+    const archiveOption = document.createElement("option");
+    archiveOption.value = "archive_browser";
+    archiveOption.textContent = "Finalized Archive";
+    el.stageSelect.append(archiveOption);
   }
 }
 
@@ -576,7 +650,7 @@ function renderCurrentTracks() {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
-  if (cards.length === 0 && workflowSources.length === 0) {
+  if (cards.length === 0 && workflowSources.length === 0 && !hasReviewArchive()) {
     const p = document.createElement("p");
     p.className = "muted";
     p.textContent = "No active dev review packs were published.";
@@ -614,6 +688,28 @@ function renderCurrentTracks() {
     el.currentTrackList.append(unifiedButton);
   }
 
+  if (hasReviewArchive()) {
+    const archiveMeta = state.manifest.archive?.tracks?.dev || {};
+    const archiveButton = document.createElement("button");
+    archiveButton.type = "button";
+    archiveButton.className = "track-card secondary-track";
+    archiveButton.classList.toggle("active-track", state.currentStageId === "archive_browser");
+    archiveButton.innerHTML = `
+      <div class="track-card-header">
+        <strong>Finalized Archive</strong>
+        <span class="badge dev">dev</span>
+      </div>
+      <div class="track-card-stage">Read-only completed documents</div>
+      <div class="pack-meta-line">${Number(archiveMeta.document_count || 0)} document(s)</div>
+    `;
+    archiveButton.addEventListener("click", () => {
+      openArchiveBrowser().catch((error) => {
+        showStatus(`Failed to open archive: ${error.message}`, true);
+      });
+    });
+    el.currentTrackList.append(archiveButton);
+  }
+
   for (const card of cards) {
     const button = document.createElement("button");
     button.type = "button";
@@ -648,6 +744,38 @@ function renderCurrentTracks() {
 }
 
 function renderPackList() {
+  if (state.currentStageId === "archive_browser") {
+    const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
+    const shards = track.shards || [];
+    el.historyCount.textContent = `${shards.length} archive shard(s)`;
+    el.packList.innerHTML = "";
+    for (const shard of shards) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pack-button readonly-pack";
+      if (
+        state.archiveCurrentShard &&
+        Number(state.archiveCurrentShard.start_track_doc_seq) === Number(shard.start_track_doc_seq) &&
+        Number(state.archiveCurrentShard.end_track_doc_seq) === Number(shard.end_track_doc_seq)
+      ) {
+        button.classList.add("active-pack");
+      }
+      button.innerHTML = `
+        <div class="pack-title-line">
+          <strong>Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</strong>
+          <span class="badge archived">archive</span>
+        </div>
+        <div class="pack-meta-line">${Number(shard.document_count || 0)} document(s)</div>
+      `;
+      button.addEventListener("click", () => {
+        openArchiveShard(shard).catch((error) => {
+          showStatus(`Failed to open archive shard: ${error.message}`, true);
+        });
+      });
+      el.packList.append(button);
+    }
+    return;
+  }
   if (state.currentStageId === "unified_yomi_review") {
     el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
     el.packList.innerHTML = "";
@@ -695,6 +823,10 @@ function renderPackList() {
 }
 
 function renderPackSummary() {
+  if (state.currentStageId === "archive_browser") {
+    renderArchivePackSummary();
+    return;
+  }
   const stage = state.currentStageId === "unified_yomi_review"
     ? { label: "Unified Yomi Review", review_stage: "unified_yomi_review" }
     : state.manifest.stages[state.currentStageId];
@@ -730,6 +862,33 @@ function renderPackSummary() {
     .join("");
 }
 
+function renderArchivePackSummary() {
+  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
+  const shard = state.archiveCurrentShard;
+  el.packTitle.textContent = shard
+    ? `Finalized Archive ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
+    : "Finalized Archive";
+  el.packBadge.textContent = "dev / read-only";
+  el.packBadge.className = "badge archived dev";
+  const cards = [
+    ["Mode", "Archive Browser"],
+    ["Track", state.archiveCurrentTrack],
+    ["Documents", String(track.document_count || 0)],
+    ["Shards", String((track.shards || []).length)],
+    ["Open Shard", shard ? `${shard.start_track_doc_seq}-${shard.end_track_doc_seq}` : "None"],
+  ];
+  el.packMeta.innerHTML = cards
+    .map(
+      ([label, value]) => `
+        <div class="meta-card">
+          <dt>${escapeHtml(label)}</dt>
+          <dd>${escapeHtml(value)}</dd>
+        </div>
+      `
+    )
+    .join("");
+}
+
 function renderTaskSelector() {
   if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
@@ -739,6 +898,12 @@ function renderTaskSelector() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
   const started = isTaskStarted();
+
+  if (state.currentStageId === "archive_browser") {
+    renderArchiveBrowserPanel();
+    return;
+  }
+  el.taskPickerPanel.classList.remove("archive-browser-panel");
 
   el.taskPickerPanel.classList.toggle("unified-task-picker", isUnifiedReviewPack(state.currentPack));
   el.taskPickerPanel.classList.toggle("hidden", !editable || started);
@@ -778,6 +943,98 @@ function renderTaskSelector() {
   el.startTask.disabled = selectableDocs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
   el.selectAllDocs.disabled = selectAllDocs.length === 0 || selectedSelectAllCount === selectAllDocs.length;
+}
+
+function renderArchiveBrowserPanel() {
+  el.taskPickerPanel.classList.remove("hidden");
+  el.taskPickerPanel.classList.add("archive-browser-panel");
+  el.taskWorkPanels.forEach((panel) => panel.classList.add("hidden"));
+  el.taskDraftList.innerHTML = "";
+  el.taskDocList.innerHTML = "";
+  el.selectAllDocs.disabled = true;
+  el.clearDocSelection.disabled = true;
+  el.startTask.disabled = true;
+  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
+  const shards = track.shards || [];
+  if (!state.archiveCurrentShard) {
+    el.taskSummary.textContent = shards.length
+      ? "Choose an archive shard from Pack History to browse finalized documents."
+      : "No finalized archive documents were published.";
+    for (const shard of shards) {
+      el.taskDocList.append(renderArchiveShardRow(shard));
+    }
+    return;
+  }
+  const docs = state.archiveCurrentShard.documents || [];
+  el.taskSummary.textContent = `${docs.length} finalized document(s) in this shard. Click a document to preview it.`;
+  for (const doc of docs) {
+    el.taskDocList.append(renderArchiveDocumentRow(doc));
+  }
+}
+
+function renderArchiveShardRow(shard) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "task-doc-row archive-shard-row";
+  button.innerHTML = `
+    <span class="task-doc-title">Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
+    <span class="task-doc-meta">${Number(shard.document_count || 0)} document(s)</span>
+  `;
+  button.addEventListener("click", () => {
+    openArchiveShard(shard).catch((error) => {
+      showStatus(`Failed to open archive shard: ${error.message}`, true);
+    });
+  });
+  return button;
+}
+
+function renderArchiveDocumentRow(doc) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "task-doc-row archive-doc-row";
+  button.innerHTML = `
+    <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
+    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)</span>
+    <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
+  `;
+  button.addEventListener("click", () => openArchiveDocumentPreview(doc));
+  return button;
+}
+
+function openArchiveDocumentPreview(doc) {
+  if (!el.workflowPreviewModal) {
+    return;
+  }
+  el.workflowPreviewTitle.textContent = `Document ${doc.track_doc_seq}`;
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized`;
+  el.workflowPreviewBody.innerHTML = "";
+  const units = doc.units || [];
+  if (!units.length) {
+    const empty = document.createElement("p");
+    empty.className = "muted";
+    empty.textContent = "No finalized units in this document.";
+    el.workflowPreviewBody.append(empty);
+  }
+  for (const unit of units) {
+    const node = document.createElement("article");
+    node.className = "workflow-preview-item archive-preview-item";
+    const rubyLine = document.createElement("div");
+    rubyLine.className = "ruby-line resolved-ruby-line";
+    if (unit.rendered_yomi) {
+      const tokens = parseRenderedYomiTokens(unit.rendered_yomi || "");
+      rubyLine.append(...renderReadonlyRubyFromTokensWithNodes(tokens, unit.ruby_tokens || []));
+    } else {
+      rubyLine.textContent = unit.text || "";
+    }
+    node.append(rubyLine);
+    el.workflowPreviewBody.append(node);
+  }
+  el.workflowPreviewActions.innerHTML = "";
+  const note = document.createElement("p");
+  note.className = "muted";
+  note.textContent = "Read-only archive preview. Correction requests will be added in a later step.";
+  el.workflowPreviewActions.append(note);
+  el.workflowPreviewModal.classList.remove("hidden");
 }
 
 function renderUnifiedTaskQueues(docs, task) {

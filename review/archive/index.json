@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "description": "Finalized read-only review archive. Active work queues are published separately.",
+  "tracks": {
+    "dev": {
+      "track_name": "dev",
+      "document_count": 33,
+      "shard_size": 1000,
+      "shards": [
+        {
+          "path": "./archive/dev/docs_000001_000033.json",
+          "start_track_doc_seq": 1,
+          "end_track_doc_seq": 33,
+          "document_count": 33,
+          "batch_names": [
+            "dev_batch_0001",
+            "dev_batch_0002",
+            "dev_batch_0003",
+            "dev_batch_0004"
+          ]
+        }
+      ]
+    }
+  }
+}
