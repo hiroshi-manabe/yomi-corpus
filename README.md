@@ -131,6 +131,10 @@ Review transport policy:
   it prepares up to `M` new source documents when the actionable Bulk Review
   count is below `N`, then advances the new/current batch through automated
   stages until `final_review_prepared`
+- background and batch LLM calls are resumable but bounded: a single invocation
+  stops after the configured maximum wait or after too long without completed
+  result progress, and the next `./next` or `./review-sync` resumes/polls the
+  same job instead of starting from scratch
 - decoder model refreshes may be frequent, but old full model artifacts should
   eventually be garbage-collected after retaining enough manifest provenance to
   reconstruct them

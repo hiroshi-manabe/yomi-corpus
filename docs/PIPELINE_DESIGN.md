@@ -2056,6 +2056,19 @@ Review sync command:
   `docs/review`, and `--publish gh-pages` regenerates and runs
   `./publish-review`. The default is `local`.
 
+LLM polling policy:
+
+- background and batch LLM execution should use durable per-stage job state so
+  the caller can stop and resume without duplicating completed results
+- one command invocation must be bounded; the shared LLM runner stops after the
+  configured maximum wait or after a stale-progress timeout with no increase in
+  completed results
+- the default source-level guard is one hour total wait and ten minutes of no
+  completed-result progress
+- a timeout is not a failed stage by itself; the stage remains incomplete with a
+  `running` job summary and a `status_reason`, and the next `./next` or
+  `./review-sync` invocation resumes polling/submission
+
 ### 10.5 Multiple partial submissions
 
 One pack may produce multiple submissions.

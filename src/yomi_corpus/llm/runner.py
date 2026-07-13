@@ -36,6 +36,9 @@ class ResumableLLMJobSummary:
     manifest_json: str | None
     remote_status: str | None = None
     remote_batch_id: str | None = None
+    status_reason: str | None = None
+    wait_elapsed_seconds: float | None = None
+    stale_progress_seconds: float | None = None
 
 
 LLM_EXECUTION_MODE_SYNC = "sync"
@@ -49,6 +52,8 @@ BACKGROUND_RESPONSES_FILENAME = "responses.jsonl"
 BACKGROUND_STATUS_FILENAME = "background_status.json"
 BACKGROUND_ITEMS_FILENAME = "items.jsonl"
 DEFAULT_BACKGROUND_STALE_SECONDS = 30 * 60
+DEFAULT_LLM_MAX_WAIT_SECONDS = 60 * 60
+DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS = 10 * 60
 
 
 @dataclass
@@ -93,7 +98,10 @@ def run_llm_task(
     batch_wait: bool = True,
     batch_poll_interval_seconds: float = 60.0,
     batch_max_wait_seconds: float | None = None,
+    stale_progress_timeout_seconds: float | None = DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS,
 ) -> ResumableLLMJobSummary:
+    if batch_max_wait_seconds is None:
+        batch_max_wait_seconds = DEFAULT_LLM_MAX_WAIT_SECONDS
     if execution_mode == LLM_EXECUTION_MODE_SYNC:
         return run_sync_task(
             task_config_path,
@@ -118,6 +126,7 @@ def run_llm_task(
             wait=batch_wait,
             poll_interval_seconds=batch_poll_interval_seconds,
             max_wait_seconds=batch_max_wait_seconds,
+            stale_progress_timeout_seconds=stale_progress_timeout_seconds,
         )
     if execution_mode == LLM_EXECUTION_MODE_BATCH:
         if not job_dir:
@@ -133,6 +142,7 @@ def run_llm_task(
             wait=batch_wait,
             poll_interval_seconds=batch_poll_interval_seconds,
             max_wait_seconds=batch_max_wait_seconds,
+            stale_progress_timeout_seconds=stale_progress_timeout_seconds,
         )
     raise ValueError(f"Unsupported LLM execution mode: {execution_mode}")
 
@@ -217,6 +227,7 @@ def run_background_task(
     wait: bool = True,
     poll_interval_seconds: float = 60.0,
     max_wait_seconds: float | None = None,
+    stale_progress_timeout_seconds: float | None = DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS,
 ) -> ResumableLLMJobSummary:
     task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
@@ -271,6 +282,9 @@ def run_background_task(
     if progress is not None:
         progress.render()
     start_time = time()
+    last_progress_time = start_time
+    last_completed_count = len(completed_ids)
+    status_reason: str | None = None
     while True:
         completed_ids = poll_background_records_once(
             task_config=task_config,
@@ -282,12 +296,24 @@ def run_background_task(
             progress=progress,
         )
         write_background_records(responses_path, records, items)
+        completed_count = len(completed_ids)
+        if completed_count > last_completed_count:
+            last_completed_count = completed_count
+            last_progress_time = time()
         pending_items = len(item_ids - completed_ids)
         if pending_items == 0:
             break
         if not wait:
+            status_reason = "wait_disabled"
             break
         if max_wait_seconds is not None and time() - start_time >= max_wait_seconds:
+            status_reason = "max_wait_seconds"
+            break
+        if (
+            stale_progress_timeout_seconds is not None
+            and time() - last_progress_time >= stale_progress_timeout_seconds
+        ):
+            status_reason = "stale_progress_timeout"
             break
         sleep(max(poll_interval_seconds, 0.0))
     if progress is not None:
@@ -298,11 +324,14 @@ def run_background_task(
     status = "completed" if pending_items == 0 else "running"
     status_payload = {
         "state": status,
+        "status_reason": status_reason,
         "updated_at_epoch": int(time()),
         "total_items": len(items),
         "completed_items": len(completed_ids),
         "failed_items": failed_items,
         "pending_items": pending_items,
+        "wait_elapsed_seconds": time() - start_time,
+        "stale_progress_seconds": time() - last_progress_time,
     }
     atomic_write_text(
         status_path,
@@ -321,6 +350,9 @@ def run_background_task(
         job_dir=str(job_path),
         manifest_json=str(job_path / "manifest.json"),
         remote_status=status,
+        status_reason=status_reason,
+        wait_elapsed_seconds=time() - start_time,
+        stale_progress_seconds=time() - last_progress_time,
     )
     write_job_manifest(
         job_path / "manifest.json",
@@ -344,6 +376,7 @@ def run_batch_task(
     wait: bool = True,
     poll_interval_seconds: float = 60.0,
     max_wait_seconds: float | None = None,
+    stale_progress_timeout_seconds: float | None = DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS,
 ) -> ResumableLLMJobSummary:
     task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
@@ -354,6 +387,9 @@ def run_batch_task(
     parsed_results_path = job_path / "results.parsed.jsonl"
     progress = ProgressBar(label="LLM batch", total=total_items) if show_progress else None
     start_time = time()
+    last_progress_time = start_time
+    last_completed_count = 0
+    status_reason: str | None = None
 
     if not status_path.exists():
         prepare_batch_job(
@@ -373,6 +409,11 @@ def run_batch_task(
 
         if progress is not None:
             update_batch_progress(progress, status)
+        request_counts = _request_counts_from_status(status)
+        completed_count = int(request_counts.get("completed") or 0)
+        if completed_count > last_completed_count:
+            last_completed_count = completed_count
+            last_progress_time = time()
 
         if status.get("state") == "completed":
             status = fetch_batch_job(str(job_path), api_key_file=api_key_file)
@@ -382,8 +423,16 @@ def run_batch_task(
         if status.get("state") in {"fetched", "failed", "expired", "cancelled"}:
             break
         if not wait:
+            status_reason = "wait_disabled"
             break
         if max_wait_seconds is not None and time() - start_time >= max_wait_seconds:
+            status_reason = "max_wait_seconds"
+            break
+        if (
+            stale_progress_timeout_seconds is not None
+            and time() - last_progress_time >= stale_progress_timeout_seconds
+        ):
+            status_reason = "stale_progress_timeout"
             break
         sleep(max(poll_interval_seconds, 0.0))
 
@@ -416,6 +465,9 @@ def run_batch_task(
         manifest_json=str(job_path / "manifest.json"),
         remote_status=str(remote_status) if remote_status is not None else None,
         remote_batch_id=str(remote_batch_id) if remote_batch_id is not None else None,
+        status_reason=status_reason,
+        wait_elapsed_seconds=time() - start_time,
+        stale_progress_seconds=time() - last_progress_time,
     )
 
 

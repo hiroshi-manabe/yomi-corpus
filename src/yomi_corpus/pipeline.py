@@ -1998,9 +1998,9 @@ class PipelineWorkspace:
             if job_summary.status != "completed":
                 return {
                     "stage_complete": False,
-                    "blocking_reason": (
-                        f"LLM {execution_mode} job is {job_summary.status}; "
-                        "rerun ./next to poll or resume."
+                    "blocking_reason": self._llm_incomplete_blocking_reason(
+                        execution_mode=execution_mode,
+                        job_summary=job_summary,
                     ),
                     "artifacts": self._llm_running_artifacts(
                         prefix="alphabetic_judgment",
@@ -2292,9 +2292,9 @@ class PipelineWorkspace:
             if job_summary.status != "completed":
                 return {
                     "stage_complete": False,
-                    "blocking_reason": (
-                        f"LLM {execution_mode} job is {job_summary.status}; "
-                        "rerun ./next to poll or resume."
+                    "blocking_reason": self._llm_incomplete_blocking_reason(
+                        execution_mode=execution_mode,
+                        job_summary=job_summary,
                     ),
                     "artifacts": self._llm_running_artifacts(
                         prefix="scope_triage",
@@ -2429,9 +2429,9 @@ class PipelineWorkspace:
             if job_summary.status != "completed":
                 return {
                     "stage_complete": False,
-                    "blocking_reason": (
-                        f"LLM {execution_mode} job is {job_summary.status}; "
-                        "rerun ./next to poll or resume."
+                    "blocking_reason": self._llm_incomplete_blocking_reason(
+                        execution_mode=execution_mode,
+                        job_summary=job_summary,
                     ),
                     "artifacts": self._llm_running_artifacts(
                         prefix="yomi_reading",
@@ -2491,9 +2491,10 @@ class PipelineWorkspace:
                 if retry_job_summary.status != "completed":
                     return {
                         "stage_complete": False,
-                        "blocking_reason": (
-                            f"LLM {execution_mode} retry attempt {attempt} is {retry_job_summary.status}; "
-                            "rerun ./next to poll or resume."
+                        "blocking_reason": self._llm_incomplete_blocking_reason(
+                            execution_mode=execution_mode,
+                            job_summary=retry_job_summary,
+                            label=f"retry attempt {attempt}",
                         ),
                         "artifacts": {
                             **self._llm_completed_artifacts(
@@ -2946,9 +2947,9 @@ class PipelineWorkspace:
             if job_summary.status != "completed":
                 return {
                     "stage_complete": False,
-                    "blocking_reason": (
-                        f"LLM {execution_mode} job is {job_summary.status}; "
-                        "rerun ./next to poll or resume."
+                    "blocking_reason": self._llm_incomplete_blocking_reason(
+                        execution_mode=execution_mode,
+                        job_summary=job_summary,
                     ),
                     "artifacts": self._llm_running_artifacts(
                         prefix="yomi_strong_repair",
@@ -3325,6 +3326,7 @@ class PipelineWorkspace:
             f"{prefix}_reasoning_effort": task_config.reasoning_effort or "",
             f"{prefix}_llm_job_dir": str(job_dir),
             f"{prefix}_llm_job_status": str(job_summary.status),
+            f"{prefix}_llm_job_status_reason": str(getattr(job_summary, "status_reason", "") or ""),
             f"{prefix}_llm_remote_status": job_summary.remote_status or "",
             f"{prefix}_llm_remote_batch_id": job_summary.remote_batch_id or "",
             f"{prefix}_llm_job_completed": str(job_summary.completed_items),
@@ -3333,6 +3335,18 @@ class PipelineWorkspace:
             f"{prefix}_prompt_template": str(task_config.prompt_template),
             f"{prefix}_queued": str(queued_count),
         }
+
+    @staticmethod
+    def _llm_incomplete_blocking_reason(
+        *,
+        execution_mode: str,
+        job_summary: object,
+        label: str = "job",
+    ) -> str:
+        status = str(getattr(job_summary, "status", "unknown"))
+        reason = str(getattr(job_summary, "status_reason", "") or "")
+        detail = f" ({reason})" if reason else ""
+        return f"LLM {execution_mode} {label} is {status}{detail}; rerun ./next to poll or resume."
 
     def _llm_completed_artifacts(
         self,

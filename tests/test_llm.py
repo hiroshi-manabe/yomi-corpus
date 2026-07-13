@@ -492,6 +492,58 @@ class LLMScaffoldingTests(unittest.TestCase):
             self.assertEqual(summary.remote_status, "in_progress")
             self.assertFalse(output_path.exists())
 
+    def test_run_llm_task_batch_stops_on_stale_progress_timeout(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps({"unit_id": "u1", "text": "大学です。", "rendered": "大学/ダイガク"})
+                + "\n",
+                encoding="utf-8",
+            )
+
+            def fake_prepare(*args: object, **kwargs: object) -> None:
+                job_dir.mkdir(parents=True)
+                (job_dir / "status.json").write_text(
+                    json.dumps({"state": "prepared"}),
+                    encoding="utf-8",
+                )
+
+            def fake_submit(*args: object, **kwargs: object) -> dict[str, object]:
+                return {"state": "running", "remote_status": "in_progress", "batch_id": "batch_1"}
+
+            def fake_poll(*args: object, **kwargs: object) -> dict[str, object]:
+                return {
+                    "state": "running",
+                    "remote_status": "in_progress",
+                    "batch_id": "batch_1",
+                    "remote_snapshot": {
+                        "request_counts": {"total": 1, "completed": 0, "failed": 0}
+                    },
+                }
+
+            with (
+                patch("yomi_corpus.llm.runner.prepare_batch_job", side_effect=fake_prepare),
+                patch("yomi_corpus.llm.runner.submit_batch_job", side_effect=fake_submit),
+                patch("yomi_corpus.llm.runner.poll_batch_job", side_effect=fake_poll),
+            ):
+                summary = run_llm_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    execution_mode="batch",
+                    job_dir=str(job_dir),
+                    batch_poll_interval_seconds=0,
+                    stale_progress_timeout_seconds=0,
+                )
+
+            self.assertEqual(summary.status, "running")
+            self.assertEqual(summary.status_reason, "stale_progress_timeout")
+            self.assertEqual(summary.completed_items, 0)
+            self.assertFalse(output_path.exists())
+
     def test_run_background_task_submits_and_parses_completed_responses(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -749,6 +801,52 @@ class LLMScaffoldingTests(unittest.TestCase):
                 if line.strip()
             ]
             self.assertEqual(rows[0]["parsed"], {"status": "OK"})
+
+    def test_run_background_task_stops_on_stale_progress_timeout(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    return {"response_id": "resp_u1", "status": "queued"}
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    return {"response_id": response_id, "status": "in_progress"}
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                    poll_interval_seconds=0,
+                    stale_progress_timeout_seconds=0,
+                )
+
+            self.assertEqual(summary.status, "running")
+            self.assertEqual(summary.status_reason, "stale_progress_timeout")
+            self.assertEqual(summary.completed_items, 0)
+            self.assertEqual(output_path.read_text(encoding="utf-8"), "")
+            status = json.loads((job_dir / "background_status.json").read_text(encoding="utf-8"))
+            self.assertEqual(status["status_reason"], "stale_progress_timeout")
 
     def test_result_loaders_ignore_truncated_tail_only(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

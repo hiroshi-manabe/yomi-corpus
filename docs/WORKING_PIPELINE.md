@@ -2297,6 +2297,37 @@ Browser-local task state is separate from imported pipeline state:
   submission, regenerated packs should move those documents to the next queue
   or to resolved state
 
+### 11.3 Bounded LLM polling
+
+LLM stages must be resumable, but one command invocation must not be able to
+wait forever.
+
+Policy:
+
+- synchronous calls may still run sequentially, but operational use should
+  prefer `background` or `batch`
+- background and batch modes submit/poll durable job state under the stage's
+  job directory
+- a single invocation stops after the configured maximum wait, or earlier if no
+  completed-result count increases for the stale-progress timeout
+- the default source-level guard is one hour maximum wait and ten minutes
+  without completed-result progress
+- a stopped invocation leaves the stage incomplete with a `running` job summary
+  and a `status_reason` such as `max_wait_seconds` or
+  `stale_progress_timeout`
+- rerunning `./next` or `./review-sync` resumes polling/submission from the same
+  job state, so already completed results are not duplicated
+
+This guard is intentionally at the shared LLM-runner layer. Alphabet judgment,
+scope triage, yomi reading, retry reading, and Escalated Repair should all get
+the same failure behavior without each stage inventing its own timeout logic.
+
+Pipeline status messages should surface the incomplete reason, for example:
+
+```text
+LLM background job is running (stale_progress_timeout); rerun ./next to poll or resume.
+```
+
 Repository layout migration:
 
 - this repository continues to own pipeline code, review-pack generation,
