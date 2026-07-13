@@ -14,6 +14,8 @@ from typing import Any
 
 from yomi_corpus.pipeline import (
     STAGE_FINAL_REVIEW_APPLIED,
+    STAGE_FINAL_REVIEW_PREPARED,
+    STAGE_SEQUENCE,
     STAGE_YOMI_FINALIZED,
     STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
@@ -108,6 +110,7 @@ def _run_review_sync_pass_unlocked(
     started_at = now_iso()
     stage_results: list[dict[str, Any]] = []
     close_results: list[dict[str, Any]] = []
+    refill_results: list[dict[str, Any]] = []
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
 
@@ -197,20 +200,6 @@ def _run_review_sync_pass_unlocked(
         if result.get("blocking_reason"):
             break
 
-    site_stale = False
-    if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
-        site_stale = review_site_needs_publish(root)
-        if site_stale:
-            changed = True
-
-    publish_result: dict[str, Any] | None = None
-    if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
-        publish_result = publish_review_artifacts(
-            root,
-            push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
-        )
-
-    completed_at = now_iso()
     final_status = workspace.status(options.track_name)
     final_batch_name = str(
         final_status.get("current_batch_name")
@@ -231,6 +220,51 @@ def _run_review_sync_pass_unlocked(
             track_name=options.track_name,
             target_documents=int(refill_plan["planned_prepare_documents"]),
         )
+    if refill_plan.get("enabled"):
+        refill_result = maintain_bulk_review_refill(
+            workspace=workspace,
+            options=options,
+            refill_plan=refill_plan,
+        )
+        if refill_result is not None:
+            refill_results.append(refill_result)
+            if refill_result.get("changed"):
+                changed = True
+            final_status = workspace.status(options.track_name)
+            final_batch_name = str(
+                final_status.get("current_batch_name")
+                or final_status.get("batch_name")
+                or ""
+            )
+            document_queue_summary = current_document_queue_summary(
+                root=root,
+                batch_name=final_batch_name,
+            )
+            refill_plan = build_bulk_review_refill_plan(
+                document_queue_summary=document_queue_summary,
+                target_ready_docs=options.bulk_review_target_ready_docs,
+                pass_limit=options.refill_pass_limit,
+            )
+            if int(refill_plan.get("planned_prepare_documents") or 0) > 0:
+                refill_plan["source_selection"] = workspace.preview_next_source_documents(
+                    track_name=options.track_name,
+                    target_documents=int(refill_plan["planned_prepare_documents"]),
+                )
+
+    site_stale = False
+    if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
+        site_stale = review_site_needs_publish(root)
+        if site_stale:
+            changed = True
+
+    publish_result: dict[str, Any] | None = None
+    if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
+        publish_result = publish_review_artifacts(
+            root,
+            push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
+        )
+
+    completed_at = now_iso()
     return {
         "schema_version": 1,
         "track_name": options.track_name,
@@ -248,6 +282,7 @@ def _run_review_sync_pass_unlocked(
         "changed": changed,
         "site_stale": site_stale,
         "stage_results": stage_results,
+        "refill_results": refill_results,
         "close_results": close_results,
         "publish_result": publish_result,
         "dry_run_plan": dry_run_plan,
@@ -284,10 +319,172 @@ def build_bulk_review_refill_plan(
         "planned_prepare_documents": planned,
         "will_prepare": False,
         "reason": (
-            "refill planning only; automatic preparation is not implemented"
+            "dry-run-safe plan; non-dry-run sync can prepare and advance these documents"
             if target > 0 and planned > 0
             else None
         ),
+    }
+
+
+def maintain_bulk_review_refill(
+    *,
+    workspace: PipelineWorkspace,
+    options: ReviewSyncOptions,
+    refill_plan: dict[str, Any],
+) -> dict[str, Any] | None:
+    status = workspace.status(options.track_name)
+    current_stage = str(status.get("current_stage") or "")
+    current_batch = str(status.get("current_batch_name") or status.get("batch_name") or "")
+    if batch_is_before_bulk_review_ready(current_stage):
+        if options.dry_run:
+            return {
+                "action": "continue_existing_batch",
+                "batch_name": current_batch,
+                "current_stage": current_stage,
+                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                "changed": False,
+                "dry_run": True,
+            }
+        advance_result = advance_current_batch_to_bulk_review_ready(
+            workspace=workspace,
+            track_name=options.track_name,
+            max_stages=options.max_stages,
+        )
+        return {
+            "action": "continue_existing_batch",
+            "batch_name": current_batch,
+            "changed": bool(advance_result.get("changed")),
+            "dry_run": False,
+            **advance_result,
+        }
+
+    planned = int(refill_plan.get("planned_prepare_documents") or 0)
+    if planned <= 0:
+        return None
+    if options.dry_run:
+        return {
+            "action": "prepare_next_batch",
+            "status": "planned",
+            "planned_prepare_documents": planned,
+            "source_selection": refill_plan.get("source_selection"),
+            "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+            "changed": False,
+            "dry_run": True,
+        }
+
+    prepare_result = workspace.prepare_next_batch(
+        track_name=options.track_name,
+        target_documents=planned,
+    )
+    advance_result = advance_current_batch_to_bulk_review_ready(
+        workspace=workspace,
+        track_name=options.track_name,
+        max_stages=options.max_stages,
+    )
+    return {
+        "action": "prepare_next_batch",
+        "planned_prepare_documents": planned,
+        "source_selection": refill_plan.get("source_selection"),
+        "prepare_result": prepare_result,
+        "changed": True,
+        "dry_run": False,
+        **advance_result,
+    }
+
+
+def batch_is_before_bulk_review_ready(stage_name: str) -> bool:
+    try:
+        current_index = STAGE_SEQUENCE.index(stage_name)
+        target_index = STAGE_SEQUENCE.index(STAGE_FINAL_REVIEW_PREPARED)
+    except ValueError:
+        return False
+    return current_index < target_index
+
+
+def advance_current_batch_to_bulk_review_ready(
+    *,
+    workspace: PipelineWorkspace,
+    track_name: str,
+    max_stages: int,
+) -> dict[str, Any]:
+    steps: list[dict[str, Any]] = []
+    changed = False
+    prepared_to_bulk_steps = STAGE_SEQUENCE.index(STAGE_FINAL_REVIEW_PREPARED)
+    stage_limit = max(1, max_stages, prepared_to_bulk_steps)
+    for _ in range(stage_limit):
+        status = workspace.status(track_name)
+        current_stage = str(status.get("current_stage") or "")
+        if current_stage == STAGE_FINAL_REVIEW_PREPARED:
+            return {
+                "status": "bulk_review_ready",
+                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
+                "current_stage": current_stage,
+                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                "steps": steps,
+                "changed": changed,
+            }
+        next_stage = str(status.get("next_stage") or "")
+        if not next_stage:
+            return {
+                "status": "stopped",
+                "reason": "no_next_stage",
+                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
+                "current_stage": current_stage,
+                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                "steps": steps,
+                "changed": changed,
+            }
+        if next_stage not in STAGE_SEQUENCE or STAGE_SEQUENCE.index(next_stage) > STAGE_SEQUENCE.index(
+            STAGE_FINAL_REVIEW_PREPARED
+        ):
+            return {
+                "status": "stopped",
+                "reason": "next_stage_beyond_bulk_review_ready",
+                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
+                "current_stage": current_stage,
+                "next_stage": next_stage,
+                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                "steps": steps,
+                "changed": changed,
+            }
+        result = workspace.advance(track_name=track_name)
+        step = {
+            "attempted_stage": next_stage,
+            "advanced": result.get("advanced"),
+            "current_stage": result.get("current_stage"),
+            "blocking_reason": result.get("blocking_reason"),
+        }
+        steps.append(step)
+        if result.get("advanced"):
+            changed = True
+            if result.get("current_stage") == STAGE_FINAL_REVIEW_PREPARED:
+                return {
+                    "status": "bulk_review_ready",
+                    "batch_name": result.get("batch_name"),
+                    "current_stage": result.get("current_stage"),
+                    "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                    "steps": steps,
+                    "changed": changed,
+                }
+        if not result.get("advanced"):
+            return {
+                "status": "incomplete",
+                "reason": result.get("blocking_reason") or "stage_not_advanced",
+                "batch_name": result.get("batch_name"),
+                "current_stage": result.get("current_stage"),
+                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+                "steps": steps,
+                "changed": changed,
+            }
+    status = workspace.status(track_name)
+    return {
+        "status": "incomplete",
+        "reason": "max_stages_reached",
+        "batch_name": status.get("current_batch_name") or status.get("batch_name"),
+        "current_stage": status.get("current_stage"),
+        "target_stage": STAGE_FINAL_REVIEW_PREPARED,
+        "steps": steps,
+        "changed": changed,
     }
 
 
@@ -616,6 +813,19 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
             for row in summary.get("stage_results", [])
             if isinstance(row, dict)
         ],
+        "refill": [
+            {
+                "action": row.get("action"),
+                "status": row.get("status"),
+                "batch_name": refill_result_batch_name(row),
+                "planned_prepare_documents": row.get("planned_prepare_documents"),
+                "changed": row.get("changed"),
+                "step_count": len(row.get("steps", [])) if isinstance(row.get("steps"), list) else 0,
+                "reason": row.get("reason"),
+            }
+            for row in summary.get("refill_results", [])
+            if isinstance(row, dict)
+        ],
         "closed_issues": [
             row.get("issue_number")
             for row in summary.get("close_results", [])
@@ -625,3 +835,12 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         "blocking_reason": final_status.get("blocking_reason") if isinstance(final_status, dict) else None,
         "summary_json": summary.get("summary_json"),
     }
+
+
+def refill_result_batch_name(row: dict[str, Any]) -> object:
+    if row.get("batch_name"):
+        return row.get("batch_name")
+    prepare_result = row.get("prepare_result")
+    if isinstance(prepare_result, dict):
+        return prepare_result.get("batch_name")
+    return None

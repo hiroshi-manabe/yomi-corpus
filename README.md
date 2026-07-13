@@ -124,11 +124,13 @@ Review transport policy:
   of actionable Bulk Review documents available by preparing more source
   documents when the queue gets low, using a durable per-document ledger rather
   than batch-level stage membership
-- current queue summaries already expose the refill-relevant counts; automatic
-  refill selection/preparation is still a later step
+- current queue summaries expose the refill-relevant counts, and `review-sync`
+  can now use those counts to maintain a bounded Bulk Review buffer
 - `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
-  reports a refill plan from current document pool counts, but still does not
-  prepare additional documents automatically
+  reports a refill plan from current document pool counts; without `--dry-run`,
+  it prepares up to `M` new source documents when the actionable Bulk Review
+  count is below `N`, then advances the new/current batch through automated
+  stages until `final_review_prepared`
 - decoder model refreshes may be frequent, but old full model artifacts should
   eventually be garbage-collected after retaining enough manifest provenance to
   reconstruct them

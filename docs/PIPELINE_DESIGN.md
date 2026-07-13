@@ -1961,16 +1961,19 @@ over the document-state ledger, not as a new kind of batch:
   not become a second mutable state machine; the concrete `final_*`,
   `strong_*`, `complete`, and `skipped` values remain authoritative.
 - the initial implementation exposes those counts as `queue_counts` in the
-  document-state summary and the review-sync summary. This is an observability
-  layer only; it does not yet start additional preparation work automatically.
-- the next implemented primitive is refill planning:
+  document-state summary and the review-sync summary.
+- the implemented refill primitive is:
   `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
   reports current `bulk-ready` count, target, deficit, and capped planned
-  prepare count. It deliberately reports `will_prepare: false` until a bounded,
-  resumable preparation runner is added.
-- if the count is below target, the runner may prepare more source documents,
-  run the automatic/LLM stages needed to make them reviewable, append their
-  document states to the ledger, and republish review artifacts
+  prepare count. `--dry-run` additionally reports the exact source documents
+  that would be selected and deliberately keeps `will_prepare: false`.
+- if the count is below target and the pass is not a dry run, the runner
+  prepares more source documents, runs the automatic/LLM stages needed to make
+  them reviewable, appends their document states to the ledger, and republishes
+  review artifacts according to `--publish`
+- if the current track batch is already before `final_review_prepared`, refill
+  resumes that batch rather than preparing another one. This makes interrupted
+  or long-running LLM stages safe to continue on the next sync pass.
 - refill should be bounded by a per-pass limit so a sync does not unexpectedly
   launch an unbounded amount of LLM work
 - the UI may show documents from multiple backend preparation batches in one

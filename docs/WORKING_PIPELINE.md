@@ -2169,10 +2169,15 @@ Rolling refill target:
   Review documents, submitted Bulk Review documents, selectable Escalated Repair
   documents, submitted Escalated Repair documents, and resolved documents
 - `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
-  currently reports a refill plan without preparing documents. The plan uses
-  `pool_counts["bulk-ready"]`, computes the deficit against `N`, caps the
-  future prepare count at `M`, and reports `will_prepare: false` until the
-  preparation runner is implemented.
+  reports a refill plan. With `--dry-run`, the plan includes the exact source
+  documents that would be prepared and still reports `will_prepare: false`.
+  Without `--dry-run`, if `pool_counts["bulk-ready"]` is below `N`, the sync
+  prepares up to `M` source documents and advances the new/current batch through
+  automated stages until `final_review_prepared`.
+- if a refill batch is already in progress but has not reached
+  `final_review_prepared`, the next sync pass resumes that batch instead of
+  selecting another source slice. This prevents duplicate batches when LLM
+  stages take longer than one sync pass.
 - prepared documents may come from multiple backend batches but should appear in
   one human-facing Bulk Review queue
 - source selection must be idempotent. A source document already prepared,
