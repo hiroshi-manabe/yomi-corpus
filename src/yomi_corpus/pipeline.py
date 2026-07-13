@@ -3252,6 +3252,9 @@ class PipelineWorkspace:
                 }
         summary = finalize_reviewed_yomi_file(
             units_jsonl=strong_repaired_path if strong_repaired_path.exists() else batch_dir / "units.yomi.reviewed.jsonl",
+            reviewed_units_jsonl=batch_dir / "units.yomi.reviewed.jsonl"
+            if strong_repaired_path.exists()
+            else None,
             strong_queue_summary_json=batch_dir / "yomi_strong_repair_queue_summary.json",
             strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
             output_jsonl=output_path,

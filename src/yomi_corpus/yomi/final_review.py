@@ -2463,6 +2463,7 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
 def finalize_reviewed_yomi_file(
     *,
     units_jsonl: Path,
+    reviewed_units_jsonl: Path | None = None,
     strong_queue_summary_json: Path,
     strong_apply_summary_json: Path | None = None,
     output_jsonl: Path,
@@ -2503,12 +2504,14 @@ def finalize_reviewed_yomi_file(
     written_units = 0
     skipped_units = 0
     unreviewed_units = 0
+    review_by_unit_id = load_yomi_final_review_by_unit_id(reviewed_units_jsonl)
     with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
             if not line.strip():
                 continue
             read_units += 1
             unit = json.loads(line)
+            merge_yomi_final_review(unit, review_by_unit_id)
             review = (
                 unit.get("analysis", {})
                 .get("human_review", {})
@@ -2537,6 +2540,39 @@ def finalize_reviewed_yomi_file(
         encoding="utf-8",
     )
     return {"stage_complete": True, **summary}
+
+
+def load_yomi_final_review_by_unit_id(path: Path | None) -> dict[str, dict[str, Any]]:
+    if path is None or not path.exists():
+        return {}
+    reviews: dict[str, dict[str, Any]] = {}
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            if not line.strip():
+                continue
+            unit = json.loads(line)
+            unit_id = str(unit.get("unit_id") or "")
+            review = (
+                unit.get("analysis", {})
+                .get("human_review", {})
+                .get("yomi_final", {})
+            )
+            if unit_id and isinstance(review, dict) and review.get("reviewed"):
+                reviews[unit_id] = review
+    return reviews
+
+
+def merge_yomi_final_review(unit: dict[str, Any], review_by_unit_id: dict[str, dict[str, Any]]) -> None:
+    if not review_by_unit_id:
+        return
+    unit_id = str(unit.get("unit_id") or "")
+    review = review_by_unit_id.get(unit_id)
+    if not review:
+        return
+    human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+    current = human_review.get("yomi_final")
+    if not isinstance(current, dict) or not current.get("reviewed"):
+        human_review["yomi_final"] = review
 
 
 def harvest_yomi_finalization_artifacts_file(

@@ -1695,6 +1695,67 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(final_summary["stage_complete"])
             self.assertEqual(final_summary["written_units"], 1)
 
+    def test_finalize_merges_final_review_metadata_onto_strong_repaired_units(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            reviewed_path = root / "reviewed.jsonl"
+            strong_path = root / "strong.jsonl"
+            queue_summary_path = root / "queue_summary.json"
+            strong_summary_path = root / "strong_summary.json"
+            final_path = root / "final.jsonl"
+            final_summary_path = root / "final_summary.json"
+            reviewed_unit = {
+                "doc_id": "doc1",
+                "unit_id": "u1",
+                "text": "学校です。",
+                "analysis": {
+                    "human_review": {
+                        "yomi_final": {
+                            "reviewed": True,
+                            "skip": False,
+                            "submission_id": "s1",
+                        }
+                    },
+                    "mechanical": {"yomi": {"rendered": "学校/ガッコウ です/デス 。/。"}},
+                },
+            }
+            strong_unit = {
+                "doc_id": "doc1",
+                "unit_id": "u1",
+                "text": "学校です。",
+                "analysis": {
+                    "mechanical": {"yomi": {"rendered": "学校/ガッコウ です/デス 。/。"}},
+                },
+            }
+            reviewed_path.write_text(json.dumps(reviewed_unit, ensure_ascii=False) + "\n", encoding="utf-8")
+            strong_path.write_text(json.dumps(strong_unit, ensure_ascii=False) + "\n", encoding="utf-8")
+            queue_summary_path.write_text(
+                json.dumps({"queued_items": 1}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            strong_summary_path.write_text(
+                json.dumps({"stage_complete": True, "confirmed": True}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            final_summary = finalize_reviewed_yomi_file(
+                units_jsonl=strong_path,
+                reviewed_units_jsonl=reviewed_path,
+                strong_queue_summary_json=queue_summary_path,
+                strong_apply_summary_json=strong_summary_path,
+                output_jsonl=final_path,
+                summary_json=final_summary_path,
+            )
+
+            self.assertTrue(final_summary["stage_complete"])
+            self.assertEqual(final_summary["written_units"], 1)
+            self.assertEqual(final_summary["unreviewed_units"], 0)
+            finalized = json.loads(final_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                finalized["analysis"]["human_review"]["yomi_final"]["submission_id"],
+                "s1",
+            )
+
     def test_strong_repair_pack_exposes_dictionary_substring_reading_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
