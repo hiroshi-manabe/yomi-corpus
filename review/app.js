@@ -662,56 +662,8 @@ function renderCurrentTracks() {
     return;
   }
 
-  if (workflowSources.length > 0) {
-    const unifiedButton = document.createElement("button");
-    unifiedButton.type = "button";
-    unifiedButton.className = "track-card primary-track";
-    unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
-    const totalItems = workflowSources.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
-    const totalDocs = Math.max(...workflowSources.map((card) => Number(card.document_count || 0)));
-    const activeQueueCount = workflowCards.length;
-    const queueText =
-      activeQueueCount > 0
-        ? activeQueueCount === 1
-          ? "1 active queue"
-          : `${activeQueueCount} active queues`
-        : "0 active queues";
-    unifiedButton.innerHTML = `
-      <div class="track-card-header">
-        <strong>Workflow Review</strong>
-        <span class="badge dev">dev</span>
-      </div>
-      <div class="track-card-stage">Document-based review workspace</div>
-      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${queueText}</div>
-    `;
-    unifiedButton.addEventListener("click", () => {
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open unified review: ${error.message}`, true);
-      });
-    });
-    el.currentTrackList.append(unifiedButton);
-  }
-
-  if (hasReviewArchive()) {
-    const archiveMeta = state.manifest.archive?.tracks?.dev || {};
-    const archiveButton = document.createElement("button");
-    archiveButton.type = "button";
-    archiveButton.className = "track-card secondary-track";
-    archiveButton.classList.toggle("active-track", state.currentStageId === "archive_browser");
-    archiveButton.innerHTML = `
-      <div class="track-card-header">
-        <strong>Corpus Map</strong>
-        <span class="badge dev">dev</span>
-      </div>
-      <div class="track-card-stage">Resolved corpus browser</div>
-      <div class="pack-meta-line">${Number(archiveMeta.document_count || 0)} document(s)</div>
-    `;
-    archiveButton.addEventListener("click", () => {
-      openArchiveBrowser().catch((error) => {
-        showStatus(`Failed to open archive: ${error.message}`, true);
-      });
-    });
-    el.currentTrackList.append(archiveButton);
+  if (workflowSources.length > 0 || hasReviewArchive()) {
+    el.currentTrackList.append(renderDevWorkspaceCard({ workflowSources, workflowCards }));
   }
 
   for (const card of cards) {
@@ -745,6 +697,70 @@ function renderCurrentTracks() {
     });
     el.currentTrackList.append(button);
   }
+}
+
+function renderDevWorkspaceCard({ workflowSources, workflowCards }) {
+  const card = document.createElement("section");
+  card.className = "track-card primary-track dev-workspace-card";
+  const totalItems = workflowSources.reduce((sum, source) => sum + Number(source.item_count || 0), 0);
+  const totalDocs = workflowSources.length
+    ? Math.max(...workflowSources.map((source) => Number(source.document_count || 0)))
+    : 0;
+  const activeQueueCount = workflowCards.length;
+  const queueText =
+    activeQueueCount > 0
+      ? activeQueueCount === 1
+        ? "1 active queue"
+        : `${activeQueueCount} active queues`
+      : "0 active queues";
+  const archiveMeta = state.manifest.archive?.tracks?.dev || {};
+  card.innerHTML = `
+    <div class="track-card-header">
+      <strong>dev workspace</strong>
+      <span class="badge dev">dev</span>
+    </div>
+    <div class="track-card-stage">Active review and resolved corpus views</div>
+    <div class="pack-meta-line">
+      ${totalDocs} active doc(s) · ${totalItems} item(s) · ${queueText}
+      ${hasReviewArchive() ? ` · ${Number(archiveMeta.document_count || 0)} resolved doc(s)` : ""}
+    </div>
+  `;
+  const tabs = document.createElement("div");
+  tabs.className = "workspace-view-tabs";
+  if (workflowSources.length > 0) {
+    tabs.append(
+      renderWorkspaceViewTab({
+        label: "Active Work",
+        active: state.currentStageId === "unified_yomi_review",
+        onClick: () => openUnifiedReview(),
+      })
+    );
+  }
+  if (hasReviewArchive()) {
+    tabs.append(
+      renderWorkspaceViewTab({
+        label: "Corpus Map",
+        active: state.currentStageId === "archive_browser",
+        onClick: () => openArchiveBrowser(),
+      })
+    );
+  }
+  card.append(tabs);
+  return card;
+}
+
+function renderWorkspaceViewTab({ label, active, onClick }) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "workspace-view-tab";
+  button.classList.toggle("active", active);
+  button.textContent = label;
+  button.addEventListener("click", () => {
+    onClick().catch((error) => {
+      showStatus(`Failed to open ${label}: ${error.message}`, true);
+    });
+  });
+  return button;
 }
 
 function renderPackList() {
