@@ -839,6 +839,26 @@ button:disabled {
   border-bottom: 1px solid rgba(31, 28, 23, 0.08);
 }
 
+.archive-correction-help {
+  margin: 0;
+}
+
+.archive-correction-textarea {
+  width: 100%;
+  min-height: 240px;
+  resize: vertical;
+  font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
+  white-space: pre;
+}
+
+.archive-correction-validation {
+  margin: 0;
+}
+
+.archive-correction-validation.error {
+  color: var(--danger);
+}
+
 .workflow-preview-item.resolved-yomi-preview {
   padding: 2px 0;
   border: 0;
