@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import gzip
 import json
 import tempfile
 import unittest
@@ -20,6 +21,7 @@ from yomi_corpus.review_sync import (
     has_strong_pending_documents,
     maintain_strong_repair_for_reviewed_documents,
 )
+from yomi_corpus.pipeline import PipelineWorkspace
 
 
 class FakeWorkspace:
@@ -228,6 +230,55 @@ class ReviewSyncTests(unittest.TestCase):
         self.assertEqual(plan["deficit"], 0)
         self.assertEqual(plan["planned_prepare_documents"], 0)
 
+    def test_preview_next_source_documents_uses_prepare_cursor_without_mutating_ledger(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_demo_dataset(root, document_count=5)
+            workspace = PipelineWorkspace(root)
+            workspace.prepare_next_batch(
+                track_name="dev",
+                target_documents=2,
+                dataset_config_path="config/datasets/demo.toml",
+            )
+            ledger_path = root / "data" / "pipeline" / "document_ledger" / "dev.json"
+            ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+            ledger["documents"].append(
+                {
+                    "doc_id": "demo:0000000003",
+                    "track_doc_seq": 3,
+                    "dataset_name": "demo",
+                    "dataset_source_path": str(root / "source.jsonl.gz"),
+                    "source_line_no": 3,
+                    "first_batch_name": "partial_batch",
+                }
+            )
+            ledger_path.write_text(json.dumps(ledger, ensure_ascii=False, indent=2), encoding="utf-8")
+            before_ledger = (
+                root / "data" / "pipeline" / "document_ledger" / "dev.json"
+            ).read_text(encoding="utf-8")
+
+            preview = workspace.preview_next_source_documents(
+                track_name="dev",
+                target_documents=2,
+                dataset_config_path="config/datasets/demo.toml",
+            )
+
+            self.assertEqual(preview["skip_source_line_no"], 2)
+            self.assertEqual(
+                [
+                    (row["doc_id"], row["track_doc_seq"], row["source_line_no"])
+                    for row in preview["selected_documents"]
+                ],
+                [
+                    ("demo:0000000004", 4, 4),
+                    ("demo:0000000005", 5, 5),
+                ],
+            )
+            after_ledger = (
+                root / "data" / "pipeline" / "document_ledger" / "dev.json"
+            ).read_text(encoding="utf-8")
+            self.assertEqual(after_ledger, before_ledger)
+
 
 def write_reviewed_units(root: Path, batch_name: str) -> None:
     batch_dir = root / "data" / "units" / batch_name
@@ -253,6 +304,28 @@ def write_document_state(root: Path, batch_name: str, documents: list[dict[str, 
             ensure_ascii=False,
         )
         + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_demo_dataset(root: Path, *, document_count: int) -> None:
+    config_dir = root / "config" / "datasets"
+    config_dir.mkdir(parents=True, exist_ok=True)
+    source_path = root / "source.jsonl.gz"
+    with gzip.open(source_path, "wt", encoding="utf-8") as handle:
+        for index in range(1, document_count + 1):
+            handle.write(
+                json.dumps(
+                    {
+                        "text": f"文書{index}です。",
+                        "source_file": "source.jsonl.gz",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n"
+            )
+    (config_dir / "demo.toml").write_text(
+        f'name = "demo"\nsource_path = "{source_path}"\n',
         encoding="utf-8",
     )
 

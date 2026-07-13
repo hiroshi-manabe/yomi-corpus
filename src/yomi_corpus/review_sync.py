@@ -226,6 +226,11 @@ def _run_review_sync_pass_unlocked(
         target_ready_docs=options.bulk_review_target_ready_docs,
         pass_limit=options.refill_pass_limit,
     )
+    if int(refill_plan.get("planned_prepare_documents") or 0) > 0:
+        refill_plan["source_selection"] = workspace.preview_next_source_documents(
+            track_name=options.track_name,
+            target_documents=int(refill_plan["planned_prepare_documents"]),
+        )
     return {
         "schema_version": 1,
         "track_name": options.track_name,

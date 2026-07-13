@@ -766,6 +766,49 @@ class PipelineWorkspace:
             "decoder_model_dir": decoder_model_dir,
         }
 
+    def preview_next_source_documents(
+        self,
+        *,
+        track_name: str | None,
+        target_documents: int,
+        dataset_config_path: str = "config/datasets/ja_cc_level2.toml",
+    ) -> dict[str, object]:
+        normalized = normalize_track_name(track_name)
+        target = max(0, int(target_documents or 0))
+        dataset = self._load_dataset_config(dataset_config_path)
+        skip_source_line_no = self._latest_source_line_no_for_track(
+            track_name=normalized,
+            dataset_name=str(dataset["name"]),
+            dataset_source_path=Path(dataset["source_path"]),
+        )
+        ledger = self._load_document_ledger(normalized)
+        next_track_doc_seq = self._next_track_doc_seq(ledger)
+        assigned_doc_ids = {
+            str(row.get("doc_id") or "")
+            for row in ledger.get("documents", [])
+            if isinstance(row, dict) and str(row.get("doc_id") or "")
+        }
+        documents: list[dict[str, object]] = []
+        if target > 0:
+            documents = self._select_source_documents(
+                source_path=Path(dataset["source_path"]),
+                dataset_name=str(dataset["name"]),
+                target_documents=target,
+                skip_source_line_no=skip_source_line_no,
+                next_track_doc_seq=next_track_doc_seq,
+                excluded_doc_ids=assigned_doc_ids,
+            )
+        return {
+            "track_name": normalized,
+            "dataset_name": dataset["name"],
+            "dataset_config_path": dataset_config_path,
+            "dataset_source_path": str(dataset["source_path"]),
+            "skip_source_line_no": skip_source_line_no,
+            "requested_documents": target,
+            "selected_documents": documents,
+            "selected_document_count": len(documents),
+        }
+
     def advance(
         self,
         track_name: str | None = None,
@@ -1525,6 +1568,44 @@ class PipelineWorkspace:
             "name": str(payload["name"]),
             "source_path": source_path,
         }
+
+    def _select_source_documents(
+        self,
+        *,
+        source_path: Path,
+        dataset_name: str,
+        target_documents: int,
+        skip_source_line_no: int = 0,
+        next_track_doc_seq: int = 1,
+        excluded_doc_ids: set[str] | None = None,
+    ) -> list[dict[str, object]]:
+        excluded = excluded_doc_ids or set()
+        documents: list[dict[str, object]] = []
+        with gzip.open(source_path, "rt", encoding="utf-8") as handle:
+            for source_line_no, line in enumerate(handle, start=1):
+                if source_line_no <= skip_source_line_no:
+                    continue
+                payload = json.loads(line)
+                text = payload.get("text")
+                if not isinstance(text, str) or not text.strip():
+                    continue
+                doc_id = f"{dataset_name}:{source_line_no:010d}"
+                if doc_id in excluded:
+                    continue
+                documents.append(
+                    {
+                        "doc_id": doc_id,
+                        "track_doc_seq": next_track_doc_seq + len(documents),
+                        "dataset_name": dataset_name,
+                        "dataset_source_path": str(source_path),
+                        "source_line_no": source_line_no,
+                        "source_file": str(payload.get("source_file", "")),
+                        "text_preview": text[:120],
+                    }
+                )
+                if len(documents) >= target_documents:
+                    break
+        return documents
 
     def _extract_batch_documents(
         self,
