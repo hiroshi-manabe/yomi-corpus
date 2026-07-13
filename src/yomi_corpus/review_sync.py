@@ -66,16 +66,25 @@ class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
 
     def __enter__(self) -> "ReviewSyncLock":
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        try:
-            self.fd = os.open(str(self.path), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-        except FileExistsError as exc:
-            existing = ""
+        while True:
             try:
-                existing = self.path.read_text(encoding="utf-8").strip()
-            except OSError:
-                pass
-            detail = f" Existing lock: {existing}" if existing else ""
-            raise SystemExit(f"Review sync lock already exists: {self.path}.{detail}") from exc
+                self.fd = os.open(str(self.path), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                break
+            except FileExistsError as exc:
+                stale_reason = review_sync_lock_stale_reason(self.path)
+                existing = read_lock_text(self.path)
+                if stale_reason is not None:
+                    try:
+                        self.path.unlink()
+                    except FileNotFoundError:
+                        continue
+                    except OSError:
+                        pass
+                    else:
+                        continue
+                detail = f" Existing lock: {existing}" if existing else ""
+                reason = f" Reason: {stale_reason}." if stale_reason else ""
+                raise SystemExit(f"Review sync lock already exists: {self.path}.{reason}{detail}") from exc
         payload = {"pid": os.getpid(), "created_at": now_iso()}
         os.write(self.fd, (json.dumps(payload, ensure_ascii=False) + "\n").encode("utf-8"))
         return self
@@ -88,6 +97,44 @@ class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
             self.path.unlink()
         except FileNotFoundError:
             pass
+
+
+def read_lock_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def review_sync_lock_stale_reason(path: Path) -> str | None:
+    text = read_lock_text(path)
+    if not text:
+        return "empty_or_unreadable_lock"
+    try:
+        payload = json.loads(text)
+    except json.JSONDecodeError:
+        return "malformed_lock_json"
+    if not isinstance(payload, dict):
+        return "malformed_lock_payload"
+    try:
+        pid = int(payload.get("pid"))
+    except (TypeError, ValueError):
+        return "missing_lock_pid"
+    if pid <= 0:
+        return "invalid_lock_pid"
+    if process_is_alive(pid):
+        return None
+    return "lock_pid_not_running"
+
+
+def process_is_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
 
 
 def run_review_sync_pass(root: Path, options: ReviewSyncOptions) -> dict[str, Any]:

@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import gzip
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from yomi_corpus.document_review_state import (
     STATE_COMPLETE,
@@ -26,6 +28,8 @@ from yomi_corpus.review_sync import (
     has_strong_pending_documents,
     maintain_bulk_review_refill,
     maintain_strong_repair_for_reviewed_documents,
+    review_sync_lock_stale_reason,
+    ReviewSyncLock,
 )
 from yomi_corpus.pipeline import PipelineWorkspace
 
@@ -108,6 +112,50 @@ class FakeRefillWorkspace:
 
 
 class ReviewSyncTests(unittest.TestCase):
+    def test_review_sync_lock_blocks_active_pid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "dev.lock"
+            lock_path.write_text(
+                json.dumps({"pid": 12345, "created_at": "2026-07-13T00:00:00Z"}),
+                encoding="utf-8",
+            )
+
+            with patch("yomi_corpus.review_sync.process_is_alive", return_value=True):
+                self.assertIsNone(review_sync_lock_stale_reason(lock_path))
+                with self.assertRaises(SystemExit):
+                    with ReviewSyncLock(lock_path):
+                        pass
+
+            self.assertTrue(lock_path.exists())
+
+    def test_review_sync_lock_recovers_dead_pid(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "dev.lock"
+            lock_path.write_text(
+                json.dumps({"pid": 12345, "created_at": "2026-07-13T00:00:00Z"}),
+                encoding="utf-8",
+            )
+
+            with patch("yomi_corpus.review_sync.process_is_alive", return_value=False):
+                self.assertEqual(review_sync_lock_stale_reason(lock_path), "lock_pid_not_running")
+                with ReviewSyncLock(lock_path):
+                    payload = json.loads(lock_path.read_text(encoding="utf-8"))
+                    self.assertEqual(payload["pid"], os.getpid())
+
+            self.assertFalse(lock_path.exists())
+
+    def test_review_sync_lock_recovers_malformed_lock(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            lock_path = Path(tmp) / "dev.lock"
+            lock_path.write_text("not-json\n", encoding="utf-8")
+
+            self.assertEqual(review_sync_lock_stale_reason(lock_path), "malformed_lock_json")
+            with ReviewSyncLock(lock_path):
+                payload = json.loads(lock_path.read_text(encoding="utf-8"))
+                self.assertEqual(payload["pid"], os.getpid())
+
+            self.assertFalse(lock_path.exists())
+
     def test_strong_pending_documents_allow_partial_repair_queue(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
