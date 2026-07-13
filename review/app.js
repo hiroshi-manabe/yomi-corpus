@@ -719,48 +719,23 @@ function renderDevWorkspaceCard({ workflowSources, workflowCards }) {
       <strong>dev workspace</strong>
       <span class="badge dev">dev</span>
     </div>
-    <div class="track-card-stage">Active review and resolved corpus views</div>
+    <div class="track-card-stage">Active review workspace</div>
     <div class="pack-meta-line">
       ${totalDocs} active doc(s) · ${totalItems} item(s) · ${queueText}
       ${hasReviewArchive() ? ` · ${Number(archiveMeta.document_count || 0)} resolved doc(s)` : ""}
     </div>
   `;
-  const tabs = document.createElement("div");
-  tabs.className = "workspace-view-tabs";
   if (workflowSources.length > 0) {
-    tabs.append(
-      renderWorkspaceViewTab({
-        label: "Active Work",
-        active: state.currentStageId === "unified_yomi_review",
-        onClick: () => openUnifiedReview(),
-      })
-    );
-  }
-  if (hasReviewArchive()) {
-    tabs.append(
-      renderWorkspaceViewTab({
-        label: "Corpus Map",
-        active: state.currentStageId === "archive_browser",
-        onClick: () => openArchiveBrowser(),
-      })
-    );
-  }
-  card.append(tabs);
-  return card;
-}
-
-function renderWorkspaceViewTab({ label, active, onClick }) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "workspace-view-tab";
-  button.classList.toggle("active", active);
-  button.textContent = label;
-  button.addEventListener("click", () => {
-    onClick().catch((error) => {
-      showStatus(`Failed to open ${label}: ${error.message}`, true);
+    card.addEventListener("click", (event) => {
+      if (event.target.closest("button, a")) {
+        return;
+      }
+      openUnifiedReview().catch((error) => {
+        showStatus(`Failed to open active work: ${error.message}`, true);
+      });
     });
-  });
-  return button;
+  }
+  return card;
 }
 
 function renderPackList() {
@@ -986,7 +961,22 @@ function renderArchiveBrowserPanel() {
     return;
   }
   const docs = state.archiveCurrentShard.documents || [];
-  el.taskSummary.textContent = `${docs.length} resolved document(s) in this range. Click a tile to preview it.`;
+  el.taskSummary.innerHTML = "";
+  const summaryText = document.createElement("span");
+  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to preview it.`;
+  el.taskSummary.append(summaryText);
+  if (hasDevYomiReviewSources()) {
+    const backButton = document.createElement("button");
+    backButton.type = "button";
+    backButton.className = "secondary-button compact-button";
+    backButton.textContent = "Back to Active Work";
+    backButton.addEventListener("click", () => {
+      openUnifiedReview().catch((error) => {
+        showStatus(`Failed to open active work: ${error.message}`, true);
+      });
+    });
+    el.taskSummary.append(backButton);
+  }
   el.taskDocList.append(renderCorpusMapTileGrid(docs));
 }
 
@@ -1186,13 +1176,21 @@ function renderWorkflowPackMap(docs) {
         <h3>Pack Map</h3>
         <p class="muted">Status of all documents in this pack.</p>
       </div>
-      <div class="workflow-legend-inline">
-        <span><span class="workflow-dot resolved"></span>Resolved</span>
-        <span><span class="workflow-dot strong"></span>Escalated Repair</span>
-        <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
+      <div class="workflow-heading-actions">
+        <div class="workflow-legend-inline">
+          <span><span class="workflow-dot resolved"></span>Resolved</span>
+          <span><span class="workflow-dot strong"></span>Escalated Repair</span>
+          <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
+        </div>
+        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">Corpus Map</button>' : ''}
       </div>
     </div>
   `;
+  section.querySelector(".corpus-map-link")?.addEventListener("click", () => {
+    openArchiveBrowser().catch((error) => {
+      showStatus(`Failed to open Corpus Map: ${error.message}`, true);
+    });
+  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
