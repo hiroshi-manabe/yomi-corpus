@@ -214,7 +214,11 @@ function bindEvents() {
     }
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
+    if (
+      event.key === "Escape" &&
+      !el.workflowPreviewModal?.classList.contains("hidden") &&
+      !archiveCorrectionIsEditing()
+    ) {
       closeWorkflowDocumentPreview();
     }
   });
@@ -1070,6 +1074,17 @@ function openArchiveDocumentPreview(doc) {
   note.textContent = "Read-only Corpus Map preview. Corrections are submitted as auditable Issues.";
   el.workflowPreviewActions.append(correctionButton, note);
   el.workflowPreviewModal.classList.remove("hidden");
+}
+
+function archiveCorrectionIsEditing() {
+  if (el.workflowPreviewModal?.classList.contains("hidden")) {
+    return false;
+  }
+  const active = document.activeElement;
+  if (active?.closest?.(".archive-correction-editor")) {
+    return true;
+  }
+  return Boolean(el.workflowPreviewBody?.querySelector?.(".archive-correction-editor:not(.hidden)"));
 }
 
 function openArchiveCorrectionEditor(doc) {
