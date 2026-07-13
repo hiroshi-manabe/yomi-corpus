@@ -26,6 +26,8 @@ class DecoderModelRefreshSummary:
     skip_kenlm: bool
     track_state_path: str
     refreshed_at: str
+    build_stdout: str | None = None
+    build_stderr: str | None = None
 
 
 def refresh_decoder_model(
@@ -39,6 +41,7 @@ def refresh_decoder_model(
     model_root: str | Path | None = None,
     base_corpus: str | Path | None = None,
     skip_kenlm: bool = False,
+    capture_build_output: bool = False,
 ) -> DecoderModelRefreshSummary:
     project_root = Path(root).resolve()
     normalized_track = normalize_track_name(track_name)
@@ -88,6 +91,7 @@ def refresh_decoder_model(
         extra_corpora=[Path(path) for path in exported_corpora],
         output_dir=model_dir,
         skip_kenlm=skip_kenlm,
+        capture_output=capture_build_output,
     )
 
     track_state = workspace.load_track_state(normalized_track)
@@ -104,6 +108,8 @@ def refresh_decoder_model(
         skip_kenlm=skip_kenlm,
         track_state_path=str(workspace.track_state_path(normalized_track)),
         refreshed_at=now_iso(),
+        build_stdout=str(model_dir / "build.stdout.log") if capture_build_output else None,
+        build_stderr=str(model_dir / "build.stderr.log") if capture_build_output else None,
     )
     write_refresh_manifest(model_dir, summary)
     return summary
@@ -138,6 +144,7 @@ def run_build_model(
     extra_corpora: list[Path],
     output_dir: Path,
     skip_kenlm: bool,
+    capture_output: bool = False,
 ) -> None:
     command = [
         sys.executable,
@@ -151,7 +158,14 @@ def run_build_model(
         command.extend(["--extra-corpus", str(path)])
     if skip_kenlm:
         command.append("--skip-kenlm")
-    subprocess.run(command, check=True)
+    if not capture_output:
+        subprocess.run(command, check=True)
+        return
+    output_dir.mkdir(parents=True, exist_ok=True)
+    completed = subprocess.run(command, text=True, capture_output=True, check=False)
+    (output_dir / "build.stdout.log").write_text(completed.stdout, encoding="utf-8")
+    (output_dir / "build.stderr.log").write_text(completed.stderr, encoding="utf-8")
+    completed.check_returncode()
 
 
 def resolve_project_path(project_root: Path, path: str | Path | None, default: str) -> Path:

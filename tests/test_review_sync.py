@@ -18,6 +18,7 @@ from yomi_corpus.document_review_state import (
 from yomi_corpus.review_sync import (
     STAGE_FINAL_REVIEW_PREPARED,
     STAGE_SEQUENCE,
+    STAGE_YOMI_FINALIZED,
     STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
     ReviewSyncOptions,
@@ -28,13 +29,17 @@ from yomi_corpus.review_sync import (
     current_document_queue_summary,
     has_strong_pending_documents,
     load_review_sync_config,
+    list_track_batches,
     maintain_bulk_review_refill,
     maintain_strong_repair_for_reviewed_documents,
     maybe_refresh_decoder_model,
     review_sync_lock_stale_reason,
     ReviewSyncLock,
+    should_run_stage,
+    strong_repair_apply_confirmed,
+    sweep_actionable_batches,
 )
-from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.pipeline import PipelineWorkspace, TrackState
 
 
 class FakeWorkspace:
@@ -112,6 +117,68 @@ class FakeRefillWorkspace:
         if next_index >= len(STAGE_SEQUENCE):
             return None
         return STAGE_SEQUENCE[next_index]
+
+
+class FakeSweepWorkspace:
+    def __init__(self, *, root: Path, current_batch_name: str | None = "dev_batch_0002") -> None:
+        self.root = root
+        self.current_batch_name = current_batch_name
+        self.batches: dict[str, dict[str, str]] = {}
+        self.calls: list[str] = []
+
+    def batches_root(self) -> Path:
+        return self.root / "data" / "pipeline" / "batches"
+
+    def load_track_state(self, track_name: str) -> TrackState:
+        return TrackState(
+            track_name=track_name,
+            current_batch_name=self.current_batch_name,
+            updated_at="2026-07-13T00:00:00Z",
+            decoder_model_dir=None,
+        )
+
+    def load_batch_state(self, batch_name: str) -> object:
+        payload = self.batches[batch_name]
+
+        class Batch:
+            pass
+
+        batch = Batch()
+        batch.batch_name = batch_name
+        batch.track_name = payload["track_name"]
+        batch.current_stage = payload["current_stage"]
+        return batch
+
+    def _next_stage_name(self, current_stage: str) -> str | None:
+        try:
+            index = STAGE_SEQUENCE.index(current_stage)
+        except ValueError:
+            return None
+        next_index = index + 1
+        if next_index >= len(STAGE_SEQUENCE):
+            return None
+        return STAGE_SEQUENCE[next_index]
+
+    def advance_batch(self, batch_name: str) -> dict[str, object]:
+        batch = self.batches[batch_name]
+        next_stage = self._next_stage_name(batch["current_stage"])
+        self.calls.append(f"{batch_name}:{next_stage}")
+        if not next_stage:
+            return {
+                "batch_name": batch_name,
+                "advanced": False,
+                "current_stage": batch["current_stage"],
+            }
+        batch["current_stage"] = next_stage
+        return {
+            "track_name": batch["track_name"],
+            "batch_name": batch_name,
+            "advanced": True,
+            "current_stage": next_stage,
+            "next_stage": self._next_stage_name(next_stage),
+            "blocking_reason": None,
+            "artifacts": {},
+        }
 
 
 class ReviewSyncTests(unittest.TestCase):
@@ -495,6 +562,106 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(result["status"], "failed")
             self.assertEqual(result["error"], "boom")
 
+    def test_list_track_batches_returns_only_requested_track(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = PipelineWorkspace(root)
+            write_batch_state(root, "dev_batch_0002", track_name="dev", current_stage="final_review_prepared")
+            write_batch_state(root, "batch_0001", track_name="working", current_stage="final_review_prepared")
+            write_batch_state(root, "dev_batch_0001", track_name="dev", current_stage="yomi_finalized")
+
+            self.assertEqual(
+                list_track_batches(workspace, "dev"),
+                ["dev_batch_0001", "dev_batch_0002"],
+            )
+
+    def test_sweep_actionable_batches_advances_non_current_batch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0002")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_batch_0002": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+            }
+            write_batch_state(root, "dev_batch_0001", track_name="dev", current_stage=STAGE_YOMI_STRONG_REPAIR_QUEUED)
+            write_batch_state(root, "dev_batch_0002", track_name="dev", current_stage=STAGE_YOMI_STRONG_REPAIR_QUEUED)
+            write_strong_repair_queue(root, "dev_batch_0001", item_count=2)
+            write_strong_repair_apply_summary(root, "dev_batch_0001", queued_items=2, confirmed=True)
+            write_strong_repair_queue(root, "dev_batch_0002", item_count=2)
+            write_strong_repair_apply_summary(root, "dev_batch_0002", queued_items=2, confirmed=True)
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=2,
+            )
+
+            self.assertEqual(
+                [row["attempted_stage"] for row in results],
+                [STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED, STAGE_YOMI_FINALIZED],
+            )
+            self.assertEqual(workspace.calls, [
+                f"dev_batch_0001:{STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED}",
+                f"dev_batch_0001:{STAGE_YOMI_FINALIZED}",
+            ])
+            self.assertEqual(workspace.batches["dev_batch_0001"]["current_stage"], STAGE_YOMI_FINALIZED)
+            self.assertEqual(workspace.batches["dev_batch_0002"]["current_stage"], STAGE_YOMI_STRONG_REPAIR_QUEUED)
+
+    def test_sweep_actionable_batches_dry_run_does_not_advance(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0002")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_batch_0002": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+            }
+            write_batch_state(root, "dev_batch_0001", track_name="dev", current_stage=STAGE_YOMI_STRONG_REPAIR_QUEUED)
+            write_batch_state(root, "dev_batch_0002", track_name="dev", current_stage=STAGE_YOMI_STRONG_REPAIR_QUEUED)
+            write_strong_repair_queue(root, "dev_batch_0001", item_count=1)
+            write_strong_repair_apply_summary(root, "dev_batch_0001", queued_items=1, confirmed=True)
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=2,
+                dry_run=True,
+            )
+
+            self.assertEqual(len(results), 1)
+            self.assertTrue(results[0]["dry_run"])
+            self.assertEqual(results[0]["attempted_stage"], STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED)
+            self.assertEqual(workspace.calls, [])
+            self.assertEqual(workspace.batches["dev_batch_0001"]["current_stage"], STAGE_YOMI_STRONG_REPAIR_QUEUED)
+
+    def test_strong_repair_confirmed_summary_allows_llm_completed_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_strong_repair_queue(root, "dev_batch_0001", item_count=3)
+            write_strong_repair_apply_summary(root, "dev_batch_0001", queued_items=3, confirmed=True)
+
+            self.assertTrue(strong_repair_apply_confirmed(root=root, batch_name="dev_batch_0001"))
+            self.assertTrue(
+                should_run_stage(
+                    root=root,
+                    batch_name="dev_batch_0001",
+                    next_stage=STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
+                )
+            )
+
     def test_preview_next_source_documents_uses_prepare_cursor_without_mutating_ledger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -621,6 +788,22 @@ def write_document_state(root: Path, batch_name: str, documents: list[dict[str, 
 
 
 def write_finalized_batch(root: Path, batch_name: str, *, track_name: str = "dev") -> None:
+    write_batch_state(root, batch_name, track_name=track_name, current_stage="yomi_finalized")
+    batch_dir = root / "data" / "units" / batch_name
+    batch_dir.mkdir(parents=True, exist_ok=True)
+    (batch_dir / "units.yomi.final.jsonl").write_text(
+        json.dumps({"unit_id": f"{batch_name}:u1", "text": "テストです。"}, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_batch_state(
+    root: Path,
+    batch_name: str,
+    *,
+    track_name: str = "dev",
+    current_stage: str,
+) -> None:
     batch_state_path = root / "data" / "pipeline" / "batches" / f"{batch_name}.json"
     batch_state_path.parent.mkdir(parents=True, exist_ok=True)
     batch_state_path.write_text(
@@ -628,17 +811,45 @@ def write_finalized_batch(root: Path, batch_name: str, *, track_name: str = "dev
             {
                 "batch_name": batch_name,
                 "track_name": track_name,
-                "current_stage": "yomi_finalized",
+                "current_stage": current_stage,
                 "updated_at": "2026-07-13T00:00:00Z",
             },
             ensure_ascii=False,
         ),
         encoding="utf-8",
     )
+
+
+def write_strong_repair_queue(root: Path, batch_name: str, *, item_count: int) -> None:
     batch_dir = root / "data" / "units" / batch_name
     batch_dir.mkdir(parents=True, exist_ok=True)
-    (batch_dir / "units.yomi.final.jsonl").write_text(
-        json.dumps({"unit_id": f"{batch_name}:u1", "text": "テストです。"}, ensure_ascii=False) + "\n",
+    lines = [
+        json.dumps({"item_id": f"{batch_name}:item{i}"}, ensure_ascii=False)
+        for i in range(item_count)
+    ]
+    (batch_dir / "yomi_strong_repair_queue.jsonl").write_text(
+        ("\n".join(lines) + "\n") if lines else "",
+        encoding="utf-8",
+    )
+
+
+def write_strong_repair_apply_summary(
+    root: Path,
+    batch_name: str,
+    *,
+    queued_items: int,
+    confirmed: bool,
+) -> None:
+    batch_dir = root / "data" / "units" / batch_name
+    batch_dir.mkdir(parents=True, exist_ok=True)
+    (batch_dir / "yomi_strong_repair_apply_summary.json").write_text(
+        json.dumps(
+            {
+                "queued_items": queued_items,
+                "confirmed": confirmed,
+            },
+            ensure_ascii=False,
+        ),
         encoding="utf-8",
     )
 

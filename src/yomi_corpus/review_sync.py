@@ -211,6 +211,7 @@ def _run_review_sync_pass_unlocked(
     stage_results: list[dict[str, Any]] = []
     close_results: list[dict[str, Any]] = []
     refill_results: list[dict[str, Any]] = []
+    sweep_results: list[dict[str, Any]] = []
     decoder_refresh_result: dict[str, Any] | None = None
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
@@ -301,6 +302,27 @@ def _run_review_sync_pass_unlocked(
             break
         if result.get("blocking_reason"):
             break
+
+    sweep_results = sweep_actionable_batches(
+        root=root,
+        workspace=workspace,
+        options=options,
+        max_stages=max(1, options.max_stages),
+        dry_run=options.dry_run,
+    )
+    for sweep_result in sweep_results:
+        stage_results.append(sweep_result)
+        if sweep_result.get("advanced") or sweep_result.get("stage_changed"):
+            changed = True
+            close_results.extend(
+                close_issues_after_stage(
+                    root=root,
+                    repo=options.repo,
+                    attempted_stage=str(sweep_result.get("attempted_stage") or ""),
+                    result=sweep_result,
+                    enabled=options.close_issues,
+                )
+            )
 
     final_status = workspace.status(options.track_name)
     final_batch_name = str(
@@ -395,6 +417,7 @@ def _run_review_sync_pass_unlocked(
         "changed": changed,
         "site_stale": site_stale,
         "stage_results": stage_results,
+        "sweep_results": sweep_results,
         "refill_results": refill_results,
         "close_results": close_results,
         "publish_result": publish_result,
@@ -424,6 +447,7 @@ def maybe_refresh_decoder_model(
             root=root,
             track_name=options.track_name,
             skip_kenlm=options.decoder_refresh_skip_kenlm,
+            capture_build_output=True,
         )
     except Exception as exc:  # noqa: BLE001 - finalization must survive decoder refresh failures.
         return {
@@ -437,6 +461,77 @@ def maybe_refresh_decoder_model(
         "status": "refreshed",
         "summary": asdict(summary),
     }
+
+
+def sweep_actionable_batches(
+    *,
+    root: Path,
+    workspace: PipelineWorkspace,
+    options: ReviewSyncOptions,
+    max_stages: int,
+    dry_run: bool = False,
+) -> list[dict[str, Any]]:
+    results: list[dict[str, Any]] = []
+    track_state = workspace.load_track_state(options.track_name)
+    current_batch_name = track_state.current_batch_name
+    for batch_name in list_track_batches(workspace, options.track_name):
+        if batch_name == current_batch_name:
+            continue
+        for _ in range(max_stages):
+            batch_state = workspace.load_batch_state(batch_name)
+            if batch_state.current_stage == STAGE_YOMI_FINALIZED:
+                break
+            next_stage = workspace._next_stage_name(batch_state.current_stage)
+            if not next_stage:
+                break
+            if not should_run_stage(root=root, batch_name=batch_name, next_stage=next_stage):
+                break
+            if dry_run:
+                results.append(
+                    {
+                        "track_name": options.track_name,
+                        "batch_name": batch_name,
+                        "advanced": False,
+                        "current_stage": batch_state.current_stage,
+                        "next_stage": next_stage,
+                        "attempted_stage": next_stage,
+                        "stage_changed": False,
+                        "sweep_batch": True,
+                        "dry_run": True,
+                    }
+                )
+                break
+            before_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
+            result = workspace.advance_batch(batch_name)
+            after_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
+            stage_changed = before_fingerprint != after_fingerprint
+            result["attempted_stage"] = next_stage
+            result["stage_changed"] = stage_changed
+            result["sweep_batch"] = True
+            results.append(result)
+            if not result.get("advanced"):
+                break
+            if result.get("blocking_reason"):
+                break
+    return results
+
+
+def list_track_batches(workspace: PipelineWorkspace, track_name: str) -> list[str]:
+    rows: list[tuple[str, str]] = []
+    batches_root = workspace.batches_root()
+    if not batches_root.exists():
+        return []
+    for path in sorted(batches_root.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if str(payload.get("track_name")) != track_name:
+            continue
+        batch_name = str(payload.get("batch_name") or path.stem)
+        updated_at = str(payload.get("updated_at") or "")
+        rows.append((batch_name, updated_at))
+    return [batch_name for batch_name, _ in sorted(rows)]
 
 
 def build_decoder_refresh_plan(
@@ -742,9 +837,30 @@ def should_run_stage(*, root: Path, batch_name: str, next_stage: str) -> bool:
     if next_stage in SYNC_STAGE_ALLOWLIST:
         return True
     if next_stage == STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED:
+        if strong_repair_apply_confirmed(root=root, batch_name=batch_name):
+            return True
         queue_jsonl = root / "data" / "units" / batch_name / "yomi_strong_repair_queue.jsonl"
         return count_nonempty_lines(queue_jsonl) == 0
     return False
+
+
+def strong_repair_apply_confirmed(*, root: Path, batch_name: str) -> bool:
+    batch_dir = root / "data" / "units" / batch_name
+    queue_jsonl = batch_dir / "yomi_strong_repair_queue.jsonl"
+    apply_summary_json = batch_dir / "yomi_strong_repair_apply_summary.json"
+    if not apply_summary_json.exists():
+        return False
+    try:
+        summary = read_json(apply_summary_json)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    if not summary.get("confirmed"):
+        return False
+    try:
+        queued_items = int(summary.get("queued_items") or 0)
+    except (TypeError, ValueError):
+        return False
+    return queued_items == count_nonempty_lines(queue_jsonl)
 
 
 def attempted_final_review_changed(
@@ -1062,11 +1178,23 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),
+                "batch_name": row.get("batch_name"),
                 "advanced": row.get("advanced"),
                 "stage_changed": row.get("stage_changed"),
                 "blocking_reason": row.get("blocking_reason"),
             }
             for row in summary.get("stage_results", [])
+            if isinstance(row, dict)
+        ],
+        "sweep": [
+            {
+                "batch_name": row.get("batch_name"),
+                "attempted_stage": row.get("attempted_stage"),
+                "advanced": row.get("advanced"),
+                "stage_changed": row.get("stage_changed"),
+                "blocking_reason": row.get("blocking_reason"),
+            }
+            for row in summary.get("sweep_results", [])
             if isinstance(row, dict)
         ],
         "refill": [

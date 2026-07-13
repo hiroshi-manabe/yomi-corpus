@@ -87,6 +87,8 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
                 "p.add_argument('--skip-kenlm', action='store_true')",
                 "a=p.parse_args()",
                 "out=Path(a.output_dir); out.mkdir(parents=True, exist_ok=True)",
+                "print('fake stdout')",
+                "print('fake stderr', file=__import__('sys').stderr)",
                 "(out/'build_args.json').write_text(json.dumps(vars(a), ensure_ascii=False), encoding='utf-8')",
             ]
         )
@@ -101,6 +103,7 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
         decoder_build_script=build_script,
         base_corpus=base_corpus,
         skip_kenlm=True,
+        capture_build_output=True,
     )
 
     corpus_path = root / "data" / "decoder_corpora" / "dev" / f"{batch_name}.txt"
@@ -112,4 +115,5 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
     assert build_args["extra_corpus"] == [str(corpus_path)]
     assert workspace.load_track_state("dev").decoder_model_dir == str(model_dir)
     assert (model_dir / "yomi_corpus_refresh.json").exists()
-
+    assert (model_dir / "build.stdout.log").read_text(encoding="utf-8").strip() == "fake stdout"
+    assert (model_dir / "build.stderr.log").read_text(encoding="utf-8").strip() == "fake stderr"

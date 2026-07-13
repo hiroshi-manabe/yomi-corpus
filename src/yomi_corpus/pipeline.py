@@ -832,6 +832,27 @@ class PipelineWorkspace:
             }
 
         batch_state = self.load_batch_state(track_state.current_batch_name)
+        return self.advance_batch(
+            batch_state.batch_name,
+            force_stage=force_stage,
+            allow_overwrite=allow_overwrite,
+            skip_review_gates=skip_review_gates,
+            llm_execution_mode_override=llm_execution_mode_override,
+        )
+
+    def advance_batch(
+        self,
+        batch_name: str,
+        *,
+        force_stage: str | None = None,
+        allow_overwrite: bool = False,
+        skip_review_gates: bool = False,
+        llm_execution_mode_override: str | None = None,
+    ) -> dict[str, object]:
+        if llm_execution_mode_override is not None and llm_execution_mode_override not in LLM_EXECUTION_MODES:
+            raise ValueError(f"Unsupported LLM execution mode override: {llm_execution_mode_override}")
+        batch_state = self.load_batch_state(batch_name)
+        normalized = normalize_track_name(batch_state.track_name)
         current_stage = batch_state.current_stage
 
         if force_stage is not None:
