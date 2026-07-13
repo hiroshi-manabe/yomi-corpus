@@ -1271,7 +1271,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
   if (!proposed) {
     return { ok: false, error: "rendered yomi is empty." };
   }
-  const tokens = String(proposed).trim().split(/\s+/).filter(Boolean);
+  const tokens = String(proposed).trim().split(/[ \t\r\n]+/).filter(Boolean);
   if (!tokens.length) {
     return { ok: false, error: "rendered yomi has no tokens." };
   }
@@ -1287,8 +1287,11 @@ function validateRenderedYomiCorrection(unit, proposed) {
     }
     surfaceText.push(surface);
   }
-  const expectedText = String(unit.text || "").replace(/\s+/g, "");
-  const proposedText = surfaceText.join("").replace(/\s+/g, "");
+  const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
+    .map((token) => token.surface)
+    .join("");
+  const expectedText = String(originalSurfaceText || unit.text || "").replace(/[ \t\r\n]+/g, "");
+  const proposedText = surfaceText.join("").replace(/[ \t\r\n]+/g, "");
   if (expectedText && proposedText !== expectedText) {
     return {
       ok: false,
@@ -1296,6 +1299,23 @@ function validateRenderedYomiCorrection(unit, proposed) {
     };
   }
   return { ok: true };
+}
+
+function parseRenderedYomiTokensForCorrection(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/[ \t\r\n]+/)
+    .filter(Boolean)
+    .map((token) => {
+      const separator = token.lastIndexOf("/");
+      if (separator < 0) {
+        return { surface: token, reading: "" };
+      }
+      return {
+        surface: token.slice(0, separator),
+        reading: token.slice(separator + 1),
+      };
+    });
 }
 
 function archiveCorrectionIssueTitle(doc) {
