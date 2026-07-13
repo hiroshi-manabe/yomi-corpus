@@ -2206,18 +2206,22 @@ Durable document ledger:
 
 Corpus Map target:
 
-- add a read-mostly map view over the document ledger, separate from editable
-  review tasks
-- generate a compact `docs/review/map/index.json` with corpus range metadata,
-  shard names, counts by state, and queue sizes
-- generate sharded `docs/review/map/shard_XXXX.json` files with document ID,
-  source order, state, queue membership, short preview text, and detail pointers
-- processed documents should preview canonical server-side yomi data, active
-  documents should preview current task data, submitted documents may overlay
-  browser-local drafts, and unprocessed documents should show raw text only
-- the first milestone should be overview and preview only; correction of
-  resolved documents should later use a normal auditable submission/replay path
-  rather than direct browser-side mutation
+- add a read-mostly map view over resolved/finalized documents, separate from
+  editable review tasks
+- use Pack Map visual language: compact document-number tiles, resolved styling,
+  and in-place document preview
+- generate a compact `docs/review/archive/index.json` with finalized shard
+  metadata
+- generate sharded `docs/review/archive/<track>/docs_XXXXXX_YYYYYY.json` files
+  with finalized text, yomi, ruby display data, and stable `track_doc_seq`
+- hide shard mechanics from the ordinary UI as much as possible. The first
+  shard can load by default, and later controls can page through ranges when
+  the archive grows
+- future/unprocessed documents are out of scope for now. If they are needed
+  later, add them as a separate corpus-browsing layer rather than mixing them
+  into active review queues
+- correction of resolved documents should later use a normal auditable
+  submission/replay path rather than direct browser-side mutation
 
 ### 11.1.1 Current-batch assumption audit
 

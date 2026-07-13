@@ -1889,12 +1889,13 @@ Design constraints:
   while the draft's task stage still matches the document's current stage. This
   overlay is presentation-only; imported pipeline document state remains
   the canonical source for Bulk Review, Escalated Repair, and Resolved buckets.
-- Completed documents should be visible through a separate Archive Browser. The
-  archive is static and shard-based: `docs/review/archive/index.json` lists
-  finalized-document shards, and each shard contains finalized text, raw yomi,
-  and ruby display data for a bounded document range. The archive starts
-  read-only; later finalized-document corrections should be submitted as
-  auditable correction Issues rather than mutating archive data locally.
+- Completed documents should be visible through a separate Corpus Map. It uses
+  Pack Map visual language but reads static finalized archive shards:
+  `docs/review/archive/index.json` lists finalized-document shards, and each
+  shard contains finalized text, raw yomi, and ruby display data for a bounded
+  document range. The first Corpus Map is read-only; later finalized-document
+  corrections should be submitted as auditable correction Issues rather than
+  mutating archive data locally.
 - Future/unprocessed documents are not part of the review UI for now. If a
   full-corpus map is needed later, implement it as a separate static browsing
   mode rather than mixing raw future documents into active queues.
@@ -2039,11 +2040,11 @@ source/final data:
 - `docs/review/map/shard_XXXX.json` should contain compact rows for a bounded
   contiguous source range: document ID, source order, state, queue membership,
   short plain-text preview, and pointers to detail payloads
-- processed rows can link to finalized server-side yomi/ruby data
-- active rows can link to current Bulk Review or Escalated Repair packs
-- submitted rows can show imported server state plus optional browser-local
-  overlay
-- unprocessed rows should initially show only raw text and state
+- the first implementation should show resolved/finalized documents only, as
+  resolved-style tiles that open finalized yomi/ruby previews
+- active/submitted documents already have the Active Work view and should not
+  be mixed into Corpus Map until a concrete need appears
+- unprocessed/future documents are out of scope for now
 
 The first Corpus Map milestone should be read-only overview and preview. Editing
 resolved documents should be a later auditable correction workflow that creates
