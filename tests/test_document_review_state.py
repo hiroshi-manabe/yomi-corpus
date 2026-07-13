@@ -6,11 +6,19 @@ import unittest
 from pathlib import Path
 
 from yomi_corpus.document_review_state import (
+    POOL_LABEL_BULK_READY,
+    POOL_LABEL_BULK_SUBMITTED,
+    POOL_LABEL_ESCALATED_READY,
+    POOL_LABEL_ESCALATED_SUBMITTED,
+    POOL_LABEL_PREPARED,
+    POOL_LABEL_RESOLVED,
+    POOL_LABEL_UNPROCESSED,
     STATE_COMPLETE,
     STATE_FINAL_IN_REVIEW,
     STATE_FINAL_PENDING,
     STATE_FINAL_REVIEWED,
     STATE_SKIPPED,
+    STATE_STRONG_IN_REVIEW,
     STATE_STRONG_PENDING,
     STATE_STRONG_REVIEWED,
     WORKFLOW_STATE_BULK_REVIEW,
@@ -19,6 +27,7 @@ from yomi_corpus.document_review_state import (
     WORKFLOW_STATE_ESCALATED_SUBMITTED,
     WORKFLOW_STATE_RESOLVED,
     build_initial_document_review_state,
+    document_pool_label,
     document_review_queue_summary,
     document_workflow_queue_stage,
     document_workflow_state,
@@ -53,6 +62,7 @@ class DocumentReviewStateTests(unittest.TestCase):
             self.assertEqual(state["summary"]["document_count"], 2)
             self.assertEqual(state["summary"]["state_counts"][STATE_FINAL_PENDING], 2)
             self.assertEqual(state["summary"]["queue_counts"]["bulk_review_selectable"], 2)
+            self.assertEqual(state["summary"]["pool_counts"][POOL_LABEL_BULK_READY], 2)
             self.assertEqual(state["documents"][0]["doc_id"], "doc1")
             self.assertEqual(state["documents"][0]["unit_count"], 2)
             self.assertEqual(state["documents"][0]["track_doc_seq"], 1)
@@ -180,6 +190,8 @@ class DocumentReviewStateTests(unittest.TestCase):
             self.assertEqual(state["summary"]["queue_counts"]["bulk_review_submitted"], 0)
             self.assertEqual(state["summary"]["queue_counts"]["escalated_repair_selectable"], 1)
             self.assertEqual(state["summary"]["queue_counts"]["resolved"], 1)
+            self.assertEqual(state["summary"]["pool_counts"][POOL_LABEL_ESCALATED_READY], 1)
+            self.assertEqual(state["summary"]["pool_counts"][POOL_LABEL_RESOLVED], 1)
 
     def test_strong_review_update_marks_reviewed_or_partial_documents(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -401,6 +413,10 @@ class DocumentReviewStateTests(unittest.TestCase):
         self.assertEqual(summary["queue_counts"]["escalated_repair_selectable"], 1)
         self.assertEqual(summary["queue_counts"]["escalated_repair_submitted"], 1)
         self.assertEqual(summary["queue_counts"]["resolved"], 2)
+        self.assertEqual(summary["pool_counts"][POOL_LABEL_BULK_READY], 2)
+        self.assertEqual(summary["pool_counts"][POOL_LABEL_BULK_SUBMITTED], 2)
+        self.assertEqual(summary["pool_counts"][POOL_LABEL_ESCALATED_SUBMITTED], 1)
+        self.assertEqual(summary["pool_counts"][POOL_LABEL_RESOLVED], 2)
 
     def test_document_workflow_state_maps_pipeline_states_to_ui_buckets(self) -> None:
         self.assertEqual(document_workflow_state(STATE_FINAL_PENDING), WORKFLOW_STATE_BULK_REVIEW)
@@ -415,6 +431,22 @@ class DocumentReviewStateTests(unittest.TestCase):
         self.assertEqual(document_workflow_queue_stage(STATE_FINAL_REVIEWED), "yomi_final_review")
         self.assertEqual(document_workflow_queue_stage(STATE_STRONG_REVIEWED), "yomi_strong_repair_review")
         self.assertIsNone(document_workflow_queue_stage(STATE_COMPLETE))
+
+    def test_document_pool_label_maps_canonical_states_to_refill_labels(self) -> None:
+        self.assertEqual(document_pool_label(None, prepared=False), POOL_LABEL_UNPROCESSED)
+        self.assertEqual(document_pool_label(None), POOL_LABEL_PREPARED)
+        self.assertEqual(document_pool_label(STATE_FINAL_PENDING), POOL_LABEL_BULK_READY)
+        self.assertEqual(document_pool_label(STATE_FINAL_IN_REVIEW), POOL_LABEL_BULK_READY)
+        self.assertEqual(document_pool_label(STATE_FINAL_REVIEWED), POOL_LABEL_BULK_SUBMITTED)
+        self.assertEqual(document_pool_label(STATE_STRONG_PENDING), POOL_LABEL_BULK_SUBMITTED)
+        self.assertEqual(
+            document_pool_label(STATE_STRONG_PENDING, repair_proposals_available=True),
+            POOL_LABEL_ESCALATED_READY,
+        )
+        self.assertEqual(document_pool_label(STATE_STRONG_IN_REVIEW), POOL_LABEL_ESCALATED_READY)
+        self.assertEqual(document_pool_label(STATE_STRONG_REVIEWED), POOL_LABEL_ESCALATED_SUBMITTED)
+        self.assertEqual(document_pool_label(STATE_COMPLETE), POOL_LABEL_RESOLVED)
+        self.assertEqual(document_pool_label(STATE_SKIPPED), POOL_LABEL_RESOLVED)
 
 
 def write_jsonl(path: Path, rows: list[dict]) -> None:

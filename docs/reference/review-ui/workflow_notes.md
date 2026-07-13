@@ -46,6 +46,37 @@ Pending Escalated Repair
 Resolved
 ```
 
+Internally, the pipeline should keep a more precise canonical document state.
+This state is per document, not per browser task and not per generated review
+pack:
+
+| State | Reviewer bucket | Meaning |
+| --- | --- | --- |
+| `final_pending` | Bulk Review | Bulk Review is available and no accepted submission has been applied yet. |
+| `final_in_review` | Bulk Review | Some Bulk Review units for this document have been applied, but the document is not complete. |
+| `final_reviewed` | Bulk Review, submitted/processing overlay | Bulk Review has been applied; backend processing has not yet decided whether the document is complete or needs Escalated Repair. |
+| `strong_pending` | Bulk Review submitted overlay, or Escalated Repair when proposals exist | The document needs Escalated Repair, but it is actionable only after repair proposals/results exist. |
+| `strong_in_review` | Escalated Repair | Some Escalated Repair items have been reviewed, but the document is not complete. |
+| `strong_reviewed` | Escalated Repair submitted/processing overlay | Escalated Repair review has been applied; backend finalization has not yet marked the document `complete` or `skipped`. |
+| `complete` | Resolved | The document is accepted for corpus output. |
+| `skipped` | Resolved | The document is intentionally excluded from corpus output. |
+
+The reviewer-facing buckets are a projection of this state:
+
+- Bulk Review contains actionable `final_pending` and `final_in_review`
+  documents.
+- Bulk Review may show `final_reviewed` or non-actionable `strong_pending` as a
+  submitted/processing overlay only; those documents should not be selectable
+  until backend processing moves them.
+- Escalated Repair contains actionable `strong_pending` and `strong_in_review`
+  documents only when at least one repair proposal/result is present.
+- Resolved contains `complete`, `skipped`, and any state that the backend has
+  explicitly finalized as no longer actionable.
+
+This projection matters for rolling refill. Refill should count only
+actionable Bulk Review documents, not submitted/processing documents and not
+documents merely present in old review packs.
+
 "Bulk Review completed, no Escalated Repair needed" and "Escalated Repair
 completed" should both be merged into **Resolved**, because operationally they
 both mean:
@@ -346,6 +377,27 @@ first enters the track ledger. Batch-local `doc_seq` is still useful for
 artifact debugging, but it should not be the primary reviewer-facing number.
 Issue payloads should include both `track_doc_seq` and the authoritative
 `doc_id`.
+
+For rolling refill, the durable per-track ledger should become the canonical
+document pool. Backend batches remain processing chunks, but queue membership is
+derived from document rows in the ledger/state layer:
+
+- `unprocessed`: source document has not entered any prepared batch
+- `prepared`: deterministic/LLM preprocessing has started or completed, but no
+  Bulk Review item is actionable yet
+- `bulk-ready`: the document is in actionable Bulk Review
+- `bulk-submitted`: Bulk Review was submitted and backend processing is
+  deciding whether the document is complete or needs Escalated Repair
+- `escalated-ready`: the document is in actionable Escalated Repair
+- `escalated-submitted`: Escalated Repair was submitted and backend processing
+  is applying/validating it
+- `resolved`: the document is `complete` or `skipped`
+
+These ledger-level labels are derived/status summaries, not a second source of
+truth. The concrete `final_*`, `strong_*`, `complete`, and `skipped` document
+states remain the authoritative stored values. The refill selector should use
+the derived labels only for counting and choosing the next documents to
+prepare.
 
 Resolved documents should not be immutable forever. If a reviewer later finds a
 problem, the UI should create a correction task rather than editing history in

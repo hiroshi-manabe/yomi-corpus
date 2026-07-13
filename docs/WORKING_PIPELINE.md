@@ -2085,6 +2085,21 @@ Operational requirements:
   vocabulary should include `final_pending`, `final_in_review`,
   `final_reviewed`, `strong_pending`, `strong_in_review`, `strong_reviewed`,
   `complete`, and `skipped`
+- define the states as follows:
+  - `final_pending`: actionable Bulk Review has not been submitted
+  - `final_in_review`: part of the document has Bulk Review applied, but more
+    units remain
+  - `final_reviewed`: Bulk Review is submitted/applied; backend processing has
+    not yet created an actionable Escalated Repair task or marked the document
+    complete
+  - `strong_pending`: Escalated Repair is needed, but it is actionable only
+    after repair proposals/results exist
+  - `strong_in_review`: part of Escalated Repair has been reviewed, but more
+    repair items remain
+  - `strong_reviewed`: Escalated Repair review is submitted/applied and awaits
+    final backend resolution
+  - `complete`: accepted for corpus output
+  - `skipped`: intentionally excluded from corpus output
 - treat that per-document state as the only source of active queue membership.
   Bulk Review is a view over `final_*` states, and Escalated Repair is a view
   over `strong_*` states. A document may appear in multiple historical packs,
@@ -2131,6 +2146,24 @@ Rolling refill target:
 - the refill policy should be document-state based: count selectable Bulk Review
   documents, and if the count is below target, prepare more source documents up
   to a per-pass limit
+- for refill accounting, derive coarse pool labels from the canonical document
+  state:
+  - `unprocessed`: source document has not entered the track ledger/preparation
+    flow
+  - `prepared`: preprocessing exists but the document is not yet actionable in
+    Bulk Review
+  - `bulk-ready`: actionable `final_pending` or `final_in_review`
+  - `bulk-submitted`: `final_reviewed` or non-actionable `strong_pending` while
+    backend work is deciding the next visible bucket
+  - `escalated-ready`: actionable `strong_pending` with repair proposals, or
+    `strong_in_review`
+  - `escalated-submitted`: `strong_reviewed` while backend finalization is
+    pending
+  - `resolved`: `complete` or `skipped`
+- these coarse labels are summaries for counting, map display, and source
+  selection. They must not become a second mutable state vocabulary; the stored
+  state remains the concrete `final_*`, `strong_*`, `complete`, or `skipped`
+  value.
 - the first implemented primitive is queue observability: per-batch document
   state summaries and `./review-sync` output report counts for selectable Bulk
   Review documents, submitted Bulk Review documents, selectable Escalated Repair

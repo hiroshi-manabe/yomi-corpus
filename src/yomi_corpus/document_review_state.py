@@ -24,6 +24,14 @@ WORKFLOW_STATE_ESCALATED_REPAIR = "escalated_repair"
 WORKFLOW_STATE_ESCALATED_SUBMITTED = "escalated_submitted"
 WORKFLOW_STATE_RESOLVED = "resolved"
 
+POOL_LABEL_UNPROCESSED = "unprocessed"
+POOL_LABEL_PREPARED = "prepared"
+POOL_LABEL_BULK_READY = "bulk-ready"
+POOL_LABEL_BULK_SUBMITTED = "bulk-submitted"
+POOL_LABEL_ESCALATED_READY = "escalated-ready"
+POOL_LABEL_ESCALATED_SUBMITTED = "escalated-submitted"
+POOL_LABEL_RESOLVED = "resolved"
+
 VALID_DOCUMENT_STATES = frozenset(
     {
         STATE_FINAL_PENDING,
@@ -55,6 +63,18 @@ DOCUMENT_STATE_TO_WORKFLOW_STATE = {
 }
 
 WORKFLOW_STATES = frozenset(DOCUMENT_STATE_TO_WORKFLOW_STATE.values())
+
+DOCUMENT_POOL_LABELS = frozenset(
+    {
+        POOL_LABEL_UNPROCESSED,
+        POOL_LABEL_PREPARED,
+        POOL_LABEL_BULK_READY,
+        POOL_LABEL_BULK_SUBMITTED,
+        POOL_LABEL_ESCALATED_READY,
+        POOL_LABEL_ESCALATED_SUBMITTED,
+        POOL_LABEL_RESOLVED,
+    }
+)
 
 
 def now_iso() -> str:
@@ -126,6 +146,46 @@ def document_workflow_queue_stage(document_state: str) -> str | None:
 
 def document_workflow_is_selectable(document_state: str) -> bool:
     return str(document_state or "") in BULK_REVIEW_SELECTABLE_STATES | ESCALATED_REPAIR_SELECTABLE_STATES
+
+
+def document_pool_label(
+    document_state: str | None,
+    *,
+    repair_proposals_available: bool = False,
+    prepared: bool = True,
+) -> str:
+    """Return the coarse refill/map label derived from the canonical state.
+
+    The concrete document state remains authoritative. This helper is only for
+    queue refill accounting and corpus-map display.
+    """
+
+    state = str(document_state or "")
+    if not state:
+        return POOL_LABEL_PREPARED if prepared else POOL_LABEL_UNPROCESSED
+    if state in BULK_REVIEW_SELECTABLE_STATES:
+        return POOL_LABEL_BULK_READY
+    if state == STATE_FINAL_REVIEWED:
+        return POOL_LABEL_BULK_SUBMITTED
+    if state == STATE_STRONG_PENDING:
+        return POOL_LABEL_ESCALATED_READY if repair_proposals_available else POOL_LABEL_BULK_SUBMITTED
+    if state == STATE_STRONG_IN_REVIEW:
+        return POOL_LABEL_ESCALATED_READY
+    if state == STATE_STRONG_REVIEWED:
+        return POOL_LABEL_ESCALATED_SUBMITTED
+    if state in RESOLVED_STATES:
+        return POOL_LABEL_RESOLVED
+    raise ValueError(f"Unsupported document review state: {state}")
+
+
+def document_pool_label_for_row(document: dict[str, Any]) -> str:
+    state = str(document.get("state") or "")
+    repair_proposals_available = int(document.get("strong_repair_item_count") or 0) > 0
+    return document_pool_label(
+        state,
+        repair_proposals_available=repair_proposals_available,
+        prepared=bool(state),
+    )
 
 
 def build_initial_document_review_state(
@@ -373,10 +433,12 @@ def reviewed_item_ids_from_submission(pack: dict[str, Any], submission: dict[str
 
 def with_summary(payload: dict[str, Any]) -> dict[str, Any]:
     counts = Counter(str(row.get("state") or "") for row in payload.get("documents", []))
+    pool_counts = Counter(document_pool_label_for_row(row) for row in payload.get("documents", []))
     payload["summary"] = {
         "document_count": len(payload.get("documents", [])),
         "state_counts": {state: counts.get(state, 0) for state in sorted(VALID_DOCUMENT_STATES)},
         "queue_counts": document_review_queue_counts_from_state_counts(counts),
+        "pool_counts": {label: pool_counts.get(label, 0) for label in sorted(DOCUMENT_POOL_LABELS)},
     }
     validate_document_review_state(payload)
     return payload
@@ -385,6 +447,7 @@ def with_summary(payload: dict[str, Any]) -> dict[str, Any]:
 def document_review_queue_summary(state: dict[str, Any]) -> dict[str, Any]:
     validate_document_review_state(state)
     state_counts = Counter(str(row.get("state") or "") for row in state.get("documents", []))
+    pool_counts = Counter(document_pool_label_for_row(row) for row in state.get("documents", []))
     return {
         "schema_version": 1,
         "batch_name": state.get("batch_name"),
@@ -392,6 +455,7 @@ def document_review_queue_summary(state: dict[str, Any]) -> dict[str, Any]:
         "document_count": len(state.get("documents", [])),
         "state_counts": {name: state_counts.get(name, 0) for name in sorted(VALID_DOCUMENT_STATES)},
         "queue_counts": document_review_queue_counts_from_state_counts(state_counts),
+        "pool_counts": {label: pool_counts.get(label, 0) for label in sorted(DOCUMENT_POOL_LABELS)},
     }
 
 
