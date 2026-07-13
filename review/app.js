@@ -1008,7 +1008,7 @@ function renderArchiveDocumentRow(doc) {
     <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)</span>
     <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
   `;
-  button.addEventListener("click", () => openArchiveDocumentPreview(doc));
+  button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
   return button;
 }
 
@@ -1024,7 +1024,7 @@ function renderCorpusMapTileGrid(docs) {
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}`;
-    tile.addEventListener("click", () => openArchiveDocumentPreview(doc));
+    tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
   }
   return wrap;
@@ -1098,16 +1098,12 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
-  const backButton = document.createElement("button");
-  backButton.type = "button";
-  backButton.className = "secondary-button";
-  backButton.textContent = "Back to Preview";
-  backButton.addEventListener("click", () => openArchiveDocumentPreview(doc));
-
   const copyOnlyButton = document.createElement("button");
   copyOnlyButton.type = "button";
   copyOnlyButton.className = "secondary-button";
   copyOnlyButton.textContent = "Copy JSON";
+  copyOnlyButton.dataset.archiveCorrectionExport = "true";
+  copyOnlyButton.disabled = true;
   copyOnlyButton.addEventListener("click", async () => {
     await copyArchiveCorrectionPayload(doc, { openIssue: false });
   });
@@ -1115,11 +1111,18 @@ function openArchiveCorrectionEditor(doc) {
   const openIssueButton = document.createElement("button");
   openIssueButton.type = "button";
   openIssueButton.textContent = "Copy JSON and Open Issue";
+  openIssueButton.dataset.archiveCorrectionExport = "true";
+  openIssueButton.disabled = true;
   openIssueButton.addEventListener("click", async () => {
     await copyArchiveCorrectionPayload(doc, { openIssue: true });
   });
 
-  el.workflowPreviewActions.append(backButton, copyOnlyButton, openIssueButton);
+  const note = document.createElement("p");
+  note.className = "muted";
+  note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
+  el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
+  updateArchiveCorrectionSummary();
+  el.workflowPreviewModal.classList.remove("hidden");
 }
 
 function renderArchiveCorrectionRow(unit, index) {
@@ -1256,6 +1259,11 @@ function updateArchiveCorrectionSummary() {
   }
   const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
   const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
+  const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
+  const canExport = changed > 0 && invalid === 0;
+  for (const button of exportButtons) {
+    button.disabled = !canExport;
+  }
   if (invalid) {
     summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
     summary.classList.add("error");
