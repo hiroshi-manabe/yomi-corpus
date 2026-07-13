@@ -1881,14 +1881,23 @@ Design constraints:
   task or marks the document complete. Submitted is not a fourth bucket; every
   document should be visible in exactly one of Bulk Review, Escalated Repair,
   or Resolved.
-- Pack Map is a read-only overview over every document in the current pack,
-  including resolved documents. Clicking any Pack Map document should open an
-  in-place preview rather than changing queue membership.
+- Pack Map is a read-only overview over current actionable work only. Finalized
+  batches should leave the active Pack Map after publication advances to later
+  queues.
 - Pack Map previews should show the latest available local view when possible:
   active, deferred, or submitted browser drafts can be overlaid for display only
   while the draft's task stage still matches the document's current stage. This
   overlay is presentation-only; imported pipeline document state remains
   the canonical source for Bulk Review, Escalated Repair, and Resolved buckets.
+- Completed documents should be visible through a separate Archive Browser. The
+  archive is static and shard-based: `docs/review/archive/index.json` lists
+  finalized-document shards, and each shard contains finalized text, raw yomi,
+  and ruby display data for a bounded document range. The archive starts
+  read-only; later finalized-document corrections should be submitted as
+  auditable correction Issues rather than mutating archive data locally.
+- Future/unprocessed documents are not part of the review UI for now. If a
+  full-corpus map is needed later, implement it as a separate static browsing
+  mode rather than mixing raw future documents into active queues.
 - browser local storage tracks in-progress work by `pack_id`, `queue_id`, and
   selected document IDs or range
 - greyed-out/completed state comes from imported pipeline queue state, not from

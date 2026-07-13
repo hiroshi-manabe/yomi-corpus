@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from yomi_corpus.review_site import build_review_manifest, publish_review_site
+from yomi_corpus.review_site import build_review_manifest, publish_review_archive, publish_review_site
 
 
 class ReviewSiteTests(unittest.TestCase):
@@ -264,6 +264,56 @@ class ReviewSiteTests(unittest.TestCase):
             saved_manifest = json.loads((docs_dir / "review" / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(saved_manifest["default_stage"], "alphabetic_candidate_review")
             self.assertEqual(manifest["stages"]["alphabetic_candidate_review"]["latest_pack_id"], "alphabetic_candidates_batch_0001_v1")
+
+    def test_publish_review_archive_exports_finalized_documents(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_root = root / "data" / "pipeline" / "batches"
+            unit_root = root / "data" / "units" / "dev_batch_0001"
+            output_root = root / "docs" / "review"
+            batch_root.mkdir(parents=True)
+            unit_root.mkdir(parents=True)
+            batch_root.joinpath("dev_batch_0001.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "current_stage": "yomi_finalized",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            unit_root.joinpath("units.yomi.final.jsonl").write_text(
+                json.dumps(
+                    {
+                        "doc_id": "ja_cc_level2:0000000001",
+                        "unit_id": "ja_cc_level2:0000000001:u0001",
+                        "unit_seq": 1,
+                        "track_doc_seq": 1,
+                        "text": "学校です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "学校/ガッコウ です/デス 。/。",
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            archive = publish_review_archive(project_root=root, review_output_dir=output_root, shard_size=100)
+
+            index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
+            self.assertEqual(archive["tracks"]["dev"]["document_count"], 1)
+            shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
+            shard = json.loads(shard_path.read_text(encoding="utf-8"))
+            self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
+            self.assertEqual(shard["documents"][0]["units"][0]["rendered_yomi"], "学校/ガッコウ です/デス 。/。")
+            self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
 
 
 if __name__ == "__main__":

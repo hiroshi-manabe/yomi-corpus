@@ -2466,14 +2466,23 @@ submitted/processing in the Pack Map, inside their previous visible bucket.
 Every document should be visible in exactly one of the three user-facing
 buckets: Bulk Review, Escalated Repair, or Resolved.
 
-Pack Map is the read-only overview for the whole active pack. It should include
-resolved documents as well as active and submitted documents. Clicking a Pack
-Map document opens an in-place preview. If the browser has an active, deferred,
-or submitted local draft for that document, the preview may overlay that draft
-so the reviewer sees the latest local state, but only while the draft's task
-stage still matches the document's current stage. This never changes canonical
-queue membership; only imported pipeline state moves a document between Bulk
-Review, Escalated Repair, and Resolved.
+Pack Map is the read-only overview for current actionable work only. It should
+not retain finalized batches after publication has moved on to the next active
+queue. Clicking a Pack Map document opens an in-place preview. If the browser
+has an active, deferred, or submitted local draft for that document, the preview
+may overlay that draft so the reviewer sees the latest local state, but only
+while the draft's task stage still matches the document's current stage. This
+never changes canonical queue membership; only imported pipeline state moves a
+document between Bulk Review, Escalated Repair, and Resolved.
+
+Finalized documents belong in a separate Archive Browser, not in the active
+Pack Map. The archive is published as static, lazily loadable JSON shards under
+`docs/review/archive/` plus a small `archive/index.json`. The first archive UI
+is read-only: choose a shard, preview finalized documents, and keep mutation out
+of scope. Later, archive correction should create auditable correction Issues
+against finalized raw yomi data, validate them in the browser and server, and
+replay them through the importer. This keeps daily review uncluttered while
+still making completed corpus data inspectable and correctable.
 
 Long-term target: move from a batch-centered review page to a document-centered
 workspace.
@@ -2485,13 +2494,12 @@ append newly reviewable documents to the same workspace. The UI may therefore
 show documents that came from multiple backend batches, as long as every
 document has stable IDs and canonical server-side state.
 
-The workspace should support a much larger map than the current active pack,
-for example a target range of 10,000 documents:
-
-- processed documents show canonical server data
-- active documents show the current Bulk Review or Escalated Repair UI
-- submitted documents show a local submitted overlay until imported
-- unprocessed documents show raw text only
+Future/unprocessed documents are out of scope for the review UI for now. They
+are cheap to produce later but make the current state model harder: they add no
+immediate review value, complicate numbering, and blur the difference between
+current work and corpus browsing. If a full-corpus map is needed later, it
+should be a distinct mode that combines static archive shards with lightweight
+raw-text shards, not an extension of the active review queue.
 
 This requires implementation discipline:
 
@@ -2500,11 +2508,10 @@ This requires implementation discipline:
   submitted work only
 - treat backend batches as append-only artifacts and logs, not as user-visible
   queue boundaries
-- load map data lazily or in shards; do not put every full review payload into
-  the first page load
-- use virtualization for large document maps so 10,000-document views remain
-  responsive
-- store compact static index data separately from heavier review payloads
+- load archive data lazily or in shards; do not put every finalized review
+  payload into the first page load
+- use virtualization if archive browsing grows beyond simple shard pages
+- store compact static index data separately from heavier finalized payloads
 
 Resolved documents should eventually be correctable too. A correction to a
 resolved document should create a new correction task or Issue, replay through

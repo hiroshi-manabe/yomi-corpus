@@ -460,6 +460,29 @@ button:disabled {
   background: rgba(45, 106, 79, 0.08);
 }
 
+.archive-browser-panel .task-doc-row {
+  width: 100%;
+  grid-template-columns: minmax(120px, 180px) minmax(180px, 260px) minmax(0, 1fr);
+  text-align: left;
+  cursor: pointer;
+}
+
+.archive-browser-panel .task-doc-row:hover {
+  border-color: rgba(45, 106, 79, 0.32);
+  background: rgba(45, 106, 79, 0.05);
+}
+
+.archive-shard-row {
+  grid-template-columns: minmax(160px, 1fr) minmax(160px, auto);
+}
+
+.archive-doc-row .task-doc-preview {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .workflow-dashboard {
   display: grid;
   gap: 16px;
@@ -774,6 +797,11 @@ button:disabled {
 
 .workflow-preview-item {
   box-shadow: none;
+}
+
+.workflow-preview-item.archive-preview-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(31, 28, 23, 0.08);
 }
 
 .workflow-preview-item.resolved-yomi-preview {

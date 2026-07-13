@@ -183,6 +183,7 @@ def regenerate_review_artifacts(project_root: Path = PROJECT_ROOT) -> dict:
         web_review_dir=project_root / "web" / "review",
         docs_dir=project_root / "docs",
         review_pack_root=project_root / "data" / "review_packs",
+        project_root=project_root,
     )
 
 
@@ -199,8 +200,11 @@ def collect_review_artifact_paths(project_root: Path) -> list[Path]:
         paths.add(manifest_path)
         for raw_path in referenced_manifest_paths(manifest_path):
             resolved = resolve_manifest_path(review_root, raw_path)
-            if is_review_pack_path(review_root, resolved) and resolved.exists():
+            if is_publishable_review_json_path(review_root, resolved) and resolved.exists():
                 paths.add(resolved)
+        archive_root = review_root / "archive"
+        if archive_root.exists():
+            paths.update(path for path in archive_root.rglob("*.json") if path.is_file())
     else:
         paths.update((review_root / "packs").glob("*.json"))
     return sorted(paths)
@@ -235,13 +239,15 @@ def resolve_manifest_path(review_root: Path, raw_path: str) -> Path:
     return (review_root / path).resolve()
 
 
-def is_review_pack_path(review_root: Path, path: Path) -> bool:
-    packs_root = (review_root / "packs").resolve()
-    try:
-        path.relative_to(packs_root)
-    except ValueError:
-        return False
-    return path.suffix == ".json"
+def is_publishable_review_json_path(review_root: Path, path: Path) -> bool:
+    for child_dir in ["packs", "archive"]:
+        child_root = (review_root / child_dir).resolve()
+        try:
+            path.relative_to(child_root)
+        except ValueError:
+            continue
+        return path.suffix == ".json"
+    return False
 
 
 def has_staged_changes(rel_paths: list[str]) -> bool:

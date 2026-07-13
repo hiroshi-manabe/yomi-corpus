@@ -2644,6 +2644,7 @@ class PipelineWorkspace:
             web_review_dir=self.root / "web" / "review",
             docs_dir=self.root / "docs",
             review_pack_root=self.root / "data" / "review_packs",
+            project_root=self.root,
         )
         manifest_path = self.root / "docs" / "review" / "manifest.json"
         return {
@@ -3082,6 +3083,7 @@ class PipelineWorkspace:
             web_review_dir=self.root / "web" / "review",
             docs_dir=self.root / "docs",
             review_pack_root=self.root / "data" / "review_packs",
+            project_root=self.root,
         )
         return {
             "yomi_strong_repair_review_pack_json": str(batch_pack_path),

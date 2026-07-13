@@ -5,8 +5,13 @@ import re
 import shutil
 from hashlib import sha256
 from pathlib import Path
+from typing import Any
 
 from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
+from yomi_corpus.yomi.final_review import rendered_yomi_ruby_tokens
+
+
+ARCHIVE_SHARD_SIZE = 1000
 
 
 def load_review_pack(path: str | Path) -> dict:
@@ -201,6 +206,7 @@ def publish_review_site(
     web_review_dir: str | Path,
     docs_dir: str | Path,
     review_pack_root: str | Path,
+    project_root: str | Path | None = None,
 ) -> dict:
     web_root = Path(web_review_dir)
     docs_root = Path(docs_dir)
@@ -219,6 +225,12 @@ def publish_review_site(
 
     entries = collect_review_pack_entries(review_root)
     manifest = build_review_manifest(entries)
+    if project_root is not None:
+        archive_manifest = publish_review_archive(
+            project_root=project_root,
+            review_output_dir=review_output_dir,
+        )
+        manifest["archive"] = archive_manifest
 
     for entry in entries:
         shutil.copy2(entry["source_path"], pack_output_dir / entry["site_filename"])
@@ -228,6 +240,202 @@ def publish_review_site(
         encoding="utf-8",
     )
     return manifest
+
+
+def publish_review_archive(
+    *,
+    project_root: str | Path,
+    review_output_dir: str | Path,
+    shard_size: int = ARCHIVE_SHARD_SIZE,
+) -> dict:
+    root = Path(project_root)
+    output_root = Path(review_output_dir) / "archive"
+    clear_directory(output_root)
+    output_root.mkdir(parents=True, exist_ok=True)
+
+    tracks: dict[str, dict[str, Any]] = {}
+    for track_name in [DEV_TRACK]:
+        documents = collect_finalized_archive_documents(root, track_name)
+        track_dir = output_root / track_name
+        track_dir.mkdir(parents=True, exist_ok=True)
+        shards = write_archive_shards(
+            documents,
+            output_root=track_dir,
+            url_prefix=f"./archive/{track_name}",
+            shard_size=shard_size,
+        )
+        tracks[track_name] = {
+            "track_name": track_name,
+            "document_count": len(documents),
+            "shard_size": shard_size,
+            "shards": shards,
+        }
+
+    index = {
+        "schema_version": 1,
+        "description": "Finalized read-only review archive. Active work queues are published separately.",
+        "tracks": tracks,
+    }
+    (output_root / "index.json").write_text(
+        json.dumps(index, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return {
+        "index_path": "./archive/index.json",
+        "tracks": {
+            track_name: {
+                "document_count": track["document_count"],
+                "shard_count": len(track["shards"]),
+            }
+            for track_name, track in tracks.items()
+        },
+    }
+
+
+def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dict]:
+    documents: dict[tuple[int, str], dict] = {}
+    for batch_name in finalized_batch_names(root, track_name):
+        final_path = root / "data" / "units" / batch_name / "units.yomi.final.jsonl"
+        if not final_path.exists():
+            continue
+        for row in iter_jsonl(final_path):
+            doc_id = str(row.get("doc_id") or "")
+            if not doc_id:
+                continue
+            track_doc_seq = row.get("track_doc_seq")
+            if track_doc_seq is None:
+                track_doc_seq = infer_track_doc_seq_from_doc_id(doc_id)
+            try:
+                display_seq = int(track_doc_seq)
+            except (TypeError, ValueError):
+                continue
+            key = (display_seq, doc_id)
+            doc = documents.setdefault(
+                key,
+                {
+                    "track_name": track_name,
+                    "track_doc_seq": display_seq,
+                    "doc_id": doc_id,
+                    "batch_name": batch_name,
+                    "unit_count": 0,
+                    "text_preview": "",
+                    "units": [],
+                },
+            )
+            unit = archive_unit_from_row(row)
+            if unit is None:
+                continue
+            doc["units"].append(unit)
+            doc["unit_count"] = len(doc["units"])
+            if not doc["text_preview"]:
+                doc["text_preview"] = str(unit.get("text") or "")[:120]
+    return [documents[key] for key in sorted(documents)]
+
+
+def finalized_batch_names(root: Path, track_name: str) -> list[str]:
+    batch_root = root / "data" / "pipeline" / "batches"
+    if not batch_root.exists():
+        return []
+    names: list[str] = []
+    for path in sorted(batch_root.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if payload.get("track_name") != track_name:
+            continue
+        if payload.get("current_stage") != "yomi_finalized":
+            continue
+        names.append(str(payload.get("batch_name") or path.stem))
+    return sorted(names)
+
+
+def archive_unit_from_row(row: dict) -> dict | None:
+    text = str(row.get("text") or "")
+    rendered_yomi = archive_rendered_yomi(row)
+    if not text and not rendered_yomi:
+        return None
+    unit = {
+        "unit_id": str(row.get("unit_id") or ""),
+        "unit_seq": int(row.get("unit_seq") or 0),
+        "text": text,
+        "rendered_yomi": rendered_yomi,
+        "ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi) if rendered_yomi else [],
+    }
+    return unit
+
+
+def archive_rendered_yomi(row: dict) -> str:
+    direct = row.get("rendered_yomi")
+    if isinstance(direct, str) and direct:
+        return direct
+    analysis = row.get("analysis")
+    if not isinstance(analysis, dict):
+        return ""
+    mechanical = analysis.get("mechanical")
+    if not isinstance(mechanical, dict):
+        return ""
+    yomi = mechanical.get("yomi")
+    if isinstance(yomi, dict) and isinstance(yomi.get("rendered"), str):
+        return str(yomi["rendered"])
+    return ""
+
+
+def write_archive_shards(
+    documents: list[dict],
+    *,
+    output_root: Path,
+    url_prefix: str,
+    shard_size: int,
+) -> list[dict]:
+    shards: list[dict] = []
+    if shard_size <= 0:
+        raise ValueError("shard_size must be positive")
+    for index, start in enumerate(range(0, len(documents), shard_size), start=1):
+        shard_docs = documents[start : start + shard_size]
+        if not shard_docs:
+            continue
+        start_seq = int(shard_docs[0]["track_doc_seq"])
+        end_seq = int(shard_docs[-1]["track_doc_seq"])
+        filename = f"docs_{start_seq:06d}_{end_seq:06d}.json"
+        payload = {
+            "schema_version": 1,
+            "shard_index": index,
+            "start_track_doc_seq": start_seq,
+            "end_track_doc_seq": end_seq,
+            "document_count": len(shard_docs),
+            "documents": shard_docs,
+        }
+        (output_root / filename).write_text(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+        shards.append(
+            {
+                "path": f"{url_prefix}/{filename}",
+                "start_track_doc_seq": start_seq,
+                "end_track_doc_seq": end_seq,
+                "document_count": len(shard_docs),
+                "batch_names": sorted({str(doc.get("batch_name") or "") for doc in shard_docs}),
+            }
+        )
+    return shards
+
+
+def iter_jsonl(path: Path):
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            yield json.loads(line)
+
+
+def infer_track_doc_seq_from_doc_id(doc_id: str) -> int:
+    match = re.search(r":0*([0-9]+)$", doc_id)
+    if not match:
+        raise ValueError(f"Cannot infer document sequence from doc_id: {doc_id}")
+    return int(match.group(1))
 
 
 def sync_directory(source_dir: Path, dest_dir: Path) -> None:

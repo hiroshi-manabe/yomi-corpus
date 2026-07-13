@@ -42,6 +42,7 @@ def main() -> None:
         web_review_dir=args.web_review_dir,
         docs_dir=args.docs_dir,
         review_pack_root=args.review_pack_root,
+        project_root=repo_root(),
     )
     print(json.dumps(manifest, ensure_ascii=False, indent=2))
 

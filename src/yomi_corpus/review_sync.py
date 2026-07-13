@@ -1088,6 +1088,7 @@ def publish_review_artifacts(root: Path, *, push_gh_pages: bool) -> dict[str, An
         web_review_dir=root / "web" / "review",
         docs_dir=root / "docs",
         review_pack_root=root / "data" / "review_packs",
+        project_root=root,
     )
     result: dict[str, Any] = {
         "status": "generated",
