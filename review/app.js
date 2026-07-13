@@ -251,6 +251,9 @@ function resolveInitialTarget(stageIds) {
   if (requested === "archive_browser") {
     return { stageId: "archive_browser", packId: null };
   }
+  if (requested === "corpus_map") {
+    return { stageId: "archive_browser", packId: null };
+  }
   if (requested === "unified_yomi_review") {
     return { stageId: "unified_yomi_review", packId: null };
   }
@@ -387,10 +390,11 @@ async function openArchiveBrowser() {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
   state.archiveCurrentTrack = "dev";
-  state.archiveCurrentShard = null;
+  const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
+  state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
   state.currentPackMeta = {
     pack_id: "archive_browser",
-    title: "Finalized Archive",
+    title: "Corpus Map",
     track_name: "dev",
     status: "archive",
   };
@@ -609,7 +613,7 @@ function populateStageSelect(stageIds) {
     if (hasReviewArchive()) {
       const archiveOption = document.createElement("option");
       archiveOption.value = "archive_browser";
-      archiveOption.textContent = "Finalized Archive";
+      archiveOption.textContent = "Corpus Map";
       el.stageSelect.append(archiveOption);
     }
     return;
@@ -623,7 +627,7 @@ function populateStageSelect(stageIds) {
   if (hasReviewArchive()) {
     const archiveOption = document.createElement("option");
     archiveOption.value = "archive_browser";
-    archiveOption.textContent = "Finalized Archive";
+    archiveOption.textContent = "Corpus Map";
     el.stageSelect.append(archiveOption);
   }
 }
@@ -696,10 +700,10 @@ function renderCurrentTracks() {
     archiveButton.classList.toggle("active-track", state.currentStageId === "archive_browser");
     archiveButton.innerHTML = `
       <div class="track-card-header">
-        <strong>Finalized Archive</strong>
+        <strong>Corpus Map</strong>
         <span class="badge dev">dev</span>
       </div>
-      <div class="track-card-stage">Read-only completed documents</div>
+      <div class="track-card-stage">Resolved corpus browser</div>
       <div class="pack-meta-line">${Number(archiveMeta.document_count || 0)} document(s)</div>
     `;
     archiveButton.addEventListener("click", () => {
@@ -866,12 +870,12 @@ function renderArchivePackSummary() {
   const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
   const shard = state.archiveCurrentShard;
   el.packTitle.textContent = shard
-    ? `Finalized Archive ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
-    : "Finalized Archive";
+    ? `Corpus Map ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
+    : "Corpus Map";
   el.packBadge.textContent = "dev / read-only";
   el.packBadge.className = "badge archived dev";
   const cards = [
-    ["Mode", "Archive Browser"],
+    ["Mode", "Corpus Map"],
     ["Track", state.archiveCurrentTrack],
     ["Documents", String(track.document_count || 0)],
     ["Shards", String((track.shards || []).length)],
@@ -958,7 +962,7 @@ function renderArchiveBrowserPanel() {
   const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
     el.taskSummary.textContent = shards.length
-      ? "Choose an archive shard from Pack History to browse finalized documents."
+      ? "Choose a Corpus Map range from Pack History."
       : "No finalized archive documents were published.";
     for (const shard of shards) {
       el.taskDocList.append(renderArchiveShardRow(shard));
@@ -966,10 +970,8 @@ function renderArchiveBrowserPanel() {
     return;
   }
   const docs = state.archiveCurrentShard.documents || [];
-  el.taskSummary.textContent = `${docs.length} finalized document(s) in this shard. Click a document to preview it.`;
-  for (const doc of docs) {
-    el.taskDocList.append(renderArchiveDocumentRow(doc));
-  }
+  el.taskSummary.textContent = `${docs.length} resolved document(s) in this range. Click a tile to preview it.`;
+  el.taskDocList.append(renderCorpusMapTileGrid(docs));
 }
 
 function renderArchiveShardRow(shard) {
@@ -999,6 +1001,24 @@ function renderArchiveDocumentRow(doc) {
   `;
   button.addEventListener("click", () => openArchiveDocumentPreview(doc));
   return button;
+}
+
+function renderCorpusMapTileGrid(docs) {
+  const wrap = document.createElement("div");
+  wrap.className = "workflow-tile-grid corpus-map-grid";
+  for (const doc of docs) {
+    const tile = document.createElement("button");
+    tile.type = "button";
+    tile.className = "workflow-doc-tile resolved corpus-map-tile";
+    tile.innerHTML = `
+      <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
+      <strong>${escapeHtml(doc.track_doc_seq)}</strong>
+    `;
+    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}`;
+    tile.addEventListener("click", () => openArchiveDocumentPreview(doc));
+    wrap.append(tile);
+  }
+  return wrap;
 }
 
 function openArchiveDocumentPreview(doc) {
@@ -1032,7 +1052,7 @@ function openArchiveDocumentPreview(doc) {
   el.workflowPreviewActions.innerHTML = "";
   const note = document.createElement("p");
   note.className = "muted";
-  note.textContent = "Read-only archive preview. Correction requests will be added in a later step.";
+  note.textContent = "Read-only Corpus Map preview. Correction requests will be added in a later step.";
   el.workflowPreviewActions.append(note);
   el.workflowPreviewModal.classList.remove("hidden");
 }
