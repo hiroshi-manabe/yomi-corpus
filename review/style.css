@@ -902,7 +902,8 @@ button:disabled {
   min-height: 92px;
   resize: vertical;
   font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .archive-correction-validation {
