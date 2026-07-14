@@ -2511,8 +2511,9 @@ Browser validation must reject:
 - non-empty readings that are not kana, except exact symbol readings such as
   `。/。`; alphabetic, numeric, or kanji readings are invalid
 - source-surface changes relative to the original rendered-yomi token surfaces
-  after removing ASCII token separator spaces; NBSP is source surface and must
-  not be treated as a separator
+  after removing whitespace. In practice the UI should ignore differences
+  between ASCII spaces and NBSP here, because finalized archive data may contain
+  NBSP-like source-space tokens that can be normalized during editing.
 - submissions with no yomi change
 
 The browser exports only changed expanded units, not the whole document.

@@ -2057,7 +2057,8 @@ in-place archive mutation. The browser can prepare a
 - non-empty readings must be kana, except exact symbol readings such as `。/。`;
   alphabetic, numeric, or kanji readings are invalid
 - source surfaces preserved relative to the original rendered-yomi tokens after
-  removing ASCII token separator spaces; NBSP remains source surface
+  removing whitespace. ASCII-space/NBSP differences should not invalidate an
+  otherwise unit-scoped yomi correction.
 - at least one changed unit
 
 This correction payload is unit-scoped. Sentence or unit boundary changes are a
