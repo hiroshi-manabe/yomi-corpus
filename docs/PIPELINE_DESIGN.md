@@ -2054,8 +2054,9 @@ in-place archive mutation. The browser can prepare a
 - row-based editing where only expanded, changed finalized units are exported
 - unchanged unit IDs and order
 - rendered-yomi tokens in `surface/reading` form
-- non-empty readings must be kana, except exact symbol readings such as `。/。`;
-  alphabetic, numeric, or kanji readings are invalid
+- readings must satisfy the canonical token structural rule: kanji or Latin
+  surfaces need katakana readings, digit-only surfaces need empty readings, and
+  kana/symbol surfaces need normalized literal readings
 - source surfaces preserved relative to the original rendered-yomi tokens after
   removing whitespace. ASCII-space/NBSP differences should not invalidate an
   otherwise unit-scoped yomi correction.

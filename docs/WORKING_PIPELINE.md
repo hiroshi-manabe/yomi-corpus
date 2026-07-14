@@ -2508,8 +2508,9 @@ Browser validation must reject:
 - missing, extra, reordered, or changed unit IDs
 - rendered-yomi tokens without `/`
 - empty token surfaces
-- non-empty readings that are not kana, except exact symbol readings such as
-  `。/。`; alphabetic, numeric, or kanji readings are invalid
+- readings that violate the canonical `surface/reading` structural rule:
+  kanji or Latin surfaces need a katakana reading, digit-only surfaces need an
+  empty reading, and kana/symbol surfaces need their normalized literal reading
 - source-surface changes relative to the original rendered-yomi token surfaces
   after removing whitespace. In practice the UI should ignore differences
   between ASCII spaces and NBSP here, because finalized archive data may contain

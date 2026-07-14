@@ -1353,18 +1353,34 @@ function normalizeCorrectionSourceText(value) {
   return String(value || "").replace(/[ \t\r\n\u00a0]+/g, "");
 }
 
+function hiraganaToKatakana(value) {
+  return String(value || "").replace(/[ぁ-ゖ]/gu, (char) =>
+    String.fromCharCode(char.charCodeAt(0) + 0x60),
+  );
+}
+
 function validateRenderedYomiReading(surface, reading) {
-  if (!reading) {
+  if (/^[ \u00a0]+$/u.test(surface)) {
+    return reading && !/^[ \u00a0]+$/u.test(reading)
+      ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
+      : { ok: true };
+  }
+  if (/[一-龯々〆A-Za-z]/u.test(surface)) {
+    if (!reading) {
+      return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
+    }
+    return /^[ァ-ヺー]+$/u.test(reading)
+      ? { ok: true }
+      : { ok: false, error: "reading for kanji or alphabetic surfaces must be katakana." };
+  }
+  if (/^[0-9]+$/u.test(surface)) {
+    return reading ? { ok: false, error: "digit-only surfaces must have an empty reading." } : { ok: true };
+  }
+  const expected = surface.replace(/[ぁ-ゖ]/gu, (char) => hiraganaToKatakana(char));
+  if (reading === expected) {
     return { ok: true };
   }
-  if (/^[ぁ-ゖァ-ヺー]+$/u.test(reading)) {
-    return { ok: true };
-  }
-  const isExactSymbolReading = reading === surface && !/[0-9A-Za-z一-龯々〆ぁ-ゖァ-ヺー]/u.test(reading);
-  if (isExactSymbolReading) {
-    return { ok: true };
-  }
-  return { ok: false, error: "reading must be kana or an exact symbol reading." };
+  return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
 }
 
 function parseRenderedYomiTokensForCorrection(rendered) {
