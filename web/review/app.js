@@ -31,6 +31,7 @@ const el = {
   taskDocList: document.querySelector("#task-doc-list"),
   taskDraftList: document.querySelector("#task-draft-list"),
   taskSummary: document.querySelector("#task-summary"),
+  taskPickerGlobalActions: document.querySelector("#task-picker-global-actions"),
   selectAllDocs: document.querySelector("#select-all-docs"),
   clearDocSelection: document.querySelector("#clear-doc-selection"),
   startTask: document.querySelector("#start-task"),
@@ -908,6 +909,9 @@ function renderTaskSelector() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
   const started = isTaskStarted();
+  const usesDedicatedSelectionControls =
+    state.currentStageId === "archive_browser" || isUnifiedReviewPack(state.currentPack);
+  el.taskPickerGlobalActions?.classList.toggle("hidden", usesDedicatedSelectionControls);
 
   if (state.currentStageId === "archive_browser") {
     renderArchiveBrowserPanel();
