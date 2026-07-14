@@ -147,9 +147,11 @@ rule before any `OK` decision is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
   contain only katakana plus the long-vowel mark `ー`
-- if `surface` is numeric only, including ASCII/fullwidth digits and Roman
-  numerals, `reading` must be empty, so `2021/` and `Ⅱ/` are valid while
-  `2021/2021` and `Ⅱ/ニ` are invalid
+- if `surface` is numeric only, including ASCII/fullwidth digits and Unicode
+  Roman numeral symbols, `reading` must be empty, so `2021/` and `Ⅲ/` are valid
+  while `2021/2021` and `Ⅲ/サン` are invalid. ASCII Roman-looking strings such
+  as `I`, `II`, and `III` remain alphabetic surfaces, so `III/スリー` can be
+  valid while `III/` is invalid.
 - otherwise, `reading` must equal the result of converting hiragana in
   `surface` to katakana while leaving non-kana characters unchanged, so
   `です/デス` and `。/。` are valid

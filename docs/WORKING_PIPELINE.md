@@ -2511,9 +2511,11 @@ Browser validation must reject:
 - readings that violate the canonical `surface/reading` structural rule:
   kanji or Latin surfaces need a katakana reading, numeric-only surfaces need
   an empty reading, and kana/symbol surfaces need their normalized literal
-  reading. Numeric-only includes ASCII/fullwidth digits and Roman numerals, but
-  mixed lexical surfaces such as `聖飢魔Ⅱ` still require a normal katakana
-  reading.
+  reading. Numeric-only includes ASCII/fullwidth digits and Unicode Roman
+  numeral symbols such as `Ⅲ`, but not ASCII Roman-looking strings such as
+  `III`. Thus `Ⅲ/` is canonical, `Ⅲ/サン` is invalid, `III/スリー` can be valid,
+  and `III/` is invalid. Mixed lexical surfaces such as `聖飢魔Ⅱ` still require a
+  normal katakana reading.
 - source-surface changes relative to the original rendered-yomi token surfaces
   after removing whitespace. In practice the UI should ignore differences
   between ASCII spaces and NBSP here, because finalized archive data may contain
