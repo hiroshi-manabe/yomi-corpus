@@ -482,7 +482,9 @@ button:disabled {
 
 .archive-search-panel {
   display: grid;
+  grid-column: 1 / -1;
   gap: 10px;
+  min-width: 0;
   padding: 14px;
   border: 1px solid rgba(34, 106, 214, 0.2);
   border-radius: 16px;
@@ -503,6 +505,12 @@ button:disabled {
 
 .archive-search-input {
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf9;
+  padding: 10px 12px;
 }
 
 .archive-search-status.error {
@@ -549,6 +557,10 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .task-doc-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .archive-search-heading,
   .archive-search-result {
     grid-template-columns: 1fr;
@@ -556,7 +568,9 @@ button:disabled {
 }
 
 .corpus-map-grid {
+  grid-column: 1 / -1;
   align-items: start;
+  min-width: 0;
   padding: 4px 0;
 }
 
