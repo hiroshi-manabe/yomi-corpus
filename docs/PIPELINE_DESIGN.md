@@ -2054,7 +2054,8 @@ resolved documents starts as an auditable correction Issue export, not an
 in-place archive mutation. The browser can prepare a
 `finalized_correction_patch` payload from a finalized document preview:
 
-- row-based editing where only expanded, changed finalized units are exported
+- row-based editing where only explicitly saved, changed finalized units are
+  exported
 - unchanged unit IDs and order
 - rendered-yomi tokens in `surface/reading` form
 - readings must satisfy the canonical token structural rule: kanji or Latin

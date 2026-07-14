@@ -2491,10 +2491,14 @@ inspectable and correctable.
 The first finalized-correction milestone is Issue export only. In the Corpus
 Map preview, "Request Correction" opens a row-based rendered-yomi editor.
 Each finalized unit remains collapsed by default. The reviewer expands only the
-unit(s) that need correction; expanding reveals the source text, current
-rendered yomi, and a yomi editor for that unit. Hiding an edited unit discards
-that unit's pending change after confirmation. Multiple units can be expanded
-and edited in one correction request.
+unit(s) that need correction; expanding reveals only the current rendered-yomi
+editor for that unit. The raw source text is not shown separately because the
+ruby preview already provides source context and the editable object is the
+rendered-yomi string. A row edit is not exported until the reviewer explicitly
+saves it. Saved rows collapse, show a read-only `Rendered Yomi` line below the
+ruby preview, and can be reopened for further editing. `Clear` removes a saved
+pending correction and returns the row to its original unedited state. Multiple
+saved units can be exported in one correction request.
 
 The normal correction unit is exactly one finalized unit. Changing sentence or
 unit boundaries is intentionally out of scope for this first workflow because
@@ -2522,7 +2526,8 @@ Browser validation must reject:
   NBSP-like source-space tokens that can be normalized during editing.
 - submissions with no yomi change
 
-The browser exports only changed expanded units, not the whole document.
+The browser exports only saved changed units, not unsaved textarea drafts and
+not the whole document.
 Accepted UI payloads use:
 
 ```json
