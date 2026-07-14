@@ -1384,6 +1384,8 @@ function validateRenderedYomiReading(surface, reading) {
 }
 
 function isNumericOnlySurface(surface) {
+  // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
+  // they are ambiguous; only Unicode Roman numeral symbols are numeric here.
   return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+$/u.test(surface);
 }
 
