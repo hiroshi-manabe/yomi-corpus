@@ -1294,32 +1294,26 @@ function validateRenderedYomiCorrection(unit, proposed) {
   if (!proposed) {
     return { ok: false, error: "rendered yomi is empty." };
   }
-  const tokens = String(proposed).trim().split(/[ \t\r\n]+/).filter(Boolean);
+  const tokens = parseRenderedYomiCorrectionTokens(proposed);
   if (!tokens.length) {
     return { ok: false, error: "rendered yomi has no tokens." };
   }
   const surfaceText = [];
   for (const token of tokens) {
-    const slashIndex = token.lastIndexOf("/");
-    if (slashIndex < 0) {
-      return { ok: false, error: `token ${token} has no slash.` };
+    if (!token.ok) {
+      return { ok: false, error: token.error };
     }
-    const surface = token.slice(0, slashIndex);
-    if (!surface) {
-      return { ok: false, error: `token ${token} has an empty surface.` };
-    }
-    const reading = token.slice(slashIndex + 1);
-    const readingValidation = validateRenderedYomiReading(surface, reading);
+    const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
     if (!readingValidation.ok) {
-      return { ok: false, error: `token ${token}: ${readingValidation.error}` };
+      return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
     }
-    surfaceText.push(surface);
+    surfaceText.push(token.surface);
   }
   const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
     .map((token) => token.surface)
     .join("");
-  const expectedText = String(originalSurfaceText || unit.text || "").replace(/[ \t\r\n]+/g, "");
-  const proposedText = surfaceText.join("").replace(/[ \t\r\n]+/g, "");
+  const expectedText = normalizeCorrectionSourceText(originalSurfaceText || unit.text || "");
+  const proposedText = normalizeCorrectionSourceText(surfaceText.join(""));
   if (expectedText && proposedText !== expectedText) {
     return {
       ok: false,
@@ -1327,6 +1321,36 @@ function validateRenderedYomiCorrection(unit, proposed) {
     };
   }
   return { ok: true };
+}
+
+function parseRenderedYomiCorrectionTokens(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/[ \t\r\n]+/)
+    .filter(Boolean)
+    .map((raw) => {
+      if (raw === "/") {
+        return { ok: true, raw, surface: " ", reading: "" };
+      }
+      const slashIndex = raw.lastIndexOf("/");
+      if (slashIndex < 0) {
+        return { ok: false, raw, error: `token ${raw} must be surface/reading.` };
+      }
+      const surface = raw.slice(0, slashIndex);
+      if (!surface) {
+        return { ok: false, raw, error: `token ${raw} has no surface before the slash.` };
+      }
+      return {
+        ok: true,
+        raw,
+        surface,
+        reading: raw.slice(slashIndex + 1),
+      };
+    });
+}
+
+function normalizeCorrectionSourceText(value) {
+  return String(value || "").replace(/[ \t\r\n\u00a0]+/g, "");
 }
 
 function validateRenderedYomiReading(surface, reading) {
