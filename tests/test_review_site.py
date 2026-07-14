@@ -298,7 +298,44 @@ class ReviewSiteTests(unittest.TestCase):
                                         "yomi": {
                                             "rendered": "学校/ガッコウ です/デス 。/。",
                                         }
-                                    }
+                                    },
+                                    "human_review": {
+                                        "finalized_corrections": [
+                                            {
+                                                "submission_id": "correction_1",
+                                                "proposed_rendered_yomi": "学校/ガッコウ です/デス 。/。",
+                                            },
+                                            {
+                                                "submission_id": "correction_2",
+                                                "proposed_rendered_yomi": "学校/ガッコウ です/デス 。/。",
+                                            }
+                                        ]
+                                    },
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "doc_id": "ja_cc_level2:0000000001",
+                                "unit_id": "ja_cc_level2:0000000001:u0002",
+                                "unit_seq": 2,
+                                "track_doc_seq": 1,
+                                "text": "今日です。",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "今日/キョウ です/デス 。/。",
+                                        }
+                                    },
+                                    "human_review": {
+                                        "finalized_corrections": [
+                                            {
+                                                "submission_id": "correction_1",
+                                                "proposed_rendered_yomi": "今日/キョウ です/デス 。/。",
+                                            }
+                                        ]
+                                    },
                                 },
                             },
                             ensure_ascii=False,
@@ -350,8 +387,11 @@ class ReviewSiteTests(unittest.TestCase):
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))
             self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
+            self.assertEqual(shard["documents"][0]["finalized_correction_count"], 2)
+            self.assertEqual(shard["documents"][0]["finalized_correction_sentence_count"], 2)
             self.assertEqual(shard["documents"][0]["units"][0]["rendered_yomi"], "学校/ガッコウ です/デス 。/。")
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
+            self.assertEqual(shard["documents"][0]["units"][0]["finalized_correction_count"], 2)
             self.assertEqual(shard["documents"][1]["units"][0]["rendered_yomi"], "Ⅱ/")
             self.assertEqual(shard["documents"][2]["units"][0]["rendered_yomi"], "聖飢魔Ⅱ/セイキマツ")
 

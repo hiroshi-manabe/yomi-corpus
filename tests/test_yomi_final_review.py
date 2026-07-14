@@ -7,6 +7,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 from yomi_corpus.yomi.final_review import (
+    FINALIZED_CORRECTION_STAGE,
+    FINALIZED_CORRECTION_SUBMISSION_TYPE,
+    apply_finalized_correction_submissions_file,
     apply_exact_rendered_target_overrides,
     apply_final_review_file,
     apply_strong_repair_review_file,
@@ -25,6 +28,79 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_apply_finalized_correction_updates_final_jsonl(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            final_jsonl = batch_dir / "units.yomi.final.jsonl"
+            final_jsonl.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "doc_id": "doc1",
+                        "text": "今日です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "今日/キョウ です/デス 。/。"}
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "correction_1",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 1,
+                    "units": [
+                        {
+                            "unit_id": "u1",
+                            "text": "今日です。",
+                            "original_rendered_yomi": "今日/キョウ です/デス 。/。",
+                            "proposed_rendered_yomi": "今日/こんにち です/デス 。/。",
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary.json",
+            )
+
+            self.assertEqual(summary["applied_count"], 1)
+            row = json.loads(final_jsonl.read_text(encoding="utf-8").strip())
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["rendered"],
+                "今日/コンニチ です/デス 。/。",
+            )
+            self.assertEqual(
+                row["analysis"]["human_review"]["finalized_corrections"][0]["submission_id"],
+                "correction_1",
+            )
+
+            second_summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary2.json",
+            )
+
+            self.assertEqual(second_summary["applied_count"], 0)
+            self.assertEqual(second_summary["batches"][0]["accepted_count"], 1)
+            self.assertEqual(second_summary["skipped_count"], 0)
+
     def test_rendered_yomi_ruby_tokens_use_python_furigana_alignment(self) -> None:
         tokens = rendered_yomi_ruby_tokens("決め/キメ お金/オカネ")
 

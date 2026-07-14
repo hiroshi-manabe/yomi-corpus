@@ -85,6 +85,27 @@ class YomiFinalReviewIssueImportTests(unittest.TestCase):
         self.assertEqual(len(submissions), 1)
         self.assertEqual(submissions[0]["submission_id"], "sub_1")
 
+    def test_parse_submissions_from_text_accepts_finalized_correction_without_pack_id(self) -> None:
+        submissions = parse_submissions_from_text(
+            """
+            {
+              "submission_type": "finalized_correction_patch",
+              "review_stage": "finalized_correction",
+              "track_name": "dev",
+              "batch_name": "dev_batch_0001",
+              "units": [
+                {
+                  "unit_id": "u1",
+                  "original_rendered_yomi": "今日/キョウ",
+                  "proposed_rendered_yomi": "今日/コンニチ"
+                }
+              ]
+            }
+            """
+        )
+        self.assertEqual(len(submissions), 1)
+        self.assertEqual(submissions[0]["submission_type"], "finalized_correction_patch")
+
     def test_parse_submissions_from_text_accepts_fenced_json(self) -> None:
         submissions = parse_submissions_from_text(
             """
@@ -353,6 +374,51 @@ class YomiFinalReviewIssueImportTests(unittest.TestCase):
                 ]["issue_number"],
                 9,
             )
+
+    def test_import_issue_payloads_stores_finalized_correction_without_pack(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            store = root / "correction_submissions"
+            issue = {
+                "number": 12,
+                "body": json.dumps(
+                    {
+                        "submission_type": "finalized_correction_patch",
+                        "review_stage": "finalized_correction",
+                        "track_name": "dev",
+                        "batch_name": "dev_batch_0001",
+                        "units": [
+                            {
+                                "unit_id": "u1",
+                                "text": "今日です。",
+                                "original_rendered_yomi": "今日/キョウ です/デス 。/。",
+                                "proposed_rendered_yomi": "今日/コンニチ です/デス 。/。",
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+            }
+
+            summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=[],
+                repo="owner/repo",
+                issue_number=12,
+                review_pack_root=root / "review_packs",
+                submission_store_dir=store,
+                review_stage="finalized_correction",
+            )
+
+            self.assertEqual(summary["imported_submission_count"], 1)
+            stored = sorted(store.glob("*.json"))
+            self.assertEqual(len(stored), 1)
+            payload = json.loads(stored[0].read_text(encoding="utf-8"))
+            self.assertEqual(payload["review_stage"], "finalized_correction")
+            self.assertEqual(payload["_source_issue"]["issue_number"], 12)
+            self.assertTrue(payload["submission_id"].startswith("finalized_correction__issue_12__"))
 
 
 if __name__ == "__main__":

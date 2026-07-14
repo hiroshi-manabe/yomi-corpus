@@ -16,6 +16,7 @@ const state = {
   archiveCurrentShardPath: "",
   uiMode: "workflow",
   pendingIssueTaskId: null,
+  pendingArchiveCorrectionKey: null,
 };
 
 const el = {
@@ -41,6 +42,8 @@ const el = {
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
   issueReturnModal: document.querySelector("#issue-return-modal"),
+  issueReturnTitle: document.querySelector("#issue-return-title"),
+  issueReturnDescription: document.querySelector("#issue-return-description"),
   markSubmitted: document.querySelector("#mark-submitted"),
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
@@ -63,6 +66,7 @@ const el = {
 };
 
 const settingsKey = "yomi-corpus:review-ui:settings:v2";
+const archiveCorrectionStorageKey = "yomi-corpus:archive-corrections:v1";
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -224,23 +228,27 @@ function bindEvents() {
   });
 
   window.addEventListener("focus", () => {
-    if (state.pendingIssueTaskId) {
+    if (state.pendingIssueTaskId || state.pendingArchiveCorrectionKey) {
       showIssueReturnModal();
     }
   });
 
   el.markSubmitted?.addEventListener("click", () => {
-    if (state.pendingIssueTaskId) {
+    if (state.pendingArchiveCorrectionKey) {
+      markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
+    } else if (state.pendingIssueTaskId) {
       markSavedTaskSubmitted(state.pendingIssueTaskId);
     }
     state.pendingIssueTaskId = null;
+    state.pendingArchiveCorrectionKey = null;
     hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
     state.pendingIssueTaskId = null;
+    state.pendingArchiveCorrectionKey = null;
     hideIssueReturnModal();
-    showStatus("Issue submission not marked complete. The task remains active locally.");
+    showStatus("Issue submission not marked complete. The local draft remains available.");
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -1006,10 +1014,16 @@ function renderArchiveShardRow(shard) {
 function renderArchiveDocumentRow(doc) {
   const button = document.createElement("button");
   button.type = "button";
+  const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+  const localCorrection = archiveCorrectionRecordForDoc(doc);
   button.className = "task-doc-row archive-doc-row";
+  button.classList.toggle("has-finalized-corrections", correctionCount > 0);
+  button.classList.toggle("has-local-correction", localCorrection?.status === "draft");
+  button.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
   button.innerHTML = `
     <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
-    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)</span>
+    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)${archiveCorrectionBadge(correctionCount, correctionSentenceCount)}${archiveLocalCorrectionBadge(localCorrection)}</span>
     <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
   `;
   button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
@@ -1022,12 +1036,22 @@ function renderCorpusMapTileGrid(docs) {
   for (const doc of docs) {
     const tile = document.createElement("button");
     tile.type = "button";
+    const correctionCount = Number(doc.finalized_correction_count || 0);
+    const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+    const localCorrection = archiveCorrectionRecordForDoc(doc);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
+    tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
+    tile.classList.toggle("has-local-correction", localCorrection?.status === "draft");
+    tile.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
     tile.innerHTML = `
       <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
+      ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
+      ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "sent" : "edit"}</em>` : ""}
     `;
-    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}`;
+    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
+      correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
+    }${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
     tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
   }
@@ -1039,7 +1063,11 @@ function openArchiveDocumentPreview(doc) {
     return;
   }
   el.workflowPreviewTitle.textContent = `Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized`;
+  const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized${
+    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
+  }`;
   el.workflowPreviewBody.innerHTML = "";
   const units = doc.units || [];
   if (!units.length) {
@@ -1051,6 +1079,8 @@ function openArchiveDocumentPreview(doc) {
   for (const unit of units) {
     const node = document.createElement("article");
     node.className = "workflow-preview-item archive-preview-item";
+    const correctionCount = Number(unit.finalized_correction_count || 0);
+    node.classList.toggle("has-finalized-corrections", correctionCount > 0);
     const rubyLine = document.createElement("div");
     rubyLine.className = "ruby-line resolved-ruby-line";
     if (unit.rendered_yomi) {
@@ -1060,6 +1090,12 @@ function openArchiveDocumentPreview(doc) {
       rubyLine.textContent = unit.text || "";
     }
     node.append(rubyLine);
+    if (correctionCount) {
+      const badge = document.createElement("p");
+      badge.className = "archive-unit-correction-badge";
+      badge.textContent = `${correctionCount} applied correction${correctionCount === 1 ? "" : "s"}`;
+      node.append(badge);
+    }
     el.workflowPreviewBody.append(node);
   }
   el.workflowPreviewActions.innerHTML = "";
@@ -1076,6 +1112,126 @@ function openArchiveDocumentPreview(doc) {
   el.workflowPreviewModal.classList.remove("hidden");
 }
 
+function archiveCorrectionBadge(count, sentenceCount) {
+  const normalized = Number(count || 0);
+  return normalized > 0
+    ? ` · <span class="archive-correction-badge">${escapeHtml(formatArchiveCorrectionSummary(normalized, sentenceCount))}</span>`
+    : "";
+}
+
+function formatArchiveCorrectionSummary(count, sentenceCount) {
+  const corrections = Number(count || 0);
+  const sentences = Number(sentenceCount || 0);
+  return `${corrections} correction${corrections === 1 ? "" : "s"} · ${sentences} sentence${sentences === 1 ? "" : "s"} changed`;
+}
+
+function archiveLocalCorrectionBadge(record) {
+  if (!record) {
+    return "";
+  }
+  const label = record.status === "submitted" ? "submitted locally" : "local edit";
+  return ` · <span class="archive-local-correction-badge ${escapeHtml(record.status)}">${escapeHtml(label)}</span>`;
+}
+
+function archiveCorrectionDocKey(doc) {
+  return [
+    state.archiveCurrentTrack || "dev",
+    String(doc.track_doc_seq || ""),
+    String(doc.doc_id || ""),
+  ].join("::");
+}
+
+function loadArchiveCorrectionStore() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(archiveCorrectionStorageKey) || "{}");
+    return {
+      schema_version: 1,
+      records: parsed && typeof parsed.records === "object" && parsed.records ? parsed.records : {},
+    };
+  } catch {
+    window.localStorage.removeItem(archiveCorrectionStorageKey);
+    return { schema_version: 1, records: {} };
+  }
+}
+
+function saveArchiveCorrectionStore(store) {
+  if (Object.keys(store.records || {}).length) {
+    window.localStorage.setItem(archiveCorrectionStorageKey, JSON.stringify(store));
+  } else {
+    window.localStorage.removeItem(archiveCorrectionStorageKey);
+  }
+}
+
+function archiveCorrectionRecordForDoc(doc) {
+  const store = loadArchiveCorrectionStore();
+  const key = archiveCorrectionDocKey(doc);
+  const record = store.records[key];
+  if (!record) {
+    return null;
+  }
+  const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
+  const remaining = (record.units || []).filter((saved) => {
+    const current = currentUnits.get(String(saved.unit_id || ""));
+    return !current || String(current.rendered_yomi || "").trim() !== String(saved.proposed_rendered_yomi || "").trim();
+  });
+  if (remaining.length === 0) {
+    delete store.records[key];
+    saveArchiveCorrectionStore(store);
+    return null;
+  }
+  if (remaining.length !== (record.units || []).length) {
+    store.records[key] = { ...record, units: remaining };
+    saveArchiveCorrectionStore(store);
+  }
+  return store.records[key];
+}
+
+function persistArchiveCorrectionDraft(doc) {
+  const parsed = collectArchiveCorrectionChanges(doc);
+  const store = loadArchiveCorrectionStore();
+  const key = archiveCorrectionDocKey(doc);
+  if (!parsed.ok) {
+    delete store.records[key];
+    saveArchiveCorrectionStore(store);
+    return null;
+  }
+  const now = Math.floor(Date.now() / 1000);
+  const previous = store.records[key] || {};
+  store.records[key] = {
+    schema_version: 1,
+    track_name: state.archiveCurrentTrack || "dev",
+    doc_id: doc.doc_id || "",
+    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    batch_name: doc.batch_name || "",
+    archive_shard: state.archiveCurrentShardPath || "",
+    status: "draft",
+    units: parsed.changedUnits,
+    created_at_epoch: previous.created_at_epoch || now,
+    updated_at_epoch: now,
+  };
+  delete store.records[key].submitted_at_epoch;
+  saveArchiveCorrectionStore(store);
+  return store.records[key];
+}
+
+function markArchiveCorrectionSubmitted(key) {
+  const store = loadArchiveCorrectionStore();
+  const record = store.records[key];
+  if (!record) {
+    showStatus("The correction draft no longer exists locally.", true);
+    return;
+  }
+  store.records[key] = {
+    ...record,
+    status: "submitted",
+    submitted_at_epoch: Math.floor(Date.now() / 1000),
+  };
+  saveArchiveCorrectionStore(store);
+  closeWorkflowDocumentPreview();
+  render();
+  showStatus("Correction marked submitted locally. It remains visible until the server applies it.");
+}
+
 function archiveCorrectionIsEditing() {
   if (el.workflowPreviewModal?.classList.contains("hidden")) {
     return false;
@@ -1089,8 +1245,13 @@ function archiveCorrectionIsEditing() {
 
 function openArchiveCorrectionEditor(doc) {
   const units = doc.units || [];
+  const localCorrection = archiveCorrectionRecordForDoc(doc);
   el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request`;
+  const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request${
+    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
+  }`;
   el.workflowPreviewBody.innerHTML = "";
 
   const intro = document.createElement("p");
@@ -1099,10 +1260,19 @@ function openArchiveCorrectionEditor(doc) {
     "Choose the finalized unit(s) to correct. This editor changes yomi inside existing units only; boundary changes are a separate future workflow.";
   el.workflowPreviewBody.append(intro);
 
+  if (localCorrection) {
+    const localState = document.createElement("p");
+    localState.className = `archive-correction-local-state ${localCorrection.status}`;
+    localState.textContent = localCorrection.status === "submitted"
+      ? "Submitted locally; waiting for server-side Issue import. You may edit and resubmit it."
+      : "Local correction draft restored from this browser.";
+    el.workflowPreviewBody.append(localState);
+  }
+
   const list = document.createElement("div");
   list.className = "archive-correction-list";
   for (const [index, unit] of units.entries()) {
-    list.append(renderArchiveCorrectionRow(unit, index));
+    list.append(renderArchiveCorrectionRow(unit, index, doc, localCorrection));
   }
   el.workflowPreviewBody.append(list);
 
@@ -1140,7 +1310,7 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewModal.classList.remove("hidden");
 }
 
-function renderArchiveCorrectionRow(unit, index) {
+function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const row = document.createElement("article");
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
@@ -1186,10 +1356,23 @@ function renderArchiveCorrectionRow(unit, index) {
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
-  editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit));
+  editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
   row.append(summary, saved, editor);
+  const restored = (localCorrection?.units || []).find(
+    (savedUnit) =>
+      String(savedUnit.unit_id || "") === String(unit.unit_id || "") &&
+      String(savedUnit.text || "") === String(unit.text || "") &&
+      String(savedUnit.original_rendered_yomi || "").trim() === String(unit.rendered_yomi || "").trim(),
+  );
+  if (restored?.proposed_rendered_yomi) {
+    row.dataset.proposedYomi = restored.proposed_rendered_yomi;
+    row.classList.add("changed");
+    row.classList.toggle("submitted", localCorrection.status === "submitted");
+    textarea.value = restored.proposed_rendered_yomi;
+    renderArchiveCorrectionSavedYomi(row);
+  }
   return row;
 }
 
@@ -1268,7 +1451,7 @@ function collectArchiveCorrectionChanges(doc) {
   return { ok: true, changedUnits };
 }
 
-function saveArchiveCorrectionRow(row, unit) {
+function saveArchiveCorrectionRow(row, unit, doc) {
   const editor = row.querySelector(".archive-correction-editor");
   const textarea = editor?.querySelector(".archive-correction-unit-textarea");
   const validationNode = editor?.querySelector(".archive-correction-row-validation");
@@ -1279,7 +1462,7 @@ function saveArchiveCorrectionRow(row, unit) {
   const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
   textarea.value = proposed;
   if (proposed === original) {
-    clearArchiveCorrectionRow(row);
+    clearArchiveCorrectionRow(row, doc);
     return;
   }
   const validation = validateRenderedYomiCorrection(unit, proposed);
@@ -1292,15 +1475,16 @@ function saveArchiveCorrectionRow(row, unit) {
   }
   row.dataset.proposedYomi = proposed;
   row.classList.add("changed");
-  row.classList.remove("invalid");
+  row.classList.remove("invalid", "submitted");
   validationNode.textContent = "Saved.";
   validationNode.classList.remove("error");
   renderArchiveCorrectionSavedYomi(row);
   closeArchiveCorrectionRowEditor(row);
+  persistArchiveCorrectionDraft(doc);
   updateArchiveCorrectionSummary();
 }
 
-function clearArchiveCorrectionRow(row) {
+function clearArchiveCorrectionRow(row, doc = null) {
   delete row.dataset.proposedYomi;
   row.classList.remove("changed", "invalid");
   const editor = row.querySelector(".archive-correction-editor");
@@ -1315,6 +1499,9 @@ function clearArchiveCorrectionRow(row) {
   }
   renderArchiveCorrectionSavedYomi(row);
   closeArchiveCorrectionRowEditor(row);
+  if (doc) {
+    persistArchiveCorrectionDraft(doc);
+  }
   updateArchiveCorrectionSummary();
 }
 
@@ -1557,6 +1744,8 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   const copied = await copyTextToClipboard(JSON.stringify(payload, null, 2));
   if (openIssue) {
     openUrlInNewTab(buildGithubIssueUrl(archiveCorrectionIssueTitle(doc)));
+    state.pendingArchiveCorrectionKey = archiveCorrectionDocKey(doc);
+    state.pendingIssueTaskId = null;
   }
   showStatus(
     copied
@@ -1977,6 +2166,9 @@ function workflowDocKeysForSeq(displaySeq) {
 
 function closeWorkflowDocumentPreview() {
   el.workflowPreviewModal?.classList.add("hidden");
+  if (state.currentStageId === "archive_browser") {
+    render();
+  }
 }
 
 function workflowPreviewItemsForDocument(row) {
@@ -4117,6 +4309,17 @@ async function copyTextToClipboard(payload) {
 }
 
 function showIssueReturnModal() {
+  const archiveCorrection = Boolean(state.pendingArchiveCorrectionKey);
+  if (el.issueReturnTitle) {
+    el.issueReturnTitle.textContent = archiveCorrection
+      ? "Did you create the correction issue?"
+      : "Did you create the GitHub issue?";
+  }
+  if (el.issueReturnDescription) {
+    el.issueReturnDescription.textContent = archiveCorrection
+      ? "If you pasted the correction JSON and created the issue, mark it submitted. Otherwise, keep the local draft."
+      : "If you pasted the copied JSON and created the issue, mark this task submitted. If not, keep working locally.";
+  }
   el.issueReturnModal?.classList.remove("hidden");
 }
 

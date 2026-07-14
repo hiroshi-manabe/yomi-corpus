@@ -441,6 +441,14 @@ Browser-side resolved correction editing is save-based rather than live-submit:
   pending corrections can be submitted
 - saving text equal to the original finalized yomi removes that row from the
   pending correction set
+- saved pending corrections persist in browser storage per track and document;
+  reopening the document or reloading the page restores them
+- opening an Issue does not immediately erase the draft; after returning, the
+  reviewer can mark it submitted locally, and Corpus Map distinguishes local
+  drafts from submitted corrections waiting for server import
+- once a refreshed archive contains the exact proposed yomi, the corresponding
+  local record is removed and the server-applied correction badge becomes the
+  authoritative history
 
 Initial validation rules should be conservative:
 
@@ -457,3 +465,28 @@ Initial validation rules should be conservative:
 This path is intentionally less convenient than Bulk Review or Escalated Repair.
 It is an exceptional post-resolution correction mechanism, so auditability and
 server-authoritative state are more important than immediate rich editing.
+
+Finalized correction Issues use `submission_type: finalized_correction_patch`
+and `review_stage: finalized_correction`. They are not tied to a review pack:
+the server applies them by `track_name`, `batch_name`, and `unit_id` against the
+current finalized JSONL. A correction is accepted only if the referenced unit
+still has the same source text and the proposed rendered-yomi string preserves
+the unit text under the same validation rules as the browser. Re-running sync is
+idempotent: a stored correction whose proposed yomi is already present is treated
+as accepted, not as a mismatch.
+
+`review-sync` imports open finalized-correction Issues, stores the payloads under
+the finalized-correction submission store, applies accepted patches to
+`units.yomi.final.jsonl`, republishes the review archive when anything changes,
+and closes only Issues whose imported correction submissions were accepted
+without skipped patches.
+
+Applied finalized corrections are exported into archive shards with two
+document-level measures: `finalized_correction_count` counts distinct correction
+submissions, while `finalized_correction_sentence_count` counts distinct units
+that have ever been corrected. Thus, two submissions that both edit the same
+sentence are displayed as `2 corrections · 1 sentence changed`. Unit-level
+`finalized_correction_count` continues to count the distinct correction
+submissions that affected that unit. The Corpus Map tile badge shows correction
+submissions; list metadata, tooltips, and previews also show the affected-sentence
+count.

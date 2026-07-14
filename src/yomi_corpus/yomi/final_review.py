@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 from collections import Counter
@@ -31,6 +32,8 @@ from yomi_corpus.document_review_state import (
 
 REVIEW_STAGE = "yomi_final_review"
 STRONG_REPAIR_REVIEW_STAGE = "yomi_strong_repair_review"
+FINALIZED_CORRECTION_STAGE = "finalized_correction"
+FINALIZED_CORRECTION_SUBMISSION_TYPE = "finalized_correction_patch"
 QUEUE_ID_FINAL_REVIEW = "final_review"
 QUEUE_ID_STRONG_REPAIR = "strong_repair"
 SCHEMA_VERSION = 1
@@ -1279,6 +1282,450 @@ def load_review_submissions(
         )
     )
     return rows
+
+
+def finalized_correction_submission_id(submission: dict[str, Any]) -> str:
+    raw = submission.get("submission_id")
+    if raw:
+        return str(raw)
+    source = submission.get("_source_issue")
+    issue_part = ""
+    if isinstance(source, dict):
+        issue = source.get("issue_number")
+        comment = source.get("comment_id")
+        issue_part = f"issue_{issue or 'unknown'}"
+        if comment:
+            issue_part += f"__comment_{comment}"
+    digest = hashlib.sha256(
+        json.dumps(submission, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:12]
+    return f"finalized_correction__{issue_part or 'local'}__{digest}"
+
+
+def load_finalized_correction_submissions(
+    submission_store_dir: str | Path,
+    *,
+    track_name: str | None = None,
+) -> list[dict[str, Any]]:
+    store_dir = Path(submission_store_dir)
+    rows: list[dict[str, Any]] = []
+    if not store_dir.exists():
+        return rows
+    for path in sorted(store_dir.glob("*.json")):
+        try:
+            payload = load_json(path)
+        except json.JSONDecodeError:
+            continue
+        if str(payload.get("submission_type")) != FINALIZED_CORRECTION_SUBMISSION_TYPE:
+            continue
+        if str(payload.get("review_stage")) != FINALIZED_CORRECTION_STAGE:
+            continue
+        if track_name is not None and str(payload.get("track_name") or "") != track_name:
+            continue
+        payload["_source_path"] = str(path)
+        payload.setdefault("submission_id", finalized_correction_submission_id(payload))
+        rows.append(payload)
+    rows.sort(
+        key=lambda row: (
+            int(row.get("generated_at_epoch", 0)),
+            str(row.get("submission_id", "")),
+            str(row.get("_source_path", "")),
+        )
+    )
+    return rows
+
+
+def apply_finalized_correction_submissions_file(
+    *,
+    root: Path,
+    submission_store_dir: Path,
+    track_name: str,
+    summary_json: Path,
+) -> dict[str, Any]:
+    submissions = load_finalized_correction_submissions(
+        submission_store_dir,
+        track_name=track_name,
+    )
+    summary_json.parent.mkdir(parents=True, exist_ok=True)
+    grouped: dict[str, list[tuple[dict[str, Any], dict[str, Any]]]] = {}
+    skipped: list[dict[str, Any]] = []
+    for submission in submissions:
+        batch_name = str(submission.get("batch_name") or "")
+        if not batch_name:
+            skipped.append(
+                {
+                    "reason": "missing_batch_name",
+                    "submission_id": finalized_correction_submission_id(submission),
+                    "source": submission.get("_source_issue"),
+                }
+            )
+            continue
+        for unit_patch in submission.get("units") or []:
+            if not isinstance(unit_patch, dict):
+                skipped.append(
+                    {
+                        "reason": "invalid_unit_patch",
+                        "submission_id": finalized_correction_submission_id(submission),
+                        "source": submission.get("_source_issue"),
+                    }
+                )
+                continue
+            grouped.setdefault(batch_name, []).append((submission, unit_patch))
+
+    batches: list[dict[str, Any]] = []
+    total_applied = 0
+    total_skipped = len(skipped)
+    for batch_name, patches in sorted(grouped.items()):
+        batch_summary = apply_finalized_correction_patches_to_batch(
+            root=root,
+            batch_name=batch_name,
+            patches=patches,
+        )
+        batches.append(batch_summary)
+        total_applied += int(batch_summary.get("applied_count") or 0)
+        total_skipped += int(batch_summary.get("skipped_count") or 0)
+
+    summary = {
+        "rule": "finalized_correction_apply_v1",
+        "track_name": track_name,
+        "submission_count": len(submissions),
+        "submission_paths": [str(row.get("_source_path", "")) for row in submissions],
+        "batch_count": len(batches),
+        "applied_count": total_applied,
+        "skipped_count": total_skipped,
+        "pre_group_skipped": skipped,
+        "batches": batches,
+        "summary_json": str(summary_json),
+        "stage_complete": total_skipped == 0,
+    }
+    if total_skipped:
+        summary["blocking_reason"] = f"{total_skipped} finalized correction patch(es) were not applied."
+    summary_json.write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return summary
+
+
+def apply_finalized_correction_patches_to_batch(
+    *,
+    root: Path,
+    batch_name: str,
+    patches: list[tuple[dict[str, Any], dict[str, Any]]],
+) -> dict[str, Any]:
+    final_jsonl = root / "data" / "units" / batch_name / "units.yomi.final.jsonl"
+    if not final_jsonl.exists():
+        return {
+            "batch_name": batch_name,
+            "status": "missing_final_jsonl",
+            "applied_count": 0,
+            "skipped_count": len(patches),
+            "skipped": [
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="missing_final_jsonl",
+                )
+                for submission, patch in patches
+            ],
+        }
+
+    latest_by_unit: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
+    skipped: list[dict[str, Any]] = []
+    for submission, patch in patches:
+        unit_id = str(patch.get("unit_id") or "")
+        if not unit_id:
+            skipped.append(
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="missing_unit_id",
+                )
+            )
+            continue
+        latest_by_unit[unit_id] = (submission, patch)
+
+    rows: list[str] = []
+    applied: list[dict[str, Any]] = []
+    accepted: list[dict[str, Any]] = []
+    read_units = 0
+    matched_units: set[str] = set()
+    with final_jsonl.open(encoding="utf-8") as src:
+        for line in src:
+            if not line.strip():
+                continue
+            read_units += 1
+            row = json.loads(line)
+            unit_id = str(row.get("unit_id") or "")
+            patch_pair = latest_by_unit.get(unit_id)
+            if patch_pair is not None:
+                matched_units.add(unit_id)
+                submission, patch = patch_pair
+                result = apply_finalized_correction_patch_to_unit(row, submission, patch)
+                if result["status"] == "applied":
+                    applied.append(result)
+                    accepted.append(result)
+                elif result["status"] == "already_applied":
+                    accepted.append(result)
+                else:
+                    skipped.append(result)
+            rows.append(json.dumps(row, ensure_ascii=False))
+
+    for unit_id, (submission, patch) in latest_by_unit.items():
+        if unit_id not in matched_units:
+            skipped.append(
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="unknown_unit_id",
+                )
+            )
+
+    if applied:
+        final_jsonl.write_text("\n".join(rows) + "\n", encoding="utf-8")
+
+    return {
+        "batch_name": batch_name,
+        "status": "applied" if applied else "no_changes",
+        "final_jsonl": str(final_jsonl),
+        "read_units": read_units,
+        "applied_count": len(applied),
+        "accepted_count": len(accepted),
+        "skipped_count": len(skipped),
+        "applied": applied,
+        "accepted": accepted,
+        "skipped": skipped,
+    }
+
+
+def apply_finalized_correction_patch_to_unit(
+    unit: dict[str, Any],
+    submission: dict[str, Any],
+    patch: dict[str, Any],
+) -> dict[str, Any]:
+    submission_id = finalized_correction_submission_id(submission)
+    unit_id = str(patch.get("unit_id") or "")
+    source = submission.get("_source_issue")
+    if str(patch.get("text") or "") and str(patch.get("text") or "") != str(unit.get("text") or ""):
+        return finalized_correction_skip_record(
+            submission,
+            patch,
+            reason="text_mismatch",
+        )
+    current = current_rendered_yomi_for_correction(unit)
+    original = normalize_rendered_yomi_for_finalized_correction(
+        str(patch.get("original_rendered_yomi") or "")
+    )
+    proposed = normalize_rendered_yomi_for_finalized_correction(
+        str(patch.get("proposed_rendered_yomi") or "")
+    )
+    if normalize_rendered_yomi_for_finalized_correction(current) == proposed:
+        return {
+            "status": "already_applied",
+            "submission_id": submission_id,
+            "unit_id": unit_id,
+            "source": source,
+        }
+    if original and normalize_rendered_yomi_for_finalized_correction(current) != original:
+        return finalized_correction_skip_record(
+            submission,
+            patch,
+            reason="original_rendered_yomi_mismatch",
+            current_rendered_yomi=current,
+        )
+    validation = validate_finalized_correction_rendered_yomi(
+        unit=unit,
+        proposed=proposed,
+    )
+    if not validation["ok"]:
+        return finalized_correction_skip_record(
+            submission,
+            patch,
+            reason="invalid_proposed_rendered_yomi",
+            validation_error=str(validation["error"]),
+        )
+    set_current_rendered_yomi_for_correction(unit, proposed)
+    corrections = (
+        unit.setdefault("analysis", {})
+        .setdefault("human_review", {})
+        .setdefault("finalized_corrections", [])
+    )
+    corrections.append(
+        {
+            "submission_id": submission_id,
+            "review_stage": FINALIZED_CORRECTION_STAGE,
+            "source": source,
+            "original_rendered_yomi": current,
+            "proposed_rendered_yomi": proposed,
+        }
+    )
+    return {
+        "status": "applied",
+        "submission_id": submission_id,
+        "unit_id": unit_id,
+        "source": source,
+    }
+
+
+def finalized_correction_skip_record(
+    submission: dict[str, Any],
+    patch: dict[str, Any],
+    *,
+    reason: str,
+    **extra: Any,
+) -> dict[str, Any]:
+    return {
+        "status": "skipped",
+        "reason": reason,
+        "submission_id": finalized_correction_submission_id(submission),
+        "unit_id": str(patch.get("unit_id") or ""),
+        "source": submission.get("_source_issue"),
+        **extra,
+    }
+
+
+def current_rendered_yomi_for_correction(unit: dict[str, Any]) -> str:
+    direct = unit.get("rendered_yomi")
+    if isinstance(direct, str) and direct:
+        return direct
+    yomi = (
+        unit.get("analysis", {})
+        .get("mechanical", {})
+        .get("yomi", {})
+    )
+    if isinstance(yomi, dict) and isinstance(yomi.get("rendered"), str):
+        return str(yomi["rendered"])
+    return ""
+
+
+def set_current_rendered_yomi_for_correction(unit: dict[str, Any], rendered: str) -> None:
+    if isinstance(unit.get("rendered_yomi"), str):
+        unit["rendered_yomi"] = rendered
+        return
+    yomi = (
+        unit.setdefault("analysis", {})
+        .setdefault("mechanical", {})
+        .setdefault("yomi", {})
+    )
+    yomi["rendered"] = rendered
+
+
+def validate_finalized_correction_rendered_yomi(
+    *,
+    unit: dict[str, Any],
+    proposed: str,
+) -> dict[str, Any]:
+    if not proposed:
+        return {"ok": False, "error": "rendered yomi is empty"}
+    tokens = parse_rendered_yomi_tokens_for_finalized_correction(proposed)
+    if not tokens:
+        return {"ok": False, "error": "rendered yomi has no tokens"}
+    surfaces: list[str] = []
+    for token in tokens:
+        if not token["ok"]:
+            return {"ok": False, "error": token["error"]}
+        reading_validation = validate_finalized_correction_reading(
+            str(token["surface"]),
+            str(token["reading"]),
+        )
+        if not reading_validation["ok"]:
+            return {
+                "ok": False,
+                "error": f"token {token['raw']}: {reading_validation['error']}",
+            }
+        surfaces.append(str(token["surface"]))
+    expected_text = normalize_finalized_correction_source_text(
+        "".join(
+            token["surface"]
+            for token in parse_rendered_yomi_tokens_for_finalized_correction(
+                current_rendered_yomi_for_correction(unit)
+            )
+            if token["ok"]
+        )
+        or str(unit.get("text") or "")
+    )
+    proposed_text = normalize_finalized_correction_source_text("".join(surfaces))
+    if expected_text and proposed_text != expected_text:
+        return {
+            "ok": False,
+            "error": f"source text changed: got {proposed_text}, expected {expected_text}",
+        }
+    return {"ok": True}
+
+
+def parse_rendered_yomi_tokens_for_finalized_correction(rendered: str) -> list[dict[str, Any]]:
+    tokens: list[dict[str, Any]] = []
+    for raw in re.split(r"[ \t\r\n]+", str(rendered or "").strip()):
+        if not raw:
+            continue
+        if raw == "/":
+            tokens.append({"ok": True, "raw": raw, "surface": " ", "reading": ""})
+            continue
+        slash_index = raw.rfind("/")
+        if slash_index < 0:
+            tokens.append({"ok": False, "raw": raw, "error": f"token {raw} must be surface/reading"})
+            continue
+        surface = raw[:slash_index]
+        if not surface:
+            tokens.append({"ok": False, "raw": raw, "error": f"token {raw} has no surface before the slash"})
+            continue
+        tokens.append({"ok": True, "raw": raw, "surface": surface, "reading": raw[slash_index + 1 :]})
+    return tokens
+
+
+def normalize_rendered_yomi_for_finalized_correction(rendered: str) -> str:
+    tokens: list[str] = []
+    for token in parse_rendered_yomi_tokens_for_finalized_correction(rendered):
+        if not token["ok"]:
+            tokens.append(str(token["raw"]))
+            continue
+        surface = str(token["surface"])
+        reading = hiragana_to_katakana_for_finalized_correction(str(token["reading"]).strip())
+        if is_numeric_only_finalized_correction_surface(surface):
+            reading = ""
+        tokens.append(f"{surface}/{reading}")
+    return " ".join(tokens)
+
+
+def validate_finalized_correction_reading(surface: str, reading: str) -> dict[str, Any]:
+    if re.fullmatch(r"[ \u00a0]+", surface):
+        if reading and not re.fullmatch(r"[ \u00a0]+", reading):
+            return {"ok": False, "error": "space tokens must have an empty or whitespace reading"}
+        return {"ok": True}
+    if is_numeric_only_finalized_correction_surface(surface):
+        if reading:
+            return {"ok": False, "error": "numeric-only surfaces must have an empty reading"}
+        return {"ok": True}
+    if re.search(r"[一-龯々〆A-Za-z]", surface):
+        if not reading:
+            return {"ok": False, "error": "kanji or alphabetic surfaces need a kana reading"}
+        if not re.fullmatch(r"[ァ-ヺー]+", reading):
+            return {"ok": False, "error": "reading for kanji or alphabetic surfaces must be katakana"}
+        return {"ok": True}
+    expected = hiragana_to_katakana_for_finalized_correction(surface)
+    if reading == expected:
+        return {"ok": True}
+    return {"ok": False, "error": f"reading should be {expected or '(empty)'}"}
+
+
+def is_numeric_only_finalized_correction_surface(surface: str) -> bool:
+    return bool(
+        re.fullmatch(
+            r"[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+",
+            surface,
+        )
+    )
+
+
+def normalize_finalized_correction_source_text(value: str) -> str:
+    return re.sub(r"[ \t\r\n\u00a0]+", "", str(value or ""))
+
+
+def hiragana_to_katakana_for_finalized_correction(value: str) -> str:
+    return "".join(
+        chr(ord(char) + 0x60) if "ぁ" <= char <= "ゖ" else char
+        for char in str(value or "")
+    )
 
 
 def replay_review_submissions(

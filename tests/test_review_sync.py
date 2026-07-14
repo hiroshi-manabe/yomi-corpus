@@ -26,6 +26,7 @@ from yomi_corpus.review_sync import (
     batch_is_before_bulk_review_ready,
     build_decoder_refresh_plan,
     build_bulk_review_refill_plan,
+    close_finalized_correction_issues,
     current_document_queue_summary,
     has_strong_pending_documents,
     load_review_sync_config,
@@ -37,6 +38,7 @@ from yomi_corpus.review_sync import (
     ReviewSyncLock,
     should_run_stage,
     strong_repair_apply_confirmed,
+    sync_finalized_corrections,
     sweep_actionable_batches,
 )
 from yomi_corpus.pipeline import PipelineWorkspace, TrackState
@@ -182,6 +184,84 @@ class FakeSweepWorkspace:
 
 
 class ReviewSyncTests(unittest.TestCase):
+    def test_sync_finalized_corrections_imports_applies_and_closes(self) -> None:
+        import_summary = {
+            "summaries": [{"submission_id": "ok_1", "source": {"issue_number": 10}}],
+            "skipped": [],
+        }
+        apply_summary = {
+            "applied_count": 1,
+            "skipped_count": 0,
+            "batches": [{"applied": [{"submission_id": "ok_1"}], "skipped": []}],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with (
+                patch("yomi_corpus.review_sync.import_open_issue_inbox", return_value=import_summary) as mocked_import,
+                patch(
+                    "yomi_corpus.review_sync.apply_finalized_correction_submissions_file",
+                    return_value=apply_summary,
+                ) as mocked_apply,
+                patch("yomi_corpus.review_sync.close_github_issue") as mocked_close,
+            ):
+                mocked_close.side_effect = lambda *, repo, issue_number: {
+                    "repo": repo,
+                    "issue_number": issue_number,
+                    "closed": True,
+                }
+                result = sync_finalized_corrections(
+                    root=root,
+                    repo="owner/repo",
+                    track_name="dev",
+                    close_issues=True,
+                )
+
+            self.assertTrue(result["changed"])
+            self.assertTrue((root / "data" / "state" / "finalized_correction" / "last_review_inbox_import_summary.json").exists())
+            self.assertEqual(result["close_results"], [{"repo": "owner/repo", "issue_number": 10, "closed": True}])
+            mocked_import.assert_called_once()
+            mocked_apply.assert_called_once()
+            mocked_close.assert_called_once_with(repo="owner/repo", issue_number=10)
+
+    def test_close_finalized_correction_issues_only_closes_applied_submissions(self) -> None:
+        import_summary = {
+            "summaries": [
+                {
+                    "submission_id": "ok_1",
+                    "source": {"issue_number": 10},
+                },
+                {
+                    "submission_id": "bad_1",
+                    "source": {"issue_number": 11},
+                },
+            ],
+            "skipped": [],
+        }
+        apply_summary = {
+            "batches": [
+                {
+                    "applied": [{"submission_id": "ok_1"}],
+                    "skipped": [{"submission_id": "bad_1", "reason": "invalid"}],
+                }
+            ]
+        }
+
+        with patch("yomi_corpus.review_sync.close_github_issue") as mocked_close:
+            mocked_close.side_effect = lambda *, repo, issue_number: {
+                "repo": repo,
+                "issue_number": issue_number,
+                "closed": True,
+            }
+            result = close_finalized_correction_issues(
+                repo="owner/repo",
+                import_summary=import_summary,
+                apply_summary=apply_summary,
+                enabled=True,
+            )
+
+        self.assertEqual(result, [{"repo": "owner/repo", "issue_number": 10, "closed": True}])
+        mocked_close.assert_called_once_with(repo="owner/repo", issue_number=10)
+
     def test_review_sync_lock_blocks_active_pid(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             lock_path = Path(tmp) / "dev.lock"

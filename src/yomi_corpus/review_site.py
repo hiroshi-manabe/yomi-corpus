@@ -318,6 +318,9 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                     "doc_id": doc_id,
                     "batch_name": batch_name,
                     "unit_count": 0,
+                    "finalized_correction_count": 0,
+                    "finalized_correction_sentence_count": 0,
+                    "_finalized_correction_submission_ids": set(),
                     "text_preview": "",
                     "units": [],
                 },
@@ -327,9 +330,19 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                 continue
             doc["units"].append(unit)
             doc["unit_count"] = len(doc["units"])
+            correction_ids = finalized_correction_submission_ids(row)
+            doc["_finalized_correction_submission_ids"].update(correction_ids)
+            doc["finalized_correction_count"] = len(doc["_finalized_correction_submission_ids"])
+            if correction_ids:
+                doc["finalized_correction_sentence_count"] += 1
             if not doc["text_preview"]:
                 doc["text_preview"] = str(unit.get("text") or "")[:120]
-    return [documents[key] for key in sorted(documents)]
+    result = []
+    for key in sorted(documents):
+        doc = documents[key]
+        doc.pop("_finalized_correction_submission_ids", None)
+        result.append(doc)
+    return result
 
 
 def finalized_batch_names(root: Path, track_name: str) -> list[str]:
@@ -361,8 +374,29 @@ def archive_unit_from_row(row: dict) -> dict | None:
         "text": text,
         "rendered_yomi": rendered_yomi,
         "ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi) if rendered_yomi else [],
+        "finalized_correction_count": finalized_correction_count(row),
     }
     return unit
+
+
+def finalized_correction_count(row: dict) -> int:
+    return len(finalized_correction_submission_ids(row))
+
+
+def finalized_correction_submission_ids(row: dict) -> set[str]:
+    corrections = (
+        row.get("analysis", {})
+        .get("human_review", {})
+        .get("finalized_corrections")
+    )
+    if not isinstance(corrections, list):
+        return set()
+    submission_ids: set[str] = set()
+    unit_id = str(row.get("unit_id") or "unknown-unit")
+    for index, correction in enumerate(corrections):
+        submission_id = str(correction.get("submission_id") or "") if isinstance(correction, dict) else ""
+        submission_ids.add(submission_id or f"legacy-correction:{unit_id}:{index}")
+    return submission_ids
 
 
 def archive_rendered_yomi(row: dict) -> str:

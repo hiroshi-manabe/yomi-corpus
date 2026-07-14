@@ -36,6 +36,11 @@ from yomi_corpus.review_transport import (
     PUBLISH_MODE_LOCAL,
     PUBLISH_MODES,
 )
+from yomi_corpus.yomi.final_review import (
+    FINALIZED_CORRECTION_STAGE,
+    apply_finalized_correction_submissions_file,
+)
+from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
 
 DEFAULT_REVIEW_SYNC_CONFIG = "config/review_sync/default.toml"
 DECODER_REFRESH_MODE_NEVER = "never"
@@ -212,6 +217,7 @@ def _run_review_sync_pass_unlocked(
     close_results: list[dict[str, Any]] = []
     refill_results: list[dict[str, Any]] = []
     sweep_results: list[dict[str, Any]] = []
+    finalized_correction_result: dict[str, Any] | None = None
     decoder_refresh_result: dict[str, Any] | None = None
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
@@ -377,6 +383,17 @@ def _run_review_sync_pass_unlocked(
                     target_documents=int(refill_plan["planned_prepare_documents"]),
                 )
 
+    if not options.dry_run:
+        finalized_correction_result = sync_finalized_corrections(
+            root=root,
+            repo=options.repo,
+            track_name=options.track_name,
+            close_issues=options.close_issues,
+        )
+        if finalized_correction_result.get("changed"):
+            changed = True
+        close_results.extend(finalized_correction_result.get("close_results") or [])
+
     site_stale = False
     if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
         site_stale = review_site_needs_publish(root)
@@ -413,6 +430,7 @@ def _run_review_sync_pass_unlocked(
             "refill_pass_limit": options.refill_pass_limit,
         },
         "refill_plan": refill_plan,
+        "finalized_correction_result": finalized_correction_result,
         "decoder_refresh_result": decoder_refresh_result,
         "changed": changed,
         "site_stale": site_stale,
@@ -425,6 +443,116 @@ def _run_review_sync_pass_unlocked(
         "final_status": final_status,
         "document_queue_summary": document_queue_summary,
     }
+
+
+def sync_finalized_corrections(
+    *,
+    root: Path,
+    repo: str,
+    track_name: str,
+    close_issues: bool,
+) -> dict[str, Any]:
+    submission_store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+    state_dir = root / "data" / "state" / FINALIZED_CORRECTION_STAGE
+    import_summary_path = state_dir / "last_review_inbox_import_summary.json"
+    apply_summary_path = state_dir / "last_apply_summary.json"
+    import_summary = import_open_issue_inbox(
+        repo=repo,
+        review_pack_root=root / "data" / "review_packs",
+        submission_store_dir=submission_store_dir,
+        review_stage=FINALIZED_CORRECTION_STAGE,
+    )
+    state_dir.mkdir(parents=True, exist_ok=True)
+    import_summary_path.write_text(
+        json.dumps(import_summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    apply_summary = apply_finalized_correction_submissions_file(
+        root=root,
+        submission_store_dir=submission_store_dir,
+        track_name=track_name,
+        summary_json=apply_summary_path,
+    )
+    changed = int(apply_summary.get("applied_count") or 0) > 0
+    close_results = close_finalized_correction_issues(
+        repo=repo,
+        import_summary=import_summary,
+        apply_summary=apply_summary,
+        enabled=close_issues,
+    )
+    return {
+        "review_stage": FINALIZED_CORRECTION_STAGE,
+        "changed": changed,
+        "import_summary_json": str(import_summary_path),
+        "apply_summary_json": str(apply_summary_path),
+        "import_summary": import_summary,
+        "apply_summary": apply_summary,
+        "close_results": close_results,
+    }
+
+
+def close_finalized_correction_issues(
+    *,
+    repo: str,
+    import_summary: dict[str, Any],
+    apply_summary: dict[str, Any],
+    enabled: bool,
+) -> list[dict[str, Any]]:
+    if not enabled:
+        return []
+    applied_submission_ids = finalized_correction_applied_submission_ids(apply_summary)
+    problematic_submission_ids = finalized_correction_problematic_submission_ids(apply_summary)
+    imported_by_issue: dict[int, set[str]] = {}
+    problematic_issues: set[int] = set()
+    for row in import_summary.get("summaries") or []:
+        if not isinstance(row, dict):
+            continue
+        issue_number = issue_number_from_source(row.get("source"))
+        submission_id = str(row.get("submission_id") or "")
+        if issue_number and submission_id:
+            imported_by_issue.setdefault(issue_number, set()).add(submission_id)
+    for row in import_summary.get("skipped") or []:
+        if not isinstance(row, dict):
+            continue
+        if str(row.get("reason") or "") == "duplicate_submission_id":
+            continue
+        issue_number = issue_number_from_source(row.get("source"))
+        if issue_number:
+            problematic_issues.add(issue_number)
+    closable: list[int] = []
+    for issue_number, submission_ids in imported_by_issue.items():
+        if issue_number in problematic_issues:
+            continue
+        if submission_ids & problematic_submission_ids:
+            continue
+        if submission_ids and submission_ids <= applied_submission_ids:
+            closable.append(issue_number)
+    return [close_github_issue(repo=repo, issue_number=number) for number in sorted(closable)]
+
+
+def finalized_correction_applied_submission_ids(apply_summary: dict[str, Any]) -> set[str]:
+    ids: set[str] = set()
+    for batch in apply_summary.get("batches") or []:
+        if not isinstance(batch, dict):
+            continue
+        for row in (batch.get("applied") or []) + (batch.get("accepted") or []):
+            if isinstance(row, dict) and row.get("submission_id"):
+                ids.add(str(row["submission_id"]))
+    return ids
+
+
+def finalized_correction_problematic_submission_ids(apply_summary: dict[str, Any]) -> set[str]:
+    ids: set[str] = set()
+    for row in apply_summary.get("pre_group_skipped") or []:
+        if isinstance(row, dict) and row.get("submission_id"):
+            ids.add(str(row["submission_id"]))
+    for batch in apply_summary.get("batches") or []:
+        if not isinstance(batch, dict):
+            continue
+        for row in batch.get("skipped") or []:
+            if isinstance(row, dict) and row.get("submission_id"):
+                ids.add(str(row["submission_id"]))
+    return ids
 
 
 def maybe_refresh_decoder_model(

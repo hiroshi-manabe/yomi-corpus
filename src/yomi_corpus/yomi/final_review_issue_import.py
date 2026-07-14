@@ -10,8 +10,11 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from yomi_corpus.yomi.final_review import (
+    FINALIZED_CORRECTION_STAGE,
+    FINALIZED_CORRECTION_SUBMISSION_TYPE,
     REVIEW_STAGE,
     STRONG_REPAIR_REVIEW_STAGE,
+    finalized_correction_submission_id,
     store_review_submission,
 )
 
@@ -330,6 +333,8 @@ def scan_json_object_strings(text: str) -> list[str]:
 def is_review_submission_like(payload: object) -> bool:
     if not isinstance(payload, dict):
         return False
+    if payload.get("submission_type") == FINALIZED_CORRECTION_SUBMISSION_TYPE:
+        return payload.get("review_stage") == FINALIZED_CORRECTION_STAGE and isinstance(payload.get("units"), list)
     if payload.get("submission_type") == "review_patch":
         return "review_stage" in payload and "pack_id" in payload and "submission_id" in payload
     if payload.get("submission_type") == "review_bundle":
@@ -357,6 +362,19 @@ def process_submission_record(
             repo=repo,
             issue_number=issue_number,
             review_pack_root=review_pack_root,
+            submission_store_dir=submission_store_dir,
+            review_stage=review_stage,
+            seen_submission_ids=seen_submission_ids,
+            summaries=summaries,
+            skipped=skipped,
+        )
+        return
+    if str(submission.get("submission_type")) == FINALIZED_CORRECTION_SUBMISSION_TYPE:
+        process_finalized_correction_submission_record(
+            submission,
+            source_record=source_record,
+            repo=repo,
+            issue_number=issue_number,
             submission_store_dir=submission_store_dir,
             review_stage=review_stage,
             seen_submission_ids=seen_submission_ids,
@@ -416,6 +434,61 @@ def process_submission_record(
             "review_stage": review_stage,
             "stored_path": str(stored_path),
             "review_pack_path": str(pack_path),
+            "source": source_record,
+        }
+    )
+
+
+def process_finalized_correction_submission_record(
+    submission: dict,
+    *,
+    source_record: dict,
+    repo: str,
+    issue_number: int,
+    submission_store_dir: Path,
+    review_stage: str,
+    seen_submission_ids: set[str],
+    summaries: list[dict],
+    skipped: list[dict],
+) -> None:
+    if review_stage != FINALIZED_CORRECTION_STAGE:
+        skipped.append({"reason": "wrong_review_stage", "source": source_record})
+        return
+    if str(submission.get("review_stage")) != FINALIZED_CORRECTION_STAGE:
+        skipped.append({"reason": "wrong_review_stage", "source": source_record})
+        return
+    if not isinstance(submission.get("units"), list):
+        skipped.append({"reason": "invalid_finalized_correction_units", "source": source_record})
+        return
+    source_issue = {
+        "repo": repo,
+        "issue_number": issue_number,
+        "comment_id": source_record.get("comment_id"),
+    }
+    if "url" in source_record:
+        source_issue["attachment_url"] = source_record["url"]
+    submission["_source_issue"] = source_issue
+    submission.setdefault("submission_id", finalized_correction_submission_id(submission))
+    submission_id = str(submission["submission_id"])
+    if submission_id in seen_submission_ids:
+        skipped.append(
+            {
+                "reason": "duplicate_submission_id",
+                "source": source_record,
+                "submission_id": submission_id,
+            }
+        )
+        return
+    seen_submission_ids.add(submission_id)
+    stored_path = store_review_submission(
+        submission,
+        submission_store_dir=submission_store_dir,
+    )
+    summaries.append(
+        {
+            "submission_id": submission_id,
+            "review_stage": review_stage,
+            "stored_path": str(stored_path),
             "source": source_record,
         }
     )
