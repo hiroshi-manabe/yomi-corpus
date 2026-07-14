@@ -2509,8 +2509,11 @@ Browser validation must reject:
 - rendered-yomi tokens without `/`
 - empty token surfaces
 - readings that violate the canonical `surface/reading` structural rule:
-  kanji or Latin surfaces need a katakana reading, digit-only surfaces need an
-  empty reading, and kana/symbol surfaces need their normalized literal reading
+  kanji or Latin surfaces need a katakana reading, numeric-only surfaces need
+  an empty reading, and kana/symbol surfaces need their normalized literal
+  reading. Numeric-only includes ASCII/fullwidth digits and Roman numerals, but
+  mixed lexical surfaces such as `聖飢魔Ⅱ` still require a normal katakana
+  reading.
 - source-surface changes relative to the original rendered-yomi token surfaces
   after removing whitespace. In practice the UI should ignore differences
   between ASCII spaces and NBSP here, because finalized archive data may contain

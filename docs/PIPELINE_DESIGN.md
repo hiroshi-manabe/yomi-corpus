@@ -147,8 +147,9 @@ rule before any `OK` decision is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
   contain only katakana plus the long-vowel mark `ー`
-- if `surface` is digits only, `reading` must be empty, so `2021/` is valid and
-  `2021/2021` is invalid
+- if `surface` is numeric only, including ASCII/fullwidth digits and Roman
+  numerals, `reading` must be empty, so `2021/` and `Ⅱ/` are valid while
+  `2021/2021` and `Ⅱ/ニ` are invalid
 - otherwise, `reading` must equal the result of converting hiragana in
   `surface` to katakana while leaving non-kana characters unchanged, so
   `です/デス` and `。/。` are valid
@@ -2055,8 +2056,8 @@ in-place archive mutation. The browser can prepare a
 - unchanged unit IDs and order
 - rendered-yomi tokens in `surface/reading` form
 - readings must satisfy the canonical token structural rule: kanji or Latin
-  surfaces need katakana readings, digit-only surfaces need empty readings, and
-  kana/symbol surfaces need normalized literal readings
+  surfaces need katakana readings, numeric-only surfaces need empty readings,
+  and kana/symbol surfaces need normalized literal readings
 - source surfaces preserved relative to the original rendered-yomi tokens after
   removing whitespace. ASCII-space/NBSP differences should not invalidate an
   otherwise unit-scoped yomi correction.
