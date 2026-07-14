@@ -1276,7 +1276,8 @@ function saveArchiveCorrectionRow(row, unit) {
     return;
   }
   const original = String(editor.dataset.originalYomi || "").trim();
-  const proposed = String(textarea.value || "").trim();
+  const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
+  textarea.value = proposed;
   if (proposed === original) {
     clearArchiveCorrectionRow(row);
     return;
@@ -1443,6 +1444,26 @@ function parseRenderedYomiCorrectionTokens(rendered) {
         reading: raw.slice(slashIndex + 1),
       };
     });
+}
+
+function normalizeRenderedYomiCorrectionReadings(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/[ \t\r\n]+/)
+    .filter(Boolean)
+    .map((raw) => {
+      if (raw === "/") {
+        return raw;
+      }
+      const slashIndex = raw.lastIndexOf("/");
+      if (slashIndex < 0) {
+        return raw;
+      }
+      const surface = raw.slice(0, slashIndex);
+      const reading = raw.slice(slashIndex + 1);
+      return `${surface}/${hiraganaToKatakana(reading)}`;
+    })
+    .join(" ");
 }
 
 function normalizeCorrectionSourceText(value) {
