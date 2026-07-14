@@ -165,6 +165,10 @@ h1 {
   cursor: pointer;
 }
 
+.track-card.dev-workspace-card {
+  cursor: default;
+}
+
 .track-card.primary-track {
   background: rgba(45, 106, 79, 0.09);
 }
@@ -460,6 +464,38 @@ button:disabled {
   background: rgba(45, 106, 79, 0.08);
 }
 
+.archive-browser-panel .task-doc-row {
+  width: 100%;
+  grid-template-columns: minmax(120px, 180px) minmax(180px, 260px) minmax(0, 1fr);
+  text-align: left;
+  cursor: pointer;
+}
+
+.archive-browser-panel .task-doc-row:hover {
+  border-color: rgba(45, 106, 79, 0.32);
+  background: rgba(45, 106, 79, 0.05);
+}
+
+.archive-shard-row {
+  grid-template-columns: minmax(160px, 1fr) minmax(160px, auto);
+}
+
+.archive-doc-row .task-doc-preview {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.corpus-map-grid {
+  align-items: start;
+  padding: 4px 0;
+}
+
+.corpus-map-tile {
+  cursor: pointer;
+}
+
 .workflow-dashboard {
   display: grid;
   gap: 16px;
@@ -477,6 +513,28 @@ button:disabled {
 .workflow-pack-map {
   border-color: rgba(34, 106, 214, 0.32);
   background: linear-gradient(135deg, rgba(34, 106, 214, 0.055), rgba(255, 253, 249, 0.9));
+}
+
+.workflow-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+}
+
+.compact-button {
+  padding: 7px 10px;
+  font-size: 0.86rem;
+  border-radius: 999px;
+}
+
+.archive-browser-panel .task-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .workflow-body {
@@ -774,6 +832,119 @@ button:disabled {
 
 .workflow-preview-item {
   box-shadow: none;
+}
+
+.workflow-preview-item.archive-preview-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(31, 28, 23, 0.08);
+}
+
+.archive-correction-help {
+  margin: 0;
+}
+
+.archive-correction-list {
+  display: grid;
+  gap: 10px;
+}
+
+.archive-correction-row {
+  display: grid;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 28, 23, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 253, 249, 0.82);
+}
+
+.archive-correction-row.changed {
+  border-color: rgba(45, 106, 79, 0.38);
+  background: rgba(45, 106, 79, 0.08);
+}
+
+.archive-correction-row.invalid {
+  border-color: rgba(168, 67, 47, 0.42);
+  background: rgba(168, 67, 47, 0.08);
+  box-shadow: 0 0 0 2px rgba(168, 67, 47, 0.14);
+}
+
+.archive-correction-row-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.archive-correction-row-summary .ruby-line {
+  margin: 0;
+}
+
+.compact-button {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.archive-correction-editor {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid rgba(31, 28, 23, 0.09);
+}
+
+.archive-correction-saved {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(45, 106, 79, 0.1);
+}
+
+.archive-correction-saved code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+.archive-correction-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.archive-correction-unit-textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.archive-correction-row.invalid .archive-correction-unit-textarea {
+  border-color: var(--danger);
+  background: rgba(168, 67, 47, 0.05);
+}
+
+.archive-correction-validation {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.archive-correction-validation.error {
+  color: var(--danger);
+  background: rgba(168, 67, 47, 0.1);
+  font-weight: 700;
+}
+
+.archive-correction-row-validation.error {
+  display: inline-block;
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: var(--danger);
+  background: rgba(168, 67, 47, 0.12);
+  font-weight: 700;
 }
 
 .workflow-preview-item.resolved-yomi-preview {
