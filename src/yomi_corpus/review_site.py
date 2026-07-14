@@ -368,7 +368,7 @@ def archive_unit_from_row(row: dict) -> dict | None:
 def archive_rendered_yomi(row: dict) -> str:
     direct = row.get("rendered_yomi")
     if isinstance(direct, str) and direct:
-        return direct
+        return normalize_archive_rendered_yomi(direct)
     analysis = row.get("analysis")
     if not isinstance(analysis, dict):
         return ""
@@ -377,8 +377,39 @@ def archive_rendered_yomi(row: dict) -> str:
         return ""
     yomi = mechanical.get("yomi")
     if isinstance(yomi, dict) and isinstance(yomi.get("rendered"), str):
-        return str(yomi["rendered"])
+        return normalize_archive_rendered_yomi(str(yomi["rendered"]))
     return ""
+
+
+def normalize_archive_rendered_yomi(rendered: str) -> str:
+    tokens: list[str] = []
+    for token in rendered_yomi_tokens_for_archive(rendered):
+        surface, reading = split_rendered_yomi_token_for_archive(token)
+        if is_numeric_only_surface(surface):
+            tokens.append(f"{surface}/")
+        else:
+            tokens.append(f"{surface}/{reading}")
+    return " ".join(tokens)
+
+
+def rendered_yomi_tokens_for_archive(rendered: str) -> list[str]:
+    return [token for token in re.split(r"[ \t\r\n]+", str(rendered or "").strip()) if token]
+
+
+def split_rendered_yomi_token_for_archive(token: str) -> tuple[str, str]:
+    separator = token.rfind("/")
+    if separator < 0:
+        return token, ""
+    return token[:separator], token[separator + 1 :]
+
+
+def is_numeric_only_surface(surface: str) -> bool:
+    return bool(
+        re.fullmatch(
+            r"[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+",
+            surface,
+        )
+    )
 
 
 def write_archive_shards(

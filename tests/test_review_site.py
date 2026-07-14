@@ -284,22 +284,60 @@ class ReviewSiteTests(unittest.TestCase):
                 encoding="utf-8",
             )
             unit_root.joinpath("units.yomi.final.jsonl").write_text(
-                json.dumps(
-                    {
-                        "doc_id": "ja_cc_level2:0000000001",
-                        "unit_id": "ja_cc_level2:0000000001:u0001",
-                        "unit_seq": 1,
-                        "track_doc_seq": 1,
-                        "text": "学校です。",
-                        "analysis": {
-                            "mechanical": {
-                                "yomi": {
-                                    "rendered": "学校/ガッコウ です/デス 。/。",
-                                }
-                            }
-                        },
-                    },
-                    ensure_ascii=False,
+                "\n".join(
+                    [
+                        json.dumps(
+                            {
+                                "doc_id": "ja_cc_level2:0000000001",
+                                "unit_id": "ja_cc_level2:0000000001:u0001",
+                                "unit_seq": 1,
+                                "track_doc_seq": 1,
+                                "text": "学校です。",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "学校/ガッコウ です/デス 。/。",
+                                        }
+                                    }
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "doc_id": "ja_cc_level2:0000000002",
+                                "unit_id": "ja_cc_level2:0000000002:u0001",
+                                "unit_seq": 1,
+                                "track_doc_seq": 2,
+                                "text": "Ⅱ",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "Ⅱ/ニ",
+                                        }
+                                    }
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                        json.dumps(
+                            {
+                                "doc_id": "ja_cc_level2:0000000003",
+                                "unit_id": "ja_cc_level2:0000000003:u0001",
+                                "unit_seq": 1,
+                                "track_doc_seq": 3,
+                                "text": "聖飢魔Ⅱ",
+                                "analysis": {
+                                    "mechanical": {
+                                        "yomi": {
+                                            "rendered": "聖飢魔Ⅱ/セイキマツ",
+                                        }
+                                    }
+                                },
+                            },
+                            ensure_ascii=False,
+                        ),
+                    ]
                 )
                 + "\n",
                 encoding="utf-8",
@@ -308,12 +346,14 @@ class ReviewSiteTests(unittest.TestCase):
             archive = publish_review_archive(project_root=root, review_output_dir=output_root, shard_size=100)
 
             index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
-            self.assertEqual(archive["tracks"]["dev"]["document_count"], 1)
+            self.assertEqual(archive["tracks"]["dev"]["document_count"], 3)
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))
             self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(shard["documents"][0]["units"][0]["rendered_yomi"], "学校/ガッコウ です/デス 。/。")
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
+            self.assertEqual(shard["documents"][1]["units"][0]["rendered_yomi"], "Ⅱ/")
+            self.assertEqual(shard["documents"][2]["units"][0]["rendered_yomi"], "聖飢魔Ⅱ/セイキマツ")
 
 
 if __name__ == "__main__":
