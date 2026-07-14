@@ -1006,10 +1006,12 @@ function renderArchiveShardRow(shard) {
 function renderArchiveDocumentRow(doc) {
   const button = document.createElement("button");
   button.type = "button";
+  const correctionCount = Number(doc.finalized_correction_count || 0);
   button.className = "task-doc-row archive-doc-row";
+  button.classList.toggle("has-finalized-corrections", correctionCount > 0);
   button.innerHTML = `
     <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
-    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)</span>
+    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)${archiveCorrectionBadge(correctionCount)}</span>
     <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
   `;
   button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
@@ -1022,12 +1024,17 @@ function renderCorpusMapTileGrid(docs) {
   for (const doc of docs) {
     const tile = document.createElement("button");
     tile.type = "button";
+    const correctionCount = Number(doc.finalized_correction_count || 0);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
+    tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
     tile.innerHTML = `
       <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
+      ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
     `;
-    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}`;
+    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
+      correctionCount ? `\n${correctionCount} applied correction(s)` : ""
+    }`;
     tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
   }
@@ -1051,6 +1058,8 @@ function openArchiveDocumentPreview(doc) {
   for (const unit of units) {
     const node = document.createElement("article");
     node.className = "workflow-preview-item archive-preview-item";
+    const correctionCount = Number(unit.finalized_correction_count || 0);
+    node.classList.toggle("has-finalized-corrections", correctionCount > 0);
     const rubyLine = document.createElement("div");
     rubyLine.className = "ruby-line resolved-ruby-line";
     if (unit.rendered_yomi) {
@@ -1060,6 +1069,12 @@ function openArchiveDocumentPreview(doc) {
       rubyLine.textContent = unit.text || "";
     }
     node.append(rubyLine);
+    if (correctionCount) {
+      const badge = document.createElement("p");
+      badge.className = "archive-unit-correction-badge";
+      badge.textContent = `${correctionCount} applied correction${correctionCount === 1 ? "" : "s"}`;
+      node.append(badge);
+    }
     el.workflowPreviewBody.append(node);
   }
   el.workflowPreviewActions.innerHTML = "";
@@ -1074,6 +1089,13 @@ function openArchiveDocumentPreview(doc) {
   note.textContent = "Read-only Corpus Map preview. Corrections are submitted as auditable Issues.";
   el.workflowPreviewActions.append(correctionButton, note);
   el.workflowPreviewModal.classList.remove("hidden");
+}
+
+function archiveCorrectionBadge(count) {
+  const normalized = Number(count || 0);
+  return normalized > 0
+    ? ` · <span class="archive-correction-badge">${escapeHtml(normalized)} correction${normalized === 1 ? "" : "s"}</span>`
+    : "";
 }
 
 function archiveCorrectionIsEditing() {

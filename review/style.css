@@ -493,7 +493,52 @@ button:disabled {
 }
 
 .corpus-map-tile {
+  position: relative;
   cursor: pointer;
+}
+
+.archive-doc-row.has-finalized-corrections,
+.workflow-doc-tile.has-finalized-corrections {
+  border-color: rgba(34, 106, 214, 0.42);
+  box-shadow: 0 0 0 2px rgba(34, 106, 214, 0.1);
+}
+
+.archive-correction-badge,
+.archive-unit-correction-badge,
+.correction-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(34, 106, 214, 0.12);
+  color: rgb(28, 92, 185);
+  font-weight: 800;
+}
+
+.archive-correction-badge {
+  padding: 2px 7px;
+  font-size: 0.78rem;
+}
+
+.archive-unit-correction-badge {
+  width: fit-content;
+  margin-top: 6px;
+  padding: 3px 8px;
+  font-size: 0.76rem;
+}
+
+.correction-count-badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 253, 249, 0.9);
+  background: rgb(34, 106, 214);
+  color: #fff;
+  font-size: 0.72rem;
+  font-style: normal;
 }
 
 .workflow-dashboard {
@@ -837,6 +882,13 @@ button:disabled {
 .workflow-preview-item.archive-preview-item {
   padding: 8px 0;
   border-bottom: 1px solid rgba(31, 28, 23, 0.08);
+}
+
+.workflow-preview-item.archive-preview-item.has-finalized-corrections {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 106, 214, 0.2);
+  background: rgba(34, 106, 214, 0.045);
 }
 
 .archive-correction-help {
