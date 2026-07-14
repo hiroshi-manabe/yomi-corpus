@@ -2482,14 +2482,17 @@ document between Bulk Review, Escalated Repair, and Resolved.
 Finalized documents belong in a separate Archive Browser, not in the active
 Pack Map. The archive is published as static, lazily loadable JSON shards under
 `docs/review/archive/` plus a small `archive/index.json`. The archive UI is
-read-mostly: choose a shard and preview finalized documents without mutating
-canonical data in the browser. If a resolved document needs correction, the UI
-creates an auditable correction Issue against finalized raw yomi data. This
-keeps daily review uncluttered while still making completed corpus data
-inspectable and correctable.
+read-mostly: choose a shard or search the source text, then open a finalized
+document directly in the correction editor. Merely opening the editor does not
+mutate canonical data. If a resolved document needs correction, the UI creates
+an auditable correction Issue against finalized raw yomi data. This keeps daily
+review uncluttered while still making completed corpus data inspectable and
+correctable.
 
-The first finalized-correction milestone is Issue export only. In the Corpus
-Map preview, "Request Correction" opens a row-based rendered-yomi editor.
+The first finalized-correction milestone is Issue export only. Corpus Map tiles,
+document rows, and search results all open the same row-based rendered-yomi
+editor directly; there is no separate read-only preview or correction-request
+step.
 Each finalized unit remains collapsed by default. The reviewer expands only the
 unit(s) that need correction; expanding reveals only the current rendered-yomi
 editor for that unit. The raw source text is not shown separately because the

@@ -986,7 +986,7 @@ function renderArchiveBrowserPanel() {
   const docs = state.archiveCurrentShard.documents || [];
   el.taskSummary.innerHTML = "";
   const summaryText = document.createElement("span");
-  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to preview it.`;
+  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to inspect or correct it.`;
   el.taskSummary.append(summaryText);
   if (hasDevYomiReviewSources()) {
     const backButton = document.createElement("button");
@@ -1153,7 +1153,7 @@ async function openArchiveSearchResult(result) {
   if (!doc) {
     throw new Error("Document was not found in its archive shard.");
   }
-  openArchiveDocumentPreview(doc);
+  openArchiveCorrectionEditor(doc);
 }
 
 function renderArchiveShardRow(shard) {
@@ -1217,60 +1217,6 @@ function renderCorpusMapTileGrid(docs) {
     wrap.append(tile);
   }
   return wrap;
-}
-
-function openArchiveDocumentPreview(doc) {
-  if (!el.workflowPreviewModal) {
-    return;
-  }
-  el.workflowPreviewTitle.textContent = `Document ${doc.track_doc_seq}`;
-  const correctionCount = Number(doc.finalized_correction_count || 0);
-  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized${
-    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-  }`;
-  el.workflowPreviewBody.innerHTML = "";
-  const units = doc.units || [];
-  if (!units.length) {
-    const empty = document.createElement("p");
-    empty.className = "muted";
-    empty.textContent = "No finalized units in this document.";
-    el.workflowPreviewBody.append(empty);
-  }
-  for (const unit of units) {
-    const node = document.createElement("article");
-    node.className = "workflow-preview-item archive-preview-item";
-    const correctionCount = Number(unit.finalized_correction_count || 0);
-    node.classList.toggle("has-finalized-corrections", correctionCount > 0);
-    const rubyLine = document.createElement("div");
-    rubyLine.className = "ruby-line resolved-ruby-line";
-    if (unit.rendered_yomi) {
-      const tokens = parseRenderedYomiTokens(unit.rendered_yomi || "");
-      rubyLine.append(...renderReadonlyRubyFromTokensWithNodes(tokens, unit.ruby_tokens || []));
-    } else {
-      rubyLine.textContent = unit.text || "";
-    }
-    node.append(rubyLine);
-    if (correctionCount) {
-      const badge = document.createElement("p");
-      badge.className = "archive-unit-correction-badge";
-      badge.textContent = `${correctionCount} applied correction${correctionCount === 1 ? "" : "s"}`;
-      node.append(badge);
-    }
-    el.workflowPreviewBody.append(node);
-  }
-  el.workflowPreviewActions.innerHTML = "";
-  const correctionButton = document.createElement("button");
-  correctionButton.type = "button";
-  correctionButton.className = "secondary-button";
-  correctionButton.textContent = "Request Correction";
-  correctionButton.disabled = !units.length;
-  correctionButton.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-  const note = document.createElement("p");
-  note.className = "muted";
-  note.textContent = "Read-only Corpus Map preview. Corrections are submitted as auditable Issues.";
-  el.workflowPreviewActions.append(correctionButton, note);
-  el.workflowPreviewModal.classList.remove("hidden");
 }
 
 function archiveCorrectionBadge(count, sentenceCount) {
