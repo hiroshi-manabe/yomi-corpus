@@ -1109,7 +1109,7 @@ function openArchiveCorrectionEditor(doc) {
   const validation = document.createElement("p");
   validation.className = "archive-correction-validation muted";
   validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "Expand one or more units, edit yomi, then copy JSON and open an Issue.";
+  validation.textContent = "Edit and save one or more units, then copy JSON and open an Issue.";
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
@@ -1160,58 +1160,55 @@ function renderArchiveCorrectionRow(unit, index) {
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
   editButton.textContent = "Edit";
-  editButton.addEventListener("click", () => toggleArchiveCorrectionRow(row, unit));
+  editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   summary.append(rubyLine, editButton);
+
+  const saved = document.createElement("div");
+  saved.className = "archive-correction-saved hidden";
+  saved.innerHTML = `
+    <strong>Rendered Yomi</strong>
+    <code></code>
+  `;
 
   const editor = document.createElement("div");
   editor.className = "archive-correction-editor hidden";
   editor.dataset.originalYomi = unit.rendered_yomi || "";
   editor.innerHTML = `
-    <div>
-      <strong>Source</strong>
-      <p class="archive-correction-source">${escapeHtml(unit.text || "")}</p>
-    </div>
     <label>
       <span>Rendered yomi</span>
       <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(unit.rendered_yomi || "")}</textarea>
     </label>
     <p class="archive-correction-row-validation muted">No change yet.</p>
+    <div class="archive-correction-editor-actions">
+      <button type="button" class="secondary-button compact-button" data-archive-correction-save>Save</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-clear>Clear</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>Cancel</button>
+    </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
+  editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit));
+  editor.querySelector("[data-archive-correction-clear]")?.addEventListener("click", () => clearArchiveCorrectionRow(row));
+  editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
-  row.append(summary, editor);
+  row.append(summary, saved, editor);
   return row;
 }
 
-function toggleArchiveCorrectionRow(row, unit) {
+function openArchiveCorrectionRowEditor(row, unit) {
   const editor = row.querySelector(".archive-correction-editor");
   const button = row.querySelector(".archive-correction-row-summary button");
   if (!editor || !button) {
     return;
   }
-  const isOpen = !editor.classList.contains("hidden");
-  if (isOpen) {
-    const textarea = editor.querySelector(".archive-correction-unit-textarea");
-    const original = editor.dataset.originalYomi || "";
-    const proposed = String(textarea?.value || "").trim();
-    if (proposed !== original && !window.confirm("Discard this unit correction and hide its source editor?")) {
-      return;
-    }
-    if (textarea) {
-      textarea.value = original;
-    }
-    editor.classList.add("hidden");
-    row.classList.remove("changed", "invalid");
-    button.textContent = "Edit";
-    updateArchiveCorrectionSummary();
-    return;
+  const textarea = editor.querySelector(".archive-correction-unit-textarea");
+  if (textarea) {
+    textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
   }
-
   editor.classList.remove("hidden");
-  button.textContent = "Hide Source";
+  button.disabled = true;
   updateArchiveCorrectionRowState(row, unit);
-  editor.querySelector(".archive-correction-unit-textarea")?.focus();
+  textarea?.focus();
 }
 
 function updateArchiveCorrectionRowState(row, unit) {
@@ -1225,11 +1222,9 @@ function updateArchiveCorrectionRowState(row, unit) {
   const proposed = String(textarea.value || "").trim();
   const changed = proposed !== original;
   const validation = changed ? validateRenderedYomiCorrection(unit, proposed) : { ok: true };
-  row.classList.toggle("changed", changed && validation.ok);
   row.classList.toggle("invalid", changed && !validation.ok);
-  validationNode.textContent = !changed ? "No change yet." : validation.ok ? "Changed unit ready." : validation.error;
+  validationNode.textContent = !changed ? "No change yet." : validation.ok ? "Ready to save." : validation.error;
   validationNode.classList.toggle("error", changed && !validation.ok);
-  updateArchiveCorrectionSummary();
 }
 
 function collectArchiveCorrectionChanges(doc) {
@@ -1237,15 +1232,14 @@ function collectArchiveCorrectionChanges(doc) {
   const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
   const changedUnits = [];
   for (const row of rows) {
-    const editor = row.querySelector(".archive-correction-editor:not(.hidden)");
-    if (!editor) {
+    const proposed = String(row.dataset.proposedYomi || "").trim();
+    if (!proposed) {
       continue;
     }
     const index = Number(row.dataset.unitIndex);
     const unit = units[index];
-    const textarea = editor.querySelector(".archive-correction-unit-textarea");
+    const editor = row.querySelector(".archive-correction-editor");
     const original = String(editor.dataset.originalYomi || "").trim();
-    const proposed = String(textarea?.value || "").trim();
     if (!unit || proposed === original) {
       continue;
     }
@@ -1267,6 +1261,78 @@ function collectArchiveCorrectionChanges(doc) {
   return { ok: true, changedUnits };
 }
 
+function saveArchiveCorrectionRow(row, unit) {
+  const editor = row.querySelector(".archive-correction-editor");
+  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
+  const validationNode = editor?.querySelector(".archive-correction-row-validation");
+  if (!editor || !textarea || !validationNode) {
+    return;
+  }
+  const original = String(editor.dataset.originalYomi || "").trim();
+  const proposed = String(textarea.value || "").trim();
+  if (proposed === original) {
+    clearArchiveCorrectionRow(row);
+    return;
+  }
+  const validation = validateRenderedYomiCorrection(unit, proposed);
+  if (!validation.ok) {
+    row.classList.add("invalid");
+    validationNode.textContent = validation.error;
+    validationNode.classList.add("error");
+    updateArchiveCorrectionSummary();
+    return;
+  }
+  row.dataset.proposedYomi = proposed;
+  row.classList.add("changed");
+  row.classList.remove("invalid");
+  validationNode.textContent = "Saved.";
+  validationNode.classList.remove("error");
+  renderArchiveCorrectionSavedYomi(row);
+  closeArchiveCorrectionRowEditor(row);
+  updateArchiveCorrectionSummary();
+}
+
+function clearArchiveCorrectionRow(row) {
+  delete row.dataset.proposedYomi;
+  row.classList.remove("changed", "invalid");
+  const editor = row.querySelector(".archive-correction-editor");
+  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
+  const validationNode = editor?.querySelector(".archive-correction-row-validation");
+  if (textarea && editor) {
+    textarea.value = editor.dataset.originalYomi || "";
+  }
+  if (validationNode) {
+    validationNode.textContent = "No change yet.";
+    validationNode.classList.remove("error");
+  }
+  renderArchiveCorrectionSavedYomi(row);
+  closeArchiveCorrectionRowEditor(row);
+  updateArchiveCorrectionSummary();
+}
+
+function cancelArchiveCorrectionRowEdit(row) {
+  closeArchiveCorrectionRowEditor(row);
+}
+
+function closeArchiveCorrectionRowEditor(row) {
+  row.querySelector(".archive-correction-editor")?.classList.add("hidden");
+  const button = row.querySelector(".archive-correction-row-summary button");
+  if (button) {
+    button.disabled = false;
+  }
+}
+
+function renderArchiveCorrectionSavedYomi(row) {
+  const saved = row.querySelector(".archive-correction-saved");
+  const code = saved?.querySelector("code");
+  if (!saved || !code) {
+    return;
+  }
+  const proposed = row.dataset.proposedYomi || "";
+  saved.classList.toggle("hidden", !proposed);
+  code.textContent = proposed;
+}
+
 function updateArchiveCorrectionSummary() {
   const summary = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-summary='true']");
   if (!summary) {
@@ -1286,7 +1352,7 @@ function updateArchiveCorrectionSummary() {
   }
   summary.textContent = changed
     ? `${changed} changed unit(s) ready for correction Issue.`
-    : "Expand one or more units, edit yomi, then copy JSON and open an Issue.";
+    : "Edit and save one or more units, then copy JSON and open an Issue.";
   summary.classList.remove("error");
 }
 

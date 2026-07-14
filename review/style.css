@@ -891,11 +891,24 @@ button:disabled {
   border-top: 1px solid rgba(31, 28, 23, 0.09);
 }
 
-.archive-correction-source {
-  margin: 4px 0 0;
+.archive-correction-saved {
+  display: grid;
+  gap: 4px;
   padding: 8px 10px;
   border-radius: 10px;
-  background: rgba(31, 28, 23, 0.05);
+  background: rgba(45, 106, 79, 0.1);
+}
+
+.archive-correction-saved code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+.archive-correction-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .archive-correction-unit-textarea {
