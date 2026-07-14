@@ -10,10 +10,6 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
-  archiveIndex: null,
-  archiveCurrentTrack: "dev",
-  archiveCurrentShard: null,
-  archiveCurrentShardPath: "",
   uiMode: "workflow",
   pendingIssueTaskId: null,
 };
@@ -82,8 +78,6 @@ async function boot() {
   const initialTarget = resolveInitialTarget(stageIds);
   if (initialTarget.stageId === "unified_yomi_review") {
     await openUnifiedReview();
-  } else if (initialTarget.stageId === "archive_browser") {
-    await openArchiveBrowser();
   } else {
     await openStage(initialTarget.stageId, {
       preferLatest: !initialTarget.packId,
@@ -98,20 +92,12 @@ function bindEvents() {
       await openUnifiedReview();
       return;
     }
-    if (event.target.value === "archive_browser") {
-      await openArchiveBrowser();
-      return;
-    }
     await openStage(event.target.value, { preferLatest: true });
   });
 
   el.openLatest.addEventListener("click", async () => {
     if (state.currentStageId === "unified_yomi_review") {
       await openUnifiedReview();
-      return;
-    }
-    if (state.currentStageId === "archive_browser") {
-      await openArchiveBrowser();
       return;
     }
     if (!state.currentStageId) {
@@ -214,11 +200,7 @@ function bindEvents() {
     }
   });
   document.addEventListener("keydown", (event) => {
-    if (
-      event.key === "Escape" &&
-      !el.workflowPreviewModal?.classList.contains("hidden") &&
-      !archiveCorrectionIsEditing()
-    ) {
+    if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
       closeWorkflowDocumentPreview();
     }
   });
@@ -251,23 +233,14 @@ function bindEvents() {
 
 function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
-  const requested = params.get("stage");
-  const requestedPackId = params.get("pack");
-  if (requested === "archive_browser") {
-    return { stageId: "archive_browser", packId: null };
-  }
-  if (requested === "corpus_map") {
-    return { stageId: "archive_browser", packId: null };
-  }
-  if (requested === "unified_yomi_review") {
-    return { stageId: "unified_yomi_review", packId: null };
-  }
-  if (requested && stageIds.includes(requested)) {
-    return { stageId: requested, packId: requestedPackId };
-  }
-
   if (hasDevYomiReviewSources()) {
     return { stageId: "unified_yomi_review", packId: null };
+  }
+
+  const requested = params.get("stage");
+  const requestedPackId = params.get("pack");
+  if (requested && stageIds.includes(requested)) {
+    return { stageId: requested, packId: requestedPackId };
   }
 
   if (requestedPackId) {
@@ -302,10 +275,6 @@ function activeDevReviewQueues() {
 
 function hasDevYomiReviewSources() {
   return latestDevYomiReviewSources().length > 0;
-}
-
-function hasReviewArchive() {
-  return Boolean(state.manifest?.archive?.index_path);
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
@@ -382,53 +351,7 @@ async function openUnifiedReview() {
   render();
 }
 
-async function openArchiveBrowser() {
-  if (!hasReviewArchive()) {
-    showStatus("No finalized archive was published yet.", true);
-    return;
-  }
-  state.currentStageId = "archive_browser";
-  if (el.stageSelect) {
-    el.stageSelect.value = "archive_browser";
-  }
-  if (!state.archiveIndex) {
-    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
-  }
-  state.archiveCurrentTrack = "dev";
-  const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
-  state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
-  state.archiveCurrentShardPath = firstShard?.path || "";
-  state.currentPackMeta = {
-    pack_id: "archive_browser",
-    title: "Corpus Map",
-    track_name: "dev",
-    status: "archive",
-  };
-  state.currentPack = {
-    schema_version: 1,
-    review_stage: "archive_browser",
-    pack_id: "archive_browser",
-    track_name: "dev",
-    item_count: state.archiveIndex?.tracks?.dev?.document_count || 0,
-    items: [],
-    documents: [],
-  };
-  state.currentDraft = loadDraft(state.currentPack);
-  updateLocation("archive_browser", "archive_browser");
-  render();
-}
-
-async function openArchiveShard(shard) {
-  state.archiveCurrentShard = await fetchJson(shard.path);
-  state.archiveCurrentShardPath = shard.path || "";
-  render();
-}
-
 function latestDevYomiReviewSources() {
-  const activeSources = activeDevReviewQueues();
-  if (activeSources.length > 0) {
-    return activeSources;
-  }
   const sources = [];
   for (const stageId of ["yomi_final_review", "yomi_strong_repair_review"]) {
     const stage = state.manifest.stages?.[stageId];
@@ -579,7 +502,6 @@ function queueStageSort(stage) {
 }
 
 function unifiedDocumentIsSelectable(doc, stats) {
-  const stateName = String(doc.state || "");
   const itemCount = Number(stats?.item_count || 0);
   if (itemCount <= 0) {
     return false;
@@ -587,18 +509,15 @@ function unifiedDocumentIsSelectable(doc, stats) {
   if (!documentBelongsToQueue(doc.queue_stage, doc)) {
     return false;
   }
-  if (doc.queue_stage === "yomi_final_review") {
-    return stateName.startsWith("final_") || (stateName === "" && doc.selectable !== false);
-  }
-  if (doc.queue_stage === "yomi_strong_repair_review") {
-    return stateName.startsWith("strong_");
-  }
-  return Boolean(doc.selectable);
+  return doc.selectable !== false && !docIsSubmittedByWorkflowState(doc);
 }
 
 function documentBelongsToQueue(queueStage, doc) {
   if (doc && "queue_member" in doc) {
     return Boolean(doc.queue_member);
+  }
+  if (doc?.workflow_queue_stage) {
+    return doc.workflow_queue_stage === queueStage;
   }
   const stateName = String(doc?.state || "");
   if (queueStage === "yomi_final_review") {
@@ -617,12 +536,6 @@ function populateStageSelect(stageIds) {
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
     el.stageSelect.append(option);
-    if (hasReviewArchive()) {
-      const archiveOption = document.createElement("option");
-      archiveOption.value = "archive_browser";
-      archiveOption.textContent = "Corpus Map";
-      el.stageSelect.append(archiveOption);
-    }
     return;
   }
   for (const stageId of stageIds) {
@@ -630,12 +543,6 @@ function populateStageSelect(stageIds) {
     option.value = stageId;
     option.textContent = state.manifest.stages[stageId].label || stageId;
     el.stageSelect.append(option);
-  }
-  if (hasReviewArchive()) {
-    const archiveOption = document.createElement("option");
-    archiveOption.value = "archive_browser";
-    archiveOption.textContent = "Corpus Map";
-    el.stageSelect.append(archiveOption);
   }
 }
 
@@ -661,7 +568,7 @@ function renderCurrentTracks() {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
-  if (cards.length === 0 && workflowSources.length === 0 && !hasReviewArchive()) {
+  if (cards.length === 0 && workflowSources.length === 0) {
     const p = document.createElement("p");
     p.className = "muted";
     p.textContent = "No active dev review packs were published.";
@@ -669,8 +576,34 @@ function renderCurrentTracks() {
     return;
   }
 
-  if (workflowSources.length > 0 || hasReviewArchive()) {
-    el.currentTrackList.append(renderDevWorkspaceCard({ workflowSources, workflowCards }));
+  if (workflowSources.length > 0) {
+    const unifiedButton = document.createElement("button");
+    unifiedButton.type = "button";
+    unifiedButton.className = "track-card primary-track";
+    unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
+    const totalItems = workflowSources.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
+    const totalDocs = Math.max(...workflowSources.map((card) => Number(card.document_count || 0)));
+    const activeQueueCount = workflowCards.length;
+    const queueText =
+      activeQueueCount > 0
+        ? activeQueueCount === 1
+          ? "1 active queue"
+          : `${activeQueueCount} active queues`
+        : "0 active queues";
+    unifiedButton.innerHTML = `
+      <div class="track-card-header">
+        <strong>Workflow Review</strong>
+        <span class="badge dev">dev</span>
+      </div>
+      <div class="track-card-stage">Document-based review workspace</div>
+      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${queueText}</div>
+    `;
+    unifiedButton.addEventListener("click", () => {
+      openUnifiedReview().catch((error) => {
+        showStatus(`Failed to open unified review: ${error.message}`, true);
+      });
+    });
+    el.currentTrackList.append(unifiedButton);
   }
 
   for (const card of cards) {
@@ -706,78 +639,7 @@ function renderCurrentTracks() {
   }
 }
 
-function renderDevWorkspaceCard({ workflowSources, workflowCards }) {
-  const card = document.createElement("section");
-  card.className = "track-card primary-track dev-workspace-card";
-  const totalItems = workflowSources.reduce((sum, source) => sum + Number(source.item_count || 0), 0);
-  const totalDocs = workflowSources.length
-    ? Math.max(...workflowSources.map((source) => Number(source.document_count || 0)))
-    : 0;
-  const activeQueueCount = workflowCards.length;
-  const queueText =
-    activeQueueCount > 0
-      ? activeQueueCount === 1
-        ? "1 active queue"
-        : `${activeQueueCount} active queues`
-      : "0 active queues";
-  const archiveMeta = state.manifest.archive?.tracks?.dev || {};
-  card.innerHTML = `
-    <div class="track-card-header">
-      <strong>dev workspace</strong>
-      <span class="badge dev">dev</span>
-    </div>
-    <div class="track-card-stage">Active review workspace</div>
-    <div class="pack-meta-line">
-      ${totalDocs} active doc(s) · ${totalItems} item(s) · ${queueText}
-      ${hasReviewArchive() ? ` · ${Number(archiveMeta.document_count || 0)} resolved doc(s)` : ""}
-    </div>
-  `;
-  if (workflowSources.length > 0) {
-    card.addEventListener("click", (event) => {
-      if (event.target.closest("button, a")) {
-        return;
-      }
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
-      });
-    });
-  }
-  return card;
-}
-
 function renderPackList() {
-  if (state.currentStageId === "archive_browser") {
-    const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-    const shards = track.shards || [];
-    el.historyCount.textContent = `${shards.length} archive shard(s)`;
-    el.packList.innerHTML = "";
-    for (const shard of shards) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "pack-button readonly-pack";
-      if (
-        state.archiveCurrentShard &&
-        Number(state.archiveCurrentShard.start_track_doc_seq) === Number(shard.start_track_doc_seq) &&
-        Number(state.archiveCurrentShard.end_track_doc_seq) === Number(shard.end_track_doc_seq)
-      ) {
-        button.classList.add("active-pack");
-      }
-      button.innerHTML = `
-        <div class="pack-title-line">
-          <strong>Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</strong>
-          <span class="badge archived">archive</span>
-        </div>
-        <div class="pack-meta-line">${Number(shard.document_count || 0)} document(s)</div>
-      `;
-      button.addEventListener("click", () => {
-        openArchiveShard(shard).catch((error) => {
-          showStatus(`Failed to open archive shard: ${error.message}`, true);
-        });
-      });
-      el.packList.append(button);
-    }
-    return;
-  }
   if (state.currentStageId === "unified_yomi_review") {
     el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
     el.packList.innerHTML = "";
@@ -825,10 +687,6 @@ function renderPackList() {
 }
 
 function renderPackSummary() {
-  if (state.currentStageId === "archive_browser") {
-    renderArchivePackSummary();
-    return;
-  }
   const stage = state.currentStageId === "unified_yomi_review"
     ? { label: "Unified Yomi Review", review_stage: "unified_yomi_review" }
     : state.manifest.stages[state.currentStageId];
@@ -864,33 +722,6 @@ function renderPackSummary() {
     .join("");
 }
 
-function renderArchivePackSummary() {
-  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shard = state.archiveCurrentShard;
-  el.packTitle.textContent = shard
-    ? `Corpus Map ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
-    : "Corpus Map";
-  el.packBadge.textContent = "dev / read-only";
-  el.packBadge.className = "badge archived dev";
-  const cards = [
-    ["Mode", "Corpus Map"],
-    ["Track", state.archiveCurrentTrack],
-    ["Documents", String(track.document_count || 0)],
-    ["Shards", String((track.shards || []).length)],
-    ["Open Shard", shard ? `${shard.start_track_doc_seq}-${shard.end_track_doc_seq}` : "None"],
-  ];
-  el.packMeta.innerHTML = cards
-    .map(
-      ([label, value]) => `
-        <div class="meta-card">
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(value)}</dd>
-        </div>
-      `
-    )
-    .join("");
-}
-
 function renderTaskSelector() {
   if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
@@ -900,12 +731,6 @@ function renderTaskSelector() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
   const started = isTaskStarted();
-
-  if (state.currentStageId === "archive_browser") {
-    renderArchiveBrowserPanel();
-    return;
-  }
-  el.taskPickerPanel.classList.remove("archive-browser-panel");
 
   el.taskPickerPanel.classList.toggle("unified-task-picker", isUnifiedReviewPack(state.currentPack));
   el.taskPickerPanel.classList.toggle("hidden", !editable || started);
@@ -945,575 +770,6 @@ function renderTaskSelector() {
   el.startTask.disabled = selectableDocs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
   el.selectAllDocs.disabled = selectAllDocs.length === 0 || selectedSelectAllCount === selectAllDocs.length;
-}
-
-function renderArchiveBrowserPanel() {
-  el.taskPickerPanel.classList.remove("hidden");
-  el.taskPickerPanel.classList.add("archive-browser-panel");
-  el.taskWorkPanels.forEach((panel) => panel.classList.add("hidden"));
-  el.taskDraftList.innerHTML = "";
-  el.taskDocList.innerHTML = "";
-  el.selectAllDocs.disabled = true;
-  el.clearDocSelection.disabled = true;
-  el.startTask.disabled = true;
-  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shards = track.shards || [];
-  if (!state.archiveCurrentShard) {
-    el.taskSummary.textContent = shards.length
-      ? "Choose a Corpus Map range from Pack History."
-      : "No finalized archive documents were published.";
-    for (const shard of shards) {
-      el.taskDocList.append(renderArchiveShardRow(shard));
-    }
-    return;
-  }
-  const docs = state.archiveCurrentShard.documents || [];
-  el.taskSummary.innerHTML = "";
-  const summaryText = document.createElement("span");
-  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to preview it.`;
-  el.taskSummary.append(summaryText);
-  if (hasDevYomiReviewSources()) {
-    const backButton = document.createElement("button");
-    backButton.type = "button";
-    backButton.className = "secondary-button compact-button";
-    backButton.textContent = "Back to Active Work";
-    backButton.addEventListener("click", () => {
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
-      });
-    });
-    el.taskSummary.append(backButton);
-  }
-  el.taskDocList.append(renderCorpusMapTileGrid(docs));
-}
-
-function renderArchiveShardRow(shard) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "task-doc-row archive-shard-row";
-  button.innerHTML = `
-    <span class="task-doc-title">Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
-    <span class="task-doc-meta">${Number(shard.document_count || 0)} document(s)</span>
-  `;
-  button.addEventListener("click", () => {
-    openArchiveShard(shard).catch((error) => {
-      showStatus(`Failed to open archive shard: ${error.message}`, true);
-    });
-  });
-  return button;
-}
-
-function renderArchiveDocumentRow(doc) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "task-doc-row archive-doc-row";
-  button.innerHTML = `
-    <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
-    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)</span>
-    <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
-  `;
-  button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-  return button;
-}
-
-function renderCorpusMapTileGrid(docs) {
-  const wrap = document.createElement("div");
-  wrap.className = "workflow-tile-grid corpus-map-grid";
-  for (const doc of docs) {
-    const tile = document.createElement("button");
-    tile.type = "button";
-    tile.className = "workflow-doc-tile resolved corpus-map-tile";
-    tile.innerHTML = `
-      <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
-      <strong>${escapeHtml(doc.track_doc_seq)}</strong>
-    `;
-    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}`;
-    tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-    wrap.append(tile);
-  }
-  return wrap;
-}
-
-function openArchiveDocumentPreview(doc) {
-  if (!el.workflowPreviewModal) {
-    return;
-  }
-  el.workflowPreviewTitle.textContent = `Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized`;
-  el.workflowPreviewBody.innerHTML = "";
-  const units = doc.units || [];
-  if (!units.length) {
-    const empty = document.createElement("p");
-    empty.className = "muted";
-    empty.textContent = "No finalized units in this document.";
-    el.workflowPreviewBody.append(empty);
-  }
-  for (const unit of units) {
-    const node = document.createElement("article");
-    node.className = "workflow-preview-item archive-preview-item";
-    const rubyLine = document.createElement("div");
-    rubyLine.className = "ruby-line resolved-ruby-line";
-    if (unit.rendered_yomi) {
-      const tokens = parseRenderedYomiTokens(unit.rendered_yomi || "");
-      rubyLine.append(...renderReadonlyRubyFromTokensWithNodes(tokens, unit.ruby_tokens || []));
-    } else {
-      rubyLine.textContent = unit.text || "";
-    }
-    node.append(rubyLine);
-    el.workflowPreviewBody.append(node);
-  }
-  el.workflowPreviewActions.innerHTML = "";
-  const correctionButton = document.createElement("button");
-  correctionButton.type = "button";
-  correctionButton.className = "secondary-button";
-  correctionButton.textContent = "Request Correction";
-  correctionButton.disabled = !units.length;
-  correctionButton.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-  const note = document.createElement("p");
-  note.className = "muted";
-  note.textContent = "Read-only Corpus Map preview. Corrections are submitted as auditable Issues.";
-  el.workflowPreviewActions.append(correctionButton, note);
-  el.workflowPreviewModal.classList.remove("hidden");
-}
-
-function archiveCorrectionIsEditing() {
-  if (el.workflowPreviewModal?.classList.contains("hidden")) {
-    return false;
-  }
-  const active = document.activeElement;
-  if (active?.closest?.(".archive-correction-editor")) {
-    return true;
-  }
-  return Boolean(el.workflowPreviewBody?.querySelector?.(".archive-correction-editor:not(.hidden)"));
-}
-
-function openArchiveCorrectionEditor(doc) {
-  const units = doc.units || [];
-  el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request`;
-  el.workflowPreviewBody.innerHTML = "";
-
-  const intro = document.createElement("p");
-  intro.className = "muted archive-correction-help";
-  intro.textContent =
-    "Choose the finalized unit(s) to correct. This editor changes yomi inside existing units only; boundary changes are a separate future workflow.";
-  el.workflowPreviewBody.append(intro);
-
-  const list = document.createElement("div");
-  list.className = "archive-correction-list";
-  for (const [index, unit] of units.entries()) {
-    list.append(renderArchiveCorrectionRow(unit, index));
-  }
-  el.workflowPreviewBody.append(list);
-
-  const validation = document.createElement("p");
-  validation.className = "archive-correction-validation muted";
-  validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "Edit and save one or more units, then copy JSON and open an Issue.";
-  el.workflowPreviewBody.append(validation);
-
-  el.workflowPreviewActions.innerHTML = "";
-  const copyOnlyButton = document.createElement("button");
-  copyOnlyButton.type = "button";
-  copyOnlyButton.className = "secondary-button";
-  copyOnlyButton.textContent = "Copy JSON";
-  copyOnlyButton.dataset.archiveCorrectionExport = "true";
-  copyOnlyButton.disabled = true;
-  copyOnlyButton.addEventListener("click", async () => {
-    await copyArchiveCorrectionPayload(doc, { openIssue: false });
-  });
-
-  const openIssueButton = document.createElement("button");
-  openIssueButton.type = "button";
-  openIssueButton.textContent = "Copy JSON and Open Issue";
-  openIssueButton.dataset.archiveCorrectionExport = "true";
-  openIssueButton.disabled = true;
-  openIssueButton.addEventListener("click", async () => {
-    await copyArchiveCorrectionPayload(doc, { openIssue: true });
-  });
-
-  const note = document.createElement("p");
-  note.className = "muted";
-  note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
-  el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
-  updateArchiveCorrectionSummary();
-  el.workflowPreviewModal.classList.remove("hidden");
-}
-
-function renderArchiveCorrectionRow(unit, index) {
-  const row = document.createElement("article");
-  row.className = "archive-correction-row";
-  row.dataset.unitIndex = String(index);
-
-  const summary = document.createElement("div");
-  summary.className = "archive-correction-row-summary";
-  const rubyLine = document.createElement("div");
-  rubyLine.className = "ruby-line resolved-ruby-line";
-  if (unit.rendered_yomi) {
-    rubyLine.append(
-      ...renderReadonlyRubyFromTokensWithNodes(parseRenderedYomiTokens(unit.rendered_yomi || ""), unit.ruby_tokens || []),
-    );
-  } else {
-    rubyLine.textContent = unit.text || "";
-  }
-  const editButton = document.createElement("button");
-  editButton.type = "button";
-  editButton.className = "secondary-button compact-button";
-  editButton.textContent = "Edit";
-  editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
-  summary.append(rubyLine, editButton);
-
-  const saved = document.createElement("div");
-  saved.className = "archive-correction-saved hidden";
-  saved.innerHTML = `
-    <strong>Rendered Yomi</strong>
-    <code></code>
-  `;
-
-  const editor = document.createElement("div");
-  editor.className = "archive-correction-editor hidden";
-  editor.dataset.originalYomi = unit.rendered_yomi || "";
-  editor.innerHTML = `
-    <label>
-      <span>Rendered yomi</span>
-      <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(unit.rendered_yomi || "")}</textarea>
-    </label>
-    <p class="archive-correction-row-validation muted">No change yet.</p>
-    <div class="archive-correction-editor-actions">
-      <button type="button" class="secondary-button compact-button" data-archive-correction-save>Save</button>
-      <button type="button" class="secondary-button compact-button" data-archive-correction-clear>Clear</button>
-      <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>Cancel</button>
-    </div>
-  `;
-  const textarea = editor.querySelector(".archive-correction-unit-textarea");
-  textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
-  editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit));
-  editor.querySelector("[data-archive-correction-clear]")?.addEventListener("click", () => clearArchiveCorrectionRow(row));
-  editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
-
-  row.append(summary, saved, editor);
-  return row;
-}
-
-function openArchiveCorrectionRowEditor(row, unit) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const button = row.querySelector(".archive-correction-row-summary button");
-  if (!editor || !button) {
-    return;
-  }
-  const textarea = editor.querySelector(".archive-correction-unit-textarea");
-  if (textarea) {
-    textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
-  }
-  editor.classList.remove("hidden");
-  button.disabled = true;
-  updateArchiveCorrectionRowState(row, unit);
-  textarea?.focus();
-}
-
-function updateArchiveCorrectionRowState(row, unit) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (!editor || !textarea || !validationNode) {
-    return;
-  }
-  const original = editor.dataset.originalYomi || "";
-  const proposed = String(textarea.value || "").trim();
-  const changed = proposed !== original;
-  const validation = changed ? validateRenderedYomiCorrection(unit, proposed) : { ok: true };
-  row.classList.toggle("invalid", changed && !validation.ok);
-  validationNode.textContent = !changed ? "No change yet." : validation.ok ? "Ready to save." : validation.error;
-  validationNode.classList.toggle("error", changed && !validation.ok);
-}
-
-function collectArchiveCorrectionChanges(doc) {
-  const units = doc.units || [];
-  const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
-  const changedUnits = [];
-  for (const row of rows) {
-    const proposed = String(row.dataset.proposedYomi || "").trim();
-    if (!proposed) {
-      continue;
-    }
-    const index = Number(row.dataset.unitIndex);
-    const unit = units[index];
-    const editor = row.querySelector(".archive-correction-editor");
-    const original = String(editor.dataset.originalYomi || "").trim();
-    if (!unit || proposed === original) {
-      continue;
-    }
-    const validation = validateRenderedYomiCorrection(unit, proposed);
-    if (!validation.ok) {
-      return { ok: false, error: `Unit ${unit.unit_id || index + 1}: ${validation.error}` };
-    }
-    changedUnits.push({
-      unit_id: String(unit.unit_id || ""),
-      unit_seq: Number(unit.unit_seq || index + 1),
-      text: unit.text || "",
-      original_rendered_yomi: original,
-      proposed_rendered_yomi: proposed,
-    });
-  }
-  if (!changedUnits.length) {
-    return { ok: false, error: "No yomi changes found." };
-  }
-  return { ok: true, changedUnits };
-}
-
-function saveArchiveCorrectionRow(row, unit) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (!editor || !textarea || !validationNode) {
-    return;
-  }
-  const original = String(editor.dataset.originalYomi || "").trim();
-  const proposed = String(textarea.value || "").trim();
-  if (proposed === original) {
-    clearArchiveCorrectionRow(row);
-    return;
-  }
-  const validation = validateRenderedYomiCorrection(unit, proposed);
-  if (!validation.ok) {
-    row.classList.add("invalid");
-    validationNode.textContent = validation.error;
-    validationNode.classList.add("error");
-    updateArchiveCorrectionSummary();
-    return;
-  }
-  row.dataset.proposedYomi = proposed;
-  row.classList.add("changed");
-  row.classList.remove("invalid");
-  validationNode.textContent = "Saved.";
-  validationNode.classList.remove("error");
-  renderArchiveCorrectionSavedYomi(row);
-  closeArchiveCorrectionRowEditor(row);
-  updateArchiveCorrectionSummary();
-}
-
-function clearArchiveCorrectionRow(row) {
-  delete row.dataset.proposedYomi;
-  row.classList.remove("changed", "invalid");
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (textarea && editor) {
-    textarea.value = editor.dataset.originalYomi || "";
-  }
-  if (validationNode) {
-    validationNode.textContent = "No change yet.";
-    validationNode.classList.remove("error");
-  }
-  renderArchiveCorrectionSavedYomi(row);
-  closeArchiveCorrectionRowEditor(row);
-  updateArchiveCorrectionSummary();
-}
-
-function cancelArchiveCorrectionRowEdit(row) {
-  closeArchiveCorrectionRowEditor(row);
-}
-
-function closeArchiveCorrectionRowEditor(row) {
-  row.querySelector(".archive-correction-editor")?.classList.add("hidden");
-  const button = row.querySelector(".archive-correction-row-summary button");
-  if (button) {
-    button.disabled = false;
-  }
-}
-
-function renderArchiveCorrectionSavedYomi(row) {
-  const saved = row.querySelector(".archive-correction-saved");
-  const code = saved?.querySelector("code");
-  if (!saved || !code) {
-    return;
-  }
-  const proposed = row.dataset.proposedYomi || "";
-  saved.classList.toggle("hidden", !proposed);
-  code.textContent = proposed;
-}
-
-function updateArchiveCorrectionSummary() {
-  const summary = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-summary='true']");
-  if (!summary) {
-    return;
-  }
-  const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
-  const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
-  const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
-  const canExport = changed > 0 && invalid === 0;
-  for (const button of exportButtons) {
-    button.disabled = !canExport;
-  }
-  if (invalid) {
-    summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
-    summary.classList.add("error");
-    return;
-  }
-  summary.textContent = changed
-    ? `${changed} changed unit(s) ready for correction Issue.`
-    : "Edit and save one or more units, then copy JSON and open an Issue.";
-  summary.classList.remove("error");
-}
-
-function validateRenderedYomiCorrection(unit, proposed) {
-  if (!proposed) {
-    return { ok: false, error: "rendered yomi is empty." };
-  }
-  const tokens = parseRenderedYomiCorrectionTokens(proposed);
-  if (!tokens.length) {
-    return { ok: false, error: "rendered yomi has no tokens." };
-  }
-  const surfaceText = [];
-  for (const token of tokens) {
-    if (!token.ok) {
-      return { ok: false, error: token.error };
-    }
-    const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
-    if (!readingValidation.ok) {
-      return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
-    }
-    surfaceText.push(token.surface);
-  }
-  const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
-    .map((token) => token.surface)
-    .join("");
-  const expectedText = normalizeCorrectionSourceText(originalSurfaceText || unit.text || "");
-  const proposedText = normalizeCorrectionSourceText(surfaceText.join(""));
-  if (expectedText && proposedText !== expectedText) {
-    return {
-      ok: false,
-      error: `source text changed: got ${proposedText}, expected ${expectedText}.`,
-    };
-  }
-  return { ok: true };
-}
-
-function parseRenderedYomiCorrectionTokens(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/[ \t\r\n]+/)
-    .filter(Boolean)
-    .map((raw) => {
-      if (raw === "/") {
-        return { ok: true, raw, surface: " ", reading: "" };
-      }
-      const slashIndex = raw.lastIndexOf("/");
-      if (slashIndex < 0) {
-        return { ok: false, raw, error: `token ${raw} must be surface/reading.` };
-      }
-      const surface = raw.slice(0, slashIndex);
-      if (!surface) {
-        return { ok: false, raw, error: `token ${raw} has no surface before the slash.` };
-      }
-      return {
-        ok: true,
-        raw,
-        surface,
-        reading: raw.slice(slashIndex + 1),
-      };
-    });
-}
-
-function normalizeCorrectionSourceText(value) {
-  return String(value || "").replace(/[ \t\r\n\u00a0]+/g, "");
-}
-
-function hiraganaToKatakana(value) {
-  return String(value || "").replace(/[ぁ-ゖ]/gu, (char) =>
-    String.fromCharCode(char.charCodeAt(0) + 0x60),
-  );
-}
-
-function validateRenderedYomiReading(surface, reading) {
-  if (/^[ \u00a0]+$/u.test(surface)) {
-    return reading && !/^[ \u00a0]+$/u.test(reading)
-      ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
-      : { ok: true };
-  }
-  if (isNumericOnlySurface(surface)) {
-    return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
-  }
-  if (/[一-龯々〆A-Za-z]/u.test(surface)) {
-    if (!reading) {
-      return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
-    }
-    return /^[ァ-ヺー]+$/u.test(reading)
-      ? { ok: true }
-      : { ok: false, error: "reading for kanji or alphabetic surfaces must be katakana." };
-  }
-  const expected = surface.replace(/[ぁ-ゖ]/gu, (char) => hiraganaToKatakana(char));
-  if (reading === expected) {
-    return { ok: true };
-  }
-  return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
-}
-
-function isNumericOnlySurface(surface) {
-  // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
-  // they are ambiguous; only Unicode Roman numeral symbols are numeric here.
-  return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+$/u.test(surface);
-}
-
-function parseRenderedYomiTokensForCorrection(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/[ \t\r\n]+/)
-    .filter(Boolean)
-    .map((token) => {
-      const separator = token.lastIndexOf("/");
-      if (separator < 0) {
-        return { surface: token, reading: "" };
-      }
-      return {
-        surface: token.slice(0, separator),
-        reading: token.slice(separator + 1),
-      };
-    });
-}
-
-function archiveCorrectionIssueTitle(doc) {
-  const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
-  return `[yomi-correction] dev document ${seq}`;
-}
-
-function buildArchiveCorrectionPayload(doc, parsed) {
-  return {
-    submission_type: "finalized_correction_patch",
-    schema_version: 1,
-    track_name: state.archiveCurrentTrack || "dev",
-    review_stage: "finalized_correction",
-    doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
-    batch_name: doc.batch_name || "",
-    generated_at_epoch: Math.floor(Date.now() / 1000),
-    source: {
-      archive_index_path: state.manifest?.archive?.index_path || "",
-      archive_shard: state.archiveCurrentShardPath || "",
-      page_url: window.location.href,
-    },
-    units: parsed.changedUnits,
-  };
-}
-
-async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
-  const parsed = collectArchiveCorrectionChanges(doc);
-  if (!parsed.ok) {
-    showStatus(parsed.error, true);
-    return false;
-  }
-  const payload = buildArchiveCorrectionPayload(doc, parsed);
-  const copied = await copyTextToClipboard(JSON.stringify(payload, null, 2));
-  if (openIssue) {
-    openUrlInNewTab(buildGithubIssueUrl(archiveCorrectionIssueTitle(doc)));
-  }
-  showStatus(
-    copied
-      ? "Correction JSON copied. Paste it into the GitHub issue body."
-      : "Clipboard copy failed. Copy the correction JSON manually from the editor.",
-    !copied,
-  );
-  return copied;
 }
 
 function renderUnifiedTaskQueues(docs, task) {
@@ -1629,21 +885,13 @@ function renderWorkflowPackMap(docs) {
         <h3>Pack Map</h3>
         <p class="muted">Status of all documents in this pack.</p>
       </div>
-      <div class="workflow-heading-actions">
-        <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>Resolved</span>
-          <span><span class="workflow-dot strong"></span>Escalated Repair</span>
-          <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
-        </div>
-        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">Corpus Map</button>' : ''}
+      <div class="workflow-legend-inline">
+        <span><span class="workflow-dot resolved"></span>Resolved</span>
+        <span><span class="workflow-dot strong"></span>Escalated Repair</span>
+        <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
       </div>
     </div>
   `;
-  section.querySelector(".corpus-map-link")?.addEventListener("click", () => {
-    openArchiveBrowser().catch((error) => {
-      showStatus(`Failed to open Corpus Map: ${error.message}`, true);
-    });
-  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
@@ -2096,11 +1344,11 @@ function workflowDocumentStates(docs) {
     const bucketStatus = workflowDocumentBucketStatus(doc);
     if (bucketStatus === "final") {
       row.status = "final";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (
       !["final", "strong"].includes(row.status) &&
@@ -2117,27 +1365,19 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
-  const stateName = String(doc?.state || "");
-  return stateName === "complete" || stateName === "skipped" || stateName === "strong_reviewed";
+  return workflowStateFromDocument(doc) === "resolved";
 }
 
 function documentHasPendingCanonicalState(doc) {
-  const stateName = String(doc?.state || "");
-  return (
-    stateName === "final_pending" ||
-    stateName === "final_in_review" ||
-    stateName === "final_reviewed" ||
-    stateName === "strong_pending" ||
-    stateName === "strong_in_review"
-  );
+  return Boolean(queueStatusFromDocumentState(doc));
 }
 
 function submittedWorkflowLabel(doc) {
-  const stateName = String(doc?.state || "");
-  if (stateName.startsWith("strong_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "escalated_submitted") {
     return "Submitted, waiting for repair processing";
   }
-  if (stateName === "final_reviewed") {
+  if (workflowState === "bulk_submitted") {
     return "Submitted, waiting for processing";
   }
   return "Submitted, waiting for import";
@@ -2172,7 +1412,7 @@ function submittedSourceQueueStatus(doc) {
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
-  const submitted = docIsSubmittedLocally(doc);
+  const submitted = docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
   return {
     doc_seq: doc.doc_seq,
     track_doc_seq: doc.track_doc_seq || doc.doc_seq,
@@ -2225,17 +1465,43 @@ function workflowDocumentBucketStatus(doc) {
 }
 
 function queueStatusFromDocumentState(doc) {
-  const stateName = String(doc?.state || "");
-  if (documentIsResolved(doc)) {
-    return null;
-  }
-  if (stateName.startsWith("final_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "bulk_review" || workflowState === "bulk_submitted") {
     return "final";
   }
-  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+  if (workflowState === "escalated_repair" || workflowState === "escalated_submitted") {
     return "strong";
   }
   return null;
+}
+
+function workflowStateFromDocument(doc) {
+  const workflowState = String(doc?.workflow_state || "");
+  if (workflowState) {
+    return workflowState;
+  }
+  const stateName = String(doc?.state || "");
+  if (stateName === "final_pending" || stateName === "final_in_review") {
+    return "bulk_review";
+  }
+  if (stateName === "final_reviewed") {
+    return "bulk_submitted";
+  }
+  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+    return "escalated_repair";
+  }
+  if (stateName === "strong_reviewed") {
+    return "escalated_submitted";
+  }
+  if (stateName === "complete" || stateName === "skipped") {
+    return "resolved";
+  }
+  return "";
+}
+
+function docIsSubmittedByWorkflowState(doc) {
+  const workflowState = workflowStateFromDocument(doc);
+  return workflowState === "bulk_submitted" || workflowState === "escalated_submitted";
 }
 
 function queueStatusForStage(queueStage) {
@@ -2375,7 +1641,7 @@ function docIsSubmittedLocally(doc) {
 }
 
 function docIsActionable(doc) {
-  return doc?.selectable !== false && !docIsSubmittedLocally(doc);
+  return doc?.selectable !== false && !docIsSubmittedLocally(doc) && !docIsSubmittedByWorkflowState(doc);
 }
 
 function renderTaskDocumentRow(doc, task) {
@@ -4048,19 +3314,12 @@ async function openIssueForCurrentTask() {
 
 async function copySubmissionJsonToClipboard() {
   const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
-  return copyTextToClipboard(payload);
-}
-
-async function copyTextToClipboard(payload) {
   try {
     await navigator.clipboard.writeText(payload);
     return true;
   } catch {
-    if (el.submissionPreview) {
-      el.submissionPreview.value = payload;
-      el.submissionPreview.focus();
-      el.submissionPreview.select();
-    }
+    el.submissionPreview.focus();
+    el.submissionPreview.select();
     return false;
   }
 }
@@ -4075,7 +3334,9 @@ function hideIssueReturnModal() {
 
 function buildIssueTitle(payload) {
   if (payload.submission_type === "review_bundle") {
-    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+    const docs = payload.task?.mode === "documents"
+      ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || payload.task.doc_seqs || [])}`
+      : "";
     return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
   }
   const packId = payload.pack_id || "review";
@@ -4083,7 +3344,9 @@ function buildIssueTitle(payload) {
   const range = ranges.length === 1
     ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
     : `${ranges.length} ranges`;
-  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+  const task = payload.task?.mode === "documents"
+    ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || payload.task.doc_seqs || [])}`
+    : "";
   return `[yomi-review] ${packId}${task} ${range}`;
 }
 
@@ -4218,6 +3481,7 @@ function buildSubmissionTaskMetadata(reviewStage = null, packId = null) {
     doc_keys: docs.map((doc) => taskDocKey(doc)),
     doc_ids: docs.map((doc) => doc.doc_id),
     doc_seqs: docs.map((doc) => doc.doc_seq),
+    track_doc_seqs: docs.map((doc) => doc.track_doc_seq || doc.doc_seq),
     queue_stages: [...new Set(docs.map((doc) => doc.queue_stage).filter(Boolean))],
     doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
@@ -4915,7 +4179,10 @@ function findSavedTaskDraftOverlap(docIds) {
 function formatTaskOverlapMessage(overlap) {
   const docs = buildDocumentTasks(state.currentPack);
   const docSeqs = (overlap?.overlap || [])
-    .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
+    .map((docId) => {
+      const doc = docs.find((row) => taskDocKey(row) === docId);
+      return doc ? documentDisplaySeq(doc) : null;
+    })
     .filter((seq) => Number.isInteger(seq));
   const label = overlap?.record?.task_label || overlap?.record?.task_id || "another local task";
   const docsText = docSeqs.length ? `Docs ${formatDocSeqs(docSeqs)}` : "Selected documents";
@@ -4981,7 +4248,7 @@ function taskNumberFromId(taskId) {
 function formatTaskDraftMeta(record, docs) {
   const docIds = new Set(record.task?.doc_ids || []);
   const selectedDocs = docs.filter((doc) => docIds.has(taskDocKey(doc)));
-  const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
+  const docSeqs = selectedDocs.map((doc) => documentDisplaySeq(doc));
   const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
   const parts = [];
   const queueStages = [...new Set(selectedDocs.map((doc) => doc.queue_stage).filter(Boolean))];
@@ -5092,7 +4359,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
   const allDocs = buildActionableDocumentTasks(state.currentPack);
   const docs = allDocs
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
   const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
   if (fromIndex < 0 || toIndex < 0) {
@@ -5137,7 +4404,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
 function takeNextQueueDocuments(queueStage, count) {
   const docs = buildActionableDocumentTasks(state.currentPack)
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right))
     .slice(0, count);
   if (!docs.length) {
     return;
