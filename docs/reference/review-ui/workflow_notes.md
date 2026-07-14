@@ -490,3 +490,13 @@ sentence are displayed as `2 corrections · 1 sentence changed`. Unit-level
 submissions that affected that unit. The Corpus Map tile badge shows correction
 submissions; list metadata, tooltips, and previews also show the affected-sentence
 count.
+
+Corpus Map search uses a separately published, text-only index. Each record
+contains only the track document sequence, document ID, archive shard path, and
+the document's concatenated raw sentence text. The browser does not fetch this
+index while merely browsing Corpus Map; it loads it after the reviewer enters a
+search query. Initial search is a debounced client-side substring scan with at
+most 100 rendered results. Opening a result then fetches only its full archive
+shard and opens the normal read-only document preview. This is intentionally
+simple for thousands of documents while preserving a boundary where the index
+can later be partitioned or replaced without changing the review UI.

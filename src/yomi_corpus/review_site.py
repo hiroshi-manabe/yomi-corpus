@@ -264,11 +264,18 @@ def publish_review_archive(
             url_prefix=f"./archive/{track_name}",
             shard_size=shard_size,
         )
+        search_path = write_archive_search_index(
+            documents,
+            shards=shards,
+            output_root=track_dir,
+            url_prefix=f"./archive/{track_name}",
+        )
         tracks[track_name] = {
             "track_name": track_name,
             "document_count": len(documents),
             "shard_size": shard_size,
             "shards": shards,
+            "search_path": search_path,
         }
 
     index = {
@@ -485,6 +492,45 @@ def write_archive_shards(
             }
         )
     return shards
+
+
+def write_archive_search_index(
+    documents: list[dict],
+    *,
+    shards: list[dict],
+    output_root: Path,
+    url_prefix: str,
+) -> str:
+    records = []
+    for doc in documents:
+        track_doc_seq = int(doc["track_doc_seq"])
+        shard_path = next(
+            (
+                str(shard["path"])
+                for shard in shards
+                if int(shard["start_track_doc_seq"]) <= track_doc_seq <= int(shard["end_track_doc_seq"])
+            ),
+            "",
+        )
+        records.append(
+            {
+                "track_doc_seq": track_doc_seq,
+                "doc_id": str(doc.get("doc_id") or ""),
+                "shard_path": shard_path,
+                "text": "\n".join(str(unit.get("text") or "") for unit in doc.get("units", [])),
+            }
+        )
+    filename = "search.json"
+    payload = {
+        "schema_version": 1,
+        "document_count": len(records),
+        "documents": records,
+    }
+    (output_root / filename).write_text(
+        json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    return f"{url_prefix}/{filename}"
 
 
 def iter_jsonl(path: Path):
