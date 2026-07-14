@@ -1308,6 +1308,11 @@ function validateRenderedYomiCorrection(unit, proposed) {
     if (!surface) {
       return { ok: false, error: `token ${token} has an empty surface.` };
     }
+    const reading = token.slice(slashIndex + 1);
+    const readingValidation = validateRenderedYomiReading(surface, reading);
+    if (!readingValidation.ok) {
+      return { ok: false, error: `token ${token}: ${readingValidation.error}` };
+    }
     surfaceText.push(surface);
   }
   const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
@@ -1322,6 +1327,20 @@ function validateRenderedYomiCorrection(unit, proposed) {
     };
   }
   return { ok: true };
+}
+
+function validateRenderedYomiReading(surface, reading) {
+  if (!reading) {
+    return { ok: true };
+  }
+  if (/^[ぁ-ゖァ-ヺー]+$/u.test(reading)) {
+    return { ok: true };
+  }
+  const isExactSymbolReading = reading === surface && !/[0-9A-Za-z一-龯々〆ぁ-ゖァ-ヺー]/u.test(reading);
+  if (isExactSymbolReading) {
+    return { ok: true };
+  }
+  return { ok: false, error: "reading must be kana or an exact symbol reading." };
 }
 
 function parseRenderedYomiTokensForCorrection(rendered) {
