@@ -1015,6 +1015,7 @@ function renderArchiveDocumentRow(doc) {
   const button = document.createElement("button");
   button.type = "button";
   const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
   const localCorrection = archiveCorrectionRecordForDoc(doc);
   button.className = "task-doc-row archive-doc-row";
   button.classList.toggle("has-finalized-corrections", correctionCount > 0);
@@ -1022,7 +1023,7 @@ function renderArchiveDocumentRow(doc) {
   button.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
   button.innerHTML = `
     <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
-    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)${archiveCorrectionBadge(correctionCount)}${archiveLocalCorrectionBadge(localCorrection)}</span>
+    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)${archiveCorrectionBadge(correctionCount, correctionSentenceCount)}${archiveLocalCorrectionBadge(localCorrection)}</span>
     <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
   `;
   button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
@@ -1036,6 +1037,7 @@ function renderCorpusMapTileGrid(docs) {
     const tile = document.createElement("button");
     tile.type = "button";
     const correctionCount = Number(doc.finalized_correction_count || 0);
+    const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
@@ -1048,7 +1050,7 @@ function renderCorpusMapTileGrid(docs) {
       ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "sent" : "edit"}</em>` : ""}
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
-      correctionCount ? `\n${correctionCount} applied correction(s)` : ""
+      correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
     tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
@@ -1061,7 +1063,11 @@ function openArchiveDocumentPreview(doc) {
     return;
   }
   el.workflowPreviewTitle.textContent = `Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized`;
+  const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized${
+    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
+  }`;
   el.workflowPreviewBody.innerHTML = "";
   const units = doc.units || [];
   if (!units.length) {
@@ -1106,11 +1112,17 @@ function openArchiveDocumentPreview(doc) {
   el.workflowPreviewModal.classList.remove("hidden");
 }
 
-function archiveCorrectionBadge(count) {
+function archiveCorrectionBadge(count, sentenceCount) {
   const normalized = Number(count || 0);
   return normalized > 0
-    ? ` · <span class="archive-correction-badge">${escapeHtml(normalized)} correction${normalized === 1 ? "" : "s"}</span>`
+    ? ` · <span class="archive-correction-badge">${escapeHtml(formatArchiveCorrectionSummary(normalized, sentenceCount))}</span>`
     : "";
+}
+
+function formatArchiveCorrectionSummary(count, sentenceCount) {
+  const corrections = Number(count || 0);
+  const sentences = Number(sentenceCount || 0);
+  return `${corrections} correction${corrections === 1 ? "" : "s"} · ${sentences} sentence${sentences === 1 ? "" : "s"} changed`;
 }
 
 function archiveLocalCorrectionBadge(record) {
@@ -1235,7 +1247,11 @@ function openArchiveCorrectionEditor(doc) {
   const units = doc.units || [];
   const localCorrection = archiveCorrectionRecordForDoc(doc);
   el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request`;
+  const correctionCount = Number(doc.finalized_correction_count || 0);
+  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request${
+    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
+  }`;
   el.workflowPreviewBody.innerHTML = "";
 
   const intro = document.createElement("p");
