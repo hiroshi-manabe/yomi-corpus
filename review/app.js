@@ -1365,6 +1365,9 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
       : { ok: true };
   }
+  if (isNumericOnlySurface(surface)) {
+    return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
+  }
   if (/[一-龯々〆A-Za-z]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
@@ -1373,14 +1376,15 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: true }
       : { ok: false, error: "reading for kanji or alphabetic surfaces must be katakana." };
   }
-  if (/^[0-9]+$/u.test(surface)) {
-    return reading ? { ok: false, error: "digit-only surfaces must have an empty reading." } : { ok: true };
-  }
   const expected = surface.replace(/[ぁ-ゖ]/gu, (char) => hiraganaToKatakana(char));
   if (reading === expected) {
     return { ok: true };
   }
   return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
+}
+
+function isNumericOnlySurface(surface) {
+  return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+$/u.test(surface);
 }
 
 function parseRenderedYomiTokensForCorrection(rendered) {
