@@ -14,6 +14,10 @@ const state = {
   archiveCurrentTrack: "dev",
   archiveCurrentShard: null,
   archiveCurrentShardPath: "",
+  archiveSearchIndex: null,
+  archiveSearchIndexPath: "",
+  archiveSearchQuery: "",
+  archiveSearchTimer: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
@@ -996,7 +1000,160 @@ function renderArchiveBrowserPanel() {
     });
     el.taskSummary.append(backButton);
   }
+  el.taskDocList.append(renderArchiveSearchPanel(track));
   el.taskDocList.append(renderCorpusMapTileGrid(docs));
+}
+
+function renderArchiveSearchPanel(track) {
+  const panel = document.createElement("section");
+  panel.className = "archive-search-panel";
+  const heading = document.createElement("div");
+  heading.className = "archive-search-heading";
+  heading.innerHTML = `
+    <div>
+      <strong>Search Corpus Map</strong>
+      <p class="muted">Search finalized documents by raw source text.</p>
+    </div>
+  `;
+  const input = document.createElement("input");
+  input.type = "search";
+  input.className = "archive-search-input";
+  input.placeholder = "Search document text";
+  input.autocomplete = "off";
+  input.value = state.archiveSearchQuery || "";
+  input.disabled = !track.search_path;
+  heading.append(input);
+  panel.append(heading);
+
+  const status = document.createElement("p");
+  status.className = "archive-search-status muted";
+  status.textContent = track.search_path
+    ? "The compact search index loads after you enter a query."
+    : "No search index was published for this track.";
+  panel.append(status);
+
+  const results = document.createElement("div");
+  results.className = "archive-search-results";
+  panel.append(results);
+
+  input.addEventListener("input", () => {
+    state.archiveSearchQuery = input.value;
+    scheduleArchiveSearch(track, { panel, status, results });
+  });
+  if (state.archiveSearchQuery.trim()) {
+    scheduleArchiveSearch(track, { panel, status, results }, { immediate: true });
+  }
+  return panel;
+}
+
+function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
+  if (state.archiveSearchTimer) {
+    window.clearTimeout(state.archiveSearchTimer);
+  }
+  const query = state.archiveSearchQuery.trim();
+  if (!query) {
+    nodes.status.textContent = "The compact search index loads after you enter a query.";
+    nodes.results.innerHTML = "";
+    return;
+  }
+  const run = () => {
+    performArchiveSearch(track, query, nodes).catch((error) => {
+      if (!nodes.panel.isConnected) {
+        return;
+      }
+      nodes.status.textContent = `Search failed: ${error.message}`;
+      nodes.status.classList.add("error");
+    });
+  };
+  state.archiveSearchTimer = window.setTimeout(run, immediate ? 0 : 180);
+}
+
+async function performArchiveSearch(track, query, nodes) {
+  const searchPath = String(track.search_path || "");
+  if (!searchPath) {
+    return;
+  }
+  nodes.status.classList.remove("error");
+  if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
+    nodes.status.textContent = "Loading search index…";
+    state.archiveSearchIndex = await fetchJson(searchPath);
+    state.archiveSearchIndexPath = searchPath;
+  }
+  if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
+    return;
+  }
+  const normalizedQuery = normalizeArchiveSearchText(query);
+  const matches = [];
+  let totalMatches = 0;
+  for (const doc of state.archiveSearchIndex.documents || []) {
+    if (!normalizeArchiveSearchText(doc.text).includes(normalizedQuery)) {
+      continue;
+    }
+    totalMatches += 1;
+    if (matches.length < 100) {
+      matches.push(doc);
+    }
+  }
+  renderArchiveSearchResults(matches, totalMatches, query, nodes);
+}
+
+function normalizeArchiveSearchText(value) {
+  return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
+}
+
+function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
+  nodes.results.innerHTML = "";
+  if (!totalMatches) {
+    nodes.status.textContent = `No documents found for “${query}”.`;
+    return;
+  }
+  nodes.status.textContent = totalMatches > matches.length
+    ? `${totalMatches} document(s) found. Showing the first ${matches.length}.`
+    : `${totalMatches} document(s) found.`;
+  for (const doc of matches) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "archive-search-result";
+    button.innerHTML = `
+      <strong>Document ${escapeHtml(doc.track_doc_seq)}</strong>
+      <span>${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
+    `;
+    button.addEventListener("click", () => {
+      openArchiveSearchResult(doc).catch((error) => {
+        showStatus(`Failed to open search result: ${error.message}`, true);
+      });
+    });
+    nodes.results.append(button);
+  }
+}
+
+function archiveSearchSnippet(text, query) {
+  const compact = String(text || "").replace(/\s+/gu, " ").trim();
+  const index = normalizeArchiveSearchText(compact).indexOf(normalizeArchiveSearchText(query));
+  const start = Math.max(0, index < 0 ? 0 : index - 36);
+  const end = Math.min(compact.length, (index < 0 ? 0 : index) + String(query).length + 72);
+  return `${start > 0 ? "…" : ""}${compact.slice(start, end)}${end < compact.length ? "…" : ""}`;
+}
+
+async function openArchiveSearchResult(result) {
+  const shardPath = String(result.shard_path || "");
+  if (!shardPath) {
+    throw new Error("Search result has no archive shard path.");
+  }
+  if (!state.archiveCurrentShard || state.archiveCurrentShardPath !== shardPath) {
+    state.archiveCurrentShard = await fetchJson(shardPath);
+    state.archiveCurrentShardPath = shardPath;
+    render();
+  }
+  const doc = (state.archiveCurrentShard.documents || []).find(
+    (candidate) =>
+      String(candidate.doc_id || "") === String(result.doc_id || "") &&
+      Number(candidate.track_doc_seq || 0) === Number(result.track_doc_seq || 0),
+  );
+  if (!doc) {
+    throw new Error("Document was not found in its archive shard.");
+  }
+  openArchiveDocumentPreview(doc);
 }
 
 function renderArchiveShardRow(shard) {
