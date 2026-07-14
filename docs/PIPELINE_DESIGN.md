@@ -2054,6 +2054,8 @@ in-place archive mutation. The browser can prepare a
 - row-based editing where only expanded, changed finalized units are exported
 - unchanged unit IDs and order
 - rendered-yomi tokens in `surface/reading` form
+- non-empty readings must be kana, except exact symbol readings such as `。/。`;
+  alphabetic, numeric, or kanji readings are invalid
 - source surfaces preserved relative to the original rendered-yomi tokens after
   removing ASCII token separator spaces; NBSP remains source surface
 - at least one changed unit

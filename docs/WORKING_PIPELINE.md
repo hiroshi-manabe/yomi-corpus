@@ -2508,6 +2508,8 @@ Browser validation must reject:
 - missing, extra, reordered, or changed unit IDs
 - rendered-yomi tokens without `/`
 - empty token surfaces
+- non-empty readings that are not kana, except exact symbol readings such as
+  `。/。`; alphabetic, numeric, or kanji readings are invalid
 - source-surface changes relative to the original rendered-yomi token surfaces
   after removing ASCII token separator spaces; NBSP is source surface and must
   not be treated as a separator

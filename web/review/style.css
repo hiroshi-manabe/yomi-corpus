@@ -865,6 +865,7 @@ button:disabled {
 .archive-correction-row.invalid {
   border-color: rgba(168, 67, 47, 0.42);
   background: rgba(168, 67, 47, 0.08);
+  box-shadow: 0 0 0 2px rgba(168, 67, 47, 0.14);
 }
 
 .archive-correction-row-summary {
@@ -906,12 +907,31 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
+.archive-correction-row.invalid .archive-correction-unit-textarea {
+  border-color: var(--danger);
+  background: rgba(168, 67, 47, 0.05);
+}
+
 .archive-correction-validation {
   margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
 }
 
 .archive-correction-validation.error {
   color: var(--danger);
+  background: rgba(168, 67, 47, 0.1);
+  font-weight: 700;
+}
+
+.archive-correction-row-validation.error {
+  display: inline-block;
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: var(--danger);
+  background: rgba(168, 67, 47, 0.12);
+  font-weight: 700;
 }
 
 .workflow-preview-item.resolved-yomi-preview {
