@@ -1181,14 +1181,12 @@ function renderArchiveCorrectionRow(unit, index) {
     <p class="archive-correction-row-validation muted">No change yet.</p>
     <div class="archive-correction-editor-actions">
       <button type="button" class="secondary-button compact-button" data-archive-correction-save>Save</button>
-      <button type="button" class="secondary-button compact-button" data-archive-correction-clear>Clear</button>
       <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>Cancel</button>
     </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit));
-  editor.querySelector("[data-archive-correction-clear]")?.addEventListener("click", () => clearArchiveCorrectionRow(row));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
   row.append(summary, saved, editor);
@@ -1220,11 +1218,20 @@ function updateArchiveCorrectionRowState(row, unit) {
   }
   const original = editor.dataset.originalYomi || "";
   const proposed = String(textarea.value || "").trim();
+  const saved = row.dataset.proposedYomi || "";
+  const baseline = saved || original;
   const changed = proposed !== original;
-  const validation = changed ? validateRenderedYomiCorrection(unit, proposed) : { ok: true };
-  row.classList.toggle("invalid", changed && !validation.ok);
-  validationNode.textContent = !changed ? "No change yet." : validation.ok ? "Ready to save." : validation.error;
-  validationNode.classList.toggle("error", changed && !validation.ok);
+  const dirty = proposed !== baseline;
+  row.classList.remove("invalid");
+  validationNode.classList.remove("error");
+  validationNode.textContent = !dirty
+    ? row.classList.contains("changed")
+      ? "Saved."
+      : "No change yet."
+    : changed
+      ? "Unsaved edit. Save to validate and include it in the Issue JSON."
+      : "Unsaved edit clears the saved correction if saved.";
+  updateArchiveCorrectionSummary();
 }
 
 function collectArchiveCorrectionChanges(doc) {
@@ -1269,7 +1276,8 @@ function saveArchiveCorrectionRow(row, unit) {
     return;
   }
   const original = String(editor.dataset.originalYomi || "").trim();
-  const proposed = String(textarea.value || "").trim();
+  const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
+  textarea.value = proposed;
   if (proposed === original) {
     clearArchiveCorrectionRow(row);
     return;
@@ -1311,7 +1319,24 @@ function clearArchiveCorrectionRow(row) {
 }
 
 function cancelArchiveCorrectionRowEdit(row) {
+  const editor = row.querySelector(".archive-correction-editor");
+  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
+  if (editor && textarea) {
+    const baseline = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
+    const proposed = String(textarea.value || "").trim();
+    if (proposed !== baseline && !window.confirm("Discard the unsaved yomi edit?")) {
+      return;
+    }
+    textarea.value = baseline;
+    const validationNode = editor.querySelector(".archive-correction-row-validation");
+    if (validationNode) {
+      validationNode.textContent = row.classList.contains("changed") ? "Saved." : "No change yet.";
+      validationNode.classList.remove("error");
+    }
+    row.classList.remove("invalid");
+  }
   closeArchiveCorrectionRowEditor(row);
+  updateArchiveCorrectionSummary();
 }
 
 function closeArchiveCorrectionRowEditor(row) {
@@ -1340,13 +1365,19 @@ function updateArchiveCorrectionSummary() {
   }
   const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
   const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
+  const openEditors = el.workflowPreviewBody.querySelectorAll(".archive-correction-editor:not(.hidden)").length;
   const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
-  const canExport = changed > 0 && invalid === 0;
+  const canExport = changed > 0 && invalid === 0 && openEditors === 0;
   for (const button of exportButtons) {
     button.disabled = !canExport;
   }
   if (invalid) {
     summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
+    summary.classList.add("error");
+    return;
+  }
+  if (openEditors) {
+    summary.textContent = "Save or cancel the open editor before exporting.";
     summary.classList.add("error");
     return;
   }
@@ -1413,6 +1444,26 @@ function parseRenderedYomiCorrectionTokens(rendered) {
         reading: raw.slice(slashIndex + 1),
       };
     });
+}
+
+function normalizeRenderedYomiCorrectionReadings(rendered) {
+  return String(rendered || "")
+    .trim()
+    .split(/[ \t\r\n]+/)
+    .filter(Boolean)
+    .map((raw) => {
+      if (raw === "/") {
+        return raw;
+      }
+      const slashIndex = raw.lastIndexOf("/");
+      if (slashIndex < 0) {
+        return raw;
+      }
+      const surface = raw.slice(0, slashIndex);
+      const reading = raw.slice(slashIndex + 1);
+      return `${surface}/${hiraganaToKatakana(reading)}`;
+    })
+    .join(" ");
 }
 
 function normalizeCorrectionSourceText(value) {

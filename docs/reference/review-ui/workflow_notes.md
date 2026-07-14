@@ -429,6 +429,19 @@ The resolved correction path should validate in two places:
 - the importer/server pipeline remains authoritative and must repeat the same
   validation before applying any correction
 
+Browser-side resolved correction editing is save-based rather than live-submit:
+
+- opening a unit editor creates a temporary draft only for that row
+- `Save` validates the rendered-yomi text and stores it as a pending correction
+- `Save` also normalizes hiragana in the reading side to katakana before
+  validation and export
+- `Cancel` closes the editor; if the open draft differs from the last saved
+  pending correction, the browser asks before discarding it
+- the Issue JSON buttons stay disabled while any editor is open, so only saved
+  pending corrections can be submitted
+- saving text equal to the original finalized yomi removes that row from the
+  pending correction set
+
 Initial validation rules should be conservative:
 
 - each token is represented as `surface/reading`
