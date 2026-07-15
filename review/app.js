@@ -5053,7 +5053,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
   const allDocs = buildActionableDocumentTasks(state.currentPack);
   const docs = allDocs
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
   const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
   if (fromIndex < 0 || toIndex < 0) {
@@ -5098,7 +5098,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
 function takeNextQueueDocuments(queueStage, count) {
   const docs = buildActionableDocumentTasks(state.currentPack)
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right))
     .slice(0, count);
   if (!docs.length) {
     return;
