@@ -509,6 +509,21 @@ under this corpus and policy," not "lexically impossible to read otherwise." If
 audits show repeated misses of rare proper-noun readings, add targeted
 exceptions or lower the confidence/highlight level for those surfaces.
 
+Corpus-frequency statistics must be versioned with the decoder model rather
+than remaining a global artifact built only from the original corpus. Every
+decoder refresh should build its N-gram model, lexicon, and surface/reading
+frequency table from the same ordered corpus set: the configured base corpus
+plus all finalized batches selected for that track refresh. Store the frequency
+TSV and its source manifest inside the immutable decoder model directory.
+
+When a batch is prepared, it pins a decoder model directory. Mechanical yomi
+generation and pre-LLM corpus-frequency safety must both use artifacts from that
+same pinned directory. A later decoder refresh must not change the evidence for
+an already prepared batch. The original global frequency artifact remains only
+a compatibility fallback for batches that predate model-bundled statistics.
+Safety records should retain the model-specific frequency artifact path and
+corpus version so later audits can reproduce the decision.
+
 Concrete per-target safety records should be versioned data, not just UI state.
 A passing corpus-frequency record:
 
@@ -598,10 +613,11 @@ target records. Do not collapse evidence into one irreversible boolean.
 
 Implementation sequence:
 
-1. Generate/load corpus-frequency stats from a configured source corpus path,
-   initially `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
-   The generator writes both stats and a manifest; tests use small committed
-   fixtures.
+1. Generate/load corpus-frequency stats from the exact corpus set used by each
+   decoder model: the configured base corpus plus the finalized reviewed corpora
+   included by that refresh. The generator writes both stats and a manifest in
+   the decoder model directory; tests use small committed fixtures. The static
+   stats configured for the original base corpus are a legacy fallback only.
 2. Add a yomi safety module that builds per-target records using the same
    target IDs and alignment logic as LLM reading queue items.
 3. Add deterministic signals first: stable dictionary and corpus frequency.

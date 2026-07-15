@@ -829,8 +829,13 @@ Implementation status:
      `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
    - Output a stats artifact plus a manifest with source path or ID, size,
      checksum when feasible, mtime, normalization settings, filters, script
-     version, and generation time.
+   version, and generation time.
    - Add small committed fixture corpora and loader/generator tests.
+   - Decoder refreshes must additionally generate model-local frequency stats
+     from the same base corpus and finalized batch exports used to build that
+     decoder model. A batch's pinned `decoder_model_dir` selects both decoding
+     artifacts and frequency evidence. The static base-corpus stats path remains
+     a compatibility fallback for older model directories only.
 2. `src/yomi_corpus/yomi/safety.py` now implements pre-LLM deterministic
    per-target safety.
    - Reuse the same target extraction logic as `llm_readings.py` so safety
