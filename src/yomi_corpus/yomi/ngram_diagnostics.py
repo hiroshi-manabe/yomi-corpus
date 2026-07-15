@@ -8,6 +8,7 @@ import re
 from typing import Any
 
 from yomi_corpus.yomi.strategies import (
+    SpannedDecoderEntry,
     is_punctuation_token,
     span_decoder_entries,
     span_sudachi_tokens,

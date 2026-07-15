@@ -11,7 +11,6 @@ from time import sleep, time
 from yomi_corpus.llm.backend import OpenAIResponsesBackend, write_batch_requests
 from yomi_corpus.llm.batch_jobs import (
     fetch_batch_job,
-    list_batch_jobs,
     poll_batch_job,
     prepare_batch_job,
     submit_batch_job,

@@ -21,6 +21,9 @@ const state = {
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
+  runtimeStatus: null,
+  runtimePollTimer: null,
+  runtimePollFailures: 0,
 };
 
 const el = {
@@ -46,6 +49,10 @@ const el = {
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
+  serverUpdateBanner: document.querySelector("#server-update-banner"),
+  serverUpdateMessage: document.querySelector("#server-update-message"),
+  serverUpdateRefresh: document.querySelector("#server-update-refresh"),
+  runtimeStatusLine: document.querySelector("#runtime-status-line"),
   issueReturnModal: document.querySelector("#issue-return-modal"),
   issueReturnTitle: document.querySelector("#issue-return-title"),
   issueReturnDescription: document.querySelector("#issue-return-description"),
@@ -99,9 +106,29 @@ async function boot() {
       preferredPackId: initialTarget.packId,
     });
   }
+  startRuntimeStatusPolling();
 }
 
 function bindEvents() {
+  el.serverUpdateRefresh.addEventListener("click", () => {
+    if (isTaskStarted() && !window.confirm("Refresh server state? Your local task is saved and can be resumed.")) {
+      return;
+    }
+    window.location.reload();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!state.manifest?.runtime_status?.path) {
+      return;
+    }
+    clearRuntimePollTimer();
+    if (document.hidden) {
+      scheduleRuntimeStatusPoll();
+    } else {
+      pollRuntimeStatus();
+    }
+  });
+
   el.stageSelect.addEventListener("change", async (event) => {
     if (event.target.value === "unified_yomi_review") {
       await openUnifiedReview();
@@ -314,7 +341,7 @@ function activeDevReviewQueues() {
 }
 
 function hasDevYomiReviewSources() {
-  return latestDevYomiReviewSources().length > 0;
+  return activeDevYomiReviewSources().length > 0;
 }
 
 function hasReviewArchive() {
@@ -366,8 +393,8 @@ async function openPack(stageId, packId) {
 }
 
 async function openUnifiedReview() {
-  const latestSources = latestDevYomiReviewSources();
-  if (latestSources.length === 0) {
+  const reviewSources = activeDevYomiReviewSources();
+  if (reviewSources.length === 0) {
     const fallbackStage = Object.keys(state.manifest.stages || {})[0];
     await openStage(fallbackStage, { preferLatest: true });
     return;
@@ -377,7 +404,7 @@ async function openUnifiedReview() {
     el.stageSelect.value = "unified_yomi_review";
   }
   const sources = [];
-  for (const source of latestSources) {
+  for (const source of reviewSources) {
     const pack = await fetchJson(source.path);
     sources.push({ meta: source, pack });
   }
@@ -437,7 +464,7 @@ async function openArchiveShard(shard) {
   render();
 }
 
-function latestDevYomiReviewSources() {
+function activeDevYomiReviewSources() {
   const activeSources = activeDevReviewQueues();
   if (activeSources.length > 0) {
     return activeSources;
@@ -1172,25 +1199,6 @@ function renderArchiveShardRow(shard) {
   return button;
 }
 
-function renderArchiveDocumentRow(doc) {
-  const button = document.createElement("button");
-  button.type = "button";
-  const correctionCount = Number(doc.finalized_correction_count || 0);
-  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-  const localCorrection = archiveCorrectionRecordForDoc(doc);
-  button.className = "task-doc-row archive-doc-row";
-  button.classList.toggle("has-finalized-corrections", correctionCount > 0);
-  button.classList.toggle("has-local-correction", localCorrection?.status === "draft");
-  button.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
-  button.innerHTML = `
-    <span class="task-doc-title">Document ${escapeHtml(doc.track_doc_seq)}</span>
-    <span class="task-doc-meta">${escapeHtml(doc.doc_id || "")} · ${Number(doc.unit_count || 0)} sentence(s)${archiveCorrectionBadge(correctionCount, correctionSentenceCount)}${archiveLocalCorrectionBadge(localCorrection)}</span>
-    <span class="task-doc-preview">${escapeHtml(doc.text_preview || "")}</span>
-  `;
-  button.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-  return button;
-}
-
 function renderCorpusMapTileGrid(docs) {
   const wrap = document.createElement("div");
   wrap.className = "workflow-tile-grid corpus-map-grid";
@@ -1219,25 +1227,10 @@ function renderCorpusMapTileGrid(docs) {
   return wrap;
 }
 
-function archiveCorrectionBadge(count, sentenceCount) {
-  const normalized = Number(count || 0);
-  return normalized > 0
-    ? ` · <span class="archive-correction-badge">${escapeHtml(formatArchiveCorrectionSummary(normalized, sentenceCount))}</span>`
-    : "";
-}
-
 function formatArchiveCorrectionSummary(count, sentenceCount) {
   const corrections = Number(count || 0);
   const sentences = Number(sentenceCount || 0);
   return `${corrections} correction${corrections === 1 ? "" : "s"} · ${sentences} sentence${sentences === 1 ? "" : "s"} changed`;
-}
-
-function archiveLocalCorrectionBadge(record) {
-  if (!record) {
-    return "";
-  }
-  const label = record.status === "submitted" ? "submitted locally" : "local edit";
-  return ` · <span class="archive-local-correction-badge ${escapeHtml(record.status)}">${escapeHtml(label)}</span>`;
 }
 
 function archiveCorrectionDocKey(doc) {
@@ -1861,77 +1854,6 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
     !copied,
   );
   return copied;
-}
-
-function renderUnifiedTaskQueues(docs, task) {
-  for (const queue of [
-    { stage: "yomi_final_review", title: "Bulk Review" },
-    { stage: "yomi_strong_repair_review", title: "Escalated Repair" },
-  ]) {
-    const section = document.createElement("section");
-    section.className = "task-queue-panel";
-    const queueDocs = docs.filter((doc) => doc.queue_stage === queue.stage);
-    const selectableCount = queueDocs.filter((doc) => doc.selectable !== false).length;
-    const selectedCount = selectedQueueDocCount(queue.stage, task);
-    const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queue.stage);
-    const heading = document.createElement("div");
-    heading.className = "task-queue-heading";
-    const title = document.createElement("div");
-    title.className = "task-queue-title";
-    title.innerHTML = `
-      <h3>Select ${escapeHtml(queue.title)} Task</h3>
-      <div class="muted">${selectedCount > 0
-        ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
-        : `${selectableCount}/${queueDocs.length} selectable document(s).`}</div>
-    `;
-    const actions = document.createElement("div");
-    actions.className = "button-row";
-    const selectAllButton = document.createElement("button");
-    selectAllButton.type = "button";
-    selectAllButton.className = "secondary-button";
-    selectAllButton.textContent = "Select All";
-    selectAllButton.disabled = selectableCount === 0 || selectedCount === selectableCount;
-    selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queue.stage));
-    const clearButton = document.createElement("button");
-    clearButton.type = "button";
-    clearButton.className = "secondary-button";
-    clearButton.textContent = "Clear";
-    clearButton.disabled = selectedCount === 0;
-    clearButton.addEventListener("click", () => clearQueueTaskSelection(queue.stage));
-    const startButton = document.createElement("button");
-    startButton.type = "button";
-    startButton.textContent = "Start Review Task";
-    startButton.disabled = selectedCount === 0;
-    startButton.addEventListener("click", () => startReviewTask());
-    actions.append(selectAllButton, clearButton, startButton);
-    heading.append(title, actions);
-    section.append(heading);
-    const list = document.createElement("div");
-    list.className = "task-queue-doc-list";
-    for (const doc of queueDocs) {
-      list.append(renderTaskDocumentRow(doc, task));
-    }
-    if (queueDocs.length === 0) {
-      const empty = document.createElement("p");
-      empty.className = "muted";
-      empty.textContent = "No documents in this queue.";
-      list.append(empty);
-    }
-    section.append(list);
-    el.taskDocList.append(section);
-  }
-}
-
-function selectedQueueDocCount(queueStage, task) {
-  if (task.mode !== "documents" || !task.doc_ids.length) {
-    return 0;
-  }
-  return buildActionableDocumentTasks(state.currentPack).filter(
-    (doc) =>
-      doc.queue_stage === queueStage &&
-      doc.selectable !== false &&
-      task.doc_ids.includes(taskDocKey(doc)),
-  ).length;
 }
 
 function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
@@ -3697,22 +3619,11 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
 function renderRubySegments(item, override, editable) {
   const nodes = [];
   const targetsById = Object.fromEntries((item.targets || []).map((target) => [target.item_id, target]));
-  const groups = buildYomiSpanGroups(item);
-  const groupByFirstTargetId = Object.fromEntries(groups.map((group) => [group.targetIds[0], group]));
-  const hiddenTargetIds = new Set(groups.flatMap((group) => group.targetIds.slice(1)));
   const segments = item.ruby_segments || [{ type: "text", text: item.text || "" }];
   for (let index = 0; index < segments.length; index += 1) {
     const segment = segments[index];
     if (segment.type !== "ruby") {
       nodes.push(...renderYomiTextSegmentWithNumericMerge(item, segment, segments[index - 1], segments[index + 1], override, editable, targetsById));
-      continue;
-    }
-    if (hiddenTargetIds.has(segment.target_item_id)) {
-      continue;
-    }
-    const group = groupByFirstTargetId[segment.target_item_id];
-    if (group) {
-      nodes.push(renderYomiSpanGroup(item, group, override, editable));
       continue;
     }
     const target = targetsById[segment.target_item_id];
@@ -3840,289 +3751,6 @@ function toggleNumericMergeSpan(item, span) {
   cleanupYomiOverride(item.item_id);
   touchDraft();
   render();
-}
-
-function buildYomiSpanGroups(item) {
-  return [];
-}
-
-function makeYomiSpanGroup(targets, readingHints) {
-  const targetIds = targets.map((target) => target.item_id);
-  const originalSurface = targets.map((target) => target.surface || "").join("");
-  const id = targetIds.join("|");
-  return {
-    id,
-    targetIds,
-    targets,
-    originalSurface,
-    readingHints,
-    unresolved: targets.some((target) => !target.is_safe),
-  };
-}
-
-function renderYomiSpanGroup(item, group, override, editable) {
-  const spanDraft = override?.span_overrides?.[group.id] || null;
-  const mode = spanDraft?.decision || "ok";
-  const wrapper = document.createElement("span");
-  wrapper.className = "yomi-span-group";
-  wrapper.classList.toggle("changed", Boolean(spanDraft));
-  wrapper.classList.toggle("unresolved", group.unresolved);
-  wrapper.append(renderYomiSpanPreview(item, group, spanDraft, editable));
-  if (editable && mode !== "ok") {
-    wrapper.append(renderYomiSpanEditor(item, group, spanDraft, mode));
-  }
-  return wrapper;
-}
-
-function renderYomiSpanPreview(item, group, spanDraft, editable) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "ruby-token span-token";
-  button.classList.toggle("changed", Boolean(spanDraft));
-  button.disabled = !editable;
-  button.title = "Span review: OK / fix readings / fix segmentation";
-  const segments = spanSegmentsForDisplay(group, spanDraft);
-  for (const segment of segments) {
-    if (segment.reading) {
-      const ruby = document.createElement("ruby");
-      ruby.append(document.createTextNode(segment.surface));
-      const rt = document.createElement("rt");
-      rt.textContent = segment.reading;
-      ruby.append(rt);
-      button.append(ruby);
-    } else {
-      button.append(document.createTextNode(segment.surface));
-    }
-  }
-  if (editable) {
-    button.addEventListener("click", () => cycleYomiSpanMode(item, group));
-  }
-  return button;
-}
-
-function spanSegmentsForDisplay(group, spanDraft) {
-  if (spanDraft?.segments?.length) {
-    return spanDraft.segments;
-  }
-  return group.targets.map((target) => {
-    const candidate = selectedCandidate(target, null);
-    return {
-      surface: target.surface || "",
-      reading: candidate?.reading || null,
-    };
-  });
-}
-
-function cycleYomiSpanMode(item, group) {
-  const draft = ensureYomiOverride(item.item_id);
-  if (!draft.span_overrides) {
-    draft.span_overrides = {};
-  }
-  const current = draft.span_overrides[group.id] || null;
-  const currentMode = current?.decision || "ok";
-  const nextMode =
-    currentMode === "ok" ? "reading" : currentMode === "reading" ? "segmentation" : "ok";
-  if (nextMode === "ok") {
-    delete draft.span_overrides[group.id];
-    cleanupYomiOverride(item.item_id);
-  } else {
-    const nextSegments =
-      nextMode === "reading"
-        ? readingModeSegments(group, current)
-        : segmentationModeSegments(group, current);
-    draft.span_overrides[group.id] = {
-      id: group.id,
-      decision: nextMode,
-      target_item_ids: group.targetIds,
-      original_surface: group.originalSurface,
-      segments: nextSegments,
-    };
-  }
-  touchDraft();
-  render();
-}
-
-function readingModeSegments(group, current) {
-  if (current?.decision === "reading" && current.segments?.length) {
-    return current.segments;
-  }
-  return group.targets.map((target) => {
-    const candidate = selectedCandidate(target, null);
-    return {
-      surface: target.surface || "",
-      reading: candidate?.reading || "",
-    };
-  });
-}
-
-function segmentationModeSegments(group, current) {
-  if (current?.decision === "segmentation" && current.segments?.length) {
-    return current.segments;
-  }
-  return [
-    {
-      surface: group.originalSurface,
-      reading: defaultReadingForSpanSegment(group, group.originalSurface, current?.segments || []),
-    },
-  ];
-}
-
-function joinedGroupReading(group) {
-  return group.targets
-    .map((target) => selectedCandidate(target, null)?.reading || "")
-    .join("");
-}
-
-function renderYomiSpanEditor(item, group, spanDraft, mode) {
-  const panel = document.createElement("span");
-  panel.className = "span-editor";
-
-  const modeLabel = document.createElement("span");
-  modeLabel.className = "span-editor-mode";
-  modeLabel.textContent = mode === "reading" ? "Fix readings" : "Fix segmentation";
-  panel.append(modeLabel);
-
-  if (mode === "segmentation") {
-    panel.append(renderSplitControls(item, group, spanDraft));
-  }
-
-  const fieldList = document.createElement("span");
-  fieldList.className = "span-reading-fields";
-  for (const [index, segment] of (spanDraft.segments || []).entries()) {
-    const label = document.createElement("label");
-    label.className = "span-reading-field";
-    const surface = document.createElement("span");
-    surface.textContent = segment.surface || "";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = segment.reading || "";
-    input.placeholder = "reading";
-    input.addEventListener("input", () => {
-      const draft = ensureYomiOverride(item.item_id);
-      const current = draft.span_overrides?.[group.id];
-      if (!current) {
-        return;
-      }
-      current.segments[index].reading = input.value;
-      touchDraft();
-      renderSubmissionPreview();
-    });
-    label.append(surface, input);
-    fieldList.append(label);
-  }
-  panel.append(fieldList);
-  return panel;
-}
-
-function renderSplitControls(item, group, spanDraft) {
-  const wrap = document.createElement("span");
-  wrap.className = "split-controls";
-  const chars = Array.from(group.originalSurface);
-  for (let index = 0; index < chars.length; index += 1) {
-    const charSpan = document.createElement("span");
-    charSpan.className = "split-char";
-    charSpan.textContent = chars[index];
-    wrap.append(charSpan);
-    if (index < chars.length - 1) {
-      const boundaryIndex = index + 1;
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "split-toggle";
-      button.textContent = splitIndexes(spanDraft).has(boundaryIndex) ? "|" : "·";
-      button.title = "Toggle split";
-      button.addEventListener("click", () => {
-        updateSegmentationSplit(item, group, boundaryIndex);
-      });
-      wrap.append(button);
-    }
-  }
-  return wrap;
-}
-
-function splitIndexes(spanDraft) {
-  const indexes = new Set();
-  let cursor = 0;
-  for (const segment of spanDraft?.segments || []) {
-    cursor += Array.from(segment.surface || "").length;
-    indexes.add(cursor);
-  }
-  indexes.delete(0);
-  indexes.delete(Array.from(spanDraft?.original_surface || "").length);
-  return indexes;
-}
-
-function updateSegmentationSplit(item, group, boundaryIndex) {
-  const draft = ensureYomiOverride(item.item_id);
-  const spanDraft = draft.span_overrides?.[group.id];
-  if (!spanDraft || spanDraft.decision !== "segmentation") {
-    return;
-  }
-  const existingReadings = (spanDraft.segments || []).some((segment) => segment.reading);
-  if (
-    existingReadings &&
-    !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
-  ) {
-    return;
-  }
-  const indexes = splitIndexes(spanDraft);
-  if (indexes.has(boundaryIndex)) {
-    indexes.delete(boundaryIndex);
-  } else {
-    indexes.add(boundaryIndex);
-  }
-  const ordered = [...indexes].sort((a, b) => a - b);
-  const chars = Array.from(group.originalSurface);
-  let start = 0;
-  const previousSegments = spanDraft.segments || [];
-  spanDraft.segments = [];
-  for (const end of [...ordered, chars.length]) {
-    const surface = chars.slice(start, end).join("");
-    spanDraft.segments.push({
-      surface,
-      reading: defaultReadingForSpanSegment(group, surface, previousSegments),
-    });
-    start = end;
-  }
-  touchDraft();
-  render();
-}
-
-function defaultReadingForSpanSegment(group, surface, previousSegments) {
-  const previous = (previousSegments || []).find(
-    (segment) => segment.surface === surface && segment.reading
-  );
-  if (previous) {
-    return previous.reading;
-  }
-  if (group.readingHints?.[surface]) {
-    return group.readingHints[surface];
-  }
-  const targetReading = readingFromConsecutiveTargets(group.targets, surface);
-  if (targetReading) {
-    return targetReading;
-  }
-  if (surface === group.originalSurface) {
-    return joinedGroupReading(group);
-  }
-  return "";
-}
-
-function readingFromConsecutiveTargets(targets, surface) {
-  for (let start = 0; start < targets.length; start += 1) {
-    let joinedSurface = "";
-    let joinedReading = "";
-    for (let end = start; end < targets.length; end += 1) {
-      joinedSurface += targets[end].surface || "";
-      joinedReading += selectedCandidate(targets[end], null)?.reading || "";
-      if (joinedSurface === surface) {
-        return joinedReading;
-      }
-      if (!surface.startsWith(joinedSurface)) {
-        break;
-      }
-    }
-  }
-  return "";
 }
 
 function renderRubySpan(item, target, override, editable) {
@@ -4253,6 +3881,14 @@ function yomiCycleCandidates(target) {
   const candidates = target.candidates || [];
   const readingCandidates = candidates.filter((candidate) => candidate.source !== "none");
   const noRubyCandidates = candidates.filter((candidate) => candidate.source === "none");
+  const defaultKey = candidateKey(defaultCandidate(target));
+  const defaultIndex = readingCandidates.findIndex(
+    (candidate) => candidateKey(candidate) === defaultKey
+  );
+  if (defaultIndex > 0) {
+    const [defaultReading] = readingCandidates.splice(defaultIndex, 1);
+    readingCandidates.unshift(defaultReading);
+  }
   return [...readingCandidates, ...noRubyCandidates];
 }
 
@@ -4491,7 +4127,6 @@ function buildSubmissionPayload() {
   if (isUnifiedReviewPack(pack)) {
     return buildUnifiedSubmissionPayload();
   }
-  const { fromSeq, toSeq } = getEffectiveRange();
   const reviewer = el.reviewerName.value.trim();
   const overrides = getSubmissionOverridesForCurrentStage();
   const now = Date.now();
@@ -5453,7 +5088,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
   const allDocs = buildActionableDocumentTasks(state.currentPack);
   const docs = allDocs
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0));
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
   const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
   const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
   if (fromIndex < 0 || toIndex < 0) {
@@ -5498,7 +5133,7 @@ function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected)
 function takeNextQueueDocuments(queueStage, count) {
   const docs = buildActionableDocumentTasks(state.currentPack)
     .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => Number(left.doc_seq || 0) - Number(right.doc_seq || 0))
+    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right))
     .slice(0, count);
   if (!docs.length) {
     return;
@@ -5864,6 +5499,114 @@ async function fetchJson(url) {
     throw new Error(`HTTP ${response.status} for ${url}`);
   }
   return response.json();
+}
+
+function startRuntimeStatusPolling() {
+  if (!state.manifest?.runtime_status?.path) {
+    return;
+  }
+  pollRuntimeStatus();
+}
+
+async function pollRuntimeStatus() {
+  clearRuntimePollTimer();
+  const path = state.manifest?.runtime_status?.path;
+  if (!path) {
+    return;
+  }
+  try {
+    const separator = path.includes("?") ? "&" : "?";
+    const bucket = Math.floor(Date.now() / 30000);
+    const runtimeStatus = await fetchJson(`${path}${separator}v=${bucket}`);
+    const previousRevision = Number(state.runtimeStatus?.state_revision || 0);
+    const nextRevision = Number(runtimeStatus.state_revision || 0);
+    state.runtimeStatus = runtimeStatus;
+    state.runtimePollFailures = 0;
+    renderRuntimeStatus();
+    if (previousRevision > 0 && nextRevision > previousRevision) {
+      if (isTaskStarted()) {
+        el.serverUpdateMessage.textContent = "Server state updated while this task was open. Your local work is preserved.";
+        el.serverUpdateBanner.classList.remove("hidden");
+      } else {
+        window.location.reload();
+        return;
+      }
+    }
+  } catch (error) {
+    state.runtimePollFailures += 1;
+    console.warn("Runtime status poll failed", error);
+  }
+  scheduleRuntimeStatusPoll();
+}
+
+function clearRuntimePollTimer() {
+  if (state.runtimePollTimer !== null) {
+    window.clearTimeout(state.runtimePollTimer);
+    state.runtimePollTimer = null;
+  }
+}
+
+function scheduleRuntimeStatusPoll() {
+  const status = state.runtimeStatus || {};
+  const polling = status.client_polling || {};
+  let seconds = document.hidden
+    ? Number(polling.hidden_seconds || 300)
+    : runtimeScheduleIsNear(status)
+      ? Number(polling.near_seconds || 15)
+      : Number(polling.normal_seconds || 60);
+  if (state.runtimePollFailures > 0) {
+    seconds = Math.min(300, seconds * 2 ** Math.min(state.runtimePollFailures, 5));
+  }
+  state.runtimePollTimer = window.setTimeout(pollRuntimeStatus, Math.max(1, seconds) * 1000);
+}
+
+function runtimeScheduleIsNear(status) {
+  const schedule = status.schedule || {};
+  const anchor = Number(schedule.anchor_epoch || 0);
+  const interval = Number(schedule.interval_seconds || 0);
+  const grace = Number(schedule.grace_seconds || 0);
+  if (!anchor || !interval || !grace) {
+    return false;
+  }
+  const now = Date.now() / 1000;
+  const elapsed = Math.max(0, now - anchor);
+  const remainder = elapsed % interval;
+  return Math.min(remainder, interval - remainder) <= grace;
+}
+
+function nextExpectedRuntimeEpoch(status) {
+  const schedule = status.schedule || {};
+  const anchor = Number(schedule.anchor_epoch || 0);
+  const interval = Number(schedule.interval_seconds || 0);
+  if (!anchor || !interval) {
+    return 0;
+  }
+  const now = Date.now() / 1000;
+  return anchor + (Math.floor(Math.max(0, now - anchor) / interval) + 1) * interval;
+}
+
+function renderRuntimeStatus() {
+  const status = state.runtimeStatus;
+  if (!status) {
+    el.runtimeStatusLine.classList.add("hidden");
+    return;
+  }
+  const labels = {
+    idle: "idle",
+    waiting_for_review: "waiting for review",
+    running: "sync running",
+    error: "sync error",
+  };
+  const parts = [`Server: ${labels[status.status] || status.status || "unknown"}`];
+  if (status.last_successful_sync_epoch) {
+    parts.push(`last synced ${formatDate(status.last_successful_sync_epoch)}`);
+  }
+  const nextExpected = nextExpectedRuntimeEpoch(status);
+  if (nextExpected) {
+    parts.push(`next check expected ${formatDate(nextExpected)}`);
+  }
+  el.runtimeStatusLine.textContent = parts.join(" · ");
+  el.runtimeStatusLine.classList.remove("hidden");
 }
 
 function escapeHtml(value) {

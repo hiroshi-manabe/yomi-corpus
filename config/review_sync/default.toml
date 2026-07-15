@@ -4,8 +4,30 @@ min_new_batches = 1
 min_interval_minutes = 0
 skip_kenlm = false
 
+[tracks.dev.bulk_review_refill]
+target_ready_docs = 10
+pass_limit = 10
+
+[tracks.dev.runtime_status]
+interval_seconds = 300
+grace_seconds = 90
+normal_poll_seconds = 60
+near_poll_seconds = 15
+hidden_poll_seconds = 300
+
 [tracks.working.decoder_refresh]
 mode = "never"
 min_new_batches = 5
 min_interval_minutes = 60
 skip_kenlm = false
+
+[tracks.working.bulk_review_refill]
+target_ready_docs = 0
+pass_limit = 0
+
+[tracks.working.runtime_status]
+interval_seconds = 300
+grace_seconds = 90
+normal_poll_seconds = 60
+near_poll_seconds = 15
+hidden_poll_seconds = 300

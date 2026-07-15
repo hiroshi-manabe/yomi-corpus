@@ -106,6 +106,26 @@ h1 {
   color: var(--warning);
 }
 
+.server-update-banner {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(45, 106, 79, 0.28);
+  border-radius: 14px;
+  background: rgba(225, 241, 230, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #1f513b;
+}
+
+.runtime-status-line {
+  margin: -8px 2px 16px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+
 .hidden {
   display: none !important;
 }
@@ -378,39 +398,6 @@ button:disabled {
   overflow: visible;
 }
 
-.task-queue-panel {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 253, 249, 0.72);
-  max-height: 58vh;
-  overflow: auto;
-  padding: 10px;
-}
-
-.task-queue-heading {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: baseline;
-  background: rgba(255, 253, 249, 0.94);
-  border-bottom: 1px solid rgba(31, 28, 23, 0.08);
-  margin: -10px -10px 10px;
-  padding: 10px;
-}
-
-.task-queue-title h3 {
-  margin: 0 0 4px;
-}
-
-.task-queue-doc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .task-draft-list {
   display: flex;
   flex-direction: column;
@@ -549,13 +536,6 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
-.archive-doc-row .task-doc-preview {
-  color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 @media (max-width: 720px) {
   .task-doc-list {
     grid-template-columns: minmax(0, 1fr);
@@ -579,28 +559,22 @@ button:disabled {
   cursor: pointer;
 }
 
-.archive-doc-row.has-finalized-corrections,
 .workflow-doc-tile.has-finalized-corrections {
   border-color: rgba(34, 106, 214, 0.42);
   box-shadow: 0 0 0 2px rgba(34, 106, 214, 0.1);
 }
 
-.archive-doc-row.has-local-correction,
 .workflow-doc-tile.has-local-correction {
   border-color: rgba(45, 106, 79, 0.48);
   box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.12);
 }
 
-.archive-doc-row.has-submitted-correction,
 .workflow-doc-tile.has-submitted-correction {
   border-color: rgba(156, 79, 30, 0.46);
   background: rgba(255, 244, 214, 0.66);
   box-shadow: 0 0 0 2px rgba(156, 79, 30, 0.1);
 }
 
-.archive-correction-badge,
-.archive-local-correction-badge,
-.archive-unit-correction-badge,
 .correction-count-badge {
   display: inline-flex;
   align-items: center;
@@ -609,30 +583,6 @@ button:disabled {
   background: rgba(34, 106, 214, 0.12);
   color: rgb(28, 92, 185);
   font-weight: 800;
-}
-
-.archive-local-correction-badge {
-  padding: 2px 7px;
-  font-size: 0.78rem;
-  background: rgba(45, 106, 79, 0.12);
-  color: rgb(36, 92, 68);
-}
-
-.archive-local-correction-badge.submitted {
-  background: rgba(156, 79, 30, 0.13);
-  color: rgb(133, 65, 23);
-}
-
-.archive-correction-badge {
-  padding: 2px 7px;
-  font-size: 0.78rem;
-}
-
-.archive-unit-correction-badge {
-  width: fit-content;
-  margin-top: 6px;
-  padding: 3px 8px;
-  font-size: 0.76rem;
 }
 
 .correction-count-badge {
@@ -1648,23 +1598,6 @@ button:disabled {
   box-shadow: inset 0 -3px 0 rgba(45, 106, 79, 0.35);
 }
 
-.yomi-span-group {
-  position: relative;
-  display: inline;
-}
-
-.yomi-span-group.unresolved .span-token {
-  background: rgba(156, 79, 30, 0.16);
-}
-
-.yomi-span-group.changed .span-token {
-  background: rgba(45, 106, 79, 0.18);
-}
-
-.span-token ruby + ruby {
-  margin-left: 0.08em;
-}
-
 .span-editor {
   display: inline-flex;
   flex-wrap: wrap;
@@ -1678,13 +1611,6 @@ button:disabled {
   font-size: 0.8rem;
   line-height: 1.3;
   vertical-align: middle;
-}
-
-.span-editor-mode {
-  color: var(--muted);
-  font-size: 0.74rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
 .split-controls,

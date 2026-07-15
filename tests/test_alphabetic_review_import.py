@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-import json
 import tempfile
 import unittest
 from pathlib import Path
 
 from yomi_corpus.alphabetic_review import (
     build_review_promoted_decisions,
-    load_json,
     load_review_submissions,
     replay_review_submissions,
     rewrite_alphabetic_decisions_with_review_promotions,

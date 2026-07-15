@@ -61,7 +61,8 @@ def furigana_no_space_token_for_llm(token: str) -> str:
         return escape_source_parentheses(surface)
     if KANJI_RE.search(surface):
         result = _furigana_converter().convert(surface, reading)
-        if result.annotated_surface:
+        # Some dictionary rows preserve the surface but provide no ruby placement.
+        if result.annotated_surface and "（" in result.annotated_surface:
             return prefix + escape_source_parentheses_in_annotated(result.annotated_surface)
         return f"{prefix}{escape_source_parentheses(surface)}（{_kata_to_hira(reading)}）"
     if LATIN_RE.search(surface):

@@ -112,7 +112,6 @@ def apply_yomi_triage_results_file(
                 continue
             read_units += 1
             unit = json.loads(line)
-            unit_id = str(unit.get("unit_id", ""))
             if is_yomi_auto_accepted(unit):
                 judgment = {
                     "status": "OK",

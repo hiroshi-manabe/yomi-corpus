@@ -34,7 +34,6 @@ from yomi_corpus.review_transport import (
     PUBLISH_MODE_NONE,
     PUBLISH_MODE_GH_PAGES,
     PUBLISH_MODE_LOCAL,
-    PUBLISH_MODES,
 )
 from yomi_corpus.yomi.final_review import (
     FINALIZED_CORRECTION_STAGE,
@@ -51,6 +50,12 @@ DECODER_REFRESH_MODES = {
     DECODER_REFRESH_MODE_ON_FINALIZE,
     DECODER_REFRESH_MODE_ALWAYS,
 }
+RUNTIME_STATUS_SCHEMA_VERSION = 1
+DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS = 300
+DEFAULT_RUNTIME_STATUS_GRACE_SECONDS = 90
+DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS = 60
+DEFAULT_RUNTIME_STATUS_NEAR_POLL_SECONDS = 15
+DEFAULT_RUNTIME_STATUS_HIDDEN_POLL_SECONDS = 300
 
 
 SYNC_STAGE_ALLOWLIST = {
@@ -66,29 +71,74 @@ def now_iso() -> str:
 def load_review_sync_config(
     track_name: str,
     path: str | Path = DEFAULT_REVIEW_SYNC_CONFIG,
-) -> DecoderRefreshConfig:
+) -> ReviewSyncConfig:
     config_path = Path(path)
     if not config_path.is_absolute():
         config_path = Path(__file__).resolve().parents[2] / config_path
     if not config_path.exists():
-        return DecoderRefreshConfig()
+        return ReviewSyncConfig()
     with config_path.open("rb") as handle:
         payload = tomllib.load(handle)
     tracks = payload.get("tracks", {})
     track = tracks.get(track_name)
     if not isinstance(track, dict):
-        return DecoderRefreshConfig()
+        return ReviewSyncConfig()
     section = track.get("decoder_refresh", {})
     if not isinstance(section, dict):
         section = {}
     mode = str(section.get("mode") or DECODER_REFRESH_MODE_NEVER).replace("_", "-")
     if mode not in DECODER_REFRESH_MODES:
         raise ValueError(f"Unsupported decoder refresh mode for {track_name}: {mode}")
-    return DecoderRefreshConfig(
+    refill_section = track.get("bulk_review_refill", {})
+    if not isinstance(refill_section, dict):
+        refill_section = {}
+    runtime_section = track.get("runtime_status", {})
+    if not isinstance(runtime_section, dict):
+        runtime_section = {}
+    return ReviewSyncConfig(
         mode=mode,
         min_new_batches=max(1, int(section.get("min_new_batches") or 1)),
         min_interval_minutes=max(0.0, float(section.get("min_interval_minutes") or 0.0)),
         skip_kenlm=bool(section.get("skip_kenlm", False)),
+        bulk_review_target_ready_docs=max(
+            0, int(refill_section.get("target_ready_docs") or 0)
+        ),
+        refill_pass_limit=max(0, int(refill_section.get("pass_limit") or 0)),
+        runtime_status_interval_seconds=max(
+            1,
+            int(
+                runtime_section.get("interval_seconds")
+                or DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
+            ),
+        ),
+        runtime_status_grace_seconds=max(
+            0,
+            int(
+                runtime_section.get("grace_seconds")
+                or DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
+            ),
+        ),
+        runtime_status_normal_poll_seconds=max(
+            1,
+            int(
+                runtime_section.get("normal_poll_seconds")
+                or DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
+            ),
+        ),
+        runtime_status_near_poll_seconds=max(
+            1,
+            int(
+                runtime_section.get("near_poll_seconds")
+                or DEFAULT_RUNTIME_STATUS_NEAR_POLL_SECONDS
+            ),
+        ),
+        runtime_status_hidden_poll_seconds=max(
+            1,
+            int(
+                runtime_section.get("hidden_poll_seconds")
+                or DEFAULT_RUNTIME_STATUS_HIDDEN_POLL_SECONDS
+            ),
+        ),
     )
 
 
@@ -107,14 +157,26 @@ class ReviewSyncOptions:
     decoder_refresh_min_new_batches: int = 1
     decoder_refresh_min_interval_minutes: float = 0.0
     decoder_refresh_skip_kenlm: bool = False
+    runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
+    runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
+    runtime_status_normal_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
+    runtime_status_near_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NEAR_POLL_SECONDS
+    runtime_status_hidden_poll_seconds: int = DEFAULT_RUNTIME_STATUS_HIDDEN_POLL_SECONDS
 
 
 @dataclass(frozen=True)
-class DecoderRefreshConfig:
+class ReviewSyncConfig:
     mode: str = DECODER_REFRESH_MODE_NEVER
     min_new_batches: int = 1
     min_interval_minutes: float = 0.0
     skip_kenlm: bool = False
+    bulk_review_target_ready_docs: int = 0
+    refill_pass_limit: int = 0
+    runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
+    runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
+    runtime_status_normal_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
+    runtime_status_near_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NEAR_POLL_SECONDS
+    runtime_status_hidden_poll_seconds: int = DEFAULT_RUNTIME_STATUS_HIDDEN_POLL_SECONDS
 
 
 class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
@@ -147,7 +209,7 @@ class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
         os.write(self.fd, (json.dumps(payload, ensure_ascii=False) + "\n").encode("utf-8"))
         return self
 
-    def __exit__(self, exc_type: object, exc: object, traceback: object) -> None:
+    def __exit__(self, _exc_type: object, _exc: object, _traceback: object) -> None:
         if self.fd is not None:
             os.close(self.fd)
             self.fd = None
@@ -198,8 +260,42 @@ def process_is_alive(pid: int) -> bool:
 def run_review_sync_pass(root: Path, options: ReviewSyncOptions) -> dict[str, Any]:
     workspace = PipelineWorkspace(root)
     lock_path = root / "data" / "state" / "review_sync" / f"{options.track_name}.lock"
-    with ReviewSyncLock(lock_path):
-        summary = _run_review_sync_pass_unlocked(root=root, workspace=workspace, options=options)
+    try:
+        with ReviewSyncLock(lock_path):
+            summary = _run_review_sync_pass_unlocked(root=root, workspace=workspace, options=options)
+    except Exception as exc:
+        if not options.dry_run:
+            try:
+                final_status = workspace.status(options.track_name)
+            except Exception:
+                final_status = {}
+            try:
+                queue_summary = aggregate_document_queue_summary(
+                    root=root,
+                    workspace=workspace,
+                    track_name=options.track_name,
+                )
+            except Exception:
+                queue_summary = {}
+            update_runtime_status(
+                root=root,
+                options=options,
+                started_at_epoch=int(time.time()),
+                completed_at_epoch=int(time.time()),
+                final_status=final_status,
+                document_queue_summary=queue_summary,
+                workflow_changed=False,
+                error_message=f"{type(exc).__name__}: {exc}",
+            )
+            if options.publish_mode != PUBLISH_MODE_NONE:
+                try:
+                    publish_review_artifacts(
+                        root,
+                        push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
+                    )
+                except Exception:
+                    pass
+        raise
     if not options.dry_run:
         summary_path = write_review_sync_summary(root, options.track_name, summary)
         summary["summary_json"] = str(summary_path)
@@ -213,6 +309,7 @@ def _run_review_sync_pass_unlocked(
     options: ReviewSyncOptions,
 ) -> dict[str, Any]:
     started_at = now_iso()
+    started_at_epoch = int(time.time())
     stage_results: list[dict[str, Any]] = []
     close_results: list[dict[str, Any]] = []
     refill_results: list[dict[str, Any]] = []
@@ -331,14 +428,10 @@ def _run_review_sync_pass_unlocked(
             )
 
     final_status = workspace.status(options.track_name)
-    final_batch_name = str(
-        final_status.get("current_batch_name")
-        or final_status.get("batch_name")
-        or ""
-    )
-    document_queue_summary = current_document_queue_summary(
+    document_queue_summary = aggregate_document_queue_summary(
         root=root,
-        batch_name=final_batch_name,
+        workspace=workspace,
+        track_name=options.track_name,
     )
     finalized_after = set(list_finalized_batches(workspace, options.track_name))
     newly_finalized_batches = sorted(finalized_after - finalized_before)
@@ -363,14 +456,10 @@ def _run_review_sync_pass_unlocked(
             if refill_result.get("changed"):
                 changed = True
             final_status = workspace.status(options.track_name)
-            final_batch_name = str(
-                final_status.get("current_batch_name")
-                or final_status.get("batch_name")
-                or ""
-            )
-            document_queue_summary = current_document_queue_summary(
+            document_queue_summary = aggregate_document_queue_summary(
                 root=root,
-                batch_name=final_batch_name,
+                workspace=workspace,
+                track_name=options.track_name,
             )
             refill_plan = build_bulk_review_refill_plan(
                 document_queue_summary=document_queue_summary,
@@ -394,12 +483,6 @@ def _run_review_sync_pass_unlocked(
             changed = True
         close_results.extend(finalized_correction_result.get("close_results") or [])
 
-    site_stale = False
-    if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
-        site_stale = review_site_needs_publish(root)
-        if site_stale:
-            changed = True
-
     if not options.dry_run:
         decoder_refresh_result = maybe_refresh_decoder_model(
             root=root,
@@ -408,6 +491,27 @@ def _run_review_sync_pass_unlocked(
             newly_finalized_batches=newly_finalized_batches,
         )
 
+    completed_at = now_iso()
+    runtime_status_result: dict[str, Any] | None = None
+    if not options.dry_run:
+        runtime_status_result = update_runtime_status(
+            root=root,
+            options=options,
+            started_at_epoch=started_at_epoch,
+            completed_at_epoch=int(time.time()),
+            final_status=final_status,
+            document_queue_summary=document_queue_summary,
+            workflow_changed=changed,
+        )
+        if runtime_status_result["publish_required"]:
+            changed = True
+
+    site_stale = False
+    if not options.dry_run and options.publish_mode != PUBLISH_MODE_NONE:
+        site_stale = review_site_needs_publish(root, options.track_name)
+        if site_stale:
+            changed = True
+
     publish_result: dict[str, Any] | None = None
     if changed and options.publish_mode != PUBLISH_MODE_NONE and not options.dry_run:
         publish_result = publish_review_artifacts(
@@ -415,7 +519,6 @@ def _run_review_sync_pass_unlocked(
             push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
         )
 
-    completed_at = now_iso()
     return {
         "schema_version": 1,
         "track_name": options.track_name,
@@ -439,6 +542,7 @@ def _run_review_sync_pass_unlocked(
         "refill_results": refill_results,
         "close_results": close_results,
         "publish_result": publish_result,
+        "runtime_status_result": runtime_status_result,
         "dry_run_plan": dry_run_plan,
         "final_status": final_status,
         "document_queue_summary": document_queue_summary,
@@ -609,6 +713,29 @@ def sweep_actionable_batches(
             batch_state = workspace.load_batch_state(batch_name)
             if batch_state.current_stage == STAGE_YOMI_FINALIZED:
                 break
+            if not dry_run:
+                before_partial_fingerprint = review_sync_fingerprint(
+                    root=root,
+                    batch_name=batch_name,
+                )
+                partial_results = maintain_strong_repair_for_reviewed_documents(
+                    root=root,
+                    workspace=workspace,
+                    batch_name=batch_name,
+                    allow_queue=False,
+                )
+                after_partial_fingerprint = review_sync_fingerprint(
+                    root=root,
+                    batch_name=batch_name,
+                )
+                for partial_result in partial_results:
+                    partial_result["partial_document_workflow"] = True
+                    partial_result["sweep_batch"] = True
+                    partial_result["stage_changed"] = (
+                        before_partial_fingerprint != after_partial_fingerprint
+                    )
+                    results.append(partial_result)
+                batch_state = workspace.load_batch_state(batch_name)
             next_stage = workspace._next_stage_name(batch_state.current_stage)
             if not next_stage:
                 break
@@ -1065,6 +1192,55 @@ def current_document_queue_summary(*, root: Path, batch_name: str) -> dict[str, 
         return None
 
 
+def aggregate_document_queue_summary(
+    *,
+    root: Path,
+    workspace: PipelineWorkspace,
+    track_name: str,
+) -> dict[str, Any]:
+    summaries: list[dict[str, Any]] = []
+    missing_state_batches: list[str] = []
+    for batch_name in list_track_batches(workspace, track_name):
+        try:
+            batch_state = workspace.load_batch_state(batch_name)
+        except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+            missing_state_batches.append(batch_name)
+            continue
+        if batch_state.current_stage == STAGE_YOMI_FINALIZED:
+            continue
+        summary = current_document_queue_summary(root=root, batch_name=batch_name)
+        if summary is None:
+            missing_state_batches.append(batch_name)
+            continue
+        summaries.append(summary)
+
+    def sum_counts(key: str) -> dict[str, int]:
+        names = sorted(
+            {
+                str(name)
+                for summary in summaries
+                for name in (summary.get(key) or {}).keys()
+            }
+        )
+        return {
+            name: sum(int((summary.get(key) or {}).get(name) or 0) for summary in summaries)
+            for name in names
+        }
+
+    return {
+        "schema_version": 1,
+        "track_name": track_name,
+        "scope": "all_unfinished_batches",
+        "batch_count": len(summaries),
+        "batch_names": [str(summary.get("batch_name") or "") for summary in summaries],
+        "missing_state_batches": missing_state_batches,
+        "document_count": sum(int(summary.get("document_count") or 0) for summary in summaries),
+        "state_counts": sum_counts("state_counts"),
+        "queue_counts": sum_counts("queue_counts"),
+        "pool_counts": sum_counts("pool_counts"),
+    }
+
+
 def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | None]:
     paths = [
         root / "data" / "pipeline" / "document_states" / f"{batch_name}.json",
@@ -1103,10 +1279,163 @@ def file_fingerprint(path: Path) -> str | None:
     return digest.hexdigest()
 
 
-def review_site_needs_publish(root: Path) -> bool:
+def runtime_status_path(root: Path, track_name: str) -> Path:
+    return root / "data" / "state" / "review_sync" / f"{track_name}.runtime_status.json"
+
+
+def update_runtime_status(
+    *,
+    root: Path,
+    options: ReviewSyncOptions,
+    started_at_epoch: int,
+    completed_at_epoch: int,
+    final_status: dict[str, Any],
+    document_queue_summary: dict[str, Any],
+    workflow_changed: bool,
+    error_message: str | None = None,
+) -> dict[str, Any]:
+    path = runtime_status_path(root, options.track_name)
+    previous: dict[str, Any] = {}
+    if path.exists():
+        try:
+            previous = read_json(path)
+        except (OSError, ValueError, json.JSONDecodeError):
+            previous = {}
+
+    interval = max(1, int(options.runtime_status_interval_seconds))
+    grace = max(0, int(options.runtime_status_grace_seconds))
+    previous_schedule = previous.get("schedule") if isinstance(previous.get("schedule"), dict) else {}
+    schedule_changed = (
+        int(previous_schedule.get("interval_seconds") or 0) != interval
+        or int(previous_schedule.get("grace_seconds") or 0) != grace
+    )
+    anchor = int(previous_schedule.get("anchor_epoch") or started_at_epoch)
+    if schedule_changed:
+        anchor = started_at_epoch
+    elapsed = max(0, started_at_epoch - anchor)
+    slot_number = int(round(elapsed / interval))
+    expected_start = anchor + slot_number * interval
+    drift_seconds = abs(started_at_epoch - expected_start)
+    published_anchor = started_at_epoch if drift_seconds > grace else anchor
+
+    queue_counts = document_queue_summary.get("queue_counts")
+    if not isinstance(queue_counts, dict):
+        queue_counts = {}
+    pool_counts = document_queue_summary.get("pool_counts")
+    if not isinstance(pool_counts, dict):
+        pool_counts = {}
+    actionable = int(queue_counts.get("bulk_review_selectable") or 0) + int(
+        queue_counts.get("escalated_repair_selectable") or 0
+    )
+    status = "error" if error_message else "waiting_for_review" if actionable else "idle"
+    state_payload = {
+        "current_batch_name": final_status.get("current_batch_name")
+        or final_status.get("batch_name"),
+        "current_stage": final_status.get("current_stage"),
+        "next_stage": final_status.get("next_stage"),
+        "active_queue_count": actionable,
+        "queue_counts": queue_counts,
+        "pool_counts": pool_counts,
+    }
+    semantic_payload = {
+        "status": status,
+        "schedule": {
+            "anchor_epoch": published_anchor,
+            "interval_seconds": interval,
+            "grace_seconds": grace,
+        },
+        "state": state_payload,
+        "message": error_message or "",
+    }
+    previous_semantic = {
+        "status": previous.get("status"),
+        "schedule": {
+            "anchor_epoch": previous_schedule.get("anchor_epoch"),
+            "interval_seconds": previous_schedule.get("interval_seconds"),
+            "grace_seconds": previous_schedule.get("grace_seconds"),
+        },
+        "state": previous.get("state"),
+        "message": previous.get("message") or "",
+    }
+    publish_required = (
+        not previous
+        or workflow_changed
+        or schedule_changed
+        or semantic_payload != previous_semantic
+        or drift_seconds > grace
+        or bool(error_message)
+    )
+    if not publish_required:
+        return {
+            "path": str(path),
+            "publish_required": False,
+            "state_revision": int(previous.get("state_revision") or 0),
+            "drift_seconds": drift_seconds,
+        }
+
+    revision = int(previous.get("state_revision") or 0) + 1
+    payload = {
+        "schema_version": RUNTIME_STATUS_SCHEMA_VERSION,
+        "track_name": options.track_name,
+        "state_revision": revision,
+        "generated_at": datetime.fromtimestamp(completed_at_epoch, timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
+        "generated_at_epoch": completed_at_epoch,
+        "last_successful_sync": previous.get("last_successful_sync")
+        if error_message
+        else datetime.fromtimestamp(completed_at_epoch, timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z"),
+        "last_successful_sync_epoch": previous.get("last_successful_sync_epoch")
+        if error_message
+        else completed_at_epoch,
+        **semantic_payload,
+        "schedule": {
+            **semantic_payload["schedule"],
+            "next_expected_epoch": published_anchor + interval,
+        },
+        "observed": {
+            "started_at_epoch": started_at_epoch,
+            "completed_at_epoch": completed_at_epoch,
+            "drift_seconds": drift_seconds,
+        },
+        "client_polling": {
+            "normal_seconds": max(1, int(options.runtime_status_normal_poll_seconds)),
+            "near_seconds": max(1, int(options.runtime_status_near_poll_seconds)),
+            "hidden_seconds": max(1, int(options.runtime_status_hidden_poll_seconds)),
+        },
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {
+        "path": str(path),
+        "publish_required": True,
+        "state_revision": revision,
+        "drift_seconds": drift_seconds,
+    }
+
+
+def review_site_needs_publish(root: Path, track_name: str = "dev") -> bool:
     docs_pack_dir = root / "docs" / "review" / "packs"
+    docs_review_dir = root / "docs" / "review"
+    web_review_dir = root / "web" / "review"
     entries = collect_review_pack_entries(root / "data" / "review_packs")
-    if entries and not (root / "docs" / "review" / "manifest.json").exists():
+    if entries and not (docs_review_dir / "manifest.json").exists():
+        return True
+    for source_path in web_review_dir.rglob("*") if web_review_dir.exists() else []:
+        if source_path.is_file():
+            # Publication adds content-hash query strings to the generated index.
+            if source_path.relative_to(web_review_dir) == Path("index.html"):
+                continue
+            destination = docs_review_dir / source_path.relative_to(web_review_dir)
+            if file_fingerprint(source_path) != file_fingerprint(destination):
+                return True
+    runtime_source = runtime_status_path(root, track_name)
+    runtime_destination = docs_review_dir / "runtime-status.json"
+    if file_fingerprint(runtime_source) != file_fingerprint(runtime_destination):
         return True
     for entry in entries:
         source_path = entry.get("source_path")

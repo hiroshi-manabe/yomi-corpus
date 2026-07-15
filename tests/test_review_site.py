@@ -119,6 +119,7 @@ class ReviewSiteTests(unittest.TestCase):
                     "title": "Yomi final review / dev_batch_0001 / v1",
                     "review_stage": "yomi_final_review",
                     "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
                     "created_at_epoch": 10,
                     "item_count": 64,
                     "site_filename": "yomi_final_dev_batch_0001_v1.json",
@@ -162,6 +163,7 @@ class ReviewSiteTests(unittest.TestCase):
                     "title": "Yomi final review / dev_batch_0001 / v1",
                     "review_stage": "yomi_final_review",
                     "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
                     "created_at_epoch": 10,
                     "item_count": 64,
                     "document_count": 5,
@@ -170,10 +172,24 @@ class ReviewSiteTests(unittest.TestCase):
                     "site_filename": "yomi_final_dev_batch_0001_v1.json",
                 },
                 {
+                    "pack_id": "yomi_final_dev_batch_0002_v1",
+                    "title": "Yomi final review / dev_batch_0002 / v1",
+                    "review_stage": "yomi_final_review",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0002",
+                    "created_at_epoch": 15,
+                    "item_count": 40,
+                    "document_count": 4,
+                    "selectable_document_count": 2,
+                    "queue_id": "final_review",
+                    "site_filename": "yomi_final_dev_batch_0002_v1.json",
+                },
+                {
                     "pack_id": "yomi_strong_repair_dev_batch_0001_v1",
                     "title": "Yomi strong repair review / dev_batch_0001 / v1",
                     "review_stage": "yomi_strong_repair_review",
                     "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
                     "created_at_epoch": 20,
                     "item_count": 6,
                     "document_count": 5,
@@ -187,11 +203,15 @@ class ReviewSiteTests(unittest.TestCase):
         queues = manifest["current_review_queues"]
         self.assertEqual(
             [row["review_stage"] for row in queues],
-            ["yomi_final_review", "yomi_strong_repair_review"],
+            ["yomi_final_review", "yomi_final_review", "yomi_strong_repair_review"],
+        )
+        self.assertEqual(
+            [row["batch_name"] for row in queues],
+            ["dev_batch_0001", "dev_batch_0002", "dev_batch_0001"],
         )
         self.assertEqual(queues[0]["queue_id"], "final_review")
         self.assertEqual(queues[0]["selectable_document_count"], 3)
-        self.assertEqual(queues[1]["queue_id"], "strong_repair")
+        self.assertEqual(queues[2]["queue_id"], "strong_repair")
 
     def test_build_review_manifest_defaults_to_newest_current_pack(self) -> None:
         manifest = build_review_manifest(
@@ -247,11 +267,18 @@ class ReviewSiteTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            runtime_status = root / "data" / "state" / "review_sync" / "dev.runtime_status.json"
+            runtime_status.parent.mkdir(parents=True)
+            runtime_status.write_text(
+                json.dumps({"schema_version": 1, "state_revision": 3}),
+                encoding="utf-8",
+            )
 
             manifest = publish_review_site(
                 web_review_dir=web_review_dir,
                 docs_dir=docs_dir,
                 review_pack_root=root / "data" / "review_packs",
+                project_root=root,
             )
 
             self.assertTrue((docs_dir / "index.html").exists())
@@ -263,6 +290,13 @@ class ReviewSiteTests(unittest.TestCase):
 
             saved_manifest = json.loads((docs_dir / "review" / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(saved_manifest["default_stage"], "alphabetic_candidate_review")
+            self.assertEqual(saved_manifest["runtime_status"]["path"], "./runtime-status.json")
+            self.assertEqual(
+                json.loads((docs_dir / "review" / "runtime-status.json").read_text(encoding="utf-8"))[
+                    "state_revision"
+                ],
+                3,
+            )
             self.assertEqual(manifest["stages"]["alphabetic_candidate_review"]["latest_pack_id"], "alphabetic_candidates_batch_0001_v1")
 
     def test_publish_review_archive_exports_finalized_documents(self) -> None:

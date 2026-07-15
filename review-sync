@@ -76,19 +76,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--bulk-review-target-ready-docs",
         type=int,
-        default=0,
+        default=None,
         help=(
             "Target number of actionable Bulk Review documents to keep ready. "
-            "Default 0 disables refill planning."
+            "Defaults to the track's review-sync config."
         ),
     )
     parser.add_argument(
         "--refill-pass-limit",
         type=int,
-        default=0,
+        default=None,
         help=(
             "Maximum documents a future refill pass may prepare. "
-            "Currently reported as planning only. Default 0 prepares none."
+            "Defaults to the track's review-sync config."
         ),
     )
     parser.add_argument(
@@ -149,8 +149,16 @@ def main() -> None:
         close_issues=not args.no_close_issues,
         publish_mode=args.publish or transport.publish_mode,
         max_stages=args.max_stages,
-        bulk_review_target_ready_docs=args.bulk_review_target_ready_docs,
-        refill_pass_limit=args.refill_pass_limit,
+        bulk_review_target_ready_docs=(
+            args.bulk_review_target_ready_docs
+            if args.bulk_review_target_ready_docs is not None
+            else sync_config.bulk_review_target_ready_docs
+        ),
+        refill_pass_limit=(
+            args.refill_pass_limit
+            if args.refill_pass_limit is not None
+            else sync_config.refill_pass_limit
+        ),
         dry_run=args.dry_run,
         decoder_refresh_mode=args.decoder_refresh or sync_config.mode,
         decoder_refresh_min_new_batches=(
@@ -164,6 +172,11 @@ def main() -> None:
             else sync_config.min_interval_minutes
         ),
         decoder_refresh_skip_kenlm=args.decoder_refresh_skip_kenlm or sync_config.skip_kenlm,
+        runtime_status_interval_seconds=sync_config.runtime_status_interval_seconds,
+        runtime_status_grace_seconds=sync_config.runtime_status_grace_seconds,
+        runtime_status_normal_poll_seconds=sync_config.runtime_status_normal_poll_seconds,
+        runtime_status_near_poll_seconds=sync_config.runtime_status_near_poll_seconds,
+        runtime_status_hidden_poll_seconds=sync_config.runtime_status_hidden_poll_seconds,
     )
     if args.loop:
         if args.dry_run:

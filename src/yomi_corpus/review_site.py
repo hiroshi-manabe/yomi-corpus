@@ -38,6 +38,7 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
                 "review_stage": str(payload["review_stage"]),
                 "queue_id": str(payload.get("queue_id") or payload["review_stage"]),
                 "track_name": track_name,
+                "batch_name": str(payload.get("batch_name") or ""),
                 "created_at_epoch": int(payload.get("created_at_epoch", 0)),
                 "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
                 "document_count": int(
@@ -76,6 +77,7 @@ def build_review_manifest(entries: list[dict]) -> dict:
                 "title": entry["title"],
                 "path": f"./packs/{entry['site_filename']}",
                 "track_name": entry.get("track_name", WORKING_TRACK),
+                "batch_name": entry.get("batch_name", ""),
                 "created_at_epoch": entry["created_at_epoch"],
                 "item_count": entry["item_count"],
                 "document_count": int(entry.get("document_count", 0)),
@@ -154,34 +156,45 @@ def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
         "yomi_strong_repair_review": 1,
     }
     for stage_id, stage in stages.items():
-        latest_dev_id = stage.get("latest_pack_ids_by_track", {}).get(DEV_TRACK)
-        if not latest_dev_id:
-            continue
-        pack = next((row for row in stage.get("packs", []) if row["pack_id"] == latest_dev_id), None)
-        if not pack:
-            continue
-        if int(pack.get("selectable_document_count") or 0) <= 0:
-            continue
-        queues.append(
-            {
-                "track_name": DEV_TRACK,
-                "review_stage": stage_id,
-                "label": stage.get("label", stage_id),
-                "pack_id": pack["pack_id"],
-                "title": pack["title"],
-                "path": pack["path"],
-                "created_at_epoch": pack["created_at_epoch"],
-                "item_count": pack["item_count"],
-                "document_count": pack.get("document_count", 0),
-                "selectable_document_count": pack.get("selectable_document_count", 0),
-                "document_state_counts": pack.get("document_state_counts", {}),
-                "queue_id": pack.get("queue_id", stage_id),
-                "status": pack.get("status", "active-dev"),
-            }
-        )
+        latest_by_batch: dict[str, dict] = {}
+        for pack in stage.get("packs", []):
+            if pack.get("track_name") != DEV_TRACK:
+                continue
+            batch_key = str(pack.get("batch_name") or pack.get("pack_id") or "")
+            current = latest_by_batch.get(batch_key)
+            if current is None or (
+                int(pack.get("created_at_epoch") or 0),
+                str(pack.get("pack_id") or ""),
+            ) > (
+                int(current.get("created_at_epoch") or 0),
+                str(current.get("pack_id") or ""),
+            ):
+                latest_by_batch[batch_key] = pack
+        for pack in latest_by_batch.values():
+            if int(pack.get("selectable_document_count") or 0) <= 0:
+                continue
+            queues.append(
+                {
+                    "track_name": DEV_TRACK,
+                    "batch_name": pack.get("batch_name", ""),
+                    "review_stage": stage_id,
+                    "label": stage.get("label", stage_id),
+                    "pack_id": pack["pack_id"],
+                    "title": pack["title"],
+                    "path": pack["path"],
+                    "created_at_epoch": pack["created_at_epoch"],
+                    "item_count": pack["item_count"],
+                    "document_count": pack.get("document_count", 0),
+                    "selectable_document_count": pack.get("selectable_document_count", 0),
+                    "document_state_counts": pack.get("document_state_counts", {}),
+                    "queue_id": pack.get("queue_id", stage_id),
+                    "status": "active-dev",
+                }
+            )
     queues.sort(
         key=lambda row: (
             preferred_stage_order.get(str(row.get("review_stage")), 99),
+            int(row.get("created_at_epoch") or 0),
             str(row.get("pack_id", "")),
         )
     )
@@ -226,6 +239,16 @@ def publish_review_site(
     entries = collect_review_pack_entries(review_root)
     manifest = build_review_manifest(entries)
     if project_root is not None:
+        runtime_source = (
+            Path(project_root)
+            / "data"
+            / "state"
+            / "review_sync"
+            / "dev.runtime_status.json"
+        )
+        if runtime_source.exists():
+            shutil.copy2(runtime_source, review_output_dir / "runtime-status.json")
+            manifest["runtime_status"] = {"path": "./runtime-status.json"}
         archive_manifest = publish_review_archive(
             project_root=project_root,
             review_output_dir=review_output_dir,
