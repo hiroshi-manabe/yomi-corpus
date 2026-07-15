@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>yomi-corpus review</title>
-    <link rel="stylesheet" href="./style.css?v=14eab12ab72e" />
+    <link rel="stylesheet" href="./style.css?v=f98471126a6d" />
   </head>
   <body>
     <div class="page">
@@ -26,6 +26,11 @@
       </header>
 
       <div id="status-banner" class="status-banner hidden"></div>
+      <div id="server-update-banner" class="server-update-banner hidden">
+        <span id="server-update-message">Server state updated.</span>
+        <button id="server-update-refresh" type="button">Refresh workspace</button>
+      </div>
+      <div id="runtime-status-line" class="runtime-status-line hidden"></div>
 
       <div class="layout">
         <aside class="sidebar">
@@ -201,6 +206,6 @@
       </article>
     </template>
 
-    <script src="./app.js?v=ffffed129e96" type="module"></script>
+    <script src="./app.js?v=b8d94ad8245c" type="module"></script>
   </body>
 </html>

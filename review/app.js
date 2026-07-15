@@ -21,6 +21,9 @@ const state = {
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
+  runtimeStatus: null,
+  runtimePollTimer: null,
+  runtimePollFailures: 0,
 };
 
 const el = {
@@ -46,6 +49,10 @@ const el = {
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
+  serverUpdateBanner: document.querySelector("#server-update-banner"),
+  serverUpdateMessage: document.querySelector("#server-update-message"),
+  serverUpdateRefresh: document.querySelector("#server-update-refresh"),
+  runtimeStatusLine: document.querySelector("#runtime-status-line"),
   issueReturnModal: document.querySelector("#issue-return-modal"),
   issueReturnTitle: document.querySelector("#issue-return-title"),
   issueReturnDescription: document.querySelector("#issue-return-description"),
@@ -99,9 +106,29 @@ async function boot() {
       preferredPackId: initialTarget.packId,
     });
   }
+  startRuntimeStatusPolling();
 }
 
 function bindEvents() {
+  el.serverUpdateRefresh.addEventListener("click", () => {
+    if (isTaskStarted() && !window.confirm("Refresh server state? Your local task is saved and can be resumed.")) {
+      return;
+    }
+    window.location.reload();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!state.manifest?.runtime_status?.path) {
+      return;
+    }
+    clearRuntimePollTimer();
+    if (document.hidden) {
+      scheduleRuntimeStatusPoll();
+    } else {
+      pollRuntimeStatus();
+    }
+  });
+
   el.stageSelect.addEventListener("change", async (event) => {
     if (event.target.value === "unified_yomi_review") {
       await openUnifiedReview();
@@ -5472,6 +5499,114 @@ async function fetchJson(url) {
     throw new Error(`HTTP ${response.status} for ${url}`);
   }
   return response.json();
+}
+
+function startRuntimeStatusPolling() {
+  if (!state.manifest?.runtime_status?.path) {
+    return;
+  }
+  pollRuntimeStatus();
+}
+
+async function pollRuntimeStatus() {
+  clearRuntimePollTimer();
+  const path = state.manifest?.runtime_status?.path;
+  if (!path) {
+    return;
+  }
+  try {
+    const separator = path.includes("?") ? "&" : "?";
+    const bucket = Math.floor(Date.now() / 30000);
+    const runtimeStatus = await fetchJson(`${path}${separator}v=${bucket}`);
+    const previousRevision = Number(state.runtimeStatus?.state_revision || 0);
+    const nextRevision = Number(runtimeStatus.state_revision || 0);
+    state.runtimeStatus = runtimeStatus;
+    state.runtimePollFailures = 0;
+    renderRuntimeStatus();
+    if (previousRevision > 0 && nextRevision > previousRevision) {
+      if (isTaskStarted()) {
+        el.serverUpdateMessage.textContent = "Server state updated while this task was open. Your local work is preserved.";
+        el.serverUpdateBanner.classList.remove("hidden");
+      } else {
+        window.location.reload();
+        return;
+      }
+    }
+  } catch (error) {
+    state.runtimePollFailures += 1;
+    console.warn("Runtime status poll failed", error);
+  }
+  scheduleRuntimeStatusPoll();
+}
+
+function clearRuntimePollTimer() {
+  if (state.runtimePollTimer !== null) {
+    window.clearTimeout(state.runtimePollTimer);
+    state.runtimePollTimer = null;
+  }
+}
+
+function scheduleRuntimeStatusPoll() {
+  const status = state.runtimeStatus || {};
+  const polling = status.client_polling || {};
+  let seconds = document.hidden
+    ? Number(polling.hidden_seconds || 300)
+    : runtimeScheduleIsNear(status)
+      ? Number(polling.near_seconds || 15)
+      : Number(polling.normal_seconds || 60);
+  if (state.runtimePollFailures > 0) {
+    seconds = Math.min(300, seconds * 2 ** Math.min(state.runtimePollFailures, 5));
+  }
+  state.runtimePollTimer = window.setTimeout(pollRuntimeStatus, Math.max(1, seconds) * 1000);
+}
+
+function runtimeScheduleIsNear(status) {
+  const schedule = status.schedule || {};
+  const anchor = Number(schedule.anchor_epoch || 0);
+  const interval = Number(schedule.interval_seconds || 0);
+  const grace = Number(schedule.grace_seconds || 0);
+  if (!anchor || !interval || !grace) {
+    return false;
+  }
+  const now = Date.now() / 1000;
+  const elapsed = Math.max(0, now - anchor);
+  const remainder = elapsed % interval;
+  return Math.min(remainder, interval - remainder) <= grace;
+}
+
+function nextExpectedRuntimeEpoch(status) {
+  const schedule = status.schedule || {};
+  const anchor = Number(schedule.anchor_epoch || 0);
+  const interval = Number(schedule.interval_seconds || 0);
+  if (!anchor || !interval) {
+    return 0;
+  }
+  const now = Date.now() / 1000;
+  return anchor + (Math.floor(Math.max(0, now - anchor) / interval) + 1) * interval;
+}
+
+function renderRuntimeStatus() {
+  const status = state.runtimeStatus;
+  if (!status) {
+    el.runtimeStatusLine.classList.add("hidden");
+    return;
+  }
+  const labels = {
+    idle: "idle",
+    waiting_for_review: "waiting for review",
+    running: "sync running",
+    error: "sync error",
+  };
+  const parts = [`Server: ${labels[status.status] || status.status || "unknown"}`];
+  if (status.last_successful_sync_epoch) {
+    parts.push(`last synced ${formatDate(status.last_successful_sync_epoch)}`);
+  }
+  const nextExpected = nextExpectedRuntimeEpoch(status);
+  if (nextExpected) {
+    parts.push(`next check expected ${formatDate(nextExpected)}`);
+  }
+  el.runtimeStatusLine.textContent = parts.join(" · ");
+  el.runtimeStatusLine.classList.remove("hidden");
 }
 
 function escapeHtml(value) {
