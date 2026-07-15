@@ -2279,9 +2279,11 @@ Operational rules:
    not the unattended scheduler model.
 2. Treat batch state as provenance/container state and canonical document state
    as the source for queue membership and refill accounting.
-3. The dev sync configuration keeps ten Bulk Review documents ready and adds at
-   most ten documents per refill pass. Working refill remains disabled until
-   its production policy is chosen explicitly.
+3. The dev sync configuration targets fifty Bulk Review documents and adds at
+   most ten documents per refill batch. The target is document-based rather
+   than an exact active-batch count, so partially completed batches may leave
+   more than five batches visible. Working refill remains disabled until its
+   production policy is chosen explicitly.
 4. Batch completion order is independent of batch creation order. Finalization,
    archive publication, and decoder refresh must use concrete batch identities,
    never an assumption that the current pointer names the completing batch.
@@ -2303,6 +2305,13 @@ Responsibilities:
 - leave invalid, unknown-pack, or not-yet-applicable Issues open
 - regenerate and publish review artifacts when queue state changes
 - write a machine-readable summary under `data/state/review_sync/`
+
+Long refill work must not remain a permanent responsibility of this command.
+The current implementation can prepare and advance a refill batch, but doing so
+holds the per-track sync lock through decoder and LLM work and can prevent Issue
+application for many minutes. Split that work into the refill worker described
+below before treating the fifty-document queue as an unattended production
+service.
 
 Default behavior should be conservative:
 
@@ -2349,7 +2358,70 @@ be inspected through:
 journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 ```
 
-#### 11.2.1 Static runtime status and client polling
+#### 11.2.1 Review sync and refill worker separation
+
+Review synchronization is latency-sensitive; refill is throughput-sensitive.
+They must be separate scheduled processes with separate execution policies.
+
+`review-sync` should remain a short five-minute operation:
+
+- import and apply Bulk Review and Escalated Repair Issue submissions
+- close successfully consumed Issues
+- transition reviewed documents and finalize eligible batches
+- refresh decoder data according to finalization policy
+- regenerate and publish changed review artifacts and runtime status
+- calculate refill demand, but only enqueue or reserve work rather than running
+  long decoder or LLM stages
+
+`refill-worker` should own preparation of new review material:
+
+- atomically reserve the next source documents and create a concrete batch
+- advance that batch through deterministic preprocessing, scope triage, hybrid
+  reading generation, and LLM reading
+- persist every remote job identifier and resume from durable job state after
+  interruption
+- commit the batch to the Bulk Review pool only after all required artifacts
+  are complete
+- avoid publishing intermediate stages; either request publication when the
+  batch becomes review-ready or let the next `review-sync` pass publish it
+- continue until the aggregate selectable Bulk Review pool reaches the
+  configured target
+
+The two processes need explicit lock scopes:
+
+- keep the review import/apply lock short-lived and independent from expensive
+  refill work
+- give each refill batch its own lock so one resumable batch cannot block Issue
+  processing or an unrelated batch transition
+- use a short shared state lock only while reserving source documents, assigning
+  stable sequence numbers, changing canonical document state, or promoting a
+  completed refill batch into the review pool
+- never hold a shared lock while waiting for an LLM response, running the
+  decoder, or building review-page artifacts
+- start with one refill worker per track; add bounded per-batch concurrency only
+  after source reservation and API-capacity behavior are proven safe
+
+Execution modes should also be independent. Interactive review repair may still
+prefer background requests for low latency, while refill can optimize for cost
+and throughput:
+
+- use OpenAI Batch for large triage or reading workloads when delayed completion
+  is acceptable
+- use background mode for small dev batches, prompt validation, or work that
+  should normally finish sooner
+- allow execution mode, batch request limits, polling interval, and concurrency
+  to be configured specifically for refill without changing review-stage LLM
+  policy
+- when Batch is used, submit durable remote batches and let later worker runs
+  poll them; the five-minute review synchronizer must not wait for them
+
+The steady-state dev policy is approximately five 10-document batches, expressed
+as `target_ready_docs = 50` and `pass_limit = 10`. Refill reacts to aggregate
+canonical document state rather than batch creation order. A newer batch may
+reach review or finish before an older one without changing Issue application,
+finalization, archive publication, or decoder refresh semantics.
+
+#### 11.2.2 Static runtime status and client polling
 
 The GitHub Pages UI cannot query the cluster directly. Publish a small static
 runtime-status artifact alongside the review manifest so the browser can show
