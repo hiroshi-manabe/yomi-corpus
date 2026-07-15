@@ -3854,6 +3854,14 @@ function yomiCycleCandidates(target) {
   const candidates = target.candidates || [];
   const readingCandidates = candidates.filter((candidate) => candidate.source !== "none");
   const noRubyCandidates = candidates.filter((candidate) => candidate.source === "none");
+  const defaultKey = candidateKey(defaultCandidate(target));
+  const defaultIndex = readingCandidates.findIndex(
+    (candidate) => candidateKey(candidate) === defaultKey
+  );
+  if (defaultIndex > 0) {
+    const [defaultReading] = readingCandidates.splice(defaultIndex, 1);
+    readingCandidates.unshift(defaultReading);
+  }
   return [...readingCandidates, ...noRubyCandidates];
 }
 
