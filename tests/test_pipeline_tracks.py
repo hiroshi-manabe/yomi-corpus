@@ -658,7 +658,9 @@ class PipelineTrackTests(unittest.TestCase):
                 + "\n",
                 encoding="utf-8",
             )
-            workspace.save_batch_state(workspace._infer_batch_state("dev_batch_0001"))
+            batch_state = workspace._infer_batch_state("dev_batch_0001")
+            batch_state.decoder_model_dir = "/tmp/pinned-decoder-model"
+            workspace.save_batch_state(batch_state)
             workspace.save_track_state(
                 TrackState(
                     track_name="dev",
@@ -689,6 +691,10 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(
                 mocked_safety.call_args.kwargs["input_jsonl"].resolve(),
                 (batch_dir / "units.yomi.auto_accept.jsonl").resolve(),
+            )
+            self.assertEqual(
+                mocked_safety.call_args.kwargs["decoder_model_dir"],
+                "/tmp/pinned-decoder-model",
             )
             self.assertEqual(
                 mocked_queue.call_args.kwargs["input_jsonl"].resolve(),

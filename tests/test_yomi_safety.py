@@ -8,7 +8,11 @@ from pathlib import Path
 
 from yomi_corpus.yomi.corpus_frequency import SurfaceReadingCount, SurfaceReadingStats
 from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_queue_file
-from yomi_corpus.yomi.safety import build_pre_llm_safety_records, set_yomi_safety_records
+from yomi_corpus.yomi.safety import (
+    build_pre_llm_safety_records,
+    resolve_corpus_frequency_stats_artifact,
+    set_yomi_safety_records,
+)
 
 
 def unit() -> dict:
@@ -64,6 +68,37 @@ def unit() -> dict:
 
 
 class YomiSafetyTests(unittest.TestCase):
+    def test_model_local_frequency_stats_override_configured_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fallback = root / "fallback.tsv"
+            model_dir = root / "model"
+            model_dir.mkdir()
+            model_stats = model_dir / "surface_reading_stats.tsv"
+            fallback.write_text("fallback", encoding="utf-8")
+            model_stats.write_text("model", encoding="utf-8")
+
+            resolved = resolve_corpus_frequency_stats_artifact(
+                configured_path=fallback,
+                decoder_model_dir=model_dir,
+            )
+
+            self.assertEqual(resolved, model_stats)
+
+    def test_frequency_stats_fall_back_for_legacy_model(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            fallback = root / "fallback.tsv"
+            model_dir = root / "legacy-model"
+            model_dir.mkdir()
+
+            resolved = resolve_corpus_frequency_stats_artifact(
+                configured_path=fallback,
+                decoder_model_dir=model_dir,
+            )
+
+            self.assertEqual(resolved, fallback)
+
     def test_corpus_frequency_marks_matching_target_safe(self) -> None:
         stats = make_stats(
             [

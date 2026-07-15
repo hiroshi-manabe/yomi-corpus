@@ -829,7 +829,7 @@ Implementation status:
      `/panfs/panmt22/users/hmanabe/yomi-decoder/data/raw/core_SUW_yomi_final.txt`.
    - Output a stats artifact plus a manifest with source path or ID, size,
      checksum when feasible, mtime, normalization settings, filters, script
-   version, and generation time.
+     version, and generation time.
    - Add small committed fixture corpora and loader/generator tests.
    - Decoder refreshes must additionally generate model-local frequency stats
      from the same base corpus and finalized batch exports used to build that

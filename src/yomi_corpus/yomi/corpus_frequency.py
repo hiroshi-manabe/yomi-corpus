@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
-from typing import Iterable
+from typing import Iterable, Sequence
 
 
 KANJI_OR_ALPHABETIC_RE = re.compile(r"[\u3400-\u9fff々〆〻A-Za-zＡ-Ｚａ-ｚ]")
@@ -153,8 +153,10 @@ def build_surface_reading_stats(
     source_corpus_version: str,
     surface_filter: str = "target",
     checksum: bool = True,
+    additional_source_corpora: Sequence[str | Path] = (),
 ) -> CorpusFrequencyBuildSummary:
     source_path = Path(source_corpus)
+    source_paths = [source_path, *(Path(path) for path in additional_source_corpora)]
     output_path = Path(output_tsv)
     manifest_path = Path(manifest_json)
     if surface_filter not in {"all", "target"}:
@@ -164,15 +166,16 @@ def build_surface_reading_stats(
     counted_token_count = 0
     counts: dict[str, Counter[str]] = defaultdict(Counter)
     skipped_malformed_line_count = 0
-    for token in iter_source_corpus_token_records(source_path):
-        if token is None:
-            skipped_malformed_line_count += 1
-            continue
-        token_count += 1
-        if surface_filter == "target" and not is_target_surface(token.surface):
-            continue
-        counts[token.surface][token.reading] += 1
-        counted_token_count += 1
+    for corpus_path in source_paths:
+        for token in iter_source_corpus_token_records(corpus_path):
+            if token is None:
+                skipped_malformed_line_count += 1
+                continue
+            token_count += 1
+            if surface_filter == "target" and not is_target_surface(token.surface):
+                continue
+            counts[token.surface][token.reading] += 1
+            counted_token_count += 1
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -182,7 +185,8 @@ def build_surface_reading_stats(
         source_corpus_version=source_corpus_version,
     )
 
-    digest = sha256_file(source_path) if checksum else None
+    source_digests = [sha256_file(path) for path in source_paths] if checksum else []
+    digest = combined_source_digest(source_paths, source_digests) if checksum else None
     summary = CorpusFrequencyBuildSummary(
         source_corpus=str(source_path),
         output_tsv=str(output_path),
@@ -200,13 +204,25 @@ def build_surface_reading_stats(
         "script_version": SCRIPT_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_corpus_path": str(source_path),
+        "source_corpus_paths": [str(path) for path in source_paths],
         "source_corpus_version": source_corpus_version,
         "source_corpus_size_bytes": source_path.stat().st_size,
+        "source_corpora_total_size_bytes": sum(path.stat().st_size for path in source_paths),
         "source_corpus_mtime": datetime.fromtimestamp(
             source_path.stat().st_mtime,
             tz=timezone.utc,
         ).isoformat(),
-        "source_corpus_sha256": digest,
+        "source_corpus_sha256": source_digests[0] if checksum else None,
+        "source_corpora_sha256": digest,
+        "source_corpora": [
+            {
+                "path": str(path),
+                "size_bytes": path.stat().st_size,
+                "mtime": datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).isoformat(),
+                "sha256": source_digests[index] if checksum else None,
+            }
+            for index, path in enumerate(source_paths)
+        ],
         "normalization": {
             "policy": "none",
             "notes": "Surface and reading strings are counted exactly as found in the source TSV.",
@@ -302,4 +318,14 @@ def sha256_file(path: str | Path) -> str:
     with Path(path).open("rb") as handle:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
+    return digest.hexdigest()
+
+
+def combined_source_digest(paths: Sequence[Path], digests: Sequence[str]) -> str:
+    digest = hashlib.sha256()
+    for path, source_digest in zip(paths, digests, strict=True):
+        digest.update(str(path.resolve()).encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(source_digest.encode("ascii"))
+        digest.update(b"\n")
     return digest.hexdigest()

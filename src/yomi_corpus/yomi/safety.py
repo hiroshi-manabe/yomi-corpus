@@ -16,6 +16,7 @@ from yomi_corpus.yomi.ngram_diagnostics import (
 
 SAFETY_RULE = "per_target_pre_llm_safety_v1"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
+MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
 
 
 @dataclass(frozen=True)
@@ -30,6 +31,8 @@ class YomiSafetySummary:
     unit_auto_accept_safe: int
     output_jsonl: str
     summary_json: str
+    corpus_frequency_stats_artifact: str | None
+    corpus_frequency_source_version: str | None
     rule: str = SAFETY_RULE
 
 
@@ -42,6 +45,7 @@ def apply_yomi_safety_pre_llm_file(
     enable_stable_two_kanji: bool = True,
     enable_corpus_frequency: bool = True,
     raw_sudachi_dict_dir: Path = DEFAULT_RAW_SUDACHI_DICT_DIR,
+    decoder_model_dir: str | Path | None = None,
 ) -> YomiSafetySummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
@@ -56,7 +60,11 @@ def apply_yomi_safety_pre_llm_file(
         if enable_stable_two_kanji
         else None
     )
-    corpus_stats = load_corpus_stats(yomi_config.corpus_frequency_stats_artifact) if enable_corpus_frequency else None
+    corpus_stats_path = resolve_corpus_frequency_stats_artifact(
+        configured_path=yomi_config.corpus_frequency_stats_artifact,
+        decoder_model_dir=decoder_model_dir,
+    )
+    corpus_stats = load_corpus_stats(corpus_stats_path) if enable_corpus_frequency else None
 
     read_units = 0
     written_units = 0
@@ -104,12 +112,28 @@ def apply_yomi_safety_pre_llm_file(
         unit_auto_accept_safe=unit_auto_accept_safe,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
+        corpus_frequency_stats_artifact=None if corpus_stats is None else corpus_stats.artifact_path,
+        corpus_frequency_source_version=None
+        if corpus_stats is None
+        else corpus_stats.source_corpus_version,
     )
     summary_json.write_text(
         json.dumps(asdict(summary), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     return summary
+
+
+def resolve_corpus_frequency_stats_artifact(
+    *,
+    configured_path: str | Path | None,
+    decoder_model_dir: str | Path | None,
+) -> Path | None:
+    if decoder_model_dir:
+        model_path = Path(decoder_model_dir) / MODEL_FREQUENCY_STATS_FILENAME
+        if model_path.exists():
+            return model_path
+    return Path(configured_path) if configured_path else None
 
 
 def build_pre_llm_safety_records(
@@ -254,7 +278,7 @@ def safe_yomi_item_ids(unit: dict[str, Any]) -> set[str]:
     }
 
 
-def load_corpus_stats(path: str | None) -> SurfaceReadingStats | None:
+def load_corpus_stats(path: str | Path | None) -> SurfaceReadingStats | None:
     if not path:
         return None
     stats_path = Path(path)

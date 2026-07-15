@@ -64,6 +64,35 @@ class YomiCorpusFrequencyTests(unittest.TestCase):
             self.assertEqual(manifest["summary"]["pair_count"], 10)
             self.assertEqual(manifest["summary"]["skipped_malformed_line_count"], 0)
 
+    def test_combines_base_and_reviewed_corpora(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            base = root / "base.txt"
+            reviewed = root / "reviewed.txt"
+            stats_path = root / "stats.tsv"
+            manifest_path = root / "manifest.json"
+            base.write_text("学校\t*\t学校\t学校\tガッコウ\nEOS\n", encoding="utf-8")
+            reviewed.write_text(
+                "学校\t*\t学校\t学校\tガクコウ\n追加\t*\t追加\t追加\tツイカ\nEOS\n",
+                encoding="utf-8",
+            )
+
+            summary = build_surface_reading_stats(
+                source_corpus=base,
+                additional_source_corpora=[reviewed],
+                output_tsv=stats_path,
+                manifest_json=manifest_path,
+                source_corpus_version="model_v1",
+            )
+
+            self.assertEqual(summary.token_count, 3)
+            stats = SurfaceReadingStats.load_tsv(stats_path)
+            self.assertEqual(len(stats.rows_by_surface["学校"]), 2)
+            self.assertEqual(stats.rows_by_surface["追加"][0].count, 1)
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["source_corpus_paths"], [str(base), str(reviewed)])
+            self.assertEqual(len(manifest["source_corpora"]), 2)
+
 
 if __name__ == "__main__":
     unittest.main()

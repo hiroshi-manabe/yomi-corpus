@@ -2376,6 +2376,7 @@ class PipelineWorkspace:
 
     def _queue_yomi_llm_reading(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
+        batch_state = self.load_batch_state(batch_name)
         input_path = batch_dir / "units.yomi.auto_accept.jsonl"
         safety_path = batch_dir / "units.yomi.safety_pre_llm.jsonl"
         safety_summary_path = batch_dir / "yomi_safety_pre_llm_summary.json"
@@ -2385,6 +2386,7 @@ class PipelineWorkspace:
             input_jsonl=input_path,
             output_jsonl=safety_path,
             summary_json=safety_summary_path,
+            decoder_model_dir=batch_state.decoder_model_dir,
         )
         summary = build_yomi_llm_reading_queue_file(
             input_jsonl=safety_path,
@@ -2401,6 +2403,9 @@ class PipelineWorkspace:
                 "yomi_safety_pre_llm_unresolved": str(safety_summary.unresolved_targets),
                 "yomi_safety_pre_llm_unit_auto_accept": str(
                     getattr(safety_summary, "unit_auto_accept_safe", 0)
+                ),
+                "yomi_safety_pre_llm_corpus_frequency_stats": str(
+                    getattr(safety_summary, "corpus_frequency_stats_artifact", "") or ""
                 ),
                 "yomi_reading_input_jsonl": str(output_path),
                 "yomi_reading_queue_summary_json": str(summary_path),

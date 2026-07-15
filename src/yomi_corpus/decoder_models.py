@@ -9,10 +9,13 @@ from pathlib import Path
 
 from yomi_corpus.pipeline import PipelineWorkspace, STAGE_YOMI_FINALIZED, normalize_track_name
 from yomi_corpus.yomi.config import load_yomi_generation_config
+from yomi_corpus.yomi.corpus_frequency import build_surface_reading_stats
 from yomi_corpus.yomi.decoder_corpus import export_decoder_corpus_file
 
 
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
+MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
+MODEL_FREQUENCY_MANIFEST_FILENAME = "surface_reading_stats.manifest.json"
 
 
 @dataclass(frozen=True)
@@ -23,6 +26,8 @@ class DecoderModelRefreshSummary:
     model_dir: str
     build_script: str
     base_corpus: str
+    corpus_frequency_stats_artifact: str
+    corpus_frequency_manifest: str
     skip_kenlm: bool
     track_state_path: str
     refreshed_at: str
@@ -93,6 +98,17 @@ def refresh_decoder_model(
         skip_kenlm=skip_kenlm,
         capture_output=capture_build_output,
     )
+    frequency_stats_path = model_dir / MODEL_FREQUENCY_STATS_FILENAME
+    frequency_manifest_path = model_dir / MODEL_FREQUENCY_MANIFEST_FILENAME
+    build_surface_reading_stats(
+        source_corpus=chosen_base_corpus,
+        additional_source_corpora=[Path(path) for path in exported_corpora],
+        output_tsv=frequency_stats_path,
+        manifest_json=frequency_manifest_path,
+        source_corpus_version=f"{normalized_track}:{chosen_model_id}",
+        surface_filter="target",
+        checksum=True,
+    )
 
     track_state = workspace.load_track_state(normalized_track)
     track_state.decoder_model_dir = str(model_dir)
@@ -105,6 +121,8 @@ def refresh_decoder_model(
         model_dir=str(model_dir),
         build_script=str(build_script),
         base_corpus=str(chosen_base_corpus),
+        corpus_frequency_stats_artifact=str(frequency_stats_path),
+        corpus_frequency_manifest=str(frequency_manifest_path),
         skip_kenlm=skip_kenlm,
         track_state_path=str(workspace.track_state_path(normalized_track)),
         refreshed_at=now_iso(),

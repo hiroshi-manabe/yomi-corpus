@@ -5,6 +5,7 @@ from pathlib import Path
 
 from yomi_corpus.decoder_models import refresh_decoder_model
 from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.yomi.corpus_frequency import SurfaceReadingStats
 
 
 def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path: Path) -> None:
@@ -115,5 +116,14 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
     assert build_args["extra_corpus"] == [str(corpus_path)]
     assert workspace.load_track_state("dev").decoder_model_dir == str(model_dir)
     assert (model_dir / "yomi_corpus_refresh.json").exists()
+    stats_path = model_dir / "surface_reading_stats.tsv"
+    stats_manifest_path = model_dir / "surface_reading_stats.manifest.json"
+    assert summary.corpus_frequency_stats_artifact == str(stats_path)
+    assert summary.corpus_frequency_manifest == str(stats_manifest_path)
+    stats = SurfaceReadingStats.load_tsv(stats_path)
+    assert stats.rows_by_surface["元"][0].count == 1
+    assert stats.rows_by_surface["学校"][0].count == 1
+    stats_manifest = json.loads(stats_manifest_path.read_text(encoding="utf-8"))
+    assert stats_manifest["source_corpus_paths"] == [str(base_corpus), str(corpus_path)]
     assert (model_dir / "build.stdout.log").read_text(encoding="utf-8").strip() == "fake stdout"
     assert (model_dir / "build.stderr.log").read_text(encoding="utf-8").strip() == "fake stderr"
