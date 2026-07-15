@@ -2231,7 +2231,7 @@ jobs, submitted review tasks, and delayed finalization can leave multiple
 batches actionable at the same time. In that world, `current_batch_name` should
 be a source-refill convenience pointer, not the scheduler's authority.
 
-Observed current dependencies:
+Implemented scheduler behavior and remaining boundaries:
 
 - `PipelineWorkspace.status()`, `advance()`, and `set_stage()` operate only on
   `track.current_batch_name`. This is acceptable for manual `./next` debugging
@@ -2239,14 +2239,13 @@ Observed current dependencies:
 - `prepare_next_batch()` still updates `track.current_batch_name` to the newest
   prepared batch. This is useful for legacy CLI behavior, but it can hide older
   batches that still need server-side work.
-- `review-sync` currently reads `workspace.status(track)` and advances that one
-  batch first. This is the highest-risk dependency: an older batch can have
-  completed Escalated Repair review and still never reach `yomi_finalized` after
-  the pointer moves to a newer batch.
+- `review-sync` advances the pointer-selected batch first, then sweeps every
+  other batch whose next transition is safe for unattended execution. A blocked
+  older batch does not prevent a newer batch from finalizing.
 - `maintain_bulk_review_refill()` and
-  `advance_current_batch_to_bulk_review_ready()` are explicitly current-batch
-  oriented. They should become source-refill helpers rather than the main
-  scheduler.
+  `advance_current_batch_to_bulk_review_ready()` remain current-batch-oriented
+  source-refill helpers. Refill demand itself is calculated from canonical
+  document-state counts across every unfinished batch.
 - `./next`, `./next --auto`, and `./set-stage` are intentionally current-batch
   commands. Keep them as operator/debug tools, but do not model unattended
   progress on them.
@@ -2255,9 +2254,9 @@ Observed current dependencies:
   batch. The scheduler must therefore enumerate candidate batches.
 - Decoder refresh already discovers all finalized batches via batch state files;
   it is less pointer-dependent than review-sync.
-- Review dashboard generation already reads review packs broadly, but stale
-  packs and regenerated queue state still depend on backend sync reaching each
-  actionable batch.
+- Review dashboard generation publishes the newest actionable pack for every
+  batch and stage. The unified UI can therefore contain documents from multiple
+  batches, while submissions retain their source pack IDs.
 
 Target model:
 
@@ -2274,19 +2273,18 @@ Target model:
 - after finalization, let decoder refresh look at finalized batches globally
   rather than relying on the batch that happened to be current
 
-Prioritized migration:
+Operational rules:
 
-1. Stop the dev timer while changing scheduler semantics.
-2. Add a `review-sync` sweep over non-finalized batches before or alongside the
-   current-batch path. The first concrete target is older batches whose
-   Escalated Repair review is complete but whose batch state is not yet
-   `yomi_finalized`.
-3. Move refill logic behind an "ensure Bulk Review buffer" pass that is based
-   on aggregate document queue counts.
-4. Keep `./next` and `./set-stage` as current-batch manual tools, but update
-   help text/docs to say they are not the scheduler model.
-5. Once batch sweeping is stable, treat batch state as provenance/container
-   state and document ledger state as the human-facing operational state.
+1. Keep `./next` and `./set-stage` as current-batch manual/debug tools; they are
+   not the unattended scheduler model.
+2. Treat batch state as provenance/container state and canonical document state
+   as the source for queue membership and refill accounting.
+3. The dev sync configuration keeps ten Bulk Review documents ready and adds at
+   most ten documents per refill pass. Working refill remains disabled until
+   its production policy is chosen explicitly.
+4. Batch completion order is independent of batch creation order. Finalization,
+   archive publication, and decoder refresh must use concrete batch identities,
+   never an assumption that the current pointer names the completing batch.
 
 ### 11.2 Review sync command
 
@@ -2350,6 +2348,53 @@ be inspected through:
 ```bash
 journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 ```
+
+#### 11.2.1 Static runtime status and client polling
+
+The GitHub Pages UI cannot query the cluster directly. Publish a small static
+runtime-status artifact alongside the review manifest so the browser can show
+the last known scheduler condition and estimate the next check without turning
+every five-minute timer invocation into a Pages deployment.
+
+Keep scheduler metadata separate from review data. The review manifest describes
+packs and document state; `review/runtime-status.json` describes orchestration:
+
+- schema version and monotonically increasing `state_revision`
+- generation time and last successful sync time
+- status such as `idle`, `running`, `waiting_for_review`, or `error`
+- recurring schedule anchor, interval, and grace period
+- the last observed actual start/completion time and schedule drift
+- a short current-operation summary and optional error message
+
+Use a recurring schedule rule rather than publishing one disposable next-run
+timestamp. Given `schedule_anchor`, `interval_seconds`, and `grace_seconds`, the
+browser can calculate future expected slots until the server reports a changed
+schedule. The server should update and publish the artifact when workflow state
+changes, a run fails, a run remains active unusually long, the schedule changes,
+or observed drift exceeds the grace period. If a successful run is on schedule
+and makes no visible state change, leave the published status untouched.
+
+Client polling should be adaptive:
+
+- poll every 60 seconds under normal visible-page operation
+- from shortly before an expected slot until the grace window ends, poll every
+  10-15 seconds
+- check immediately when a hidden page becomes visible
+- pause or reduce polling to roughly five minutes while hidden
+- use exponential backoff after repeated network failures
+- request the stable status URL with cache revalidation; if Pages caching is
+  too sticky, add a shared 30- or 60-second time-bucket query parameter rather
+  than a unique timestamp per browser
+
+Compare `state_revision` first. If it changes and no review task is active,
+reload the manifest and queues automatically. If a task is open, preserve all
+local edits and show a prominent "Server state updated" action instead. If the
+new manifest shows that a task's documents have already left that task's stage,
+mark the task stale and require explicit confirmation before any submission.
+
+Displayed times are estimates, not service guarantees. Allow for browser clock
+error and GitHub Pages deployment delay, and label future times as "expected"
+rather than promising that the cluster will run at that exact moment.
 
 Decoder refresh policy:
 
@@ -2650,22 +2695,15 @@ controls:
 - range-marker menu
 - tappable ruby spans
 
-For each highlighted yomi span, the reviewer should choose one of three states:
+For each highlighted target, tapping cycles through the recorded reading
+candidates and no-ruby. A selected reading is applied directly. No-ruby marks a
+local target for Escalated Repair; consecutive canceled targets are grouped
+there rather than edited through a second segmentation control in Bulk Review.
 
-- accept the current segmentation and reading
-- keep segmentation but edit only readings
-- edit segmentation and readings
-
-When editing segmentation, the UI should let the reviewer toggle split points
-between characters. For example, `池尻中学校` can become `池尻 + 中学校` and
-the reading fields should follow that split. If the reviewer has already typed
-readings and then changes a split in a way that discards fields, the UI should
-warn before rebuilding the fields.
-
-Direct span fixes are applied to the rendered yomi immediately when they can be
-matched uniquely in the current rendered string. Ruby-cancelled spans are not
-treated as direct fixes; they are queued for Escalated Repair as local target
-groups.
+Segmentation editing belongs to the Escalated Repair confirmation UI. That UI
+can toggle split points between characters and rebuild the corresponding
+reading fields. Keeping this control out of Bulk Review avoids two competing
+span editors and preserves its fast tap-to-review workflow.
 
 ## 12.3 Escalated Repair and finalization
 
