@@ -314,7 +314,7 @@ function activeDevReviewQueues() {
 }
 
 function hasDevYomiReviewSources() {
-  return latestDevYomiReviewSources().length > 0;
+  return activeDevYomiReviewSources().length > 0;
 }
 
 function hasReviewArchive() {
@@ -366,8 +366,8 @@ async function openPack(stageId, packId) {
 }
 
 async function openUnifiedReview() {
-  const latestSources = latestDevYomiReviewSources();
-  if (latestSources.length === 0) {
+  const reviewSources = activeDevYomiReviewSources();
+  if (reviewSources.length === 0) {
     const fallbackStage = Object.keys(state.manifest.stages || {})[0];
     await openStage(fallbackStage, { preferLatest: true });
     return;
@@ -377,7 +377,7 @@ async function openUnifiedReview() {
     el.stageSelect.value = "unified_yomi_review";
   }
   const sources = [];
-  for (const source of latestSources) {
+  for (const source of reviewSources) {
     const pack = await fetchJson(source.path);
     sources.push({ meta: source, pack });
   }
@@ -437,7 +437,7 @@ async function openArchiveShard(shard) {
   render();
 }
 
-function latestDevYomiReviewSources() {
+function activeDevYomiReviewSources() {
   const activeSources = activeDevReviewQueues();
   if (activeSources.length > 0) {
     return activeSources;
