@@ -2094,6 +2094,14 @@ metadata, and changed units containing original and proposed rendered yomi.
 Server-side import/replay is a follow-up step and must repeat validation before
 updating canonical finalized state.
 
+Each browser-created correction has a stable `submission_id` and records the
+document's `base_archive_revision`. Published archive documents expose their
+current revision and each unit's applied finalized-correction submission IDs.
+The browser keeps a submitted correction marked `sent` until every affected
+unit acknowledges that exact ID; an unrelated archive publication must not
+clear it. The local-store schema-v2 migration removes legacy submitted records
+that have no submission ID, while preserving unsent drafts.
+
 Resolved-document correction is a later extension of the same model. A resolved
 document may be reopened through a correction task, but the change should be
 recorded as a new auditable submission, replayed by the importer, and harvested

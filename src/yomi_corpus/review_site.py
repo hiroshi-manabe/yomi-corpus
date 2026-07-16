@@ -370,9 +370,42 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
     result = []
     for key in sorted(documents):
         doc = documents[key]
-        doc.pop("_finalized_correction_submission_ids", None)
+        doc["applied_finalized_correction_submission_ids"] = sorted(
+            doc.pop("_finalized_correction_submission_ids", set())
+        )
+        doc["archive_revision"] = finalized_archive_document_revision(doc)
         result.append(doc)
     return result
+
+
+def finalized_archive_document_revision(doc: dict) -> str:
+    revision_payload = {
+        "track_name": str(doc.get("track_name") or ""),
+        "track_doc_seq": int(doc.get("track_doc_seq") or 0),
+        "doc_id": str(doc.get("doc_id") or ""),
+        "applied_finalized_correction_submission_ids": list(
+            doc.get("applied_finalized_correction_submission_ids") or []
+        ),
+        "units": [
+            {
+                "unit_id": str(unit.get("unit_id") or ""),
+                "unit_seq": int(unit.get("unit_seq") or 0),
+                "text": str(unit.get("text") or ""),
+                "rendered_yomi": str(unit.get("rendered_yomi") or ""),
+                "applied_finalized_correction_submission_ids": list(
+                    unit.get("applied_finalized_correction_submission_ids") or []
+                ),
+            }
+            for unit in doc.get("units", [])
+        ],
+    }
+    encoded = json.dumps(
+        revision_payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return sha256(encoded).hexdigest()[:16]
 
 
 def finalized_batch_names(root: Path, track_name: str) -> list[str]:
@@ -405,6 +438,9 @@ def archive_unit_from_row(row: dict) -> dict | None:
         "rendered_yomi": rendered_yomi,
         "ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi) if rendered_yomi else [],
         "finalized_correction_count": finalized_correction_count(row),
+        "applied_finalized_correction_submission_ids": sorted(
+            finalized_correction_submission_ids(row)
+        ),
     }
     return unit
 

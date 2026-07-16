@@ -79,6 +79,7 @@ const el = {
 
 const settingsKey = "yomi-corpus:review-ui:settings:v2";
 const archiveCorrectionStorageKey = "yomi-corpus:archive-corrections:v1";
+const archiveCorrectionStoreSchemaVersion = 2;
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -243,20 +244,25 @@ function bindEvents() {
     render();
   });
 
-  el.workflowPreviewClose?.addEventListener("click", () => closeWorkflowDocumentPreview());
+  el.workflowPreviewClose?.addEventListener("click", () => requestCloseWorkflowDocumentPreview());
   el.workflowPreviewModal?.addEventListener("click", (event) => {
     if (event.target?.hasAttribute?.("data-preview-close")) {
-      closeWorkflowDocumentPreview();
+      requestCloseWorkflowDocumentPreview();
     }
   });
   document.addEventListener("keydown", (event) => {
-    if (
-      event.key === "Escape" &&
-      !el.workflowPreviewModal?.classList.contains("hidden") &&
-      !archiveCorrectionIsEditing()
-    ) {
-      closeWorkflowDocumentPreview();
+    if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
+      event.preventDefault();
+      requestCloseWorkflowDocumentPreview();
     }
+  });
+
+  window.addEventListener("beforeunload", (event) => {
+    if (!archiveCorrectionHasUnsavedEdits()) {
+      return;
+    }
+    event.preventDefault();
+    event.returnValue = "";
   });
 
   window.addEventListener("focus", () => {
@@ -1244,13 +1250,25 @@ function archiveCorrectionDocKey(doc) {
 function loadArchiveCorrectionStore() {
   try {
     const parsed = JSON.parse(window.localStorage.getItem(archiveCorrectionStorageKey) || "{}");
-    return {
-      schema_version: 1,
-      records: parsed && typeof parsed.records === "object" && parsed.records ? parsed.records : {},
+    const records = parsed && typeof parsed.records === "object" && parsed.records ? { ...parsed.records } : {};
+    let migrated = Number(parsed?.schema_version || 1) !== archiveCorrectionStoreSchemaVersion;
+    for (const [key, record] of Object.entries(records)) {
+      if (record?.status === "submitted" && !record?.submission_id) {
+        delete records[key];
+        migrated = true;
+      }
+    }
+    const store = {
+      schema_version: archiveCorrectionStoreSchemaVersion,
+      records,
     };
+    if (migrated) {
+      saveArchiveCorrectionStore(store);
+    }
+    return store;
   } catch {
     window.localStorage.removeItem(archiveCorrectionStorageKey);
-    return { schema_version: 1, records: {} };
+    return { schema_version: archiveCorrectionStoreSchemaVersion, records: {} };
   }
 }
 
@@ -1269,8 +1287,34 @@ function archiveCorrectionRecordForDoc(doc) {
   if (!record) {
     return null;
   }
+  if (record.status === "draft" && !record.submission_id) {
+    store.records[key] = {
+      ...record,
+      schema_version: archiveCorrectionStoreSchemaVersion,
+      submission_id: newArchiveCorrectionSubmissionId(doc),
+      base_archive_revision: record.base_archive_revision || doc.archive_revision || "",
+    };
+    saveArchiveCorrectionStore(store);
+  }
+  const currentRecord = store.records[key];
   const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
-  const remaining = (record.units || []).filter((saved) => {
+  if (
+    currentRecord.status === "submitted" &&
+    currentRecord.submission_id &&
+    (currentRecord.units || []).length > 0 &&
+    (currentRecord.units || []).every((saved) => {
+      const current = currentUnits.get(String(saved.unit_id || ""));
+      return (current?.applied_finalized_correction_submission_ids || []).includes(currentRecord.submission_id);
+    })
+  ) {
+    delete store.records[key];
+    saveArchiveCorrectionStore(store);
+    return null;
+  }
+  if (currentRecord.status === "submitted" && currentRecord.submission_id) {
+    return currentRecord;
+  }
+  const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
     return !current || String(current.rendered_yomi || "").trim() !== String(saved.proposed_rendered_yomi || "").trim();
   });
@@ -1279,8 +1323,8 @@ function archiveCorrectionRecordForDoc(doc) {
     saveArchiveCorrectionStore(store);
     return null;
   }
-  if (remaining.length !== (record.units || []).length) {
-    store.records[key] = { ...record, units: remaining };
+  if (remaining.length !== (currentRecord.units || []).length) {
+    store.records[key] = { ...currentRecord, units: remaining };
     saveArchiveCorrectionStore(store);
   }
   return store.records[key];
@@ -1297,13 +1341,19 @@ function persistArchiveCorrectionDraft(doc) {
   }
   const now = Math.floor(Date.now() / 1000);
   const previous = store.records[key] || {};
+  const submissionId =
+    previous.status === "draft" && previous.submission_id
+      ? previous.submission_id
+      : newArchiveCorrectionSubmissionId(doc);
   store.records[key] = {
-    schema_version: 1,
+    schema_version: archiveCorrectionStoreSchemaVersion,
+    submission_id: submissionId,
     track_name: state.archiveCurrentTrack || "dev",
     doc_id: doc.doc_id || "",
     track_doc_seq: Number(doc.track_doc_seq || 0) || null,
     batch_name: doc.batch_name || "",
     archive_shard: state.archiveCurrentShardPath || "",
+    base_archive_revision: doc.archive_revision || "",
     status: "draft",
     units: parsed.changedUnits,
     created_at_epoch: previous.created_at_epoch || now,
@@ -1312,6 +1362,14 @@ function persistArchiveCorrectionDraft(doc) {
   delete store.records[key].submitted_at_epoch;
   saveArchiveCorrectionStore(store);
   return store.records[key];
+}
+
+function newArchiveCorrectionSubmissionId(doc) {
+  const randomPart = globalThis.crypto?.randomUUID?.().replaceAll("-", "") ||
+    `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
+  const track = String(state.archiveCurrentTrack || "dev").replace(/[^A-Za-z0-9_-]+/g, "_");
+  const seq = Number(doc.track_doc_seq || 0) || "unknown";
+  return `finalized_correction__client__${track}_${seq}__${randomPart}`;
 }
 
 function markArchiveCorrectionSubmitted(key) {
@@ -1341,6 +1399,22 @@ function archiveCorrectionIsEditing() {
     return true;
   }
   return Boolean(el.workflowPreviewBody?.querySelector?.(".archive-correction-editor:not(.hidden)"));
+}
+
+function archiveCorrectionHasUnsavedEdits() {
+  if (el.workflowPreviewModal?.classList.contains("hidden")) {
+    return false;
+  }
+  const editors = el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-editor:not(.hidden)") || [];
+  return [...editors].some((editor) => {
+    const row = editor.closest(".archive-correction-row");
+    const textarea = editor.querySelector(".archive-correction-unit-textarea");
+    if (!row || !textarea) {
+      return false;
+    }
+    const baseline = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
+    return String(textarea.value || "").trim() !== String(baseline).trim();
+  });
 }
 
 function openArchiveCorrectionEditor(doc) {
@@ -1772,7 +1846,7 @@ function validateRenderedYomiReading(surface, reading) {
   if (isNumericOnlySurface(surface)) {
     return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
   }
-  if (/[一-龯々〆A-Za-z]/u.test(surface)) {
+  if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
     }
@@ -1816,15 +1890,18 @@ function archiveCorrectionIssueTitle(doc) {
 }
 
 function buildArchiveCorrectionPayload(doc, parsed) {
+  const localRecord = archiveCorrectionRecordForDoc(doc);
   return {
     submission_type: "finalized_correction_patch",
     schema_version: 1,
+    submission_id: localRecord?.submission_id || newArchiveCorrectionSubmissionId(doc),
     track_name: state.archiveCurrentTrack || "dev",
     review_stage: "finalized_correction",
     doc_id: doc.doc_id || "",
     track_doc_seq: Number(doc.track_doc_seq || 0) || null,
     batch_name: doc.batch_name || "",
     generated_at_epoch: Math.floor(Date.now() / 1000),
+    base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
     source: {
       archive_index_path: state.manifest?.archive?.index_path || "",
       archive_shard: state.archiveCurrentShardPath || "",
@@ -2198,6 +2275,17 @@ function closeWorkflowDocumentPreview() {
   if (state.currentStageId === "archive_browser") {
     render();
   }
+}
+
+function requestCloseWorkflowDocumentPreview() {
+  if (
+    archiveCorrectionHasUnsavedEdits() &&
+    !window.confirm("Discard unsaved yomi edits and close? Saved local drafts will be kept.")
+  ) {
+    return false;
+  }
+  closeWorkflowDocumentPreview();
+  return true;
 }
 
 function workflowPreviewItemsForDocument(row) {
@@ -3526,7 +3614,7 @@ function shouldDisplayRuby(surface, reading) {
   if (!surface || !reading || surface === reading) {
     return false;
   }
-  return /[一-龯々〆ヵヶA-Za-z]/u.test(surface);
+  return /[一-龯々〆ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
 }
 
 function katakanaToHiragana(text) {
@@ -3691,7 +3779,7 @@ function isNumericMergeEligibleTarget(target) {
   if (!target || !hasNoRubyCandidate(target)) {
     return false;
   }
-  return /[A-Za-z]/.test(target.surface || "");
+  return /[A-Za-zＡ-Ｚａ-ｚ]/u.test(target.surface || "");
 }
 
 function hasNoRubyCandidate(target) {

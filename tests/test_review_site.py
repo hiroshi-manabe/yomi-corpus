@@ -429,9 +429,18 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(shard["documents"][0]["finalized_correction_count"], 2)
             self.assertEqual(shard["documents"][0]["finalized_correction_sentence_count"], 2)
+            self.assertEqual(
+                shard["documents"][0]["applied_finalized_correction_submission_ids"],
+                ["correction_1", "correction_2"],
+            )
+            self.assertRegex(shard["documents"][0]["archive_revision"], r"^[0-9a-f]{16}$")
             self.assertEqual(shard["documents"][0]["units"][0]["rendered_yomi"], "学校/ガッコウ です/デス 。/。")
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
             self.assertEqual(shard["documents"][0]["units"][0]["finalized_correction_count"], 2)
+            self.assertEqual(
+                shard["documents"][0]["units"][0]["applied_finalized_correction_submission_ids"],
+                ["correction_1", "correction_2"],
+            )
             self.assertEqual(shard["documents"][1]["units"][0]["rendered_yomi"], "Ⅱ/")
             self.assertEqual(shard["documents"][2]["units"][0]["rendered_yomi"], "聖飢魔Ⅱ/セイキマツ")
 

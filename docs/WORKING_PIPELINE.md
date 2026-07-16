@@ -2659,11 +2659,13 @@ Accepted UI payloads use:
 {
   "submission_type": "finalized_correction_patch",
   "schema_version": 1,
+  "submission_id": "finalized_correction__client__dev_34__...",
   "track_name": "dev",
   "review_stage": "finalized_correction",
   "doc_id": "...",
   "track_doc_seq": 34,
   "batch_name": "dev_batch_0004",
+  "base_archive_revision": "0123456789abcdef",
   "source": {
     "archive_index_path": "review/archive/index.json",
     "archive_shard": "review/archive/docs_000001_000035.json",
@@ -2680,6 +2682,14 @@ Accepted UI payloads use:
   ]
 }
 ```
+
+The browser retains this stable `submission_id` while a local draft is edited
+and after it is marked submitted. Archive units publish the correction IDs
+that were actually applied. A `sent` marker is cleared only when every unit in
+that submission acknowledges the same ID. Archive revision changes alone are
+not acknowledgements. Legacy submitted browser records without IDs are dropped
+when the local correction store migrates to schema version 2; draft records are
+preserved.
 
 Server-side import and replay are separate follow-up work. The importer should
 repeat the same validation, apply accepted patches to canonical finalized

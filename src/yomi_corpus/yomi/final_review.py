@@ -1518,8 +1518,15 @@ def apply_finalized_correction_patch_to_unit(
         str(patch.get("proposed_rendered_yomi") or "")
     )
     if normalize_rendered_yomi_for_finalized_correction(current) == proposed:
+        recorded = record_finalized_correction_acknowledgement(
+            unit=unit,
+            submission_id=submission_id,
+            source=source,
+            original_rendered_yomi=current,
+            proposed_rendered_yomi=proposed,
+        )
         return {
-            "status": "already_applied",
+            "status": "applied" if recorded else "already_applied",
             "submission_id": submission_id,
             "unit_id": unit_id,
             "source": source,
@@ -1543,19 +1550,12 @@ def apply_finalized_correction_patch_to_unit(
             validation_error=str(validation["error"]),
         )
     set_current_rendered_yomi_for_correction(unit, proposed)
-    corrections = (
-        unit.setdefault("analysis", {})
-        .setdefault("human_review", {})
-        .setdefault("finalized_corrections", [])
-    )
-    corrections.append(
-        {
-            "submission_id": submission_id,
-            "review_stage": FINALIZED_CORRECTION_STAGE,
-            "source": source,
-            "original_rendered_yomi": current,
-            "proposed_rendered_yomi": proposed,
-        }
+    record_finalized_correction_acknowledgement(
+        unit=unit,
+        submission_id=submission_id,
+        source=source,
+        original_rendered_yomi=current,
+        proposed_rendered_yomi=proposed,
     )
     return {
         "status": "applied",
@@ -1563,6 +1563,37 @@ def apply_finalized_correction_patch_to_unit(
         "unit_id": unit_id,
         "source": source,
     }
+
+
+def record_finalized_correction_acknowledgement(
+    *,
+    unit: dict[str, Any],
+    submission_id: str,
+    source: Any,
+    original_rendered_yomi: str,
+    proposed_rendered_yomi: str,
+) -> bool:
+    corrections = (
+        unit.setdefault("analysis", {})
+        .setdefault("human_review", {})
+        .setdefault("finalized_corrections", [])
+    )
+    if any(
+        isinstance(correction, dict)
+        and str(correction.get("submission_id") or "") == submission_id
+        for correction in corrections
+    ):
+        return False
+    corrections.append(
+        {
+            "submission_id": submission_id,
+            "review_stage": FINALIZED_CORRECTION_STAGE,
+            "source": source,
+            "original_rendered_yomi": original_rendered_yomi,
+            "proposed_rendered_yomi": proposed_rendered_yomi,
+        }
+    )
+    return True
 
 
 def finalized_correction_skip_record(
@@ -1694,7 +1725,7 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
         if reading:
             return {"ok": False, "error": "numeric-only surfaces must have an empty reading"}
         return {"ok": True}
-    if re.search(r"[一-龯々〆A-Za-z]", surface):
+    if has_han(surface) or has_latin(surface):
         if not reading:
             return {"ok": False, "error": "kanji or alphabetic surfaces need a kana reading"}
         if not re.fullmatch(r"[ァ-ヺー]+", reading):

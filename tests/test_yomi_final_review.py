@@ -24,10 +24,17 @@ from yomi_corpus.yomi.final_review import (
     rendered_yomi_with_review_defaults,
     replay_review_submissions,
     store_review_submission,
+    validate_finalized_correction_reading,
 )
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_finalized_correction_accepts_kana_reading_for_fullwidth_latin(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("ＵＦＯ", "ユーフォー"),
+            {"ok": True},
+        )
+
     def test_apply_finalized_correction_updates_final_jsonl(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -100,6 +107,42 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(second_summary["applied_count"], 0)
             self.assertEqual(second_summary["batches"][0]["accepted_count"], 1)
             self.assertEqual(second_summary["skipped_count"], 0)
+
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "correction_2",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 2,
+                    "units": [
+                        {
+                            "unit_id": "u1",
+                            "text": "今日です。",
+                            "original_rendered_yomi": "今日/コンニチ です/デス 。/。",
+                            "proposed_rendered_yomi": "今日/コンニチ です/デス 。/。",
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+            acknowledgement_summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary3.json",
+            )
+
+            self.assertEqual(acknowledgement_summary["applied_count"], 1)
+            acknowledged_row = json.loads(final_jsonl.read_text(encoding="utf-8").strip())
+            self.assertEqual(
+                [
+                    correction["submission_id"]
+                    for correction in acknowledged_row["analysis"]["human_review"]["finalized_corrections"]
+                ],
+                ["correction_1", "correction_2"],
+            )
 
     def test_rendered_yomi_ruby_tokens_use_python_furigana_alignment(self) -> None:
         tokens = rendered_yomi_ruby_tokens("決め/キメ お金/オカネ")
