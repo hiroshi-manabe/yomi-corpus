@@ -1152,7 +1152,7 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
       <span>${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
     `;
     button.addEventListener("click", () => {
-      openArchiveSearchResult(doc).catch((error) => {
+      openArchiveSearchResult(doc, query).catch((error) => {
         showStatus(`Failed to open search result: ${error.message}`, true);
       });
     });
@@ -1168,7 +1168,7 @@ function archiveSearchSnippet(text, query) {
   return `${start > 0 ? "…" : ""}${compact.slice(start, end)}${end < compact.length ? "…" : ""}`;
 }
 
-async function openArchiveSearchResult(result) {
+async function openArchiveSearchResult(result, query) {
   const shardPath = String(result.shard_path || "");
   if (!shardPath) {
     throw new Error("Search result has no archive shard path.");
@@ -1187,6 +1187,30 @@ async function openArchiveSearchResult(result) {
     throw new Error("Document was not found in its archive shard.");
   }
   openArchiveCorrectionEditor(doc);
+  scrollArchiveCorrectionToFirstMatch(doc, query);
+}
+
+function scrollArchiveCorrectionToFirstMatch(doc, query) {
+  const normalizedQuery = normalizeArchiveSearchText(query).trim();
+  if (!normalizedQuery) {
+    return;
+  }
+  const unitIndex = (doc.units || []).findIndex((unit) =>
+    normalizeArchiveSearchText(unit.text).includes(normalizedQuery),
+  );
+  if (unitIndex < 0) {
+    return;
+  }
+  const target = el.workflowPreviewBody?.querySelector(
+    `.archive-correction-row[data-unit-index="${unitIndex}"]`,
+  );
+  if (!target) {
+    return;
+  }
+  target.classList.add("search-match");
+  window.requestAnimationFrame(() => {
+    target.scrollIntoView({ block: "center", behavior: "auto" });
+  });
 }
 
 function renderArchiveShardRow(shard) {
