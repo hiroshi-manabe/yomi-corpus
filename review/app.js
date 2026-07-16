@@ -1287,24 +1287,34 @@ function archiveCorrectionRecordForDoc(doc) {
   if (!record) {
     return null;
   }
+  if (record.status === "draft" && !record.submission_id) {
+    store.records[key] = {
+      ...record,
+      schema_version: archiveCorrectionStoreSchemaVersion,
+      submission_id: newArchiveCorrectionSubmissionId(doc),
+      base_archive_revision: record.base_archive_revision || doc.archive_revision || "",
+    };
+    saveArchiveCorrectionStore(store);
+  }
+  const currentRecord = store.records[key];
   const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
   if (
-    record.status === "submitted" &&
-    record.submission_id &&
-    (record.units || []).length > 0 &&
-    (record.units || []).every((saved) => {
+    currentRecord.status === "submitted" &&
+    currentRecord.submission_id &&
+    (currentRecord.units || []).length > 0 &&
+    (currentRecord.units || []).every((saved) => {
       const current = currentUnits.get(String(saved.unit_id || ""));
-      return (current?.applied_finalized_correction_submission_ids || []).includes(record.submission_id);
+      return (current?.applied_finalized_correction_submission_ids || []).includes(currentRecord.submission_id);
     })
   ) {
     delete store.records[key];
     saveArchiveCorrectionStore(store);
     return null;
   }
-  if (record.status === "submitted" && record.submission_id) {
-    return record;
+  if (currentRecord.status === "submitted" && currentRecord.submission_id) {
+    return currentRecord;
   }
-  const remaining = (record.units || []).filter((saved) => {
+  const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
     return !current || String(current.rendered_yomi || "").trim() !== String(saved.proposed_rendered_yomi || "").trim();
   });
@@ -1313,8 +1323,8 @@ function archiveCorrectionRecordForDoc(doc) {
     saveArchiveCorrectionStore(store);
     return null;
   }
-  if (remaining.length !== (record.units || []).length) {
-    store.records[key] = { ...record, units: remaining };
+  if (remaining.length !== (currentRecord.units || []).length) {
+    store.records[key] = { ...currentRecord, units: remaining };
     saveArchiveCorrectionStore(store);
   }
   return store.records[key];
