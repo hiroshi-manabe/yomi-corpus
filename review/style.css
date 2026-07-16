@@ -536,6 +536,24 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
+.archive-search-result-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.archive-search-result .archive-search-hit-count {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: rgba(34, 106, 214, 0.09);
+  color: #226ad6;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 @media (max-width: 720px) {
   .task-doc-list {
     grid-template-columns: minmax(0, 1fr);
