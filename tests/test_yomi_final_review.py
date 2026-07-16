@@ -183,6 +183,20 @@ class YomiFinalReviewTests(unittest.TestCase):
             ],
         )
 
+    def test_rendered_yomi_ruby_tokens_keep_fused_numeric_compounds_together(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("2日/フツカ ３日/ミッカ 1番/イチバン 30/ 分/プン")
+
+        self.assertEqual(
+            [token["nodes"] for token in tokens],
+            [
+                [{"type": "ruby", "text": "2日", "reading": "ふつか"}],
+                [{"type": "ruby", "text": "３日", "reading": "みっか"}],
+                [{"type": "ruby", "text": "1番", "reading": "いちばん"}],
+                [{"type": "text", "text": "30"}],
+                [{"type": "ruby", "text": "分", "reading": "ぷん"}],
+            ],
+        )
+
     def test_pack_candidate_nodes_keep_kana_outside_latin_ruby(self) -> None:
         target = {
             "item_id": "u1:r0001c01",

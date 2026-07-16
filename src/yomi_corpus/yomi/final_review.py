@@ -1104,6 +1104,8 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
     if not should_display_ruby(surface, reading):
         return [{"type": "text", "text": surface}]
     reading_hira = kata_to_hira(reading)
+    if has_han(surface) and re.search(r"[0-9０-９]", surface):
+        return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface):
         result = furigana_converter().convert(surface, reading)
         if result.annotated_surface:
