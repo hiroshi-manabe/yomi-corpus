@@ -273,7 +273,12 @@ For example, Sudachi-style `2/ニ 0/レイ 2/ニ 1/イチ` should become `2021/`
 Number pronunciation is a separate future module, not part of the current yomi
 pipeline.
 
-The canonical `surface/reading` token format should be structurally validated
+Finalized canonical yomi is stored as versioned compact JSON token arrays:
+`{"token_schema_version":1,"tokens":[[surface,reading],...]}`. A rendered
+`surface/reading` string is only a compatibility or editor projection. This
+avoids ambiguity for literal `/`, whitespace, and backslashes.
+
+The canonical token format should be structurally validated
 before any automatic or LLM `OK` is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
@@ -284,16 +289,21 @@ before any automatic or LLM `OK` is trusted:
   katakana and all non-kana characters left unchanged; for example `です/デス`
   and `。/。` are valid
 
+Historical finalized files are migrated with
+`scripts/migrate_finalized_yomi_tokens.py`. Dry-run is the default. Apply mode
+requires a backup directory, stages every converted file first, and replaces
+none of them if any token stream cannot be aligned exactly to source text. A
+post-migration dry run must report zero anomalies and zero changed units.
+
 This validation is separate from yomi correctness. A structurally invalid unit
 may still be sent to LLM triage so the model can identify `Skip`, but an LLM
 `OK` must be blocked and converted to `Review`.
 
 Original source whitespace should not be dropped. Before Sudachi and decoder
 processing, convert ASCII space `U+0020` to NBSP `U+00A0`; keep full-width
-space `U+3000` as-is. The canonical rendered yomi should preserve these as
-explicit whitespace tokens, for example ` / ` for NBSP and `　/　` for
-full-width space. Ordinary ASCII space remains only the token separator in the
-rendered yomi string.
+space `U+3000` as-is. Compact token arrays preserve whitespace directly. The
+editable compatibility projection escapes literal slash as `\/`, backslash as
+`\\`, and ASCII space as `\s`.
 
 Yomi review should prioritize reading correctness over ideal segmentation.
 Katakana expressions may be over-split by the current analyzers, but this is not
@@ -868,6 +878,10 @@ Implementation status:
    - On yomi-reading format/key parse errors after parser salvage, retry with
      the same prompt and task config up to 3 total attempts. Retry results
      override earlier attempts for the same item ID.
+   - Prompt construction keeps the full source row in artifacts but clips units
+     longer than 200 characters to 80 characters before and after the target,
+     adding `…` on omitted sides. Initial calls and retries use the same rule,
+     and result metadata records the applied context window.
    - On mismatch, missing result, or parse error after retry, keep the target
      unresolved and set `status_reason` to the relevant failure.
 4. Materialize explicit final artifacts.
@@ -1925,6 +1939,14 @@ data/llm/jobs/<job_id>/
   usage_summary.json
 ```
 
+Each normalized result row stores authoritative built-in tool-call counts from
+the Responses API `output` array, for example `{"web_search_call": 2}`. Merely
+enabling a tool does not count as a call. Usage summaries aggregate these counts
+and report `estimated_token_cost_usd`, `estimated_tool_cost_usd`, and their sum
+as `estimated_total_cost_usd`. Older result rows without `tool_calls` remain
+valid and contribute zero tool calls until explicitly backfilled from retained
+response IDs.
+
 Suggested manifest fields:
 
 ```json
@@ -2658,7 +2680,7 @@ Accepted UI payloads use:
 ```json
 {
   "submission_type": "finalized_correction_patch",
-  "schema_version": 1,
+  "schema_version": 2,
   "submission_id": "finalized_correction__client__dev_34__...",
   "track_name": "dev",
   "review_stage": "finalized_correction",
@@ -2676,12 +2698,16 @@ Accepted UI payloads use:
       "unit_id": "...",
       "unit_seq": 1,
       "text": "...",
-      "original_rendered_yomi": "...",
-      "proposed_rendered_yomi": "..."
+      "original_yomi_tokens": [["表記", "ヨミ"]],
+      "proposed_yomi_tokens": [["表記", "ヨミ"]]
     }
   ]
 }
 ```
+
+The server dual-reads legacy schema-v1 `original_rendered_yomi` and
+`proposed_rendered_yomi` fields while historical submissions remain, but all
+new browser submissions and finalized writes use compact token arrays.
 
 The browser retains this stable `submission_id` while a local draft is edited
 and after it is marked submitted. Archive units publish the correction IDs
@@ -2925,10 +2951,11 @@ not the preferred review path. The current design expects reviewers to cancel
 the local problematic targets instead.
 
 `yomi_strong_repair_llm_completed` runs `config/llm/yomi_repair.toml` on that
-queue, using the track's `yomi_repair` profile and execution mode. The default
-dev and working profile is `standard` because local target repair needs the
-stronger `gpt-5.5` behavior seen in examples such as `真光元`; cheaper mini
-models are too noisy for this stage.
+queue, using the track's `yomi_repair` profile and execution mode. The current
+dev profile is `economy` (`gpt-5.4-mini`) while working remains `standard`
+(`gpt-5.5`). Web search is available with medium context, but the model is told
+to use it only when its own knowledge is insufficient. Every result still goes
+through human confirmation.
 
 The stage writes:
 

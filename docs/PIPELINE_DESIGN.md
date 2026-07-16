@@ -142,7 +142,19 @@ must also be explicit in any yomi-triage prompt: `2021/`, `30/ 分/フン`, and
 `1/ 回/カイ` are intentional, not malformed yomi, and should not trigger
 `Review` by themselves.
 
-Canonical `surface/reading` tokens should also satisfy a structural validity
+Canonical yomi storage is a versioned JSON token array, not a slash-delimited
+string:
+
+```json
+{"token_schema_version": 1, "tokens": [["学校", "ガッコウ"], ["です", "デス"], ["。", "。"]]}
+```
+
+Each two-item array is `[surface, reading]`. This representation is lossless
+when source text contains `/`, whitespace, or backslashes. Slash-delimited
+`surface/reading` text remains a derived prompt/debug/editor view only and must
+not be used as the persisted source of truth.
+
+Canonical tokens should also satisfy a structural validity
 rule before any `OK` decision is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
@@ -162,9 +174,11 @@ but an LLM `OK` must be forced back to `Review`.
 
 Original source whitespace should be preserved in the canonical yomi token
 stream. Before Sudachi and decoder processing, convert source ASCII space
-`U+0020` to NBSP `U+00A0`; keep full-width space `U+3000` unchanged. Whitespace
-tokens are then rendered explicitly as `NBSP/NBSP` or `　/　` rather than being
-dropped. ASCII space remains reserved as the canonical token separator.
+`U+0020` to NBSP `U+00A0`; keep full-width space `U+3000` unchanged. The JSON
+array stores whitespace surfaces without delimiter ambiguity. In the editable
+compatibility view, escape literal `/` as `\/`, backslash as `\\`, and ASCII
+space as `\s`; these escapes are UI syntax and never alter canonical source
+text.
 
 N-gram support is currently an experimental confidence feature, not a committed
 pipeline gate. The useful diagnostic variant is comma-span based: exclude units
@@ -1036,13 +1050,14 @@ Implementation plan:
   task-specific prompt text. Supported display modes should include at least
   `full`, `compact`, and `furigana_no_space`; a spaced furigana debug mode is
   also useful.
-- Keep full rendered yomi in all unit artifacts. Derived display text is
-  computed at prompt-build time or stored as explicit debug metadata only.
+- Keep full canonical yomi token arrays in all unit artifacts. Derived display
+  text is computed at prompt-build time or stored as explicit debug metadata
+  only.
 - Enable plain marked source text first for `yomi_reading`.
 - Enable no-space furigana first for LLM judgment/proposal tasks that inspect
   existing yomi annotations: yomi triage, review-resolution/local-fix proposal,
   and possibly yomi check.
-- Keep full rendered yomi available for prompts or tools that need exact token
+- Keep full token arrays available for prompts or tools that need exact token
   boundaries until span alignment and expansion are implemented for furigana
   display.
 - Add a task-level configuration flag so experiments can compare full and
@@ -1389,6 +1404,12 @@ annotation. The resolved profile should be recorded in batch artifacts together
 with the actual model and reasoning effort so later cost and accuracy audits are
 unambiguous.
 
+Cost audits must also preserve actual built-in tool calls. Normalized result
+rows record counts by Responses API output type, especially
+`web_search_call`. Usage summaries price model tokens and tool calls separately
+and expose both components as well as their combined total. Tool availability
+alone must never be counted as tool use.
+
 Scope triage is an intentional exception to "working means standard model".
 Use the `economy` profile for scope triage on both `dev` and `working` by
 default. Its job is to provide a recoverable scope/skip signal, not to certify
@@ -1415,6 +1436,49 @@ Stage-oriented defaults:
 
 This keeps the main path simple and high-quality while still reserving a clear
 escape hatch for the hardest cases.
+
+### GPT-5.6 evaluation (2026-07-15)
+
+GPT-5.6 model IDs and pricing are available to experiments, but this evaluation
+did not change pipeline defaults. All runs used the existing task prompts and
+parameters through background Responses API calls.
+
+Per-target yomi reading on the 155-item regression set:
+
+| Model | Correct | Parse errors | Estimated standard cost |
+| --- | ---: | ---: | ---: |
+| GPT-5.4 mini | 144/155 | 2 | $0.0169 |
+| GPT-5.5 | 154/155 | 0 | $0.1017 |
+| GPT-5.6 Luna | 134/155 | 3 | $0.0229 |
+| GPT-5.6 Terra | 150/155 | 0 | $0.0547 |
+| GPT-5.6 Sol | 155/155 | 0 | $0.1094 |
+
+The original fixture incorrectly expected `近々/きんきん`; human final review
+had selected `近々/ちかぢか`, so the fixture and saved outputs were rescored to
+match the finalized corpus. Sol reproduced the same 155/155 result on a second
+complete run. Sol is therefore the leading candidate to replace GPT-5.5 for
+per-target reading, but defaults should change only after a normal dev-batch
+trial. A Batch API run also completed with the identical 155/155 result and no
+parse errors; its estimated cost was $0.0547 instead of
+$0.1094 with standard processing.
+
+Scope triage did not justify a profile change. On the 90-item balanced set,
+GPT-5.4 mini and Luna scored 86, Terra 88, and Sol 87. On the expanded 392-item
+set, Terra scored 389 at $0.2538 versus GPT-5.4 mini's 388 at $0.0768. Terra's
+single-case gain is not worth roughly 3.3 times the cost, while Luna is both
+more expensive and no more accurate than GPT-5.4 mini.
+
+Strong repair was scored separately against 21 human-reviewed historical
+outcomes because old queue rows do not embed gold results. Terra matched 18/21
+exact segment lists (19/21 if only concatenated reading is considered) at
+$0.1875; Sol matched 20/21 exactly at $0.5250. Neither model reliably solved the
+web-dependent `真光元/しんこうげん` case: five independent repetitions succeeded
+2/5 for Terra and 1/5 for Sol. Keep strong repair under human confirmation, and
+do not treat a newer model as a substitute for that gate.
+
+Experiment scoring for `yomi_repair` must use explicit `expected_segments` (or
+the legacy `expected_rendered`). Missing repair gold is an evaluation error, not
+an implicit pass.
 
 For prompt exploration, `gpt-5.4-mini` is a reasonable search model because the
 goal is to test prompt shape, label semantics, and sample quality quickly. Its
@@ -2073,13 +2137,14 @@ in-place archive mutation. The browser can prepare a
 - row-based editing where only explicitly saved, changed finalized units are
   exported
 - unchanged unit IDs and order
-- rendered-yomi tokens in `surface/reading` form
+- compact original and proposed `[surface, reading]` arrays
 - readings must satisfy the canonical token structural rule: kanji or Latin
   surfaces need katakana readings, numeric-only surfaces need empty readings,
   and kana/symbol surfaces need normalized literal readings
 - source surfaces preserved relative to the original rendered-yomi tokens after
   removing whitespace. ASCII-space/NBSP differences should not invalidate an
-  otherwise unit-scoped yomi correction.
+  otherwise unit-scoped yomi correction. The editable text view uses reversible
+  escapes for literal slashes, backslashes, and ASCII spaces.
 - at least one changed unit
 
 This correction payload is unit-scoped. Sentence or unit boundary changes are a
@@ -2090,7 +2155,9 @@ harvesting.
 The initial payload is copied to a GitHub Issue with
 `submission_type: finalized_correction_patch`,
 `review_stage: finalized_correction`, document identity, archive source
-metadata, and changed units containing original and proposed rendered yomi.
+metadata, and changed units containing `original_yomi_tokens` and
+`proposed_yomi_tokens`. New payloads use schema version 2; the importer may
+dual-read legacy schema-v1 rendered strings during migration.
 Server-side import/replay is a follow-up step and must repeat validation before
 updating canonical finalized state.
 
