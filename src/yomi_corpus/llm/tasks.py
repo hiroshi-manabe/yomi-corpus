@@ -8,6 +8,10 @@ from yomi_corpus.llm.rendering import rendered_for_llm
 from yomi_corpus.llm.schemas import LLMTaskConfig, PromptItem
 from yomi_corpus.paths import resolve_repo_path
 
+YOMI_READING_CONTEXT_CLIP_THRESHOLD = 200
+YOMI_READING_CONTEXT_SIDE_CHARS = 80
+YOMI_READING_CONTEXT_OMISSION = "…"
+
 
 def load_jsonl_rows(path: str) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
@@ -75,13 +79,18 @@ def build_task_variables(
         )
     if builder_name == "yomi_reading":
         item_id = str(row.get("item_id", f"item_{index:05d}"))
+        marked_text, context_metadata = yomi_reading_marked_text(row)
         return (
             item_id,
             {
-                "marked_text": row["marked_text"],
+                "marked_text": marked_text,
                 "surface": row["surface"],
             },
-            {"surface": row["surface"], "source_row": row},
+            {
+                "surface": row["surface"],
+                "source_row": row,
+                "prompt_context": context_metadata,
+            },
         )
     if builder_name == "yomi_repair":
         item_id = str(row.get("item_id") or row.get("unit_id") or f"item_{index:05d}")
@@ -105,6 +114,56 @@ def build_task_variables(
             },
         )
     raise ValueError(f"Unsupported input builder: {builder_name}")
+
+
+def yomi_reading_marked_text(row: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    text = str(row.get("text") or "")
+    original_marked_text = str(row["marked_text"])
+    metadata: dict[str, Any] = {
+        "clipped": False,
+        "original_text_chars": len(text),
+        "clip_threshold_chars": YOMI_READING_CONTEXT_CLIP_THRESHOLD,
+        "side_context_chars": YOMI_READING_CONTEXT_SIDE_CHARS,
+    }
+    if len(text) <= YOMI_READING_CONTEXT_CLIP_THRESHOLD:
+        return original_marked_text, metadata
+
+    try:
+        target_start = int(row["target_start"])
+        target_end = int(row["target_end"])
+    except (KeyError, TypeError, ValueError):
+        metadata["clip_reason"] = "missing_target_offsets"
+        return original_marked_text, metadata
+    if not (0 <= target_start < target_end <= len(text)):
+        metadata["clip_reason"] = "invalid_target_offsets"
+        return original_marked_text, metadata
+
+    context_start = max(0, target_start - YOMI_READING_CONTEXT_SIDE_CHARS)
+    context_end = min(len(text), target_end + YOMI_READING_CONTEXT_SIDE_CHARS)
+    left_clipped = context_start > 0
+    right_clipped = context_end < len(text)
+    marked_text = "".join(
+        [
+            YOMI_READING_CONTEXT_OMISSION if left_clipped else "",
+            text[context_start:target_start],
+            "**",
+            text[target_start:target_end],
+            "**",
+            text[target_end:context_end],
+            YOMI_READING_CONTEXT_OMISSION if right_clipped else "",
+        ]
+    )
+    metadata.update(
+        {
+            "clipped": True,
+            "context_start": context_start,
+            "context_end": context_end,
+            "left_clipped": left_clipped,
+            "right_clipped": right_clipped,
+            "prompt_text_chars": context_end - context_start,
+        }
+    )
+    return marked_text, metadata
 
 
 def _join_examples(examples: list[str]) -> str:

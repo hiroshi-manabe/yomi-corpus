@@ -10,6 +10,7 @@ from yomi_corpus.llm.backend import (
     OpenAIResponsesBackend,
     extract_output_text_from_batch_item,
     extract_usage_from_batch_item,
+    tool_calls_from_batch_item,
     write_batch_requests,
 )
 from yomi_corpus.llm.config import load_llm_task_config
@@ -202,6 +203,7 @@ def fetch_batch_job(
                     item_id = str(item["custom_id"])
                     raw_text = extract_output_text_from_batch_item(item) or ""
                     usage = extract_usage_from_batch_item(item)
+                    tool_calls = tool_calls_from_batch_item(item)
                     parsed = None
                     parse_error = None
                     if raw_text:
@@ -220,6 +222,7 @@ def fetch_batch_job(
                                 "raw_text": raw_text,
                                 "parsed": parsed,
                                 "usage": usage,
+                                "tool_calls": tool_calls,
                                 "parse_error": parse_error,
                                 "metadata": items_by_id.get(item_id, {}).get("metadata", {}),
                             },

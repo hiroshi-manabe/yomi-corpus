@@ -46,6 +46,7 @@ class OpenAIResponsesBackend:
             parsed=parsed,
             parse_error=parse_error,
             usage=usage_from_response(response),
+            tool_calls=tool_calls_from_response(response),
             metadata=item.metadata,
         )
 
@@ -173,6 +174,7 @@ def response_snapshot(response: Any) -> dict[str, Any]:
         "incomplete_details": _object_to_dict(getattr(response, "incomplete_details", None)),
         "raw_text": raw_text,
         "usage": usage_from_response(response),
+        "tool_calls": tool_calls_from_response(response),
     }
 
 
@@ -218,6 +220,34 @@ def extract_output_text_from_batch_item(item: dict[str, Any]) -> str | None:
 
 def extract_usage_from_batch_item(item: dict[str, Any]) -> dict[str, int] | None:
     return usage_from_batch_item(item)
+
+
+def tool_calls_from_response(response: Any) -> dict[str, int]:
+    return _count_tool_calls(getattr(response, "output", None))
+
+
+def tool_calls_from_batch_item(item: dict[str, Any]) -> dict[str, int]:
+    response = item.get("response") or {}
+    body = response.get("body") or {}
+    for container in (body, response):
+        counts = _count_tool_calls(container.get("output"))
+        if counts:
+            return counts
+    return {}
+
+
+def _count_tool_calls(output: Any) -> dict[str, int]:
+    if not isinstance(output, list):
+        return {}
+    counts: dict[str, int] = {}
+    for item in output:
+        payload = _object_to_dict(item)
+        if not isinstance(payload, dict):
+            continue
+        item_type = payload.get("type")
+        if isinstance(item_type, str) and item_type.endswith("_call"):
+            counts[item_type] = counts.get(item_type, 0) + 1
+    return counts
 
 
 def _object_to_dict(value: Any) -> Any:

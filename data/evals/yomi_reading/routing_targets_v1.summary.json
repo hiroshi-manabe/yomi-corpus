@@ -1,0 +1,254 @@
+{
+  "schema_version": "yomi_reading_routing_eval_summary_v1",
+  "output_jsonl": "data/evals/yomi_reading/routing_targets_v1.jsonl",
+  "source_glob": "data/units/dev_batch_*/units.yomi.final.jsonl",
+  "targets": [
+    "方",
+    "人",
+    "日",
+    "月",
+    "行",
+    "中",
+    "何",
+    "入",
+    "思",
+    "多"
+  ],
+  "sample_size_per_target": 20,
+  "deterministic_quota_per_target": 4,
+  "selected_count": 200,
+  "seed": "yomi-reading-routing-v1",
+  "selection_policy": [
+    "Use only human-reviewed, non-skipped finalized units.",
+    "Exclude units with span overrides or strong-repair segmentation changes.",
+    "Exclude 日/か because calendar-date readings require a numeric span merge.",
+    "Prefer LLM-routed examples; include up to four deterministic examples per target.",
+    "Round-robin across finalized readings and minimize repeated documents."
+  ],
+  "targets_summary": {
+    "方": {
+      "finalized_candidate_count": 66,
+      "finalized_candidate_readings": {
+        "かた": 55,
+        "ほう": 11
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 4,
+        "llm_routed": 62
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "かた": 11,
+        "ほう": 9
+      },
+      "selected_routes": {
+        "deterministic": 4,
+        "llm_routed": 16
+      },
+      "selected_document_count": 15,
+      "selected_batch_count": 4
+    },
+    "人": {
+      "finalized_candidate_count": 69,
+      "finalized_candidate_readings": {
+        "じん": 5,
+        "にん": 6,
+        "ひと": 56,
+        "り": 2
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 10,
+        "llm_routed": 59
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "じん": 5,
+        "にん": 5,
+        "ひと": 8,
+        "り": 2
+      },
+      "selected_routes": {
+        "deterministic": 4,
+        "llm_routed": 16
+      },
+      "selected_document_count": 11,
+      "selected_batch_count": 3
+    },
+    "日": {
+      "finalized_candidate_count": 33,
+      "finalized_candidate_readings": {
+        "にち": 25,
+        "ひ": 8
+      },
+      "finalized_candidate_routes": {
+        "llm_routed": 33
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "にち": 12,
+        "ひ": 8
+      },
+      "selected_routes": {
+        "llm_routed": 20
+      },
+      "selected_document_count": 17,
+      "selected_batch_count": 5
+    },
+    "月": {
+      "finalized_candidate_count": 52,
+      "finalized_candidate_readings": {
+        "がつ": 40,
+        "げつ": 10,
+        "つき": 2
+      },
+      "finalized_candidate_routes": {
+        "llm_routed": 52
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "がつ": 9,
+        "げつ": 9,
+        "つき": 2
+      },
+      "selected_routes": {
+        "llm_routed": 20
+      },
+      "selected_document_count": 14,
+      "selected_batch_count": 4
+    },
+    "行": {
+      "finalized_candidate_count": 30,
+      "finalized_candidate_readings": {
+        "い": 18,
+        "おこ": 2,
+        "おこな": 9,
+        "ぎょう": 1
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 2,
+        "llm_routed": 28
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "い": 10,
+        "おこ": 2,
+        "おこな": 7,
+        "ぎょう": 1
+      },
+      "selected_routes": {
+        "deterministic": 2,
+        "llm_routed": 18
+      },
+      "selected_document_count": 16,
+      "selected_batch_count": 5
+    },
+    "中": {
+      "finalized_candidate_count": 27,
+      "finalized_candidate_readings": {
+        "じゅう": 1,
+        "ちゅう": 6,
+        "なか": 20
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 1,
+        "llm_routed": 26
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "じゅう": 1,
+        "ちゅう": 6,
+        "なか": 13
+      },
+      "selected_routes": {
+        "deterministic": 1,
+        "llm_routed": 19
+      },
+      "selected_document_count": 11,
+      "selected_batch_count": 5
+    },
+    "何": {
+      "finalized_candidate_count": 27,
+      "finalized_candidate_readings": {
+        "なに": 18,
+        "なん": 9
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 1,
+        "llm_routed": 26
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "なに": 12,
+        "なん": 8
+      },
+      "selected_routes": {
+        "deterministic": 1,
+        "llm_routed": 19
+      },
+      "selected_document_count": 12,
+      "selected_batch_count": 4
+    },
+    "入": {
+      "finalized_candidate_count": 29,
+      "finalized_candidate_readings": {
+        "い": 17,
+        "はい": 12
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 1,
+        "llm_routed": 28
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "い": 10,
+        "はい": 10
+      },
+      "selected_routes": {
+        "deterministic": 1,
+        "llm_routed": 19
+      },
+      "selected_document_count": 13,
+      "selected_batch_count": 5
+    },
+    "思": {
+      "finalized_candidate_count": 66,
+      "finalized_candidate_readings": {
+        "おも": 66
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 12,
+        "llm_routed": 54
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "おも": 20
+      },
+      "selected_routes": {
+        "deterministic": 4,
+        "llm_routed": 16
+      },
+      "selected_document_count": 18,
+      "selected_batch_count": 5
+    },
+    "多": {
+      "finalized_candidate_count": 31,
+      "finalized_candidate_readings": {
+        "おお": 31
+      },
+      "finalized_candidate_routes": {
+        "deterministic": 3,
+        "llm_routed": 28
+      },
+      "selected_count": 20,
+      "selected_readings": {
+        "おお": 20
+      },
+      "selected_routes": {
+        "deterministic": 3,
+        "llm_routed": 17
+      },
+      "selected_document_count": 15,
+      "selected_batch_count": 4
+    }
+  }
+}

@@ -31,6 +31,13 @@ class PricingEstimate:
     estimated_total_cost_usd: float
 
 
+@dataclass(frozen=True)
+class ToolPricingEstimate:
+    tool_calls: dict[str, int]
+    priced_tool_calls: int
+    estimated_tool_cost_usd: float
+
+
 def load_model_pricing(
     model: str,
     processing_tier: str,
@@ -93,6 +100,36 @@ def estimate_cost_usd(
         estimated_cached_input_cost_usd=cached_input_cost,
         estimated_output_cost_usd=output_cost,
         estimated_total_cost_usd=total_cost,
+    )
+
+
+def estimate_tool_cost_usd(
+    tool_calls: dict[str, Any] | None,
+    *,
+    pricing_config_path: str | Path = DEFAULT_PRICING_CONFIG_PATH,
+) -> ToolPricingEstimate:
+    normalized_calls = {
+        str(name): max(int(count or 0), 0)
+        for name, count in (tool_calls or {}).items()
+    }
+    config_path = resolve_repo_path(str(pricing_config_path))
+    with config_path.open("rb") as handle:
+        payload = tomllib.load(handle)
+    tool_prices = payload.get("tools") or {}
+
+    priced_tool_calls = 0
+    total_cost = 0.0
+    for name, count in normalized_calls.items():
+        tool_payload = tool_prices.get(name)
+        if not isinstance(tool_payload, dict) or "per_1k_calls" not in tool_payload:
+            continue
+        priced_tool_calls += count
+        total_cost += (count / 1_000.0) * float(tool_payload["per_1k_calls"])
+
+    return ToolPricingEstimate(
+        tool_calls=normalized_calls,
+        priced_tool_calls=priced_tool_calls,
+        estimated_tool_cost_usd=total_cost,
     )
 
 

@@ -41,8 +41,28 @@ def score_output(
         }
 
     if task_name == "yomi_repair":
+        expected_segments = eval_row.get("expected_segments")
+        if expected_segments is not None:
+            normalized_expected = _normalize_repair_segments(expected_segments)
+            normalized_actual = _normalize_repair_segments(parsed)
+            return {
+                "passed": normalized_expected is not None and normalized_expected == normalized_actual,
+                "parse_error": None,
+                "expected": {"segments": normalized_expected},
+                "actual": {"segments": normalized_actual},
+                "notes": [] if normalized_expected is not None else ["invalid_expected_segments"],
+            }
+
         expected_rendered = eval_row.get("expected_rendered")
         actual_rendered = parsed.get("rendered") if isinstance(parsed, dict) else None
+        if expected_rendered is None:
+            return {
+                "passed": False,
+                "parse_error": None,
+                "expected": {"rendered": None},
+                "actual": {"rendered": actual_rendered},
+                "notes": ["missing_expected_repair"],
+            }
         return {
             "passed": actual_rendered == expected_rendered,
             "parse_error": None,
@@ -114,6 +134,8 @@ def summarize_scores(scored_rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 def _expected_payload(task_name: str, eval_row: dict[str, Any]) -> dict[str, Any]:
     if task_name == "yomi_repair":
+        if "expected_segments" in eval_row:
+            return {"segments": _normalize_repair_segments(eval_row.get("expected_segments"))}
         return {"rendered": eval_row.get("expected_rendered")}
     if task_name == "yomi_reading":
         return {
@@ -121,3 +143,23 @@ def _expected_payload(task_name: str, eval_row: dict[str, Any]) -> dict[str, Any
             "reading": eval_row.get("expected_reading"),
         }
     return {"status": eval_row.get("expected_status")}
+
+
+def _normalize_repair_segments(value: Any) -> list[dict[str, str]] | None:
+    if not isinstance(value, list):
+        return None
+    normalized: list[dict[str, str]] = []
+    for segment in value:
+        if not isinstance(segment, dict):
+            return None
+        surface = segment.get("surface")
+        reading = segment.get("reading")
+        if not isinstance(surface, str) or not isinstance(reading, str):
+            return None
+        normalized.append(
+            {
+                "surface": surface,
+                "reading": normalize_hiragana_reading(reading),
+            }
+        )
+    return normalized

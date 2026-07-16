@@ -580,6 +580,7 @@ def write_results_jsonl(path: str, results: list[LLMResult]) -> None:
                         "parsed": result.parsed,
                         "parse_error": result.parse_error,
                         "usage": result.usage,
+                        "tool_calls": result.tool_calls,
                         "metadata": result.metadata,
                     },
                     ensure_ascii=False,
@@ -616,6 +617,7 @@ def result_to_json_row(result: LLMResult) -> dict[str, object]:
         "parsed": result.parsed,
         "parse_error": result.parse_error,
         "usage": result.usage,
+        "tool_calls": result.tool_calls,
         "metadata": result.metadata,
     }
 
@@ -755,6 +757,7 @@ def background_completed_result(
         parsed=parsed,
         parse_error=parse_error,
         usage=snapshot.get("usage"),
+        tool_calls=snapshot.get("tool_calls"),
         metadata=item.metadata,
     )
 

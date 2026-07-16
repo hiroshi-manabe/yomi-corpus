@@ -10,7 +10,7 @@ SRC_ROOT = PROJECT_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from yomi_corpus.llm.pricing import estimate_cost_usd
+from yomi_corpus.llm.pricing import estimate_cost_usd, estimate_tool_cost_usd
 from yomi_corpus.llm.usage_report import summarize_batch_job, summarize_results_jsonl
 
 
@@ -64,6 +64,7 @@ class UsageReportTests(unittest.TestCase):
                                 "reasoning_tokens": 2,
                                 "total_tokens": 1210,
                             },
+                            "tool_calls": {"web_search_call": 2},
                         },
                         ensure_ascii=False,
                     ),
@@ -95,7 +96,22 @@ class UsageReportTests(unittest.TestCase):
         self.assertEqual(summary["item_count"], 2)
         self.assertEqual(summary["usage"]["input_tokens"], 1500)
         self.assertEqual(summary["usage"]["cached_input_tokens"], 1024)
+        self.assertEqual(summary["tool_calls"], {"web_search_call": 2})
+        self.assertEqual(summary["priced_tool_call_count"], 2)
+        self.assertEqual(summary["estimated_tool_cost_usd"], 0.02)
+        self.assertEqual(
+            summary["estimated_total_cost_usd"],
+            round(summary["estimated_token_cost_usd"] + 0.02, 10),
+        )
         self.assertGreater(summary["estimated_total_cost_usd"], 0.0)
+
+    def test_estimate_tool_cost_ignores_unpriced_call_types(self) -> None:
+        estimate = estimate_tool_cost_usd(
+            {"web_search_call": 3, "function_call": 7},
+            pricing_config_path="config/pricing/openai_models.toml",
+        )
+        self.assertEqual(estimate.priced_tool_calls, 3)
+        self.assertEqual(estimate.estimated_tool_cost_usd, 0.03)
 
     def test_summarize_batch_job(self) -> None:
         job_dir = self.tmp_root / "job_0001"

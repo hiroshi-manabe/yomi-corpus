@@ -61,6 +61,11 @@ class FakeBatchBackend:
                     "response": {
                         "output_text": '{"status":"out_of_scope","confidence":"medium","note":"band name"}',
                         "body": {
+                            "output": [
+                                {"type": "web_search_call", "id": "ws-1"},
+                                {"type": "web_search_call", "id": "ws-2"},
+                                {"type": "message", "content": []},
+                            ],
                             "usage": {
                                 "input_tokens": 600,
                                 "input_tokens_details": {"cached_tokens": 512},
@@ -147,6 +152,7 @@ class BatchJobTests(unittest.TestCase):
         self.assertEqual(parsed_rows[0]["item_id"], "led zeppelin")
         self.assertEqual(parsed_rows[0]["parsed"]["status"], "out_of_scope")
         self.assertEqual(parsed_rows[0]["usage"]["cached_input_tokens"], 512)
+        self.assertEqual(parsed_rows[0]["tool_calls"], {"web_search_call": 2})
 
     def test_list_batch_jobs(self) -> None:
         prepare_batch_job(

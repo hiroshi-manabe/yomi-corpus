@@ -71,6 +71,61 @@ def unit() -> dict:
 
 
 class YomiLLMReadingsTests(unittest.TestCase):
+    def test_yomi_prompt_clips_only_pathologically_long_context(self) -> None:
+        task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        text = ("前" * 150) + "学校" + ("後" * 150)
+        row = {
+            "item_id": "long:r0001c01",
+            "surface": "学校",
+            "text": text,
+            "marked_text": ("前" * 150) + "**学校**" + ("後" * 150),
+            "target_start": 150,
+            "target_end": 152,
+        }
+
+        item = build_prompt_items(task_config, [row])[0]
+
+        expected_context = "…" + ("前" * 80) + "**学校**" + ("後" * 80) + "…"
+        self.assertIn(expected_context, item.prompt)
+        self.assertNotIn("前" * 81, item.prompt)
+        self.assertEqual(item.metadata["source_row"]["text"], text)
+        self.assertEqual(
+            item.metadata["source_row"]["marked_text"],
+            row["marked_text"],
+        )
+        self.assertEqual(
+            item.metadata["prompt_context"],
+            {
+                "clipped": True,
+                "original_text_chars": 302,
+                "clip_threshold_chars": 200,
+                "side_context_chars": 80,
+                "context_start": 70,
+                "context_end": 232,
+                "left_clipped": True,
+                "right_clipped": True,
+                "prompt_text_chars": 162,
+            },
+        )
+
+    def test_yomi_prompt_keeps_context_at_threshold(self) -> None:
+        task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        text = ("前" * 99) + "学校" + ("後" * 99)
+        marked_text = ("前" * 99) + "**学校**" + ("後" * 99)
+        row = {
+            "item_id": "threshold:r0001c01",
+            "surface": "学校",
+            "text": text,
+            "marked_text": marked_text,
+            "target_start": 99,
+            "target_end": 101,
+        }
+
+        item = build_prompt_items(task_config, [row])[0]
+
+        self.assertIn(marked_text, item.prompt)
+        self.assertFalse(item.metadata["prompt_context"]["clipped"])
+
     def test_build_items_marks_sudachi_tokens(self) -> None:
         items = build_yomi_llm_reading_items(unit())
 

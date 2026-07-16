@@ -128,6 +128,7 @@ def run_prompt_experiment(
                 "raw_text": result.raw_text,
                 "parsed": result.parsed,
                 "usage": result.usage,
+                "tool_calls": result.tool_calls,
                 **score,
             }
             scored_rows.append(scored_row)
@@ -155,6 +156,10 @@ def run_prompt_experiment(
         "created_at_epoch": int(time()),
         "score": score_summary,
         "usage": usage_summary["usage"],
+        "tool_calls": usage_summary["tool_calls"],
+        "priced_tool_call_count": usage_summary["priced_tool_call_count"],
+        "estimated_token_cost_usd": usage_summary["estimated_token_cost_usd"],
+        "estimated_tool_cost_usd": usage_summary["estimated_tool_cost_usd"],
         "estimated_total_cost_usd": usage_summary["estimated_total_cost_usd"],
         "fail_item_ids": [row["item_id"] for row in scored_rows if not row["passed"]],
     }

@@ -39,4 +39,5 @@ class LLMResult:
     parsed: Any
     parse_error: str | None = None
     usage: dict[str, Any] | None = None
+    tool_calls: dict[str, int] | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
