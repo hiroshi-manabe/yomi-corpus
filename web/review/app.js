@@ -225,7 +225,7 @@ function bindEvents() {
   });
 
   el.downloadJson.addEventListener("click", () => {
-    const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
+    const payload = formatSubmissionJson(buildSubmissionPayload());
     const blob = new Blob([payload], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1935,7 +1935,7 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
     return false;
   }
   const payload = buildArchiveCorrectionPayload(doc, parsed);
-  const copied = await copyTextToClipboard(JSON.stringify(payload, null, 2));
+  const copied = await copyTextToClipboard(formatSubmissionJson(payload));
   if (openIssue) {
     openUrlInNewTab(buildGithubIssueUrl(archiveCorrectionIssueTitle(doc)));
     state.pendingArchiveCorrectionKey = archiveCorrectionDocKey(doc);
@@ -4152,7 +4152,7 @@ function renderSubmissionPreview() {
     return;
   }
   const payload = buildSubmissionPayload();
-  el.submissionPreview.value = JSON.stringify(payload, null, 2);
+  el.submissionPreview.value = formatSubmissionJson(payload);
   renderIssueUrlSummary(buildIssueUrls(payload), payload);
 }
 
@@ -4218,8 +4218,59 @@ async function openIssueForCurrentTask() {
 }
 
 async function copySubmissionJsonToClipboard() {
-  const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
+  const payload = formatSubmissionJson(buildSubmissionPayload());
   return copyTextToClipboard(payload);
+}
+
+function formatSubmissionJson(payload) {
+  return formatSubmissionJsonValue(payload, 0, "");
+}
+
+function formatSubmissionJsonValue(value, depth, key) {
+  if (value === null || typeof value !== "object") {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    if (isSentenceYomiTokenArray(key, value)) {
+      return JSON.stringify(value);
+    }
+    if (!value.length) {
+      return "[]";
+    }
+    const indent = "  ".repeat(depth);
+    const childIndent = "  ".repeat(depth + 1);
+    return `[\n${value
+      .map((item) => `${childIndent}${formatSubmissionJsonValue(item, depth + 1, "")}`)
+      .join(",\n")}\n${indent}]`;
+  }
+  const entries = Object.entries(value).filter(([, item]) => item !== undefined);
+  if (!entries.length) {
+    return "{}";
+  }
+  const indent = "  ".repeat(depth);
+  const childIndent = "  ".repeat(depth + 1);
+  return `{\n${entries
+    .map(
+      ([childKey, item]) =>
+        `${childIndent}${JSON.stringify(childKey)}: ${formatSubmissionJsonValue(
+          item,
+          depth + 1,
+          childKey,
+        )}`,
+    )
+    .join(",\n")}\n${indent}}`;
+}
+
+function isSentenceYomiTokenArray(key, value) {
+  return (
+    key.endsWith("_yomi_tokens") &&
+    value.every(
+      (pair) =>
+        Array.isArray(pair) &&
+        pair.length === 2 &&
+        pair.every((part) => typeof part === "string"),
+    )
+  );
 }
 
 async function copyTextToClipboard(payload) {
@@ -4304,7 +4355,7 @@ function renderIssueUrlSummary(urls, payload = null) {
     el.issueUrlSummary.textContent = "Issue export is disabled for read-only history views.";
     return;
   }
-  const jsonLength = payload ? JSON.stringify(payload, null, 2).length : 0;
+  const jsonLength = payload ? formatSubmissionJson(payload).length : 0;
   el.issueUrlSummary.textContent =
     `Issue URL: ${urls.issue.length} chars. The primary button copies ${jsonLength} chars of JSON and opens GitHub.`;
 }
