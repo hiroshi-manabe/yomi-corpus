@@ -289,6 +289,11 @@ before any automatic or LLM `OK` is trusted:
   katakana and all non-kana characters left unchanged; for example `です/デス`
   and `。/。` are valid
 
+Finalization enforces this deterministically for symbol/kana-only tokens, so
+legacy spoken symbol readings such as `～/カラ` normalize to `～/～`. Invalid
+kanji/Latin readings are never guessed: they may be recovered only when saved
+human final-review evidence supplies exactly one structurally valid reading.
+
 Historical finalized files are migrated with
 `scripts/migrate_finalized_yomi_tokens.py`. Dry-run is the default. Apply mode
 requires a backup directory, stages every converted file first, and replaces

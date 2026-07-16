@@ -45,6 +45,86 @@ class YomiTokenMigrationTests(unittest.TestCase):
                 [["A", "エー"], ["　", "　"], ["B", "ビー"]],
             )
 
+    def test_migration_normalizes_symbol_readings_to_literal_surface(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "data" / "units" / "dev_batch_0001" / "units.yomi.final.jsonl"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "1～2",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "1/ ～/カラ 2/"},
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = migrate_finalized_yomi_tokens(
+                root=root,
+                apply=True,
+                report_json=root / "report.json",
+                backup_root=root / "backup",
+            )
+
+            self.assertEqual(report["anomaly_count"], 0)
+            migrated = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                migrated["analysis"]["mechanical"]["yomi"]["tokens"],
+                [["1", ""], ["～", "～"], ["2", ""]],
+            )
+
+    def test_migration_recovers_invalid_latin_reading_from_human_review(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            path = root / "data" / "units" / "dev_batch_0001" / "units.yomi.final.jsonl"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "II",
+                        "analysis": {
+                            "mechanical": {"yomi": {"rendered": "II/II"}},
+                            "human_review": {
+                                "yomi_final": {
+                                    "target_overrides": [
+                                        {
+                                            "surface": "II",
+                                            "selected_reading": "つー",
+                                        }
+                                    ]
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            report = migrate_finalized_yomi_tokens(
+                root=root,
+                apply=True,
+                report_json=root / "report.json",
+                backup_root=root / "backup",
+            )
+
+            self.assertEqual(report["anomaly_count"], 0)
+            migrated = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                migrated["analysis"]["mechanical"]["yomi"]["tokens"],
+                [["II", "ツー"]],
+            )
+
     def test_apply_backs_up_and_migrates_finalized_rows(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

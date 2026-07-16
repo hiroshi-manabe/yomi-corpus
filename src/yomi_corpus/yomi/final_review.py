@@ -1703,6 +1703,11 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
         normalized_reading = hiragana_to_katakana_for_finalized_correction(reading)
         if is_numeric_only_finalized_correction_surface(surface):
             normalized_reading = ""
+        elif re.fullmatch(r"[ \u00a0]+", surface):
+            if normalized_reading and not re.fullmatch(r"[ \u00a0]+", normalized_reading):
+                normalized_reading = surface
+        elif not re.search(r"[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]", surface):
+            normalized_reading = hiragana_to_katakana_for_finalized_correction(surface)
         normalized.append([surface, normalized_reading])
     return normalized
 
@@ -3084,7 +3089,45 @@ def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
     )
     if not tokens:
         raise YomiTokenError(f"finalized unit {unit.get('unit_id') or '<unknown>'} has no yomi tokens")
+    human_readings = finalized_human_readings_by_surface(unit)
+    for index, (surface, reading) in enumerate(tokens):
+        validation = validate_finalized_correction_reading(surface, reading)
+        if validation["ok"]:
+            continue
+        candidates = human_readings.get(surface, set())
+        valid_candidates = sorted(
+            candidate
+            for candidate in candidates
+            if validate_finalized_correction_reading(surface, candidate)["ok"]
+        )
+        if len(valid_candidates) == 1:
+            tokens[index][1] = valid_candidates[0]
+            continue
+        raise YomiTokenError(
+            f"finalized unit {unit.get('unit_id') or '<unknown>'} token {index} "
+            f"{surface!r}/{reading!r} is structurally invalid: {validation['error']}"
+        )
     set_canonical_yomi_tokens(yomi, tokens)
+
+
+def finalized_human_readings_by_surface(unit: dict[str, Any]) -> dict[str, set[str]]:
+    review = (
+        unit.get("analysis", {})
+        .get("human_review", {})
+        .get("yomi_final", {})
+    )
+    readings: dict[str, set[str]] = {}
+    for override in review.get("target_overrides", []) if isinstance(review, dict) else []:
+        if not isinstance(override, dict) or override.get("selected_reading") is None:
+            continue
+        surface = str(override.get("token_surface") or override.get("surface") or "")
+        if not surface:
+            continue
+        reading = hiragana_to_katakana_for_finalized_correction(
+            str(override.get("selected_reading") or "")
+        )
+        readings.setdefault(surface, set()).add(reading)
+    return readings
 
 
 def load_yomi_final_review_by_unit_id(path: Path | None) -> dict[str, dict[str, Any]]:

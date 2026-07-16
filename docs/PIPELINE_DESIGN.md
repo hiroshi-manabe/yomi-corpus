@@ -168,6 +168,13 @@ rule before any `OK` decision is trusted:
   `surface` to katakana while leaving non-kana characters unchanged, so
   `です/デス` and `。/。` are valid
 
+Finalization normalizes this last category deterministically. In particular,
+spoken interpretations of symbol-only surfaces are not canonical readings:
+`～/カラ` becomes `～/～`, `%/パーセント` becomes `%/%`, and kana-plus-symbol
+tokens preserve the symbol literally. If a kanji/Latin token is structurally
+invalid, finalization may recover it only from one unique valid reading already
+recorded by human final review; otherwise it must stop rather than guess.
+
 This is a format guardrail, not a semantic yomi correctness rule. A unit with a
 structurally invalid token can still be sent to the LLM for `Skip` detection,
 but an LLM `OK` must be forced back to `Review`.
