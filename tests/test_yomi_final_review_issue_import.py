@@ -13,6 +13,7 @@ from yomi_corpus.yomi.final_review_issue_import import (
     import_issue_payloads,
     parse_submissions_from_text,
 )
+from yomi_corpus.yomi.final_review import apply_final_review_file
 
 
 class YomiFinalReviewIssueImportTests(unittest.TestCase):
@@ -374,6 +375,114 @@ class YomiFinalReviewIssueImportTests(unittest.TestCase):
                 ]["issue_number"],
                 9,
             )
+
+    def test_one_review_bundle_applies_to_two_batches_independently(self) -> None:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            review_pack_root = root / "review_packs"
+            submission_store = root / "submissions"
+            pack_dir = review_pack_root / "yomi_final"
+            pack_dir.mkdir(parents=True)
+
+            batches = [
+                ("dev_batch_0001", "final_pack_1", "batch1:u1", "学校です。", "学校/ガッコウ です/デス 。/。"),
+                ("dev_batch_0002", "final_pack_2", "batch2:u1", "今日です。", "今日/キョウ です/デス 。/。"),
+            ]
+            for batch_name, pack_id, unit_id, text, rendered in batches:
+                batch_dir = root / "data" / "units" / batch_name
+                batch_dir.mkdir(parents=True)
+                (batch_dir / "units.yomi.auto_accept.jsonl").write_text(
+                    json.dumps(
+                        {
+                            "unit_id": unit_id,
+                            "doc_id": unit_id.split(":")[0],
+                            "text": text,
+                            "analysis": {"mechanical": {"yomi": {"rendered": rendered}}},
+                        },
+                        ensure_ascii=False,
+                    )
+                    + "\n",
+                    encoding="utf-8",
+                )
+                (pack_dir / f"{pack_id}.json").write_text(
+                    json.dumps(
+                        {
+                            "pack_id": pack_id,
+                            "review_stage": "yomi_final_review",
+                            "batch_name": batch_name,
+                            "items": [
+                                {
+                                    "item_id": unit_id,
+                                    "seq": 1,
+                                    "skip_default": False,
+                                    "targets": [],
+                                }
+                            ],
+                        },
+                        ensure_ascii=False,
+                    ),
+                    encoding="utf-8",
+                )
+
+            issue = {
+                "number": 10,
+                "body": json.dumps(
+                    {
+                        "submission_type": "review_bundle",
+                        "review_stage": "unified_yomi_review",
+                        "pack_id": "unified_two_batches",
+                        "submission_id": "bundle_two_batches",
+                        "submissions": [
+                            {
+                                "submission_type": "review_patch",
+                                "review_stage": "yomi_final_review",
+                                "pack_id": pack_id,
+                                "submission_id": f"submission_{batch_name}",
+                                "generated_at_epoch": index,
+                                "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                                "overrides": [],
+                            }
+                            for index, (batch_name, pack_id, *_rest) in enumerate(batches, start=1)
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+            }
+
+            import_summary = import_issue_payloads(
+                issue_payload=issue,
+                comment_payloads=[],
+                repo="owner/repo",
+                issue_number=10,
+                review_pack_root=review_pack_root,
+                submission_store_dir=submission_store,
+                review_stage="yomi_final_review",
+            )
+
+            self.assertEqual(import_summary["imported_submission_count"], 2)
+            applied_batches = []
+            for batch_name, pack_id, unit_id, _text, _rendered in reversed(batches):
+                batch_dir = root / "data" / "units" / batch_name
+                output = batch_dir / "units.yomi.reviewed.jsonl"
+                summary = apply_final_review_file(
+                    units_jsonl=batch_dir / "units.yomi.auto_accept.jsonl",
+                    pack_json=pack_dir / f"{pack_id}.json",
+                    submission_store_dir=submission_store,
+                    output_jsonl=output,
+                    summary_json=batch_dir / "final_review_apply_summary.json",
+                )
+                self.assertTrue(summary["stage_complete"])
+                reviewed = json.loads(output.read_text(encoding="utf-8"))
+                self.assertEqual(
+                    reviewed["analysis"]["human_review"]["yomi_final"]["submission_id"],
+                    f"submission_{batch_name}",
+                )
+                self.assertEqual(reviewed["unit_id"], unit_id)
+                applied_batches.append(batch_name)
+
+            self.assertEqual(applied_batches, ["dev_batch_0002", "dev_batch_0001"])
 
     def test_import_issue_payloads_stores_finalized_correction_without_pack(self) -> None:
         import tempfile
