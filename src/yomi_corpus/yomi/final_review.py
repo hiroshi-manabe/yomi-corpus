@@ -17,6 +17,15 @@ from yomi_corpus.yomi.llm_readings import (
     normalize_hiragana_reading,
 )
 from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
+from yomi_corpus.yomi.token_codec import (
+    YomiTokenError,
+    editable_rendered_to_yomi_tokens,
+    normalize_yomi_tokens,
+    set_canonical_yomi_tokens,
+    validate_yomi_token_surfaces,
+    yomi_tokens_from_mapping,
+    yomi_tokens_to_editable_rendered,
+)
 from yomi_corpus.document_review_state import (
     STATE_COMPLETE as DOCUMENT_STATE_COMPLETE,
     STATE_FINAL_PENDING as DOCUMENT_STATE_FINAL_PENDING,
@@ -1061,9 +1070,19 @@ def ruby_segment_reading(target: dict[str, Any]) -> str | None:
 
 
 def rendered_yomi_ruby_tokens(rendered: str) -> list[dict[str, Any]]:
+    try:
+        pairs = editable_rendered_to_yomi_tokens(rendered)
+    except YomiTokenError:
+        pairs = [
+            list(split_rendered_yomi_token(raw_token))
+            for raw_token in str(rendered or "").strip().split()
+        ]
+    return yomi_tokens_ruby_tokens(pairs)
+
+
+def yomi_tokens_ruby_tokens(pairs: list[list[str]]) -> list[dict[str, Any]]:
     tokens: list[dict[str, Any]] = []
-    for raw_token in str(rendered or "").strip().split():
-        surface, reading = split_rendered_yomi_token(raw_token)
+    for surface, reading in normalize_yomi_tokens(pairs):
         tokens.append(
             {
                 "surface": surface,
@@ -1510,14 +1529,22 @@ def apply_finalized_correction_patch_to_unit(
             patch,
             reason="text_mismatch",
         )
-    current = current_rendered_yomi_for_correction(unit)
-    original = normalize_rendered_yomi_for_finalized_correction(
-        str(patch.get("original_rendered_yomi") or "")
-    )
-    proposed = normalize_rendered_yomi_for_finalized_correction(
-        str(patch.get("proposed_rendered_yomi") or "")
-    )
-    if normalize_rendered_yomi_for_finalized_correction(current) == proposed:
+    text = str(unit.get("text") or "")
+    try:
+        current_tokens = current_yomi_tokens_for_correction(unit)
+        original_tokens = correction_patch_yomi_tokens(patch, "original", text=text)
+        proposed_tokens = correction_patch_yomi_tokens(patch, "proposed", text=text)
+    except YomiTokenError as exc:
+        return finalized_correction_skip_record(
+            submission,
+            patch,
+            reason="invalid_yomi_tokens",
+            validation_error=str(exc),
+        )
+    current = yomi_tokens_to_editable_rendered(current_tokens)
+    original = yomi_tokens_to_editable_rendered(original_tokens) if original_tokens else ""
+    proposed = yomi_tokens_to_editable_rendered(proposed_tokens)
+    if current_tokens == proposed_tokens:
         recorded = record_finalized_correction_acknowledgement(
             unit=unit,
             submission_id=submission_id,
@@ -1531,7 +1558,7 @@ def apply_finalized_correction_patch_to_unit(
             "unit_id": unit_id,
             "source": source,
         }
-    if original and normalize_rendered_yomi_for_finalized_correction(current) != original:
+    if original_tokens and current_tokens != original_tokens:
         return finalized_correction_skip_record(
             submission,
             patch,
@@ -1549,7 +1576,7 @@ def apply_finalized_correction_patch_to_unit(
             reason="invalid_proposed_rendered_yomi",
             validation_error=str(validation["error"]),
         )
-    set_current_rendered_yomi_for_correction(unit, proposed)
+    set_current_yomi_tokens_for_correction(unit, proposed_tokens)
     record_finalized_correction_acknowledgement(
         unit=unit,
         submission_id=submission_id,
@@ -1614,29 +1641,70 @@ def finalized_correction_skip_record(
 
 
 def current_rendered_yomi_for_correction(unit: dict[str, Any]) -> str:
+    return yomi_tokens_to_editable_rendered(current_yomi_tokens_for_correction(unit))
+
+
+def current_yomi_tokens_for_correction(unit: dict[str, Any]) -> list[list[str]]:
     direct = unit.get("rendered_yomi")
     if isinstance(direct, str) and direct:
-        return direct
+        return editable_rendered_to_yomi_tokens(direct, text=str(unit.get("text") or ""))
     yomi = (
         unit.get("analysis", {})
         .get("mechanical", {})
         .get("yomi", {})
     )
-    if isinstance(yomi, dict) and isinstance(yomi.get("rendered"), str):
-        return str(yomi["rendered"])
-    return ""
+    if isinstance(yomi, dict):
+        return yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    return []
 
 
 def set_current_rendered_yomi_for_correction(unit: dict[str, Any], rendered: str) -> None:
+    tokens = editable_rendered_to_yomi_tokens(rendered, text=str(unit.get("text") or ""))
+    set_current_yomi_tokens_for_correction(unit, tokens)
+
+
+def set_current_yomi_tokens_for_correction(unit: dict[str, Any], tokens: list[list[str]]) -> None:
     if isinstance(unit.get("rendered_yomi"), str):
-        unit["rendered_yomi"] = rendered
+        unit["rendered_yomi"] = yomi_tokens_to_editable_rendered(tokens)
+        unit["yomi_tokens"] = tokens
         return
     yomi = (
         unit.setdefault("analysis", {})
         .setdefault("mechanical", {})
         .setdefault("yomi", {})
     )
-    yomi["rendered"] = rendered
+    set_canonical_yomi_tokens(yomi, tokens)
+
+
+def correction_patch_yomi_tokens(
+    patch: dict[str, Any],
+    prefix: str,
+    *,
+    text: str,
+) -> list[list[str]]:
+    compact = patch.get(f"{prefix}_yomi_tokens")
+    if compact is not None:
+        tokens = normalize_correction_yomi_tokens(compact)
+        if tokens:
+            validate_yomi_token_surfaces(tokens, text=text)
+        return tokens
+    rendered = str(patch.get(f"{prefix}_rendered_yomi") or "")
+    if not rendered:
+        return []
+    return normalize_correction_yomi_tokens(
+        editable_rendered_to_yomi_tokens(rendered, text=text)
+    )
+
+
+def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
+    tokens = normalize_yomi_tokens(value)
+    normalized: list[list[str]] = []
+    for surface, reading in tokens:
+        normalized_reading = hiragana_to_katakana_for_finalized_correction(reading)
+        if is_numeric_only_finalized_correction_surface(surface):
+            normalized_reading = ""
+        normalized.append([surface, normalized_reading])
+    return normalized
 
 
 def validate_finalized_correction_rendered_yomi(
@@ -1646,39 +1714,25 @@ def validate_finalized_correction_rendered_yomi(
 ) -> dict[str, Any]:
     if not proposed:
         return {"ok": False, "error": "rendered yomi is empty"}
-    tokens = parse_rendered_yomi_tokens_for_finalized_correction(proposed)
+    try:
+        tokens = editable_rendered_to_yomi_tokens(
+            proposed,
+            text=str(unit.get("text") or ""),
+        )
+    except YomiTokenError as exc:
+        return {"ok": False, "error": str(exc)}
     if not tokens:
         return {"ok": False, "error": "rendered yomi has no tokens"}
-    surfaces: list[str] = []
-    for token in tokens:
-        if not token["ok"]:
-            return {"ok": False, "error": token["error"]}
+    for surface, reading in tokens:
         reading_validation = validate_finalized_correction_reading(
-            str(token["surface"]),
-            str(token["reading"]),
+            surface,
+            reading,
         )
         if not reading_validation["ok"]:
             return {
                 "ok": False,
-                "error": f"token {token['raw']}: {reading_validation['error']}",
+                "error": f"token {surface}/{reading}: {reading_validation['error']}",
             }
-        surfaces.append(str(token["surface"]))
-    expected_text = normalize_finalized_correction_source_text(
-        "".join(
-            token["surface"]
-            for token in parse_rendered_yomi_tokens_for_finalized_correction(
-                current_rendered_yomi_for_correction(unit)
-            )
-            if token["ok"]
-        )
-        or str(unit.get("text") or "")
-    )
-    proposed_text = normalize_finalized_correction_source_text("".join(surfaces))
-    if expected_text and proposed_text != expected_text:
-        return {
-            "ok": False,
-            "error": f"source text changed: got {proposed_text}, expected {expected_text}",
-        }
     return {"ok": True}
 
 
@@ -1709,7 +1763,7 @@ def normalize_rendered_yomi_for_finalized_correction(rendered: str) -> str:
             tokens.append(str(token["raw"]))
             continue
         surface = str(token["surface"])
-        reading = hiragana_to_katakana_for_finalized_correction(str(token["reading"]).strip())
+        reading = hiragana_to_katakana_for_finalized_correction(str(token["reading"]))
         if is_numeric_only_finalized_correction_surface(surface):
             reading = ""
         tokens.append(f"{surface}/{reading}")
@@ -2999,6 +3053,7 @@ def finalize_reviewed_yomi_file(
             if review.get("skip"):
                 skipped_units += 1
                 continue
+            canonicalize_finalized_unit_yomi(unit)
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
     summary = {
@@ -3016,6 +3071,20 @@ def finalize_reviewed_yomi_file(
         encoding="utf-8",
     )
     return {"stage_complete": True, **summary}
+
+
+def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
+    yomi = (
+        unit.setdefault("analysis", {})
+        .setdefault("mechanical", {})
+        .setdefault("yomi", {})
+    )
+    tokens = normalize_correction_yomi_tokens(
+        yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    )
+    if not tokens:
+        raise YomiTokenError(f"finalized unit {unit.get('unit_id') or '<unknown>'} has no yomi tokens")
+    set_canonical_yomi_tokens(yomi, tokens)
 
 
 def load_yomi_final_review_by_unit_id(path: Path | None) -> dict[str, dict[str, Any]]:
@@ -3231,14 +3300,13 @@ def harvest_supplemental_furigana(
     converter = base_furigana_converter()
     for unit in units:
         unit_id = str(unit.get("unit_id") or "")
-        rendered = str(
+        yomi = (
             unit.get("analysis", {})
             .get("mechanical", {})
             .get("yomi", {})
-            .get("rendered")
-            or ""
         )
-        for surface, reading in parse_rendered_pairs(rendered):
+        pairs = yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or "")) if isinstance(yomi, dict) else []
+        for surface, reading in pairs:
             if not surface or not reading or not has_han(surface):
                 continue
             result = converter.convert(surface, reading)

@@ -435,6 +435,10 @@ class ReviewSiteTests(unittest.TestCase):
             )
             self.assertRegex(shard["documents"][0]["archive_revision"], r"^[0-9a-f]{16}$")
             self.assertEqual(shard["documents"][0]["units"][0]["rendered_yomi"], "学校/ガッコウ です/デス 。/。")
+            self.assertEqual(
+                shard["documents"][0]["units"][0]["yomi_tokens"],
+                [["学校", "ガッコウ"], ["です", "デス"], ["。", "。"]],
+            )
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
             self.assertEqual(shard["documents"][0]["units"][0]["finalized_correction_count"], 2)
             self.assertEqual(

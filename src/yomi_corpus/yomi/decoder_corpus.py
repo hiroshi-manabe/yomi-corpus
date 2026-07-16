@@ -5,6 +5,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterator
 
+from yomi_corpus.yomi.token_codec import yomi_tokens_from_mapping
+
 
 @dataclass(frozen=True)
 class DecoderCorpusExportSummary:
@@ -33,15 +35,20 @@ def export_decoder_corpus_file(
                 continue
             read_units += 1
             unit = json.loads(line)
-            rendered = (
+            yomi = (
                 unit.get("analysis", {})
                 .get("mechanical", {})
                 .get("yomi", {})
-                .get("rendered")
             )
-            if not isinstance(rendered, str) or not rendered.strip():
+            if not isinstance(yomi, dict):
                 continue
-            pairs = list(parse_rendered_pairs(rendered))
+            pairs = [
+                (surface, reading)
+                for surface, reading in yomi_tokens_from_mapping(
+                    yomi,
+                    text=str(unit.get("text") or ""),
+                )
+            ]
             if not pairs:
                 continue
             for surface, reading in pairs:

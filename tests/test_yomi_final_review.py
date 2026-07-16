@@ -71,8 +71,8 @@ class YomiFinalReviewTests(unittest.TestCase):
                         {
                             "unit_id": "u1",
                             "text": "今日です。",
-                            "original_rendered_yomi": "今日/キョウ です/デス 。/。",
-                            "proposed_rendered_yomi": "今日/こんにち です/デス 。/。",
+                            "original_yomi_tokens": [["今日", "キョウ"], ["です", "デス"], ["。", "。"]],
+                            "proposed_yomi_tokens": [["今日", "こんにち"], ["です", "デス"], ["。", "。"]],
                         }
                     ],
                 },
@@ -89,8 +89,11 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(summary["applied_count"], 1)
             row = json.loads(final_jsonl.read_text(encoding="utf-8").strip())
             self.assertEqual(
-                row["analysis"]["mechanical"]["yomi"]["rendered"],
-                "今日/コンニチ です/デス 。/。",
+                row["analysis"]["mechanical"]["yomi"],
+                {
+                    "token_schema_version": 1,
+                    "tokens": [["今日", "コンニチ"], ["です", "デス"], ["。", "。"]],
+                },
             )
             self.assertEqual(
                 row["analysis"]["human_review"]["finalized_corrections"][0]["submission_id"],

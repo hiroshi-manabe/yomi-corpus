@@ -8,7 +8,12 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
-from yomi_corpus.yomi.final_review import rendered_yomi_ruby_tokens
+from yomi_corpus.yomi.final_review import yomi_tokens_ruby_tokens
+from yomi_corpus.yomi.token_codec import (
+    legacy_rendered_to_yomi_tokens,
+    yomi_tokens_from_mapping,
+    yomi_tokens_to_editable_rendered,
+)
 
 
 ARCHIVE_SHARD_SIZE = 1000
@@ -428,15 +433,17 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
 
 def archive_unit_from_row(row: dict) -> dict | None:
     text = str(row.get("text") or "")
-    rendered_yomi = archive_rendered_yomi(row)
-    if not text and not rendered_yomi:
+    yomi_tokens = archive_yomi_tokens(row)
+    rendered_yomi = yomi_tokens_to_editable_rendered(yomi_tokens) if yomi_tokens else ""
+    if not text and not yomi_tokens:
         return None
     unit = {
         "unit_id": str(row.get("unit_id") or ""),
         "unit_seq": int(row.get("unit_seq") or 0),
         "text": text,
+        "yomi_tokens": yomi_tokens,
         "rendered_yomi": rendered_yomi,
-        "ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi) if rendered_yomi else [],
+        "ruby_tokens": yomi_tokens_ruby_tokens(yomi_tokens) if yomi_tokens else [],
         "finalized_correction_count": finalized_correction_count(row),
         "applied_finalized_correction_submission_ids": sorted(
             finalized_correction_submission_ids(row)
@@ -466,19 +473,33 @@ def finalized_correction_submission_ids(row: dict) -> set[str]:
 
 
 def archive_rendered_yomi(row: dict) -> str:
+    tokens = archive_yomi_tokens(row)
+    return yomi_tokens_to_editable_rendered(tokens) if tokens else ""
+
+
+def archive_yomi_tokens(row: dict) -> list[list[str]]:
     direct = row.get("rendered_yomi")
     if isinstance(direct, str) and direct:
-        return normalize_archive_rendered_yomi(direct)
+        tokens = legacy_rendered_to_yomi_tokens(direct, text=str(row.get("text") or ""))
+        return normalize_archive_yomi_tokens(tokens)
     analysis = row.get("analysis")
     if not isinstance(analysis, dict):
-        return ""
+        return []
     mechanical = analysis.get("mechanical")
     if not isinstance(mechanical, dict):
-        return ""
+        return []
     yomi = mechanical.get("yomi")
-    if isinstance(yomi, dict) and isinstance(yomi.get("rendered"), str):
-        return normalize_archive_rendered_yomi(str(yomi["rendered"]))
-    return ""
+    if isinstance(yomi, dict):
+        tokens = yomi_tokens_from_mapping(yomi, text=str(row.get("text") or ""))
+        return normalize_archive_yomi_tokens(tokens)
+    return []
+
+
+def normalize_archive_yomi_tokens(tokens: list[list[str]]) -> list[list[str]]:
+    return [
+        [surface, "" if is_numeric_only_surface(surface) else reading]
+        for surface, reading in tokens
+    ]
 
 
 def normalize_archive_rendered_yomi(rendered: str) -> str:

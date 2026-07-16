@@ -1316,7 +1316,10 @@ function archiveCorrectionRecordForDoc(doc) {
   }
   const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
-    return !current || String(current.rendered_yomi || "").trim() !== String(saved.proposed_rendered_yomi || "").trim();
+    return !current || !yomiTokenPairsEqual(
+      archiveUnitYomiTokenPairs(current),
+      correctionRecordTokenPairs(saved, "proposed"),
+    );
   });
   if (remaining.length === 0) {
     delete store.records[key];
@@ -1493,9 +1496,11 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   summary.className = "archive-correction-row-summary";
   const rubyLine = document.createElement("div");
   rubyLine.className = "ruby-line resolved-ruby-line";
-  if (unit.rendered_yomi) {
+  const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
+  const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
+  if (originalTokenPairs.length) {
     rubyLine.append(
-      ...renderReadonlyRubyFromTokensWithNodes(parseRenderedYomiTokens(unit.rendered_yomi || ""), unit.ruby_tokens || []),
+      ...renderReadonlyRubyFromTokensWithNodes(yomiTokenPairObjects(originalTokenPairs), unit.ruby_tokens || []),
     );
   } else {
     rubyLine.textContent = unit.text || "";
@@ -1516,11 +1521,11 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
 
   const editor = document.createElement("div");
   editor.className = "archive-correction-editor hidden";
-  editor.dataset.originalYomi = unit.rendered_yomi || "";
+  editor.dataset.originalYomi = originalEditableYomi;
   editor.innerHTML = `
     <label>
       <span>Rendered yomi</span>
-      <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(unit.rendered_yomi || "")}</textarea>
+      <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(originalEditableYomi)}</textarea>
     </label>
     <p class="archive-correction-row-validation muted">No change yet.</p>
     <div class="archive-correction-editor-actions">
@@ -1538,13 +1543,14 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     (savedUnit) =>
       String(savedUnit.unit_id || "") === String(unit.unit_id || "") &&
       String(savedUnit.text || "") === String(unit.text || "") &&
-      String(savedUnit.original_rendered_yomi || "").trim() === String(unit.rendered_yomi || "").trim(),
+      yomiTokenPairsEqual(correctionRecordTokenPairs(savedUnit, "original"), originalTokenPairs),
   );
-  if (restored?.proposed_rendered_yomi) {
-    row.dataset.proposedYomi = restored.proposed_rendered_yomi;
+  const restoredProposed = restored ? serializeEditableYomiTokens(correctionRecordTokenPairs(restored, "proposed")) : "";
+  if (restoredProposed) {
+    row.dataset.proposedYomi = restoredProposed;
     row.classList.add("changed");
     row.classList.toggle("submitted", localCorrection.status === "submitted");
-    textarea.value = restored.proposed_rendered_yomi;
+    textarea.value = restoredProposed;
     renderArchiveCorrectionSavedYomi(row);
   }
   return row;
@@ -1615,8 +1621,8 @@ function collectArchiveCorrectionChanges(doc) {
       unit_id: String(unit.unit_id || ""),
       unit_seq: Number(unit.unit_seq || index + 1),
       text: unit.text || "",
-      original_rendered_yomi: original,
-      proposed_rendered_yomi: proposed,
+      original_yomi_tokens: archiveUnitYomiTokenPairs(unit),
+      proposed_yomi_tokens: validation.tokens,
     });
   }
   if (!changedUnits.length) {
@@ -1767,9 +1773,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
     }
     surfaceText.push(token.surface);
   }
-  const originalSurfaceText = parseRenderedYomiTokensForCorrection(unit.rendered_yomi || "")
-    .map((token) => token.surface)
-    .join("");
+  const originalSurfaceText = archiveUnitYomiTokenPairs(unit).map(([surface]) => surface).join("");
   const expectedText = normalizeCorrectionSourceText(originalSurfaceText || unit.text || "");
   const proposedText = normalizeCorrectionSourceText(surfaceText.join(""));
   if (expectedText && proposedText !== expectedText) {
@@ -1778,7 +1782,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
       error: `source text changed: got ${proposedText}, expected ${expectedText}.`,
     };
   }
-  return { ok: true };
+  return { ok: true, tokens: tokens.map((token) => [token.surface, token.reading]) };
 }
 
 function parseRenderedYomiCorrectionTokens(rendered) {
@@ -1790,41 +1794,17 @@ function parseRenderedYomiCorrectionTokens(rendered) {
       if (raw === "/") {
         return { ok: true, raw, surface: " ", reading: "" };
       }
-      const slashIndex = raw.lastIndexOf("/");
-      if (slashIndex < 0) {
-        return { ok: false, raw, error: `token ${raw} must be surface/reading.` };
-      }
-      const surface = raw.slice(0, slashIndex);
-      if (!surface) {
-        return { ok: false, raw, error: `token ${raw} has no surface before the slash.` };
-      }
-      return {
-        ok: true,
-        raw,
-        surface,
-        reading: raw.slice(slashIndex + 1),
-      };
+      const parsed = splitEditableYomiToken(raw);
+      return parsed.ok ? { ...parsed, raw } : { ...parsed, raw, error: `token ${raw}: ${parsed.error}` };
     });
 }
 
 function normalizeRenderedYomiCorrectionReadings(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/[ \t\r\n]+/)
-    .filter(Boolean)
-    .map((raw) => {
-      if (raw === "/") {
-        return raw;
-      }
-      const slashIndex = raw.lastIndexOf("/");
-      if (slashIndex < 0) {
-        return raw;
-      }
-      const surface = raw.slice(0, slashIndex);
-      const reading = raw.slice(slashIndex + 1);
-      return `${surface}/${hiraganaToKatakana(reading)}`;
-    })
-    .join(" ");
+  const tokens = parseRenderedYomiCorrectionTokens(rendered);
+  if (!tokens.length || tokens.some((token) => !token.ok)) {
+    return String(rendered || "").trim();
+  }
+  return serializeEditableYomiTokens(tokens.map((token) => [token.surface, hiraganaToKatakana(token.reading)]));
 }
 
 function normalizeCorrectionSourceText(value) {
@@ -1867,23 +1847,6 @@ function isNumericOnlySurface(surface) {
   return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+$/u.test(surface);
 }
 
-function parseRenderedYomiTokensForCorrection(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/[ \t\r\n]+/)
-    .filter(Boolean)
-    .map((token) => {
-      const separator = token.lastIndexOf("/");
-      if (separator < 0) {
-        return { surface: token, reading: "" };
-      }
-      return {
-        surface: token.slice(0, separator),
-        reading: token.slice(separator + 1),
-      };
-    });
-}
-
 function archiveCorrectionIssueTitle(doc) {
   const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
   return `[yomi-correction] dev document ${seq}`;
@@ -1893,7 +1856,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
   const localRecord = archiveCorrectionRecordForDoc(doc);
   return {
     submission_type: "finalized_correction_patch",
-    schema_version: 1,
+    schema_version: 2,
     submission_id: localRecord?.submission_id || newArchiveCorrectionSubmissionId(doc),
     track_name: state.archiveCurrentTrack || "dev",
     review_stage: "finalized_correction",
@@ -3594,20 +3557,98 @@ function renderRubyDisplayNodes(displayNodes) {
 }
 
 function parseRenderedYomiTokens(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((token) => {
-      const separator = token.lastIndexOf("/");
-      if (separator < 0) {
-        return { surface: token, reading: "" };
-      }
-      return {
-        surface: token.slice(0, separator),
-        reading: token.slice(separator + 1),
-      };
-    });
+  return parseRenderedYomiCorrectionTokens(rendered)
+    .filter((token) => token.ok)
+    .map(({ surface, reading }) => ({ surface, reading }));
+}
+
+function normalizeYomiTokenPairs(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  const normalized = [];
+  for (const token of value) {
+    if (!Array.isArray(token) || token.length !== 2 || typeof token[0] !== "string" || typeof token[1] !== "string") {
+      return [];
+    }
+    normalized.push([token[0], token[1]]);
+  }
+  return normalized;
+}
+
+function yomiTokenPairObjects(tokenPairs) {
+  return normalizeYomiTokenPairs(tokenPairs).map(([surface, reading]) => ({ surface, reading }));
+}
+
+function archiveUnitYomiTokenPairs(unit) {
+  const canonical = normalizeYomiTokenPairs(unit?.yomi_tokens);
+  if (canonical.length) {
+    return canonical;
+  }
+  return parseRenderedYomiTokens(unit?.rendered_yomi || "").map(({ surface, reading }) => [surface, reading]);
+}
+
+function correctionRecordTokenPairs(record, prefix) {
+  const canonical = normalizeYomiTokenPairs(record?.[`${prefix}_yomi_tokens`]);
+  if (canonical.length) {
+    return canonical;
+  }
+  return parseRenderedYomiTokens(record?.[`${prefix}_rendered_yomi`] || "")
+    .map(({ surface, reading }) => [surface, reading]);
+}
+
+function yomiTokenPairsEqual(left, right) {
+  return JSON.stringify(normalizeYomiTokenPairs(left)) === JSON.stringify(normalizeYomiTokenPairs(right));
+}
+
+function serializeEditableYomiTokens(tokenPairs) {
+  return normalizeYomiTokenPairs(tokenPairs)
+    .map(([surface, reading]) => `${escapeEditableYomiComponent(surface)}/${escapeEditableYomiComponent(reading)}`)
+    .join(" ");
+}
+
+function escapeEditableYomiComponent(value) {
+  return String(value || "")
+    .replaceAll("\\", "\\\\")
+    .replaceAll("/", "\\/")
+    .replaceAll(" ", "\\s")
+    .replaceAll("\t", "\\t")
+    .replaceAll("\r", "\\r")
+    .replaceAll("\n", "\\n");
+}
+
+function splitEditableYomiToken(token) {
+  const parts = [[], []];
+  let partIndex = 0;
+  let escaped = false;
+  const escapeValues = { s: " ", t: "\t", r: "\r", n: "\n" };
+  for (const char of String(token || "")) {
+    if (escaped) {
+      parts[partIndex].push(escapeValues[char] ?? char);
+      escaped = false;
+      continue;
+    }
+    if (char === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (char === "/" && partIndex === 0) {
+      partIndex = 1;
+      continue;
+    }
+    parts[partIndex].push(char);
+  }
+  if (escaped) {
+    return { ok: false, error: "incomplete trailing escape." };
+  }
+  if (partIndex === 0) {
+    return { ok: false, error: "must be surface/reading." };
+  }
+  const surface = parts[0].join("");
+  if (!surface) {
+    return { ok: false, error: "has no surface before the slash." };
+  }
+  return { ok: true, surface, reading: parts[1].join("") };
 }
 
 function shouldDisplayRuby(surface, reading) {
