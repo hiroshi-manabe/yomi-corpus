@@ -487,8 +487,8 @@ Candidate safety signals:
   such as a stable two-kanji raw SudachiDict item, and the current reading
   matches it
 - corpus-frequency evidence: a trusted decoder/training-corpus stats artifact
-  shows that one reading dominates the surface, for example >=99.5% with a
-  minimum count threshold
+  shows that one reading dominates the exact full token surface, or the target
+  surface as a fallback, with >=95% share and a minimum count threshold
 - repeated N-gram evidence: the local reading is supported by repeated N-gram
   support, not a one-off transition
 - LLM agreement: an independent per-target reading query returns the same
@@ -529,6 +529,13 @@ accepted residual risk for bulk review/de-emphasis: the signal says "low-risk
 under this corpus and policy," not "lexically impossible to read otherwise." If
 audits show repeated misses of rare proper-noun readings, add targeted
 exceptions or lower the confidence/highlight level for those surfaces.
+
+Corpus-frequency lookup should use the exact full token before the extracted
+ruby target. For example, the evidence pair `思っ/オモッ` can make the contained
+target `思/オモ` low-risk without aggregating conjugations. If no qualifying
+full-token entry exists, the implementation may fall back to target-level
+evidence. The safety signal records whether `token` or `target` evidence was
+used, together with the evidence surface and reading.
 
 Corpus-frequency statistics must be versioned with the decoder model rather
 than remaining a global artifact built only from the original corpus. Every
@@ -571,7 +578,7 @@ A passing corpus-frequency record:
       "count": 337,
       "surface_total_count": 337,
       "share": 1.0,
-      "threshold": 0.995,
+      "threshold": 0.95,
       "min_count": 5,
       "evidence_artifact": "..."
     }
@@ -597,7 +604,7 @@ A failing corpus-frequency record should still keep the measured signal:
       "count": 435,
       "surface_total_count": 729,
       "share": 0.5967,
-      "threshold": 0.995,
+      "threshold": 0.95,
       "min_count": 5,
       "evidence_artifact": "..."
     }
@@ -607,7 +614,7 @@ A failing corpus-frequency record should still keep the measured signal:
 
 The `方` example is a useful negative control: the schema can record the corpus
 counts, but policy must not mark it safe because the surface has genuinely split
-readings and the dominant share is far below 99.5%.
+readings and the dominant share is far below 95%.
 
 Minimum fields:
 
@@ -702,7 +709,9 @@ share threshold and a minimum count, because `1/1 = 100%` is weak evidence. The
 normalization policy must also be explicit: old/new forms, Latin width, kana,
 symbols, and `々` handling need to match or be recorded.
 
-The initial default is `min_count = 5` and `min_share = 0.995`. Count-5 boundary
+The initial default is `min_count = 5` and `min_share = 0.95`. At counts below
+20 the share threshold still requires unanimity; at larger counts it permits a
+small observed minority reading. Count-5 boundary
 samples looked acceptable for this signal's intended role: de-emphasizing
 low-risk targets while preserving auditability and bulk review visibility.
 
@@ -1384,7 +1393,7 @@ have an explicit default policy.
 
 Recommended default policy:
 
-- use `gpt-5.5` as the normal model for real annotation work
+- use `gpt-5.6-sol` as the normal model for real annotation work
 - use `gpt-5.5-pro` only as a last-resort rescue model for a very small tail
 - use `gpt-5.4-nano` only for plumbing checks, transport tests, and cache/token
   instrumentation
@@ -1400,7 +1409,7 @@ Initial profile meanings:
 
 - `smoke`: plumbing-only API checks, normally `gpt-5.4-nano`
 - `economy`: cheaper interactive/dev pipeline checks, normally `gpt-5.4-mini`
-- `standard`: production-quality judgment/repair, normally `gpt-5.5`
+- `standard`: production-quality judgment/repair, normally `gpt-5.6-sol`
 - `strong`: exceptional expensive rescue settings, normally `gpt-5.5-pro` or
   web-search-enabled repair/check tasks
 
@@ -1431,13 +1440,13 @@ settings.
 
 Stage-oriented defaults:
 
-- `alphabetic_entity_judge`: `gpt-5.5`
+- `alphabetic_entity_judge`: `gpt-5.6-sol`
 - `scope_triage`: `gpt-5.4-mini` through the `economy` profile unless evals
   justify a stronger model
-- `yomi_reading`: `gpt-5.5` for production-quality reading comparison,
+- `yomi_reading`: `gpt-5.6-sol` for production-quality reading comparison,
   `gpt-5.4-mini` for dev flow checks
-- `yomi_repair`: `gpt-5.5`
-- post-review rescue repair: `gpt-5.5` with web search allowed
+- `yomi_repair`: `gpt-5.6-sol`
+- post-review rescue repair: `gpt-5.6-sol` with web search allowed
 - final emergency escalation: `gpt-5.5-pro` with web search, only after
   cheaper paths and human review have already failed
 
@@ -1446,9 +1455,9 @@ escape hatch for the hardest cases.
 
 ### GPT-5.6 evaluation (2026-07-15)
 
-GPT-5.6 model IDs and pricing are available to experiments, but this evaluation
-did not change pipeline defaults. All runs used the existing task prompts and
-parameters through background Responses API calls.
+GPT-5.6 model IDs and pricing were initially evaluated without changing pipeline
+defaults. All runs used the existing task prompts and parameters through
+background Responses API calls.
 
 Per-target yomi reading on the 155-item regression set:
 
@@ -1463,9 +1472,10 @@ Per-target yomi reading on the 155-item regression set:
 The original fixture incorrectly expected `近々/きんきん`; human final review
 had selected `近々/ちかぢか`, so the fixture and saved outputs were rescored to
 match the finalized corpus. Sol reproduced the same 155/155 result on a second
-complete run. Sol is therefore the leading candidate to replace GPT-5.5 for
-per-target reading, but defaults should change only after a normal dev-batch
-trial. A Batch API run also completed with the identical 155/155 result and no
+complete run. Sol is therefore the documented standard recommendation replacing
+GPT-5.5 for new production-quality work. Historical GPT-5.5 results and pinned
+batch configurations remain unchanged. A Batch API run also completed with the
+identical 155/155 result and no
 parse errors; its estimated cost was $0.0547 instead of
 $0.1094 with standard processing.
 
@@ -1491,7 +1501,7 @@ For prompt exploration, `gpt-5.4-mini` is a reasonable search model because the
 goal is to test prompt shape, label semantics, and sample quality quickly. Its
 results should not be treated as the final production quality estimate. The
 search should sweep mini reasoning effort settings and score each run by both
-quality and cost. Promote only the best few prompt candidates to `gpt-5.5` for
+quality and cost. Promote only the best few prompt candidates to `gpt-5.6-sol` for
 the final production-quality comparison.
 
 ## 9.3 Cost controls
@@ -1506,7 +1516,7 @@ For ordinary judgment tasks:
 
 For production cost control, prefer:
 
-- `gpt-5.5` plus caching and batching
+- `gpt-5.6-sol` plus caching and batching
 - strict structured outputs
 - short outputs for judgment tasks
 
@@ -2530,7 +2540,7 @@ Search strategy:
   accuracy failures look reasoning-bound
 - rank candidates by dangerous-error avoidance, parse stability, accuracy, then
   token/cost efficiency
-- rerun only the strongest candidates on `gpt-5.5` before freezing production
+- rerun only the strongest candidates on `gpt-5.6-sol` before freezing production
 
 Cache strategy:
 

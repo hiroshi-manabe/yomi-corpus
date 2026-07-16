@@ -46,7 +46,7 @@ Prompt iteration scaffold:
   would make sequential sync execution slow.
 - For `yomi_triage`, first sweep prompt families and `gpt-5.4-mini` reasoning
   effort settings for both accuracy and cost; promote only the strongest prompt
-  candidates to `gpt-5.5` for production-quality evaluation.
+  candidates to `gpt-5.6-sol` for production-quality evaluation.
 - For cache-sensitive prompt tuning, use the Responses `input_tokens` endpoint
   for exact GPT-5-family input counts. Local `tiktoken` estimates are fine for
   rough work, but the API count is the source of truth when aiming just over
@@ -57,7 +57,7 @@ Prompt iteration scaffold:
 
 Default model policy:
 
-- use `gpt-5.5` for normal judgment and repair tasks
+- use `gpt-5.6-sol` for normal judgment and repair tasks
 - use `gpt-5.4-mini` / `economy` for scope triage on both `dev` and
   `working`; triage is a recoverable scope gate, not the final yomi-quality
   signal
@@ -67,7 +67,7 @@ Default model policy:
 - batches should store an explicit `llm_policy` task-to-profile map, separate
   from yomi-specific policy
 - initial LLM profiles are capability/cost tiers: `smoke` (`gpt-5.4-nano`),
-  `economy` (`gpt-5.4-mini`), `standard` (`gpt-5.5`), and `strong`
+  `economy` (`gpt-5.4-mini`), `standard` (`gpt-5.6-sol`), and `strong`
   (`gpt-5.5-pro`)
 - track defaults should live in a small project config file rather than in
   Python code; at prepare time CLI explicit overrides should win over the
@@ -228,9 +228,13 @@ Yomi generation scaffold:
   `config/yomi/post_hybrid_repairs.tsv` may rewrite known systematic rendered
   yomi errors; each applied rule is logged under
   `analysis.mechanical.yomi.post_hybrid_repairs`
-- numeric runs are grouped and emitted with an empty reading, such as `2021/`;
-  number pronunciation is intentionally left to a future dedicated number
-  reading module
+- numeric runs are normally grouped and emitted with an empty reading, such as
+  `2021/`; a small table of lexicalized Japanese date/counter forms is handled
+  specially (`2日/フツカ`, `1人/ヒトリ`, `1つ/ヒトツ`, and their documented
+  peers), while general number pronunciation remains outside this pipeline
+- ambiguous `1日` stays fused as a review unit with `いちにち` and `ついたち`
+  candidates; finalization expands accepted `1日/イチニチ` to `1/ 日/ニチ`
+  but keeps `1日/ツイタチ` fused
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct

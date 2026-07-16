@@ -698,8 +698,8 @@ Candidate per-target signals:
   two-kanji compound with exactly one trusted raw SudachiDict reading, and the
   mechanical reading matches it.
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
-  same `(surface, reading)` pair overwhelmingly dominates that surface, for
-  example at least 99.5% with a minimum count threshold.
+  same exact full-token `(surface, reading)` pair, or target-level pair as a
+  fallback, dominates with at least 95% share and a minimum count threshold.
 - `safe_by_ngram`: the target's local reading is supported by repeated N-gram
   evidence, not just by a one-off transition.
 - `safe_by_llm_agreement`: an independent LLM reading query returns the same
@@ -736,6 +736,13 @@ de-emphasize for bulk review," not "this surface has no other valid reading."
 Rare proper-noun readings are an accepted residual risk unless later audits show
 they are frequent enough to need exceptions or weaker highlighting.
 
+The lookup first checks the full current token and reading. Thus corpus evidence
+for `思っ/オモッ` can mark its contained `思/オモ` target safe even though the
+corpus has no standalone `思` row. This is exact-form evidence, not conjugation
+aggregation. Target-level frequency remains a fallback when no qualifying
+full-token row exists. Signals record the selected evidence scope, surface, and
+reading.
+
 Concrete per-target safety records should live under the unit's yomi analysis,
 for example `analysis.safety.yomi.targets[]` or an equivalent versioned path.
 The exact path can change during implementation, but the record shape should be
@@ -764,7 +771,7 @@ stable enough for review UI and audit tools:
       "count": 337,
       "surface_total_count": 337,
       "share": 1.0,
-      "threshold": 0.995,
+      "threshold": 0.95,
       "min_count": 5,
       "evidence_artifact": "..."
     }
@@ -791,7 +798,7 @@ for debugging and review:
       "count": 435,
       "surface_total_count": 729,
       "share": 0.5967,
-      "threshold": 0.995,
+      "threshold": 0.95,
       "min_count": 5,
       "evidence_artifact": "..."
     }
@@ -968,9 +975,11 @@ corpus is unnecessary.
 Initial corpus-frequency safety defaults:
 
 - `min_count = 5`
-- `min_share = 0.995`
+- `min_share = 0.95`
 
-These defaults came from inspecting exact-boundary samples with count 5. They
+Below 20 observations, the share threshold still requires every observed
+reading to agree; at larger counts it permits a small minority. These defaults
+came from inspecting exact-boundary samples with count 5. They
 are intentionally "low-risk enough for de-emphasis" thresholds, not proof that
 no alternate reading exists.
 
@@ -1228,7 +1237,7 @@ the API/model supports them and early results suggest accuracy is effort-bound.
 Every run should record model, reasoning effort, prompt path, input/output token
 counts, cached-token counts if reported, estimated cost, parse errors, confusion
 matrix, and dangerous errors. The final production prompt should still be chosen
-from `gpt-5.5` behavior after the mini search narrows the candidate set.
+from `gpt-5.6-sol` behavior after the mini search narrows the candidate set.
 
 Runtime model selection should use named LLM profiles rather than raw model
 names spread across pipeline branches. The batch should store `llm_policy`, and
@@ -1240,7 +1249,7 @@ Initial profile meanings:
 - `smoke`: transport and instrumentation checks only, usually `gpt-5.4-nano`
 - `economy`: cheaper flow validation and prompt/pipeline debugging, usually
   `gpt-5.4-mini`
-- `standard`: normal corpus-quality judgment/repair, usually `gpt-5.5`
+- `standard`: normal corpus-quality judgment/repair, usually `gpt-5.6-sol`
 - `strong`: exceptional last-resort repair/check settings, usually
   `gpt-5.5-pro` or web-search-enabled tasks
 
@@ -1347,6 +1356,41 @@ leading `|`. For example, canonical `1人/ヒトリ` displays as
 `1人（にん）`. The `|` marker is not source text; it exists only to prevent the
 LLM from confusing a digit that belongs to a yomi-bearing token with a normal
 digit token handled by the future number-reading module.
+
+### 9.1.1 Lexicalized numeric compounds
+
+The default numeric policy still treats an arbitrary digit run as opaque and
+stores it with no reading. Japanese nevertheless has a small set of common
+digit-plus-suffix forms whose pronunciation cannot be recovered by simply
+reading the number and suffix independently. Handle these with an explicit,
+table-driven language-specific normalization step after hybrid generation.
+This is a deliberate exception, not a general number-reading module.
+
+The deterministic table covers both ASCII and full-width digits:
+
+- dates: `2日` through `10日`, plus `14日`, `20日`, and `24日`
+- people: `1人` and `2人`
+- the native counter: `1つ` through `9つ`
+
+Store these as fused tokens with their lexicalized reading, for example
+`2日/フツカ`, `24日/ニジュウヨッカ`, `2人/フタリ`, and `9つ/ココノツ`.
+They are deterministic pipeline decisions and do not create independent LLM
+reading targets. Keep the rule inventory centralized so its behavior and
+future additions remain auditable.
+
+Sudachi may combine the date suffix with `間`, as in `3/ 日間/カカン`. Normalize
+that shape to `3日/ミッカ 間/カン`; the lexicalized date rule still applies, but
+`間` remains an ordinary separate token.
+
+`1日` is the one contextual exception. Keep it fused during mechanical
+processing, using `1日/イチニチ` as the fallback while preserving an upstream
+supported `1日/ツイタチ` result. Expose the whole `1日` span, rather than only
+`日`, to safety checks, LLM reading inference when unresolved, and Bulk Review.
+Its review candidates must include both `いちにち` and `ついたち`. At finalization,
+convert an accepted `いちにち` choice to canonical tokens `1/ 日/ニチ`; keep an
+accepted `ついたち` choice fused as `1日/ツイタチ`. This late expansion avoids
+forcing the review UI to reconcile two tokenizations while preserving the
+desired final representation for the compositional `いちにち` reading.
 
 Furigana rendering should use the Sudachi-derived annotated-form dictionary
 when possible. The dictionary can map `(surface, reading)` pairs such as
@@ -2795,7 +2839,7 @@ a second, more expensive path.
 
 For these units:
 
-- use `gpt-5.5` as the default rescue model
+- use `gpt-5.6-sol` as the default rescue model
 - allow expensive tooling such as web search and stronger reasoning if needed
 - generate a new best-effort yomi
 
@@ -2958,9 +3002,11 @@ the local problematic targets instead.
 `yomi_strong_repair_llm_completed` runs `config/llm/yomi_repair.toml` on that
 queue, using the track's `yomi_repair` profile and execution mode. The current
 dev profile is `economy` (`gpt-5.4-mini`) while working remains `standard`
-(`gpt-5.5`). Web search is available with medium context, but the model is told
-to use it only when its own knowledge is insufficient. Every result still goes
-through human confirmation.
+(`gpt-5.5`) in the committed runtime profile until that mapping is migrated;
+the current documented target for `standard` is `gpt-5.6-sol`. Web search is
+available with medium context, but the model is told to use it only when its
+own knowledge is insufficient. Every result still goes through human
+confirmation.
 
 The stage writes:
 
