@@ -22,7 +22,9 @@ const state = {
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
   runtimeStatus: null,
+  runtimePollingStarted: false,
   runtimePollTimer: null,
+  runtimePollGeneration: 0,
   runtimePollFailures: 0,
 };
 
@@ -381,6 +383,7 @@ async function openStage(stageId, { preferLatest = false, preferredPackId = null
     throw new Error(`No packs found for stage ${stageId}.`);
   }
   await openPack(stageId, packMeta.pack_id);
+  updateRuntimePollingForInteraction();
 }
 
 async function openPack(stageId, packId) {
@@ -426,6 +429,7 @@ async function openUnifiedReview() {
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
   render();
+  updateRuntimePollingForInteraction();
 }
 
 async function openArchiveBrowser() {
@@ -462,6 +466,7 @@ async function openArchiveBrowser() {
   state.currentDraft = loadDraft(state.currentPack);
   updateLocation("archive_browser", "archive_browser");
   render();
+  updateRuntimePollingForInteraction();
 }
 
 async function openArchiveShard(shard) {
@@ -1071,6 +1076,7 @@ function renderArchiveSearchPanel(track) {
 
   input.addEventListener("input", () => {
     state.archiveSearchQuery = input.value;
+    updateRuntimePollingForInteraction();
     scheduleArchiveSearch(track, { panel, status, results });
   });
   if (state.archiveSearchQuery.trim()) {
@@ -1509,6 +1515,7 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
   updateArchiveCorrectionSummary();
   el.workflowPreviewModal.classList.remove("hidden");
+  updateRuntimePollingForInteraction();
 }
 
 function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
@@ -2203,6 +2210,7 @@ function openWorkflowDocumentPreview(displaySeq) {
   }
 
   el.workflowPreviewModal.classList.remove("hidden");
+  updateRuntimePollingForInteraction();
 }
 
 function withTemporaryPreviewDraft(previewDraft, callback) {
@@ -2262,6 +2270,7 @@ function closeWorkflowDocumentPreview() {
   if (state.currentStageId === "archive_browser") {
     render();
   }
+  updateRuntimePollingForInteraction();
 }
 
 function requestCloseWorkflowDocumentPreview() {
@@ -4217,10 +4226,12 @@ function showIssueReturnModal() {
       : "If you pasted the copied JSON and created the issue, mark this task submitted. If not, keep working locally.";
   }
   el.issueReturnModal?.classList.remove("hidden");
+  updateRuntimePollingForInteraction();
 }
 
 function hideIssueReturnModal() {
   el.issueReturnModal?.classList.add("hidden");
+  updateRuntimePollingForInteraction();
 }
 
 function buildIssueTitle(payload) {
@@ -5658,19 +5669,24 @@ function startRuntimeStatusPolling() {
   if (!state.manifest?.runtime_status?.path) {
     return;
   }
+  state.runtimePollingStarted = true;
   pollRuntimeStatus();
 }
 
 async function pollRuntimeStatus() {
   clearRuntimePollTimer();
   const path = state.manifest?.runtime_status?.path;
-  if (!path) {
+  if (!path || automaticRuntimeRefreshIsPaused()) {
     return;
   }
+  const generation = state.runtimePollGeneration;
   try {
     const separator = path.includes("?") ? "&" : "?";
     const bucket = Math.floor(Date.now() / 30000);
     const runtimeStatus = await fetchJson(`${path}${separator}v=${bucket}`);
+    if (generation !== state.runtimePollGeneration || automaticRuntimeRefreshIsPaused()) {
+      return;
+    }
     const previousRevision = Number(state.runtimeStatus?.state_revision || 0);
     const nextRevision = Number(runtimeStatus.state_revision || 0);
     state.runtimeStatus = runtimeStatus;
@@ -5686,10 +5702,37 @@ async function pollRuntimeStatus() {
       }
     }
   } catch (error) {
+    if (generation !== state.runtimePollGeneration || automaticRuntimeRefreshIsPaused()) {
+      return;
+    }
     state.runtimePollFailures += 1;
     console.warn("Runtime status poll failed", error);
   }
   scheduleRuntimeStatusPoll();
+}
+
+function automaticRuntimeRefreshIsPaused() {
+  const searchActive =
+    state.currentStageId === "archive_browser" && Boolean(state.archiveSearchQuery.trim());
+  const previewOpen = Boolean(
+    el.workflowPreviewModal && !el.workflowPreviewModal.classList.contains("hidden"),
+  );
+  const issueDialogOpen = Boolean(
+    el.issueReturnModal && !el.issueReturnModal.classList.contains("hidden"),
+  );
+  return searchActive || previewOpen || issueDialogOpen;
+}
+
+function updateRuntimePollingForInteraction() {
+  state.runtimePollGeneration += 1;
+  clearRuntimePollTimer();
+  if (
+    state.runtimePollingStarted &&
+    !automaticRuntimeRefreshIsPaused() &&
+    state.manifest?.runtime_status?.path
+  ) {
+    pollRuntimeStatus();
+  }
 }
 
 function clearRuntimePollTimer() {
@@ -5700,6 +5743,9 @@ function clearRuntimePollTimer() {
 }
 
 function scheduleRuntimeStatusPoll() {
+  if (automaticRuntimeRefreshIsPaused()) {
+    return;
+  }
   const status = state.runtimeStatus || {};
   const polling = status.client_polling || {};
   let seconds = document.hidden
