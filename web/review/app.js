@@ -1125,12 +1125,13 @@ async function performArchiveSearch(track, query, nodes) {
   const matches = [];
   let totalMatches = 0;
   for (const doc of state.archiveSearchIndex.documents || []) {
-    if (!normalizeArchiveSearchText(doc.text).includes(normalizedQuery)) {
+    const hitCount = countNormalizedSearchHits(doc.text, normalizedQuery);
+    if (!hitCount) {
       continue;
     }
     totalMatches += 1;
     if (matches.length < 100) {
-      matches.push(doc);
+      matches.push({ ...doc, search_hit_count: hitCount });
     }
   }
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
@@ -1138,6 +1139,24 @@ async function performArchiveSearch(track, query, nodes) {
 
 function normalizeArchiveSearchText(value) {
   return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
+}
+
+function countNormalizedSearchHits(text, normalizedQuery) {
+  if (!normalizedQuery) {
+    return 0;
+  }
+  const normalizedText = normalizeArchiveSearchText(text);
+  let count = 0;
+  let cursor = 0;
+  while (cursor < normalizedText.length) {
+    const index = normalizedText.indexOf(normalizedQuery, cursor);
+    if (index < 0) {
+      break;
+    }
+    count += 1;
+    cursor = index + normalizedQuery.length;
+  }
+  return count;
 }
 
 function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
@@ -1153,9 +1172,13 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "archive-search-result";
+    const hitCount = Number(doc.search_hit_count || 0);
     button.innerHTML = `
-      <strong>Document ${escapeHtml(doc.track_doc_seq)}</strong>
-      <span>${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
+      <span class="archive-search-result-heading">
+        <strong>Document ${escapeHtml(doc.track_doc_seq)}</strong>
+        <span class="archive-search-hit-count">${hitCount} ${hitCount === 1 ? "hit" : "hits"}</span>
+      </span>
+      <span class="archive-search-snippet">${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
     `;
     button.addEventListener("click", () => {
       openArchiveSearchResult(doc, query).catch((error) => {
