@@ -248,6 +248,7 @@ def build_yomi_llm_reading_items(
                 "chunk_index": chunk_index - 1,
                 "surface": target["surface"],
                 "token_surface": token.surface,
+                "token_current_reading": hira_to_katakana(current_reading),
                 "current_reading": hira_to_katakana(target["reading"]),
                 "current_reading_hiragana": target["reading"],
                 "text": text,

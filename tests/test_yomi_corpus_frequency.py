@@ -6,9 +6,11 @@ import unittest
 from pathlib import Path
 
 from yomi_corpus.yomi.corpus_frequency import (
+    EVIDENCE_SCOPE_TRAILING_KANA_STEM,
     SurfaceReadingStats,
     build_surface_reading_stats,
     iter_source_corpus_tokens,
+    trailing_kana_stem_pair,
 )
 
 
@@ -58,7 +60,7 @@ class YomiCorpusFrequencyTests(unittest.TestCase):
             self.assertIsNone(stats.dominant_reading("先生", min_count=2, min_share=0.995))
 
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            self.assertEqual(manifest["script_version"], "surface_reading_stats_v1")
+            self.assertEqual(manifest["script_version"], "surface_reading_stats_v2")
             self.assertEqual(manifest["source_corpus_version"], "fixture_v1")
             self.assertEqual(manifest["filters"]["surface_filter"], "target")
             self.assertEqual(manifest["summary"]["pair_count"], 10)
@@ -92,6 +94,91 @@ class YomiCorpusFrequencyTests(unittest.TestCase):
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             self.assertEqual(manifest["source_corpus_paths"], [str(base), str(reviewed)])
             self.assertEqual(len(manifest["source_corpora"]), 2)
+
+    def test_loads_legacy_exact_only_stats(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            stats_path = Path(tmp) / "legacy.tsv"
+            stats_path.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "source_corpus_version\n"
+                "学校\tガッコウ\t5\t5\t1\tlegacy_v1\n",
+                encoding="utf-8",
+            )
+
+            stats = SurfaceReadingStats.load_tsv(stats_path)
+
+            dominant = stats.dominant_reading("学校", min_count=5, min_share=0.95)
+            self.assertIsNotNone(dominant)
+            assert dominant is not None
+            self.assertEqual(dominant.reading, "ガッコウ")
+            self.assertEqual(dominant.evidence_scope, "exact")
+
+    def test_builds_separate_trailing_kana_stem_statistics(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            corpus = root / "source.txt"
+            stats_path = root / "stats.tsv"
+            manifest_path = root / "manifest.json"
+            corpus.write_text(
+                "".join(
+                    [
+                        "思う\t*\t思う\t思う\tオモウ\n",
+                        "思い\t*\t思う\t思う\tオモイ\n",
+                        "思っ\t*\t思う\t思う\tオモッ\n",
+                        "思わ\t*\t思う\t思う\tオモワ\n",
+                        "思え\t*\t思う\t思う\tオモエ\n",
+                        "思\t*\t思\t思\tオモ\n",
+                        "勝つ\t*\t勝つ\t勝つ\tカツ\n" * 5,
+                        "勝る\t*\t勝る\t勝る\tマサル\n" * 5,
+                        "EOS\n",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            summary = build_surface_reading_stats(
+                source_corpus=corpus,
+                output_tsv=stats_path,
+                manifest_json=manifest_path,
+                source_corpus_version="stem_fixture",
+                checksum=False,
+            )
+
+            stats = SurfaceReadingStats.load_tsv(stats_path)
+            self.assertIsNone(stats.dominant_reading("思っ", min_count=5, min_share=0.95))
+            stem = stats.dominant_reading(
+                "思",
+                min_count=5,
+                min_share=0.95,
+                evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+            )
+            self.assertIsNotNone(stem)
+            assert stem is not None
+            self.assertEqual((stem.reading, stem.count), ("オモ", 5))
+            self.assertEqual(stats.rows_by_surface["思"][0].count, 1)
+            self.assertIsNone(
+                stats.dominant_reading(
+                    "勝",
+                    min_count=5,
+                    min_share=0.95,
+                    evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+                )
+            )
+            self.assertEqual(summary.trailing_kana_stem_token_count, 15)
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                manifest["normalization"]["trailing_kana_stem_rule"],
+                "strip_matching_trailing_hiragana_v1",
+            )
+
+    def test_trailing_kana_stem_requires_matching_reading_suffix(self) -> None:
+        self.assertEqual(
+            trailing_kana_stem_pair("思い知っ", "オモイシッ"),
+            ("思い知", "オモイシ"),
+        )
+        self.assertEqual(trailing_kana_stem_pair("赤かぶ", "アカカブ"), ("赤", "アカ"))
+        self.assertIsNone(trailing_kana_stem_pair("思", "オモ"))
+        self.assertIsNone(trailing_kana_stem_pair("これは", "コレワ"))
 
 
 if __name__ == "__main__":

@@ -60,7 +60,7 @@ class YomiRepairTests(unittest.TestCase):
         assert config.post_hybrid_repair_rules is not None
         self.assertTrue(config.post_hybrid_repair_rules.endswith("config/yomi/post_hybrid_repairs.tsv"))
         self.assertEqual(config.corpus_frequency_min_count, 5)
-        self.assertEqual(config.corpus_frequency_min_share, 0.995)
+        self.assertEqual(config.corpus_frequency_min_share, 0.95)
 
 
 if __name__ == "__main__":

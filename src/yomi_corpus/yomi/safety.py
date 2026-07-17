@@ -6,7 +6,12 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.config import load_yomi_generation_config
-from yomi_corpus.yomi.corpus_frequency import SurfaceReadingStats
+from yomi_corpus.yomi.corpus_frequency import (
+    EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+    TRAILING_KANA_NORMALIZATION_RULE,
+    SurfaceReadingStats,
+    trailing_kana_stem_pair,
+)
 from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_items, is_standalone_laughter_w
 from yomi_corpus.yomi.ngram_diagnostics import (
     DEFAULT_DECODER_LEXICON_PATH,
@@ -14,7 +19,7 @@ from yomi_corpus.yomi.ngram_diagnostics import (
     StableTwoKanjiChecker,
 )
 
-SAFETY_RULE = "per_target_pre_llm_safety_v1"
+SAFETY_RULE = "per_target_pre_llm_safety_v2"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
 MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
 
@@ -142,7 +147,7 @@ def build_pre_llm_safety_records(
     stable_checker: StableTwoKanjiChecker | None = None,
     corpus_stats: SurfaceReadingStats | None = None,
     corpus_frequency_min_count: int = 5,
-    corpus_frequency_min_share: float = 0.995,
+    corpus_frequency_min_share: float = 0.95,
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     unit_auto_accept = yomi_auto_accept_payload(unit)
@@ -185,16 +190,55 @@ def build_pre_llm_safety_records(
                 accepted_signal_names.append("safe_by_stable_dictionary")
 
         if corpus_stats is not None:
-            dominant = corpus_stats.dominant_reading(
-                str(item["surface"]),
-                min_count=corpus_frequency_min_count,
-                min_share=corpus_frequency_min_share,
-            )
-            accepted = dominant is not None and dominant.reading == item["current_reading"]
+            token_surface = str(item.get("token_surface") or item["surface"])
+            token_reading = str(item.get("token_current_reading") or item["current_reading"])
+            target_surface = str(item["surface"])
+            target_reading = str(item["current_reading"])
+            evidence_scope = "target"
+            evidence_surface = target_surface
+            evidence_reading = target_reading
+            normalization_rule = None
+            dominant = None
+            if token_surface != target_surface:
+                dominant = corpus_stats.dominant_reading(
+                    token_surface,
+                    min_count=corpus_frequency_min_count,
+                    min_share=corpus_frequency_min_share,
+                )
+                evidence_scope = "token"
+                evidence_surface = token_surface
+                evidence_reading = token_reading
+            if dominant is None:
+                normalized = trailing_kana_stem_pair(token_surface, token_reading)
+                if normalized is not None:
+                    evidence_surface, evidence_reading = normalized
+                    dominant = corpus_stats.dominant_reading(
+                        evidence_surface,
+                        min_count=corpus_frequency_min_count,
+                        min_share=corpus_frequency_min_share,
+                        evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+                    )
+                    evidence_scope = EVIDENCE_SCOPE_TRAILING_KANA_STEM
+                    normalization_rule = TRAILING_KANA_NORMALIZATION_RULE
+            if dominant is None:
+                dominant = corpus_stats.dominant_reading(
+                    target_surface,
+                    min_count=corpus_frequency_min_count,
+                    min_share=corpus_frequency_min_share,
+                )
+                evidence_scope = "target"
+                evidence_surface = target_surface
+                evidence_reading = target_reading
+                normalization_rule = None
+            accepted = dominant is not None and dominant.reading == evidence_reading
             signals.append(
                 {
                     "name": "safe_by_corpus_frequency",
                     "accepted": accepted,
+                    "evidence_scope": evidence_scope,
+                    "evidence_surface": evidence_surface,
+                    "evidence_reading": evidence_reading,
+                    "normalization_rule": normalization_rule,
                     "min_count": corpus_frequency_min_count,
                     "min_share": corpus_frequency_min_share,
                     "dominant": None
