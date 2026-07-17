@@ -1880,6 +1880,12 @@ function validateRenderedYomiReading(surface, reading) {
   if (isNumericOnlySurface(surface)) {
     return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
   }
+  const numericReadings = numericCompoundReadings(surface);
+  if (numericReadings) {
+    return numericReadings.includes(reading)
+      ? { ok: true }
+      : { ok: false, error: `reading should be one of ${numericReadings.join(", ")}.` };
+  }
   if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
@@ -1893,6 +1899,38 @@ function validateRenderedYomiReading(surface, reading) {
     return { ok: true };
   }
   return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
+}
+
+function numericCompoundReadings(surface) {
+  const normalized = String(surface || "").replace(/[０-９]/gu, (char) =>
+    String.fromCharCode(char.charCodeAt(0) - 0xfee0),
+  );
+  return {
+    "1日": ["イチニチ", "ツイタチ"],
+    "2日": ["フツカ"],
+    "3日": ["ミッカ"],
+    "4日": ["ヨッカ"],
+    "5日": ["イツカ"],
+    "6日": ["ムイカ"],
+    "7日": ["ナノカ"],
+    "8日": ["ヨウカ"],
+    "9日": ["ココノカ"],
+    "10日": ["トオカ"],
+    "14日": ["ジュウヨッカ"],
+    "20日": ["ハツカ"],
+    "24日": ["ニジュウヨッカ"],
+    "1人": ["ヒトリ"],
+    "2人": ["フタリ"],
+    "1つ": ["ヒトツ"],
+    "2つ": ["フタツ"],
+    "3つ": ["ミッツ"],
+    "4つ": ["ヨッツ"],
+    "5つ": ["イツツ"],
+    "6つ": ["ムッツ"],
+    "7つ": ["ナナツ"],
+    "8つ": ["ヤッツ"],
+    "9つ": ["ココノツ"],
+  }[normalized] || null;
 }
 
 function isNumericOnlySurface(surface) {
@@ -3813,7 +3851,16 @@ function renderRubySegments(item, override, editable) {
     }
     const target = targetsById[segment.target_item_id];
     if (!target) {
-      nodes.push(document.createTextNode(segment.text || ""));
+      if (segment.display_only && segment.reading) {
+        const ruby = document.createElement("ruby");
+        ruby.append(document.createTextNode(segment.text || ""));
+        const rt = document.createElement("rt");
+        rt.textContent = segment.reading;
+        ruby.append(rt);
+        nodes.push(ruby);
+      } else {
+        nodes.push(document.createTextNode(segment.text || ""));
+      }
       continue;
     }
     nodes.push(renderRubySpan(item, target, override, editable));
