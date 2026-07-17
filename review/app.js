@@ -3162,10 +3162,16 @@ function formatRepairProposal(rows) {
 function renderStrongRepairAfterLine(item, override, editable) {
   const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
   const matches = [];
+  const usedMatches = new Set();
   for (const region of strongRepairRegions(item)) {
     const span = region.rejected_span || "";
-    const match = span ? findRenderedTokenSpan(tokens, span) : null;
+    const match = span
+      ? findRenderedTokenSpans(tokens, span).find(
+          (candidate) => !usedMatches.has(strongRepairMatchKey(candidate)),
+        )
+      : null;
     if (match) {
+      usedMatches.add(strongRepairMatchKey(match));
       matches.push({ ...match, region });
     }
   }
@@ -3201,11 +3207,15 @@ function renderStrongRepairAfterLine(item, override, editable) {
   return nodes;
 }
 
+function strongRepairMatchKey(match) {
+  return `${match.start}:${match.end}:${match.prefix || ""}:${match.suffix || ""}`;
+}
+
 function strongRepairRegions(item) {
   return item.regions?.length ? item.regions : [item];
 }
 
-function findRenderedTokenSpan(tokens, surfaceSpan) {
+function findRenderedTokenSpans(tokens, surfaceSpan) {
   const matches = [];
   for (let start = 0; start < tokens.length; start += 1) {
     let surface = "";
@@ -3220,8 +3230,8 @@ function findRenderedTokenSpan(tokens, surfaceSpan) {
       }
     }
   }
-  if (matches.length === 1) {
-    return matches[0];
+  if (matches.length) {
+    return matches;
   }
   const internalMatches = [];
   for (let index = 0; index < tokens.length; index += 1) {
@@ -3240,7 +3250,7 @@ function findRenderedTokenSpan(tokens, surfaceSpan) {
     }
     internalMatches.push({ start: index, end: index + 1, prefix, suffix });
   }
-  return internalMatches.length === 1 ? internalMatches[0] : null;
+  return internalMatches;
 }
 
 function renderStrongRepairSpanEditor(item, region, override, editable) {
