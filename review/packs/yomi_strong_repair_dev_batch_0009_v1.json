@@ -35,7 +35,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-17T07:48:37Z",
+      "state_updated_at": "2026-07-17T07:54:06Z",
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -179,7 +179,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-17T07:48:37Z",
+      "state_updated_at": "2026-07-17T07:54:06Z",
       "item_count": 2,
       "region_count": 3,
       "unresolved_count": 3,
@@ -203,7 +203,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-17T07:48:37Z",
+      "state_updated_at": "2026-07-17T07:54:06Z",
       "item_count": 3,
       "region_count": 3,
       "unresolved_count": 3,
@@ -227,7 +227,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-17T07:48:37Z",
+      "state_updated_at": "2026-07-17T07:54:06Z",
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -275,7 +275,7 @@
       "source_line_no": 54,
       "text": "餅はとても柔らかくお箸で摘んでも柔らかさが伝わります。",
       "rendered_yomi_before": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
-      "rendered_yomi_after": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
+      "rendered_yomi_after": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツマン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "餅",
@@ -356,12 +356,12 @@
         },
         {
           "surface": "摘ん",
-          "reading": "ツン",
+          "reading": "ツマン",
           "nodes": [
             {
               "type": "ruby",
               "text": "摘",
-              "reading": "つ"
+              "reading": "つま"
             },
             {
               "type": "text",
@@ -469,7 +469,7 @@
           "unit_id": "ja_cc_level2:0000000054:u0022",
           "text": "餅はとても柔らかくお箸で摘んでも柔らかさが伝わります。",
           "rendered_yomi_before": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
-          "rendered_yomi_after": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
+          "rendered_yomi_after": "餅/モチ は/ハ とても/トテモ 柔らかく/ヤワラカク お/オ 箸/ハシ で/デ 摘ん/ツマン で/デ も/モ 柔らか/ヤワラカ さ/サ が/ガ 伝わり/ツタワリ ます/マス 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -534,12 +534,17 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000054:u0022::target_group:1",
-            "status": "surface_mismatch",
+            "status": "applied",
             "rejected_span": "摘",
-            "original_span": "摘ん"
+            "replacement": [
+              {
+                "surface": "摘ん",
+                "reading": "ツマン"
+              }
+            ]
           }
         }
       ],
@@ -583,12 +588,17 @@
       "llm_raw_text": "[{\"surface\":\"摘\",\"reading\":\"つま\",\"used_web_search\":false}]",
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "surface_mismatch",
+      "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2:0000000054:u0022::target_group:1",
-        "status": "surface_mismatch",
+        "status": "applied",
         "rejected_span": "摘",
-        "original_span": "摘ん"
+        "replacement": [
+          {
+            "surface": "摘ん",
+            "reading": "ツマン"
+          }
+        ]
       }
     },
     {

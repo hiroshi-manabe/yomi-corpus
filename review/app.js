@@ -3179,14 +3179,20 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
   }
   if (!usableMatches.length) {
-    return renderReadonlyRubyFromRendered(item.rendered_yomi_after || "");
+    return tokens.flatMap((token, index) => renderReadonlyRubyFromToken(item, token, index));
   }
   const nodes = [];
   const byStart = new Map(usableMatches.map((match) => [match.start, match]));
   for (let index = 0; index < tokens.length; index += 1) {
     const match = byStart.get(index);
     if (match) {
+      if (match.prefix) {
+        nodes.push(document.createTextNode(match.prefix));
+      }
       nodes.push(renderStrongRepairSpanEditor(item, match.region, override, editable));
+      if (match.suffix) {
+        nodes.push(document.createTextNode(match.suffix));
+      }
       index = match.end - 1;
       continue;
     }
@@ -3214,7 +3220,27 @@ function findRenderedTokenSpan(tokens, surfaceSpan) {
       }
     }
   }
-  return matches.length === 1 ? matches[0] : null;
+  if (matches.length === 1) {
+    return matches[0];
+  }
+  const internalMatches = [];
+  for (let index = 0; index < tokens.length; index += 1) {
+    const tokenSurface = tokens[index].surface || "";
+    const offset = tokenSurface.indexOf(surfaceSpan);
+    if (offset < 0 || tokenSurface.indexOf(surfaceSpan, offset + surfaceSpan.length) >= 0) {
+      continue;
+    }
+    const prefix = tokenSurface.slice(0, offset);
+    const suffix = tokenSurface.slice(offset + surfaceSpan.length);
+    if (!prefix && !suffix) {
+      continue;
+    }
+    if (!/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
+      continue;
+    }
+    internalMatches.push({ start: index, end: index + 1, prefix, suffix });
+  }
+  return internalMatches.length === 1 ? internalMatches[0] : null;
 }
 
 function renderStrongRepairSpanEditor(item, region, override, editable) {
