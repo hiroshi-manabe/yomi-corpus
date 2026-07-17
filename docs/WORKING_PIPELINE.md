@@ -738,10 +738,27 @@ they are frequent enough to need exceptions or weaker highlighting.
 
 The lookup first checks the full current token and reading. Thus corpus evidence
 for `思っ/オモッ` can mark its contained `思/オモ` target safe even though the
-corpus has no standalone `思` row. This is exact-form evidence, not conjugation
-aggregation. Target-level frequency remains a fallback when no qualifying
-full-token row exists. Signals record the selected evidence scope, surface, and
-reading.
+corpus has no standalone `思` row. If exact full-token evidence does not pass,
+the lookup next tries trailing-kana stem evidence. For a token ending in a run
+of hiragana, remove that entire run and remove its exact katakana equivalent
+from the reading: `思い知る/オモイシル` and `思い知っ/オモイシッ` both become
+`思い知/オモイシ`. Apply the identical transform to evidence-corpus
+tokens and the current candidate. Naturally kana-less surfaces stay in a
+separate namespace and are never merged into a trimmed family. Target-level
+frequency remains the final fallback. Signals record the selected evidence
+scope, surface, reading, and normalization rule.
+
+This normalization is deliberately not a lemma reconstruction. It can also
+produce useful target-reading evidence such as `赤かぶ/アカカブ -> 赤/アカ`.
+That is acceptable because the decision concerns the reading of the written
+target, and both historical evidence and the current candidate use the same
+transform. Ambiguous stems remain blocked by the ordinary count/share policy:
+in the inspected 1,303,044-token human-read corpus, `行` split between
+`オコナ` and `イ`, `入` split between `ハイ` and `イ`, and `勝` split among
+`カ`, `ガ`, and `マサ`, so none reached 95%. The same experiment found 1,057
+of 1,297 normalized keys with at least five observations passed 95%; on the
+finalized dev units, normalized evidence newly covered 200 of 8,599 target
+occurrences beyond exact-token evidence.
 
 Concrete per-target safety records should live under the unit's yomi analysis,
 for example `analysis.safety.yomi.targets[]` or an equivalent versioned path.
@@ -944,6 +961,13 @@ Minimum fields:
 - `corpus_version` or `source_corpus_version`
 - optional `exported_at`, `source_corpus_path_or_id`, `decoder_version`, and
   `normalization_version`
+
+The generated artifact must contain separate exact and `trailing_kana_stem`
+namespaces. A trailing-kana row stores the normalized surface/reading pair and
+its family totals. Generation is valid only when the removed surface suffix is
+non-empty hiragana, at least one kanji or iteration mark remains, and the
+reading ends in the exact katakana conversion of that suffix. Entries that do
+not satisfy all conditions contribute only to exact statistics.
 
 The loader should answer questions such as: "Does this surface have one
 dominant trusted reading above the configured threshold, and does the current

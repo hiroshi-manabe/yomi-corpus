@@ -532,10 +532,22 @@ exceptions or lower the confidence/highlight level for those surfaces.
 
 Corpus-frequency lookup should use the exact full token before the extracted
 ruby target. For example, the evidence pair `思っ/オモッ` can make the contained
-target `思/オモ` low-risk without aggregating conjugations. If no qualifying
-full-token entry exists, the implementation may fall back to target-level
-evidence. The safety signal records whether `token` or `target` evidence was
-used, together with the evidence surface and reading.
+target `思/オモ` low-risk. If exact full-token evidence does not qualify, use
+a separate trailing-kana stem namespace before falling back to target-level
+evidence. Remove the complete trailing hiragana run from the surface and its
+exact katakana equivalent from the reading, so `思い知る/オモイシル` and
+`思い知っ/オモイシッ` share `思い知/オモイシ`. Do not combine normalized
+families with naturally kana-less surfaces. The safety signal records whether
+`token`, `trailing_kana_stem`, or `target` evidence was used, together with the
+evidence surface, reading, and normalization rule.
+
+This is target-reading normalization, not linguistic lemmatization. It may
+legitimately group derivational or lexical forms such as `赤かぶ/アカカブ` under
+`赤/アカ`, because the same deterministic transform is applied to corpus
+evidence and the current candidate. Competing reading stems still share the
+family denominator and must pass the normal minimum-count and 95% dominance
+requirements. Thus families such as `行`, `入`, `食`, and `勝` remain unresolved
+when their observed reading stems are materially split.
 
 Corpus-frequency statistics must be versioned with the decoder model rather
 than remaining a global artifact built only from the original corpus. Every
@@ -714,6 +726,15 @@ The initial default is `min_count = 5` and `min_share = 0.95`. At counts below
 small observed minority reading. Count-5 boundary
 samples looked acceptable for this signal's intended role: de-emphasizing
 low-risk targets while preserving auditability and bulk review visibility.
+
+An experiment over 1,303,044 human-read source tokens produced 3,791
+trailing-kana stem keys; 1,542 combined multiple surface forms. Of 1,297 keys
+with at least five observations, 1,057 met the 95% threshold. Applied to the
+finalized dev units, this evidence newly accepted 200 of 8,599 target
+occurrences that exact-token statistics did not accept. Most gains were sparse
+forms such as `学べる/マナベル -> 学/マナ` and `嬉しかっ/ウレシカッ ->
+嬉/ウレ`; it also raised noisy exact forms such as `作り/ツクリ` from
+93.2% exact-form share to 98.3% for `作/ツク`.
 
 Changing the source/training corpus changes safety decisions. Every pipeline
 output using corpus-frequency evidence must record the evidence artifact path
