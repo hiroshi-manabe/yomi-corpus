@@ -154,7 +154,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-17T06:05:24Z",
+      "state_updated_at": "2026-07-17T06:21:34Z",
       "item_count": 25,
       "region_count": 0,
       "unresolved_count": 6,
@@ -36025,8 +36025,10 @@
         {
           "type": "ruby",
           "text": "7日",
+          "target_item_id": "ja_cc_level2:0000000051:u0001:n0003",
           "reading": "なのか",
-          "display_only": true
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
@@ -36581,8 +36583,8 @@
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 11,
-      "safe_target_count": 11,
+      "target_count": 12,
+      "safe_target_count": 12,
       "unresolved_target_count": 0,
       "all_targets_safe": true,
       "targets": [
@@ -36771,6 +36773,63 @@
               },
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260717T044125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260717T044125Z"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000051:u0001:n0003",
+          "surface": "7日",
+          "token_surface": "7日",
+          "target_start": 2,
+          "target_end": 4,
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading": "ナノカ",
+          "current_reading_hiragana": "なのか",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_numeric_compound"
+          ],
+          "status_reason": "accepted_numeric_compound_rule",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "なのか",
+          "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "なのか",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "7日",
+                  "reading": "なのか"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "7日"
+                }
+              ]
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_numeric_compound",
+              "accepted": true,
+              "reading": "なのか"
             }
           ]
         },
@@ -37834,6 +37893,7 @@
       ],
       "reading_hints": {
         "月": "がつ",
+        "7日": "なのか",
         "開催": "かいさい",
         "語": "かた",
         "発表会": "はっぴょうかい",
@@ -48267,8 +48327,10 @@
         {
           "type": "ruby",
           "text": "24日",
+          "target_item_id": "ja_cc_level2:0000000051:u0009:n0098",
           "reading": "にじゅうよっか",
-          "display_only": true
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
@@ -48950,8 +49012,8 @@
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 17,
-      "safe_target_count": 12,
+      "target_count": 18,
+      "safe_target_count": 13,
       "unresolved_target_count": 5,
       "all_targets_safe": false,
       "targets": [
@@ -50978,6 +51040,63 @@
           ]
         },
         {
+          "item_id": "ja_cc_level2:0000000051:u0009:n0098",
+          "surface": "24日",
+          "token_surface": "24日",
+          "target_start": 97,
+          "target_end": 100,
+          "token_index": 60,
+          "chunk_index": 0,
+          "current_reading": "ニジュウヨッカ",
+          "current_reading_hiragana": "にじゅうよっか",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_numeric_compound"
+          ],
+          "status_reason": "accepted_numeric_compound_rule",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "にじゅうよっか",
+          "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "にじゅうよっか",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "24日",
+                  "reading": "にじゅうよっか"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "24日"
+                }
+              ]
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_numeric_compound",
+              "accepted": true,
+              "reading": "にじゅうよっか"
+            }
+          ]
+        },
+        {
           "item_id": "ja_cc_level2:0000000051:u0009:r0075c01",
           "surface": "日",
           "token_surface": "日",
@@ -51136,7 +51255,8 @@
         "開催": "かいさい",
         "原動": "げんどう",
         "力": "りょく",
-        "土": "ど"
+        "土": "ど",
+        "24日": "にじゅうよっか"
       }
     },
     {
@@ -76025,8 +76145,10 @@
         {
           "type": "ruby",
           "text": "2人",
+          "target_item_id": "ja_cc_level2:0000000052:u0016:n0004",
           "reading": "ふたり",
-          "display_only": true
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "ruby",
@@ -76527,8 +76649,8 @@
       "scope_status": "Keep",
       "provisional_skip": false,
       "skip_default": false,
-      "target_count": 13,
-      "safe_target_count": 13,
+      "target_count": 14,
+      "safe_target_count": 14,
       "unresolved_target_count": 0,
       "all_targets_safe": true,
       "targets": [
@@ -76647,6 +76769,63 @@
               },
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260717T044125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260717T044125Z"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000052:u0016:n0004",
+          "surface": "2人",
+          "token_surface": "2人",
+          "target_start": 3,
+          "target_end": 5,
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading": "フタリ",
+          "current_reading_hiragana": "ふたり",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_numeric_compound"
+          ],
+          "status_reason": "accepted_numeric_compound_rule",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ふたり",
+          "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふたり",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "2人",
+                  "reading": "ふたり"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "2人"
+                }
+              ]
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_numeric_compound",
+              "accepted": true,
+              "reading": "ふたり"
             }
           ]
         },
@@ -77783,6 +77962,7 @@
       ],
       "reading_hints": {
         "逆": "ぎゃく",
+        "2人": "ふたり",
         "以上": "いじょう",
         "顧客": "こきゃく",
         "情報": "じょうほう",
