@@ -10,9 +10,9 @@
   "item_count": 50,
   "summary": {
     "document_count": 2,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "final_pending": 2
+      "final_reviewed": 2
     },
     "unresolved_item_count": 5,
     "unresolved_target_count": 6,
@@ -28,18 +28,18 @@
       "source_line_no": 46,
       "preview": "改めて確認をとったところ、フードコートの時短は今月20日まで継続中と判明しました。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
+      "state": "final_reviewed",
+      "workflow_state": "bulk_submitted",
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-17T04:47:10Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-17T06:04:00Z",
       "item_count": 37,
       "region_count": 0,
       "unresolved_count": 5,
       "from_seq": 1,
       "to_seq": 37,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 37,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -52,18 +52,18 @@
       "source_line_no": 47,
       "preview": "人間の疲労回復、健康維持にもっともっと大切なのが睡眠。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
+      "state": "final_reviewed",
+      "workflow_state": "bulk_submitted",
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-17T04:47:10Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-17T06:04:00Z",
       "item_count": 13,
       "region_count": 0,
       "unresolved_count": 1,
       "from_seq": 38,
       "to_seq": 50,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 13,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     }
@@ -126,8 +126,14 @@
           "highlight_level": "none"
         },
         {
+          "type": "ruby",
+          "text": "20日",
+          "reading": "はつか",
+          "display_only": true
+        },
+        {
           "type": "text",
-          "text": "20日まで"
+          "text": "まで"
         },
         {
           "type": "ruby",
@@ -9445,8 +9451,14 @@
           "highlight_level": "none"
         },
         {
+          "type": "ruby",
+          "text": "20日",
+          "reading": "はつか",
+          "display_only": true
+        },
+        {
           "type": "text",
-          "text": "20日まで"
+          "text": "まで"
         },
         {
           "type": "ruby",
