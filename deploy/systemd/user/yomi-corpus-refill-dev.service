@@ -1,0 +1,9 @@
+[Unit]
+Description=Yomi corpus dev Bulk Review refill worker
+Documentation=file:/panfs/panmt22/users/hmanabe/yomi-corpus/docs/WORKING_PIPELINE.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=/panfs/panmt22/users/hmanabe/yomi-corpus
+Environment=PATH=/home/hmanabe/.local/bin:/home/hmanabe/.local/share/mise/installs/python/3.12.12/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/bash -lc './refill-worker dev'

@@ -2473,6 +2473,13 @@ They must be separate scheduled processes with separate execution policies.
 - calculate refill demand, but only enqueue or reserve work rather than running
   long decoder or LLM stages
 
+This separation is implemented by `./review-sync` and `./refill-worker`.
+`review-sync` includes `refill_plan` in its summary but never prepares or
+advances a refill batch. `refill-worker` reads the same configuration, resumes
+the oldest batch that has not reached `final_review_prepared`, and otherwise
+reserves at most `pass_limit` new documents when the aggregate pool is below
+`target_ready_docs`.
+
 `refill-worker` should own preparation of new review material:
 
 - atomically reserve the next source documents and create a concrete batch
@@ -2500,6 +2507,35 @@ The two processes need explicit lock scopes:
   decoder, or building review-page artifacts
 - start with one refill worker per track; add bounded per-batch concurrency only
   after source reservation and API-capacity behavior are proven safe
+
+The implemented lock files are deliberately independent:
+
+- `data/state/review_sync/<track>.lock` protects Issue import/application
+- `data/state/refill/<track>.lock` prevents overlapping refill workers
+- `data/state/refill/batches/<batch>.lock` protects explicit resumable batch work
+
+Refill summaries are written to `data/state/refill/<track>.last.json` with
+timestamped history beside them. The worker always advances the captured batch
+with `PipelineWorkspace.advance_batch()`; it does not rely on the track's
+mutable `current_batch_name` after reservation.
+
+For dev, install the version-controlled user units from
+`deploy/systemd/user/`, then run:
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now yomi-corpus-review-sync-dev.timer
+systemctl --user enable --now yomi-corpus-refill-dev.timer
+```
+
+Useful diagnostics:
+
+```bash
+systemctl --user status yomi-corpus-review-sync-dev.service
+systemctl --user status yomi-corpus-refill-dev.service
+journalctl --user -u yomi-corpus-review-sync-dev.service -n 100 --no-pager
+journalctl --user -u yomi-corpus-refill-dev.service -n 100 --no-pager
+```
 
 Execution modes should also be independent. Interactive review repair may still
 prefer background requests for low latency, while refill can optimize for cost

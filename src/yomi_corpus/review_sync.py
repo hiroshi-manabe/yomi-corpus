@@ -15,6 +15,7 @@ from typing import Any
 
 from yomi_corpus.decoder_models import list_finalized_batches, refresh_decoder_model
 from yomi_corpus.pipeline import (
+    LLM_EXECUTION_MODES,
     STAGE_FINAL_REVIEW_APPLIED,
     STAGE_FINAL_REVIEW_PREPARED,
     STAGE_SEQUENCE,
@@ -95,6 +96,20 @@ def load_review_sync_config(
     runtime_section = track.get("runtime_status", {})
     if not isinstance(runtime_section, dict):
         runtime_section = {}
+    refill_worker_section = track.get("refill_worker", {})
+    if not isinstance(refill_worker_section, dict):
+        refill_worker_section = {}
+    refill_llm_execution_mode = str(
+        refill_worker_section.get("llm_execution_mode") or ""
+    ) or None
+    if (
+        refill_llm_execution_mode is not None
+        and refill_llm_execution_mode not in LLM_EXECUTION_MODES
+    ):
+        raise ValueError(
+            f"Unsupported refill LLM execution mode for {track_name}: "
+            f"{refill_llm_execution_mode}"
+        )
     return ReviewSyncConfig(
         mode=mode,
         min_new_batches=max(1, int(section.get("min_new_batches") or 1)),
@@ -104,6 +119,8 @@ def load_review_sync_config(
             0, int(refill_section.get("target_ready_docs") or 0)
         ),
         refill_pass_limit=max(0, int(refill_section.get("pass_limit") or 0)),
+        refill_max_stages=max(1, int(refill_worker_section.get("max_stages") or 20)),
+        refill_llm_execution_mode=refill_llm_execution_mode,
         runtime_status_interval_seconds=max(
             1,
             int(
@@ -172,6 +189,8 @@ class ReviewSyncConfig:
     skip_kenlm: bool = False
     bulk_review_target_ready_docs: int = 0
     refill_pass_limit: int = 0
+    refill_max_stages: int = 20
+    refill_llm_execution_mode: str | None = None
     runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
     runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
     runtime_status_normal_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
@@ -180,8 +199,9 @@ class ReviewSyncConfig:
 
 
 class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Path, *, label: str = "Review sync") -> None:
         self.path = path
+        self.label = label
         self.fd: int | None = None
 
     def __enter__(self) -> "ReviewSyncLock":
@@ -204,7 +224,9 @@ class ReviewSyncLock(AbstractContextManager["ReviewSyncLock"]):
                         continue
                 detail = f" Existing lock: {existing}" if existing else ""
                 reason = f" Reason: {stale_reason}." if stale_reason else ""
-                raise SystemExit(f"Review sync lock already exists: {self.path}.{reason}{detail}") from exc
+                raise SystemExit(
+                    f"{self.label} lock already exists: {self.path}.{reason}{detail}"
+                ) from exc
         payload = {"pid": os.getpid(), "created_at": now_iso()}
         os.write(self.fd, (json.dumps(payload, ensure_ascii=False) + "\n").encode("utf-8"))
         return self
@@ -445,32 +467,8 @@ def _run_review_sync_pass_unlocked(
             track_name=options.track_name,
             target_documents=int(refill_plan["planned_prepare_documents"]),
         )
-    if refill_plan.get("enabled"):
-        refill_result = maintain_bulk_review_refill(
-            workspace=workspace,
-            options=options,
-            refill_plan=refill_plan,
-        )
-        if refill_result is not None:
-            refill_results.append(refill_result)
-            if refill_result.get("changed"):
-                changed = True
-            final_status = workspace.status(options.track_name)
-            document_queue_summary = aggregate_document_queue_summary(
-                root=root,
-                workspace=workspace,
-                track_name=options.track_name,
-            )
-            refill_plan = build_bulk_review_refill_plan(
-                document_queue_summary=document_queue_summary,
-                target_ready_docs=options.bulk_review_target_ready_docs,
-                pass_limit=options.refill_pass_limit,
-            )
-            if int(refill_plan.get("planned_prepare_documents") or 0) > 0:
-                refill_plan["source_selection"] = workspace.preview_next_source_documents(
-                    track_name=options.track_name,
-                    target_documents=int(refill_plan["planned_prepare_documents"]),
-                )
+    # Refill is intentionally executed by the independent refill worker.  The
+    # latency-sensitive Issue synchronizer only reports demand.
 
     if not options.dry_run:
         finalized_correction_result = sync_finalized_corrections(
@@ -482,6 +480,19 @@ def _run_review_sync_pass_unlocked(
         if finalized_correction_result.get("changed"):
             changed = True
         close_results.extend(finalized_correction_result.get("close_results") or [])
+        already_closed = {
+            int(row["issue_number"])
+            for row in close_results
+            if isinstance(row, dict) and row.get("issue_number")
+        }
+        close_results.extend(
+            reconcile_applied_final_review_issues(
+                root=root,
+                repo=options.repo,
+                enabled=options.close_issues,
+                exclude_issue_numbers=already_closed,
+            )
+        )
 
     if not options.dry_run:
         decoder_refresh_result = maybe_refresh_decoder_model(
@@ -631,6 +642,61 @@ def close_finalized_correction_issues(
             continue
         if submission_ids and submission_ids <= applied_submission_ids:
             closable.append(issue_number)
+    return [close_github_issue(repo=repo, issue_number=number) for number in sorted(closable)]
+
+
+def reconcile_applied_final_review_issues(
+    *,
+    root: Path,
+    repo: str,
+    enabled: bool,
+    exclude_issue_numbers: set[int] | None = None,
+) -> list[dict[str, Any]]:
+    """Close Issues whose imported submissions were applied before an interruption."""
+    if not enabled:
+        return []
+    import_summary_path = root / "data" / "state" / "yomi_final" / "last_review_inbox_import_summary.json"
+    if not import_summary_path.exists():
+        return []
+    import_summary = read_json(import_summary_path)
+    submissions_by_issue: dict[int, set[str]] = {}
+    problematic_issues: set[int] = set()
+    for row in import_summary.get("summaries") or []:
+        if not isinstance(row, dict):
+            continue
+        issue_number = issue_number_from_source(row.get("source"))
+        stored_path = row.get("stored_path")
+        if issue_number and stored_path:
+            submissions_by_issue.setdefault(issue_number, set()).add(
+                str(Path(str(stored_path)).resolve())
+            )
+    for row in import_summary.get("skipped") or []:
+        if not isinstance(row, dict):
+            continue
+        if str(row.get("reason") or "") == "duplicate_submission_id":
+            continue
+        issue_number = issue_number_from_source(row.get("source"))
+        if issue_number:
+            problematic_issues.add(issue_number)
+
+    applied_paths: set[str] = set()
+    for summary_path in (root / "data" / "units").glob("*/final_review_apply_summary.json"):
+        try:
+            apply_summary = read_json(summary_path)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        for submission_path in apply_summary.get("submission_paths") or []:
+            applied_paths.add(str(Path(str(submission_path)).resolve()))
+
+    excluded = exclude_issue_numbers or set()
+    closable = [
+        issue_number
+        for issue_number, paths in submissions_by_issue.items()
+        if issue_number not in excluded
+        and issue_number not in problematic_issues
+        and paths
+        and paths <= applied_paths
+    ]
     return [close_github_issue(repo=repo, issue_number=number) for number in sorted(closable)]
 
 
@@ -923,168 +989,6 @@ def build_bulk_review_refill_plan(
             if target > 0 and planned > 0
             else None
         ),
-    }
-
-
-def maintain_bulk_review_refill(
-    *,
-    workspace: PipelineWorkspace,
-    options: ReviewSyncOptions,
-    refill_plan: dict[str, Any],
-) -> dict[str, Any] | None:
-    status = workspace.status(options.track_name)
-    current_stage = str(status.get("current_stage") or "")
-    current_batch = str(status.get("current_batch_name") or status.get("batch_name") or "")
-    if batch_is_before_bulk_review_ready(current_stage):
-        if options.dry_run:
-            return {
-                "action": "continue_existing_batch",
-                "batch_name": current_batch,
-                "current_stage": current_stage,
-                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                "changed": False,
-                "dry_run": True,
-            }
-        advance_result = advance_current_batch_to_bulk_review_ready(
-            workspace=workspace,
-            track_name=options.track_name,
-            max_stages=options.max_stages,
-        )
-        return {
-            "action": "continue_existing_batch",
-            "batch_name": current_batch,
-            "changed": bool(advance_result.get("changed")),
-            "dry_run": False,
-            **advance_result,
-        }
-
-    planned = int(refill_plan.get("planned_prepare_documents") or 0)
-    if planned <= 0:
-        return None
-    if options.dry_run:
-        return {
-            "action": "prepare_next_batch",
-            "status": "planned",
-            "planned_prepare_documents": planned,
-            "source_selection": refill_plan.get("source_selection"),
-            "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-            "changed": False,
-            "dry_run": True,
-        }
-
-    prepare_result = workspace.prepare_next_batch(
-        track_name=options.track_name,
-        target_documents=planned,
-    )
-    advance_result = advance_current_batch_to_bulk_review_ready(
-        workspace=workspace,
-        track_name=options.track_name,
-        max_stages=options.max_stages,
-    )
-    return {
-        "action": "prepare_next_batch",
-        "planned_prepare_documents": planned,
-        "source_selection": refill_plan.get("source_selection"),
-        "prepare_result": prepare_result,
-        "changed": True,
-        "dry_run": False,
-        **advance_result,
-    }
-
-
-def batch_is_before_bulk_review_ready(stage_name: str) -> bool:
-    try:
-        current_index = STAGE_SEQUENCE.index(stage_name)
-        target_index = STAGE_SEQUENCE.index(STAGE_FINAL_REVIEW_PREPARED)
-    except ValueError:
-        return False
-    return current_index < target_index
-
-
-def advance_current_batch_to_bulk_review_ready(
-    *,
-    workspace: PipelineWorkspace,
-    track_name: str,
-    max_stages: int,
-) -> dict[str, Any]:
-    steps: list[dict[str, Any]] = []
-    changed = False
-    prepared_to_bulk_steps = STAGE_SEQUENCE.index(STAGE_FINAL_REVIEW_PREPARED)
-    stage_limit = max(1, max_stages, prepared_to_bulk_steps)
-    for _ in range(stage_limit):
-        status = workspace.status(track_name)
-        current_stage = str(status.get("current_stage") or "")
-        if current_stage == STAGE_FINAL_REVIEW_PREPARED:
-            return {
-                "status": "bulk_review_ready",
-                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
-                "current_stage": current_stage,
-                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                "steps": steps,
-                "changed": changed,
-            }
-        next_stage = str(status.get("next_stage") or "")
-        if not next_stage:
-            return {
-                "status": "stopped",
-                "reason": "no_next_stage",
-                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
-                "current_stage": current_stage,
-                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                "steps": steps,
-                "changed": changed,
-            }
-        if next_stage not in STAGE_SEQUENCE or STAGE_SEQUENCE.index(next_stage) > STAGE_SEQUENCE.index(
-            STAGE_FINAL_REVIEW_PREPARED
-        ):
-            return {
-                "status": "stopped",
-                "reason": "next_stage_beyond_bulk_review_ready",
-                "batch_name": status.get("current_batch_name") or status.get("batch_name"),
-                "current_stage": current_stage,
-                "next_stage": next_stage,
-                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                "steps": steps,
-                "changed": changed,
-            }
-        result = workspace.advance(track_name=track_name)
-        step = {
-            "attempted_stage": next_stage,
-            "advanced": result.get("advanced"),
-            "current_stage": result.get("current_stage"),
-            "blocking_reason": result.get("blocking_reason"),
-        }
-        steps.append(step)
-        if result.get("advanced"):
-            changed = True
-            if result.get("current_stage") == STAGE_FINAL_REVIEW_PREPARED:
-                return {
-                    "status": "bulk_review_ready",
-                    "batch_name": result.get("batch_name"),
-                    "current_stage": result.get("current_stage"),
-                    "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                    "steps": steps,
-                    "changed": changed,
-                }
-        if not result.get("advanced"):
-            return {
-                "status": "incomplete",
-                "reason": result.get("blocking_reason") or "stage_not_advanced",
-                "batch_name": result.get("batch_name"),
-                "current_stage": result.get("current_stage"),
-                "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-                "steps": steps,
-                "changed": changed,
-            }
-    status = workspace.status(track_name)
-    return {
-        "status": "incomplete",
-        "reason": "max_stages_reached",
-        "batch_name": status.get("current_batch_name") or status.get("batch_name"),
-        "current_stage": status.get("current_stage"),
-        "target_stage": STAGE_FINAL_REVIEW_PREPARED,
-        "steps": steps,
-        "changed": changed,
     }
 
 

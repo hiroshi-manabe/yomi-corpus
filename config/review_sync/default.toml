@@ -8,6 +8,10 @@ skip_kenlm = false
 target_ready_docs = 50
 pass_limit = 10
 
+[tracks.dev.refill_worker]
+max_stages = 20
+llm_execution_mode = "background"
+
 [tracks.dev.runtime_status]
 interval_seconds = 300
 grace_seconds = 90
@@ -24,6 +28,10 @@ skip_kenlm = false
 [tracks.working.bulk_review_refill]
 target_ready_docs = 0
 pass_limit = 0
+
+[tracks.working.refill_worker]
+max_stages = 20
+llm_execution_mode = "background"
 
 [tracks.working.runtime_status]
 interval_seconds = 300

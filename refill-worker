@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.pipeline import LLM_EXECUTION_MODES  # noqa: E402
+from yomi_corpus.refill_worker import RefillWorkerOptions, run_refill_worker_pass  # noqa: E402
+from yomi_corpus.review_sync import (  # noqa: E402
+    DEFAULT_REVIEW_SYNC_CONFIG,
+    load_review_sync_config,
+)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Maintain the prepared Bulk Review document pool."
+    )
+    parser.add_argument("track", choices=["dev", "working"])
+    parser.add_argument(
+        "--sync-config",
+        default=DEFAULT_REVIEW_SYNC_CONFIG,
+        help=f"Review/refill TOML config. Default: {DEFAULT_REVIEW_SYNC_CONFIG}.",
+    )
+    parser.add_argument("--target-ready-docs", type=int, default=None)
+    parser.add_argument("--pass-limit", type=int, default=None)
+    parser.add_argument("--max-stages", type=int, default=None)
+    parser.add_argument("--llm-mode", choices=sorted(LLM_EXECUTION_MODES))
+    parser.add_argument("--dry-run", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    config = load_review_sync_config(args.track, args.sync_config)
+    summary = run_refill_worker_pass(
+        PROJECT_ROOT,
+        RefillWorkerOptions(
+            track_name=args.track,
+            target_ready_docs=(
+                args.target_ready_docs
+                if args.target_ready_docs is not None
+                else config.bulk_review_target_ready_docs
+            ),
+            pass_limit=(
+                args.pass_limit
+                if args.pass_limit is not None
+                else config.refill_pass_limit
+            ),
+            max_stages=(
+                args.max_stages
+                if args.max_stages is not None
+                else config.refill_max_stages
+            ),
+            llm_execution_mode_override=(
+                args.llm_mode
+                if args.llm_mode is not None
+                else config.refill_llm_execution_mode
+            ),
+            dry_run=args.dry_run,
+        ),
+    )
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
