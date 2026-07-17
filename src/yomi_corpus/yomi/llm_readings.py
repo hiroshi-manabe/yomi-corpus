@@ -19,6 +19,7 @@ from yomi_corpus.yomi.ngram_diagnostics import (
 )
 from yomi_corpus.yomi.strategies import span_sudachi_tokens
 from yomi_corpus.yomi.furigana import FuriganaConverter, parse_annotated_chunks
+from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
 
 
 KANJI_RE = re.compile(r"[\u3400-\u9fff々〆〻]")
@@ -230,9 +231,13 @@ def build_yomi_llm_reading_items(
         return []
 
     rendered_readings = rendered_readings_by_token_index(yomi, tokens)
+    compound_occurrences = numeric_compound_occurrences(text, str(yomi.get("rendered") or ""))
+    compound_spans = [(row.start, row.end) for row in compound_occurrences]
     items: list[dict[str, Any]] = []
     for index, span in enumerate(spans):
         token = span.token
+        if any(span.start < end and span.end > start for start, end in compound_spans):
+            continue
         if not is_llm_reading_target(token.surface):
             continue
         current_reading = rendered_readings.get(index, token.reading)
@@ -284,6 +289,36 @@ def build_yomi_llm_reading_items(
                     )
                     continue
             items.append({**base_item, "queue_status": "queued"})
+    for occurrence in compound_occurrences:
+        if not occurrence.rule.review_readings:
+            continue
+        item_id = f"{unit.get('unit_id', '')}:n{occurrence.start + 1:04d}"
+        current_hiragana = katakana_to_hiragana(occurrence.reading)
+        items.append(
+            {
+                "unit_id": str(unit.get("unit_id", "")),
+                "item_id": item_id,
+                "token_index": occurrence.pair_index,
+                "chunk_index": 0,
+                "surface": occurrence.surface,
+                "token_surface": occurrence.surface,
+                "token_current_reading": occurrence.reading,
+                "current_reading": occurrence.reading,
+                "current_reading_hiragana": current_hiragana,
+                "text": text,
+                "marked_text": mark_span(text, occurrence.start, occurrence.end),
+                "marked_furigana_text": mark_span(text, occurrence.start, occurrence.end),
+                "token_start": occurrence.start,
+                "token_end": occurrence.end,
+                "target_start": occurrence.start,
+                "target_end": occurrence.end,
+                "pos": "numeric_compound",
+                "dictionary_form": occurrence.surface,
+                "normalized_form": occurrence.surface,
+                "queue_status": "queued",
+            }
+        )
+    items.sort(key=lambda item: (int(item["target_start"]), int(item["target_end"])))
     return items
 
 
@@ -292,12 +327,20 @@ def rendered_readings_by_token_index(yomi: dict[str, Any], tokens: list[Any]) ->
     if not rendered:
         return {}
     pairs = parse_rendered_pairs(rendered)
-    if len(pairs) != len(tokens):
-        return {}
     readings: dict[int, str] = {}
-    for index, ((surface, reading), token) in enumerate(zip(pairs, tokens, strict=True)):
-        if surface == token.surface and reading:
-            readings[index] = reading
+    token_index = 0
+    for surface, reading in pairs:
+        start_index = token_index
+        combined = ""
+        while token_index < len(tokens) and len(combined) < len(surface):
+            combined += tokens[token_index].surface
+            token_index += 1
+        if combined != surface:
+            return {}
+        if token_index == start_index + 1 and reading:
+            readings[start_index] = reading
+    if token_index != len(tokens):
+        return {}
     return readings
 
 

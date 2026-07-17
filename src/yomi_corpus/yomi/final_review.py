@@ -17,6 +17,10 @@ from yomi_corpus.yomi.llm_readings import (
     normalize_hiragana_reading,
 )
 from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
+from yomi_corpus.yomi.numeric_compounds import (
+    canonicalize_final_numeric_compounds,
+    numeric_compound_rule,
+)
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
     editable_rendered_to_yomi_tokens,
@@ -829,6 +833,15 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         target.get("current_reading_hiragana") or target.get("current_reading"),
         accepted=bool(target.get("is_safe")) and not accepted_no_ruby,
     )
+    numeric_rule = numeric_compound_rule(str(target.get("surface") or ""))
+    if numeric_rule is not None:
+        for index, reading in enumerate(numeric_rule.review_readings):
+            add(
+                "numeric_compound",
+                "Japanese numeric compound",
+                reading,
+                candidate_id=f"numeric_compound:{index}",
+            )
     for signal in target.get("signals") or []:
         if not isinstance(signal, dict):
             continue
@@ -3086,8 +3099,10 @@ def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
         .setdefault("mechanical", {})
         .setdefault("yomi", {})
     )
-    tokens = normalize_correction_yomi_tokens(
-        yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    tokens = canonicalize_final_numeric_compounds(
+        normalize_correction_yomi_tokens(
+            yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+        )
     )
     if not tokens:
         raise YomiTokenError(f"finalized unit {unit.get('unit_id') or '<unknown>'} has no yomi tokens")
