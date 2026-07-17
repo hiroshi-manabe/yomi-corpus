@@ -4702,7 +4702,7 @@ function saveDraft() {
 }
 
 function draftStorageKey(reviewStage, packId) {
-  return `yomi-corpus:draft:${reviewStage}:${packId}:v1`;
+  return `yomi-corpus:draft:${reviewStage}:${packId}:v2`;
 }
 
 function loadSettings() {
