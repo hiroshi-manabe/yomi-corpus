@@ -1,0 +1,3111 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0013_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0013",
+  "created_at_epoch": 1784613118,
+  "created_at": "2026-07-21T05:51:58Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 2
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000094",
+      "doc_seq": 1,
+      "track_doc_seq": 94,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 94,
+      "preview": "いつも皆様には大変お世話になっております。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000095",
+      "doc_seq": 2,
+      "track_doc_seq": 95,
+      "unit_count": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 95,
+      "preview": "夫婦でギャラリーを営む引田ターセンさんに、スマホを体験していただきました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 25,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000096",
+      "doc_seq": 3,
+      "track_doc_seq": 96,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 96,
+      "preview": "これがまかり通っては高校野球の存続が危うくなるぞ！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000097",
+      "doc_seq": 4,
+      "track_doc_seq": 97,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 97,
+      "preview": "「ＥＴ（組み込み技術）ソフトウエアデザインロボットコンテスト」（通称・ＥＴロボコン）東北地区大会が、盛岡市のいわて県民情報交流センター「アイーナ」で毎年開催され、本校からも学生たちが出場しています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000098",
+      "doc_seq": 5,
+      "track_doc_seq": 98,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 98,
+      "preview": "通称「メルヘン街道」沿いに住むミュージシャン達のトリオによるライブです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-21T05:52:02Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000099",
+      "doc_seq": 6,
+      "track_doc_seq": 99,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 99,
+      "preview": "私は、内科(消化器内科)と外科(形成外科)の両方を専門とする、世にも珍しいハイブリッド・ドクターです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000100",
+      "doc_seq": 7,
+      "track_doc_seq": 100,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 100,
+      "preview": "あと、イラストが入ってるブログが個人的に好きだから、つーのが理由だったんですけどね、なんせ美術の最高成績が10点満点中6ですから、自分で描くのはひじょう〜にチャレンジングだったんです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-21T05:52:02Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000101",
+      "doc_seq": 8,
+      "track_doc_seq": 101,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 101,
+      "preview": "ご案内を下記のとおり、申し上げます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000102",
+      "doc_seq": 9,
+      "track_doc_seq": 102,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 102,
+      "preview": "オレが一生オマエを守ってやる！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000103",
+      "doc_seq": 10,
+      "track_doc_seq": 103,
+      "unit_count": 57,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 103,
+      "preview": "物語に割とよくある、人の中に人そっくりだがまったく違い、そいつらは特殊な能力を持っている・・・という設定。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-21T05:50:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 57,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000098:u0007::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000098",
+      "doc_seq": 5,
+      "track_doc_seq": 98,
+      "unit_id": "ja_cc_level2:0000000098:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 98,
+      "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
+      "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+      "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2021",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "31",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "霧ヶ峰",
+          "キリガミネ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "高層",
+          "コウソウ"
+        ],
+        [
+          "湿原",
+          "シツゲン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "八",
+          "ハチ"
+        ],
+        [
+          "島ヶ原",
+          "シマガハラ"
+        ],
+        [
+          "湿原",
+          "シツゲン"
+        ],
+        [
+          "にて",
+          "ニテ"
+        ],
+        [
+          "日帰り",
+          "ヒガエリ"
+        ],
+        [
+          "ガイド",
+          "ガイド"
+        ],
+        [
+          "ツアー",
+          "ツアー"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "御柱",
+          "オンバシラ"
+        ],
+        [
+          "源流",
+          "ゲンリュウ"
+        ],
+        [
+          "ハイク",
+          "ハイク"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "開催",
+          "カイサイ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2021",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2021"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "31",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "31"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "霧ヶ峰",
+          "reading": "キリガミネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "霧ヶ峰",
+              "reading": "きりがみね"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "高層",
+          "reading": "コウソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高層",
+              "reading": "こうそう"
+            }
+          ]
+        },
+        {
+          "surface": "湿原",
+          "reading": "シツゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "湿原",
+              "reading": "しつげん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "八",
+          "reading": "ハチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八",
+              "reading": "はち"
+            }
+          ]
+        },
+        {
+          "surface": "島ヶ原",
+          "reading": "シマガハラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "島ヶ原",
+              "reading": "しまがはら"
+            }
+          ]
+        },
+        {
+          "surface": "湿原",
+          "reading": "シツゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "湿原",
+              "reading": "しつげん"
+            }
+          ]
+        },
+        {
+          "surface": "にて",
+          "reading": "ニテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "にて"
+            }
+          ]
+        },
+        {
+          "surface": "日帰り",
+          "reading": "ヒガエリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日帰",
+              "reading": "ひがえ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "ガイド",
+          "reading": "ガイド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガイド"
+            }
+          ]
+        },
+        {
+          "surface": "ツアー",
+          "reading": "ツアー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツアー"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "御柱",
+          "reading": "オンバシラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御柱",
+              "reading": "おんばしら"
+            }
+          ]
+        },
+        {
+          "surface": "源流",
+          "reading": "ゲンリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "源流",
+              "reading": "げんりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "ハイク",
+          "reading": "ハイク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ハイク"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "開催",
+          "reading": "カイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開催",
+              "reading": "かいさい"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 1,
+      "mapping_errors": [
+        {
+          "region_id": "ja_cc_level2:0000000098:u0007::target_group:1",
+          "error": "rejected span '八島原' is absent from canonical yomi surfaces"
+        }
+      ],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000098:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000000098:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000000098:u0007",
+          "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
+          "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "display_mapping": null,
+          "mapping_error": "rejected span '八島原' is absent from canonical yomi surfaces",
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0021c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八",
+              "token_surface": "八",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はち",
+              "rejected_readings": [
+                {
+                  "surface": "八",
+                  "reading": "はち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0022c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "島",
+              "token_surface": "島ヶ原",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しま",
+              "rejected_readings": [
+                {
+                  "surface": "島",
+                  "reading": "しま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0022c02",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "島ヶ原",
+              "token_index": 21,
+              "chunk_index": 1,
+              "current_reading_hiragana": "はら",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0021c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八",
+              "token_surface": "八",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はち",
+              "rejected_readings": [
+                {
+                  "surface": "八",
+                  "reading": "はち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0022c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "島",
+              "token_surface": "島ヶ原",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しま",
+              "rejected_readings": [
+                {
+                  "surface": "島",
+                  "reading": "しま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0022c02",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "島ヶ原",
+              "token_index": 21,
+              "chunk_index": 1,
+              "current_reading_hiragana": "はら",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "八島原",
+          "reading_candidates": {
+            "八": [
+              "はち",
+              "はっ",
+              "ぱち",
+              "ぱっ",
+              "や",
+              "やあ",
+              "やっ",
+              "よう"
+            ],
+            "八島": [
+              "やしま",
+              "やじま"
+            ],
+            "島": [
+              "しま",
+              "じま",
+              "とう"
+            ],
+            "島原": [
+              "しまはら",
+              "しまばら"
+            ],
+            "原": [
+              "げん",
+              "はら",
+              "はる",
+              "ばら"
+            ]
+          },
+          "reading_hints": {
+            "八": "はち",
+            "八島": "やしま",
+            "島": "しま",
+            "島原": "しまはら",
+            "原": "げん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "八",
+              "reading": "はち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "島",
+              "reading": "しま",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"八島ヶ原\",\"reading\":\"ヤシマガハラ\",\"used_web_search\":false,\"comment\":\"八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "八島ヶ原",
+              "reading": "ヤシマガハラ",
+              "used_web_search": false,
+              "comment": "八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。"
+            }
+          ],
+          "llm_comments": [
+            "八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "surface_mismatch",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000098:u0007::target_group:1",
+            "status": "surface_mismatch",
+            "rejected_span": "八島原",
+            "replacement_span": "八島ヶ原"
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000098:u0007::target_group:2",
+          "item_id": "ja_cc_level2:0000000098:u0007::target_group:2",
+          "unit_id": "ja_cc_level2:0000000098:u0007",
+          "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
+          "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "display_mapping": {
+            "start": 23,
+            "end": 24,
+            "char_start": 42,
+            "char_end": 44,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0029c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ご",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "ご",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0030c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "柱",
+              "token_surface": "柱",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はしら",
+              "rejected_readings": [
+                {
+                  "surface": "柱",
+                  "reading": "はしら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0029c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ご",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "ご",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0007:r0030c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "柱",
+              "token_surface": "柱",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はしら",
+              "rejected_readings": [
+                {
+                  "surface": "柱",
+                  "reading": "はしら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "御柱",
+          "reading_candidates": {
+            "御": [
+              "お",
+              "おおん",
+              "おっ",
+              "おん",
+              "ご",
+              "み"
+            ],
+            "柱": [
+              "じ",
+              "ちゅう",
+              "はしら",
+              "ばしら"
+            ]
+          },
+          "reading_hints": {
+            "御": "お",
+            "柱": "じ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "御",
+              "reading": "ご",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "柱",
+              "reading": "はしら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"御柱\",\"reading\":\"オンバシラ\",\"used_web_search\":false,\"comment\":\"諏訪地域の固有語・祭事名として定着している読みで、ここでは「御柱源流ハイク」の一語として扱うのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "御柱",
+              "reading": "オンバシラ",
+              "used_web_search": false,
+              "comment": "諏訪地域の固有語・祭事名として定着している読みで、ここでは「御柱源流ハイク」の一語として扱うのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "諏訪地域の固有語・祭事名として定着している読みで、ここでは「御柱源流ハイク」の一語として扱うのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000098:u0007::target_group:2",
+            "status": "applied",
+            "rejected_span": "御柱",
+            "replacement": [
+              {
+                "surface": "御柱",
+                "reading": "オンバシラ"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "八島原",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000098:u0007:r0021c01",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "八",
+          "token_surface": "八",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はち",
+          "rejected_readings": [
+            {
+              "surface": "八",
+              "reading": "はち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000098:u0007:r0022c01",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "島",
+          "token_surface": "島ヶ原",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しま",
+          "rejected_readings": [
+            {
+              "surface": "島",
+              "reading": "しま",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000098:u0007:r0022c02",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "原",
+          "token_surface": "島ヶ原",
+          "token_index": 21,
+          "chunk_index": 1,
+          "current_reading_hiragana": "はら",
+          "rejected_readings": [
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "八",
+          "reading": "はち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "島",
+          "reading": "しま",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "原",
+          "reading": "はら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "八": [
+          "はち",
+          "はっ",
+          "ぱち",
+          "ぱっ",
+          "や",
+          "やあ",
+          "やっ",
+          "よう"
+        ],
+        "八島": [
+          "やしま",
+          "やじま"
+        ],
+        "島": [
+          "しま",
+          "じま",
+          "とう"
+        ],
+        "島原": [
+          "しまはら",
+          "しまばら"
+        ],
+        "原": [
+          "げん",
+          "はら",
+          "はる",
+          "ばら"
+        ]
+      },
+      "reading_hints": {
+        "八": "はち",
+        "八島": "やしま",
+        "島": "しま",
+        "島原": "しまはら",
+        "原": "げん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "八島ヶ原",
+          "reading": "ヤシマガハラ",
+          "used_web_search": false,
+          "comment": "八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"八島ヶ原\",\"reading\":\"ヤシマガハラ\",\"used_web_search\":false,\"comment\":\"八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。\"}]",
+      "llm_comments": [
+        "八島ヶ原湿原の地名として一まとまりで読むのが自然で、固有名詞の読みは「やしまがはら」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "surface_mismatch",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000098:u0007::target_group:1",
+        "status": "surface_mismatch",
+        "rejected_span": "八島原",
+        "replacement_span": "八島ヶ原"
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000098:u0022::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000098",
+      "doc_seq": 5,
+      "track_doc_seq": 98,
+      "unit_id": "ja_cc_level2:0000000098:u0022",
+      "unit_seq": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 98,
+      "text": "百名山である美ヶ原、霧ヶ峰最高峰車山を2日かけて縦走する贅沢なガイドツアーを2021年10月9日（土）〜10日（日）の1泊2日で開催します。",
+      "rendered_yomi_before": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車/シャ 山/サン を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車山/クルマヤマ を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "百",
+          "ヒャク"
+        ],
+        [
+          "名山",
+          "メイザン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "美ヶ原",
+          "ウツクシガハラ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "霧ヶ峰",
+          "キリガミネ"
+        ],
+        [
+          "最高峰",
+          "サイコウホウ"
+        ],
+        [
+          "車山",
+          "クルマヤマ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "2日",
+          "フツカ"
+        ],
+        [
+          "かけ",
+          "カケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "縦走",
+          "ジュウソウ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "贅沢",
+          "ゼイタク"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "ガイド",
+          "ガイド"
+        ],
+        [
+          "ツアー",
+          "ツアー"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "2021",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "9日",
+          "ココノカ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "土",
+          "ド"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "〜",
+          "〜"
+        ],
+        [
+          "10日",
+          "トオカ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "泊",
+          "ハク"
+        ],
+        [
+          "2日",
+          "フツカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "開催",
+          "カイサイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "百",
+          "reading": "ヒャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "百",
+              "reading": "ひゃく"
+            }
+          ]
+        },
+        {
+          "surface": "名山",
+          "reading": "メイザン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名山",
+              "reading": "めいざん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "美ヶ原",
+          "reading": "ウツクシガハラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "美ヶ原",
+              "reading": "うつくしがはら"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "霧ヶ峰",
+          "reading": "キリガミネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "霧ヶ峰",
+              "reading": "きりがみね"
+            }
+          ]
+        },
+        {
+          "surface": "最高峰",
+          "reading": "サイコウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最高峰",
+              "reading": "さいこうほう"
+            }
+          ]
+        },
+        {
+          "surface": "車山",
+          "reading": "クルマヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "車山",
+              "reading": "くるまやま"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "2日",
+          "reading": "フツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "2日",
+              "reading": "ふつか"
+            }
+          ]
+        },
+        {
+          "surface": "かけ",
+          "reading": "カケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かけ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "縦走",
+          "reading": "ジュウソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "縦走",
+              "reading": "じゅうそう"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "贅沢",
+          "reading": "ゼイタク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "贅沢",
+              "reading": "ぜいたく"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "ガイド",
+          "reading": "ガイド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガイド"
+            }
+          ]
+        },
+        {
+          "surface": "ツアー",
+          "reading": "ツアー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツアー"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "2021",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2021"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "9日",
+          "reading": "ココノカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "9日",
+              "reading": "ここのか"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "土",
+          "reading": "ド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "土",
+              "reading": "ど"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "〜",
+          "reading": "〜",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "〜"
+            }
+          ]
+        },
+        {
+          "surface": "10日",
+          "reading": "トオカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "10日",
+              "reading": "とおか"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "泊",
+          "reading": "ハク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "泊",
+              "reading": "はく"
+            }
+          ]
+        },
+        {
+          "surface": "2日",
+          "reading": "フツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "2日",
+              "reading": "ふつか"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "開催",
+          "reading": "カイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開催",
+              "reading": "かいさい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 1,
+      "mapping_errors": [
+        {
+          "region_id": "ja_cc_level2:0000000098:u0022::target_group:1",
+          "error": "rejected span '美原' is absent from canonical yomi surfaces"
+        }
+      ],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000098:u0022::target_group:1",
+          "item_id": "ja_cc_level2:0000000098:u0022::target_group:1",
+          "unit_id": "ja_cc_level2:0000000098:u0022",
+          "text": "百名山である美ヶ原、霧ヶ峰最高峰車山を2日かけて縦走する贅沢なガイドツアーを2021年10月9日（土）〜10日（日）の1泊2日で開催します。",
+          "rendered_yomi_before": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車/シャ 山/サン を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車山/クルマヤマ を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+          "display_mapping": null,
+          "mapping_error": "rejected span '美原' is absent from canonical yomi surfaces",
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0005c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "美",
+              "token_surface": "美ヶ原",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつくし",
+              "rejected_readings": [
+                {
+                  "surface": "美",
+                  "reading": "うつくし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0005c02",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "美ヶ原",
+              "token_index": 4,
+              "chunk_index": 1,
+              "current_reading_hiragana": "はら",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0005c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "美",
+              "token_surface": "美ヶ原",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつくし",
+              "rejected_readings": [
+                {
+                  "surface": "美",
+                  "reading": "うつくし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0005c02",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "美ヶ原",
+              "token_index": 4,
+              "chunk_index": 1,
+              "current_reading_hiragana": "はら",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "美原",
+          "reading_candidates": {
+            "美": [
+              "ちゅら",
+              "び"
+            ],
+            "美原": [
+              "びげん",
+              "みはら"
+            ],
+            "原": [
+              "げん",
+              "はら",
+              "はる",
+              "ばら"
+            ]
+          },
+          "reading_hints": {
+            "美": "ちゅら",
+            "美原": "びげん",
+            "原": "げん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "美",
+              "reading": "うつくし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"美原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "美原",
+              "reading": "ウツクシガハラ",
+              "used_web_search": false,
+              "comment": "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "surface_mismatch",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000098:u0022::target_group:1",
+            "status": "surface_mismatch",
+            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
+            "rejected_span": "美原"
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000098:u0022::target_group:2",
+          "item_id": "ja_cc_level2:0000000098:u0022::target_group:2",
+          "unit_id": "ja_cc_level2:0000000098:u0022",
+          "text": "百名山である美ヶ原、霧ヶ峰最高峰車山を2日かけて縦走する贅沢なガイドツアーを2021年10月9日（土）〜10日（日）の1泊2日で開催します。",
+          "rendered_yomi_before": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車/シャ 山/サン を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車山/クルマヤマ を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 16,
+            "char_end": 18,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0009c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "車",
+              "token_surface": "車",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゃ",
+              "rejected_readings": [
+                {
+                  "surface": "車",
+                  "reading": "しゃ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0010c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山",
+              "token_surface": "山",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "rejected_readings": [
+                {
+                  "surface": "山",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0009c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "車",
+              "token_surface": "車",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゃ",
+              "rejected_readings": [
+                {
+                  "surface": "車",
+                  "reading": "しゃ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000098:u0022:r0010c01",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山",
+              "token_surface": "山",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "rejected_readings": [
+                {
+                  "surface": "山",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "車山",
+          "reading_candidates": {
+            "車": [
+              "くるま",
+              "ぐるま",
+              "しゃ"
+            ],
+            "車山": [
+              "くるまやま"
+            ],
+            "山": [
+              "さん",
+              "ざん",
+              "せん",
+              "やま"
+            ]
+          },
+          "reading_hints": {
+            "車": "くるま",
+            "車山": "くるまやま",
+            "山": "さん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "車",
+              "reading": "しゃ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "山",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"車山\",\"reading\":\"クルマヤマ\",\"used_web_search\":false,\"comment\":\"霧ヶ峰の最高峰として知られる固有地名なので、全体で「くるまやま」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "車山",
+              "reading": "クルマヤマ",
+              "used_web_search": false,
+              "comment": "霧ヶ峰の最高峰として知られる固有地名なので、全体で「くるまやま」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "霧ヶ峰の最高峰として知られる固有地名なので、全体で「くるまやま」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000098:u0022::target_group:2",
+            "status": "applied",
+            "rejected_span": "車山",
+            "replacement": [
+              {
+                "surface": "車山",
+                "reading": "クルマヤマ"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "美原",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000098:u0022:r0005c01",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "美",
+          "token_surface": "美ヶ原",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うつくし",
+          "rejected_readings": [
+            {
+              "surface": "美",
+              "reading": "うつくし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000098:u0022:r0005c02",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "原",
+          "token_surface": "美ヶ原",
+          "token_index": 4,
+          "chunk_index": 1,
+          "current_reading_hiragana": "はら",
+          "rejected_readings": [
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "美",
+          "reading": "うつくし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "原",
+          "reading": "はら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "美": [
+          "ちゅら",
+          "び"
+        ],
+        "美原": [
+          "びげん",
+          "みはら"
+        ],
+        "原": [
+          "げん",
+          "はら",
+          "はる",
+          "ばら"
+        ]
+      },
+      "reading_hints": {
+        "美": "ちゅら",
+        "美原": "びげん",
+        "原": "げん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "美原",
+          "reading": "ウツクシガハラ",
+          "used_web_search": false,
+          "comment": "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"美原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
+      "llm_comments": [
+        "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "surface_mismatch",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000098:u0022::target_group:1",
+        "status": "surface_mismatch",
+        "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
+        "rejected_span": "美原"
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000100:u0008::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000100",
+      "doc_seq": 7,
+      "track_doc_seq": 100,
+      "unit_id": "ja_cc_level2:0000000100:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 100,
+      "text": "100均のだからしょうがないな…ちゃんとしたの買うか・・・と思って、Amazonなどで18色カラーペンを調べたところ、900円はするんですよ。",
+      "rendered_yomi_before": "100/ 均/ヒトシ の/ノ だ/ダ から/カラ しょう/ショウ が/ガ ない/ナイ な/ナ …/… / / ちゃんと/チャント し/シ た/タ の/ノ 買う/カウ か/カ ・/・ ・/・ ・/・ と/ト 思っ/オモッ て/テ 、/、 Amazon/アマゾン など/ナド で/デ 18/ 色/ショク カラー/カラー ペン/ペン を/ヲ 調べ/シラベ た/タ ところ/トコロ 、/、 900/ 円/エン は/ハ する/スル ん/ン です/デス よ/ヨ 。/。",
+      "rendered_yomi_after": "100均/ヒャッキン の/ノ だ/ダ から/カラ しょう/ショウ が/ガ ない/ナイ な/ナ …/… ちゃんと/チャント し/シ た/タ の/ノ 買う/カウ か/カ ・/・ ・/・ ・/・ と/ト 思っ/オモッ て/テ 、/、 Amazon/アマゾン など/ナド で/デ 18/ 色/ショク カラー/カラー ペン/ペン を/ヲ 調べ/シラベ た/タ ところ/トコロ 、/、 900/ 円/エン は/ハ する/スル ん/ン です/デス よ/ヨ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "100均",
+          "ヒャッキン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "しょう",
+          "ショウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "…",
+          "…"
+        ],
+        [
+          "ちゃんと",
+          "チャント"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "買う",
+          "カウ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "思っ",
+          "オモッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "Amazon",
+          "アマゾン"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "18",
+          ""
+        ],
+        [
+          "色",
+          "ショク"
+        ],
+        [
+          "カラー",
+          "カラー"
+        ],
+        [
+          "ペン",
+          "ペン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "調べ",
+          "シラベ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ところ",
+          "トコロ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "900",
+          ""
+        ],
+        [
+          "円",
+          "エン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "よ",
+          "ヨ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "100均",
+          "reading": "ヒャッキン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "100均",
+              "reading": "ひゃっきん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "しょう",
+          "reading": "ショウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "…",
+          "reading": "…",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "…"
+            }
+          ]
+        },
+        {
+          "surface": "ちゃんと",
+          "reading": "チャント",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ちゃんと"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "買う",
+          "reading": "カウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "買",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "思っ",
+          "reading": "オモッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "Amazon",
+          "reading": "アマゾン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Amazon",
+              "reading": "あまぞん"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "18",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "18"
+            }
+          ]
+        },
+        {
+          "surface": "色",
+          "reading": "ショク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "色",
+              "reading": "しょく"
+            }
+          ]
+        },
+        {
+          "surface": "カラー",
+          "reading": "カラー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "カラー"
+            }
+          ]
+        },
+        {
+          "surface": "ペン",
+          "reading": "ペン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ペン"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "調べ",
+          "reading": "シラベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "調",
+              "reading": "しら"
+            },
+            {
+              "type": "text",
+              "text": "べ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ところ",
+          "reading": "トコロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ところ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "900",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "900"
+            }
+          ]
+        },
+        {
+          "surface": "円",
+          "reading": "エン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "円",
+              "reading": "えん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "よ",
+          "reading": "ヨ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000100:u0008::span_group:1",
+          "item_id": "ja_cc_level2:0000000100:u0008::span_group:1",
+          "unit_id": "ja_cc_level2:0000000100:u0008",
+          "text": "100均のだからしょうがないな…ちゃんとしたの買うか・・・と思って、Amazonなどで18色カラーペンを調べたところ、900円はするんですよ。",
+          "rendered_yomi_before": "100/ 均/ヒトシ の/ノ だ/ダ から/カラ しょう/ショウ が/ガ ない/ナイ な/ナ …/… / / ちゃんと/チャント し/シ た/タ の/ノ 買う/カウ か/カ ・/・ ・/・ ・/・ と/ト 思っ/オモッ て/テ 、/、 Amazon/アマゾン など/ナド で/デ 18/ 色/ショク カラー/カラー ペン/ペン を/ヲ 調べ/シラベ た/タ ところ/トコロ 、/、 900/ 円/エン は/ハ する/スル ん/ン です/デス よ/ヨ 。/。",
+          "rendered_yomi_after": "100均/ヒャッキン の/ノ だ/ダ から/カラ しょう/ショウ が/ガ ない/ナイ な/ナ …/… ちゃんと/チャント し/シ た/タ の/ノ 買う/カウ か/カ ・/・ ・/・ ・/・ と/ト 思っ/オモッ て/テ 、/、 Amazon/アマゾン など/ナド で/デ 18/ 色/ショク カラー/カラー ペン/ペン を/ヲ 調べ/シラベ た/タ ところ/トコロ 、/、 900/ 円/エン は/ハ する/スル ん/ン です/デス よ/ヨ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "100均",
+              "token_surface": "100均",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "numeric-merge:ja_cc_level2:0000000100:u0008:r0004c01:before:100",
+              "rejected_readings": [
+                {
+                  "surface": "100均",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "100均",
+              "token_surface": "100均",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "numeric-merge:ja_cc_level2:0000000100:u0008:r0004c01:before:100",
+              "rejected_readings": [
+                {
+                  "surface": "100均",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "100均",
+          "reading_candidates": {
+            "均": [
+              "きん",
+              "ひとし"
+            ]
+          },
+          "reading_hints": {
+            "均": "きん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "100均",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"100均\",\"reading\":\"ひゃっきん\",\"used_web_search\":false,\"comment\":\"『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "100均",
+              "reading": "ひゃっきん",
+              "used_web_search": false,
+              "comment": "『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。"
+            }
+          ],
+          "llm_comments": [
+            "『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000100:u0008::span_group:1",
+            "status": "applied",
+            "rejected_span": "100均",
+            "replacement": [
+              {
+                "surface": "100均",
+                "reading": "ヒャッキン"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "100均",
+      "target_escalations": [
+        {
+          "surface": "100均",
+          "token_surface": "100均",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "numeric-merge:ja_cc_level2:0000000100:u0008:r0004c01:before:100",
+          "rejected_readings": [
+            {
+              "surface": "100均",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "100均",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "均": [
+          "きん",
+          "ひとし"
+        ]
+      },
+      "reading_hints": {
+        "均": "きん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "100均",
+          "reading": "ひゃっきん",
+          "used_web_search": false,
+          "comment": "『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"100均\",\"reading\":\"ひゃっきん\",\"used_web_search\":false,\"comment\":\"『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。\"}]",
+      "llm_comments": [
+        "『100均』は『100円均一』の略で、一般に『ひゃっきん』と読む定着した表現です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000100:u0008::span_group:1",
+        "status": "applied",
+        "rejected_span": "100均",
+        "replacement": [
+          {
+            "surface": "100均",
+            "reading": "ヒャッキン"
+          }
+        ]
+      }
+    }
+  ]
+}
