@@ -67,26 +67,6 @@
       },
       "queue_id": "final_review",
       "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0009",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "Yomi Strong Repair Review",
-      "pack_id": "yomi_strong_repair_dev_batch_0009_v1",
-      "title": "Yomi strong repair review / dev_batch_0009 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_0009_v1.json",
-      "created_at_epoch": 1784271678,
-      "item_count": 7,
-      "document_count": 10,
-      "selectable_document_count": 1,
-      "document_state_counts": {
-        "complete": 6,
-        "strong_apply_failed": 1,
-        "strong_reviewed": 3
-      },
-      "queue_id": "strong_repair",
-      "status": "active-dev"
     }
   ],
   "stages": {
@@ -235,8 +215,7 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 6,
-            "strong_apply_failed": 1,
-            "strong_reviewed": 3
+            "strong_reviewed": 4
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -404,11 +383,10 @@
           "created_at_epoch": 1784271678,
           "item_count": 7,
           "document_count": 10,
-          "selectable_document_count": 1,
+          "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 6,
-            "strong_apply_failed": 1,
-            "strong_reviewed": 3
+            "strong_reviewed": 4
           },
           "queue_id": "strong_repair",
           "status": "archived"
@@ -424,8 +402,7 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 6,
-            "strong_reviewed": 4
+            "complete": 10
           },
           "queue_id": "strong_repair",
           "status": "active-dev"
@@ -440,7 +417,7 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 63,
+        "document_count": 73,
         "shard_count": 1
       }
     }

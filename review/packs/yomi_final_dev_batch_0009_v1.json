@@ -13,8 +13,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_apply_failed": 1,
-      "strong_reviewed": 3
+      "strong_reviewed": 4
     },
     "unresolved_item_count": 30,
     "unresolved_target_count": 31,
@@ -186,24 +185,14 @@
       "source_line_no": 60,
       "preview": "前回：膝の痛みに泣かされ、足踏み状態。",
       "queue_id": "final_review",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-21T04:05:15Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2:0000000060:u0056::target_group:2",
-          "doc_id": "ja_cc_level2:0000000060",
-          "unit_id": "ja_cc_level2:0000000060:u0056",
-          "submission_id": "yomi_strong_repair_dev_batch_0009_v1__2026-07-21T00:53:09.814Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "kg"
-        }
-      ],
+      "state_updated_at": "2026-07-21T04:07:10Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 62,
       "region_count": 0,
       "unresolved_count": 6,
