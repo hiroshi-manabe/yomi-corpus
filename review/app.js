@@ -3191,8 +3191,9 @@ function renderStrongRepairAfterLine(item, override, editable) {
         (!preferred || strongRepairMappingsEqual(candidate, preferred)),
     );
     if (match) {
+      const editorMatch = strongRepairEditorMatch(match, region, tokens);
       usedMatches.add(strongRepairMatchKey(match));
-      matches.push({ ...match, region });
+      matches.push({ ...editorMatch, region });
     } else {
       mappingErrors.push(
         region.mapping_error || `Cannot map rejected span: ${span || "(empty)"}`,
@@ -3234,6 +3235,20 @@ function renderStrongRepairAfterLine(item, override, editable) {
   }
   nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
+}
+
+function strongRepairEditorMatch(match, region, tokens) {
+  const editorSurface = defaultStrongRepairSegments(region)
+    .map((segment) => segment.surface || "")
+    .join("");
+  const mappedSurface = tokens
+    .slice(match.start, match.end)
+    .map((token) => token.surface || "")
+    .join("");
+  if (editorSurface && editorSurface === mappedSurface) {
+    return { ...match, prefix: "", suffix: "" };
+  }
+  return match;
 }
 
 function strongRepairMappingsEqual(left, right) {

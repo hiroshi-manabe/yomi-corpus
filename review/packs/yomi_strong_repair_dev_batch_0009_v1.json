@@ -20,7 +20,7 @@
     "queued_repair_row_count": 8,
     "result_row_count": 8,
     "reviewable_repair_row_count": 8,
-    "mapping_error_count": 2
+    "mapping_error_count": 1
   },
   "documents": [
     {
@@ -193,18 +193,9 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T01:53:15Z",
-      "application_failure_count": 2,
+      "state_updated_at": "2026-07-21T02:04:15Z",
+      "application_failure_count": 1,
       "application_failures": [
-        {
-          "item_id": "ja_cc_level2:0000000060:u0056::target_group:1",
-          "doc_id": "ja_cc_level2:0000000060",
-          "unit_id": "ja_cc_level2:0000000060:u0056",
-          "submission_id": "yomi_strong_repair_dev_batch_0009_v1__2026-07-21T00:53:09.814Z",
-          "status": "surface_mismatch",
-          "reason": "manual rejected span is not unique in rendered yomi",
-          "rejected_span": "kg"
-        },
         {
           "item_id": "ja_cc_level2:0000000060:u0056::target_group:2",
           "doc_id": "ja_cc_level2:0000000060",
@@ -582,6 +573,8 @@
           "display_mapping": {
             "start": 7,
             "end": 8,
+            "char_start": 12,
+            "char_end": 13,
             "start_offset": 0,
             "end_offset": 1,
             "prefix": "",
@@ -1057,6 +1050,8 @@
           "display_mapping": {
             "start": 14,
             "end": 15,
+            "char_start": 25,
+            "char_end": 27,
             "start_offset": 0,
             "end_offset": 2,
             "prefix": "",
@@ -1230,7 +1225,7 @@
       "source_line_no": 60,
       "text": "測定値：順調に減っていく 2019年10月1日～12月31日〔ダイエット開始から193日後〕 上記期間中に-2.4kg、ダイエット開始より-4.8kg。",
       "rendered_yomi_before": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク  /  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕  /  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
-      "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
+      "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キロ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "測定値",
@@ -1406,7 +1401,7 @@
         ],
         [
           "kg",
-          "キログラム"
+          "キロ"
         ],
         [
           "。",
@@ -1865,12 +1860,12 @@
         },
         {
           "surface": "kg",
-          "reading": "キログラム",
+          "reading": "キロ",
           "nodes": [
             {
               "type": "ruby",
               "text": "kg",
-              "reading": "きろぐらむ"
+              "reading": "きろ"
             }
           ]
         },
@@ -1885,12 +1880,8 @@
           ]
         }
       ],
-      "mapping_error_count": 2,
+      "mapping_error_count": 1,
       "mapping_errors": [
-        {
-          "region_id": "ja_cc_level2:0000000060:u0056::target_group:1",
-          "error": "rejected span 'kg' is ambiguous in canonical yomi surfaces"
-        },
         {
           "region_id": "ja_cc_level2:0000000060:u0056::target_group:2",
           "error": "rejected span 'kg' is ambiguous in canonical yomi surfaces"
@@ -1905,9 +1896,18 @@
           "unit_id": "ja_cc_level2:0000000060:u0056",
           "text": "測定値：順調に減っていく 2019年10月1日～12月31日〔ダイエット開始から193日後〕 上記期間中に-2.4kg、ダイエット開始より-4.8kg。",
           "rendered_yomi_before": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク  /  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕  /  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
-          "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
-          "display_mapping": null,
-          "mapping_error": "rejected span 'kg' is ambiguous in canonical yomi surfaces",
+          "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キロ 。/。",
+          "display_mapping": {
+            "start": 43,
+            "end": 44,
+            "char_start": 73,
+            "char_end": 75,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -2003,7 +2003,7 @@
           "unit_id": "ja_cc_level2:0000000060:u0056",
           "text": "測定値：順調に減っていく 2019年10月1日～12月31日〔ダイエット開始から193日後〕 上記期間中に-2.4kg、ダイエット開始より-4.8kg。",
           "rendered_yomi_before": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク  /  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕  /  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
-          "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キログラム 。/。",
+          "rendered_yomi_after": "測定値/ソクテイチ ：/： 順調/ジュンチョウ に/ニ 減っ/ヘッ て/テ いく/イク \\s/  2019/ 年/ネン 10/ 月/ガツ 1日/ツイタチ ～/カラ 12/ 月/ガツ 31/ 日/ニチ 〔/〔 ダイエット/ダイエット 開始/カイシ から/カラ 193/ 日/カ 後/ゴ 〕/〕 \\s/  上記/ジョウキ 期間中/キカンチュウ に/ニ -/- 2/ ./. 4/ kg/キログラム 、/、 ダイエット/ダイエット 開始/カイシ より/ヨリ -/- 4/ ./. 8/ kg/キロ 。/。",
           "display_mapping": null,
           "mapping_error": "rejected span 'kg' is ambiguous in canonical yomi surfaces",
           "repair_scope": "target_group",
@@ -2383,6 +2383,8 @@
           "display_mapping": {
             "start": 10,
             "end": 11,
+            "char_start": 15,
+            "char_end": 19,
             "start_offset": 0,
             "end_offset": 4,
             "prefix": "",
@@ -2977,6 +2979,8 @@
           "display_mapping": {
             "start": 0,
             "end": 2,
+            "char_start": 0,
+            "char_end": 2,
             "start_offset": 0,
             "end_offset": 1,
             "prefix": "",
@@ -3440,6 +3444,8 @@
           "display_mapping": {
             "start": 4,
             "end": 5,
+            "char_start": 5,
+            "char_end": 7,
             "start_offset": 0,
             "end_offset": 2,
             "prefix": "",
@@ -3976,6 +3982,8 @@
           "display_mapping": {
             "start": 13,
             "end": 14,
+            "char_start": 21,
+            "char_end": 22,
             "start_offset": 0,
             "end_offset": 1,
             "prefix": "",
