@@ -13,7 +13,8 @@
     "selectable_document_count": 3,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 3,
+      "strong_apply_failed": 1,
+      "strong_pending": 2,
       "strong_reviewed": 1
     },
     "repaired_item_count": 7,
@@ -187,14 +188,33 @@
       "source_line_no": 60,
       "preview": "前回：膝の痛みに泣かされ、足踏み状態。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T00:48:17Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-07-21T00:53:48Z",
+      "application_failure_count": 2,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2:0000000060:u0056::target_group:1",
+          "doc_id": "ja_cc_level2:0000000060",
+          "unit_id": "ja_cc_level2:0000000060:u0056",
+          "submission_id": "yomi_strong_repair_dev_batch_0009_v1__2026-07-21T00:53:09.814Z",
+          "status": "surface_mismatch",
+          "reason": "manual rejected span is not unique in rendered yomi",
+          "rejected_span": "kg"
+        },
+        {
+          "item_id": "ja_cc_level2:0000000060:u0056::target_group:2",
+          "doc_id": "ja_cc_level2:0000000060",
+          "unit_id": "ja_cc_level2:0000000060:u0056",
+          "submission_id": "yomi_strong_repair_dev_batch_0009_v1__2026-07-21T00:53:09.814Z",
+          "status": "surface_mismatch",
+          "reason": "manual rejected span is not unique in rendered yomi",
+          "rejected_span": "kg"
+        }
+      ],
       "item_count": 2,
       "region_count": 3,
       "unresolved_count": 3,
@@ -218,7 +238,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T00:48:17Z",
+      "state_updated_at": "2026-07-21T00:53:48Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -244,7 +264,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T00:48:17Z",
+      "state_updated_at": "2026-07-21T00:53:48Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -634,7 +654,7 @@
       "source_line_no": 60,
       "text": "最終日で比較するとほとんど変化はないが、期間中は1kg程度体重が減った。",
       "rendered_yomi_before": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キログラム 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
-      "rendered_yomi_after": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キログラム 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
+      "rendered_yomi_after": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キロ 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "最終日",
@@ -782,12 +802,12 @@
         },
         {
           "surface": "kg",
-          "reading": "キログラム",
+          "reading": "キロ",
           "nodes": [
             {
               "type": "ruby",
               "text": "kg",
-              "reading": "きろぐらむ"
+              "reading": "きろ"
             }
           ]
         },
@@ -868,7 +888,7 @@
           "unit_id": "ja_cc_level2:0000000060:u0016",
           "text": "最終日で比較するとほとんど変化はないが、期間中は1kg程度体重が減った。",
           "rendered_yomi_before": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キログラム 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
-          "rendered_yomi_after": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キログラム 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
+          "rendered_yomi_after": "最終日/サイシュウビ で/デ 比較/ヒカク する/スル と/ト ほとんど/ホトンド 変化/ヘンカ は/ハ ない/ナイ が/ガ 、/、 期間中/キカンチュウ は/ハ 1/ kg/キロ 程度/テイド 体重/タイジュウ が/ガ 減っ/ヘッ た/タ 。/。",
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"

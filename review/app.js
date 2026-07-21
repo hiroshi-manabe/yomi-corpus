@@ -3305,17 +3305,19 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
         : defaultStrongRepairSegments(region);
-      const hadManualSegments = Boolean(current.manual_segments?.length);
       currentSegments[index].reading = input.value;
       currentSegments[index].edited = true;
       setStrongRepairManualSegments(item, region, currentSegments);
       touchDraft();
       const nextRegion = strongRepairRegionOverride(state.currentDraft.overrides[item.item_id], region);
-      if (hadManualSegments !== Boolean(nextRegion?.manual_segments?.length)) {
-        render();
-      } else {
-        renderSubmissionPreview();
-      }
+      const previewSegments = nextRegion?.manual_segments?.length
+        ? nextRegion.manual_segments
+        : currentSegments;
+      wrapper.classList.toggle("changed", Boolean(nextRegion?.manual_segments?.length));
+      preview.replaceChildren(
+        ...renderStrongRepairSegmentRuby(item, region, previewSegments, editable),
+      );
+      renderSubmissionPreview();
     });
     label.append(surface, input);
     fields.append(label);
