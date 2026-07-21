@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T07:11:18Z",
+      "state_updated_at": "2026-07-21T07:26:30Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -244,7 +244,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T07:11:18Z",
+      "state_updated_at": "2026-07-21T07:26:30Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -2889,12 +2889,11 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "parse_error",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000075:u0018::target_group:1",
-            "status": "surface_mismatch",
-            "rejected_span": "後払",
-            "replacement_span": "後払い"
+            "status": "parse_error",
+            "parse_error": "Yomi repair surface mismatch: expected '後払', got '後払い'."
           }
         }
       ],
@@ -2964,12 +2963,11 @@
       ],
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "surface_mismatch",
+      "repair_status": "parse_error",
       "repair_log": {
         "item_id": "ja_cc_level2:0000000075:u0018::target_group:1",
-        "status": "surface_mismatch",
-        "rejected_span": "後払",
-        "replacement_span": "後払い"
+        "status": "parse_error",
+        "parse_error": "Yomi repair surface mismatch: expected '後払', got '後払い'."
       }
     },
     {

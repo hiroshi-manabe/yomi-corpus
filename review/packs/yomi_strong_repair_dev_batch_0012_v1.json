@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T07:11:43Z",
+      "state_updated_at": "2026-07-21T07:27:56Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -3874,12 +3874,13 @@
           ],
           "llm_parse_error": null,
           "used_web_search": true,
-          "repair_status": "surface_mismatch",
+          "repair_status": "reused_rejected_reading",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000085:u0015::target_group:3",
-            "status": "surface_mismatch",
-            "rejected_span": "横目",
-            "replacement_span": "大和横目"
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "横目",
+            "reading": "ヨコメ"
           }
         }
       ],
