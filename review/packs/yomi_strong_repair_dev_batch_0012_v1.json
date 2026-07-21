@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T08:25:49Z",
+      "state_updated_at": "2026-07-21T08:30:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -3860,20 +3860,20 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"横目\",\"reading\":\"よこめ\",\"used_web_search\":false,\"comment\":\"歴史的な役職名の「横目」で、ここでは「よこめ」と読む。\"}]",
+          "llm_raw_text": "[{\"surface\":\"大和横目\",\"reading\":\"ヤマトヨコメ\",\"used_web_search\":true,\"comment\":\"歴史的な官職名「大和横目」は資料中で「やまとよこめ」と読まれており、この文脈では「横目」単独ではなく「大和横目」を一まとまりで読むのが自然です。([note.com](https://note.com/motoburyu/n/n71fe77b9e280?magazine_key=m4e5885bbd245&utm_source=openai))\"}]",
           "llm_parsed": [
             {
-              "surface": "横目",
-              "reading": "よこめ",
-              "used_web_search": false,
-              "comment": "歴史的な役職名の「横目」で、ここでは「よこめ」と読む。"
+              "surface": "大和横目",
+              "reading": "ヤマトヨコメ",
+              "used_web_search": true,
+              "comment": "歴史的な官職名「大和横目」は資料中で「やまとよこめ」と読まれており、この文脈では「横目」単独ではなく「大和横目」を一まとまりで読むのが自然です。([note.com](https://note.com/motoburyu/n/n71fe77b9e280?magazine_key=m4e5885bbd245&utm_source=openai))"
             }
           ],
           "llm_comments": [
-            "歴史的な役職名の「横目」で、ここでは「よこめ」と読む。"
+            "歴史的な官職名「大和横目」は資料中で「やまとよこめ」と読まれており、この文脈では「横目」単独ではなく「大和横目」を一まとまりで読むのが自然です。([note.com](https://note.com/motoburyu/n/n71fe77b9e280?magazine_key=m4e5885bbd245&utm_source=openai))"
           ],
           "llm_parse_error": null,
-          "used_web_search": false,
+          "used_web_search": true,
           "repair_status": "reused_rejected_reading",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000085:u0015::target_group:3",

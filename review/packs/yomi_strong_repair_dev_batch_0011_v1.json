@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T08:25:22Z",
+      "state_updated_at": "2026-07-21T08:30:22Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -244,7 +244,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T08:25:22Z",
+      "state_updated_at": "2026-07-21T08:30:22Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -2875,10 +2875,19 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"後払い\",\"reading\":\"あとばらい\",\"used_web_search\":true,\"comment\":\"『後払い』は一般語で、辞書でも「あトばらい」と確認できるため。拒否された『後払』はこの語の一部なので、語全体でまとめて読むのが自然です。 ([kotobank.jp](https://kotobank.jp/word/%E5%BE%8C%E6%89%95%E3%81%84-425938?utm_source=openai))\"}]",
-          "llm_parsed": [],
-          "llm_comments": [],
-          "llm_parse_error": "Yomi repair surface mismatch: expected '後払', got '後払い'.",
+          "llm_raw_text": "[{\"surface\":\"後払い\",\"reading\":\"ごばらい\",\"used_web_search\":false,\"comment\":\"「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "後払い",
+              "reading": "ごばらい",
+              "used_web_search": false,
+              "comment": "「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。"
+          ],
+          "llm_parse_error": null,
           "used_web_search": false,
           "repair_status": "parse_error",
           "repair_log": {
@@ -2940,10 +2949,19 @@
         "後払": "ごばらい",
         "払": "はらい"
       },
-      "llm_parsed": [],
-      "llm_raw_text": "[{\"surface\":\"後払い\",\"reading\":\"あとばらい\",\"used_web_search\":true,\"comment\":\"『後払い』は一般語で、辞書でも「あトばらい」と確認できるため。拒否された『後払』はこの語の一部なので、語全体でまとめて読むのが自然です。 ([kotobank.jp](https://kotobank.jp/word/%E5%BE%8C%E6%89%95%E3%81%84-425938?utm_source=openai))\"}]",
-      "llm_comments": [],
-      "llm_parse_error": "Yomi repair surface mismatch: expected '後払', got '後払い'.",
+      "llm_parsed": [
+        {
+          "surface": "後払い",
+          "reading": "ごばらい",
+          "used_web_search": false,
+          "comment": "「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"後払い\",\"reading\":\"ごばらい\",\"used_web_search\":false,\"comment\":\"「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。\"}]",
+      "llm_comments": [
+        "「後払い」は通常この読みで、文脈上も技名として一語扱いが自然です。"
+      ],
+      "llm_parse_error": null,
       "used_web_search": false,
       "repair_status": "parse_error",
       "repair_log": {
