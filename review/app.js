@@ -691,6 +691,7 @@ function populateStageSelect(stageIds) {
 }
 
 function render() {
+  syncLocalTaskRecordsForCurrentPack();
   renderCurrentTracks();
   renderPackList();
   renderPackSummary();
@@ -2728,7 +2729,6 @@ function renderSavedTaskDrafts(docs) {
   if (!el.taskDraftList) {
     return;
   }
-  syncLocalTaskRecordsForCurrentPack();
   const savedTasks = listSavedTaskDrafts();
   el.taskDraftList.innerHTML = "";
   if (savedTasks.length === 0) {
