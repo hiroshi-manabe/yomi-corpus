@@ -5185,6 +5185,7 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
+  const migratedActiveRecords = [];
   const changedKeys = new Set();
   const draftKeys = localDraftStorageKeys();
 
@@ -5221,6 +5222,28 @@ function syncLocalTaskRecordsForCurrentPack() {
         sourceChanged = true;
       }
     }
+    if (key !== currentKey) {
+      const rawActiveRecord = localTaskRecordFromActiveDraft(parsed);
+      const normalizedActive = normalizeLocalTaskRecordForCurrentPack(rawActiveRecord, sourceStage);
+      if (normalizedActive) {
+        const activeTaskId = uniqueTaskIdForRecords(
+          normalizedActive.task_id || "migrated_active_task",
+          currentRecords,
+        );
+        const migrated = { ...normalizedActive, task_id: activeTaskId };
+        currentRecords[activeTaskId] = migrated;
+        migratedActiveRecords.push(migrated);
+      }
+      if (rawActiveRecord) {
+        parsed.active_task_id = null;
+        parsed.active_task_label = null;
+        parsed.task = { mode: "documents", doc_ids: [], started: false };
+        parsed.from_seq = null;
+        parsed.to_seq = null;
+        parsed.overrides = {};
+        sourceChanged = true;
+      }
+    }
     if (key === currentKey) {
       continue;
     }
@@ -5236,11 +5259,44 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
 
   const before = JSON.stringify(state.currentDraft.saved_tasks || {});
+  if (!isTaskStarted() && migratedActiveRecords.length > 0) {
+    const active = [...migratedActiveRecords].sort(
+      (left, right) => Number(right.updated_at_epoch || 0) - Number(left.updated_at_epoch || 0),
+    )[0];
+    state.currentDraft.active_task_id = active.task_id;
+    state.currentDraft.active_task_label = active.task_label || active.task_id;
+    state.currentDraft.task = {
+      ...normalizeTask(active.task, state.currentPack),
+      started: true,
+    };
+    state.currentDraft.from_seq = active.from_seq ?? null;
+    state.currentDraft.to_seq = active.to_seq ?? null;
+    state.currentDraft.overrides = cloneJson(active.overrides || {});
+    delete currentRecords[active.task_id];
+  }
   state.currentDraft.saved_tasks = currentRecords;
   const after = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (before !== after || changedKeys.size > 0) {
     saveDraft();
   }
+}
+
+function localTaskRecordFromActiveDraft(draft) {
+  if (!draft?.task?.started || !taskDocIdsForStorageTask(draft.task).length) {
+    return null;
+  }
+  const taskId = draft.active_task_id || "migrated_active_task";
+  return {
+    task_id: taskId,
+    task_label: draft.active_task_label || taskId,
+    task_number: taskNumberFromId(taskId),
+    status: "deferred",
+    task: { ...draft.task, started: false },
+    from_seq: draft.from_seq ?? null,
+    to_seq: draft.to_seq ?? null,
+    overrides: cloneJson(draft.overrides || {}),
+    updated_at_epoch: draft.updated_at_epoch || null,
+  };
 }
 
 function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
