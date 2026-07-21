@@ -3175,9 +3175,12 @@ function formatRepairProposal(rows) {
 }
 
 function renderStrongRepairAfterLine(item, override, editable) {
-  const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
+  const tokens = item.rendered_yomi_after_tokens?.length
+    ? yomiTokenPairObjects(item.rendered_yomi_after_tokens)
+    : parseRenderedYomiTokens(item.rendered_yomi_after || "");
   const matches = [];
   const usedMatches = new Set();
+  const mappingErrors = [];
   for (const region of strongRepairRegions(item)) {
     const span = region.rejected_span || "";
     const match = span
@@ -3188,6 +3191,10 @@ function renderStrongRepairAfterLine(item, override, editable) {
     if (match) {
       usedMatches.add(strongRepairMatchKey(match));
       matches.push({ ...match, region });
+    } else {
+      mappingErrors.push(
+        region.mapping_error || `Cannot map rejected span: ${span || "(empty)"}`,
+      );
     }
   }
   matches.sort((left, right) => left.start - right.start || left.end - right.end);
@@ -3200,7 +3207,11 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
   }
   if (!usableMatches.length) {
-    return tokens.flatMap((token, index) => renderReadonlyRubyFromToken(item, token, index));
+    const nodes = tokens.flatMap((token, index) =>
+      renderReadonlyRubyFromToken(item, token, index),
+    );
+    nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
+    return nodes;
   }
   const nodes = [];
   const byStart = new Map(usableMatches.map((match) => [match.start, match]));
@@ -3219,7 +3230,18 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
     nodes.push(...renderReadonlyRubyFromToken(item, tokens[index], index));
   }
+  nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
+}
+
+function renderStrongRepairMappingErrors(errors) {
+  return errors.map((message) => {
+    const node = document.createElement("span");
+    node.className = "strong-repair-mapping-error";
+    node.textContent = "mapping error";
+    node.title = message;
+    return node;
+  });
 }
 
 function strongRepairMatchKey(match) {
@@ -3231,41 +3253,51 @@ function strongRepairRegions(item) {
 }
 
 function findRenderedTokenSpans(tokens, surfaceSpan) {
+  if (!surfaceSpan) {
+    return [];
+  }
+  const surfaces = tokens.map((token) => token.surface || "");
+  const starts = [];
+  let combined = "";
+  for (const surface of surfaces) {
+    starts.push(combined.length);
+    combined += surface;
+  }
   const matches = [];
-  for (let start = 0; start < tokens.length; start += 1) {
-    let surface = "";
-    for (let end = start + 1; end <= tokens.length; end += 1) {
-      surface += tokens[end - 1].surface || "";
-      if (surface === surfaceSpan) {
-        matches.push({ start, end });
-        break;
+  let searchFrom = 0;
+  while (searchFrom <= combined.length - surfaceSpan.length) {
+    const charStart = combined.indexOf(surfaceSpan, searchFrom);
+    if (charStart < 0) {
+      break;
+    }
+    const charEnd = charStart + surfaceSpan.length;
+    const start = starts.findIndex(
+      (tokenStart, index) =>
+        tokenStart <= charStart && charStart < tokenStart + surfaces[index].length,
+    );
+    const endIndex = starts.findIndex(
+      (tokenStart, index) =>
+        tokenStart < charEnd && charEnd <= tokenStart + surfaces[index].length,
+    );
+    if (start >= 0 && endIndex >= 0) {
+      const startOffset = charStart - starts[start];
+      const endOffset = charEnd - starts[endIndex];
+      const prefix = surfaces[start].slice(0, startOffset);
+      const suffix = surfaces[endIndex].slice(endOffset);
+      if (/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
+        matches.push({
+          start,
+          end: endIndex + 1,
+          start_offset: startOffset,
+          end_offset: endOffset,
+          prefix,
+          suffix,
+        });
       }
-      if (!surfaceSpan.startsWith(surface)) {
-        break;
-      }
     }
+    searchFrom = charStart + 1;
   }
-  if (matches.length) {
-    return matches;
-  }
-  const internalMatches = [];
-  for (let index = 0; index < tokens.length; index += 1) {
-    const tokenSurface = tokens[index].surface || "";
-    const offset = tokenSurface.indexOf(surfaceSpan);
-    if (offset < 0 || tokenSurface.indexOf(surfaceSpan, offset + surfaceSpan.length) >= 0) {
-      continue;
-    }
-    const prefix = tokenSurface.slice(0, offset);
-    const suffix = tokenSurface.slice(offset + surfaceSpan.length);
-    if (!prefix && !suffix) {
-      continue;
-    }
-    if (!/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
-      continue;
-    }
-    internalMatches.push({ start: index, end: index + 1, prefix, suffix });
-  }
-  return internalMatches;
+  return matches;
 }
 
 function renderStrongRepairSpanEditor(item, region, override, editable) {
