@@ -3183,11 +3183,13 @@ function renderStrongRepairAfterLine(item, override, editable) {
   const mappingErrors = [];
   for (const region of strongRepairRegions(item)) {
     const span = region.rejected_span || "";
-    const match = span
-      ? findRenderedTokenSpans(tokens, span).find(
-          (candidate) => !usedMatches.has(strongRepairMatchKey(candidate)),
-        )
-      : null;
+    const candidates = span ? findRenderedTokenSpans(tokens, span) : [];
+    const preferred = region.display_mapping;
+    const match = candidates.find(
+      (candidate) =>
+        !usedMatches.has(strongRepairMatchKey(candidate)) &&
+        (!preferred || strongRepairMappingsEqual(candidate, preferred)),
+    );
     if (match) {
       usedMatches.add(strongRepairMatchKey(match));
       matches.push({ ...match, region });
@@ -3232,6 +3234,15 @@ function renderStrongRepairAfterLine(item, override, editable) {
   }
   nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
+}
+
+function strongRepairMappingsEqual(left, right) {
+  return (
+    Number(left.start) === Number(right.start) &&
+    Number(left.end) === Number(right.end) &&
+    Number(left.start_offset || 0) === Number(right.start_offset || 0) &&
+    Number(left.end_offset || 0) === Number(right.end_offset || 0)
+  );
 }
 
 function renderStrongRepairMappingErrors(errors) {
