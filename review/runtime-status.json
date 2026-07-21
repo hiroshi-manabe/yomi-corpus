@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1152,
-  "generated_at": "2026-07-21T06:01:56Z",
-  "generated_at_epoch": 1784613716,
+  "state_revision": 1153,
+  "generated_at": "2026-07-21T06:09:41Z",
+  "generated_at_epoch": 1784614181,
   "last_successful_sync": "2026-07-21T06:01:56Z",
   "last_successful_sync_epoch": 1784613716,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1784612984,
     "interval_seconds": 300,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "FileNotFoundError: [Errno 2] No such file or directory",
   "observed": {
-    "started_at_epoch": 1784613644,
-    "completed_at_epoch": 1784613716,
-    "drift_seconds": 60
+    "started_at_epoch": 1784614181,
+    "completed_at_epoch": 1784614181,
+    "drift_seconds": 3
   },
   "client_polling": {
     "normal_seconds": 60,
