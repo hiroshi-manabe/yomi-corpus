@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1165,
-  "generated_at": "2026-07-21T07:11:57Z",
-  "generated_at_epoch": 1784617917,
+  "state_revision": 1166,
+  "generated_at": "2026-07-21T07:16:15Z",
+  "generated_at_epoch": 1784618175,
   "last_successful_sync": "2026-07-21T07:11:57Z",
   "last_successful_sync_epoch": 1784617917,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1784617514,
     "interval_seconds": 300,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "NameError: name 'effective_results_path' is not defined",
   "observed": {
-    "started_at_epoch": 1784617844,
-    "completed_at_epoch": 1784617917,
-    "drift_seconds": 30
+    "started_at_epoch": 1784618175,
+    "completed_at_epoch": 1784618175,
+    "drift_seconds": 61
   },
   "client_polling": {
     "normal_seconds": 60,
