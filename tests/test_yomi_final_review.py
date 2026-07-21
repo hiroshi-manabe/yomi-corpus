@@ -1831,6 +1831,77 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertTrue(final_summary["stage_complete"])
             self.assertEqual(final_summary["written_units"], 1)
 
+    def test_strong_repair_preserves_okurigana_around_internal_target(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            output_path = root / "strong.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "お箸で摘んだ。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "お/オ 箸/ハシ で/デ 摘ん/ツン だ/ダ 。/。"}
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "unit_id": "u1",
+                        "repair_scope": "target_group",
+                        "target_escalations": [
+                            {
+                                "surface": "摘",
+                                "token_surface": "摘ん",
+                                "token_index": 3,
+                                "current_reading_hiragana": "つ",
+                                "rejected_readings": [
+                                    {"surface": "摘", "reading": "つ", "source": "human_no_ruby"}
+                                ],
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "parsed": [{"surface": "摘", "reading": "つま"}],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            repaired = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(summary["applied_items"], 1)
+            self.assertIn("摘ん/ツマン", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
+
     def test_finalize_merges_final_review_metadata_onto_strong_repaired_units(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -2253,6 +2324,105 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "池尻/イケジリ 中学校/チュウガッコウ",
                 repaired["analysis"]["mechanical"]["yomi"]["rendered"],
             )
+
+    def test_strong_repair_review_normalizes_legacy_punctuation_segments(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            strong_path = root / "strong.jsonl"
+            pack_path = root / "pack.json"
+            store_dir = root / "submissions"
+            strong_summary_path = root / "strong_summary.json"
+            confirmation_summary_path = root / "confirmation_summary.json"
+            strong_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "面白かった(笑)。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "面白かっ/オモシロカッ た/タ (笑)/ワライ 。/。"
+                                }
+                            },
+                            "human_review": {"yomi_final": {"reviewed": True, "skip": False}},
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            pack_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack_1",
+                        "item_count": 1,
+                        "items": [
+                            {
+                                "item_id": "u1::strong_repair",
+                                "seq": 1,
+                                "unit_id": "u1",
+                                "regions": [
+                                    {
+                                        "region_id": "u1::target_group:1",
+                                        "item_id": "u1::target_group:1",
+                                        "unit_id": "u1",
+                                        "rejected_span": "(笑)",
+                                    }
+                                ],
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            strong_summary_path.write_text(
+                json.dumps({"stage_complete": True, "confirmed": False}),
+                encoding="utf-8",
+            )
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_strong_repair_review",
+                    "pack_id": "strong_pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 10,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1::strong_repair",
+                            "decision": "accept",
+                            "regions": [
+                                {
+                                    "region_id": "u1::target_group:1",
+                                    "manual_segments": [
+                                        {"surface": "(", "reading": "/"},
+                                        {"surface": "笑", "reading": "わらい"},
+                                        {"surface": ")", "reading": "/"},
+                                    ],
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_strong_repair_review_file(
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                strong_apply_summary_json=strong_summary_path,
+                output_summary_json=confirmation_summary_path,
+                units_jsonl=strong_path,
+            )
+
+            self.assertTrue(summary["stage_complete"])
+            self.assertEqual(summary["manual_segment_overrides"]["applied_items"], 1)
+            repaired = json.loads(strong_path.read_text(encoding="utf-8"))
+            self.assertIn("(/( 笑/ワライ )/)", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
 
     def test_strong_repair_keeps_reused_rejected_reading_as_noop(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

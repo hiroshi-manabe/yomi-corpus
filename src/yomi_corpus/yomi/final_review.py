@@ -2502,10 +2502,19 @@ def replacement_pairs_from_span_override(
             return []
         surface = str(segment.get("surface") or "")
         reading = str(segment.get("reading") or "")
-        normalized = normalize_hiragana_reading(reading)
-        if not surface or not normalized or not is_valid_yomi_reading(normalized):
+        if not surface:
             return []
-        pairs.append((surface, hira_to_kata(normalized)))
+        if reading == "/" and not has_han(surface) and not has_latin(surface):
+            reading = ""
+        if is_numeric_only_finalized_correction_surface(surface):
+            normalized = ""
+        elif not has_han(surface) and not has_latin(surface) and not reading:
+            normalized = hiragana_to_katakana_for_finalized_correction(surface)
+        else:
+            normalized = hira_to_kata(normalize_hiragana_reading(reading))
+        if not validate_finalized_correction_reading(surface, normalized)["ok"]:
+            return []
+        pairs.append((surface, normalized))
     return pairs
 
 
@@ -2909,14 +2918,24 @@ def apply_target_group_strong_repair(
             return {"status": "invalid_queue", "reason": "target token index out of range"}
         original_span = "".join(surface for surface, _reading in pairs[start:end])
         if original_span != rejected_span:
-            fallback = find_unique_rendered_span(pairs, rejected_span)
-            if fallback is None:
-                return {
-                    "status": "surface_mismatch",
-                    "rejected_span": rejected_span,
-                    "original_span": original_span,
-                }
-            start, end = fallback
+            internal_replacement = build_internal_token_replacement(
+                targets=targets,
+                replacement_pairs=replacement_pairs,
+                rendered_pairs=pairs,
+            )
+            if internal_replacement is not None:
+                end = start + 1
+                replacement_pairs = [internal_replacement]
+                original_span = internal_replacement[0]
+            else:
+                fallback = find_unique_rendered_span(pairs, rejected_span)
+                if fallback is None:
+                    return {
+                        "status": "surface_mismatch",
+                        "rejected_span": rejected_span,
+                        "original_span": original_span,
+                    }
+                start, end = fallback
     else:
         fallback = find_unique_rendered_span(pairs, rejected_span)
         if fallback is None:
@@ -2937,6 +2956,44 @@ def apply_target_group_strong_repair(
             for surface, reading in replacement_pairs
         ],
     }
+
+
+def build_internal_token_replacement(
+    *,
+    targets: list[dict[str, Any]],
+    replacement_pairs: list[tuple[str, str]],
+    rendered_pairs: list[tuple[str, str]],
+) -> tuple[str, str] | None:
+    """Preserve kana affixes when a reviewed target is one chunk inside a token."""
+    if len(targets) != 1:
+        return None
+    target = targets[0]
+    token_index = target.get("token_index")
+    if not isinstance(token_index, int) or not (0 <= token_index < len(rendered_pairs)):
+        return None
+    target_surface = str(target.get("surface") or "")
+    token_surface, _token_reading = rendered_pairs[token_index]
+    if not target_surface or token_surface.count(target_surface) != 1:
+        return None
+    offset = token_surface.index(target_surface)
+    prefix = token_surface[:offset]
+    suffix = token_surface[offset + len(target_surface) :]
+    if not prefix and not suffix:
+        return None
+    if not re.fullmatch(r"[\u3040-\u30ffー]*", prefix + suffix):
+        return None
+    replacement_surface = "".join(surface for surface, _reading in replacement_pairs)
+    if replacement_surface != target_surface:
+        return None
+    replacement_reading = "".join(reading for _surface, reading in replacement_pairs)
+    reading = "".join(
+        (
+            hira_to_kata(kana_surface_to_hira(prefix)),
+            replacement_reading,
+            hira_to_kata(kana_surface_to_hira(suffix)),
+        )
+    )
+    return token_surface, reading
 
 
 def rejected_surface_reading_pairs(targets: list[dict[str, Any]]) -> set[tuple[str, str]]:
