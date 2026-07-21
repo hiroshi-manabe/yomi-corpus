@@ -100,10 +100,11 @@
       "created_at_epoch": 1784273312,
       "item_count": 4,
       "document_count": 10,
-      "selectable_document_count": 4,
+      "selectable_document_count": 1,
       "document_state_counts": {
         "complete": 6,
-        "strong_pending": 4
+        "strong_apply_failed": 1,
+        "strong_reviewed": 3
       },
       "queue_id": "strong_repair",
       "status": "active-dev"
@@ -274,7 +275,8 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 6,
-            "strong_pending": 4
+            "strong_apply_failed": 1,
+            "strong_reviewed": 3
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -444,10 +446,11 @@
           "created_at_epoch": 1784273312,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 4,
+          "selectable_document_count": 1,
           "document_state_counts": {
             "complete": 6,
-            "strong_pending": 4
+            "strong_apply_failed": 1,
+            "strong_reviewed": 3
           },
           "queue_id": "strong_repair",
           "status": "active-dev"

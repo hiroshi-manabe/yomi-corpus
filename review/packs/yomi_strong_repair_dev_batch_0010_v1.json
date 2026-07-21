@@ -10,10 +10,11 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 1,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_apply_failed": 1,
+      "strong_reviewed": 3
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -83,12 +84,12 @@
       "source_line_no": 66,
       "preview": "【2017年11月4日(土)・5日(日)】に京都で行われた京都ハンドメイドマルシェに公式ブースとして出展して参りました！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-21T01:21:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-21T01:27:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +110,12 @@
       "source_line_no": 67,
       "preview": "あなたはこの言葉を知っていますか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-21T01:21:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-21T01:27:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,14 +188,25 @@
       "source_line_no": 70,
       "preview": "今回、ブルキナファソでは日食を見ることができました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T01:21:43Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-07-21T01:27:19Z",
+      "application_failure_count": 1,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2:0000000070:u0041::target_group:1",
+          "doc_id": "ja_cc_level2:0000000070",
+          "unit_id": "ja_cc_level2:0000000070:u0041",
+          "submission_id": "yomi_strong_repair_dev_batch_0010_v1__2026-07-21T01:26:45.043Z",
+          "status": "invalid_manual_segments",
+          "reason": "manual segment surfaces do not match rejected span",
+          "rejected_span": "疲",
+          "replacement_span": "疲れ"
+        }
+      ],
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -239,12 +251,12 @@
       "source_line_no": 72,
       "preview": "狩野川の河原の草をハムハム・・・。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-21T01:21:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-21T01:27:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,11 +308,15 @@
       "source_line_no": 66,
       "text": "本木目のため、同じ柄が二つと無いのも魅力。",
       "rendered_yomi_before": "本木/モトキ 目/メ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
-      "rendered_yomi_after": "本木目/ホンモクメ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
+      "rendered_yomi_after": "本/ホン 木目/モクメ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "本木目",
-          "ホンモクメ"
+          "本",
+          "ホン"
+        ],
+        [
+          "木目",
+          "モクメ"
         ],
         [
           "の",
@@ -361,13 +377,24 @@
       ],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "本木目",
-          "reading": "ホンモクメ",
+          "surface": "本",
+          "reading": "ホン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "本木目",
-              "reading": "ほんもくめ"
+              "text": "本",
+              "reading": "ほん"
+            }
+          ]
+        },
+        {
+          "surface": "木目",
+          "reading": "モクメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "木目",
+              "reading": "もくめ"
             }
           ]
         },
@@ -536,12 +563,12 @@
           "unit_id": "ja_cc_level2:0000000066:u0031",
           "text": "本木目のため、同じ柄が二つと無いのも魅力。",
           "rendered_yomi_before": "本木/モトキ 目/メ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
-          "rendered_yomi_after": "本木目/ホンモクメ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
+          "rendered_yomi_after": "本/ホン 木目/モクメ の/ノ ため/タメ 、/、 同じ/オナジ 柄/ガラ が/ガ 二/フタ つ/ツ と/ト 無い/ナイ の/ノ も/モ 魅力/ミリョク 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 1,
+            "end": 2,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
