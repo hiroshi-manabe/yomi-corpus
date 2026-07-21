@@ -3104,6 +3104,19 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   afterLine.append(...renderStrongRepairAfterLine(item, override, editable));
   node.append(afterLine);
 
+  const comments = strongRepairRegions(item).flatMap((region) => region.llm_comments || []);
+  const distinctComments = [...new Set(comments.filter(Boolean))];
+  if (distinctComments.length) {
+    const commentBlock = document.createElement("div");
+    commentBlock.className = "strong-repair-llm-comments";
+    for (const comment of distinctComments) {
+      const line = document.createElement("p");
+      line.textContent = `LLM: ${comment}`;
+      commentBlock.append(line);
+    }
+    node.append(commentBlock);
+  }
+
   const details = document.createElement("details");
   details.className = "strong-repair-debug";
   const summary = document.createElement("summary");
