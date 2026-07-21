@@ -3520,16 +3520,21 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   const ordered = [...indexes].sort((a, b) => a - b);
   const chars = Array.from(region.rejected_span || "");
   let start = 0;
-  const nextSegments = [];
+  const surfaces = [];
   for (const end of [...ordered, chars.length]) {
-    const surface = chars.slice(start, end).join("");
-    nextSegments.push({
-      surface,
-      reading: defaultStrongRepairReadingForSegment(region, surface, previousSegments),
-      edited: false,
-    });
+    surfaces.push(chars.slice(start, end).join(""));
     start = end;
   }
+  const readings = defaultStrongRepairReadingsForSegments(
+    region,
+    surfaces,
+    previousSegments,
+  );
+  const nextSegments = surfaces.map((surface, index) => ({
+    surface,
+    reading: readings[index] || "",
+    edited: false,
+  }));
   setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
   render();
@@ -3670,6 +3675,85 @@ function defaultStrongRepairReadingForSegment(region, surface, previousSegments)
     return targetReading;
   }
   return "";
+}
+
+function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegments) {
+  const knownWholeReadings = strongRepairKnownWholeReadings(region);
+  const candidates = surfaces.map((surface) => {
+    const values = [];
+    const previous = (previousSegments || []).find(
+      (segment) => segment.surface === surface && segment.reading,
+    );
+    if (previous?.reading) {
+      values.push(previous.reading);
+    }
+    for (const reading of strongRepairReadingCycleCandidates(region, surface)) {
+      if (reading && !values.includes(reading)) {
+        values.push(reading);
+      }
+    }
+    return values;
+  });
+  for (const wholeReading of knownWholeReadings) {
+    const matched = matchStrongRepairSegmentReadings(candidates, wholeReading);
+    if (matched) {
+      return matched;
+    }
+  }
+  return surfaces.map((surface) =>
+    defaultStrongRepairReadingForSegment(region, surface, previousSegments),
+  );
+}
+
+function strongRepairKnownWholeReadings(region) {
+  const span = region.rejected_span || "";
+  const values = [];
+  const add = (reading) => {
+    const normalized = katakanaToHiragana(String(reading || ""));
+    if (normalized && !values.includes(normalized)) {
+      values.push(normalized);
+    }
+  };
+  const addRows = (rows) => {
+    if ((rows || []).map((row) => row?.surface || "").join("") === span) {
+      add((rows || []).map((row) => row?.reading || "").join(""));
+    }
+  };
+  addRows(region.llm_parsed || []);
+  addRows(region.repair_log?.replacement || []);
+  addRows(region.rejected_readings || []);
+  addRows(
+    (region.target_escalations || []).map((target) => ({
+      surface: target.surface,
+      reading: target.current_reading_hiragana,
+    })),
+  );
+  for (const reading of region.reading_candidates?.[span] || []) {
+    add(reading);
+  }
+  add(region.reading_hints?.[span]);
+  return values;
+}
+
+function matchStrongRepairSegmentReadings(candidates, wholeReading) {
+  const match = [];
+  const visit = (index, prefix) => {
+    if (index === candidates.length) {
+      return prefix === wholeReading;
+    }
+    for (const reading of candidates[index]) {
+      const next = prefix + reading;
+      if (!wholeReading.startsWith(next)) {
+        continue;
+      }
+      match[index] = reading;
+      if (visit(index + 1, next)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return visit(0, "") ? [...match] : null;
 }
 
 function readingFromStrongRepairTargets(targets, surface) {
