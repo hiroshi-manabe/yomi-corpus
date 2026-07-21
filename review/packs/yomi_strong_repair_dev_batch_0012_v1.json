@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-21T06:09:28Z",
+      "state_updated_at": "2026-07-21T06:12:17Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -3765,13 +3765,13 @@
           "llm_raw_text": "",
           "llm_parsed": [],
           "llm_comments": [],
-          "llm_parse_error": "Background response ended with status incomplete: {'reason': 'max_output_tokens'}",
+          "llm_parse_error": "Background response ended with status failed: {'code': 'rate_limit_exceeded', 'message': 'Rate limit reached for gpt-5.4-mini in organization org-ybDxDyCQhlIQyWdm8Ou7YUaS on tokens per min (TPM): Limit 200000, Used 181763, Requested 29781. Please try again in 3.463s. Visit https://platform.openai.com/account/rate-limits to learn more.'}",
           "used_web_search": false,
           "repair_status": "parse_error",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000085:u0015::target_group:2",
             "status": "parse_error",
-            "parse_error": "Background response ended with status incomplete: {'reason': 'max_output_tokens'}"
+            "parse_error": "Background response ended with status failed: {'code': 'rate_limit_exceeded', 'message': 'Rate limit reached for gpt-5.4-mini in organization org-ybDxDyCQhlIQyWdm8Ou7YUaS on tokens per min (TPM): Limit 200000, Used 181763, Requested 29781. Please try again in 3.463s. Visit https://platform.openai.com/account/rate-limits to learn more.'}"
           }
         },
         {

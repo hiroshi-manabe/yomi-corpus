@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1153,
-  "generated_at": "2026-07-21T06:09:41Z",
-  "generated_at_epoch": 1784614181,
-  "last_successful_sync": "2026-07-21T06:01:56Z",
-  "last_successful_sync_epoch": 1784613716,
-  "status": "error",
+  "state_revision": 1154,
+  "generated_at": "2026-07-21T06:12:33Z",
+  "generated_at_epoch": 1784614353,
+  "last_successful_sync": "2026-07-21T06:12:33Z",
+  "last_successful_sync_epoch": 1784614353,
+  "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1784612984,
+    "anchor_epoch": 1784614280,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1784613284
+    "next_expected_epoch": 1784614580
   },
   "state": {
     "current_batch_name": "dev_batch_0014",
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "FileNotFoundError: [Errno 2] No such file or directory",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1784614181,
-    "completed_at_epoch": 1784614181,
-    "drift_seconds": 3
+    "started_at_epoch": 1784614280,
+    "completed_at_epoch": 1784614353,
+    "drift_seconds": 96
   },
   "client_polling": {
     "normal_seconds": 60,
