@@ -2201,13 +2201,17 @@ function renderWorkflowTile(row, { compact }) {
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
   tile.classList.toggle("submitted", Boolean(row.submitted));
+  tile.classList.toggle("apply-failed", Boolean(row.apply_failed));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
+    ${row.apply_failed ? '<em class="workflow-apply-failed-badge">Apply failed</em>' : ""}
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
+  } else if (row.apply_failed) {
+    tile.title = "The submitted correction could not be applied. Its GitHub issue remains open.";
   } else if (row.submitted) {
     tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
@@ -2410,6 +2414,9 @@ function workflowPreviewActionDocument(docs, row) {
 }
 
 function workflowPreviewMetaText(row, items, actionDoc) {
+  if (row.apply_failed) {
+    return `Apply failed · ${items.length} item(s) · reopen after the server-side problem is fixed`;
+  }
   const statusLabel = row.status === "strong"
     ? "Escalated Repair"
     : row.status === "final"
@@ -2496,10 +2503,12 @@ function workflowDocumentStates(docs) {
         preview: doc.preview || "",
         completed_via: "",
         submitted: false,
+        apply_failed: false,
       });
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
+    row.apply_failed = row.apply_failed || String(doc.state || "") === "strong_apply_failed";
     if (documentIsResolved(doc)) {
       if (!["final", "strong"].includes(row.status)) {
         row.status = "resolved";
@@ -2545,7 +2554,8 @@ function documentHasPendingCanonicalState(doc) {
     stateName === "final_in_review" ||
     stateName === "final_reviewed" ||
     stateName === "strong_pending" ||
-    stateName === "strong_in_review"
+    stateName === "strong_in_review" ||
+    stateName === "strong_apply_failed"
   );
 }
 
@@ -2598,6 +2608,7 @@ function workflowDocumentStateForQueueDoc(doc) {
     preview: doc.preview || "",
     submitted,
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
+    apply_failed: String(doc.state || "") === "strong_apply_failed",
   };
 }
 
@@ -2649,7 +2660,11 @@ function queueStatusFromDocumentState(doc) {
   if (stateName.startsWith("final_")) {
     return "final";
   }
-  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+  if (
+    stateName === "strong_pending" ||
+    stateName === "strong_in_review" ||
+    stateName === "strong_apply_failed"
+  ) {
     return "strong";
   }
   return null;
