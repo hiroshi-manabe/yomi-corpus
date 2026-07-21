@@ -4082,8 +4082,8 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
   let remaining = text;
 
-  const trailing = nextMergeEligible ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
-  const leading = previousMergeEligible ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
+  const trailing = nextMergeEligible ? numericMergeRun(remaining, "trailing") : "";
+  const leading = previousMergeEligible ? numericMergeRun(remaining, "leading") : "";
   if (trailing && trailing.length < remaining.length) {
     nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
     remaining = trailing;
@@ -4100,6 +4100,16 @@ function renderYomiTextSegmentWithNumericMerge(
     nodes.push(document.createTextNode(remaining));
   }
   return nodes;
+}
+
+function numericMergeRun(text, side) {
+  // Keep adjacent numeral systems separate: in GⅠ９勝, Ⅰ belongs with G while ９ may
+  // independently belong with 勝.
+  const roman = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ";
+  const pattern = side === "trailing"
+    ? new RegExp(`([0-9０-９]+|[${roman}]+)$`, "u")
+    : new RegExp(`^([0-9０-９]+|[${roman}]+)`, "u");
+  return text.match(pattern)?.[1] || "";
 }
 
 function targetForRubySegment(segment, targetsById) {
