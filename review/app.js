@@ -4049,7 +4049,7 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
 
 function renderRubySegments(item, override, editable) {
   const nodes = [];
-  const targetsById = Object.fromEntries((item.targets || []).map((target) => [target.item_id, target]));
+  const targetsById = Object.fromEntries(reviewActionTargets(item).map((target) => [target.item_id, target]));
   const segments = item.ruby_segments || [{ type: "text", text: item.text || "" }];
   for (let index = 0; index < segments.length; index += 1) {
     const segment = segments[index];
@@ -4074,6 +4074,13 @@ function renderRubySegments(item, override, editable) {
     nodes.push(renderRubySpan(item, target, override, editable));
   }
   return nodes;
+}
+
+function reviewActionTargets(item) {
+  if (Array.isArray(item.interaction_spans) && item.interaction_spans.length > 0) {
+    return item.interaction_spans;
+  }
+  return item.targets || [];
 }
 
 function renderYomiTextSegmentWithNumericMerge(
