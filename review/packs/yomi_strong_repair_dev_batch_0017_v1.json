@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -31,12 +31,12 @@
       "source_line_no": 134,
       "preview": "映画の見方がわからない人が感想を書いています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:35Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +109,12 @@
       "source_line_no": 137,
       "preview": "今日は2周目後半観たんですがね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:35Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 141,
       "preview": "津貫蒸留所に行くために宿泊した、南さつま市の加世田エリア。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:35Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +265,12 @@
       "source_line_no": 143,
       "preview": "ガリガリ君、「温泉まんじゅう味」を発売するらしいですね！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:35Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -2844,15 +2844,19 @@
       "source_line_no": 143,
       "text": "「外国人買い」から「決算発表買い」へと移行し、株価の上昇基調が続くとみる市場関係者は多いらしい。",
       "rendered_yomi_before": "「/「 外国/ガイコク 人買い/ヒトカイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
-      "rendered_yomi_after": "「/「 外国人買い/ガイコクジンガイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
+      "rendered_yomi_after": "「/「 外国人/ガイコクジン 買い/ガイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "「",
           "「"
         ],
         [
-          "外国人買い",
-          "ガイコクジンガイ"
+          "外国人",
+          "ガイコクジン"
+        ],
+        [
+          "買い",
+          "ガイ"
         ],
         [
           "」",
@@ -2971,13 +2975,24 @@
           ]
         },
         {
-          "surface": "外国人買い",
-          "reading": "ガイコクジンガイ",
+          "surface": "外国人",
+          "reading": "ガイコクジン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "外国人買",
-              "reading": "がいこくじんが"
+              "text": "外国人",
+              "reading": "がいこくじん"
+            }
+          ]
+        },
+        {
+          "surface": "買い",
+          "reading": "ガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "買",
+              "reading": "が"
             },
             {
               "type": "text",
@@ -3280,14 +3295,14 @@
           "unit_id": "ja_cc_level2:0000000143:u0012",
           "text": "「外国人買い」から「決算発表買い」へと移行し、株価の上昇基調が続くとみる市場関係者は多いらしい。",
           "rendered_yomi_before": "「/「 外国/ガイコク 人買い/ヒトカイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
-          "rendered_yomi_after": "「/「 外国人買い/ガイコクジンガイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
+          "rendered_yomi_after": "「/「 外国人/ガイコクジン 買い/ガイ 」/」 から/カラ 「/「 決算/ケッサン 発表/ハッピョウ 買い/ガイ 」/」 へ/ヘ と/ト 移行/イコウ し/シ 、/、 株価/カブカ の/ノ 上昇/ジョウショウ 基調/キチョウ が/ガ 続く/ツヅク と/ト みる/ミル 市場/シジョウ 関係者/カンケイシャ は/ハ 多い/オオイ らしい/ラシイ 。/。",
           "display_mapping": {
             "start": 1,
-            "end": 2,
+            "end": 3,
             "char_start": 1,
             "char_end": 6,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },

@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 5,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 5,
-      "strong_pending": 5
+      "strong_reviewed": 5
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -31,12 +31,12 @@
       "source_line_no": 144,
       "preview": "※9/20にUSクラシック/ロンバル2022反映更新！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 149,
       "preview": "馬場が腐葉土になる→腐葉土の部分がドロになる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 151,
       "preview": "脊椎動物で最も長寿で、現在見つかった400歳のサメは関ヶ原の戦いの頃から生きている事になるそうです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 152,
       "preview": "江原道の中でも原州はソウルからとても行きやすい場所です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +265,12 @@
       "source_line_no": 153,
       "preview": "三田倶楽部の皆様におかれましては、平素より多大なるご支援をいただいていることに深く御礼申し上げます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:54:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:00:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 144,
       "text": "ロンバル2018と同タイミングで中国国内戦をやっていて、ボーヤン選手が出場しています。",
       "rendered_yomi_before": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国/コク 内戦/ナイセン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国内戦/コクナイセン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国内/コクナイ 戦/セン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "ロン",
@@ -331,8 +331,12 @@
           "チュウゴク"
         ],
         [
-          "国内戦",
-          "コクナイセン"
+          "国内",
+          "コクナイ"
+        ],
+        [
+          "戦",
+          "セン"
         ],
         [
           "を",
@@ -483,13 +487,24 @@
           ]
         },
         {
-          "surface": "国内戦",
-          "reading": "コクナイセン",
+          "surface": "国内",
+          "reading": "コクナイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "国内戦",
-              "reading": "こくないせん"
+              "text": "国内",
+              "reading": "こくない"
+            }
+          ]
+        },
+        {
+          "surface": "戦",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦",
+              "reading": "せん"
             }
           ]
         },
@@ -667,14 +682,14 @@
           "unit_id": "ja_cc_level2:0000000144:u0115",
           "text": "ロンバル2018と同タイミングで中国国内戦をやっていて、ボーヤン選手が出場しています。",
           "rendered_yomi_before": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国/コク 内戦/ナイセン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国内戦/コクナイセン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "ロン/ロン バル/バル 2018/ と/ト 同/ドウ タイミング/タイミング で/デ 中国/チュウゴク 国内/コクナイ 戦/セン を/ヲ やっ/ヤッ て/テ い/イ て/テ 、/、 ボー/ボー ヤン/ヤン 選手/センシュ が/ガ 出場/シュツジョウ し/シ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 8,
-            "end": 9,
+            "end": 10,
             "char_start": 18,
             "char_end": 21,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -948,7 +963,7 @@
       "source_line_no": 149,
       "text": "登録料、エントリー料も通常の競技会よりリーズナブルで、障害・馬場、ともに2級試験を兼ねておりますので、挑戦したい方はこれを機にぜひご参加くださいませ！",
       "rendered_yomi_before": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2級/ニキュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
-      "rendered_yomi_after": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2級/ニキュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
+      "rendered_yomi_after": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2/ 級/キュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "登録",
@@ -1027,8 +1042,12 @@
           "ニ"
         ],
         [
-          "2級",
-          "ニキュウ"
+          "2",
+          ""
+        ],
+        [
+          "級",
+          "キュウ"
         ],
         [
           "試験",
@@ -1326,13 +1345,23 @@
           ]
         },
         {
-          "surface": "2級",
-          "reading": "ニキュウ",
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "級",
+          "reading": "キュウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "2級",
-              "reading": "にきゅう"
+              "text": "級",
+              "reading": "きゅう"
             }
           ]
         },
@@ -1598,14 +1627,14 @@
           "unit_id": "ja_cc_level2:0000000149:u0005",
           "text": "登録料、エントリー料も通常の競技会よりリーズナブルで、障害・馬場、ともに2級試験を兼ねておりますので、挑戦したい方はこれを機にぜひご参加くださいませ！",
           "rendered_yomi_before": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2級/ニキュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
-          "rendered_yomi_after": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2級/ニキュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
+          "rendered_yomi_after": "登録/トウロク 料/リョウ 、/、 エントリー/エントリー 料/リョウ も/モ 通常/ツウジョウ の/ノ 競技会/キョウギカイ より/ヨリ リーズナブル/リーズナブル で/デ 、/、 障害/ショウガイ ・/・ 馬場/ババ 、/、 とも/トモ に/ニ 2/ 級/キュウ 試験/シケン を/ヲ 兼ね/カネ て/テ おり/オリ ます/マス の/ノ で/デ 、/、 挑戦/チョウセン し/シ たい/タイ 方/カタ は/ハ これ/コレ を/ヲ 機/キ に/ニ ぜひ/ゼヒ ご/ゴ 参加/サンカ ください/クダサイ ませ/マセ ！/！",
           "display_mapping": {
             "start": 19,
-            "end": 20,
+            "end": 21,
             "char_start": 36,
             "char_end": 38,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
