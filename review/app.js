@@ -1888,6 +1888,9 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: true }
       : { ok: false, error: `reading should be one of ${numericReadings.join(", ")}.` };
   }
+  if (reading === "カオモジ" && isSymbolicKaomojiCorrectionSurface(surface)) {
+    return { ok: true };
+  }
   if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
@@ -1901,6 +1904,14 @@ function validateRenderedYomiReading(surface, reading) {
     return { ok: true };
   }
   return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
+}
+
+function isSymbolicKaomojiCorrectionSurface(surface) {
+  return (
+    [...String(surface || "")].length >= 3 &&
+    !/[ぁ-ゖァ-ヺ一-龯々〆]/u.test(surface) &&
+    /[^\p{L}\p{N}\s]/u.test(surface)
+  );
 }
 
 function numericCompoundReadings(surface) {
