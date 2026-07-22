@@ -23,6 +23,37 @@ class YomiRepairResult:
     metadata: dict[str, Any]
 
 
+PARENTHESIZED_LAUGHTER = {
+    "(笑)": (("(", "("), ("笑", "ワライ"), (")", ")")),
+    "（笑）": (("（", "（"), ("笑", "ワライ"), ("）", "）")),
+}
+
+
+def normalize_parenthesized_laughter(rendered: str) -> YomiRepairResult:
+    """Keep punctuation unannotated and assign ワライ only to 笑."""
+    output: list[str] = []
+    count = 0
+    for token in rendered.split():
+        separator = token.rfind("/")
+        surface = token[:separator] if separator >= 0 else token
+        replacement = PARENTHESIZED_LAUGHTER.get(surface)
+        if replacement is None:
+            output.append(token)
+            continue
+        output.extend(f"{part_surface}/{part_reading}" for part_surface, part_reading in replacement)
+        count += 1
+    normalized = " ".join(output)
+    if not count:
+        return YomiRepairResult(rendered=normalized, metadata={})
+    return YomiRepairResult(
+        rendered=normalized,
+        metadata={
+            "rule_id": "normalize_parenthesized_laughter",
+            "count": count,
+        },
+    )
+
+
 def apply_post_hybrid_repairs(
     rendered: str,
     *,

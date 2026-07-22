@@ -28,6 +28,7 @@ from yomi_corpus.yomi.numeric_compounds import (
     numeric_compound_occurrences,
     numeric_compound_rule,
 )
+from yomi_corpus.yomi.repairs import normalize_parenthesized_laughter
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
     editable_rendered_to_yomi_tokens,
@@ -725,7 +726,18 @@ def build_review_item(
     rendered_yomi = str(
         unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
     )
-    review_targets = [build_review_target(target) for target in targets if isinstance(target, dict)]
+    rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
+    review_targets = [
+        build_review_target(
+            normalize_parenthesized_laughter_target(
+                target,
+                text=text,
+                rendered_yomi=rendered_yomi,
+            )
+        )
+        for target in targets
+        if isinstance(target, dict)
+    ]
     review_targets.extend(
         build_numeric_compound_review_targets(
             unit_id=str(unit.get("unit_id") or ""),
@@ -758,6 +770,7 @@ def build_review_item(
         )
     )
     rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, interaction_spans)
+    rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
     return {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
@@ -911,6 +924,81 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "candidates": candidates,
         "signals": target.get("signals") if isinstance(target.get("signals"), list) else [],
     }
+
+
+def normalize_parenthesized_laughter_target(
+    target: dict[str, Any],
+    *,
+    text: str,
+    rendered_yomi: str,
+) -> dict[str, Any]:
+    surface = str(target.get("surface") or "")
+    token_surface = str(target.get("token_surface") or surface)
+    if token_surface not in {"(笑)", "（笑）"} or surface not in {token_surface, "笑"}:
+        return target
+    start = target.get("target_start")
+    end = target.get("target_end")
+    if not isinstance(start, int) or not isinstance(end, int):
+        return target
+    if surface == token_surface:
+        if end - start != 3:
+            return target
+        normalized_start = start + 1
+        normalized_end = end - 1
+    else:
+        normalized_start = start
+        normalized_end = end
+    if text[normalized_start:normalized_end] != "笑":
+        return target
+    token_index = rendered_token_index_for_range(
+        text,
+        rendered_yomi,
+        start=normalized_start,
+        end=normalized_end,
+    )
+    if token_index is None:
+        return target
+    return {
+        **target,
+        "surface": "笑",
+        "token_surface": "笑",
+        "target_start": normalized_start,
+        "target_end": normalized_end,
+        "token_index": token_index,
+        "current_reading": "ワライ",
+        "current_reading_hiragana": "わらい",
+        "is_safe": True,
+        "review_status": "safe",
+        "highlight_level": "none",
+        "accepted_signal_names": ["safe_by_parenthesized_laughter_normalization"],
+        "status_reason": "normalized_parenthesized_laughter",
+        "signals": [
+            {
+                "name": "safe_by_parenthesized_laughter_normalization",
+                "accepted": True,
+                "reason": "punctuation_unread_laugh_read_as_warai",
+            }
+        ],
+    }
+
+
+def rendered_token_index_for_range(
+    text: str,
+    rendered_yomi: str,
+    *,
+    start: int,
+    end: int,
+) -> int | None:
+    cursor = 0
+    for index, (surface, _reading) in enumerate(parse_rendered_pairs(rendered_yomi)):
+        source_surface = surface.replace("\u00a0", " ")
+        token_end = cursor + len(source_surface)
+        if not source_surfaces_equal(text[cursor:token_end], source_surface):
+            return None
+        if cursor == start and token_end == end:
+            return index
+        cursor = token_end
+    return None
 
 
 def build_interaction_spans(
@@ -4143,6 +4231,8 @@ def harvest_supplemental_furigana(
         pairs = yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or "")) if isinstance(yomi, dict) else []
         for surface, reading in pairs:
             if not surface or not reading or not has_han(surface):
+                continue
+            if surface in {"(笑)", "（笑）"}:
                 continue
             result = converter.convert(surface, reading)
             if not result.annotated_surface or result.method == "exact_lookup":

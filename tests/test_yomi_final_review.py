@@ -35,6 +35,61 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_build_review_item_reads_only_laugh_inside_parentheses(self) -> None:
+        for surface, start, end in (("（笑）", 3, 6), ("笑", 4, 5)):
+            with self.subTest(surface=surface):
+                unit = {
+                    "unit_id": "u1",
+                    "doc_id": "d1",
+                    "text": "面白い（笑）。",
+                    "analysis": {
+                        "mechanical": {
+                            "yomi": {"rendered": "面白い/オモシロイ （笑）/（笑） 。/。"}
+                        },
+                        "safety": {
+                            "yomi": {
+                                "targets": [
+                                    {
+                                        "item_id": "u1:r1",
+                                        "surface": surface,
+                                        "token_surface": "（笑）",
+                                        "target_start": start,
+                                        "target_end": end,
+                                        "token_index": 1,
+                                        "current_reading": "（笑）",
+                                        "current_reading_hiragana": "（笑）",
+                                        "is_safe": False,
+                                        "signals": [
+                                            {
+                                                "name": "safe_by_llm_match",
+                                                "accepted": False,
+                                                "status": "mismatched",
+                                                "llm_reading": "かっこわらい",
+                                            }
+                                        ],
+                                    }
+                                ]
+                            }
+                        },
+                    },
+                }
+
+                item = build_review_item(unit, seq=1, doc_seq=1, track_doc_seq=1)
+
+                self.assertEqual(
+                    item["rendered_yomi"],
+                    "面白い/オモシロイ （/（ 笑/ワライ ）/） 。/。",
+                )
+                laughter_span = next(
+                    span for span in item["interaction_spans"] if span["surface"] == "笑"
+                )
+                self.assertEqual(
+                    (laughter_span["target_start"], laughter_span["target_end"]),
+                    (4, 5),
+                )
+                self.assertEqual(laughter_span["default_reading"], "わらい")
+                self.assertTrue(laughter_span["is_safe"])
+
     def test_groups_adjacent_mixed_script_targets_as_exact_source_span(self) -> None:
         targets = [
             {

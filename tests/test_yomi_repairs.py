@@ -5,10 +5,29 @@ import unittest
 from pathlib import Path
 
 from yomi_corpus.yomi.config import load_yomi_generation_config
-from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs
+from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs, normalize_parenthesized_laughter
 
 
 class YomiRepairTests(unittest.TestCase):
+    def test_splits_parenthesized_laughter_and_reads_only_laugh(self) -> None:
+        result = normalize_parenthesized_laughter(
+            "面白い/オモシロイ （笑）/カッコワライ (笑)/ワライ"
+        )
+
+        self.assertEqual(
+            result.rendered,
+            "面白い/オモシロイ （/（ 笑/ワライ ）/） (/( 笑/ワライ )/)",
+        )
+        self.assertEqual(result.metadata["count"], 2)
+
+    def test_parenthesized_laughter_normalization_is_idempotent(self) -> None:
+        rendered = "（/（ 笑/ワライ ）/）"
+
+        result = normalize_parenthesized_laughter(rendered)
+
+        self.assertEqual(result.rendered, rendered)
+        self.assertEqual(result.metadata, {})
+
     def test_applies_active_regex_rules_and_records_log(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             rules = Path(tmp) / "rules.tsv"
