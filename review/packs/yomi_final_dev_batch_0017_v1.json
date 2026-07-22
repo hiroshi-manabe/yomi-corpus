@@ -15,8 +15,8 @@
     "document_state_counts": {
       "final_pending": 10
     },
-    "unresolved_item_count": 37,
-    "unresolved_target_count": 44,
+    "unresolved_item_count": 36,
+    "unresolved_target_count": 43,
     "interaction_span_count": 2220,
     "provisional_skip_item_count": 0
   },
@@ -196,7 +196,7 @@
       "application_failures": [],
       "item_count": 54,
       "region_count": 0,
-      "unresolved_count": 1,
+      "unresolved_count": 0,
       "from_seq": 196,
       "to_seq": 249,
       "reviewed_unit_count": 0,
@@ -440863,16 +440863,20 @@
           "highlight_level": "none"
         },
         {
+          "type": "text",
+          "text": "（"
+        },
+        {
           "type": "ruby",
-          "text": "（笑）",
-          "target_item_id": "ja_cc_level2:0000000140:u0042:s0045-0047",
-          "reading": null,
-          "is_safe": false,
-          "highlight_level": "target"
+          "text": "笑",
+          "target_item_id": "ja_cc_level2:0000000140:u0042:s0046-0046",
+          "reading": "わらい",
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "」のいずれかが"
+          "text": "）」のいずれかが"
         },
         {
           "type": "ruby",
@@ -441366,9 +441370,9 @@
       "provisional_skip": false,
       "skip_default": false,
       "target_count": 13,
-      "safe_target_count": 12,
-      "unresolved_target_count": 1,
-      "all_targets_safe": false,
+      "safe_target_count": 13,
+      "unresolved_target_count": 0,
+      "all_targets_safe": true,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000140:u0042:r0003c01",
@@ -442293,61 +442297,35 @@
         {
           "item_id": "ja_cc_level2:0000000140:u0042:r0029c01",
           "surface": "笑",
-          "token_surface": "（笑）",
+          "token_surface": "笑",
           "target_start": 45,
           "target_end": 46,
-          "token_index": 28,
+          "token_index": 30,
           "chunk_index": 0,
-          "current_reading": "キゴウ",
-          "current_reading_hiragana": "きごう",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "accepted_signal_names": [],
-          "status_reason": "llm_reading_mismatched",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "わら",
+          "current_reading": "ワライ",
+          "current_reading_hiragana": "わらい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_parenthesized_laughter_normalization"
+          ],
+          "status_reason": "normalized_parenthesized_laughter",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "わらい",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
-              "reading": "きごう",
-              "accepted": false,
+              "reading": "わらい",
+              "accepted": true,
               "ruby_nodes": [
                 {
                   "type": "ruby",
                   "text": "笑",
-                  "reading": "きごう"
-                }
-              ]
-            },
-            {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
-              "reading": "かっこわらい",
-              "accepted": false,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "笑",
-                  "reading": "かっこわらい"
-                }
-              ]
-            },
-            {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
-              "reading": "わら",
-              "accepted": false,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "笑",
-                  "reading": "わら"
+                  "reading": "わらい"
                 }
               ]
             },
@@ -442362,20 +442340,6 @@
                   "type": "ruby",
                   "text": "笑",
                   "reading": "えみ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "わらい",
-              "accepted": false,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "笑",
-                  "reading": "わらい"
                 }
               ]
             },
@@ -442395,35 +442359,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "token",
-              "evidence_surface": "（笑）",
-              "evidence_reading": "キゴウ",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カッコワライ",
-                "count": 5,
-                "surface_total_count": 5,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260721T041047Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260721T041047Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260721T041047Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "わら",
-              "current_reading_hiragana": "きごう"
+              "name": "safe_by_parenthesized_laughter_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_laugh_read_as_warai"
             }
           ]
         },
@@ -443789,23 +443727,61 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000140:u0042:s0045-0047",
-          "span_id": "ja_cc_level2:0000000140:u0042:s0045-0047",
-          "surface": "（笑）",
-          "token_surface": "（笑）",
-          "target_start": 44,
-          "target_end": 47,
-          "token_index": 28,
+          "item_id": "ja_cc_level2:0000000140:u0042:s0046-0046",
+          "span_id": "ja_cc_level2:0000000140:u0042:s0046-0046",
+          "surface": "笑",
+          "token_surface": "笑",
+          "target_start": 45,
+          "target_end": 46,
+          "token_index": 30,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "current_reading": "ワライ",
+          "current_reading_hiragana": "わらい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "わらい",
           "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "わらい",
+              "tokens": [
+                [
+                  "笑",
+                  "ワライ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "笑",
+                  "reading": "わらい"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "えみ",
+              "tokens": [
+                [
+                  "笑",
+                  "エミ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "笑",
+                  "reading": "えみ"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -443815,7 +443791,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（笑）"
+                  "text": "笑"
                 }
               ]
             }
@@ -443825,35 +443801,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "token",
-              "evidence_surface": "（笑）",
-              "evidence_reading": "キゴウ",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カッコワライ",
-                "count": 5,
-                "surface_total_count": 5,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260721T041047Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260721T041047Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260721T041047Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "わら",
-              "current_reading_hiragana": "きごう"
+              "name": "safe_by_parenthesized_laughter_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_laugh_read_as_warai"
             }
           ]
         },
@@ -444384,7 +444334,7 @@
         "幹事": "かんじ",
         "目立": "めだ",
         "人": "ひと",
-        "笑": "きごう",
+        "笑": "わらい",
         "行": "おこな",
         "多": "おお"
       }
