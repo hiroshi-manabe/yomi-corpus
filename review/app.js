@@ -1936,8 +1936,8 @@ function numericCompoundReadings(surface) {
 
 function isNumericOnlySurface(surface) {
   // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
-  // they are ambiguous; Japanese numeral kanji belong to the numeric layer.
-  return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇零一二三四五六七八九十百千万億兆京壱弐参肆伍陸漆柒捌玖拾佰仟萬]+$/u.test(surface);
+  // they are ambiguous; Japanese numeral digits belong to the numeric layer.
+  return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇零一二三四五六七八九]+$/u.test(surface);
 }
 
 function archiveCorrectionIssueTitle(doc) {
