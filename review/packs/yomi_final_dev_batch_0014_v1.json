@@ -15,8 +15,8 @@
     "document_state_counts": {
       "final_pending": 10
     },
-    "unresolved_item_count": 26,
-    "unresolved_target_count": 29,
+    "unresolved_item_count": 25,
+    "unresolved_target_count": 28,
     "interaction_span_count": 1183,
     "provisional_skip_item_count": 0
   },
@@ -40,7 +40,7 @@
       "application_failures": [],
       "item_count": 15,
       "region_count": 0,
-      "unresolved_count": 2,
+      "unresolved_count": 1,
       "from_seq": 1,
       "to_seq": 15,
       "reviewed_unit_count": 0,
@@ -5845,22 +5845,22 @@
         },
         {
           "type": "text",
-          "text": "がされてます"
+          "text": "がされてます（"
         },
         {
           "type": "ruby",
-          "text": "（笑）",
-          "target_item_id": "ja_cc_level2:0000000104:u0007:s0038-0040",
-          "reading": "かっこわらい",
-          "is_safe": false,
-          "highlight_level": "target"
+          "text": "笑",
+          "target_item_id": "ja_cc_level2:0000000104:u0007:s0039-0039",
+          "reading": "わらい",
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "。"
+          "text": "）。"
         }
       ],
-      "rendered_yomi": "参加/サンカ する/スル と/ト 名前/ナマエ を/ヲ 付ける/ツケル ん/ン です/デス が/ガ 、/、 最後/サイゴ に/ニ 必ず/カナラズ 「/「 ゴリラ/ゴリラ 」/」 と/ト 付く/ツク 工夫/クフウ が/ガ さ/サ れ/レ て/テ ます/マス （笑）/カッコワライ 。/。",
+      "rendered_yomi": "参加/サンカ する/スル と/ト 名前/ナマエ を/ヲ 付ける/ツケル ん/ン です/デス が/ガ 、/、 最後/サイゴ に/ニ 必ず/カナラズ 「/「 ゴリラ/ゴリラ 」/」 と/ト 付く/ツク 工夫/クフウ が/ガ さ/サ れ/レ て/テ ます/マス （/（ 笑/ワライ ）/） 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "参加",
@@ -6122,18 +6122,30 @@
           ]
         },
         {
-          "surface": "（笑）",
-          "reading": "カッコワライ",
+          "surface": "（",
+          "reading": "（",
           "nodes": [
             {
               "type": "text",
               "text": "（"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "笑",
+          "reading": "ワライ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "笑",
-              "reading": "かっこわらい"
-            },
+              "reading": "わらい"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
             {
               "type": "text",
               "text": "）"
@@ -6155,9 +6167,9 @@
       "provisional_skip": false,
       "skip_default": false,
       "target_count": 8,
-      "safe_target_count": 7,
-      "unresolved_target_count": 1,
-      "all_targets_safe": false,
+      "safe_target_count": 8,
+      "unresolved_target_count": 0,
+      "all_targets_safe": true,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000104:u0007:r0001c01",
@@ -6920,42 +6932,50 @@
         },
         {
           "item_id": "ja_cc_level2:0000000104:u0007:r0025c01",
-          "surface": "（笑）",
-          "token_surface": "（笑）",
-          "target_start": 37,
-          "target_end": 40,
-          "token_index": 24,
+          "surface": "笑",
+          "token_surface": "笑",
+          "target_start": 38,
+          "target_end": 39,
+          "token_index": 25,
           "chunk_index": 0,
-          "current_reading": "（笑）",
-          "current_reading_hiragana": "（笑）",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "accepted_signal_names": [],
-          "status_reason": "llm_reading_mismatched",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "かっこわらい",
+          "current_reading": "ワライ",
+          "current_reading_hiragana": "わらい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_parenthesized_laughter_normalization"
+          ],
+          "status_reason": "normalized_parenthesized_laughter",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "わらい",
           "candidates": [
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
-              "reading": "かっこわらい",
-              "accepted": false,
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "わらい",
+              "accepted": true,
               "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "（"
-                },
                 {
                   "type": "ruby",
                   "text": "笑",
-                  "reading": "かっこわらい"
-                },
+                  "reading": "わらい"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "えみ",
+              "accepted": false,
+              "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "）"
+                  "type": "ruby",
+                  "text": "笑",
+                  "reading": "えみ"
                 }
               ]
             },
@@ -6968,36 +6988,16 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（笑）"
+                  "text": "笑"
                 }
               ]
             }
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（笑）",
-              "evidence_reading": "（笑）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": null,
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260717T062001Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260717T062001Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かっこわらい",
-              "current_reading_hiragana": "（笑）"
+              "name": "safe_by_parenthesized_laughter_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_laugh_read_as_warai"
             }
           ]
         }
@@ -7924,47 +7924,58 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000104:u0007:s0038-0040",
-          "span_id": "ja_cc_level2:0000000104:u0007:s0038-0040",
-          "surface": "（笑）",
-          "token_surface": "（笑）",
-          "target_start": 37,
-          "target_end": 40,
-          "token_index": 24,
+          "item_id": "ja_cc_level2:0000000104:u0007:s0039-0039",
+          "span_id": "ja_cc_level2:0000000104:u0007:s0039-0039",
+          "surface": "笑",
+          "token_surface": "笑",
+          "target_start": 38,
+          "target_end": 39,
+          "token_index": 25,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "かっこわらい",
+          "current_reading": "ワライ",
+          "current_reading_hiragana": "わらい",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "わらい",
           "candidates": [
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
-              "reading": "かっこわらい",
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "わらい",
               "tokens": [
                 [
-                  "（笑）",
-                  "カッコワライ"
+                  "笑",
+                  "ワライ"
                 ]
               ],
               "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "（"
-                },
+                  "type": "ruby",
+                  "text": "笑",
+                  "reading": "わらい"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "えみ",
+              "tokens": [
+                [
+                  "笑",
+                  "エミ"
+                ]
+              ],
+              "ruby_nodes": [
                 {
                   "type": "ruby",
                   "text": "笑",
-                  "reading": "かっこわらい"
-                },
-                {
-                  "type": "text",
-                  "text": "）"
+                  "reading": "えみ"
                 }
               ]
             },
@@ -7977,7 +7988,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（笑）"
+                  "text": "笑"
                 }
               ]
             }
@@ -7987,29 +7998,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（笑）",
-              "evidence_reading": "（笑）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": null,
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260717T062001Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260717T062001Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かっこわらい",
-              "current_reading_hiragana": "（笑）"
+              "name": "safe_by_parenthesized_laughter_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_laugh_read_as_warai"
             }
           ]
         }
@@ -8022,7 +8013,7 @@
         "最後": "さいご",
         "必": "かなら",
         "工夫": "くふう",
-        "（笑）": "かっこわらい"
+        "笑": "わらい"
       }
     },
     {
@@ -306585,7 +306576,7 @@
           "text": "　など"
         }
       ],
-      "rendered_yomi": "活動/カツドウ 分野/ブンヤ は/ハ 、/、 まちづくり/マチヅクリ ／/／ 学術/ガクジュツ ・/・ 文化/ブンカ ・/・ 芸術/ゲイジュツ ・/・ スポーツ/スポーツ ／/／ 子ども/コドモ の/ノ 健全/ケンゼン 育成/イクセイ ／/／ 情報化/ジョウホウカ 社会/シャカイ ／/／ 経済/ケイザイ 活動/カツドウ の/ノ 活性化/カッセイカ 　/　 など/ナド",
+      "rendered_yomi": "活動/カツドウ 分野/ブンヤ は/ハ 、/、 まちづくり/マチヅクリ ／/／ 学術/ガクジュツ ・/・ 文化/ブンカ ・/・ 芸術/ゲイジュツ ・/・ スポーツ/スポーツ ／/／ 子ども/コドモ の/ノ 健全/ケンゼン 育成/イクセイ ／/／ 情報化/ジョウホウカ 社会/シャカイ ／/／ 経済/ケイザイ 活動/カツドウ の/ノ 活性化/カッセイカ / など/ナド",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "活動",
@@ -306865,12 +306856,12 @@
           ]
         },
         {
-          "surface": "　",
-          "reading": "　",
+          "surface": "/",
+          "reading": "",
           "nodes": [
             {
               "type": "text",
-              "text": "　"
+              "text": "/"
             }
           ]
         },
