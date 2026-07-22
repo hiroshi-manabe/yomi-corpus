@@ -243,6 +243,13 @@ each later decoder entry must have cross-boundary support: its first piece order
 must be at least 2. Internal support after an order-1 boundary is not enough to
 justify replacing Sudachi's whole-token segmentation.
 
+The default strategy is `ngram_grouping_preferred_v1`. It may merge contiguous
+Sudachi tokens when the top decoder entry covers exactly the same source span
+and every decoder `piece_order` is at least 2. It does not split a Sudachi token
+to follow decoder boundaries. This lets strong evidence repair under-segmented
+or malformed Sudachi output such as `戦/セン 争/争`, without accepting a merge
+whose first piece has only unigram support.
+
 For stable two-kanji confidence experiments, the decision unit should remain the
 hybrid rendered token, normally inherited from Sudachi plus accepted hybrid
 overrides. Decoder evidence should be projected onto that token's character
@@ -2437,11 +2444,12 @@ Default behavior should be conservative:
   `--publish {none,local,gh-pages}`. The default `local` regenerates
   `docs/review` after a state-changing pass without pushing. `none` applies
   pipeline state only. `gh-pages` regenerates and then runs `./publish-review`.
-- decoder model refresh is controlled separately in
+- decoder model refresh requests are controlled separately in
   `config/review_sync/default.toml` and can be overridden with
   `--decoder-refresh {never,on-finalize,always}`,
   `--decoder-refresh-min-new-batches`, and
-  `--decoder-refresh-min-interval-minutes`. It is not a transport setting.
+  `--decoder-refresh-min-interval-minutes`. It is not a transport setting, and
+  `review-sync` never performs the model build itself.
 
 This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside
@@ -2469,22 +2477,24 @@ be inspected through:
 journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 ```
 
-#### 11.2.1 Review sync and refill worker separation
+#### 11.2.1 Review sync, refill, and decoder-refresh worker separation
 
-Review synchronization is latency-sensitive; refill is throughput-sensitive.
-They must be separate scheduled processes with separate execution policies.
+Review synchronization is latency-sensitive; refill and decoder rebuilding are
+throughput-sensitive. They must be separate scheduled processes with separate
+execution policies and locks.
 
 `review-sync` should remain a short five-minute operation:
 
 - import and apply Bulk Review and Escalated Repair Issue submissions
 - close successfully consumed Issues
 - transition reviewed documents and finalize eligible batches
-- refresh decoder data according to finalization policy
+- atomically queue decoder refresh demand according to finalization policy
 - regenerate and publish changed review artifacts and runtime status
 - calculate refill demand, but only enqueue or reserve work rather than running
   long decoder or LLM stages
 
-This separation is implemented by `./review-sync` and `./refill-worker`.
+Review/refill separation is implemented by `./review-sync` and
+`./refill-worker`; decoder builds are handled by `./decoder-refresh-worker`.
 `review-sync` includes `refill_plan` in its summary but never prepares or
 advances a refill batch. `refill-worker` reads the same configuration, resumes
 the oldest batch that has not reached `final_review_prepared`, and otherwise
@@ -2524,6 +2534,7 @@ The implemented lock files are deliberately independent:
 - `data/state/review_sync/<track>.lock` protects Issue import/application
 - `data/state/refill/<track>.lock` prevents overlapping refill workers
 - `data/state/refill/batches/<batch>.lock` protects explicit resumable batch work
+- `data/state/decoder_refresh/<track>.lock` protects decoder model builds
 
 Refill summaries are written to `data/state/refill/<track>.last.json` with
 timestamped history beside them. The worker always advances the captured batch
@@ -2537,6 +2548,7 @@ For dev, install the version-controlled user units from
 systemctl --user daemon-reload
 systemctl --user enable --now yomi-corpus-review-sync-dev.timer
 systemctl --user enable --now yomi-corpus-refill-dev.timer
+systemctl --user enable --now yomi-corpus-decoder-refresh-dev.timer
 ```
 
 Useful diagnostics:
@@ -2544,8 +2556,10 @@ Useful diagnostics:
 ```bash
 systemctl --user status yomi-corpus-review-sync-dev.service
 systemctl --user status yomi-corpus-refill-dev.service
+systemctl --user status yomi-corpus-decoder-refresh-dev.service
 journalctl --user -u yomi-corpus-review-sync-dev.service -n 100 --no-pager
 journalctl --user -u yomi-corpus-refill-dev.service -n 100 --no-pager
+journalctl --user -u yomi-corpus-decoder-refresh-dev.service -n 100 --no-pager
 ```
 
 Execution modes should also be independent. Interactive review repair may still
@@ -2621,14 +2635,23 @@ Decoder refresh policy:
   `min_interval_minutes = 0`
 - working defaults to `never`, with stricter thresholds already documented in
   config for later use
-- `on-finalize` runs when at least one finalized batch is not yet represented
-  in the last successful decoder refresh and the since-last-refresh thresholds
-  are satisfied. This makes failed refreshes retryable on a later sync pass.
+- `on-finalize` queues a durable request when at least one finalized batch is
+  not yet represented in the last successful decoder refresh and the
+  since-last-refresh thresholds are satisfied.
+- `./decoder-refresh-worker <track>` consumes that request under its own lock,
+  recomputes eligibility, and performs the export and KenLM build. Its systemd
+  timer may poll every five minutes because an idle pass is cheap.
+- requests live at `data/state/decoder_refresh/<track>.request.json`. A failed
+  build leaves the request in place for retry. A successful build clears only
+  the request ID it started with, so a newer request written during the build
+  cannot be lost.
+- worker summaries are written to
+  `data/state/decoder_refresh/<track>.last.json` with timestamped history.
 - refresh uses the existing `refresh_decoder_model()` path, exports all
   finalized track batches, rebuilds a track-scoped model, and updates
   `decoder_model_dir` only after a successful build
 - refresh failure is non-fatal for review state. The batch remains finalized,
-  the error is recorded in the review-sync summary, and a later sync can retry.
+  the error is recorded in the worker summary, and a later worker pass retries.
 
 Browser-local task state is separate from imported pipeline state:
 

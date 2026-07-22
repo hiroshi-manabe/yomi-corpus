@@ -231,6 +231,140 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "なくなっ/ナクナッ た/タ")
         self.assertIn("fallback_sudachi_token", result.signals)
 
+    def test_ngram_boundary_preferred_combines_supported_decoder_span(self) -> None:
+        result = apply_strategy(
+            "ngram_boundary_preferred_v1",
+            text="太平洋戦争終戦",
+            sudachi_tokens=[
+                SudachiToken("太平洋", "名詞,固有名詞,地名,一般,*,*", "太平洋", "太平洋", "タイヘイヨウ"),
+                SudachiToken("戦", "接尾辞,名詞的,一般,*,*,*", "戦", "戦", "セン"),
+                SudachiToken("争", "補助記号,一般,*,*,*,*", "争", "争", "争"),
+                SudachiToken("終戦", "名詞,普通名詞,一般,*,*,*", "終戦", "終戦", "シュウセン"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("太平洋", "タイヘイヨウ", 3, [1, 2, 3]),
+                        DecoderEntry("戦争", "センソウ", 5, [4, 5]),
+                        DecoderEntry("終戦", "シュウセン", 2, [1, 2]),
+                    ],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "太平洋/タイヘイヨウ 戦争/センソウ 終戦/シュウセン")
+        self.assertIn("prefer_supported_decoder_grouping", result.signals)
+
+    def test_ngram_grouping_preferred_combines_supported_decoder_span(self) -> None:
+        result = apply_strategy(
+            "ngram_grouping_preferred_v1",
+            text="戦争",
+            sudachi_tokens=[
+                SudachiToken("戦", "接尾辞,名詞的,一般,*,*,*", "戦", "戦", "セン"),
+                SudachiToken("争", "補助記号,一般,*,*,*,*", "争", "争", "争"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("戦争", "センソウ", 2, [2, 2])],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "戦争/センソウ")
+        self.assertIn("prefer_supported_decoder_grouping", result.signals)
+
+    def test_ngram_grouping_preferred_requires_support_for_every_piece(self) -> None:
+        result = apply_strategy(
+            "ngram_grouping_preferred_v1",
+            text="楽して",
+            sudachi_tokens=[
+                SudachiToken("楽", "名詞,普通名詞,一般,*,*,*", "楽", "楽", "ラク"),
+                SudachiToken("し", "動詞,非自立可能,*,*,サ行変格,連用形-一般", "する", "する", "シ"),
+                SudachiToken("て", "助詞,接続助詞,*,*,*,*", "て", "て", "テ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("楽し", "タノシ", 2, [1, 2]),
+                        DecoderEntry("て", "テ", 3, [3]),
+                    ],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "楽/ラク し/シ て/テ")
+        self.assertNotIn("prefer_supported_decoder_grouping", result.signals)
+
+    def test_ngram_grouping_preferred_does_not_partition_sudachi_token(self) -> None:
+        result = apply_strategy(
+            "ngram_grouping_preferred_v1",
+            text="古本屋",
+            sudachi_tokens=[
+                SudachiToken("古本屋", "名詞,普通名詞,一般,*,*,*", "古本屋", "古本屋", "フルホンヤ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("古", "コ", 2, [2, 2]),
+                        DecoderEntry("本屋", "ホンヤ", 2, [1, 2]),
+                    ],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "古本屋/フルホンヤ")
+        self.assertNotIn("prefer_supported_decoder_partition", result.signals)
+
+    def test_ngram_boundary_preferred_does_not_group_unigram_decoder_span(self) -> None:
+        result = apply_strategy(
+            "ngram_boundary_preferred_v1",
+            text="戦争",
+            sudachi_tokens=[
+                SudachiToken("戦", "接尾辞,名詞的,一般,*,*,*", "戦", "戦", "セン"),
+                SudachiToken("争", "補助記号,一般,*,*,*,*", "争", "争", "争"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("戦争", "センソウ", 1, [1])],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "戦/セン 争/争")
+        self.assertNotIn("prefer_supported_decoder_grouping", result.signals)
+
+    def test_ngram_boundary_preferred_partitions_supported_decoder_entries(self) -> None:
+        result = apply_strategy(
+            "ngram_boundary_preferred_v1",
+            text="古本屋",
+            sudachi_tokens=[
+                SudachiToken("古本屋", "名詞,普通名詞,一般,*,*,*", "古本屋", "古本屋", "フルホンヤ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("古", "コ", 2, [2, 2]),
+                        DecoderEntry("本屋", "ホンヤ", 3, [2, 3]),
+                    ],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "古/コ 本屋/ホンヤ")
+        self.assertIn("prefer_supported_decoder_partition", result.signals)
+
     def test_aligned_hybrid_preserves_whitespace_and_normalizes_punctuation(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",

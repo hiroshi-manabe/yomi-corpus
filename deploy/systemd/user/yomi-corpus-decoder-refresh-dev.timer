@@ -1,0 +1,12 @@
+[Unit]
+Description=Run requested yomi corpus dev decoder model refreshes
+
+[Timer]
+OnBootSec=4min
+OnUnitActiveSec=5min
+AccuracySec=30s
+Persistent=true
+Unit=yomi-corpus-decoder-refresh-dev.service
+
+[Install]
+WantedBy=timers.target

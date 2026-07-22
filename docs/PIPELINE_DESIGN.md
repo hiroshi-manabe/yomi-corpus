@@ -112,6 +112,14 @@ cross the split boundary. Each decoder entry after the first must start with
 `piece_orders[0] >= 2`; a later entry that starts at order 1 and only gains
 support internally is not evidence for the boundary itself.
 
+The configured hybrid strategy may also merge multiple contiguous Sudachi
+tokens into one decoder entry. This is intentionally stricter than a same-span
+reading override: every value in the merged entry's `piece_orders` must be at
+least 2. Decoder-driven splitting remains disabled. Thus strongly supported
+groupings such as `戦/セン 争/争` becoming `戦争/センソウ` can repair a bad
+Sudachi boundary, while an entry such as `楽し/タノシ` with orders `[1, 2]`
+cannot replace `楽/ラク し/シ`.
+
 Stable two-kanji confidence experiments should not let decoder tokenization
 become the decision surface. The hybrid rendered tokens are the units being
 judged, and decoder evidence is projected onto those character spans. If the
@@ -2512,6 +2520,13 @@ python scripts/refresh_decoder_model.py --track working
 It exports finalized corpora for that track, builds a new decoder model, and
 updates that track's latest decoder model pointer. New batches copy that
 pointer into their batch manifest/state for reproducibility.
+
+Automated refreshes use a separate maintenance worker. `review-sync` only
+writes a durable request after the configured finalization thresholds are met;
+`./decoder-refresh-worker <track>` performs the expensive export and KenLM
+build under an independent lock. Failed requests remain pending for retry, and
+successful workers clear only the request ID they consumed. This keeps Issue
+application and review publication responsive while model construction runs.
 
 Model retention should favor reproducibility without retaining every heavy
 artifact forever:

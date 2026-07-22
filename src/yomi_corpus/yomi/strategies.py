@@ -35,6 +35,7 @@ class RenderedPair:
 ASCII_SPACE = " "
 NBSP = "\u00a0"
 SPACE_RUN_RE = re.compile(r"(\s+)")
+HAN_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff々〆〻]")
 
 
 def normalize_ascii_spaces_for_yomi(text: str) -> str:
@@ -199,11 +200,62 @@ def strategy_aligned_hybrid_v1(
     sudachi_tokens: list[SudachiToken],
     decoder_candidates: list[DecoderCandidate],
 ) -> YomiStrategyResult:
-    signals = ["strategy:aligned_hybrid_v1"]
+    return strategy_aligned_hybrid(
+        text=text,
+        sudachi_tokens=sudachi_tokens,
+        decoder_candidates=decoder_candidates,
+        strategy_name="aligned_hybrid_v1",
+        prefer_supported_decoder_grouping=False,
+        prefer_supported_decoder_partition=False,
+    )
+
+
+def strategy_ngram_grouping_preferred_v1(
+    *,
+    text: str,
+    sudachi_tokens: list[SudachiToken],
+    decoder_candidates: list[DecoderCandidate],
+) -> YomiStrategyResult:
+    return strategy_aligned_hybrid(
+        text=text,
+        sudachi_tokens=sudachi_tokens,
+        decoder_candidates=decoder_candidates,
+        strategy_name="ngram_grouping_preferred_v1",
+        prefer_supported_decoder_grouping=True,
+        prefer_supported_decoder_partition=False,
+    )
+
+
+def strategy_ngram_boundary_preferred_v1(
+    *,
+    text: str,
+    sudachi_tokens: list[SudachiToken],
+    decoder_candidates: list[DecoderCandidate],
+) -> YomiStrategyResult:
+    return strategy_aligned_hybrid(
+        text=text,
+        sudachi_tokens=sudachi_tokens,
+        decoder_candidates=decoder_candidates,
+        strategy_name="ngram_boundary_preferred_v1",
+        prefer_supported_decoder_grouping=True,
+        prefer_supported_decoder_partition=True,
+    )
+
+
+def strategy_aligned_hybrid(
+    *,
+    text: str,
+    sudachi_tokens: list[SudachiToken],
+    decoder_candidates: list[DecoderCandidate],
+    strategy_name: str,
+    prefer_supported_decoder_grouping: bool,
+    prefer_supported_decoder_partition: bool,
+) -> YomiStrategyResult:
+    signals = [f"strategy:{strategy_name}"]
     if not decoder_candidates:
         signals.extend(["decoder_no_candidates", "fallback_sudachi"])
         return YomiStrategyResult(
-            strategy="aligned_hybrid_v1",
+            strategy=strategy_name,
             rendered=render_pairs_from_sudachi(sudachi_tokens),
             certain=False,
             signals=signals,
@@ -216,6 +268,7 @@ def strategy_aligned_hybrid_v1(
         (entry.start, entry.end): entry.entry
         for entry in top_decoder_spans
     }
+    decoder_by_start = {entry.start: entry for entry in top_decoder_spans}
 
     rendered_pairs: list[RenderedPair] = []
     index = 0
@@ -245,6 +298,24 @@ def strategy_aligned_hybrid_v1(
             index = next_index
             continue
 
+        if prefer_supported_decoder_grouping:
+            grouped_entry = decoder_by_start.get(current.start)
+            grouped_end_index = supported_decoder_grouped_sudachi_end_index(
+                sudachi_spans=sudachi_spans,
+                start_index=index,
+                decoder_entry=grouped_entry,
+            )
+            if grouped_entry is not None and grouped_end_index is not None:
+                rendered_pairs.append(
+                    RenderedPair(
+                        surface=grouped_entry.entry.surface,
+                        reading=grouped_entry.entry.reading,
+                    )
+                )
+                signals.append("prefer_supported_decoder_grouping")
+                index = grouped_end_index
+                continue
+
         exact_entry = exact_decoder_by_span.get((current.start, current.end))
         if exact_entry is not None:
             pair, pair_signals = render_exact_aligned_token(
@@ -266,6 +337,14 @@ def strategy_aligned_hybrid_v1(
             signals.append("refine_single_sudachi_compound_with_decoder")
             index += 1
             continue
+        if (
+            prefer_supported_decoder_partition
+            and can_prefer_supported_decoder_partition(token, refined_entries)
+        ):
+            rendered_pairs.extend(render_decoder_entries(refined_entries))
+            signals.append("prefer_supported_decoder_partition")
+            index += 1
+            continue
 
         rendered_pairs.append(render_sudachi_token(token))
         signals.append("fallback_sudachi_token")
@@ -280,10 +359,60 @@ def strategy_aligned_hybrid_v1(
         for signal in signals
     )
     return YomiStrategyResult(
-        strategy="aligned_hybrid_v1",
+        strategy=strategy_name,
         rendered=" ".join(f"{pair.surface}/{pair.reading}" for pair in rendered_pairs),
         certain=certain,
         signals=dedupe_preserve_order(signals),
+    )
+
+
+def supported_decoder_grouped_sudachi_end_index(
+    *,
+    sudachi_spans: list[SpannedSudachiToken],
+    start_index: int,
+    decoder_entry: SpannedDecoderEntry | None,
+) -> int | None:
+    if decoder_entry is None or not decoder_entry.entry.reading:
+        return None
+    if not decoder_entry_has_full_piece_support(decoder_entry.entry):
+        return None
+    current = sudachi_spans[start_index]
+    if decoder_entry.start != current.start or decoder_entry.end <= current.end:
+        return None
+    index = start_index
+    cursor = current.start
+    while index < len(sudachi_spans) and cursor < decoder_entry.end:
+        span = sudachi_spans[index]
+        if span.start != cursor or span.end > decoder_entry.end:
+            return None
+        if is_boundary_special_token(span.token):
+            return None
+        cursor = span.end
+        index += 1
+    if cursor != decoder_entry.end or index - start_index < 2:
+        return None
+    return index
+
+
+def can_prefer_supported_decoder_partition(
+    token: SudachiToken,
+    decoder_entries: list[SpannedDecoderEntry],
+) -> bool:
+    if len(decoder_entries) <= 1 or is_boundary_special_token(token):
+        return False
+    if any(not entry.entry.reading for entry in decoder_entries):
+        return False
+    if any(is_decoder_entry_symbol(entry.entry) for entry in decoder_entries):
+        return False
+    return all(decoder_entry_has_full_piece_support(entry.entry) for entry in decoder_entries)
+
+
+def is_boundary_special_token(token: SudachiToken) -> bool:
+    return (
+        is_whitespace_token(token)
+        or token_contains_space(token)
+        or is_numeric_token(token)
+        or (is_punctuation_token(token) and HAN_RE.search(token.surface) is None)
     )
 
 
@@ -443,6 +572,10 @@ def should_use_decoder_override(
 
 def decoder_entry_has_ngram_support(entry: DecoderEntry) -> bool:
     return entry.final_order >= 2
+
+
+def decoder_entry_has_full_piece_support(entry: DecoderEntry) -> bool:
+    return bool(entry.piece_orders) and all(order >= 2 for order in entry.piece_orders)
 
 
 def decoder_entry_has_previous_entry_support(entry: DecoderEntry) -> bool:
@@ -670,6 +803,8 @@ STRATEGIES = {
     "agreement_prefer_decoder_v1": strategy_agreement_prefer_decoder_v1,
     "agreement_prefer_sudachi_v1": strategy_agreement_prefer_sudachi_v1,
     "aligned_hybrid_v1": strategy_aligned_hybrid_v1,
+    "ngram_boundary_preferred_v1": strategy_ngram_boundary_preferred_v1,
+    "ngram_grouping_preferred_v1": strategy_ngram_grouping_preferred_v1,
     "decoder_only_v1": strategy_decoder_only_v1,
     "sudachi_only_v1": strategy_sudachi_only_v1,
 }

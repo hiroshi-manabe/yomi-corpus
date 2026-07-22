@@ -100,7 +100,7 @@ def parse_args() -> argparse.Namespace:
         "--decoder-refresh",
         choices=sorted(DECODER_REFRESH_MODES),
         default=None,
-        help="Override decoder model refresh mode for this run.",
+        help="Override decoder model refresh request policy for this sync pass.",
     )
     parser.add_argument(
         "--decoder-refresh-min-new-batches",
@@ -117,7 +117,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--decoder-refresh-skip-kenlm",
         action="store_true",
-        help="Pass skip_kenlm=true to decoder refresh. Intended for tests.",
+        help="Record skip_kenlm=true in a queued decoder refresh request. Intended for tests.",
     )
     parser.add_argument(
         "--loop",

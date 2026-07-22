@@ -32,7 +32,7 @@ from yomi_corpus.review_sync import (
     load_review_sync_config,
     list_track_batches,
     maintain_strong_repair_for_reviewed_documents,
-    maybe_refresh_decoder_model,
+    request_decoder_model_refresh,
     reconcile_applied_final_review_issues,
     review_sync_lock_stale_reason,
     ReviewSyncLock,
@@ -802,23 +802,36 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertFalse(plan["will_refresh"])
             self.assertEqual(plan["reason"], "min_interval_not_met")
 
-    def test_maybe_refresh_decoder_model_reports_failure_without_raising(self) -> None:
+    def test_review_sync_queues_decoder_refresh_without_building(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
             write_finalized_batch(root, "dev_batch_0001")
             options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
 
-            with patch("yomi_corpus.review_sync.refresh_decoder_model", side_effect=RuntimeError("boom")):
-                result = maybe_refresh_decoder_model(
-                    root=root,
-                    workspace=workspace,
-                    options=options,
-                    newly_finalized_batches=["dev_batch_0001"],
-                )
+            result = request_decoder_model_refresh(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=["dev_batch_0001"],
+            )
 
-            self.assertEqual(result["status"], "failed")
-            self.assertEqual(result["error"], "boom")
+            self.assertEqual(result["status"], "queued")
+            self.assertTrue(result["request_created"])
+            request_path = Path(result["request_path"])
+            self.assertTrue(request_path.exists())
+            request = json.loads(request_path.read_text(encoding="utf-8"))
+            self.assertEqual(request["plan"]["new_since_refresh"], ["dev_batch_0001"])
+
+            duplicate = request_decoder_model_refresh(
+                root=root,
+                workspace=workspace,
+                options=options,
+                newly_finalized_batches=[],
+            )
+            self.assertEqual(duplicate["status"], "queued")
+            self.assertFalse(duplicate["request_created"])
+            self.assertEqual(duplicate["request_id"], result["request_id"])
 
     def test_list_track_batches_returns_only_requested_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

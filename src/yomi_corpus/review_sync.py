@@ -8,12 +8,12 @@ import time
 import tomllib
 from hashlib import sha256
 from contextlib import AbstractContextManager
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from yomi_corpus.decoder_models import list_finalized_batches, refresh_decoder_model
+from yomi_corpus.decoder_models import list_finalized_batches
 from yomi_corpus.pipeline import (
     LLM_EXECUTION_MODES,
     STAGE_FINAL_REVIEW_APPLIED,
@@ -495,7 +495,7 @@ def _run_review_sync_pass_unlocked(
         )
 
     if not options.dry_run:
-        decoder_refresh_result = maybe_refresh_decoder_model(
+        decoder_refresh_result = request_decoder_model_refresh(
             root=root,
             workspace=workspace,
             options=options,
@@ -725,7 +725,7 @@ def finalized_correction_problematic_submission_ids(apply_summary: dict[str, Any
     return ids
 
 
-def maybe_refresh_decoder_model(
+def request_decoder_model_refresh(
     *,
     root: Path,
     workspace: PipelineWorkspace,
@@ -740,25 +740,97 @@ def maybe_refresh_decoder_model(
     )
     if not plan["will_refresh"]:
         return plan
-    try:
-        summary = refresh_decoder_model(
-            root=root,
-            track_name=options.track_name,
-            skip_kenlm=options.decoder_refresh_skip_kenlm,
-            capture_build_output=True,
-        )
-    except Exception as exc:  # noqa: BLE001 - finalization must survive decoder refresh failures.
+
+    request_path = decoder_refresh_request_path(root, options.track_name)
+    existing = read_json_object(request_path)
+    policy = decoder_refresh_policy_from_options(options)
+    if existing and decoder_refresh_request_covers_plan(existing, plan=plan, policy=policy):
         return {
             **plan,
-            "status": "failed",
-            "error": str(exc),
-            "error_type": type(exc).__name__,
+            "status": "queued",
+            "request_path": str(request_path),
+            "request_id": str(existing.get("request_id") or ""),
+            "request_created": False,
         }
+
+    requested_at = now_iso()
+    request_seed = json.dumps(
+        {
+            "track_name": options.track_name,
+            "requested_at": requested_at,
+            "time_ns": time.time_ns(),
+            "policy": policy,
+            "new_since_refresh": plan["new_since_refresh"],
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    request_id = sha256(request_seed.encode("utf-8")).hexdigest()[:20]
+    request = {
+        "schema_version": 1,
+        "request_id": request_id,
+        "track_name": options.track_name,
+        "requested_at": requested_at,
+        "policy": policy,
+        "plan": plan,
+    }
+    write_json_atomic(request_path, request)
     return {
         **plan,
-        "status": "refreshed",
-        "summary": asdict(summary),
+        "status": "queued",
+        "request_path": str(request_path),
+        "request_id": request_id,
+        "request_created": True,
     }
+
+
+def decoder_refresh_request_path(root: Path, track_name: str) -> Path:
+    return root / "data" / "state" / "decoder_refresh" / f"{track_name}.request.json"
+
+
+def decoder_refresh_policy_from_options(options: ReviewSyncOptions) -> dict[str, Any]:
+    return {
+        "mode": options.decoder_refresh_mode.replace("_", "-"),
+        "min_new_batches": max(1, int(options.decoder_refresh_min_new_batches or 1)),
+        "min_interval_minutes": max(0.0, options.decoder_refresh_min_interval_minutes),
+        "skip_kenlm": bool(options.decoder_refresh_skip_kenlm),
+    }
+
+
+def decoder_refresh_request_covers_plan(
+    request: dict[str, Any],
+    *,
+    plan: dict[str, Any],
+    policy: dict[str, Any],
+) -> bool:
+    if request.get("track_name") != plan.get("track_name"):
+        return False
+    if request.get("policy") != policy:
+        return False
+    request_plan = request.get("plan")
+    if not isinstance(request_plan, dict):
+        return False
+    requested_batches = {str(value) for value in request_plan.get("new_since_refresh") or []}
+    needed_batches = {str(value) for value in plan.get("new_since_refresh") or []}
+    return needed_batches.issubset(requested_batches)
+
+
+def read_json_object(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def sweep_actionable_batches(

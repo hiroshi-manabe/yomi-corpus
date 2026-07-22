@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.decoder_refresh_worker import (  # noqa: E402
+    DecoderRefreshWorkerOptions,
+    run_decoder_refresh_worker_pass,
+)
+from yomi_corpus.review_sync import (  # noqa: E402
+    DECODER_REFRESH_MODES,
+    DEFAULT_REVIEW_SYNC_CONFIG,
+    load_review_sync_config,
+)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Build a requested track-scoped decoder model outside review sync."
+    )
+    parser.add_argument("track", choices=["dev", "working"])
+    parser.add_argument(
+        "--sync-config",
+        default=DEFAULT_REVIEW_SYNC_CONFIG,
+        help=f"Review/maintenance TOML config. Default: {DEFAULT_REVIEW_SYNC_CONFIG}.",
+    )
+    parser.add_argument("--mode", choices=sorted(DECODER_REFRESH_MODES), default=None)
+    parser.add_argument("--min-new-batches", type=int, default=None)
+    parser.add_argument("--min-interval-minutes", type=float, default=None)
+    parser.add_argument("--skip-kenlm", action="store_true")
+    parser.add_argument("--dry-run", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    config = load_review_sync_config(args.track, args.sync_config)
+    summary = run_decoder_refresh_worker_pass(
+        PROJECT_ROOT,
+        DecoderRefreshWorkerOptions(
+            track_name=args.track,
+            mode=args.mode or config.mode,
+            min_new_batches=(
+                args.min_new_batches
+                if args.min_new_batches is not None
+                else config.min_new_batches
+            ),
+            min_interval_minutes=(
+                args.min_interval_minutes
+                if args.min_interval_minutes is not None
+                else config.min_interval_minutes
+            ),
+            skip_kenlm=args.skip_kenlm or config.skip_kenlm,
+            dry_run=args.dry_run,
+        ),
+    )
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
