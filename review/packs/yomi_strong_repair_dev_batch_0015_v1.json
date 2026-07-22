@@ -1,0 +1,3421 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0015_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0015",
+  "created_at_epoch": 1784695924,
+  "created_at": "2026-07-22T04:52:04Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000114",
+      "doc_seq": 1,
+      "track_doc_seq": 114,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 114,
+      "preview": "エグゼクティブとは、Executiveとの英語のもともとの語源からわかるように、会社の業務の執行者という意味があり、「執行役員」のように、決定権を持って業務を執行できるハイクラスの人材を指します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000115",
+      "doc_seq": 2,
+      "track_doc_seq": 115,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 115,
+      "preview": "他の犬よりアンモナイト（の化石）に似てると思いませんか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000116",
+      "doc_seq": 3,
+      "track_doc_seq": 116,
+      "unit_count": 2,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 116,
+      "preview": "掲載情報の変更や掲載停止をご希望のお店・スポット様は、大変お手数ですが、下記お問い合わせフォームまたはお電話にてご連絡くださいませ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 2,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000117",
+      "doc_seq": 4,
+      "track_doc_seq": 117,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 117,
+      "preview": "ドーパミンは神経系にある最も有名な神経伝達物質の一つで、喜びの物質として知られています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000118",
+      "doc_seq": 5,
+      "track_doc_seq": 118,
+      "unit_count": 62,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 118,
+      "preview": "いつもありがとうございます。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-22T04:56:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 62,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000119",
+      "doc_seq": 6,
+      "track_doc_seq": 119,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 119,
+      "preview": "今回の動画は、初めてかつらを着けた時の事を語らせてもらってます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000120",
+      "doc_seq": 7,
+      "track_doc_seq": 120,
+      "unit_count": 47,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 120,
+      "preview": "京都府和束町というと宇治茶の生産地で美しい茶畑が広がります。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-22T04:56:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 47,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000121",
+      "doc_seq": 8,
+      "track_doc_seq": 121,
+      "unit_count": 29,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 121,
+      "preview": "※当イベントは完全招待制です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 29,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000122",
+      "doc_seq": 9,
+      "track_doc_seq": 122,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 122,
+      "preview": "金額に応じておまけがもらえるという特典が。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-22T04:50:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000123",
+      "doc_seq": 10,
+      "track_doc_seq": 123,
+      "unit_count": 49,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 123,
+      "preview": "その後、不良ヤンキー系アクションゲームは「龍が如くシリーズ」1択となってしまうのですが、龍が如くも最新作龍が如く7ではアクションゲームではなくコマンドRPGにジャンル変更しており、純粋な喧嘩番長系ゲームはほぼなくなっている状態です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-22T04:56:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 3,
+      "to_seq": 4,
+      "reviewed_unit_count": 49,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000118:u0055::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000118",
+      "doc_seq": 5,
+      "track_doc_seq": 118,
+      "unit_id": "ja_cc_level2:0000000118:u0055",
+      "unit_seq": 55,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 118,
+      "text": "母性本能をくすぐる甘いルックスと身長185cm、体重72kgと身長も高く、スタイル抜群のAB型。",
+      "rendered_yomi_before": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/シーエム 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+      "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチメートル 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "母性",
+          "ボセイ"
+        ],
+        [
+          "本能",
+          "ホンノウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "くすぐる",
+          "クスグル"
+        ],
+        [
+          "甘い",
+          "アマイ"
+        ],
+        [
+          "ルックス",
+          "ルックス"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "身長",
+          "シンチョウ"
+        ],
+        [
+          "185",
+          ""
+        ],
+        [
+          "cm",
+          "センチメートル"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "体重",
+          "タイジュウ"
+        ],
+        [
+          "72",
+          ""
+        ],
+        [
+          "kg",
+          "キロ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "身長",
+          "シンチョウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "高く",
+          "タカク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "スタイル",
+          "スタイル"
+        ],
+        [
+          "抜群",
+          "バツグン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "AB型",
+          "エービーガタ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "母性",
+          "reading": "ボセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "母性",
+              "reading": "ぼせい"
+            }
+          ]
+        },
+        {
+          "surface": "本能",
+          "reading": "ホンノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本能",
+              "reading": "ほんのう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "くすぐる",
+          "reading": "クスグル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くすぐる"
+            }
+          ]
+        },
+        {
+          "surface": "甘い",
+          "reading": "アマイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "甘",
+              "reading": "あま"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ルックス",
+          "reading": "ルックス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ルックス"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "身長",
+          "reading": "シンチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "身長",
+              "reading": "しんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "185",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "185"
+            }
+          ]
+        },
+        {
+          "surface": "cm",
+          "reading": "センチメートル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "cm",
+              "reading": "せんちめーとる"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "体重",
+          "reading": "タイジュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "体重",
+              "reading": "たいじゅう"
+            }
+          ]
+        },
+        {
+          "surface": "72",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "72"
+            }
+          ]
+        },
+        {
+          "surface": "kg",
+          "reading": "キロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "kg",
+              "reading": "きろ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "身長",
+          "reading": "シンチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "身長",
+              "reading": "しんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "高く",
+          "reading": "タカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高",
+              "reading": "たか"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "スタイル",
+          "reading": "スタイル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スタイル"
+            }
+          ]
+        },
+        {
+          "surface": "抜群",
+          "reading": "バツグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抜群",
+              "reading": "ばつぐん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "AB型",
+          "reading": "エービーガタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "AB"
+            },
+            {
+              "type": "ruby",
+              "text": "型",
+              "reading": "えーびーがた"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000118:u0055::target_group:1",
+          "item_id": "ja_cc_level2:0000000118:u0055::target_group:1",
+          "unit_id": "ja_cc_level2:0000000118:u0055",
+          "text": "母性本能をくすぐる甘いルックスと身長185cm、体重72kgと身長も高く、スタイル抜群のAB型。",
+          "rendered_yomi_before": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/シーエム 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+          "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチメートル 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 21,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000118:u0055:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "cm",
+              "token_surface": "cm",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しーえむ",
+              "rejected_readings": [
+                {
+                  "surface": "cm",
+                  "reading": "しーえむ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000118:u0055:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "cm",
+              "token_surface": "cm",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しーえむ",
+              "rejected_readings": [
+                {
+                  "surface": "cm",
+                  "reading": "しーえむ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "cm",
+          "reading_candidates": {
+            "c": [
+              "しー"
+            ],
+            "cm": [
+              "せんちめーとる"
+            ],
+            "m": [
+              "えむ",
+              "めーとる"
+            ]
+          },
+          "reading_hints": {
+            "c": "しー",
+            "cm": "せんちめーとる",
+            "m": "えむ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "cm",
+              "reading": "しーえむ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"cm\",\"reading\":\"センチメートル\",\"used_web_search\":false,\"comment\":\"単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "cm",
+              "reading": "センチメートル",
+              "used_web_search": false,
+              "comment": "単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。"
+            }
+          ],
+          "llm_comments": [
+            "単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000118:u0055::target_group:1",
+            "status": "applied",
+            "rejected_span": "cm",
+            "replacement": [
+              {
+                "surface": "cm",
+                "reading": "センチメートル"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "cm",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000118:u0055:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "cm",
+          "token_surface": "cm",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しーえむ",
+          "rejected_readings": [
+            {
+              "surface": "cm",
+              "reading": "しーえむ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "cm",
+          "reading": "しーえむ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "c": [
+          "しー"
+        ],
+        "cm": [
+          "せんちめーとる"
+        ],
+        "m": [
+          "えむ",
+          "めーとる"
+        ]
+      },
+      "reading_hints": {
+        "c": "しー",
+        "cm": "せんちめーとる",
+        "m": "えむ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "cm",
+          "reading": "センチメートル",
+          "used_web_search": false,
+          "comment": "単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"cm\",\"reading\":\"センチメートル\",\"used_web_search\":false,\"comment\":\"単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。\"}]",
+      "llm_comments": [
+        "単位の略記で、文脈上は身長・体重の数値に付く「センチメートル」が自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000118:u0055::target_group:1",
+        "status": "applied",
+        "rejected_span": "cm",
+        "replacement": [
+          {
+            "surface": "cm",
+            "reading": "センチメートル"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000120:u0030::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000120",
+      "doc_seq": 7,
+      "track_doc_seq": 120,
+      "unit_id": "ja_cc_level2:0000000120:u0030",
+      "unit_seq": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 120,
+      "text": "夏でも気温が20度前後しか上がらないため、その気候を活かして紅茶の生産が行れます。",
+      "rendered_yomi_before": "夏/ナツ で/デ も/モ 気温/キオン が/ガ 20/ 度/ド 前後/ゼンゴ しか/シカ 上がら/アガラ ない/ナイ ため/タメ 、/、 その/ソノ 気候/キコウ を/ヲ 活かし/イカシ て/テ 紅茶/コウチャ の/ノ 生産/セイサン が/ガ 行れ/ヤレ ます/マス 。/。",
+      "rendered_yomi_after": "夏/ナツ で/デ も/モ 気温/キオン が/ガ 20/ 度/ド 前後/ゼンゴ しか/シカ 上がら/アガラ ない/ナイ ため/タメ 、/、 その/ソノ 気候/キコウ を/ヲ 活かし/イカシ て/テ 紅茶/コウチャ の/ノ 生産/セイサン が/ガ 行れ/オコナワレ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "夏",
+          "ナツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "気温",
+          "キオン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "20",
+          ""
+        ],
+        [
+          "度",
+          "ド"
+        ],
+        [
+          "前後",
+          "ゼンゴ"
+        ],
+        [
+          "しか",
+          "シカ"
+        ],
+        [
+          "上がら",
+          "アガラ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "気候",
+          "キコウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "活かし",
+          "イカシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "紅茶",
+          "コウチャ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "生産",
+          "セイサン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "行れ",
+          "オコナワレ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "夏",
+          "reading": "ナツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夏",
+              "reading": "なつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "気温",
+          "reading": "キオン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気温",
+              "reading": "きおん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "20",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "20"
+            }
+          ]
+        },
+        {
+          "surface": "度",
+          "reading": "ド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "度",
+              "reading": "ど"
+            }
+          ]
+        },
+        {
+          "surface": "前後",
+          "reading": "ゼンゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前後",
+              "reading": "ぜんご"
+            }
+          ]
+        },
+        {
+          "surface": "しか",
+          "reading": "シカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しか"
+            }
+          ]
+        },
+        {
+          "surface": "上がら",
+          "reading": "アガラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "がら"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "気候",
+          "reading": "キコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気候",
+              "reading": "きこう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "活かし",
+          "reading": "イカシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "活",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "かし"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "紅茶",
+          "reading": "コウチャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紅茶",
+              "reading": "こうちゃ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "生産",
+          "reading": "セイサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生産",
+              "reading": "せいさん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "行れ",
+          "reading": "オコナワレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこなわ"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000120:u0030::target_group:1",
+          "item_id": "ja_cc_level2:0000000120:u0030::target_group:1",
+          "unit_id": "ja_cc_level2:0000000120:u0030",
+          "text": "夏でも気温が20度前後しか上がらないため、その気候を活かして紅茶の生産が行れます。",
+          "rendered_yomi_before": "夏/ナツ で/デ も/モ 気温/キオン が/ガ 20/ 度/ド 前後/ゼンゴ しか/シカ 上がら/アガラ ない/ナイ ため/タメ 、/、 その/ソノ 気候/キコウ を/ヲ 活かし/イカシ て/テ 紅茶/コウチャ の/ノ 生産/セイサン が/ガ 行れ/ヤレ ます/マス 。/。",
+          "rendered_yomi_after": "夏/ナツ で/デ も/モ 気温/キオン が/ガ 20/ 度/ド 前後/ゼンゴ しか/シカ 上がら/アガラ ない/ナイ ため/タメ 、/、 その/ソノ 気候/キコウ を/ヲ 活かし/イカシ て/テ 紅茶/コウチャ の/ノ 生産/セイサン が/ガ 行れ/オコナワレ ます/マス 。/。",
+          "display_mapping": {
+            "start": 22,
+            "end": 23,
+            "char_start": 36,
+            "char_end": 38,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000120:u0030:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "行れ",
+              "token_surface": "行れ",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やれ",
+              "rejected_readings": [
+                {
+                  "surface": "行れ",
+                  "reading": "やれ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000120:u0030:s0037-0038",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "行れ",
+              "token_surface": "行れ",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やれ",
+              "rejected_readings": [
+                {
+                  "surface": "行れ",
+                  "reading": "やれ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "行れ",
+          "reading_candidates": {
+            "行": [
+              "あきら",
+              "あん",
+              "いき",
+              "いく",
+              "おこなえ",
+              "ぎょう",
+              "こう",
+              "すすむ",
+              "つよし",
+              "ゆき",
+              "ゆく"
+            ],
+            "行れ": [
+              "おこなえれ",
+              "やれ"
+            ]
+          },
+          "reading_hints": {
+            "行": "あきら",
+            "行れ": "おこなえれ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "行れ",
+              "reading": "やれ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"行れ\",\"reading\":\"オコナワレ\",\"used_web_search\":false,\"comment\":\"文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "行れ",
+              "reading": "オコナワレ",
+              "used_web_search": false,
+              "comment": "文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000120:u0030::target_group:1",
+            "status": "applied",
+            "rejected_span": "行れ",
+            "replacement": [
+              {
+                "surface": "行れ",
+                "reading": "オコナワレ"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "行れ",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000120:u0030:s0037-0038",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "行れ",
+          "token_surface": "行れ",
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やれ",
+          "rejected_readings": [
+            {
+              "surface": "行れ",
+              "reading": "やれ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "行れ",
+          "reading": "やれ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "行": [
+          "あきら",
+          "あん",
+          "いき",
+          "いく",
+          "おこなえ",
+          "ぎょう",
+          "こう",
+          "すすむ",
+          "つよし",
+          "ゆき",
+          "ゆく"
+        ],
+        "行れ": [
+          "おこなえれ",
+          "やれ"
+        ]
+      },
+      "reading_hints": {
+        "行": "あきら",
+        "行れ": "おこなえれ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "行れ",
+          "reading": "オコナワレ",
+          "used_web_search": false,
+          "comment": "文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"行れ\",\"reading\":\"オコナワレ\",\"used_web_search\":false,\"comment\":\"文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。\"}]",
+      "llm_comments": [
+        "文脈上は「行われます」の誤記・省略と考えられ、読みは「おこなわれ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000120:u0030::target_group:1",
+        "status": "applied",
+        "rejected_span": "行れ",
+        "replacement": [
+          {
+            "surface": "行れ",
+            "reading": "オコナワレ"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000123:u0001::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000123",
+      "doc_seq": 10,
+      "track_doc_seq": 123,
+      "unit_id": "ja_cc_level2:0000000123:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 123,
+      "text": "その後、不良ヤンキー系アクションゲームは「龍が如くシリーズ」1択となってしまうのですが、龍が如くも最新作龍が如く7ではアクションゲームではなくコマンドRPGにジャンル変更しており、純粋な喧嘩番長系ゲームはほぼなくなっている状態です。",
+      "rendered_yomi_before": "その/ソノ 後/ゴ 、/、 不良/フリョウ ヤンキー/ヤンキー 系/ケイ アクション/アクション ゲーム/ゲーム は/ハ 「/「 龍/リュウ が/ガ 如く/ゴトク シリーズ/シリーズ 」/」 1/ 択/タク と/ト なっ/ナッ て/テ しまう/シマウ の/ノ です/デス が/ガ 、/、 龍/リュウ が/ガ 如く/ゴトク も/モ 最新/サイシン 作龍/サクリュウ が/ガ 如く/ゴトク 7/ で/デ は/ハ アクション/アクション ゲーム/ゲーム で/デ は/ハ なく/ナク コマンド/コマンド RPG/アールピージー に/ニ ジャンル/ジャンル 変更/ヘンコウ し/シ て/テ おり/オリ 、/、 純粋/ジュンスイ な/ナ 喧嘩/ケンカ 番長/バンチョウ 系/ケイ ゲーム/ゲーム は/ハ ほぼ/ホボ なくなっ/ナクナッ て/テ いる/イル 状態/ジョウタイ です/デス 。/。",
+      "rendered_yomi_after": "その/ソノ 後/ゴ 、/、 不良/フリョウ ヤンキー/ヤンキー 系/ケイ アクション/アクション ゲーム/ゲーム は/ハ 「/「 龍/リュウ が/ガ 如く/ゴトク シリーズ/シリーズ 」/」 1/ 択/タク と/ト なっ/ナッ て/テ しまう/シマウ の/ノ です/デス が/ガ 、/、 龍/リュウ が/ガ 如く/ゴトク も/モ 最新/サイシン 作/サク 龍/リュウ が/ガ 如く/ゴトク 7/ で/デ は/ハ アクション/アクション ゲーム/ゲーム で/デ は/ハ なく/ナク コマンド/コマンド RPG/アールピージー に/ニ ジャンル/ジャンル 変更/ヘンコウ し/シ て/テ おり/オリ 、/、 純粋/ジュンスイ な/ナ 喧嘩/ケンカ 番長/バンチョウ 系/ケイ ゲーム/ゲーム は/ハ ほぼ/ホボ なくなっ/ナクナッ て/テ いる/イル 状態/ジョウタイ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "後",
+          "ゴ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "不良",
+          "フリョウ"
+        ],
+        [
+          "ヤンキー",
+          "ヤンキー"
+        ],
+        [
+          "系",
+          "ケイ"
+        ],
+        [
+          "アクション",
+          "アクション"
+        ],
+        [
+          "ゲーム",
+          "ゲーム"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "龍",
+          "リュウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "如く",
+          "ゴトク"
+        ],
+        [
+          "シリーズ",
+          "シリーズ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "択",
+          "タク"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "しまう",
+          "シマウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "龍",
+          "リュウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "如く",
+          "ゴトク"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "最新",
+          "サイシン"
+        ],
+        [
+          "作",
+          "サク"
+        ],
+        [
+          "龍",
+          "リュウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "如く",
+          "ゴトク"
+        ],
+        [
+          "7",
+          ""
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "アクション",
+          "アクション"
+        ],
+        [
+          "ゲーム",
+          "ゲーム"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "なく",
+          "ナク"
+        ],
+        [
+          "コマンド",
+          "コマンド"
+        ],
+        [
+          "RPG",
+          "アールピージー"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ジャンル",
+          "ジャンル"
+        ],
+        [
+          "変更",
+          "ヘンコウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "おり",
+          "オリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "純粋",
+          "ジュンスイ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "喧嘩",
+          "ケンカ"
+        ],
+        [
+          "番長",
+          "バンチョウ"
+        ],
+        [
+          "系",
+          "ケイ"
+        ],
+        [
+          "ゲーム",
+          "ゲーム"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ほぼ",
+          "ホボ"
+        ],
+        [
+          "なくなっ",
+          "ナクナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "状態",
+          "ジョウタイ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "不良",
+          "reading": "フリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "不良",
+              "reading": "ふりょう"
+            }
+          ]
+        },
+        {
+          "surface": "ヤンキー",
+          "reading": "ヤンキー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ヤンキー"
+            }
+          ]
+        },
+        {
+          "surface": "系",
+          "reading": "ケイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "系",
+              "reading": "けい"
+            }
+          ]
+        },
+        {
+          "surface": "アクション",
+          "reading": "アクション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アクション"
+            }
+          ]
+        },
+        {
+          "surface": "ゲーム",
+          "reading": "ゲーム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゲーム"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "龍",
+          "reading": "リュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "龍",
+              "reading": "りゅう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "如く",
+          "reading": "ゴトク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "如",
+              "reading": "ごと"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "シリーズ",
+          "reading": "シリーズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シリーズ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "択",
+          "reading": "タク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "択",
+              "reading": "たく"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "しまう",
+          "reading": "シマウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しまう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "龍",
+          "reading": "リュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "龍",
+              "reading": "りゅう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "如く",
+          "reading": "ゴトク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "如",
+              "reading": "ごと"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "最新",
+          "reading": "サイシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最新",
+              "reading": "さいしん"
+            }
+          ]
+        },
+        {
+          "surface": "作",
+          "reading": "サク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作",
+              "reading": "さく"
+            }
+          ]
+        },
+        {
+          "surface": "龍",
+          "reading": "リュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "龍",
+              "reading": "りゅう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "如く",
+          "reading": "ゴトク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "如",
+              "reading": "ごと"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "7",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "アクション",
+          "reading": "アクション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アクション"
+            }
+          ]
+        },
+        {
+          "surface": "ゲーム",
+          "reading": "ゲーム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゲーム"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "なく",
+          "reading": "ナク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "コマンド",
+          "reading": "コマンド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コマンド"
+            }
+          ]
+        },
+        {
+          "surface": "RPG",
+          "reading": "アールピージー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "RPG",
+              "reading": "あーるぴーじー"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ジャンル",
+          "reading": "ジャンル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジャンル"
+            }
+          ]
+        },
+        {
+          "surface": "変更",
+          "reading": "ヘンコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "変更",
+              "reading": "へんこう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "おり",
+          "reading": "オリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "純粋",
+          "reading": "ジュンスイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "純粋",
+              "reading": "じゅんすい"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "喧嘩",
+          "reading": "ケンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "喧嘩",
+              "reading": "けんか"
+            }
+          ]
+        },
+        {
+          "surface": "番長",
+          "reading": "バンチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "番長",
+              "reading": "ばんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "系",
+          "reading": "ケイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "系",
+              "reading": "けい"
+            }
+          ]
+        },
+        {
+          "surface": "ゲーム",
+          "reading": "ゲーム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゲーム"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ほぼ",
+          "reading": "ホボ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほぼ"
+            }
+          ]
+        },
+        {
+          "surface": "なくなっ",
+          "reading": "ナクナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なくなっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "状態",
+          "reading": "ジョウタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "状態",
+              "reading": "じょうたい"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000123:u0001::target_group:1",
+          "item_id": "ja_cc_level2:0000000123:u0001::target_group:1",
+          "unit_id": "ja_cc_level2:0000000123:u0001",
+          "text": "その後、不良ヤンキー系アクションゲームは「龍が如くシリーズ」1択となってしまうのですが、龍が如くも最新作龍が如く7ではアクションゲームではなくコマンドRPGにジャンル変更しており、純粋な喧嘩番長系ゲームはほぼなくなっている状態です。",
+          "rendered_yomi_before": "その/ソノ 後/ゴ 、/、 不良/フリョウ ヤンキー/ヤンキー 系/ケイ アクション/アクション ゲーム/ゲーム は/ハ 「/「 龍/リュウ が/ガ 如く/ゴトク シリーズ/シリーズ 」/」 1/ 択/タク と/ト なっ/ナッ て/テ しまう/シマウ の/ノ です/デス が/ガ 、/、 龍/リュウ が/ガ 如く/ゴトク も/モ 最新/サイシン 作龍/サクリュウ が/ガ 如く/ゴトク 7/ で/デ は/ハ アクション/アクション ゲーム/ゲーム で/デ は/ハ なく/ナク コマンド/コマンド RPG/アールピージー に/ニ ジャンル/ジャンル 変更/ヘンコウ し/シ て/テ おり/オリ 、/、 純粋/ジュンスイ な/ナ 喧嘩/ケンカ 番長/バンチョウ 系/ケイ ゲーム/ゲーム は/ハ ほぼ/ホボ なくなっ/ナクナッ て/テ いる/イル 状態/ジョウタイ です/デス 。/。",
+          "rendered_yomi_after": "その/ソノ 後/ゴ 、/、 不良/フリョウ ヤンキー/ヤンキー 系/ケイ アクション/アクション ゲーム/ゲーム は/ハ 「/「 龍/リュウ が/ガ 如く/ゴトク シリーズ/シリーズ 」/」 1/ 択/タク と/ト なっ/ナッ て/テ しまう/シマウ の/ノ です/デス が/ガ 、/、 龍/リュウ が/ガ 如く/ゴトク も/モ 最新/サイシン 作/サク 龍/リュウ が/ガ 如く/ゴトク 7/ で/デ は/ハ アクション/アクション ゲーム/ゲーム で/デ は/ハ なく/ナク コマンド/コマンド RPG/アールピージー に/ニ ジャンル/ジャンル 変更/ヘンコウ し/シ て/テ おり/オリ 、/、 純粋/ジュンスイ な/ナ 喧嘩/ケンカ 番長/バンチョウ 系/ケイ ゲーム/ゲーム は/ハ ほぼ/ホボ なくなっ/ナクナッ て/テ いる/イル 状態/ジョウタイ です/デス 。/。",
+          "display_mapping": {
+            "start": 30,
+            "end": 32,
+            "char_start": 51,
+            "char_end": 53,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000123:u0001:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "作龍",
+              "token_surface": "作龍",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくりゅう",
+              "rejected_readings": [
+                {
+                  "surface": "作龍",
+                  "reading": "さくりゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000123:u0001:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "作龍",
+              "token_surface": "作龍",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくりゅう",
+              "rejected_readings": [
+                {
+                  "surface": "作龍",
+                  "reading": "さくりゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "作龍",
+          "reading_candidates": {
+            "作": [
+              "さく",
+              "つくり",
+              "つくる",
+              "づくり"
+            ],
+            "作龍": [
+              "さくりゅう"
+            ],
+            "龍": [
+              "しげみ",
+              "たつ",
+              "とほる",
+              "りゅう",
+              "りょう"
+            ]
+          },
+          "reading_hints": {
+            "作": "さく",
+            "作龍": "さくりゅう",
+            "龍": "しげみ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "作龍",
+              "reading": "さくりゅう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"作\",\"reading\":\"サク\",\"used_web_search\":false,\"comment\":\"文脈上は「最新作」の一部で、読みは『サク』が自然です。\"},{\"surface\":\"龍\",\"reading\":\"リュウ\",\"used_web_search\":false,\"comment\":\"続く作品名「龍が如く」の頭字で、読みは『リュウ』です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "作",
+              "reading": "サク",
+              "used_web_search": false,
+              "comment": "文脈上は「最新作」の一部で、読みは『サク』が自然です。"
+            },
+            {
+              "surface": "龍",
+              "reading": "リュウ",
+              "used_web_search": false,
+              "comment": "続く作品名「龍が如く」の頭字で、読みは『リュウ』です。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「最新作」の一部で、読みは『サク』が自然です。",
+            "続く作品名「龍が如く」の頭字で、読みは『リュウ』です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000123:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "作龍",
+            "replacement": [
+              {
+                "surface": "作",
+                "reading": "サク"
+              },
+              {
+                "surface": "龍",
+                "reading": "リュウ"
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "作龍",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000123:u0001:s0052-0053",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "作龍",
+          "token_surface": "作龍",
+          "token_index": 30,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さくりゅう",
+          "rejected_readings": [
+            {
+              "surface": "作龍",
+              "reading": "さくりゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "作龍",
+          "reading": "さくりゅう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "作": [
+          "さく",
+          "つくり",
+          "つくる",
+          "づくり"
+        ],
+        "作龍": [
+          "さくりゅう"
+        ],
+        "龍": [
+          "しげみ",
+          "たつ",
+          "とほる",
+          "りゅう",
+          "りょう"
+        ]
+      },
+      "reading_hints": {
+        "作": "さく",
+        "作龍": "さくりゅう",
+        "龍": "しげみ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "作",
+          "reading": "サク",
+          "used_web_search": false,
+          "comment": "文脈上は「最新作」の一部で、読みは『サク』が自然です。"
+        },
+        {
+          "surface": "龍",
+          "reading": "リュウ",
+          "used_web_search": false,
+          "comment": "続く作品名「龍が如く」の頭字で、読みは『リュウ』です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"作\",\"reading\":\"サク\",\"used_web_search\":false,\"comment\":\"文脈上は「最新作」の一部で、読みは『サク』が自然です。\"},{\"surface\":\"龍\",\"reading\":\"リュウ\",\"used_web_search\":false,\"comment\":\"続く作品名「龍が如く」の頭字で、読みは『リュウ』です。\"}]",
+      "llm_comments": [
+        "文脈上は「最新作」の一部で、読みは『サク』が自然です。",
+        "続く作品名「龍が如く」の頭字で、読みは『リュウ』です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000123:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "作龍",
+        "replacement": [
+          {
+            "surface": "作",
+            "reading": "サク"
+          },
+          {
+            "surface": "龍",
+            "reading": "リュウ"
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000123:u0044::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000123",
+      "doc_seq": 10,
+      "track_doc_seq": 123,
+      "unit_id": "ja_cc_level2:0000000123:u0044",
+      "unit_seq": 44,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 123,
+      "text": "アンチャーデッド、The last of US、fallout4など大人が楽しめる映画を超えたゲームソフトが続々と発売されているPS4。",
+      "rendered_yomi_before": "アン/アン チャー/チャー デッド/デッド 、/、 The/ザ  /  last/ラスト  /  of/オブ  /  US/ユーエス 、/、 fallout/フォールアウト 4/ など/ナド 大人/オトナ が/ガ 楽しめる/タノシメル 映画/エイガ を/ヲ 超え/コエ た/タ ゲーム/ゲーム ソフト/ソフト が/ガ 続々/ゾクゾク と/ト 発売/ハツバイ さ/サ れ/レ て/テ いる/イル PS/ピーエス 4/ 。/。",
+      "rendered_yomi_after": "アン/アン チャー/チャー デッド/デッド 、/、 The/ザ \\s/  last/ラスト \\s/  of/オブ \\s/  US/ユーエス 、/、 fallout/フォールアウト 4/ など/ナド 大人/オトナ が/ガ 楽しめる/タノシメル 映画/エイガ を/ヲ 超え/コエ た/タ ゲーム/ゲーム ソフト/ソフト が/ガ 続々/ゾクゾク と/ト 発売/ハツバイ さ/サ れ/レ て/テ いる/イル PS/ピーエス 4/ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "アン",
+          "アン"
+        ],
+        [
+          "チャー",
+          "チャー"
+        ],
+        [
+          "デッド",
+          "デッド"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "The",
+          "ザ"
+        ],
+        [
+          " ",
+          " "
+        ],
+        [
+          "last",
+          "ラスト"
+        ],
+        [
+          " ",
+          " "
+        ],
+        [
+          "of",
+          "オブ"
+        ],
+        [
+          " ",
+          " "
+        ],
+        [
+          "US",
+          "ユーエス"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "fallout",
+          "フォールアウト"
+        ],
+        [
+          "4",
+          ""
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "大人",
+          "オトナ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "楽しめる",
+          "タノシメル"
+        ],
+        [
+          "映画",
+          "エイガ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "超え",
+          "コエ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ゲーム",
+          "ゲーム"
+        ],
+        [
+          "ソフト",
+          "ソフト"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "続々",
+          "ゾクゾク"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "発売",
+          "ハツバイ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "PS",
+          "ピーエス"
+        ],
+        [
+          "4",
+          ""
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "アン",
+          "reading": "アン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アン"
+            }
+          ]
+        },
+        {
+          "surface": "チャー",
+          "reading": "チャー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "チャー"
+            }
+          ]
+        },
+        {
+          "surface": "デッド",
+          "reading": "デッド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "デッド"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "The",
+          "reading": "ザ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "The",
+              "reading": "ざ"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": " ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "last",
+          "reading": "ラスト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "last",
+              "reading": "らすと"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": " ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "of",
+          "reading": "オブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "of",
+              "reading": "おぶ"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": " ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "US",
+          "reading": "ユーエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "US",
+              "reading": "ゆーえす"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "fallout",
+          "reading": "フォールアウト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "fallout",
+              "reading": "ふぉーるあうと"
+            }
+          ]
+        },
+        {
+          "surface": "4",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "4"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "大人",
+          "reading": "オトナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大人",
+              "reading": "おとな"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "楽しめる",
+          "reading": "タノシメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "楽",
+              "reading": "たの"
+            },
+            {
+              "type": "text",
+              "text": "しめる"
+            }
+          ]
+        },
+        {
+          "surface": "映画",
+          "reading": "エイガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "映画",
+              "reading": "えいが"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "超え",
+          "reading": "コエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "超",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ゲーム",
+          "reading": "ゲーム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゲーム"
+            }
+          ]
+        },
+        {
+          "surface": "ソフト",
+          "reading": "ソフト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ソフト"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "続々",
+          "reading": "ゾクゾク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続々",
+              "reading": "ぞくぞく"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "発売",
+          "reading": "ハツバイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発売",
+              "reading": "はつばい"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "PS",
+          "reading": "ピーエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "PS",
+              "reading": "ぴーえす"
+            }
+          ]
+        },
+        {
+          "surface": "4",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "4"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000123:u0044::target_group:1",
+          "item_id": "ja_cc_level2:0000000123:u0044::target_group:1",
+          "unit_id": "ja_cc_level2:0000000123:u0044",
+          "text": "アンチャーデッド、The last of US、fallout4など大人が楽しめる映画を超えたゲームソフトが続々と発売されているPS4。",
+          "rendered_yomi_before": "アン/アン チャー/チャー デッド/デッド 、/、 The/ザ  /  last/ラスト  /  of/オブ  /  US/ユーエス 、/、 fallout/フォールアウト 4/ など/ナド 大人/オトナ が/ガ 楽しめる/タノシメル 映画/エイガ を/ヲ 超え/コエ た/タ ゲーム/ゲーム ソフト/ソフト が/ガ 続々/ゾクゾク と/ト 発売/ハツバイ さ/サ れ/レ て/テ いる/イル PS/ピーエス 4/ 。/。",
+          "rendered_yomi_after": "アン/アン チャー/チャー デッド/デッド 、/、 The/ザ \\s/  last/ラスト \\s/  of/オブ \\s/  US/ユーエス 、/、 fallout/フォールアウト 4/ など/ナド 大人/オトナ が/ガ 楽しめる/タノシメル 映画/エイガ を/ヲ 超え/コエ た/タ ゲーム/ゲーム ソフト/ソフト が/ガ 続々/ゾクゾク と/ト 発売/ハツバイ さ/サ れ/レ て/テ いる/イル PS/ピーエス 4/ 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 11,
+            "char_start": 9,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000123:u0044:s0010-0023",
+              "choice_id": "",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "The last of US",
+              "token_surface": "The last of US",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": null
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000123:u0044:s0010-0023",
+              "choice_id": "",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "The last of US",
+              "token_surface": "The last of US",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": null
+            }
+          ],
+          "rejected_span": "The last of US",
+          "reading_candidates": {
+            "T": [
+              "てぃー"
+            ],
+            "The": [
+              "ざ"
+            ],
+            "h": [
+              "えいち",
+              "えっち"
+            ],
+            "e": [
+              "いー"
+            ],
+            "l": [
+              "える",
+              "りっとる"
+            ],
+            "last": [
+              "らすと"
+            ],
+            "a": [
+              "あーる",
+              "えー"
+            ],
+            "s": [
+              "えす"
+            ],
+            "st": [
+              "しょーととん"
+            ],
+            "t": [
+              "てぃー",
+              "とん"
+            ],
+            "o": [
+              "おー"
+            ],
+            "of": [
+              "おぶ"
+            ],
+            "f": [
+              "えふ"
+            ],
+            "U": [
+              "ゆー"
+            ],
+            "US": [
+              "ゆーえす"
+            ],
+            "S": [
+              "えす"
+            ]
+          },
+          "reading_hints": {
+            "T": "てぃー",
+            "The": "ざ",
+            "h": "えいち",
+            "e": "いー",
+            "l": "える",
+            "last": "らすと",
+            "a": "あーる",
+            "s": "えす",
+            "st": "しょーととん",
+            "t": "てぃー",
+            "o": "おー",
+            "of": "おぶ",
+            "f": "えふ",
+            "U": "ゆー",
+            "US": "ゆーえす",
+            "S": "えす"
+          },
+          "rejected_readings": [],
+          "llm_raw_text": "[{\"surface\":\"The last of US\",\"reading\":\"ザ・ラスト・オブ・アス\",\"used_web_search\":false,\"comment\":\"ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "The last of US",
+              "reading": "ザ・ラスト・オブ・アス",
+              "used_web_search": false,
+              "comment": "ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "invalid_result",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000123:u0044::target_group:1",
+            "status": "invalid_result",
+            "reason": "invalid replacement reading",
+            "surface": "The last of US",
+            "reading": "ザ・ラスト・オブ・アス"
+          }
+        }
+      ],
+      "rejected_span": "The last of US",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000123:u0044:s0010-0023",
+          "choice_id": "",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "The last of US",
+          "token_surface": "The last of US",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": null
+        }
+      ],
+      "rejected_readings": [],
+      "reading_candidates": {
+        "T": [
+          "てぃー"
+        ],
+        "The": [
+          "ざ"
+        ],
+        "h": [
+          "えいち",
+          "えっち"
+        ],
+        "e": [
+          "いー"
+        ],
+        "l": [
+          "える",
+          "りっとる"
+        ],
+        "last": [
+          "らすと"
+        ],
+        "a": [
+          "あーる",
+          "えー"
+        ],
+        "s": [
+          "えす"
+        ],
+        "st": [
+          "しょーととん"
+        ],
+        "t": [
+          "てぃー",
+          "とん"
+        ],
+        "o": [
+          "おー"
+        ],
+        "of": [
+          "おぶ"
+        ],
+        "f": [
+          "えふ"
+        ],
+        "U": [
+          "ゆー"
+        ],
+        "US": [
+          "ゆーえす"
+        ],
+        "S": [
+          "えす"
+        ]
+      },
+      "reading_hints": {
+        "T": "てぃー",
+        "The": "ざ",
+        "h": "えいち",
+        "e": "いー",
+        "l": "える",
+        "last": "らすと",
+        "a": "あーる",
+        "s": "えす",
+        "st": "しょーととん",
+        "t": "てぃー",
+        "o": "おー",
+        "of": "おぶ",
+        "f": "えふ",
+        "U": "ゆー",
+        "US": "ゆーえす",
+        "S": "えす"
+      },
+      "llm_parsed": [
+        {
+          "surface": "The last of US",
+          "reading": "ザ・ラスト・オブ・アス",
+          "used_web_search": false,
+          "comment": "ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"The last of US\",\"reading\":\"ザ・ラスト・オブ・アス\",\"used_web_search\":false,\"comment\":\"ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。\"}]",
+      "llm_comments": [
+        "ゲーム作品『The Last of Us』の固有名で、まとめて「ザ・ラスト・オブ・アス」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "invalid_result",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000123:u0044::target_group:1",
+        "status": "invalid_result",
+        "reason": "invalid replacement reading",
+        "surface": "The last of US",
+        "reading": "ザ・ラスト・オブ・アス"
+      }
+    }
+  ]
+}

@@ -1,91 +1,19 @@
 {
   "schema_version": 1,
-  "default_stage": "yomi_final_review",
+  "default_stage": "yomi_strong_repair_review",
   "current_tracks": {
     "dev": {
       "track_name": "dev",
-      "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0019_v1",
-      "title": "Yomi final review / dev_batch_0019 / v1",
-      "path": "./packs/yomi_final_dev_batch_0019_v1.json",
-      "created_at_epoch": 1784695267,
-      "item_count": 298
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0018_v1",
+      "title": "Yomi strong repair review / dev_batch_0018 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0018_v1.json",
+      "created_at_epoch": 1784696676,
+      "item_count": 5
     }
   },
   "current_review_queues": [
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0015",
-      "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0015_v1",
-      "title": "Yomi final review / dev_batch_0015 / v1",
-      "path": "./packs/yomi_final_dev_batch_0015_v1.json",
-      "created_at_epoch": 1784621832,
-      "item_count": 250,
-      "document_count": 10,
-      "selectable_document_count": 10,
-      "document_state_counts": {
-        "final_pending": 10
-      },
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0016",
-      "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0016_v1",
-      "title": "Yomi final review / dev_batch_0016 / v1",
-      "path": "./packs/yomi_final_dev_batch_0016_v1.json",
-      "created_at_epoch": 1784622723,
-      "item_count": 232,
-      "document_count": 10,
-      "selectable_document_count": 10,
-      "document_state_counts": {
-        "final_pending": 10
-      },
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0017",
-      "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0017_v1",
-      "title": "Yomi final review / dev_batch_0017 / v1",
-      "path": "./packs/yomi_final_dev_batch_0017_v1.json",
-      "created_at_epoch": 1784624032,
-      "item_count": 332,
-      "document_count": 10,
-      "selectable_document_count": 10,
-      "document_state_counts": {
-        "final_pending": 10
-      },
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0018",
-      "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0018_v1",
-      "title": "Yomi final review / dev_batch_0018 / v1",
-      "path": "./packs/yomi_final_dev_batch_0018_v1.json",
-      "created_at_epoch": 1784624965,
-      "item_count": 270,
-      "document_count": 10,
-      "selectable_document_count": 10,
-      "document_state_counts": {
-        "final_pending": 10
-      },
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
     {
       "track_name": "dev",
       "batch_name": "dev_batch_0019",
@@ -102,6 +30,82 @@
         "final_pending": 10
       },
       "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_batch_0015",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0015_v1",
+      "title": "Yomi strong repair review / dev_batch_0015 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0015_v1.json",
+      "created_at_epoch": 1784695924,
+      "item_count": 4,
+      "document_count": 10,
+      "selectable_document_count": 3,
+      "document_state_counts": {
+        "complete": 7,
+        "strong_pending": 3
+      },
+      "queue_id": "strong_repair",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_batch_0016",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0016_v1",
+      "title": "Yomi strong repair review / dev_batch_0016 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0016_v1.json",
+      "created_at_epoch": 1784696238,
+      "item_count": 14,
+      "document_count": 10,
+      "selectable_document_count": 3,
+      "document_state_counts": {
+        "complete": 7,
+        "strong_pending": 3
+      },
+      "queue_id": "strong_repair",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_batch_0017",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0017_v1",
+      "title": "Yomi strong repair review / dev_batch_0017 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0017_v1.json",
+      "created_at_epoch": 1784696590,
+      "item_count": 29,
+      "document_count": 10,
+      "selectable_document_count": 5,
+      "document_state_counts": {
+        "complete": 5,
+        "strong_pending": 5
+      },
+      "queue_id": "strong_repair",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_batch_0018",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0018_v1",
+      "title": "Yomi strong repair review / dev_batch_0018 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0018_v1.json",
+      "created_at_epoch": 1784696676,
+      "item_count": 5,
+      "document_count": 10,
+      "selectable_document_count": 5,
+      "document_state_counts": {
+        "complete": 5,
+        "strong_pending": 5
+      },
+      "queue_id": "strong_repair",
       "status": "active-dev"
     }
   ],
@@ -350,9 +354,10 @@
           "created_at_epoch": 1784621832,
           "item_count": 250,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 7,
+            "strong_pending": 3
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -366,9 +371,10 @@
           "created_at_epoch": 1784622723,
           "item_count": 232,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 7,
+            "strong_pending": 3
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -382,9 +388,10 @@
           "created_at_epoch": 1784624032,
           "item_count": 332,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 5,
+            "strong_pending": 5
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -398,9 +405,10 @@
           "created_at_epoch": 1784624965,
           "item_count": 270,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 5,
+            "strong_pending": 5
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -426,9 +434,9 @@
     "yomi_strong_repair_review": {
       "review_stage": "yomi_strong_repair_review",
       "label": "Yomi Strong Repair Review",
-      "latest_pack_id": "yomi_strong_repair_dev_batch_0014_v1",
+      "latest_pack_id": "yomi_strong_repair_dev_batch_0018_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_strong_repair_dev_batch_0014_v1"
+        "dev": "yomi_strong_repair_dev_batch_0018_v1"
       },
       "packs": [
         {
@@ -608,6 +616,74 @@
             "strong_reviewed": 1
           },
           "queue_id": "strong_repair",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_strong_repair_dev_batch_0015_v1",
+          "title": "Yomi strong repair review / dev_batch_0015 / v1",
+          "path": "./packs/yomi_strong_repair_dev_batch_0015_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0015",
+          "created_at_epoch": 1784695924,
+          "item_count": 4,
+          "document_count": 10,
+          "selectable_document_count": 3,
+          "document_state_counts": {
+            "complete": 7,
+            "strong_pending": 3
+          },
+          "queue_id": "strong_repair",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_strong_repair_dev_batch_0016_v1",
+          "title": "Yomi strong repair review / dev_batch_0016 / v1",
+          "path": "./packs/yomi_strong_repair_dev_batch_0016_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0016",
+          "created_at_epoch": 1784696238,
+          "item_count": 14,
+          "document_count": 10,
+          "selectable_document_count": 3,
+          "document_state_counts": {
+            "complete": 7,
+            "strong_pending": 3
+          },
+          "queue_id": "strong_repair",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_strong_repair_dev_batch_0017_v1",
+          "title": "Yomi strong repair review / dev_batch_0017 / v1",
+          "path": "./packs/yomi_strong_repair_dev_batch_0017_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0017",
+          "created_at_epoch": 1784696590,
+          "item_count": 29,
+          "document_count": 10,
+          "selectable_document_count": 5,
+          "document_state_counts": {
+            "complete": 5,
+            "strong_pending": 5
+          },
+          "queue_id": "strong_repair",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_strong_repair_dev_batch_0018_v1",
+          "title": "Yomi strong repair review / dev_batch_0018 / v1",
+          "path": "./packs/yomi_strong_repair_dev_batch_0018_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0018",
+          "created_at_epoch": 1784696676,
+          "item_count": 5,
+          "document_count": 10,
+          "selectable_document_count": 5,
+          "document_state_counts": {
+            "complete": 5,
+            "strong_pending": 5
+          },
+          "queue_id": "strong_repair",
           "status": "active-dev"
         }
       ]
@@ -620,7 +696,7 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 103,
+        "document_count": 113,
         "shard_count": 1
       }
     }

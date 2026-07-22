@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1375,
-  "generated_at": "2026-07-22T04:46:27Z",
-  "generated_at_epoch": 1784695587,
-  "last_successful_sync": "2026-07-22T04:20:35Z",
-  "last_successful_sync_epoch": 1784694035,
-  "status": "error",
+  "state_revision": 1376,
+  "generated_at": "2026-07-22T05:04:56Z",
+  "generated_at_epoch": 1784696696,
+  "last_successful_sync": "2026-07-22T05:04:56Z",
+  "last_successful_sync_epoch": 1784696696,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1784692214,
     "interval_seconds": 300,
@@ -14,32 +14,32 @@
     "next_expected_epoch": 1784692514
   },
   "state": {
-    "current_batch_name": "dev_batch_0019",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
-    "active_queue_count": 50,
+    "current_batch_name": "dev_batch_0020",
+    "current_stage": "scope_triage_llm_completed",
+    "next_stage": "yomi_generated",
+    "active_queue_count": 26,
     "queue_counts": {
-      "bulk_review_selectable": 50,
+      "bulk_review_selectable": 10,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 0,
-      "escalated_repair_submitted": 1,
-      "resolved": 9
+      "escalated_repair_selectable": 16,
+      "escalated_repair_submitted": 0,
+      "resolved": 24
     },
     "pool_counts": {
-      "bulk-ready": 50,
+      "bulk-ready": 10,
       "bulk-submitted": 0,
-      "escalated-ready": 0,
-      "escalated-submitted": 1,
+      "escalated-ready": 16,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 9,
+      "resolved": 24,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000104:u0007 token 24 '（笑）'/'（笑）' is structurally invalid: reading for kanji or alphabetic surfaces must be katakana",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1784695587,
-    "completed_at_epoch": 1784695587,
-    "drift_seconds": 73
+    "started_at_epoch": 1784696175,
+    "completed_at_epoch": 1784696696,
+    "drift_seconds": 61
   },
   "client_polling": {
     "normal_seconds": 60,
