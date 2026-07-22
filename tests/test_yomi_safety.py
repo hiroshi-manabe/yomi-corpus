@@ -72,6 +72,47 @@ def unit() -> dict:
 
 
 class YomiSafetyTests(unittest.TestCase):
+    def test_japanese_numeral_targets_prefer_safe_no_ruby(self) -> None:
+        payload = {
+            "unit_id": "u-numeral",
+            "text": "二〇〇二年",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "二〇〇二/ 年/ネン",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "二〇〇二",
+                                    "pos": "名詞,数詞,*,*,*,*",
+                                    "dictionary_form": "二〇〇二",
+                                    "normalized_form": "二〇〇二",
+                                    "reading": "ニレイレイニ",
+                                },
+                                {
+                                    "surface": "年",
+                                    "pos": "名詞,普通名詞,助数詞可能,*,*,*",
+                                    "dictionary_form": "年",
+                                    "normalized_form": "年",
+                                    "reading": "ネン",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        numeral = next(record for record in records if record["surface"] == "二〇〇二")
+        self.assertTrue(numeral["is_safe"])
+        self.assertIn("safe_by_no_ruby_numeric_surface", numeral["accepted_signal_names"])
+        signal = next(
+            row for row in numeral["signals"] if row["name"] == "safe_by_no_ruby_numeric_surface"
+        )
+        self.assertEqual(signal["preferred_choice_source"], "none")
+
     def test_model_local_frequency_stats_override_configured_fallback(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.llm.rendering import rendered_for_llm, rendered_tokens
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 
 
 YOMI_UNIT_MODE_SENTENCE = "sentence"
@@ -448,6 +449,10 @@ def has_unannotated_kanji(rendered_prompt: str) -> bool:
     index = 0
     while index < len(rendered_prompt):
         char = rendered_prompt[index]
+        if is_numeric_only_surface(char):
+            while index < len(rendered_prompt) and is_numeric_only_surface(rendered_prompt[index]):
+                index += 1
+            continue
         if not _is_kanji(char):
             index += 1
             continue
@@ -475,6 +480,8 @@ def has_unannotated_kanji_or_latin_token(rendered: str) -> bool:
                 return True
             continue
         surface, reading = token.rsplit("/", 1)
+        if is_numeric_only_surface(surface) and not reading:
+            continue
         if _contains_kanji_or_latin(surface) and not is_katakana_reading(reading):
             return True
     return False

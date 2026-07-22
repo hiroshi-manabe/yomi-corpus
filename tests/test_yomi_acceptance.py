@@ -85,6 +85,10 @@ class YomiAcceptanceTests(unittest.TestCase):
         judgment = judge_yomi_auto_accept(unit("2021です。", "2021/ です/デス 。/。"))
         self.assertTrue(judgment.value)
 
+    def test_accepts_grouped_japanese_numeral_run_with_empty_reading(self) -> None:
+        judgment = judge_yomi_auto_accept(unit("二〇〇二年です。", "二〇〇二/ 年/ネン です/デス 。/。"))
+        self.assertTrue(judgment.value)
+
     def test_auto_accept_profile_off_rejects_even_supported_unit(self) -> None:
         judgment = judge_yomi_auto_accept(
             unit("大学に行く。", "大学/ダイガク に/ニ 行く/イク 。/。"),

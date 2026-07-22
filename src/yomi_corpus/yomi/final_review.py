@@ -28,6 +28,7 @@ from yomi_corpus.yomi.numeric_compounds import (
     numeric_compound_occurrences,
     numeric_compound_rule,
 )
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 from yomi_corpus.yomi.repairs import normalize_parenthesized_laughter
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
@@ -2440,12 +2441,7 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
 
 
 def is_numeric_only_finalized_correction_surface(surface: str) -> bool:
-    return bool(
-        re.fullmatch(
-            r"[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+",
-            surface,
-        )
-    )
+    return is_numeric_only_surface(surface)
 
 
 def normalize_finalized_correction_source_text(value: str) -> str:

@@ -9,6 +9,7 @@ from typing import Any
 
 from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
 from yomi_corpus.yomi.final_review import yomi_tokens_ruby_tokens
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 from yomi_corpus.yomi.token_codec import (
     legacy_rendered_to_yomi_tokens,
     yomi_tokens_from_mapping,
@@ -522,15 +523,6 @@ def split_rendered_yomi_token_for_archive(token: str) -> tuple[str, str]:
     if separator < 0:
         return token, ""
     return token[:separator], token[separator + 1 :]
-
-
-def is_numeric_only_surface(surface: str) -> bool:
-    return bool(
-        re.fullmatch(
-            r"[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ]+",
-            surface,
-        )
-    )
 
 
 def write_archive_shards(

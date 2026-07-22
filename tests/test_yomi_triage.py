@@ -40,6 +40,7 @@ class YomiTriageTests(unittest.TestCase):
         prompt = resolve_repo_path("config/prompts/yomi_triage_v2.txt").read_text(encoding="utf-8")
 
         self.assertIn("such as `2021`", prompt)
+        self.assertIn("`二〇〇二`", prompt)
         self.assertIn("30分（ぷん）", prompt)
         self.assertIn("number-reading module", prompt)
 
@@ -329,6 +330,10 @@ class YomiTriageTests(unittest.TestCase):
         self.assertTrue(has_unannotated_kanji_or_latin_token("API/api です/デス 。/。"))
         self.assertTrue(has_unannotated_kanji_or_latin_token("難語/ナンゴ1 です/デス 。/。"))
         self.assertTrue(has_unannotated_kanji_or_latin_token("難語 です/デス 。/。"))
+        self.assertFalse(has_unannotated_kanji_or_latin_token("二〇〇二/ 年/ネン です/デス 。/。"))
+
+    def test_flattened_prompt_ignores_unannotated_japanese_numeral_run(self) -> None:
+        self.assertFalse(has_unannotated_kanji("二〇〇二年（ねん）です。"))
 
     def test_is_katakana_reading_allows_only_katakana_and_long_vowel_mark(self) -> None:
         self.assertTrue(is_katakana_reading("カタカナー"))

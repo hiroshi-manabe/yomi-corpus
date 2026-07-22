@@ -11,6 +11,7 @@ from yomi_corpus.yomi.ngram_diagnostics import (
     StableTwoKanjiChecker,
     analyze_hybrid_stable_two_kanji_row,
 )
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 
 AUTO_ACCEPT_RULE = "sudachi_decoder_agree_repeated_ngram_or_stable_two_kanji_support_v2"
 AUTO_ACCEPT_PROFILE_OFF = "off"
@@ -148,7 +149,7 @@ def unresolved_non_numeric_reading_surfaces(rendered: str) -> list[str]:
         surface, reading = pair.rsplit("/", 1)
         if reading:
             continue
-        if surface and surface.isdecimal():
+        if is_numeric_only_surface(surface):
             continue
         unresolved.append(surface)
     return unresolved

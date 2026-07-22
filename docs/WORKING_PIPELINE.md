@@ -2805,9 +2805,10 @@ Browser validation must reject:
 - readings that violate the canonical `surface/reading` structural rule:
   kanji or Latin surfaces need a katakana reading, numeric-only surfaces need
   an empty reading, and kana/symbol surfaces need their normalized literal
-  reading. Numeric-only includes ASCII/fullwidth digits and Unicode Roman
-  numeral symbols such as `Ⅲ`, but not ASCII Roman-looking strings such as
-  `III`. Thus `Ⅲ/` is canonical, `Ⅲ/サン` is invalid, `III/スリー` can be valid,
+  reading. Numeric-only includes ASCII/fullwidth digits, Unicode Roman numeral
+  symbols such as `Ⅲ`, and Japanese numeral digits such as `二〇〇二`, but not ASCII
+  Roman-looking strings such as `III`. Thus `Ⅲ/` and `二〇〇二/` are canonical,
+  `Ⅲ/サン` is invalid, `III/スリー` can be valid,
   and `III/` is invalid. Mixed lexical surfaces such as `聖飢魔Ⅱ` still require a
   normal katakana reading.
 - source-surface changes relative to the original rendered-yomi token surfaces

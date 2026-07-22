@@ -35,6 +35,57 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_review_item_keeps_japanese_numeral_run_without_ruby(self) -> None:
+        targets = []
+        for index, start in enumerate((0, 3), start=1):
+            targets.append(
+                {
+                    "item_id": f"u1:r{index}",
+                    "surface": "二",
+                    "token_surface": "二",
+                    "target_start": start,
+                    "target_end": start + 1,
+                    "token_index": index - 1,
+                    "chunk_index": 0,
+                    "current_reading": "ニ",
+                    "current_reading_hiragana": "に",
+                    "is_safe": True,
+                    "review_status": "safe",
+                    "highlight_level": "none",
+                    "accepted_signal_names": ["safe_by_no_ruby_numeric_surface"],
+                    "signals": [
+                        {
+                            "name": "safe_by_no_ruby_numeric_surface",
+                            "accepted": True,
+                            "preferred_choice_source": "none",
+                        }
+                    ],
+                }
+            )
+        item = build_review_item(
+            {
+                "unit_id": "u1",
+                "doc_id": "d1",
+                "text": "二〇〇二年",
+                "analysis": {
+                    "mechanical": {"yomi": {"rendered": "二〇〇二/ 年/ネン"}},
+                    "safety": {"yomi": {"targets": targets}},
+                },
+            },
+            seq=1,
+            doc_seq=1,
+            track_doc_seq=1,
+        )
+
+        self.assertEqual(item["rendered_yomi"], "二〇〇二/ 年/ネン")
+        numeral_segments = [
+            segment
+            for segment in item["ruby_segments"]
+            if segment.get("text") in {"二", "〇〇", "二〇〇二"}
+        ]
+        self.assertTrue(numeral_segments)
+        self.assertTrue(all(not segment.get("reading") for segment in numeral_segments))
+
     def test_build_review_item_reads_only_laugh_inside_parentheses(self) -> None:
         for surface, start, end in (("（笑）", 3, 6), ("笑", 4, 5)):
             with self.subTest(surface=surface):
@@ -467,6 +518,15 @@ class YomiFinalReviewTests(unittest.TestCase):
         )
         self.assertFalse(
             validate_finalized_correction_reading("2つ", "2ツ")["ok"],
+        )
+
+    def test_finalized_correction_requires_empty_japanese_numeral_reading(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("二〇〇二", ""),
+            {"ok": True},
+        )
+        self.assertFalse(
+            validate_finalized_correction_reading("二〇〇二", "ニセンニ")["ok"],
         )
 
     def test_apply_finalized_correction_preserves_numeric_compound_reading(self) -> None:

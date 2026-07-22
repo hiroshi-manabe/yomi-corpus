@@ -145,7 +145,10 @@ or revert the rule.
 
 Numeric runs are not treated as ordinary yomi targets. Consecutive numeric
 tokens should be grouped and emitted with an empty reading, for example
-`2021/`, so a future number-reading module can handle them separately. This
+`2021/` or `二〇〇二/`, so a future number-reading module can handle them separately. Japanese
+numeral digits are numeric only when the whole surface consists of digit
+characters; mixed lexical surfaces such as `二年` and `一人` retain their normal rules. Unit
+kanji such as `万` and `京` are not intrinsically numeric. This
 must also be explicit in any yomi-triage prompt: `2021/`, `30/ 分/フン`, and
 `1/ 回/カイ` are intentional, not malformed yomi, and should not trigger
 `Review` by themselves.
@@ -167,8 +170,9 @@ rule before any `OK` decision is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
   contain only katakana plus the long-vowel mark `ー`
-- if `surface` is numeric only, including ASCII/fullwidth digits and Unicode
-  Roman numeral symbols, `reading` must be empty, so `2021/` and `Ⅲ/` are valid
+- if `surface` is numeric only, including ASCII/fullwidth digits, Unicode
+  Roman numeral symbols, and Japanese numeral digits, `reading` must be empty,
+  so `2021/`, `Ⅲ/`, and `二〇〇二/` are valid
   while `2021/2021` and `Ⅲ/サン` are invalid. ASCII Roman-looking strings such
   as `I`, `II`, and `III` remain alphabetic surfaces, so `III/スリー` can be
   valid while `III/` is invalid.

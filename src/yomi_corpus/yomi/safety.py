@@ -18,6 +18,7 @@ from yomi_corpus.yomi.ngram_diagnostics import (
     DEFAULT_RAW_SUDACHI_DICT_DIR,
     StableTwoKanjiChecker,
 )
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 
 SAFETY_RULE = "per_target_pre_llm_safety_v2"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
@@ -176,6 +177,17 @@ def build_pre_llm_safety_records(
                 }
             )
             accepted_signal_names.append("safe_by_no_ruby_laughter_w")
+
+        if is_numeric_only_surface(str(item["surface"])):
+            signals.append(
+                {
+                    "name": "safe_by_no_ruby_numeric_surface",
+                    "accepted": True,
+                    "reason": "numeric_surface_uses_separate_reading_layer",
+                    "preferred_choice_source": "none",
+                }
+            )
+            accepted_signal_names.append("safe_by_no_ruby_numeric_surface")
 
         if stable_checker is not None:
             stable = stable_checker.judge(str(item["surface"]), str(item["current_reading"]))

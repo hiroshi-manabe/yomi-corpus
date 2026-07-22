@@ -10,6 +10,7 @@ from yomi_corpus.yomi.types import (
     SudachiToken,
     YomiStrategyResult,
 )
+from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 
 
 @dataclass(frozen=True)
@@ -732,7 +733,7 @@ def is_punctuation_token(token: SudachiToken) -> bool:
 
 
 def is_numeric_token(token: SudachiToken) -> bool:
-    return "数詞" in token.pos and token.surface.isdecimal()
+    return "数詞" in token.pos and is_numeric_only_surface(token.surface)
 
 
 def collect_numeric_sudachi_run(

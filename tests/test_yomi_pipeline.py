@@ -419,6 +419,34 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "2021/ 年/ネン")
         self.assertIn("group_numeric_run", result.signals)
 
+    def test_aligned_hybrid_groups_japanese_numeral_runs_without_reading(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="二〇〇二年",
+            sudachi_tokens=[
+                SudachiToken("二", "名詞,数詞,*,*,*,*", "二", "二", "ニ"),
+                SudachiToken("〇", "名詞,数詞,*,*,*,*", "〇", "〇", "レイ"),
+                SudachiToken("〇", "名詞,数詞,*,*,*,*", "〇", "〇", "レイ"),
+                SudachiToken("二", "名詞,数詞,*,*,*,*", "二", "二", "ニ"),
+                SudachiToken("年", "名詞,普通名詞,助数詞可能,*,*,*", "年", "年", "ネン"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("二", "ニ", 1, [1]),
+                        DecoderEntry("〇", "レイ", 1, [1]),
+                        DecoderEntry("〇", "レイ", 1, [1]),
+                        DecoderEntry("二", "ニ", 1, [1]),
+                        DecoderEntry("年", "ネン", 2, [2]),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "二〇〇二/ 年/ネン")
+        self.assertIn("group_numeric_run", result.signals)
+
     def test_aligned_hybrid_refines_single_compound_only_when_reading_is_preserved(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",
