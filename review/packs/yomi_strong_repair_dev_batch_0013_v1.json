@@ -19,7 +19,7 @@
     "queued_repair_row_count": 5,
     "result_row_count": 5,
     "reviewable_repair_row_count": 5,
-    "mapping_error_count": 2
+    "mapping_error_count": 0
   },
   "documents": [
     {
@@ -140,7 +140,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-22T00:01:54Z",
+      "state_updated_at": "2026-07-22T00:13:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -192,7 +192,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-22T00:01:54Z",
+      "state_updated_at": "2026-07-22T00:13:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 98,
       "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
       "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
-      "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+      "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八島ヶ原/ヤシマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "2021",
@@ -359,12 +359,8 @@
           "、"
         ],
         [
-          "八",
-          "ハチ"
-        ],
-        [
-          "島ヶ原",
-          "シマガハラ"
+          "八島ヶ原",
+          "ヤシマガハラ"
         ],
         [
           "湿原",
@@ -590,24 +586,18 @@
           ]
         },
         {
-          "surface": "八",
-          "reading": "ハチ",
+          "surface": "八島ヶ原",
+          "reading": "ヤシマガハラ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "八",
-              "reading": "はち"
-            }
-          ]
-        },
-        {
-          "surface": "島ヶ原",
-          "reading": "シマガハラ",
-          "nodes": [
+              "text": "八島",
+              "reading": "やしま"
+            },
             {
               "type": "ruby",
-              "text": "島ヶ原",
-              "reading": "しまがはら"
+              "text": "ヶ原",
+              "reading": "はら"
             }
           ]
         },
@@ -781,13 +771,8 @@
           ]
         }
       ],
-      "mapping_error_count": 1,
-      "mapping_errors": [
-        {
-          "region_id": "ja_cc_level2:0000000098:u0007::target_group:1",
-          "error": "rejected span '八島原' is absent from canonical yomi surfaces"
-        }
-      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
       "repair_scope": "sentence_regions",
       "region_count": 2,
       "regions": [
@@ -797,9 +782,18 @@
           "unit_id": "ja_cc_level2:0000000098:u0007",
           "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
           "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
-          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
-          "display_mapping": null,
-          "mapping_error": "rejected span '八島原' is absent from canonical yomi surfaces",
+          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八島ヶ原/ヤシマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 16,
+            "char_start": 24,
+            "char_end": 28,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -916,7 +910,7 @@
               ]
             }
           ],
-          "rejected_span": "八島原",
+          "rejected_span": "八島ヶ原",
           "reading_candidates": {
             "八": [
               "はち",
@@ -937,9 +931,8 @@
               "じま",
               "とう"
             ],
-            "島原": [
-              "しまはら",
-              "しまばら"
+            "島ヶ原": [
+              "しまがはら"
             ],
             "原": [
               "げん",
@@ -952,7 +945,7 @@
             "八": "はち",
             "八島": "やしま",
             "島": "しま",
-            "島原": "しまはら",
+            "島ヶ原": "しまがはら",
             "原": "げん"
           },
           "rejected_readings": [
@@ -986,12 +979,17 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000098:u0007::target_group:1",
-            "status": "surface_mismatch",
-            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
-            "rejected_span": "八島原"
+            "status": "applied",
+            "rejected_span": "八島ヶ原",
+            "replacement": [
+              {
+                "surface": "八島ヶ原",
+                "reading": "ヤシマガハラ"
+              }
+            ]
           }
         },
         {
@@ -1000,10 +998,10 @@
           "unit_id": "ja_cc_level2:0000000098:u0007",
           "text": "2021年10月31日（日）、霧ヶ峰の高層湿原、八島ヶ原湿原にて日帰りガイドツアー「御柱源流ハイク」が開催されます。",
           "rendered_yomi_before": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御/ゴ 柱/ハシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
-          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八/ハチ 島ヶ原/シマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
+          "rendered_yomi_after": "2021/ 年/ネン 10/ 月/ガツ 31/ 日/ニチ （/（ 日/ニチ ）/） 、/、 霧ヶ峰/キリガミネ の/ノ 高層/コウソウ 湿原/シツゲン 、/、 八島ヶ原/ヤシマガハラ 湿原/シツゲン にて/ニテ 日帰り/ヒガエリ ガイド/ガイド ツアー/ツアー 「/「 御柱/オンバシラ 源流/ゲンリュウ ハイク/ハイク 」/」 が/ガ 開催/カイサイ さ/サ れ/レ ます/マス 。/。",
           "display_mapping": {
-            "start": 23,
-            "end": 24,
+            "start": 22,
+            "end": 23,
             "char_start": 42,
             "char_end": 44,
             "start_offset": 0,
@@ -1153,7 +1151,7 @@
           }
         }
       ],
-      "rejected_span": "八島原",
+      "rejected_span": "八島ヶ原",
       "target_escalations": [
         {
           "item_id": "ja_cc_level2:0000000098:u0007:r0021c01",
@@ -1247,9 +1245,8 @@
           "じま",
           "とう"
         ],
-        "島原": [
-          "しまはら",
-          "しまばら"
+        "島ヶ原": [
+          "しまがはら"
         ],
         "原": [
           "げん",
@@ -1262,7 +1259,7 @@
         "八": "はち",
         "八島": "やしま",
         "島": "しま",
-        "島原": "しまはら",
+        "島ヶ原": "しまがはら",
         "原": "げん"
       },
       "llm_parsed": [
@@ -1279,12 +1276,17 @@
       ],
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "surface_mismatch",
+      "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2:0000000098:u0007::target_group:1",
-        "status": "surface_mismatch",
-        "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
-        "rejected_span": "八島原"
+        "status": "applied",
+        "rejected_span": "八島ヶ原",
+        "replacement": [
+          {
+            "surface": "八島ヶ原",
+            "reading": "ヤシマガハラ"
+          }
+        ]
       }
     },
     {
@@ -1910,13 +1912,8 @@
           ]
         }
       ],
-      "mapping_error_count": 1,
-      "mapping_errors": [
-        {
-          "region_id": "ja_cc_level2:0000000098:u0022::target_group:1",
-          "error": "rejected span '美原' is absent from canonical yomi surfaces"
-        }
-      ],
+      "mapping_error_count": 0,
+      "mapping_errors": [],
       "repair_scope": "sentence_regions",
       "region_count": 2,
       "regions": [
@@ -1927,8 +1924,17 @@
           "text": "百名山である美ヶ原、霧ヶ峰最高峰車山を2日かけて縦走する贅沢なガイドツアーを2021年10月9日（土）〜10日（日）の1泊2日で開催します。",
           "rendered_yomi_before": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車/シャ 山/サン を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
           "rendered_yomi_after": "百/ヒャク 名山/メイザン で/デ ある/アル 美ヶ原/ウツクシガハラ 、/、 霧ヶ峰/キリガミネ 最高峰/サイコウホウ 車山/クルマヤマ を/ヲ 2日/フツカ かけ/カケ て/テ 縦走/ジュウソウ する/スル 贅沢/ゼイタク な/ナ ガイド/ガイド ツアー/ツアー を/ヲ 2021/ 年/ネン 10/ 月/ガツ 9日/ココノカ （/（ 土/ド ）/） 〜/〜 10日/トオカ （/（ 日/ニチ ）/） の/ノ 1/ 泊/ハク 2日/フツカ で/デ 開催/カイサイ し/シ ます/マス 。/。",
-          "display_mapping": null,
-          "mapping_error": "rejected span '美原' is absent from canonical yomi surfaces",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
           "repair_scope": "target_group",
           "reasons": [
             "target_no_ruby"
@@ -2009,15 +2015,14 @@
               ]
             }
           ],
-          "rejected_span": "美原",
+          "rejected_span": "美ヶ原",
           "reading_candidates": {
             "美": [
               "ちゅら",
               "び"
             ],
-            "美原": [
-              "びげん",
-              "みはら"
+            "美ヶ原": [
+              "うつくしがはら"
             ],
             "原": [
               "げん",
@@ -2028,7 +2033,7 @@
           },
           "reading_hints": {
             "美": "ちゅら",
-            "美原": "びげん",
+            "美ヶ原": "うつくしがはら",
             "原": "げん"
           },
           "rejected_readings": [
@@ -2043,10 +2048,10 @@
               "source": "human_no_ruby"
             }
           ],
-          "llm_raw_text": "[{\"surface\":\"美原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
+          "llm_raw_text": "[{\"surface\":\"美ヶ原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
           "llm_parsed": [
             {
-              "surface": "美原",
+              "surface": "美ヶ原",
               "reading": "ウツクシガハラ",
               "used_web_search": false,
               "comment": "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
@@ -2057,12 +2062,17 @@
           ],
           "llm_parse_error": null,
           "used_web_search": false,
-          "repair_status": "surface_mismatch",
+          "repair_status": "applied",
           "repair_log": {
             "item_id": "ja_cc_level2:0000000098:u0022::target_group:1",
-            "status": "surface_mismatch",
-            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
-            "rejected_span": "美原"
+            "status": "applied",
+            "rejected_span": "美ヶ原",
+            "replacement": [
+              {
+                "surface": "美ヶ原",
+                "reading": "ウツクシガハラ"
+              }
+            ]
           }
         },
         {
@@ -2225,7 +2235,7 @@
           }
         }
       ],
-      "rejected_span": "美原",
+      "rejected_span": "美ヶ原",
       "target_escalations": [
         {
           "item_id": "ja_cc_level2:0000000098:u0022:r0005c01",
@@ -2281,9 +2291,8 @@
           "ちゅら",
           "び"
         ],
-        "美原": [
-          "びげん",
-          "みはら"
+        "美ヶ原": [
+          "うつくしがはら"
         ],
         "原": [
           "げん",
@@ -2294,29 +2303,34 @@
       },
       "reading_hints": {
         "美": "ちゅら",
-        "美原": "びげん",
+        "美ヶ原": "うつくしがはら",
         "原": "げん"
       },
       "llm_parsed": [
         {
-          "surface": "美原",
+          "surface": "美ヶ原",
           "reading": "ウツクシガハラ",
           "used_web_search": false,
           "comment": "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
         }
       ],
-      "llm_raw_text": "[{\"surface\":\"美原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
+      "llm_raw_text": "[{\"surface\":\"美ヶ原\",\"reading\":\"ウツクシガハラ\",\"used_web_search\":false,\"comment\":\"文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。\"}]",
       "llm_comments": [
         "文脈上は地名・山名の「美ヶ原」で、固有名として一まとまりに読むのが自然です。"
       ],
       "llm_parse_error": null,
       "used_web_search": false,
-      "repair_status": "surface_mismatch",
+      "repair_status": "applied",
       "repair_log": {
         "item_id": "ja_cc_level2:0000000098:u0022::target_group:1",
-        "status": "surface_mismatch",
-        "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
-        "rejected_span": "美原"
+        "status": "applied",
+        "rejected_span": "美ヶ原",
+        "replacement": [
+          {
+            "surface": "美ヶ原",
+            "reading": "ウツクシガハラ"
+          }
+        ]
       }
     },
     {
