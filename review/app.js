@@ -5137,13 +5137,43 @@ function filterOverridesForTask(pack, task, overrides) {
     return {};
   }
   const itemIds = itemIdsForTaskDocIds(pack, task.doc_ids);
+  const itemsById = new Map((pack.items || []).map((item) => [item.item_id, item]));
   const filtered = {};
   for (const [itemId, override] of Object.entries(overrides || {})) {
     if (itemIds.has(itemId)) {
-      filtered[itemId] = override;
+      const normalized = normalizeStoredOverrideForItem(pack, itemsById.get(itemId), override);
+      if (normalized) {
+        filtered[itemId] = normalized;
+      }
     }
   }
   return filtered;
+}
+
+function normalizeStoredOverrideForItem(pack, item, override) {
+  if (!item || itemReviewStageForPack(item, pack) !== "yomi_strong_repair_review") {
+    return override;
+  }
+  const regionsById = new Map(
+    strongRepairRegions(item).map((region) => [region.region_id || region.item_id, region]),
+  );
+  const regions = {};
+  for (const [regionId, storedRegion] of Object.entries(override?.regions || {})) {
+    const currentRegion = regionsById.get(regionId);
+    const segments = normalizeStrongRepairSegments(storedRegion?.manual_segments || []);
+    if (
+      currentRegion &&
+      segments.length > 0 &&
+      segments.map((segment) => segment.surface).join("") === currentRegion.rejected_span
+    ) {
+      regions[regionId] = { ...storedRegion, manual_segments: segments };
+    }
+  }
+  const note = String(override?.note || "").trim();
+  if (Object.keys(regions).length === 0 && !note) {
+    return null;
+  }
+  return { ...override, note, regions };
 }
 
 function taskQueueStage(task) {
