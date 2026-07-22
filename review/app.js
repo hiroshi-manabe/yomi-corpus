@@ -14,6 +14,7 @@ const state = {
   archiveCurrentTrack: "dev",
   archiveCurrentShard: null,
   archiveCurrentShardPath: "",
+  archiveShardCache: new Map(),
   archiveSearchIndex: null,
   archiveSearchIndexPath: "",
   archiveSearchQuery: "",
@@ -2190,7 +2191,11 @@ function renderWorkflowResolvedPanel(docs) {
       <strong>Doc ${escapeHtml(String(row.display_seq))}</strong>
       <span>${escapeHtml(row.completed_via || "Resolved")}</span>
     `;
-    item.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
+    item.addEventListener("click", () => {
+      openWorkflowDocumentPreview(row.display_seq).catch((error) => {
+        showStatus(`Failed to open document preview: ${error.message}`, true);
+      });
+    });
     list.append(item);
   }
   section.append(list);
@@ -2217,12 +2222,16 @@ function renderWorkflowTile(row, { compact }) {
     tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
   if (!compact) {
-    tile.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
+    tile.addEventListener("click", () => {
+      openWorkflowDocumentPreview(row.display_seq).catch((error) => {
+        showStatus(`Failed to open document preview: ${error.message}`, true);
+      });
+    });
   }
   return tile;
 }
 
-function openWorkflowDocumentPreview(displaySeq) {
+async function openWorkflowDocumentPreview(displaySeq) {
   if (!el.workflowPreviewModal || !state.currentPack) {
     return;
   }
@@ -2232,12 +2241,21 @@ function openWorkflowDocumentPreview(displaySeq) {
     return;
   }
   const previewItems = workflowPreviewItemsForDocument(row);
+  const archivedDocument = row.status === "resolved"
+    ? await loadArchivedWorkflowDocument(row)
+    : null;
   const actionDoc = workflowPreviewActionDocument(docs, row);
   const previewDraft = workflowPreviewDraftForRow(row);
   el.workflowPreviewTitle.textContent = `Document ${row.display_seq}`;
-  el.workflowPreviewMeta.textContent = workflowPreviewMetaText(row, previewItems, actionDoc);
+  el.workflowPreviewMeta.textContent = workflowPreviewMetaText(
+    row,
+    archivedDocument?.units || previewItems,
+    actionDoc,
+  );
   el.workflowPreviewBody.innerHTML = "";
-  if (previewItems.length === 0) {
+  if (archivedDocument) {
+    renderArchivedWorkflowDocumentPreview(archivedDocument, el.workflowPreviewBody);
+  } else if (previewItems.length === 0) {
     const empty = document.createElement("p");
     empty.className = "muted";
     empty.textContent = row.preview || "No review items were published for this document.";
@@ -2277,6 +2295,58 @@ function openWorkflowDocumentPreview(displaySeq) {
 
   el.workflowPreviewModal.classList.remove("hidden");
   updateRuntimePollingForInteraction();
+}
+
+async function loadArchivedWorkflowDocument(row) {
+  if (!hasReviewArchive()) {
+    return null;
+  }
+  if (!state.archiveIndex) {
+    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
+  }
+  const trackName = state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev";
+  const track = state.archiveIndex?.tracks?.[trackName];
+  const displaySeq = Number(row.display_seq || 0);
+  const shard = (track?.shards || []).find(
+    (candidate) =>
+      displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
+      displaySeq <= Number(candidate.end_track_doc_seq || 0),
+  );
+  if (!shard?.path) {
+    return null;
+  }
+  let payload = state.archiveShardCache.get(shard.path);
+  if (!payload) {
+    payload = await fetchJson(shard.path);
+    state.archiveShardCache.set(shard.path, payload);
+  }
+  return (payload.documents || []).find(
+    (doc) =>
+      Number(doc.track_doc_seq || 0) === displaySeq &&
+      (!row.doc_id || String(doc.doc_id || "") === String(row.doc_id)),
+  ) || null;
+}
+
+function renderArchivedWorkflowDocumentPreview(doc, container) {
+  for (const unit of doc.units || []) {
+    const node = document.createElement("article");
+    node.className = "workflow-preview-item resolved-yomi-preview";
+    const rubyLine = document.createElement("p");
+    rubyLine.className = "ruby-line resolved-ruby-line";
+    const tokenPairs = archiveUnitYomiTokenPairs(unit);
+    if (tokenPairs.length) {
+      rubyLine.append(
+        ...renderReadonlyRubyFromTokensWithNodes(
+          yomiTokenPairObjects(tokenPairs),
+          unit.ruby_tokens || [],
+        ),
+      );
+    } else {
+      rubyLine.textContent = unit.text || "";
+    }
+    node.append(rubyLine);
+    container.append(node);
+  }
 }
 
 function withTemporaryPreviewDraft(previewDraft, callback) {
@@ -2497,6 +2567,7 @@ function workflowDocumentStates(docs) {
     const seq = documentDisplaySeq(doc);
     if (!bySeq.has(seq)) {
       bySeq.set(seq, {
+        doc_id: doc.doc_id || "",
         doc_seq: Number(doc.doc_seq || seq),
         track_doc_seq: Number(doc.track_doc_seq || seq),
         display_seq: seq,
