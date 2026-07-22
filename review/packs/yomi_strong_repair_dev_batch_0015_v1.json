@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -135,12 +135,12 @@
       "source_line_no": 118,
       "preview": "いつもありがとうございます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:59:21Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:04:52Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 120,
       "preview": "京都府和束町というと宇治茶の生産地で美しい茶畑が広がります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:59:21Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:04:52Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +265,12 @@
       "source_line_no": 123,
       "preview": "その後、不良ヤンキー系アクションゲームは「龍が如くシリーズ」1択となってしまうのですが、龍が如くも最新作龍が如く7ではアクションゲームではなくコマンドRPGにジャンル変更しており、純粋な喧嘩番長系ゲームはほぼなくなっている状態です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-22T06:59:21Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-22T07:04:52Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -296,7 +296,7 @@
       "source_line_no": 118,
       "text": "母性本能をくすぐる甘いルックスと身長185cm、体重72kgと身長も高く、スタイル抜群のAB型。",
       "rendered_yomi_before": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/シーエム 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
-      "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチメートル 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+      "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチ 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "母性",
@@ -336,7 +336,7 @@
         ],
         [
           "cm",
-          "センチメートル"
+          "センチ"
         ],
         [
           "、",
@@ -496,12 +496,12 @@
         },
         {
           "surface": "cm",
-          "reading": "センチメートル",
+          "reading": "センチ",
           "nodes": [
             {
               "type": "ruby",
               "text": "cm",
-              "reading": "せんちめーとる"
+              "reading": "せんち"
             }
           ]
         },
@@ -671,7 +671,7 @@
           "unit_id": "ja_cc_level2:0000000118:u0055",
           "text": "母性本能をくすぐる甘いルックスと身長185cm、体重72kgと身長も高く、スタイル抜群のAB型。",
           "rendered_yomi_before": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/シーエム 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
-          "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチメートル 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
+          "rendered_yomi_after": "母性/ボセイ 本能/ホンノウ を/ヲ くすぐる/クスグル 甘い/アマイ ルックス/ルックス と/ト 身長/シンチョウ 185/ cm/センチ 、/、 体重/タイジュウ 72/ kg/キロ と/ト 身長/シンチョウ も/モ 高く/タカク 、/、 スタイル/スタイル 抜群/バツグン の/ノ AB型/エービーガタ 。/。",
           "display_mapping": {
             "start": 9,
             "end": 10,
