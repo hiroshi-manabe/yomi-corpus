@@ -29,6 +29,20 @@ PARENTHESIZED_LAUGHTER = {
 }
 
 
+def normalize_parenthesized_laughter_tokens(
+    tokens: list[list[str]],
+) -> list[list[str]]:
+    """Normalize canonical tokens, including stale pre-repair artifacts."""
+    output: list[list[str]] = []
+    for surface, reading in tokens:
+        replacement = PARENTHESIZED_LAUGHTER.get(surface)
+        if replacement is None:
+            output.append([surface, reading])
+            continue
+        output.extend([part_surface, part_reading] for part_surface, part_reading in replacement)
+    return output
+
+
 def normalize_parenthesized_laughter(rendered: str) -> YomiRepairResult:
     """Keep punctuation unannotated and assign ワライ only to 笑."""
     output: list[str] = []

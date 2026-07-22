@@ -29,7 +29,10 @@ from yomi_corpus.yomi.numeric_compounds import (
     numeric_compound_rule,
 )
 from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
-from yomi_corpus.yomi.repairs import normalize_parenthesized_laughter
+from yomi_corpus.yomi.repairs import (
+    normalize_parenthesized_laughter,
+    normalize_parenthesized_laughter_tokens,
+)
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
     editable_rendered_to_yomi_tokens,
@@ -3959,8 +3962,10 @@ def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
         .setdefault("yomi", {})
     )
     tokens = canonicalize_final_numeric_compounds(
-        normalize_correction_yomi_tokens(
-            yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+        normalize_parenthesized_laughter_tokens(
+            normalize_correction_yomi_tokens(
+                yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+            )
         )
     )
     if not tokens:

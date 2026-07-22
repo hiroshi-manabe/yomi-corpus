@@ -21,6 +21,7 @@ from yomi_corpus.yomi.final_review import (
     build_ruby_segments,
     build_strong_repair_queue_file,
     build_yomi_strong_repair_review_pack_file,
+    canonicalize_finalized_unit_yomi,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
     group_consecutive_target_overrides,
@@ -35,6 +36,25 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_finalization_normalizes_stale_parenthesized_laughter_token(self) -> None:
+        unit = {
+            "unit_id": "u-laughter",
+            "text": "面白い（笑）。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {"rendered": "面白い/オモシロイ （笑）/（笑） 。/。"}
+                },
+                "human_review": {"yomi_final": {"reviewed": True}},
+            },
+        }
+
+        canonicalize_finalized_unit_yomi(unit)
+
+        self.assertEqual(
+            unit["analysis"]["mechanical"]["yomi"]["tokens"],
+            [["面白い", "オモシロイ"], ["（", "（"], ["笑", "ワライ"], ["）", "）"], ["。", "。"]],
+        )
+
     def test_review_item_keeps_japanese_numeral_run_without_ruby(self) -> None:
         targets = []
         for index, start in enumerate((0, 3), start=1):
