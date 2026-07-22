@@ -2922,6 +2922,78 @@ candidates and no-ruby. A selected reading is applied directly. No-ruby marks a
 local target for Escalated Repair; consecutive canceled targets are grouped
 there rather than edited through a second segmentation control in Bulk Review.
 
+### 12.2.1 Interaction spans and ruby projection
+
+Bulk Review must edit complete reading-bearing surface spans, not the individual
+kanji nodes produced by furigana alignment. Define four distinct layers:
+
+1. The **corpus token sequence** is canonical rendered yomi such as
+   `後払い/アトバライ`.
+2. An **interaction span** is a stable source range used by the browser and
+   submission format. It normally covers one corpus token, but may cover
+   adjacent tokens when candidate generation intentionally treats them as one
+   reading or boundary decision.
+3. A **candidate** belongs to the complete interaction span and contains a
+   replacement token sequence whose surfaces concatenate to the span surface.
+4. A **ruby projection** is display-only alignment from that candidate onto the
+   source characters. It may cover less than the interaction span.
+
+For `後払い/アトバライ`, the browser should render `後払(あとばら)い`, while
+the hover background, pointer hit box, tap cycle, edited-state color, and
+no-ruby action cover all of `後払い`. The okurigana remains visually outside the
+`<rt>` annotation but inside the interactive wrapper. The same principle
+applies to inflected forms such as `行って` and multi-character lexicalized
+units such as `1日`.
+
+Each review-pack interaction span should carry at least:
+
+```json
+{
+  "span_id": "stable within the pack",
+  "unit_id": "source unit",
+  "start": 12,
+  "end": 15,
+  "surface": "後払い",
+  "default_candidate_id": "hybrid",
+  "candidates": [
+    {
+      "candidate_id": "hybrid",
+      "tokens": [["後払い", "ゴバライ"]],
+      "ruby_nodes": [{"surface": "後払", "reading": "ごばら"}]
+    }
+  ]
+}
+```
+
+Offsets are measured against the preserved source text and are the primary
+identity within a unit; `surface` is an integrity check. Interaction spans must
+not overlap within one candidate view. Candidate token surfaces must concatenate
+exactly to `surface`, and ruby nodes must preserve source order without claiming
+characters outside the span. The browser may derive ruby nodes when they are
+not stored, but must never derive the interaction boundary from those nodes.
+
+Submission overrides should identify `span_id` and the selected candidate, or
+record `none` for rejection. Replay replaces the complete span token sequence.
+Escalated Repair receives exactly the rejected interaction surface and may
+change its internal segmentation, but its returned surfaces must still
+concatenate to that surface. Adjacent rejected interaction spans may be merged
+for one repair request; the merged source range, not adjacent ruby nodes,
+defines the repair boundary.
+
+Implementation should proceed without migrating finalized corpus data:
+
+1. Extend pack generation with interaction spans while preserving legacy target
+   fields and current browser behavior.
+2. Move candidate collection, default selection, and submission replay to the
+   span schema; add invariants for offsets, surfaces, and replacement tokens.
+3. Change the browser wrapper and event handling so a complete span is one
+   tappable region while nested ruby nodes remain presentation-only.
+4. Generate strong-repair groups from rejected spans and regenerate all active
+   packs/queues. Existing local drafts should either be translated by exact
+   unit/offset matching or invalidated visibly rather than guessed.
+5. Remove kanji-target compatibility code after no active review artifact
+   depends on it.
+
 Segmentation editing belongs to the Escalated Repair confirmation UI. That UI
 can toggle split points between characters and rebuild the corresponding
 reading fields. Keeping this control out of Bulk Review avoids two competing

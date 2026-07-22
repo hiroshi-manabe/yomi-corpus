@@ -1816,6 +1816,56 @@ The candidate list should be derived from recorded evidence:
 - stable dictionary reading when available
 - no-ruby / remove reading
 
+Ruby placement and review interaction boundaries are separate concepts. Bulk
+Review must not use an individual kanji or an individual `<ruby>` node as its
+editable identity. Its normal editable unit is an **interaction span**: a
+surface span with one complete reading, normally one rendered-yomi token and,
+when necessary, a deliberately merged sequence of adjacent tokens. The span
+must include attached okurigana and other characters that participate in that
+reading. For example:
+
+```text
+corpus token:       後払い/アトバライ
+interaction span:  後払い
+ruby display:       後払(あとばら)い
+```
+
+Hovering, tapping, highlighting, candidate cycling, and no-ruby rejection all
+apply to the complete `後払い` interaction span, even though the ruby renderer
+places `<rt>あとばら</rt>` over only `後払`. Ruby nodes are therefore a derived
+display projection and must not be reused as target IDs or repair boundaries.
+
+Keep these layers explicit in review-pack and submission processing:
+
+- **corpus tokens** are the canonical `surface/reading` sequence stored and
+  exported by the pipeline
+- **interaction spans** are stable source-offset ranges used for review actions
+  and may cover one or more corpus tokens
+- **reading candidates** belong to the complete interaction span and carry a
+  replacement token sequence, not a mutation of one displayed kanji
+- **ruby ranges** are dictionary-derived display nodes inside an interaction
+  span and may cover only part of its surface
+
+An accepted candidate replaces the complete interaction span with its recorded
+token sequence. `No ruby` rejects that complete span and sends the same exact
+surface to Escalated Repair. Strong-repair proposals must concatenate to that
+surface, while being free to return different word boundaries. This prevents
+truncated repairs such as sending `後払` when the reviewed unit was `後払い`.
+
+Migration should be incremental:
+
+1. Add interaction-span IDs, source offsets, complete surfaces, candidates,
+   and ruby-display projections to review packs while retaining the current
+   target fields as compatibility data.
+2. Make candidate generation and submission replay operate on interaction
+   spans, then render the existing UI from those spans.
+3. Switch hit testing, highlighting, candidate cycling, and cancellation to the
+   complete interaction spans.
+4. Regenerate active review packs and strong-repair queues; finalized canonical
+   yomi does not require migration.
+5. Remove kanji-target compatibility fields only after active drafts and Issue
+   submissions using the old schema have been drained or explicitly retired.
+
 Changed spans should use a separate color from unresolved highlights. Removing
 the ruby or choosing an available alternate reading is a span-level override,
 not a whole-sentence rejection.
