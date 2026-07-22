@@ -6,11 +6,11 @@
       "track_name": "dev",
       "review_stage": "yomi_final_review",
       "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0021_v1",
-      "title": "Yomi final review / dev_batch_0021 / v1",
-      "path": "./packs/yomi_final_dev_batch_0021_v1.json",
-      "created_at_epoch": 1784697721,
-      "item_count": 126
+      "pack_id": "yomi_final_dev_batch_0022_v1",
+      "title": "Yomi final review / dev_batch_0022 / v1",
+      "path": "./packs/yomi_final_dev_batch_0022_v1.json",
+      "created_at_epoch": 1784700755,
+      "item_count": 192
     }
   },
   "current_review_queues": [
@@ -70,6 +70,24 @@
     },
     {
       "track_name": "dev",
+      "batch_name": "dev_batch_0022",
+      "review_stage": "yomi_final_review",
+      "label": "Yomi Final Review",
+      "pack_id": "yomi_final_dev_batch_0022_v1",
+      "title": "Yomi final review / dev_batch_0022 / v1",
+      "path": "./packs/yomi_final_dev_batch_0022_v1.json",
+      "created_at_epoch": 1784700755,
+      "item_count": 192,
+      "document_count": 10,
+      "selectable_document_count": 10,
+      "document_state_counts": {
+        "final_pending": 10
+      },
+      "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
       "batch_name": "dev_batch_0015",
       "review_stage": "yomi_strong_repair_review",
       "label": "Yomi Strong Repair Review",
@@ -108,6 +126,25 @@
     },
     {
       "track_name": "dev",
+      "batch_name": "dev_batch_0017",
+      "review_stage": "yomi_strong_repair_review",
+      "label": "Yomi Strong Repair Review",
+      "pack_id": "yomi_strong_repair_dev_batch_0017_v1",
+      "title": "Yomi strong repair review / dev_batch_0017 / v1",
+      "path": "./packs/yomi_strong_repair_dev_batch_0017_v1.json",
+      "created_at_epoch": 1784696590,
+      "item_count": 4,
+      "document_count": 10,
+      "selectable_document_count": 4,
+      "document_state_counts": {
+        "complete": 6,
+        "strong_pending": 4
+      },
+      "queue_id": "strong_repair",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
       "batch_name": "dev_batch_0018",
       "review_stage": "yomi_strong_repair_review",
       "label": "Yomi Strong Repair Review",
@@ -130,9 +167,9 @@
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
       "label": "Yomi Final Review",
-      "latest_pack_id": "yomi_final_dev_batch_0021_v1",
+      "latest_pack_id": "yomi_final_dev_batch_0022_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_0021_v1"
+        "dev": "yomi_final_dev_batch_0022_v1"
       },
       "packs": [
         {
@@ -407,7 +444,8 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "final_reviewed": 10
+            "complete": 6,
+            "strong_pending": 4
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -469,6 +507,22 @@
           "batch_name": "dev_batch_0021",
           "created_at_epoch": 1784697721,
           "item_count": 126,
+          "document_count": 10,
+          "selectable_document_count": 10,
+          "document_state_counts": {
+            "final_pending": 10
+          },
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_batch_0022_v1",
+          "title": "Yomi final review / dev_batch_0022 / v1",
+          "path": "./packs/yomi_final_dev_batch_0022_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0022",
+          "created_at_epoch": 1784700755,
+          "item_count": 192,
           "document_count": 10,
           "selectable_document_count": 10,
           "document_state_counts": {
@@ -709,9 +763,10 @@
           "created_at_epoch": 1784696590,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 0,
+          "selectable_document_count": 4,
           "document_state_counts": {
-            "final_pending": 10
+            "complete": 6,
+            "strong_pending": 4
           },
           "queue_id": "strong_repair",
           "status": "archived"
