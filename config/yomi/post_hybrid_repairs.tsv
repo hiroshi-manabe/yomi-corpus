@@ -1,3 +1,4 @@
 rule_id	pattern	replacement	status	source	note
 yomi_repair_0001	(?<!\S)若しくは/モシクワ(?!\S)	若しくは/モシクハ	active	manual_seed	final は should be ハ in yomi output
 yomi_repair_0002	(?<!\S)身近/ミジカ(?!\S)	身近/ミヂカ	active	manual_seed	prefer ミヂカ for 身近
+yomi_repair_0003	(?<!\S)私/ワタクシ(?!\S)	私/ワタシ	active	manual_seed	prefer the ordinary ワタシ reading as the review default

@@ -21,7 +21,7 @@
   "selection_policy": [
     "Use only human-reviewed, non-skipped finalized units.",
     "Exclude units with span overrides or strong-repair segmentation changes.",
-    "Exclude 日/か because calendar-date readings require a numeric span merge.",
+    "Exclude targets absorbed into a configured numeric compound such as 1日 or 2人.",
     "Prefer LLM-routed examples; include up to four deterministic examples per target.",
     "Round-robin across finalized readings and minimize repeated documents."
   ],
@@ -49,49 +49,49 @@
       "selected_batch_count": 4
     },
     "人": {
-      "finalized_candidate_count": 69,
+      "finalized_candidate_count": 67,
       "finalized_candidate_readings": {
         "じん": 5,
         "にん": 6,
-        "ひと": 56,
-        "り": 2
+        "ひと": 56
       },
       "finalized_candidate_routes": {
         "deterministic": 10,
-        "llm_routed": 59
+        "llm_routed": 57
       },
       "selected_count": 20,
       "selected_readings": {
         "じん": 5,
-        "にん": 5,
-        "ひと": 8,
-        "り": 2
+        "にん": 6,
+        "ひと": 9
       },
       "selected_routes": {
         "deterministic": 4,
         "llm_routed": 16
       },
-      "selected_document_count": 11,
+      "selected_document_count": 10,
       "selected_batch_count": 3
     },
     "日": {
-      "finalized_candidate_count": 33,
+      "finalized_candidate_count": 27,
       "finalized_candidate_readings": {
-        "にち": 25,
-        "ひ": 8
+        "にち": 19,
+        "ひ": 7,
+        "び": 1
       },
       "finalized_candidate_routes": {
-        "llm_routed": 33
+        "llm_routed": 27
       },
       "selected_count": 20,
       "selected_readings": {
         "にち": 12,
-        "ひ": 8
+        "ひ": 7,
+        "び": 1
       },
       "selected_routes": {
         "llm_routed": 20
       },
-      "selected_document_count": 17,
+      "selected_document_count": 16,
       "selected_batch_count": 5
     },
     "月": {

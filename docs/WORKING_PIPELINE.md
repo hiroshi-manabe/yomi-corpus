@@ -264,7 +264,9 @@ memory to the rendered yomi string. The first implementation treats all repair
 rules as regular-expression substitutions over whitespace-separated rendered
 pairs, using `config/yomi/post_hybrid_repairs.tsv`. This layer is for known
 systematic fixes such as `若しくは/モシクワ -> 若しくは/モシクハ` and
-`身近/ミジカ -> 身近/ミヂカ`; it does not make a unit safe by itself. Each
+`身近/ミジカ -> 身近/ミヂカ`. It also normalizes Sudachi's formal
+`私/ワタクシ` default to the more ordinary `私/ワタシ`; other readings remain
+available as review candidates. This layer does not make a unit safe by itself. Each
 application must be logged in `analysis.mechanical.yomi.post_hybrid_repairs`
 with the rule ID, matched string, replacement, count, and source.
 
@@ -593,6 +595,12 @@ one token:
 spam, and similar non-target material. The prompt should avoid project-internal
 terms such as "kobun/kanbun stage" except as examples; the operational concept
 is simply target vs. non-target.
+
+Obvious source corruption is also non-target. Skip text with severe,
+nonstandard OCR damage or flattened ruby in which base characters and readings
+have been interleaved into the source, rather than trying to reconstruct the
+author's intended sentence. This rule does not cover an isolated ordinary typo
+or routine web noise; those remain modern Japanese target text.
 
 `Skip` also covers privacy or reputational-risk material that identifies a
 private person together with sensitive negative information. Examples include
@@ -1399,8 +1407,11 @@ The deterministic table covers both ASCII and full-width digits:
 Store these as fused tokens with their lexicalized reading, for example
 `2日/フツカ`, `24日/ニジュウヨッカ`, `2人/フタリ`, and `9つ/ココノツ`.
 They are deterministic pipeline decisions and do not create independent LLM
-reading targets. Keep the rule inventory centralized so its behavior and
-future additions remain auditable.
+reading targets. They are nevertheless exposed as safe, editable units in Bulk
+Review. The deterministic reading is the default, but the reviewer can cancel
+the ruby for the complete compound (for example, `6日`) and send that local
+span through escalated repair. Keep the rule inventory centralized so its
+behavior and future additions remain auditable.
 
 Sudachi may combine the date suffix with `間`, as in `3/ 日間/カカン`. Normalize
 that shape to `3日/ミッカ 間/カン`; the lexicalized date rule still applies, but

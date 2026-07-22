@@ -26,6 +26,7 @@ from yomi_corpus.review_sync import (
     build_decoder_refresh_plan,
     build_bulk_review_refill_plan,
     close_finalized_correction_issues,
+    closable_issue_numbers,
     current_document_queue_summary,
     has_strong_pending_documents,
     load_review_sync_config,
@@ -125,6 +126,34 @@ class FakeSweepWorkspace:
 
 
 class ReviewSyncTests(unittest.TestCase):
+    def test_apply_failed_submission_keeps_issue_open_until_retry_succeeds(self) -> None:
+        import_summary = {
+            "status": "ok",
+            "summaries": [
+                {"submission_id": "ok", "source": {"issue_number": 10}},
+                {"submission_id": "failed", "source": {"issue_number": 11}},
+            ],
+            "skipped": [],
+        }
+
+        self.assertEqual(
+            closable_issue_numbers(import_summary, failed_submission_ids={"failed"}),
+            [10],
+        )
+
+        duplicate_retry = {
+            "status": "ok",
+            "summaries": [],
+            "skipped": [
+                {
+                    "reason": "duplicate_submission_id",
+                    "submission_id": "failed",
+                    "source": {"issue_number": 11},
+                }
+            ],
+        }
+        self.assertEqual(closable_issue_numbers(duplicate_retry), [11])
+
     def test_reconcile_closes_issue_applied_before_interruption(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

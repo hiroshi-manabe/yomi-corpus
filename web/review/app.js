@@ -691,6 +691,7 @@ function populateStageSelect(stageIds) {
 }
 
 function render() {
+  syncLocalTaskRecordsForCurrentPack();
   renderCurrentTracks();
   renderPackList();
   renderPackSummary();
@@ -1880,6 +1881,12 @@ function validateRenderedYomiReading(surface, reading) {
   if (isNumericOnlySurface(surface)) {
     return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
   }
+  const numericReadings = numericCompoundReadings(surface);
+  if (numericReadings) {
+    return numericReadings.includes(reading)
+      ? { ok: true }
+      : { ok: false, error: `reading should be one of ${numericReadings.join(", ")}.` };
+  }
   if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
@@ -1893,6 +1900,38 @@ function validateRenderedYomiReading(surface, reading) {
     return { ok: true };
   }
   return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
+}
+
+function numericCompoundReadings(surface) {
+  const normalized = String(surface || "").replace(/[０-９]/gu, (char) =>
+    String.fromCharCode(char.charCodeAt(0) - 0xfee0),
+  );
+  return {
+    "1日": ["イチニチ", "ツイタチ"],
+    "2日": ["フツカ"],
+    "3日": ["ミッカ"],
+    "4日": ["ヨッカ"],
+    "5日": ["イツカ"],
+    "6日": ["ムイカ"],
+    "7日": ["ナノカ"],
+    "8日": ["ヨウカ"],
+    "9日": ["ココノカ"],
+    "10日": ["トオカ"],
+    "14日": ["ジュウヨッカ"],
+    "20日": ["ハツカ"],
+    "24日": ["ニジュウヨッカ"],
+    "1人": ["ヒトリ"],
+    "2人": ["フタリ"],
+    "1つ": ["ヒトツ"],
+    "2つ": ["フタツ"],
+    "3つ": ["ミッツ"],
+    "4つ": ["ヨッツ"],
+    "5つ": ["イツツ"],
+    "6つ": ["ムッツ"],
+    "7つ": ["ナナツ"],
+    "8つ": ["ヤッツ"],
+    "9つ": ["ココノツ"],
+  }[normalized] || null;
 }
 
 function isNumericOnlySurface(surface) {
@@ -2163,13 +2202,17 @@ function renderWorkflowTile(row, { compact }) {
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
   tile.classList.toggle("submitted", Boolean(row.submitted));
+  tile.classList.toggle("apply-failed", Boolean(row.apply_failed));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
+    ${row.apply_failed ? '<em class="workflow-apply-failed-badge">Apply failed</em>' : ""}
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
+  } else if (row.apply_failed) {
+    tile.title = "The submitted correction could not be applied. Its GitHub issue remains open.";
   } else if (row.submitted) {
     tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
@@ -2372,6 +2415,9 @@ function workflowPreviewActionDocument(docs, row) {
 }
 
 function workflowPreviewMetaText(row, items, actionDoc) {
+  if (row.apply_failed) {
+    return `Apply failed · ${items.length} item(s) · reopen after the server-side problem is fixed`;
+  }
   const statusLabel = row.status === "strong"
     ? "Escalated Repair"
     : row.status === "final"
@@ -2458,10 +2504,12 @@ function workflowDocumentStates(docs) {
         preview: doc.preview || "",
         completed_via: "",
         submitted: false,
+        apply_failed: false,
       });
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
+    row.apply_failed = row.apply_failed || String(doc.state || "") === "strong_apply_failed";
     if (documentIsResolved(doc)) {
       if (!["final", "strong"].includes(row.status)) {
         row.status = "resolved";
@@ -2507,7 +2555,8 @@ function documentHasPendingCanonicalState(doc) {
     stateName === "final_in_review" ||
     stateName === "final_reviewed" ||
     stateName === "strong_pending" ||
-    stateName === "strong_in_review"
+    stateName === "strong_in_review" ||
+    stateName === "strong_apply_failed"
   );
 }
 
@@ -2560,6 +2609,7 @@ function workflowDocumentStateForQueueDoc(doc) {
     preview: doc.preview || "",
     submitted,
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
+    apply_failed: String(doc.state || "") === "strong_apply_failed",
   };
 }
 
@@ -2611,7 +2661,11 @@ function queueStatusFromDocumentState(doc) {
   if (stateName.startsWith("final_")) {
     return "final";
   }
-  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+  if (
+    stateName === "strong_pending" ||
+    stateName === "strong_in_review" ||
+    stateName === "strong_apply_failed"
+  ) {
     return "strong";
   }
   return null;
@@ -2675,7 +2729,6 @@ function renderSavedTaskDrafts(docs) {
   if (!el.taskDraftList) {
     return;
   }
-  syncLocalTaskRecordsForCurrentPack();
   const savedTasks = listSavedTaskDrafts();
   el.taskDraftList.innerHTML = "";
   if (savedTasks.length === 0) {
@@ -3051,6 +3104,19 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   afterLine.append(...renderStrongRepairAfterLine(item, override, editable));
   node.append(afterLine);
 
+  const comments = strongRepairRegions(item).flatMap((region) => region.llm_comments || []);
+  const distinctComments = [...new Set(comments.filter(Boolean))];
+  if (distinctComments.length) {
+    const commentBlock = document.createElement("div");
+    commentBlock.className = "strong-repair-llm-comments";
+    for (const comment of distinctComments) {
+      const line = document.createElement("p");
+      line.textContent = `LLM: ${comment}`;
+      commentBlock.append(line);
+    }
+    node.append(commentBlock);
+  }
+
   const details = document.createElement("details");
   details.className = "strong-repair-debug";
   const summary = document.createElement("summary");
@@ -3122,19 +3188,29 @@ function formatRepairProposal(rows) {
 }
 
 function renderStrongRepairAfterLine(item, override, editable) {
-  const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
+  const tokens = item.rendered_yomi_after_tokens?.length
+    ? yomiTokenPairObjects(item.rendered_yomi_after_tokens)
+    : parseRenderedYomiTokens(item.rendered_yomi_after || "");
   const matches = [];
   const usedMatches = new Set();
+  const mappingErrors = [];
   for (const region of strongRepairRegions(item)) {
     const span = region.rejected_span || "";
-    const match = span
-      ? findRenderedTokenSpans(tokens, span).find(
-          (candidate) => !usedMatches.has(strongRepairMatchKey(candidate)),
-        )
-      : null;
+    const candidates = span ? findRenderedTokenSpans(tokens, span) : [];
+    const preferred = region.display_mapping;
+    const match = candidates.find(
+      (candidate) =>
+        !usedMatches.has(strongRepairMatchKey(candidate)) &&
+        (!preferred || strongRepairMappingsEqual(candidate, preferred)),
+    );
     if (match) {
+      const editorMatch = strongRepairEditorMatch(match, region, tokens);
       usedMatches.add(strongRepairMatchKey(match));
-      matches.push({ ...match, region });
+      matches.push({ ...editorMatch, region });
+    } else {
+      mappingErrors.push(
+        region.mapping_error || `Cannot map rejected span: ${span || "(empty)"}`,
+      );
     }
   }
   matches.sort((left, right) => left.start - right.start || left.end - right.end);
@@ -3147,7 +3223,11 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
   }
   if (!usableMatches.length) {
-    return tokens.flatMap((token, index) => renderReadonlyRubyFromToken(item, token, index));
+    const nodes = tokens.flatMap((token, index) =>
+      renderReadonlyRubyFromToken(item, token, index),
+    );
+    nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
+    return nodes;
   }
   const nodes = [];
   const byStart = new Map(usableMatches.map((match) => [match.start, match]));
@@ -3166,7 +3246,41 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
     nodes.push(...renderReadonlyRubyFromToken(item, tokens[index], index));
   }
+  nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
+}
+
+function strongRepairEditorMatch(match, region, tokens) {
+  const editorSurface = defaultStrongRepairSegments(region)
+    .map((segment) => segment.surface || "")
+    .join("");
+  const mappedSurface = tokens
+    .slice(match.start, match.end)
+    .map((token) => token.surface || "")
+    .join("");
+  if (editorSurface && editorSurface === mappedSurface) {
+    return { ...match, prefix: "", suffix: "" };
+  }
+  return match;
+}
+
+function strongRepairMappingsEqual(left, right) {
+  return (
+    Number(left.start) === Number(right.start) &&
+    Number(left.end) === Number(right.end) &&
+    Number(left.start_offset || 0) === Number(right.start_offset || 0) &&
+    Number(left.end_offset || 0) === Number(right.end_offset || 0)
+  );
+}
+
+function renderStrongRepairMappingErrors(errors) {
+  return errors.map((message) => {
+    const node = document.createElement("span");
+    node.className = "strong-repair-mapping-error";
+    node.textContent = "mapping error";
+    node.title = message;
+    return node;
+  });
 }
 
 function strongRepairMatchKey(match) {
@@ -3178,41 +3292,51 @@ function strongRepairRegions(item) {
 }
 
 function findRenderedTokenSpans(tokens, surfaceSpan) {
+  if (!surfaceSpan) {
+    return [];
+  }
+  const surfaces = tokens.map((token) => token.surface || "");
+  const starts = [];
+  let combined = "";
+  for (const surface of surfaces) {
+    starts.push(combined.length);
+    combined += surface;
+  }
   const matches = [];
-  for (let start = 0; start < tokens.length; start += 1) {
-    let surface = "";
-    for (let end = start + 1; end <= tokens.length; end += 1) {
-      surface += tokens[end - 1].surface || "";
-      if (surface === surfaceSpan) {
-        matches.push({ start, end });
-        break;
+  let searchFrom = 0;
+  while (searchFrom <= combined.length - surfaceSpan.length) {
+    const charStart = combined.indexOf(surfaceSpan, searchFrom);
+    if (charStart < 0) {
+      break;
+    }
+    const charEnd = charStart + surfaceSpan.length;
+    const start = starts.findIndex(
+      (tokenStart, index) =>
+        tokenStart <= charStart && charStart < tokenStart + surfaces[index].length,
+    );
+    const endIndex = starts.findIndex(
+      (tokenStart, index) =>
+        tokenStart < charEnd && charEnd <= tokenStart + surfaces[index].length,
+    );
+    if (start >= 0 && endIndex >= 0) {
+      const startOffset = charStart - starts[start];
+      const endOffset = charEnd - starts[endIndex];
+      const prefix = surfaces[start].slice(0, startOffset);
+      const suffix = surfaces[endIndex].slice(endOffset);
+      if (/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
+        matches.push({
+          start,
+          end: endIndex + 1,
+          start_offset: startOffset,
+          end_offset: endOffset,
+          prefix,
+          suffix,
+        });
       }
-      if (!surfaceSpan.startsWith(surface)) {
-        break;
-      }
     }
+    searchFrom = charStart + 1;
   }
-  if (matches.length) {
-    return matches;
-  }
-  const internalMatches = [];
-  for (let index = 0; index < tokens.length; index += 1) {
-    const tokenSurface = tokens[index].surface || "";
-    const offset = tokenSurface.indexOf(surfaceSpan);
-    if (offset < 0 || tokenSurface.indexOf(surfaceSpan, offset + surfaceSpan.length) >= 0) {
-      continue;
-    }
-    const prefix = tokenSurface.slice(0, offset);
-    const suffix = tokenSurface.slice(offset + surfaceSpan.length);
-    if (!prefix && !suffix) {
-      continue;
-    }
-    if (!/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
-      continue;
-    }
-    internalMatches.push({ start: index, end: index + 1, prefix, suffix });
-  }
-  return internalMatches;
+  return matches;
 }
 
 function renderStrongRepairSpanEditor(item, region, override, editable) {
@@ -3252,17 +3376,19 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
         : defaultStrongRepairSegments(region);
-      const hadManualSegments = Boolean(current.manual_segments?.length);
       currentSegments[index].reading = input.value;
       currentSegments[index].edited = true;
       setStrongRepairManualSegments(item, region, currentSegments);
       touchDraft();
       const nextRegion = strongRepairRegionOverride(state.currentDraft.overrides[item.item_id], region);
-      if (hadManualSegments !== Boolean(nextRegion?.manual_segments?.length)) {
-        render();
-      } else {
-        renderSubmissionPreview();
-      }
+      const previewSegments = nextRegion?.manual_segments?.length
+        ? nextRegion.manual_segments
+        : currentSegments;
+      wrapper.classList.toggle("changed", Boolean(nextRegion?.manual_segments?.length));
+      preview.replaceChildren(
+        ...renderStrongRepairSegmentRuby(item, region, previewSegments, editable),
+      );
+      renderSubmissionPreview();
     });
     label.append(surface, input);
     fields.append(label);
@@ -3422,16 +3548,21 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   const ordered = [...indexes].sort((a, b) => a - b);
   const chars = Array.from(region.rejected_span || "");
   let start = 0;
-  const nextSegments = [];
+  const surfaces = [];
   for (const end of [...ordered, chars.length]) {
-    const surface = chars.slice(start, end).join("");
-    nextSegments.push({
-      surface,
-      reading: defaultStrongRepairReadingForSegment(region, surface, previousSegments),
-      edited: false,
-    });
+    surfaces.push(chars.slice(start, end).join(""));
     start = end;
   }
+  const readings = defaultStrongRepairReadingsForSegments(
+    region,
+    surfaces,
+    previousSegments,
+  );
+  const nextSegments = surfaces.map((surface, index) => ({
+    surface,
+    reading: readings[index] || "",
+    edited: false,
+  }));
   setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
   render();
@@ -3572,6 +3703,85 @@ function defaultStrongRepairReadingForSegment(region, surface, previousSegments)
     return targetReading;
   }
   return "";
+}
+
+function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegments) {
+  const knownWholeReadings = strongRepairKnownWholeReadings(region);
+  const candidates = surfaces.map((surface) => {
+    const values = [];
+    const previous = (previousSegments || []).find(
+      (segment) => segment.surface === surface && segment.reading,
+    );
+    if (previous?.reading) {
+      values.push(previous.reading);
+    }
+    for (const reading of strongRepairReadingCycleCandidates(region, surface)) {
+      if (reading && !values.includes(reading)) {
+        values.push(reading);
+      }
+    }
+    return values;
+  });
+  for (const wholeReading of knownWholeReadings) {
+    const matched = matchStrongRepairSegmentReadings(candidates, wholeReading);
+    if (matched) {
+      return matched;
+    }
+  }
+  return surfaces.map((surface) =>
+    defaultStrongRepairReadingForSegment(region, surface, previousSegments),
+  );
+}
+
+function strongRepairKnownWholeReadings(region) {
+  const span = region.rejected_span || "";
+  const values = [];
+  const add = (reading) => {
+    const normalized = katakanaToHiragana(String(reading || ""));
+    if (normalized && !values.includes(normalized)) {
+      values.push(normalized);
+    }
+  };
+  const addRows = (rows) => {
+    if ((rows || []).map((row) => row?.surface || "").join("") === span) {
+      add((rows || []).map((row) => row?.reading || "").join(""));
+    }
+  };
+  addRows(region.llm_parsed || []);
+  addRows(region.repair_log?.replacement || []);
+  addRows(region.rejected_readings || []);
+  addRows(
+    (region.target_escalations || []).map((target) => ({
+      surface: target.surface,
+      reading: target.current_reading_hiragana,
+    })),
+  );
+  for (const reading of region.reading_candidates?.[span] || []) {
+    add(reading);
+  }
+  add(region.reading_hints?.[span]);
+  return values;
+}
+
+function matchStrongRepairSegmentReadings(candidates, wholeReading) {
+  const match = [];
+  const visit = (index, prefix) => {
+    if (index === candidates.length) {
+      return prefix === wholeReading;
+    }
+    for (const reading of candidates[index]) {
+      const next = prefix + reading;
+      if (!wholeReading.startsWith(next)) {
+        continue;
+      }
+      match[index] = reading;
+      if (visit(index + 1, next)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return visit(0, "") ? [...match] : null;
 }
 
 function readingFromStrongRepairTargets(targets, surface) {
@@ -3885,8 +4095,8 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
   let remaining = text;
 
-  const trailing = nextMergeEligible ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
-  const leading = previousMergeEligible ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
+  const trailing = nextMergeEligible ? numericMergeRun(remaining, "trailing") : "";
+  const leading = previousMergeEligible ? numericMergeRun(remaining, "leading") : "";
   if (trailing && trailing.length < remaining.length) {
     nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
     remaining = trailing;
@@ -3903,6 +4113,16 @@ function renderYomiTextSegmentWithNumericMerge(
     nodes.push(document.createTextNode(remaining));
   }
   return nodes;
+}
+
+function numericMergeRun(text, side) {
+  // Keep adjacent numeral systems separate: in GⅠ９勝, Ⅰ belongs with G while ９ may
+  // independently belong with 勝.
+  const roman = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ";
+  const pattern = side === "trailing"
+    ? new RegExp(`([0-9０-９]+|[${roman}]+)$`, "u")
+    : new RegExp(`^([0-9０-９]+|[${roman}]+)`, "u");
+  return text.match(pattern)?.[1] || "";
 }
 
 function targetForRubySegment(segment, targetsById) {
@@ -4917,13 +5137,43 @@ function filterOverridesForTask(pack, task, overrides) {
     return {};
   }
   const itemIds = itemIdsForTaskDocIds(pack, task.doc_ids);
+  const itemsById = new Map((pack.items || []).map((item) => [item.item_id, item]));
   const filtered = {};
   for (const [itemId, override] of Object.entries(overrides || {})) {
     if (itemIds.has(itemId)) {
-      filtered[itemId] = override;
+      const normalized = normalizeStoredOverrideForItem(pack, itemsById.get(itemId), override);
+      if (normalized) {
+        filtered[itemId] = normalized;
+      }
     }
   }
   return filtered;
+}
+
+function normalizeStoredOverrideForItem(pack, item, override) {
+  if (!item || itemReviewStageForPack(item, pack) !== "yomi_strong_repair_review") {
+    return override;
+  }
+  const regionsById = new Map(
+    strongRepairRegions(item).map((region) => [region.region_id || region.item_id, region]),
+  );
+  const regions = {};
+  for (const [regionId, storedRegion] of Object.entries(override?.regions || {})) {
+    const currentRegion = regionsById.get(regionId);
+    const segments = normalizeStrongRepairSegments(storedRegion?.manual_segments || []);
+    if (
+      currentRegion &&
+      segments.length > 0 &&
+      segments.map((segment) => segment.surface).join("") === currentRegion.rejected_span
+    ) {
+      regions[regionId] = { ...storedRegion, manual_segments: segments };
+    }
+  }
+  const note = String(override?.note || "").trim();
+  if (Object.keys(regions).length === 0 && !note) {
+    return null;
+  }
+  return { ...override, note, regions };
 }
 
 function taskQueueStage(task) {
@@ -4965,6 +5215,7 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
+  const migratedActiveRecords = [];
   const changedKeys = new Set();
   const draftKeys = localDraftStorageKeys();
 
@@ -5001,6 +5252,28 @@ function syncLocalTaskRecordsForCurrentPack() {
         sourceChanged = true;
       }
     }
+    if (key !== currentKey) {
+      const rawActiveRecord = localTaskRecordFromActiveDraft(parsed);
+      const normalizedActive = normalizeLocalTaskRecordForCurrentPack(rawActiveRecord, sourceStage);
+      if (normalizedActive) {
+        const activeTaskId = uniqueTaskIdForRecords(
+          normalizedActive.task_id || "migrated_active_task",
+          currentRecords,
+        );
+        const migrated = { ...normalizedActive, task_id: activeTaskId };
+        currentRecords[activeTaskId] = migrated;
+        migratedActiveRecords.push(migrated);
+      }
+      if (rawActiveRecord) {
+        parsed.active_task_id = null;
+        parsed.active_task_label = null;
+        parsed.task = { mode: "documents", doc_ids: [], started: false };
+        parsed.from_seq = null;
+        parsed.to_seq = null;
+        parsed.overrides = {};
+        sourceChanged = true;
+      }
+    }
     if (key === currentKey) {
       continue;
     }
@@ -5016,11 +5289,44 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
 
   const before = JSON.stringify(state.currentDraft.saved_tasks || {});
+  if (!isTaskStarted() && migratedActiveRecords.length > 0) {
+    const active = [...migratedActiveRecords].sort(
+      (left, right) => Number(right.updated_at_epoch || 0) - Number(left.updated_at_epoch || 0),
+    )[0];
+    state.currentDraft.active_task_id = active.task_id;
+    state.currentDraft.active_task_label = active.task_label || active.task_id;
+    state.currentDraft.task = {
+      ...normalizeTask(active.task, state.currentPack),
+      started: true,
+    };
+    state.currentDraft.from_seq = active.from_seq ?? null;
+    state.currentDraft.to_seq = active.to_seq ?? null;
+    state.currentDraft.overrides = cloneJson(active.overrides || {});
+    delete currentRecords[active.task_id];
+  }
   state.currentDraft.saved_tasks = currentRecords;
   const after = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (before !== after || changedKeys.size > 0) {
     saveDraft();
   }
+}
+
+function localTaskRecordFromActiveDraft(draft) {
+  if (!draft?.task?.started || !taskDocIdsForStorageTask(draft.task).length) {
+    return null;
+  }
+  const taskId = draft.active_task_id || "migrated_active_task";
+  return {
+    task_id: taskId,
+    task_label: draft.active_task_label || taskId,
+    task_number: taskNumberFromId(taskId),
+    status: "deferred",
+    task: { ...draft.task, started: false },
+    from_seq: draft.from_seq ?? null,
+    to_seq: draft.to_seq ?? null,
+    overrides: cloneJson(draft.overrides || {}),
+    updated_at_epoch: draft.updated_at_epoch || null,
+  };
 }
 
 function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {

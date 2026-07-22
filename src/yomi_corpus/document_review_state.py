@@ -14,6 +14,7 @@ STATE_FINAL_IN_REVIEW = "final_in_review"
 STATE_FINAL_REVIEWED = "final_reviewed"
 STATE_STRONG_PENDING = "strong_pending"
 STATE_STRONG_IN_REVIEW = "strong_in_review"
+STATE_STRONG_APPLY_FAILED = "strong_apply_failed"
 STATE_STRONG_REVIEWED = "strong_reviewed"
 STATE_COMPLETE = "complete"
 STATE_SKIPPED = "skipped"
@@ -39,6 +40,7 @@ VALID_DOCUMENT_STATES = frozenset(
         STATE_FINAL_REVIEWED,
         STATE_STRONG_PENDING,
         STATE_STRONG_IN_REVIEW,
+        STATE_STRONG_APPLY_FAILED,
         STATE_STRONG_REVIEWED,
         STATE_COMPLETE,
         STATE_SKIPPED,
@@ -47,7 +49,9 @@ VALID_DOCUMENT_STATES = frozenset(
 
 BULK_REVIEW_SELECTABLE_STATES = frozenset({STATE_FINAL_PENDING, STATE_FINAL_IN_REVIEW})
 BULK_REVIEW_SUBMITTED_STATES = frozenset({STATE_FINAL_REVIEWED})
-ESCALATED_REPAIR_SELECTABLE_STATES = frozenset({STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW})
+ESCALATED_REPAIR_SELECTABLE_STATES = frozenset(
+    {STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW, STATE_STRONG_APPLY_FAILED}
+)
 ESCALATED_REPAIR_SUBMITTED_STATES = frozenset({STATE_STRONG_REVIEWED})
 RESOLVED_STATES = frozenset({STATE_COMPLETE, STATE_SKIPPED})
 
@@ -57,6 +61,7 @@ DOCUMENT_STATE_TO_WORKFLOW_STATE = {
     STATE_FINAL_REVIEWED: WORKFLOW_STATE_BULK_SUBMITTED,
     STATE_STRONG_PENDING: WORKFLOW_STATE_ESCALATED_REPAIR,
     STATE_STRONG_IN_REVIEW: WORKFLOW_STATE_ESCALATED_REPAIR,
+    STATE_STRONG_APPLY_FAILED: WORKFLOW_STATE_ESCALATED_REPAIR,
     STATE_STRONG_REVIEWED: WORKFLOW_STATE_ESCALATED_SUBMITTED,
     STATE_COMPLETE: WORKFLOW_STATE_RESOLVED,
     STATE_SKIPPED: WORKFLOW_STATE_RESOLVED,
@@ -169,7 +174,7 @@ def document_pool_label(
         return POOL_LABEL_BULK_SUBMITTED
     if state == STATE_STRONG_PENDING:
         return POOL_LABEL_ESCALATED_READY if repair_proposals_available else POOL_LABEL_BULK_SUBMITTED
-    if state == STATE_STRONG_IN_REVIEW:
+    if state in {STATE_STRONG_IN_REVIEW, STATE_STRONG_APPLY_FAILED}:
         return POOL_LABEL_ESCALATED_READY
     if state == STATE_STRONG_REVIEWED:
         return POOL_LABEL_ESCALATED_SUBMITTED
@@ -325,24 +330,45 @@ def update_document_review_state_after_strong_review(
         if isinstance(item, dict) and item.get("item_id")
     }
     rejected_doc_ids = {item_doc_ids.get(item_id, "") for item_id in rejected_items}
+    application_failures = [
+        row
+        for row in review_summary.get("manual_segment_overrides", {}).get("invalid", [])
+        if isinstance(row, dict)
+    ]
     invalid_manual_count = int(
         review_summary.get("manual_segment_overrides", {}).get("invalid_items", 0)
     )
+    has_unattributed_failure = invalid_manual_count > len(application_failures)
+    failures_by_doc: dict[str, list[dict[str, Any]]] = {}
+    for failure in application_failures:
+        doc_id = str(failure.get("doc_id") or "")
+        if doc_id:
+            failures_by_doc.setdefault(doc_id, []).append(failure)
     now = now_iso()
     for document in updated["documents"]:
-        if document["state"] not in {STATE_STRONG_PENDING, STATE_STRONG_IN_REVIEW}:
+        if document["state"] not in {
+            STATE_STRONG_PENDING,
+            STATE_STRONG_IN_REVIEW,
+            STATE_STRONG_APPLY_FAILED,
+        }:
             continue
         doc_id = str(document["doc_id"])
         total = int(document.get("strong_repair_item_count") or 0)
         reviewed = int(reviewed_doc_counts.get(doc_id, 0))
-        if total <= 0:
+        failures = failures_by_doc.get(doc_id, [])
+        if failures:
+            document["state"] = STATE_STRONG_APPLY_FAILED
+            document["application_failures"] = failures
+        elif total <= 0:
             document["state"] = STATE_COMPLETE
         elif reviewed < total:
             document["state"] = STATE_STRONG_IN_REVIEW if reviewed else STATE_STRONG_PENDING
-        elif doc_id in rejected_doc_ids or invalid_manual_count:
+        elif doc_id in rejected_doc_ids or has_unattributed_failure:
             document["state"] = STATE_STRONG_IN_REVIEW
         else:
             document["state"] = STATE_STRONG_REVIEWED
+        if not failures:
+            document.pop("application_failures", None)
         document["updated_at"] = now
     updated["updated_at"] = now
     return with_summary(updated)

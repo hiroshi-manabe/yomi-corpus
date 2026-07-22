@@ -23,6 +23,7 @@ class LLMTaskConfig:
     text_format: str | None = None
     enable_web_search: bool = False
     web_search_context_size: str | None = None
+    yomi_reading_context_side_chars: int | None = None
 
 
 @dataclass(frozen=True)

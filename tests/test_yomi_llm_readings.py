@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import json
 import tempfile
 import unittest
@@ -71,8 +72,9 @@ def unit() -> dict:
 
 
 class YomiLLMReadingsTests(unittest.TestCase):
-    def test_yomi_prompt_clips_only_pathologically_long_context(self) -> None:
+    def test_yomi_prompt_legacy_context_clips_only_pathologically_long_context(self) -> None:
         task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        task_config = replace(task_config, yomi_reading_context_side_chars=None)
         text = ("前" * 150) + "学校" + ("後" * 150)
         row = {
             "item_id": "long:r0001c01",
@@ -108,8 +110,9 @@ class YomiLLMReadingsTests(unittest.TestCase):
             },
         )
 
-    def test_yomi_prompt_keeps_context_at_threshold(self) -> None:
+    def test_yomi_prompt_legacy_context_keeps_context_at_threshold(self) -> None:
         task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        task_config = replace(task_config, yomi_reading_context_side_chars=None)
         text = ("前" * 99) + "学校" + ("後" * 99)
         marked_text = ("前" * 99) + "**学校**" + ("後" * 99)
         row = {
@@ -125,6 +128,71 @@ class YomiLLMReadingsTests(unittest.TestCase):
 
         self.assertIn(marked_text, item.prompt)
         self.assertFalse(item.metadata["prompt_context"]["clipped"])
+
+    def test_yomi_prompt_production_defaults_use_generic_object_and_40_char_context(self) -> None:
+        task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        text = ("前" * 50) + "学校" + ("後" * 50)
+        row = {
+            "item_id": "production:r0001c01",
+            "surface": "学校",
+            "text": text,
+            "marked_text": ("前" * 50) + "**学校**" + ("後" * 50),
+            "target_start": 50,
+            "target_end": 52,
+        }
+
+        item = build_prompt_items(task_config, [row])[0]
+
+        expected_context = "…" + ("前" * 40) + "**学校**" + ("後" * 40) + "…"
+        self.assertEqual(task_config.yomi_reading_context_side_chars, 40)
+        self.assertIn(expected_context + '->{"...":"..."}', item.prompt)
+        self.assertNotIn("前" * 41, item.prompt)
+
+    def test_yomi_prompt_can_force_a_short_context_window(self) -> None:
+        task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        task_config = replace(task_config, yomi_reading_context_side_chars=3)
+        row = {
+            "item_id": "short:r0001c01",
+            "surface": "学校",
+            "text": "前前前前学校後後後後",
+            "marked_text": "前前前前**学校**後後後後",
+            "target_start": 4,
+            "target_end": 6,
+        }
+
+        item = build_prompt_items(task_config, [row])[0]
+
+        self.assertIn("…前前前**学校**後後後…", item.prompt)
+        self.assertEqual(
+            item.metadata["prompt_context"],
+            {
+                "clipped": True,
+                "original_text_chars": 10,
+                "context_mode": "fixed_side_chars",
+                "side_context_chars": 3,
+                "context_start": 1,
+                "context_end": 9,
+                "left_clipped": True,
+                "right_clipped": True,
+                "prompt_text_chars": 8,
+            },
+        )
+
+    def test_yomi_prompt_can_keep_only_the_target(self) -> None:
+        task_config = load_llm_task_config("config/llm/yomi_reading.toml")
+        task_config = replace(task_config, yomi_reading_context_side_chars=0)
+        row = {
+            "item_id": "target-only:r0001c01",
+            "surface": "学校",
+            "text": "前学校後",
+            "marked_text": "前**学校**後",
+            "target_start": 1,
+            "target_end": 3,
+        }
+
+        item = build_prompt_items(task_config, [row])[0]
+
+        self.assertIn("…**学校**…", item.prompt)
 
     def test_build_items_marks_sudachi_tokens(self) -> None:
         items = build_yomi_llm_reading_items(unit())
@@ -709,7 +777,9 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(prompts[0].item_id, item["item_id"])
         self.assertIn('目が**痛**い。->{"痛":"いた"}', prompts[0].prompt)
         self.assertIn("学校は**上**です。", prompts[0].prompt)
-        self.assertTrue(prompts[0].prompt.rstrip().endswith("学校は**上**です。->"))
+        self.assertTrue(
+            prompts[0].prompt.rstrip().endswith('学校は**上**です。->{"...":"..."}')
+        )
         self.assertNotIn('"学校"', prompts[0].prompt)
 
     def test_build_completion_prompt_prefills_target_key(self) -> None:

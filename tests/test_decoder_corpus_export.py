@@ -21,6 +21,7 @@ def test_export_decoder_corpus_file_writes_minimal_raw_suw(tmp_path: Path) -> No
     rows = [
         {
             "unit_id": "u1",
+            "text": "近々です。",
             "analysis": {
                 "mechanical": {
                     "yomi": {
@@ -55,4 +56,3 @@ def test_export_decoder_corpus_file_writes_minimal_raw_suw(tmp_path: Path) -> No
     manifest = json.loads(manifest_json.read_text(encoding="utf-8"))
     assert manifest["source_name"] == "dev_batch_test"
     assert manifest["format"] == "raw_suw_yomi_minimal_v1"
-

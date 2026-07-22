@@ -74,6 +74,12 @@ def score_output(
     if task_name == "yomi_reading":
         expected_surface = str(eval_row.get("surface", ""))
         expected_reading = normalize_hiragana_reading(str(eval_row.get("expected_reading", "")))
+        acceptable_readings = {
+            normalize_hiragana_reading(str(reading))
+            for reading in eval_row.get("acceptable_readings", [])
+            if isinstance(reading, str) and reading
+        }
+        acceptable_readings.add(expected_reading)
         actual_reading = None
         notes: list[str] = []
         if isinstance(parsed, dict):
@@ -90,11 +96,15 @@ def score_output(
         else:
             notes.append("parsed_result_is_not_object")
         return {
-            "passed": actual_reading == expected_reading and "wrong_json_keys" not in notes
+            "passed": actual_reading in acceptable_readings and "wrong_json_keys" not in notes
             and "missing_or_non_string_reading" not in notes
             and "parsed_result_is_not_object" not in notes,
             "parse_error": None,
-            "expected": {"surface": expected_surface, "reading": expected_reading},
+            "expected": {
+                "surface": expected_surface,
+                "reading": expected_reading,
+                "acceptable_readings": sorted(acceptable_readings),
+            },
             "actual": {"reading": actual_reading},
             "notes": notes,
         }
@@ -138,10 +148,13 @@ def _expected_payload(task_name: str, eval_row: dict[str, Any]) -> dict[str, Any
             return {"segments": _normalize_repair_segments(eval_row.get("expected_segments"))}
         return {"rendered": eval_row.get("expected_rendered")}
     if task_name == "yomi_reading":
-        return {
+        payload = {
             "surface": eval_row.get("surface"),
             "reading": eval_row.get("expected_reading"),
         }
+        if eval_row.get("acceptable_readings"):
+            payload["acceptable_readings"] = eval_row["acceptable_readings"]
+        return payload
     return {"status": eval_row.get("expected_status")}
 
 

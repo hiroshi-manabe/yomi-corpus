@@ -39,6 +39,14 @@ def parse_args() -> argparse.Namespace:
         help="Override whether yomi prompt variables include source text. Default uses task config.",
     )
     parser.add_argument(
+        "--yomi-context-side-chars",
+        type=int,
+        help=(
+            "For yomi-reading experiments, force this many source characters "
+            "on each side of the marked target. Zero keeps only the target."
+        ),
+    )
+    parser.add_argument(
         "--processing-tier",
         choices=["standard", "batch", "priority", "flex"],
         default="standard",
@@ -93,6 +101,7 @@ def main() -> None:
         max_output_tokens=args.max_output_tokens,
         rendered_yomi_display=args.rendered_yomi_display,
         include_source_text=args.include_source_text,
+        yomi_reading_context_side_chars=args.yomi_context_side_chars,
         execution_mode=args.llm_mode,
         show_progress=args.show_progress,
         batch_wait=not args.batch_no_wait,

@@ -79,7 +79,10 @@ def build_task_variables(
         )
     if builder_name == "yomi_reading":
         item_id = str(row.get("item_id", f"item_{index:05d}"))
-        marked_text, context_metadata = yomi_reading_marked_text(row)
+        marked_text, context_metadata = yomi_reading_marked_text(
+            row,
+            context_side_chars=task_config.yomi_reading_context_side_chars,
+        )
         return (
             item_id,
             {
@@ -94,6 +97,7 @@ def build_task_variables(
         )
     if builder_name == "yomi_repair":
         item_id = str(row.get("item_id") or row.get("unit_id") or f"item_{index:05d}")
+        rejected_span = rejected_span_for_repair(row)
         rendered = rendered_for_llm(
             str(row.get("rendered_yomi") or row.get("rendered") or ""),
             task_config.rendered_yomi_display,
@@ -103,12 +107,13 @@ def build_task_variables(
             {
                 "text": row["text"],
                 "current_yomi": rendered,
-                "rejected_span": rejected_span_for_repair(row),
+                "rejected_span": rejected_span,
                 "rejected_readings": rejected_readings_for_repair(row),
                 "note": row.get("note", ""),
             },
             {
                 **_metadata(row, rendered),
+                "rejected_span": rejected_span,
                 "repair_scope": row.get("repair_scope"),
                 "target_escalations": row.get("target_escalations", []),
             },
@@ -116,9 +121,23 @@ def build_task_variables(
     raise ValueError(f"Unsupported input builder: {builder_name}")
 
 
-def yomi_reading_marked_text(row: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+def yomi_reading_marked_text(
+    row: dict[str, Any],
+    *,
+    context_side_chars: int | None = None,
+) -> tuple[str, dict[str, Any]]:
     text = str(row.get("text") or "")
     original_marked_text = str(row["marked_text"])
+    if context_side_chars is not None:
+        if context_side_chars < 0:
+            raise ValueError("yomi_reading_context_side_chars must be non-negative")
+        return _fixed_yomi_reading_context(
+            row,
+            text=text,
+            original_marked_text=original_marked_text,
+            context_side_chars=context_side_chars,
+        )
+
     metadata: dict[str, Any] = {
         "clipped": False,
         "original_text_chars": len(text),
@@ -166,6 +185,61 @@ def yomi_reading_marked_text(row: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     return marked_text, metadata
 
 
+def _fixed_yomi_reading_context(
+    row: dict[str, Any],
+    *,
+    text: str,
+    original_marked_text: str,
+    context_side_chars: int,
+) -> tuple[str, dict[str, Any]]:
+    metadata: dict[str, Any] = {
+        "clipped": False,
+        "original_text_chars": len(text),
+        "context_mode": "fixed_side_chars",
+        "side_context_chars": context_side_chars,
+    }
+    try:
+        target_start = int(row["target_start"])
+        target_end = int(row["target_end"])
+    except (KeyError, TypeError, ValueError):
+        metadata["clip_reason"] = "missing_target_offsets"
+        return original_marked_text, metadata
+    if not (0 <= target_start < target_end <= len(text)):
+        metadata["clip_reason"] = "invalid_target_offsets"
+        return original_marked_text, metadata
+
+    context_start = max(0, target_start - context_side_chars)
+    context_end = min(len(text), target_end + context_side_chars)
+    left_clipped = context_start > 0
+    right_clipped = context_end < len(text)
+    metadata.update(
+        {
+            "clipped": left_clipped or right_clipped,
+            "context_start": context_start,
+            "context_end": context_end,
+            "left_clipped": left_clipped,
+            "right_clipped": right_clipped,
+            "prompt_text_chars": context_end - context_start,
+        }
+    )
+    if not metadata["clipped"]:
+        return original_marked_text, metadata
+    return (
+        "".join(
+            [
+                YOMI_READING_CONTEXT_OMISSION if left_clipped else "",
+                text[context_start:target_start],
+                "**",
+                text[target_start:target_end],
+                "**",
+                text[target_end:context_end],
+                YOMI_READING_CONTEXT_OMISSION if right_clipped else "",
+            ]
+        ),
+        metadata,
+    )
+
+
 def _join_examples(examples: list[str]) -> str:
     if not examples:
         return "(no examples)"
@@ -195,6 +269,9 @@ def _metadata(row: dict[str, Any], rendered_prompt: str) -> dict[str, Any]:
 
 
 def rejected_span_for_repair(row: dict[str, Any]) -> str:
+    explicit_span = str(row.get("rejected_span") or "")
+    if explicit_span:
+        return explicit_span
     targets = [target for target in row.get("target_escalations", []) if isinstance(target, dict)]
     span = "".join(str(target.get("surface", "")) for target in targets)
     return span or str(row.get("rejected_span") or "")

@@ -62,6 +62,17 @@ class YomiRepairTests(unittest.TestCase):
         self.assertEqual(config.corpus_frequency_min_count, 5)
         self.assertEqual(config.corpus_frequency_min_share, 0.95)
 
+    def test_default_rules_prefer_watashi_without_rewriting_other_readings(self) -> None:
+        config = load_yomi_generation_config("config/yomi/default.toml")
+
+        result = apply_post_hybrid_repairs(
+            "私/ワタクシ は/ハ 私/ワタシ 私/アタシ",
+            rules_path=config.post_hybrid_repair_rules,
+        )
+
+        self.assertEqual(result.rendered, "私/ワタシ は/ハ 私/ワタシ 私/アタシ")
+        self.assertIn("yomi_repair_0003", result.metadata["applied_rule_ids"])
+
 
 if __name__ == "__main__":
     unittest.main()

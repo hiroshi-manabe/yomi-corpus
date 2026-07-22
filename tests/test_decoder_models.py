@@ -15,9 +15,10 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
     batch_dir.mkdir(parents=True)
     (batch_dir / "units.yomi.final.jsonl").write_text(
         json.dumps(
-            {
-                "unit_id": "u1",
-                "analysis": {
+                {
+                    "unit_id": "u1",
+                    "text": "学校です。",
+                    "analysis": {
                     "mechanical": {
                         "yomi": {
                             "rendered": "学校/ガッコウ です/デス 。/。",

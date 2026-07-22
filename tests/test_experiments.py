@@ -306,6 +306,35 @@ class ExperimentHarnessTests(unittest.TestCase):
         scored = [json.loads(line) for line in (run_dir / "scored.jsonl").read_text().splitlines()]
         self.assertEqual(scored[0]["notes"], ["extra_json_keys"])
 
+    def test_run_prompt_experiment_accepts_valid_yomi_reading_variant(self) -> None:
+        eval_path = self.tmp_root / "yomi_reading_variant.jsonl"
+        eval_path.write_text(
+            json.dumps(
+                {
+                    "item_id": "iku_001",
+                    "surface": "行",
+                    "expected_reading": "い",
+                    "acceptable_readings": ["い", "ゆ"],
+                    "marked_text": "先端を**行**く",
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        backend = FakeExperimentBackend(
+            {"iku_001": {"parsed": {"行": "ゆ"}, "usage": None}}
+        )
+
+        summary = run_prompt_experiment(
+            task_config_path="config/llm/yomi_reading.toml",
+            eval_jsonl_path=str(eval_path),
+            run_dir=str(self.tmp_root / "yomi_reading_variant"),
+            backend=backend,
+        )
+
+        self.assertEqual(summary["score"]["pass_count"], 1)
+
     def test_run_prompt_experiment_supports_background_mode(self) -> None:
         eval_path = self.tmp_root / "background_eval.jsonl"
         eval_path.write_text(

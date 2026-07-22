@@ -51,6 +51,7 @@ BACKGROUND_RESPONSES_FILENAME = "responses.jsonl"
 BACKGROUND_STATUS_FILENAME = "background_status.json"
 BACKGROUND_ITEMS_FILENAME = "items.jsonl"
 DEFAULT_BACKGROUND_STALE_SECONDS = 30 * 60
+DEFAULT_BACKGROUND_TRANSIENT_RETRIES = 3
 DEFAULT_LLM_MAX_WAIT_SECONDS = 60 * 60
 DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS = 10 * 60
 
@@ -241,7 +242,7 @@ def run_background_task(
 
     responses_path = job_path / BACKGROUND_RESPONSES_FILENAME
     status_path = job_path / BACKGROUND_STATUS_FILENAME
-    completed_ids = load_result_item_ids(output_path) & item_ids
+    completed_ids = load_nonretryable_result_item_ids(output_path) & item_ids
     records = load_background_records(responses_path)
     backend = OpenAIResponsesBackend(api_key_file=api_key_file)
     stale_attempts: dict[str, list[dict[str, object]]] = {}
@@ -538,7 +539,12 @@ def poll_background_records_once(
                 continue
             status = str(record.get("status") or "")
             if status in {"failed", "cancelled", "incomplete"}:
-                result = background_failure_result(item, record)
+                result = retry_or_finish_background_failure(
+                    task_config=task_config,
+                    item=item,
+                    record=record,
+                    backend=backend,
+                )
             else:
                 snapshot = backend.retrieve_response(str(record["response_id"]))
                 status = str(snapshot.get("status") or "")
@@ -554,7 +560,12 @@ def poll_background_records_once(
                 if status == "completed":
                     result = background_completed_result(task_config, item, snapshot)
                 elif status in {"failed", "cancelled", "incomplete"}:
-                    result = background_failure_result(item, record)
+                    result = retry_or_finish_background_failure(
+                        task_config=task_config,
+                        item=item,
+                        record=record,
+                        backend=backend,
+                    )
                 else:
                     result = None
             if result is None:
@@ -598,16 +609,30 @@ def load_result_item_ids(path: Path) -> set[str]:
     return item_ids
 
 
+def load_nonretryable_result_item_ids(path: Path) -> set[str]:
+    latest_rows: dict[str, dict[str, object]] = {}
+    for row in iter_jsonl_rows_tolerating_truncated_tail(path):
+        item_id = row.get("item_id")
+        if isinstance(item_id, str) and item_id:
+            latest_rows[item_id] = row
+    return {
+        item_id
+        for item_id, row in latest_rows.items()
+        if not transient_background_error(row.get("parse_error"))
+    }
+
+
 def load_result_item_count(path: Path) -> int:
     return sum(1 for _ in iter_jsonl_rows_tolerating_truncated_tail(path))
 
 
 def count_result_parse_errors(path: Path) -> int:
-    count = 0
+    latest_errors: dict[str, bool] = {}
     for row in iter_jsonl_rows_tolerating_truncated_tail(path):
-        if row.get("parse_error"):
-            count += 1
-    return count
+        item_id = row.get("item_id")
+        if isinstance(item_id, str) and item_id:
+            latest_errors[item_id] = bool(row.get("parse_error"))
+    return sum(latest_errors.values())
 
 
 def result_to_json_row(result: LLMResult) -> dict[str, object]:
@@ -727,10 +752,14 @@ def is_stale_background_record(record: dict[str, object], *, now_epoch: int) -> 
     return now_epoch - int(submitted_at) >= threshold
 
 
-def archived_background_record(record: dict[str, object]) -> dict[str, object]:
+def archived_background_record(
+    record: dict[str, object],
+    *,
+    reason: str = "stale_background_response",
+) -> dict[str, object]:
     archived = dict(record)
     archived["superseded_at_epoch"] = int(time())
-    archived["superseded_reason"] = "stale_background_response"
+    archived["superseded_reason"] = reason
     return archived
 
 
@@ -773,6 +802,104 @@ def background_failure_result(item: object, record: dict[str, object]) -> LLMRes
         usage=None,
         metadata=item.metadata,
     )
+
+
+def retry_or_finish_background_failure(
+    *,
+    task_config: LLMTaskConfig,
+    item: object,
+    record: dict[str, object],
+    backend: OpenAIResponsesBackend,
+) -> LLMResult | None:
+    attempts = list(record.get("previous_attempts") or [])
+    error = record.get("error") or record.get("incomplete_details")
+    rate_limited = rate_limited_background_error(error)
+    output_limited = output_limited_background_error(error)
+    bounded_retry_count = sum(
+        transient_background_error(attempt.get("error") or attempt.get("incomplete_details"))
+        and not rate_limited_background_error(attempt.get("error") or attempt.get("incomplete_details"))
+        for attempt in attempts
+        if isinstance(attempt, dict)
+    )
+    should_retry = rate_limited or (
+        transient_background_error(error)
+        and bounded_retry_count < DEFAULT_BACKGROUND_TRANSIENT_RETRIES
+    )
+    if should_retry:
+        attempts.append(
+            archived_background_record(
+                record,
+                reason=(
+                    "rate_limit_retry"
+                    if rate_limited
+                    else "output_limit_retry"
+                    if output_limited
+                    else "transient_api_failure"
+                ),
+            )
+        )
+        snapshot = backend.submit_background_item(task_config, item)
+        response_id = snapshot.get("response_id")
+        if not response_id:
+            raise ValueError(f"Background retry for item {item.item_id} did not include an id.")
+        record.clear()
+        record.update(
+            {
+                "item_id": item.item_id,
+                "response_id": str(response_id),
+                "status": snapshot.get("status"),
+                "submitted_at_epoch": int(time()),
+                "updated_at_epoch": int(time()),
+                "metadata": item.metadata,
+                "previous_attempts": attempts,
+            }
+        )
+        return None
+    return background_failure_result(item, record)
+
+
+def transient_background_error(error: object) -> bool:
+    if isinstance(error, dict):
+        code = str(error.get("code") or error.get("reason") or "").lower()
+        if code in {"rate_limit_exceeded", "server_error", "internal_error", "max_output_tokens"}:
+            return True
+        message = str(error.get("message") or "")
+    else:
+        message = str(error or "")
+    lowered = message.lower()
+    return any(
+        marker in lowered
+        for marker in (
+            "rate_limit_exceeded",
+            "rate limit",
+            "server_error",
+            "internal_error",
+            "max_output_tokens",
+        )
+    )
+
+
+def rate_limited_background_error(error: object) -> bool:
+    if isinstance(error, dict):
+        code = str(error.get("code") or "").lower()
+        if code == "rate_limit_exceeded":
+            return True
+        message = str(error.get("message") or "")
+    else:
+        message = str(error or "")
+    lowered = message.lower()
+    return "rate_limit_exceeded" in lowered or "rate limit" in lowered
+
+
+def output_limited_background_error(error: object) -> bool:
+    if isinstance(error, dict):
+        reason = str(error.get("reason") or error.get("code") or "").lower()
+        if reason == "max_output_tokens":
+            return True
+        message = str(error.get("message") or "")
+    else:
+        message = str(error or "")
+    return "max_output_tokens" in message.lower()
 
 
 def _request_counts_from_status(status: dict[str, object]) -> dict[str, object]:

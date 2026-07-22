@@ -11,6 +11,7 @@ from yomi_corpus.pipeline import (
     STAGE_FINAL_REVIEW_PREPARED,
     STAGE_SEQUENCE,
     PipelineWorkspace,
+    llm_task_for_stage,
 )
 from yomi_corpus.review_sync import (
     ReviewSyncLock,
@@ -200,7 +201,11 @@ def advance_batch_to_bulk_review_ready(
             }
         result = workspace.advance_batch(
             batch_name,
-            llm_execution_mode_override=llm_execution_mode_override,
+            llm_execution_mode_override=(
+                llm_execution_mode_override
+                if llm_task_for_stage(next_stage) is not None
+                else None
+            ),
         )
         step = {
             "attempted_stage": next_stage,

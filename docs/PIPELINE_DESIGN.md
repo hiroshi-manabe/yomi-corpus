@@ -420,7 +420,9 @@ Responsibilities:
 - run scope triage on raw text before mechanical yomi generation
 - return exactly one scope label: `Keep` or `Skip`
 - treat `Skip` as non-target material such as foreign-language text, old
-  Japanese prose, kanbun, Chinese, spam, or garbled text
+  Japanese prose, kanbun, Chinese, spam, obvious nonstandard OCR corruption, or
+  flattened ruby interleaved with source characters; isolated ordinary typos
+  remain in scope
 - treat `Skip` as a conservative privacy/reputational-risk gate when a unit
   identifies a private person together with sensitive negative information such
   as arrest, criminal suspicion, accusations, scandal, disciplinary action, or

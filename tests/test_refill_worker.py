@@ -105,7 +105,8 @@ class RefillWorkerTests(unittest.TestCase):
             self.assertEqual(workspace.stages["dev_batch_0001"], STAGE_FINAL_REVIEW_PREPARED)
             self.assertTrue(workspace.calls)
             self.assertEqual({name for name, _ in workspace.calls}, {"dev_batch_0001"})
-            self.assertEqual({mode for _, mode in workspace.calls}, {"background"})
+            self.assertIn(("dev_batch_0001", "background"), workspace.calls)
+            self.assertEqual(workspace.calls[-1], ("dev_batch_0001", None))
             self.assertEqual(workspace.stages["dev_batch_0099"], STAGE_FINAL_REVIEW_PREPARED)
 
     def test_advance_stops_without_losing_resumable_stage(self) -> None:

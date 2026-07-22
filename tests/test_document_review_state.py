@@ -19,6 +19,7 @@ from yomi_corpus.document_review_state import (
     STATE_FINAL_REVIEWED,
     STATE_SKIPPED,
     STATE_STRONG_IN_REVIEW,
+    STATE_STRONG_APPLY_FAILED,
     STATE_STRONG_PENDING,
     STATE_STRONG_REVIEWED,
     WORKFLOW_STATE_BULK_REVIEW,
@@ -341,6 +342,95 @@ class DocumentReviewStateTests(unittest.TestCase):
 
             self.assertEqual(state["documents"][0]["strong_repair_item_count"], 5)
             self.assertEqual(state["documents"][0]["state"], STATE_STRONG_REVIEWED)
+
+    def test_strong_review_records_apply_failure_for_only_affected_document(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units = root / "units.jsonl"
+            reviewed = root / "reviewed.jsonl"
+            queue = root / "queue.jsonl"
+            pack = root / "pack.json"
+            submission = root / "submission.json"
+            write_jsonl(
+                units,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1"},
+                    {"doc_id": "doc2", "unit_id": "u2"},
+                ],
+            )
+            write_jsonl(reviewed, [reviewed_unit("doc1", "u1"), reviewed_unit("doc2", "u2")])
+            write_jsonl(
+                queue,
+                [
+                    {"doc_id": "doc1", "unit_id": "u1", "item_id": "q1"},
+                    {"doc_id": "doc2", "unit_id": "u2", "item_id": "q2"},
+                ],
+            )
+            pack.write_text(
+                json.dumps(
+                    {
+                        "pack_id": "strong_pack",
+                        "items": [
+                            {"item_id": "q1", "seq": 1, "doc_id": "doc1"},
+                            {"item_id": "q2", "seq": 2, "doc_id": "doc2"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            submission.write_text(
+                json.dumps(
+                    {
+                        "submission_type": "review_patch",
+                        "review_stage": "yomi_strong_repair_review",
+                        "pack_id": "strong_pack",
+                        "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            state = build_initial_document_review_state(
+                units_jsonl=units,
+                batch_name="dev_batch_0001",
+                track_name="dev",
+            )
+            state = update_document_review_state_after_final_review(
+                state=state,
+                reviewed_units_jsonl=reviewed,
+            )
+            state = update_document_review_state_after_strong_queue(
+                state=state,
+                queue_jsonl=queue,
+            )
+
+            state = update_document_review_state_after_strong_review(
+                state=state,
+                pack_json=pack,
+                review_summary={
+                    "submission_paths": [str(submission)],
+                    "rejected_items": [],
+                    "manual_segment_overrides": {
+                        "invalid_items": 1,
+                        "invalid": [
+                            {
+                                "doc_id": "doc1",
+                                "item_id": "q1",
+                                "submission_id": "submission-1",
+                                "status": "surface_mismatch",
+                            }
+                        ],
+                    },
+                },
+            )
+
+            documents = {row["doc_id"]: row for row in state["documents"]}
+            self.assertEqual(documents["doc1"]["state"], STATE_STRONG_APPLY_FAILED)
+            self.assertEqual(documents["doc1"]["application_failures"][0]["item_id"], "q1")
+            self.assertEqual(documents["doc2"]["state"], STATE_STRONG_PENDING)
+            self.assertEqual(
+                state["summary"]["pool_counts"][POOL_LABEL_ESCALATED_READY],
+                2,
+            )
 
     def test_finalized_state_marks_non_skipped_documents_complete(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

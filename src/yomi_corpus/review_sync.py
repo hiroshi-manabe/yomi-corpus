@@ -1158,6 +1158,11 @@ def review_sync_fingerprint(*, root: Path, batch_name: str) -> dict[str, str | N
         root / "data" / "units" / batch_name / "yomi_strong_repair_queue.jsonl",
         root / "data" / "units" / batch_name / "yomi_strong_repair_queue_summary.json",
         root / "data" / "units" / batch_name / "yomi_strong_repair_results.jsonl",
+        root
+        / "data"
+        / "units"
+        / batch_name
+        / "yomi_strong_repair_effective_results.jsonl",
         root / "data" / "units" / batch_name / "yomi_strong_repair_usage_summary.json",
         root / "data" / "units" / batch_name / "yomi_strong_repair_apply_summary.json",
         root / "data" / "units" / batch_name / "units.yomi.strong_repaired.jsonl",
@@ -1381,27 +1386,58 @@ def close_issues_after_stage(
     if not summary_path.exists():
         return []
     import_summary = read_json(summary_path)
-    issue_numbers = closable_issue_numbers(import_summary)
+    failed_submission_ids: set[str] = set()
+    if attempted_stage == STAGE_YOMI_FINALIZED:
+        apply_summary_raw = artifacts.get("yomi_strong_repair_review_apply_summary_json")
+        if apply_summary_raw:
+            apply_summary_path = Path(str(apply_summary_raw))
+            if not apply_summary_path.is_absolute():
+                apply_summary_path = root / apply_summary_path
+            if apply_summary_path.exists():
+                apply_summary = read_json(apply_summary_path)
+                failed_submission_ids = {
+                    str(row.get("submission_id") or "")
+                    for row in apply_summary.get("manual_segment_overrides", {}).get("invalid", [])
+                    if isinstance(row, dict) and row.get("submission_id")
+                }
+    issue_numbers = closable_issue_numbers(
+        import_summary,
+        failed_submission_ids=failed_submission_ids,
+    )
     return [close_github_issue(repo=repo, issue_number=number) for number in issue_numbers]
 
 
-def closable_issue_numbers(import_summary: dict[str, Any]) -> list[int]:
+def closable_issue_numbers(
+    import_summary: dict[str, Any],
+    *,
+    failed_submission_ids: set[str] | None = None,
+) -> list[int]:
     if import_summary.get("status") not in {"ok", None}:
         return []
-    imported: set[int] = set()
+    imported: dict[int, set[str]] = {}
     problematic: set[int] = set()
     for row in import_summary.get("summaries") or []:
         issue_number = issue_number_from_source(row.get("source"))
         if issue_number:
-            imported.add(issue_number)
+            imported.setdefault(issue_number, set()).add(str(row.get("submission_id") or ""))
     for row in import_summary.get("skipped") or []:
         reason = str(row.get("reason") or "")
         if reason == "duplicate_submission_id":
+            issue_number = issue_number_from_source(row.get("source"))
+            if issue_number:
+                imported.setdefault(issue_number, set()).add(
+                    str(row.get("submission_id") or "")
+                )
             continue
         issue_number = issue_number_from_source(row.get("source"))
         if issue_number:
             problematic.add(issue_number)
-    return sorted(imported - problematic)
+    failed = failed_submission_ids or set()
+    return sorted(
+        issue_number
+        for issue_number, submission_ids in imported.items()
+        if issue_number not in problematic and not (submission_ids & failed)
+    )
 
 
 def issue_number_from_source(source: object) -> int | None:

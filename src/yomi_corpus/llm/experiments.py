@@ -46,6 +46,7 @@ def run_prompt_experiment(
     max_output_tokens: int | None = None,
     rendered_yomi_display: str | None = None,
     include_source_text: bool | None = None,
+    yomi_reading_context_side_chars: int | None = None,
     execution_mode: str = LLM_EXECUTION_MODE_SYNC,
     show_progress: bool = False,
     batch_wait: bool = True,
@@ -70,6 +71,7 @@ def run_prompt_experiment(
         max_output_tokens=max_output_tokens,
         rendered_yomi_display=rendered_yomi_display,
         include_source_text=include_source_text,
+        yomi_reading_context_side_chars=yomi_reading_context_side_chars,
     )
 
     eval_rows = load_jsonl_rows(eval_jsonl_path)
@@ -253,6 +255,7 @@ def _override_task_config(
     max_output_tokens: int | None,
     rendered_yomi_display: str | None,
     include_source_text: bool | None,
+    yomi_reading_context_side_chars: int | None,
 ):
     if rendered_yomi_display is not None and rendered_yomi_display not in {"full", "compact", "furigana_no_space"}:
         raise ValueError(f"Unsupported rendered_yomi_display: {rendered_yomi_display}")
@@ -268,6 +271,11 @@ def _override_task_config(
         ),
         include_source_text=(
             include_source_text if include_source_text is not None else task_config.include_source_text
+        ),
+        yomi_reading_context_side_chars=(
+            yomi_reading_context_side_chars
+            if yomi_reading_context_side_chars is not None
+            else task_config.yomi_reading_context_side_chars
         ),
     )
 

@@ -32,6 +32,9 @@ def load_llm_task_config(path: str | Path) -> LLMTaskConfig:
         text_format=_optional_str(payload.get("text_format")),
         enable_web_search=bool(payload.get("enable_web_search", False)),
         web_search_context_size=_optional_str(payload.get("web_search_context_size")),
+        yomi_reading_context_side_chars=_optional_int(
+            payload.get("yomi_reading_context_side_chars")
+        ),
     )
 
 
@@ -80,3 +83,9 @@ def _optional_str(value: object) -> str | None:
         return None
     text = str(value).strip()
     return text or None
+
+
+def _optional_int(value: object) -> int | None:
+    if value is None:
+        return None
+    return int(value)

@@ -2,9 +2,10 @@ Decide if this text should stay in a modern Japanese reading corpus.
 
 Return exactly one token:
 Keep = process normally
-Skip = outside target: classical/old Japanese, running old-kana prose, kanbun, Chinese, foreign prose, spam, or garbled non-Japanese
+Skip = outside target: classical/old Japanese, running old-kana prose, kanbun, Chinese, foreign prose, spam, or clearly corrupted text
 
 Keep modern Japanese even with names, short quotes, alphabetic terms, old characters in names, or ordinary web noise.
+Keep isolated ordinary typos. Skip obvious nonstandard OCR corruption or flattened ruby where base characters and their readings are interleaved, such as `東とう京きょう駅えき`; do not spend effort reconstructing the intended sentence.
 Skip prose with repeated old-kana spellings such as `思ふ`, `あらう`, `なつた`, `ゐる`, or old-style forms like `云ふ`.
 Skip if the text identifies a private person together with sensitive negative information such as arrest, criminal suspicion, accusations, scandal, disciplinary action, illness, or similar reputational/private details. When unsure, Skip.
 

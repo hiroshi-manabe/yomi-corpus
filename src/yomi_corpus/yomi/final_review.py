@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 import re
+import unicodedata
 from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -16,9 +17,15 @@ from yomi_corpus.yomi.llm_readings import (
     is_valid_yomi_reading,
     normalize_hiragana_reading,
 )
-from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, kata_to_hira
+from yomi_corpus.yomi.furigana import (
+    FuriganaConverter,
+    has_han,
+    kata_to_hira,
+    parse_annotated_chunks,
+)
 from yomi_corpus.yomi.numeric_compounds import (
     canonicalize_final_numeric_compounds,
+    numeric_compound_occurrences,
     numeric_compound_rule,
 )
 from yomi_corpus.yomi.token_codec import (
@@ -47,6 +54,10 @@ FINALIZED_CORRECTION_STAGE = "finalized_correction"
 FINALIZED_CORRECTION_SUBMISSION_TYPE = "finalized_correction_patch"
 QUEUE_ID_FINAL_REVIEW = "final_review"
 QUEUE_ID_STRONG_REPAIR = "strong_repair"
+
+FINAL_REVIEW_READING_ALTERNATIVES: dict[str, tuple[str, ...]] = {
+    "kg": ("キロ", "キログラム"),
+}
 SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
@@ -273,6 +284,7 @@ def build_yomi_strong_repair_review_pack(
             )
             for queue_row in unit_queue_rows
         ]
+        assign_strong_repair_region_occurrences(regions, unit)
         items.append(
             build_strong_repair_review_sentence_item(
                 unit_queue_rows,
@@ -289,6 +301,7 @@ def build_yomi_strong_repair_review_pack(
         queue_id=QUEUE_ID_STRONG_REPAIR,
         document_state_json=document_state_json,
     )
+    mapping_error_count = sum(int(item.get("mapping_error_count") or 0) for item in items)
     return {
         "schema_version": SCHEMA_VERSION,
         "review_stage": STRONG_REPAIR_REVIEW_STAGE,
@@ -310,6 +323,7 @@ def build_yomi_strong_repair_review_pack(
             "queued_repair_row_count": len(queue_rows),
             "result_row_count": len(result_rows),
             "reviewable_repair_row_count": sum(len(rows) for rows in reviewable_rows_by_unit.values()),
+            "mapping_error_count": mapping_error_count,
         },
         "documents": documents,
         "items": items,
@@ -407,6 +421,8 @@ def with_queue_document_metadata(
                 "queue_member": queue_member,
                 "selectable": selectable,
                 "state_updated_at": str(state_row.get("updated_at") or ""),
+                "application_failure_count": len(state_row.get("application_failures") or []),
+                "application_failures": state_row.get("application_failures") or [],
                 "item_count": item_count,
                 "region_count": int(stats.get("region_count") or 0),
                 "unresolved_count": int(stats.get("unresolved_count") or 0),
@@ -510,9 +526,18 @@ def build_strong_repair_review_sentence_item(
 ) -> dict[str, Any]:
     first_row = queue_rows[0] if queue_rows else {}
     first_region = regions[0] if regions else {}
-    rendered_after = str(
-        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
-    )
+    pairs, tokenization_error = review_yomi_pairs_for_unit(unit)
+    rendered_after = yomi_tokens_to_editable_rendered(pairs) if pairs else ""
+    mapping_errors = [
+        {
+            "region_id": str(region.get("region_id") or ""),
+            "error": str(region.get("mapping_error") or ""),
+        }
+        for region in regions
+        if region.get("mapping_error")
+    ]
+    if tokenization_error:
+        mapping_errors.insert(0, {"region_id": "", "error": tokenization_error})
     return {
         "item_id": f"{unit.get('unit_id')}::strong_repair",
         "seq": seq,
@@ -526,7 +551,10 @@ def build_strong_repair_review_sentence_item(
         "text": str(unit.get("text") or first_row.get("text") or ""),
         "rendered_yomi_before": str(first_row.get("rendered_yomi") or ""),
         "rendered_yomi_after": rendered_after,
-        "rendered_yomi_after_ruby_tokens": rendered_yomi_ruby_tokens(rendered_after),
+        "rendered_yomi_after_tokens": pairs,
+        "rendered_yomi_after_ruby_tokens": yomi_tokens_ruby_tokens(pairs),
+        "mapping_error_count": len(mapping_errors),
+        "mapping_errors": mapping_errors,
         "repair_scope": "sentence_regions",
         "region_count": len(regions),
         "regions": regions,
@@ -538,6 +566,7 @@ def build_strong_repair_review_sentence_item(
         "reading_hints": first_region.get("reading_hints", {}),
         "llm_parsed": first_region.get("llm_parsed", []),
         "llm_raw_text": first_region.get("llm_raw_text", ""),
+        "llm_comments": first_region.get("llm_comments", []),
         "llm_parse_error": first_region.get("llm_parse_error"),
         "used_web_search": any(bool(region.get("used_web_search")) for region in regions),
         "repair_status": first_region.get("repair_status"),
@@ -574,30 +603,59 @@ def build_strong_repair_review_region(
         rejected_readings.extend(
             row for row in target.get("rejected_readings", []) if isinstance(row, dict)
         )
-    rejected_span = "".join(
+    rejected_span = str(queue_row.get("rejected_span") or "") or "".join(
         str(row.get("surface") or "")
         for row in queue_row.get("target_escalations", [])
         if isinstance(row, dict)
     )
+    target_escalations = [
+        row
+        for row in queue_row.get("target_escalations", [])
+        if isinstance(row, dict)
+    ]
+    llm_comments = []
+    for row in parsed:
+        if not isinstance(row, dict):
+            continue
+        comment = str(row.get("comment") or "").strip()
+        if comment and comment not in llm_comments:
+            llm_comments.append(comment)
     span_reading_candidates = build_strong_repair_reading_candidates(rejected_span)
-    rendered_after = str(
-        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+    pairs, tokenization_error = review_yomi_pairs_for_unit(unit)
+    span_matches = find_rendered_surface_spans(pairs, rejected_span) if pairs else []
+    display_mapping = (
+        select_rendered_surface_span(
+            pairs,
+            rejected_span,
+            targets=target_escalations,
+            reference_rendered=str(queue_row.get("rendered_yomi") or ""),
+        )
+        if pairs
+        else None
     )
+    if tokenization_error:
+        mapping_error = tokenization_error
+    elif not span_matches:
+        mapping_error = f"rejected span {rejected_span!r} is absent from canonical yomi surfaces"
+    elif display_mapping is None:
+        mapping_error = f"rejected span {rejected_span!r} is ambiguous in canonical yomi surfaces"
+    else:
+        mapping_error = ""
     return {
         "region_id": str(queue_row.get("item_id") or ""),
         "item_id": str(queue_row.get("item_id") or ""),
         "unit_id": str(queue_row.get("unit_id") or ""),
         "text": str(queue_row.get("text") or ""),
         "rendered_yomi_before": str(queue_row.get("rendered_yomi") or ""),
-        "rendered_yomi_after": rendered_after,
+        "rendered_yomi_after": yomi_tokens_to_editable_rendered(pairs) if pairs else "",
+        "display_mapping": display_mapping,
+        "mapping_error": mapping_error or None,
         "repair_scope": str(queue_row.get("repair_scope") or ""),
         "reasons": list(queue_row.get("reasons") or []),
         "target_constraints": [
             row for row in queue_row.get("target_constraints", []) if isinstance(row, dict)
         ],
-        "target_escalations": [
-            row for row in queue_row.get("target_escalations", []) if isinstance(row, dict)
-        ],
+        "target_escalations": target_escalations,
         "rejected_span": rejected_span,
         "reading_candidates": span_reading_candidates,
         "reading_hints": {
@@ -608,11 +666,44 @@ def build_strong_repair_review_region(
         "rejected_readings": rejected_readings,
         "llm_raw_text": str(result.get("raw_text") or ""),
         "llm_parsed": parsed,
+        "llm_comments": llm_comments,
         "llm_parse_error": result.get("parse_error"),
         "used_web_search": any(bool(row.get("used_web_search")) for row in parsed if isinstance(row, dict)),
         "repair_status": repair_log.get("status"),
         "repair_log": repair_log,
     }
+
+
+def assign_strong_repair_region_occurrences(
+    regions: list[dict[str, Any]],
+    unit: dict[str, Any],
+) -> None:
+    pairs, tokenization_error = review_yomi_pairs_for_unit(unit)
+    if tokenization_error or not pairs:
+        return
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for region in regions:
+        span = str(region.get("rejected_span") or "")
+        if span:
+            grouped.setdefault(span, []).append(region)
+    for span, span_regions in grouped.items():
+        matches = find_rendered_surface_spans(pairs, span)
+        if len(span_regions) != len(matches) or len(matches) < 2:
+            continue
+        ordered = sorted(span_regions, key=strong_repair_region_target_index)
+        for occurrence_index, region in enumerate(ordered):
+            region["surface_occurrence_index"] = occurrence_index
+            region["display_mapping"] = matches[occurrence_index]
+            region["mapping_error"] = None
+
+
+def strong_repair_region_target_index(region: dict[str, Any]) -> int:
+    indexes = [
+        int(target["token_index"])
+        for target in region.get("target_escalations", [])
+        if isinstance(target, dict) and isinstance(target.get("token_index"), int)
+    ]
+    return min(indexes) if indexes else 10**9
 
 
 def build_review_item(
@@ -626,7 +717,25 @@ def build_review_item(
     targets = safety.get("targets", [])
     if not isinstance(targets, list):
         targets = []
+    text = str(unit.get("text") or "")
+    rendered_yomi = str(
+        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
+    )
     review_targets = [build_review_target(target) for target in targets if isinstance(target, dict)]
+    review_targets.extend(
+        build_numeric_compound_review_targets(
+            unit_id=str(unit.get("unit_id") or ""),
+            text=text,
+            rendered_yomi=rendered_yomi,
+            existing_targets=review_targets,
+        )
+    )
+    review_targets.sort(
+        key=lambda target: (
+            int(target.get("target_start") or 0),
+            int(target.get("target_end") or 0),
+        )
+    )
     unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
     scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
     alphabetic_scope = unit.get("analysis", {}).get("mechanical", {}).get("alphabetic_scope", {})
@@ -637,9 +746,6 @@ def build_review_item(
             or scope.get("source") == "provisional_alphabetic_skip"
             or alphabetic_scope.get("provisional_skip")
         )
-    )
-    rendered_yomi = str(
-        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
     )
     rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, review_targets)
     return {
@@ -652,8 +758,12 @@ def build_review_item(
         "unit_seq": unit.get("unit_seq"),
         "source_file": unit.get("source_file"),
         "source_line_no": unit.get("source_line_no"),
-        "text": str(unit.get("text") or ""),
-        "ruby_segments": build_ruby_segments(str(unit.get("text") or ""), review_targets),
+        "text": text,
+        "ruby_segments": build_ruby_segments(
+            text,
+            review_targets,
+            rendered_yomi=rendered_yomi,
+        ),
         "rendered_yomi": rendered_yomi,
         "rendered_yomi_ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi),
         "scope_status": scope.get("status"),
@@ -666,6 +776,57 @@ def build_review_item(
         "targets": review_targets,
         "reading_hints": build_reading_hints(review_targets),
     }
+
+
+def build_numeric_compound_review_targets(
+    *,
+    unit_id: str,
+    text: str,
+    rendered_yomi: str,
+    existing_targets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    existing_ranges = [
+        (int(target["target_start"]), int(target["target_end"]))
+        for target in existing_targets
+        if isinstance(target.get("target_start"), int)
+        and isinstance(target.get("target_end"), int)
+    ]
+    targets: list[dict[str, Any]] = []
+    for occurrence in numeric_compound_occurrences(text, rendered_yomi):
+        if any(
+            occurrence.start < target_end and occurrence.end > target_start
+            for target_start, target_end in existing_ranges
+        ):
+            continue
+        reading_hiragana = kata_to_hira(occurrence.reading)
+        targets.append(
+            build_review_target(
+                {
+                    "item_id": f"{unit_id}:n{occurrence.start + 1:04d}",
+                    "surface": occurrence.surface,
+                    "token_surface": occurrence.surface,
+                    "target_start": occurrence.start,
+                    "target_end": occurrence.end,
+                    "token_index": occurrence.pair_index,
+                    "chunk_index": 0,
+                    "current_reading": occurrence.reading,
+                    "current_reading_hiragana": reading_hiragana,
+                    "is_safe": True,
+                    "review_status": "safe",
+                    "highlight_level": "none",
+                    "accepted_signal_names": ["safe_by_numeric_compound"],
+                    "status_reason": "accepted_numeric_compound_rule",
+                    "signals": [
+                        {
+                            "name": "safe_by_numeric_compound",
+                            "accepted": True,
+                            "reading": reading_hiragana,
+                        }
+                    ],
+                }
+            )
+        )
+    return targets
 
 
 def rendered_yomi_with_review_defaults(
@@ -856,10 +1017,13 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         elif name == "safe_by_corpus_frequency":
             dominant = signal.get("dominant")
             if isinstance(dominant, dict):
+                reading = dominant.get("reading")
+                if signal.get("evidence_scope") == "token":
+                    reading = project_token_reading_to_target(target, reading)
                 add(
                     "corpus_frequency",
                     "Corpus-frequency dominant",
-                    dominant.get("reading"),
+                    reading,
                     accepted="safe_by_corpus_frequency" in accepted_names,
                 )
         elif name == "safe_by_stable_dictionary" and signal.get("accepted"):
@@ -875,6 +1039,13 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             "Dictionary",
             reading,
             candidate_id=f"dictionary:{index}",
+        )
+    for index, reading in enumerate(final_review_reading_alternatives(target)):
+        add(
+            "usage_alternative",
+            "Common usage alternative",
+            reading,
+            candidate_id=f"usage_alternative:{index}",
         )
     candidates.append(
         {
@@ -892,7 +1063,43 @@ def final_review_dictionary_readings(target: dict[str, Any]) -> tuple[str, ...]:
     surface = str(target.get("surface") or "")
     if not surface:
         return ()
-    return load_final_review_surface_readings().get(surface, ())
+    inventory = load_final_review_surface_readings()
+    readings = list(inventory.get(surface, ()))
+    token_surface = str(target.get("token_surface") or "")
+    if token_surface and token_surface != surface:
+        for token_reading in inventory.get(token_surface, ()):
+            projected = project_token_reading_to_target(target, token_reading)
+            if projected and projected not in readings:
+                readings.append(projected)
+    return tuple(readings)
+
+
+def project_token_reading_to_target(target: dict[str, Any], reading: object) -> str | None:
+    if not isinstance(reading, str) or not reading:
+        return None
+    surface = str(target.get("surface") or "")
+    token_surface = str(target.get("token_surface") or "")
+    if not surface or not token_surface:
+        return None
+    if surface == token_surface:
+        return reading
+    result = FuriganaConverter().convert(token_surface, reading)
+    if not result.annotated_surface:
+        return None
+    matches = [
+        chunk_reading
+        for chunk_surface, chunk_reading in parse_annotated_chunks(result.annotated_surface)
+        if chunk_surface == surface
+    ]
+    if len(matches) != 1:
+        return None
+    return matches[0]
+
+
+def final_review_reading_alternatives(target: dict[str, Any]) -> tuple[str, ...]:
+    surface = str(target.get("surface") or "")
+    normalized = unicodedata.normalize("NFKC", surface).casefold()
+    return FINAL_REVIEW_READING_ALTERNATIVES.get(normalized, ())
 
 
 def build_reading_hints(targets: list[dict[str, Any]]) -> dict[str, str]:
@@ -1039,7 +1246,12 @@ def load_surface_reading_stats() -> dict[str, str]:
     return stats
 
 
-def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def build_ruby_segments(
+    text: str,
+    targets: list[dict[str, Any]],
+    *,
+    rendered_yomi: str = "",
+) -> list[dict[str, Any]]:
     segments: list[dict[str, Any]] = []
     cursor = 0
     ordered_targets = sorted(
@@ -1053,23 +1265,56 @@ def build_ruby_segments(text: str, targets: list[dict[str, Any]]) -> list[dict[s
         ],
         key=lambda target: (int(target["target_start"]), int(target["target_end"])),
     )
-    for target in ordered_targets:
-        start = int(target["target_start"])
-        end = int(target["target_end"])
+    display_spans: list[tuple[int, int, dict[str, Any] | None, str | None]] = [
+        (
+            int(target["target_start"]),
+            int(target["target_end"]),
+            target,
+            None,
+        )
+        for target in ordered_targets
+    ]
+    target_ranges = [(start, end) for start, end, _, _ in display_spans]
+    for occurrence in numeric_compound_occurrences(text, rendered_yomi):
+        if any(
+            occurrence.start < target_end and occurrence.end > target_start
+            for target_start, target_end in target_ranges
+        ):
+            continue
+        display_spans.append(
+            (
+                occurrence.start,
+                occurrence.end,
+                None,
+                kata_to_hira(occurrence.reading),
+            )
+        )
+    display_spans.sort(key=lambda span: (span[0], span[1], span[2] is None))
+    for start, end, target, static_reading in display_spans:
         if start < cursor:
             continue
         if cursor < start:
             segments.append({"type": "text", "text": text[cursor:start]})
-        segments.append(
-            {
-                "type": "ruby",
-                "text": text[start:end],
-                "target_item_id": target["item_id"],
-                "reading": ruby_segment_reading(target),
-                "is_safe": target.get("is_safe"),
-                "highlight_level": target.get("highlight_level"),
-            }
-        )
+        if target is not None:
+            segments.append(
+                {
+                    "type": "ruby",
+                    "text": text[start:end],
+                    "target_item_id": target["item_id"],
+                    "reading": ruby_segment_reading(target),
+                    "is_safe": target.get("is_safe"),
+                    "highlight_level": target.get("highlight_level"),
+                }
+            )
+        else:
+            segments.append(
+                {
+                    "type": "ruby",
+                    "text": text[start:end],
+                    "reading": static_reading,
+                    "display_only": True,
+                }
+            )
         cursor = end
     if cursor < len(text):
         segments.append({"type": "text", "text": text[cursor:]})
@@ -1250,6 +1495,8 @@ def annotated_furigana_nodes(annotated: str) -> list[dict[str, str]]:
 
 
 def split_trailing_ruby_surface(text: str) -> tuple[str, str]:
+    if has_han(text) and all(has_han(char) or char in {"ヶ", "ケ", "ヵ"} for char in text):
+        return "", text
     end = len(text)
     start = end
     while start > 0 and has_han(text[start - 1]):
@@ -1716,7 +1963,9 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
     normalized: list[list[str]] = []
     for surface, reading in tokens:
         normalized_reading = hiragana_to_katakana_for_finalized_correction(reading)
-        if is_numeric_only_finalized_correction_surface(surface):
+        if numeric_compound_rule(surface) is not None:
+            pass
+        elif is_numeric_only_finalized_correction_surface(surface):
             normalized_reading = ""
         elif re.fullmatch(r"[ \u00a0]+", surface):
             if normalized_reading and not re.fullmatch(r"[ \u00a0]+", normalized_reading):
@@ -1799,6 +2048,15 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
         if reading:
             return {"ok": False, "error": "numeric-only surfaces must have an empty reading"}
         return {"ok": True}
+    numeric_rule = numeric_compound_rule(surface)
+    if numeric_rule is not None:
+        allowed = (numeric_rule.reading, *numeric_rule.review_readings)
+        if reading in allowed:
+            return {"ok": True}
+        return {
+            "ok": False,
+            "error": f"reading should be one of {', '.join(allowed)}",
+        }
     if has_han(surface) or has_latin(surface):
         if not reading:
             return {"ok": False, "error": "kanji or alphabetic surfaces need a kana reading"}
@@ -2020,7 +2278,19 @@ def apply_manual_strong_repair_review_segments_file(
             region_id = str(region_state.get("region_id") or "")
             region = region_by_id.get(region_id)
             if region is not None:
-                item_states.append((region, region_state))
+                item_states.append(
+                    (
+                        {
+                            **region,
+                            "doc_id": region.get("doc_id") or item.get("doc_id"),
+                        },
+                        {
+                            **region_state,
+                            "submission_id": region_state.get("submission_id")
+                            or state.get("submission_id"),
+                        },
+                    )
+                )
     if not item_states:
         return {"applied_items": 0, "invalid_items": 0, "invalid": []}
     if units_jsonl is None:
@@ -2059,6 +2329,9 @@ def apply_manual_strong_repair_review_segments_file(
                     invalid.append(
                         {
                             "item_id": str(item.get("region_id") or item.get("item_id") or ""),
+                            "doc_id": str(item.get("doc_id") or unit.get("doc_id") or ""),
+                            "unit_id": unit_id,
+                            "submission_id": str(state.get("submission_id") or ""),
                             **result,
                         }
                     )
@@ -2089,37 +2362,69 @@ def apply_manual_strong_repair_segments(
         return {"status": "invalid_manual_segments", "reason": "missing rejected span"}
     if not replacement_pairs:
         return {"status": "invalid_manual_segments", "reason": "invalid manual segment readings"}
-    if "".join(surface for surface, _reading in replacement_pairs) != original_surface:
-        return {
-            "status": "invalid_manual_segments",
-            "reason": "manual segment surfaces do not match rejected span",
-            "rejected_span": original_surface,
-            "replacement_span": "".join(surface for surface, _reading in replacement_pairs),
-        }
+    replacement_span = "".join(surface for surface, _reading in replacement_pairs)
     yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
     rendered = str(yomi.get("rendered") or "")
-    if not rendered:
+    try:
+        pairs = yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    except YomiTokenError as exc:
+        return {"status": "invalid_unit", "reason": str(exc)}
+    if not pairs:
         return {"status": "invalid_unit", "reason": "missing rendered yomi"}
-    pairs = parse_rendered_pairs(rendered)
-    span = find_unique_rendered_span(pairs, original_surface)
-    if span is None:
+    targets = [
+        target
+        for target in item.get("target_escalations", [])
+        if isinstance(target, dict)
+    ]
+    mapping = select_rendered_surface_span(
+        pairs,
+        original_surface,
+        targets=targets,
+        reference_rendered=str(item.get("rendered_yomi_before") or ""),
+        occurrence_index=item.get("surface_occurrence_index"),
+    )
+    if mapping is None:
         return {
             "status": "surface_mismatch",
             "reason": "manual rejected span is not unique in rendered yomi",
             "rejected_span": original_surface,
         }
-    start, end = span
-    if pairs[start:end] == replacement_pairs:
+    start = int(mapping["start"])
+    end = int(mapping["end"])
+    mapped_surface = "".join(surface for surface, _reading in pairs[start:end])
+    if replacement_span == original_surface:
+        mapped_pairs = mapped_replacement_pairs(replacement_pairs, mapping)
+    elif replacement_span == mapped_surface:
+        mapped_pairs = replacement_pairs
+    else:
+        return {
+            "status": "invalid_manual_segments",
+            "reason": "manual segment surfaces do not match rejected or mapped span",
+            "rejected_span": original_surface,
+            "mapped_span": mapped_surface,
+            "replacement_span": replacement_span,
+        }
+    if mapped_pairs is None:
+        return {
+            "status": "surface_mismatch",
+            "reason": "manual rejected span has unsupported surrounding text",
+            "rejected_span": original_surface,
+        }
+    if pairs[start:end] == [list(pair) for pair in mapped_pairs]:
         return {"status": "unchanged", "rejected_span": original_surface}
-    yomi.setdefault("rendered_before_strong_repair_review", rendered)
-    pairs[start:end] = replacement_pairs
+    yomi.setdefault(
+        "rendered_before_strong_repair_review",
+        rendered or yomi_tokens_to_editable_rendered(pairs),
+    )
+    pairs[start:end] = [list(pair) for pair in mapped_pairs]
+    set_canonical_yomi_tokens(yomi, pairs)
     yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
     unit.setdefault("analysis", {}).setdefault("human_review", {})["yomi_strong_repair"] = {
         "rule": STRONG_REPAIR_REVIEW_RULE,
         "item_id": str(item.get("item_id") or ""),
         "manual_segments": [
             {"surface": surface, "reading": reading}
-            for surface, reading in replacement_pairs
+            for surface, reading in mapped_pairs
         ],
     }
     return {
@@ -2127,7 +2432,7 @@ def apply_manual_strong_repair_segments(
         "rejected_span": original_surface,
         "replacement": [
             {"surface": surface, "reading": reading}
-            for surface, reading in replacement_pairs
+            for surface, reading in mapped_pairs
         ],
     }
 
@@ -2606,6 +2911,10 @@ def build_strong_repair_queue_file(
             target_groups = group_consecutive_target_overrides(target_escalation_overrides)
             target_escalations += len(target_escalation_overrides)
             for group_index, target_group in enumerate(target_groups, start=1):
+                rejected_span = target_group_rejected_span(
+                    str(unit.get("text") or ""),
+                    target_group,
+                )
                 dst.write(
                     json.dumps(
                         {
@@ -2615,6 +2924,7 @@ def build_strong_repair_queue_file(
                             "text": unit.get("text"),
                             "rendered_yomi": rendered_yomi,
                             "repair_scope": "target_group",
+                            "rejected_span": rejected_span,
                             "repair_order": 1,
                             "reasons": ["target_no_ruby"],
                             "target_constraints": target_group,
@@ -2890,14 +3200,11 @@ def apply_target_group_strong_repair(
                 "surface": surface,
                 "reading": reading,
             }
-    token_indexes = [
-        int(target["token_index"])
-        for target in targets
-        if isinstance(target.get("token_index"), int)
-    ]
     if not targets:
         return {"status": "invalid_queue", "reason": "target group lacks targets"}
-    rejected_span = "".join(str(target.get("surface") or "") for target in targets)
+    rejected_span = str(queue_row.get("rejected_span") or "") or "".join(
+        str(target.get("surface") or "") for target in targets
+    )
     replacement_span = "".join(surface for surface, _reading in replacement_pairs)
     if replacement_span != rejected_span:
         return {
@@ -2908,92 +3215,48 @@ def apply_target_group_strong_repair(
 
     yomi = unit.setdefault("analysis", {}).setdefault("mechanical", {}).setdefault("yomi", {})
     rendered = str(yomi.get("rendered") or "")
-    if not rendered:
+    try:
+        pairs = yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    except YomiTokenError as exc:
+        return {"status": "invalid_unit", "reason": str(exc)}
+    if not pairs:
         return {"status": "invalid_unit", "reason": "missing rendered yomi"}
-    pairs = parse_rendered_pairs(rendered)
-    if len(token_indexes) == len(targets):
-        start = min(token_indexes)
-        end = max(token_indexes) + 1
-        if end > len(pairs):
-            return {"status": "invalid_queue", "reason": "target token index out of range"}
-        original_span = "".join(surface for surface, _reading in pairs[start:end])
-        if original_span != rejected_span:
-            internal_replacement = build_internal_token_replacement(
-                targets=targets,
-                replacement_pairs=replacement_pairs,
-                rendered_pairs=pairs,
-            )
-            if internal_replacement is not None:
-                end = start + 1
-                replacement_pairs = [internal_replacement]
-                original_span = internal_replacement[0]
-            else:
-                fallback = find_unique_rendered_span(pairs, rejected_span)
-                if fallback is None:
-                    return {
-                        "status": "surface_mismatch",
-                        "rejected_span": rejected_span,
-                        "original_span": original_span,
-                    }
-                start, end = fallback
-    else:
-        fallback = find_unique_rendered_span(pairs, rejected_span)
-        if fallback is None:
-            return {
-                "status": "invalid_queue",
-                "reason": "target group lacks token indexes and surface span is not unique",
-                "rejected_span": rejected_span,
-            }
-        start, end = fallback
-    yomi.setdefault("rendered_before_strong_repair", rendered)
-    pairs[start:end] = replacement_pairs
+    mapping = select_rendered_surface_span(
+        pairs,
+        rejected_span,
+        targets=targets,
+        reference_rendered=str(queue_row.get("rendered_yomi") or ""),
+    )
+    if mapping is None:
+        return {
+            "status": "surface_mismatch",
+            "reason": "rejected span is absent or ambiguous in canonical yomi surfaces",
+            "rejected_span": rejected_span,
+        }
+    mapped_pairs = mapped_replacement_pairs(replacement_pairs, mapping)
+    if mapped_pairs is None:
+        return {
+            "status": "surface_mismatch",
+            "reason": "rejected span has unsupported surrounding text",
+            "rejected_span": rejected_span,
+        }
+    start = int(mapping["start"])
+    end = int(mapping["end"])
+    yomi.setdefault(
+        "rendered_before_strong_repair",
+        rendered or yomi_tokens_to_editable_rendered(pairs),
+    )
+    pairs[start:end] = [list(pair) for pair in mapped_pairs]
+    set_canonical_yomi_tokens(yomi, pairs)
     yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
     return {
         "status": "applied",
         "rejected_span": rejected_span,
         "replacement": [
             {"surface": surface, "reading": reading}
-            for surface, reading in replacement_pairs
+            for surface, reading in mapped_pairs
         ],
     }
-
-
-def build_internal_token_replacement(
-    *,
-    targets: list[dict[str, Any]],
-    replacement_pairs: list[tuple[str, str]],
-    rendered_pairs: list[tuple[str, str]],
-) -> tuple[str, str] | None:
-    """Preserve kana affixes when a reviewed target is one chunk inside a token."""
-    if len(targets) != 1:
-        return None
-    target = targets[0]
-    token_index = target.get("token_index")
-    if not isinstance(token_index, int) or not (0 <= token_index < len(rendered_pairs)):
-        return None
-    target_surface = str(target.get("surface") or "")
-    token_surface, _token_reading = rendered_pairs[token_index]
-    if not target_surface or token_surface.count(target_surface) != 1:
-        return None
-    offset = token_surface.index(target_surface)
-    prefix = token_surface[:offset]
-    suffix = token_surface[offset + len(target_surface) :]
-    if not prefix and not suffix:
-        return None
-    if not re.fullmatch(r"[\u3040-\u30ffー]*", prefix + suffix):
-        return None
-    replacement_surface = "".join(surface for surface, _reading in replacement_pairs)
-    if replacement_surface != target_surface:
-        return None
-    replacement_reading = "".join(reading for _surface, reading in replacement_pairs)
-    reading = "".join(
-        (
-            hira_to_kata(kana_surface_to_hira(prefix)),
-            replacement_reading,
-            hira_to_kata(kana_surface_to_hira(suffix)),
-        )
-    )
-    return token_surface, reading
 
 
 def rejected_surface_reading_pairs(targets: list[dict[str, Any]]) -> set[tuple[str, str]]:
@@ -3033,8 +3296,8 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
         token_index = target.get("token_index")
         chunk_index = target.get("chunk_index")
         return (
-            int(chunk_index) if isinstance(chunk_index, int) else 0,
             int(token_index) if isinstance(token_index, int) else 10**9,
+            int(chunk_index) if isinstance(chunk_index, int) else 0,
             str(target.get("item_id", "")),
         )
 
@@ -3051,9 +3314,12 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
             bool(current)
             and chunk is not None
             and token is not None
-            and previous_chunk == chunk
+            and previous_chunk is not None
             and previous_token is not None
-            and token == previous_token + 1
+            and (
+                (token == previous_token and chunk == previous_chunk + 1)
+                or (token == previous_token + 1 and chunk == 0)
+            )
         )
         if not continues_previous:
             if current:
@@ -3065,6 +3331,87 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
     if current:
         groups.append(current)
     return groups
+
+
+def target_group_rejected_span(text: str, targets: list[dict[str, Any]]) -> str:
+    starts = [
+        int(target["target_start"])
+        for target in targets
+        if isinstance(target.get("target_start"), int)
+    ]
+    ends = [
+        int(target["target_end"])
+        for target in targets
+        if isinstance(target.get("target_end"), int)
+    ]
+    if starts and ends:
+        start = min(starts)
+        end = max(ends)
+        last_target = max(
+            (
+                target
+                for target in targets
+                if isinstance(target.get("target_end"), int)
+            ),
+            key=lambda target: int(target["target_end"]),
+        )
+        token_surface = str(last_target.get("token_surface") or "")
+        surface = str(last_target.get("surface") or "")
+        surface_end = token_surface.rfind(surface) + len(surface) if surface else 0
+        suffix = token_surface[surface_end:] if surface_end >= len(surface) else ""
+        if suffix and all(is_kana(char) for char in suffix) and text.startswith(suffix, end):
+            end += len(suffix)
+        if 0 <= start < end <= len(text):
+            return text[start:end]
+
+    # Older review artifacts do not carry absolute offsets. Reconstruct each
+    # affected token from its first through last selected chunk so connectors
+    # such as the ヶ in 島ヶ原 are not lost between chunk surfaces.
+    token_parts: list[str] = []
+    index = 0
+    while index < len(targets):
+        target = targets[index]
+        token_index = target.get("token_index")
+        token_surface = str(target.get("token_surface") or "")
+        same_token = [target]
+        index += 1
+        while (
+            index < len(targets)
+            and token_index is not None
+            and targets[index].get("token_index") == token_index
+        ):
+            same_token.append(targets[index])
+            index += 1
+
+        if not token_surface or any(
+            str(item.get("token_surface") or "") != token_surface
+            for item in same_token
+        ):
+            token_parts.extend(str(item.get("surface") or "") for item in same_token)
+            continue
+
+        cursor = 0
+        start: int | None = None
+        end: int | None = None
+        for item in same_token:
+            surface = str(item.get("surface") or "")
+            position = token_surface.find(surface, cursor)
+            if not surface or position < 0:
+                start = None
+                break
+            if start is None:
+                start = position
+            end = position + len(surface)
+            cursor = end
+        if start is None or end is None:
+            token_parts.extend(str(item.get("surface") or "") for item in same_token)
+        else:
+            suffix = token_surface[end:]
+            if suffix and all(is_kana(char) for char in suffix):
+                end = len(token_surface)
+            token_parts.append(token_surface[start:end])
+
+    return "".join(token_parts)
 
 
 def finalize_reviewed_yomi_file(
@@ -3531,6 +3878,181 @@ def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
         surface, reading = token.rsplit("/", 1)
         pairs.append((surface, reading))
     return pairs
+
+
+def review_yomi_pairs_for_unit(unit: dict[str, Any]) -> tuple[list[list[str]], str]:
+    yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+    if not isinstance(yomi, dict):
+        return [], "unit has no mechanical yomi object"
+    try:
+        pairs = yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    except YomiTokenError as exc:
+        return [], f"canonical yomi tokenization failed: {exc}"
+    if not pairs:
+        return [], "unit has no canonical yomi tokens"
+    return pairs, ""
+
+
+def find_rendered_surface_spans(
+    pairs: list[list[str]] | list[tuple[str, str]],
+    surface_span: str,
+) -> list[dict[str, Any]]:
+    if not surface_span:
+        return []
+    surfaces = [str(surface) for surface, _reading in pairs]
+    combined = "".join(surfaces)
+    token_starts: list[int] = []
+    cursor = 0
+    for surface in surfaces:
+        token_starts.append(cursor)
+        cursor += len(surface)
+    matches: list[dict[str, Any]] = []
+    search_from = 0
+    while True:
+        char_start = combined.find(surface_span, search_from)
+        if char_start < 0:
+            break
+        char_end = char_start + len(surface_span)
+        start_index = next(
+            (
+                index
+                for index, token_start in enumerate(token_starts)
+                if token_start <= char_start < token_start + len(surfaces[index])
+            ),
+            None,
+        )
+        end_index = next(
+            (
+                index
+                for index, token_start in enumerate(token_starts)
+                if token_start < char_end <= token_start + len(surfaces[index])
+            ),
+            None,
+        )
+        if start_index is not None and end_index is not None:
+            start_offset = char_start - token_starts[start_index]
+            end_offset = char_end - token_starts[end_index]
+            matches.append(
+                {
+                    "start": start_index,
+                    "end": end_index + 1,
+                    "char_start": char_start,
+                    "char_end": char_end,
+                    "start_offset": start_offset,
+                    "end_offset": end_offset,
+                    "prefix": surfaces[start_index][:start_offset],
+                    "suffix": surfaces[end_index][end_offset:],
+                }
+            )
+        search_from = char_start + 1
+    return matches
+
+
+def select_rendered_surface_span(
+    pairs: list[list[str]] | list[tuple[str, str]],
+    surface_span: str,
+    *,
+    targets: list[dict[str, Any]] | None = None,
+    reference_rendered: str = "",
+    occurrence_index: object = None,
+) -> dict[str, Any] | None:
+    matches = find_rendered_surface_spans(pairs, surface_span)
+    if isinstance(occurrence_index, int) and 0 <= occurrence_index < len(matches):
+        return matches[occurrence_index]
+    token_indexes = [
+        int(target["token_index"])
+        for target in targets or []
+        if isinstance(target.get("token_index"), int)
+    ]
+    if token_indexes:
+        target_start = min(token_indexes)
+        target_end = max(token_indexes)
+        indexed = [
+            match
+            for match in matches
+            if int(match["start"]) <= target_start
+            and target_end < int(match["end"])
+        ]
+        if len(indexed) == 1:
+            return indexed[0]
+    occurrence_index = reference_surface_occurrence_index(
+        reference_rendered,
+        surface_span,
+        targets=targets or [],
+    )
+    if occurrence_index is not None and occurrence_index < len(matches):
+        return matches[occurrence_index]
+    return matches[0] if len(matches) == 1 else None
+
+
+def reference_surface_occurrence_index(
+    rendered: str,
+    surface_span: str,
+    *,
+    targets: list[dict[str, Any]],
+) -> int | None:
+    token_indexes = [
+        int(target["token_index"])
+        for target in targets
+        if isinstance(target.get("token_index"), int)
+    ]
+    if not rendered or not surface_span or not token_indexes:
+        return None
+    pairs = parse_rendered_pairs(rendered)
+    token_index = min(token_indexes)
+    if not (0 <= token_index < len(pairs)):
+        return None
+    expected_start = sum(len(surface) for surface, _reading in pairs[:token_index])
+    first_target = min(
+        (
+            target
+            for target in targets
+            if isinstance(target.get("token_index"), int)
+        ),
+        key=lambda target: int(target["token_index"]),
+    )
+    token_surface = str(first_target.get("token_surface") or "")
+    target_surface = str(first_target.get("surface") or "")
+    if token_surface and target_surface and target_surface in token_surface:
+        expected_start += token_surface.index(target_surface)
+    combined = "".join(surface for surface, _reading in pairs)
+    starts: list[int] = []
+    search_from = 0
+    while True:
+        start = combined.find(surface_span, search_from)
+        if start < 0:
+            break
+        starts.append(start)
+        search_from = start + 1
+    if not starts:
+        return None
+    return min(range(len(starts)), key=lambda index: abs(starts[index] - expected_start))
+
+
+def mapped_replacement_pairs(
+    replacement_pairs: list[tuple[str, str]],
+    mapping: dict[str, Any],
+) -> list[tuple[str, str]] | None:
+    if not replacement_pairs:
+        return None
+    prefix = str(mapping.get("prefix") or "")
+    suffix = str(mapping.get("suffix") or "")
+    if not re.fullmatch(r"[\u3040-\u30ffー]*", prefix + suffix):
+        return None
+    updated = list(replacement_pairs)
+    if prefix:
+        surface, reading = updated[0]
+        updated[0] = (
+            prefix + surface,
+            hira_to_kata(kana_surface_to_hira(prefix)) + reading,
+        )
+    if suffix:
+        surface, reading = updated[-1]
+        updated[-1] = (
+            surface + suffix,
+            reading + hira_to_kata(kana_surface_to_hira(suffix)),
+        )
+    return updated
 
 
 def hira_to_kata(text: str) -> str:

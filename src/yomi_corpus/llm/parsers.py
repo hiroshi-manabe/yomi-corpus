@@ -14,6 +14,8 @@ def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None
         return parse_json_object(text)
     if parser_name == "json_array":
         return parse_json_array(text)
+    if parser_name == "yomi_repair_json_array":
+        return parse_yomi_repair_json_array(text, metadata=metadata)
     if parser_name == "yomi_reading_completion_json":
         return parse_yomi_reading_completion_json(text, metadata=metadata)
     if parser_name == "yomi_triage_label":
@@ -58,6 +60,39 @@ def parse_json_array(text: str) -> list[Any]:
         if isinstance(parsed, list):
             return parsed
     raise ValueError("Expected a JSON array in model output.")
+
+
+def parse_yomi_repair_json_array(
+    text: str,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> list[Any]:
+    parsed = parse_json_array(text)
+    validate_yomi_repair_surface(parsed, metadata=metadata)
+    return parsed
+
+
+def validate_yomi_repair_surface(
+    parsed: object,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> None:
+    expected = _expected_rejected_span(metadata)
+    if not isinstance(parsed, list) or not parsed:
+        raise ValueError("Yomi repair must return a non-empty JSON array.")
+    surfaces: list[str] = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            raise ValueError("Each yomi repair item must be a JSON object.")
+        surface = item.get("surface")
+        if not isinstance(surface, str) or not surface:
+            raise ValueError("Each yomi repair item must have a non-empty surface.")
+        surfaces.append(surface)
+    actual = "".join(surfaces)
+    if actual != expected:
+        raise ValueError(
+            f"Yomi repair surface mismatch: expected {expected!r}, got {actual!r}."
+        )
 
 
 def extract_first_json_object(text: str) -> str | None:
@@ -195,6 +230,28 @@ def _expected_surface(metadata: dict[str, Any] | None) -> str:
             if isinstance(surface, str) and surface:
                 return surface
     raise ValueError("Missing expected surface metadata for completion-style yomi parser.")
+
+
+def _expected_rejected_span(metadata: dict[str, Any] | None) -> str:
+    if isinstance(metadata, dict):
+        rejected_span = metadata.get("rejected_span")
+        if isinstance(rejected_span, str) and rejected_span:
+            return rejected_span
+        source_row = metadata.get("source_row")
+        if isinstance(source_row, dict):
+            rejected_span = source_row.get("rejected_span")
+            if isinstance(rejected_span, str) and rejected_span:
+                return rejected_span
+            targets = source_row.get("target_escalations")
+            if isinstance(targets, list):
+                joined = "".join(
+                    str(target.get("surface") or "")
+                    for target in targets
+                    if isinstance(target, dict)
+                )
+                if joined:
+                    return joined
+    raise ValueError("Missing rejected span metadata for yomi repair parser.")
 
 
 def parse_yomi_triage_label(text: str) -> dict[str, str]:

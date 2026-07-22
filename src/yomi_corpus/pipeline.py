@@ -41,6 +41,7 @@ from yomi_corpus.document_review_state import (
     write_document_review_state,
 )
 from yomi_corpus.llm.config import apply_llm_profile, load_llm_task_config
+from yomi_corpus.llm.parsers import validate_yomi_repair_surface
 from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
 from yomi_corpus.llm.runner import run_llm_task
@@ -82,6 +83,7 @@ DEPRECATED_ARTIFACT_KEYS = frozenset(
     }
 )
 DEFAULT_PIPELINE_DEFAULTS_CONFIG_PATH = "config/pipeline/defaults.toml"
+YOMI_STRONG_REPAIR_RESPONSE_RETRIES = 3
 YOMI_UNIT_MODE_SENTENCE = "sentence"
 YOMI_UNIT_MODE_COMMA_SPAN = "comma_span"
 YOMI_UNIT_MODES = frozenset({YOMI_UNIT_MODE_SENTENCE, YOMI_UNIT_MODE_COMMA_SPAN})
@@ -434,6 +436,13 @@ def normalize_llm_execution_policy(
         if mode not in LLM_EXECUTION_MODES:
             raise ValueError(f"Unsupported LLM execution mode for {task}: {mode}")
     return normalized
+
+
+def strong_repair_review_results_path(batch_dir: Path) -> Path:
+    effective = batch_dir / "yomi_strong_repair_effective_results.jsonl"
+    if effective.exists():
+        return effective
+    return batch_dir / "yomi_strong_repair_results.jsonl"
 
 
 class PipelineWorkspace:
@@ -2993,8 +3002,63 @@ class PipelineWorkspace:
             results_path.parent.mkdir(parents=True, exist_ok=True)
             results_path.write_text("", encoding="utf-8")
 
+        effective_results_path = batch_dir / "yomi_strong_repair_effective_results.jsonl"
+        result_paths = [results_path]
+        retry_artifacts: dict[str, str] = {}
+        for attempt in range(1, YOMI_STRONG_REPAIR_RESPONSE_RETRIES + 1):
+            retry_rows = write_effective_yomi_strong_repair_results(
+                queue_jsonl=input_path,
+                result_jsonls=result_paths,
+                output_jsonl=effective_results_path,
+            )
+            if not retry_rows:
+                break
+            retry_prefix = f"yomi_strong_repair_retry{attempt}"
+            retry_input_path = batch_dir / f"{retry_prefix}_input.jsonl"
+            retry_results_path = batch_dir / f"{retry_prefix}_results.jsonl"
+            retry_job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_{retry_prefix}"
+            write_jsonl_rows(retry_input_path, retry_rows)
+            retry_summary = run_llm_task(
+                task_config_path,
+                str(retry_input_path),
+                str(retry_results_path),
+                execution_mode=execution_mode,
+                task_config_override=task_config,
+                job_dir=str(retry_job_dir),
+                show_progress=True,
+            )
+            retry_artifacts[f"{retry_prefix}_input_jsonl"] = str(retry_input_path)
+            retry_artifacts[f"{retry_prefix}_results_jsonl"] = str(retry_results_path)
+            if retry_summary.status != "completed":
+                return {
+                    "stage_complete": False,
+                    "blocking_reason": self._llm_incomplete_blocking_reason(
+                        execution_mode=execution_mode,
+                        job_summary=retry_summary,
+                    ),
+                    "artifacts": {
+                        **retry_artifacts,
+                        **self._llm_running_artifacts(
+                            prefix=retry_prefix,
+                            task_config_path=task_config_path,
+                            task_config=task_config,
+                            llm_profile=llm_profile,
+                            execution_mode=execution_mode,
+                            job_dir=retry_job_dir,
+                            job_summary=retry_summary,
+                            queued_count=len(retry_rows),
+                        ),
+                    },
+                }
+            result_paths.append(retry_results_path)
+
+        write_effective_yomi_strong_repair_results(
+            queue_jsonl=input_path,
+            result_jsonls=result_paths,
+            output_jsonl=effective_results_path,
+        )
         usage_summary = summarize_results_jsonl(
-            str(results_path),
+            str(effective_results_path),
             model=task_config.model,
             processing_tier="standard",
             pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
@@ -3006,7 +3070,7 @@ class PipelineWorkspace:
         apply_summary = apply_yomi_strong_repair_results_file(
             units_jsonl=batch_dir / "units.yomi.reviewed.jsonl",
             queue_jsonl=input_path,
-            results_jsonl=results_path,
+            results_jsonl=effective_results_path,
             output_jsonl=output_path,
             summary_json=apply_summary_path,
         )
@@ -3015,12 +3079,12 @@ class PipelineWorkspace:
             review_pack_artifacts = self._prepare_strong_repair_review_pack(
                 batch_name,
                 queue_jsonl=input_path,
-                results_jsonl=results_path,
+                results_jsonl=effective_results_path,
                 units_jsonl=output_path,
             )
         completed_artifacts = self._llm_completed_artifacts(
             prefix="yomi_strong_repair",
-            results_path=results_path,
+            results_path=effective_results_path,
             usage_summary_path=usage_summary_path,
             apply_summary_path=apply_summary_path,
             task_config_path=task_config_path,
@@ -3033,6 +3097,7 @@ class PipelineWorkspace:
         )
         artifacts = {
             **completed_artifacts,
+            **retry_artifacts,
             **review_pack_artifacts,
             "units_yomi_strong_repaired_jsonl": str(output_path),
             "yomi_strong_repair_applied": str(apply_summary["applied_items"]),
@@ -3175,6 +3240,9 @@ class PipelineWorkspace:
                     "document_review_state_strong_reviewed": str(
                         state_counts.get("strong_reviewed", 0)
                     ),
+                    "document_review_state_strong_apply_failed": str(
+                        state_counts.get("strong_apply_failed", 0)
+                    ),
                     "document_review_state_complete": str(
                         state_counts.get("complete", 0)
                     ),
@@ -3186,7 +3254,7 @@ class PipelineWorkspace:
             )
 
         queue_jsonl = batch_dir / "yomi_strong_repair_queue.jsonl"
-        results_jsonl = batch_dir / "yomi_strong_repair_results.jsonl"
+        results_jsonl = strong_repair_review_results_path(batch_dir)
         if queue_jsonl.exists() and results_jsonl.exists():
             artifacts.update(
                 self._prepare_strong_repair_review_pack(
@@ -3410,6 +3478,61 @@ class PipelineWorkspace:
             ),
             f"{prefix}_llm_job_status": "completed",
         }
+
+def write_effective_yomi_strong_repair_results(
+    *,
+    queue_jsonl: Path,
+    result_jsonls: list[Path],
+    output_jsonl: Path,
+) -> list[dict[str, object]]:
+    queue_rows = [
+        json.loads(line)
+        for line in queue_jsonl.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    queue_by_id = {str(row.get("item_id") or ""): row for row in queue_rows}
+    effective_rows: list[dict[str, object]] = []
+    latest_by_id: dict[str, dict[str, object]] = {}
+    for path in result_jsonls:
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            item_id = str(row.get("item_id") or "")
+            normalized = dict(row)
+            if item_id and not normalized.get("parse_error"):
+                queue_row = queue_by_id.get(item_id)
+                try:
+                    validate_yomi_repair_surface(
+                        normalized.get("parsed"),
+                        metadata={"source_row": queue_row} if queue_row else None,
+                    )
+                except ValueError as exc:
+                    normalized["parse_error"] = str(exc)
+                    normalized["parsed"] = None
+            effective_rows.append(normalized)
+            if item_id:
+                latest_by_id[item_id] = normalized
+    write_jsonl_rows(output_jsonl, effective_rows)
+    return [
+        row
+        for row in queue_rows
+        if (
+            str(row.get("item_id") or "") not in latest_by_id
+            or latest_by_id[str(row.get("item_id") or "")].get("parse_error")
+        )
+    ]
+
+
+def write_jsonl_rows(path: Path, rows: list[dict[str, object]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows),
+        encoding="utf-8",
+    )
+
 
 def count_nonempty_lines(path: Path) -> int:
     if not path.exists():

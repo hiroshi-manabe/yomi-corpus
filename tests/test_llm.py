@@ -71,6 +71,14 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertIn("criminal suspicion", prompt)
         self.assertIn("When unsure, Skip", prompt)
 
+    def test_scope_triage_prompt_skips_obvious_source_corruption_not_ordinary_typos(self) -> None:
+        config = load_llm_task_config("config/llm/scope_triage.toml")
+        prompt = Path(config.prompt_template).read_text(encoding="utf-8")
+
+        self.assertIn("Keep isolated ordinary typos", prompt)
+        self.assertIn("nonstandard OCR corruption", prompt)
+        self.assertIn("flattened ruby", prompt)
+
     def test_apply_llm_profile_overrides_model(self) -> None:
         config = load_llm_task_config("config/llm/yomi_triage.toml")
         profile = load_llm_profile("smoke")
@@ -175,15 +183,42 @@ class LLMScaffoldingTests(unittest.TestCase):
             ],
         )
 
-        self.assertEqual(config.parser, "json_array")
+        self.assertEqual(config.parser, "yomi_repair_json_array")
         self.assertEqual(items[0].item_id, "u1::target_group:1")
         self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
         self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
         self.assertIn("First check whether the entire rejected span", items[0].prompt)
+        self.assertIn("The rejection may concern segmentation only", items[0].prompt)
+        self.assertIn("Preserve correct readings", items[0].prompt)
+        self.assertIn("human reviewer could not confidently determine", items[0].prompt)
+        self.assertIn('"comment":"（brief reason or evidence）"', items[0].prompt)
         self.assertIn("answer directly without web search", items[0].prompt)
         self.assertIn("output the final JSON together with your investigation process", items[0].prompt)
         self.assertIn('"used_web_search":true/false', items[0].prompt)
         self.assertNotIn("e.g.", items[0].prompt)
+
+    def test_yomi_repair_prefers_exact_rejected_span_from_queue(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_repair.toml")
+        items = build_prompt_items(
+            config,
+            [
+                {
+                    "item_id": "u1::target_group:1",
+                    "unit_id": "u1",
+                    "text": "八島ヶ原湿原です。",
+                    "rendered_yomi": "八/ヤ 島ヶ原/シマガハラ 湿原/シツゲン です/デス 。/。",
+                    "rejected_span": "八島ヶ原",
+                    "repair_scope": "target_group",
+                    "target_escalations": [
+                        {"surface": "八", "current_reading_hiragana": "や"},
+                        {"surface": "島", "current_reading_hiragana": "しま"},
+                        {"surface": "原", "current_reading_hiragana": "はら"},
+                    ],
+                }
+            ],
+        )
+
+        self.assertIn("Rejected span: 八島ヶ原", items[0].prompt)
 
     def test_parse_json_output(self) -> None:
         parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
@@ -206,6 +241,30 @@ class LLMScaffoldingTests(unittest.TestCase):
         )
         self.assertEqual(parsed[0]["surface"], "真光元")
         self.assertEqual(parsed[0]["reading"], "しんこうげん")
+
+    def test_parse_yomi_repair_requires_exact_total_surface(self) -> None:
+        metadata = {"rejected_span": "横目"}
+        parsed = parse_output(
+            '[{"surface":"横目","reading":"よこめ","used_web_search":false}]',
+            "yomi_repair_json_array",
+            metadata=metadata,
+        )
+        self.assertEqual(parsed[0]["surface"], "横目")
+        with self.assertRaisesRegex(ValueError, "surface mismatch"):
+            parse_output(
+                '[{"surface":"大和横目","reading":"やまとよこめ","used_web_search":true}]',
+                "yomi_repair_json_array",
+                metadata=metadata,
+            )
+
+    def test_parse_yomi_repair_allows_changed_segmentation(self) -> None:
+        parsed = parse_output(
+            '[{"surface":"池尻","reading":"いけじり"},'
+            '{"surface":"中学校","reading":"ちゅうがっこう"}]',
+            "yomi_repair_json_array",
+            metadata={"rejected_span": "池尻中学校"},
+        )
+        self.assertEqual([row["surface"] for row in parsed], ["池尻", "中学校"])
 
     def test_parse_yomi_reading_completion_output(self) -> None:
         self.assertEqual(
@@ -802,6 +861,90 @@ class LLMScaffoldingTests(unittest.TestCase):
             ]
             self.assertEqual(rows[0]["parsed"], {"status": "OK"})
 
+    def test_run_background_task_retries_transient_rate_limit_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            output_path = root / "results.jsonl"
+            job_dir = root / "job"
+            input_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "大学です。",
+                        "rendered": "大学/ダイガク です/デス 。/。",
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            class FakeBackend:
+                submissions = 0
+
+                def __init__(self, **kwargs: object) -> None:
+                    pass
+
+                def submit_background_item(self, task_config: object, item: object) -> dict[str, object]:
+                    self.__class__.submissions += 1
+                    return {
+                        "response_id": f"resp_{self.submissions}",
+                        "status": "queued",
+                    }
+
+                def retrieve_response(self, response_id: str) -> dict[str, object]:
+                    if response_id in {"resp_1", "resp_2", "resp_3", "resp_4"}:
+                        return {
+                            "response_id": response_id,
+                            "status": "failed",
+                            "error": {
+                                "code": "rate_limit_exceeded",
+                                "message": "Please try again shortly.",
+                            },
+                        }
+                    if response_id == "resp_5":
+                        return {
+                            "response_id": response_id,
+                            "status": "incomplete",
+                            "incomplete_details": {"reason": "max_output_tokens"},
+                        }
+                    return {
+                        "response_id": response_id,
+                        "status": "completed",
+                        "raw_text": "OK",
+                        "usage": None,
+                    }
+
+            with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
+                summary = run_background_task(
+                    "config/llm/yomi_triage.toml",
+                    str(input_path),
+                    str(output_path),
+                    job_dir=str(job_dir),
+                    poll_interval_seconds=0,
+                )
+
+            self.assertEqual(summary.status, "completed")
+            self.assertEqual(summary.failed_items, 0)
+            self.assertEqual(FakeBackend.submissions, 6)
+            rows = [
+                json.loads(line)
+                for line in output_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(rows[0]["item_id"], "u1")
+            self.assertEqual(rows[0]["parsed"], {"status": "OK"})
+            self.assertIsNone(rows[0]["parse_error"])
+            records = load_background_records(job_dir / "responses.jsonl")
+            self.assertEqual(records["u1"]["response_id"], "resp_6")
+            self.assertEqual(len(records["u1"]["previous_attempts"]), 5)
+            self.assertEqual(
+                {attempt["superseded_reason"] for attempt in records["u1"]["previous_attempts"]},
+                {"rate_limit_retry", "output_limit_retry"},
+            )
+
     def test_run_background_task_stops_on_stale_progress_timeout(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -856,12 +999,16 @@ class LLMScaffoldingTests(unittest.TestCase):
                 + "\n"
                 + json.dumps({"item_id": "u2", "parse_error": "bad"})
                 + "\n"
+                + json.dumps({"item_id": "u2", "parse_error": None})
+                + "\n"
+                + json.dumps({"item_id": "u4", "parse_error": "still bad"})
+                + "\n"
                 + '{"item_id": "u3"',
                 encoding="utf-8",
             )
 
-            self.assertEqual(load_result_item_ids(path), {"u1", "u2"})
-            self.assertEqual(load_result_item_count(path), 2)
+            self.assertEqual(load_result_item_ids(path), {"u1", "u2", "u4"})
+            self.assertEqual(load_result_item_count(path), 4)
             self.assertEqual(count_result_parse_errors(path), 1)
 
     def test_background_records_ignore_truncated_tail_and_write_atomically(self) -> None:

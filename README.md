@@ -235,6 +235,9 @@ Yomi generation scaffold:
 - ambiguous `1日` stays fused as a review unit with `いちにち` and `ついたち`
   candidates; finalization expands accepted `1日/イチニチ` to `1/ 日/ニチ`
   but keeps `1日/ツイタチ` fused
+- other lexicalized numeric compounds keep their deterministic reading as the
+  safe default but remain tappable in Bulk Review, including a no-ruby choice
+  that requests local escalated repair
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct

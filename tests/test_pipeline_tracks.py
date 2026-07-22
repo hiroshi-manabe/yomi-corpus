@@ -18,10 +18,83 @@ from yomi_corpus.pipeline import (
     is_working_track,
     normalize_track_name,
     requires_strict_human_review_gates,
+    strong_repair_review_results_path,
+    write_effective_yomi_strong_repair_results,
 )
 
 
 class PipelineTrackTests(unittest.TestCase):
+    def test_strong_repair_review_prefers_effective_results(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            batch_dir = Path(tmp)
+            raw = batch_dir / "yomi_strong_repair_results.jsonl"
+            effective = batch_dir / "yomi_strong_repair_effective_results.jsonl"
+            raw.write_text("raw\n", encoding="utf-8")
+
+            self.assertEqual(strong_repair_review_results_path(batch_dir), raw)
+
+            effective.write_text("effective\n", encoding="utf-8")
+            self.assertEqual(strong_repair_review_results_path(batch_dir), effective)
+
+    def test_strong_repair_effective_results_retry_surface_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            queue_path = root / "queue.jsonl"
+            first_path = root / "first.jsonl"
+            retry_path = root / "retry.jsonl"
+            effective_path = root / "effective.jsonl"
+            queue_row = {
+                "item_id": "u1::target_group:1",
+                "rejected_span": "横目",
+            }
+            queue_path.write_text(json.dumps(queue_row, ensure_ascii=False) + "\n", encoding="utf-8")
+            first_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": queue_row["item_id"],
+                        "parsed": [{"surface": "大和横目", "reading": "やまとよこめ"}],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            retry_rows = write_effective_yomi_strong_repair_results(
+                queue_jsonl=queue_path,
+                result_jsonls=[first_path],
+                output_jsonl=effective_path,
+            )
+            self.assertEqual(retry_rows, [queue_row])
+            invalid = json.loads(effective_path.read_text(encoding="utf-8"))
+            self.assertIn("surface mismatch", invalid["parse_error"])
+            self.assertIsNone(invalid["parsed"])
+
+            retry_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": queue_row["item_id"],
+                        "parsed": [{"surface": "横目", "reading": "よこめ"}],
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            retry_rows = write_effective_yomi_strong_repair_results(
+                queue_jsonl=queue_path,
+                result_jsonls=[first_path, retry_path],
+                output_jsonl=effective_path,
+            )
+            self.assertEqual(retry_rows, [])
+            effective = [
+                json.loads(line)
+                for line in effective_path.read_text(encoding="utf-8").splitlines()
+            ]
+            self.assertEqual(effective[-1]["parsed"][0]["surface"], "横目")
+
     def test_working_track_is_default_and_protected(self) -> None:
         self.assertEqual(DEFAULT_TRACK, WORKING_TRACK)
         self.assertTrue(is_working_track(WORKING_TRACK))
@@ -1064,8 +1137,8 @@ class PipelineTrackTests(unittest.TestCase):
                 .strip()
             )
             self.assertEqual(
-                final_row["analysis"]["mechanical"]["yomi"]["rendered"],
-                "近々/チカヂカ です/デス 。/。",
+                final_row["analysis"]["mechanical"]["yomi"]["tokens"],
+                [["近々", "チカヂカ"], ["です", "デス"], ["。", "。"]],
             )
 
     def test_finalize_imports_strong_repair_review_submission_from_issues(self) -> None:

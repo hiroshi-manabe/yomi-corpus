@@ -20,10 +20,11 @@ surfaces, prioritizing examples that actually reached the reading LLM while
 retaining up to four deterministically accepted controls. Rare readings are
 deliberately oversampled, so use the population counts in
 `routing_targets_v1.summary.json` rather than the fixture distribution when
-estimating corpus-wide savings. Numeral-dependent calendar readings such as
-`4日/よっか` are outside this per-target benchmark; isolated `日/か` rows are
-excluded because they require numeric-span segmentation. Regenerate both files
-with:
+estimating corpus-wide savings. Targets absorbed by the configured Japanese
+numeric-compound rules are excluded: for example, `2人/ふたり` is not a
+standalone `人` target, and `10日/とおか` is not a standalone `日` target.
+Ordinary `人/ひと` and `日/ひ`, plus generic calendar suffixes such as
+`15日/にち`, remain in scope. Regenerate both files with:
 
 ```bash
 python scripts/build_yomi_reading_routing_eval.py
@@ -43,6 +44,10 @@ Review policy:
 - The expected reading should be the reading of the marked surface only, not
   the full token including okurigana. For example, in `**乗**り越えた`, the
   expected reading for `乗` is `の`, not `のり`.
+- Keep one preferred `expected_reading`, but use `acceptable_readings` when
+  multiple readings are valid in context. For example, `行く` may admit both
+  `い` and `ゆ`; exact scoring must not turn a valid stylistic variant into an
+  error.
 - Latin targets should use the Japanese phonetic reading, e.g. `OK` ->
   `おーけー`, unless the surface is genuinely not to be read as Japanese text.
 - Keep difficult context-sensitive cases. The point of the gold set is to test
@@ -54,3 +59,100 @@ The intended workflow is:
 2. Manually fill blank `expected_reading` cells and mark reviewed rows.
 3. Convert reviewed rows into a committed `gold_v1.jsonl`.
 4. Derive a smaller `gold_smoke_v1.jsonl` for fast prompt checks.
+
+## Context-window experiment
+
+`scripts/run_prompt_experiment.py` accepts `--yomi-context-side-chars N` for
+per-target reading experiments. It preserves the marked target, keeps at most
+`N` source characters on each side, and inserts `…` where context was omitted.
+The production configuration now uses 40 characters per side. Omitting the CLI
+option uses the task configuration; zero provides a target-only lower bound.
+
+A 2026-07-17 GPT-5.6 Sol experiment on `routing_targets_v1.jsonl` found:
+
+| Context | Runs | Exact | Semantic reading | Input tokens | Notes |
+| --- | ---: | ---: | ---: | ---: | --- |
+| current/full | 2 | 200/200, 199/200 | 200/200, 200/200 | 12,884 | One malformed answer in the repeat. |
+| 40 chars/side | 2 | 196/200, 197/200 | 200/200, 200/200 | 11,266 | Malformed ruby-style answers contained the expected readings. |
+| 20 chars/side | 1 | 195/200 | 199/200 | 9,550 | Comparative `方が` changed from `ほう` to `かた`; four malformed answers contained the expected readings. |
+
+Here, “semantic reading” counts malformed ruby-style output such as
+`**中**{なか}` as carrying the expected reading even though the JSON parser
+correctly rejects it. These runs indicate that 40 characters per side is a
+reasonable candidate for production-retry testing, while 20 characters per
+side is too aggressive. The 40-character input reduction was about 12.6%, but
+more frequent input echo and occasional malformed ruby annotation erased the
+token-cost saving in these no-retry experiment runs. Across two full-context
+runs, 34 and 46 of 200 responses echoed the source before returning JSON;
+across the two 40-character runs, 58 of 200 did so in each run. Most echoed
+responses remained parseable. The 40-character runs also produced four and
+five nonstandard annotation-style responses, some of which were not parseable.
+
+A follow-up tested a keyed-completion prompt at 40 characters per side:
+
+```text
+目が**痛**い。->{"痛":"いた"}
+{marked_text}->{"{surface}":
+```
+
+Two 40-character runs scored 198/200 and 199/200 exactly after valid variants
+were accepted, or 199/200 and 200/200 after counting recoverable Japanese-quote
+completions such as `「ひと」}`. Input was
+11,666 tokens and output was about 1,965 tokens per run, reducing estimated
+cost to about $0.117 from roughly $0.18-$0.19 for the then-current bare-arrow
+prompt. The
+savings do not yet justify the prompt change: the first run produced the clear
+error `当該日/ひ`. A full-context keyed-completion diagnostic also produced
+`当該日/ひ`, scoring 198/200 exactly or 199/200 after recovering one
+Japanese-quote completion. This isolates the regression to the keyed format,
+not context clipping. The keyed-completion variant was therefore rejected.
+
+To isolate that effect, `当該**日**` was submitted ten times with each full-
+context format. The bare-arrow prompt returned `{"日":"び"}` 10/10 times. The
+keyed prompt returned `{"日":"ひ"}` 8/10 times and `{"日":"び"}` only 2/10
+times. All twenty outputs were valid full JSON objects with no parse failures;
+the keyed model restarted the complete object rather than continuing after the
+supplied `{"日":` prefix. For the Responses model, that dangling prefix is
+therefore a behavioral prompt cue, not a true assistant-output prefill, and it
+strongly biases this example toward the unvoiced standalone reading. Do not use
+the keyed-completion format for production yomi reading.
+
+Additional ten-run `当該日` conditions show a gradient:
+
+| Prompt ending | `び` | `ひ` | Other | Raw-output behavior |
+| --- | ---: | ---: | ---: | --- |
+| `->` | 10 | 0 | 0 | Complete JSON object |
+| `->{` | 8 | 2 | 0 | Continued after `{`, usually as `"日":"び"}` |
+| `->{"` | 0 | 9 | 1 `じつ` | Continued after `{"`, for example `日":"ひ"}` |
+| `->{"日":` | 2 | 8 | 0 | Restarted a complete JSON object |
+
+These are semantic counts reconstructed from continuation output where
+necessary; ordinary JSON parsing correctly rejects fragments that omit the
+prefix supplied in the prompt. The bare arrow was the most accurate of these
+four conditions. Even opening the object slightly changes the reading
+distribution, while opening the key string produces a severe standalone-
+reading bias.
+
+## Adopted generic-object prompt
+
+The production prompt ends the target line with a complete generic object:
+
+```text
+目が**痛**い。->{"痛":"いた"}
+{marked_text}->{"...":"..."}
+```
+
+Unlike a dangling prefix, this describes the required output shape without
+pre-filling the target key. Two GPT-5.6 Sol runs over the 200-item routing
+benchmark with 40 characters of context per side scored 200/200 and 199/200,
+with no parse errors. The one error was `何かしら`, returned as `なん` instead
+of `なに`. Across both runs, only 14/400 responses echoed source text, and
+output fell to 2,253 and 2,236 tokens from 4,650-4,750 for the bare-arrow
+40-character runs. Estimated standard-tier cost fell from about $0.196 to
+about $0.128 per 200 requests.
+
+A focused ten-run test on `当該日` returned `び` eight times and `ひ` twice,
+although both 200-item benchmark runs returned `び`. This probabilistic
+regression is accepted in exchange for 399/400 aggregate benchmark accuracy,
+cleaner output, and lower cost. Parser validation and retries remain required;
+the prompt shape is not treated as an output guarantee.

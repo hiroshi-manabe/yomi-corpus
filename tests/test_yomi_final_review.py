@@ -10,30 +10,470 @@ from yomi_corpus.yomi.final_review import (
     FINALIZED_CORRECTION_STAGE,
     FINALIZED_CORRECTION_SUBMISSION_TYPE,
     apply_finalized_correction_submissions_file,
+    apply_target_group_strong_repair,
+    apply_manual_strong_repair_review_segments_file,
     apply_exact_rendered_target_overrides,
     apply_final_review_file,
     apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
     build_review_target,
+    build_review_item,
+    build_ruby_segments,
     build_strong_repair_queue_file,
     build_yomi_strong_repair_review_pack_file,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
+    group_consecutive_target_overrides,
     harvest_yomi_finalization_artifacts_file,
     rendered_yomi_ruby_tokens,
     rendered_yomi_with_review_defaults,
     replay_review_submissions,
     store_review_submission,
+    target_group_rejected_span,
     validate_finalized_correction_reading,
 )
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_groups_adjacent_mixed_script_targets_as_exact_source_span(self) -> None:
+        targets = [
+            {
+                "item_id": "u1:r0001c01",
+                "surface": "八",
+                "token_index": 0,
+                "chunk_index": 0,
+                "target_start": 0,
+                "target_end": 1,
+            },
+            {
+                "item_id": "u1:r0002c01",
+                "surface": "島",
+                "token_index": 1,
+                "chunk_index": 0,
+                "target_start": 1,
+                "target_end": 2,
+            },
+            {
+                "item_id": "u1:r0002c02",
+                "surface": "原",
+                "token_index": 1,
+                "chunk_index": 1,
+                "target_start": 3,
+                "target_end": 4,
+            },
+        ]
+
+        groups = group_consecutive_target_overrides(targets)
+
+        self.assertEqual(len(groups), 1)
+        for text, expected in (
+            ("八島ヶ原湿原", "八島ヶ原"),
+            ("八島ケ原湿原", "八島ケ原"),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(target_group_rejected_span(text, groups[0]), expected)
+
+    def test_reconstructs_mixed_script_span_without_absolute_offsets(self) -> None:
+        yashima_targets = [
+            {
+                "surface": "八",
+                "token_surface": "八",
+                "token_index": 20,
+                "chunk_index": 0,
+            },
+            {
+                "surface": "島",
+                "token_surface": "島ヶ原",
+                "token_index": 21,
+                "chunk_index": 0,
+            },
+            {
+                "surface": "原",
+                "token_surface": "島ヶ原",
+                "token_index": 21,
+                "chunk_index": 1,
+            },
+        ]
+        utsukushigahara_targets = [
+            {
+                "surface": "美",
+                "token_surface": "美ヶ原",
+                "token_index": 4,
+                "chunk_index": 0,
+            },
+            {
+                "surface": "原",
+                "token_surface": "美ヶ原",
+                "token_index": 4,
+                "chunk_index": 1,
+            },
+        ]
+
+        self.assertEqual(
+            target_group_rejected_span("八島ヶ原湿原", yashima_targets),
+            "八島ヶ原",
+        )
+        self.assertEqual(
+            target_group_rejected_span("美ヶ原高原", utsukushigahara_targets),
+            "美ヶ原",
+        )
+
+    def test_reconstructs_trailing_kana_as_part_of_repair_span(self) -> None:
+        targets = [
+            {
+                "surface": "後払",
+                "token_surface": "後払い",
+                "token_index": 30,
+                "chunk_index": 0,
+            }
+        ]
+
+        self.assertEqual(
+            target_group_rejected_span("後払い・抱え車", targets),
+            "後払い",
+        )
+
+    def test_applies_whole_mixed_script_span_over_multiple_tokens(self) -> None:
+        targets = [
+            {
+                "surface": "八",
+                "token_index": 0,
+                "chunk_index": 0,
+                "target_start": 0,
+                "target_end": 1,
+                "rejected_readings": [{"surface": "八", "reading": "や"}],
+            },
+            {
+                "surface": "島",
+                "token_index": 1,
+                "chunk_index": 0,
+                "target_start": 1,
+                "target_end": 2,
+                "rejected_readings": [{"surface": "島", "reading": "しま"}],
+            },
+            {
+                "surface": "原",
+                "token_index": 1,
+                "chunk_index": 1,
+                "target_start": 3,
+                "target_end": 4,
+                "rejected_readings": [{"surface": "原", "reading": "はら"}],
+            },
+        ]
+        payload = {
+            "text": "八島ヶ原湿原です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "八/ヤ 島ヶ原/シマガハラ 湿原/シツゲン です/デス 。/。"
+                    }
+                }
+            },
+        }
+
+        result = apply_target_group_strong_repair(
+            payload,
+            {
+                "item_id": "u1::target_group:1",
+                "rejected_span": "八島ヶ原",
+                "rendered_yomi": "八/ヤ 島ヶ原/シマガハラ 湿原/シツゲン です/デス 。/。",
+                "target_escalations": targets,
+            },
+            {
+                "parsed": [
+                    {"surface": "八島ヶ原", "reading": "やしまがはら"},
+                ]
+            },
+        )
+
+        self.assertEqual(result["status"], "applied")
+        self.assertIn(
+            "八島ヶ原/ヤシマガハラ 湿原/シツゲン",
+            payload["analysis"]["mechanical"]["yomi"]["rendered"],
+        )
+
+    def test_manual_strong_repair_failure_identifies_document_and_submission(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            units = Path(tmp) / "units.jsonl"
+            units.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc1",
+                        "unit_id": "u1",
+                        "analysis": {
+                            "mechanical": {"yomi": {"rendered": "(笑)/ワライ"}}
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            pack = {
+                "items": [
+                    {
+                        "item_id": "u1::strong_repair",
+                        "doc_id": "doc1",
+                        "regions": [
+                            {
+                                "region_id": "u1::region:1",
+                                "unit_id": "u1",
+                                "rejected_span": "(笑)",
+                            }
+                        ],
+                    }
+                ]
+            }
+            effective = {
+                "u1::strong_repair": {
+                    "submission_id": "submission-1",
+                    "regions": [
+                        {
+                            "region_id": "u1::region:1",
+                            "manual_segments": [
+                                {"surface": "笑", "reading": "わらい"},
+                            ],
+                        }
+                    ],
+                }
+            }
+
+            result = apply_manual_strong_repair_review_segments_file(
+                pack=pack,
+                effective=effective,
+                units_jsonl=units,
+            )
+
+            self.assertEqual(result["invalid_items"], 1)
+            self.assertEqual(result["invalid"][0]["doc_id"], "doc1")
+            self.assertEqual(result["invalid"][0]["unit_id"], "u1")
+            self.assertEqual(result["invalid"][0]["submission_id"], "submission-1")
+
+    def test_manual_strong_repair_disambiguates_repeated_stale_token_indexes(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            units = Path(tmp) / "units.jsonl"
+            units.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc1",
+                        "unit_id": "u1",
+                        "text": "1kgと2kg。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "tokens": [
+                                        ["1", ""],
+                                        ["kg", "キログラム"],
+                                        ["と", "ト"],
+                                        ["2", ""],
+                                        ["kg", "キログラム"],
+                                        ["。", "。"],
+                                    ]
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            reference = "1/ / kg/キログラム と/ト / 2/ / kg/キログラム 。/。"
+            regions = [
+                {
+                    "region_id": "r1",
+                    "unit_id": "u1",
+                    "rejected_span": "kg",
+                    "rendered_yomi_before": reference,
+                    "target_escalations": [
+                        {"surface": "kg", "token_surface": "kg", "token_index": 2}
+                    ],
+                },
+                {
+                    "region_id": "r2",
+                    "unit_id": "u1",
+                    "rejected_span": "kg",
+                    "rendered_yomi_before": reference,
+                    "target_escalations": [
+                        {"surface": "kg", "token_surface": "kg", "token_index": 7}
+                    ],
+                },
+            ]
+            result = apply_manual_strong_repair_review_segments_file(
+                pack={
+                    "items": [
+                        {
+                            "item_id": "u1::strong_repair",
+                            "doc_id": "doc1",
+                            "regions": regions,
+                        }
+                    ]
+                },
+                effective={
+                    "u1::strong_repair": {
+                        "submission_id": "s1",
+                        "regions": [
+                            {
+                                "region_id": region["region_id"],
+                                "manual_segments": [{"surface": "kg", "reading": "きろ"}],
+                            }
+                            for region in regions
+                        ],
+                    }
+                },
+                units_jsonl=units,
+            )
+
+            self.assertEqual(result["applied_items"], 2)
+            repaired = json.loads(units.read_text(encoding="utf-8"))
+            self.assertEqual(
+                [token for token in repaired["analysis"]["mechanical"]["yomi"]["tokens"] if token[0] == "kg"],
+                [["kg", "キロ"], ["kg", "キロ"]],
+            )
+
+    def test_manual_strong_repair_may_replace_full_token_around_rejected_chunk(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            units = Path(tmp) / "units.jsonl"
+            units.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc1",
+                        "unit_id": "u1",
+                        "text": "予防疲れ。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "tokens": [
+                                        ["予防", "ヨボウ"],
+                                        ["疲れ", "ツカレ"],
+                                        ["。", "。"],
+                                    ]
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            region = {
+                "region_id": "r1",
+                "unit_id": "u1",
+                "rejected_span": "疲",
+                "rendered_yomi_before": "予防/ヨボウ 疲れ/ツカレ 。/。",
+                "target_escalations": [
+                    {"surface": "疲", "token_surface": "疲れ", "token_index": 1}
+                ],
+            }
+            result = apply_manual_strong_repair_review_segments_file(
+                pack={
+                    "items": [
+                        {
+                            "item_id": "u1::strong_repair",
+                            "doc_id": "doc1",
+                            "regions": [region],
+                        }
+                    ]
+                },
+                effective={
+                    "u1::strong_repair": {
+                        "submission_id": "s1",
+                        "regions": [
+                            {
+                                "region_id": "r1",
+                                "manual_segments": [
+                                    {"surface": "疲れ", "reading": "づかれ"}
+                                ],
+                            }
+                        ],
+                    }
+                },
+                units_jsonl=units,
+            )
+
+            self.assertEqual(result["applied_items"], 1)
+            repaired = json.loads(units.read_text(encoding="utf-8"))
+            self.assertIn(
+                ["疲れ", "ヅカレ"],
+                repaired["analysis"]["mechanical"]["yomi"]["tokens"],
+            )
+
     def test_finalized_correction_accepts_kana_reading_for_fullwidth_latin(self) -> None:
         self.assertEqual(
             validate_finalized_correction_reading("ＵＦＯ", "ユーフォー"),
             {"ok": True},
         )
+
+    def test_finalized_correction_preserves_numeric_compound_reading(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("2つ", "フタツ"),
+            {"ok": True},
+        )
+        self.assertFalse(
+            validate_finalized_correction_reading("2つ", "2ツ")["ok"],
+        )
+
+    def test_apply_finalized_correction_preserves_numeric_compound_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            final_jsonl = batch_dir / "units.yomi.final.jsonl"
+            final_jsonl.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "doc_id": "doc1",
+                        "text": "2つです。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "token_schema_version": 1,
+                                    "tokens": [["2", ""], ["つ", "ツ"], ["です", "デス"], ["。", "。"]],
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "numeric_correction",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 1,
+                    "units": [
+                        {
+                            "unit_id": "u1",
+                            "text": "2つです。",
+                            "original_yomi_tokens": [["2", ""], ["つ", "ツ"], ["です", "デス"], ["。", "。"]],
+                            "proposed_yomi_tokens": [["2つ", "フタツ"], ["です", "デス"], ["。", "。"]],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary.json",
+            )
+
+            self.assertEqual(summary["applied_count"], 1)
+            row = json.loads(final_jsonl.read_text(encoding="utf-8"))
+            self.assertEqual(
+                row["analysis"]["mechanical"]["yomi"]["tokens"][0],
+                ["2つ", "フタツ"],
+            )
 
     def test_apply_finalized_correction_updates_final_jsonl(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -162,6 +602,148 @@ class YomiFinalReviewTests(unittest.TestCase):
             [
                 {"type": "text", "text": "お"},
                 {"type": "ruby", "text": "金", "reading": "かね"},
+            ],
+        )
+
+    def test_rendered_yomi_ruby_tokens_keep_ke_place_name_ruby_on_full_surface(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("新鎌ケ谷/シンカマガヤ 鎌ヶ谷駅/カマガヤエキ")
+
+        self.assertEqual(
+            tokens[0]["nodes"],
+            [{"type": "ruby", "text": "新鎌ケ谷", "reading": "しんかまがや"}],
+        )
+        self.assertEqual(
+            tokens[1]["nodes"],
+            [{"type": "ruby", "text": "鎌ヶ谷駅", "reading": "かまがやえき"}],
+        )
+
+    def test_review_ruby_segments_include_numeric_compounds(self) -> None:
+        segments = build_ruby_segments(
+            "予約開始は12月2日からです。",
+            [],
+            rendered_yomi=(
+                "予約/ヨヤク 開始/カイシ は/ハ 12/ 月/ガツ "
+                "2日/フツカ から/カラ です/デス 。/。"
+            ),
+        )
+
+        self.assertIn(
+            {
+                "type": "ruby",
+                "text": "2日",
+                "reading": "ふつか",
+                "display_only": True,
+            },
+            segments,
+        )
+
+    def test_review_item_exposes_numeric_compound_as_editable_safe_target(self) -> None:
+        payload = unit("doc1", "u1", "予約開始は12月6日からです。", safe=True)
+        payload["analysis"]["mechanical"]["yomi"]["rendered"] = (
+            "予約/ヨヤク 開始/カイシ は/ハ 12/ 月/ガツ "
+            "6日/ムイカ から/カラ です/デス 。/。"
+        )
+        payload["analysis"]["safety"]["yomi"]["targets"] = []
+
+        item = build_review_item(payload, seq=1, doc_seq=1, track_doc_seq=1)
+
+        self.assertEqual(len(item["targets"]), 1)
+        target = item["targets"][0]
+        self.assertEqual(target["surface"], "6日")
+        self.assertTrue(target["is_safe"])
+        self.assertEqual(target["default_reading"], "むいか")
+        self.assertEqual(
+            [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
+            [("current", "むいか"), ("none", None)],
+        )
+        self.assertIn(
+            {
+                "type": "ruby",
+                "text": "6日",
+                "target_item_id": "u1:n0009",
+                "reading": "むいか",
+                "is_safe": True,
+                "highlight_level": "none",
+            },
+            item["ruby_segments"],
+        )
+
+    def test_review_target_always_offers_common_kg_readings(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "kg",
+            "token_surface": "kg",
+            "current_reading": "キログラム",
+            "current_reading_hiragana": "きろぐらむ",
+            "is_safe": True,
+            "signals": [],
+        }
+
+        review_target = build_review_target(target)
+
+        self.assertEqual(review_target["default_reading"], "きろぐらむ")
+        self.assertEqual(
+            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                ("current", "きろぐらむ"),
+                ("usage_alternative", "きろ"),
+                ("none", None),
+            ],
+        )
+
+    def test_review_target_offers_kg_readings_for_compatibility_spelling(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "ＫＧ",
+            "token_surface": "ＫＧ",
+            "current_reading": "キロ",
+            "current_reading_hiragana": "きろ",
+            "is_safe": True,
+            "signals": [],
+        }
+
+        review_target = build_review_target(target)
+
+        self.assertEqual(
+            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                ("current", "きろ"),
+                ("usage_alternative", "きろぐらむ"),
+                ("none", None),
+            ],
+        )
+
+    def test_review_target_projects_inflected_token_readings_onto_kanji_target(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "描",
+            "token_surface": "描け",
+            "current_reading": "エガ",
+            "current_reading_hiragana": "えが",
+            "is_safe": True,
+            "accepted_signal_names": ["safe_by_corpus_frequency"],
+            "signals": [
+                {
+                    "name": "safe_by_corpus_frequency",
+                    "accepted": True,
+                    "evidence_scope": "token",
+                    "dominant": {"reading": "エガケ"},
+                }
+            ],
+        }
+
+        with patch(
+            "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+            return_value={"描け": ("えがけ", "かけ")},
+        ):
+            review_target = build_review_target(target)
+
+        self.assertEqual(
+            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                ("current", "えが"),
+                ("dictionary", "か"),
+                ("none", None),
             ],
         )
 
@@ -1634,6 +2216,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             final_units = root / "units.yomi.final.jsonl"
             unit = {
                 "unit_id": "u1",
+                "text": "池尻中学校架空語。",
                 "analysis": {
                     "mechanical": {
                         "yomi": {
@@ -1747,8 +2330,18 @@ class YomiFinalReviewTests(unittest.TestCase):
                     {
                         "item_id": queued["item_id"],
                         "parsed": [
-                            {"surface": "池尻", "reading": "いけじり", "used_web_search": False},
-                            {"surface": "中学校", "reading": "ちゅうがっこう", "used_web_search": False},
+                            {
+                                "surface": "池尻",
+                                "reading": "いけじり",
+                                "used_web_search": False,
+                                "comment": "Established place-name reading.",
+                            },
+                            {
+                                "surface": "中学校",
+                                "reading": "ちゅうがっこう",
+                                "used_web_search": False,
+                                "comment": "Established place-name reading.",
+                            },
                         ],
                         "parse_error": None,
                     },
@@ -1798,6 +2391,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(pack["items"][0]["doc_seq"], 1)
             self.assertEqual(pack["items"][0]["rejected_span"], "池尻中学校")
             self.assertEqual(pack["items"][0]["repair_status"], "applied")
+            self.assertEqual(
+                pack["items"][0]["llm_comments"],
+                ["Established place-name reading."],
+            )
 
             store_review_submission(
                 {
@@ -1901,6 +2498,149 @@ class YomiFinalReviewTests(unittest.TestCase):
             repaired = json.loads(output_path.read_text(encoding="utf-8"))
             self.assertEqual(summary["applied_items"], 1)
             self.assertIn("摘ん/ツマン", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
+
+    def test_strong_repair_maps_span_across_token_boundary_and_partial_token(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            output_path = root / "strong.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "一言添える。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "一/イチ 言添える/イイソエル 。/。"}
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "unit_id": "u1",
+                        "repair_scope": "target_group",
+                        "target_escalations": [
+                            {"surface": "一", "token_index": 0, "chunk_index": 0},
+                            {"surface": "言添", "token_index": 1, "chunk_index": 0},
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1::target_group:1",
+                        "parsed": [
+                            {"surface": "一言", "reading": "ひとこと"},
+                            {"surface": "添", "reading": "そ"},
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_strong_repair_results_file(
+                units_jsonl=units_path,
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(summary["applied_items"], 1)
+            repaired = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                repaired["analysis"]["mechanical"]["yomi"]["tokens"],
+                [["一言", "ヒトコト"], ["添える", "ソエル"], ["。", "。"]],
+            )
+
+    def test_strong_repair_pack_canonicalizes_literal_slash_without_shifting_region(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            queue_path = root / "queue.jsonl"
+            results_path = root / "results.jsonl"
+            pack_path = root / "pack.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc70",
+                        "unit_id": "u70",
+                        "text": "HIV/AIDSで疲れた。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "HIV/エイチアイブイ /// AIDS/エイズ で/デ 疲れ/ツカレ た/タ 。/。"
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            queue_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u70::target_group:1",
+                        "unit_id": "u70",
+                        "target_escalations": [
+                            {"surface": "疲", "token_index": 4, "chunk_index": 0}
+                        ],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u70::target_group:1",
+                        "parsed": [{"surface": "疲", "reading": "つか"}],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            build_yomi_strong_repair_review_pack_file(
+                queue_jsonl=queue_path,
+                results_jsonl=results_path,
+                units_jsonl=units_path,
+                output_json=pack_path,
+                pack_id="strong_pack_slash",
+                track_name="dev",
+                batch_name="dev_batch_0010",
+                created_at_epoch=123,
+            )
+
+            item = json.loads(pack_path.read_text(encoding="utf-8"))["items"][0]
+            self.assertEqual(item["rendered_yomi_after_tokens"][1], ["/", "/"])
+            self.assertEqual(
+                "".join(surface for surface, _reading in item["rendered_yomi_after_tokens"]),
+                item["text"],
+            )
+            self.assertEqual(item["mapping_error_count"], 0)
+            self.assertEqual(item["regions"][0]["display_mapping"]["start"], 4)
+            self.assertEqual(item["regions"][0]["display_mapping"]["suffix"], "れ")
 
     def test_finalize_merges_final_review_metadata_onto_strong_repaired_units(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

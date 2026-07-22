@@ -5,8 +5,11 @@ import argparse
 from collections import Counter, defaultdict
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any
+
+from yomi_corpus.yomi.numeric_compounds import numeric_compound_rule
 
 
 DEFAULT_UNITS_ROOT = Path("data/units")
@@ -16,6 +19,13 @@ DEFAULT_TARGETS = ("方", "人", "日", "月", "行", "中", "何", "入", "思"
 SAMPLE_SIZE_PER_TARGET = 20
 DETERMINISTIC_QUOTA_PER_TARGET = 4
 SEED = "yomi-reading-routing-v1"
+CURATED_EXPECTED_READING_OVERRIDES = {
+    "ja_cc_level2:0000000026:u0021:r0003c01": "び",
+}
+CURATED_ACCEPTABLE_READING_OVERRIDES = {
+    "ja_cc_level2:0000000025:u0108:r0016c01": ["い", "ゆ"],
+    "ja_cc_level2:0000000016:u0036:r0003c01": ["ちゅう", "じゅう"],
+}
 
 
 def main() -> None:
@@ -83,7 +93,7 @@ def main() -> None:
         "selection_policy": [
             "Use only human-reviewed, non-skipped finalized units.",
             "Exclude units with span overrides or strong-repair segmentation changes.",
-            "Exclude 日/か because calendar-date readings require a numeric span merge.",
+            "Exclude targets absorbed into a configured numeric compound such as 1日 or 2人.",
             "Prefer LLM-routed examples; include up to four deterministic examples per target.",
             "Round-robin across finalized readings and minimize repeated documents.",
         ],
@@ -157,14 +167,22 @@ def load_finalized_candidates(
                 ) or target.get("current_reading_hiragana")
                 if not isinstance(expected, str) or not expected:
                     continue
-                if target["surface"] == "日" and expected == "か":
-                    continue
+                curated_expected = CURATED_EXPECTED_READING_OVERRIDES.get(item_id)
+                if curated_expected is not None:
+                    expected = curated_expected
+                acceptable_readings = CURATED_ACCEPTABLE_READING_OVERRIDES.get(item_id)
                 llm_item = llm_items.get(item_id, {})
                 start = int(target["target_start"])
                 end = int(target["target_end"])
                 text = str(unit.get("text") or "")
-                candidates[str(target["surface"])].append(
-                    {
+                if is_absorbed_numeric_compound_target(
+                    text=text,
+                    start=start,
+                    end=end,
+                    surface=str(target["surface"]),
+                ):
+                    continue
+                candidate = {
                         "schema_version": "yomi_reading_routing_eval_v1",
                         "item_id": item_id,
                         "unit_id": str(unit.get("unit_id") or ""),
@@ -179,9 +197,13 @@ def load_finalized_candidates(
                         "marked_text": text[:start] + "**" + text[start:end] + "**" + text[end:],
                         "expected_reading": expected,
                         "label_source": (
-                            "final_review_target_override"
-                            if override
-                            else "final_review_accepted_current"
+                            "curated_benchmark_correction"
+                            if curated_expected is not None
+                            else (
+                                "final_review_target_override"
+                                if override
+                                else "final_review_accepted_current"
+                            )
                         ),
                         "current_reading_hiragana": target.get(
                             "current_reading_hiragana"
@@ -199,8 +221,27 @@ def load_finalized_candidates(
                         "original_llm_raw_text": llm_item.get("raw_text"),
                         "human_review_submission_id": review.get("submission_id"),
                     }
-                )
+                if acceptable_readings is not None:
+                    candidate["acceptable_readings"] = acceptable_readings
+                    candidate["acceptable_readings_source"] = "curated_benchmark_variants"
+                candidates[str(target["surface"])].append(candidate)
     return candidates
+
+
+def is_absorbed_numeric_compound_target(
+    *,
+    text: str,
+    start: int,
+    end: int,
+    surface: str,
+) -> bool:
+    if text[start:end] != surface:
+        return False
+    prefix = text[:start]
+    match = re.search(r"[0-9０-９]+$", prefix)
+    if match is None:
+        return False
+    return numeric_compound_rule(match.group() + surface) is not None
 
 
 def load_batch_model(batch_dir: Path) -> str | None:
