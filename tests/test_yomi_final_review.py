@@ -660,13 +660,124 @@ class YomiFinalReviewTests(unittest.TestCase):
             {
                 "type": "ruby",
                 "text": "6日",
-                "target_item_id": "u1:n0009",
+                "target_item_id": "u1:s0009-0010",
                 "reading": "むいか",
                 "is_safe": True,
                 "highlight_level": "none",
             },
             item["ruby_segments"],
         )
+
+    def test_interaction_span_includes_okurigana_and_applies_full_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            pack_path = root / "pack.json"
+            output_path = root / "reviewed.jsonl"
+            summary_path = root / "summary.json"
+            store_dir = root / "submissions"
+            payload = {
+                "doc_id": "doc1",
+                "unit_id": "u1",
+                "unit_seq": 1,
+                "text": "後払いです。",
+                "analysis": {
+                    "mechanical": {"yomi": {"rendered": "後払い/ゴバライ です/デス 。/。"}},
+                    "llm": {"scope_triage": {"status": "Keep"}},
+                    "safety": {
+                        "yomi": {
+                            "targets": [
+                                {
+                                    "item_id": "u1:r0001c01",
+                                    "token_index": 0,
+                                    "chunk_index": 0,
+                                    "surface": "後払",
+                                    "token_surface": "後払い",
+                                    "current_reading": "ゴバラ",
+                                    "current_reading_hiragana": "ごばら",
+                                    "target_start": 0,
+                                    "target_end": 2,
+                                    "is_safe": False,
+                                    "review_status": "unresolved",
+                                    "highlight_level": "target",
+                                    "accepted_signal_names": [],
+                                    "signals": [],
+                                }
+                            ]
+                        }
+                    },
+                },
+            }
+            units_path.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+            with patch(
+                "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+                return_value={"後払い": ("ゴバライ", "アトバライ")},
+            ):
+                build_yomi_final_review_pack_file(
+                    units_jsonl=units_path,
+                    output_json=pack_path,
+                    pack_id="pack_1",
+                    track_name="dev",
+                    batch_name="dev_batch_0001",
+                    created_at_epoch=123,
+                )
+
+            pack = json.loads(pack_path.read_text(encoding="utf-8"))
+            item = pack["items"][0]
+            span = item["interaction_spans"][0]
+            self.assertEqual(span["surface"], "後払い")
+            self.assertEqual(span["legacy_target_item_ids"], ["u1:r0001c01"])
+            self.assertEqual(
+                [(row["source"], row["reading"]) for row in span["candidates"]],
+                [("current", "ごばらい"), ("dictionary", "あとばらい"), ("none", None)],
+            )
+            self.assertEqual(
+                span["candidates"][0]["ruby_nodes"],
+                [
+                    {"type": "ruby", "text": "後払", "reading": "ごばら"},
+                    {"type": "text", "text": "い"},
+                ],
+            )
+            self.assertEqual(item["ruby_segments"][0]["text"], "後払い")
+            self.assertEqual(item["ruby_segments"][0]["target_item_id"], span["span_id"])
+
+            store_review_submission(
+                {
+                    "submission_type": "review_patch",
+                    "review_stage": "yomi_final_review",
+                    "pack_id": "pack_1",
+                    "submission_id": "s1",
+                    "generated_at_epoch": 1,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {
+                            "item_id": "u1",
+                            "targets": [
+                                {
+                                    "item_id": span["span_id"],
+                                    "choice_id": "dictionary:1",
+                                    "choice_source": "dictionary",
+                                    "selected_reading": "あとばらい",
+                                }
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+            result = apply_final_review_file(
+                units_jsonl=units_path,
+                pack_json=pack_path,
+                submission_store_dir=store_dir,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+            self.assertTrue(result["stage_complete"])
+            reviewed = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                reviewed["analysis"]["mechanical"]["yomi"]["rendered"],
+                "後払い/アトバライ です/デス 。/。",
+            )
 
     def test_review_target_always_offers_common_kg_readings(self) -> None:
         target = {
@@ -930,7 +1041,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                     {
                         "type": "ruby",
                         "text": "近々",
-                        "target_item_id": "u1:r0001c01",
+                        "target_item_id": "u1:s0001-0002",
                         "reading": "ちかぢか",
                         "is_safe": False,
                         "highlight_level": "target",
@@ -1327,6 +1438,11 @@ class YomiFinalReviewTests(unittest.TestCase):
             )
             review = row["analysis"]["human_review"]["yomi_final"]
             self.assertTrue(review["reviewed"])
+            self.assertEqual(review["target_overrides"][0]["item_id"], "u1:s0001-0002")
+            self.assertEqual(
+                review["target_overrides"][0]["legacy_target_item_id"],
+                "u1:r0001c01",
+            )
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
 
     def test_exact_rendered_target_override_falls_back_when_token_index_is_stale(self) -> None:

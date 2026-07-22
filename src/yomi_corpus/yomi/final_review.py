@@ -213,6 +213,7 @@ def build_yomi_final_review_pack(
     )
     return {
         "schema_version": SCHEMA_VERSION,
+        "interaction_span_schema_version": 1,
         "review_stage": REVIEW_STAGE,
         "queue_id": QUEUE_ID_FINAL_REVIEW,
         "pack_id": pack_id,
@@ -230,6 +231,9 @@ def build_yomi_final_review_pack(
             "document_state_counts": document_state_counts(documents),
             "unresolved_item_count": len(unresolved_items),
             "unresolved_target_count": unresolved_targets,
+            "interaction_span_count": sum(
+                len(item.get("interaction_spans", [])) for item in items
+            ),
             "provisional_skip_item_count": len(provisional_skip_items),
         },
         "documents": documents,
@@ -736,6 +740,12 @@ def build_review_item(
             int(target.get("target_end") or 0),
         )
     )
+    interaction_spans = build_interaction_spans(
+        unit_id=str(unit.get("unit_id") or ""),
+        text=text,
+        rendered_yomi=rendered_yomi,
+        targets=review_targets,
+    )
     unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
     scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
     alphabetic_scope = unit.get("analysis", {}).get("mechanical", {}).get("alphabetic_scope", {})
@@ -747,7 +757,7 @@ def build_review_item(
             or alphabetic_scope.get("provisional_skip")
         )
     )
-    rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, review_targets)
+    rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, interaction_spans)
     return {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
@@ -761,7 +771,7 @@ def build_review_item(
         "text": text,
         "ruby_segments": build_ruby_segments(
             text,
-            review_targets,
+            interaction_spans,
             rendered_yomi=rendered_yomi,
         ),
         "rendered_yomi": rendered_yomi,
@@ -774,6 +784,8 @@ def build_review_item(
         "unresolved_target_count": unresolved_count,
         "all_targets_safe": bool(review_targets) and unresolved_count == 0,
         "targets": review_targets,
+        "interaction_spans": interaction_spans,
+        "interaction_span_count": len(interaction_spans),
         "reading_hints": build_reading_hints(review_targets),
     }
 
@@ -899,6 +911,276 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "candidates": candidates,
         "signals": target.get("signals") if isinstance(target.get("signals"), list) else [],
     }
+
+
+def build_interaction_spans(
+    *,
+    unit_id: str,
+    text: str,
+    rendered_yomi: str,
+    targets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    pairs = parse_rendered_pairs(rendered_yomi) if rendered_yomi else []
+    grouped: dict[tuple[int, int, int, str], list[dict[str, Any]]] = {}
+    for target in targets:
+        bounds = interaction_token_bounds(text, target)
+        if bounds is None:
+            continue
+        start, end = bounds
+        token_index = target.get("token_index")
+        key = (
+            start,
+            end,
+            int(token_index) if isinstance(token_index, int) else -1,
+            text[start:end],
+        )
+        grouped.setdefault(key, []).append(target)
+
+    spans: list[dict[str, Any]] = []
+    for (start, end, token_index, surface), span_targets in sorted(grouped.items()):
+        candidates = interaction_span_candidates(
+            surface=surface,
+            token_index=token_index,
+            pairs=pairs,
+            targets=span_targets,
+        )
+        if not candidates:
+            continue
+        default_candidate = interaction_span_default_candidate(candidates, span_targets)
+        spans.append(
+            {
+                "item_id": f"{unit_id}:s{start + 1:04d}-{end:04d}",
+                "span_id": f"{unit_id}:s{start + 1:04d}-{end:04d}",
+                "surface": surface,
+                "token_surface": surface,
+                "target_start": start,
+                "target_end": end,
+                "token_index": token_index if token_index >= 0 else None,
+                "chunk_index": 0,
+                "current_reading": hira_to_kata(
+                    str(next((row["reading"] for row in candidates if row["source"] == "current"), ""))
+                ),
+                "current_reading_hiragana": next(
+                    (row["reading"] for row in candidates if row["source"] == "current"),
+                    None,
+                ),
+                "is_safe": all(bool(target.get("is_safe")) for target in span_targets),
+                "review_status": (
+                    "safe"
+                    if all(bool(target.get("is_safe")) for target in span_targets)
+                    else "unresolved"
+                ),
+                "highlight_level": (
+                    "none"
+                    if all(bool(target.get("is_safe")) for target in span_targets)
+                    else "target"
+                ),
+                "default_candidate_id": default_candidate.get("id"),
+                "default_choice_source": default_candidate.get("source"),
+                "default_reading": default_candidate.get("reading"),
+                "candidates": candidates,
+                "legacy_target_item_ids": [str(target.get("item_id") or "") for target in span_targets],
+                "signals": [
+                    signal
+                    for target in span_targets
+                    for signal in target.get("signals", [])
+                    if isinstance(signal, dict)
+                ],
+            }
+        )
+    validate_interaction_spans(text, spans)
+    return spans
+
+
+def validate_interaction_spans(text: str, spans: list[dict[str, Any]]) -> None:
+    previous_end = 0
+    for span in sorted(spans, key=lambda row: (int(row["target_start"]), int(row["target_end"]))):
+        start = int(span["target_start"])
+        end = int(span["target_end"])
+        surface = str(span.get("surface") or "")
+        if start < previous_end:
+            raise ValueError(f"overlapping interaction span at {start}:{end}")
+        if not (0 <= start < end <= len(text)) or not source_surfaces_equal(text[start:end], surface):
+            raise ValueError(f"interaction span surface mismatch at {start}:{end}")
+        for candidate in span.get("candidates", []):
+            if not isinstance(candidate, dict) or candidate.get("source") == "none":
+                continue
+            tokens = candidate.get("tokens")
+            if not isinstance(tokens, list) or "".join(
+                str(token[0])
+                for token in tokens
+                if isinstance(token, list) and len(token) == 2
+            ) != surface:
+                raise ValueError(f"interaction candidate does not reproduce {surface!r}")
+            ruby_nodes = candidate.get("ruby_nodes")
+            if not isinstance(ruby_nodes, list) or "".join(
+                str(node.get("text") or "")
+                for node in ruby_nodes
+                if isinstance(node, dict)
+            ) != surface:
+                raise ValueError(f"interaction ruby projection does not reproduce {surface!r}")
+        previous_end = end
+
+
+def interaction_token_bounds(
+    text: str,
+    target: dict[str, Any],
+) -> tuple[int, int] | None:
+    surface = str(target.get("surface") or "")
+    token_surface = str(target.get("token_surface") or surface)
+    start = target.get("target_start")
+    end = target.get("target_end")
+    if not surface or not token_surface or not isinstance(start, int) or not isinstance(end, int):
+        return None
+    candidates: list[tuple[int, int]] = []
+    offset = token_surface.find(surface)
+    while offset >= 0:
+        token_start = start - offset
+        token_end = token_start + len(token_surface)
+        if (
+            token_start >= 0
+            and token_end <= len(text)
+            and source_surfaces_equal(text[token_start:token_end], token_surface)
+        ):
+            candidates.append((token_start, token_end))
+        offset = token_surface.find(surface, offset + 1)
+    if len(set(candidates)) == 1:
+        return candidates[0]
+    if source_surfaces_equal(text[start:end], surface):
+        return start, end
+    return None
+
+
+def source_surfaces_equal(left: str, right: str) -> bool:
+    return left.replace(" ", "\u00a0") == right.replace(" ", "\u00a0")
+
+
+def interaction_span_candidates(
+    *,
+    surface: str,
+    token_index: int,
+    pairs: list[tuple[str, str]],
+    targets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    candidates: list[dict[str, Any]] = []
+
+    def add(candidate_id: str, source: str, label: str, reading: object) -> None:
+        if not isinstance(reading, str) or not reading:
+            return
+        normalized = normalize_hiragana_reading(reading)
+        if not is_valid_yomi_reading(normalized):
+            return
+        if any(row.get("reading") == normalized for row in candidates):
+            return
+        candidates.append(
+            {
+                "id": candidate_id,
+                "source": source,
+                "label": label,
+                "reading": normalized,
+                "tokens": [[surface, hira_to_kata(normalized)]],
+                "ruby_nodes": ruby_nodes_for_surface_reading(surface, normalized),
+            }
+        )
+
+    current = interaction_current_reading(surface, token_index, pairs)
+    add("current", "current", "Current mechanical/hybrid", current)
+    full_dictionary_readings = final_review_surface_readings(surface)
+    for target in targets:
+        for candidate in target.get("candidates", []):
+            if not isinstance(candidate, dict) or candidate.get("source") == "none":
+                continue
+            completed = complete_interaction_reading(
+                surface,
+                target,
+                candidate.get("reading"),
+                full_dictionary_readings=full_dictionary_readings,
+                current_reading=current,
+            )
+            add(
+                str(candidate.get("id") or candidate.get("source") or "candidate"),
+                str(candidate.get("source") or "candidate"),
+                str(candidate.get("label") or "Reading candidate"),
+                completed,
+            )
+    for index, reading in enumerate(full_dictionary_readings):
+        add(f"dictionary:{index}", "dictionary", "Dictionary", reading)
+    candidates.append(
+        {
+            "id": "none",
+            "source": "none",
+            "label": "No ruby",
+            "reading": None,
+            "tokens": [],
+            "ruby_nodes": [{"type": "text", "text": surface}],
+        }
+    )
+    return candidates
+
+
+def interaction_current_reading(
+    surface: str,
+    token_index: int,
+    pairs: list[tuple[str, str]],
+) -> str | None:
+    if 0 <= token_index < len(pairs) and source_surfaces_equal(pairs[token_index][0], surface):
+        return normalize_hiragana_reading(pairs[token_index][1])
+    matches = [reading for pair_surface, reading in pairs if source_surfaces_equal(pair_surface, surface)]
+    if len(matches) == 1:
+        return normalize_hiragana_reading(matches[0])
+    return None
+
+
+def final_review_surface_readings(surface: str) -> tuple[str, ...]:
+    return load_final_review_surface_readings().get(surface, ())
+
+
+def complete_interaction_reading(
+    token_surface: str,
+    target: dict[str, Any],
+    reading: object,
+    *,
+    full_dictionary_readings: tuple[str, ...],
+    current_reading: str | None,
+) -> str | None:
+    if not isinstance(reading, str) or not reading:
+        return None
+    normalized = normalize_hiragana_reading(reading)
+    full_known = {normalize_hiragana_reading(value) for value in full_dictionary_readings}
+    if normalized == current_reading or normalized in full_known:
+        return normalized
+    target_surface = str(target.get("surface") or "")
+    offset = token_surface.find(target_surface)
+    if not target_surface or offset < 0:
+        return None
+    prefix = token_surface[:offset]
+    suffix = token_surface[offset + len(target_surface) :]
+    if (prefix and not all(is_kana(char) for char in prefix)) or (
+        suffix and not all(is_kana(char) for char in suffix)
+    ):
+        return None
+    prefix_reading = kana_surface_to_hira(prefix)
+    suffix_reading = kana_surface_to_hira(suffix)
+    if prefix_reading and not normalized.startswith(prefix_reading):
+        normalized = prefix_reading + normalized
+    if suffix_reading and not normalized.endswith(suffix_reading):
+        normalized += suffix_reading
+    return normalized
+
+
+def interaction_span_default_candidate(
+    candidates: list[dict[str, Any]],
+    targets: list[dict[str, Any]],
+) -> dict[str, Any]:
+    preferred_ids = [str(target.get("default_candidate_id") or "") for target in targets]
+    for preferred_id in preferred_ids:
+        for candidate in candidates:
+            if candidate.get("id") == preferred_id:
+                return candidate
+    return next(
+        (candidate for candidate in candidates if candidate.get("source") == "current"),
+        candidates[0],
+    )
 
 
 def with_ruby_display_nodes(surface: str, candidate: dict[str, Any]) -> dict[str, Any]:
@@ -2510,7 +2792,7 @@ def replay_simple_accept_reject_submissions(
 
 def default_target_rows(item: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
-    for target in item.get("targets", []):
+    for target in review_action_targets(item):
         if not isinstance(target, dict):
             continue
         source = str(target.get("default_choice_source") or "current")
@@ -2526,16 +2808,79 @@ def default_target_rows(item: dict[str, Any]) -> list[dict[str, Any]]:
     return [row for row in rows if row["item_id"]]
 
 
+def review_action_targets(item: dict[str, Any]) -> list[dict[str, Any]]:
+    interaction_spans = item.get("interaction_spans")
+    if isinstance(interaction_spans, list) and interaction_spans:
+        return [row for row in interaction_spans if isinstance(row, dict)]
+    return [row for row in item.get("targets", []) if isinstance(row, dict)]
+
+
 def merge_default_and_explicit_target_rows(
     item: dict[str, Any],
     explicit_rows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     merged = {str(row["item_id"]): row for row in default_target_rows(item)}
-    for row in explicit_rows:
+    for row in translate_legacy_target_rows(item, explicit_rows):
         item_id = str(row.get("item_id") or "")
         if item_id:
             merged[item_id] = row
     return list(merged.values())
+
+
+def translate_legacy_target_rows(
+    item: dict[str, Any],
+    rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    spans_by_legacy_id = {
+        str(legacy_id): span
+        for span in item.get("interaction_spans", [])
+        if isinstance(span, dict)
+        for legacy_id in span.get("legacy_target_item_ids", [])
+        if str(legacy_id)
+    }
+    translated: list[dict[str, Any]] = []
+    for row in rows:
+        target_id = str(row.get("item_id") or "")
+        span = spans_by_legacy_id.get(target_id)
+        if span is None:
+            translated.append(row)
+            continue
+        candidate = interaction_candidate_for_legacy_row(span, row)
+        translated.append(
+            {
+                **row,
+                "item_id": str(span.get("span_id") or span.get("item_id") or ""),
+                "choice_id": candidate.get("id") if candidate else row.get("choice_id"),
+                "choice_source": candidate.get("source") if candidate else row.get("choice_source"),
+                "selected_reading": candidate.get("reading") if candidate else row.get("selected_reading"),
+                "legacy_target_item_id": target_id,
+            }
+        )
+    return translated
+
+
+def interaction_candidate_for_legacy_row(
+    span: dict[str, Any],
+    row: dict[str, Any],
+) -> dict[str, Any] | None:
+    candidates = [candidate for candidate in span.get("candidates", []) if isinstance(candidate, dict)]
+    if row.get("choice_source") == "none":
+        return next((candidate for candidate in candidates if candidate.get("source") == "none"), None)
+    choice_id = str(row.get("choice_id") or "")
+    if choice_id:
+        match = next((candidate for candidate in candidates if candidate.get("id") == choice_id), None)
+        if match is not None:
+            return match
+    source = str(row.get("choice_source") or "")
+    if source:
+        match = next((candidate for candidate in candidates if candidate.get("source") == source), None)
+        if match is not None:
+            return match
+    selected = row.get("selected_reading")
+    if isinstance(selected, str) and selected:
+        normalized = normalize_hiragana_reading(selected)
+        return next((candidate for candidate in candidates if candidate.get("reading") == normalized), None)
+    return None
 
 
 def apply_final_review_file(
@@ -2565,7 +2910,7 @@ def apply_final_review_file(
     targets_by_id = {
         str(target["item_id"]): target
         for item in pack.get("items", [])
-        for target in item.get("targets", [])
+        for target in [*item.get("targets", []), *item.get("interaction_spans", [])]
         if isinstance(target, dict) and target.get("item_id")
     }
 
@@ -2597,7 +2942,10 @@ def apply_final_review_file(
                     if isinstance(row, dict)
                 ]
                 target_overrides = [row for row in target_overrides if row is not None]
-                span_overrides = normalize_span_overrides(item_state.get("span_overrides", []))
+                span_overrides = translate_span_override_target_ids(
+                    item,
+                    normalize_span_overrides(item_state.get("span_overrides", [])),
+                )
                 target_override_count += len(target_overrides)
                 span_override_count += len(span_overrides)
                 no_ruby_target_count += sum(
@@ -2678,6 +3026,8 @@ def build_target_override(
         "chunk_index": target.get("chunk_index"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
     }
+    if row.get("legacy_target_item_id"):
+        override["legacy_target_item_id"] = str(row["legacy_target_item_id"])
     if override["choice_source"] == "none" and override["current_reading_hiragana"]:
         override["rejected_readings"] = [
             {
@@ -2726,6 +3076,27 @@ def normalize_span_overrides(rows: object) -> list[dict[str, Any]]:
             }
         )
     return normalized_rows
+
+
+def translate_span_override_target_ids(
+    item: dict[str, Any],
+    rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    span_ids_by_legacy_id = {
+        str(legacy_id): str(span.get("span_id") or span.get("item_id") or "")
+        for span in item.get("interaction_spans", [])
+        if isinstance(span, dict)
+        for legacy_id in span.get("legacy_target_item_ids", [])
+        if str(legacy_id)
+    }
+    translated: list[dict[str, Any]] = []
+    for row in rows:
+        target_ids = [
+            span_ids_by_legacy_id.get(str(target_id), str(target_id))
+            for target_id in row.get("target_item_ids", [])
+        ]
+        translated.append({**row, "target_item_ids": list(dict.fromkeys(target_ids))})
+    return translated
 
 
 def apply_exact_rendered_target_overrides(
