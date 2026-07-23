@@ -1142,6 +1142,26 @@ button:disabled {
   background: rgba(168, 67, 47, 0.05);
 }
 
+.yomi-card.provisional-skip,
+.skipped-tombstone {
+  background: rgba(73, 78, 75, 0.07);
+  color: rgba(31, 28, 23, 0.66);
+}
+
+.skipped-tombstone-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(73, 78, 75, 0.13);
+  color: rgba(31, 28, 23, 0.72);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .archive-correction-validation {
   margin: 0;
   padding: 8px 10px;

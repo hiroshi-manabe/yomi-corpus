@@ -4118,13 +4118,20 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
+  node.classList.toggle("provisional-skip", Boolean(item.provisional_skip));
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
   const skipLabel = document.createElement("label");
   skipLabel.className = "yomi-control yomi-flag yomi-skip-flag";
-  skipLabel.title = "Skip this sentence";
+  const skipReason = (item.skip_reasons || [])
+    .map((reason) => reason.note || reason.entity_text || reason.entity_key || "")
+    .filter(Boolean)
+    .join("; ");
+  skipLabel.title = skipReason
+    ? `Provisional machine skip: ${skipReason}`
+    : "Skip this sentence";
   const skipCheckbox = document.createElement("input");
   skipCheckbox.type = "checkbox";
   skipCheckbox.disabled = !editable;
