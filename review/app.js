@@ -1374,6 +1374,9 @@ function archiveCorrectionRecordForDoc(doc) {
   }
   const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
+    if (saved.skip === false && current?.skipped) {
+      return true;
+    }
     return !current || !yomiTokenPairsEqual(
       archiveUnitYomiTokenPairs(current),
       correctionRecordTokenPairs(saved, "proposed"),
@@ -1578,7 +1581,6 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
   if (unit.skipped) {
     editButton.title = "Restore this skipped sentence and edit its preserved hybrid yomi";
-    row.dataset.restoreSkip = "true";
   }
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
