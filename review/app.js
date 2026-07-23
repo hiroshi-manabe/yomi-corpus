@@ -4118,7 +4118,7 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
-  node.classList.toggle("provisional-skip", Boolean(item.provisional_skip));
+  node.classList.toggle("machine-skip", Boolean(item.skip_default));
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
@@ -4131,7 +4131,9 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     .join("; ");
   skipLabel.title = skipReason
     ? `Provisional machine skip: ${skipReason}`
-    : "Skip this sentence";
+    : item.skip_default
+      ? "Machine skip suggestion; uncheck to keep this sentence"
+      : "Skip this sentence";
   const skipCheckbox = document.createElement("input");
   skipCheckbox.type = "checkbox";
   skipCheckbox.disabled = !editable;
