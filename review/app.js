@@ -1575,10 +1575,10 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
-  editButton.textContent = "Edit";
-  editButton.disabled = Boolean(unit.skipped);
+  editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
   if (unit.skipped) {
-    editButton.title = "Confirmed skipped text is read-only";
+    editButton.title = "Restore this skipped sentence and edit its preserved hybrid yomi";
+    row.dataset.restoreSkip = "true";
   }
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
@@ -1634,8 +1634,9 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
       yomiTokenPairsEqual(correctionRecordTokenPairs(savedUnit, "original"), originalTokenPairs),
   );
   const restoredProposed = restored ? serializeEditableYomiTokens(correctionRecordTokenPairs(restored, "proposed")) : "";
-  if (restoredProposed) {
+  if (restoredProposed || restored?.skip === false) {
     row.dataset.proposedYomi = restoredProposed;
+    row.dataset.restoreSkip = restored?.skip === false ? "true" : row.dataset.restoreSkip || "";
     row.classList.add("changed");
     row.classList.toggle("submitted", localCorrection.status === "submitted");
     textarea.value = restoredProposed;
@@ -1691,14 +1692,15 @@ function collectArchiveCorrectionChanges(doc) {
   const changedUnits = [];
   for (const row of rows) {
     const proposed = String(row.dataset.proposedYomi || "").trim();
-    if (!proposed) {
+    const restoreSkip = row.dataset.restoreSkip === "true";
+    if (!proposed && !restoreSkip) {
       continue;
     }
     const index = Number(row.dataset.unitIndex);
     const unit = units[index];
     const editor = row.querySelector(".archive-correction-editor");
     const original = String(editor.dataset.originalYomi || "").trim();
-    if (!unit || proposed === original) {
+    if (!unit || (proposed === original && !restoreSkip)) {
       continue;
     }
     const validation = validateRenderedYomiCorrection(unit, proposed);
@@ -1711,6 +1713,7 @@ function collectArchiveCorrectionChanges(doc) {
       text: unit.text || "",
       original_yomi_tokens: archiveUnitYomiTokenPairs(unit),
       proposed_yomi_tokens: validation.tokens,
+      ...(restoreSkip ? { skip: false } : {}),
     });
   }
   if (!changedUnits.length) {
@@ -1729,7 +1732,7 @@ function saveArchiveCorrectionRow(row, unit, doc) {
   const original = String(editor.dataset.originalYomi || "").trim();
   const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
   textarea.value = proposed;
-  if (proposed === original) {
+  if (proposed === original && !unit.skipped) {
     clearArchiveCorrectionRow(row, doc);
     return;
   }
@@ -1742,6 +1745,9 @@ function saveArchiveCorrectionRow(row, unit, doc) {
     return;
   }
   row.dataset.proposedYomi = proposed;
+  if (unit.skipped) {
+    row.dataset.restoreSkip = "true";
+  }
   row.classList.add("changed");
   row.classList.remove("invalid", "submitted");
   validationNode.textContent = "Saved.";
