@@ -1268,20 +1268,23 @@ function renderCorpusMapTileGrid(docs) {
     tile.type = "button";
     const correctionCount = Number(doc.finalized_correction_count || 0);
     const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
+    const manualCorrectionCount = Number(doc.manual_correction_required_count || 0);
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
     tile.classList.toggle("has-local-correction", localCorrection?.status === "draft");
     tile.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
+    tile.classList.toggle("has-manual-corrections", manualCorrectionCount > 0);
     tile.innerHTML = `
       <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
       ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
+      ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
       ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "sent" : "edit"}</em>` : ""}
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-    }${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
+    }${manualCorrectionCount ? `\n${manualCorrectionCount} manual correction(s) required` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
     tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
   }
@@ -1483,7 +1486,7 @@ function openArchiveCorrectionEditor(doc) {
   const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
   el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request${
     correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-  }`;
+  }${doc.manual_correction_required_count ? ` · ${doc.manual_correction_required_count} manual correction(s) required` : ""}`;
   el.workflowPreviewBody.innerHTML = "";
 
   const intro = document.createElement("p");
@@ -1540,6 +1543,12 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
   updateArchiveCorrectionSummary();
   el.workflowPreviewModal.classList.remove("hidden");
+  const firstManualCorrection = list.querySelector(".archive-correction-row.manual-correction-required");
+  if (firstManualCorrection) {
+    window.requestAnimationFrame(() => {
+      firstManualCorrection.scrollIntoView({ block: "center", behavior: "auto" });
+    });
+  }
   updateRuntimePollingForInteraction();
 }
 
@@ -1547,6 +1556,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const row = document.createElement("article");
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
+  row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
 
   const summary = document.createElement("div");
   summary.className = "archive-correction-row-summary";
@@ -1566,7 +1576,18 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.className = "secondary-button compact-button";
   editButton.textContent = "Edit";
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
-  summary.append(rubyLine, editButton);
+  const actions = document.createElement("div");
+  actions.className = "archive-correction-row-actions";
+  if (unit.manual_correction_required) {
+    const flag = document.createElement("span");
+    flag.className = "manual-correction-row-flag";
+    flag.textContent = "⚑";
+    flag.title = "Requires later manual correction";
+    flag.setAttribute("aria-label", "Requires later manual correction");
+    actions.append(flag);
+  }
+  actions.append(editButton);
+  summary.append(rubyLine, actions);
 
   const saved = document.createElement("div");
   saved.className = "archive-correction-saved hidden";

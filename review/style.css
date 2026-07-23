@@ -582,6 +582,11 @@ button:disabled {
   box-shadow: 0 0 0 2px rgba(34, 106, 214, 0.1);
 }
 
+.workflow-doc-tile.has-manual-corrections {
+  border-color: rgba(184, 45, 45, 0.5);
+  box-shadow: 0 0 0 2px rgba(184, 45, 45, 0.11);
+}
+
 .workflow-doc-tile.has-local-correction {
   border-color: rgba(45, 106, 79, 0.48);
   box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.12);
@@ -601,6 +606,24 @@ button:disabled {
   background: rgba(34, 106, 214, 0.12);
   color: rgb(28, 92, 185);
   font-weight: 800;
+}
+
+.manual-correction-count-badge {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 253, 249, 0.9);
+  border-radius: 999px;
+  background: rgb(184, 45, 45);
+  color: #fff;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
 }
 
 .correction-count-badge {
@@ -1026,6 +1049,23 @@ button:disabled {
 .archive-correction-row.changed {
   border-color: rgba(45, 106, 79, 0.38);
   background: rgba(45, 106, 79, 0.08);
+}
+
+.archive-correction-row.manual-correction-required {
+  border-color: rgba(184, 45, 45, 0.46);
+  box-shadow: inset 4px 0 0 rgb(184, 45, 45);
+}
+
+.archive-correction-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.manual-correction-row-flag {
+  color: rgb(184, 45, 45);
+  font-size: 1.1rem;
+  font-weight: 800;
 }
 
 .archive-correction-row.search-match {
@@ -1500,7 +1540,7 @@ button:disabled {
 
 .yomi-controls {
   display: grid;
-  grid-template-columns: repeat(2, 28px);
+  grid-template-columns: repeat(3, 28px);
   align-items: stretch;
   justify-content: start;
   gap: 0;
@@ -1558,6 +1598,25 @@ button:disabled {
   border-color: rgba(31, 28, 23, 0.72);
   background: rgba(31, 28, 23, 0.82);
   color: #fffdf9;
+}
+
+.yomi-manual-correction-flag .control-glyph {
+  border-radius: 50%;
+  border-color: rgba(184, 45, 45, 0.36);
+  color: rgba(184, 45, 45, 0.54);
+}
+
+.yomi-manual-correction-flag input:checked + .control-glyph {
+  border-color: rgb(184, 45, 45);
+  background: rgb(184, 45, 45);
+  color: #fff;
+}
+
+.strong-repair-card > .item-header > .yomi-manual-correction-flag {
+  min-width: 42px;
+  min-height: 42px;
+  border: 1px solid rgba(184, 45, 45, 0.16);
+  border-radius: 10px;
 }
 
 .yomi-menu {
