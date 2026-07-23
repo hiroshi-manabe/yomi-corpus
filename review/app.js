@@ -3180,7 +3180,18 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
     badges.append(overrideBadge);
   }
   titleWrap.append(titleRow, badges);
-  header.append(titleWrap);
+  const manualCorrectionControl = createManualCorrectionFlag({
+    checked: override?.manual_correction_required ?? item.manual_correction_required ?? false,
+    editable,
+    onChange: (checked) => {
+      const current = ensureStrongRepairOverride(item.item_id);
+      current.manual_correction_required = checked;
+      cleanupStrongRepairOverride(item.item_id);
+      touchDraft();
+      renderSubmissionPreview();
+    },
+  });
+  header.append(titleWrap, manualCorrectionControl);
   node.append(header);
 
   const afterLine = document.createElement("p");
@@ -3658,6 +3669,9 @@ function ensureStrongRepairOverride(itemId) {
     decision: "accept",
     note: current.note || "",
     regions: current.regions || {},
+    ...(typeof current.manual_correction_required === "boolean"
+      ? { manual_correction_required: current.manual_correction_required }
+      : {}),
   };
   return state.currentDraft.overrides[itemId];
 }
@@ -3702,6 +3716,9 @@ function cleanupStrongRepairOverride(itemId) {
     return;
   }
   if (Object.keys(current.regions || {}).length > 0) {
+    return;
+  }
+  if (typeof current.manual_correction_required === "boolean") {
     return;
   }
   delete state.currentDraft.overrides[itemId];
@@ -4081,6 +4098,19 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipLabel.append(skipCheckbox, skipGlyph);
   controls.append(skipLabel);
 
+  const manualCorrectionControl = createManualCorrectionFlag({
+    checked: override?.manual_correction_required ?? item.manual_correction_required ?? false,
+    editable,
+    onChange: (checked) => {
+      const draft = ensureYomiOverride(item.item_id);
+      draft.manual_correction_required = checked;
+      cleanupYomiOverride(item.item_id);
+      touchDraft();
+      renderSubmissionPreview();
+    },
+  });
+  controls.append(manualCorrectionControl);
+
   const menu = document.createElement("details");
   menu.className = "yomi-menu";
   const summary = document.createElement("summary");
@@ -4129,6 +4159,26 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     touchDraft();
     render();
   });
+}
+
+function createManualCorrectionFlag({ checked, editable, onChange }) {
+  const label = document.createElement("label");
+  label.className = "yomi-control yomi-flag yomi-manual-correction-flag";
+  label.title = "Requires later manual correction";
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.disabled = !editable;
+  checkbox.checked = Boolean(checked);
+  checkbox.setAttribute("aria-label", "Requires later manual correction");
+  const glyph = document.createElement("span");
+  glyph.className = "control-glyph";
+  glyph.setAttribute("aria-hidden", "true");
+  glyph.textContent = "⚑";
+  label.append(checkbox, glyph);
+  if (editable && onChange) {
+    checkbox.addEventListener("change", () => onChange(checkbox.checked));
+  }
+  return label;
 }
 
 function renderRubySegments(item, override, editable) {
@@ -4495,7 +4545,13 @@ function cleanupYomiOverride(itemId) {
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
-  if (!hasTargets && !hasSpanOverrides && !draft.skip && !draft.note) {
+  if (
+    !hasTargets &&
+    !hasSpanOverrides &&
+    !draft.skip &&
+    !draft.note &&
+    typeof draft.manual_correction_required !== "boolean"
+  ) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -4850,6 +4906,9 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       return {
         item_id: originalItemId(item),
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
+        ...(typeof override.manual_correction_required === "boolean"
+          ? { manual_correction_required: override.manual_correction_required }
+          : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_id: target.choice_id || null,
@@ -4873,7 +4932,12 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
     })
     .filter(Boolean)
     .filter(
-      (row) => row.targets.length > 0 || row.span_overrides.length > 0 || "skip" in row || row.note
+      (row) =>
+        row.targets.length > 0 ||
+        row.span_overrides.length > 0 ||
+        "skip" in row ||
+        "manual_correction_required" in row ||
+        row.note
     );
 }
 
@@ -4911,6 +4975,9 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
       const row = {
         item_id: originalItemId(item),
         decision: override.decision || "accept",
+        ...(typeof override.manual_correction_required === "boolean"
+          ? { manual_correction_required: override.manual_correction_required }
+          : {}),
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
       const regions = Object.values(override.regions || {})
@@ -4931,6 +4998,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     .filter(
       (row) =>
         row.decision === "reject" ||
+        "manual_correction_required" in row ||
         row.note ||
         (row.regions && row.regions.length > 0)
     );
@@ -5261,7 +5329,8 @@ function normalizeStoredOverrideForItem(pack, item, override) {
     }
   }
   const note = String(override?.note || "").trim();
-  if (Object.keys(regions).length === 0 && !note) {
+  const hasManualCorrectionOverride = typeof override?.manual_correction_required === "boolean";
+  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride) {
     return null;
   }
   return { ...override, note, regions };
