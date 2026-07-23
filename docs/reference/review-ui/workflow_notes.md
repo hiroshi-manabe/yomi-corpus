@@ -404,6 +404,47 @@ problem, the UI should create a correction task rather than editing history in
 place. The importer then applies the correction and the pipeline can harvest
 new rewrite defaults or ruby dictionary entries from the accepted correction.
 
+## Outstanding Manual Corrections
+
+Some defects cannot be represented safely by the normal candidate controls or
+repaired reliably by Escalated Repair, especially incorrect segmentation. Both
+Bulk Review and Escalated Repair should therefore let the reviewer mark a unit
+as `manual_correction_required`.
+
+This is a durable unit-level state, not a disposition like `Skip` and not a
+stage-local browser hint:
+
+- the Bulk Review and Escalated Repair interfaces expose the same red flag
+  action
+- setting the flag does not disable reading edits, skipping, or escalation
+- a flag set in Bulk Review remains set when the document enters Escalated
+  Repair and when it later enters the resolved archive
+- normal repair proposals and stage transitions must not clear it implicitly
+- a reviewer may explicitly remove the flag in either review stage
+- records from multiple stages for the same unit are merged rather than
+  creating duplicate outstanding correction tasks
+- each record retains its source stage, optional target span and short reason,
+  submission identifier, and timestamp for auditability
+
+The control should resemble the existing compact `Skip` control without being
+confusable with it. Use a red outlined flag icon when unset and a filled red
+flag when set, with the accessible label and tooltip `Requires later manual
+correction`. A reason field may appear only after the flag is enabled. Unlike
+`Skip`, the flag is additive: the sentence remains in the ordinary review flow.
+
+Corpus Map shows a red badge containing the number of distinct unresolved
+flagged units in each document. This badge is separate from the existing blue
+badge, which counts applied correction submissions: red means work remains;
+blue records correction history. Opening the manual-correction workflow for a
+document should scroll to its first flagged unit and support navigation among
+all remaining flagged units.
+
+Saving or submitting a browser draft does not resolve a flag. The server clears
+the corresponding unit flag only after a correction has been validated and
+applied to finalized data. Application failures leave the flag in place and
+surface the failure reason. When all flagged units in a document have been
+resolved, its red Corpus Map badge disappears automatically.
+
 ## Resolved Document Corrections
 
 Resolved-document edits should be treated as correction requests, not as local
