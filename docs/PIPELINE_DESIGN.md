@@ -475,8 +475,11 @@ error after retry routes the target or unit to focused review.
 
 Scope triage is intentionally ordered before yomi generation. It only needs raw
 unit text, and early `Skip` decisions avoid spending Sudachi, decoder, safety,
-and yomi-reading LLM work on non-target units. Later yomi stages consume the
-scope-triaged artifact and ignore `Skip` rows.
+and yomi-reading LLM work on non-target units. Later yomi stages do not process
+`Skip` rows, but the pipeline must retain those rows and their provenance for
+Bulk Review and later audit. Processing eligibility and record retention are
+separate concerns: skipping expensive yomi work must never delete a unit before
+a human can inspect the machine decision.
 
 In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or
@@ -1250,6 +1253,8 @@ Responsibilities:
 - let the human uncheck `Skip` to restore the unit
 - write effective `in_scope` overrides for triggering `out_of_scope` entities
   only when the human restores a provisional alphabetic skip
+- retain every machine-skipped unit through pack generation; omission from yomi
+  processing must not remove it from Bulk Review
 
 Asymmetric update rule:
 
@@ -1262,9 +1267,37 @@ Rationale:
 
 - Bulk Review is already required for yomi quality, so skip correction should
   piggyback on the same UI
+- machine skip decisions are deliberately fallible and must always be visible
+  to a human before becoming final
 - provisional skips reduce downstream cost without requiring a separate
   promotion-candidate review loop
 - source-aware audit records remain available if the LLM cache proves noisy
+
+#### Confirmed skip lifecycle
+
+Machine and LLM skip decisions remain provisional until Bulk Review confirms
+the displayed `Skip` state. Before submission, the reviewer may restore the
+unit by unchecking it. Human confirmation changes the unit into a durable
+skipped record rather than deleting it.
+
+A confirmed skipped record retains:
+
+- document and unit identity, sequence, source location, and raw text
+- the effective skip state and whether it originated from a deterministic
+  rule, LLM judgment, or human action
+- machine reasons and any later human override provenance
+- enough version information to reproduce which review decision was applied
+
+It is excluded from finalized reading corpus output, decoder training data,
+yomi inference, and Escalated Repair. Ordinary reading controls are no longer
+available after confirmation. Restoring it later requires an explicit reopen
+or correction operation rather than normal ruby editing.
+
+Resolved browsing may omit confirmed skips from the normal reading view, but
+the preferred default is a subdued raw-text tombstone marked `Skipped`. This
+keeps document structure and audit history understandable without presenting
+the text as corpus data. Corpus Map search should exclude these tombstones by
+default and may offer an explicit `Include skipped` filter.
 
 ### S70 Expensive Yomi Recovery
 
