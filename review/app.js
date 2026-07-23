@@ -1557,6 +1557,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
   row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
+  row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
 
   const summary = document.createElement("div");
   summary.className = "archive-correction-row-summary";
@@ -1575,9 +1576,19 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
   editButton.textContent = "Edit";
+  editButton.disabled = Boolean(unit.skipped);
+  if (unit.skipped) {
+    editButton.title = "Confirmed skipped text is read-only";
+  }
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
   actions.className = "archive-correction-row-actions";
+  if (unit.skipped) {
+    const skipped = document.createElement("span");
+    skipped.className = "skipped-tombstone-label";
+    skipped.textContent = "Skipped";
+    actions.append(skipped);
+  }
   if (unit.manual_correction_required) {
     const flag = document.createElement("span");
     flag.className = "manual-correction-row-flag";
@@ -2365,6 +2376,7 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
   for (const unit of doc.units || []) {
     const node = document.createElement("article");
     node.className = "workflow-preview-item resolved-yomi-preview";
+    node.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
     const rubyLine = document.createElement("p");
     rubyLine.className = "ruby-line resolved-ruby-line";
     const tokenPairs = archiveUnitYomiTokenPairs(unit);
@@ -2379,6 +2391,12 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
       rubyLine.textContent = unit.text || "";
     }
     node.append(rubyLine);
+    if (unit.skipped) {
+      const label = document.createElement("span");
+      label.className = "skipped-tombstone-label";
+      label.textContent = "Skipped";
+      node.append(label);
+    }
     container.append(node);
   }
 }
