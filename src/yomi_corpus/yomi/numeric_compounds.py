@@ -5,6 +5,7 @@ import re
 from typing import Iterable
 
 from yomi_corpus.yomi.token_codec import YomiTokenError, legacy_rendered_to_yomi_tokens
+from yomi_corpus.yomi.numeric_surfaces import is_formatted_arabic_number_surface
 
 
 _ASCII_DIGITS = "0123456789"
@@ -33,6 +34,7 @@ class NumericCompoundOccurrence:
 class NumericCompoundNormalization:
     rendered: str
     applied_surfaces: tuple[str, ...]
+    formatted_numeric_surfaces: tuple[str, ...] = ()
 
 
 # These lexicalized Japanese forms are more useful as single reading units than
@@ -70,7 +72,9 @@ def numeric_compound_rule(surface: str) -> NumericCompoundRule | None:
 
 
 def normalize_numeric_compounds(rendered: str) -> NumericCompoundNormalization:
-    pairs = _parse_rendered_pairs(rendered)
+    pairs, formatted_numeric_surfaces = _merge_formatted_numeric_expressions(
+        _parse_rendered_pairs(rendered)
+    )
     normalized: list[tuple[str, str]] = []
     applied: list[str] = []
     index = 0
@@ -123,7 +127,38 @@ def normalize_numeric_compounds(rendered: str) -> NumericCompoundNormalization:
     return NumericCompoundNormalization(
         rendered=_render_pairs(normalized),
         applied_surfaces=tuple(applied),
+        formatted_numeric_surfaces=tuple(formatted_numeric_surfaces),
     )
+
+
+def _merge_formatted_numeric_expressions(
+    pairs: list[tuple[str, str]],
+) -> tuple[list[tuple[str, str]], list[str]]:
+    merged: list[tuple[str, str]] = []
+    applied: list[str] = []
+    index = 0
+    numeric_chars = set("0123456789０１２３４５６７８９,，.．+-＋－−")
+    while index < len(pairs):
+        best_end = index
+        candidate = ""
+        for end in range(index, len(pairs)):
+            surface = pairs[end][0]
+            if not surface or any(char not in numeric_chars for char in surface):
+                break
+            candidate += surface
+            has_formatting = any(char in candidate for char in ",，.．+-＋－−")
+            if has_formatting and is_formatted_arabic_number_surface(candidate):
+                best_end = end + 1
+        if best_end > index:
+            surface = "".join(value for value, _reading in pairs[index:best_end])
+            merged.append((surface, ""))
+            if best_end - index > 1 or pairs[index] != (surface, ""):
+                applied.append(surface)
+            index = best_end
+            continue
+        merged.append(pairs[index])
+        index += 1
+    return merged, applied
 
 
 def numeric_compound_occurrences(text: str, rendered: str) -> list[NumericCompoundOccurrence]:

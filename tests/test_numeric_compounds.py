@@ -18,6 +18,26 @@ def token(surface: str, reading: str, pos: str = "名詞,普通名詞,一般,*,*
 
 
 class NumericCompoundTests(unittest.TestCase):
+    def test_merges_formatted_numeric_expression_with_empty_reading(self) -> None:
+        result = normalize_numeric_compounds(
+            "価格/カカク は/ハ 2/ニ ,/, 035/ゼロサンゴ ./. 28/ニハチ 円/エン"
+        )
+
+        self.assertEqual(result.rendered, "価格/カカク は/ハ 2,035.28/ 円/エン")
+        self.assertEqual(result.formatted_numeric_surfaces, ("2,035.28",))
+
+    def test_merges_signed_and_fullwidth_numeric_expressions(self) -> None:
+        result = normalize_numeric_compounds(
+            "-/マイナス 2/ニ ./. 4/ヨン kg/キロ ＋/プラス １/イチ ，/， ０００/セン"
+        )
+
+        self.assertEqual(result.rendered, "-2.4/ kg/キロ ＋１，０００/")
+
+    def test_does_not_merge_malformed_grouping_or_units(self) -> None:
+        result = normalize_numeric_compounds("12/ 34/ ,/, 5/ kg/キロ 2/ ./. 円/エン")
+
+        self.assertEqual(result.rendered, "12/ 34/ ,/, 5/ kg/キロ 2/ ./. 円/エン")
+
     def test_normalizes_deterministic_forms_and_fullwidth_digits(self) -> None:
         result = normalize_numeric_compounds(
             "2/ 日/ニチ 14/ 日/ニチ ２０/ 日/ニチ 1/ 人/ニン 9/ つ/ツ"

@@ -12,6 +12,10 @@ NUMERIC_DIGIT_SURFACE_RE = re.compile(
     r"〇○零一二三四五六七八九]+"
 )
 JAPANESE_NUMERAL_DIGIT_RE = re.compile(r"[〇○零一二三四五六七八九]+")
+FORMATTED_ARABIC_NUMBER_RE = re.compile(
+    r"[+＋\-－−]?(?:(?:[0-9０-９]{1,3}(?:[,，][0-9０-９]{3})+)|[0-9０-９]+)"
+    r"(?:[.．][0-9０-９]+)?"
+)
 
 
 def is_numeric_digit_surface(surface: str) -> bool:
@@ -19,6 +23,8 @@ def is_numeric_digit_surface(surface: str) -> bool:
 
 
 def is_numeric_only_surface(surface: str) -> bool:
+    if is_formatted_arabic_number_surface(surface):
+        return True
     if not is_numeric_digit_surface(surface):
         return False
     if not JAPANESE_NUMERAL_DIGIT_RE.fullmatch(surface):
@@ -27,3 +33,7 @@ def is_numeric_only_surface(surface: str) -> bool:
     # Single lexical numerals retain their ordinary reading; circle zero is a
     # notation symbol and remains no-ruby even by itself.
     return len(surface) >= 2 or surface in {"〇", "○"}
+
+
+def is_formatted_arabic_number_surface(surface: str) -> bool:
+    return bool(surface and FORMATTED_ARABIC_NUMBER_RE.fullmatch(surface))

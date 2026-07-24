@@ -1452,6 +1452,14 @@ reading the number and suffix independently. Handle these with an explicit,
 table-driven language-specific normalization step after hybrid generation.
 This is a deliberate exception, not a general number-reading module.
 
+Before applying lexicalized compounds, merge a syntactically complete Arabic
+numeric expression into one no-reading token. Internal thousands separators,
+decimal points, and an optional leading sign are part of that token, so
+`2,035.28/`, `-2.4/`, and `＋１，０００．５/` are canonical. Require valid
+three-digit comma grouping and digits on both sides of a decimal point. Keep
+currency marks, percent signs, and measurement units as adjacent separate
+tokens; for example, `-2.4/ kg/キロ`.
+
 The deterministic table covers both ASCII and full-width digits:
 
 - dates: `2日` through `10日`, plus `14日`, `20日`, and `24日`

@@ -145,7 +145,10 @@ or revert the rule.
 
 Numeric runs are not treated as ordinary yomi targets. Consecutive numeric
 tokens should be grouped and emitted with an empty reading, for example
-`2021/` or `二〇〇二/`, so a future number-reading module can handle them separately. Japanese
+`2021/`, `2,035.28/`, or `二〇〇二/`, so a future number-reading module can handle them separately.
+Thousands separators, decimal points, and an optional leading sign belong to
+the numeric token only when the complete expression is structurally valid;
+units and currency symbols remain separate. Japanese
 numeral digits are numeric only when the whole surface consists of digit
 characters; mixed lexical surfaces such as `二年` and `一人` retain their normal rules. Unit
 kanji such as `万` and `京` are not intrinsically numeric. This

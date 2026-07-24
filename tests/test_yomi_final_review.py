@@ -887,6 +887,14 @@ class YomiFinalReviewTests(unittest.TestCase):
             validate_finalized_correction_reading("2つ", "2ツ")["ok"],
         )
 
+    def test_finalized_correction_accepts_formatted_number_without_reading(self) -> None:
+        self.assertTrue(
+            validate_finalized_correction_reading("2,035.28", "")["ok"]
+        )
+        self.assertFalse(
+            validate_finalized_correction_reading("2,035.28", "ニセン")["ok"]
+        )
+
     def test_finalized_correction_requires_empty_japanese_numeral_reading(self) -> None:
         self.assertEqual(
             validate_finalized_correction_reading("二〇〇二", ""),

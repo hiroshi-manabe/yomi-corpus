@@ -1,7 +1,16 @@
 from yomi_corpus.yomi.numeric_surfaces import (
+    is_formatted_arabic_number_surface,
     is_numeric_digit_surface,
     is_numeric_only_surface,
 )
+
+
+def test_formatted_arabic_number_surface_is_numeric() -> None:
+    for surface in ("2,035.28", "-2.4", "+1,000", "＋１，０００．５"):
+        assert is_formatted_arabic_number_surface(surface)
+        assert is_numeric_only_surface(surface)
+    for surface in ("2,03", "2.", "1,000kg", "--2"):
+        assert not is_formatted_arabic_number_surface(surface)
 
 
 def test_japanese_numeral_surface_is_numeric() -> None:
