@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1556,
-  "generated_at": "2026-07-24T07:52:16Z",
-  "generated_at_epoch": 1784879536,
-  "last_successful_sync": "2026-07-24T07:41:54Z",
-  "last_successful_sync_epoch": 1784878914,
-  "status": "error",
+  "state_revision": 1557,
+  "generated_at": "2026-07-24T07:58:24Z",
+  "generated_at_epoch": 1784879904,
+  "last_successful_sync": "2026-07-24T07:58:24Z",
+  "last_successful_sync_epoch": 1784879904,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1784878875,
     "interval_seconds": 300,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "ValueError: Cannot materialize review units: missing non-skips=['ja_cc_level2:0000000154:u0003', 'ja_cc_level2:0000000154:u0007', 'ja_cc_level2:0000000154:u0013', 'ja_cc_level2:0000000154:u0021', 'ja_cc_level2:0000000154:u0026'], unexpected processed ids=[]",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1784879536,
-    "completed_at_epoch": 1784879536,
-    "drift_seconds": 61
+    "started_at_epoch": 1784879865,
+    "completed_at_epoch": 1784879904,
+    "drift_seconds": 90
   },
   "client_polling": {
     "normal_seconds": 60,
