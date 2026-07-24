@@ -12,16 +12,19 @@ from yomi_corpus.yomi.final_review import (
     apply_finalized_correction_submissions_file,
     apply_target_group_strong_repair,
     apply_manual_strong_repair_review_segments_file,
+    apply_manual_correction_flags_file,
     apply_exact_rendered_target_overrides,
     apply_final_review_file,
     apply_strong_repair_review_file,
     apply_yomi_strong_repair_results_file,
     build_review_target,
+    build_target_override,
     build_review_item,
     build_ruby_segments,
     build_strong_repair_queue_file,
     build_yomi_strong_repair_review_pack_file,
     canonicalize_finalized_unit_yomi,
+    default_target_rows,
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
     group_consecutive_target_overrides,
@@ -29,13 +32,160 @@ from yomi_corpus.yomi.final_review import (
     rendered_yomi_ruby_tokens,
     rendered_yomi_with_review_defaults,
     replay_review_submissions,
+    manual_correction_required,
+    materialize_yomi_review_units_file,
     store_review_submission,
     target_group_rejected_span,
     validate_finalized_correction_reading,
+    validate_finalized_correction_rendered_yomi,
 )
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_materialize_review_units_restores_scope_skips_in_source_order(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            scope = root / "scope.jsonl"
+            processed = root / "processed.jsonl"
+            hybrid = root / "hybrid.jsonl"
+            output = root / "review.jsonl"
+            scope.write_text(
+                "\n".join(
+                    json.dumps(row, ensure_ascii=False)
+                    for row in (
+                        {
+                            "unit_id": "u1",
+                            "text": "通常文",
+                            "analysis": {"llm": {"scope_triage": {"status": "Keep"}}},
+                        },
+                        {
+                            "unit_id": "u2",
+                            "text": "MeguruQuruwa",
+                            "analysis": {
+                                "llm": {"scope_triage": {"status": "Skip"}},
+                                "mechanical": {
+                                    "alphabetic_scope": {
+                                        "provisional_skip": True,
+                                        "reasons": [{"entity_key": "meguruquruwa"}],
+                                    }
+                                },
+                            },
+                        },
+                    )
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            processed.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "通常文",
+                        "analysis": {
+                            "llm": {"scope_triage": {"status": "Keep"}},
+                            "mechanical": {"yomi": {"rendered": "通常/ツウジョウ 文/ブン"}},
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            hybrid.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u2",
+                        "text": "MeguruQuruwa",
+                        "analysis": {
+                            "llm": {"scope_triage": {"status": "Skip"}},
+                            "mechanical": {
+                                "yomi": {"rendered": "MeguruQuruwa/メグルクルワ"},
+                                "alphabetic_scope": {
+                                    "provisional_skip": True,
+                                    "reasons": [{"entity_key": "meguruquruwa"}],
+                                },
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = materialize_yomi_review_units_file(
+                scope_units_jsonl=scope,
+                processed_units_jsonl=processed,
+                output_jsonl=output,
+                hybrid_units_jsonl=hybrid,
+            )
+            rows = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+
+            self.assertEqual([row["unit_id"] for row in rows], ["u1", "u2"])
+            self.assertEqual(summary["restored_scope_skips"], 1)
+            self.assertEqual(
+                rows[1]["analysis"]["mechanical"]["yomi"]["rendered"],
+                "MeguruQuruwa/メグルクルワ",
+            )
+            item = build_review_item(rows[1], seq=2, doc_seq=1, track_doc_seq=1)
+            self.assertTrue(item["provisional_skip"])
+            self.assertTrue(item["skip_default"])
+            self.assertEqual(item["skip_reasons"][0]["entity_key"], "meguruquruwa")
+
+    def test_finalization_writes_confirmed_skips_only_to_tombstone_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units = root / "reviewed.jsonl"
+            final = root / "final.jsonl"
+            skipped = root / "skipped.jsonl"
+            summary_path = root / "summary.json"
+            strong_summary = root / "strong.json"
+            strong_summary.write_text('{"queued_items":0}\n', encoding="utf-8")
+            units.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u-skip",
+                        "text": "MeguruQuruwa",
+                        "analysis": {
+                            "human_review": {
+                                "yomi_final": {"reviewed": True, "skip": True}
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = finalize_reviewed_yomi_file(
+                units_jsonl=units,
+                strong_queue_summary_json=strong_summary,
+                output_jsonl=final,
+                skipped_output_jsonl=skipped,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(final.read_text(encoding="utf-8"), "")
+            self.assertIn("u-skip", skipped.read_text(encoding="utf-8"))
+            self.assertEqual(summary["skipped_units"], 1)
+
+    def test_automatic_no_ruby_default_is_not_a_human_rejection(self) -> None:
+        target = {
+            "item_id": "u1:r1",
+            "surface": "二〇〇二",
+            "token_surface": "二〇〇二",
+            "current_reading_hiragana": "にれいれいに",
+            "default_choice_source": "none",
+            "default_reading": None,
+        }
+
+        rows = default_target_rows({"targets": [target]})
+        override = build_target_override(rows[0], {"u1:r1": target})
+
+        self.assertTrue(override["automatic_default"])
+        self.assertNotIn("rejected_readings", override)
+
     def test_finalization_normalizes_stale_parenthesized_laughter_token(self) -> None:
         unit = {
             "unit_id": "u-laughter",
@@ -318,6 +468,64 @@ class YomiFinalReviewTests(unittest.TestCase):
             payload["analysis"]["mechanical"]["yomi"]["rendered"],
         )
 
+    def test_strong_repair_preserves_source_whitespace_as_token_boundaries(self) -> None:
+        payload = {
+            "text": "The last of USです。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "token_schema_version": 1,
+                        "tokens": [
+                            ["The", "ザ"],
+                            [" ", " "],
+                            ["last", "ラスト"],
+                            [" ", " "],
+                            ["of", "オブ"],
+                            [" ", " "],
+                            ["US", "ユーエス"],
+                            ["です", "デス"],
+                            ["。", "。"],
+                        ],
+                    }
+                }
+            },
+        }
+        result = apply_target_group_strong_repair(
+            payload,
+            {
+                "item_id": "u1::target_group:1",
+                "rejected_span": "The last of US",
+                "target_escalations": [
+                    {"surface": "The", "token_index": 0, "chunk_index": 0},
+                    {"surface": "last", "token_index": 2, "chunk_index": 0},
+                    {"surface": "of", "token_index": 4, "chunk_index": 0},
+                    {"surface": "US", "token_index": 6, "chunk_index": 0},
+                ],
+            },
+            {
+                "parsed": [
+                    {"surface": "The", "reading": "ざ"},
+                    {"surface": "last", "reading": "らすと"},
+                    {"surface": "of", "reading": "おぶ"},
+                    {"surface": "US", "reading": "あす"},
+                ]
+            },
+        )
+
+        self.assertEqual(result["status"], "applied")
+        self.assertEqual(
+            payload["analysis"]["mechanical"]["yomi"]["tokens"][:7],
+            [
+                ["The", "ザ"],
+                [" ", " "],
+                ["last", "ラスト"],
+                [" ", " "],
+                ["of", "オブ"],
+                [" ", " "],
+                ["US", "アス"],
+            ],
+        )
+
     def test_manual_strong_repair_failure_identifies_document_and_submission(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             units = Path(tmp) / "units.jsonl"
@@ -531,6 +739,19 @@ class YomiFinalReviewTests(unittest.TestCase):
             {"ok": True},
         )
 
+    def test_finalized_correction_accepts_symbolic_kaomoji_marker(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("（●＾o＾●）", "カオモジ"),
+            {"ok": True},
+        )
+        self.assertEqual(
+            validate_finalized_correction_reading("（ノ∀｀）", "カオモジ"),
+            {"ok": True},
+        )
+        self.assertFalse(
+            validate_finalized_correction_reading("（笑）", "カオモジ")["ok"],
+        )
+
     def test_finalized_correction_preserves_numeric_compound_reading(self) -> None:
         self.assertEqual(
             validate_finalized_correction_reading("2つ", "フタツ"),
@@ -547,6 +768,51 @@ class YomiFinalReviewTests(unittest.TestCase):
         )
         self.assertFalse(
             validate_finalized_correction_reading("二〇〇二", "ニセンニ")["ok"],
+        )
+
+    def test_finalized_correction_requires_reading_for_single_lexical_numeral(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("七", "ナナ"),
+            {"ok": True},
+        )
+        self.assertFalse(validate_finalized_correction_reading("七", "")["ok"])
+
+    def test_finalized_correction_validation_matches_numeric_space_and_laughter_rules(self) -> None:
+        self.assertTrue(validate_finalized_correction_reading("五", "ゴ")["ok"])
+        self.assertTrue(validate_finalized_correction_reading("　", "")["ok"])
+        self.assertTrue(validate_finalized_correction_reading("ｗ", "")["ok"])
+        self.assertTrue(validate_finalized_correction_reading("ww", "")["ok"])
+
+    def test_finalized_correction_grandfathers_unchanged_legacy_token_pairs(self) -> None:
+        unit = {
+            "text": "SULです。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "tokens": [["SUL", "SUL"], ["です", "デス"], ["。", "。"]]
+                    }
+                }
+            },
+        }
+        unchanged = validate_finalized_correction_rendered_yomi(
+            unit=unit,
+            proposed="SUL/SUL です/デス 。/。",
+        )
+        changed = validate_finalized_correction_rendered_yomi(
+            unit=unit,
+            proposed="SUL/english です/デス 。/。",
+        )
+
+        self.assertTrue(unchanged["ok"])
+        self.assertFalse(changed["ok"])
+
+        canonicalize_finalized_unit_yomi(
+            unit,
+            grandfathered_tokens=[["SUL", "SUL"], ["です", "デス"], ["。", "。"]],
+        )
+        self.assertEqual(
+            unit["analysis"]["mechanical"]["yomi"]["tokens"][0],
+            ["SUL", "SUL"],
         )
 
     def test_apply_finalized_correction_preserves_numeric_compound_reading(self) -> None:
@@ -625,7 +891,13 @@ class YomiFinalReviewTests(unittest.TestCase):
                         "analysis": {
                             "mechanical": {
                                 "yomi": {"rendered": "今日/キョウ です/デス 。/。"}
-                            }
+                            },
+                            "human_review": {
+                                "manual_correction": {
+                                    "required": True,
+                                    "events": [{"required": True, "source_stage": "yomi_final_review"}],
+                                }
+                            },
                         },
                     },
                     ensure_ascii=False,
@@ -674,6 +946,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                 row["analysis"]["human_review"]["finalized_corrections"][0]["submission_id"],
                 "correction_1",
             )
+            self.assertFalse(manual_correction_required(row))
 
             second_summary = apply_finalized_correction_submissions_file(
                 root=root,
@@ -721,6 +994,100 @@ class YomiFinalReviewTests(unittest.TestCase):
                 ],
                 ["correction_1", "correction_2"],
             )
+
+    def test_finalized_correction_restores_skipped_unit_from_hybrid_yomi(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            final_jsonl = batch_dir / "units.yomi.final.jsonl"
+            skipped_jsonl = batch_dir / "units.yomi.skipped.jsonl"
+            final_jsonl.write_text("", encoding="utf-8")
+            skipped_jsonl.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u-skip",
+                        "doc_id": "doc1",
+                        "text": "DVです。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "token_schema_version": 1,
+                                    "tokens": [["DV", "ディーブイ"], ["です", "デス"], ["。", "。"]],
+                                }
+                            },
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "skip": True,
+                                    "submission_id": "original-skip",
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "restore-1",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 2,
+                    "units": [
+                        {
+                            "unit_id": "u-skip",
+                            "text": "DVです。",
+                            "skip": False,
+                            "original_yomi_tokens": [
+                                ["DV", "ディーブイ"],
+                                ["です", "デス"],
+                                ["。", "。"],
+                            ],
+                            "proposed_yomi_tokens": [
+                                ["DV", "ディーブイ"],
+                                ["です", "デス"],
+                                ["。", "。"],
+                            ],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary.json",
+            )
+
+            self.assertEqual(summary["applied_count"], 1)
+            self.assertEqual(summary["batches"][0]["restored_count"], 1)
+            self.assertEqual(skipped_jsonl.read_text(encoding="utf-8"), "")
+            restored = json.loads(final_jsonl.read_text(encoding="utf-8"))
+            review = restored["analysis"]["human_review"]["yomi_final"]
+            self.assertFalse(review["skip"])
+            self.assertTrue(review["restored"])
+            self.assertEqual(review["restoration_submission_id"], "restore-1")
+            self.assertEqual(
+                restored["analysis"]["human_review"]["skip_history"][0]["event"],
+                "restored",
+            )
+
+            repeated = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary2.json",
+            )
+            self.assertEqual(repeated["applied_count"], 0)
+            self.assertEqual(repeated["skipped_count"], 0)
 
     def test_rendered_yomi_ruby_tokens_use_python_furigana_alignment(self) -> None:
         tokens = rendered_yomi_ruby_tokens("決め/キメ お金/オカネ")
@@ -1008,6 +1375,16 @@ class YomiFinalReviewTests(unittest.TestCase):
             [
                 {"type": "text", "text": "ロン"},
                 {"type": "ruby", "text": "T", "reading": "てぃー"},
+            ],
+        )
+
+    def test_rendered_yomi_ruby_tokens_keep_latin_and_han_token_together(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("AB型/エービーガタ")
+
+        self.assertEqual(
+            tokens[0]["nodes"],
+            [
+                {"type": "ruby", "text": "AB型", "reading": "えーびーがた"},
             ],
         )
 
@@ -1510,6 +1887,74 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertFalse(effective["u2"]["skip"])
         self.assertEqual(effective["u2"]["submission_id"], "s2")
 
+    def test_replay_yomi_review_submissions_inherits_and_explicitly_clears_manual_flag(self) -> None:
+        pack = {
+            "pack_id": "pack_1",
+            "items": [
+                {
+                    "item_id": "u1",
+                    "seq": 1,
+                    "skip_default": False,
+                    "manual_correction_required": True,
+                }
+            ],
+        }
+        inherited = replay_review_submissions(
+            pack,
+            [
+                {
+                    "submission_id": "s1",
+                    "generated_at_epoch": 1,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [],
+                }
+            ],
+        )
+        cleared = replay_review_submissions(
+            pack,
+            [
+                {
+                    "submission_id": "s2",
+                    "generated_at_epoch": 2,
+                    "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}],
+                    "overrides": [
+                        {"item_id": "u1", "manual_correction_required": False}
+                    ],
+                }
+            ],
+        )
+
+        self.assertTrue(inherited["u1"]["manual_correction_required"])
+        self.assertFalse(cleared["u1"]["manual_correction_required"])
+
+    def test_strong_review_manual_flag_updates_unit_state(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            units_path = Path(tmp) / "units.jsonl"
+            units_path.write_text(
+                json.dumps({"unit_id": "u1", "analysis": {}}, ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            summary = apply_manual_correction_flags_file(
+                pack={"items": [{"item_id": "repair1", "unit_id": "u1"}]},
+                effective={
+                    "repair1": {
+                        "manual_correction_required": True,
+                        "submission_id": "strong-1",
+                        "generated_at_epoch": 20,
+                    }
+                },
+                units_jsonl=units_path,
+                source_stage="yomi_strong_repair_review",
+            )
+            row = json.loads(units_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(summary["changed_units"], 1)
+        self.assertTrue(manual_correction_required(row))
+        self.assertEqual(
+            row["analysis"]["human_review"]["manual_correction"]["source_stage"],
+            "yomi_strong_repair_review",
+        )
+
     def test_apply_final_review_updates_exact_rendered_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1543,6 +1988,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                     "overrides": [
                         {
                             "item_id": "u1",
+                            "manual_correction_required": True,
                             "targets": [
                                 {
                                     "item_id": "u1:r0001c01",
@@ -1579,6 +2025,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "u1:r0001c01",
             )
             self.assertEqual(review["target_overrides"][0]["selected_reading"], "ちかぢか")
+            self.assertTrue(manual_correction_required(row))
 
     def test_exact_rendered_target_override_falls_back_when_token_index_is_stale(self) -> None:
         payload = {
@@ -2912,7 +3359,13 @@ class YomiFinalReviewTests(unittest.TestCase):
                             "reviewed": True,
                             "skip": False,
                             "submission_id": "s1",
-                        }
+                        },
+                        "manual_correction": {
+                            "required": True,
+                            "events": [
+                                {"required": True, "source_stage": "yomi_final_review"}
+                            ],
+                        },
                     },
                     "mechanical": {"yomi": {"rendered": "学校/ガッコウ です/デス 。/。"}},
                 },
@@ -2953,6 +3406,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                 finalized["analysis"]["human_review"]["yomi_final"]["submission_id"],
                 "s1",
             )
+            self.assertTrue(manual_correction_required(finalized))
 
     def test_strong_repair_pack_exposes_dictionary_substring_reading_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -60,6 +60,7 @@ from yomi_corpus.yomi.final_review import (
     build_yomi_final_review_pack_file,
     finalize_reviewed_yomi_file,
     harvest_yomi_finalization_artifacts_file,
+    materialize_yomi_review_units_file,
     write_summary as write_yomi_final_review_summary,
 )
 from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
@@ -128,10 +129,6 @@ LLM_POLICY_TASKS = (
     LLM_TASK_YOMI_RESCUE,
 )
 LLM_POLICY_TASK_SET = frozenset(LLM_POLICY_TASKS)
-LEGACY_LLM_TASK_MAP = {
-    "non_target_judge": LLM_TASK_SCOPE_TRIAGE,
-    "yomi_triage": LLM_TASK_YOMI_READING,
-}
 YOMI_LLM_PROFILE_PRODUCTION = "production"
 YOMI_LLM_PROFILE_DEV = "dev"
 YOMI_LLM_PROFILE_SMOKE = "smoke"
@@ -396,7 +393,7 @@ def normalize_llm_policy(
         normalized[LLM_TASK_YOMI_READING] = LEGACY_YOMI_LLM_PROFILE_MAP[legacy_profile]
     if policy:
         for task, profile in policy.items():
-            task_name = LEGACY_LLM_TASK_MAP.get(str(task), str(task))
+            task_name = str(task)
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in policy: {task_name}")
             normalized[task_name] = str(profile)
@@ -428,7 +425,7 @@ def normalize_llm_execution_policy(
     normalized = default_llm_execution_policy(track_name)
     if policy:
         for task, mode in policy.items():
-            task_name = LEGACY_LLM_TASK_MAP.get(str(task), str(task))
+            task_name = str(task)
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in execution policy: {task_name}")
             normalized[task_name] = str(mode)
@@ -1573,10 +1570,6 @@ class PipelineWorkspace:
             return STAGE_SCOPE_TRIAGE_LLM_COMPLETED
         if (batch_dir / "scope_triage_input.jsonl").exists():
             return STAGE_SCOPE_TRIAGE_QUEUED
-        if (batch_dir / "units.yomi.triaged.jsonl").exists():
-            return STAGE_YOMI_READING_LLM_COMPLETED
-        if (batch_dir / "yomi_triage_input.jsonl").exists():
-            return STAGE_SCOPE_TRIAGE_QUEUED
         if (batch_dir / "alphabetic_promotion_candidates_summary.json").exists():
             return STAGE_ALPHABETIC_PROMOTION_CANDIDATES
         if (batch_dir / "alphabetic_judgment_ingest_summary.json").exists():
@@ -2222,7 +2215,7 @@ class PipelineWorkspace:
             formats=["jsonl"],
             show_progress=True,
             input_jsonl=input_path,
-            skip_scope_skipped=True,
+            skip_scope_skipped=False,
             decoder_model_dir=batch_state.decoder_model_dir,
         )
         artifacts = {
@@ -2641,7 +2634,7 @@ class PipelineWorkspace:
 
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        source_path = batch_dir / "units.yomi.llm_readings.jsonl"
+        source_path, review_units_summary = self._materialize_yomi_review_units(batch_name)
         pack_id = f"yomi_final_{batch_name}_v1"
         document_state_path = self.document_review_state_path(batch_name)
         document_state = build_initial_document_review_state(
@@ -2670,6 +2663,10 @@ class PipelineWorkspace:
                 "document_review_state_final_pending": str(
                     document_state["summary"]["state_counts"].get("final_pending", 0)
                 ),
+                "units_yomi_review_input_jsonl": str(source_path),
+                "yomi_review_restored_scope_skips": str(
+                    review_units_summary["restored_scope_skips"]
+                ),
                 **pack_artifacts,
                 "review_site_manifest_json": str(manifest_path),
                 "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
@@ -2693,7 +2690,7 @@ class PipelineWorkspace:
     ) -> tuple[object, dict[str, str]]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        source_path = batch_dir / "units.yomi.llm_readings.jsonl"
+        source_path, review_units_summary = self._materialize_yomi_review_units(batch_name)
         batch_pack_path = batch_dir / "final_review_pack.json"
         summary_path = batch_dir / "final_review_pack_summary.json"
         review_pack_path = (
@@ -2712,10 +2709,28 @@ class PipelineWorkspace:
         )
         write_yomi_final_review_summary(summary, summary_path)
         return summary, {
+            "units_yomi_review_input_jsonl": str(source_path),
+            "yomi_review_restored_scope_skips": str(
+                review_units_summary["restored_scope_skips"]
+            ),
             "final_review_pack_json": str(batch_pack_path),
             "final_review_pack_summary_json": str(summary_path),
             "review_pack_json": str(review_pack_path),
         }
+
+    def _materialize_yomi_review_units(
+        self,
+        batch_name: str,
+    ) -> tuple[Path, dict[str, object]]:
+        batch_dir = self.batch_dir(batch_name)
+        output_path = batch_dir / "units.yomi.review_input.jsonl"
+        summary = materialize_yomi_review_units_file(
+            scope_units_jsonl=batch_dir / "units.scope_triaged.jsonl",
+            processed_units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
+            output_jsonl=output_path,
+            hybrid_units_jsonl=batch_dir / "units.yomi.aligned_hybrid.jsonl",
+        )
+        return output_path, summary
 
     def _apply_final_review(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
@@ -2728,8 +2743,9 @@ class PipelineWorkspace:
         summary_path = batch_dir / "final_review_apply_summary.json"
         submission_store_dir = self.root / "data" / "review_submissions" / "yomi_final"
         import_summary = self._import_final_review_submissions(submission_store_dir)
+        review_units_path, _ = self._materialize_yomi_review_units(batch_name)
         summary = apply_final_review_file(
-            units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
+            units_jsonl=review_units_path,
             pack_json=pack_path,
             submission_store_dir=submission_store_dir,
             output_jsonl=output_path,
@@ -2744,7 +2760,7 @@ class PipelineWorkspace:
                 document_state = load_document_review_state(document_state_path)
             else:
                 document_state = build_initial_document_review_state(
-                    units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
+                    units_jsonl=review_units_path,
                     batch_name=batch_name,
                     track_name=batch_state.track_name,
                 )
@@ -3289,6 +3305,7 @@ class PipelineWorkspace:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         output_path = batch_dir / "units.yomi.final.jsonl"
+        skipped_output_path = batch_dir / "units.yomi.skipped.jsonl"
         summary_path = batch_dir / "yomi_finalize_summary.json"
         strong_repaired_path = batch_dir / "units.yomi.strong_repaired.jsonl"
         strong_review_pack = batch_dir / "yomi_strong_repair_review_pack.json"
@@ -3332,9 +3349,11 @@ class PipelineWorkspace:
             strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
             output_jsonl=output_path,
             summary_json=summary_path,
+            skipped_output_jsonl=skipped_output_path,
         )
         artifacts = {
             "units_yomi_final_jsonl": str(output_path),
+            "units_yomi_skipped_jsonl": str(skipped_output_path),
             "yomi_finalize_summary_json": str(summary_path),
             **strong_import_artifacts,
         }

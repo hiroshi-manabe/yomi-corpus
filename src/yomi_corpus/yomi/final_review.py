@@ -72,6 +72,57 @@ SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
+
+
+def manual_correction_state(unit: dict[str, Any]) -> dict[str, Any]:
+    state = (
+        unit.get("analysis", {})
+        .get("human_review", {})
+        .get("manual_correction", {})
+    )
+    return state if isinstance(state, dict) else {}
+
+
+def manual_correction_required(unit: dict[str, Any]) -> bool:
+    return bool(manual_correction_state(unit).get("required"))
+
+
+def set_manual_correction_required(
+    unit: dict[str, Any],
+    *,
+    required: bool,
+    source_stage: str,
+    submission_id: str = "",
+    generated_at_epoch: int = 0,
+    reason: str = "",
+) -> bool:
+    human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+    current = human_review.get("manual_correction")
+    if not isinstance(current, dict):
+        current = {}
+    if bool(current.get("required")) == bool(required):
+        return False
+    event = {
+        "required": bool(required),
+        "source_stage": source_stage,
+        "submission_id": submission_id,
+        "generated_at_epoch": int(generated_at_epoch or 0),
+    }
+    if reason:
+        event["reason"] = reason
+    events = [row for row in current.get("events", []) if isinstance(row, dict)]
+    events.append(event)
+    human_review["manual_correction"] = {
+        "required": bool(required),
+        "events": events,
+        "source_stage": source_stage,
+        "submission_id": submission_id,
+        "generated_at_epoch": int(generated_at_epoch or 0),
+        **({"reason": reason} if reason else {}),
+    }
+    return True
+
+
 @dataclass(frozen=True)
 class YomiFinalReviewPackSummary:
     pack_id: str
@@ -91,6 +142,90 @@ class YomiStrongRepairReviewPackSummary:
     item_count: int
     output_json: str
     latest_json: str | None
+
+
+def materialize_yomi_review_units_file(
+    *,
+    scope_units_jsonl: Path,
+    processed_units_jsonl: Path,
+    output_jsonl: Path,
+    hybrid_units_jsonl: Path | None = None,
+) -> dict[str, Any]:
+    """Merge processed units while supporting pre-migration scope-skip artifacts."""
+    processed_rows = load_jsonl(processed_units_jsonl)
+    scope_rows = load_jsonl(scope_units_jsonl)
+    hybrid_rows = (
+        load_jsonl(hybrid_units_jsonl)
+        if hybrid_units_jsonl is not None and hybrid_units_jsonl.exists()
+        else []
+    )
+    hybrid_by_id: dict[str, dict[str, Any]] = {}
+    for row in hybrid_rows:
+        unit_id = str(row.get("unit_id") or "")
+        if not unit_id or unit_id in hybrid_by_id:
+            raise ValueError(f"Invalid or duplicate hybrid unit id: {unit_id!r}")
+        hybrid_by_id[unit_id] = row
+    processed_by_id: dict[str, dict[str, Any]] = {}
+    for row in processed_rows:
+        unit_id = str(row.get("unit_id") or "")
+        if not unit_id or unit_id in processed_by_id:
+            raise ValueError(f"Invalid or duplicate processed unit id: {unit_id!r}")
+        processed_by_id[unit_id] = row
+
+    output_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    written = 0
+    restored_skips = 0
+    missing_non_skips: list[str] = []
+    with output_jsonl.open("w", encoding="utf-8") as dst:
+        if not scope_rows:
+            for row in processed_rows:
+                dst.write(json.dumps(row, ensure_ascii=False) + "\n")
+                written += 1
+            processed_by_id.clear()
+        for scope_unit in scope_rows:
+            unit_id = str(scope_unit.get("unit_id") or "")
+            processed = processed_by_id.pop(unit_id, None)
+            if processed is not None:
+                row = processed
+            elif is_scope_triage_skipped(scope_unit):
+                row = hybrid_by_id.get(unit_id, scope_unit)
+                if unit_id not in hybrid_by_id:
+                    row.setdefault("analysis", {}).setdefault("pipeline", {})[
+                        "yomi_processing"
+                    ] = {
+                        "status": "skipped",
+                        "reason": "scope_triage_skip_without_hybrid",
+                    }
+                restored_skips += 1
+            else:
+                missing_non_skips.append(unit_id)
+                continue
+            dst.write(json.dumps(row, ensure_ascii=False) + "\n")
+            written += 1
+
+    if missing_non_skips or processed_by_id:
+        output_jsonl.unlink(missing_ok=True)
+        raise ValueError(
+            "Cannot materialize review units: "
+            f"missing non-skips={missing_non_skips[:5]!r}, "
+            f"unexpected processed ids={list(processed_by_id)[:5]!r}"
+        )
+    return {
+        "written_units": written,
+        "processed_units": written - restored_skips,
+        "restored_scope_skips": restored_skips,
+        "output_jsonl": str(output_jsonl),
+    }
+
+
+def is_scope_triage_skipped(unit: dict[str, Any]) -> bool:
+    return (
+        unit.get("analysis", {})
+        .get("llm", {})
+        .get("scope_triage", {})
+        .get("status")
+        == "Skip"
+    )
 
 
 def build_yomi_final_review_pack_file(
@@ -562,6 +697,8 @@ def build_strong_repair_review_sentence_item(
         "rendered_yomi_after": rendered_after,
         "rendered_yomi_after_tokens": pairs,
         "rendered_yomi_after_ruby_tokens": yomi_tokens_ruby_tokens(pairs),
+        "manual_correction_required": manual_correction_required(unit),
+        "manual_correction": manual_correction_state(unit),
         "mapping_error_count": len(mapping_errors),
         "mapping_errors": mapping_errors,
         "repair_scope": "sentence_regions",
@@ -796,6 +933,11 @@ def build_review_item(
         "scope_status": scope.get("status"),
         "provisional_skip": provisional_skip,
         "skip_default": bool(scope.get("status") == "Skip" or provisional_skip),
+        "skip_reasons": list(alphabetic_scope.get("reasons") or [])
+        if isinstance(alphabetic_scope, dict)
+        else [],
+        "manual_correction_required": manual_correction_required(unit),
+        "manual_correction": manual_correction_state(unit),
         "target_count": len(review_targets),
         "safe_target_count": len(review_targets) - unresolved_count,
         "unresolved_target_count": unresolved_count,
@@ -1738,6 +1880,8 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
     reading_hira = kata_to_hira(reading)
     if has_han(surface) and re.search(r"[0-9０-９]", surface):
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
+    if has_han(surface) and has_latin(surface):
+        return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface):
         result = furigana_converter().convert(surface, reading)
         if result.annotated_surface:
@@ -2067,17 +2211,18 @@ def apply_finalized_correction_patches_to_batch(
     patches: list[tuple[dict[str, Any], dict[str, Any]]],
 ) -> dict[str, Any]:
     final_jsonl = root / "data" / "units" / batch_name / "units.yomi.final.jsonl"
-    if not final_jsonl.exists():
+    skipped_jsonl = root / "data" / "units" / batch_name / "units.yomi.skipped.jsonl"
+    if not final_jsonl.exists() and not skipped_jsonl.exists():
         return {
             "batch_name": batch_name,
-            "status": "missing_final_jsonl",
+            "status": "missing_finalized_artifacts",
             "applied_count": 0,
             "skipped_count": len(patches),
             "skipped": [
                 finalized_correction_skip_record(
                     submission,
                     patch,
-                    reason="missing_final_jsonl",
+                    reason="missing_finalized_artifacts",
                 )
                 for submission, patch in patches
             ],
@@ -2098,31 +2243,82 @@ def apply_finalized_correction_patches_to_batch(
             continue
         latest_by_unit[unit_id] = (submission, patch)
 
-    rows: list[str] = []
+    final_rows = load_jsonl(final_jsonl) if final_jsonl.exists() else []
+    skipped_rows = load_jsonl(skipped_jsonl) if skipped_jsonl.exists() else []
+    final_ids = {str(row.get("unit_id") or "") for row in final_rows}
+    skipped_ids = {str(row.get("unit_id") or "") for row in skipped_rows}
+    duplicate_ids = (final_ids & skipped_ids) - {""}
+    if duplicate_ids:
+        return {
+            "batch_name": batch_name,
+            "status": "duplicate_finalized_unit_ids",
+            "applied_count": 0,
+            "skipped_count": len(patches),
+            "skipped": [
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="duplicate_finalized_unit_id",
+                )
+                for submission, patch in patches
+            ],
+        }
+
     applied: list[dict[str, Any]] = []
     accepted: list[dict[str, Any]] = []
-    read_units = 0
+    restored: list[dict[str, Any]] = []
     matched_units: set[str] = set()
-    with final_jsonl.open(encoding="utf-8") as src:
-        for line in src:
-            if not line.strip():
-                continue
-            read_units += 1
-            row = json.loads(line)
-            unit_id = str(row.get("unit_id") or "")
-            patch_pair = latest_by_unit.get(unit_id)
-            if patch_pair is not None:
-                matched_units.add(unit_id)
-                submission, patch = patch_pair
-                result = apply_finalized_correction_patch_to_unit(row, submission, patch)
-                if result["status"] == "applied":
-                    applied.append(result)
-                    accepted.append(result)
-                elif result["status"] == "already_applied":
-                    accepted.append(result)
-                else:
-                    skipped.append(result)
-            rows.append(json.dumps(row, ensure_ascii=False))
+    for row in final_rows:
+        unit_id = str(row.get("unit_id") or "")
+        patch_pair = latest_by_unit.get(unit_id)
+        if patch_pair is None:
+            continue
+        matched_units.add(unit_id)
+        submission, patch = patch_pair
+        result = apply_finalized_correction_patch_to_unit(row, submission, patch)
+        if result["status"] == "applied":
+            applied.append(result)
+            accepted.append(result)
+        elif result["status"] == "already_applied":
+            accepted.append(result)
+        else:
+            skipped.append(result)
+
+    retained_skipped_rows: list[dict[str, Any]] = []
+    for row in skipped_rows:
+        unit_id = str(row.get("unit_id") or "")
+        patch_pair = latest_by_unit.get(unit_id)
+        if patch_pair is None:
+            retained_skipped_rows.append(row)
+            continue
+        matched_units.add(unit_id)
+        submission, patch = patch_pair
+        if patch.get("skip") is not False:
+            skipped.append(
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="restoration_not_requested",
+                )
+            )
+            retained_skipped_rows.append(row)
+            continue
+        restoration_baseline_tokens = current_yomi_tokens_for_correction(row)
+        result = apply_finalized_correction_patch_to_unit(row, submission, patch)
+        if result["status"] not in {"applied", "already_applied"}:
+            skipped.append(result)
+            retained_skipped_rows.append(row)
+            continue
+        record_skip_restoration(row, submission=submission)
+        canonicalize_finalized_unit_yomi(
+            row,
+            grandfathered_tokens=restoration_baseline_tokens,
+        )
+        result = {**result, "status": "applied", "restored": True}
+        applied.append(result)
+        accepted.append(result)
+        restored.append(result)
+        final_rows.append(row)
 
     for unit_id, (submission, patch) in latest_by_unit.items():
         if unit_id not in matched_units:
@@ -2135,20 +2331,48 @@ def apply_finalized_correction_patches_to_batch(
             )
 
     if applied:
-        final_jsonl.write_text("\n".join(rows) + "\n", encoding="utf-8")
+        write_jsonl(final_jsonl, final_rows)
+        write_jsonl(skipped_jsonl, retained_skipped_rows)
 
     return {
         "batch_name": batch_name,
         "status": "applied" if applied else "no_changes",
         "final_jsonl": str(final_jsonl),
-        "read_units": read_units,
+        "skipped_jsonl": str(skipped_jsonl),
+        "read_units": len(final_rows) + len(retained_skipped_rows),
         "applied_count": len(applied),
         "accepted_count": len(accepted),
+        "restored_count": len(restored),
         "skipped_count": len(skipped),
         "applied": applied,
         "accepted": accepted,
         "skipped": skipped,
     }
+
+
+def record_skip_restoration(unit: dict[str, Any], *, submission: dict[str, Any]) -> None:
+    submission_id = finalized_correction_submission_id(submission)
+    human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+    review = human_review.setdefault("yomi_final", {})
+    history = human_review.setdefault("skip_history", [])
+    if not any(
+        isinstance(event, dict)
+        and event.get("event") == "restored"
+        and str(event.get("submission_id") or "") == submission_id
+        for event in history
+    ):
+        history.append(
+            {
+                "event": "restored",
+                "submission_id": submission_id,
+                "review_stage": FINALIZED_CORRECTION_STAGE,
+                "source": submission.get("_source_issue"),
+                "generated_at_epoch": int(submission.get("generated_at_epoch") or 0),
+            }
+        )
+    review["skip"] = False
+    review["restored"] = True
+    review["restoration_submission_id"] = submission_id
 
 
 def apply_finalized_correction_patch_to_unit(
@@ -2188,8 +2412,16 @@ def apply_finalized_correction_patch_to_unit(
             original_rendered_yomi=current,
             proposed_rendered_yomi=proposed,
         )
+        cleared = set_manual_correction_required(
+            unit,
+            required=False,
+            source_stage=FINALIZED_CORRECTION_STAGE,
+            submission_id=submission_id,
+            generated_at_epoch=int(submission.get("generated_at_epoch") or 0),
+            reason="finalized correction applied",
+        )
         return {
-            "status": "applied" if recorded else "already_applied",
+            "status": "applied" if recorded or cleared else "already_applied",
             "submission_id": submission_id,
             "unit_id": unit_id,
             "source": source,
@@ -2219,6 +2451,14 @@ def apply_finalized_correction_patch_to_unit(
         source=source,
         original_rendered_yomi=current,
         proposed_rendered_yomi=proposed,
+    )
+    set_manual_correction_required(
+        unit,
+        required=False,
+        source_stage=FINALIZED_CORRECTION_STAGE,
+        submission_id=submission_id,
+        generated_at_epoch=int(submission.get("generated_at_epoch") or 0),
+        reason="finalized correction applied",
     )
     return {
         "status": "applied",
@@ -2341,8 +2581,8 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
             pass
         elif is_numeric_only_finalized_correction_surface(surface):
             normalized_reading = ""
-        elif re.fullmatch(r"[ \u00a0]+", surface):
-            if normalized_reading and not re.fullmatch(r"[ \u00a0]+", normalized_reading):
+        elif re.fullmatch(r"[ \u00a0\u3000]+", surface):
+            if normalized_reading and not re.fullmatch(r"[ \u00a0\u3000]+", normalized_reading):
                 normalized_reading = surface
         elif not re.search(r"[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]", surface):
             normalized_reading = hiragana_to_katakana_for_finalized_correction(surface)
@@ -2366,7 +2606,14 @@ def validate_finalized_correction_rendered_yomi(
         return {"ok": False, "error": str(exc)}
     if not tokens:
         return {"ok": False, "error": "rendered yomi has no tokens"}
+    baseline_counts = Counter(
+        (surface, reading)
+        for surface, reading in current_yomi_tokens_for_correction(unit)
+    )
     for surface, reading in tokens:
+        if baseline_counts[(surface, reading)]:
+            baseline_counts[(surface, reading)] -= 1
+            continue
         reading_validation = validate_finalized_correction_reading(
             surface,
             reading,
@@ -2414,8 +2661,8 @@ def normalize_rendered_yomi_for_finalized_correction(rendered: str) -> str:
 
 
 def validate_finalized_correction_reading(surface: str, reading: str) -> dict[str, Any]:
-    if re.fullmatch(r"[ \u00a0]+", surface):
-        if reading and not re.fullmatch(r"[ \u00a0]+", reading):
+    if re.fullmatch(r"[ \u00a0\u3000]+", surface):
+        if reading and not re.fullmatch(r"[ \u00a0\u3000]+", reading):
             return {"ok": False, "error": "space tokens must have an empty or whitespace reading"}
         return {"ok": True}
     if is_numeric_only_finalized_correction_surface(surface):
@@ -2431,6 +2678,12 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
             "ok": False,
             "error": f"reading should be one of {', '.join(allowed)}",
         }
+    if reading == "カオモジ":
+        if is_symbolic_kaomoji_correction_surface(surface):
+            return {"ok": True}
+        return {"ok": False, "error": "カオモジ is reserved for symbolic kaomoji surfaces"}
+    if is_standalone_laughter_w(surface) and not reading:
+        return {"ok": True}
     if has_han(surface) or has_latin(surface):
         if not reading:
             return {"ok": False, "error": "kanji or alphabetic surfaces need a kana reading"}
@@ -2441,6 +2694,18 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
     if reading == expected:
         return {"ok": True}
     return {"ok": False, "error": f"reading should be {expected or '(empty)'}"}
+
+
+def is_symbolic_kaomoji_correction_surface(surface: str) -> bool:
+    return (
+        len(surface) >= 3
+        and not re.fullmatch(
+            r"(?:\([\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+\)"
+            r"|（[\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+）)",
+            surface,
+        )
+        and any(not char.isalnum() and not char.isspace() for char in surface)
+    )
 
 
 def is_numeric_only_finalized_correction_surface(surface: str) -> bool:
@@ -2486,6 +2751,9 @@ def replay_review_submissions(
                     "item_id": item_id,
                     "reviewed": True,
                     "skip": bool(item.get("skip_default", False)),
+                    "manual_correction_required": bool(
+                        item.get("manual_correction_required", False)
+                    ),
                     "targets": default_target_rows(item),
                     "span_overrides": [],
                     "note": "",
@@ -2503,6 +2771,9 @@ def replay_review_submissions(
                         "item_id": item_id,
                         "reviewed": True,
                         "skip": bool(item.get("skip_default", False)),
+                        "manual_correction_required": bool(
+                            item.get("manual_correction_required", False)
+                        ),
                         "targets": default_target_rows(item),
                         "span_overrides": [],
                         "note": "",
@@ -2510,6 +2781,10 @@ def replay_review_submissions(
                 )
                 if "skip" in override:
                     current["skip"] = bool(override["skip"])
+                if "manual_correction_required" in override:
+                    current["manual_correction_required"] = bool(
+                        override["manual_correction_required"]
+                    )
                 current["targets"] = merge_default_and_explicit_target_rows(
                     item,
                     [row for row in override.get("targets", []) if isinstance(row, dict)],
@@ -2568,6 +2843,12 @@ def apply_strong_repair_review_file(
         effective=effective,
         units_jsonl=units_jsonl,
     )
+    manual_correction_summary = apply_manual_correction_flags_file(
+        pack=pack,
+        effective=effective,
+        units_jsonl=units_jsonl,
+        source_stage=STRONG_REPAIR_REVIEW_STAGE,
+    )
     invalid_manual_items = manual_summary["invalid_items"]
     stage_complete = unreviewed_count == 0 and not rejected_items and invalid_manual_items == 0
     strong_summary = load_json(strong_apply_summary_json)
@@ -2590,6 +2871,9 @@ def apply_strong_repair_review_file(
     strong_summary["confirmation_rejected_items"] = rejected_items
     strong_summary["confirmation_unreviewed_items"] = unreviewed_count
     strong_summary["confirmation_manual_segment_overrides"] = manual_summary["applied_items"]
+    strong_summary["confirmation_manual_correction_flag_changes"] = manual_correction_summary[
+        "changed_units"
+    ]
     strong_summary["confirmation_invalid_manual_segment_overrides"] = invalid_manual_items
     strong_apply_summary_json.write_text(
         json.dumps(strong_summary, ensure_ascii=False, indent=2) + "\n",
@@ -2606,6 +2890,7 @@ def apply_strong_repair_review_file(
         "unreviewed_items": unreviewed_count,
         "rejected_items": rejected_items,
         "manual_segment_overrides": manual_summary,
+        "manual_correction_flags": manual_correction_summary,
         "strong_apply_summary_json": str(strong_apply_summary_json),
         "summary_json": str(output_summary_json),
     }
@@ -2618,6 +2903,49 @@ def apply_strong_repair_review_file(
         encoding="utf-8",
     )
     return summary
+
+
+def apply_manual_correction_flags_file(
+    *,
+    pack: dict[str, Any],
+    effective: dict[str, dict[str, Any]],
+    units_jsonl: Path | None,
+    source_stage: str,
+) -> dict[str, Any]:
+    states_by_unit: dict[str, dict[str, Any]] = {}
+    for item in pack.get("items", []):
+        if not isinstance(item, dict):
+            continue
+        state = effective.get(str(item.get("item_id") or ""))
+        unit_id = str(item.get("unit_id") or "")
+        if state is not None and unit_id:
+            states_by_unit[unit_id] = state
+    if not states_by_unit or units_jsonl is None:
+        return {"reviewed_units": len(states_by_unit), "changed_units": 0}
+
+    changed_units = 0
+    output_rows: list[str] = []
+    with units_jsonl.open(encoding="utf-8") as src:
+        for line in src:
+            if not line.strip():
+                continue
+            unit = json.loads(line)
+            state = states_by_unit.get(str(unit.get("unit_id") or ""))
+            if state is not None and set_manual_correction_required(
+                unit,
+                required=bool(state.get("manual_correction_required")),
+                source_stage=source_stage,
+                submission_id=str(state.get("submission_id") or ""),
+                generated_at_epoch=int(state.get("generated_at_epoch") or 0),
+                reason=str(state.get("note") or "").strip(),
+            ):
+                changed_units += 1
+            output_rows.append(json.dumps(unit, ensure_ascii=False))
+
+    tmp_path = units_jsonl.with_suffix(units_jsonl.suffix + ".tmp")
+    tmp_path.write_text("\n".join(output_rows) + ("\n" if output_rows else ""), encoding="utf-8")
+    tmp_path.replace(units_jsonl)
+    return {"reviewed_units": len(states_by_unit), "changed_units": changed_units}
 
 
 def apply_manual_strong_repair_review_segments_file(
@@ -2864,6 +3192,12 @@ def replay_simple_accept_reject_submissions(
                 effective[item_id] = {
                     "item_id": item_id,
                     "decision": str(override.get("decision") or "accept"),
+                    "manual_correction_required": bool(
+                        override.get(
+                            "manual_correction_required",
+                            item.get("manual_correction_required", False),
+                        )
+                    ),
                     "manual_segments": [
                         row for row in override.get("manual_segments", []) if isinstance(row, dict)
                     ],
@@ -2890,6 +3224,7 @@ def default_target_rows(item: dict[str, Any]) -> list[dict[str, Any]]:
                 "item_id": str(target.get("item_id") or ""),
                 "choice_source": source,
                 "selected_reading": target.get("default_reading"),
+                "automatic_default": True,
             }
         )
     return [row for row in rows if row["item_id"]]
@@ -3112,10 +3447,15 @@ def build_target_override(
         "token_index": target.get("token_index"),
         "chunk_index": target.get("chunk_index"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
+        "automatic_default": bool(row.get("automatic_default")),
     }
     if row.get("legacy_target_item_id"):
         override["legacy_target_item_id"] = str(row["legacy_target_item_id"])
-    if override["choice_source"] == "none" and override["current_reading_hiragana"]:
+    if (
+        override["choice_source"] == "none"
+        and override["current_reading_hiragana"]
+        and not override["automatic_default"]
+    ):
         override["rejected_readings"] = [
             {
                 "surface": target.get("surface"),
@@ -3307,6 +3647,14 @@ def set_final_review_payload(
         "exact_rendered_updates": exact_rendered_updates,
         "exact_rendered_span_updates": exact_rendered_span_updates,
     }
+    set_manual_correction_required(
+        unit,
+        required=bool(item_state.get("manual_correction_required")),
+        source_stage=REVIEW_STAGE,
+        submission_id=str(item_state.get("submission_id", "")),
+        generated_at_epoch=int(item_state.get("generated_at_epoch", 0)),
+        reason=str(item_state.get("note", "")).strip(),
+    )
 
 
 def build_strong_repair_queue_file(
@@ -3355,6 +3703,7 @@ def build_strong_repair_queue_file(
                 row
                 for row in target_constraints
                 if row.get("choice_source") == "none"
+                and not row.get("automatic_default")
                 and str(row.get("item_id") or "") not in span_repair_target_ids
                 and not is_no_ruby_laughter_w_override(row)
             ]
@@ -3663,6 +4012,16 @@ def apply_target_group_strong_repair(
     rejected_span = str(queue_row.get("rejected_span") or "") or "".join(
         str(target.get("surface") or "") for target in targets
     )
+    replacement_pairs = interleave_repair_span_whitespace(
+        rejected_span,
+        replacement_pairs,
+    )
+    if replacement_pairs is None:
+        return {
+            "status": "surface_mismatch",
+            "reason": "replacement items cross a source whitespace boundary",
+            "rejected_span": rejected_span,
+        }
     replacement_span = "".join(surface for surface, _reading in replacement_pairs)
     if replacement_span != rejected_span:
         return {
@@ -3715,6 +4074,36 @@ def apply_target_group_strong_repair(
             for surface, reading in mapped_pairs
         ],
     }
+
+
+def interleave_repair_span_whitespace(
+    rejected_span: str,
+    replacement_pairs: list[tuple[str, str]],
+) -> list[tuple[str, str]] | None:
+    parts = [part for part in re.split(r"(\s+)", rejected_span) if part]
+    if not any(part.isspace() for part in parts):
+        return replacement_pairs
+    output: list[tuple[str, str]] = []
+    pair_index = 0
+    for part in parts:
+        if part.isspace():
+            output.append((part, part))
+            continue
+        consumed = ""
+        while len(consumed) < len(part) and pair_index < len(replacement_pairs):
+            surface, reading = replacement_pairs[pair_index]
+            if any(char.isspace() for char in surface):
+                return None
+            if not part.startswith(surface, len(consumed)):
+                return None
+            consumed += surface
+            output.append((surface, reading))
+            pair_index += 1
+        if consumed != part:
+            return None
+    if pair_index != len(replacement_pairs):
+        return None
+    return output
 
 
 def rejected_surface_reading_pairs(targets: list[dict[str, Any]]) -> set[tuple[str, str]]:
@@ -3880,6 +4269,7 @@ def finalize_reviewed_yomi_file(
     strong_apply_summary_json: Path | None = None,
     output_jsonl: Path,
     summary_json: Path,
+    skipped_output_jsonl: Path | None = None,
 ) -> dict[str, Any]:
     strong_summary = load_json(strong_queue_summary_json)
     queued_items = int(strong_summary.get("queued_items", 0))
@@ -3911,33 +4301,46 @@ def finalize_reviewed_yomi_file(
                 ),
             }
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    if skipped_output_jsonl is not None:
+        skipped_output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     read_units = 0
     written_units = 0
     skipped_units = 0
     unreviewed_units = 0
     review_by_unit_id = load_yomi_final_review_by_unit_id(reviewed_units_jsonl)
-    with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
-        for line in src:
-            if not line.strip():
-                continue
-            read_units += 1
-            unit = json.loads(line)
-            merge_yomi_final_review(unit, review_by_unit_id)
-            review = (
-                unit.get("analysis", {})
-                .get("human_review", {})
-                .get("yomi_final", {})
-            )
-            if not isinstance(review, dict) or not review.get("reviewed"):
-                unreviewed_units += 1
-                continue
-            if review.get("skip"):
-                skipped_units += 1
-                continue
-            canonicalize_finalized_unit_yomi(unit)
-            dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
-            written_units += 1
+    skipped_dst = (
+        skipped_output_jsonl.open("w", encoding="utf-8")
+        if skipped_output_jsonl is not None
+        else None
+    )
+    try:
+        with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
+            for line in src:
+                if not line.strip():
+                    continue
+                read_units += 1
+                unit = json.loads(line)
+                merge_yomi_final_review(unit, review_by_unit_id)
+                review = (
+                    unit.get("analysis", {})
+                    .get("human_review", {})
+                    .get("yomi_final", {})
+                )
+                if not isinstance(review, dict) or not review.get("reviewed"):
+                    unreviewed_units += 1
+                    continue
+                if review.get("skip"):
+                    skipped_units += 1
+                    if skipped_dst is not None:
+                        skipped_dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+                    continue
+                canonicalize_finalized_unit_yomi(unit)
+                dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+                written_units += 1
+    finally:
+        if skipped_dst is not None:
+            skipped_dst.close()
     summary = {
         "rule": "yomi_finalized_no_strong_repairs_v1",
         "read_units": read_units,
@@ -3946,6 +4349,9 @@ def finalize_reviewed_yomi_file(
         "unreviewed_units": unreviewed_units,
         "strong_queue_items": queued_items,
         "output_jsonl": str(output_jsonl),
+        "skipped_output_jsonl": str(skipped_output_jsonl)
+        if skipped_output_jsonl is not None
+        else None,
         "summary_json": str(summary_json),
     }
     summary_json.write_text(
@@ -3955,7 +4361,11 @@ def finalize_reviewed_yomi_file(
     return {"stage_complete": True, **summary}
 
 
-def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
+def canonicalize_finalized_unit_yomi(
+    unit: dict[str, Any],
+    *,
+    grandfathered_tokens: list[list[str]] | None = None,
+) -> None:
     yomi = (
         unit.setdefault("analysis", {})
         .setdefault("mechanical", {})
@@ -3970,10 +4380,17 @@ def canonicalize_finalized_unit_yomi(unit: dict[str, Any]) -> None:
     )
     if not tokens:
         raise YomiTokenError(f"finalized unit {unit.get('unit_id') or '<unknown>'} has no yomi tokens")
+    grandfathered_counts = Counter(
+        (str(surface), str(reading))
+        for surface, reading in (grandfathered_tokens or [])
+    )
     human_readings = finalized_human_readings_by_surface(unit)
     for index, (surface, reading) in enumerate(tokens):
         validation = validate_finalized_correction_reading(surface, reading)
         if validation["ok"]:
+            continue
+        if grandfathered_counts[(surface, reading)]:
+            grandfathered_counts[(surface, reading)] -= 1
             continue
         candidates = human_readings.get(surface, set())
         valid_candidates = sorted(
@@ -4021,13 +4438,13 @@ def load_yomi_final_review_by_unit_id(path: Path | None) -> dict[str, dict[str, 
                 continue
             unit = json.loads(line)
             unit_id = str(unit.get("unit_id") or "")
-            review = (
-                unit.get("analysis", {})
-                .get("human_review", {})
-                .get("yomi_final", {})
-            )
+            human_review = unit.get("analysis", {}).get("human_review", {})
+            review = human_review.get("yomi_final", {})
             if unit_id and isinstance(review, dict) and review.get("reviewed"):
-                reviews[unit_id] = review
+                reviews[unit_id] = {
+                    "yomi_final": review,
+                    "manual_correction": human_review.get("manual_correction"),
+                }
     return reviews
 
 
@@ -4035,13 +4452,16 @@ def merge_yomi_final_review(unit: dict[str, Any], review_by_unit_id: dict[str, d
     if not review_by_unit_id:
         return
     unit_id = str(unit.get("unit_id") or "")
-    review = review_by_unit_id.get(unit_id)
-    if not review:
+    review_metadata = review_by_unit_id.get(unit_id)
+    if not review_metadata:
         return
     human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
     current = human_review.get("yomi_final")
     if not isinstance(current, dict) or not current.get("reviewed"):
-        human_review["yomi_final"] = review
+        human_review["yomi_final"] = review_metadata["yomi_final"]
+    manual_correction = review_metadata.get("manual_correction")
+    if "manual_correction" not in human_review and isinstance(manual_correction, dict):
+        human_review["manual_correction"] = manual_correction
 
 
 def harvest_yomi_finalization_artifacts_file(

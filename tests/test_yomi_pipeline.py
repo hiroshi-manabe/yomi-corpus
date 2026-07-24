@@ -447,6 +447,171 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "二〇〇二/ 年/ネン")
         self.assertIn("group_numeric_run", result.signals)
 
+    def test_aligned_hybrid_keeps_single_japanese_numeral_reading(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="七時",
+            sudachi_tokens=[
+                SudachiToken("七", "名詞,数詞,*,*,*,*", "七", "七", "ナナ"),
+                SudachiToken("時", "名詞,普通名詞,助数詞可能,*,*,*", "時", "時", "ジ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("七", "ナナ", 1, [1]),
+                        DecoderEntry("時", "ジ", 2, [2]),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "七/ナナ 時/ジ")
+        self.assertNotIn("group_numeric_run", result.signals)
+
+    def test_aligned_hybrid_splits_mixed_numeric_counter_token(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="2級試験",
+            sudachi_tokens=[
+                SudachiToken("2級", "名詞,普通名詞,一般,*,*,*", "2級", "2級", "ニキュウ"),
+                SudachiToken("試験", "名詞,普通名詞,一般,*,*,*", "試験", "試験", "シケン"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[
+                        DecoderEntry("2", "", 1, [1]),
+                        DecoderEntry("級", "キュウ", 2, [2]),
+                        DecoderEntry("試験", "シケン", 2, [2]),
+                    ],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "2/ 級/キュウ 試験/シケン")
+        self.assertIn("split_mixed_arabic_numeric_token", result.signals)
+
+    def test_aligned_hybrid_derives_prefix_reading_before_numeric_suffix(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="中2",
+            sudachi_tokens=[
+                SudachiToken("中2", "名詞,普通名詞,一般,*,*,*", "中2", "中2", "チュウニ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("中2", "チュウニ", 1, [1])],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "中/チュウ 2/")
+
+    def test_aligned_hybrid_preserves_contextual_counter_reading(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="3階",
+            sudachi_tokens=[
+                SudachiToken("3階", "名詞,普通名詞,一般,*,*,*", "3階", "3階", "サンガイ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("3階", "サンガイ", 1, [1])],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "3/ 階/ガイ")
+
+    def test_aligned_hybrid_keeps_lexicalized_alphanumeric_token(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="2nd",
+            sudachi_tokens=[
+                SudachiToken("2nd", "名詞,普通名詞,一般,*,*,*", "2nd", "2nd", "セカンド"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("2nd", "セカンド", 1, [1])],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "2nd/セカンド")
+
+    def test_aligned_hybrid_keeps_explicit_irregular_numeric_compound(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="2人",
+            sudachi_tokens=[
+                SudachiToken("2人", "名詞,普通名詞,一般,*,*,*", "2人", "2人", "フタリ"),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("2人", "フタリ", 1, [1])],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "2人/フタリ")
+
+    def test_aligned_hybrid_normalizes_symbolic_sudachi_kaomoji(self) -> None:
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="（●＾o＾●）",
+            sudachi_tokens=[
+                SudachiToken(
+                    "（●＾o＾●）",
+                    "補助記号,ＡＡ,顔文字,*,*,*",
+                    "(●^o^●)",
+                    "(●^o^●)",
+                    "キゴウ",
+                ),
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("（●＾o＾●）", "キゴウ", 2, [2])],
+                )
+            ],
+        )
+        self.assertEqual(result.rendered, "（●＾o＾●）/カオモジ")
+        self.assertIn("normalize_symbolic_sudachi_kaomoji", result.signals)
+
+    def test_sudachi_render_does_not_treat_parenthesized_japanese_as_kaomoji(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "（笑）",
+                    "補助記号,ＡＡ,顔文字,*,*,*",
+                    "(笑)",
+                    "(笑)",
+                    "キゴウ",
+                ),
+            ]
+        )
+        self.assertEqual(rendered, "（笑）/（笑）")
+
+    def test_sudachi_render_accepts_japanese_character_inside_symbolic_kaomoji(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "（ノ∀｀）",
+                    "補助記号,ＡＡ,顔文字,*,*,*",
+                    "(ノ∀`)",
+                    "(ノ∀`)",
+                    "キゴウ",
+                ),
+            ]
+        )
+        self.assertEqual(rendered, "（ノ∀｀）/カオモジ")
+
     def test_aligned_hybrid_refines_single_compound_only_when_reading_is_preserved(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",

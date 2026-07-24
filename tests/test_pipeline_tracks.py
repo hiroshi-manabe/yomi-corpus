@@ -890,7 +890,7 @@ class PipelineTrackTests(unittest.TestCase):
             judgment = output_row["analysis"]["llm"]["yomi_readings"]["items"][0]
             self.assertEqual(judgment["status"], "matched")
 
-    def test_advance_generates_yomi_from_scope_triaged_keep_units(self) -> None:
+    def test_advance_generates_yomi_from_all_scope_triaged_units(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
@@ -956,7 +956,7 @@ class PipelineTrackTests(unittest.TestCase):
                 Path(mocked.call_args.kwargs["input_jsonl"]).resolve(),
                 scope_triaged_path.resolve(),
             )
-            self.assertTrue(mocked.call_args.kwargs["skip_scope_skipped"])
+            self.assertFalse(mocked.call_args.kwargs["skip_scope_skipped"])
 
     def test_yomi_auto_acceptance_uses_batch_policy_profile(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

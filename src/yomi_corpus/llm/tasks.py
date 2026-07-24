@@ -55,21 +55,10 @@ def build_task_variables(
             },
             {"source_row": row},
         )
-    if builder_name == "non_target_judge":
-        item_id = str(row.get("unit_id", f"item_{index:05d}"))
-        return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "scope_triage":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "yomi_check":
-        item_id = str(row.get("unit_id", f"item_{index:05d}"))
-        rendered = _rendered_variable(task_config, row)
-        return (
-            item_id,
-            _yomi_variables(task_config, row, rendered),
-            _metadata(row, rendered),
-        )
-    if builder_name == "yomi_triage":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         rendered = _rendered_variable(task_config, row)
         return (

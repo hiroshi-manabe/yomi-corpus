@@ -78,6 +78,48 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertTrue(judgment.certain)
         self.assertIn("single_letter_exception", judgment.signals)
 
+    def test_numeric_measurements_are_deterministically_resolved(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "1kgから1.5kg増え、30km歩いた。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+
+        self.assertEqual([occ.entity_text for occ in occurrences], ["1kg", "1.5kg", "30km"])
+        self.assertTrue(all(occ.base_list_status == "measurement" for occ in occurrences))
+        judgment = project_minor_alphabetic_judgment(occurrences)
+        self.assertFalse(judgment.value)
+        self.assertTrue(judgment.certain)
+        self.assertIn("measurement_exception", judgment.signals)
+
+    def test_measurement_exception_uses_an_explicit_unit_list(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "CLA180とDay2020を比較する。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+
+        self.assertEqual([occ.base_list_status for occ in occurrences], ["unknown", "unknown"])
+
+    def test_global_decision_does_not_override_measurement_exception(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "50gを量る。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+        overridden = apply_global_decisions(occurrences, {"50g": "blacklist"})
+
+        self.assertEqual(overridden[0].resolved_status, "measurement")
+        scope = project_alphabetic_scope(overridden)
+        self.assertEqual(scope["status"], "in_scope")
+        self.assertEqual(scope["in_scope"][0]["source"], "deterministic_measurement")
+
     def test_entity_extractor_merges_space_separated_tokens(self) -> None:
         entities = extract_alphabetic_entities("Led Zeppelinが好きです。", self.config)
         self.assertEqual(len(entities), 1)
@@ -138,6 +180,47 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(entities[0].text, "rock 'n' roll")
         self.assertEqual(entities[0].normalized, "rock'n'roll")
         self.assertEqual(entities[0].component_texts, ["rock", "n", "roll"])
+
+    def test_entity_extractor_keeps_unicode_cased_title_together(self) -> None:
+        entities = extract_alphabetic_entities(
+            "『都会のアリス』（Alice in den Städten/1974）。", self.config
+        )
+        self.assertEqual(len(entities), 1)
+        self.assertEqual(entities[0].text, "Alice in den Städten")
+        self.assertEqual(entities[0].normalized, "alice in den städten")
+        self.assertEqual(
+            entities[0].component_texts,
+            ["Alice", "in", "den", "Städten"],
+        )
+
+    def test_entity_extractor_accepts_decomposed_combining_marks(self) -> None:
+        entities = extract_alphabetic_entities("Cafe\u0301 Noirを見た。", self.config)
+        self.assertEqual(len(entities), 1)
+        self.assertEqual(entities[0].text, "Cafe\u0301 Noir")
+        self.assertEqual(entities[0].normalized, "café noir")
+
+    def test_entity_extractor_accepts_greek_and_cyrillic_cased_letters(self) -> None:
+        entities = extract_alphabetic_entities("ΑθήναとМоскваを訪れた。", self.config)
+        self.assertEqual([entity.text for entity in entities], ["Αθήνα", "Москва"])
+
+    def test_entity_extractor_keeps_dotted_name_together(self) -> None:
+        entities = extract_alphabetic_entities("国民的バンドであるMr.Children。", self.config)
+        self.assertEqual(len(entities), 1)
+        self.assertEqual(entities[0].text, "Mr.Children")
+        self.assertEqual(entities[0].normalized, "mr.children")
+        self.assertEqual(entities[0].component_texts, ["Mr.Children"])
+
+    def test_single_greek_letter_requires_scope_judgment(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "プリウスαを見ました。",
+        }
+        occurrences = build_occurrences_for_unit(unit, self.config)
+        self.assertEqual(len(occurrences), 1)
+        self.assertEqual(occurrences[0].entity_text, "α")
+        self.assertEqual(occurrences[0].base_list_status, "unknown")
 
     def test_projection_with_no_tokens_is_safe(self) -> None:
         judgment = project_minor_alphabetic_judgment([])

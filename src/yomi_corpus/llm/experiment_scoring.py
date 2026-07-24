@@ -24,10 +24,8 @@ def score_output(
 
     if task_name in {
         "alphabetic_entity_judge",
-        "non_target_judge",
         "scope_triage",
         "yomi_check",
-        "yomi_triage",
         "yomi_review_resolution",
     }:
         expected_status = eval_row.get("expected_status")

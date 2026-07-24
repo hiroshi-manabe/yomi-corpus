@@ -17,9 +17,14 @@ from yomi_corpus.yomi.ngram_diagnostics import (
     StableTwoKanjiChecker,
     sudachi_token_from_dict,
 )
-from yomi_corpus.yomi.strategies import span_sudachi_tokens
+from yomi_corpus.yomi.strategies import (
+    is_symbolic_sudachi_kaomoji,
+    span_sudachi_tokens,
+    token_contains_space,
+)
 from yomi_corpus.yomi.furigana import FuriganaConverter, parse_annotated_chunks
 from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
+from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
 
 KANJI_RE = re.compile(r"[\u3400-\u9fff々〆〻]")
@@ -231,64 +236,75 @@ def build_yomi_llm_reading_items(
         return []
 
     rendered_readings = rendered_readings_by_token_index(yomi, tokens)
+    canonical_spans = canonical_yomi_pair_spans(yomi, text=text)
     compound_occurrences = numeric_compound_occurrences(text, str(yomi.get("rendered") or ""))
     compound_spans = [(row.start, row.end) for row in compound_occurrences]
     items: list[dict[str, Any]] = []
     for index, span in enumerate(spans):
         token = span.token
+        if is_symbolic_sudachi_kaomoji(token):
+            continue
         if any(span.start < end and span.end > start for start, end in compound_spans):
             continue
         if not is_llm_reading_target(token.surface):
             continue
-        current_reading = rendered_readings.get(index, token.reading)
+        if token_contains_space(token):
+            component_pairs = [
+                pair_span
+                for pair_span in canonical_spans
+                if span.start <= pair_span[1]
+                and pair_span[2] <= span.end
+                and not pair_span[3].isspace()
+            ]
+            for pair_index, start, end, surface, reading in component_pairs:
+                if not reading or not is_llm_reading_target(surface):
+                    continue
+                append_yomi_reading_targets(
+                    items,
+                    unit=unit,
+                    text=text,
+                    token=token,
+                    token_index=pair_index,
+                    token_surface=surface,
+                    token_start=start,
+                    token_end=end,
+                    current_reading=reading,
+                    marked_furigana_text=mark_span(text, start, end),
+                    stable_checker=stable_checker,
+                )
+            continue
+        exact_canonical_pairs = [
+            pair_span
+            for pair_span in canonical_spans
+            if pair_span[1] == span.start and pair_span[2] == span.end
+        ]
+        canonical_pair = exact_canonical_pairs[0] if len(exact_canonical_pairs) == 1 else None
+        effective_token_index = canonical_pair[0] if canonical_pair is not None else index
+        current_reading = (
+            canonical_pair[4]
+            if canonical_pair is not None and canonical_pair[4]
+            else rendered_readings.get(index, token.reading)
+        )
         if not current_reading:
             continue
-        targets = target_reading_chunks(token.surface, current_reading)
-        for chunk_index, target in enumerate(targets, start=1):
-            item_id = f"{unit.get('unit_id', '')}:r{index + 1:04d}c{chunk_index:02d}"
-            base_item = {
-                "unit_id": str(unit.get("unit_id", "")),
-                "item_id": item_id,
-                "token_index": index,
-                "chunk_index": chunk_index - 1,
-                "surface": target["surface"],
-                "token_surface": token.surface,
-                "token_current_reading": hira_to_katakana(current_reading),
-                "current_reading": hira_to_katakana(target["reading"]),
-                "current_reading_hiragana": target["reading"],
-                "text": text,
-                "marked_text": mark_span(
-                    text,
-                    span.start + int(target["surface_start"]),
-                    span.start + int(target["surface_end"]),
-                ),
-                "marked_furigana_text": marked_furigana_context(
-                    tokens,
-                    index,
-                    chunk_index - 1,
-                    token_readings=rendered_readings,
-                ),
-                "token_start": span.start,
-                "token_end": span.end,
-                "target_start": span.start + int(target["surface_start"]),
-                "target_end": span.start + int(target["surface_end"]),
-                "pos": token.pos,
-                "dictionary_form": token.dictionary_form,
-                "normalized_form": token.normalized_form,
-            }
-            if stable_checker is not None:
-                stable = stable_checker.judge(base_item["surface"], base_item["current_reading"])
-                if stable.value:
-                    items.append(
-                        {
-                            **base_item,
-                            "queue_status": "skipped",
-                            "skip_reason": "stable_two_kanji",
-                            "skip_detail": stable.reason,
-                        }
-                    )
-                    continue
-            items.append({**base_item, "queue_status": "queued"})
+        append_yomi_reading_targets(
+            items,
+            unit=unit,
+            text=text,
+            token=token,
+            token_index=effective_token_index,
+            token_surface=token.surface,
+            token_start=span.start,
+            token_end=span.end,
+            current_reading=current_reading,
+            marked_furigana_text=marked_furigana_context(
+                tokens,
+                index,
+                0,
+                token_readings=rendered_readings,
+            ),
+            stable_checker=stable_checker,
+        )
     for occurrence in compound_occurrences:
         if not occurrence.rule.review_readings:
             continue
@@ -320,6 +336,79 @@ def build_yomi_llm_reading_items(
         )
     items.sort(key=lambda item: (int(item["target_start"]), int(item["target_end"])))
     return items
+
+
+def append_yomi_reading_targets(
+    items: list[dict[str, Any]],
+    *,
+    unit: dict[str, Any],
+    text: str,
+    token: Any,
+    token_index: int,
+    token_surface: str,
+    token_start: int,
+    token_end: int,
+    current_reading: str,
+    marked_furigana_text: str,
+    stable_checker: StableTwoKanjiChecker | None,
+) -> None:
+    targets = target_reading_chunks(token_surface, current_reading)
+    for chunk_index, target in enumerate(targets, start=1):
+        item_id = f"{unit.get('unit_id', '')}:r{token_index + 1:04d}c{chunk_index:02d}"
+        target_start = token_start + int(target["surface_start"])
+        target_end = token_start + int(target["surface_end"])
+        base_item = {
+            "unit_id": str(unit.get("unit_id", "")),
+            "item_id": item_id,
+            "token_index": token_index,
+            "chunk_index": chunk_index - 1,
+            "surface": target["surface"],
+            "token_surface": token_surface,
+            "token_current_reading": hira_to_katakana(current_reading),
+            "current_reading": hira_to_katakana(target["reading"]),
+            "current_reading_hiragana": target["reading"],
+            "text": text,
+            "marked_text": mark_span(text, target_start, target_end),
+            "marked_furigana_text": marked_furigana_text,
+            "token_start": token_start,
+            "token_end": token_end,
+            "target_start": target_start,
+            "target_end": target_end,
+            "pos": token.pos,
+            "dictionary_form": token.dictionary_form,
+            "normalized_form": token.normalized_form,
+        }
+        if stable_checker is not None:
+            stable = stable_checker.judge(base_item["surface"], base_item["current_reading"])
+            if stable.value:
+                items.append(
+                    {
+                        **base_item,
+                        "queue_status": "skipped",
+                        "skip_reason": "stable_two_kanji",
+                        "skip_detail": stable.reason,
+                    }
+                )
+                continue
+        items.append({**base_item, "queue_status": "queued"})
+
+
+def canonical_yomi_pair_spans(
+    yomi: dict[str, Any],
+    *,
+    text: str,
+) -> list[tuple[int, int, int, str, str]]:
+    try:
+        pairs = yomi_tokens_from_mapping(yomi, text=text)
+    except YomiTokenError:
+        return []
+    spans: list[tuple[int, int, int, str, str]] = []
+    cursor = 0
+    for pair_index, (surface, reading) in enumerate(pairs):
+        end = cursor + len(surface)
+        spans.append((pair_index, cursor, end, surface, reading))
+        cursor = end
+    return spans
 
 
 def rendered_readings_by_token_index(yomi: dict[str, Any], tokens: list[Any]) -> dict[int, str]:

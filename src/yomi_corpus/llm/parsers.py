@@ -18,10 +18,6 @@ def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None
         return parse_yomi_repair_json_array(text, metadata=metadata)
     if parser_name == "yomi_reading_completion_json":
         return parse_yomi_reading_completion_json(text, metadata=metadata)
-    if parser_name == "yomi_triage_label":
-        return parse_yomi_triage_label(text)
-    if parser_name == "yomi_triage_reasoned_label":
-        return parse_yomi_triage_reasoned_label(text)
     if parser_name == "scope_triage_label":
         return parse_scope_triage_label(text)
     raise ValueError(f"Unsupported parser: {parser_name}")
@@ -87,12 +83,37 @@ def validate_yomi_repair_surface(
         surface = item.get("surface")
         if not isinstance(surface, str) or not surface:
             raise ValueError("Each yomi repair item must have a non-empty surface.")
+        if any(char.isspace() for char in surface):
+            raise ValueError(
+                "Yomi repair items must not span whitespace; return separate items "
+                "for each whitespace-delimited component."
+            )
         surfaces.append(surface)
-    actual = "".join(surfaces)
-    if actual != expected:
+    if not repair_surfaces_respect_whitespace_boundaries(surfaces, expected):
         raise ValueError(
-            f"Yomi repair surface mismatch: expected {expected!r}, got {actual!r}."
+            f"Yomi repair surface mismatch: expected {expected!r}, got {''.join(surfaces)!r}."
         )
+
+
+def repair_surfaces_respect_whitespace_boundaries(
+    surfaces: list[str],
+    expected: str,
+) -> bool:
+    components = [part for part in re.split(r"\s+", expected) if part]
+    if not components:
+        return False
+    surface_index = 0
+    for component in components:
+        consumed = ""
+        while len(consumed) < len(component) and surface_index < len(surfaces):
+            surface = surfaces[surface_index]
+            if not component.startswith(surface, len(consumed)):
+                return False
+            consumed += surface
+            surface_index += 1
+        if consumed != component:
+            return False
+    return surface_index == len(surfaces)
 
 
 def extract_first_json_object(text: str) -> str | None:
@@ -252,30 +273,6 @@ def _expected_rejected_span(metadata: dict[str, Any] | None) -> str:
                 if joined:
                     return joined
     raise ValueError("Missing rejected span metadata for yomi repair parser.")
-
-
-def parse_yomi_triage_label(text: str) -> dict[str, str]:
-    label = text.strip()
-    if label not in {"OK", "Review", "Skip"}:
-        raise ValueError("Expected exactly one of OK, Review, or Skip.")
-    return {"status": label}
-
-
-def parse_yomi_triage_reasoned_label(text: str) -> dict[str, str]:
-    reason: str | None = None
-    answer: str | None = None
-    for line in text.strip().splitlines():
-        key, sep, value = line.partition(":")
-        if not sep:
-            continue
-        normalized_key = key.strip().lower()
-        if normalized_key == "reason":
-            reason = value.strip()
-        elif normalized_key == "answer":
-            answer = value.strip()
-    if answer not in {"OK", "Review", "Skip"}:
-        raise ValueError("Expected an Answer line with OK, Review, or Skip.")
-    return {"status": answer, "reason": reason or ""}
 
 
 def parse_scope_triage_label(text: str) -> dict[str, str]:

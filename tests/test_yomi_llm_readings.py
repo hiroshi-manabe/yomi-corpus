@@ -204,6 +204,109 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(items[1]["marked_text"], "学校は**上**です。")
         self.assertEqual(items[1]["marked_furigana_text"], "学校（がっこう）は**上**です。")
 
+    def test_build_items_skips_symbolic_sudachi_kaomoji(self) -> None:
+        surface = "（●＾o＾●）"
+        payload = {
+            "unit_id": "u_kaomoji",
+            "text": surface,
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": f"{surface}/カオモジ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": surface,
+                                    "pos": "補助記号,ＡＡ,顔文字,*,*,*",
+                                    "dictionary_form": "(●^o^●)",
+                                    "normalized_form": "(●^o^●)",
+                                    "reading": "キゴウ",
+                                }
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        self.assertEqual(build_yomi_llm_reading_items(payload), [])
+
+        japanese_surface = "（ノ∀｀）"
+        payload["text"] = japanese_surface
+        yomi = payload["analysis"]["mechanical"]["yomi"]
+        yomi["rendered"] = f"{japanese_surface}/カオモジ"
+        yomi["sudachi"]["tokens"][0].update(
+            {
+                "surface": japanese_surface,
+                "dictionary_form": "(ノ∀`)",
+                "normalized_form": "(ノ∀`)",
+            }
+        )
+        self.assertEqual(build_yomi_llm_reading_items(payload), [])
+
+    def test_build_items_split_space_spanning_sudachi_token(self) -> None:
+        text = "The last of US、PS。"
+        payload = {
+            "unit_id": "u_spaced_title",
+            "text": text,
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": (
+                            "The/ザ \u00a0/\u00a0 last/ラスト \u00a0/\u00a0 "
+                            "of/オブ \u00a0/\u00a0 US/ユーエス 、/、 PS/ピーエス 。/。"
+                        ),
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "The\u00a0last\u00a0of\u00a0US",
+                                    "pos": "名詞,固有名詞,一般,*,*,*",
+                                    "dictionary_form": "The Last of Us",
+                                    "normalized_form": "The Last of Us",
+                                    "reading": "ラストオブアス",
+                                },
+                                {
+                                    "surface": "、",
+                                    "pos": "補助記号,読点,*,*,*,*",
+                                    "dictionary_form": "、",
+                                    "normalized_form": "、",
+                                    "reading": "、",
+                                },
+                                {
+                                    "surface": "PS",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "PS",
+                                    "normalized_form": "PS",
+                                    "reading": "ピーエス",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual(
+            [item["surface"] for item in items],
+            ["The", "last", "of", "US", "PS"],
+        )
+        self.assertEqual([item["token_index"] for item in items], [0, 2, 4, 6, 8])
+        self.assertEqual(
+            [item["current_reading"] for item in items],
+            ["ザ", "ラスト", "オブ", "ユーエス", "ピーエス"],
+        )
+        self.assertEqual(len({item["item_id"] for item in items}), len(items))
+        self.assertTrue(all(not any(char.isspace() for char in item["surface"]) for item in items))
+
     def test_build_items_uses_hybrid_rendered_reading_as_current(self) -> None:
         payload = {
             "unit_id": "u_hybrid",

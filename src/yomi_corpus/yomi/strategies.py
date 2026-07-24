@@ -10,7 +10,11 @@ from yomi_corpus.yomi.types import (
     SudachiToken,
     YomiStrategyResult,
 )
-from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
+from yomi_corpus.yomi.numeric_surfaces import (
+    is_numeric_digit_surface,
+    is_numeric_only_surface,
+)
+from yomi_corpus.yomi.numeric_compounds import numeric_compound_rule
 
 
 @dataclass(frozen=True)
@@ -37,6 +41,12 @@ ASCII_SPACE = " "
 NBSP = "\u00a0"
 SPACE_RUN_RE = re.compile(r"(\s+)")
 HAN_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff々〆〻]")
+SEMANTIC_PARENTHESIZED_JAPANESE_RE = re.compile(
+    r"(?:\([\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+\)"
+    r"|（[\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+）)"
+)
+ARABIC_DIGIT_RUN_RE = re.compile(r"[0-9０-９]+")
+MIXED_ARABIC_NUMERIC_PART_RE = re.compile(r"[0-9０-９]+|[^0-9０-９]+")
 
 
 def normalize_ascii_spaces_for_yomi(text: str) -> str:
@@ -289,15 +299,29 @@ def strategy_aligned_hybrid(
             index += 1
             continue
 
+        if is_symbolic_sudachi_kaomoji(token):
+            rendered_pairs.append(RenderedPair(surface=token.surface, reading="カオモジ"))
+            signals.append("normalize_symbolic_sudachi_kaomoji")
+            index += 1
+            continue
+
+        numeric_parts = split_mixed_arabic_numeric_token(token)
+        if numeric_parts is not None:
+            rendered_pairs.extend(numeric_parts)
+            signals.append("split_mixed_arabic_numeric_token")
+            index += 1
+            continue
+
         if is_numeric_token(token):
             numeric_surface, next_index = collect_numeric_sudachi_run(
                 sudachi_spans=sudachi_spans,
                 start_index=index,
             )
-            rendered_pairs.append(RenderedPair(surface=numeric_surface, reading=""))
-            signals.append("group_numeric_run")
-            index = next_index
-            continue
+            if is_numeric_only_surface(numeric_surface):
+                rendered_pairs.append(RenderedPair(surface=numeric_surface, reading=""))
+                signals.append("group_numeric_run")
+                index = next_index
+                continue
 
         if prefer_supported_decoder_grouping:
             grouped_entry = decoder_by_start.get(current.start)
@@ -412,7 +436,7 @@ def is_boundary_special_token(token: SudachiToken) -> bool:
     return (
         is_whitespace_token(token)
         or token_contains_space(token)
-        or is_numeric_token(token)
+        or (is_numeric_token(token) and is_numeric_only_surface(token.surface))
         or (is_punctuation_token(token) and HAN_RE.search(token.surface) is None)
     )
 
@@ -589,9 +613,11 @@ def render_sudachi_token(token: SudachiToken) -> RenderedPair:
     if is_whitespace_token(token):
         surface = canonical_whitespace_surface(token.surface)
         return RenderedPair(surface=surface, reading=surface)
+    if is_symbolic_sudachi_kaomoji(token):
+        return RenderedPair(surface=token.surface, reading="カオモジ")
     if is_punctuation_token(token):
         return RenderedPair(surface=token.surface, reading=token.surface)
-    if is_numeric_token(token):
+    if is_numeric_token(token) and is_numeric_only_surface(token.surface):
         return RenderedPair(surface=token.surface, reading="")
     return RenderedPair(surface=token.surface, reading=token.reading or token.surface)
 
@@ -705,6 +731,40 @@ def lookup_component_reading(surface: str) -> str:
     return reading
 
 
+def split_mixed_arabic_numeric_token(token: SudachiToken) -> list[RenderedPair] | None:
+    surface = token.surface
+    if numeric_compound_rule(surface) is not None:
+        return None
+    parts = MIXED_ARABIC_NUMERIC_PART_RE.findall(surface)
+    if len(parts) != 2:
+        return None
+    numeric_indexes = [
+        index for index, part in enumerate(parts) if ARABIC_DIGIT_RUN_RE.fullmatch(part)
+    ]
+    if len(numeric_indexes) != 1:
+        return None
+    numeric_index = numeric_indexes[0]
+    lexical_index = 1 - numeric_index
+    numeric_reading = lookup_component_reading(parts[numeric_index])
+    full_reading = token.reading
+    lexical_reading = ""
+    if numeric_reading and is_katakana_reading(full_reading):
+        if numeric_index == 0 and full_reading.startswith(numeric_reading):
+            lexical_reading = full_reading[len(numeric_reading) :]
+        elif numeric_index == 1 and full_reading.endswith(numeric_reading):
+            lexical_reading = full_reading[: -len(numeric_reading)]
+    if not is_katakana_reading(lexical_reading):
+        lexical_reading = lookup_component_reading(parts[lexical_index])
+    if not is_katakana_reading(lexical_reading):
+        return None
+    readings = ["", ""]
+    readings[lexical_index] = lexical_reading
+    return [
+        RenderedPair(surface=part, reading=readings[index])
+        for index, part in enumerate(parts)
+    ]
+
+
 @lru_cache(maxsize=1)
 def component_lookup_tokenizer():
     from sudachipy import dictionary
@@ -732,8 +792,15 @@ def is_punctuation_token(token: SudachiToken) -> bool:
     return token.pos.startswith("補助記号")
 
 
+def is_symbolic_sudachi_kaomoji(token: SudachiToken) -> bool:
+    return (
+        token.pos.split(",")[:3] == ["補助記号", "ＡＡ", "顔文字"]
+        and SEMANTIC_PARENTHESIZED_JAPANESE_RE.fullmatch(token.surface) is None
+    )
+
+
 def is_numeric_token(token: SudachiToken) -> bool:
-    return "数詞" in token.pos and is_numeric_only_surface(token.surface)
+    return "数詞" in token.pos and is_numeric_digit_surface(token.surface)
 
 
 def collect_numeric_sudachi_run(
@@ -777,14 +844,22 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
             index += 1
             continue
         if is_numeric_token(token):
-            surfaces: list[str] = []
+            start_index = index
             while index < len(tokens) and is_numeric_token(tokens[index]):
-                surfaces.append(tokens[index].surface)
                 index += 1
-            pairs.append(RenderedPair(surface="".join(surfaces), reading=""))
+            numeric_surface = "".join(row.surface for row in tokens[start_index:index])
+            if is_numeric_only_surface(numeric_surface):
+                pairs.append(RenderedPair(surface=numeric_surface, reading=""))
+            else:
+                pairs.extend(render_sudachi_token(row) for row in tokens[start_index:index])
             continue
         if token_contains_space(token):
             pairs.extend(render_space_spanning_sudachi_token(token))
+            index += 1
+            continue
+        numeric_parts = split_mixed_arabic_numeric_token(token)
+        if numeric_parts is not None:
+            pairs.extend(numeric_parts)
             index += 1
             continue
         pairs.append(render_sudachi_token(token))

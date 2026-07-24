@@ -8,12 +8,14 @@ Input:
 
 Task:
 Return the correct reading for the rejected span.
-First check whether the entire rejected span is an established name/entity/term. If yes, return one item for the whole span.
+First check whether the entire rejected span is an established name/entity/term. If yes and it contains no whitespace, return one item for the whole span.
 The current segmentation may be wrong; consider that one original word may need two or more items, or multiple original items may need one item.
 The rejection may concern segmentation only. Some or all existing readings may already be correct. Preserve correct readings and change only the boundaries or readings that need correction.
 The span may also have been escalated because the human reviewer could not confidently determine its reading. Treat the existing reading as uncertain, not necessarily wrong, and resolve it from context or evidence.
 If not, prefer word-level segmentation. Split proper-name prefixes from common suffixes when natural.
-Use one item only for an established unsplittable name.
+Whitespace is always a hard token boundary. Never include whitespace in an item's surface; return separate items for the components on each side and omit the whitespace itself from the array.
+If the rejected span is a symbolic kaomoji, keep it as one item and use カオモジ; do not read or split its individual symbols. A matching pair of parentheses containing only Japanese text, such as （笑）, is semantic text rather than this fallback; Japanese characters used as parts of a symbolic face do not by themselves disqualify it.
+Use one item only for an established unsplittable name that contains no whitespace.
 If you know the reading of the span, answer directly without web search.
 If you do not know it or are not confident, use web search, find the reading that fits this context, and output the final JSON together with your investigation process.
 Include a concise comment explaining the decision or evidence in each item.

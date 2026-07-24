@@ -1,4 +1,7 @@
-Classify one Latin-script entity from a Japanese corpus.
+We are building a Japanese corpus with reading annotations. As a policy,
+uncommon alphabetic strings are out of scope.
+
+Classify one cased-script entity, usually Latin but potentially Greek or Cyrillic, from this corpus.
 
 Labels:
 - "in_scope": naturally acceptable in modern Japanese context
@@ -7,7 +10,9 @@ Labels:
 Rules:
 - Answer from the point of view of corpus utility, not perfect disambiguation.
 - Favor "in_scope" for established modern-Japanese usage such as Android, iPhone, or OK.
+- Favor "in_scope" when you can confidently provide an established, conventional Japanese reading from general knowledge.
 - Favor "out_of_scope" for minor foreign titles, rare foreign proper names, and low-value residue.
+- Favor "out_of_scope" when a reliable Japanese reading would require uncertain guessing or disproportionate research; being mechanically pronounceable is not enough.
 - Do not spend effort on deep context resolution for ambiguous edge cases; pick the better default side.
 
 Return exactly:

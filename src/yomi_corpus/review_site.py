@@ -8,7 +8,11 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.pipeline import DEV_TRACK, WORKING_TRACK
-from yomi_corpus.yomi.final_review import yomi_tokens_ruby_tokens
+from yomi_corpus.yomi.final_review import (
+    manual_correction_required,
+    manual_correction_state,
+    yomi_tokens_ruby_tokens,
+)
 from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
 from yomi_corpus.yomi.token_codec import (
     legacy_rendered_to_yomi_tokens,
@@ -331,10 +335,17 @@ def publish_review_archive(
 def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dict]:
     documents: dict[tuple[int, str], dict] = {}
     for batch_name in finalized_batch_names(root, track_name):
-        final_path = root / "data" / "units" / batch_name / "units.yomi.final.jsonl"
-        if not final_path.exists():
-            continue
-        for row in iter_jsonl(final_path):
+        batch_dir = root / "data" / "units" / batch_name
+        source_paths = (
+            batch_dir / "units.yomi.final.jsonl",
+            batch_dir / "units.yomi.skipped.jsonl",
+        )
+        for row in (
+            row
+            for source_path in source_paths
+            if source_path.exists()
+            for row in iter_jsonl(source_path)
+        ):
             doc_id = str(row.get("doc_id") or "")
             if not doc_id:
                 continue
@@ -356,6 +367,8 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                     "unit_count": 0,
                     "finalized_correction_count": 0,
                     "finalized_correction_sentence_count": 0,
+                    "manual_correction_required_count": 0,
+                    "skipped_unit_count": 0,
                     "_finalized_correction_submission_ids": set(),
                     "text_preview": "",
                     "units": [],
@@ -371,6 +384,10 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
             doc["finalized_correction_count"] = len(doc["_finalized_correction_submission_ids"])
             if correction_ids:
                 doc["finalized_correction_sentence_count"] += 1
+            if unit.get("manual_correction_required"):
+                doc["manual_correction_required_count"] += 1
+            if unit.get("skipped"):
+                doc["skipped_unit_count"] += 1
             if not doc["text_preview"]:
                 doc["text_preview"] = str(unit.get("text") or "")[:120]
     result = []
@@ -401,6 +418,10 @@ def finalized_archive_document_revision(doc: dict) -> str:
                 "applied_finalized_correction_submission_ids": list(
                     unit.get("applied_finalized_correction_submission_ids") or []
                 ),
+                "manual_correction_required": bool(
+                    unit.get("manual_correction_required")
+                ),
+                "skipped": bool(unit.get("skipped")),
             }
             for unit in doc.get("units", [])
         ],
@@ -434,6 +455,12 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
 
 def archive_unit_from_row(row: dict) -> dict | None:
     text = str(row.get("text") or "")
+    review = (
+        row.get("analysis", {})
+        .get("human_review", {})
+        .get("yomi_final", {})
+    )
+    skipped = bool(isinstance(review, dict) and review.get("skip"))
     yomi_tokens = archive_yomi_tokens(row)
     rendered_yomi = yomi_tokens_to_editable_rendered(yomi_tokens) if yomi_tokens else ""
     if not text and not yomi_tokens:
@@ -446,11 +473,34 @@ def archive_unit_from_row(row: dict) -> dict | None:
         "rendered_yomi": rendered_yomi,
         "ruby_tokens": yomi_tokens_ruby_tokens(yomi_tokens) if yomi_tokens else [],
         "finalized_correction_count": finalized_correction_count(row),
+        "manual_correction_required": manual_correction_required(row),
+        "manual_correction": manual_correction_state(row),
+        "skipped": skipped,
+        "skip_provenance": archive_skip_provenance(row) if skipped else None,
         "applied_finalized_correction_submission_ids": sorted(
             finalized_correction_submission_ids(row)
         ),
     }
     return unit
+
+
+def archive_skip_provenance(row: dict) -> dict:
+    analysis = row.get("analysis", {})
+    review = analysis.get("human_review", {}).get("yomi_final", {})
+    scope = analysis.get("llm", {}).get("scope_triage", {})
+    alphabetic_scope = analysis.get("mechanical", {}).get("alphabetic_scope", {})
+    return {
+        "confirmed": True,
+        "submission_id": str(review.get("submission_id") or "")
+        if isinstance(review, dict)
+        else "",
+        "source": str(scope.get("source") or "human")
+        if isinstance(scope, dict)
+        else "human",
+        "reasons": list(alphabetic_scope.get("reasons") or [])
+        if isinstance(alphabetic_scope, dict)
+        else [],
+    }
 
 
 def finalized_correction_count(row: dict) -> int:
@@ -589,7 +639,11 @@ def write_archive_search_index(
                 "track_doc_seq": track_doc_seq,
                 "doc_id": str(doc.get("doc_id") or ""),
                 "shard_path": shard_path,
-                "text": "\n".join(str(unit.get("text") or "") for unit in doc.get("units", [])),
+                "text": "\n".join(
+                    str(unit.get("text") or "")
+                    for unit in doc.get("units", [])
+                    if not unit.get("skipped")
+                ),
             }
         )
     filename = "search.json"

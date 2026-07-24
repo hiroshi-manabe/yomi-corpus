@@ -72,6 +72,42 @@ def unit() -> dict:
 
 
 class YomiSafetyTests(unittest.TestCase):
+    def test_single_japanese_numeral_does_not_prefer_no_ruby(self) -> None:
+        payload = {
+            "unit_id": "u-single-numeral",
+            "text": "七時",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "七/ナナ 時/ジ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "七",
+                                    "pos": "名詞,数詞,*,*,*,*",
+                                    "dictionary_form": "七",
+                                    "normalized_form": "七",
+                                    "reading": "ナナ",
+                                },
+                                {
+                                    "surface": "時",
+                                    "pos": "名詞,普通名詞,助数詞可能,*,*,*",
+                                    "dictionary_form": "時",
+                                    "normalized_form": "時",
+                                    "reading": "ジ",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        numeral = next(record for record in records if record["surface"] == "七")
+        self.assertNotIn("safe_by_no_ruby_numeric_surface", numeral["accepted_signal_names"])
+
     def test_japanese_numeral_targets_prefer_safe_no_ruby(self) -> None:
         payload = {
             "unit_id": "u-numeral",

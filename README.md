@@ -44,9 +44,12 @@ Prompt iteration scaffold:
   calls, not the Batch API, so failures can be inspected and prompts can be
   revised quickly. Background mode is preferred when many independent requests
   would make sequential sync execution slow.
-- For `yomi_triage`, first sweep prompt families and `gpt-5.4-mini` reasoning
-  effort settings for both accuracy and cost; promote only the strongest prompt
-  candidates to `gpt-5.6-sol` for production-quality evaluation.
+- Keep operational prompt templates directly under `config/prompts/`. Put
+  current tuning candidates under `config/prompts/experiments/`; Git history
+  replaces a checked-in legacy prompt archive.
+- Operational prompts use stable, unversioned filenames. CI verifies that each
+  root prompt is referenced by an operational task and that operational tasks
+  never reference the experiments directory.
 - For cache-sensitive prompt tuning, use the Responses `input_tokens` endpoint
   for exact GPT-5-family input counts. Local `tiktoken` estimates are fine for
   rough work, but the API count is the source of truth when aiming just over

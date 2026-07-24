@@ -10,21 +10,17 @@ from typing import Iterable
 from yomi_corpus.models import BooleanJudgment
 from yomi_corpus.paths import resolve_repo_path
 
-ALNUM_CLASS = r"A-Za-z0-9Ａ-Ｚａ-ｚ０-９"
-ALPHA_CLASS = r"A-Za-zＡ-Ｚａ-ｚ"
-TOKEN_RE = re.compile(
-    rf"(?<![{ALNUM_CLASS}])(?=[{ALNUM_CLASS}]*[{ALPHA_CLASS}])"
-    rf"[{ALNUM_CLASS}]+(?:[-'’][{ALNUM_CLASS}]+)*(?![{ALNUM_CLASS}])"
-)
 ENTITY_JOINER_RE = re.compile(r"^(?:[ \t\u3000]+|[ \t\u3000]*[-'’][ \t\u3000]*)$")
 SPACE_RE = re.compile(r"[ \t\u3000]+")
 SPACE_AROUND_HYPHEN_RE = re.compile(r"[ \t\u3000]*-[ \t\u3000]*")
 SPACE_AROUND_APOSTROPHE_RE = re.compile(r"[ \t\u3000]*['’][ \t\u3000]*")
+TOKEN_CONNECTORS = "-'’.．"
 
 
 @dataclass(frozen=True)
 class AlphabeticConfig:
     strict_case_max_length: int
+    measurement_units: frozenset[str]
     whitelist: frozenset[str]
     blacklist: frozenset[str]
     case_sensitive_whitelist: frozenset[str]
@@ -86,6 +82,10 @@ def load_alphabetic_config(path: str | Path) -> AlphabeticConfig:
     lists = payload["lists"]
     return AlphabeticConfig(
         strict_case_max_length=int(payload.get("strict_case_max_length", 3)),
+        measurement_units=frozenset(
+            str(unit).lower()
+            for unit in payload.get("deterministic", {}).get("measurement_units", [])
+        ),
         whitelist=frozenset(_load_word_list(lists["whitelist"], normalize=True)),
         blacklist=frozenset(_load_word_list(lists["blacklist"], normalize=True)),
         case_sensitive_whitelist=frozenset(
@@ -98,15 +98,64 @@ def load_alphabetic_config(path: str | Path) -> AlphabeticConfig:
 
 
 def extract_alphabetic_tokens(text: str) -> list[AlphabeticToken]:
-    return [
-        AlphabeticToken(
-            text=match.group(0),
-            normalized=_normalize_width(match.group(0)).lower(),
-            start=match.start(),
-            end=match.end(),
+    tokens: list[AlphabeticToken] = []
+    index = 0
+    while index < len(text):
+        if not _is_token_atom_start(text[index]):
+            index += 1
+            continue
+
+        start = index
+        index, has_cased_letter = _consume_token_segment(text, index)
+        while index < len(text) and text[index] in TOKEN_CONNECTORS:
+            next_start = index + 1
+            if next_start >= len(text) or not _is_token_atom_start(text[next_start]):
+                break
+            index, segment_has_cased_letter = _consume_token_segment(text, next_start)
+            has_cased_letter = has_cased_letter or segment_has_cased_letter
+
+        if not has_cased_letter:
+            continue
+        raw = text[start:index]
+        tokens.append(
+            AlphabeticToken(
+                text=raw,
+                normalized=_normalize_width(raw).lower(),
+                start=start,
+                end=index,
+            )
         )
-        for match in TOKEN_RE.finditer(text)
-    ]
+    return tokens
+
+
+def _consume_token_segment(text: str, start: int) -> tuple[int, bool]:
+    index = start
+    has_cased_letter = False
+    while index < len(text):
+        char = text[index]
+        if _is_cased_letter(char):
+            has_cased_letter = True
+            index += 1
+            while index < len(text) and unicodedata.category(text[index]).startswith("M"):
+                index += 1
+            continue
+        if _is_unicode_number(char):
+            index += 1
+            continue
+        break
+    return index, has_cased_letter
+
+
+def _is_token_atom_start(char: str) -> bool:
+    return _is_cased_letter(char) or _is_unicode_number(char)
+
+
+def _is_cased_letter(char: str) -> bool:
+    return unicodedata.category(char) in {"Lu", "Ll", "Lt"}
+
+
+def _is_unicode_number(char: str) -> bool:
+    return unicodedata.category(char).startswith("N")
 
 
 def classify_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> str:
@@ -116,6 +165,8 @@ def classify_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> str:
         return "whitelist"
     if _is_single_letter_entity(entity):
         return "single_letter"
+    if _is_measurement_entity(entity, config):
+        return "measurement"
     return "unknown"
 
 
@@ -173,7 +224,12 @@ def apply_global_decisions(
 ) -> list[AlphabeticOccurrence]:
     updated: list[AlphabeticOccurrence] = []
     for occurrence in occurrences:
-        resolved_status = decision_status_by_key.get(occurrence.entity_key, occurrence.base_list_status)
+        if occurrence.base_list_status == "measurement":
+            resolved_status = "measurement"
+        else:
+            resolved_status = decision_status_by_key.get(
+                occurrence.entity_key, occurrence.base_list_status
+            )
         updated.append(
             AlphabeticOccurrence(
                 occurrence_id=occurrence.occurrence_id,
@@ -290,6 +346,9 @@ def project_minor_alphabetic_judgment(
     single_letter = _unique_preserve_order(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "single_letter"]
     )
+    measurements = _unique_preserve_order(
+        [occ.entity_text for occ in occurrences if occ.resolved_status == "measurement"]
+    )
 
     if blacklisted:
         return BooleanJudgment(
@@ -305,11 +364,13 @@ def project_minor_alphabetic_judgment(
             signals.append("entity_level_lookup")
         if single_letter:
             signals.append("single_letter_exception")
+        if measurements:
+            signals.append("measurement_exception")
         return BooleanJudgment(
             value=False,
             certain=True,
             signals=signals,
-            matches=whitelisted + single_letter,
+            matches=whitelisted + single_letter + measurements,
         )
 
     signals = ["unresolved_latin_entity_types"]
@@ -407,7 +468,14 @@ def _requires_strict_case(token: AlphabeticToken, config: AlphabeticConfig) -> b
 
 def _is_single_letter_entity(entity: AlphabeticEntity) -> bool:
     text = _normalize_width(entity.text)
-    return len(entity.component_texts) == 1 and len(text) == 1 and text.isalpha()
+    return len(entity.component_texts) == 1 and len(text) == 1 and text.isascii() and text.isalpha()
+
+
+def _is_measurement_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
+    if len(entity.component_texts) != 1:
+        return False
+    match = re.fullmatch(r"[0-9]+(?:\.[0-9]+)?([a-z]+)", entity.normalized)
+    return bool(match and match.group(1) in config.measurement_units)
 
 
 def _build_entity(
@@ -475,7 +543,7 @@ def _unique_preserve_order(items: list[str]) -> list[str]:
 def _effective_scope_status(resolved_status: str) -> str:
     if resolved_status == "blacklist":
         return "out_of_scope"
-    if resolved_status in {"whitelist", "single_letter"}:
+    if resolved_status in {"whitelist", "single_letter", "measurement"}:
         return "in_scope"
     return "unknown"
 
@@ -487,6 +555,8 @@ def _default_scope_source(occurrence: AlphabeticOccurrence) -> str:
         return "static_whitelist"
     if occurrence.resolved_status == "single_letter":
         return "single_letter_exception"
+    if occurrence.resolved_status == "measurement":
+        return "deterministic_measurement"
     return "unknown"
 
 

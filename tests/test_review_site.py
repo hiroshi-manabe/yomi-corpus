@@ -334,6 +334,10 @@ class ReviewSiteTests(unittest.TestCase):
                                         }
                                     },
                                     "human_review": {
+                                        "manual_correction": {
+                                            "required": True,
+                                            "reason": "segmentation",
+                                        },
                                         "finalized_corrections": [
                                             {
                                                 "submission_id": "correction_1",
@@ -429,6 +433,7 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(shard["documents"][0]["finalized_correction_count"], 2)
             self.assertEqual(shard["documents"][0]["finalized_correction_sentence_count"], 2)
+            self.assertEqual(shard["documents"][0]["manual_correction_required_count"], 1)
             self.assertEqual(
                 shard["documents"][0]["applied_finalized_correction_submission_ids"],
                 ["correction_1", "correction_2"],
@@ -441,12 +446,97 @@ class ReviewSiteTests(unittest.TestCase):
             )
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
             self.assertEqual(shard["documents"][0]["units"][0]["finalized_correction_count"], 2)
+            self.assertTrue(shard["documents"][0]["units"][0]["manual_correction_required"])
             self.assertEqual(
                 shard["documents"][0]["units"][0]["applied_finalized_correction_submission_ids"],
                 ["correction_1", "correction_2"],
             )
             self.assertEqual(shard["documents"][1]["units"][0]["rendered_yomi"], "Ⅱ/")
             self.assertEqual(shard["documents"][2]["units"][0]["rendered_yomi"], "聖飢魔Ⅱ/セイキマツ")
+
+    def test_publish_review_archive_exports_confirmed_skip_with_hybrid_ruby(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_root = root / "data" / "pipeline" / "batches"
+            unit_root = root / "data" / "units" / "dev_batch_0001"
+            output_root = root / "docs" / "review"
+            batch_root.mkdir(parents=True)
+            unit_root.mkdir(parents=True)
+            batch_root.joinpath("dev_batch_0001.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "current_stage": "yomi_finalized",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            unit_root.joinpath("units.yomi.final.jsonl").write_text("", encoding="utf-8")
+            unit_root.joinpath("units.yomi.skipped.jsonl").write_text(
+                json.dumps(
+                    {
+                        "doc_id": "ja_cc_level2:0000000159",
+                        "unit_id": "ja_cc_level2:0000000159:u0016",
+                        "unit_seq": 16,
+                        "track_doc_seq": 159,
+                        "text": "社会実験『MeguruQuruwa』で検証されました。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "社会/シャカイ 実験/ジッケン 『/『 MeguruQuruwa/メグルクルワ 』/』 で/デ 検証/ケンショウ さ/サ れ/レ まし/マシ た/タ 。/。"
+                                },
+                                "alphabetic_scope": {
+                                    "reasons": [{"entity_key": "meguruquruwa"}]
+                                }
+                            },
+                            "llm": {
+                                "scope_triage": {
+                                    "status": "Skip",
+                                    "source": "provisional_alphabetic_skip",
+                                }
+                            },
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "skip": True,
+                                    "submission_id": "review-159",
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            publish_review_archive(
+                project_root=root,
+                review_output_dir=output_root,
+                shard_size=100,
+            )
+
+            index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
+            shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
+            shard = json.loads(shard_path.read_text(encoding="utf-8"))
+            doc = shard["documents"][0]
+            unit = doc["units"][0]
+            self.assertEqual(
+                unit["rendered_yomi"],
+                "社会/シャカイ 実験/ジッケン 『/『 MeguruQuruwa/メグルクルワ 』/』 で/デ 検証/ケンショウ さ/サ れ/レ まし/マシ た/タ 。/。",
+            )
+            self.assertTrue(unit["ruby_tokens"])
+            search = json.loads(
+                (output_root / "archive" / "dev" / "search.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(doc["skipped_unit_count"], 1)
+            self.assertTrue(unit["skipped"])
+            self.assertTrue(unit["yomi_tokens"])
+            self.assertEqual(unit["skip_provenance"]["submission_id"], "review-159")
+            self.assertEqual(search["documents"][0]["text"], "")
 
 
 if __name__ == "__main__":
