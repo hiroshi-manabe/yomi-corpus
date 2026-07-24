@@ -2435,9 +2435,10 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
     const tokenPairs = archiveUnitYomiTokenPairs(unit);
     if (tokenPairs.length) {
       rubyLine.append(
-        ...renderReadonlyRubyFromTokensWithNodes(
+        ...renderReadonlyRubyFromTokensWithFootnotes(
           yomiTokenPairObjects(tokenPairs),
           unit.ruby_tokens || [],
+          unit.strong_repair_evidence || [],
         ),
       );
     } else if (unit.excluded) {
@@ -2446,6 +2447,7 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
       rubyLine.textContent = unit.text || "";
     }
     node.append(rubyLine);
+    appendStrongRepairFootnoteList(node, normalizedStrongRepairFootnotes(unit.strong_repair_evidence || []));
     if (unit.skipped) {
       const label = document.createElement("span");
       label.className = "skipped-tombstone-label";
@@ -2659,6 +2661,43 @@ function renderReadonlyRubyFromTokensWithNodes(tokens, rubyTokens) {
   }
   if (!nodes.length) {
     nodes.push(document.createTextNode(""));
+  }
+  return nodes;
+}
+
+function renderReadonlyRubyFromTokensWithFootnotes(tokens, rubyTokens, evidence) {
+  const notes = normalizedStrongRepairFootnotes(evidence);
+  if (!notes.length) {
+    return renderReadonlyRubyFromTokensWithNodes(tokens, rubyTokens);
+  }
+  const markerNumbersByEnd = new Map();
+  const usedMatches = new Set();
+  const matchByRegion = new Map();
+  for (const note of notes) {
+    const regionKey = note.region_id || `${note.surface}:${note.surface_occurrence_index ?? ""}`;
+    let match = matchByRegion.get(regionKey);
+    if (!match) {
+      const candidates = findRenderedTokenSpans(tokens, note.surface);
+      match = Number.isInteger(note.surface_occurrence_index)
+        ? candidates[note.surface_occurrence_index]
+        : candidates.find((candidate) => !usedMatches.has(strongRepairMatchKey(candidate)));
+      if (match) {
+        matchByRegion.set(regionKey, match);
+        usedMatches.add(strongRepairMatchKey(match));
+      }
+    }
+    if (!match) {
+      continue;
+    }
+    const numbers = markerNumbersByEnd.get(match.end - 1) || [];
+    numbers.push(note.number);
+    markerNumbersByEnd.set(match.end - 1, numbers);
+  }
+  const previewItem = { rendered_yomi_after_ruby_tokens: rubyTokens || [] };
+  const nodes = [];
+  for (const [index, token] of tokens.entries()) {
+    nodes.push(...renderReadonlyRubyFromToken(previewItem, token, index));
+    nodes.push(...strongRepairFootnoteMarkerNodes(markerNumbersByEnd.get(index) || []));
   }
   return nodes;
 }
@@ -3296,21 +3335,10 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
 
   const afterLine = document.createElement("p");
   afterLine.className = "ruby-line strong-repair-after";
-  afterLine.append(...renderStrongRepairAfterLine(item, override, editable));
+  const footnotes = strongRepairItemFootnotes(item);
+  afterLine.append(...renderStrongRepairAfterLine(item, override, editable, footnotes));
   node.append(afterLine);
-
-  const comments = strongRepairRegions(item).flatMap((region) => region.llm_comments || []);
-  const distinctComments = [...new Set(comments.filter(Boolean))];
-  if (distinctComments.length) {
-    const commentBlock = document.createElement("div");
-    commentBlock.className = "strong-repair-llm-comments";
-    for (const comment of distinctComments) {
-      const line = document.createElement("p");
-      line.textContent = `LLM: ${comment}`;
-      commentBlock.append(line);
-    }
-    node.append(commentBlock);
-  }
+  appendStrongRepairFootnoteList(node, footnotes.notes);
 
   const details = document.createElement("details");
   details.className = "strong-repair-debug";
@@ -3382,7 +3410,7 @@ function formatRepairProposal(rows) {
     .join(" + ");
 }
 
-function renderStrongRepairAfterLine(item, override, editable) {
+function renderStrongRepairAfterLine(item, override, editable, footnotes = strongRepairItemFootnotes(item)) {
   const tokens = item.rendered_yomi_after_tokens?.length
     ? yomiTokenPairObjects(item.rendered_yomi_after_tokens)
     : parseRenderedYomiTokens(item.rendered_yomi_after || "");
@@ -3433,6 +3461,7 @@ function renderStrongRepairAfterLine(item, override, editable) {
         nodes.push(document.createTextNode(match.prefix));
       }
       nodes.push(renderStrongRepairSpanEditor(item, match.region, override, editable));
+      nodes.push(...strongRepairFootnoteMarkerNodes(footnotes.byRegion.get(match.region) || []));
       if (match.suffix) {
         nodes.push(document.createTextNode(match.suffix));
       }
@@ -3443,6 +3472,82 @@ function renderStrongRepairAfterLine(item, override, editable) {
   }
   nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
+}
+
+function strongRepairItemFootnotes(item) {
+  const notes = [];
+  const noteNumberByComment = new Map();
+  const byRegion = new Map();
+  for (const region of strongRepairRegions(item)) {
+    const numbers = [];
+    for (const rawComment of region.llm_comments || []) {
+      const comment = String(rawComment || "").trim();
+      if (!comment) {
+        continue;
+      }
+      let number = noteNumberByComment.get(comment);
+      if (!number) {
+        number = notes.length + 1;
+        noteNumberByComment.set(comment, number);
+        notes.push({ number, comment, used_web_search: Boolean(region.used_web_search) });
+      }
+      if (!numbers.includes(number)) {
+        numbers.push(number);
+      }
+    }
+    byRegion.set(region, numbers);
+  }
+  return { notes, byRegion };
+}
+
+function normalizedStrongRepairFootnotes(evidence) {
+  const notes = [];
+  const numberByComment = new Map();
+  for (const item of evidence || []) {
+    const comment = String(item?.comment || "").trim();
+    if (!comment) {
+      continue;
+    }
+    let number = numberByComment.get(comment);
+    if (!number) {
+      number = notes.length + 1;
+      numberByComment.set(comment, number);
+      notes.push({
+        number,
+        comment,
+        surface: String(item?.surface || ""),
+        region_id: String(item?.region_id || ""),
+        surface_occurrence_index: Number.isInteger(item?.surface_occurrence_index)
+          ? item.surface_occurrence_index
+          : null,
+        used_web_search: Boolean(item?.used_web_search),
+      });
+    }
+  }
+  return notes;
+}
+
+function strongRepairFootnoteMarkerNodes(numbers) {
+  return numbers.map((number) => {
+    const marker = document.createElement("span");
+    marker.className = "strong-repair-footnote-marker";
+    marker.textContent = `*${number}`;
+    return marker;
+  });
+}
+
+function appendStrongRepairFootnoteList(node, notes) {
+  if (!notes.length) {
+    return;
+  }
+  const block = document.createElement("div");
+  block.className = "strong-repair-footnotes";
+  for (const note of notes) {
+    const line = document.createElement("p");
+    line.textContent = `*${note.number} ${note.comment}`;
+    block.append(line);
+  }
+  node.append(block);
 }
 
 function strongRepairEditorMatch(match, region, tokens) {
