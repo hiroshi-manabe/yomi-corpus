@@ -1859,13 +1859,24 @@ function validateRenderedYomiCorrection(unit, proposed) {
     return { ok: false, error: "rendered yomi has no tokens." };
   }
   const surfaceText = [];
+  const baselinePairCounts = new Map();
+  for (const [surface, reading] of archiveUnitYomiTokenPairs(unit)) {
+    const key = JSON.stringify([surface, reading]);
+    baselinePairCounts.set(key, (baselinePairCounts.get(key) || 0) + 1);
+  }
   for (const token of tokens) {
     if (!token.ok) {
       return { ok: false, error: token.error };
     }
-    const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
-    if (!readingValidation.ok) {
-      return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
+    const baselineKey = JSON.stringify([token.surface, token.reading]);
+    const baselineCount = baselinePairCounts.get(baselineKey) || 0;
+    if (baselineCount) {
+      baselinePairCounts.set(baselineKey, baselineCount - 1);
+    } else {
+      const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
+      if (!readingValidation.ok) {
+        return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
+      }
     }
     surfaceText.push(token.surface);
   }
@@ -1914,8 +1925,8 @@ function hiraganaToKatakana(value) {
 }
 
 function validateRenderedYomiReading(surface, reading) {
-  if (/^[ \u00a0]+$/u.test(surface)) {
-    return reading && !/^[ \u00a0]+$/u.test(reading)
+  if (/^[ \u00a0\u3000]+$/u.test(surface)) {
+    return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
       ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
       : { ok: true };
   }
@@ -1932,6 +1943,9 @@ function validateRenderedYomiReading(surface, reading) {
     return isSymbolicKaomojiCorrectionSurface(surface)
       ? { ok: true }
       : { ok: false, error: "カオモジ is reserved for symbolic kaomoji surfaces." };
+  }
+  if (isStandaloneLaughterW(surface) && !reading) {
+    return { ok: true };
   }
   if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
@@ -1990,8 +2004,20 @@ function numericCompoundReadings(surface) {
 
 function isNumericOnlySurface(surface) {
   // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
-  // they are ambiguous; Japanese numeral digits belong to the numeric layer.
-  return /^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇零一二三四五六七八九]+$/u.test(surface);
+  // they are ambiguous. Single Japanese numeral kanji stay lexical, while
+  // multi-character digit runs and circle zero belong to the numeric layer.
+  const value = String(surface || "");
+  if (!/^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇○零一二三四五六七八九]+$/u.test(value)) {
+    return false;
+  }
+  if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
+    return true;
+  }
+  return [...value].length >= 2 || value === "〇" || value === "○";
+}
+
+function isStandaloneLaughterW(surface) {
+  return /^[wｗ]+$/iu.test(String(surface || ""));
 }
 
 function archiveCorrectionIssueTitle(doc) {
