@@ -1553,13 +1553,12 @@ function openArchiveCorrectionEditor(doc) {
   note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
   el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
   updateArchiveCorrectionSummary();
+  el.workflowPreviewBody.scrollTop = 0;
+  el.workflowPreviewBody.scrollLeft = 0;
   el.workflowPreviewModal.classList.remove("hidden");
-  const firstManualCorrection = list.querySelector(".archive-correction-row.manual-correction-required");
-  if (firstManualCorrection) {
-    window.requestAnimationFrame(() => {
-      firstManualCorrection.scrollIntoView({ block: "center", behavior: "auto" });
-    });
-  }
+  window.requestAnimationFrame(() => {
+    el.workflowPreviewBody.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  });
   updateRuntimePollingForInteraction();
 }
 
