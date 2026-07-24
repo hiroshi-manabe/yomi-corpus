@@ -3297,6 +3297,14 @@ surfaces concatenate exactly to the rejected span and all readings are valid
 kana. Invalid manual segments keep confirmation incomplete rather than being
 silently applied.
 
+The short rationale returned with an Escalated Repair is durable evidence, not
+temporary debug text. Number distinct rationales in document order and show a
+compact marker such as `*1` immediately after the repaired span, with the
+matching `*1 rationale` below the ruby text. No navigation links are required.
+Persist the repaired surface, rationale, and web-search usage in the unit's
+strong-repair metadata, carry them through finalization, and expose the same
+markers and notes in finalized Corpus Map previews.
+
 For each rejected Escalated Repair span, the review pack should include
 dictionary-backed reading candidates for substrings found by prefix-style
 lookup from every character position. For example, `池尻中学校` should carry

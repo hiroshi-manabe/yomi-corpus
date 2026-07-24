@@ -349,6 +349,24 @@ class ReviewSiteTests(unittest.TestCase):
                                             }
                                         ]
                                     },
+                                    "llm": {
+                                        "yomi_strong_repair": {
+                                            "repairs": [
+                                                {
+                                                    "item_id": "repair_1",
+                                                    "evidence": [
+                                                        {
+                                                            "region_id": "repair_1",
+                                                            "surface": "学校",
+                                                            "comment": "Established compound reading.",
+                                                            "used_web_search": False,
+                                                            "surface_occurrence_index": 0,
+                                                        }
+                                                    ],
+                                                }
+                                            ]
+                                        }
+                                    },
                                 },
                             },
                             ensure_ascii=False,
@@ -445,6 +463,18 @@ class ReviewSiteTests(unittest.TestCase):
                 [["学校", "ガッコウ"], ["です", "デス"], ["。", "。"]],
             )
             self.assertTrue(shard["documents"][0]["units"][0]["ruby_tokens"])
+            self.assertEqual(
+                shard["documents"][0]["units"][0]["strong_repair_evidence"],
+                [
+                    {
+                        "region_id": "repair_1",
+                        "surface": "学校",
+                        "comment": "Established compound reading.",
+                        "used_web_search": False,
+                        "surface_occurrence_index": 0,
+                    }
+                ],
+            )
             self.assertEqual(shard["documents"][0]["units"][0]["finalized_correction_count"], 2)
             self.assertTrue(shard["documents"][0]["units"][0]["manual_correction_required"])
             self.assertEqual(

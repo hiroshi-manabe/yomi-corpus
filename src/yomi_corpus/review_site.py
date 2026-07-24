@@ -425,6 +425,7 @@ def finalized_archive_document_revision(doc: dict) -> str:
                 "unit_seq": int(unit.get("unit_seq") or 0),
                 "text": str(unit.get("text") or ""),
                 "rendered_yomi": str(unit.get("rendered_yomi") or ""),
+                "strong_repair_evidence": list(unit.get("strong_repair_evidence") or []),
                 "applied_finalized_correction_submission_ids": list(
                     unit.get("applied_finalized_correction_submission_ids") or []
                 ),
@@ -500,6 +501,7 @@ def archive_unit_from_row(row: dict) -> dict | None:
         "yomi_tokens": yomi_tokens,
         "rendered_yomi": rendered_yomi,
         "ruby_tokens": yomi_tokens_ruby_tokens(yomi_tokens) if yomi_tokens else [],
+        "strong_repair_evidence": archive_strong_repair_evidence(row),
         "finalized_correction_count": finalized_correction_count(row),
         "manual_correction_required": manual_correction_required(row),
         "manual_correction": manual_correction_state(row),
@@ -511,6 +513,40 @@ def archive_unit_from_row(row: dict) -> dict | None:
         ),
     }
     return unit
+
+
+def archive_strong_repair_evidence(row: dict) -> list[dict]:
+    repairs = (
+        row.get("analysis", {})
+        .get("llm", {})
+        .get("yomi_strong_repair", {})
+        .get("repairs", [])
+    )
+    evidence: list[dict] = []
+    seen: set[tuple[str, str, str]] = set()
+    for repair in repairs if isinstance(repairs, list) else []:
+        if not isinstance(repair, dict):
+            continue
+        for item in repair.get("evidence", []) or []:
+            if not isinstance(item, dict):
+                continue
+            surface = str(item.get("surface") or "")
+            comment = str(item.get("comment") or "").strip()
+            region_id = str(item.get("region_id") or repair.get("item_id") or "")
+            key = (region_id, surface, comment)
+            if not surface or not comment or key in seen:
+                continue
+            seen.add(key)
+            evidence.append(
+                {
+                    "region_id": region_id,
+                    "surface": surface,
+                    "comment": comment,
+                    "used_web_search": bool(item.get("used_web_search")),
+                    "surface_occurrence_index": item.get("surface_occurrence_index"),
+                }
+            )
+    return evidence
 
 
 def archive_skip_provenance(row: dict) -> dict:

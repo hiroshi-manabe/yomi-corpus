@@ -3194,6 +3194,18 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(strong_summary["applied_items"], 1)
             repaired = json.loads(strong_path.read_text(encoding="utf-8"))
             self.assertIn("池尻/イケジリ 中学校/チュウガッコウ", repaired["analysis"]["mechanical"]["yomi"]["rendered"])
+            self.assertEqual(
+                repaired["analysis"]["llm"]["yomi_strong_repair"]["repairs"][0]["evidence"],
+                [
+                    {
+                        "region_id": queued["item_id"],
+                        "surface": "池尻中学校",
+                        "comment": "Established place-name reading.",
+                        "used_web_search": False,
+                        "surface_occurrence_index": None,
+                    }
+                ],
+            )
             self.assertFalse(final_summary["stage_complete"])
             self.assertIn("require human confirmation", final_summary["blocking_reason"])
 

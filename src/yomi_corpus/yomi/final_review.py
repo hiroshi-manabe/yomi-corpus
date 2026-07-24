@@ -3962,7 +3962,13 @@ def apply_yomi_strong_repair_results_file(
                     )
                     continue
                 apply_result = apply_target_group_strong_repair(unit, queue_row, result)
-                repair_log.append({"item_id": item_id, **apply_result})
+                repair_log.append(
+                    {
+                        "item_id": item_id,
+                        **apply_result,
+                        "evidence": strong_repair_evidence(queue_row, result),
+                    }
+                )
                 if apply_result["status"] == "applied":
                     applied_items += 1
                 elif apply_result["status"] in {"reused_rejected_reading", "unchanged"}:
@@ -4015,6 +4021,39 @@ def apply_yomi_strong_repair_results_file(
         encoding="utf-8",
     )
     return summary
+
+
+def strong_repair_evidence(
+    queue_row: dict[str, Any],
+    result: dict[str, Any],
+) -> list[dict[str, Any]]:
+    parsed = result.get("parsed")
+    if not isinstance(parsed, list):
+        return []
+    surface = str(queue_row.get("rejected_span") or "") or "".join(
+        str(row.get("surface") or "")
+        for row in queue_row.get("target_escalations", [])
+        if isinstance(row, dict)
+    )
+    comments: list[str] = []
+    used_web_search = False
+    for row in parsed:
+        if not isinstance(row, dict):
+            continue
+        comment = str(row.get("comment") or "").strip()
+        if comment and comment not in comments:
+            comments.append(comment)
+        used_web_search = used_web_search or bool(row.get("used_web_search"))
+    return [
+        {
+            "region_id": str(queue_row.get("item_id") or ""),
+            "surface": surface,
+            "comment": comment,
+            "used_web_search": used_web_search,
+            "surface_occurrence_index": queue_row.get("surface_occurrence_index"),
+        }
+        for comment in comments
+    ]
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
