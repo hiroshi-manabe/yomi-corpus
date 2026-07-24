@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>yomi-corpus review</title>
-    <link rel="stylesheet" href="./style.css?v=f4e264f52890" />
+    <link rel="stylesheet" href="./style.css?v=2f4095c70550" />
   </head>
   <body>
     <div class="page">
@@ -13,7 +13,7 @@
           <p class="eyebrow">yomi-corpus</p>
           <h1>Review Workspace</h1>
           <p class="subtitle">
-            Current review queues first, resolved corpus browsing in Corpus Map.
+            Latest active pack by default, immutable pack history on the side.
           </p>
         </div>
         <div class="topbar-actions">
@@ -26,18 +26,13 @@
       </header>
 
       <div id="status-banner" class="status-banner hidden"></div>
-      <div id="server-update-banner" class="server-update-banner hidden">
-        <span id="server-update-message">Server state updated.</span>
-        <button id="server-update-refresh" type="button">Refresh workspace</button>
-      </div>
-      <div id="runtime-status-line" class="runtime-status-line hidden"></div>
 
       <div class="layout">
         <aside class="sidebar">
           <section class="panel">
             <div class="panel-heading">
               <h2>Current Work</h2>
-              <span class="muted">dev</span>
+              <span class="muted">Tracks</span>
             </div>
             <div id="current-track-list" class="track-card-list"></div>
           </section>
@@ -58,7 +53,7 @@
           <section class="panel">
             <h2>History Notes</h2>
             <p class="muted">
-              The dev workspace has Active Work for current queues and Corpus Map for resolved documents.
+              Active packs are editable. Archived packs remain browsable but read-only.
             </p>
           </section>
         </aside>
@@ -75,7 +70,7 @@
           <section id="task-picker-panel" class="panel controls-panel">
             <div class="panel-heading">
               <h2>Select Review Task</h2>
-              <div id="task-picker-global-actions" class="button-row">
+              <div class="button-row">
                 <button id="select-all-docs" class="secondary-button" type="button">Select All</button>
                 <button id="clear-doc-selection" class="secondary-button" type="button">Clear</button>
                 <button id="start-task" type="button">Start Review Task</button>
@@ -143,7 +138,7 @@
       <div class="issue-return-backdrop"></div>
       <section class="issue-return-panel">
         <h2 id="issue-return-title">Did you create the GitHub issue?</h2>
-        <p id="issue-return-description" class="muted">
+        <p class="muted">
           If you pasted the copied JSON and created the issue, mark this task submitted.
           If not, keep working locally.
         </p>
@@ -206,6 +201,6 @@
       </article>
     </template>
 
-    <script src="./app.js?v=5f9cfacc23cb" type="module"></script>
+    <script src="./app.js?v=7413b0cad6ae" type="module"></script>
   </body>
 </html>

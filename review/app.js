@@ -10,23 +10,8 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
-  archiveIndex: null,
-  archiveCurrentTrack: "dev",
-  archiveCurrentShard: null,
-  archiveCurrentShardPath: "",
-  archiveShardCache: new Map(),
-  archiveSearchIndex: null,
-  archiveSearchIndexPath: "",
-  archiveSearchQuery: "",
-  archiveSearchTimer: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
-  pendingArchiveCorrectionKey: null,
-  runtimeStatus: null,
-  runtimePollingStarted: false,
-  runtimePollTimer: null,
-  runtimePollGeneration: 0,
-  runtimePollFailures: 0,
 };
 
 const el = {
@@ -41,7 +26,6 @@ const el = {
   taskDocList: document.querySelector("#task-doc-list"),
   taskDraftList: document.querySelector("#task-draft-list"),
   taskSummary: document.querySelector("#task-summary"),
-  taskPickerGlobalActions: document.querySelector("#task-picker-global-actions"),
   selectAllDocs: document.querySelector("#select-all-docs"),
   clearDocSelection: document.querySelector("#clear-doc-selection"),
   startTask: document.querySelector("#start-task"),
@@ -52,13 +36,7 @@ const el = {
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
-  serverUpdateBanner: document.querySelector("#server-update-banner"),
-  serverUpdateMessage: document.querySelector("#server-update-message"),
-  serverUpdateRefresh: document.querySelector("#server-update-refresh"),
-  runtimeStatusLine: document.querySelector("#runtime-status-line"),
   issueReturnModal: document.querySelector("#issue-return-modal"),
-  issueReturnTitle: document.querySelector("#issue-return-title"),
-  issueReturnDescription: document.querySelector("#issue-return-description"),
   markSubmitted: document.querySelector("#mark-submitted"),
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
@@ -81,8 +59,6 @@ const el = {
 };
 
 const settingsKey = "yomi-corpus:review-ui:settings:v2";
-const archiveCorrectionStorageKey = "yomi-corpus:archive-corrections:v1";
-const archiveCorrectionStoreSchemaVersion = 2;
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -102,44 +78,18 @@ async function boot() {
   const initialTarget = resolveInitialTarget(stageIds);
   if (initialTarget.stageId === "unified_yomi_review") {
     await openUnifiedReview();
-  } else if (initialTarget.stageId === "archive_browser") {
-    await openArchiveBrowser();
   } else {
     await openStage(initialTarget.stageId, {
       preferLatest: !initialTarget.packId,
       preferredPackId: initialTarget.packId,
     });
   }
-  startRuntimeStatusPolling();
 }
 
 function bindEvents() {
-  el.serverUpdateRefresh.addEventListener("click", () => {
-    if (isTaskStarted() && !window.confirm("Refresh server state? Your local task is saved and can be resumed.")) {
-      return;
-    }
-    window.location.reload();
-  });
-
-  document.addEventListener("visibilitychange", () => {
-    if (!state.manifest?.runtime_status?.path) {
-      return;
-    }
-    clearRuntimePollTimer();
-    if (document.hidden) {
-      scheduleRuntimeStatusPoll();
-    } else {
-      pollRuntimeStatus();
-    }
-  });
-
   el.stageSelect.addEventListener("change", async (event) => {
     if (event.target.value === "unified_yomi_review") {
       await openUnifiedReview();
-      return;
-    }
-    if (event.target.value === "archive_browser") {
-      await openArchiveBrowser();
       return;
     }
     await openStage(event.target.value, { preferLatest: true });
@@ -148,10 +98,6 @@ function bindEvents() {
   el.openLatest.addEventListener("click", async () => {
     if (state.currentStageId === "unified_yomi_review") {
       await openUnifiedReview();
-      return;
-    }
-    if (state.currentStageId === "archive_browser") {
-      await openArchiveBrowser();
       return;
     }
     if (!state.currentStageId) {
@@ -226,7 +172,7 @@ function bindEvents() {
   });
 
   el.downloadJson.addEventListener("click", () => {
-    const payload = formatSubmissionJson(buildSubmissionPayload());
+    const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
     const blob = new Blob([payload], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -247,49 +193,36 @@ function bindEvents() {
     render();
   });
 
-  el.workflowPreviewClose?.addEventListener("click", () => requestCloseWorkflowDocumentPreview());
+  el.workflowPreviewClose?.addEventListener("click", () => closeWorkflowDocumentPreview());
   el.workflowPreviewModal?.addEventListener("click", (event) => {
     if (event.target?.hasAttribute?.("data-preview-close")) {
-      requestCloseWorkflowDocumentPreview();
+      closeWorkflowDocumentPreview();
     }
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !el.workflowPreviewModal?.classList.contains("hidden")) {
-      event.preventDefault();
-      requestCloseWorkflowDocumentPreview();
+      closeWorkflowDocumentPreview();
     }
-  });
-
-  window.addEventListener("beforeunload", (event) => {
-    if (!archiveCorrectionHasUnsavedEdits()) {
-      return;
-    }
-    event.preventDefault();
-    event.returnValue = "";
   });
 
   window.addEventListener("focus", () => {
-    if (state.pendingIssueTaskId || state.pendingArchiveCorrectionKey) {
+    if (state.pendingIssueTaskId) {
       showIssueReturnModal();
     }
   });
 
   el.markSubmitted?.addEventListener("click", () => {
-    if (state.pendingArchiveCorrectionKey) {
-      markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
-    } else if (state.pendingIssueTaskId) {
+    if (state.pendingIssueTaskId) {
       markSavedTaskSubmitted(state.pendingIssueTaskId);
     }
     state.pendingIssueTaskId = null;
-    state.pendingArchiveCorrectionKey = null;
     hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
     state.pendingIssueTaskId = null;
-    state.pendingArchiveCorrectionKey = null;
     hideIssueReturnModal();
-    showStatus("Issue submission not marked complete. The local draft remains available.");
+    showStatus("Issue submission not marked complete. The task remains active locally.");
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -300,23 +233,14 @@ function bindEvents() {
 
 function resolveInitialTarget(stageIds) {
   const params = new URLSearchParams(window.location.search);
-  const requested = params.get("stage");
-  const requestedPackId = params.get("pack");
-  if (requested === "archive_browser") {
-    return { stageId: "archive_browser", packId: null };
-  }
-  if (requested === "corpus_map") {
-    return { stageId: "archive_browser", packId: null };
-  }
-  if (requested === "unified_yomi_review") {
-    return { stageId: "unified_yomi_review", packId: null };
-  }
-  if (requested && stageIds.includes(requested)) {
-    return { stageId: requested, packId: requestedPackId };
-  }
-
   if (hasDevYomiReviewSources()) {
     return { stageId: "unified_yomi_review", packId: null };
+  }
+
+  const requested = params.get("stage");
+  const requestedPackId = params.get("pack");
+  if (requested && stageIds.includes(requested)) {
+    return { stageId: requested, packId: requestedPackId };
   }
 
   if (requestedPackId) {
@@ -350,11 +274,7 @@ function activeDevReviewQueues() {
 }
 
 function hasDevYomiReviewSources() {
-  return activeDevYomiReviewSources().length > 0;
-}
-
-function hasReviewArchive() {
-  return Boolean(state.manifest?.archive?.index_path);
+  return latestDevYomiReviewSources().length > 0;
 }
 
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
@@ -384,7 +304,6 @@ async function openStage(stageId, { preferLatest = false, preferredPackId = null
     throw new Error(`No packs found for stage ${stageId}.`);
   }
   await openPack(stageId, packMeta.pack_id);
-  updateRuntimePollingForInteraction();
 }
 
 async function openPack(stageId, packId) {
@@ -403,8 +322,8 @@ async function openPack(stageId, packId) {
 }
 
 async function openUnifiedReview() {
-  const reviewSources = activeDevYomiReviewSources();
-  if (reviewSources.length === 0) {
+  const latestSources = latestDevYomiReviewSources();
+  if (latestSources.length === 0) {
     const fallbackStage = Object.keys(state.manifest.stages || {})[0];
     await openStage(fallbackStage, { preferLatest: true });
     return;
@@ -414,7 +333,7 @@ async function openUnifiedReview() {
     el.stageSelect.value = "unified_yomi_review";
   }
   const sources = [];
-  for (const source of reviewSources) {
+  for (const source of latestSources) {
     const pack = await fetchJson(source.path);
     sources.push({ meta: source, pack });
   }
@@ -430,57 +349,9 @@ async function openUnifiedReview() {
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
   render();
-  updateRuntimePollingForInteraction();
 }
 
-async function openArchiveBrowser() {
-  if (!hasReviewArchive()) {
-    showStatus("No finalized archive was published yet.", true);
-    return;
-  }
-  state.currentStageId = "archive_browser";
-  if (el.stageSelect) {
-    el.stageSelect.value = "archive_browser";
-  }
-  if (!state.archiveIndex) {
-    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
-  }
-  state.archiveCurrentTrack = "dev";
-  const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
-  state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
-  state.archiveCurrentShardPath = firstShard?.path || "";
-  state.currentPackMeta = {
-    pack_id: "archive_browser",
-    title: "Corpus Map",
-    track_name: "dev",
-    status: "archive",
-  };
-  state.currentPack = {
-    schema_version: 1,
-    review_stage: "archive_browser",
-    pack_id: "archive_browser",
-    track_name: "dev",
-    item_count: state.archiveIndex?.tracks?.dev?.document_count || 0,
-    items: [],
-    documents: [],
-  };
-  state.currentDraft = loadDraft(state.currentPack);
-  updateLocation("archive_browser", "archive_browser");
-  render();
-  updateRuntimePollingForInteraction();
-}
-
-async function openArchiveShard(shard) {
-  state.archiveCurrentShard = await fetchJson(shard.path);
-  state.archiveCurrentShardPath = shard.path || "";
-  render();
-}
-
-function activeDevYomiReviewSources() {
-  const activeSources = activeDevReviewQueues();
-  if (activeSources.length > 0) {
-    return activeSources;
-  }
+function latestDevYomiReviewSources() {
   const sources = [];
   for (const stageId of ["yomi_final_review", "yomi_strong_repair_review"]) {
     const stage = state.manifest.stages?.[stageId];
@@ -631,7 +502,6 @@ function queueStageSort(stage) {
 }
 
 function unifiedDocumentIsSelectable(doc, stats) {
-  const stateName = String(doc.state || "");
   const itemCount = Number(stats?.item_count || 0);
   if (itemCount <= 0) {
     return false;
@@ -639,18 +509,15 @@ function unifiedDocumentIsSelectable(doc, stats) {
   if (!documentBelongsToQueue(doc.queue_stage, doc)) {
     return false;
   }
-  if (doc.queue_stage === "yomi_final_review") {
-    return stateName.startsWith("final_") || (stateName === "" && doc.selectable !== false);
-  }
-  if (doc.queue_stage === "yomi_strong_repair_review") {
-    return stateName.startsWith("strong_");
-  }
-  return Boolean(doc.selectable);
+  return doc.selectable !== false && !docIsSubmittedByWorkflowState(doc);
 }
 
 function documentBelongsToQueue(queueStage, doc) {
   if (doc && "queue_member" in doc) {
     return Boolean(doc.queue_member);
+  }
+  if (doc?.workflow_queue_stage) {
+    return doc.workflow_queue_stage === queueStage;
   }
   const stateName = String(doc?.state || "");
   if (queueStage === "yomi_final_review") {
@@ -669,12 +536,6 @@ function populateStageSelect(stageIds) {
     option.value = "unified_yomi_review";
     option.textContent = "Unified Yomi Review";
     el.stageSelect.append(option);
-    if (hasReviewArchive()) {
-      const archiveOption = document.createElement("option");
-      archiveOption.value = "archive_browser";
-      archiveOption.textContent = "Corpus Map";
-      el.stageSelect.append(archiveOption);
-    }
     return;
   }
   for (const stageId of stageIds) {
@@ -683,16 +544,9 @@ function populateStageSelect(stageIds) {
     option.textContent = state.manifest.stages[stageId].label || stageId;
     el.stageSelect.append(option);
   }
-  if (hasReviewArchive()) {
-    const archiveOption = document.createElement("option");
-    archiveOption.value = "archive_browser";
-    archiveOption.textContent = "Corpus Map";
-    el.stageSelect.append(archiveOption);
-  }
 }
 
 function render() {
-  syncLocalTaskRecordsForCurrentPack();
   renderCurrentTracks();
   renderPackList();
   renderPackSummary();
@@ -714,7 +568,7 @@ function renderCurrentTracks() {
     cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
   }
 
-  if (cards.length === 0 && workflowSources.length === 0 && !hasReviewArchive()) {
+  if (cards.length === 0 && workflowSources.length === 0) {
     const p = document.createElement("p");
     p.className = "muted";
     p.textContent = "No active dev review packs were published.";
@@ -722,8 +576,34 @@ function renderCurrentTracks() {
     return;
   }
 
-  if (workflowSources.length > 0 || hasReviewArchive()) {
-    el.currentTrackList.append(renderDevWorkspaceCard({ workflowSources, workflowCards }));
+  if (workflowSources.length > 0) {
+    const unifiedButton = document.createElement("button");
+    unifiedButton.type = "button";
+    unifiedButton.className = "track-card primary-track";
+    unifiedButton.classList.toggle("active-track", state.currentStageId === "unified_yomi_review");
+    const totalItems = workflowSources.reduce((sum, card) => sum + Number(card.item_count || 0), 0);
+    const totalDocs = Math.max(...workflowSources.map((card) => Number(card.document_count || 0)));
+    const activeQueueCount = workflowCards.length;
+    const queueText =
+      activeQueueCount > 0
+        ? activeQueueCount === 1
+          ? "1 active queue"
+          : `${activeQueueCount} active queues`
+        : "0 active queues";
+    unifiedButton.innerHTML = `
+      <div class="track-card-header">
+        <strong>Workflow Review</strong>
+        <span class="badge dev">dev</span>
+      </div>
+      <div class="track-card-stage">Document-based review workspace</div>
+      <div class="pack-meta-line">${totalDocs} doc(s) · ${totalItems} item(s) across ${queueText}</div>
+    `;
+    unifiedButton.addEventListener("click", () => {
+      openUnifiedReview().catch((error) => {
+        showStatus(`Failed to open unified review: ${error.message}`, true);
+      });
+    });
+    el.currentTrackList.append(unifiedButton);
   }
 
   for (const card of cards) {
@@ -759,78 +639,7 @@ function renderCurrentTracks() {
   }
 }
 
-function renderDevWorkspaceCard({ workflowSources, workflowCards }) {
-  const card = document.createElement("section");
-  card.className = "track-card primary-track dev-workspace-card";
-  const totalItems = workflowSources.reduce((sum, source) => sum + Number(source.item_count || 0), 0);
-  const totalDocs = workflowSources.length
-    ? Math.max(...workflowSources.map((source) => Number(source.document_count || 0)))
-    : 0;
-  const activeQueueCount = workflowCards.length;
-  const queueText =
-    activeQueueCount > 0
-      ? activeQueueCount === 1
-        ? "1 active queue"
-        : `${activeQueueCount} active queues`
-      : "0 active queues";
-  const archiveMeta = state.manifest.archive?.tracks?.dev || {};
-  card.innerHTML = `
-    <div class="track-card-header">
-      <strong>dev workspace</strong>
-      <span class="badge dev">dev</span>
-    </div>
-    <div class="track-card-stage">Active review workspace</div>
-    <div class="pack-meta-line">
-      ${totalDocs} active doc(s) · ${totalItems} item(s) · ${queueText}
-      ${hasReviewArchive() ? ` · ${Number(archiveMeta.document_count || 0)} resolved doc(s)` : ""}
-    </div>
-  `;
-  if (workflowSources.length > 0) {
-    card.addEventListener("click", (event) => {
-      if (event.target.closest("button, a")) {
-        return;
-      }
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
-      });
-    });
-  }
-  return card;
-}
-
 function renderPackList() {
-  if (state.currentStageId === "archive_browser") {
-    const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-    const shards = track.shards || [];
-    el.historyCount.textContent = `${shards.length} archive shard(s)`;
-    el.packList.innerHTML = "";
-    for (const shard of shards) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "pack-button readonly-pack";
-      if (
-        state.archiveCurrentShard &&
-        Number(state.archiveCurrentShard.start_track_doc_seq) === Number(shard.start_track_doc_seq) &&
-        Number(state.archiveCurrentShard.end_track_doc_seq) === Number(shard.end_track_doc_seq)
-      ) {
-        button.classList.add("active-pack");
-      }
-      button.innerHTML = `
-        <div class="pack-title-line">
-          <strong>Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</strong>
-          <span class="badge archived">archive</span>
-        </div>
-        <div class="pack-meta-line">${Number(shard.document_count || 0)} document(s)</div>
-      `;
-      button.addEventListener("click", () => {
-        openArchiveShard(shard).catch((error) => {
-          showStatus(`Failed to open archive shard: ${error.message}`, true);
-        });
-      });
-      el.packList.append(button);
-    }
-    return;
-  }
   if (state.currentStageId === "unified_yomi_review") {
     el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
     el.packList.innerHTML = "";
@@ -878,10 +687,6 @@ function renderPackList() {
 }
 
 function renderPackSummary() {
-  if (state.currentStageId === "archive_browser") {
-    renderArchivePackSummary();
-    return;
-  }
   const stage = state.currentStageId === "unified_yomi_review"
     ? { label: "Unified Yomi Review", review_stage: "unified_yomi_review" }
     : state.manifest.stages[state.currentStageId];
@@ -917,33 +722,6 @@ function renderPackSummary() {
     .join("");
 }
 
-function renderArchivePackSummary() {
-  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shard = state.archiveCurrentShard;
-  el.packTitle.textContent = shard
-    ? `Corpus Map ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
-    : "Corpus Map";
-  el.packBadge.textContent = "dev / read-only";
-  el.packBadge.className = "badge archived dev";
-  const cards = [
-    ["Mode", "Corpus Map"],
-    ["Track", state.archiveCurrentTrack],
-    ["Documents", String(track.document_count || 0)],
-    ["Shards", String((track.shards || []).length)],
-    ["Open Shard", shard ? `${shard.start_track_doc_seq}-${shard.end_track_doc_seq}` : "None"],
-  ];
-  el.packMeta.innerHTML = cards
-    .map(
-      ([label, value]) => `
-        <div class="meta-card">
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(value)}</dd>
-        </div>
-      `
-    )
-    .join("");
-}
-
 function renderTaskSelector() {
   if (!el.taskPickerPanel || !el.taskDocList || !el.taskSummary) {
     return;
@@ -953,15 +731,6 @@ function renderTaskSelector() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   const editable = isEditable();
   const started = isTaskStarted();
-  const usesDedicatedSelectionControls =
-    state.currentStageId === "archive_browser" || isUnifiedReviewPack(state.currentPack);
-  el.taskPickerGlobalActions?.classList.toggle("hidden", usesDedicatedSelectionControls);
-
-  if (state.currentStageId === "archive_browser") {
-    renderArchiveBrowserPanel();
-    return;
-  }
-  el.taskPickerPanel.classList.remove("archive-browser-panel");
 
   el.taskPickerPanel.classList.toggle("unified-task-picker", isUnifiedReviewPack(state.currentPack));
   el.taskPickerPanel.classList.toggle("hidden", !editable || started);
@@ -1003,1070 +772,75 @@ function renderTaskSelector() {
   el.selectAllDocs.disabled = selectAllDocs.length === 0 || selectedSelectAllCount === selectAllDocs.length;
 }
 
-function renderArchiveBrowserPanel() {
-  el.taskPickerPanel.classList.remove("hidden");
-  el.taskPickerPanel.classList.add("archive-browser-panel");
-  el.taskWorkPanels.forEach((panel) => panel.classList.add("hidden"));
-  el.taskDraftList.innerHTML = "";
-  el.taskDocList.innerHTML = "";
-  el.selectAllDocs.disabled = true;
-  el.clearDocSelection.disabled = true;
-  el.startTask.disabled = true;
-  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shards = track.shards || [];
-  if (!state.archiveCurrentShard) {
-    el.taskSummary.textContent = shards.length
-      ? "Choose a Corpus Map range from Pack History."
-      : "No finalized archive documents were published.";
-    for (const shard of shards) {
-      el.taskDocList.append(renderArchiveShardRow(shard));
+function renderUnifiedTaskQueues(docs, task) {
+  for (const queue of [
+    { stage: "yomi_final_review", title: "Bulk Review" },
+    { stage: "yomi_strong_repair_review", title: "Escalated Repair" },
+  ]) {
+    const section = document.createElement("section");
+    section.className = "task-queue-panel";
+    const queueDocs = docs.filter((doc) => doc.queue_stage === queue.stage);
+    const selectableCount = queueDocs.filter((doc) => doc.selectable !== false).length;
+    const selectedCount = selectedQueueDocCount(queue.stage, task);
+    const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queue.stage);
+    const heading = document.createElement("div");
+    heading.className = "task-queue-heading";
+    const title = document.createElement("div");
+    title.className = "task-queue-title";
+    title.innerHTML = `
+      <h3>Select ${escapeHtml(queue.title)} Task</h3>
+      <div class="muted">${selectedCount > 0
+        ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
+        : `${selectableCount}/${queueDocs.length} selectable document(s).`}</div>
+    `;
+    const actions = document.createElement("div");
+    actions.className = "button-row";
+    const selectAllButton = document.createElement("button");
+    selectAllButton.type = "button";
+    selectAllButton.className = "secondary-button";
+    selectAllButton.textContent = "Select All";
+    selectAllButton.disabled = selectableCount === 0 || selectedCount === selectableCount;
+    selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queue.stage));
+    const clearButton = document.createElement("button");
+    clearButton.type = "button";
+    clearButton.className = "secondary-button";
+    clearButton.textContent = "Clear";
+    clearButton.disabled = selectedCount === 0;
+    clearButton.addEventListener("click", () => clearQueueTaskSelection(queue.stage));
+    const startButton = document.createElement("button");
+    startButton.type = "button";
+    startButton.textContent = "Start Review Task";
+    startButton.disabled = selectedCount === 0;
+    startButton.addEventListener("click", () => startReviewTask());
+    actions.append(selectAllButton, clearButton, startButton);
+    heading.append(title, actions);
+    section.append(heading);
+    const list = document.createElement("div");
+    list.className = "task-queue-doc-list";
+    for (const doc of queueDocs) {
+      list.append(renderTaskDocumentRow(doc, task));
     }
-    return;
-  }
-  const docs = state.archiveCurrentShard.documents || [];
-  el.taskSummary.innerHTML = "";
-  const summaryText = document.createElement("span");
-  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to inspect or correct it.`;
-  el.taskSummary.append(summaryText);
-  if (hasDevYomiReviewSources()) {
-    const backButton = document.createElement("button");
-    backButton.type = "button";
-    backButton.className = "secondary-button compact-button";
-    backButton.textContent = "Back to Active Work";
-    backButton.addEventListener("click", () => {
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
-      });
-    });
-    el.taskSummary.append(backButton);
-  }
-  el.taskDocList.append(renderArchiveSearchPanel(track));
-  el.taskDocList.append(renderCorpusMapTileGrid(docs));
-}
-
-function renderArchiveSearchPanel(track) {
-  const panel = document.createElement("section");
-  panel.className = "archive-search-panel";
-  const heading = document.createElement("div");
-  heading.className = "archive-search-heading";
-  heading.innerHTML = `
-    <div>
-      <strong>Search Corpus Map</strong>
-      <p class="muted">Search finalized documents by raw source text.</p>
-    </div>
-  `;
-  const input = document.createElement("input");
-  input.type = "search";
-  input.className = "archive-search-input";
-  input.placeholder = "Search document text";
-  input.autocomplete = "off";
-  input.value = state.archiveSearchQuery || "";
-  input.disabled = !track.search_path;
-  heading.append(input);
-  panel.append(heading);
-
-  const status = document.createElement("p");
-  status.className = "archive-search-status muted";
-  status.textContent = track.search_path
-    ? "The compact search index loads after you enter a query."
-    : "No search index was published for this track.";
-  panel.append(status);
-
-  const results = document.createElement("div");
-  results.className = "archive-search-results";
-  panel.append(results);
-
-  input.addEventListener("input", () => {
-    state.archiveSearchQuery = input.value;
-    updateRuntimePollingForInteraction();
-    scheduleArchiveSearch(track, { panel, status, results });
-  });
-  if (state.archiveSearchQuery.trim()) {
-    scheduleArchiveSearch(track, { panel, status, results }, { immediate: true });
-  }
-  return panel;
-}
-
-function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
-  if (state.archiveSearchTimer) {
-    window.clearTimeout(state.archiveSearchTimer);
-  }
-  const query = state.archiveSearchQuery.trim();
-  if (!query) {
-    nodes.status.textContent = "The compact search index loads after you enter a query.";
-    nodes.results.innerHTML = "";
-    return;
-  }
-  const run = () => {
-    performArchiveSearch(track, query, nodes).catch((error) => {
-      if (!nodes.panel.isConnected) {
-        return;
-      }
-      nodes.status.textContent = `Search failed: ${error.message}`;
-      nodes.status.classList.add("error");
-    });
-  };
-  state.archiveSearchTimer = window.setTimeout(run, immediate ? 0 : 180);
-}
-
-async function performArchiveSearch(track, query, nodes) {
-  const searchPath = String(track.search_path || "");
-  if (!searchPath) {
-    return;
-  }
-  nodes.status.classList.remove("error");
-  if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
-    nodes.status.textContent = "Loading search index…";
-    state.archiveSearchIndex = await fetchJson(searchPath);
-    state.archiveSearchIndexPath = searchPath;
-  }
-  if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
-    return;
-  }
-  const normalizedQuery = normalizeArchiveSearchText(query);
-  const matches = [];
-  let totalMatches = 0;
-  for (const doc of state.archiveSearchIndex.documents || []) {
-    const hitCount = countNormalizedSearchHits(doc.text, normalizedQuery);
-    if (!hitCount) {
-      continue;
+    if (queueDocs.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "muted";
+      empty.textContent = "No documents in this queue.";
+      list.append(empty);
     }
-    totalMatches += 1;
-    if (matches.length < 100) {
-      matches.push({ ...doc, search_hit_count: hitCount });
-    }
+    section.append(list);
+    el.taskDocList.append(section);
   }
-  renderArchiveSearchResults(matches, totalMatches, query, nodes);
 }
 
-function normalizeArchiveSearchText(value) {
-  return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
-}
-
-function countNormalizedSearchHits(text, normalizedQuery) {
-  if (!normalizedQuery) {
+function selectedQueueDocCount(queueStage, task) {
+  if (task.mode !== "documents" || !task.doc_ids.length) {
     return 0;
   }
-  const normalizedText = normalizeArchiveSearchText(text);
-  let count = 0;
-  let cursor = 0;
-  while (cursor < normalizedText.length) {
-    const index = normalizedText.indexOf(normalizedQuery, cursor);
-    if (index < 0) {
-      break;
-    }
-    count += 1;
-    cursor = index + normalizedQuery.length;
-  }
-  return count;
-}
-
-function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
-  nodes.results.innerHTML = "";
-  if (!totalMatches) {
-    nodes.status.textContent = `No documents found for “${query}”.`;
-    return;
-  }
-  nodes.status.textContent = totalMatches > matches.length
-    ? `${totalMatches} document(s) found. Showing the first ${matches.length}.`
-    : `${totalMatches} document(s) found.`;
-  for (const doc of matches) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "archive-search-result";
-    const hitCount = Number(doc.search_hit_count || 0);
-    button.innerHTML = `
-      <span class="archive-search-result-heading">
-        <strong>Document ${escapeHtml(doc.track_doc_seq)}</strong>
-        <span class="archive-search-hit-count">${hitCount} ${hitCount === 1 ? "hit" : "hits"}</span>
-      </span>
-      <span class="archive-search-snippet">${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
-    `;
-    button.addEventListener("click", () => {
-      openArchiveSearchResult(doc, query).catch((error) => {
-        showStatus(`Failed to open search result: ${error.message}`, true);
-      });
-    });
-    nodes.results.append(button);
-  }
-}
-
-function archiveSearchSnippet(text, query) {
-  const compact = String(text || "").replace(/\s+/gu, " ").trim();
-  const index = normalizeArchiveSearchText(compact).indexOf(normalizeArchiveSearchText(query));
-  const start = Math.max(0, index < 0 ? 0 : index - 36);
-  const end = Math.min(compact.length, (index < 0 ? 0 : index) + String(query).length + 72);
-  return `${start > 0 ? "…" : ""}${compact.slice(start, end)}${end < compact.length ? "…" : ""}`;
-}
-
-async function openArchiveSearchResult(result, query) {
-  const shardPath = String(result.shard_path || "");
-  if (!shardPath) {
-    throw new Error("Search result has no archive shard path.");
-  }
-  if (!state.archiveCurrentShard || state.archiveCurrentShardPath !== shardPath) {
-    state.archiveCurrentShard = await fetchJson(shardPath);
-    state.archiveCurrentShardPath = shardPath;
-    render();
-  }
-  const doc = (state.archiveCurrentShard.documents || []).find(
-    (candidate) =>
-      String(candidate.doc_id || "") === String(result.doc_id || "") &&
-      Number(candidate.track_doc_seq || 0) === Number(result.track_doc_seq || 0),
-  );
-  if (!doc) {
-    throw new Error("Document was not found in its archive shard.");
-  }
-  openArchiveCorrectionEditor(doc);
-  scrollArchiveCorrectionToFirstMatch(doc, query);
-}
-
-function scrollArchiveCorrectionToFirstMatch(doc, query) {
-  const normalizedQuery = normalizeArchiveSearchText(query).trim();
-  if (!normalizedQuery) {
-    return;
-  }
-  const unitIndex = (doc.units || []).findIndex((unit) =>
-    normalizeArchiveSearchText(unit.text).includes(normalizedQuery),
-  );
-  if (unitIndex < 0) {
-    return;
-  }
-  const target = el.workflowPreviewBody?.querySelector(
-    `.archive-correction-row[data-unit-index="${unitIndex}"]`,
-  );
-  if (!target) {
-    return;
-  }
-  target.classList.add("search-match");
-  window.requestAnimationFrame(() => {
-    target.scrollIntoView({ block: "center", behavior: "auto" });
-  });
-}
-
-function renderArchiveShardRow(shard) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "task-doc-row archive-shard-row";
-  button.innerHTML = `
-    <span class="task-doc-title">Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
-    <span class="task-doc-meta">${Number(shard.document_count || 0)} document(s)</span>
-  `;
-  button.addEventListener("click", () => {
-    openArchiveShard(shard).catch((error) => {
-      showStatus(`Failed to open archive shard: ${error.message}`, true);
-    });
-  });
-  return button;
-}
-
-function renderCorpusMapTileGrid(docs) {
-  const wrap = document.createElement("div");
-  wrap.className = "workflow-tile-grid corpus-map-grid";
-  for (const doc of docs) {
-    const tile = document.createElement("button");
-    tile.type = "button";
-    const correctionCount = Number(doc.finalized_correction_count || 0);
-    const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-    const manualCorrectionCount = Number(doc.manual_correction_required_count || 0);
-    const localCorrection = archiveCorrectionRecordForDoc(doc);
-    tile.className = "workflow-doc-tile resolved corpus-map-tile";
-    tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
-    tile.classList.toggle("has-local-correction", localCorrection?.status === "draft");
-    tile.classList.toggle("has-submitted-correction", localCorrection?.status === "submitted");
-    tile.classList.toggle("has-manual-corrections", manualCorrectionCount > 0);
-    tile.innerHTML = `
-      <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
-      <strong>${escapeHtml(doc.track_doc_seq)}</strong>
-      ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
-      ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
-      ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "sent" : "edit"}</em>` : ""}
-    `;
-    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
-      correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-    }${manualCorrectionCount ? `\n${manualCorrectionCount} manual correction(s) required` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
-    tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
-    wrap.append(tile);
-  }
-  return wrap;
-}
-
-function formatArchiveCorrectionSummary(count, sentenceCount) {
-  const corrections = Number(count || 0);
-  const sentences = Number(sentenceCount || 0);
-  return `${corrections} correction${corrections === 1 ? "" : "s"} · ${sentences} sentence${sentences === 1 ? "" : "s"} changed`;
-}
-
-function archiveCorrectionDocKey(doc) {
-  return [
-    state.archiveCurrentTrack || "dev",
-    String(doc.track_doc_seq || ""),
-    String(doc.doc_id || ""),
-  ].join("::");
-}
-
-function loadArchiveCorrectionStore() {
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(archiveCorrectionStorageKey) || "{}");
-    const records = parsed && typeof parsed.records === "object" && parsed.records ? { ...parsed.records } : {};
-    let migrated = Number(parsed?.schema_version || 1) !== archiveCorrectionStoreSchemaVersion;
-    for (const [key, record] of Object.entries(records)) {
-      if (record?.status === "submitted" && !record?.submission_id) {
-        delete records[key];
-        migrated = true;
-      }
-    }
-    const store = {
-      schema_version: archiveCorrectionStoreSchemaVersion,
-      records,
-    };
-    if (migrated) {
-      saveArchiveCorrectionStore(store);
-    }
-    return store;
-  } catch {
-    window.localStorage.removeItem(archiveCorrectionStorageKey);
-    return { schema_version: archiveCorrectionStoreSchemaVersion, records: {} };
-  }
-}
-
-function saveArchiveCorrectionStore(store) {
-  if (Object.keys(store.records || {}).length) {
-    window.localStorage.setItem(archiveCorrectionStorageKey, JSON.stringify(store));
-  } else {
-    window.localStorage.removeItem(archiveCorrectionStorageKey);
-  }
-}
-
-function archiveCorrectionRecordForDoc(doc) {
-  const store = loadArchiveCorrectionStore();
-  const key = archiveCorrectionDocKey(doc);
-  const record = store.records[key];
-  if (!record) {
-    return null;
-  }
-  if (record.status === "draft" && !record.submission_id) {
-    store.records[key] = {
-      ...record,
-      schema_version: archiveCorrectionStoreSchemaVersion,
-      submission_id: newArchiveCorrectionSubmissionId(doc),
-      base_archive_revision: record.base_archive_revision || doc.archive_revision || "",
-    };
-    saveArchiveCorrectionStore(store);
-  }
-  const currentRecord = store.records[key];
-  const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
-  if (
-    currentRecord.status === "submitted" &&
-    currentRecord.submission_id &&
-    (currentRecord.units || []).length > 0 &&
-    (currentRecord.units || []).every((saved) => {
-      const current = currentUnits.get(String(saved.unit_id || ""));
-      return (current?.applied_finalized_correction_submission_ids || []).includes(currentRecord.submission_id);
-    })
-  ) {
-    delete store.records[key];
-    saveArchiveCorrectionStore(store);
-    return null;
-  }
-  if (currentRecord.status === "submitted" && currentRecord.submission_id) {
-    return currentRecord;
-  }
-  const remaining = (currentRecord.units || []).filter((saved) => {
-    const current = currentUnits.get(String(saved.unit_id || ""));
-    if (saved.skip === false && current?.skipped) {
-      return true;
-    }
-    return !current || !yomiTokenPairsEqual(
-      archiveUnitYomiTokenPairs(current),
-      correctionRecordTokenPairs(saved, "proposed"),
-    );
-  });
-  if (remaining.length === 0) {
-    delete store.records[key];
-    saveArchiveCorrectionStore(store);
-    return null;
-  }
-  if (remaining.length !== (currentRecord.units || []).length) {
-    store.records[key] = { ...currentRecord, units: remaining };
-    saveArchiveCorrectionStore(store);
-  }
-  return store.records[key];
-}
-
-function persistArchiveCorrectionDraft(doc) {
-  const parsed = collectArchiveCorrectionChanges(doc);
-  const store = loadArchiveCorrectionStore();
-  const key = archiveCorrectionDocKey(doc);
-  if (!parsed.ok) {
-    delete store.records[key];
-    saveArchiveCorrectionStore(store);
-    return null;
-  }
-  const now = Math.floor(Date.now() / 1000);
-  const previous = store.records[key] || {};
-  const submissionId =
-    previous.status === "draft" && previous.submission_id
-      ? previous.submission_id
-      : newArchiveCorrectionSubmissionId(doc);
-  store.records[key] = {
-    schema_version: archiveCorrectionStoreSchemaVersion,
-    submission_id: submissionId,
-    track_name: state.archiveCurrentTrack || "dev",
-    doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
-    batch_name: doc.batch_name || "",
-    archive_shard: state.archiveCurrentShardPath || "",
-    base_archive_revision: doc.archive_revision || "",
-    status: "draft",
-    units: parsed.changedUnits,
-    created_at_epoch: previous.created_at_epoch || now,
-    updated_at_epoch: now,
-  };
-  delete store.records[key].submitted_at_epoch;
-  saveArchiveCorrectionStore(store);
-  return store.records[key];
-}
-
-function newArchiveCorrectionSubmissionId(doc) {
-  const randomPart = globalThis.crypto?.randomUUID?.().replaceAll("-", "") ||
-    `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
-  const track = String(state.archiveCurrentTrack || "dev").replace(/[^A-Za-z0-9_-]+/g, "_");
-  const seq = Number(doc.track_doc_seq || 0) || "unknown";
-  return `finalized_correction__client__${track}_${seq}__${randomPart}`;
-}
-
-function markArchiveCorrectionSubmitted(key) {
-  const store = loadArchiveCorrectionStore();
-  const record = store.records[key];
-  if (!record) {
-    showStatus("The correction draft no longer exists locally.", true);
-    return;
-  }
-  store.records[key] = {
-    ...record,
-    status: "submitted",
-    submitted_at_epoch: Math.floor(Date.now() / 1000),
-  };
-  saveArchiveCorrectionStore(store);
-  closeWorkflowDocumentPreview();
-  render();
-  showStatus("Correction marked submitted locally. It remains visible until the server applies it.");
-}
-
-function archiveCorrectionIsEditing() {
-  if (el.workflowPreviewModal?.classList.contains("hidden")) {
-    return false;
-  }
-  const active = document.activeElement;
-  if (active?.closest?.(".archive-correction-editor")) {
-    return true;
-  }
-  return Boolean(el.workflowPreviewBody?.querySelector?.(".archive-correction-editor:not(.hidden)"));
-}
-
-function archiveCorrectionHasUnsavedEdits() {
-  if (el.workflowPreviewModal?.classList.contains("hidden")) {
-    return false;
-  }
-  const editors = el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-editor:not(.hidden)") || [];
-  return [...editors].some((editor) => {
-    const row = editor.closest(".archive-correction-row");
-    const textarea = editor.querySelector(".archive-correction-unit-textarea");
-    if (!row || !textarea) {
-      return false;
-    }
-    const baseline = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
-    return String(textarea.value || "").trim() !== String(baseline).trim();
-  });
-}
-
-function openArchiveCorrectionEditor(doc) {
-  const units = doc.units || [];
-  const localCorrection = archiveCorrectionRecordForDoc(doc);
-  el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
-  const correctionCount = Number(doc.finalized_correction_count || 0);
-  const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request${
-    correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-  }${doc.manual_correction_required_count ? ` · ${doc.manual_correction_required_count} manual correction(s) required` : ""}`;
-  el.workflowPreviewBody.innerHTML = "";
-
-  const intro = document.createElement("p");
-  intro.className = "muted archive-correction-help";
-  intro.textContent =
-    "Choose the finalized unit(s) to correct. This editor changes yomi inside existing units only; boundary changes are a separate future workflow.";
-  el.workflowPreviewBody.append(intro);
-
-  if (localCorrection) {
-    const localState = document.createElement("p");
-    localState.className = `archive-correction-local-state ${localCorrection.status}`;
-    localState.textContent = localCorrection.status === "submitted"
-      ? "Submitted locally; waiting for server-side Issue import. You may edit and resubmit it."
-      : "Local correction draft restored from this browser.";
-    el.workflowPreviewBody.append(localState);
-  }
-
-  const list = document.createElement("div");
-  list.className = "archive-correction-list";
-  for (const [index, unit] of units.entries()) {
-    list.append(renderArchiveCorrectionRow(unit, index, doc, localCorrection));
-  }
-  el.workflowPreviewBody.append(list);
-
-  const validation = document.createElement("p");
-  validation.className = "archive-correction-validation muted";
-  validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "Edit and save one or more units, then copy JSON and open an Issue.";
-  el.workflowPreviewBody.append(validation);
-
-  el.workflowPreviewActions.innerHTML = "";
-  const copyOnlyButton = document.createElement("button");
-  copyOnlyButton.type = "button";
-  copyOnlyButton.className = "secondary-button";
-  copyOnlyButton.textContent = "Copy JSON";
-  copyOnlyButton.dataset.archiveCorrectionExport = "true";
-  copyOnlyButton.disabled = true;
-  copyOnlyButton.addEventListener("click", async () => {
-    await copyArchiveCorrectionPayload(doc, { openIssue: false });
-  });
-
-  const openIssueButton = document.createElement("button");
-  openIssueButton.type = "button";
-  openIssueButton.textContent = "Copy JSON and Open Issue";
-  openIssueButton.dataset.archiveCorrectionExport = "true";
-  openIssueButton.disabled = true;
-  openIssueButton.addEventListener("click", async () => {
-    await copyArchiveCorrectionPayload(doc, { openIssue: true });
-  });
-
-  const note = document.createElement("p");
-  note.className = "muted";
-  note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
-  el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
-  updateArchiveCorrectionSummary();
-  el.workflowPreviewModal.classList.remove("hidden");
-  const firstManualCorrection = list.querySelector(".archive-correction-row.manual-correction-required");
-  if (firstManualCorrection) {
-    window.requestAnimationFrame(() => {
-      firstManualCorrection.scrollIntoView({ block: "center", behavior: "auto" });
-    });
-  }
-  updateRuntimePollingForInteraction();
-}
-
-function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
-  const row = document.createElement("article");
-  row.className = "archive-correction-row";
-  row.dataset.unitIndex = String(index);
-  row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
-  row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
-
-  const summary = document.createElement("div");
-  summary.className = "archive-correction-row-summary";
-  const rubyLine = document.createElement("div");
-  rubyLine.className = "ruby-line resolved-ruby-line";
-  const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
-  const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
-  if (originalTokenPairs.length) {
-    rubyLine.append(
-      ...renderReadonlyRubyFromTokensWithNodes(yomiTokenPairObjects(originalTokenPairs), unit.ruby_tokens || []),
-    );
-  } else {
-    rubyLine.textContent = unit.text || "";
-  }
-  const editButton = document.createElement("button");
-  editButton.type = "button";
-  editButton.className = "secondary-button compact-button";
-  editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
-  if (unit.skipped) {
-    editButton.title = "Restore this skipped sentence and edit its preserved hybrid yomi";
-  }
-  editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
-  const actions = document.createElement("div");
-  actions.className = "archive-correction-row-actions";
-  if (unit.skipped) {
-    const skipped = document.createElement("span");
-    skipped.className = "skipped-tombstone-label";
-    skipped.textContent = "Skipped";
-    actions.append(skipped);
-  }
-  if (unit.manual_correction_required) {
-    const flag = document.createElement("span");
-    flag.className = "manual-correction-row-flag";
-    flag.textContent = "⚑";
-    flag.title = "Requires later manual correction";
-    flag.setAttribute("aria-label", "Requires later manual correction");
-    actions.append(flag);
-  }
-  actions.append(editButton);
-  summary.append(rubyLine, actions);
-
-  const saved = document.createElement("div");
-  saved.className = "archive-correction-saved hidden";
-  saved.innerHTML = `
-    <strong>Rendered Yomi</strong>
-    <code></code>
-  `;
-
-  const editor = document.createElement("div");
-  editor.className = "archive-correction-editor hidden";
-  editor.dataset.originalYomi = originalEditableYomi;
-  editor.innerHTML = `
-    <label>
-      <span>Rendered yomi</span>
-      <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(originalEditableYomi)}</textarea>
-    </label>
-    <p class="archive-correction-row-validation muted">No change yet.</p>
-    <div class="archive-correction-editor-actions">
-      <button type="button" class="secondary-button compact-button" data-archive-correction-save>Save</button>
-      <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>Cancel</button>
-    </div>
-  `;
-  const textarea = editor.querySelector(".archive-correction-unit-textarea");
-  textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
-  editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
-  editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
-
-  row.append(summary, saved, editor);
-  const restored = (localCorrection?.units || []).find(
-    (savedUnit) =>
-      String(savedUnit.unit_id || "") === String(unit.unit_id || "") &&
-      String(savedUnit.text || "") === String(unit.text || "") &&
-      yomiTokenPairsEqual(correctionRecordTokenPairs(savedUnit, "original"), originalTokenPairs),
-  );
-  const restoredProposed = restored ? serializeEditableYomiTokens(correctionRecordTokenPairs(restored, "proposed")) : "";
-  if (restoredProposed || restored?.skip === false) {
-    row.dataset.proposedYomi = restoredProposed;
-    row.dataset.restoreSkip = restored?.skip === false ? "true" : row.dataset.restoreSkip || "";
-    row.classList.add("changed");
-    row.classList.toggle("submitted", localCorrection.status === "submitted");
-    textarea.value = restoredProposed;
-    renderArchiveCorrectionSavedYomi(row);
-  }
-  return row;
-}
-
-function openArchiveCorrectionRowEditor(row, unit) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const button = row.querySelector(".archive-correction-row-summary button");
-  if (!editor || !button) {
-    return;
-  }
-  const textarea = editor.querySelector(".archive-correction-unit-textarea");
-  if (textarea) {
-    textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
-  }
-  editor.classList.remove("hidden");
-  button.disabled = true;
-  updateArchiveCorrectionRowState(row, unit);
-  textarea?.focus();
-}
-
-function updateArchiveCorrectionRowState(row, unit) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (!editor || !textarea || !validationNode) {
-    return;
-  }
-  const original = editor.dataset.originalYomi || "";
-  const proposed = String(textarea.value || "").trim();
-  const saved = row.dataset.proposedYomi || "";
-  const baseline = saved || original;
-  const changed = proposed !== original;
-  const dirty = proposed !== baseline;
-  row.classList.remove("invalid");
-  validationNode.classList.remove("error");
-  validationNode.textContent = !dirty
-    ? row.classList.contains("changed")
-      ? "Saved."
-      : "No change yet."
-    : changed
-      ? "Unsaved edit. Save to validate and include it in the Issue JSON."
-      : "Unsaved edit clears the saved correction if saved.";
-  updateArchiveCorrectionSummary();
-}
-
-function collectArchiveCorrectionChanges(doc) {
-  const units = doc.units || [];
-  const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
-  const changedUnits = [];
-  for (const row of rows) {
-    const proposed = String(row.dataset.proposedYomi || "").trim();
-    const restoreSkip = row.dataset.restoreSkip === "true";
-    if (!proposed && !restoreSkip) {
-      continue;
-    }
-    const index = Number(row.dataset.unitIndex);
-    const unit = units[index];
-    const editor = row.querySelector(".archive-correction-editor");
-    const original = String(editor.dataset.originalYomi || "").trim();
-    if (!unit || (proposed === original && !restoreSkip)) {
-      continue;
-    }
-    const validation = validateRenderedYomiCorrection(unit, proposed);
-    if (!validation.ok) {
-      return { ok: false, error: `Unit ${unit.unit_id || index + 1}: ${validation.error}` };
-    }
-    changedUnits.push({
-      unit_id: String(unit.unit_id || ""),
-      unit_seq: Number(unit.unit_seq || index + 1),
-      text: unit.text || "",
-      original_yomi_tokens: archiveUnitYomiTokenPairs(unit),
-      proposed_yomi_tokens: validation.tokens,
-      ...(restoreSkip ? { skip: false } : {}),
-    });
-  }
-  if (!changedUnits.length) {
-    return { ok: false, error: "No yomi changes found." };
-  }
-  return { ok: true, changedUnits };
-}
-
-function saveArchiveCorrectionRow(row, unit, doc) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (!editor || !textarea || !validationNode) {
-    return;
-  }
-  const original = String(editor.dataset.originalYomi || "").trim();
-  const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
-  textarea.value = proposed;
-  if (proposed === original && !unit.skipped) {
-    clearArchiveCorrectionRow(row, doc);
-    return;
-  }
-  const validation = validateRenderedYomiCorrection(unit, proposed);
-  if (!validation.ok) {
-    row.classList.add("invalid");
-    validationNode.textContent = validation.error;
-    validationNode.classList.add("error");
-    updateArchiveCorrectionSummary();
-    return;
-  }
-  row.dataset.proposedYomi = proposed;
-  if (unit.skipped) {
-    row.dataset.restoreSkip = "true";
-  }
-  row.classList.add("changed");
-  row.classList.remove("invalid", "submitted");
-  validationNode.textContent = "Saved.";
-  validationNode.classList.remove("error");
-  renderArchiveCorrectionSavedYomi(row);
-  closeArchiveCorrectionRowEditor(row);
-  persistArchiveCorrectionDraft(doc);
-  updateArchiveCorrectionSummary();
-}
-
-function clearArchiveCorrectionRow(row, doc = null) {
-  delete row.dataset.proposedYomi;
-  row.classList.remove("changed", "invalid");
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  const validationNode = editor?.querySelector(".archive-correction-row-validation");
-  if (textarea && editor) {
-    textarea.value = editor.dataset.originalYomi || "";
-  }
-  if (validationNode) {
-    validationNode.textContent = "No change yet.";
-    validationNode.classList.remove("error");
-  }
-  renderArchiveCorrectionSavedYomi(row);
-  closeArchiveCorrectionRowEditor(row);
-  if (doc) {
-    persistArchiveCorrectionDraft(doc);
-  }
-  updateArchiveCorrectionSummary();
-}
-
-function cancelArchiveCorrectionRowEdit(row) {
-  const editor = row.querySelector(".archive-correction-editor");
-  const textarea = editor?.querySelector(".archive-correction-unit-textarea");
-  if (editor && textarea) {
-    const baseline = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
-    const proposed = String(textarea.value || "").trim();
-    if (proposed !== baseline && !window.confirm("Discard the unsaved yomi edit?")) {
-      return;
-    }
-    textarea.value = baseline;
-    const validationNode = editor.querySelector(".archive-correction-row-validation");
-    if (validationNode) {
-      validationNode.textContent = row.classList.contains("changed") ? "Saved." : "No change yet.";
-      validationNode.classList.remove("error");
-    }
-    row.classList.remove("invalid");
-  }
-  closeArchiveCorrectionRowEditor(row);
-  updateArchiveCorrectionSummary();
-}
-
-function closeArchiveCorrectionRowEditor(row) {
-  row.querySelector(".archive-correction-editor")?.classList.add("hidden");
-  const button = row.querySelector(".archive-correction-row-summary button");
-  if (button) {
-    button.disabled = false;
-  }
-}
-
-function renderArchiveCorrectionSavedYomi(row) {
-  const saved = row.querySelector(".archive-correction-saved");
-  const code = saved?.querySelector("code");
-  if (!saved || !code) {
-    return;
-  }
-  const proposed = row.dataset.proposedYomi || "";
-  saved.classList.toggle("hidden", !proposed);
-  code.textContent = proposed;
-}
-
-function updateArchiveCorrectionSummary() {
-  const summary = el.workflowPreviewBody?.querySelector?.("[data-archive-correction-summary='true']");
-  if (!summary) {
-    return;
-  }
-  const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
-  const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
-  const openEditors = el.workflowPreviewBody.querySelectorAll(".archive-correction-editor:not(.hidden)").length;
-  const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
-  const canExport = changed > 0 && invalid === 0 && openEditors === 0;
-  for (const button of exportButtons) {
-    button.disabled = !canExport;
-  }
-  if (invalid) {
-    summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
-    summary.classList.add("error");
-    return;
-  }
-  if (openEditors) {
-    summary.textContent = "Save or cancel the open editor before exporting.";
-    summary.classList.add("error");
-    return;
-  }
-  summary.textContent = changed
-    ? `${changed} changed unit(s) ready for correction Issue.`
-    : "Edit and save one or more units, then copy JSON and open an Issue.";
-  summary.classList.remove("error");
-}
-
-function validateRenderedYomiCorrection(unit, proposed) {
-  if (!proposed) {
-    return { ok: false, error: "rendered yomi is empty." };
-  }
-  const tokens = parseRenderedYomiCorrectionTokens(proposed);
-  if (!tokens.length) {
-    return { ok: false, error: "rendered yomi has no tokens." };
-  }
-  const surfaceText = [];
-  const baselinePairCounts = new Map();
-  for (const [surface, reading] of archiveUnitYomiTokenPairs(unit)) {
-    const key = JSON.stringify([surface, reading]);
-    baselinePairCounts.set(key, (baselinePairCounts.get(key) || 0) + 1);
-  }
-  for (const token of tokens) {
-    if (!token.ok) {
-      return { ok: false, error: token.error };
-    }
-    const baselineKey = JSON.stringify([token.surface, token.reading]);
-    const baselineCount = baselinePairCounts.get(baselineKey) || 0;
-    if (baselineCount) {
-      baselinePairCounts.set(baselineKey, baselineCount - 1);
-    } else {
-      const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
-      if (!readingValidation.ok) {
-        return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
-      }
-    }
-    surfaceText.push(token.surface);
-  }
-  const originalSurfaceText = archiveUnitYomiTokenPairs(unit).map(([surface]) => surface).join("");
-  const expectedText = normalizeCorrectionSourceText(originalSurfaceText || unit.text || "");
-  const proposedText = normalizeCorrectionSourceText(surfaceText.join(""));
-  if (expectedText && proposedText !== expectedText) {
-    return {
-      ok: false,
-      error: `source text changed: got ${proposedText}, expected ${expectedText}.`,
-    };
-  }
-  return { ok: true, tokens: tokens.map((token) => [token.surface, token.reading]) };
-}
-
-function parseRenderedYomiCorrectionTokens(rendered) {
-  return String(rendered || "")
-    .trim()
-    .split(/[ \t\r\n]+/)
-    .filter(Boolean)
-    .map((raw) => {
-      if (raw === "/") {
-        return { ok: true, raw, surface: " ", reading: "" };
-      }
-      const parsed = splitEditableYomiToken(raw);
-      return parsed.ok ? { ...parsed, raw } : { ...parsed, raw, error: `token ${raw}: ${parsed.error}` };
-    });
-}
-
-function normalizeRenderedYomiCorrectionReadings(rendered) {
-  const tokens = parseRenderedYomiCorrectionTokens(rendered);
-  if (!tokens.length || tokens.some((token) => !token.ok)) {
-    return String(rendered || "").trim();
-  }
-  return serializeEditableYomiTokens(tokens.map((token) => [token.surface, hiraganaToKatakana(token.reading)]));
-}
-
-function normalizeCorrectionSourceText(value) {
-  return String(value || "").replace(/[ \t\r\n\u00a0]+/g, "");
-}
-
-function hiraganaToKatakana(value) {
-  return String(value || "").replace(/[ぁ-ゖ]/gu, (char) =>
-    String.fromCharCode(char.charCodeAt(0) + 0x60),
-  );
-}
-
-function validateRenderedYomiReading(surface, reading) {
-  if (/^[ \u00a0\u3000]+$/u.test(surface)) {
-    return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
-      ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
-      : { ok: true };
-  }
-  if (isNumericOnlySurface(surface)) {
-    return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
-  }
-  const numericReadings = numericCompoundReadings(surface);
-  if (numericReadings) {
-    return numericReadings.includes(reading)
-      ? { ok: true }
-      : { ok: false, error: `reading should be one of ${numericReadings.join(", ")}.` };
-  }
-  if (reading === "カオモジ") {
-    return isSymbolicKaomojiCorrectionSurface(surface)
-      ? { ok: true }
-      : { ok: false, error: "カオモジ is reserved for symbolic kaomoji surfaces." };
-  }
-  if (isStandaloneLaughterW(surface) && !reading) {
-    return { ok: true };
-  }
-  if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
-    if (!reading) {
-      return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
-    }
-    return /^[ァ-ヺー]+$/u.test(reading)
-      ? { ok: true }
-      : { ok: false, error: "reading for kanji or alphabetic surfaces must be katakana." };
-  }
-  const expected = surface.replace(/[ぁ-ゖ]/gu, (char) => hiraganaToKatakana(char));
-  if (reading === expected) {
-    return { ok: true };
-  }
-  return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
-}
-
-function isSymbolicKaomojiCorrectionSurface(surface) {
-  return (
-    [...String(surface || "")].length >= 3 &&
-    !/^(?:\([ぁ-ゖァ-ヺ一-龯々〆]+\)|（[ぁ-ゖァ-ヺ一-龯々〆]+）)$/u.test(surface) &&
-    /[^\p{L}\p{N}\s]/u.test(surface)
-  );
-}
-
-function numericCompoundReadings(surface) {
-  const normalized = String(surface || "").replace(/[０-９]/gu, (char) =>
-    String.fromCharCode(char.charCodeAt(0) - 0xfee0),
-  );
-  return {
-    "1日": ["イチニチ", "ツイタチ"],
-    "2日": ["フツカ"],
-    "3日": ["ミッカ"],
-    "4日": ["ヨッカ"],
-    "5日": ["イツカ"],
-    "6日": ["ムイカ"],
-    "7日": ["ナノカ"],
-    "8日": ["ヨウカ"],
-    "9日": ["ココノカ"],
-    "10日": ["トオカ"],
-    "14日": ["ジュウヨッカ"],
-    "20日": ["ハツカ"],
-    "24日": ["ニジュウヨッカ"],
-    "1人": ["ヒトリ"],
-    "2人": ["フタリ"],
-    "1つ": ["ヒトツ"],
-    "2つ": ["フタツ"],
-    "3つ": ["ミッツ"],
-    "4つ": ["ヨッツ"],
-    "5つ": ["イツツ"],
-    "6つ": ["ムッツ"],
-    "7つ": ["ナナツ"],
-    "8つ": ["ヤッツ"],
-    "9つ": ["ココノツ"],
-  }[normalized] || null;
-}
-
-function isNumericOnlySurface(surface) {
-  // ASCII Roman-looking strings such as "I" and "III" stay alphabetic because
-  // they are ambiguous. Single Japanese numeral kanji stay lexical, while
-  // multi-character digit runs and circle zero belong to the numeric layer.
-  const value = String(surface || "");
-  if (!/^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇○零一二三四五六七八九]+$/u.test(value)) {
-    return false;
-  }
-  if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
-    return true;
-  }
-  return [...value].length >= 2 || value === "〇" || value === "○";
-}
-
-function isStandaloneLaughterW(surface) {
-  return /^[wｗ]+$/iu.test(String(surface || ""));
-}
-
-function archiveCorrectionIssueTitle(doc) {
-  const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
-  return `[yomi-correction] dev document ${seq}`;
-}
-
-function buildArchiveCorrectionPayload(doc, parsed) {
-  const localRecord = archiveCorrectionRecordForDoc(doc);
-  return {
-    submission_type: "finalized_correction_patch",
-    schema_version: 2,
-    submission_id: localRecord?.submission_id || newArchiveCorrectionSubmissionId(doc),
-    track_name: state.archiveCurrentTrack || "dev",
-    review_stage: "finalized_correction",
-    doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
-    batch_name: doc.batch_name || "",
-    generated_at_epoch: Math.floor(Date.now() / 1000),
-    base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
-    source: {
-      archive_index_path: state.manifest?.archive?.index_path || "",
-      archive_shard: state.archiveCurrentShardPath || "",
-      page_url: window.location.href,
-    },
-    units: parsed.changedUnits,
-  };
-}
-
-async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
-  const parsed = collectArchiveCorrectionChanges(doc);
-  if (!parsed.ok) {
-    showStatus(parsed.error, true);
-    return false;
-  }
-  const payload = buildArchiveCorrectionPayload(doc, parsed);
-  const copied = await copyTextToClipboard(formatSubmissionJson(payload));
-  if (openIssue) {
-    openUrlInNewTab(buildGithubIssueUrl(archiveCorrectionIssueTitle(doc)));
-    state.pendingArchiveCorrectionKey = archiveCorrectionDocKey(doc);
-    state.pendingIssueTaskId = null;
-  }
-  showStatus(
-    copied
-      ? "Correction JSON copied. Paste it into the GitHub issue body."
-      : "Clipboard copy failed. Copy the correction JSON manually from the editor.",
-    !copied,
-  );
-  return copied;
+  return buildActionableDocumentTasks(state.currentPack).filter(
+    (doc) =>
+      doc.queue_stage === queueStage &&
+      doc.selectable !== false &&
+      task.doc_ids.includes(taskDocKey(doc)),
+  ).length;
 }
 
 function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
@@ -2111,21 +885,13 @@ function renderWorkflowPackMap(docs) {
         <h3>Pack Map</h3>
         <p class="muted">Status of all documents in this pack.</p>
       </div>
-      <div class="workflow-heading-actions">
-        <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>Resolved</span>
-          <span><span class="workflow-dot strong"></span>Escalated Repair</span>
-          <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
-        </div>
-        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">Corpus Map</button>' : ''}
+      <div class="workflow-legend-inline">
+        <span><span class="workflow-dot resolved"></span>Resolved</span>
+        <span><span class="workflow-dot strong"></span>Escalated Repair</span>
+        <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
       </div>
     </div>
   `;
-  section.querySelector(".corpus-map-link")?.addEventListener("click", () => {
-    openArchiveBrowser().catch((error) => {
-      showStatus(`Failed to open Corpus Map: ${error.message}`, true);
-    });
-  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
@@ -2270,11 +1036,7 @@ function renderWorkflowResolvedPanel(docs) {
       <strong>Doc ${escapeHtml(String(row.display_seq))}</strong>
       <span>${escapeHtml(row.completed_via || "Resolved")}</span>
     `;
-    item.addEventListener("click", () => {
-      openWorkflowDocumentPreview(row.display_seq).catch((error) => {
-        showStatus(`Failed to open document preview: ${error.message}`, true);
-      });
-    });
+    item.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
     list.append(item);
   }
   section.append(list);
@@ -2286,31 +1048,23 @@ function renderWorkflowTile(row, { compact }) {
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
   tile.classList.toggle("submitted", Boolean(row.submitted));
-  tile.classList.toggle("apply-failed", Boolean(row.apply_failed));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
-    ${row.apply_failed ? '<em class="workflow-apply-failed-badge">Apply failed</em>' : ""}
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
-  } else if (row.apply_failed) {
-    tile.title = "The submitted correction could not be applied. Its GitHub issue remains open.";
   } else if (row.submitted) {
     tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
   }
   if (!compact) {
-    tile.addEventListener("click", () => {
-      openWorkflowDocumentPreview(row.display_seq).catch((error) => {
-        showStatus(`Failed to open document preview: ${error.message}`, true);
-      });
-    });
+    tile.addEventListener("click", () => openWorkflowDocumentPreview(row.display_seq));
   }
   return tile;
 }
 
-async function openWorkflowDocumentPreview(displaySeq) {
+function openWorkflowDocumentPreview(displaySeq) {
   if (!el.workflowPreviewModal || !state.currentPack) {
     return;
   }
@@ -2320,21 +1074,12 @@ async function openWorkflowDocumentPreview(displaySeq) {
     return;
   }
   const previewItems = workflowPreviewItemsForDocument(row);
-  const archivedDocument = row.status === "resolved"
-    ? await loadArchivedWorkflowDocument(row)
-    : null;
   const actionDoc = workflowPreviewActionDocument(docs, row);
   const previewDraft = workflowPreviewDraftForRow(row);
   el.workflowPreviewTitle.textContent = `Document ${row.display_seq}`;
-  el.workflowPreviewMeta.textContent = workflowPreviewMetaText(
-    row,
-    archivedDocument?.units || previewItems,
-    actionDoc,
-  );
+  el.workflowPreviewMeta.textContent = workflowPreviewMetaText(row, previewItems, actionDoc);
   el.workflowPreviewBody.innerHTML = "";
-  if (archivedDocument) {
-    renderArchivedWorkflowDocumentPreview(archivedDocument, el.workflowPreviewBody);
-  } else if (previewItems.length === 0) {
+  if (previewItems.length === 0) {
     const empty = document.createElement("p");
     empty.className = "muted";
     empty.textContent = row.preview || "No review items were published for this document.";
@@ -2373,66 +1118,6 @@ async function openWorkflowDocumentPreview(displaySeq) {
   }
 
   el.workflowPreviewModal.classList.remove("hidden");
-  updateRuntimePollingForInteraction();
-}
-
-async function loadArchivedWorkflowDocument(row) {
-  if (!hasReviewArchive()) {
-    return null;
-  }
-  if (!state.archiveIndex) {
-    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
-  }
-  const trackName = state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev";
-  const track = state.archiveIndex?.tracks?.[trackName];
-  const displaySeq = Number(row.display_seq || 0);
-  const shard = (track?.shards || []).find(
-    (candidate) =>
-      displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
-      displaySeq <= Number(candidate.end_track_doc_seq || 0),
-  );
-  if (!shard?.path) {
-    return null;
-  }
-  let payload = state.archiveShardCache.get(shard.path);
-  if (!payload) {
-    payload = await fetchJson(shard.path);
-    state.archiveShardCache.set(shard.path, payload);
-  }
-  return (payload.documents || []).find(
-    (doc) =>
-      Number(doc.track_doc_seq || 0) === displaySeq &&
-      (!row.doc_id || String(doc.doc_id || "") === String(row.doc_id)),
-  ) || null;
-}
-
-function renderArchivedWorkflowDocumentPreview(doc, container) {
-  for (const unit of doc.units || []) {
-    const node = document.createElement("article");
-    node.className = "workflow-preview-item resolved-yomi-preview";
-    node.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
-    const rubyLine = document.createElement("p");
-    rubyLine.className = "ruby-line resolved-ruby-line";
-    const tokenPairs = archiveUnitYomiTokenPairs(unit);
-    if (tokenPairs.length) {
-      rubyLine.append(
-        ...renderReadonlyRubyFromTokensWithNodes(
-          yomiTokenPairObjects(tokenPairs),
-          unit.ruby_tokens || [],
-        ),
-      );
-    } else {
-      rubyLine.textContent = unit.text || "";
-    }
-    node.append(rubyLine);
-    if (unit.skipped) {
-      const label = document.createElement("span");
-      label.className = "skipped-tombstone-label";
-      label.textContent = "Skipped";
-      node.append(label);
-    }
-    container.append(node);
-  }
 }
 
 function withTemporaryPreviewDraft(previewDraft, callback) {
@@ -2489,21 +1174,6 @@ function workflowDocKeysForSeq(displaySeq) {
 
 function closeWorkflowDocumentPreview() {
   el.workflowPreviewModal?.classList.add("hidden");
-  if (state.currentStageId === "archive_browser") {
-    render();
-  }
-  updateRuntimePollingForInteraction();
-}
-
-function requestCloseWorkflowDocumentPreview() {
-  if (
-    archiveCorrectionHasUnsavedEdits() &&
-    !window.confirm("Discard unsaved yomi edits and close? Saved local drafts will be kept.")
-  ) {
-    return false;
-  }
-  closeWorkflowDocumentPreview();
-  return true;
 }
 
 function workflowPreviewItemsForDocument(row) {
@@ -2571,9 +1241,6 @@ function workflowPreviewActionDocument(docs, row) {
 }
 
 function workflowPreviewMetaText(row, items, actionDoc) {
-  if (row.apply_failed) {
-    return `Apply failed · ${items.length} item(s) · reopen after the server-side problem is fixed`;
-  }
   const statusLabel = row.status === "strong"
     ? "Escalated Repair"
     : row.status === "final"
@@ -2653,7 +1320,6 @@ function workflowDocumentStates(docs) {
     const seq = documentDisplaySeq(doc);
     if (!bySeq.has(seq)) {
       bySeq.set(seq, {
-        doc_id: doc.doc_id || "",
         doc_seq: Number(doc.doc_seq || seq),
         track_doc_seq: Number(doc.track_doc_seq || seq),
         display_seq: seq,
@@ -2661,12 +1327,10 @@ function workflowDocumentStates(docs) {
         preview: doc.preview || "",
         completed_via: "",
         submitted: false,
-        apply_failed: false,
       });
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
-    row.apply_failed = row.apply_failed || String(doc.state || "") === "strong_apply_failed";
     if (documentIsResolved(doc)) {
       if (!["final", "strong"].includes(row.status)) {
         row.status = "resolved";
@@ -2680,11 +1344,11 @@ function workflowDocumentStates(docs) {
     const bucketStatus = workflowDocumentBucketStatus(doc);
     if (bucketStatus === "final") {
       row.status = "final";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (
       !["final", "strong"].includes(row.status) &&
@@ -2701,28 +1365,19 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
-  const stateName = String(doc?.state || "");
-  return stateName === "complete" || stateName === "skipped" || stateName === "strong_reviewed";
+  return workflowStateFromDocument(doc) === "resolved";
 }
 
 function documentHasPendingCanonicalState(doc) {
-  const stateName = String(doc?.state || "");
-  return (
-    stateName === "final_pending" ||
-    stateName === "final_in_review" ||
-    stateName === "final_reviewed" ||
-    stateName === "strong_pending" ||
-    stateName === "strong_in_review" ||
-    stateName === "strong_apply_failed"
-  );
+  return Boolean(queueStatusFromDocumentState(doc));
 }
 
 function submittedWorkflowLabel(doc) {
-  const stateName = String(doc?.state || "");
-  if (stateName.startsWith("strong_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "escalated_submitted") {
     return "Submitted, waiting for repair processing";
   }
-  if (stateName === "final_reviewed") {
+  if (workflowState === "bulk_submitted") {
     return "Submitted, waiting for processing";
   }
   return "Submitted, waiting for import";
@@ -2757,7 +1412,7 @@ function submittedSourceQueueStatus(doc) {
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
-  const submitted = docIsSubmittedLocally(doc);
+  const submitted = docIsSubmittedLocally(doc) || docIsSubmittedByWorkflowState(doc);
   return {
     doc_seq: doc.doc_seq,
     track_doc_seq: doc.track_doc_seq || doc.doc_seq,
@@ -2766,7 +1421,6 @@ function workflowDocumentStateForQueueDoc(doc) {
     preview: doc.preview || "",
     submitted,
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
-    apply_failed: String(doc.state || "") === "strong_apply_failed",
   };
 }
 
@@ -2811,21 +1465,43 @@ function workflowDocumentBucketStatus(doc) {
 }
 
 function queueStatusFromDocumentState(doc) {
-  const stateName = String(doc?.state || "");
-  if (documentIsResolved(doc)) {
-    return null;
-  }
-  if (stateName.startsWith("final_")) {
+  const workflowState = workflowStateFromDocument(doc);
+  if (workflowState === "bulk_review" || workflowState === "bulk_submitted") {
     return "final";
   }
-  if (
-    stateName === "strong_pending" ||
-    stateName === "strong_in_review" ||
-    stateName === "strong_apply_failed"
-  ) {
+  if (workflowState === "escalated_repair" || workflowState === "escalated_submitted") {
     return "strong";
   }
   return null;
+}
+
+function workflowStateFromDocument(doc) {
+  const workflowState = String(doc?.workflow_state || "");
+  if (workflowState) {
+    return workflowState;
+  }
+  const stateName = String(doc?.state || "");
+  if (stateName === "final_pending" || stateName === "final_in_review") {
+    return "bulk_review";
+  }
+  if (stateName === "final_reviewed") {
+    return "bulk_submitted";
+  }
+  if (stateName === "strong_pending" || stateName === "strong_in_review") {
+    return "escalated_repair";
+  }
+  if (stateName === "strong_reviewed") {
+    return "escalated_submitted";
+  }
+  if (stateName === "complete" || stateName === "skipped") {
+    return "resolved";
+  }
+  return "";
+}
+
+function docIsSubmittedByWorkflowState(doc) {
+  const workflowState = workflowStateFromDocument(doc);
+  return workflowState === "bulk_submitted" || workflowState === "escalated_submitted";
 }
 
 function queueStatusForStage(queueStage) {
@@ -2886,6 +1562,7 @@ function renderSavedTaskDrafts(docs) {
   if (!el.taskDraftList) {
     return;
   }
+  syncLocalTaskRecordsForCurrentPack();
   const savedTasks = listSavedTaskDrafts();
   el.taskDraftList.innerHTML = "";
   if (savedTasks.length === 0) {
@@ -2964,7 +1641,7 @@ function docIsSubmittedLocally(doc) {
 }
 
 function docIsActionable(doc) {
-  return doc?.selectable !== false && !docIsSubmittedLocally(doc);
+  return doc?.selectable !== false && !docIsSubmittedLocally(doc) && !docIsSubmittedByWorkflowState(doc);
 }
 
 function renderTaskDocumentRow(doc, task) {
@@ -3253,37 +1930,13 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
     badges.append(overrideBadge);
   }
   titleWrap.append(titleRow, badges);
-  const manualCorrectionControl = createManualCorrectionFlag({
-    checked: override?.manual_correction_required ?? item.manual_correction_required ?? false,
-    editable,
-    onChange: (checked) => {
-      const current = ensureStrongRepairOverride(item.item_id);
-      current.manual_correction_required = checked;
-      cleanupStrongRepairOverride(item.item_id);
-      touchDraft();
-      renderSubmissionPreview();
-    },
-  });
-  header.append(titleWrap, manualCorrectionControl);
+  header.append(titleWrap);
   node.append(header);
 
   const afterLine = document.createElement("p");
   afterLine.className = "ruby-line strong-repair-after";
   afterLine.append(...renderStrongRepairAfterLine(item, override, editable));
   node.append(afterLine);
-
-  const comments = strongRepairRegions(item).flatMap((region) => region.llm_comments || []);
-  const distinctComments = [...new Set(comments.filter(Boolean))];
-  if (distinctComments.length) {
-    const commentBlock = document.createElement("div");
-    commentBlock.className = "strong-repair-llm-comments";
-    for (const comment of distinctComments) {
-      const line = document.createElement("p");
-      line.textContent = `LLM: ${comment}`;
-      commentBlock.append(line);
-    }
-    node.append(commentBlock);
-  }
 
   const details = document.createElement("details");
   details.className = "strong-repair-debug";
@@ -3356,29 +2009,13 @@ function formatRepairProposal(rows) {
 }
 
 function renderStrongRepairAfterLine(item, override, editable) {
-  const tokens = item.rendered_yomi_after_tokens?.length
-    ? yomiTokenPairObjects(item.rendered_yomi_after_tokens)
-    : parseRenderedYomiTokens(item.rendered_yomi_after || "");
+  const tokens = parseRenderedYomiTokens(item.rendered_yomi_after || "");
   const matches = [];
-  const usedMatches = new Set();
-  const mappingErrors = [];
   for (const region of strongRepairRegions(item)) {
     const span = region.rejected_span || "";
-    const candidates = span ? findRenderedTokenSpans(tokens, span) : [];
-    const preferred = region.display_mapping;
-    const match = candidates.find(
-      (candidate) =>
-        !usedMatches.has(strongRepairMatchKey(candidate)) &&
-        (!preferred || strongRepairMappingsEqual(candidate, preferred)),
-    );
+    const match = span ? findRenderedTokenSpan(tokens, span) : null;
     if (match) {
-      const editorMatch = strongRepairEditorMatch(match, region, tokens);
-      usedMatches.add(strongRepairMatchKey(match));
-      matches.push({ ...editorMatch, region });
-    } else {
-      mappingErrors.push(
-        region.mapping_error || `Cannot map rejected span: ${span || "(empty)"}`,
-      );
+      matches.push({ ...match, region });
     }
   }
   matches.sort((left, right) => left.start - right.start || left.end - right.end);
@@ -3391,120 +2028,42 @@ function renderStrongRepairAfterLine(item, override, editable) {
     }
   }
   if (!usableMatches.length) {
-    const nodes = tokens.flatMap((token, index) =>
-      renderReadonlyRubyFromToken(item, token, index),
-    );
-    nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
-    return nodes;
+    return renderReadonlyRubyFromRendered(item.rendered_yomi_after || "");
   }
   const nodes = [];
   const byStart = new Map(usableMatches.map((match) => [match.start, match]));
   for (let index = 0; index < tokens.length; index += 1) {
     const match = byStart.get(index);
     if (match) {
-      if (match.prefix) {
-        nodes.push(document.createTextNode(match.prefix));
-      }
       nodes.push(renderStrongRepairSpanEditor(item, match.region, override, editable));
-      if (match.suffix) {
-        nodes.push(document.createTextNode(match.suffix));
-      }
       index = match.end - 1;
       continue;
     }
     nodes.push(...renderReadonlyRubyFromToken(item, tokens[index], index));
   }
-  nodes.push(...renderStrongRepairMappingErrors(mappingErrors));
   return nodes;
-}
-
-function strongRepairEditorMatch(match, region, tokens) {
-  const editorSurface = defaultStrongRepairSegments(region)
-    .map((segment) => segment.surface || "")
-    .join("");
-  const mappedSurface = tokens
-    .slice(match.start, match.end)
-    .map((token) => token.surface || "")
-    .join("");
-  if (editorSurface && editorSurface === mappedSurface) {
-    return { ...match, prefix: "", suffix: "" };
-  }
-  return match;
-}
-
-function strongRepairMappingsEqual(left, right) {
-  return (
-    Number(left.start) === Number(right.start) &&
-    Number(left.end) === Number(right.end) &&
-    Number(left.start_offset || 0) === Number(right.start_offset || 0) &&
-    Number(left.end_offset || 0) === Number(right.end_offset || 0)
-  );
-}
-
-function renderStrongRepairMappingErrors(errors) {
-  return errors.map((message) => {
-    const node = document.createElement("span");
-    node.className = "strong-repair-mapping-error";
-    node.textContent = "mapping error";
-    node.title = message;
-    return node;
-  });
-}
-
-function strongRepairMatchKey(match) {
-  return `${match.start}:${match.end}:${match.prefix || ""}:${match.suffix || ""}`;
 }
 
 function strongRepairRegions(item) {
   return item.regions?.length ? item.regions : [item];
 }
 
-function findRenderedTokenSpans(tokens, surfaceSpan) {
-  if (!surfaceSpan) {
-    return [];
-  }
-  const surfaces = tokens.map((token) => token.surface || "");
-  const starts = [];
-  let combined = "";
-  for (const surface of surfaces) {
-    starts.push(combined.length);
-    combined += surface;
-  }
+function findRenderedTokenSpan(tokens, surfaceSpan) {
   const matches = [];
-  let searchFrom = 0;
-  while (searchFrom <= combined.length - surfaceSpan.length) {
-    const charStart = combined.indexOf(surfaceSpan, searchFrom);
-    if (charStart < 0) {
-      break;
-    }
-    const charEnd = charStart + surfaceSpan.length;
-    const start = starts.findIndex(
-      (tokenStart, index) =>
-        tokenStart <= charStart && charStart < tokenStart + surfaces[index].length,
-    );
-    const endIndex = starts.findIndex(
-      (tokenStart, index) =>
-        tokenStart < charEnd && charEnd <= tokenStart + surfaces[index].length,
-    );
-    if (start >= 0 && endIndex >= 0) {
-      const startOffset = charStart - starts[start];
-      const endOffset = charEnd - starts[endIndex];
-      const prefix = surfaces[start].slice(0, startOffset);
-      const suffix = surfaces[endIndex].slice(endOffset);
-      if (/^[ぁ-ヺー]*$/u.test(prefix + suffix)) {
-        matches.push({
-          start,
-          end: endIndex + 1,
-          start_offset: startOffset,
-          end_offset: endOffset,
-          prefix,
-          suffix,
-        });
+  for (let start = 0; start < tokens.length; start += 1) {
+    let surface = "";
+    for (let end = start + 1; end <= tokens.length; end += 1) {
+      surface += tokens[end - 1].surface || "";
+      if (surface === surfaceSpan) {
+        matches.push({ start, end });
+        break;
+      }
+      if (!surfaceSpan.startsWith(surface)) {
+        break;
       }
     }
-    searchFrom = charStart + 1;
   }
-  return matches;
+  return matches.length === 1 ? matches[0] : null;
 }
 
 function renderStrongRepairSpanEditor(item, region, override, editable) {
@@ -3544,19 +2103,17 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
       const currentSegments = current.manual_segments?.length
         ? current.manual_segments
         : defaultStrongRepairSegments(region);
+      const hadManualSegments = Boolean(current.manual_segments?.length);
       currentSegments[index].reading = input.value;
       currentSegments[index].edited = true;
       setStrongRepairManualSegments(item, region, currentSegments);
       touchDraft();
       const nextRegion = strongRepairRegionOverride(state.currentDraft.overrides[item.item_id], region);
-      const previewSegments = nextRegion?.manual_segments?.length
-        ? nextRegion.manual_segments
-        : currentSegments;
-      wrapper.classList.toggle("changed", Boolean(nextRegion?.manual_segments?.length));
-      preview.replaceChildren(
-        ...renderStrongRepairSegmentRuby(item, region, previewSegments, editable),
-      );
-      renderSubmissionPreview();
+      if (hadManualSegments !== Boolean(nextRegion?.manual_segments?.length)) {
+        render();
+      } else {
+        renderSubmissionPreview();
+      }
     });
     label.append(surface, input);
     fields.append(label);
@@ -3716,21 +2273,16 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   const ordered = [...indexes].sort((a, b) => a - b);
   const chars = Array.from(region.rejected_span || "");
   let start = 0;
-  const surfaces = [];
+  const nextSegments = [];
   for (const end of [...ordered, chars.length]) {
-    surfaces.push(chars.slice(start, end).join(""));
+    const surface = chars.slice(start, end).join("");
+    nextSegments.push({
+      surface,
+      reading: defaultStrongRepairReadingForSegment(region, surface, previousSegments),
+      edited: false,
+    });
     start = end;
   }
-  const readings = defaultStrongRepairReadingsForSegments(
-    region,
-    surfaces,
-    previousSegments,
-  );
-  const nextSegments = surfaces.map((surface, index) => ({
-    surface,
-    reading: readings[index] || "",
-    edited: false,
-  }));
   setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
   render();
@@ -3742,9 +2294,6 @@ function ensureStrongRepairOverride(itemId) {
     decision: "accept",
     note: current.note || "",
     regions: current.regions || {},
-    ...(typeof current.manual_correction_required === "boolean"
-      ? { manual_correction_required: current.manual_correction_required }
-      : {}),
   };
   return state.currentDraft.overrides[itemId];
 }
@@ -3789,9 +2338,6 @@ function cleanupStrongRepairOverride(itemId) {
     return;
   }
   if (Object.keys(current.regions || {}).length > 0) {
-    return;
-  }
-  if (typeof current.manual_correction_required === "boolean") {
     return;
   }
   delete state.currentDraft.overrides[itemId];
@@ -3879,85 +2425,6 @@ function defaultStrongRepairReadingForSegment(region, surface, previousSegments)
   return "";
 }
 
-function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegments) {
-  const knownWholeReadings = strongRepairKnownWholeReadings(region);
-  const candidates = surfaces.map((surface) => {
-    const values = [];
-    const previous = (previousSegments || []).find(
-      (segment) => segment.surface === surface && segment.reading,
-    );
-    if (previous?.reading) {
-      values.push(previous.reading);
-    }
-    for (const reading of strongRepairReadingCycleCandidates(region, surface)) {
-      if (reading && !values.includes(reading)) {
-        values.push(reading);
-      }
-    }
-    return values;
-  });
-  for (const wholeReading of knownWholeReadings) {
-    const matched = matchStrongRepairSegmentReadings(candidates, wholeReading);
-    if (matched) {
-      return matched;
-    }
-  }
-  return surfaces.map((surface) =>
-    defaultStrongRepairReadingForSegment(region, surface, previousSegments),
-  );
-}
-
-function strongRepairKnownWholeReadings(region) {
-  const span = region.rejected_span || "";
-  const values = [];
-  const add = (reading) => {
-    const normalized = katakanaToHiragana(String(reading || ""));
-    if (normalized && !values.includes(normalized)) {
-      values.push(normalized);
-    }
-  };
-  const addRows = (rows) => {
-    if ((rows || []).map((row) => row?.surface || "").join("") === span) {
-      add((rows || []).map((row) => row?.reading || "").join(""));
-    }
-  };
-  addRows(region.llm_parsed || []);
-  addRows(region.repair_log?.replacement || []);
-  addRows(region.rejected_readings || []);
-  addRows(
-    (region.target_escalations || []).map((target) => ({
-      surface: target.surface,
-      reading: target.current_reading_hiragana,
-    })),
-  );
-  for (const reading of region.reading_candidates?.[span] || []) {
-    add(reading);
-  }
-  add(region.reading_hints?.[span]);
-  return values;
-}
-
-function matchStrongRepairSegmentReadings(candidates, wholeReading) {
-  const match = [];
-  const visit = (index, prefix) => {
-    if (index === candidates.length) {
-      return prefix === wholeReading;
-    }
-    for (const reading of candidates[index]) {
-      const next = prefix + reading;
-      if (!wholeReading.startsWith(next)) {
-        continue;
-      }
-      match[index] = reading;
-      if (visit(index + 1, next)) {
-        return true;
-      }
-    }
-    return false;
-  };
-  return visit(0, "") ? [...match] : null;
-}
-
 function readingFromStrongRepairTargets(targets, surface) {
   for (let start = 0; start < targets.length; start += 1) {
     let joinedSurface = "";
@@ -4033,105 +2500,27 @@ function renderRubyDisplayNodes(displayNodes) {
 }
 
 function parseRenderedYomiTokens(rendered) {
-  return parseRenderedYomiCorrectionTokens(rendered)
-    .filter((token) => token.ok)
-    .map(({ surface, reading }) => ({ surface, reading }));
-}
-
-function normalizeYomiTokenPairs(value) {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  const normalized = [];
-  for (const token of value) {
-    if (!Array.isArray(token) || token.length !== 2 || typeof token[0] !== "string" || typeof token[1] !== "string") {
-      return [];
-    }
-    normalized.push([token[0], token[1]]);
-  }
-  return normalized;
-}
-
-function yomiTokenPairObjects(tokenPairs) {
-  return normalizeYomiTokenPairs(tokenPairs).map(([surface, reading]) => ({ surface, reading }));
-}
-
-function archiveUnitYomiTokenPairs(unit) {
-  const canonical = normalizeYomiTokenPairs(unit?.yomi_tokens);
-  if (canonical.length) {
-    return canonical;
-  }
-  return parseRenderedYomiTokens(unit?.rendered_yomi || "").map(({ surface, reading }) => [surface, reading]);
-}
-
-function correctionRecordTokenPairs(record, prefix) {
-  const canonical = normalizeYomiTokenPairs(record?.[`${prefix}_yomi_tokens`]);
-  if (canonical.length) {
-    return canonical;
-  }
-  return parseRenderedYomiTokens(record?.[`${prefix}_rendered_yomi`] || "")
-    .map(({ surface, reading }) => [surface, reading]);
-}
-
-function yomiTokenPairsEqual(left, right) {
-  return JSON.stringify(normalizeYomiTokenPairs(left)) === JSON.stringify(normalizeYomiTokenPairs(right));
-}
-
-function serializeEditableYomiTokens(tokenPairs) {
-  return normalizeYomiTokenPairs(tokenPairs)
-    .map(([surface, reading]) => `${escapeEditableYomiComponent(surface)}/${escapeEditableYomiComponent(reading)}`)
-    .join(" ");
-}
-
-function escapeEditableYomiComponent(value) {
-  return String(value || "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("/", "\\/")
-    .replaceAll(" ", "\\s")
-    .replaceAll("\t", "\\t")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\n", "\\n");
-}
-
-function splitEditableYomiToken(token) {
-  const parts = [[], []];
-  let partIndex = 0;
-  let escaped = false;
-  const escapeValues = { s: " ", t: "\t", r: "\r", n: "\n" };
-  for (const char of String(token || "")) {
-    if (escaped) {
-      parts[partIndex].push(escapeValues[char] ?? char);
-      escaped = false;
-      continue;
-    }
-    if (char === "\\") {
-      escaped = true;
-      continue;
-    }
-    if (char === "/" && partIndex === 0) {
-      partIndex = 1;
-      continue;
-    }
-    parts[partIndex].push(char);
-  }
-  if (escaped) {
-    return { ok: false, error: "incomplete trailing escape." };
-  }
-  if (partIndex === 0) {
-    return { ok: false, error: "must be surface/reading." };
-  }
-  const surface = parts[0].join("");
-  if (!surface) {
-    return { ok: false, error: "has no surface before the slash." };
-  }
-  return { ok: true, surface, reading: parts[1].join("") };
+  return String(rendered || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => {
+      const separator = token.lastIndexOf("/");
+      if (separator < 0) {
+        return { surface: token, reading: "" };
+      }
+      return {
+        surface: token.slice(0, separator),
+        reading: token.slice(separator + 1),
+      };
+    });
 }
 
 function shouldDisplayRuby(surface, reading) {
   if (!surface || !reading || surface === reading) {
     return false;
   }
-  return /[一-龯々〆ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
+  return /[一-龯々〆ヵヶA-Za-z]/u.test(surface);
 }
 
 function katakanaToHiragana(text) {
@@ -4152,22 +2541,13 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
-  node.classList.toggle("machine-skip", Boolean(item.skip_default));
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
   const skipLabel = document.createElement("label");
   skipLabel.className = "yomi-control yomi-flag yomi-skip-flag";
-  const skipReason = (item.skip_reasons || [])
-    .map((reason) => reason.note || reason.entity_text || reason.entity_key || "")
-    .filter(Boolean)
-    .join("; ");
-  skipLabel.title = skipReason
-    ? `Provisional machine skip: ${skipReason}`
-    : item.skip_default
-      ? "Machine skip suggestion; uncheck to keep this sentence"
-      : "Skip this sentence";
+  skipLabel.title = "Skip this sentence";
   const skipCheckbox = document.createElement("input");
   skipCheckbox.type = "checkbox";
   skipCheckbox.disabled = !editable;
@@ -4179,19 +2559,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   skipGlyph.textContent = "×";
   skipLabel.append(skipCheckbox, skipGlyph);
   controls.append(skipLabel);
-
-  const manualCorrectionControl = createManualCorrectionFlag({
-    checked: override?.manual_correction_required ?? item.manual_correction_required ?? false,
-    editable,
-    onChange: (checked) => {
-      const draft = ensureYomiOverride(item.item_id);
-      draft.manual_correction_required = checked;
-      cleanupYomiOverride(item.item_id);
-      touchDraft();
-      renderSubmissionPreview();
-    },
-  });
-  controls.append(manualCorrectionControl);
 
   const menu = document.createElement("details");
   menu.className = "yomi-menu";
@@ -4243,29 +2610,12 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   });
 }
 
-function createManualCorrectionFlag({ checked, editable, onChange }) {
-  const label = document.createElement("label");
-  label.className = "yomi-control yomi-flag yomi-manual-correction-flag";
-  label.title = "Requires later manual correction";
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.disabled = !editable;
-  checkbox.checked = Boolean(checked);
-  checkbox.setAttribute("aria-label", "Requires later manual correction");
-  const glyph = document.createElement("span");
-  glyph.className = "control-glyph";
-  glyph.setAttribute("aria-hidden", "true");
-  glyph.textContent = "⚑";
-  label.append(checkbox, glyph);
-  if (editable && onChange) {
-    checkbox.addEventListener("change", () => onChange(checkbox.checked));
-  }
-  return label;
-}
-
 function renderRubySegments(item, override, editable) {
   const nodes = [];
-  const targetsById = Object.fromEntries(reviewActionTargets(item).map((target) => [target.item_id, target]));
+  const targetsById = Object.fromEntries((item.targets || []).map((target) => [target.item_id, target]));
+  const groups = buildYomiSpanGroups(item);
+  const groupByFirstTargetId = Object.fromEntries(groups.map((group) => [group.targetIds[0], group]));
+  const hiddenTargetIds = new Set(groups.flatMap((group) => group.targetIds.slice(1)));
   const segments = item.ruby_segments || [{ type: "text", text: item.text || "" }];
   for (let index = 0; index < segments.length; index += 1) {
     const segment = segments[index];
@@ -4273,30 +2623,22 @@ function renderRubySegments(item, override, editable) {
       nodes.push(...renderYomiTextSegmentWithNumericMerge(item, segment, segments[index - 1], segments[index + 1], override, editable, targetsById));
       continue;
     }
+    if (hiddenTargetIds.has(segment.target_item_id)) {
+      continue;
+    }
+    const group = groupByFirstTargetId[segment.target_item_id];
+    if (group) {
+      nodes.push(renderYomiSpanGroup(item, group, override, editable));
+      continue;
+    }
     const target = targetsById[segment.target_item_id];
     if (!target) {
-      if (segment.display_only && segment.reading) {
-        const ruby = document.createElement("ruby");
-        ruby.append(document.createTextNode(segment.text || ""));
-        const rt = document.createElement("rt");
-        rt.textContent = segment.reading;
-        ruby.append(rt);
-        nodes.push(ruby);
-      } else {
-        nodes.push(document.createTextNode(segment.text || ""));
-      }
+      nodes.push(document.createTextNode(segment.text || ""));
       continue;
     }
     nodes.push(renderRubySpan(item, target, override, editable));
   }
   return nodes;
-}
-
-function reviewActionTargets(item) {
-  if (Array.isArray(item.interaction_spans) && item.interaction_spans.length > 0) {
-    return item.interaction_spans;
-  }
-  return item.targets || [];
 }
 
 function renderYomiTextSegmentWithNumericMerge(
@@ -4318,8 +2660,8 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
   let remaining = text;
 
-  const trailing = nextMergeEligible ? numericMergeRun(remaining, "trailing") : "";
-  const leading = previousMergeEligible ? numericMergeRun(remaining, "leading") : "";
+  const trailing = nextMergeEligible ? remaining.match(/([0-9０-９]+)$/)?.[1] || "" : "";
+  const leading = previousMergeEligible ? remaining.match(/^([0-9０-９]+)/)?.[1] || "" : "";
   if (trailing && trailing.length < remaining.length) {
     nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
     remaining = trailing;
@@ -4338,16 +2680,6 @@ function renderYomiTextSegmentWithNumericMerge(
   return nodes;
 }
 
-function numericMergeRun(text, side) {
-  // Keep adjacent numeral systems separate: in GⅠ９勝, Ⅰ belongs with G while ９ may
-  // independently belong with 勝.
-  const roman = "ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ";
-  const pattern = side === "trailing"
-    ? new RegExp(`([0-9０-９]+|[${roman}]+)$`, "u")
-    : new RegExp(`^([0-9０-９]+|[${roman}]+)`, "u");
-  return text.match(pattern)?.[1] || "";
-}
-
 function targetForRubySegment(segment, targetsById) {
   if (!segment || segment.type !== "ruby") {
     return null;
@@ -4364,7 +2696,7 @@ function isNumericMergeEligibleTarget(target) {
   if (!target || !hasNoRubyCandidate(target)) {
     return false;
   }
-  return /[A-Za-zＡ-Ｚａ-ｚ]/u.test(target.surface || "");
+  return /[A-Za-z]/.test(target.surface || "");
 }
 
 function hasNoRubyCandidate(target) {
@@ -4424,6 +2756,289 @@ function toggleNumericMergeSpan(item, span) {
   cleanupYomiOverride(item.item_id);
   touchDraft();
   render();
+}
+
+function buildYomiSpanGroups(item) {
+  return [];
+}
+
+function makeYomiSpanGroup(targets, readingHints) {
+  const targetIds = targets.map((target) => target.item_id);
+  const originalSurface = targets.map((target) => target.surface || "").join("");
+  const id = targetIds.join("|");
+  return {
+    id,
+    targetIds,
+    targets,
+    originalSurface,
+    readingHints,
+    unresolved: targets.some((target) => !target.is_safe),
+  };
+}
+
+function renderYomiSpanGroup(item, group, override, editable) {
+  const spanDraft = override?.span_overrides?.[group.id] || null;
+  const mode = spanDraft?.decision || "ok";
+  const wrapper = document.createElement("span");
+  wrapper.className = "yomi-span-group";
+  wrapper.classList.toggle("changed", Boolean(spanDraft));
+  wrapper.classList.toggle("unresolved", group.unresolved);
+  wrapper.append(renderYomiSpanPreview(item, group, spanDraft, editable));
+  if (editable && mode !== "ok") {
+    wrapper.append(renderYomiSpanEditor(item, group, spanDraft, mode));
+  }
+  return wrapper;
+}
+
+function renderYomiSpanPreview(item, group, spanDraft, editable) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ruby-token span-token";
+  button.classList.toggle("changed", Boolean(spanDraft));
+  button.disabled = !editable;
+  button.title = "Span review: OK / fix readings / fix segmentation";
+  const segments = spanSegmentsForDisplay(group, spanDraft);
+  for (const segment of segments) {
+    if (segment.reading) {
+      const ruby = document.createElement("ruby");
+      ruby.append(document.createTextNode(segment.surface));
+      const rt = document.createElement("rt");
+      rt.textContent = segment.reading;
+      ruby.append(rt);
+      button.append(ruby);
+    } else {
+      button.append(document.createTextNode(segment.surface));
+    }
+  }
+  if (editable) {
+    button.addEventListener("click", () => cycleYomiSpanMode(item, group));
+  }
+  return button;
+}
+
+function spanSegmentsForDisplay(group, spanDraft) {
+  if (spanDraft?.segments?.length) {
+    return spanDraft.segments;
+  }
+  return group.targets.map((target) => {
+    const candidate = selectedCandidate(target, null);
+    return {
+      surface: target.surface || "",
+      reading: candidate?.reading || null,
+    };
+  });
+}
+
+function cycleYomiSpanMode(item, group) {
+  const draft = ensureYomiOverride(item.item_id);
+  if (!draft.span_overrides) {
+    draft.span_overrides = {};
+  }
+  const current = draft.span_overrides[group.id] || null;
+  const currentMode = current?.decision || "ok";
+  const nextMode =
+    currentMode === "ok" ? "reading" : currentMode === "reading" ? "segmentation" : "ok";
+  if (nextMode === "ok") {
+    delete draft.span_overrides[group.id];
+    cleanupYomiOverride(item.item_id);
+  } else {
+    const nextSegments =
+      nextMode === "reading"
+        ? readingModeSegments(group, current)
+        : segmentationModeSegments(group, current);
+    draft.span_overrides[group.id] = {
+      id: group.id,
+      decision: nextMode,
+      target_item_ids: group.targetIds,
+      original_surface: group.originalSurface,
+      segments: nextSegments,
+    };
+  }
+  touchDraft();
+  render();
+}
+
+function readingModeSegments(group, current) {
+  if (current?.decision === "reading" && current.segments?.length) {
+    return current.segments;
+  }
+  return group.targets.map((target) => {
+    const candidate = selectedCandidate(target, null);
+    return {
+      surface: target.surface || "",
+      reading: candidate?.reading || "",
+    };
+  });
+}
+
+function segmentationModeSegments(group, current) {
+  if (current?.decision === "segmentation" && current.segments?.length) {
+    return current.segments;
+  }
+  return [
+    {
+      surface: group.originalSurface,
+      reading: defaultReadingForSpanSegment(group, group.originalSurface, current?.segments || []),
+    },
+  ];
+}
+
+function joinedGroupReading(group) {
+  return group.targets
+    .map((target) => selectedCandidate(target, null)?.reading || "")
+    .join("");
+}
+
+function renderYomiSpanEditor(item, group, spanDraft, mode) {
+  const panel = document.createElement("span");
+  panel.className = "span-editor";
+
+  const modeLabel = document.createElement("span");
+  modeLabel.className = "span-editor-mode";
+  modeLabel.textContent = mode === "reading" ? "Fix readings" : "Fix segmentation";
+  panel.append(modeLabel);
+
+  if (mode === "segmentation") {
+    panel.append(renderSplitControls(item, group, spanDraft));
+  }
+
+  const fieldList = document.createElement("span");
+  fieldList.className = "span-reading-fields";
+  for (const [index, segment] of (spanDraft.segments || []).entries()) {
+    const label = document.createElement("label");
+    label.className = "span-reading-field";
+    const surface = document.createElement("span");
+    surface.textContent = segment.surface || "";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = segment.reading || "";
+    input.placeholder = "reading";
+    input.addEventListener("input", () => {
+      const draft = ensureYomiOverride(item.item_id);
+      const current = draft.span_overrides?.[group.id];
+      if (!current) {
+        return;
+      }
+      current.segments[index].reading = input.value;
+      touchDraft();
+      renderSubmissionPreview();
+    });
+    label.append(surface, input);
+    fieldList.append(label);
+  }
+  panel.append(fieldList);
+  return panel;
+}
+
+function renderSplitControls(item, group, spanDraft) {
+  const wrap = document.createElement("span");
+  wrap.className = "split-controls";
+  const chars = Array.from(group.originalSurface);
+  for (let index = 0; index < chars.length; index += 1) {
+    const charSpan = document.createElement("span");
+    charSpan.className = "split-char";
+    charSpan.textContent = chars[index];
+    wrap.append(charSpan);
+    if (index < chars.length - 1) {
+      const boundaryIndex = index + 1;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "split-toggle";
+      button.textContent = splitIndexes(spanDraft).has(boundaryIndex) ? "|" : "·";
+      button.title = "Toggle split";
+      button.addEventListener("click", () => {
+        updateSegmentationSplit(item, group, boundaryIndex);
+      });
+      wrap.append(button);
+    }
+  }
+  return wrap;
+}
+
+function splitIndexes(spanDraft) {
+  const indexes = new Set();
+  let cursor = 0;
+  for (const segment of spanDraft?.segments || []) {
+    cursor += Array.from(segment.surface || "").length;
+    indexes.add(cursor);
+  }
+  indexes.delete(0);
+  indexes.delete(Array.from(spanDraft?.original_surface || "").length);
+  return indexes;
+}
+
+function updateSegmentationSplit(item, group, boundaryIndex) {
+  const draft = ensureYomiOverride(item.item_id);
+  const spanDraft = draft.span_overrides?.[group.id];
+  if (!spanDraft || spanDraft.decision !== "segmentation") {
+    return;
+  }
+  const existingReadings = (spanDraft.segments || []).some((segment) => segment.reading);
+  if (
+    existingReadings &&
+    !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
+  ) {
+    return;
+  }
+  const indexes = splitIndexes(spanDraft);
+  if (indexes.has(boundaryIndex)) {
+    indexes.delete(boundaryIndex);
+  } else {
+    indexes.add(boundaryIndex);
+  }
+  const ordered = [...indexes].sort((a, b) => a - b);
+  const chars = Array.from(group.originalSurface);
+  let start = 0;
+  const previousSegments = spanDraft.segments || [];
+  spanDraft.segments = [];
+  for (const end of [...ordered, chars.length]) {
+    const surface = chars.slice(start, end).join("");
+    spanDraft.segments.push({
+      surface,
+      reading: defaultReadingForSpanSegment(group, surface, previousSegments),
+    });
+    start = end;
+  }
+  touchDraft();
+  render();
+}
+
+function defaultReadingForSpanSegment(group, surface, previousSegments) {
+  const previous = (previousSegments || []).find(
+    (segment) => segment.surface === surface && segment.reading
+  );
+  if (previous) {
+    return previous.reading;
+  }
+  if (group.readingHints?.[surface]) {
+    return group.readingHints[surface];
+  }
+  const targetReading = readingFromConsecutiveTargets(group.targets, surface);
+  if (targetReading) {
+    return targetReading;
+  }
+  if (surface === group.originalSurface) {
+    return joinedGroupReading(group);
+  }
+  return "";
+}
+
+function readingFromConsecutiveTargets(targets, surface) {
+  for (let start = 0; start < targets.length; start += 1) {
+    let joinedSurface = "";
+    let joinedReading = "";
+    for (let end = start; end < targets.length; end += 1) {
+      joinedSurface += targets[end].surface || "";
+      joinedReading += selectedCandidate(targets[end], null)?.reading || "";
+      if (joinedSurface === surface) {
+        return joinedReading;
+      }
+      if (!surface.startsWith(joinedSurface)) {
+        break;
+      }
+    }
+  }
+  return "";
 }
 
 function renderRubySpan(item, target, override, editable) {
@@ -4554,14 +3169,6 @@ function yomiCycleCandidates(target) {
   const candidates = target.candidates || [];
   const readingCandidates = candidates.filter((candidate) => candidate.source !== "none");
   const noRubyCandidates = candidates.filter((candidate) => candidate.source === "none");
-  const defaultKey = candidateKey(defaultCandidate(target));
-  const defaultIndex = readingCandidates.findIndex(
-    (candidate) => candidateKey(candidate) === defaultKey
-  );
-  if (defaultIndex > 0) {
-    const [defaultReading] = readingCandidates.splice(defaultIndex, 1);
-    readingCandidates.unshift(defaultReading);
-  }
   return [...readingCandidates, ...noRubyCandidates];
 }
 
@@ -4627,13 +3234,7 @@ function cleanupYomiOverride(itemId) {
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
-  if (
-    !hasTargets &&
-    !hasSpanOverrides &&
-    !draft.skip &&
-    !draft.note &&
-    typeof draft.manual_correction_required !== "boolean"
-  ) {
+  if (!hasTargets && !hasSpanOverrides && !draft.skip && !draft.note) {
     delete state.currentDraft.overrides[itemId];
   }
 }
@@ -4646,7 +3247,7 @@ function renderSubmissionPreview() {
     return;
   }
   const payload = buildSubmissionPayload();
-  el.submissionPreview.value = formatSubmissionJson(payload);
+  el.submissionPreview.value = JSON.stringify(payload, null, 2);
   renderIssueUrlSummary(buildIssueUrls(payload), payload);
 }
 
@@ -4712,99 +3313,30 @@ async function openIssueForCurrentTask() {
 }
 
 async function copySubmissionJsonToClipboard() {
-  const payload = formatSubmissionJson(buildSubmissionPayload());
-  return copyTextToClipboard(payload);
-}
-
-function formatSubmissionJson(payload) {
-  return formatSubmissionJsonValue(payload, 0, "");
-}
-
-function formatSubmissionJsonValue(value, depth, key) {
-  if (value === null || typeof value !== "object") {
-    return JSON.stringify(value);
-  }
-  if (Array.isArray(value)) {
-    if (isSentenceYomiTokenArray(key, value)) {
-      return JSON.stringify(value);
-    }
-    if (!value.length) {
-      return "[]";
-    }
-    const indent = "  ".repeat(depth);
-    const childIndent = "  ".repeat(depth + 1);
-    return `[\n${value
-      .map((item) => `${childIndent}${formatSubmissionJsonValue(item, depth + 1, "")}`)
-      .join(",\n")}\n${indent}]`;
-  }
-  const entries = Object.entries(value).filter(([, item]) => item !== undefined);
-  if (!entries.length) {
-    return "{}";
-  }
-  const indent = "  ".repeat(depth);
-  const childIndent = "  ".repeat(depth + 1);
-  return `{\n${entries
-    .map(
-      ([childKey, item]) =>
-        `${childIndent}${JSON.stringify(childKey)}: ${formatSubmissionJsonValue(
-          item,
-          depth + 1,
-          childKey,
-        )}`,
-    )
-    .join(",\n")}\n${indent}}`;
-}
-
-function isSentenceYomiTokenArray(key, value) {
-  return (
-    key.endsWith("_yomi_tokens") &&
-    value.every(
-      (pair) =>
-        Array.isArray(pair) &&
-        pair.length === 2 &&
-        pair.every((part) => typeof part === "string"),
-    )
-  );
-}
-
-async function copyTextToClipboard(payload) {
+  const payload = JSON.stringify(buildSubmissionPayload(), null, 2);
   try {
     await navigator.clipboard.writeText(payload);
     return true;
   } catch {
-    if (el.submissionPreview) {
-      el.submissionPreview.value = payload;
-      el.submissionPreview.focus();
-      el.submissionPreview.select();
-    }
+    el.submissionPreview.focus();
+    el.submissionPreview.select();
     return false;
   }
 }
 
 function showIssueReturnModal() {
-  const archiveCorrection = Boolean(state.pendingArchiveCorrectionKey);
-  if (el.issueReturnTitle) {
-    el.issueReturnTitle.textContent = archiveCorrection
-      ? "Did you create the correction issue?"
-      : "Did you create the GitHub issue?";
-  }
-  if (el.issueReturnDescription) {
-    el.issueReturnDescription.textContent = archiveCorrection
-      ? "If you pasted the correction JSON and created the issue, mark it submitted. Otherwise, keep the local draft."
-      : "If you pasted the copied JSON and created the issue, mark this task submitted. If not, keep working locally.";
-  }
   el.issueReturnModal?.classList.remove("hidden");
-  updateRuntimePollingForInteraction();
 }
 
 function hideIssueReturnModal() {
   el.issueReturnModal?.classList.add("hidden");
-  updateRuntimePollingForInteraction();
 }
 
 function buildIssueTitle(payload) {
   if (payload.submission_type === "review_bundle") {
-    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+    const docs = payload.task?.mode === "documents"
+      ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || payload.task.doc_seqs || [])}`
+      : "";
     return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
   }
   const packId = payload.pack_id || "review";
@@ -4812,7 +3344,9 @@ function buildIssueTitle(payload) {
   const range = ranges.length === 1
     ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
     : `${ranges.length} ranges`;
-  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+  const task = payload.task?.mode === "documents"
+    ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || payload.task.doc_seqs || [])}`
+    : "";
   return `[yomi-review] ${packId}${task} ${range}`;
 }
 
@@ -4849,7 +3383,7 @@ function renderIssueUrlSummary(urls, payload = null) {
     el.issueUrlSummary.textContent = "Issue export is disabled for read-only history views.";
     return;
   }
-  const jsonLength = payload ? formatSubmissionJson(payload).length : 0;
+  const jsonLength = payload ? JSON.stringify(payload, null, 2).length : 0;
   el.issueUrlSummary.textContent =
     `Issue URL: ${urls.issue.length} chars. The primary button copies ${jsonLength} chars of JSON and opens GitHub.`;
 }
@@ -4859,6 +3393,7 @@ function buildSubmissionPayload() {
   if (isUnifiedReviewPack(pack)) {
     return buildUnifiedSubmissionPayload();
   }
+  const { fromSeq, toSeq } = getEffectiveRange();
   const reviewer = el.reviewerName.value.trim();
   const overrides = getSubmissionOverridesForCurrentStage();
   const now = Date.now();
@@ -4946,6 +3481,7 @@ function buildSubmissionTaskMetadata(reviewStage = null, packId = null) {
     doc_keys: docs.map((doc) => taskDocKey(doc)),
     doc_ids: docs.map((doc) => doc.doc_id),
     doc_seqs: docs.map((doc) => doc.doc_seq),
+    track_doc_seqs: docs.map((doc) => doc.track_doc_seq || doc.doc_seq),
     queue_stages: [...new Set(docs.map((doc) => doc.queue_stage).filter(Boolean))],
     doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
@@ -4988,9 +3524,6 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       return {
         item_id: originalItemId(item),
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
-        ...(typeof override.manual_correction_required === "boolean"
-          ? { manual_correction_required: override.manual_correction_required }
-          : {}),
         targets: Object.entries(override.targets || {}).map(([targetItemId, target]) => ({
           item_id: targetItemId,
           choice_id: target.choice_id || null,
@@ -5014,12 +3547,7 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
     })
     .filter(Boolean)
     .filter(
-      (row) =>
-        row.targets.length > 0 ||
-        row.span_overrides.length > 0 ||
-        "skip" in row ||
-        "manual_correction_required" in row ||
-        row.note
+      (row) => row.targets.length > 0 || row.span_overrides.length > 0 || "skip" in row || row.note
     );
 }
 
@@ -5057,9 +3585,6 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
       const row = {
         item_id: originalItemId(item),
         decision: override.decision || "accept",
-        ...(typeof override.manual_correction_required === "boolean"
-          ? { manual_correction_required: override.manual_correction_required }
-          : {}),
         ...(override.note ? { note: String(override.note).trim() } : {}),
       };
       const regions = Object.values(override.regions || {})
@@ -5080,7 +3605,6 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     .filter(
       (row) =>
         row.decision === "reject" ||
-        "manual_correction_required" in row ||
         row.note ||
         (row.regions && row.regions.length > 0)
     );
@@ -5378,44 +3902,13 @@ function filterOverridesForTask(pack, task, overrides) {
     return {};
   }
   const itemIds = itemIdsForTaskDocIds(pack, task.doc_ids);
-  const itemsById = new Map((pack.items || []).map((item) => [item.item_id, item]));
   const filtered = {};
   for (const [itemId, override] of Object.entries(overrides || {})) {
     if (itemIds.has(itemId)) {
-      const normalized = normalizeStoredOverrideForItem(pack, itemsById.get(itemId), override);
-      if (normalized) {
-        filtered[itemId] = normalized;
-      }
+      filtered[itemId] = override;
     }
   }
   return filtered;
-}
-
-function normalizeStoredOverrideForItem(pack, item, override) {
-  if (!item || itemReviewStageForPack(item, pack) !== "yomi_strong_repair_review") {
-    return override;
-  }
-  const regionsById = new Map(
-    strongRepairRegions(item).map((region) => [region.region_id || region.item_id, region]),
-  );
-  const regions = {};
-  for (const [regionId, storedRegion] of Object.entries(override?.regions || {})) {
-    const currentRegion = regionsById.get(regionId);
-    const segments = normalizeStrongRepairSegments(storedRegion?.manual_segments || []);
-    if (
-      currentRegion &&
-      segments.length > 0 &&
-      segments.map((segment) => segment.surface).join("") === currentRegion.rejected_span
-    ) {
-      regions[regionId] = { ...storedRegion, manual_segments: segments };
-    }
-  }
-  const note = String(override?.note || "").trim();
-  const hasManualCorrectionOverride = typeof override?.manual_correction_required === "boolean";
-  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride) {
-    return null;
-  }
-  return { ...override, note, regions };
 }
 
 function taskQueueStage(task) {
@@ -5457,7 +3950,6 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
-  const migratedActiveRecords = [];
   const changedKeys = new Set();
   const draftKeys = localDraftStorageKeys();
 
@@ -5494,28 +3986,6 @@ function syncLocalTaskRecordsForCurrentPack() {
         sourceChanged = true;
       }
     }
-    if (key !== currentKey) {
-      const rawActiveRecord = localTaskRecordFromActiveDraft(parsed);
-      const normalizedActive = normalizeLocalTaskRecordForCurrentPack(rawActiveRecord, sourceStage);
-      if (normalizedActive) {
-        const activeTaskId = uniqueTaskIdForRecords(
-          normalizedActive.task_id || "migrated_active_task",
-          currentRecords,
-        );
-        const migrated = { ...normalizedActive, task_id: activeTaskId };
-        currentRecords[activeTaskId] = migrated;
-        migratedActiveRecords.push(migrated);
-      }
-      if (rawActiveRecord) {
-        parsed.active_task_id = null;
-        parsed.active_task_label = null;
-        parsed.task = { mode: "documents", doc_ids: [], started: false };
-        parsed.from_seq = null;
-        parsed.to_seq = null;
-        parsed.overrides = {};
-        sourceChanged = true;
-      }
-    }
     if (key === currentKey) {
       continue;
     }
@@ -5531,44 +4001,11 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
 
   const before = JSON.stringify(state.currentDraft.saved_tasks || {});
-  if (!isTaskStarted() && migratedActiveRecords.length > 0) {
-    const active = [...migratedActiveRecords].sort(
-      (left, right) => Number(right.updated_at_epoch || 0) - Number(left.updated_at_epoch || 0),
-    )[0];
-    state.currentDraft.active_task_id = active.task_id;
-    state.currentDraft.active_task_label = active.task_label || active.task_id;
-    state.currentDraft.task = {
-      ...normalizeTask(active.task, state.currentPack),
-      started: true,
-    };
-    state.currentDraft.from_seq = active.from_seq ?? null;
-    state.currentDraft.to_seq = active.to_seq ?? null;
-    state.currentDraft.overrides = cloneJson(active.overrides || {});
-    delete currentRecords[active.task_id];
-  }
   state.currentDraft.saved_tasks = currentRecords;
   const after = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (before !== after || changedKeys.size > 0) {
     saveDraft();
   }
-}
-
-function localTaskRecordFromActiveDraft(draft) {
-  if (!draft?.task?.started || !taskDocIdsForStorageTask(draft.task).length) {
-    return null;
-  }
-  const taskId = draft.active_task_id || "migrated_active_task";
-  return {
-    task_id: taskId,
-    task_label: draft.active_task_label || taskId,
-    task_number: taskNumberFromId(taskId),
-    status: "deferred",
-    task: { ...draft.task, started: false },
-    from_seq: draft.from_seq ?? null,
-    to_seq: draft.to_seq ?? null,
-    overrides: cloneJson(draft.overrides || {}),
-    updated_at_epoch: draft.updated_at_epoch || null,
-  };
 }
 
 function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
@@ -5742,7 +4179,10 @@ function findSavedTaskDraftOverlap(docIds) {
 function formatTaskOverlapMessage(overlap) {
   const docs = buildDocumentTasks(state.currentPack);
   const docSeqs = (overlap?.overlap || [])
-    .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
+    .map((docId) => {
+      const doc = docs.find((row) => taskDocKey(row) === docId);
+      return doc ? documentDisplaySeq(doc) : null;
+    })
     .filter((seq) => Number.isInteger(seq));
   const label = overlap?.record?.task_label || overlap?.record?.task_id || "another local task";
   const docsText = docSeqs.length ? `Docs ${formatDocSeqs(docSeqs)}` : "Selected documents";
@@ -5808,7 +4248,7 @@ function taskNumberFromId(taskId) {
 function formatTaskDraftMeta(record, docs) {
   const docIds = new Set(record.task?.doc_ids || []);
   const selectedDocs = docs.filter((doc) => docIds.has(taskDocKey(doc)));
-  const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
+  const docSeqs = selectedDocs.map((doc) => documentDisplaySeq(doc));
   const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
   const parts = [];
   const queueStages = [...new Set(selectedDocs.map((doc) => doc.queue_stage).filter(Boolean))];
@@ -6330,149 +4770,6 @@ async function fetchJson(url) {
     throw new Error(`HTTP ${response.status} for ${url}`);
   }
   return response.json();
-}
-
-function startRuntimeStatusPolling() {
-  if (!state.manifest?.runtime_status?.path) {
-    return;
-  }
-  state.runtimePollingStarted = true;
-  pollRuntimeStatus();
-}
-
-async function pollRuntimeStatus() {
-  clearRuntimePollTimer();
-  const path = state.manifest?.runtime_status?.path;
-  if (!path || automaticRuntimeRefreshIsPaused()) {
-    return;
-  }
-  const generation = state.runtimePollGeneration;
-  try {
-    const separator = path.includes("?") ? "&" : "?";
-    const bucket = Math.floor(Date.now() / 30000);
-    const runtimeStatus = await fetchJson(`${path}${separator}v=${bucket}`);
-    if (generation !== state.runtimePollGeneration || automaticRuntimeRefreshIsPaused()) {
-      return;
-    }
-    const previousRevision = Number(state.runtimeStatus?.state_revision || 0);
-    const nextRevision = Number(runtimeStatus.state_revision || 0);
-    state.runtimeStatus = runtimeStatus;
-    state.runtimePollFailures = 0;
-    renderRuntimeStatus();
-    if (previousRevision > 0 && nextRevision > previousRevision) {
-      if (isTaskStarted()) {
-        el.serverUpdateMessage.textContent = "Server state updated while this task was open. Your local work is preserved.";
-        el.serverUpdateBanner.classList.remove("hidden");
-      } else {
-        window.location.reload();
-        return;
-      }
-    }
-  } catch (error) {
-    if (generation !== state.runtimePollGeneration || automaticRuntimeRefreshIsPaused()) {
-      return;
-    }
-    state.runtimePollFailures += 1;
-    console.warn("Runtime status poll failed", error);
-  }
-  scheduleRuntimeStatusPoll();
-}
-
-function automaticRuntimeRefreshIsPaused() {
-  const searchActive =
-    state.currentStageId === "archive_browser" && Boolean(state.archiveSearchQuery.trim());
-  const previewOpen = Boolean(
-    el.workflowPreviewModal && !el.workflowPreviewModal.classList.contains("hidden"),
-  );
-  const issueDialogOpen = Boolean(
-    el.issueReturnModal && !el.issueReturnModal.classList.contains("hidden"),
-  );
-  return searchActive || previewOpen || issueDialogOpen;
-}
-
-function updateRuntimePollingForInteraction() {
-  state.runtimePollGeneration += 1;
-  clearRuntimePollTimer();
-  if (
-    state.runtimePollingStarted &&
-    !automaticRuntimeRefreshIsPaused() &&
-    state.manifest?.runtime_status?.path
-  ) {
-    pollRuntimeStatus();
-  }
-}
-
-function clearRuntimePollTimer() {
-  if (state.runtimePollTimer !== null) {
-    window.clearTimeout(state.runtimePollTimer);
-    state.runtimePollTimer = null;
-  }
-}
-
-function scheduleRuntimeStatusPoll() {
-  if (automaticRuntimeRefreshIsPaused()) {
-    return;
-  }
-  const status = state.runtimeStatus || {};
-  const polling = status.client_polling || {};
-  let seconds = document.hidden
-    ? Number(polling.hidden_seconds || 300)
-    : runtimeScheduleIsNear(status)
-      ? Number(polling.near_seconds || 15)
-      : Number(polling.normal_seconds || 60);
-  if (state.runtimePollFailures > 0) {
-    seconds = Math.min(300, seconds * 2 ** Math.min(state.runtimePollFailures, 5));
-  }
-  state.runtimePollTimer = window.setTimeout(pollRuntimeStatus, Math.max(1, seconds) * 1000);
-}
-
-function runtimeScheduleIsNear(status) {
-  const schedule = status.schedule || {};
-  const anchor = Number(schedule.anchor_epoch || 0);
-  const interval = Number(schedule.interval_seconds || 0);
-  const grace = Number(schedule.grace_seconds || 0);
-  if (!anchor || !interval || !grace) {
-    return false;
-  }
-  const now = Date.now() / 1000;
-  const elapsed = Math.max(0, now - anchor);
-  const remainder = elapsed % interval;
-  return Math.min(remainder, interval - remainder) <= grace;
-}
-
-function nextExpectedRuntimeEpoch(status) {
-  const schedule = status.schedule || {};
-  const anchor = Number(schedule.anchor_epoch || 0);
-  const interval = Number(schedule.interval_seconds || 0);
-  if (!anchor || !interval) {
-    return 0;
-  }
-  const now = Date.now() / 1000;
-  return anchor + (Math.floor(Math.max(0, now - anchor) / interval) + 1) * interval;
-}
-
-function renderRuntimeStatus() {
-  const status = state.runtimeStatus;
-  if (!status) {
-    el.runtimeStatusLine.classList.add("hidden");
-    return;
-  }
-  const labels = {
-    idle: "idle",
-    waiting_for_review: "waiting for review",
-    running: "sync running",
-    error: "sync error",
-  };
-  const parts = [`Server: ${labels[status.status] || status.status || "unknown"}`];
-  if (status.last_successful_sync_epoch) {
-    parts.push(`last synced ${formatDate(status.last_successful_sync_epoch)}`);
-  }
-  const nextExpected = nextExpectedRuntimeEpoch(status);
-  if (nextExpected) {
-    parts.push(`next check expected ${formatDate(nextExpected)}`);
-  }
-  el.runtimeStatusLine.textContent = parts.join(" · ");
-  el.runtimeStatusLine.classList.remove("hidden");
 }
 
 function escapeHtml(value) {
