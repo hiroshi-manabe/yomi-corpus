@@ -715,7 +715,7 @@ function renderCurrentTracks() {
   const currentQueues = state.manifest.current_review_queues || [];
   const currentTracks = state.manifest.current_tracks || {};
   const workflowCards = currentQueues.filter((queue) => queue.track_name === "dev");
-  const workflowSources = workflowCards.length > 0 ? workflowCards : latestDevYomiReviewSources();
+  const workflowSources = workflowCards.length > 0 ? workflowCards : activeDevYomiReviewSources();
   el.currentTrackList.innerHTML = "";
   let cards = hasDevYomiReviewSources() ? [] : [...workflowCards];
   if (cards.length === 0 && workflowSources.length === 0 && currentTracks.dev) {
@@ -2674,24 +2674,28 @@ function renderReadonlyRubyFromTokensWithFootnotes(tokens, rubyTokens, evidence)
   const usedMatches = new Set();
   const matchByRegion = new Map();
   for (const note of notes) {
-    const regionKey = note.region_id || `${note.surface}:${note.surface_occurrence_index ?? ""}`;
-    let match = matchByRegion.get(regionKey);
-    if (!match) {
-      const candidates = findRenderedTokenSpans(tokens, note.surface);
-      match = Number.isInteger(note.surface_occurrence_index)
-        ? candidates[note.surface_occurrence_index]
-        : candidates.find((candidate) => !usedMatches.has(strongRepairMatchKey(candidate)));
-      if (match) {
-        matchByRegion.set(regionKey, match);
-        usedMatches.add(strongRepairMatchKey(match));
+    for (const target of note.targets) {
+      const regionKey = target.region_id || `${target.surface}:${target.surface_occurrence_index ?? ""}`;
+      let match = matchByRegion.get(regionKey);
+      if (!match) {
+        const candidates = findRenderedTokenSpans(tokens, target.surface);
+        match = Number.isInteger(target.surface_occurrence_index)
+          ? candidates[target.surface_occurrence_index]
+          : candidates.find((candidate) => !usedMatches.has(strongRepairMatchKey(candidate)));
+        if (match) {
+          matchByRegion.set(regionKey, match);
+          usedMatches.add(strongRepairMatchKey(match));
+        }
       }
+      if (!match) {
+        continue;
+      }
+      const numbers = markerNumbersByEnd.get(match.end - 1) || [];
+      if (!numbers.includes(note.number)) {
+        numbers.push(note.number);
+      }
+      markerNumbersByEnd.set(match.end - 1, numbers);
     }
-    if (!match) {
-      continue;
-    }
-    const numbers = markerNumbersByEnd.get(match.end - 1) || [];
-    numbers.push(note.number);
-    markerNumbersByEnd.set(match.end - 1, numbers);
   }
   const previewItem = { rendered_yomi_after_ruby_tokens: rubyTokens || [] };
   const nodes = [];
@@ -3502,27 +3506,31 @@ function strongRepairItemFootnotes(item) {
 
 function normalizedStrongRepairFootnotes(evidence) {
   const notes = [];
-  const numberByComment = new Map();
+  const noteByComment = new Map();
   for (const item of evidence || []) {
     const comment = String(item?.comment || "").trim();
     if (!comment) {
       continue;
     }
-    let number = numberByComment.get(comment);
-    if (!number) {
-      number = notes.length + 1;
-      numberByComment.set(comment, number);
-      notes.push({
-        number,
+    let note = noteByComment.get(comment);
+    if (!note) {
+      note = {
+        number: notes.length + 1,
         comment,
-        surface: String(item?.surface || ""),
-        region_id: String(item?.region_id || ""),
-        surface_occurrence_index: Number.isInteger(item?.surface_occurrence_index)
-          ? item.surface_occurrence_index
-          : null,
         used_web_search: Boolean(item?.used_web_search),
-      });
+        targets: [],
+      };
+      noteByComment.set(comment, note);
+      notes.push(note);
     }
+    note.used_web_search = note.used_web_search || Boolean(item?.used_web_search);
+    note.targets.push({
+      surface: String(item?.surface || ""),
+      region_id: String(item?.region_id || ""),
+      surface_occurrence_index: Number.isInteger(item?.surface_occurrence_index)
+        ? item.surface_occurrence_index
+        : null,
+    });
   }
   return notes;
 }
