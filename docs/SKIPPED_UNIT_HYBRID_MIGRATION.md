@@ -14,6 +14,12 @@ Paid reading LLM calls, ordinary Bulk Review editing, Escalated Repair, final
 corpus export, and decoder training remain suppressed while the unit is
 skipped.
 
+This document's recoverable `Skip` state is not the terminal `Exclude` state
+used for sensitive material. A machine-proposed exclusion follows the same
+cheap-analysis path only until human confirmation. Once confirmed, it is
+removed from published review/archive/search artifacts and cannot be restored
+through Corpus Map; only minimal non-content audit metadata may remain.
+
 ## Forward Pipeline Invariants
 
 1. Scope triage annotates a unit with a provisional skip decision but does not
@@ -66,21 +72,28 @@ used by ordinary finalized corrections.
 ## Historical Backfill
 
 Historical scope-triage skips predate this invariant. They remain in
-`units.scope_triaged.jsonl` but did not reach `units.yomi.aligned_hybrid.jsonl`.
-The current inventory contains 132 such rows.
+`units.scope_triaged.jsonl` but originally did not reach
+`units.yomi.aligned_hybrid.jsonl`. Historical human-confirmed skips were
+likewise removed from finalized output without being retained in a skipped
+archive. The migration must recover both classes.
 
 Backfill procedure:
 
-1. Enumerate historical skipped rows by stable `unit_id` from each batch's
-   scope-triaged artifact.
+1. Enumerate scope-triage skips by stable `unit_id`. For finalized batches,
+   replay the saved review pack and all submissions with the normal replay
+   implementation to derive the effective human skip decisions.
 2. Run the current mechanical/Sudachi/hybrid path for those rows without paid
    LLM calls.
-3. Preserve the original scope-triage decision and source batch metadata.
+3. Prefer the reviewed unit artifact for a human-confirmed skip so its winning
+   submission ID, timestamp, target decisions, and source batch metadata are
+   preserved. Use aligned hybrid output as the fallback source.
 4. Add or update skipped archive records without modifying finalized
    non-skipped rows.
 5. Write a migration manifest containing source counts, generated counts,
    model provenance, failures, and per-unit dispositions.
-6. Make reruns idempotent: a matching generated record is unchanged, while a
+6. Treat a scope-skipped unit that a later human action restored into the final
+   corpus as restored, not as a conflict or a candidate for re-skipping.
+7. Make reruns idempotent: a matching generated record is unchanged, while a
    conflicting record is reported rather than silently replaced.
 
 Punctuation-only and other low-value historical skips remain present for

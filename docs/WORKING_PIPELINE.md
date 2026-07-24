@@ -221,6 +221,11 @@ Those signals will likely include:
   can be inferred as the residual of the full reading after subtracting the
   other component readings, use that residual. Otherwise use the independently
   available component readings and leave unresolved components without ruby.
+  This is a pipeline-wide invariant, not only a rendering rule. LLM reading
+  targets, review interaction regions, strong-repair output, and finalized
+  canonical tokens must preserve each source whitespace boundary. Repair output
+  omits whitespace items; the application layer restores the original spaces as
+  separate non-ruby tokens.
 - N-gram decoder behavior
 - script and orthography heuristics
 
@@ -376,6 +381,8 @@ Instead, for each batch:
 
 - extract all alphabetic entity occurrences mechanically from all units
 - aggregate them into entity types
+- resolve numeric measurements with an explicit recognized unit, such as
+  `1kg` or `30km`, deterministically as in scope
 - apply current whitelist/blacklist lookup
 - send only unresolved entity types to the LLM once, then cache the judgment
   globally
@@ -505,6 +512,9 @@ Current preference:
 - treat a single alphabetic letter as a deterministic exception that does not
   enter LLM judgment; examples include the `T` in `Tシャツ`, but this is a
   general low-value exception rather than a lexical whitelist entry
+- likewise, treat a numeric value followed by an explicitly configured common
+  measurement unit as deterministic; keep the unit list narrow so identifiers
+  such as `CLA180` and `Day2020` still receive ordinary entity judgment
 - avoid regex unless there is a clear payoff
 
 This remains a working decision, not a final one.
@@ -592,11 +602,13 @@ agreement and disagreement as review-routing signals.
 
 ### 9.0 Scope Triage
 
-Scope triage is a compact binary task over raw text. The model returns exactly
-one token:
+Scope triage is a compact three-way task over raw text. The model returns
+exactly one token:
 
 - `Keep`: process the unit normally
-- `Skip`: exclude the unit as non-target material
+- `Skip`: omit recoverable non-target material from the corpus while retaining
+  it for human confirmation and possible later restoration
+- `Exclude`: recommend terminal exclusion of sensitive material
 
 `Skip` covers foreign prose, old Japanese prose, kanbun, Chinese, garbled text,
 spam, and similar non-target material. The prompt should avoid project-internal
@@ -609,12 +621,19 @@ have been interleaved into the source, rather than trying to reconstruct the
 author's intended sentence. This rule does not cover an isolated ordinary typo
 or routine web noise; those remain modern Japanese target text.
 
-`Skip` also covers privacy or reputational-risk material that identifies a
+`Exclude` covers privacy or reputational-risk material that identifies a
 private person together with sensitive negative information. Examples include
 arrest, criminal suspicion, accusations, scandals, disciplinary action,
 illness, or similar private/reputational details. This is a conservative
 labor-saving rule: the corpus has enough ordinary modern Japanese text, so when
-scope triage is unsure about this risk, it should choose `Skip`.
+scope triage is unsure about this risk, it should choose `Exclude`.
+
+All machine labels remain provisional through Bulk Review. `Skip` is a durable
+but recoverable state: it remains visible as subdued ruby in Corpus Map and can
+be restored through the correction workflow. `Exclude` becomes terminal only
+after explicit human confirmation; then the text is omitted from published UI,
+search, archives, corpus output, and decoder training. The internal system may
+keep only minimal identity/reason/submission metadata for audit and idempotency.
 
 `Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text
@@ -633,9 +652,15 @@ target or non-target. The exceptions are compact embedded material such as
 proverbs, fixed expressions, short titles, proper names, journal/book names, and
 bibliographic labels; those do not make the unit `Skip` by themselves.
 
-This task should usually use the `economy` profile for both dev and working
-until evals show a clear reason to spend more. Its output is only a scope gate;
-it is not expected to notice yomi errors.
+Bulk Review presents scope as three compact, mutually exclusive icon segments:
+checkmark (`Keep`), archive box (`Skip`), and shield-with-X (`Exclude`). They
+have radio-group semantics, tooltips, and accessible labels. The range-selection
+control is removed; it has not proved useful in operation. Confirming
+`Exclude` requires an additional submission confirmation because its lifecycle
+is intentionally different from recoverable `Skip`.
+
+This task should use the configured profile selected by evaluation. Its output
+is only a scope gate; it is not expected to notice yomi errors.
 
 ### 9.0.1 LLM Reading Generation
 
@@ -902,6 +927,16 @@ Implementation status:
    - Keep that rule narrow: uppercase `W`, embedded alphabetic strings, and
      lexicalized cases such as `W主演`, `W杯`, `Wii`, `Web`, or `WiFi` must stay
      normal yomi/alphabetic targets.
+   - A Sudachi token whose first three POS fields are
+     `補助記号,ＡＡ,顔文字` is accepted deterministically as one
+     `surface/カオモジ` token and omitted from the LLM reading queue. The narrow
+     exception is a surface consisting entirely of Japanese lexical characters
+     inside one matching pair of ASCII or full-width parentheses. Thus
+     `（笑）`, `（泣）`, `（汗）`, and `（苦笑）` retain their semantic
+     normalization/review paths, while genuine kaomoji containing characters
+     such as `ノ`, `ツ`, or `シ` remain eligible for automatic `カオモジ`.
+     Unrecognized or partially segmented kaomoji likewise remain reviewable or
+     skippable rather than being joined by a speculative regular expression.
    - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
      `yomi_safety_pre_llm_summary.json`, then queues only targets not already
      marked safe.
@@ -1320,7 +1355,8 @@ static prefix around 1050-1150 exact API-counted tokens.
 
 Likely current split:
 
-- `scope_triage`: binary raw-text prompt that returns only `Keep` or `Skip`
+- `scope_triage`: compact raw-text prompt that returns `Keep`, `Skip`, or
+  `Exclude`
 - `yomi_reading`: per-target reading prompt that returns one JSON object for
   the marked kanji/Latin target
 - `alphabetic_entity_judge`: separate prompt, and also a different unit type
@@ -1433,6 +1469,23 @@ convert an accepted `いちにち` choice to canonical tokens `1/ 日/ニチ`; k
 accepted `ついたち` choice fused as `1日/ツイタチ`. This late expansion avoids
 forcing the review UI to reconcile two tokenizations while preserving the
 desired final representation for the compositional `いちにち` reading.
+
+After applying this explicit irregular-compound table, split a simple mixed
+Arabic/full-width-digit Sudachi token at its numeric boundary. This handles
+ordinary compositional forms such as `2級/ニキュウ`, `3階/サンガイ`, `小5/ショウゴ`,
+and `中2/チュウニ`, producing `2/ 級/キュウ`, `3/ 階/ガイ`, `小/ショウ 5/`, and
+`中/チュウ 2/`. Derive the lexical component's reading by subtracting the
+independently obtained digit reading from the combined Sudachi reading. If that
+does not work, use an isolated Sudachi lookup of the lexical component as a
+fallback. This order preserves contextual readings such as `中/チュウ` and
+`階/ガイ` that an isolated lookup may not return.
+
+Keep this split deliberately conservative. It applies only when the surface has
+exactly one digit run and one non-digit component, and only when the remaining
+lexical reading is valid katakana. Preserve the original token when derivation
+fails, as with lexicalized alphanumeric forms such as `2nd/セカンド`. Explicit
+irregular compounds such as `1人/ヒトリ`, `2日/フツカ`, and `1つ/ヒトツ` always
+take precedence over this generic boundary split.
 
 Furigana rendering should use the Sudachi-derived annotated-form dictionary
 when possible. The dictionary can map `(surface, reading)` pairs such as
@@ -1703,14 +1756,14 @@ pattern to larger batches.
 For final yomi review, use a sentence-level review pack in one continuous list,
 but make the normal view look like ruby-rendered text rather than pipeline
 metadata. Avoid making each document a separate page unless later batch sizes
-require it. A flat list works better with the existing range-export model:
-default export covers everything, `from here` and `to here` marks narrow the
-exported range, and multiple returned files can be merged by stable item IDs.
+require it. Multiple returned tasks are merged by stable item IDs rather than
+by a browser-selected range.
 
-Each sentence should have only two visible controls:
-
-- `Skip`
-- `...` for range marks and other low-frequency actions
+Each sentence has one compact, mutually exclusive scope control with three icon
+segments: checkmark (`Keep`), archive box (`Skip`), and shield-with-X
+(`Exclude`). The previous range-mark control is removed because it has not been
+useful in actual operation. Rare actions may remain in a separate overflow menu
+only when a concrete need appears.
 
 Yomi targets should be edited inline. Unresolved targets are highlighted;
 safe targets are visually quiet but may still be tappable if candidate readings
@@ -1923,7 +1976,9 @@ Example behavior:
 - the next `./next` should project cached `out_of_scope` entity status to
   provisional skip reasons before general scope/yomi processing
 - the next `./next` should queue raw-text scope triage
-- the next `./next` should run or resume scope triage and exclude `Skip` units
+- the next `./next` should run or resume three-way scope triage; `Skip` and
+  provisional `Exclude` suppress paid reading work but retain cheap hybrid yomi
+  for human confirmation
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should build a yomi-reading queue from unresolved targets
@@ -2765,6 +2820,10 @@ may overlay that draft so the reviewer sees the latest local state, but only
 while the draft's task stage still matches the document's current stage. This
 never changes canonical queue membership; only imported pipeline state moves a
 document between Bulk Review, Escalated Repair, and Resolved.
+The preview is document-level, not review-item-level: it should show every unit
+in source order. For a resolved document, lazily load the latest finalized
+archive record and render its full unit list rather than showing only the units
+that happened to remain in a review pack.
 
 Finalized documents belong in a separate Archive Browser, not in the active
 Pack Map. The archive is published as static, lazily loadable JSON shards under
@@ -2806,11 +2865,18 @@ Browser validation must reject:
   kanji or Latin surfaces need a katakana reading, numeric-only surfaces need
   an empty reading, and kana/symbol surfaces need their normalized literal
   reading. Numeric-only includes ASCII/fullwidth digits, Unicode Roman numeral
-  symbols such as `Ⅲ`, and Japanese numeral digits such as `二〇〇二`, but not ASCII
-  Roman-looking strings such as `III`. Thus `Ⅲ/` and `二〇〇二/` are canonical,
+  symbols such as `Ⅲ`, and multi-character digit-style Japanese numeral runs such
+  as `二五`, `二〇〇二`, and `二○二六`, but not ASCII Roman-looking strings such as
+  `III`. Japanese numeral runs containing units such as `十`, `百`, `千`, `万`, or
+  `億` use ordinary lexical readings, as do single lexical numerals such as `七`.
+  Standalone notation symbols `〇` and `○` remain no-ruby. Thus `Ⅲ/` and
+  `二〇〇二/` are canonical,
   `Ⅲ/サン` is invalid, `III/スリー` can be valid,
   and `III/` is invalid. Mixed lexical surfaces such as `聖飢魔Ⅱ` still require a
-  normal katakana reading.
+  normal katakana reading. The deterministic symbolic-kaomoji marker is another
+  narrow exception: a multi-character, symbol-bearing surface may use
+  `カオモジ`, including faces containing Japanese characters such as `ノ`.
+  Semantic parentheticals such as `（笑）/カオモジ` remain invalid.
 - source-surface changes relative to the original rendered-yomi token surfaces
   after removing whitespace. In practice the UI should ignore differences
   between ASCII spaces and NBSP here, because finalized archive data may contain
@@ -3092,9 +3158,12 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `pack_id` must match the generated review pack
 - `reviewed_ranges` define which sentence items were actually reviewed
 - sparse `overrides` carry `skip` and target-level reading choices
-- target-level `choice_source: "none"` means the previous reading was rejected
-  and should enter the Escalated Repair queue; consecutive no-ruby targets are
-  grouped into one Escalated Repair span
+- an explicitly submitted target-level `choice_source: "none"` means the
+  previous reading was rejected and should enter the Escalated Repair queue;
+  consecutive no-ruby targets are grouped into one Escalated Repair span
+- automatic accepted no-ruby defaults are applied to rendered yomi but retain
+  `automatic_default: true`; they are not human rejections and must not enter
+  Escalated Repair
 - `skip` dominates operational output: target choices on a skipped sentence are
   preserved as audit data, but they are not applied to rendered yomi and do not
   trigger Escalated Repair

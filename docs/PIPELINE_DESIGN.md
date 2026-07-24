@@ -227,8 +227,10 @@ This keeps both cost and failure modes under control.
 
 Current LLM yomi direction:
 
-- use a binary raw-text scope triage (`Keep`/`Skip`) only to exclude non-target
-  material
+- use a compact raw-text scope triage (`Keep`/`Skip`/`Exclude`) before reading
+  work: `Skip` is recoverable non-target material, while `Exclude` is a
+  provisional recommendation for sensitive material that should disappear
+  permanently after explicit human confirmation
 - do not ask the first LLM pass to certify yomi correctness as
   `OK/Review/Skip`
 - ask the LLM for independent readings of marked kanji/Latin targets in
@@ -240,8 +242,8 @@ Current LLM yomi direction:
 This makes the LLM a second reading source rather than a black-box correctness
 classifier. It also preserves diagnostic metadata: N-gram support, stable
 two-kanji safety, LLM agreement, and human approval remain separate signals.
-The older `OK/Review/Skip` and `OK/Fix/Ambiguous/Skip` triage experiments are
-kept as prompt-evaluation history, not as the main implementation target.
+The older `OK/Review/Skip` and `OK/Fix/Ambiguous/Skip` triage experiments remain
+available through Git history, not as active prompts or implementation targets.
 
 ### 3.4 Use two judgment granularities
 
@@ -397,6 +399,8 @@ Responsibilities:
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
 - extract alphabetic entity occurrences and aggregate entity types
+- resolve number-plus-recognized-measurement-unit entities deterministically,
+  while retaining them in the occurrence artifacts for audit
 - attach a `certain` flag for sentence-level tasks
 
 Example signals:
@@ -423,19 +427,21 @@ task.
 
 Output:
 
-- unit records enriched with binary scope judgments for target/non-target text
+- unit records enriched with three-way scope judgments for target, recoverable
+  non-target, and terminally excluded text
 - per-target LLM reading results for yomi targets that were not suppressed by
   deterministic confidence rules
 
 Responsibilities:
 
 - run scope triage on raw text before mechanical yomi generation
-- return exactly one scope label: `Keep` or `Skip`
+- return exactly one scope label: `Keep`, `Skip`, or `Exclude`
 - treat `Skip` as non-target material such as foreign-language text, old
   Japanese prose, kanbun, Chinese, spam, obvious nonstandard OCR corruption, or
   flattened ruby interleaved with source characters; isolated ordinary typos
   remain in scope
-- treat `Skip` as a conservative privacy/reputational-risk gate when a unit
+- treat `Exclude` as a conservative privacy/reputational-risk recommendation
+  when a unit
   identifies a private person together with sensitive negative information such
   as arrest, criminal suspicion, accusations, scandal, disciplinary action, or
   illness
@@ -460,7 +466,8 @@ The materialized LLM stage writes separate artifacts:
 
 - raw LLM results, preserving raw text, parsed status, parse errors, usage, and
   metadata for audit and cost reporting
-- scope-gated unit artifacts, where every unit has a parsed `Keep`/`Skip`
+- scope-gated unit artifacts, where every unit has a parsed
+  `Keep`/`Skip`/`Exclude`
   result or a safe fallback
 - yomi-reading queue/result/apply artifacts, where each requested target has an
   LLM reading, comparison status, and usage metadata
@@ -473,13 +480,11 @@ format/key parse errors should first be retried once with a stricter prompt:
 results override first-pass results for the same item ID. Any remaining parse
 error after retry routes the target or unit to focused review.
 
-Scope triage is intentionally ordered before yomi generation. It only needs raw
-unit text, and early `Skip` decisions avoid spending Sudachi, decoder, safety,
-and yomi-reading LLM work on non-target units. Later yomi stages do not process
-`Skip` rows, but the pipeline must retain those rows and their provenance for
-Bulk Review and later audit. Processing eligibility and record retention are
-separate concerns: skipping expensive yomi work must never delete a unit before
-a human can inspect the machine decision.
+Scope triage is intentionally ordered before paid reading work. It only needs
+raw unit text. `Skip` and `Exclude` suppress paid reading calls, but all three
+labels continue through cheap Sudachi/hybrid generation so a human can inspect
+ruby text and a recoverable skip can later be restored. `Exclude` remains
+provisional until Bulk Review; the model alone must never make text disappear.
 
 In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or
@@ -1238,30 +1243,42 @@ internal stage ID remains `yomi_strong_repair_review`. Technical logs and file
 paths may keep internal names; UI copy and operator-facing docs should prefer
 the human labels.
 
-### S65 Provisional Skip Review
+### S65 Provisional Scope Review
 
 Output:
 
-- Bulk Review records containing the displayed `Skip` checkbox state
+- Bulk Review records containing the displayed three-way scope state
 - optional human overrides for alphabetic entities when provisional skip is
   restored
 
 Responsibilities:
 
-- show provisional alphabetic skip units greyed out with `Skip` pre-checked
+- show provisional alphabetic skip units greyed out with `Skip` selected
 - show concise skip reasons such as the triggering entity key and cached status
-- let the human uncheck `Skip` to restore the unit
+- let the human select `Keep` to restore the unit
+- show LLM-proposed sensitive exclusions as provisional `Exclude`; require an
+  explicit confirmation before submission accepts that terminal disposition
 - write effective `in_scope` overrides for triggering `out_of_scope` entities
   only when the human restores a provisional alphabetic skip
-- retain every machine-skipped unit through pack generation; omission from yomi
-  processing must not remove it from Bulk Review
+- retain every machine-skipped unit through mechanical/hybrid yomi generation
+  and pack generation; only paid LLM reading work is suppressed
+
+The sentence-level control is a compact three-segment selector with radio-group
+semantics, not a cycling button: checkmark for `Keep`, archive box for `Skip`,
+and shield-with-X for `Exclude`. Tooltips and accessible names expose the text
+labels. Selected states use neutral, subdued gray, and warning red styling.
+This replaces the unused range-selection control and keeps all choices directly
+reachable without consuming label width in the normal reading view.
 
 Asymmetric update rule:
 
 - human keeps a provisional skip checked: no entity-level change
 - human checks `Skip` on a normal unit: no entity-level change
-- human unchecks a provisional alphabetic skip: triggering entities become
+- human selects `Keep` for a provisional alphabetic skip: triggering entities become
   effective `in_scope`
+- human confirms `Exclude`: remove the unit from published review/archive
+  surfaces and every downstream corpus/model input, while retaining only the
+  minimum private audit record needed for idempotent processing
 
 Rationale:
 
@@ -1287,17 +1304,32 @@ A confirmed skipped record retains:
   rule, LLM judgment, or human action
 - machine reasons and any later human override provenance
 - enough version information to reproduce which review decision was applied
+- canonical hybrid yomi and ruby-rendering data, even though the unit is not
+  part of the finalized corpus
 
 It is excluded from finalized reading corpus output, decoder training data,
-yomi inference, and Escalated Repair. Ordinary reading controls are no longer
-available after confirmation. Restoring it later requires an explicit reopen
-or correction operation rather than normal ruby editing.
+yomi-reading LLM inference, and Escalated Repair. Ordinary Bulk Review controls
+are no longer available after confirmation. Restoring it later uses the
+finalized-correction path initialized from the preserved hybrid yomi; it does
+not send the unit back through Bulk Review.
 
-Resolved browsing may omit confirmed skips from the normal reading view, but
-the preferred default is a subdued raw-text tombstone marked `Skipped`. This
-keeps document structure and audit history understandable without presenting
-the text as corpus data. Corpus Map search should exclude these tombstones by
-default and may offer an explicit `Include skipped` filter.
+Resolved browsing shows confirmed skips as subdued ruby text marked `Skipped`.
+Corpus Map offers `Restore and Edit`, which emits an explicit `skip: false`
+finalized-correction patch. Applying that patch atomically moves the unit from
+the skipped artifact to finalized corpus data while preserving skip and
+restoration history.
+
+#### Confirmed exclusion lifecycle
+
+`Exclude` is distinct from ordinary skip. It is intended for sensitive material
+that should not remain browsable as a tombstone and should not be restorable
+through Corpus Map. Before human confirmation it behaves like a provisional
+skip and retains hybrid yomi for inspection. After confirmation it is terminal:
+published packs, Corpus Map, archive shards, search indexes, corpus output, and
+decoder training omit the unit. A compact internal audit record may retain its
+stable identity, reason category, and confirming submission, but must not
+republish the sensitive text. Reversal is an explicit administrative migration,
+not an ordinary browser edit.
 
 ### S70 Expensive Yomi Recovery
 
@@ -1839,8 +1871,10 @@ The first final-yomi review UI should be ruby-first and look like normal text,
 not like a table of pipeline metadata. For each sentence/unit, show only:
 
 - ruby-rendered text
-- a `Skip` checkbox
-- a compact `...` menu for range marks such as `from here` and `to here`
+- a compact three-way scope selector: checkmark (`Keep`), archive box (`Skip`),
+  and shield-with-X (`Exclude`)
+- only genuinely useful low-frequency actions; the unused range-selection
+  control is removed
 
 Do not show document IDs, unit IDs, target IDs, or signal details in the normal
 view. Keep them in the review pack for audit/debugging, but hide them from the
@@ -2639,14 +2673,14 @@ Build:
 - synchronous prompt-testing command
 - one compact triage prompt
 - batch submission path reusing the same prompt format
-- gold eval data under `data/evals/yomi_triage/`
-- prompt candidates under `config/prompts/`
+- gold eval data under the active task's directory in `data/evals/`
+- prompt candidates under `config/prompts/experiments/`
 
 Measure:
 
 - accuracy against the fixed gold set
-- dangerous confusion types, especially `OK` or `Review` when the expected
-  label is `Skip`
+- dangerous confusion types, especially `Keep` when scope triage expects
+  `Skip`
 - parse-error rate
 - input/output token counts
 - cached input token counts when reported
