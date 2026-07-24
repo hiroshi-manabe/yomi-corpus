@@ -1577,9 +1577,14 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   rubyLine.className = "ruby-line resolved-ruby-line";
   const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
   const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
+  const footnotes = normalizedStrongRepairFootnotes(unit.strong_repair_evidence || []);
   if (originalTokenPairs.length) {
     rubyLine.append(
-      ...renderReadonlyRubyFromTokensWithNodes(yomiTokenPairObjects(originalTokenPairs), unit.ruby_tokens || []),
+      ...renderReadonlyRubyFromTokensWithFootnotes(
+        yomiTokenPairObjects(originalTokenPairs),
+        unit.ruby_tokens || [],
+        unit.strong_repair_evidence || [],
+      ),
     );
   } else if (unit.excluded) {
     rubyLine.textContent = unit.tombstone_label || "Removed";
@@ -1646,7 +1651,9 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
-  row.append(summary, saved, editor);
+  row.append(summary);
+  appendStrongRepairFootnoteList(row, footnotes);
+  row.append(saved, editor);
   const restored = (localCorrection?.units || []).find(
     (savedUnit) =>
       String(savedUnit.unit_id || "") === String(unit.unit_id || "") &&
