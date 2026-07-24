@@ -1006,6 +1006,10 @@ button:disabled {
   background: linear-gradient(180deg, rgba(246, 239, 228, 0.52), rgba(255, 253, 249, 0.9));
 }
 
+.workflow-preview-body > * {
+  min-width: 0;
+}
+
 .workflow-preview-actions {
   border-top: 1px solid var(--line);
 }
@@ -1035,11 +1039,13 @@ button:disabled {
 .archive-correction-list {
   display: grid;
   gap: 10px;
+  min-width: 0;
 }
 
 .archive-correction-row {
   display: grid;
   gap: 10px;
+  min-width: 0;
   padding: 10px 12px;
   border: 1px solid rgba(31, 28, 23, 0.1);
   border-radius: 14px;
@@ -1526,6 +1532,7 @@ button:disabled {
 
 .strong-repair-footnotes p {
   margin: 3px 0;
+  overflow-wrap: anywhere;
 }
 
 .strong-repair-footnote-marker {
