@@ -1148,6 +1148,11 @@ button:disabled {
   color: rgba(31, 28, 23, 0.66);
 }
 
+.yomi-card.machine-exclude {
+  background: rgba(145, 48, 42, 0.06);
+  box-shadow: inset 3px 0 0 rgba(145, 48, 42, 0.48);
+}
+
 .skipped-tombstone-label {
   display: inline-flex;
   align-items: center;
@@ -1156,6 +1161,25 @@ button:disabled {
   border-radius: 999px;
   background: rgba(73, 78, 75, 0.13);
   color: rgba(31, 28, 23, 0.72);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.excluded-tombstone {
+  background: rgba(145, 48, 42, 0.06);
+  color: rgba(76, 37, 33, 0.66);
+}
+
+.excluded-tombstone-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(145, 48, 42, 0.14);
+  color: rgb(124, 40, 35);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -1617,6 +1641,56 @@ button:disabled {
 .yomi-skip-flag input:checked + .control-glyph {
   border-color: rgba(31, 28, 23, 0.72);
   background: rgba(31, 28, 23, 0.82);
+  color: #fffdf9;
+}
+
+.yomi-scope-selector {
+  display: inline-flex;
+  align-items: center;
+}
+
+.yomi-scope-option {
+  position: relative;
+  display: inline-grid;
+  cursor: pointer;
+}
+
+.yomi-scope-option input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.yomi-scope-option .control-glyph {
+  border-radius: 0;
+  margin-left: -1px;
+}
+
+.yomi-scope-option:first-child .control-glyph {
+  margin-left: 0;
+  border-radius: 4px 0 0 4px;
+}
+
+.yomi-scope-option:last-child .control-glyph {
+  border-radius: 0 4px 4px 0;
+}
+
+.yomi-scope-option.scope-keep input:checked + .control-glyph {
+  border-color: rgba(42, 103, 73, 0.72);
+  background: rgba(42, 103, 73, 0.86);
+  color: #fffdf9;
+}
+
+.yomi-scope-option.scope-skip input:checked + .control-glyph {
+  border-color: rgba(31, 28, 23, 0.72);
+  background: rgba(31, 28, 23, 0.82);
+  color: #fffdf9;
+}
+
+.yomi-scope-option.scope-exclude input:checked + .control-glyph {
+  border-color: rgba(145, 48, 42, 0.9);
+  background: rgba(145, 48, 42, 0.9);
   color: #fffdf9;
 }
 
