@@ -2368,6 +2368,7 @@ class PipelineWorkspace:
                 "units_scope_triaged_jsonl": str(output_path),
                 "scope_triage_keep": str(apply_summary.keep),
                 "scope_triage_skip": str(apply_summary.skip),
+                "scope_triage_exclude": str(apply_summary.exclude),
                 "scope_triage_provisional_alphabetic_skip": str(
                     apply_summary.provisional_alphabetic_skip
                 ),
@@ -3306,6 +3307,7 @@ class PipelineWorkspace:
         batch_state = self.load_batch_state(batch_name)
         output_path = batch_dir / "units.yomi.final.jsonl"
         skipped_output_path = batch_dir / "units.yomi.skipped.jsonl"
+        excluded_output_path = batch_dir / "units.yomi.excluded.jsonl"
         summary_path = batch_dir / "yomi_finalize_summary.json"
         strong_repaired_path = batch_dir / "units.yomi.strong_repaired.jsonl"
         strong_review_pack = batch_dir / "yomi_strong_repair_review_pack.json"
@@ -3350,10 +3352,12 @@ class PipelineWorkspace:
             output_jsonl=output_path,
             summary_json=summary_path,
             skipped_output_jsonl=skipped_output_path,
+            excluded_output_jsonl=excluded_output_path,
         )
         artifacts = {
             "units_yomi_final_jsonl": str(output_path),
             "units_yomi_skipped_jsonl": str(skipped_output_path),
+            "units_yomi_excluded_jsonl": str(excluded_output_path),
             "yomi_finalize_summary_json": str(summary_path),
             **strong_import_artifacts,
         }

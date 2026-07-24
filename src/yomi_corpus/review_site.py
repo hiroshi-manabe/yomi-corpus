@@ -339,6 +339,7 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
         source_paths = (
             batch_dir / "units.yomi.final.jsonl",
             batch_dir / "units.yomi.skipped.jsonl",
+            batch_dir / "units.yomi.excluded.jsonl",
         )
         for row in (
             row
@@ -369,6 +370,7 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                     "finalized_correction_sentence_count": 0,
                     "manual_correction_required_count": 0,
                     "skipped_unit_count": 0,
+                    "excluded_unit_count": 0,
                     "_finalized_correction_submission_ids": set(),
                     "text_preview": "",
                     "units": [],
@@ -388,6 +390,8 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                 doc["manual_correction_required_count"] += 1
             if unit.get("skipped"):
                 doc["skipped_unit_count"] += 1
+            if unit.get("excluded"):
+                doc["excluded_unit_count"] += 1
             if not doc["text_preview"]:
                 doc["text_preview"] = str(unit.get("text") or "")[:120]
     result = []
@@ -422,6 +426,7 @@ def finalized_archive_document_revision(doc: dict) -> str:
                     unit.get("manual_correction_required")
                 ),
                 "skipped": bool(unit.get("skipped")),
+                "excluded": bool(unit.get("excluded")),
             }
             for unit in doc.get("units", [])
         ],
@@ -454,6 +459,23 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
 
 
 def archive_unit_from_row(row: dict) -> dict | None:
+    if row.get("excluded"):
+        return {
+            "unit_id": str(row.get("unit_id") or ""),
+            "unit_seq": int(row.get("unit_seq") or 0),
+            "text": "",
+            "yomi_tokens": [],
+            "rendered_yomi": "",
+            "ruby_tokens": [],
+            "finalized_correction_count": 0,
+            "manual_correction_required": False,
+            "manual_correction": {},
+            "skipped": False,
+            "excluded": True,
+            "tombstone_label": "Removed",
+            "reason_category": str(row.get("reason_category") or "sensitive_content"),
+            "applied_finalized_correction_submission_ids": [],
+        }
     text = str(row.get("text") or "")
     review = (
         row.get("analysis", {})
@@ -476,6 +498,7 @@ def archive_unit_from_row(row: dict) -> dict | None:
         "manual_correction_required": manual_correction_required(row),
         "manual_correction": manual_correction_state(row),
         "skipped": skipped,
+        "excluded": False,
         "skip_provenance": archive_skip_provenance(row) if skipped else None,
         "applied_finalized_correction_submission_ids": sorted(
             finalized_correction_submission_ids(row)
@@ -642,7 +665,7 @@ def write_archive_search_index(
                 "text": "\n".join(
                     str(unit.get("text") or "")
                     for unit in doc.get("units", [])
-                    if not unit.get("skipped")
+                    if not unit.get("skipped") and not unit.get("excluded")
                 ),
             }
         )

@@ -538,6 +538,63 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(unit["skip_provenance"]["submission_id"], "review-159")
             self.assertEqual(search["documents"][0]["text"], "")
 
+    def test_publish_review_archive_exports_content_free_exclusion(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_root = root / "data" / "pipeline" / "batches"
+            unit_root = root / "data" / "units" / "dev_batch_0001"
+            output_root = root / "docs" / "review"
+            batch_root.mkdir(parents=True)
+            unit_root.mkdir(parents=True)
+            batch_root.joinpath("dev_batch_0001.json").write_text(
+                json.dumps(
+                    {
+                        "batch_name": "dev_batch_0001",
+                        "track_name": "dev",
+                        "current_stage": "yomi_finalized",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            unit_root.joinpath("units.yomi.final.jsonl").write_text("", encoding="utf-8")
+            unit_root.joinpath("units.yomi.excluded.jsonl").write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "excluded": True,
+                        "tombstone_label": "Removed",
+                        "doc_id": "doc-sensitive",
+                        "track_doc_seq": 13,
+                        "unit_id": "doc-sensitive:u0001",
+                        "unit_seq": 1,
+                        "reason_category": "sensitive_content",
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            publish_review_archive(
+                project_root=root,
+                review_output_dir=output_root,
+                shard_size=100,
+            )
+
+            index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
+            shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
+            shard = json.loads(shard_path.read_text(encoding="utf-8"))
+            search = json.loads(
+                (output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8")
+            )
+            doc = shard["documents"][0]
+            unit = doc["units"][0]
+            self.assertEqual(doc["excluded_unit_count"], 1)
+            self.assertTrue(unit["excluded"])
+            self.assertEqual(unit["tombstone_label"], "Removed")
+            self.assertEqual(unit["text"], "")
+            self.assertEqual(unit["yomi_tokens"], [])
+            self.assertEqual(search["documents"][0]["text"], "")
+
 
 if __name__ == "__main__":
     unittest.main()

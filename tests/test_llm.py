@@ -54,13 +54,13 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertTrue(config.enable_web_search)
         self.assertEqual(config.web_search_context_size, "medium")
 
-    def test_scope_triage_prompt_mentions_sensitive_private_person_skip(self) -> None:
+    def test_scope_triage_prompt_mentions_sensitive_private_person_exclusion(self) -> None:
         config = load_llm_task_config("config/llm/scope_triage.toml")
         prompt = Path(config.prompt_template).read_text(encoding="utf-8")
 
         self.assertIn("private person", prompt)
         self.assertIn("criminal suspicion", prompt)
-        self.assertIn("When unsure, Skip", prompt)
+        self.assertIn("When unsure about this risk, Exclude", prompt)
 
     def test_scope_triage_prompt_skips_obvious_source_corruption_not_ordinary_typos(self) -> None:
         config = load_llm_task_config("config/llm/scope_triage.toml")
@@ -301,6 +301,9 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_parse_scope_triage_label_output(self) -> None:
         parsed = parse_output("Skip", "scope_triage_label")
         self.assertEqual(parsed, {"status": "Skip"})
+
+        excluded = parse_output("Exclude", "scope_triage_label")
+        self.assertEqual(excluded, {"status": "Exclude"})
 
     def test_build_response_kwargs_for_gpt5(self) -> None:
         config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")

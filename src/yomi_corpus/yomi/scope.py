@@ -21,6 +21,7 @@ class ScopeTriageApplySummary:
     llm_result_count: int
     keep: int
     skip: int
+    exclude: int
     provisional_alphabetic_skip: int
     parse_error_keep: int
     missing_result_keep: int
@@ -84,6 +85,7 @@ def apply_scope_triage_results_file(
     read_units = 0
     keep = 0
     skip = 0
+    exclude = 0
     provisional_alphabetic_skip = 0
     parse_error_keep = 0
     missing_result_keep = 0
@@ -107,6 +109,8 @@ def apply_scope_triage_results_file(
             judgment = build_scope_judgment(unit_id, result)
             if judgment["status"] == "Skip":
                 skip += 1
+            elif judgment["status"] == "Exclude":
+                exclude += 1
             elif judgment["source"] == "parse_error":
                 keep += 1
                 parse_error_keep += 1
@@ -123,6 +127,7 @@ def apply_scope_triage_results_file(
         llm_result_count=len(results),
         keep=keep,
         skip=skip,
+        exclude=exclude,
         provisional_alphabetic_skip=provisional_alphabetic_skip,
         parse_error_keep=parse_error_keep,
         missing_result_keep=missing_result_keep,
@@ -189,7 +194,7 @@ def build_scope_judgment(unit_id: str, result: dict[str, Any] | None) -> dict[st
             "result_item_id": None,
         }
     parsed = result.get("parsed")
-    if isinstance(parsed, dict) and parsed.get("status") in {"Keep", "Skip"}:
+    if isinstance(parsed, dict) and parsed.get("status") in {"Keep", "Skip", "Exclude"}:
         return {
             "status": str(parsed["status"]),
             "source": "llm",
@@ -200,7 +205,7 @@ def build_scope_judgment(unit_id: str, result: dict[str, Any] | None) -> dict[st
     return {
         "status": "Keep",
         "source": "parse_error",
-        "parse_error": result.get("parse_error") or "Expected Keep or Skip.",
+        "parse_error": result.get("parse_error") or "Expected Keep, Skip, or Exclude.",
         "raw_text": result.get("raw_text"),
         "result_item_id": result.get("item_id") or unit_id,
     }

@@ -59,6 +59,10 @@ FINALIZED_CORRECTION_STAGE = "finalized_correction"
 FINALIZED_CORRECTION_SUBMISSION_TYPE = "finalized_correction_patch"
 QUEUE_ID_FINAL_REVIEW = "final_review"
 QUEUE_ID_STRONG_REPAIR = "strong_repair"
+SCOPE_KEEP = "Keep"
+SCOPE_SKIP = "Skip"
+SCOPE_EXCLUDE = "Exclude"
+SCOPE_DISPOSITIONS = {SCOPE_KEEP, SCOPE_SKIP, SCOPE_EXCLUDE}
 
 FINAL_REVIEW_READING_ALTERNATIVES: dict[str, tuple[str, ...]] = {
     "kg": ("キロ", "キログラム"),
@@ -81,6 +85,13 @@ def manual_correction_state(unit: dict[str, Any]) -> dict[str, Any]:
         .get("manual_correction", {})
     )
     return state if isinstance(state, dict) else {}
+
+
+def normalize_scope_disposition(value: Any, *, skip: Any = None) -> str:
+    disposition = str(value or "")
+    if disposition in SCOPE_DISPOSITIONS:
+        return disposition
+    return SCOPE_SKIP if bool(skip) else SCOPE_KEEP
 
 
 def manual_correction_required(unit: dict[str, Any]) -> bool:
@@ -902,8 +913,9 @@ def build_review_item(
     unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
     scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
     alphabetic_scope = unit.get("analysis", {}).get("mechanical", {}).get("alphabetic_scope", {})
+    scope_status = normalize_scope_disposition(scope.get("status"))
     provisional_skip = bool(
-        scope.get("status") == "Skip"
+        scope_status == SCOPE_SKIP
         and (
             scope.get("provisional")
             or scope.get("source") == "provisional_alphabetic_skip"
@@ -930,9 +942,11 @@ def build_review_item(
         ),
         "rendered_yomi": rendered_yomi,
         "rendered_yomi_ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi),
-        "scope_status": scope.get("status"),
+        "scope_status": scope_status,
+        "scope_default": SCOPE_SKIP if provisional_skip else scope_status,
+        "exclude_default": scope_status == SCOPE_EXCLUDE,
         "provisional_skip": provisional_skip,
-        "skip_default": bool(scope.get("status") == "Skip" or provisional_skip),
+        "skip_default": bool(scope_status == SCOPE_SKIP or provisional_skip),
         "skip_reasons": list(alphabetic_scope.get("reasons") or [])
         if isinstance(alphabetic_scope, dict)
         else [],
@@ -2732,6 +2746,14 @@ def replay_review_submissions(
     effective: dict[str, dict[str, Any]] = {}
 
     for submission in submissions:
+        terminal_exclusion_confirmation = submission.get("terminal_exclusion_confirmation", {})
+        confirmed_terminal_exclusion_ids = {
+            str(item_id)
+            for item_id in terminal_exclusion_confirmation.get("item_ids", [])
+        } if (
+            isinstance(terminal_exclusion_confirmation, dict)
+            and terminal_exclusion_confirmation.get("confirmed") is True
+        ) else set()
         overrides = {
             str(row["item_id"]): row
             for row in submission.get("overrides", [])
@@ -2750,7 +2772,12 @@ def replay_review_submissions(
                 effective[item_id] = {
                     "item_id": item_id,
                     "reviewed": True,
+                    "disposition": normalize_scope_disposition(
+                        item.get("scope_default"),
+                        skip=item.get("skip_default", False),
+                    ),
                     "skip": bool(item.get("skip_default", False)),
+                    "terminal_exclusion_confirmed": item_id in confirmed_terminal_exclusion_ids,
                     "manual_correction_required": bool(
                         item.get("manual_correction_required", False)
                     ),
@@ -2770,7 +2797,12 @@ def replay_review_submissions(
                     {
                         "item_id": item_id,
                         "reviewed": True,
+                        "disposition": normalize_scope_disposition(
+                            item.get("scope_default"),
+                            skip=item.get("skip_default", False),
+                        ),
                         "skip": bool(item.get("skip_default", False)),
+                        "terminal_exclusion_confirmed": item_id in confirmed_terminal_exclusion_ids,
                         "manual_correction_required": bool(
                             item.get("manual_correction_required", False)
                         ),
@@ -2781,6 +2813,16 @@ def replay_review_submissions(
                 )
                 if "skip" in override:
                     current["skip"] = bool(override["skip"])
+                    if "disposition" not in override:
+                        current["disposition"] = normalize_scope_disposition(
+                            None,
+                            skip=override["skip"],
+                        )
+                if "disposition" in override:
+                    current["disposition"] = normalize_scope_disposition(
+                        override.get("disposition")
+                    )
+                    current["skip"] = current["disposition"] != SCOPE_KEEP
                 if "manual_correction_required" in override:
                     current["manual_correction_required"] = bool(
                         override["manual_correction_required"]
@@ -2795,6 +2837,9 @@ def replay_review_submissions(
                 current["note"] = str(override.get("note", "")).strip()
                 current["submission_id"] = str(submission.get("submission_id", ""))
                 current["generated_at_epoch"] = int(submission.get("generated_at_epoch", 0))
+                current["terminal_exclusion_confirmed"] = (
+                    item_id in confirmed_terminal_exclusion_ids
+                )
     return effective
 
 
@@ -3340,6 +3385,8 @@ def apply_final_review_file(
     written_units = 0
     reviewed_units = 0
     skipped_units = 0
+    excluded_units = 0
+    unconfirmed_excluded_units = 0
     target_override_count = 0
     span_override_count = 0
     exact_rendered_updates = 0
@@ -3373,9 +3420,23 @@ def apply_final_review_file(
                 no_ruby_target_count += sum(
                     1 for row in target_overrides if row.get("choice_source") == "none"
                 )
-                if item_state.get("skip"):
+                disposition = normalize_scope_disposition(
+                    item_state.get("disposition"),
+                    skip=item_state.get("skip"),
+                )
+                if (
+                    disposition == SCOPE_EXCLUDE
+                    and not item_state.get("terminal_exclusion_confirmed")
+                ):
+                    unconfirmed_excluded_units += 1
+                    dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+                    written_units += 1
+                    continue
+                if disposition == SCOPE_SKIP:
                     skipped_units += 1
-                if item_state.get("skip"):
+                elif disposition == SCOPE_EXCLUDE:
+                    excluded_units += 1
+                if disposition != SCOPE_KEEP:
                     exact_target_updates = 0
                     exact_span_updates = 0
                 else:
@@ -3398,7 +3459,7 @@ def apply_final_review_file(
             written_units += 1
 
     unreviewed_units = read_units - reviewed_units
-    stage_complete = unreviewed_units == 0
+    stage_complete = unreviewed_units == 0 and unconfirmed_excluded_units == 0
     summary = {
         "rule": APPLY_RULE,
         "pack_id": str(pack["pack_id"]),
@@ -3409,6 +3470,8 @@ def apply_final_review_file(
         "reviewed_units": reviewed_units,
         "unreviewed_units": unreviewed_units,
         "skipped_units": skipped_units,
+        "excluded_units": excluded_units,
+        "unconfirmed_excluded_units": unconfirmed_excluded_units,
         "target_override_count": target_override_count,
         "span_override_count": span_override_count,
         "no_ruby_target_count": no_ruby_target_count,
@@ -3417,7 +3480,12 @@ def apply_final_review_file(
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
     }
-    if not stage_complete:
+    if unconfirmed_excluded_units:
+        summary["blocking_reason"] = (
+            f"Yomi final review has {unconfirmed_excluded_units} terminal exclusions "
+            "without explicit confirmation."
+        )
+    elif not stage_complete:
         summary["blocking_reason"] = (
             f"Yomi final review is incomplete: {unreviewed_units} of {read_units} "
             "units have not been reviewed."
@@ -3633,12 +3701,18 @@ def set_final_review_payload(
     exact_rendered_span_updates: int,
 ) -> None:
     human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+    disposition = normalize_scope_disposition(
+        item_state.get("disposition"),
+        skip=item_state.get("skip"),
+    )
     human_review["yomi_final"] = {
         "rule": APPLY_RULE,
         "pack_id": pack_id,
         "reviewed": True,
         "item_id": item.get("item_id"),
-        "skip": bool(item_state.get("skip")),
+        "disposition": disposition,
+        "skip": disposition != SCOPE_KEEP,
+        "exclude": disposition == SCOPE_EXCLUDE,
         "target_overrides": target_overrides,
         "span_overrides": span_overrides,
         "note": str(item_state.get("note", "")),
@@ -4270,6 +4344,7 @@ def finalize_reviewed_yomi_file(
     output_jsonl: Path,
     summary_json: Path,
     skipped_output_jsonl: Path | None = None,
+    excluded_output_jsonl: Path | None = None,
 ) -> dict[str, Any]:
     strong_summary = load_json(strong_queue_summary_json)
     queued_items = int(strong_summary.get("queued_items", 0))
@@ -4303,15 +4378,23 @@ def finalize_reviewed_yomi_file(
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     if skipped_output_jsonl is not None:
         skipped_output_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    if excluded_output_jsonl is not None:
+        excluded_output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     read_units = 0
     written_units = 0
     skipped_units = 0
+    excluded_units = 0
     unreviewed_units = 0
     review_by_unit_id = load_yomi_final_review_by_unit_id(reviewed_units_jsonl)
     skipped_dst = (
         skipped_output_jsonl.open("w", encoding="utf-8")
         if skipped_output_jsonl is not None
+        else None
+    )
+    excluded_dst = (
+        excluded_output_jsonl.open("w", encoding="utf-8")
+        if excluded_output_jsonl is not None
         else None
     )
     try:
@@ -4330,7 +4413,19 @@ def finalize_reviewed_yomi_file(
                 if not isinstance(review, dict) or not review.get("reviewed"):
                     unreviewed_units += 1
                     continue
-                if review.get("skip"):
+                disposition = normalize_scope_disposition(
+                    review.get("disposition"),
+                    skip=review.get("skip"),
+                )
+                if disposition == SCOPE_EXCLUDE:
+                    excluded_units += 1
+                    if excluded_dst is not None:
+                        excluded_dst.write(
+                            json.dumps(exclusion_tombstone_from_unit(unit), ensure_ascii=False)
+                            + "\n"
+                        )
+                    continue
+                if disposition == SCOPE_SKIP:
                     skipped_units += 1
                     if skipped_dst is not None:
                         skipped_dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
@@ -4341,16 +4436,22 @@ def finalize_reviewed_yomi_file(
     finally:
         if skipped_dst is not None:
             skipped_dst.close()
+        if excluded_dst is not None:
+            excluded_dst.close()
     summary = {
         "rule": "yomi_finalized_no_strong_repairs_v1",
         "read_units": read_units,
         "written_units": written_units,
         "skipped_units": skipped_units,
+        "excluded_units": excluded_units,
         "unreviewed_units": unreviewed_units,
         "strong_queue_items": queued_items,
         "output_jsonl": str(output_jsonl),
         "skipped_output_jsonl": str(skipped_output_jsonl)
         if skipped_output_jsonl is not None
+        else None,
+        "excluded_output_jsonl": str(excluded_output_jsonl)
+        if excluded_output_jsonl is not None
         else None,
         "summary_json": str(summary_json),
     }
@@ -4359,6 +4460,34 @@ def finalize_reviewed_yomi_file(
         encoding="utf-8",
     )
     return {"stage_complete": True, **summary}
+
+
+def exclusion_tombstone_from_unit(
+    unit: dict[str, Any],
+    *,
+    reason_category: str = "sensitive_content",
+) -> dict[str, Any]:
+    review = (
+        unit.get("analysis", {})
+        .get("human_review", {})
+        .get("yomi_final", {})
+    )
+    return {
+        "schema_version": 1,
+        "excluded": True,
+        "tombstone_label": "Removed",
+        "doc_id": str(unit.get("doc_id") or ""),
+        "track_doc_seq": unit.get("track_doc_seq"),
+        "unit_id": str(unit.get("unit_id") or ""),
+        "unit_seq": unit.get("unit_seq"),
+        "reason_category": reason_category,
+        "confirmation_submission_id": str(review.get("submission_id") or "")
+        if isinstance(review, dict)
+        else "",
+        "confirmed_at_epoch": int(review.get("generated_at_epoch") or 0)
+        if isinstance(review, dict)
+        else 0,
+    }
 
 
 def canonicalize_finalized_unit_yomi(

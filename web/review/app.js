@@ -218,7 +218,11 @@ function bindEvents() {
   });
 
   el.copyJson.addEventListener("click", async () => {
-    if (await copySubmissionJsonToClipboard()) {
+    const copied = await copySubmissionJsonToClipboard();
+    if (copied === null) {
+      return;
+    }
+    if (copied) {
       showStatus("Submission JSON copied. Open an issue and paste it into the body.");
     } else {
       showStatus("Clipboard copy failed. The JSON text is selected; copy it manually, then open an issue.", true);
@@ -226,7 +230,11 @@ function bindEvents() {
   });
 
   el.downloadJson.addEventListener("click", () => {
-    const payload = formatSubmissionJson(buildSubmissionPayload());
+    const submission = buildSubmissionPayload();
+    if (!confirmTerminalExclusions(submission)) {
+      return;
+    }
+    const payload = formatSubmissionJson(submission);
     const blob = new Blob([payload], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1561,6 +1569,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   row.dataset.unitIndex = String(index);
   row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
   row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
+  row.classList.toggle("excluded-tombstone", Boolean(unit.excluded));
 
   const summary = document.createElement("div");
   summary.className = "archive-correction-row-summary";
@@ -1572,6 +1581,8 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     rubyLine.append(
       ...renderReadonlyRubyFromTokensWithNodes(yomiTokenPairObjects(originalTokenPairs), unit.ruby_tokens || []),
     );
+  } else if (unit.excluded) {
+    rubyLine.textContent = unit.tombstone_label || "Removed";
   } else {
     rubyLine.textContent = unit.text || "";
   }
@@ -1579,6 +1590,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
   editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
+  editButton.disabled = Boolean(unit.excluded);
   if (unit.skipped) {
     editButton.title = "Restore this skipped sentence and edit its preserved hybrid yomi";
   }
@@ -1590,6 +1602,12 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     skipped.className = "skipped-tombstone-label";
     skipped.textContent = "Skipped";
     actions.append(skipped);
+  }
+  if (unit.excluded) {
+    const excluded = document.createElement("span");
+    excluded.className = "excluded-tombstone-label";
+    excluded.textContent = unit.tombstone_label || "Removed";
+    actions.append(excluded);
   }
   if (unit.manual_correction_required) {
     const flag = document.createElement("span");
@@ -2411,6 +2429,7 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
     const node = document.createElement("article");
     node.className = "workflow-preview-item resolved-yomi-preview";
     node.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
+    node.classList.toggle("excluded-tombstone", Boolean(unit.excluded));
     const rubyLine = document.createElement("p");
     rubyLine.className = "ruby-line resolved-ruby-line";
     const tokenPairs = archiveUnitYomiTokenPairs(unit);
@@ -2421,6 +2440,8 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
           unit.ruby_tokens || [],
         ),
       );
+    } else if (unit.excluded) {
+      rubyLine.textContent = unit.tombstone_label || "Removed";
     } else {
       rubyLine.textContent = unit.text || "";
     }
@@ -2429,6 +2450,12 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
       const label = document.createElement("span");
       label.className = "skipped-tombstone-label";
       label.textContent = "Skipped";
+      node.append(label);
+    }
+    if (unit.excluded) {
+      const label = document.createElement("span");
+      label.className = "excluded-tombstone-label";
+      label.textContent = unit.tombstone_label || "Removed";
       node.append(label);
     }
     container.append(node);
@@ -4153,32 +4180,64 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
   node.classList.toggle("machine-skip", Boolean(item.skip_default));
+  node.classList.toggle("machine-exclude", item.scope_default === "Exclude");
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
-  const skipLabel = document.createElement("label");
-  skipLabel.className = "yomi-control yomi-flag yomi-skip-flag";
   const skipReason = (item.skip_reasons || [])
     .map((reason) => reason.note || reason.entity_text || reason.entity_key || "")
     .filter(Boolean)
     .join("; ");
-  skipLabel.title = skipReason
-    ? `Provisional machine skip: ${skipReason}`
-    : item.skip_default
-      ? "Machine skip suggestion; uncheck to keep this sentence"
-      : "Skip this sentence";
-  const skipCheckbox = document.createElement("input");
-  skipCheckbox.type = "checkbox";
-  skipCheckbox.disabled = !editable;
-  skipCheckbox.checked = override?.skip ?? item.skip_default ?? false;
-  skipCheckbox.setAttribute("aria-label", "Skip this sentence");
-  const skipGlyph = document.createElement("span");
-  skipGlyph.className = "control-glyph";
-  skipGlyph.setAttribute("aria-hidden", "true");
-  skipGlyph.textContent = "×";
-  skipLabel.append(skipCheckbox, skipGlyph);
-  controls.append(skipLabel);
+  const defaultDisposition = item.scope_default || (item.skip_default ? "Skip" : "Keep");
+  const currentDisposition =
+    override?.disposition ||
+    (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
+  const scopeSelector = document.createElement("div");
+  scopeSelector.className = "yomi-scope-selector";
+  scopeSelector.setAttribute("role", "radiogroup");
+  scopeSelector.setAttribute("aria-label", "Corpus disposition");
+  const scopeOptions = [
+    { value: "Keep", glyph: "✓", title: "Keep in corpus" },
+    {
+      value: "Skip",
+      glyph: "▣",
+      title: skipReason ? `Recoverable skip: ${skipReason}` : "Skip, but allow later restoration",
+    },
+    { value: "Exclude", glyph: "⛨", title: "Permanently exclude sensitive content" },
+  ];
+  for (const option of scopeOptions) {
+    const label = document.createElement("label");
+    label.className = `yomi-scope-option scope-${option.value.toLowerCase()}`;
+    label.title = option.title;
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = `scope-${item.item_id}`;
+    input.value = option.value;
+    input.disabled = !editable;
+    input.checked = currentDisposition === option.value;
+    input.setAttribute("aria-label", option.title);
+    const glyph = document.createElement("span");
+    glyph.className = "control-glyph";
+    glyph.setAttribute("aria-hidden", "true");
+    glyph.textContent = option.glyph;
+    label.append(input, glyph);
+    if (editable) {
+      input.addEventListener("change", () => {
+        if (!input.checked) {
+          return;
+        }
+        const draft = ensureYomiOverride(item.item_id);
+        draft.disposition = option.value;
+        draft.skip = option.value !== "Keep";
+        cleanupYomiOverride(item.item_id);
+        touchDraft();
+        renderSubmissionPreview();
+      });
+    }
+    scopeSelector.append(label);
+  }
+  controls.append(scopeSelector);
 
   const manualCorrectionControl = createManualCorrectionFlag({
     checked: override?.manual_correction_required ?? item.manual_correction_required ?? false,
@@ -4193,28 +4252,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   });
   controls.append(manualCorrectionControl);
 
-  const menu = document.createElement("details");
-  menu.className = "yomi-menu";
-  const summary = document.createElement("summary");
-  summary.title = "Range markers";
-  summary.setAttribute("aria-label", "Range markers");
-  summary.textContent = "⋯";
-  menu.append(summary);
-  const menuBody = document.createElement("div");
-  menuBody.className = "yomi-menu-body";
-  const fromButton = document.createElement("button");
-  fromButton.type = "button";
-  fromButton.className = "secondary-button";
-  fromButton.textContent = isFrom ? "From here ✓" : "From here";
-  fromButton.disabled = !editable;
-  const toButton = document.createElement("button");
-  toButton.type = "button";
-  toButton.className = "secondary-button";
-  toButton.textContent = isTo ? "To here ✓" : "To here";
-  toButton.disabled = !editable;
-  menuBody.append(fromButton, toButton);
-  menu.append(menuBody);
-  controls.append(menu);
   node.append(controls);
 
   const rubyLine = document.createElement("p");
@@ -4225,22 +4262,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   if (!editable) {
     return;
   }
-  skipCheckbox.addEventListener("change", () => {
-    const draft = ensureYomiOverride(item.item_id);
-    draft.skip = skipCheckbox.checked;
-    touchDraft();
-    renderSubmissionPreview();
-  });
-  fromButton.addEventListener("click", () => {
-    state.currentDraft.from_seq = item.seq;
-    touchDraft();
-    render();
-  });
-  toButton.addEventListener("click", () => {
-    state.currentDraft.to_seq = item.seq;
-    touchDraft();
-    render();
-  });
 }
 
 function createManualCorrectionFlag({ checked, editable, onChange }) {
@@ -4627,10 +4648,15 @@ function cleanupYomiOverride(itemId) {
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
+  const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
+  const defaultDisposition = item?.scope_default || (item?.skip_default ? "Skip" : "Keep");
+  const hasDispositionChange =
+    typeof draft.disposition === "string" && draft.disposition !== defaultDisposition;
   if (
     !hasTargets &&
     !hasSpanOverrides &&
     !draft.skip &&
+    !hasDispositionChange &&
     !draft.note &&
     typeof draft.manual_correction_required !== "boolean"
   ) {
@@ -4696,10 +4722,14 @@ async function openIssueForCurrentTask() {
     openUrlInNewTab(urls.issue.url);
     return;
   }
+  const submission = buildSubmissionPayload();
+  if (!confirmTerminalExclusions(submission)) {
+    return;
+  }
   const record = currentTaskDraftRecord();
   state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
   touchDraft();
-  const copied = await copySubmissionJsonToClipboard();
+  const copied = await copyTextToClipboard(formatSubmissionJson(submission));
   const urls = buildIssueUrls();
   openUrlInNewTab(urls.issue.url);
   state.pendingIssueTaskId = record.task_id;
@@ -4712,8 +4742,69 @@ async function openIssueForCurrentTask() {
 }
 
 async function copySubmissionJsonToClipboard() {
-  const payload = formatSubmissionJson(buildSubmissionPayload());
+  const submission = buildSubmissionPayload();
+  if (!confirmTerminalExclusions(submission)) {
+    return null;
+  }
+  const payload = formatSubmissionJson(submission);
   return copyTextToClipboard(payload);
+}
+
+function confirmTerminalExclusions(payload) {
+  const overrides = [
+    ...(payload?.overrides || []),
+    ...(payload?.submissions || []).flatMap((submission) => submission?.overrides || []),
+  ];
+  const explicitIds = overrides
+    .filter((row) => row?.disposition === "Exclude")
+    .map((row) => String(row.item_id || ""))
+    .filter(Boolean);
+  const defaultIds = (state.currentPack?.items || [])
+    .filter(
+      (item) =>
+        isItemIncludedInSubmission(item) &&
+        itemReviewStage(item) === "yomi_final_review" &&
+        item.scope_default === "Exclude" &&
+        !overrides.some(
+          (row) =>
+            String(row?.item_id || "") === originalItemId(item) &&
+            row?.disposition !== "Exclude",
+        ),
+    )
+    .map((item) => originalItemId(item));
+  const itemIds = [...new Set([...explicitIds, ...defaultIds])];
+  if (!itemIds.length) {
+    return true;
+  }
+  if (!window.confirm(
+    `${itemIds.length} sentence(s) will be permanently excluded. Their text and readings will be removed from published data and cannot be restored in Corpus Map. Continue?`,
+  )) {
+    return false;
+  }
+  const submissions = payload.submissions || [payload];
+  for (const submission of submissions) {
+    if (submission.review_stage !== "yomi_final_review") {
+      continue;
+    }
+    const sourceItemIds = new Set(
+      (state.currentPack?.items || [])
+        .filter(
+          (item) =>
+            isItemIncludedInSubmission(item) &&
+            itemReviewStage(item) === submission.review_stage &&
+            (!submission.pack_id || item.source_pack_id === submission.pack_id),
+        )
+        .map((item) => originalItemId(item)),
+    );
+    const confirmedIds = itemIds.filter((itemId) => sourceItemIds.has(itemId));
+    if (confirmedIds.length) {
+      submission.terminal_exclusion_confirmation = {
+        confirmed: true,
+        item_ids: confirmedIds,
+      };
+    }
+  }
+  return true;
 }
 
 function formatSubmissionJson(payload) {
@@ -4987,6 +5078,9 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       }
       return {
         item_id: originalItemId(item),
+        ...(typeof override.disposition === "string"
+          ? { disposition: override.disposition }
+          : {}),
         ...(typeof override.skip === "boolean" ? { skip: override.skip } : {}),
         ...(typeof override.manual_correction_required === "boolean"
           ? { manual_correction_required: override.manual_correction_required }
@@ -5017,6 +5111,7 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       (row) =>
         row.targets.length > 0 ||
         row.span_overrides.length > 0 ||
+        "disposition" in row ||
         "skip" in row ||
         "manual_correction_required" in row ||
         row.note

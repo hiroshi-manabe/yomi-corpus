@@ -277,6 +277,6 @@ def _expected_rejected_span(metadata: dict[str, Any] | None) -> str:
 
 def parse_scope_triage_label(text: str) -> dict[str, str]:
     label = text.strip()
-    if label not in {"Keep", "Skip"}:
-        raise ValueError("Expected exactly one of Keep or Skip.")
+    if label not in {"Keep", "Skip", "Exclude"}:
+        raise ValueError("Expected exactly one of Keep, Skip, or Exclude.")
     return {"status": label}

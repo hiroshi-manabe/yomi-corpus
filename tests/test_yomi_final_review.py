@@ -170,6 +170,132 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertIn("u-skip", skipped.read_text(encoding="utf-8"))
             self.assertEqual(summary["skipped_units"], 1)
 
+    def test_finalization_writes_content_free_exclusion_tombstone(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units = root / "reviewed.jsonl"
+            final = root / "final.jsonl"
+            skipped = root / "skipped.jsonl"
+            excluded = root / "excluded.jsonl"
+            summary_path = root / "summary.json"
+            strong_summary = root / "strong.json"
+            strong_summary.write_text('{"queued_items":0}\n', encoding="utf-8")
+            units.write_text(
+                json.dumps(
+                    {
+                        "doc_id": "doc-sensitive",
+                        "track_doc_seq": 13,
+                        "unit_id": "doc-sensitive:u0001",
+                        "unit_seq": 1,
+                        "text": "sensitive source text",
+                        "source_file": "private.jsonl",
+                        "analysis": {
+                            "mechanical": {"yomi": {"rendered": "機密/キミツ"}},
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "disposition": "Exclude",
+                                    "submission_id": "review-13",
+                                    "generated_at_epoch": 123,
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = finalize_reviewed_yomi_file(
+                units_jsonl=units,
+                strong_queue_summary_json=strong_summary,
+                output_jsonl=final,
+                skipped_output_jsonl=skipped,
+                excluded_output_jsonl=excluded,
+                summary_json=summary_path,
+            )
+
+            tombstone = json.loads(excluded.read_text(encoding="utf-8"))
+            self.assertEqual(final.read_text(encoding="utf-8"), "")
+            self.assertEqual(skipped.read_text(encoding="utf-8"), "")
+            self.assertEqual(summary["excluded_units"], 1)
+            self.assertEqual(tombstone["tombstone_label"], "Removed")
+            self.assertEqual(tombstone["confirmation_submission_id"], "review-13")
+            for forbidden in ("text", "source_file", "analysis", "rendered_yomi"):
+                self.assertNotIn(forbidden, tombstone)
+
+    def test_review_item_uses_exclude_as_scope_default(self) -> None:
+        item = build_review_item(
+            {
+                "doc_id": "doc-sensitive",
+                "unit_id": "doc-sensitive:u0001",
+                "unit_seq": 1,
+                "text": "機密です。",
+                "analysis": {
+                    "llm": {"scope_triage": {"status": "Exclude"}},
+                    "mechanical": {"yomi": {"rendered": "機密/キミツ です/デス 。/。"}},
+                },
+            },
+            seq=1,
+            doc_seq=1,
+            track_doc_seq=13,
+        )
+
+        self.assertEqual(item["scope_default"], "Exclude")
+        self.assertTrue(item["exclude_default"])
+        self.assertFalse(item["skip_default"])
+
+    def test_replay_supports_exclude_and_legacy_skip(self) -> None:
+        pack = {
+            "items": [
+                {"item_id": "u1", "seq": 1, "scope_default": "Keep", "targets": []},
+                {"item_id": "u2", "seq": 2, "scope_default": "Keep", "targets": []},
+            ]
+        }
+        submissions = [
+            {
+                "submission_id": "s1",
+                "terminal_exclusion_confirmation": {
+                    "confirmed": True,
+                    "item_ids": ["u1"],
+                },
+                "reviewed_ranges": [{"from_seq": 1, "to_seq": 2}],
+                "overrides": [
+                    {"item_id": "u1", "disposition": "Exclude"},
+                    {"item_id": "u2", "skip": True},
+                ],
+            }
+        ]
+
+        effective = replay_review_submissions(pack, submissions)
+
+        self.assertEqual(effective["u1"]["disposition"], "Exclude")
+        self.assertTrue(effective["u1"]["skip"])
+        self.assertTrue(effective["u1"]["terminal_exclusion_confirmed"])
+        self.assertEqual(effective["u2"]["disposition"], "Skip")
+        self.assertTrue(effective["u2"]["skip"])
+
+    def test_replay_does_not_confirm_exclusion_from_range_alone(self) -> None:
+        pack = {
+            "items": [
+                {
+                    "item_id": "u1",
+                    "seq": 1,
+                    "scope_default": "Exclude",
+                    "targets": [],
+                }
+            ]
+        }
+
+        effective = replay_review_submissions(
+            pack,
+            [{"submission_id": "s1", "reviewed_ranges": [{"from_seq": 1, "to_seq": 1}]}],
+        )
+
+        self.assertEqual(effective["u1"]["disposition"], "Exclude")
+        self.assertFalse(effective["u1"]["terminal_exclusion_confirmed"])
+
     def test_automatic_no_ruby_default_is_not_a_human_rejection(self) -> None:
         target = {
             "item_id": "u1:r1",

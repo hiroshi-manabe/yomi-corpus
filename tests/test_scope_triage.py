@@ -88,6 +88,42 @@ class ScopeTriageTests(unittest.TestCase):
             self.assertEqual(by_id["u1"]["analysis"]["llm"]["scope_triage"]["status"], "Skip")
             self.assertEqual(by_id["u2"]["analysis"]["llm"]["scope_triage"]["status"], "Keep")
 
+    def test_terminal_exclusion_is_preserved_for_human_confirmation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "units.jsonl"
+            results_path = root / "results.jsonl"
+            output_path = root / "output.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(keep_unit("u1"), ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
+            results_path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1",
+                        "parsed": {"status": "Exclude"},
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_scope_triage_results_file(
+                units_jsonl=units_path,
+                results_jsonl=results_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+            )
+
+            row = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(summary.exclude, 1)
+            self.assertEqual(summary.keep, 0)
+            self.assertEqual(row["analysis"]["llm"]["scope_triage"]["status"], "Exclude")
+
 
 def provisional_skip_unit(unit_id: str) -> dict:
     return {
