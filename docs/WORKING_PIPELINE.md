@@ -641,8 +641,10 @@ Retrospective exclusion follows the same path and must be dry-run-first,
 idempotent, and atomic across final/skipped artifacts plus published archive and
 search shards. Old immutable decoder models are marked as predating the
 exclusion and are no longer selected; they are not rewritten in place. The
-first retrospective case is all of document 13, whose units form one sensitive
-source context and should not be split into independently retained fragments.
+migration requires exact unit IDs and must not widen a few sensitive units into
+a whole-document exclusion. For document 13, only the previously reviewed
+units about alleged violations, arrest, or related private-person reporting are
+excluded; its other finalized and recoverably skipped units remain unchanged.
 
 `Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text

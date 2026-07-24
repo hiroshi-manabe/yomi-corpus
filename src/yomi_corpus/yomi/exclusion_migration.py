@@ -15,6 +15,7 @@ def migrate_terminal_exclusion(
     root: Path,
     track_name: str,
     track_doc_seq: int,
+    unit_ids: set[str],
     reason_category: str,
     confirmation_submission_id: str,
     apply: bool,
@@ -35,7 +36,12 @@ def migrate_terminal_exclusion(
                 continue
             rows = load_jsonl(path)
             source_files[path] = rows
-            matched = [row for row in rows if row_track_doc_seq(row) == track_doc_seq]
+            matched = [
+                row
+                for row in rows
+                if row_track_doc_seq(row) == track_doc_seq
+                and str(row.get("unit_id") or "") in unit_ids
+            ]
             if matched:
                 target_rows.extend(matched)
                 target_batches.add(batch_dir.name)
@@ -44,7 +50,10 @@ def migrate_terminal_exclusion(
             rows = load_jsonl(excluded_path)
             source_files[excluded_path] = rows
             for row in rows:
-                if row_track_doc_seq(row) == track_doc_seq:
+                if (
+                    row_track_doc_seq(row) == track_doc_seq
+                    and str(row.get("unit_id") or "") in unit_ids
+                ):
                     existing_tombstones[str(row.get("unit_id") or "")] = row
                     target_batches.add(batch_dir.name)
 
@@ -65,7 +74,7 @@ def migrate_terminal_exclusion(
             f"track document {track_doc_seq} is present in multiple batches: {sorted(target_batches)}"
         )
     if not target_rows and not existing_tombstones:
-        anomalies.append(f"track document {track_doc_seq} was not found")
+        anomalies.append(f"no selected units were found in track document {track_doc_seq}")
 
     doc_id = doc_ids[0] if len(doc_ids) == 1 else ""
     tombstones = dict(existing_tombstones)
@@ -79,13 +88,23 @@ def migrate_terminal_exclusion(
             reason_category=reason_category,
             confirmation_submission_id=confirmation_submission_id,
         )
+    missing_unit_ids = sorted(unit_ids - set(tombstones))
+    if missing_unit_ids:
+        anomalies.append(f"selected unit IDs were not found: {missing_unit_ids}")
 
     replacements: dict[Path, str] = {}
     removed_by_path: dict[str, int] = {}
     for path, rows in source_files.items():
         if path.name == "units.yomi.excluded.jsonl":
             continue
-        retained = [row for row in rows if row_track_doc_seq(row) != track_doc_seq]
+        retained = [
+            row
+            for row in rows
+            if not (
+                row_track_doc_seq(row) == track_doc_seq
+                and str(row.get("unit_id") or "") in unit_ids
+            )
+        ]
         removed = len(rows) - len(retained)
         if removed:
             replacements[path] = encode_jsonl(retained)
@@ -97,7 +116,7 @@ def migrate_terminal_exclusion(
         retained = [
             row
             for row in source_files.get(excluded_path, load_jsonl_if_exists(excluded_path))
-            if row_track_doc_seq(row) != track_doc_seq
+            if str(row.get("unit_id") or "") not in unit_ids
         ]
         ordered_tombstones = sorted(
             tombstones.values(),
@@ -109,13 +128,13 @@ def migrate_terminal_exclusion(
     if doc_id:
         collect_review_pack_replacements(
             root=root,
-            doc_id=doc_id,
+            unit_ids=unit_ids,
             replacements=replacements,
             reports=derived_reports,
         )
         collect_eval_replacements(
             root=root,
-            doc_id=doc_id,
+            unit_ids=unit_ids,
             replacements=replacements,
             reports=derived_reports,
         )
@@ -133,6 +152,7 @@ def migrate_terminal_exclusion(
         "generated_at": generated_at,
         "track_name": track_name,
         "track_doc_seq": track_doc_seq,
+        "unit_ids": sorted(unit_ids),
         "doc_id": doc_id,
         "reason_category": reason_category,
         "confirmation_submission_id": confirmation_submission_id,
@@ -185,7 +205,7 @@ def terminal_exclusion_tombstone(
 def collect_review_pack_replacements(
     *,
     root: Path,
-    doc_id: str,
+    unit_ids: set[str],
     replacements: dict[Path, str],
     reports: list[dict[str, Any]],
 ) -> None:
@@ -197,7 +217,7 @@ def collect_review_pack_replacements(
         items = payload.get("items") if isinstance(payload, dict) else None
         if not isinstance(items, list):
             continue
-        retained = [item for item in items if not contains_document_identity(item, doc_id)]
+        retained = [item for item in items if not contains_unit_identity(item, unit_ids)]
         removed = len(items) - len(retained)
         if not removed:
             continue
@@ -212,13 +232,13 @@ def collect_review_pack_replacements(
 def collect_eval_replacements(
     *,
     root: Path,
-    doc_id: str,
+    unit_ids: set[str],
     replacements: dict[Path, str],
     reports: list[dict[str, Any]],
 ) -> None:
     for path in sorted((root / "data" / "evals").rglob("*.jsonl")):
         rows = load_jsonl(path)
-        retained = [row for row in rows if not contains_document_identity(row, doc_id)]
+        retained = [row for row in rows if not contains_unit_identity(row, unit_ids)]
         removed = len(rows) - len(retained)
         if not removed:
             continue
@@ -228,17 +248,17 @@ def collect_eval_replacements(
         )
 
 
-def contains_document_identity(value: Any, doc_id: str) -> bool:
+def contains_unit_identity(value: Any, unit_ids: set[str]) -> bool:
     if isinstance(value, dict):
-        if str(value.get("doc_id") or "") == doc_id:
-            return True
         for key in ("unit_id", "item_id", "source_unit_id"):
             candidate = str(value.get(key) or "")
-            if candidate == doc_id or candidate.startswith(f"{doc_id}:"):
+            if candidate in unit_ids or any(
+                candidate.startswith(f"{unit_id}:") for unit_id in unit_ids
+            ):
                 return True
-        return any(contains_document_identity(item, doc_id) for item in value.values())
+        return any(contains_unit_identity(item, unit_ids) for item in value.values())
     if isinstance(value, list):
-        return any(contains_document_identity(item, doc_id) for item in value)
+        return any(contains_unit_identity(item, unit_ids) for item in value)
     return False
 
 

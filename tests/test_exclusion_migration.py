@@ -25,6 +25,7 @@ class TerminalExclusionMigrationTests(unittest.TestCase):
                     [
                         unit("sensitive:u0001", 13, "sensitive text 1"),
                         unit("sensitive:u0002", 13, "sensitive text 2"),
+                        unit("sensitive:u0004", 13, "retained text"),
                         unit("safe:u0001", 14, "safe text"),
                     ]
                 ),
@@ -63,6 +64,7 @@ class TerminalExclusionMigrationTests(unittest.TestCase):
                 root=root,
                 track_name="dev",
                 track_doc_seq=13,
+                unit_ids={"sensitive:u0001", "sensitive:u0002", "sensitive:u0003"},
                 reason_category="sensitive_content",
                 confirmation_submission_id="admin-doc-13",
                 apply=False,
@@ -77,6 +79,7 @@ class TerminalExclusionMigrationTests(unittest.TestCase):
                 root=root,
                 track_name="dev",
                 track_doc_seq=13,
+                unit_ids={"sensitive:u0001", "sensitive:u0002", "sensitive:u0003"},
                 reason_category="sensitive_content",
                 confirmation_submission_id="admin-doc-13",
                 apply=True,
@@ -85,7 +88,10 @@ class TerminalExclusionMigrationTests(unittest.TestCase):
             )
 
             self.assertTrue(applied["applied"])
-            self.assertEqual([row["unit_id"] for row in load_rows(final_path)], ["safe:u0001"])
+            self.assertEqual(
+                [row["unit_id"] for row in load_rows(final_path)],
+                ["sensitive:u0004", "safe:u0001"],
+            )
             self.assertEqual(load_rows(skipped_path), [])
             tombstones = load_rows(batch / "units.yomi.excluded.jsonl")
             self.assertEqual(len(tombstones), 3)
@@ -101,6 +107,7 @@ class TerminalExclusionMigrationTests(unittest.TestCase):
                 root=root,
                 track_name="dev",
                 track_doc_seq=13,
+                unit_ids={"sensitive:u0001", "sensitive:u0002", "sensitive:u0003"},
                 reason_category="sensitive_content",
                 confirmation_submission_id="admin-doc-13",
                 apply=True,

@@ -1341,11 +1341,14 @@ administrative migration, not an ordinary browser edit.
 Retrospective exclusion uses the same terminal representation. A dry run first
 enumerates every copy in final/skipped unit files, review packs, archive/search
 shards, evaluation datasets, and downstream corpus manifests. Applying the
-migration removes content atomically, writes content-free tombstones plus an
-idempotent migration manifest, and marks pre-exclusion decoder models as
-superseded rather than attempting to rewrite immutable historical model files.
-Document 13 is the initial migration case; excluding the entire document is
-preferred over trying to classify its many interdependent sensitive units.
+migration removes only explicitly enumerated units atomically, writes
+content-free tombstones plus an idempotent migration manifest, and marks
+pre-exclusion decoder models as superseded rather than attempting to rewrite
+immutable historical model files. Document-level exclusion must not be inferred
+from a few excluded units. In document 13, only the previously reviewed units
+about alleged violations, arrest, or related private-person reporting are
+terminally excluded; ordinary finalized units and recoverable alphabetic skips
+remain available.
 
 ### S70 Expensive Yomi Recovery
 

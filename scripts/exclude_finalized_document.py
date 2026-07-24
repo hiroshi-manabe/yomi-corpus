@@ -11,9 +11,15 @@ from yomi_corpus.yomi.exclusion_migration import migrate_terminal_exclusion
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Terminally exclude one finalized track document and create content-free tombstones."
+        description="Terminally exclude selected finalized units and create content-free tombstones."
     )
     parser.add_argument("track_doc_seq", type=int)
+    parser.add_argument(
+        "--unit-id",
+        action="append",
+        required=True,
+        help="Exact unit ID to exclude. Repeat for each confirmed unit.",
+    )
     parser.add_argument("--track", default="dev")
     parser.add_argument("--reason-category", default="sensitive_content")
     parser.add_argument("--confirmation-submission-id", required=True)
@@ -34,6 +40,7 @@ def main() -> None:
         root=root,
         track_name=args.track,
         track_doc_seq=args.track_doc_seq,
+        unit_ids=set(args.unit_id),
         reason_category=args.reason_category,
         confirmation_submission_id=args.confirmation_submission_id,
         apply=args.apply,
