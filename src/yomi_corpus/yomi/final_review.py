@@ -2888,6 +2888,11 @@ def apply_strong_repair_review_file(
         effective=effective,
         units_jsonl=units_jsonl,
     )
+    evidence_summary = apply_strong_repair_evidence_file(
+        pack=pack,
+        effective=effective,
+        units_jsonl=units_jsonl,
+    )
     manual_correction_summary = apply_manual_correction_flags_file(
         pack=pack,
         effective=effective,
@@ -2935,6 +2940,7 @@ def apply_strong_repair_review_file(
         "unreviewed_items": unreviewed_count,
         "rejected_items": rejected_items,
         "manual_segment_overrides": manual_summary,
+        "preserved_evidence": evidence_summary,
         "manual_correction_flags": manual_correction_summary,
         "strong_apply_summary_json": str(strong_apply_summary_json),
         "summary_json": str(output_summary_json),
@@ -2948,6 +2954,55 @@ def apply_strong_repair_review_file(
         encoding="utf-8",
     )
     return summary
+
+
+def apply_strong_repair_evidence_file(
+    *,
+    pack: dict[str, Any],
+    effective: dict[str, dict[str, Any]],
+    units_jsonl: Path | None,
+) -> dict[str, int]:
+    evidence_by_unit: dict[str, list[dict[str, Any]]] = {}
+    for item in pack.get("items", []):
+        if not isinstance(item, dict):
+            continue
+        item_id = str(item.get("item_id") or "")
+        state = effective.get(item_id)
+        if not state or str(state.get("decision") or "accept") == "reject":
+            continue
+        unit_id = str(item.get("unit_id") or "")
+        for region in item.get("regions", []) or [item]:
+            if not isinstance(region, dict):
+                continue
+            for comment in region.get("llm_comments", []) or []:
+                comment = str(comment or "").strip()
+                surface = str(region.get("rejected_span") or "")
+                if unit_id and surface and comment:
+                    evidence_by_unit.setdefault(unit_id, []).append(
+                        {
+                            "region_id": str(region.get("region_id") or region.get("item_id") or item_id),
+                            "surface": surface,
+                            "comment": comment,
+                            "used_web_search": bool(region.get("used_web_search")),
+                            "surface_occurrence_index": region.get("surface_occurrence_index"),
+                        }
+                    )
+    if units_jsonl is None or not evidence_by_unit:
+        return {"reviewed_units": len(evidence_by_unit), "changed_units": 0}
+    changed = 0
+    output_rows = []
+    for unit in load_jsonl(units_jsonl):
+        evidence = evidence_by_unit.get(str(unit.get("unit_id") or ""))
+        if evidence:
+            review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+            if review.get("strong_repair_evidence") != evidence:
+                review["strong_repair_evidence"] = evidence
+                changed += 1
+        output_rows.append(json.dumps(unit, ensure_ascii=False))
+    tmp_path = units_jsonl.with_suffix(units_jsonl.suffix + ".tmp")
+    tmp_path.write_text("\n".join(output_rows) + ("\n" if output_rows else ""), encoding="utf-8")
+    tmp_path.replace(units_jsonl)
+    return {"reviewed_units": len(evidence_by_unit), "changed_units": changed}
 
 
 def apply_manual_correction_flags_file(

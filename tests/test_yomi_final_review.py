@@ -3249,8 +3249,14 @@ class YomiFinalReviewTests(unittest.TestCase):
                 submission_store_dir=submission_store,
                 strong_apply_summary_json=strong_summary_path,
                 output_summary_json=confirmation_summary_path,
+                units_jsonl=strong_path,
             )
             self.assertTrue(confirmation_summary["stage_complete"])
+            confirmed = json.loads(strong_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                confirmed["analysis"]["human_review"]["strong_repair_evidence"][0]["comment"],
+                "Established place-name reading.",
+            )
             confirmed_repair_summary = json.loads(strong_summary_path.read_text(encoding="utf-8"))
             self.assertTrue(confirmed_repair_summary["confirmed"])
 
@@ -3899,7 +3905,6 @@ class YomiFinalReviewTests(unittest.TestCase):
                 output_summary_json=confirmation_summary_path,
                 units_jsonl=strong_path,
             )
-
             self.assertTrue(summary["stage_complete"])
             self.assertEqual(summary["manual_segment_overrides"]["applied_items"], 1)
             repaired = json.loads(strong_path.read_text(encoding="utf-8"))

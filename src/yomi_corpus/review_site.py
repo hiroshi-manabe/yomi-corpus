@@ -524,28 +524,36 @@ def archive_strong_repair_evidence(row: dict) -> list[dict]:
     )
     evidence: list[dict] = []
     seen: set[tuple[str, str, str]] = set()
-    for repair in repairs if isinstance(repairs, list) else []:
-        if not isinstance(repair, dict):
+    sources = [
+        item
+        for repair in repairs if isinstance(repairs, list)
+        if isinstance(repair, dict)
+        for item in (repair.get("evidence", []) or [])
+    ]
+    human_evidence = (
+        row.get("analysis", {}).get("human_review", {}).get("strong_repair_evidence", [])
+    )
+    if isinstance(human_evidence, list):
+        sources.extend(human_evidence)
+    for item in sources:
+        if not isinstance(item, dict):
             continue
-        for item in repair.get("evidence", []) or []:
-            if not isinstance(item, dict):
-                continue
-            surface = str(item.get("surface") or "")
-            comment = str(item.get("comment") or "").strip()
-            region_id = str(item.get("region_id") or repair.get("item_id") or "")
-            key = (region_id, surface, comment)
-            if not surface or not comment or key in seen:
-                continue
-            seen.add(key)
-            evidence.append(
-                {
-                    "region_id": region_id,
-                    "surface": surface,
-                    "comment": comment,
-                    "used_web_search": bool(item.get("used_web_search")),
-                    "surface_occurrence_index": item.get("surface_occurrence_index"),
-                }
-            )
+        surface = str(item.get("surface") or "")
+        comment = str(item.get("comment") or "").strip()
+        region_id = str(item.get("region_id") or "")
+        key = (region_id, surface, comment)
+        if not surface or not comment or key in seen:
+            continue
+        seen.add(key)
+        evidence.append(
+            {
+                "region_id": region_id,
+                "surface": surface,
+                "comment": comment,
+                "used_web_search": bool(item.get("used_web_search")),
+                "surface_occurrence_index": item.get("surface_occurrence_index"),
+            }
+        )
     return evidence
 
 
