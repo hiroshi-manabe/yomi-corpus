@@ -67,6 +67,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         prompt = Path(config.prompt_template).read_text(encoding="utf-8")
 
         self.assertIn("Keep isolated ordinary typos", prompt)
+        self.assertIn("only when it is systematic across the prose", prompt)
+        self.assertIn("one typo or old-looking form such as `なつた`", prompt)
         self.assertIn("nonstandard OCR corruption", prompt)
         self.assertIn("flattened ruby", prompt)
 
