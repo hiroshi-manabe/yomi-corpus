@@ -4753,15 +4753,58 @@ async function copySubmissionJsonToClipboard() {
 function confirmTerminalExclusions(payload) {
   const overrides = [
     ...(payload?.overrides || []),
-    ...Object.values(payload?.stages || {}).flatMap((stage) => stage?.overrides || []),
+    ...(payload?.submissions || []).flatMap((submission) => submission?.overrides || []),
   ];
-  const count = overrides.filter((row) => row?.disposition === "Exclude").length;
-  if (!count) {
+  const explicitIds = overrides
+    .filter((row) => row?.disposition === "Exclude")
+    .map((row) => String(row.item_id || ""))
+    .filter(Boolean);
+  const defaultIds = (state.currentPack?.items || [])
+    .filter(
+      (item) =>
+        isItemIncludedInSubmission(item) &&
+        itemReviewStage(item) === "yomi_final_review" &&
+        item.scope_default === "Exclude" &&
+        !overrides.some(
+          (row) =>
+            String(row?.item_id || "") === originalItemId(item) &&
+            row?.disposition !== "Exclude",
+        ),
+    )
+    .map((item) => originalItemId(item));
+  const itemIds = [...new Set([...explicitIds, ...defaultIds])];
+  if (!itemIds.length) {
     return true;
   }
-  return window.confirm(
-    `${count} sentence(s) will be permanently excluded. Their text and readings will be removed from published data and cannot be restored in Corpus Map. Continue?`,
-  );
+  if (!window.confirm(
+    `${itemIds.length} sentence(s) will be permanently excluded. Their text and readings will be removed from published data and cannot be restored in Corpus Map. Continue?`,
+  )) {
+    return false;
+  }
+  const submissions = payload.submissions || [payload];
+  for (const submission of submissions) {
+    if (submission.review_stage !== "yomi_final_review") {
+      continue;
+    }
+    const sourceItemIds = new Set(
+      (state.currentPack?.items || [])
+        .filter(
+          (item) =>
+            isItemIncludedInSubmission(item) &&
+            itemReviewStage(item) === submission.review_stage &&
+            (!submission.pack_id || item.source_pack_id === submission.pack_id),
+        )
+        .map((item) => originalItemId(item)),
+    );
+    const confirmedIds = itemIds.filter((itemId) => sourceItemIds.has(itemId));
+    if (confirmedIds.length) {
+      submission.terminal_exclusion_confirmation = {
+        confirmed: true,
+        item_ids: confirmedIds,
+      };
+    }
+  }
+  return true;
 }
 
 function formatSubmissionJson(payload) {
