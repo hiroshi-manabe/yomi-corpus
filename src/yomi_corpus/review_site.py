@@ -397,6 +397,12 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
     result = []
     for key in sorted(documents):
         doc = documents[key]
+        doc["units"].sort(
+            key=lambda unit: (
+                int(unit.get("unit_seq") or 0),
+                str(unit.get("unit_id") or ""),
+            )
+        )
         doc["applied_finalized_correction_submission_ids"] = sorted(
             doc.pop("_finalized_correction_submission_ids", set())
         )

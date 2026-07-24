@@ -556,7 +556,31 @@ class ReviewSiteTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            unit_root.joinpath("units.yomi.final.jsonl").write_text("", encoding="utf-8")
+            unit_root.joinpath("units.yomi.final.jsonl").write_text(
+                "\n".join(
+                    json.dumps(
+                        {
+                            "doc_id": "doc-sensitive",
+                            "track_doc_seq": 13,
+                            "unit_id": f"doc-sensitive:u{unit_seq:04d}",
+                            "unit_seq": unit_seq,
+                            "text": text,
+                            "analysis": {
+                                "mechanical": {
+                                    "yomi": {"rendered": rendered_yomi}
+                                }
+                            },
+                        },
+                        ensure_ascii=False,
+                    )
+                    for unit_seq, text, rendered_yomi in (
+                        (1, "前です。", "前/マエ です/デス 。/。"),
+                        (3, "後です。", "後/アト です/デス 。/。"),
+                    )
+                )
+                + "\n",
+                encoding="utf-8",
+            )
             unit_root.joinpath("units.yomi.excluded.jsonl").write_text(
                 json.dumps(
                     {
@@ -565,8 +589,8 @@ class ReviewSiteTests(unittest.TestCase):
                         "tombstone_label": "Removed",
                         "doc_id": "doc-sensitive",
                         "track_doc_seq": 13,
-                        "unit_id": "doc-sensitive:u0001",
-                        "unit_seq": 1,
+                        "unit_id": "doc-sensitive:u0002",
+                        "unit_seq": 2,
                         "reason_category": "sensitive_content",
                     }
                 )
@@ -589,11 +613,16 @@ class ReviewSiteTests(unittest.TestCase):
             doc = shard["documents"][0]
             unit = doc["units"][0]
             self.assertEqual(doc["excluded_unit_count"], 1)
-            self.assertTrue(unit["excluded"])
-            self.assertEqual(unit["tombstone_label"], "Removed")
-            self.assertEqual(unit["text"], "")
-            self.assertEqual(unit["yomi_tokens"], [])
-            self.assertEqual(search["documents"][0]["text"], "")
+            self.assertEqual(
+                [row["unit_seq"] for row in doc["units"]],
+                [1, 2, 3],
+            )
+            excluded = doc["units"][1]
+            self.assertTrue(excluded["excluded"])
+            self.assertEqual(excluded["tombstone_label"], "Removed")
+            self.assertEqual(excluded["text"], "")
+            self.assertEqual(excluded["yomi_tokens"], [])
+            self.assertEqual(search["documents"][0]["text"], "前です。\n後です。")
 
 
 if __name__ == "__main__":
