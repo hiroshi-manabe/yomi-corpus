@@ -6420,7 +6420,12 @@ function showStatus(message, isError = false) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: "no-store" });
+  const cacheBuster = new URLSearchParams(window.location.search).get("v");
+  const requestUrl = new URL(url, window.location.href);
+  if (cacheBuster) {
+    requestUrl.searchParams.set("v", cacheBuster);
+  }
+  const response = await fetch(requestUrl, { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`HTTP ${response.status} for ${url}`);
   }
