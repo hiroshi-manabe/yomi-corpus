@@ -1276,9 +1276,10 @@ Asymmetric update rule:
 - human checks `Skip` on a normal unit: no entity-level change
 - human selects `Keep` for a provisional alphabetic skip: triggering entities become
   effective `in_scope`
-- human confirms `Exclude`: remove the unit from published review/archive
-  surfaces and every downstream corpus/model input, while retaining only the
-  minimum private audit record needed for idempotent processing
+- human confirms `Exclude`: replace the unit with a content-free structural
+  tombstone in finalized browsing and remove its text from every downstream
+  corpus/model/search input, while retaining only the minimum private audit
+  record needed for idempotent processing
 
 Rationale:
 
@@ -1322,14 +1323,29 @@ restoration history.
 #### Confirmed exclusion lifecycle
 
 `Exclude` is distinct from ordinary skip. It is intended for sensitive material
-that should not remain browsable as a tombstone and should not be restorable
-through Corpus Map. Before human confirmation it behaves like a provisional
-skip and retains hybrid yomi for inspection. After confirmation it is terminal:
-published packs, Corpus Map, archive shards, search indexes, corpus output, and
-decoder training omit the unit. A compact internal audit record may retain its
-stable identity, reason category, and confirming submission, but must not
-republish the sensitive text. Reversal is an explicit administrative migration,
-not an ordinary browser edit.
+that must not remain browsable or restorable through Corpus Map. Before human
+confirmation it behaves like a provisional skip and retains hybrid yomi for
+inspection. After confirmation it is terminal: finalized browsing retains only
+a content-free tombstone such as `Removed`, in the original unit position.
+Published review packs, archive shards, and Corpus Map must not contain the
+original text, yomi, or analysis. Search indexes, corpus output, evaluation
+exports, and decoder training omit the unit entirely.
+
+The tombstone schema retains only stable document/unit identity, source order,
+an exclusion reason category, confirming submission identity, and timestamps.
+It must not contain source text, source offsets that expose content, ruby,
+mechanical/LLM analysis, or free-form notes copied from the source. Tombstones
+are not searchable and expose no edit/restore action. Reversal is an explicit
+administrative migration, not an ordinary browser edit.
+
+Retrospective exclusion uses the same terminal representation. A dry run first
+enumerates every copy in final/skipped unit files, review packs, archive/search
+shards, evaluation datasets, and downstream corpus manifests. Applying the
+migration removes content atomically, writes content-free tombstones plus an
+idempotent migration manifest, and marks pre-exclusion decoder models as
+superseded rather than attempting to rewrite immutable historical model files.
+Document 13 is the initial migration case; excluding the entire document is
+preferred over trying to classify its many interdependent sensitive units.
 
 ### S70 Expensive Yomi Recovery
 

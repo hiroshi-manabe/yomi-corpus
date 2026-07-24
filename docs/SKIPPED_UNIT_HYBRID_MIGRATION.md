@@ -16,9 +16,11 @@ skipped.
 
 This document's recoverable `Skip` state is not the terminal `Exclude` state
 used for sensitive material. A machine-proposed exclusion follows the same
-cheap-analysis path only until human confirmation. Once confirmed, it is
-removed from published review/archive/search artifacts and cannot be restored
-through Corpus Map; only minimal non-content audit metadata may remain.
+cheap-analysis path only until human confirmation. Once confirmed, its original
+content is removed from published review/archive/search artifacts and it cannot
+be restored through Corpus Map. Finalized browsing may retain a content-free
+`Removed` tombstone containing stable identity, order, reason category, and
+confirmation provenance only.
 
 ## Forward Pipeline Invariants
 

@@ -631,9 +631,18 @@ scope triage is unsure about this risk, it should choose `Exclude`.
 All machine labels remain provisional through Bulk Review. `Skip` is a durable
 but recoverable state: it remains visible as subdued ruby in Corpus Map and can
 be restored through the correction workflow. `Exclude` becomes terminal only
-after explicit human confirmation; then the text is omitted from published UI,
-search, archives, corpus output, and decoder training. The internal system may
-keep only minimal identity/reason/submission metadata for audit and idempotency.
+after explicit human confirmation. Finalized browsing then shows a content-free
+`Removed` tombstone at the original position, while the original text is omitted
+from published packs and archives, search, evaluation exports, corpus output,
+and decoder training. The tombstone keeps only stable identity, order, reason
+category, and confirmation provenance for audit and idempotency.
+
+Retrospective exclusion follows the same path and must be dry-run-first,
+idempotent, and atomic across final/skipped artifacts plus published archive and
+search shards. Old immutable decoder models are marked as predating the
+exclusion and are no longer selected; they are not rewritten in place. The
+first retrospective case is all of document 13, whose units form one sensitive
+source context and should not be split into independently retained fragments.
 
 `Skip` should be decided by the dominant language and style of the unit, not by
 isolated orthographic markers. A modern Japanese sentence remains target text
