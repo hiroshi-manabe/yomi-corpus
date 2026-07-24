@@ -3559,10 +3559,28 @@ function appendStrongRepairFootnoteList(node, notes) {
   block.className = "strong-repair-footnotes";
   for (const note of notes) {
     const line = document.createElement("p");
-    line.textContent = `*${note.number} ${note.comment}`;
+    line.append(document.createTextNode(`*${note.number} `));
+    appendMarkdownLinks(line, note.comment);
     block.append(line);
   }
   node.append(block);
+}
+
+function appendMarkdownLinks(node, text) {
+  const source = String(text || "");
+  const linkPattern = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/giu;
+  let cursor = 0;
+  for (const match of source.matchAll(linkPattern)) {
+    node.append(document.createTextNode(source.slice(cursor, match.index)));
+    const link = document.createElement("a");
+    link.href = match[2];
+    link.textContent = match[1];
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    node.append(link);
+    cursor = Number(match.index) + match[0].length;
+  }
+  node.append(document.createTextNode(source.slice(cursor)));
 }
 
 function strongRepairEditorMatch(match, region, tokens) {
