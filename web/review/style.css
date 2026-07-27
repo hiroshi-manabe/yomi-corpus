@@ -1006,6 +1006,10 @@ button:disabled {
   background: linear-gradient(180deg, rgba(246, 239, 228, 0.52), rgba(255, 253, 249, 0.9));
 }
 
+.workflow-preview-body > * {
+  min-width: 0;
+}
+
 .workflow-preview-actions {
   border-top: 1px solid var(--line);
 }
@@ -1035,11 +1039,13 @@ button:disabled {
 .archive-correction-list {
   display: grid;
   gap: 10px;
+  min-width: 0;
 }
 
 .archive-correction-row {
   display: grid;
   gap: 10px;
+  min-width: 0;
   padding: 10px 12px;
   border: 1px solid rgba(31, 28, 23, 0.1);
   border-radius: 14px;
@@ -1051,6 +1057,23 @@ button:disabled {
   background: rgba(45, 106, 79, 0.08);
 }
 
+.archive-correction-row.draft-skip {
+  background: rgba(73, 78, 75, 0.08);
+  color: rgba(31, 28, 23, 0.68);
+}
+
+.archive-correction-row.draft-exclude {
+  border-color: rgba(145, 48, 42, 0.45);
+  background: rgba(145, 48, 42, 0.09);
+  color: rgba(76, 37, 33, 0.7);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.62);
+}
+
+.archive-correction-row.draft-exclude .ruby-line {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
 .archive-correction-row.manual-correction-required {
   border-color: rgba(184, 45, 45, 0.46);
   box-shadow: inset 4px 0 0 rgb(184, 45, 45);
@@ -1060,6 +1083,23 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+.archive-disposition-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.archive-disposition-button[aria-pressed="true"] {
+  border-color: rgba(31, 28, 23, 0.72);
+  background: rgba(31, 28, 23, 0.82);
+  color: #fffdf9;
+}
+
+.archive-disposition-button.disposition-exclude[aria-pressed="true"] {
+  border-color: rgba(145, 48, 42, 0.9);
+  background: rgba(145, 48, 42, 0.9);
 }
 
 .manual-correction-row-flag {
@@ -1526,6 +1566,7 @@ button:disabled {
 
 .strong-repair-footnotes p {
   margin: 3px 0;
+  overflow-wrap: anywhere;
 }
 
 .strong-repair-footnote-marker {
@@ -1593,7 +1634,7 @@ button:disabled {
 
 .yomi-controls {
   display: grid;
-  grid-template-columns: repeat(3, 28px);
+  grid-template-columns: auto 28px;
   align-items: stretch;
   justify-content: start;
   gap: 0;
@@ -1659,48 +1700,47 @@ button:disabled {
 }
 
 .yomi-scope-option {
-  position: relative;
   display: inline-grid;
-  cursor: pointer;
-}
-
-.yomi-scope-option input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.yomi-scope-option .control-glyph {
-  border-radius: 0;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin: 0;
   margin-left: -1px;
+  padding: 0;
+  border: 1px solid rgba(58, 48, 33, 0.22);
+  border-radius: 0;
+  background: rgba(255, 253, 249, 0.66);
+  color: rgba(58, 48, 33, 0.38);
+  cursor: pointer;
+  font: 700 0.82rem/1 "Iosevka", "SFMono-Regular", Consolas, monospace;
 }
 
-.yomi-scope-option:first-child .control-glyph {
+.yomi-scope-option:first-child {
   margin-left: 0;
   border-radius: 4px 0 0 4px;
 }
 
-.yomi-scope-option:last-child .control-glyph {
+.yomi-scope-option:last-child {
   border-radius: 0 4px 4px 0;
 }
 
-.yomi-scope-option.scope-keep input:checked + .control-glyph {
-  border-color: rgba(42, 103, 73, 0.72);
-  background: rgba(42, 103, 73, 0.86);
-  color: #fffdf9;
-}
-
-.yomi-scope-option.scope-skip input:checked + .control-glyph {
+.yomi-scope-option.scope-skip[aria-pressed="true"] {
   border-color: rgba(31, 28, 23, 0.72);
   background: rgba(31, 28, 23, 0.82);
   color: #fffdf9;
 }
 
-.yomi-scope-option.scope-exclude input:checked + .control-glyph {
+.yomi-scope-option.scope-exclude[aria-pressed="true"] {
   border-color: rgba(145, 48, 42, 0.9);
   background: rgba(145, 48, 42, 0.9);
   color: #fffdf9;
+}
+
+.yomi-scope-option:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .yomi-manual-correction-flag .control-glyph {

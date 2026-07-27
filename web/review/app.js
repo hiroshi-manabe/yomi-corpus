@@ -1382,8 +1382,18 @@ function archiveCorrectionRecordForDoc(doc) {
   }
   const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
-    if (saved.skip === false && current?.skipped) {
+    const disposition = saved.disposition || (saved.skip === false ? "Keep" : saved.skip ? "Skip" : "");
+    if (disposition === "Keep" && current?.skipped) {
       return true;
+    }
+    if (disposition === "Skip" && !current?.skipped) {
+      return true;
+    }
+    if (disposition === "Exclude" && !current?.excluded) {
+      return true;
+    }
+    if (disposition === "Exclude" && current?.excluded) {
+      return false;
     }
     return !current || !yomiTokenPairsEqual(
       archiveUnitYomiTokenPairs(current),
@@ -1553,13 +1563,12 @@ function openArchiveCorrectionEditor(doc) {
   note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
   el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
   updateArchiveCorrectionSummary();
+  el.workflowPreviewBody.scrollTop = 0;
+  el.workflowPreviewBody.scrollLeft = 0;
   el.workflowPreviewModal.classList.remove("hidden");
-  const firstManualCorrection = list.querySelector(".archive-correction-row.manual-correction-required");
-  if (firstManualCorrection) {
-    window.requestAnimationFrame(() => {
-      firstManualCorrection.scrollIntoView({ block: "center", behavior: "auto" });
-    });
-  }
+  window.requestAnimationFrame(() => {
+    el.workflowPreviewBody.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  });
   updateRuntimePollingForInteraction();
 }
 
@@ -1567,6 +1576,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const row = document.createElement("article");
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
+  row.dataset.originalDisposition = unit.skipped ? "Skip" : unit.excluded ? "Exclude" : "Keep";
   row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
   row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
   row.classList.toggle("excluded-tombstone", Boolean(unit.excluded));
@@ -1577,9 +1587,14 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   rubyLine.className = "ruby-line resolved-ruby-line";
   const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
   const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
+  const footnotes = normalizedStrongRepairFootnotes(unit.strong_repair_evidence || []);
   if (originalTokenPairs.length) {
     rubyLine.append(
-      ...renderReadonlyRubyFromTokensWithNodes(yomiTokenPairObjects(originalTokenPairs), unit.ruby_tokens || []),
+      ...renderReadonlyRubyFromTokensWithFootnotes(
+        yomiTokenPairObjects(originalTokenPairs),
+        unit.ruby_tokens || [],
+        unit.strong_repair_evidence || [],
+      ),
     );
   } else if (unit.excluded) {
     rubyLine.textContent = unit.tombstone_label || "Removed";
@@ -1589,6 +1604,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const editButton = document.createElement("button");
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
+  editButton.dataset.archiveYomiEdit = "true";
   editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
   editButton.disabled = Boolean(unit.excluded);
   if (unit.skipped) {
@@ -1597,12 +1613,6 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
   actions.className = "archive-correction-row-actions";
-  if (unit.skipped) {
-    const skipped = document.createElement("span");
-    skipped.className = "skipped-tombstone-label";
-    skipped.textContent = "Skipped";
-    actions.append(skipped);
-  }
   if (unit.excluded) {
     const excluded = document.createElement("span");
     excluded.className = "excluded-tombstone-label";
@@ -1616,6 +1626,40 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     flag.title = "Requires later manual correction";
     flag.setAttribute("aria-label", "Requires later manual correction");
     actions.append(flag);
+  }
+  if (!unit.excluded) {
+    const dispositionControls = document.createElement("div");
+    dispositionControls.className = "archive-disposition-controls";
+    dispositionControls.setAttribute("role", "group");
+    dispositionControls.setAttribute("aria-label", "Corpus disposition");
+    const options = [
+      {
+        value: unit.skipped ? "Keep" : "Skip",
+        label: unit.skipped ? "Restore" : "Skip",
+        title: unit.skipped ? "Restore this sentence to the corpus" : "Skip, but allow later restoration",
+      },
+      {
+        value: "Exclude",
+        label: "Exclude",
+        title: "Permanently remove sensitive content after submission",
+      },
+    ];
+    for (const option of options) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `secondary-button compact-button archive-disposition-button disposition-${option.value.toLowerCase()}`;
+      button.dataset.disposition = option.value;
+      button.textContent = option.label;
+      button.title = option.title;
+      button.addEventListener("click", () => {
+        const original = row.dataset.originalDisposition || "Keep";
+        const current = row.dataset.proposedDisposition || original;
+        const next = current === option.value ? original : option.value;
+        setArchiveCorrectionDisposition(row, unit, doc, next);
+      });
+      dispositionControls.append(button);
+    }
+    actions.append(dispositionControls);
   }
   actions.append(editButton);
   summary.append(rubyLine, actions);
@@ -1646,7 +1690,9 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
-  row.append(summary, saved, editor);
+  row.append(summary);
+  appendStrongRepairFootnoteList(row, footnotes);
+  row.append(saved, editor);
   const restored = (localCorrection?.units || []).find(
     (savedUnit) =>
       String(savedUnit.unit_id || "") === String(unit.unit_id || "") &&
@@ -1654,20 +1700,26 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
       yomiTokenPairsEqual(correctionRecordTokenPairs(savedUnit, "original"), originalTokenPairs),
   );
   const restoredProposed = restored ? serializeEditableYomiTokens(correctionRecordTokenPairs(restored, "proposed")) : "";
-  if (restoredProposed || restored?.skip === false) {
-    row.dataset.proposedYomi = restoredProposed;
-    row.dataset.restoreSkip = restored?.skip === false ? "true" : row.dataset.restoreSkip || "";
-    row.classList.add("changed");
+  const restoredDisposition = restored?.disposition || (restored?.skip === false ? "Keep" : "");
+  if (restoredProposed || restoredDisposition) {
+    if (restoredProposed && restoredProposed !== originalEditableYomi) {
+      row.dataset.proposedYomi = restoredProposed;
+    }
+    if (restoredDisposition) {
+      row.dataset.proposedDisposition = restoredDisposition;
+    }
+    updateArchiveCorrectionChangedState(row);
     row.classList.toggle("submitted", localCorrection.status === "submitted");
-    textarea.value = restoredProposed;
+    textarea.value = restoredProposed || originalEditableYomi;
     renderArchiveCorrectionSavedYomi(row);
   }
+  updateArchiveDispositionControls(row);
   return row;
 }
 
 function openArchiveCorrectionRowEditor(row, unit) {
   const editor = row.querySelector(".archive-correction-editor");
-  const button = row.querySelector(".archive-correction-row-summary button");
+  const button = row.querySelector("[data-archive-yomi-edit]");
   if (!editor || !button) {
     return;
   }
@@ -1711,16 +1763,15 @@ function collectArchiveCorrectionChanges(doc) {
   const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
   const changedUnits = [];
   for (const row of rows) {
-    const proposed = String(row.dataset.proposedYomi || "").trim();
-    const restoreSkip = row.dataset.restoreSkip === "true";
-    if (!proposed && !restoreSkip) {
-      continue;
-    }
     const index = Number(row.dataset.unitIndex);
     const unit = units[index];
     const editor = row.querySelector(".archive-correction-editor");
     const original = String(editor.dataset.originalYomi || "").trim();
-    if (!unit || (proposed === original && !restoreSkip)) {
+    const proposed = String(row.dataset.proposedYomi || original).trim();
+    const originalDisposition = row.dataset.originalDisposition || "Keep";
+    const proposedDisposition = row.dataset.proposedDisposition || originalDisposition;
+    const dispositionChanged = proposedDisposition !== originalDisposition;
+    if (!unit || (proposed === original && !dispositionChanged)) {
       continue;
     }
     const validation = validateRenderedYomiCorrection(unit, proposed);
@@ -1733,7 +1784,12 @@ function collectArchiveCorrectionChanges(doc) {
       text: unit.text || "",
       original_yomi_tokens: archiveUnitYomiTokenPairs(unit),
       proposed_yomi_tokens: validation.tokens,
-      ...(restoreSkip ? { skip: false } : {}),
+      ...(dispositionChanged
+        ? {
+            disposition: proposedDisposition,
+            skip: proposedDisposition !== "Keep",
+          }
+        : {}),
     });
   }
   if (!changedUnits.length) {
@@ -1766,9 +1822,10 @@ function saveArchiveCorrectionRow(row, unit, doc) {
   }
   row.dataset.proposedYomi = proposed;
   if (unit.skipped) {
-    row.dataset.restoreSkip = "true";
+    row.dataset.proposedDisposition = "Keep";
   }
-  row.classList.add("changed");
+  updateArchiveCorrectionChangedState(row);
+  updateArchiveDispositionControls(row);
   row.classList.remove("invalid", "submitted");
   validationNode.textContent = "Saved.";
   validationNode.classList.remove("error");
@@ -1780,7 +1837,7 @@ function saveArchiveCorrectionRow(row, unit, doc) {
 
 function clearArchiveCorrectionRow(row, doc = null) {
   delete row.dataset.proposedYomi;
-  row.classList.remove("changed", "invalid");
+  row.classList.remove("invalid");
   const editor = row.querySelector(".archive-correction-editor");
   const textarea = editor?.querySelector(".archive-correction-unit-textarea");
   const validationNode = editor?.querySelector(".archive-correction-row-validation");
@@ -1792,6 +1849,7 @@ function clearArchiveCorrectionRow(row, doc = null) {
     validationNode.classList.remove("error");
   }
   renderArchiveCorrectionSavedYomi(row);
+  updateArchiveCorrectionChangedState(row);
   closeArchiveCorrectionRowEditor(row);
   if (doc) {
     persistArchiveCorrectionDraft(doc);
@@ -1822,7 +1880,7 @@ function cancelArchiveCorrectionRowEdit(row) {
 
 function closeArchiveCorrectionRowEditor(row) {
   row.querySelector(".archive-correction-editor")?.classList.add("hidden");
-  const button = row.querySelector(".archive-correction-row-summary button");
+  const button = row.querySelector("[data-archive-yomi-edit]");
   if (button) {
     button.disabled = false;
   }
@@ -1837,6 +1895,42 @@ function renderArchiveCorrectionSavedYomi(row) {
   const proposed = row.dataset.proposedYomi || "";
   saved.classList.toggle("hidden", !proposed);
   code.textContent = proposed;
+}
+
+function setArchiveCorrectionDisposition(row, unit, doc, disposition) {
+  const original = row.dataset.originalDisposition || "Keep";
+  if (disposition === original) {
+    delete row.dataset.proposedDisposition;
+  } else {
+    row.dataset.proposedDisposition = disposition;
+  }
+  updateArchiveDispositionControls(row);
+  updateArchiveCorrectionChangedState(row);
+  row.classList.remove("submitted");
+  persistArchiveCorrectionDraft(doc);
+  updateArchiveCorrectionSummary();
+}
+
+function updateArchiveDispositionControls(row) {
+  const original = row.dataset.originalDisposition || "Keep";
+  const current = row.dataset.proposedDisposition || original;
+  row.classList.toggle("draft-skip", current === "Skip");
+  row.classList.toggle("draft-exclude", current === "Exclude");
+  for (const button of row.querySelectorAll(".archive-disposition-button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.disposition === current));
+  }
+}
+
+function updateArchiveCorrectionChangedState(row) {
+  const editor = row.querySelector(".archive-correction-editor");
+  const originalYomi = String(editor?.dataset.originalYomi || "").trim();
+  const proposedYomi = String(row.dataset.proposedYomi || originalYomi).trim();
+  const originalDisposition = row.dataset.originalDisposition || "Keep";
+  const proposedDisposition = row.dataset.proposedDisposition || originalDisposition;
+  row.classList.toggle(
+    "changed",
+    proposedYomi !== originalYomi || proposedDisposition !== originalDisposition,
+  );
 }
 
 function updateArchiveCorrectionSummary() {
@@ -2069,6 +2163,17 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   const parsed = collectArchiveCorrectionChanges(doc);
   if (!parsed.ok) {
     showStatus(parsed.error, true);
+    return false;
+  }
+  const exclusionCount = parsed.changedUnits.filter(
+    (unit) => unit.disposition === "Exclude",
+  ).length;
+  if (
+    exclusionCount &&
+    !window.confirm(
+      `${exclusionCount} sentence(s) will be permanently excluded after the server applies this Issue. Continue?`,
+    )
+  ) {
     return false;
   }
   const payload = buildArchiveCorrectionPayload(doc, parsed);
@@ -3552,10 +3657,28 @@ function appendStrongRepairFootnoteList(node, notes) {
   block.className = "strong-repair-footnotes";
   for (const note of notes) {
     const line = document.createElement("p");
-    line.textContent = `*${note.number} ${note.comment}`;
+    line.append(document.createTextNode(`*${note.number} `));
+    appendMarkdownLinks(line, note.comment);
     block.append(line);
   }
   node.append(block);
+}
+
+function appendMarkdownLinks(node, text) {
+  const source = String(text || "");
+  const linkPattern = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/giu;
+  let cursor = 0;
+  for (const match of source.matchAll(linkPattern)) {
+    node.append(document.createTextNode(source.slice(cursor, match.index)));
+    const link = document.createElement("a");
+    link.href = match[2];
+    link.textContent = match[1];
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    node.append(link);
+    cursor = Number(match.index) + match[0].length;
+  }
+  node.append(document.createTextNode(source.slice(cursor)));
 }
 
 function strongRepairEditorMatch(match, region, tokens) {
@@ -4292,8 +4415,6 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
-  node.classList.toggle("machine-skip", Boolean(item.skip_default));
-  node.classList.toggle("machine-exclude", item.scope_default === "Exclude");
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
@@ -4306,12 +4427,12 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   const currentDisposition =
     override?.disposition ||
     (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
+  setYomiDispositionClasses(node, currentDisposition);
   const scopeSelector = document.createElement("div");
   scopeSelector.className = "yomi-scope-selector";
-  scopeSelector.setAttribute("role", "radiogroup");
+  scopeSelector.setAttribute("role", "group");
   scopeSelector.setAttribute("aria-label", "Corpus disposition");
   const scopeOptions = [
-    { value: "Keep", glyph: "✓", title: "Keep in corpus" },
     {
       value: "Skip",
       glyph: "▣",
@@ -4320,35 +4441,36 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     { value: "Exclude", glyph: "⛨", title: "Permanently exclude sensitive content" },
   ];
   for (const option of scopeOptions) {
-    const label = document.createElement("label");
-    label.className = `yomi-scope-option scope-${option.value.toLowerCase()}`;
-    label.title = option.title;
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = `scope-${item.item_id}`;
-    input.value = option.value;
-    input.disabled = !editable;
-    input.checked = currentDisposition === option.value;
-    input.setAttribute("aria-label", option.title);
-    const glyph = document.createElement("span");
-    glyph.className = "control-glyph";
-    glyph.setAttribute("aria-hidden", "true");
-    glyph.textContent = option.glyph;
-    label.append(input, glyph);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `yomi-scope-option scope-${option.value.toLowerCase()}`;
+    button.title = option.title;
+    button.disabled = !editable;
+    button.dataset.disposition = option.value;
+    button.setAttribute("aria-label", option.title);
+    button.setAttribute("aria-pressed", String(currentDisposition === option.value));
+    button.textContent = option.glyph;
     if (editable) {
-      input.addEventListener("change", () => {
-        if (!input.checked) {
-          return;
-        }
+      button.addEventListener("click", () => {
+        const nextDisposition = button.getAttribute("aria-pressed") === "true"
+          ? "Keep"
+          : option.value;
         const draft = ensureYomiOverride(item.item_id);
-        draft.disposition = option.value;
-        draft.skip = option.value !== "Keep";
+        draft.disposition = nextDisposition;
+        draft.skip = nextDisposition !== "Keep";
         cleanupYomiOverride(item.item_id);
         touchDraft();
+        for (const sibling of scopeSelector.querySelectorAll(".yomi-scope-option")) {
+          sibling.setAttribute(
+            "aria-pressed",
+            String(sibling.dataset.disposition === nextDisposition),
+          );
+        }
+        setYomiDispositionClasses(node, nextDisposition);
         renderSubmissionPreview();
       });
     }
-    scopeSelector.append(label);
+    scopeSelector.append(button);
   }
   controls.append(scopeSelector);
 
@@ -4375,6 +4497,11 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   if (!editable) {
     return;
   }
+}
+
+function setYomiDispositionClasses(node, disposition) {
+  node.classList.toggle("machine-skip", disposition === "Skip");
+  node.classList.toggle("machine-exclude", disposition === "Exclude");
 }
 
 function createManualCorrectionFlag({ checked, editable, onChange }) {

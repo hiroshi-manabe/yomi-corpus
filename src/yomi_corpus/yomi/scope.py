@@ -11,6 +11,7 @@ class ScopeTriageQueueSummary:
     read: int
     queued: int
     provisional_alphabetic_skip: int
+    symbol_only_keep: int
     output_jsonl: str
     summary_json: str
 
@@ -23,6 +24,7 @@ class ScopeTriageApplySummary:
     skip: int
     exclude: int
     provisional_alphabetic_skip: int
+    symbol_only_keep: int
     parse_error_keep: int
     missing_result_keep: int
     output_jsonl: str
@@ -41,12 +43,16 @@ def build_scope_triage_queue_file(
     read = 0
     queued = 0
     provisional_alphabetic_skip = 0
+    symbol_only_keep = 0
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
             if not line.strip():
                 continue
             read += 1
             unit = json.loads(line)
+            if is_symbol_only_unit(unit):
+                symbol_only_keep += 1
+                continue
             if is_provisional_alphabetic_skip(unit):
                 provisional_alphabetic_skip += 1
                 continue
@@ -61,6 +67,7 @@ def build_scope_triage_queue_file(
         read=read,
         queued=queued,
         provisional_alphabetic_skip=provisional_alphabetic_skip,
+        symbol_only_keep=symbol_only_keep,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
     )
@@ -87,6 +94,7 @@ def apply_scope_triage_results_file(
     skip = 0
     exclude = 0
     provisional_alphabetic_skip = 0
+    symbol_only_keep = 0
     parse_error_keep = 0
     missing_result_keep = 0
 
@@ -97,6 +105,14 @@ def apply_scope_triage_results_file(
             read_units += 1
             unit = json.loads(line)
             unit_id = str(unit.get("unit_id", ""))
+            if is_symbol_only_unit(unit):
+                keep += 1
+                symbol_only_keep += 1
+                unit.setdefault("analysis", {}).setdefault("llm", {})["scope_triage"] = (
+                    build_symbol_only_scope_judgment(unit)
+                )
+                dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
+                continue
             if is_provisional_alphabetic_skip(unit):
                 judgment = build_provisional_alphabetic_scope_judgment(unit)
                 skip += 1
@@ -129,6 +145,7 @@ def apply_scope_triage_results_file(
         skip=skip,
         exclude=exclude,
         provisional_alphabetic_skip=provisional_alphabetic_skip,
+        symbol_only_keep=symbol_only_keep,
         parse_error_keep=parse_error_keep,
         missing_result_keep=missing_result_keep,
         output_jsonl=str(output_jsonl),
@@ -148,6 +165,21 @@ def is_provisional_alphabetic_skip(unit: dict[str, Any]) -> bool:
         .get("alphabetic_scope", {})
         .get("provisional_skip")
     )
+
+
+def is_symbol_only_unit(unit: dict[str, Any]) -> bool:
+    text = str(unit.get("text", ""))
+    return bool(text.strip()) and not any(char.isalnum() for char in text)
+
+
+def build_symbol_only_scope_judgment(unit: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "status": "Keep",
+        "source": "mechanical_symbol_only_keep",
+        "parse_error": None,
+        "raw_text": None,
+        "result_item_id": str(unit.get("unit_id", "")),
+    }
 
 
 def build_provisional_alphabetic_scope_judgment(unit: dict[str, Any]) -> dict[str, Any]:

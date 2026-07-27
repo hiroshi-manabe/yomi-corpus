@@ -467,6 +467,7 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
 
 def archive_unit_from_row(row: dict) -> dict | None:
     if row.get("excluded"):
+        confirmation_submission_id = str(row.get("confirmation_submission_id") or "")
         return {
             "unit_id": str(row.get("unit_id") or ""),
             "unit_seq": int(row.get("unit_seq") or 0),
@@ -481,7 +482,9 @@ def archive_unit_from_row(row: dict) -> dict | None:
             "excluded": True,
             "tombstone_label": "Removed",
             "reason_category": str(row.get("reason_category") or "sensitive_content"),
-            "applied_finalized_correction_submission_ids": [],
+            "applied_finalized_correction_submission_ids": (
+                [confirmation_submission_id] if confirmation_submission_id else []
+            ),
         }
     text = str(row.get("text") or "")
     review = (

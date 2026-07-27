@@ -2226,7 +2226,8 @@ def apply_finalized_correction_patches_to_batch(
 ) -> dict[str, Any]:
     final_jsonl = root / "data" / "units" / batch_name / "units.yomi.final.jsonl"
     skipped_jsonl = root / "data" / "units" / batch_name / "units.yomi.skipped.jsonl"
-    if not final_jsonl.exists() and not skipped_jsonl.exists():
+    excluded_jsonl = root / "data" / "units" / batch_name / "units.yomi.excluded.jsonl"
+    if not final_jsonl.exists() and not skipped_jsonl.exists() and not excluded_jsonl.exists():
         return {
             "batch_name": batch_name,
             "status": "missing_finalized_artifacts",
@@ -2259,9 +2260,15 @@ def apply_finalized_correction_patches_to_batch(
 
     final_rows = load_jsonl(final_jsonl) if final_jsonl.exists() else []
     skipped_rows = load_jsonl(skipped_jsonl) if skipped_jsonl.exists() else []
+    excluded_rows = load_jsonl(excluded_jsonl) if excluded_jsonl.exists() else []
     final_ids = {str(row.get("unit_id") or "") for row in final_rows}
     skipped_ids = {str(row.get("unit_id") or "") for row in skipped_rows}
-    duplicate_ids = (final_ids & skipped_ids) - {""}
+    excluded_ids = {str(row.get("unit_id") or "") for row in excluded_rows}
+    duplicate_ids = (
+        (final_ids & skipped_ids)
+        | (final_ids & excluded_ids)
+        | (skipped_ids & excluded_ids)
+    ) - {""}
     if duplicate_ids:
         return {
             "batch_name": batch_name,
@@ -2281,22 +2288,49 @@ def apply_finalized_correction_patches_to_batch(
     applied: list[dict[str, Any]] = []
     accepted: list[dict[str, Any]] = []
     restored: list[dict[str, Any]] = []
+    newly_skipped: list[dict[str, Any]] = []
+    newly_excluded: list[dict[str, Any]] = []
     matched_units: set[str] = set()
+    retained_final_rows: list[dict[str, Any]] = []
     for row in final_rows:
         unit_id = str(row.get("unit_id") or "")
         patch_pair = latest_by_unit.get(unit_id)
         if patch_pair is None:
+            retained_final_rows.append(row)
             continue
         matched_units.add(unit_id)
         submission, patch = patch_pair
         result = apply_finalized_correction_patch_to_unit(row, submission, patch)
-        if result["status"] == "applied":
-            applied.append(result)
-            accepted.append(result)
-        elif result["status"] == "already_applied":
-            accepted.append(result)
-        else:
+        if result["status"] not in {"applied", "already_applied"}:
             skipped.append(result)
+            retained_final_rows.append(row)
+            continue
+        disposition = finalized_correction_patch_disposition(patch)
+        if disposition == SCOPE_SKIP:
+            record_finalized_correction_disposition(
+                row,
+                disposition=SCOPE_SKIP,
+                submission=submission,
+            )
+            moved = {**result, "status": "applied", "skipped": True}
+            applied.append(moved)
+            accepted.append(moved)
+            newly_skipped.append(row)
+        elif disposition == SCOPE_EXCLUDE:
+            tombstone = exclusion_tombstone_from_unit(
+                row,
+                confirmation_submission_id=finalized_correction_submission_id(submission),
+                confirmed_at_epoch=int(submission.get("generated_at_epoch") or 0),
+            )
+            moved = {**result, "status": "applied", "excluded": True}
+            applied.append(moved)
+            accepted.append(moved)
+            newly_excluded.append(tombstone)
+        else:
+            retained_final_rows.append(row)
+            if result["status"] == "applied":
+                applied.append(result)
+            accepted.append(result)
 
     retained_skipped_rows: list[dict[str, Any]] = []
     for row in skipped_rows:
@@ -2307,7 +2341,34 @@ def apply_finalized_correction_patches_to_batch(
             continue
         matched_units.add(unit_id)
         submission, patch = patch_pair
-        if patch.get("skip") is not False:
+        disposition = finalized_correction_patch_disposition(patch, default=SCOPE_SKIP)
+        if disposition == SCOPE_SKIP:
+            result = apply_finalized_correction_patch_to_unit(row, submission, patch)
+            if result["status"] not in {"applied", "already_applied"}:
+                skipped.append(result)
+            else:
+                retained_skipped_rows.append(row)
+                if result["status"] == "applied":
+                    applied.append(result)
+                accepted.append(result)
+            continue
+        if disposition == SCOPE_EXCLUDE:
+            result = apply_finalized_correction_patch_to_unit(row, submission, patch)
+            if result["status"] not in {"applied", "already_applied"}:
+                skipped.append(result)
+                retained_skipped_rows.append(row)
+                continue
+            tombstone = exclusion_tombstone_from_unit(
+                row,
+                confirmation_submission_id=finalized_correction_submission_id(submission),
+                confirmed_at_epoch=int(submission.get("generated_at_epoch") or 0),
+            )
+            moved = {**result, "status": "applied", "excluded": True}
+            applied.append(moved)
+            accepted.append(moved)
+            newly_excluded.append(tombstone)
+            continue
+        if disposition != SCOPE_KEEP:
             skipped.append(
                 finalized_correction_skip_record(
                     submission,
@@ -2332,7 +2393,38 @@ def apply_finalized_correction_patches_to_batch(
         applied.append(result)
         accepted.append(result)
         restored.append(result)
-        final_rows.append(row)
+        retained_final_rows.append(row)
+
+    for row in excluded_rows:
+        unit_id = str(row.get("unit_id") or "")
+        patch_pair = latest_by_unit.get(unit_id)
+        if patch_pair is None:
+            continue
+        matched_units.add(unit_id)
+        submission, patch = patch_pair
+        submission_id = finalized_correction_submission_id(submission)
+        if (
+            finalized_correction_patch_disposition(patch, default=SCOPE_EXCLUDE)
+            == SCOPE_EXCLUDE
+            and str(row.get("confirmation_submission_id") or "") == submission_id
+        ):
+            accepted.append(
+                {
+                    "status": "already_applied",
+                    "submission_id": submission_id,
+                    "unit_id": unit_id,
+                    "excluded": True,
+                    "source": submission.get("_source_issue"),
+                }
+            )
+        else:
+            skipped.append(
+                finalized_correction_skip_record(
+                    submission,
+                    patch,
+                    reason="terminal_exclusion_cannot_be_modified",
+                )
+            )
 
     for unit_id, (submission, patch) in latest_by_unit.items():
         if unit_id not in matched_units:
@@ -2345,23 +2437,76 @@ def apply_finalized_correction_patches_to_batch(
             )
 
     if applied:
-        write_jsonl(final_jsonl, final_rows)
-        write_jsonl(skipped_jsonl, retained_skipped_rows)
+        write_jsonl(final_jsonl, retained_final_rows)
+        write_jsonl(skipped_jsonl, [*retained_skipped_rows, *newly_skipped])
+        write_jsonl(excluded_jsonl, [*excluded_rows, *newly_excluded])
 
     return {
         "batch_name": batch_name,
         "status": "applied" if applied else "no_changes",
         "final_jsonl": str(final_jsonl),
         "skipped_jsonl": str(skipped_jsonl),
-        "read_units": len(final_rows) + len(retained_skipped_rows),
+        "excluded_jsonl": str(excluded_jsonl),
+        "read_units": len(final_rows) + len(skipped_rows) + len(excluded_rows),
         "applied_count": len(applied),
         "accepted_count": len(accepted),
         "restored_count": len(restored),
+        "newly_skipped_count": len(newly_skipped),
+        "newly_excluded_count": len(newly_excluded),
         "skipped_count": len(skipped),
         "applied": applied,
         "accepted": accepted,
         "skipped": skipped,
     }
+
+
+def finalized_correction_patch_disposition(
+    patch: dict[str, Any],
+    *,
+    default: str = SCOPE_KEEP,
+) -> str:
+    if "disposition" in patch:
+        return normalize_scope_disposition(patch.get("disposition"))
+    if "skip" in patch:
+        return SCOPE_SKIP if bool(patch.get("skip")) else SCOPE_KEEP
+    return default
+
+
+def record_finalized_correction_disposition(
+    unit: dict[str, Any],
+    *,
+    disposition: str,
+    submission: dict[str, Any],
+) -> None:
+    submission_id = finalized_correction_submission_id(submission)
+    generated_at_epoch = int(submission.get("generated_at_epoch") or 0)
+    human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
+    review = human_review.setdefault("yomi_final", {})
+    review.update(
+        {
+            "reviewed": True,
+            "disposition": disposition,
+            "skip": disposition != SCOPE_KEEP,
+            "submission_id": submission_id,
+            "generated_at_epoch": generated_at_epoch,
+        }
+    )
+    history = human_review.setdefault("skip_history", [])
+    if not any(
+        isinstance(event, dict)
+        and event.get("event") == "skipped"
+        and str(event.get("submission_id") or "") == submission_id
+        for event in history
+    ):
+        history.append(
+            {
+                "event": "skipped",
+                "submission_id": submission_id,
+                "review_stage": FINALIZED_CORRECTION_STAGE,
+                "source": submission.get("_source_issue"),
+                "generated_at_epoch": generated_at_epoch,
+            }
+        )
 
 
 def record_skip_restoration(unit: dict[str, Any], *, submission: dict[str, Any]) -> None:
@@ -4560,6 +4705,8 @@ def exclusion_tombstone_from_unit(
     unit: dict[str, Any],
     *,
     reason_category: str = "sensitive_content",
+    confirmation_submission_id: str | None = None,
+    confirmed_at_epoch: int | None = None,
 ) -> dict[str, Any]:
     review = (
         unit.get("analysis", {})
@@ -4575,12 +4722,20 @@ def exclusion_tombstone_from_unit(
         "unit_id": str(unit.get("unit_id") or ""),
         "unit_seq": unit.get("unit_seq"),
         "reason_category": reason_category,
-        "confirmation_submission_id": str(review.get("submission_id") or "")
-        if isinstance(review, dict)
-        else "",
-        "confirmed_at_epoch": int(review.get("generated_at_epoch") or 0)
-        if isinstance(review, dict)
-        else 0,
+        "confirmation_submission_id": (
+            str(confirmation_submission_id)
+            if confirmation_submission_id is not None
+            else str(review.get("submission_id") or "")
+            if isinstance(review, dict)
+            else ""
+        ),
+        "confirmed_at_epoch": (
+            int(confirmed_at_epoch)
+            if confirmed_at_epoch is not None
+            else int(review.get("generated_at_epoch") or 0)
+            if isinstance(review, dict)
+            else 0
+        ),
     }
 
 

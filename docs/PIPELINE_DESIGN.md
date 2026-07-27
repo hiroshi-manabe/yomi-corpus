@@ -438,6 +438,9 @@ Output:
 Responsibilities:
 
 - run scope triage on raw text before mechanical yomi generation
+- mechanically keep non-lexical units containing no letters or numbers (for
+  example a standalone `！` or emoji) without sending them to the LLM; Latin or
+  other alphabetic text still follows the normal alphabetic/scope checks
 - return exactly one scope label: `Keep`, `Skip`, or `Exclude`
 - treat `Skip` as non-target material such as foreign-language text, old
   Japanese prose, kanbun, Chinese, spam, obvious nonstandard OCR corruption, or
@@ -1266,12 +1269,14 @@ Responsibilities:
 - retain every machine-skipped unit through mechanical/hybrid yomi generation
   and pack generation; only paid LLM reading work is suppressed
 
-The sentence-level control is a compact three-segment selector with radio-group
-semantics, not a cycling button: checkmark for `Keep`, archive box for `Skip`,
-and shield-with-X for `Exclude`. Tooltips and accessible names expose the text
-labels. Selected states use neutral, subdued gray, and warning red styling.
-This replaces the unused range-selection control and keeps all choices directly
-reachable without consuming label width in the normal reading view.
+The sentence-level control has two compact toggle buttons: archive box for
+`Skip` and shield-with-X for `Exclude`. `Keep` is the implicit state when
+neither button is active. Selecting either button clears the other; selecting
+the active draft button again returns to `Keep`. Tooltips and accessible names
+expose the text labels. The sentence immediately adopts subdued gray or warning
+red styling so the reviewer sees the draft disposition before submission.
+This replaces both the unused range-selection control and the visually heavier
+three-segment selector.
 
 Asymmetric update rule:
 
@@ -1322,6 +1327,12 @@ Corpus Map offers `Restore and Edit`, which emits an explicit `skip: false`
 finalized-correction patch. Applying that patch atomically moves the unit from
 the skipped artifact to finalized corpus data while preserving skip and
 restoration history.
+
+Corpus Map also exposes disposition changes through the same correction patch:
+an ordinary finalized unit can be moved to recoverable `Skip` or terminal
+`Exclude`, and a skipped unit can be restored or excluded. These draft actions
+remain reversible in the browser until Issue submission. A server-confirmed
+exclusion is still an immutable, non-editable tombstone.
 
 #### Confirmed exclusion lifecycle
 
@@ -1893,8 +1904,8 @@ The first final-yomi review UI should be ruby-first and look like normal text,
 not like a table of pipeline metadata. For each sentence/unit, show only:
 
 - ruby-rendered text
-- a compact three-way scope selector: checkmark (`Keep`), archive box (`Skip`),
-  and shield-with-X (`Exclude`)
+- compact `Skip` and `Exclude` toggle buttons; `Keep` is implicit when neither
+  is active
 - only genuinely useful low-frequency actions; the unused range-selection
   control is removed
 
@@ -2337,6 +2348,7 @@ in-place archive mutation. The browser can prepare a
   otherwise unit-scoped yomi correction. The editable text view uses reversible
   escapes for literal slashes, backslashes, and ASCII spaces.
 - at least one changed unit
+- alternatively, a disposition-only change to `Keep`, `Skip`, or `Exclude`
 
 This correction payload is unit-scoped. Sentence or unit boundary changes are a
 separate future workflow, probably with a distinct payload type, because they
@@ -2347,7 +2359,10 @@ The initial payload is copied to a GitHub Issue with
 `submission_type: finalized_correction_patch`,
 `review_stage: finalized_correction`, document identity, archive source
 metadata, and changed units containing `original_yomi_tokens` and
-`proposed_yomi_tokens`. New payloads use schema version 2; the importer may
+`proposed_yomi_tokens`, plus `disposition` when corpus membership changes.
+Applying `Skip` atomically moves the unit to the recoverable skipped artifact;
+applying `Exclude` writes a content-free terminal tombstone. New payloads use
+schema version 2; the importer may
 dual-read legacy schema-v1 rendered strings during migration.
 Server-side import/replay is a follow-up step and must repeat validation before
 updating canonical finalized state.

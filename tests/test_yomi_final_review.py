@@ -1223,6 +1223,157 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(repeated["applied_count"], 0)
             self.assertEqual(repeated["skipped_count"], 0)
 
+    def test_finalized_correction_moves_final_unit_to_recoverable_skip(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            final_jsonl = batch_dir / "units.yomi.final.jsonl"
+            skipped_jsonl = batch_dir / "units.yomi.skipped.jsonl"
+            final_jsonl.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "doc_id": "doc1",
+                        "text": "本文です。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "token_schema_version": 1,
+                                    "tokens": [["本文", "ホンブン"], ["です", "デス"], ["。", "。"]],
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "skip-1",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 3,
+                    "units": [
+                        {
+                            "unit_id": "u1",
+                            "text": "本文です。",
+                            "disposition": "Skip",
+                            "skip": True,
+                            "original_yomi_tokens": [["本文", "ホンブン"], ["です", "デス"], ["。", "。"]],
+                            "proposed_yomi_tokens": [["本文", "ホンブン"], ["です", "デス"], ["。", "。"]],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary.json",
+            )
+
+            self.assertEqual(final_jsonl.read_text(encoding="utf-8"), "")
+            skipped_row = json.loads(skipped_jsonl.read_text(encoding="utf-8"))
+            self.assertEqual(
+                skipped_row["analysis"]["human_review"]["yomi_final"]["disposition"],
+                "Skip",
+            )
+            self.assertEqual(summary["batches"][0]["newly_skipped_count"], 1)
+
+            repeated = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary2.json",
+            )
+            self.assertEqual(repeated["applied_count"], 0)
+            self.assertEqual(repeated["skipped_count"], 0)
+
+    def test_finalized_correction_excludes_final_unit_with_content_free_tombstone(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            batch_dir = root / "data" / "units" / "dev_batch_0001"
+            batch_dir.mkdir(parents=True)
+            final_jsonl = batch_dir / "units.yomi.final.jsonl"
+            final_jsonl.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u-sensitive",
+                        "unit_seq": 2,
+                        "doc_id": "doc1",
+                        "track_doc_seq": 13,
+                        "text": "sensitive",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "token_schema_version": 1,
+                                    "tokens": [["sensitive", "センシティブ"]],
+                                }
+                            }
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            store_dir = root / "data" / "review_submissions" / FINALIZED_CORRECTION_STAGE
+            store_review_submission(
+                {
+                    "submission_type": FINALIZED_CORRECTION_SUBMISSION_TYPE,
+                    "review_stage": FINALIZED_CORRECTION_STAGE,
+                    "submission_id": "exclude-1",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "generated_at_epoch": 4,
+                    "units": [
+                        {
+                            "unit_id": "u-sensitive",
+                            "text": "sensitive",
+                            "disposition": "Exclude",
+                            "skip": True,
+                            "original_yomi_tokens": [["sensitive", "センシティブ"]],
+                            "proposed_yomi_tokens": [["sensitive", "センシティブ"]],
+                        }
+                    ],
+                },
+                submission_store_dir=store_dir,
+            )
+
+            summary = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary.json",
+            )
+
+            self.assertEqual(final_jsonl.read_text(encoding="utf-8"), "")
+            tombstone = json.loads(
+                (batch_dir / "units.yomi.excluded.jsonl").read_text(encoding="utf-8")
+            )
+            self.assertEqual(tombstone["confirmation_submission_id"], "exclude-1")
+            self.assertEqual(tombstone["tombstone_label"], "Removed")
+            self.assertNotIn("text", tombstone)
+            self.assertNotIn("analysis", tombstone)
+            self.assertEqual(summary["batches"][0]["newly_excluded_count"], 1)
+
+            repeated = apply_finalized_correction_submissions_file(
+                root=root,
+                submission_store_dir=store_dir,
+                track_name="dev",
+                summary_json=root / "summary2.json",
+            )
+            self.assertEqual(repeated["applied_count"], 0)
+            self.assertEqual(repeated["skipped_count"], 0)
+
     def test_rendered_yomi_ruby_tokens_use_python_furigana_alignment(self) -> None:
         tokens = rendered_yomi_ruby_tokens("決め/キメ お金/オカネ")
 

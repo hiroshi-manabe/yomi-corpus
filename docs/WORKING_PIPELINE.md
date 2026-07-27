@@ -610,6 +610,18 @@ exactly one token:
   it for human confirmation and possible later restoration
 - `Exclude`: recommend terminal exclusion of sensitive material
 
+Non-lexical units containing no letters or numbers, such as a standalone `！`,
+`？`, or emoji, bypass the LLM and receive a deterministic `Keep`. They are
+harmless corpus material and do not justify a paid scope decision. This rule
+does not apply to Latin, Greek, Cyrillic, or other alphabetic text, which still
+uses the existing alphabetic and scope-triage policy.
+
+Historical symbol-only units that predate this rule can be reconciled with
+`scripts/restore_symbol_only_skips.py`. Run it without `--apply` first, then
+apply only an anomaly-free report. The migration preserves the hybrid yomi and
+skip history, records deterministic restoration provenance, and does not count
+the restoration as a human correction.
+
 `Skip` covers foreign prose, old Japanese prose, kanbun, Chinese, garbled text,
 spam, and similar non-target material. The prompt should avoid project-internal
 terms such as "kobun/kanbun stage" except as examples; the operational concept
@@ -663,10 +675,12 @@ target or non-target. The exceptions are compact embedded material such as
 proverbs, fixed expressions, short titles, proper names, journal/book names, and
 bibliographic labels; those do not make the unit `Skip` by themselves.
 
-Bulk Review presents scope as three compact, mutually exclusive icon segments:
-checkmark (`Keep`), archive box (`Skip`), and shield-with-X (`Exclude`). They
-have radio-group semantics, tooltips, and accessible labels. The range-selection
-control is removed; it has not proved useful in operation. Confirming
+Bulk Review presents two compact, mutually exclusive toggle buttons: archive
+box (`Skip`) and shield-with-X (`Exclude`). `Keep` is implicit when neither is
+active. Clicking the active draft choice returns to `Keep`; selecting one
+choice clears the other. The sentence immediately changes to subdued gray or
+warning red. The controls have tooltips and accessible labels. The
+range-selection control is removed; it has not proved useful in operation. Confirming
 `Exclude` requires an additional submission confirmation because its lifecycle
 is intentionally different from recoverable `Skip`.
 
@@ -1778,11 +1792,10 @@ metadata. Avoid making each document a separate page unless later batch sizes
 require it. Multiple returned tasks are merged by stable item IDs rather than
 by a browser-selected range.
 
-Each sentence has one compact, mutually exclusive scope control with three icon
-segments: checkmark (`Keep`), archive box (`Skip`), and shield-with-X
-(`Exclude`). The previous range-mark control is removed because it has not been
-useful in actual operation. Rare actions may remain in a separate overflow menu
-only when a concrete need appears.
+Each sentence has compact, mutually exclusive `Skip` and `Exclude` icon
+buttons. Neither active means `Keep`. The previous range-mark control is
+removed because it has not been useful in actual operation. Rare actions may
+remain in a separate overflow menu only when a concrete need appears.
 
 Yomi targets should be edited inline. Unresolved targets are highlighted;
 safe targets are visually quiet but may still be tappable if candidate readings
@@ -2867,6 +2880,13 @@ saves it. Saved rows collapse, show a read-only `Rendered Yomi` line below the
 ruby preview, and can be reopened for further editing. `Clear` removes a saved
 pending correction and returns the row to its original unedited state. Multiple
 saved units can be exported in one correction request.
+
+The same editor permits finalized disposition changes. A normal row offers
+`Skip` and `Exclude`; a skipped row offers `Restore` and `Exclude`. These
+choices update row styling immediately and may be reversed while still a local
+draft. Server application moves recoverable skips between final and skipped
+artifacts atomically. Confirmed exclusions become content-free tombstones and
+cannot be restored or edited through Corpus Map.
 
 The normal correction unit is exactly one finalized unit. Changing sentence or
 unit boundaries is intentionally out of scope for this first workflow because

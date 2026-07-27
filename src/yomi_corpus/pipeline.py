@@ -2274,6 +2274,7 @@ class PipelineWorkspace:
                 "scope_triage_provisional_alphabetic_skip": str(
                     summary.provisional_alphabetic_skip
                 ),
+                "scope_triage_symbol_only_keep": str(summary.symbol_only_keep),
             }
         }
 
@@ -2372,6 +2373,7 @@ class PipelineWorkspace:
                 "scope_triage_provisional_alphabetic_skip": str(
                     apply_summary.provisional_alphabetic_skip
                 ),
+                "scope_triage_symbol_only_keep": str(apply_summary.symbol_only_keep),
                 "scope_triage_parse_error_keep": str(apply_summary.parse_error_keep),
                 "scope_triage_missing_result_keep": str(apply_summary.missing_result_keep),
             }
