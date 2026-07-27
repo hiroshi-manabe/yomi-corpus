@@ -1392,6 +1392,9 @@ function archiveCorrectionRecordForDoc(doc) {
     if (disposition === "Exclude" && !current?.excluded) {
       return true;
     }
+    if (disposition === "Exclude" && current?.excluded) {
+      return false;
+    }
     return !current || !yomiTokenPairsEqual(
       archiveUnitYomiTokenPairs(current),
       correctionRecordTokenPairs(saved, "proposed"),
