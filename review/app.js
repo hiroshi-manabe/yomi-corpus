@@ -84,7 +84,7 @@ const settingsKey = "yomi-corpus:review-ui:settings:v2";
 const archiveCorrectionStorageKey = "yomi-corpus:archive-corrections:v1";
 const archiveCorrectionStoreSchemaVersion = 2;
 const workflowTakeNextCountStorageKey = "yomi-corpus:workflow-take-next-count:v1";
-const bulkReviewTakeNextOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+const workflowTakeNextOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -2211,7 +2211,7 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       title: "Bulk Review",
       actionLabel: "Start Bulk Review",
       takeNextCount: 5,
-      takeNextOptions: bulkReviewTakeNextOptions,
+      takeNextOptions: workflowTakeNextOptions,
     }),
     renderWorkflowQueue({
       docs: allDocs,
@@ -2219,7 +2219,8 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       queueStage: "yomi_strong_repair_review",
       title: "Escalated Repair",
       actionLabel: "Start Escalated Repair",
-      takeNextCount: 2,
+      takeNextCount: 5,
+      takeNextOptions: workflowTakeNextOptions,
     }),
   );
   body.append(queues, renderWorkflowResolvedPanel(allDocs));
@@ -2360,7 +2361,11 @@ function renderWorkflowQueue({
   let selectedTakeNextCount = takeNextCount;
   let takeNextControl = takeNextButton;
   if (takeNextOptions) {
-    selectedTakeNextCount = loadWorkflowTakeNextCount(takeNextOptions, takeNextCount);
+    selectedTakeNextCount = loadWorkflowTakeNextCount(
+      queueStage,
+      takeNextOptions,
+      takeNextCount,
+    );
     const takeNextSelect = document.createElement("select");
     takeNextSelect.className = "workflow-take-next-count";
     takeNextSelect.setAttribute("aria-label", `${title} document count`);
@@ -2374,7 +2379,7 @@ function renderWorkflowQueue({
     takeNextSelect.disabled = actionableDocs.length === 0;
     takeNextSelect.addEventListener("change", () => {
       selectedTakeNextCount = Number(takeNextSelect.value);
-      saveWorkflowTakeNextCount(selectedTakeNextCount);
+      saveWorkflowTakeNextCount(queueStage, selectedTakeNextCount);
     });
     const takeNextGroup = document.createElement("span");
     takeNextGroup.className = "workflow-take-next-control";
@@ -6354,18 +6359,23 @@ function takeNextQueueDocuments(queueStage, count) {
   render();
 }
 
-function loadWorkflowTakeNextCount(options, fallback) {
+function loadWorkflowTakeNextCount(queueStage, options, fallback) {
   try {
-    const stored = Number(window.localStorage.getItem(workflowTakeNextCountStorageKey));
+    const stored = Number(
+      window.localStorage.getItem(`${workflowTakeNextCountStorageKey}:${queueStage}`),
+    );
     return options.includes(stored) ? stored : fallback;
   } catch {
     return fallback;
   }
 }
 
-function saveWorkflowTakeNextCount(count) {
+function saveWorkflowTakeNextCount(queueStage, count) {
   try {
-    window.localStorage.setItem(workflowTakeNextCountStorageKey, String(count));
+    window.localStorage.setItem(
+      `${workflowTakeNextCountStorageKey}:${queueStage}`,
+      String(count),
+    );
   } catch {
     // The selection remains usable for this page even if storage is unavailable.
   }
