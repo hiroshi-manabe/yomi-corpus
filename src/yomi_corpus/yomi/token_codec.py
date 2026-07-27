@@ -147,6 +147,7 @@ def escape_editable_component(value: str) -> str:
         .replace("\t", "\\t")
         .replace("\r", "\\r")
         .replace("\n", "\\n")
+        .replace("\u3000", "\\u3000")
     )
 
 
@@ -166,19 +167,32 @@ def split_editable_rendered_token(token: str) -> tuple[str, str]:
     escaped = False
     separated = False
     escape_values = {"s": " ", "t": "\t", "r": "\r", "n": "\n"}
-    for char in token:
+    index = 0
+    while index < len(token):
+        char = token[index]
         if escaped:
+            if char == "u" and index + 4 < len(token):
+                codepoint = token[index + 1 : index + 5]
+                if all(candidate in "0123456789abcdefABCDEF" for candidate in codepoint):
+                    target.append(chr(int(codepoint, 16)))
+                    index += 5
+                    escaped = False
+                    continue
             target.append(escape_values.get(char, char))
             escaped = False
+            index += 1
             continue
         if char == "\\":
             escaped = True
+            index += 1
             continue
         if char == "/" and not separated:
             target = reading
             separated = True
+            index += 1
             continue
         target.append(char)
+        index += 1
     if escaped:
         raise YomiTokenError(f"editable token {token!r} ends with an incomplete escape")
     if not separated:

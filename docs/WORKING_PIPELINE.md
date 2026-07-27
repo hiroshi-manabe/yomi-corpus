@@ -379,7 +379,15 @@ classification task.
 
 Instead, for each batch:
 
-- extract all alphabetic entity occurrences mechanically from all units
+- run B-mode Sudachi with the configured full dictionary once over the batch,
+  without invoking `yomi-decoder`
+- derive alphabetic entity boundaries from those Sudachi tokens rather than
+  independently scanning the raw sentence with a competing regex tokenizer
+- keep source whitespace as a hard entity boundary even when Sudachi returns a
+  dictionary token spanning spaces
+- extract an alphabetic run inside a mixed-script Sudachi token, such as `AB`
+  from `AB型`, but preserve internal punctuation in an alphabetic Sudachi token,
+  such as `ZE:A`
 - aggregate them into entity types
 - resolve numeric measurements with an explicit recognized unit, such as
   `1kg` or `30km`, deterministically as in scope
@@ -388,6 +396,16 @@ Instead, for each batch:
   globally
 - project cached `out_of_scope` judgments back to units as provisional skip
 - let final human review correct provisional skip with the same `Skip` checkbox
+
+Persist the resulting occurrences and reuse them when later LLM judgments are
+projected back to units. Do not tokenize the source a second time at promotion:
+that could assign a cached decision to boundaries different from those shown to
+the LLM. A boundary change intentionally produces a new entity key; stale
+decisions for old regex-derived keys must not silently transfer to it.
+
+For example, Sudachi yields `ZE:A` as one known-name token but splits
+`BGM8選` into `BGM`, `8`, and `選`. Alphabetic scope therefore judges `ZE:A`
+and `BGM`, not the former regex fragments `ZE` and `BGM8`.
 
 The cache keeps source metadata for audit/debug, but behavior should only need
 the effective status: `in_scope`, `out_of_scope`, or `unknown`.
@@ -526,7 +544,7 @@ the whole sentence.
 
 Recommended flow:
 
-- extract alphabetic entities mechanically
+- extract alphabetic entities from persisted lightweight Sudachi boundaries
 - remove already known whitelist/blacklist entries
 - ask the LLM to classify unresolved entity types, with short example snippets
   from the batch
@@ -616,6 +634,14 @@ harmless corpus material and do not justify a paid scope decision. This rule
 does not apply to Latin, Greek, Cyrillic, or other alphabetic text, which still
 uses the existing alphabetic and scope-triage policy.
 
+Provisional skips still retain and display their mechanical/hybrid ruby in
+Bulk Review. If no reading span is editable, the UI uses the full Python-built
+ruby-token representation as a read-only fallback rather than showing plain
+text. A later strong repair may change segmentation, but deterministic token
+rules run after the LLM result: in particular, a replacement segment whose
+surface is numeric-only always receives an empty reading regardless of the
+reading proposed by the model.
+
 Historical symbol-only units that predate this rule can be reconciled with
 `scripts/restore_symbol_only_skips.py`. Run it without `--apply` first, then
 apply only an anomaly-free report. The migration preserves the hybrid yomi and
@@ -648,6 +674,13 @@ after explicit human confirmation. Finalized browsing then shows a content-free
 from published packs and archives, search, evaluation exports, corpus output,
 and decoder training. The tombstone keeps only stable identity, order, reason
 category, and confirmation provenance for audit and idempotency.
+
+Scope status does not suppress reading analysis. `Keep`, `Skip`, and `Exclude`
+all receive the same mechanical yomi generation, deterministic per-target
+safety checks, and LLM reading calls for unresolved targets. The labels affect
+the default review controls and final disposition, not the upstream yomi data
+shape. The small extra cost is preferable to maintaining a separate,
+failure-prone skipped-unit reconstruction path.
 
 Retrospective exclusion follows the same path and must be dry-run-first,
 idempotent, and atomic across final/skipped artifacts plus published archive and
@@ -1481,6 +1514,13 @@ three-digit comma grouping and digits on both sides of a decimal point. Keep
 currency marks, percent signs, and measurement units as adjacent separate
 tokens; for example, `-2.4/ kg/キロ`.
 
+For a numeric value followed by `kg` or `km`, keep the number as a separate
+no-reading token and use the ordinary shortened Japanese reading as the
+mechanical default: `5/ kg/キロ` and `5/ km/キロ`. Retain `キログラム` and
+`キロメートル` as review candidates for formal or technical contexts. Apply
+this as a narrow table-driven rule with NFKC/case normalization, not as a
+general policy for abbreviating measurement-unit readings.
+
 The deterministic table covers both ASCII and full-width digits:
 
 - dates: `2日` through `10日`, plus `14日`, `20日`, and `24日`
@@ -2015,9 +2055,9 @@ Example behavior:
 - the next `./next` should project cached `out_of_scope` entity status to
   provisional skip reasons before general scope/yomi processing
 - the next `./next` should queue raw-text scope triage
-- the next `./next` should run or resume three-way scope triage; `Skip` and
-  provisional `Exclude` suppress paid reading work but retain cheap hybrid yomi
-  for human confirmation
+- the next `./next` should run or resume three-way scope triage; all three
+  outcomes continue through the same reading pipeline, while `Skip` and
+  provisional `Exclude` change review defaults and final disposition only
 - the next `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should build a yomi-reading queue from unresolved targets

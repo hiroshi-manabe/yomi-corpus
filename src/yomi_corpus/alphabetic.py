@@ -9,12 +9,11 @@ from typing import Iterable
 
 from yomi_corpus.models import BooleanJudgment
 from yomi_corpus.paths import resolve_repo_path
+from yomi_corpus.yomi.strategies import span_sudachi_tokens
+from yomi_corpus.yomi.types import SudachiToken
 
-ENTITY_JOINER_RE = re.compile(r"^(?:[ \t\u3000]+|[ \t\u3000]*[-'’][ \t\u3000]*)$")
-SPACE_RE = re.compile(r"[ \t\u3000]+")
-SPACE_AROUND_HYPHEN_RE = re.compile(r"[ \t\u3000]*-[ \t\u3000]*")
-SPACE_AROUND_APOSTROPHE_RE = re.compile(r"[ \t\u3000]*['’][ \t\u3000]*")
 TOKEN_CONNECTORS = "-'’.．"
+MEASUREMENT_PREFIX_RE = re.compile(r"[0-9０-９]+(?:[.．][0-9０-９]+)?$")
 
 
 @dataclass(frozen=True)
@@ -97,7 +96,36 @@ def load_alphabetic_config(path: str | Path) -> AlphabeticConfig:
     )
 
 
-def extract_alphabetic_tokens(text: str) -> list[AlphabeticToken]:
+def extract_alphabetic_tokens(
+    text: str, sudachi_tokens: list[SudachiToken]
+) -> list[AlphabeticToken]:
+    tokens: list[AlphabeticToken] = []
+    for span in span_sudachi_tokens(text, sudachi_tokens):
+        surface = text[span.start : span.end]
+        for match in re.finditer(r"\S+", surface):
+            raw_segment = match.group(0)
+            leading_punctuation = len(raw_segment) - len(
+                raw_segment.lstrip(TOKEN_CONNECTORS + ":")
+            )
+            segment = raw_segment.strip(TOKEN_CONNECTORS + ":")
+            if not segment:
+                continue
+            segment_start = span.start + match.start() + leading_punctuation
+            if _is_wholly_alphabetic_sudachi_segment(segment):
+                tokens.append(
+                    AlphabeticToken(
+                        text=segment,
+                        normalized=_normalize_width(segment).lower(),
+                        start=segment_start,
+                        end=segment_start + len(segment),
+                    )
+                )
+                continue
+            tokens.extend(_extract_alphabetic_runs(segment, offset=segment_start))
+    return tokens
+
+
+def _extract_alphabetic_runs(text: str, *, offset: int = 0) -> list[AlphabeticToken]:
     tokens: list[AlphabeticToken] = []
     index = 0
     while index < len(text):
@@ -121,11 +149,24 @@ def extract_alphabetic_tokens(text: str) -> list[AlphabeticToken]:
             AlphabeticToken(
                 text=raw,
                 normalized=_normalize_width(raw).lower(),
-                start=start,
-                end=index,
+                start=offset + start,
+                end=offset + index,
             )
         )
     return tokens
+
+
+def _is_wholly_alphabetic_sudachi_segment(text: str) -> bool:
+    has_cased_letter = False
+    for char in text:
+        if _is_cased_letter(char):
+            has_cased_letter = True
+            continue
+        category = unicodedata.category(char)
+        if category.startswith(("M", "N", "P", "S")):
+            continue
+        return False
+    return has_cased_letter
 
 
 def _consume_token_segment(text: str, start: int) -> tuple[int, bool]:
@@ -174,29 +215,35 @@ def entity_key(entity: AlphabeticEntity) -> str:
     return _strict_case_key(entity.text) if entity.strict_case else entity.normalized
 
 
-def extract_alphabetic_entities(text: str, config: AlphabeticConfig) -> list[AlphabeticEntity]:
-    tokens = extract_alphabetic_tokens(text)
-    if not tokens:
-        return []
-
+def extract_alphabetic_entities(
+    text: str,
+    config: AlphabeticConfig,
+    sudachi_tokens: list[SudachiToken],
+) -> list[AlphabeticEntity]:
+    tokens = extract_alphabetic_tokens(text, sudachi_tokens)
     entities: list[AlphabeticEntity] = []
-    current_tokens: list[AlphabeticToken] = [tokens[0]]
-
-    for token in tokens[1:]:
-        gap = text[current_tokens[-1].end : token.start]
-        if _can_join_entity_gap(gap):
-            current_tokens.append(token)
-            continue
-        entities.append(_build_entity(current_tokens, text, config))
-        current_tokens = [token]
-
-    entities.append(_build_entity(current_tokens, text, config))
+    for token in tokens:
+        measurement_start = _measurement_prefix_start(text, token, config)
+        if measurement_start is not None:
+            token = AlphabeticToken(
+                text=text[measurement_start : token.end],
+                normalized=_normalize_width(
+                    text[measurement_start : token.end]
+                ).lower(),
+                start=measurement_start,
+                end=token.end,
+            )
+        entities.append(_build_entity([token], text, config))
     return entities
 
 
-def build_occurrences_for_unit(unit: dict, config: AlphabeticConfig) -> list[AlphabeticOccurrence]:
+def build_occurrences_for_unit(
+    unit: dict,
+    config: AlphabeticConfig,
+    sudachi_tokens: list[SudachiToken],
+) -> list[AlphabeticOccurrence]:
     occurrences: list[AlphabeticOccurrence] = []
-    entities = extract_alphabetic_entities(unit["text"], config)
+    entities = extract_alphabetic_entities(unit["text"], config, sudachi_tokens)
     for index, entity in enumerate(entities, start=1):
         base_status = classify_entity(entity, config)
         occurrences.append(
@@ -497,16 +544,19 @@ def _build_entity(
     )
 
 
-def _can_join_entity_gap(gap: str) -> bool:
-    return bool(gap) and bool(ENTITY_JOINER_RE.fullmatch(gap))
+def _measurement_prefix_start(
+    text: str, token: AlphabeticToken, config: AlphabeticConfig
+) -> int | None:
+    if token.normalized not in config.measurement_units:
+        return None
+    match = MEASUREMENT_PREFIX_RE.search(text[: token.start])
+    if match is None or match.end() != token.start:
+        return None
+    return match.start()
 
 
 def _normalize_entity_text(text: str) -> str:
-    normalized = _normalize_width(text).lower()
-    normalized = SPACE_AROUND_HYPHEN_RE.sub("-", normalized)
-    normalized = SPACE_AROUND_APOSTROPHE_RE.sub("'", normalized)
-    normalized = SPACE_RE.sub(" ", normalized)
-    return normalized.strip()
+    return _normalize_width(text).lower()
 
 
 def _strict_case_key(text: str) -> str:

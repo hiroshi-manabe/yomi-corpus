@@ -4570,6 +4570,19 @@ function renderRubySegments(item, override, editable) {
   const nodes = [];
   const targetsById = Object.fromEntries(reviewActionTargets(item).map((target) => [target.item_id, target]));
   const segments = item.ruby_segments || [{ type: "text", text: item.text || "" }];
+  if (
+    !segments.some((segment) => segment.type === "ruby") &&
+    item.rendered_yomi &&
+    Array.isArray(item.rendered_yomi_ruby_tokens)
+  ) {
+    const tokens = parseRenderedYomiTokens(item.rendered_yomi);
+    if (tokens.length) {
+      return renderReadonlyRubyFromTokensWithNodes(
+        tokens,
+        item.rendered_yomi_ruby_tokens,
+      );
+    }
+  }
   for (let index = 0; index < segments.length; index += 1) {
     const segment = segments[index];
     if (segment.type !== "ruby") {

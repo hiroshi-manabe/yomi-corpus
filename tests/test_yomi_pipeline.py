@@ -7,7 +7,12 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from yomi_corpus.yomi.adapters import parse_decoder_output, parse_sudachi_output, run_decoder
+from yomi_corpus.yomi.adapters import (
+    parse_decoder_output,
+    parse_sudachi_documents,
+    parse_sudachi_output,
+    run_decoder,
+)
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.experiments import compare_yomi_experiments
 from yomi_corpus.yomi.strategies import (
@@ -28,6 +33,18 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(len(tokens), 1)
         self.assertEqual(tokens[0].surface, "方")
         self.assertEqual(tokens[0].reading, "ホウ")
+
+    def test_parse_sudachi_documents_preserves_eos_boundaries(self) -> None:
+        documents = parse_sudachi_documents(
+            "BGM\t名詞,普通名詞,一般,*,*,*\tBGM\tBGM\tビージーエム\n"
+            "EOS\n"
+            "ZE:A\t名詞,固有名詞,一般,*,*,*\tZE:A\tZE:A\tゼア\n"
+            "EOS\n"
+        )
+        self.assertEqual(
+            [[token.surface for token in row] for row in documents],
+            [["BGM"], ["ZE:A"]],
+        )
 
     def test_parse_decoder_output(self) -> None:
         candidates = parse_decoder_output(

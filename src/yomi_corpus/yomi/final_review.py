@@ -4,7 +4,6 @@ import csv
 import hashlib
 import json
 import re
-import unicodedata
 from collections import Counter
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -25,6 +24,7 @@ from yomi_corpus.yomi.furigana import (
 )
 from yomi_corpus.yomi.numeric_compounds import (
     canonicalize_final_numeric_compounds,
+    common_measurement_unit_readings,
     numeric_compound_occurrences,
     numeric_compound_rule,
 )
@@ -64,9 +64,6 @@ SCOPE_SKIP = "Skip"
 SCOPE_EXCLUDE = "Exclude"
 SCOPE_DISPOSITIONS = {SCOPE_KEEP, SCOPE_SKIP, SCOPE_EXCLUDE}
 
-FINAL_REVIEW_READING_ALTERNATIVES: dict[str, tuple[str, ...]] = {
-    "kg": ("キロ", "キログラム"),
-}
 SCHEMA_VERSION = 1
 APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
@@ -875,10 +872,16 @@ def build_review_item(
     if not isinstance(targets, list):
         targets = []
     text = str(unit.get("text") or "")
-    rendered_yomi = str(
-        unit.get("analysis", {}).get("mechanical", {}).get("yomi", {}).get("rendered") or ""
-    )
-    rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
+    yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+    rendered_yomi = str(yomi.get("rendered") or "") if isinstance(yomi, dict) else ""
+    if isinstance(yomi, dict):
+        try:
+            canonical_pairs = normalize_parenthesized_laughter_tokens(
+                yomi_tokens_from_mapping(yomi, text=text)
+            )
+            rendered_yomi = yomi_tokens_to_editable_rendered(canonical_pairs)
+        except YomiTokenError:
+            rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
     review_targets = [
         build_review_target(
             normalize_parenthesized_laughter_target(
@@ -923,7 +926,6 @@ def build_review_item(
         )
     )
     rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, interaction_spans)
-    rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
     return {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
@@ -1053,7 +1055,7 @@ def rendered_yomi_with_review_defaults(
             updated = True
     if not updated:
         return rendered
-    return " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+    return yomi_tokens_to_editable_rendered(pairs)
 
 
 def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
@@ -1628,8 +1630,7 @@ def project_token_reading_to_target(target: dict[str, Any], reading: object) -> 
 
 def final_review_reading_alternatives(target: dict[str, Any]) -> tuple[str, ...]:
     surface = str(target.get("surface") or "")
-    normalized = unicodedata.normalize("NFKC", surface).casefold()
-    return FINAL_REVIEW_READING_ALTERNATIVES.get(normalized, ())
+    return common_measurement_unit_readings(surface)
 
 
 def build_reading_hints(targets: list[dict[str, Any]]) -> dict[str, str]:
@@ -4300,15 +4301,19 @@ def apply_target_group_strong_repair(
         reading = str(item.get("reading") or "")
         if not surface:
             return {"status": "invalid_result", "reason": "empty replacement surface"}
-        normalized = normalize_hiragana_reading(reading)
-        if not is_valid_yomi_reading(normalized):
+        normalized = (
+            ""
+            if is_numeric_only_finalized_correction_surface(surface)
+            else normalize_hiragana_reading(reading)
+        )
+        if normalized and not is_valid_yomi_reading(normalized):
             return {
                 "status": "invalid_result",
                 "reason": "invalid replacement reading",
                 "surface": surface,
                 "reading": reading,
             }
-        replacement_pairs.append((surface, hira_to_kata(normalized)))
+        replacement_pairs.append((surface, hira_to_kata(normalized) if normalized else ""))
 
     targets = [target for target in queue_row.get("target_escalations", []) if isinstance(target, dict)]
     rejected_pairs = rejected_surface_reading_pairs(targets)
@@ -5130,6 +5135,14 @@ def append_unique_tsv(
 
 
 def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
+    if "\\" in rendered:
+        try:
+            return [
+                (surface, reading)
+                for surface, reading in editable_rendered_to_yomi_tokens(rendered)
+            ]
+        except YomiTokenError:
+            pass
     pairs = []
     for token in rendered.split():
         if "/" not in token:

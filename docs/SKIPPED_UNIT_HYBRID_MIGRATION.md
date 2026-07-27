@@ -10,9 +10,9 @@ Sudachi and hybrid-decoder analysis. The resulting canonical yomi tokens,
 candidate metadata, model identity, and skip provenance remain attached to the
 unit through review and finalized archive generation.
 
-Paid reading LLM calls, ordinary Bulk Review editing, Escalated Repair, final
-corpus export, and decoder training remain suppressed while the unit is
-skipped.
+Before human confirmation, paid reading LLM calls and ordinary Bulk Review
+preparation are identical for `Keep`, `Skip`, and `Exclude`. Confirmed skips
+remain excluded from final corpus export and decoder training.
 
 This document's recoverable `Skip` state is not the terminal `Exclude` state
 used for sensitive material. A machine-proposed exclusion follows the same
@@ -27,8 +27,8 @@ confirmation provenance only.
 1. Scope triage annotates a unit with a provisional skip decision but does not
    remove it from the input to mechanical/hybrid yomi generation.
 2. Yomi generation emits one analyzed row for every scope-triaged input row.
-3. Queue builders omit skipped rows only when selecting paid LLM or ordinary
-   human-review work.
+3. Reading queue builders never inspect scope status. They apply only normal
+   deterministic safety and auto-accept rules.
 4. Bulk Review retains provisional skips with `Skip` preselected and renders
    their hybrid ruby like any other sentence.
 5. A confirmed skip becomes a durable skipped archive record. It retains its

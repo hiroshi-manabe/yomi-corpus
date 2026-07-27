@@ -44,6 +44,8 @@ def generate_mechanical_yomi(
         signals.append("normalize_japanese_numeric_compounds")
     if numeric_result.formatted_numeric_surfaces:
         signals.append("normalize_formatted_numeric_expressions")
+    if numeric_result.measurement_unit_surfaces:
+        signals.append("normalize_common_measurement_unit_readings")
     return MechanicalYomi(
         rendered=numeric_result.rendered,
         certain=strategy_result.certain,

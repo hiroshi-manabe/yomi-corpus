@@ -26,12 +26,32 @@ from yomi_corpus.alphabetic_state import (
     load_alphabetic_decisions,
     upsert_alphabetic_decision,
 )
+from yomi_corpus.yomi.types import SudachiToken
+
+
+def sudachi_tokens(*surfaces: str) -> list[SudachiToken]:
+    return [
+        SudachiToken(
+            surface=surface,
+            pos="名詞,普通名詞,一般,*,*,*",
+            dictionary_form=surface,
+            normalized_form=surface,
+            reading=surface,
+        )
+        for surface in surfaces
+    ]
 
 
 class AlphabeticPipelineTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.config = load_alphabetic_config("config/alphabetic/default.toml")
+
+    def occurrences(self, unit: dict, *surfaces: str):
+        return build_occurrences_for_unit(unit, self.config, sudachi_tokens(*surfaces))
+
+    def entities(self, text: str, *surfaces: str):
+        return extract_alphabetic_entities(text, self.config, sudachi_tokens(*surfaces))
 
     def test_occurrence_builder_uses_case_insensitive_key_for_single_long_entity(self) -> None:
         unit = {
@@ -40,7 +60,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "ANDROIDを使っています。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "ANDROID")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_text, "ANDROID")
         self.assertEqual(occurrences[0].entity_key, "android")
@@ -54,7 +74,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "AIを使っています。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "AI")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_key, "AI")
         self.assertTrue(occurrences[0].strict_case)
@@ -67,7 +87,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "Tシャツを着ています。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "T")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_key, "T")
         self.assertEqual(occurrences[0].base_list_status, "single_letter")
@@ -85,7 +105,9 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "1kgから1.5kg増え、30km歩いた。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(
+            unit, "1", "kg", "1", ".", "5", "kg", "3", "0", "km"
+        )
 
         self.assertEqual([occ.entity_text for occ in occurrences], ["1kg", "1.5kg", "30km"])
         self.assertTrue(all(occ.base_list_status == "measurement" for occ in occurrences))
@@ -101,7 +123,9 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "CLA180とDay2020を比較する。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(
+            unit, "CLA", "1", "8", "0", "Day", "2", "0", "2", "0"
+        )
 
         self.assertEqual([occ.base_list_status for occ in occurrences], ["unknown", "unknown"])
 
@@ -112,7 +136,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "50gを量る。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "5", "0", "g")
         overridden = apply_global_decisions(occurrences, {"50g": "blacklist"})
 
         self.assertEqual(overridden[0].resolved_status, "measurement")
@@ -120,20 +144,30 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(scope["status"], "in_scope")
         self.assertEqual(scope["in_scope"][0]["source"], "deterministic_measurement")
 
-    def test_entity_extractor_merges_space_separated_tokens(self) -> None:
-        entities = extract_alphabetic_entities("Led Zeppelinが好きです。", self.config)
-        self.assertEqual(len(entities), 1)
-        self.assertEqual(entities[0].text, "Led Zeppelin")
-        self.assertEqual(entities[0].normalized, "led zeppelin")
-        self.assertEqual(entities[0].component_texts, ["Led", "Zeppelin"])
-        self.assertFalse(entities[0].strict_case)
+    def test_entity_extractor_splits_space_spanning_sudachi_token(self) -> None:
+        entities = self.entities("Led Zeppelinが好きです。", "Led Zeppelin")
+        self.assertEqual([entity.text for entity in entities], ["Led", "Zeppelin"])
+        self.assertEqual([entity.normalized for entity in entities], ["led", "zeppelin"])
 
     def test_entity_extractor_keeps_alphanumeric_token_with_letters(self) -> None:
-        entities = extract_alphabetic_entities("V6が好きです。", self.config)
+        entities = self.entities("V6が好きです。", "V6")
         self.assertEqual(len(entities), 1)
         self.assertEqual(entities[0].text, "V6")
         self.assertEqual(entities[0].normalized, "v6")
         self.assertEqual(entities[0].component_texts, ["V6"])
+
+    def test_entity_extractor_uses_sudachi_boundary_for_trailing_number(self) -> None:
+        entities = self.entities("BGM8選です。", "BGM", "8", "選")
+        self.assertEqual([entity.text for entity in entities], ["BGM"])
+
+    def test_entity_extractor_keeps_punctuation_inside_sudachi_entity(self) -> None:
+        entities = self.entities("ZE:Aの曲です。", "ZE:A")
+        self.assertEqual([entity.text for entity in entities], ["ZE:A"])
+        self.assertEqual(entities[0].normalized, "ze:a")
+
+    def test_entity_extractor_extracts_alphabetic_part_of_mixed_script_token(self) -> None:
+        entities = self.entities("AB型です。", "AB型")
+        self.assertEqual([entity.text for entity in entities], ["AB"])
 
     def test_entity_extractor_normalizes_fullwidth_long_entity_key(self) -> None:
         unit = {
@@ -142,7 +176,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "ＩＯＮＤ大学について調べました。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "ＩＯＮＤ")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_text, "ＩＯＮＤ")
         self.assertEqual(occurrences[0].entity_key, "iond")
@@ -155,56 +189,52 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "ＡＩを使っています。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "ＡＩ")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_text, "ＡＩ")
         self.assertEqual(occurrences[0].entity_key, "AI")
         self.assertTrue(occurrences[0].strict_case)
 
     def test_entity_extractor_does_not_absorb_standalone_number(self) -> None:
-        entities = extract_alphabetic_entities("iPhone 16が発売されました。", self.config)
+        entities = self.entities("iPhone 16が発売されました。", "iPhone", " ", "1", "6")
         self.assertEqual(len(entities), 1)
         self.assertEqual(entities[0].text, "iPhone")
         self.assertEqual(entities[0].normalized, "iphone")
 
-    def test_entity_extractor_merges_hyphen_separated_tokens(self) -> None:
-        entities = extract_alphabetic_entities("Jean - Lucが来た。", self.config)
-        self.assertEqual(len(entities), 1)
-        self.assertEqual(entities[0].text, "Jean - Luc")
-        self.assertEqual(entities[0].normalized, "jean-luc")
-        self.assertEqual(entities[0].component_texts, ["Jean", "Luc"])
+    def test_entity_extractor_preserves_sudachi_boundaries_around_hyphen(self) -> None:
+        entities = self.entities("Jean - Lucが来た。", "Jean", " ", "-", " ", "Luc")
+        self.assertEqual([entity.text for entity in entities], ["Jean", "Luc"])
 
-    def test_entity_extractor_merges_apostrophe_separated_tokens(self) -> None:
-        entities = extract_alphabetic_entities("rock 'n' rollが好き。", self.config)
-        self.assertEqual(len(entities), 1)
-        self.assertEqual(entities[0].text, "rock 'n' roll")
-        self.assertEqual(entities[0].normalized, "rock'n'roll")
-        self.assertEqual(entities[0].component_texts, ["rock", "n", "roll"])
+    def test_entity_extractor_splits_spaces_inside_sudachi_token(self) -> None:
+        entities = self.entities("rock 'n' rollが好き。", "rock 'n' roll")
+        self.assertEqual([entity.text for entity in entities], ["rock", "n", "roll"])
 
-    def test_entity_extractor_keeps_unicode_cased_title_together(self) -> None:
-        entities = extract_alphabetic_entities(
-            "『都会のアリス』（Alice in den Städten/1974）。", self.config
+    def test_entity_extractor_splits_unicode_title_at_spaces(self) -> None:
+        entities = self.entities(
+            "『都会のアリス』（Alice in den Städten/1974）。",
+            "Alice in den Städten",
+            "/",
+            "1",
+            "9",
+            "7",
+            "4",
         )
-        self.assertEqual(len(entities), 1)
-        self.assertEqual(entities[0].text, "Alice in den Städten")
-        self.assertEqual(entities[0].normalized, "alice in den städten")
         self.assertEqual(
-            entities[0].component_texts,
+            [entity.text for entity in entities],
             ["Alice", "in", "den", "Städten"],
         )
 
     def test_entity_extractor_accepts_decomposed_combining_marks(self) -> None:
-        entities = extract_alphabetic_entities("Cafe\u0301 Noirを見た。", self.config)
-        self.assertEqual(len(entities), 1)
-        self.assertEqual(entities[0].text, "Cafe\u0301 Noir")
-        self.assertEqual(entities[0].normalized, "café noir")
+        entities = self.entities("Cafe\u0301 Noirを見た。", "Cafe\u0301 Noir")
+        self.assertEqual([entity.text for entity in entities], ["Cafe\u0301", "Noir"])
+        self.assertEqual([entity.normalized for entity in entities], ["café", "noir"])
 
     def test_entity_extractor_accepts_greek_and_cyrillic_cased_letters(self) -> None:
-        entities = extract_alphabetic_entities("ΑθήναとМоскваを訪れた。", self.config)
+        entities = self.entities("ΑθήναとМоскваを訪れた。", "Αθήνα", "Москва")
         self.assertEqual([entity.text for entity in entities], ["Αθήνα", "Москва"])
 
     def test_entity_extractor_keeps_dotted_name_together(self) -> None:
-        entities = extract_alphabetic_entities("国民的バンドであるMr.Children。", self.config)
+        entities = self.entities("国民的バンドであるMr.Children。", "Mr.Children")
         self.assertEqual(len(entities), 1)
         self.assertEqual(entities[0].text, "Mr.Children")
         self.assertEqual(entities[0].normalized, "mr.children")
@@ -217,7 +247,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "プリウスαを見ました。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "α")
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_text, "α")
         self.assertEqual(occurrences[0].base_list_status, "unknown")
@@ -235,7 +265,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "Concertsが開催されます。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "Concerts")
         judgment = project_minor_alphabetic_judgment(occurrences)
         self.assertTrue(judgment.value)
         self.assertTrue(judgment.certain)
@@ -254,8 +284,8 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "ANDROID対応です。",
         }
-        occurrences = build_occurrences_for_unit(unit_a, self.config) + build_occurrences_for_unit(
-            unit_b, self.config
+        occurrences = self.occurrences(unit_a, "Android") + self.occurrences(
+            unit_b, "ANDROID"
         )
         token_types = aggregate_occurrences(occurrences)
         self.assertEqual(len(token_types), 1)
@@ -263,7 +293,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(token_types[0].occurrence_count, 2)
         self.assertEqual(token_types[0].unit_count, 2)
 
-    def test_aggregation_groups_same_multiword_entity_case_insensitively(self) -> None:
+    def test_aggregation_groups_space_split_entities_case_insensitively(self) -> None:
         unit_a = {
             "doc_id": "d1",
             "unit_id": "d1:u0001",
@@ -276,13 +306,12 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "LED ZEPPELINを聴く。",
         }
-        occurrences = build_occurrences_for_unit(unit_a, self.config) + build_occurrences_for_unit(
-            unit_b, self.config
+        occurrences = self.occurrences(unit_a, "Led Zeppelin") + self.occurrences(
+            unit_b, "LED ZEPPELIN"
         )
         token_types = aggregate_occurrences(occurrences)
-        self.assertEqual(len(token_types), 1)
-        self.assertEqual(token_types[0].entity_key, "led zeppelin")
-        self.assertEqual(token_types[0].occurrence_count, 2)
+        self.assertEqual([row.entity_key for row in token_types], ["LED", "Led", "zeppelin"])
+        self.assertEqual(token_types[-1].occurrence_count, 2)
 
     def test_global_decision_override_changes_projection(self) -> None:
         unit = {
@@ -291,7 +320,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "unit_seq": 1,
             "text": "zoomで参加します。",
         }
-        occurrences = build_occurrences_for_unit(unit, self.config)
+        occurrences = self.occurrences(unit, "zoom")
         overridden = apply_global_decisions(occurrences, {"zoom": "whitelist"})
         judgment = project_minor_alphabetic_judgment(overridden)
         self.assertFalse(judgment.value)
@@ -318,7 +347,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             note="low-value foreign term",
         )
         occurrences = apply_global_decisions(
-            build_occurrences_for_unit(unit, self.config),
+            self.occurrences(unit, "zoom"),
             {"zoom": decision_status_to_resolved_status(decision.status)},
         )
 
@@ -344,7 +373,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             note="diploma mill name",
         )
         occurrences = apply_global_decisions(
-            build_occurrences_for_unit(unit, self.config),
+            self.occurrences(unit, "ＩＯＮＤ"),
             {"iond": decision_status_to_resolved_status(decision.status)},
         )
 
@@ -362,7 +391,7 @@ class AlphabeticPipelineTests(unittest.TestCase):
             "text": "イオンド大学（ＩＯＮＤ大学）について。",
         }
         config = load_alphabetic_config("config/alphabetic/default.toml")
-        occurrences = build_occurrences_for_unit(unit, config)
+        occurrences = build_occurrences_for_unit(unit, config, sudachi_tokens("ＩＯＮＤ"))
 
         scope = project_alphabetic_scope(occurrences, {})
 

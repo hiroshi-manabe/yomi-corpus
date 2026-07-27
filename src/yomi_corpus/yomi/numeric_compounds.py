@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import re
 from typing import Iterable
+import unicodedata
 
 from yomi_corpus.yomi.token_codec import YomiTokenError, legacy_rendered_to_yomi_tokens
 from yomi_corpus.yomi.numeric_surfaces import is_formatted_arabic_number_surface
@@ -35,6 +36,7 @@ class NumericCompoundNormalization:
     rendered: str
     applied_surfaces: tuple[str, ...]
     formatted_numeric_surfaces: tuple[str, ...] = ()
+    measurement_unit_surfaces: tuple[str, ...] = ()
 
 
 # These lexicalized Japanese forms are more useful as single reading units than
@@ -66,9 +68,21 @@ NUMERIC_COMPOUND_RULES: dict[str, NumericCompoundRule] = {
     "9つ": NumericCompoundRule("ココノツ"),
 }
 
+# These abbreviations are conventionally read in their shortened form in
+# ordinary Japanese. Keep the formal expansion as a review alternative.
+COMMON_MEASUREMENT_UNIT_READINGS: dict[str, tuple[str, ...]] = {
+    "kg": ("キロ", "キログラム"),
+    "km": ("キロ", "キロメートル"),
+}
+
 
 def numeric_compound_rule(surface: str) -> NumericCompoundRule | None:
     return NUMERIC_COMPOUND_RULES.get(surface.translate(_TO_ASCII_DIGITS))
+
+
+def common_measurement_unit_readings(surface: str) -> tuple[str, ...]:
+    normalized = unicodedata.normalize("NFKC", surface).casefold()
+    return COMMON_MEASUREMENT_UNIT_READINGS.get(normalized, ())
 
 
 def normalize_numeric_compounds(rendered: str) -> NumericCompoundNormalization:
@@ -124,11 +138,35 @@ def normalize_numeric_compounds(rendered: str) -> NumericCompoundNormalization:
         else:
             normalized.append((surface, reading))
         index += consumed
+    normalized, measurement_unit_surfaces = _normalize_common_measurement_units(
+        normalized
+    )
     return NumericCompoundNormalization(
         rendered=_render_pairs(normalized),
         applied_surfaces=tuple(applied),
         formatted_numeric_surfaces=tuple(formatted_numeric_surfaces),
+        measurement_unit_surfaces=tuple(measurement_unit_surfaces),
     )
+
+
+def _normalize_common_measurement_units(
+    pairs: list[tuple[str, str]],
+) -> tuple[list[tuple[str, str]], list[str]]:
+    normalized = list(pairs)
+    applied: list[str] = []
+    for index in range(1, len(normalized)):
+        surface, reading = normalized[index]
+        preferred = common_measurement_unit_readings(surface)
+        if not preferred:
+            continue
+        numeric_surface, numeric_reading = normalized[index - 1]
+        if not is_formatted_arabic_number_surface(numeric_surface):
+            continue
+        normalized[index - 1] = (numeric_surface, "")
+        normalized[index] = (surface, preferred[0])
+        if numeric_reading or reading != preferred[0]:
+            applied.append(numeric_surface + surface)
+    return normalized, applied
 
 
 def _merge_formatted_numeric_expressions(

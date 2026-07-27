@@ -38,6 +38,20 @@ class NumericCompoundTests(unittest.TestCase):
 
         self.assertEqual(result.rendered, "12/ 34/ ,/, 5/ kg/キロ 2/ ./. 円/エン")
 
+    def test_defaults_numeric_kg_and_km_to_colloquial_kilo(self) -> None:
+        result = normalize_numeric_compounds(
+            "5/ゴ km/キロメートル と/ト １/イチ ＫＧ/キログラム"
+        )
+
+        self.assertEqual(result.rendered, "5/ km/キロ と/ト １/ ＫＧ/キロ")
+        self.assertEqual(result.measurement_unit_surfaces, ("5km", "１ＫＧ"))
+
+    def test_does_not_rewrite_measurement_unit_without_numeric_value(self) -> None:
+        result = normalize_numeric_compounds("km/キロメートル 表示/ヒョウジ")
+
+        self.assertEqual(result.rendered, "km/キロメートル 表示/ヒョウジ")
+        self.assertEqual(result.measurement_unit_surfaces, ())
+
     def test_normalizes_deterministic_forms_and_fullwidth_digits(self) -> None:
         result = normalize_numeric_compounds(
             "2/ 日/ニチ 14/ 日/ニチ ２０/ 日/ニチ 1/ 人/ニン 9/ つ/ツ"

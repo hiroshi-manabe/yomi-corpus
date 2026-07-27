@@ -87,7 +87,6 @@ def export_jsonl_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None,
     progress_label: str | None = None,
-    skip_scope_skipped: bool = False,
 ) -> dict[str, object]:
     input_path = resolve_repo_path(str(input_jsonl))
     output_path = resolve_repo_path(str(output_jsonl))
@@ -103,8 +102,6 @@ def export_jsonl_yomi(
             if not line.strip():
                 continue
             row = json.loads(line)
-            if skip_scope_skipped and is_scope_skipped(row):
-                continue
             row["analysis"]["mechanical"]["yomi"] = generate_mechanical_yomi(
                 row["text"],
                 config=config,
@@ -133,7 +130,6 @@ def export_plaintext_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None,
     progress_label: str | None = None,
-    skip_scope_skipped: bool = False,
 ) -> dict[str, object]:
     input_path = resolve_repo_path(str(input_jsonl))
     output_path = resolve_repo_path(str(output_txt))
@@ -149,8 +145,6 @@ def export_plaintext_yomi(
             if not line.strip():
                 continue
             row = json.loads(line)
-            if skip_scope_skipped and is_scope_skipped(row):
-                continue
             rendered = (
                 row.get("analysis", {})
                 .get("mechanical", {})
@@ -190,7 +184,6 @@ def export_named_variant(
     formats: list[str] | tuple[str, ...],
     show_progress: bool = False,
     input_jsonl: str | Path | None = None,
-    skip_scope_skipped: bool = False,
     decoder_model_dir: str | None = None,
 ) -> dict[str, object]:
     variant = resolve_export_variant(variant_name)
@@ -213,7 +206,6 @@ def export_named_variant(
             config=config,
             strategy_name=variant.strategy_name,
             progress_label=f"{variant.name} jsonl" if show_progress else None,
-            skip_scope_skipped=skip_scope_skipped,
         )
     if "txt" in formats:
         summary["txt"] = export_plaintext_yomi(
@@ -222,19 +214,8 @@ def export_named_variant(
             config=config,
             strategy_name=variant.strategy_name,
             progress_label=f"{variant.name} txt" if show_progress else None,
-            skip_scope_skipped=skip_scope_skipped if "jsonl" not in formats else False,
         )
     return summary
-
-
-def is_scope_skipped(row: dict[str, object]) -> bool:
-    return (
-        row.get("analysis", {})
-        .get("llm", {})
-        .get("scope_triage", {})
-        .get("status")
-        == "Skip"
-    )
 
 
 def export_debug_comparison_texts(

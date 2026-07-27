@@ -956,7 +956,7 @@ class PipelineTrackTests(unittest.TestCase):
                 Path(mocked.call_args.kwargs["input_jsonl"]).resolve(),
                 scope_triaged_path.resolve(),
             )
-            self.assertFalse(mocked.call_args.kwargs["skip_scope_skipped"])
+            self.assertNotIn("skip_scope_skipped", mocked.call_args.kwargs)
 
     def test_yomi_auto_acceptance_uses_batch_policy_profile(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

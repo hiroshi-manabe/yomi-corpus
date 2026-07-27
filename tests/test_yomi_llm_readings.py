@@ -604,6 +604,43 @@ class YomiLLMReadingsTests(unittest.TestCase):
             rows = [json.loads(line) for line in queue_path.read_text(encoding="utf-8").splitlines()]
             self.assertEqual([row["surface"] for row in rows], ["学校", "上"])
 
+    def test_queue_scope_status_does_not_bypass_reading_processing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "input.jsonl"
+            queue_path = root / "queue.jsonl"
+            summary_path = root / "summary.json"
+            rows = []
+            for status in ("Keep", "Skip", "Exclude"):
+                row = unit()
+                row["unit_id"] = f"u-{status.lower()}"
+                row.setdefault("analysis", {}).setdefault("llm", {})["scope_triage"] = {
+                    "status": status
+                }
+                rows.append(row)
+            input_path.write_text(
+                "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
+                encoding="utf-8",
+            )
+
+            summary = build_yomi_llm_reading_queue_file(
+                input_jsonl=input_path,
+                output_jsonl=queue_path,
+                summary_json=summary_path,
+                skip_stable_two_kanji=False,
+            )
+
+            queued = [
+                json.loads(line)
+                for line in queue_path.read_text(encoding="utf-8").splitlines()
+            ]
+            self.assertEqual(summary.read_units, 3)
+            self.assertEqual(summary.queued_items, 6)
+            self.assertEqual(
+                {row["unit_id"] for row in queued},
+                {"u-keep", "u-skip", "u-exclude"},
+            )
+
     def test_apply_results_compares_hiragana_readings(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

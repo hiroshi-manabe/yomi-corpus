@@ -23,8 +23,11 @@ from yomi_corpus.alphabetic import (
 from yomi_corpus.alphabetic_state import (
     AlphabeticEvidence,
     append_alphabetic_evidence,
+    decision_status_to_resolved_status,
     load_alphabetic_decisions,
 )
+from yomi_corpus.yomi.adapters import run_sudachi_many
+from yomi_corpus.yomi.config import load_yomi_generation_config
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,6 +58,11 @@ def parse_args() -> argparse.Namespace:
         "--config",
         default="config/alphabetic/default.toml",
         help="Alphabetic matching config path relative to repo root.",
+    )
+    parser.add_argument(
+        "--yomi-config",
+        default="config/yomi/default.toml",
+        help="Yomi config supplying the lightweight Sudachi command.",
     )
     parser.add_argument(
         "--global-decisions",
@@ -93,21 +101,25 @@ def main() -> None:
     all_occurrences = []
     unit_text_by_id: dict[str, str] = {}
     decision_status_by_key = {
-        entity_key: decision.status
+        entity_key: decision_status_to_resolved_status(decision.status)
         for entity_key, decision in load_alphabetic_decisions(global_decisions_path).items()
     }
 
     with input_path.open(encoding="utf-8") as src:
-        for line in src:
-            unit = json.loads(line)
-            units.append(unit)
-            unit_text_by_id[str(unit["unit_id"])] = str(unit["text"])
-            occurrences = apply_global_decisions(
-                build_occurrences_for_unit(unit, config),
-                decision_status_by_key,
-            )
-            occurrences_by_unit[str(unit["unit_id"])] = occurrences
-            all_occurrences.extend(occurrences)
+        units = [json.loads(line) for line in src if line.strip()]
+
+    yomi_config = load_yomi_generation_config(args.yomi_config)
+    sudachi_documents = run_sudachi_many(
+        [str(unit["text"]) for unit in units], yomi_config
+    )
+    for unit, sudachi_tokens in zip(units, sudachi_documents, strict=True):
+        unit_text_by_id[str(unit["unit_id"])] = str(unit["text"])
+        occurrences = apply_global_decisions(
+            build_occurrences_for_unit(unit, config, sudachi_tokens),
+            decision_status_by_key,
+        )
+        occurrences_by_unit[str(unit["unit_id"])] = occurrences
+        all_occurrences.extend(occurrences)
 
     types = attach_examples_to_types(
         aggregate_occurrences(all_occurrences),

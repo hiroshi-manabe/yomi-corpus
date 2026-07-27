@@ -652,6 +652,54 @@ class YomiFinalReviewTests(unittest.TestCase):
             ],
         )
 
+    def test_strong_repair_clears_reading_from_new_numeric_only_segment(self) -> None:
+        payload = {
+            "text": "BGM8選です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "token_schema_version": 1,
+                        "tokens": [
+                            ["BGM8", "ビージーエムハチ"],
+                            ["選", "セン"],
+                            ["です", "デス"],
+                            ["。", "。"],
+                        ],
+                    }
+                }
+            },
+        }
+
+        result = apply_target_group_strong_repair(
+            payload,
+            {
+                "item_id": "u1::target_group:1",
+                "rejected_span": "BGM8",
+                "target_escalations": [
+                    {
+                        "surface": "BGM8",
+                        "token_index": 0,
+                        "chunk_index": 0,
+                        "rejected_readings": [
+                            {"surface": "BGM8", "reading": "びーじーえむはち"}
+                        ],
+                    }
+                ],
+            },
+            {
+                "parsed": [
+                    {"surface": "BGM", "reading": "びーじーえむ"},
+                    {"surface": "8", "reading": "はち"},
+                ]
+            },
+        )
+
+        self.assertEqual(result["status"], "applied")
+        self.assertEqual(
+            payload["analysis"]["mechanical"]["yomi"]["tokens"][:2],
+            [["BGM", "ビージーエム"], ["8", ""]],
+        )
+
     def test_manual_strong_repair_failure_identifies_document_and_submission(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             units = Path(tmp) / "units.jsonl"
@@ -1392,6 +1440,29 @@ class YomiFinalReviewTests(unittest.TestCase):
             ],
         )
 
+    def test_review_item_canonicalizes_literal_slashes_before_rendering(self) -> None:
+        item = build_review_item(
+            {
+                "unit_id": "u-date",
+                "doc_id": "d-date",
+                "text": "2017/11",
+                "analysis": {
+                    "mechanical": {"yomi": {"rendered": "2017/ /// 11/"}},
+                    "safety": {"yomi": {"targets": []}},
+                    "llm": {"scope_triage": {"status": "Skip"}},
+                },
+            },
+            seq=1,
+            doc_seq=1,
+            track_doc_seq=1,
+        )
+
+        self.assertEqual(item["rendered_yomi"], r"2017/ \//\/ 11/")
+        self.assertEqual(
+            [token["surface"] for token in item["rendered_yomi_ruby_tokens"]],
+            ["2017", "/", "11"],
+        )
+
     def test_rendered_yomi_ruby_tokens_keep_ke_place_name_ruby_on_full_surface(self) -> None:
         tokens = rendered_yomi_ruby_tokens("新鎌ケ谷/シンカマガヤ 鎌ヶ谷駅/カマガヤエキ")
 
@@ -1607,6 +1678,32 @@ class YomiFinalReviewTests(unittest.TestCase):
             [
                 ("current", "きろ"),
                 ("usage_alternative", "きろぐらむ"),
+                ("none", None),
+            ],
+        )
+
+    def test_review_target_offers_formal_km_reading_after_kilo_default(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "km",
+            "token_surface": "km",
+            "current_reading": "キロ",
+            "current_reading_hiragana": "きろ",
+            "is_safe": True,
+            "signals": [],
+        }
+
+        review_target = build_review_target(target)
+
+        self.assertEqual(review_target["default_reading"], "きろ")
+        self.assertEqual(
+            [
+                (candidate["source"], candidate["reading"])
+                for candidate in review_target["candidates"]
+            ],
+            [
+                ("current", "きろ"),
+                ("dictionary", "きろめーとる"),
                 ("none", None),
             ],
         )

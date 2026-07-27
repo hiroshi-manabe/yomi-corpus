@@ -34,6 +34,13 @@ class YomiTokenCodecTests(unittest.TestCase):
         self.assertEqual(rendered, r"A/エー \s/ B/ビー")
         self.assertEqual(editable_rendered_to_yomi_tokens(rendered, text="A B"), tokens)
 
+    def test_editable_format_escapes_ideographic_space_tokens(self) -> None:
+        tokens = [["A", "エー"], ["\u3000", ""], ["B", "ビー"]]
+        rendered = yomi_tokens_to_editable_rendered(tokens)
+
+        self.assertEqual(rendered, r"A/エー \u3000/ B/ビー")
+        self.assertEqual(editable_rendered_to_yomi_tokens(rendered, text="A　B"), tokens)
+
     def test_legacy_alignment_preserves_source_ascii_space(self) -> None:
         self.assertEqual(
             legacy_rendered_to_yomi_tokens("A/エー \u00a0/\u00a0 B/ビー", text="A B"),

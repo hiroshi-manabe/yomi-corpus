@@ -258,7 +258,10 @@ Sentence-level judgments should handle:
 The minor-alphabetic problem should instead be handled at the batch entity-type
 level:
 
-- extract alphabetic entity occurrences from all units in the batch
+- run lightweight Sudachi analysis over the batch and extract alphabetic entity
+  occurrences from its token boundaries; do not run the N-gram decoder here
+- treat source whitespace as a hard boundary even for a space-spanning Sudachi
+  dictionary token
 - aggregate them into entity types
 - resolve entity types through whitelist/blacklist lookup first
 - send only unresolved entity types to the LLM once, then cache the judgment
@@ -284,7 +287,14 @@ dictionary fixes useful cases such as `断捨離/ダンシャリ`, `主演/シ�
 some named entities, but it is still only a candidate source. Readings that do
 not pass our yomi-format validation, such as alphabetic lowercase readings, must
 not be accepted merely because Sudachi full produced them. Tokens that span
-spaces should be treated explicitly if they become operationally important.
+spaces are split at source-space boundaries by project policy.
+
+Alphabetic scope analysis uses the same configured Sudachi mode and dictionary
+as its lightweight boundary source, but does not invoke `yomi-decoder`. It sends
+all unit lines through one Sudachi subprocess per batch, persists the resulting
+alphabetic occurrences, and reuses those occurrences when cached LLM decisions
+are projected. This avoids both per-sentence process startup and later boundary
+drift from re-tokenizing with another implementation.
 
 The wrapper is useful as the source of truth for configuration, but the
 production pipeline should eventually call SudachiPy from Python and point it at
@@ -402,8 +412,13 @@ Responsibilities:
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
 - extract alphabetic entity occurrences and aggregate entity types
+- use persisted lightweight Sudachi-derived boundaries for those occurrences;
+  never rerun an independent regex tokenizer during decision promotion
 - resolve number-plus-recognized-measurement-unit entities deterministically,
   while retaining them in the occurrence artifacts for audit
+- keep numeric values separate and readingless before `kg` and `km`; default
+  those unit tokens to `キロ`, while retaining their formal expansions as
+  review alternatives
 - attach a `certain` flag for sentence-level tasks
 
 Example signals:
@@ -486,11 +501,15 @@ format/key parse errors should first be retried once with a stricter prompt:
 results override first-pass results for the same item ID. Any remaining parse
 error after retry routes the target or unit to focused review.
 
-Scope triage is intentionally ordered before paid reading work. It only needs
-raw unit text. `Skip` and `Exclude` suppress paid reading calls, but all three
-labels continue through cheap Sudachi/hybrid generation so a human can inspect
-ruby text and a recoverable skip can later be restored. `Exclude` remains
-provisional until Bulk Review; the model alone must never make text disappear.
+Scope triage is intentionally ordered before reading work because it only needs
+raw unit text, but its result does not branch the reading pipeline. `Keep`,
+`Skip`, and `Exclude` all continue through the same deterministic safety checks,
+Sudachi/hybrid generation, and unresolved-target LLM reading calls. Scope status
+changes review presentation and eventual corpus inclusion only. This keeps the
+stored yomi schema identical, avoids skip-specific reconstruction bugs, and
+preserves useful readings when a provisional decision is reversed. `Exclude`
+remains provisional until Bulk Review; the model alone must never make text
+disappear.
 
 In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or

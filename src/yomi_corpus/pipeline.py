@@ -9,6 +9,7 @@ from pathlib import Path
 import tomllib
 
 from yomi_corpus.alphabetic import (
+    AlphabeticOccurrence,
     apply_global_decisions,
     aggregate_occurrences,
     attach_examples_to_types,
@@ -49,6 +50,8 @@ from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
+from yomi_corpus.yomi.adapters import run_sudachi_many
+from yomi_corpus.yomi.config import load_yomi_generation_config
 from yomi_corpus.yomi.export import export_named_variant
 from yomi_corpus.yomi.final_review import (
     STRONG_REPAIR_REVIEW_STAGE,
@@ -1838,16 +1841,20 @@ class PipelineWorkspace:
         decisions_by_key = load_alphabetic_decisions(global_decisions_path)
 
         with input_path.open(encoding="utf-8") as src:
-            for line in src:
-                unit = json.loads(line)
-                units.append(unit)
-                unit_text_by_id[str(unit["unit_id"])] = str(unit["text"])
-                occurrences = apply_global_decisions(
-                    build_occurrences_for_unit(unit, config),
-                    decision_status_by_key,
-                )
-                occurrences_by_unit[str(unit["unit_id"])] = occurrences
-                all_occurrences.extend(occurrences)
+            units = [json.loads(line) for line in src if line.strip()]
+
+        yomi_config = load_yomi_generation_config("config/yomi/default.toml")
+        sudachi_documents = run_sudachi_many(
+            [str(unit["text"]) for unit in units], yomi_config
+        )
+        for unit, sudachi_tokens in zip(units, sudachi_documents, strict=True):
+            unit_text_by_id[str(unit["unit_id"])] = str(unit["text"])
+            occurrences = apply_global_decisions(
+                build_occurrences_for_unit(unit, config, sudachi_tokens),
+                decision_status_by_key,
+            )
+            occurrences_by_unit[str(unit["unit_id"])] = occurrences
+            all_occurrences.extend(occurrences)
 
         types = attach_examples_to_types(
             aggregate_occurrences(all_occurrences),
@@ -2125,7 +2132,7 @@ class PipelineWorkspace:
         summary_path = batch_dir / "alphabetic_promotion_candidates_summary.json"
         decisions = load_alphabetic_decisions(decisions_path)
         input_path = batch_dir / "units.alphabetic.jsonl"
-        config = load_alphabetic_config("config/alphabetic/default.toml")
+        occurrences_path = batch_dir / "alphabetic_occurrences.jsonl"
         decision_status_by_key = {
             entity_key: decision_status_to_resolved_status(decision.status)
             for entity_key, decision in decisions.items()
@@ -2136,6 +2143,20 @@ class PipelineWorkspace:
         unresolved_units = 0
         in_scope_units = 0
         updated_units: list[dict] = []
+        occurrences_by_unit: dict[str, list] = {}
+        if input_path.exists() and not occurrences_path.exists():
+            raise FileNotFoundError(
+                f"Alphabetic occurrence artifact is missing: {occurrences_path}"
+            )
+        if occurrences_path.exists():
+            with occurrences_path.open(encoding="utf-8") as src:
+                for line in src:
+                    if not line.strip():
+                        continue
+                    occurrence = AlphabeticOccurrence(**json.loads(line))
+                    occurrences_by_unit.setdefault(occurrence.unit_id, []).append(
+                        occurrence
+                    )
         if input_path.exists():
             with input_path.open(encoding="utf-8") as src:
                 for line in src:
@@ -2144,7 +2165,7 @@ class PipelineWorkspace:
                     read_units += 1
                     unit = json.loads(line)
                     occurrences = apply_global_decisions(
-                        build_occurrences_for_unit(unit, config),
+                        occurrences_by_unit.get(str(unit["unit_id"]), []),
                         decision_status_by_key,
                     )
                     judgment = project_minor_alphabetic_judgment(occurrences)
@@ -2215,7 +2236,6 @@ class PipelineWorkspace:
             formats=["jsonl"],
             show_progress=True,
             input_jsonl=input_path,
-            skip_scope_skipped=False,
             decoder_model_dir=batch_state.decoder_model_dir,
         )
         artifacts = {

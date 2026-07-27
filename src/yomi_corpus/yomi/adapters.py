@@ -19,11 +19,44 @@ def run_sudachi(text: str, config: YomiGenerationConfig) -> list[SudachiToken]:
     return parse_sudachi_output(completed.stdout)
 
 
+def run_sudachi_many(
+    texts: list[str], config: YomiGenerationConfig
+) -> list[list[SudachiToken]]:
+    if not texts:
+        return []
+    if any("\n" in text or "\r" in text for text in texts):
+        raise ValueError("Sudachi batch input must contain one physical line per text")
+    command = [config.sudachi_command, *config.sudachi_args]
+    completed = subprocess.run(
+        command,
+        input="".join(f"{text}\n" for text in texts),
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    documents = parse_sudachi_documents(completed.stdout)
+    if len(documents) != len(texts):
+        raise ValueError(
+            f"Sudachi returned {len(documents)} documents for {len(texts)} input texts"
+        )
+    return documents
+
+
 def parse_sudachi_output(stdout: str) -> list[SudachiToken]:
+    documents = parse_sudachi_documents(stdout)
+    return [token for document in documents for token in document]
+
+
+def parse_sudachi_documents(stdout: str) -> list[list[SudachiToken]]:
+    documents: list[list[SudachiToken]] = []
     tokens: list[SudachiToken] = []
     for raw_line in stdout.splitlines():
         line = raw_line.rstrip("\n")
-        if not line or line == "EOS":
+        if not line:
+            continue
+        if line == "EOS":
+            documents.append(tokens)
+            tokens = []
             continue
         parts = line.split("\t")
         if len(parts) < 5:
@@ -37,7 +70,9 @@ def parse_sudachi_output(stdout: str) -> list[SudachiToken]:
                 reading=parts[4],
             )
         )
-    return tokens
+    if tokens:
+        documents.append(tokens)
+    return documents
 
 
 def run_decoder(text: str, config: YomiGenerationConfig) -> list[DecoderCandidate]:
