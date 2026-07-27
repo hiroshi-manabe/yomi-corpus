@@ -83,6 +83,8 @@ const el = {
 const settingsKey = "yomi-corpus:review-ui:settings:v2";
 const archiveCorrectionStorageKey = "yomi-corpus:archive-corrections:v1";
 const archiveCorrectionStoreSchemaVersion = 2;
+const workflowTakeNextCountStorageKey = "yomi-corpus:workflow-take-next-count:v1";
+const bulkReviewTakeNextOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
 boot().catch((error) => {
   showStatus(`Failed to load review workspace: ${error.message}`, true);
@@ -2209,6 +2211,7 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       title: "Bulk Review",
       actionLabel: "Start Bulk Review",
       takeNextCount: 5,
+      takeNextOptions: bulkReviewTakeNextOptions,
     }),
     renderWorkflowQueue({
       docs: allDocs,
@@ -2258,7 +2261,15 @@ function renderWorkflowPackMap(docs) {
   return section;
 }
 
-function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeNextCount }) {
+function renderWorkflowQueue({
+  docs,
+  task,
+  queueStage,
+  title,
+  actionLabel,
+  takeNextCount,
+  takeNextOptions = null,
+}) {
   const section = document.createElement("section");
   section.className = `workflow-queue ${queueStage === "yomi_final_review" ? "final" : "strong"}`;
   const queueDocs = dedupeWorkflowQueueDocs(
@@ -2344,9 +2355,35 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   const takeNextButton = document.createElement("button");
   takeNextButton.type = "button";
   takeNextButton.className = "secondary-button";
-  takeNextButton.textContent = `Take next ${takeNextCount}`;
+  takeNextButton.textContent = takeNextOptions ? "Take next" : `Take next ${takeNextCount}`;
   takeNextButton.disabled = actionableDocs.length === 0;
-  takeNextButton.addEventListener("click", () => takeNextQueueDocuments(queueStage, takeNextCount));
+  let selectedTakeNextCount = takeNextCount;
+  let takeNextControl = takeNextButton;
+  if (takeNextOptions) {
+    selectedTakeNextCount = loadWorkflowTakeNextCount(takeNextOptions, takeNextCount);
+    const takeNextSelect = document.createElement("select");
+    takeNextSelect.className = "workflow-take-next-count";
+    takeNextSelect.setAttribute("aria-label", `${title} document count`);
+    for (const optionCount of takeNextOptions) {
+      const option = document.createElement("option");
+      option.value = String(optionCount);
+      option.textContent = String(optionCount);
+      option.selected = optionCount === selectedTakeNextCount;
+      takeNextSelect.append(option);
+    }
+    takeNextSelect.disabled = actionableDocs.length === 0;
+    takeNextSelect.addEventListener("change", () => {
+      selectedTakeNextCount = Number(takeNextSelect.value);
+      saveWorkflowTakeNextCount(selectedTakeNextCount);
+    });
+    const takeNextGroup = document.createElement("span");
+    takeNextGroup.className = "workflow-take-next-control";
+    takeNextGroup.append(takeNextButton, takeNextSelect);
+    takeNextControl = takeNextGroup;
+  }
+  takeNextButton.addEventListener("click", () => {
+    takeNextQueueDocuments(queueStage, selectedTakeNextCount);
+  });
   const selectAllButton = document.createElement("button");
   selectAllButton.type = "button";
   selectAllButton.className = "secondary-button";
@@ -2359,7 +2396,7 @@ function renderWorkflowQueue({ docs, task, queueStage, title, actionLabel, takeN
   clearButton.textContent = "Clear";
   clearButton.disabled = selectedDocs.length === 0;
   clearButton.addEventListener("click", () => clearQueueTaskSelection(queueStage));
-  actions.append(startButton, takeNextButton, selectAllButton, clearButton);
+  actions.append(startButton, takeNextControl, selectAllButton, clearButton);
   section.append(actions);
   return section;
 }
@@ -6315,6 +6352,23 @@ function takeNextQueueDocuments(queueStage, count) {
   state.currentDraft.to_seq = null;
   touchDraft();
   render();
+}
+
+function loadWorkflowTakeNextCount(options, fallback) {
+  try {
+    const stored = Number(window.localStorage.getItem(workflowTakeNextCountStorageKey));
+    return options.includes(stored) ? stored : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveWorkflowTakeNextCount(count) {
+  try {
+    window.localStorage.setItem(workflowTakeNextCountStorageKey, String(count));
+  } catch {
+    // The selection remains usable for this page even if storage is unavailable.
+  }
 }
 
 function setDocumentRangeBoundary(docId, side) {
