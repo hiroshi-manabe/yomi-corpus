@@ -559558,7 +559558,7 @@
           "type": "ruby",
           "text": "SUSC",
           "target_item_id": "ja_cc_level2:0000000163:u0005:s0011-0014",
-          "reading": null,
+          "reading": "えすゆーえすしー",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -559759,7 +559759,7 @@
           "text": "しています。"
         }
       ],
-      "rendered_yomi": "株式/カブシキ 会社/ガイシャ プログレス/プログレス は/ハ SUSC/ （/（ セキド/セキド 無人/ムジン 航空機/コウクウキ 安全/アンゼン 運用/ウンヨウ 協議会/キョウギカイ ）/） 加盟/カメイ し/シ 、/、 日本/ニッポン で/デ の/ノ DJI/ディージェイアイ 製/セイ ドローン/ドローン の/ノ 販売/ハンバイ 実績/ジッセキ No./ナンバー 1/ 企業/キギョウ で/デ ある/アル 株式/カブシキ 会社/ガイシャ セキド/セキド の/ノ セキド/セキド グループ/グループ の/ノ 一員/イチイン と/ト し/シ て/テ 、/、 「/「 セキド/セキド 新潟/ニイガタ 県央/ケンオウ 」/」 を/ヲ 運営/ウンエイ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi": "株式/カブシキ 会社/ガイシャ プログレス/プログレス は/ハ SUSC/エスユーエスシー （/（ セキド/セキド 無人/ムジン 航空機/コウクウキ 安全/アンゼン 運用/ウンヨウ 協議会/キョウギカイ ）/） 加盟/カメイ し/シ 、/、 日本/ニッポン で/デ の/ノ DJI/ディージェイアイ 製/セイ ドローン/ドローン の/ノ 販売/ハンバイ 実績/ジッセキ No./ナンバー 1/ 企業/キギョウ で/デ ある/アル 株式/カブシキ 会社/ガイシャ セキド/セキド の/ノ セキド/セキド グループ/グループ の/ノ 一員/イチイン と/ト し/シ て/テ 、/、 「/「 セキド/セキド 新潟/ニイガタ 県央/ケンオウ 」/」 を/ヲ 運営/ウンエイ し/シ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "株式",
@@ -559805,11 +559805,12 @@
         },
         {
           "surface": "SUSC",
-          "reading": "",
+          "reading": "エスユーエスシー",
           "nodes": [
             {
-              "type": "text",
-              "text": "SUSC"
+              "type": "ruby",
+              "text": "SUSC",
+              "reading": "えすゆーえすしー"
             }
           ]
         },
@@ -560528,11 +560529,25 @@
           "review_status": "unresolved",
           "highlight_level": "target",
           "accepted_signal_names": [],
-          "status_reason": "llm_reading_parse_error",
-          "default_candidate_id": null,
-          "default_choice_source": "current",
-          "default_reading": null,
+          "status_reason": "llm_reading_mismatched",
+          "default_candidate_id": "llm",
+          "default_choice_source": "llm",
+          "default_reading": "えすゆーえすしー",
           "candidates": [
+            {
+              "id": "llm",
+              "source": "llm",
+              "label": "LLM reading",
+              "reading": "えすゆーえすしー",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "SUSC",
+                  "reading": "えすゆーえすしー"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -560569,10 +560584,9 @@
             {
               "name": "safe_by_llm_match",
               "accepted": false,
-              "status": "parse_error",
-              "llm_reading": null,
-              "current_reading_hiragana": "SUSC",
-              "parse_error": "Expected JSON key 'SUSC'; got ['加盟']."
+              "status": "mismatched",
+              "llm_reading": "えすゆーえすしー",
+              "current_reading_hiragana": "SUSC"
             }
           ]
         },
@@ -562295,10 +562309,29 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "default_candidate_id": "llm",
+          "default_choice_source": "llm",
+          "default_reading": "えすゆーえすしー",
           "candidates": [
+            {
+              "id": "llm",
+              "source": "llm",
+              "label": "LLM reading",
+              "reading": "えすゆーえすしー",
+              "tokens": [
+                [
+                  "SUSC",
+                  "エスユーエスシー"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "SUSC",
+                  "reading": "えすゆーえすしー"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -562338,10 +562371,9 @@
             {
               "name": "safe_by_llm_match",
               "accepted": false,
-              "status": "parse_error",
-              "llm_reading": null,
-              "current_reading_hiragana": "SUSC",
-              "parse_error": "Expected JSON key 'SUSC'; got ['加盟']."
+              "status": "mismatched",
+              "llm_reading": "えすゆーえすしー",
+              "current_reading_hiragana": "SUSC"
             }
           ]
         },
@@ -563981,6 +564013,7 @@
       "reading_hints": {
         "株式": "かぶしき",
         "会社": "がいしゃ",
+        "SUSC": "えすゆーえすしー",
         "無人": "むじん",
         "航空機": "こうくうき",
         "安全": "あんぜん",
