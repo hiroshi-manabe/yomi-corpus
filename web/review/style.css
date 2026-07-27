@@ -918,6 +918,23 @@ button:disabled {
   color: rgb(28, 92, 185);
 }
 
+.workflow-take-next-control {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.workflow-take-next-control button {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.workflow-take-next-count {
+  min-width: 64px;
+  border-left: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .workflow-resolved {
   border-color: rgba(125, 88, 205, 0.28);
 }

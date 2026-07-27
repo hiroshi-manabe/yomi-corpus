@@ -684,6 +684,13 @@ range-selection control is removed; it has not proved useful in operation. Confi
 `Exclude` requires an additional submission confirmation because its lifecycle
 is intentionally different from recoverable `Skip`.
 
+The Bulk Review and Escalated Repair queues each have a persisted `Take next`
+document-count selector with values from 5 through 50 in increments of 5. Each
+queue remembers its own browser-local selection, defaults to 5 when no valid
+preference exists, and naturally takes fewer documents when the queue contains
+fewer than the selected count. Escalated Repair can use the same range because
+a document often contains only a small amount of actual repair work.
+
 This task should use the configured profile selected by evaluation. Its output
 is only a scope gate; it is not expected to notice yomi errors.
 
