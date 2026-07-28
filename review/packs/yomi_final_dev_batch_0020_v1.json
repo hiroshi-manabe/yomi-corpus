@@ -16,8 +16,8 @@
       "complete": 8,
       "strong_reviewed": 2
     },
-    "unresolved_item_count": 32,
-    "unresolved_target_count": 89,
+    "unresolved_item_count": 33,
+    "unresolved_target_count": 90,
     "interaction_span_count": 1962,
     "provisional_skip_item_count": 2
   },
@@ -41,7 +41,7 @@
       "application_failures": [],
       "item_count": 20,
       "region_count": 0,
-      "unresolved_count": 13,
+      "unresolved_count": 14,
       "from_seq": 1,
       "to_seq": 20,
       "reviewed_unit_count": 20,
@@ -2843,9 +2843,9 @@
           "type": "ruby",
           "text": "一",
           "target_item_id": "ja_cc_level2:0000000164:u0002:s0013-0013",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "ひと",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "text",
@@ -2980,7 +2980,7 @@
           "text": "ました。"
         }
       ],
-      "rendered_yomi": "誕生/タンジョウ 月/ガツ が/ガ 早い/ハヤイ こと/コト も/モ あり/アリ 、/、 一/ つ/ツ 上/ウエ の/ノ 学年/ガクネン の/ノ 子/コ の/ノ クラス/クラス に/ニ 入れ/イレ て/テ もらい/モライ 2/ 歳/サイ から/カラ リトミック/リトミック も/モ 兼ね/カネ て/テ 某/ボウ 有名/ユウメイ 音楽/オンガク 教室/キョウシツ に/ニ 通い/カヨイ 始め/ハジメ まし/マシ た/タ 。/。",
+      "rendered_yomi": "誕生/タンジョウ 月/ガツ が/ガ 早い/ハヤイ こと/コト も/モ あり/アリ 、/、 一/ヒト つ/ツ 上/ウエ の/ノ 学年/ガクネン の/ノ 子/コ の/ノ クラス/クラス に/ニ 入れ/イレ て/テ もらい/モライ 2/ 歳/サイ から/カラ リトミック/リトミック も/モ 兼ね/カネ て/テ 某/ボウ 有名/ユウメイ 音楽/オンガク 教室/キョウシツ に/ニ 通い/カヨイ 始め/ハジメ まし/マシ た/タ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "誕生",
@@ -3071,11 +3071,12 @@
         },
         {
           "surface": "一",
-          "reading": "",
+          "reading": "ヒト",
           "nodes": [
             {
-              "type": "text",
-              "text": "一"
+              "type": "ruby",
+              "text": "一",
+              "reading": "ひと"
             }
           ]
         },
@@ -3407,9 +3408,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 16,
-      "safe_target_count": 16,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 15,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000164:u0002:r0001c01",
@@ -3804,16 +3805,14 @@
           "chunk_index": 0,
           "current_reading": "ヒト",
           "current_reading_hiragana": "ひと",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ひと",
           "candidates": [
             {
               "id": "current",
@@ -4030,7 +4029,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -4040,12 +4039,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -5969,12 +5962,12 @@
           "chunk_index": 0,
           "current_reading": "ヒト",
           "current_reading_hiragana": "ひと",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ひと",
           "candidates": [
             {
               "id": "current",
@@ -6279,12 +6272,6 @@
             "ja_cc_level2:0000000164:u0002:r0009c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -116730,8 +116717,8 @@
         "画集": "がしゅう",
         "自費": "じひ",
         "出版": "しゅっぱん",
-        "京都市": "きょうとし",
-        "都市": "とし"
+        "都市": "とし",
+        "京都市": "きょうとし"
       }
     },
     {
