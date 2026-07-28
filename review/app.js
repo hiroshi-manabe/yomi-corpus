@@ -59,6 +59,7 @@ const el = {
   clearRange: document.querySelector("#clear-range"),
   resetDraft: document.querySelector("#reset-draft"),
   openIssueTitle: document.querySelector("#open-issue-title"),
+  openIssueBottom: document.querySelector("#open-issue-bottom"),
   copyJson: document.querySelector("#copy-json"),
   downloadJson: document.querySelector("#download-json"),
   uiModeSelect: document.querySelector("#ui-mode-select"),
@@ -211,6 +212,10 @@ function bindEvents() {
   });
 
   el.openIssueTitle.addEventListener("click", async () => {
+    await openIssueForCurrentTask();
+  });
+
+  el.openIssueBottom.addEventListener("click", async () => {
     await openIssueForCurrentTask();
   });
 
@@ -4623,6 +4628,7 @@ function renderControlState() {
   el.clearRange.disabled = !editable;
   el.resetDraft.disabled = !editable;
   el.openIssueTitle.disabled = !editable;
+  el.openIssueBottom.disabled = !editable;
   el.copyJson.disabled = !editable;
   el.downloadJson.disabled = !editable;
 }
