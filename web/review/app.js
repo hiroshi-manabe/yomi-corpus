@@ -2644,7 +2644,7 @@ function workflowStatusGlyph(status) {
     return "!";
   }
   if (status === "final") {
-    return "一";
+    return "B";
   }
   return "–";
 }
