@@ -1924,7 +1924,7 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>Resolved</span>
+          <span><span class="workflow-dot resolved"></span>Finalized</span>
           <span><span class="workflow-dot strong"></span>Escalated Repair</span>
           <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
         </div>
