@@ -30,13 +30,6 @@ const state = {
 };
 
 const el = {
-  currentTrackList: document.querySelector("#current-track-list"),
-  stageSelect: document.querySelector("#stage-select"),
-  packList: document.querySelector("#pack-list"),
-  historyCount: document.querySelector("#history-count"),
-  packTitle: document.querySelector("#pack-title"),
-  packBadge: document.querySelector("#pack-badge"),
-  packMeta: document.querySelector("#pack-meta"),
   taskPickerPanel: document.querySelector("#task-picker-panel"),
   taskDocList: document.querySelector("#task-doc-list"),
   taskDraftList: document.querySelector("#task-draft-list"),
@@ -63,7 +56,6 @@ const el = {
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
   issueUrlSummary: document.querySelector("#issue-url-summary"),
-  openLatest: document.querySelector("#open-latest"),
   clearRange: document.querySelector("#clear-range"),
   resetDraft: document.querySelector("#reset-draft"),
   openIssueTitle: document.querySelector("#open-issue-title"),
@@ -100,7 +92,6 @@ async function boot() {
   if (stageIds.length === 0) {
     throw new Error("No review stages were published.");
   }
-  populateStageSelect(stageIds);
   const initialTarget = resolveInitialTarget(stageIds);
   if (initialTarget.stageId === "unified_yomi_review") {
     await openUnifiedReview();
@@ -133,33 +124,6 @@ function bindEvents() {
     } else {
       pollRuntimeStatus();
     }
-  });
-
-  el.stageSelect.addEventListener("change", async (event) => {
-    if (event.target.value === "unified_yomi_review") {
-      await openUnifiedReview();
-      return;
-    }
-    if (event.target.value === "archive_browser") {
-      await openArchiveBrowser();
-      return;
-    }
-    await openStage(event.target.value, { preferLatest: true });
-  });
-
-  el.openLatest.addEventListener("click", async () => {
-    if (state.currentStageId === "unified_yomi_review") {
-      await openUnifiedReview();
-      return;
-    }
-    if (state.currentStageId === "archive_browser") {
-      await openArchiveBrowser();
-      return;
-    }
-    if (!state.currentStageId) {
-      return;
-    }
-    await openStage(state.currentStageId, { preferLatest: true });
   });
 
   el.selectAllDocs.addEventListener("click", () => {
@@ -373,7 +337,6 @@ async function openStage(stageId, { preferLatest = false, preferredPackId = null
     throw new Error(`Unknown review stage: ${stageId}`);
   }
   state.currentStageId = stageId;
-  el.stageSelect.value = stageId;
 
   const params = new URLSearchParams(window.location.search);
   const requestedPackId = params.get("pack");
@@ -420,9 +383,6 @@ async function openUnifiedReview() {
     return;
   }
   state.currentStageId = "unified_yomi_review";
-  if (el.stageSelect) {
-    el.stageSelect.value = "unified_yomi_review";
-  }
   const sources = [];
   for (const source of reviewSources) {
     const pack = await fetchJson(source.path);
@@ -449,9 +409,6 @@ async function openArchiveBrowser() {
     return;
   }
   state.currentStageId = "archive_browser";
-  if (el.stageSelect) {
-    el.stageSelect.value = "archive_browser";
-  }
   if (!state.archiveIndex) {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
@@ -672,286 +629,13 @@ function documentBelongsToQueue(queueStage, doc) {
   return Boolean(doc?.selectable);
 }
 
-function populateStageSelect(stageIds) {
-  el.stageSelect.innerHTML = "";
-  if (hasDevYomiReviewSources()) {
-    const option = document.createElement("option");
-    option.value = "unified_yomi_review";
-    option.textContent = "Unified Yomi Review";
-    el.stageSelect.append(option);
-    if (hasReviewArchive()) {
-      const archiveOption = document.createElement("option");
-      archiveOption.value = "archive_browser";
-      archiveOption.textContent = "Corpus Map";
-      el.stageSelect.append(archiveOption);
-    }
-    return;
-  }
-  for (const stageId of stageIds) {
-    const option = document.createElement("option");
-    option.value = stageId;
-    option.textContent = state.manifest.stages[stageId].label || stageId;
-    el.stageSelect.append(option);
-  }
-  if (hasReviewArchive()) {
-    const archiveOption = document.createElement("option");
-    archiveOption.value = "archive_browser";
-    archiveOption.textContent = "Corpus Map";
-    el.stageSelect.append(archiveOption);
-  }
-}
-
 function render() {
   syncLocalTaskRecordsForCurrentPack();
-  renderCurrentTracks();
-  renderPackList();
-  renderPackSummary();
   renderTaskSelector();
   renderRangeSummary();
   renderItems();
   renderControlState();
   renderSubmissionPreview();
-}
-
-function renderCurrentTracks() {
-  const currentQueues = state.manifest.current_review_queues || [];
-  const currentTracks = state.manifest.current_tracks || {};
-  const workflowCards = currentQueues.filter((queue) => queue.track_name === "dev");
-  const workflowSources = workflowCards.length > 0 ? workflowCards : activeDevYomiReviewSources();
-  el.currentTrackList.innerHTML = "";
-  let cards = hasDevYomiReviewSources() ? [] : [...workflowCards];
-  if (cards.length === 0 && workflowSources.length === 0 && currentTracks.dev) {
-    cards.push({ ...currentTracks.dev, track_name: "dev", emphasis: "secondary-track" });
-  }
-
-  if (cards.length === 0 && workflowSources.length === 0 && !hasReviewArchive()) {
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = "No active dev review packs were published.";
-    el.currentTrackList.append(p);
-    return;
-  }
-
-  if (workflowSources.length > 0 || hasReviewArchive()) {
-    el.currentTrackList.append(renderDevWorkspaceCard({ workflowSources, workflowCards }));
-  }
-
-  for (const card of cards) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `track-card ${card.emphasis || "secondary-track"}`;
-    button.classList.toggle(
-      "active-track",
-      state.currentStageId === card.review_stage && state.currentPackMeta?.pack_id === card.pack_id,
-    );
-    const selectableDocs = Number(card.selectable_document_count || 0);
-    const totalDocs = Number(card.document_count || 0);
-    const docSummary = totalDocs
-      ? `${selectableDocs}/${totalDocs} selectable doc(s)`
-      : `${card.item_count} item(s)`;
-    button.innerHTML = `
-      <div class="track-card-header">
-        <strong>${escapeHtml(card.label || card.review_stage || "Dev Review")}</strong>
-        <span class="badge ${escapeHtml(card.track_name)}">${escapeHtml(card.track_name)}</span>
-      </div>
-      <div class="track-card-stage">${escapeHtml(card.title || card.pack_id)}</div>
-      <div class="pack-meta-line">${escapeHtml(docSummary)} · ${card.item_count} item(s)</div>
-    `;
-    button.addEventListener("click", () => {
-      openStage(card.review_stage, {
-        preferLatest: false,
-        preferredPackId: card.pack_id,
-      }).catch((error) => {
-        showStatus(`Failed to open pack: ${error.message}`, true);
-      });
-    });
-    el.currentTrackList.append(button);
-  }
-}
-
-function renderDevWorkspaceCard({ workflowSources, workflowCards }) {
-  const card = document.createElement("section");
-  card.className = "track-card primary-track dev-workspace-card";
-  const totalItems = workflowSources.reduce((sum, source) => sum + Number(source.item_count || 0), 0);
-  const totalDocs = workflowSources.length
-    ? Math.max(...workflowSources.map((source) => Number(source.document_count || 0)))
-    : 0;
-  const activeQueueCount = workflowCards.length;
-  const queueText =
-    activeQueueCount > 0
-      ? activeQueueCount === 1
-        ? "1 active queue"
-        : `${activeQueueCount} active queues`
-      : "0 active queues";
-  const archiveMeta = state.manifest.archive?.tracks?.dev || {};
-  card.innerHTML = `
-    <div class="track-card-header">
-      <strong>dev workspace</strong>
-      <span class="badge dev">dev</span>
-    </div>
-    <div class="track-card-stage">Active review workspace</div>
-    <div class="pack-meta-line">
-      ${totalDocs} active doc(s) · ${totalItems} item(s) · ${queueText}
-      ${hasReviewArchive() ? ` · ${Number(archiveMeta.document_count || 0)} resolved doc(s)` : ""}
-    </div>
-  `;
-  if (workflowSources.length > 0) {
-    card.addEventListener("click", (event) => {
-      if (event.target.closest("button, a")) {
-        return;
-      }
-      openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
-      });
-    });
-  }
-  return card;
-}
-
-function renderPackList() {
-  if (state.currentStageId === "archive_browser") {
-    const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-    const shards = track.shards || [];
-    el.historyCount.textContent = `${shards.length} archive shard(s)`;
-    el.packList.innerHTML = "";
-    for (const shard of shards) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "pack-button readonly-pack";
-      if (
-        state.archiveCurrentShard &&
-        Number(state.archiveCurrentShard.start_track_doc_seq) === Number(shard.start_track_doc_seq) &&
-        Number(state.archiveCurrentShard.end_track_doc_seq) === Number(shard.end_track_doc_seq)
-      ) {
-        button.classList.add("active-pack");
-      }
-      button.innerHTML = `
-        <div class="pack-title-line">
-          <strong>Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</strong>
-          <span class="badge archived">archive</span>
-        </div>
-        <div class="pack-meta-line">${Number(shard.document_count || 0)} document(s)</div>
-      `;
-      button.addEventListener("click", () => {
-        openArchiveShard(shard).catch((error) => {
-          showStatus(`Failed to open archive shard: ${error.message}`, true);
-        });
-      });
-      el.packList.append(button);
-    }
-    return;
-  }
-  if (state.currentStageId === "unified_yomi_review") {
-    el.historyCount.textContent = `${state.unifiedSources.length} active queue(s)`;
-    el.packList.innerHTML = "";
-    for (const { meta } of state.unifiedSources) {
-      const row = document.createElement("div");
-      row.className = "pack-button active-pack";
-      row.innerHTML = `
-        <div class="pack-title-line">
-          <strong>${escapeHtml(meta.title || meta.pack_id)}</strong>
-          <span class="badge active">${escapeHtml(meta.review_stage)}</span>
-        </div>
-        <div class="pack-meta-line">${meta.item_count} item(s) · ${escapeHtml(meta.track_name || "dev")}</div>
-      `;
-      el.packList.append(row);
-    }
-    return;
-  }
-  const stage = state.manifest.stages[state.currentStageId];
-  el.historyCount.textContent = `${stage.packs.length} pack(s)`;
-  el.packList.innerHTML = "";
-  for (const pack of stage.packs) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "pack-button";
-    if (pack.pack_id === state.currentPackMeta?.pack_id) {
-      button.classList.add("active-pack");
-    }
-    if (!String(pack.status || "").startsWith("active")) {
-      button.classList.add("readonly-pack");
-    }
-    button.innerHTML = `
-      <div class="pack-title-line">
-        <strong>${escapeHtml(pack.title || pack.pack_id)}</strong>
-        <span class="badge ${escapeHtml(pack.status || "archived")}">${escapeHtml(pack.status || "archived")}</span>
-      </div>
-      <div class="pack-meta-line">${pack.item_count} item(s) · ${escapeHtml(pack.track_name || "dev")}</div>
-    `;
-    button.addEventListener("click", () => {
-      openPack(state.currentStageId, pack.pack_id).catch((error) => {
-        showStatus(`Failed to open pack: ${error.message}`, true);
-      });
-    });
-    el.packList.append(button);
-  }
-}
-
-function renderPackSummary() {
-  if (state.currentStageId === "archive_browser") {
-    renderArchivePackSummary();
-    return;
-  }
-  const stage = state.currentStageId === "unified_yomi_review"
-    ? { label: "Unified Yomi Review", review_stage: "unified_yomi_review" }
-    : state.manifest.stages[state.currentStageId];
-  const pack = state.currentPack;
-  const packMeta = state.currentPackMeta;
-  const editable = isEditable();
-  el.packTitle.textContent = packMeta.title || pack.pack_id;
-  const trackName = packMeta.track_name || "dev";
-  el.packBadge.textContent = editable ? `${trackName} / active` : `${trackName} / read-only`;
-  el.packBadge.className = `badge ${editable ? "active" : "archived"} ${trackName}`;
-
-  const draft = state.currentDraft;
-  const { fromSeq, toSeq, includedCount } = getEffectiveRange();
-  const overrides = getSubmissionOverridesForCurrentStage();
-  const cards = [
-    ["Stage", stage.label || stage.review_stage],
-    ["Track", trackName],
-    ["Pack ID", pack.pack_id],
-    ["Items", String(pack.item_count)],
-    ["Range", `${fromSeq}-${toSeq} (${includedCount} item(s))`],
-    ["Overrides", String(overrides.length)],
-    ["Draft Saved", draft.updated_at_epoch ? formatDate(draft.updated_at_epoch) : "Not yet"],
-  ];
-  el.packMeta.innerHTML = cards
-    .map(
-      ([label, value]) => `
-        <div class="meta-card">
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(value)}</dd>
-        </div>
-      `
-    )
-    .join("");
-}
-
-function renderArchivePackSummary() {
-  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shard = state.archiveCurrentShard;
-  el.packTitle.textContent = shard
-    ? `Corpus Map ${shard.start_track_doc_seq}-${shard.end_track_doc_seq}`
-    : "Corpus Map";
-  el.packBadge.textContent = "dev / read-only";
-  el.packBadge.className = "badge archived dev";
-  const cards = [
-    ["Mode", "Corpus Map"],
-    ["Track", state.archiveCurrentTrack],
-    ["Documents", String(track.document_count || 0)],
-    ["Shards", String((track.shards || []).length)],
-    ["Open Shard", shard ? `${shard.start_track_doc_seq}-${shard.end_track_doc_seq}` : "None"],
-  ];
-  el.packMeta.innerHTML = cards
-    .map(
-      ([label, value]) => `
-        <div class="meta-card">
-          <dt>${escapeHtml(label)}</dt>
-          <dd>${escapeHtml(value)}</dd>
-        </div>
-      `
-    )
-    .join("");
 }
 
 function renderTaskSelector() {
@@ -1026,7 +710,7 @@ function renderArchiveBrowserPanel() {
   const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
     el.taskSummary.textContent = shards.length
-      ? "Choose a Corpus Map range from Pack History."
+      ? "Choose a Corpus Map range below."
       : "No finalized archive documents were published.";
     for (const shard of shards) {
       el.taskDocList.append(renderArchiveShardRow(shard));
@@ -1036,7 +720,7 @@ function renderArchiveBrowserPanel() {
   const docs = state.archiveCurrentShard.documents || [];
   el.taskSummary.innerHTML = "";
   const summaryText = document.createElement("span");
-  summaryText.textContent = `${docs.length} resolved document(s) in this range. Click a tile to inspect or correct it.`;
+  summaryText.textContent = `${docs.length} finalized document(s) in this range. Click a tile to inspect or correct it.`;
   el.taskSummary.append(summaryText);
   if (hasDevYomiReviewSources()) {
     const backButton = document.createElement("button");
@@ -2223,7 +1907,7 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       takeNextOptions: workflowTakeNextOptions,
     }),
   );
-  body.append(queues, renderWorkflowResolvedPanel(allDocs));
+  body.append(queues);
   dashboard.append(body);
   el.taskDocList.append(dashboard);
 }
@@ -2240,7 +1924,7 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>Resolved</span>
+          <span><span class="workflow-dot resolved"></span>Finalized</span>
           <span><span class="workflow-dot strong"></span>Escalated Repair</span>
           <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
         </div>
@@ -2403,46 +2087,6 @@ function renderWorkflowQueue({
   clearButton.addEventListener("click", () => clearQueueTaskSelection(queueStage));
   actions.append(startButton, takeNextControl, selectAllButton, clearButton);
   section.append(actions);
-  return section;
-}
-
-function renderWorkflowResolvedPanel(docs) {
-  const section = document.createElement("section");
-  section.className = "workflow-resolved";
-  const resolved = workflowDocumentStates(docs).filter((row) => row.status === "resolved");
-  section.innerHTML = `
-    <div class="workflow-heading">
-      <div>
-        <h3>Resolved</h3>
-        <p class="muted">${resolved.length} document(s)</p>
-      </div>
-    </div>
-  `;
-  if (!resolved.length) {
-    const empty = document.createElement("p");
-    empty.className = "muted";
-    empty.textContent = "No resolved documents yet.";
-    section.append(empty);
-    return section;
-  }
-  const list = document.createElement("div");
-  list.className = "workflow-resolved-list";
-  for (const row of resolved) {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "workflow-resolved-row";
-    item.innerHTML = `
-      <strong>Doc ${escapeHtml(String(row.display_seq))}</strong>
-      <span>${escapeHtml(row.completed_via || "Resolved")}</span>
-    `;
-    item.addEventListener("click", () => {
-      openWorkflowDocumentPreview(row.display_seq).catch((error) => {
-        showStatus(`Failed to open document preview: ${error.message}`, true);
-      });
-    });
-    list.append(item);
-  }
-  section.append(list);
   return section;
 }
 

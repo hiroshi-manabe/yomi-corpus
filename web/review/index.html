@@ -13,7 +13,7 @@
           <p class="eyebrow">yomi-corpus</p>
           <h1>Review Workspace</h1>
           <p class="subtitle">
-            Current review queues first, resolved corpus browsing in Corpus Map.
+            Review active documents or browse finalized corpus data.
           </p>
         </div>
         <div class="topbar-actions">
@@ -21,7 +21,6 @@
             <span>Reviewer</span>
             <input id="reviewer-name" type="text" placeholder="Optional name" />
           </label>
-          <button id="open-latest" class="secondary-button" type="button">Open Latest</button>
         </div>
       </header>
 
@@ -33,45 +32,7 @@
       <div id="runtime-status-line" class="runtime-status-line hidden"></div>
 
       <div class="layout">
-        <aside class="sidebar">
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>Current Work</h2>
-              <span class="muted">dev</span>
-            </div>
-            <div id="current-track-list" class="track-card-list"></div>
-          </section>
-
-          <section class="panel hidden">
-            <h2>Stage</h2>
-            <select id="stage-select"></select>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>Pack History</h2>
-              <span id="history-count" class="muted"></span>
-            </div>
-            <div id="pack-list" class="pack-list"></div>
-          </section>
-
-          <section class="panel">
-            <h2>History Notes</h2>
-            <p class="muted">
-              The dev workspace has Active Work for current queues and Corpus Map for resolved documents.
-            </p>
-          </section>
-        </aside>
-
         <main class="main">
-          <section class="panel summary-panel">
-            <div class="panel-heading">
-              <h2 id="pack-title">Loading…</h2>
-              <span id="pack-badge" class="badge">pending</span>
-            </div>
-            <div id="pack-meta" class="meta-grid"></div>
-          </section>
-
           <section id="task-picker-panel" class="panel controls-panel">
             <div class="panel-heading">
               <h2>Select Review Task</h2>
