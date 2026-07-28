@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.llm_readings import (
+    build_yomi_llm_reading_items,
     is_standalone_laughter_w,
     is_valid_yomi_reading,
     normalize_hiragana_reading,
@@ -872,6 +873,8 @@ def build_review_item(
     if not isinstance(targets, list):
         targets = []
     text = str(unit.get("text") or "")
+    scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
+    scope_status = normalize_scope_disposition(scope.get("status"))
     yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
     rendered_yomi = str(yomi.get("rendered") or "") if isinstance(yomi, dict) else ""
     if isinstance(yomi, dict):
@@ -882,6 +885,8 @@ def build_review_item(
             rendered_yomi = yomi_tokens_to_editable_rendered(canonical_pairs)
         except YomiTokenError:
             rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
+    if not targets and scope_status in {SCOPE_SKIP, SCOPE_EXCLUDE}:
+        targets = fallback_review_targets_for_scoped_unit(unit)
     review_targets = [
         build_review_target(
             normalize_parenthesized_laughter_target(
@@ -914,9 +919,7 @@ def build_review_item(
         targets=review_targets,
     )
     unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
-    scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
     alphabetic_scope = unit.get("analysis", {}).get("mechanical", {}).get("alphabetic_scope", {})
-    scope_status = normalize_scope_disposition(scope.get("status"))
     provisional_skip = bool(
         scope_status == SCOPE_SKIP
         and (
@@ -963,6 +966,30 @@ def build_review_item(
         "interaction_span_count": len(interaction_spans),
         "reading_hints": build_reading_hints(review_targets),
     }
+
+
+def fallback_review_targets_for_scoped_unit(unit: dict[str, Any]) -> list[dict[str, Any]]:
+    """Recover editable targets for historical scoped rows lacking safety analysis."""
+    targets: list[dict[str, Any]] = []
+    for item in build_yomi_llm_reading_items(unit, stable_checker=None):
+        targets.append(
+            {
+                **item,
+                "is_safe": False,
+                "review_status": "unresolved",
+                "highlight_level": "target",
+                "accepted_signal_names": [],
+                "status_reason": "missing_safety_target_fallback",
+                "signals": [
+                    {
+                        "name": "review_pack_fallback",
+                        "accepted": False,
+                        "reason": "historical_scoped_unit_missing_safety_targets",
+                    }
+                ],
+            }
+        )
+    return targets
 
 
 def build_numeric_compound_review_targets(

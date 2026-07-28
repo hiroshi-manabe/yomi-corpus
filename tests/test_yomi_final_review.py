@@ -1463,6 +1463,65 @@ class YomiFinalReviewTests(unittest.TestCase):
             ["2017", "/", "11"],
         )
 
+    def test_scoped_item_without_safety_targets_recovers_editable_hybrid_targets(self) -> None:
+        item = build_review_item(
+            {
+                "unit_id": "u-skip",
+                "doc_id": "d-skip",
+                "text": "京都タワーです。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "rendered": "京都/キョウト タワー/タワー です/デス 。/。",
+                            "sudachi": {
+                                "tokens": [
+                                    {
+                                        "surface": "京都",
+                                        "pos": "名詞,固有名詞,地名,*,*,*",
+                                        "dictionary_form": "京都",
+                                        "normalized_form": "京都",
+                                        "reading": "キョウト",
+                                    },
+                                    {
+                                        "surface": "タワー",
+                                        "pos": "名詞,普通名詞,一般,*,*,*",
+                                        "dictionary_form": "タワー",
+                                        "normalized_form": "タワー",
+                                        "reading": "タワー",
+                                    },
+                                    {
+                                        "surface": "です",
+                                        "pos": "助動詞,*,*,*,助動詞-ダ,終止形-一般",
+                                        "dictionary_form": "だ",
+                                        "normalized_form": "だ",
+                                        "reading": "デス",
+                                    },
+                                    {
+                                        "surface": "。",
+                                        "pos": "補助記号,句点,*,*,*,*",
+                                        "dictionary_form": "。",
+                                        "normalized_form": "。",
+                                        "reading": "。",
+                                    },
+                                ]
+                            },
+                        }
+                    },
+                    "safety": {"yomi": {"targets": []}},
+                    "llm": {"scope_triage": {"status": "Skip"}},
+                },
+            },
+            seq=1,
+            doc_seq=1,
+            track_doc_seq=166,
+        )
+
+        self.assertEqual(item["scope_default"], "Skip")
+        self.assertEqual([target["surface"] for target in item["targets"]], ["京都"])
+        self.assertEqual(item["interaction_spans"][0]["surface"], "京都")
+        self.assertFalse(item["interaction_spans"][0]["is_safe"])
+        self.assertEqual(item["ruby_segments"][0]["type"], "ruby")
+
     def test_rendered_yomi_ruby_tokens_keep_ke_place_name_ruby_on_full_surface(self) -> None:
         tokens = rendered_yomi_ruby_tokens("新鎌ケ谷/シンカマガヤ 鎌ヶ谷駅/カマガヤエキ")
 
