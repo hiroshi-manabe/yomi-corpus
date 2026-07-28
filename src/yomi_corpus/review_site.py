@@ -796,17 +796,17 @@ def clear_directory(path: Path) -> None:
 def write_root_redirect(path: Path) -> None:
     path.write_text(
         """<!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content="0; url=./review/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>yomi-corpus review</title>
+    <title>yomi-corpus レビュー</title>
   </head>
   <body>
     <main>
-      <p>Redirecting to the review workspace…</p>
-      <p><a href="./review/">Open review workspace</a></p>
+      <p>レビュー画面に移動しています…</p>
+      <p><a href="./review/">レビュー画面を開く</a></p>
     </main>
   </body>
 </html>
@@ -820,23 +820,23 @@ def build_pack_title(payload: dict, path: Path) -> str:
     batch_label = batch_match.group(1) if batch_match else None
     if payload.get("review_stage") == "alphabetic_candidate_review" and batch_label:
         version = path.stem.split("_")[-1]
-        return f"Alphabetic candidates / {batch_label} / {version}"
+        return f"英字候補 / {batch_label} / {version}"
     if payload.get("review_stage") == "yomi_final_review" and batch_label:
         version = path.stem.split("_")[-1]
-        return f"Yomi final review / {batch_label} / {version}"
+        return f"一括レビュー / {batch_label} / {version}"
     if payload.get("review_stage") == "yomi_strong_repair_review" and batch_label:
         version = path.stem.split("_")[-1]
-        return f"Yomi strong repair review / {batch_label} / {version}"
+        return f"詳細修正 / {batch_label} / {version}"
     return str(payload["pack_id"])
 
 
 def humanize_stage_label(stage_id: str) -> str:
     if stage_id == "alphabetic_candidate_review":
-        return "Alphabetic Promotion Candidates"
+        return "英字候補レビュー"
     if stage_id == "yomi_final_review":
-        return "Yomi Final Review"
+        return "一括レビュー"
     if stage_id == "yomi_strong_repair_review":
-        return "Yomi Strong Repair Review"
+        return "詳細修正"
     return stage_id.replace("_", " ").title()
 
 

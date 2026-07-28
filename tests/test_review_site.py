@@ -9,6 +9,18 @@ from yomi_corpus.review_site import build_review_manifest, publish_review_archiv
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_review_assets_use_japanese_user_interface(self) -> None:
+        asset_root = Path(__file__).resolve().parents[1] / "web" / "review"
+        html = (asset_root / "index.html").read_text(encoding="utf-8")
+        app = (asset_root / "app.js").read_text(encoding="utf-8")
+
+        self.assertIn('<html lang="ja">', html)
+        self.assertIn("<h1>レビュー画面</h1>", html)
+        self.assertIn("JSONをコピーしてIssueを開く", html)
+        self.assertIn('title: "一括レビュー"', app)
+        self.assertIn('title: "詳細修正"', app)
+        self.assertIn('title: "コーパスマップ"', app)
+
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(
             [
@@ -128,7 +140,7 @@ class ReviewSiteTests(unittest.TestCase):
         )
 
         stage = manifest["stages"]["yomi_final_review"]
-        self.assertEqual(stage["label"], "Yomi Final Review")
+        self.assertEqual(stage["label"], "一括レビュー")
         self.assertEqual(stage["latest_pack_id"], "yomi_final_dev_batch_0001_v1")
         self.assertEqual(manifest["current_tracks"]["dev"]["review_stage"], "yomi_final_review")
 
@@ -148,7 +160,7 @@ class ReviewSiteTests(unittest.TestCase):
         )
 
         stage = manifest["stages"]["yomi_strong_repair_review"]
-        self.assertEqual(stage["label"], "Yomi Strong Repair Review")
+        self.assertEqual(stage["label"], "詳細修正")
         self.assertEqual(stage["latest_pack_id"], "yomi_strong_repair_dev_batch_0001_v1")
         self.assertEqual(
             manifest["current_tracks"]["dev"]["review_stage"],
