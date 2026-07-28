@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1854,
-  "generated_at": "2026-07-28T05:41:38Z",
-  "generated_at_epoch": 1785217298,
+  "state_revision": 1855,
+  "generated_at": "2026-07-28T05:47:22Z",
+  "generated_at_epoch": 1785217642,
   "last_successful_sync": "2026-07-28T04:10:07Z",
   "last_successful_sync_epoch": 1785211807,
   "status": "error",
@@ -22,24 +22,24 @@
       "bulk_review_selectable": 50,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 0,
-      "escalated_repair_submitted": 2,
-      "resolved": 18
+      "escalated_repair_submitted": 0,
+      "resolved": 10
     },
     "pool_counts": {
       "bulk-ready": 50,
       "bulk-submitted": 0,
       "escalated-ready": 0,
-      "escalated-submitted": 2,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 18,
+      "resolved": 10,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000166:u0021 token 18 'm(__)m'/'m(__)m' is structurally invalid: reading for kanji or alphabetic surfaces must be katakana",
+  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000180:u0003 token 2 '一'/'' is structurally invalid: kanji or alphabetic surfaces need a kana reading",
   "observed": {
-    "started_at_epoch": 1785217298,
-    "completed_at_epoch": 1785217298,
-    "drift_seconds": 29
+    "started_at_epoch": 1785217642,
+    "completed_at_epoch": 1785217642,
+    "drift_seconds": 73
   },
   "client_polling": {
     "normal_seconds": 60,

@@ -16,8 +16,8 @@
       "complete": 8,
       "strong_reviewed": 2
     },
-    "unresolved_item_count": 33,
-    "unresolved_target_count": 90,
+    "unresolved_item_count": 39,
+    "unresolved_target_count": 97,
     "interaction_span_count": 1962,
     "provisional_skip_item_count": 2
   },
@@ -223,7 +223,7 @@
       "application_failures": [],
       "item_count": 8,
       "region_count": 0,
-      "unresolved_count": 0,
+      "unresolved_count": 1,
       "from_seq": 136,
       "to_seq": 143,
       "reviewed_unit_count": 8,
@@ -249,7 +249,7 @@
       "application_failures": [],
       "item_count": 29,
       "region_count": 0,
-      "unresolved_count": 2,
+      "unresolved_count": 4,
       "from_seq": 144,
       "to_seq": 172,
       "reviewed_unit_count": 29,
@@ -275,7 +275,7 @@
       "application_failures": [],
       "item_count": 92,
       "region_count": 0,
-      "unresolved_count": 18,
+      "unresolved_count": 22,
       "from_seq": 173,
       "to_seq": 264,
       "reviewed_unit_count": 92,
@@ -149034,12 +149034,12 @@
           "type": "ruby",
           "text": "m(__)m",
           "target_item_id": "ja_cc_level2:0000000166:u0021:s0036-0041",
-          "reading": null,
+          "reading": "かおもじ",
           "is_safe": false,
           "highlight_level": "target"
         }
       ],
-      "rendered_yomi": "京都/キョウト タワー/タワー に/ニ 馴染み深い/ナジミブカイ ジモティー/ジモティー も/モ 、/、 他/タ 府/フ 県/ケン の/ノ 方々/カタガタ も/モ 、/、 ぜひ/ゼヒ お/オ 越し/コシ ください/クダサイ m(__)m/",
+      "rendered_yomi": "京都/キョウト タワー/タワー に/ニ 馴染み深い/ナジミブカイ ジモティー/ジモティー も/モ 、/、 他/タ 府/フ 県/ケン の/ノ 方々/カタガタ も/モ 、/、 ぜひ/ゼヒ お/オ 越し/コシ ください/クダサイ m(__)m/カオモジ",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "京都",
@@ -149247,11 +149247,12 @@
         },
         {
           "surface": "m(__)m",
-          "reading": "",
+          "reading": "カオモジ",
           "nodes": [
             {
-              "type": "text",
-              "text": "m(__)m"
+              "type": "ruby",
+              "text": "m(__)m",
+              "reading": "かおもじ"
             }
           ]
         }
@@ -150920,15 +150921,34 @@
           "target_end": 41,
           "token_index": 18,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
+          "current_reading": "カオモジ",
+          "current_reading_hiragana": "かおもじ",
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "かおもじ",
           "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かおもじ",
+              "tokens": [
+                [
+                  "m(__)m",
+                  "カオモジ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "m(__)m",
+                  "reading": "かおもじ"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -174976,20 +174996,19 @@
           "review_status": "safe",
           "highlight_level": "none",
           "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface",
             "safe_by_corpus_frequency"
           ],
           "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いち",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
               "reading": "いち",
-              "accepted": false,
+              "accepted": true,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -175199,7 +175218,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -175209,12 +175228,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -175788,12 +175801,6 @@
               },
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260722T004611Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260722T004611Z"
-            },
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
             },
             {
               "name": "safe_by_stable_dictionary",
@@ -298376,9 +298383,9 @@
           "type": "ruby",
           "text": "二",
           "target_item_id": "ja_cc_level2:0000000171:u0007:s0007-0007",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "に",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -298429,7 +298436,7 @@
           "text": "してきました。"
         }
       ],
-      "rendered_yomi": "わたし/ワタシ は/ハ 世界/セカイ 二/ 周/シュウ 70/ か国/カコク 200/ 都市/トシ を/ヲ 旅/タビ し/シ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi": "わたし/ワタシ は/ハ 世界/セカイ 二/ニ 周/シュウ 70/ か国/カコク 200/ 都市/トシ を/ヲ 旅/タビ し/シ て/テ き/キ まし/マシ た/タ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "わたし",
@@ -298464,11 +298471,12 @@
         },
         {
           "surface": "二",
-          "reading": "",
+          "reading": "ニ",
           "nodes": [
             {
-              "type": "text",
-              "text": "二"
+              "type": "ruby",
+              "text": "二",
+              "reading": "に"
             }
           ]
         },
@@ -298620,9 +298628,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 6,
-      "safe_target_count": 6,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 5,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000171:u0007:r0003c01",
@@ -298711,16 +298719,14 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -298853,7 +298859,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -298863,12 +298869,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -299455,12 +299455,12 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -299651,12 +299651,6 @@
             "ja_cc_level2:0000000171:u0007:r0004c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -306403,9 +306397,9 @@
           "type": "ruby",
           "text": "一",
           "target_item_id": "ja_cc_level2:0000000172:u0006:s0018-0018",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "ひと",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "text",
@@ -306496,7 +306490,7 @@
           "text": "ます。"
         }
       ],
-      "rendered_yomi": "みな/ミナ さん/サン の/ノ よう/ヨウ な/ナ 素晴らしい/スバラシイ 報告/ホウコク は/ハ 何/ナニ 一/ つ/ツ あり/アリ ませ/マセ ん/ン が/ガ 、/、 1/ 年間/ネンカン の/ノ 簡単/カンタン な/ナ 振り返り/フリカエリ と/ト 今後/コンゴ の/ノ 活動/カツドウ に/ニ つい/ツイ て/テ お/オ 伝え/ツタエ できれ/デキレ ば/バ な/ナ と/ト 思い/オモイ ます/マス 。/。",
+      "rendered_yomi": "みな/ミナ さん/サン の/ノ よう/ヨウ な/ナ 素晴らしい/スバラシイ 報告/ホウコク は/ハ 何/ナニ 一/ヒト つ/ツ あり/アリ ませ/マセ ん/ン が/ガ 、/、 1/ 年間/ネンカン の/ノ 簡単/カンタン な/ナ 振り返り/フリカエリ と/ト 今後/コンゴ の/ノ 活動/カツドウ に/ニ つい/ツイ て/テ お/オ 伝え/ツタエ できれ/デキレ ば/バ な/ナ と/ト 思い/オモイ ます/マス 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "みな",
@@ -306597,11 +306591,12 @@
         },
         {
           "surface": "一",
-          "reading": "",
+          "reading": "ヒト",
           "nodes": [
             {
-              "type": "text",
-              "text": "一"
+              "type": "ruby",
+              "text": "一",
+              "reading": "ひと"
             }
           ]
         },
@@ -306923,9 +306918,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 12,
-      "safe_target_count": 12,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 11,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000172:u0006:r0006c01",
@@ -307251,16 +307246,14 @@
           "chunk_index": 0,
           "current_reading": "ヒト",
           "current_reading_hiragana": "ひと",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ひと",
           "candidates": [
             {
               "id": "current",
@@ -307477,7 +307470,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -307487,12 +307480,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -308774,12 +308761,12 @@
           "chunk_index": 0,
           "current_reading": "ヒト",
           "current_reading_hiragana": "ひと",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ひと",
           "candidates": [
             {
               "id": "current",
@@ -309084,12 +309071,6 @@
             "ja_cc_level2:0000000172:u0006:r0010c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -327230,9 +327211,9 @@
           "type": "ruby",
           "text": "一",
           "target_item_id": "ja_cc_level2:0000000172:u0016:s0010-0010",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "いち",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -327267,7 +327248,7 @@
           "text": "れてしまいました～。"
         }
       ],
-      "rendered_yomi": "ブログ/ブログ から/カラ 発展/ハッテン し/シ て/テ 一/ 歩/ポ 先/サキ を/ヲ 越さ/コサ れ/レ て/テ しまい/シマイ まし/マシ た/タ ～/～ 。/。",
+      "rendered_yomi": "ブログ/ブログ から/カラ 発展/ハッテン し/シ て/テ 一/イチ 歩/ポ 先/サキ を/ヲ 越さ/コサ れ/レ て/テ しまい/シマイ まし/マシ た/タ ～/～ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "ブログ",
@@ -327322,11 +327303,12 @@
         },
         {
           "surface": "一",
-          "reading": "",
+          "reading": "イチ",
           "nodes": [
             {
-              "type": "text",
-              "text": "一"
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
             }
           ]
         },
@@ -327457,9 +327439,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 5,
-      "safe_target_count": 5,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 4,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000172:u0016:r0003c01",
@@ -327548,16 +327530,14 @@
           "chunk_index": 0,
           "current_reading": "イチ",
           "current_reading_hiragana": "いち",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いち",
           "candidates": [
             {
               "id": "current",
@@ -327774,7 +327754,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -327784,12 +327764,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -328260,12 +328234,12 @@
           "chunk_index": 0,
           "current_reading": "イチ",
           "current_reading_hiragana": "いち",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いち",
           "candidates": [
             {
               "id": "current",
@@ -328570,12 +328544,6 @@
             "ja_cc_level2:0000000172:u0016:r0006c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -329031,7 +328999,8 @@
         "一": "いち",
         "歩": "ぽ",
         "先": "さき",
-        "越": "こ"
+        "越": "こ",
+        "一歩": "いっぽ"
       }
     },
     {
@@ -358087,9 +358056,9 @@
           "type": "ruby",
           "text": "二",
           "target_item_id": "ja_cc_level2:0000000173:u0001:s0014-0014",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "に",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -358104,7 +358073,7 @@
           "text": "。"
         }
       ],
-      "rendered_yomi": "本日/ホンジツ ご/ゴ 紹介/ショウカイ する/スル の/ノ は/ハ こちら/コチラ の/ノ 二/ 冊/サツ 。/。",
+      "rendered_yomi": "本日/ホンジツ ご/ゴ 紹介/ショウカイ する/スル の/ノ は/ハ こちら/コチラ の/ノ 二/ニ 冊/サツ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "本日",
@@ -358190,11 +358159,12 @@
         },
         {
           "surface": "二",
-          "reading": "",
+          "reading": "ニ",
           "nodes": [
             {
-              "type": "text",
-              "text": "二"
+              "type": "ruby",
+              "text": "二",
+              "reading": "に"
             }
           ]
         },
@@ -358229,9 +358199,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 4,
-      "safe_target_count": 4,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 3,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000173:u0001:r0001c01",
@@ -358397,16 +358367,14 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -358539,7 +358507,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -358549,12 +358517,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -358826,12 +358788,12 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -359022,12 +358984,6 @@
             "ja_cc_level2:0000000173:u0001:r0009c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -369967,9 +369923,9 @@
           "type": "ruby",
           "text": "一",
           "target_item_id": "ja_cc_level2:0000000173:u0006:s0012-0012",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "いち",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -370120,7 +370076,7 @@
           "text": "。"
         }
       ],
-      "rendered_yomi": "JR/ジェーアール の/ノ 暗部/アンブ に/ニ 切り込ん/キリコン だ/ダ 一/ 冊/サツ \\s/ 2006/ 年/ネン 7/ 月/ガツ から/カラ 「/「 週刊/シュウカン 現代/ゲンダイ 」/」 に/ニ 半年/ハントシ に/ニ わたっ/ワタッ て/テ 掲載/ケイサイ さ/サ れ/レ た/タ 「/「 テロリスト/テロリスト に/ニ 乗っ取ら/ノットラ れ/レ た/タ JR/ジェイアール 東日本/ヒガシニホン の/ノ 真実/シンジツ 」/」 を/ヲ もと/モト に/ニ 書か/カカ れ/レ た/タ ノンフィクション/ノンフィクション 作品/サクヒン 。/。",
+      "rendered_yomi": "JR/ジェーアール の/ノ 暗部/アンブ に/ニ 切り込ん/キリコン だ/ダ 一/イチ 冊/サツ \\s/ 2006/ 年/ネン 7/ 月/ガツ から/カラ 「/「 週刊/シュウカン 現代/ゲンダイ 」/」 に/ニ 半年/ハントシ に/ニ わたっ/ワタッ て/テ 掲載/ケイサイ さ/サ れ/レ た/タ 「/「 テロリスト/テロリスト に/ニ 乗っ取ら/ノットラ れ/レ た/タ JR/ジェイアール 東日本/ヒガシニホン の/ノ 真実/シンジツ 」/」 を/ヲ もと/モト に/ニ 書か/カカ れ/レ た/タ ノンフィクション/ノンフィクション 作品/サクヒン 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "JR",
@@ -370200,11 +370156,12 @@
         },
         {
           "surface": "一",
-          "reading": "",
+          "reading": "イチ",
           "nodes": [
             {
-              "type": "text",
-              "text": "一"
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
             }
           ]
         },
@@ -370648,8 +370605,8 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 19,
-      "safe_target_count": 18,
-      "unresolved_target_count": 1,
+      "safe_target_count": 17,
+      "unresolved_target_count": 2,
       "all_targets_safe": false,
       "targets": [
         {
@@ -371115,16 +371072,14 @@
           "chunk_index": 0,
           "current_reading": "イチ",
           "current_reading_hiragana": "いち",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いち",
           "candidates": [
             {
               "id": "current",
@@ -371341,7 +371296,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -371351,12 +371306,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -373150,12 +373099,12 @@
           "chunk_index": 0,
           "current_reading": "イチ",
           "current_reading_hiragana": "いち",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いち",
           "candidates": [
             {
               "id": "current",
@@ -373460,12 +373409,6 @@
             "ja_cc_level2:0000000173:u0006:r0007c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -460402,9 +460345,9 @@
           "type": "ruby",
           "text": "二",
           "target_item_id": "ja_cc_level2:0000000173:u0055:s0029-0029",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "に",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -460459,7 +460402,7 @@
           "text": "したい。"
         }
       ],
-      "rendered_yomi": "本日/ホンジツ は/ハ 日垣/ヒガキ 隆/タカシ （/（ ひ/ヒ が/ガ き/キ た/タ かし/カシ ）/） が/ガ 2000/ 代/ダイ の/ノ 前半/ゼンハン に/ニ 上梓/ジョウシ し/シ た/タ 二/ 冊/サツ の/ノ 社会/シャカイ 批判/ヒハン 本/ホン を/ヲ ご/ゴ 紹介/ショウカイ し/シ たい/タイ 。/。",
+      "rendered_yomi": "本日/ホンジツ は/ハ 日垣/ヒガキ 隆/タカシ （/（ ひ/ヒ が/ガ き/キ た/タ かし/カシ ）/） が/ガ 2000/ 代/ダイ の/ノ 前半/ゼンハン に/ニ 上梓/ジョウシ し/シ た/タ 二/ニ 冊/サツ の/ノ 社会/シャカイ 批判/ヒハン 本/ホン を/ヲ ご/ゴ 紹介/ショウカイ し/シ たい/タイ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "本日",
@@ -460669,11 +460612,12 @@
         },
         {
           "surface": "二",
-          "reading": "",
+          "reading": "ニ",
           "nodes": [
             {
-              "type": "text",
-              "text": "二"
+              "type": "ruby",
+              "text": "二",
+              "reading": "に"
             }
           ]
         },
@@ -460802,9 +460746,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 12,
-      "safe_target_count": 12,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 11,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000173:u0055:r0001c01",
@@ -461346,16 +461290,14 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -461488,7 +461430,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -461498,12 +461440,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -462552,12 +462488,12 @@
           "chunk_index": 0,
           "current_reading": "ニ",
           "current_reading_hiragana": "に",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "に",
           "candidates": [
             {
               "id": "current",
@@ -462748,12 +462684,6 @@
             "ja_cc_level2:0000000173:u0055:r0024c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -476854,9 +476784,9 @@
           "type": "ruby",
           "text": "四",
           "target_item_id": "ja_cc_level2:0000000173:u0065:s0049-0049",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
+          "reading": "よん",
+          "is_safe": false,
+          "highlight_level": "target"
         },
         {
           "type": "ruby",
@@ -476871,7 +476801,7 @@
           "text": "である。"
         }
       ],
-      "rendered_yomi": "河合/カワイ 雅司/マサシ （/（ かわい/カワイ まさし/マサシ ）/） の/ノ 大ヒット/ダイヒット シリーズ/シリーズ 『/『 未来/ミライ の/ノ 年表/ネンピョウ 』/』 『/『 未来/ミライ の/ノ 年表/ネンピョウ ２/ 』/』 『/『 未来/ミライ の/ノ 地図/チズ 帳/チョウ 』/』 に/ニ 続く/ツヅク 第/ダイ 四/ 弾/ダン で/デ ある/アル 。/。",
+      "rendered_yomi": "河合/カワイ 雅司/マサシ （/（ かわい/カワイ まさし/マサシ ）/） の/ノ 大ヒット/ダイヒット シリーズ/シリーズ 『/『 未来/ミライ の/ノ 年表/ネンピョウ 』/』 『/『 未来/ミライ の/ノ 年表/ネンピョウ ２/ 』/』 『/『 未来/ミライ の/ノ 地図/チズ 帳/チョウ 』/』 に/ニ 続く/ツヅク 第/ダイ 四/ヨン 弾/ダン で/デ ある/アル 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "河合",
@@ -477185,11 +477115,12 @@
         },
         {
           "surface": "四",
-          "reading": "",
+          "reading": "ヨン",
           "nodes": [
             {
-              "type": "text",
-              "text": "四"
+              "type": "ruby",
+              "text": "四",
+              "reading": "よん"
             }
           ]
         },
@@ -477244,9 +477175,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 14,
-      "safe_target_count": 14,
-      "unresolved_target_count": 0,
-      "all_targets_safe": true,
+      "safe_target_count": 13,
+      "unresolved_target_count": 1,
+      "all_targets_safe": false,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000173:u0065:r0001c01",
@@ -478651,16 +478582,14 @@
           "chunk_index": 0,
           "current_reading": "ヨン",
           "current_reading_hiragana": "よん",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_pre_llm_signal",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "review",
+          "accepted_signal_names": [],
+          "status_reason": "no_accepted_signal",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "よん",
           "candidates": [
             {
               "id": "current",
@@ -478751,7 +478680,7 @@
               "source": "none",
               "label": "No ruby",
               "reading": null,
-              "accepted": true,
+              "accepted": false,
               "ruby_nodes": [
                 {
                   "type": "text",
@@ -478761,12 +478690,6 @@
             }
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -480581,12 +480504,12 @@
           "chunk_index": 0,
           "current_reading": "ヨン",
           "current_reading_hiragana": "よん",
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "よん",
           "candidates": [
             {
               "id": "current",
@@ -480720,12 +480643,6 @@
             "ja_cc_level2:0000000173:u0065:r0030c01"
           ],
           "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            },
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
