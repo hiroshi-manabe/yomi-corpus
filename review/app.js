@@ -80,7 +80,7 @@ const workflowTakeNextCountStorageKey = "yomi-corpus:workflow-take-next-count:v1
 const workflowTakeNextOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
 boot().catch((error) => {
-  showStatus(`Failed to load review workspace: ${error.message}`, true);
+  showStatus(`レビュー画面を読み込めませんでした: ${error.message}`, true);
   console.error(error);
 });
 
@@ -91,7 +91,7 @@ async function boot() {
   state.manifest = manifest;
   const stageIds = Object.keys(manifest.stages || {});
   if (stageIds.length === 0) {
-    throw new Error("No review stages were published.");
+    throw new Error("公開されたレビューステージがありません。");
   }
   const initialTarget = resolveInitialTarget(stageIds);
   if (initialTarget.stageId === "unified_yomi_review") {
@@ -109,7 +109,7 @@ async function boot() {
 
 function bindEvents() {
   el.serverUpdateRefresh.addEventListener("click", () => {
-    if (isTaskStarted() && !window.confirm("Refresh server state? Your local task is saved and can be resumed.")) {
+    if (isTaskStarted() && !window.confirm("サーバー側の状態を反映して画面を更新しますか？ ローカル作業は保存され、再開できます。")) {
       return;
     }
     window.location.reload();
@@ -176,7 +176,7 @@ function bindEvents() {
     if (!isEditable()) {
       return;
     }
-    if (!window.confirm("Reset all local changes for this pack?")) {
+    if (!window.confirm("このパックのローカル変更をすべてリセットしますか？")) {
       return;
     }
     state.currentDraft = createEmptyDraft(state.currentPack);
@@ -190,9 +190,9 @@ function bindEvents() {
       return;
     }
     if (copied) {
-      showStatus("Submission JSON copied. Open an issue and paste it into the body.");
+      showStatus("提出用JSONをコピーしました。Issueを開き、本文に貼り付けてください。");
     } else {
-      showStatus("Clipboard copy failed. The JSON text is selected; copy it manually, then open an issue.", true);
+      showStatus("クリップボードへのコピーに失敗しました。選択されたJSONを手動でコピーしてからIssueを開いてください。", true);
     }
   });
 
@@ -339,7 +339,7 @@ function hasReviewArchive() {
 async function openStage(stageId, { preferLatest = false, preferredPackId = null } = {}) {
   const stage = state.manifest.stages?.[stageId];
   if (!stage) {
-    throw new Error(`Unknown review stage: ${stageId}`);
+    throw new Error(`不明なレビューステージです: ${stageId}`);
   }
   state.currentStageId = stageId;
 
@@ -359,7 +359,7 @@ async function openStage(stageId, { preferLatest = false, preferredPackId = null
       null;
   }
   if (!packMeta) {
-    throw new Error(`No packs found for stage ${stageId}.`);
+    throw new Error(`ステージ ${stageId} にパックがありません。`);
   }
   await openPack(stageId, packMeta.pack_id);
   updateRuntimePollingForInteraction();
@@ -369,7 +369,7 @@ async function openPack(stageId, packId) {
   const stage = state.manifest.stages[stageId];
   const packMeta = stage.packs.find((pack) => pack.pack_id === packId);
   if (!packMeta) {
-    throw new Error(`Pack ${packId} not found.`);
+    throw new Error(`パック ${packId} が見つかりません。`);
   }
 
   const pack = await fetchJson(packMeta.path);
@@ -410,7 +410,7 @@ async function openUnifiedReview() {
 
 async function openArchiveBrowser() {
   if (!hasReviewArchive()) {
-    showStatus("No finalized archive was published yet.", true);
+    showStatus("確定済みアーカイブはまだ公開されていません。", true);
     return;
   }
   state.currentStageId = "archive_browser";
@@ -423,7 +423,7 @@ async function openArchiveBrowser() {
   state.archiveCurrentShardPath = firstShard?.path || "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
-    title: "Corpus Map",
+    title: "コーパスマップ",
     track_name: "dev",
     status: "archive",
   };
@@ -556,7 +556,7 @@ function buildUnifiedReviewPack(sources) {
     review_stage: "unified_yomi_review",
     queue_id: "unified_yomi_review",
     pack_id: `unified_${sourceIds.join("__")}`,
-    title: "Unified yomi review",
+    title: "読みレビュー",
     track_name: "dev",
     item_count: items.length,
     summary: {
@@ -668,7 +668,7 @@ function renderTaskSelector() {
     panel.classList.toggle("hidden", editable && !started);
   });
   if (!editable) {
-    el.taskSummary.textContent = "Archived packs are read-only.";
+    el.taskSummary.textContent = "過去のパックは閲覧専用です。";
     return;
   }
 
@@ -676,7 +676,7 @@ function renderTaskSelector() {
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
     renderWorkflowTaskDashboard(docs, actionableDocs, task);
-    el.taskSummary.textContent = "Choose documents in one queue, then start that review task.";
+    el.taskSummary.textContent = "キューを一つ選び、その中から文書を選択してレビューを開始してください。";
     el.startTask.disabled = true;
     el.clearDocSelection.disabled = true;
     el.selectAllDocs.disabled = true;
@@ -693,10 +693,10 @@ function renderTaskSelector() {
   const selectedItems = itemsForTask(task);
   el.taskSummary.textContent =
     selectedCount > 0
-      ? `${selectedCount} document(s), ${selectedItems.length} rendered item(s) selected.`
+      ? `${selectedCount}文書、${selectedItems.length}項目を選択中です。`
       : selectableDocs.length
-        ? "Choose documents, then start a review task."
-        : "No selectable documents in this queue.";
+        ? "文書を選択してレビューを開始してください。"
+        : "このキューには選択できる文書がありません。";
   el.startTask.disabled = selectableDocs.length === 0 || selectedCount === 0;
   el.clearDocSelection.disabled = selectedCount === 0;
   el.selectAllDocs.disabled = selectAllDocs.length === 0 || selectedSelectAllCount === selectAllDocs.length;
@@ -715,8 +715,8 @@ function renderArchiveBrowserPanel() {
   const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
     el.taskSummary.textContent = shards.length
-      ? "Choose a Corpus Map range below."
-      : "No finalized archive documents were published.";
+      ? "下からコーパスマップの範囲を選択してください。"
+      : "確定済み文書はまだ公開されていません。";
     for (const shard of shards) {
       el.taskDocList.append(renderArchiveShardRow(shard));
     }
@@ -725,16 +725,16 @@ function renderArchiveBrowserPanel() {
   const docs = state.archiveCurrentShard.documents || [];
   el.taskSummary.innerHTML = "";
   const summaryText = document.createElement("span");
-  summaryText.textContent = `${docs.length} finalized document(s) in this range. Click a tile to inspect or correct it.`;
+  summaryText.textContent = `この範囲には確定済み文書が${docs.length}件あります。タイルをクリックすると確認・修正できます。`;
   el.taskSummary.append(summaryText);
   if (hasDevYomiReviewSources()) {
     const backButton = document.createElement("button");
     backButton.type = "button";
     backButton.className = "secondary-button compact-button";
-    backButton.textContent = "Back to Active Work";
+    backButton.textContent = "作業中のレビューに戻る";
     backButton.addEventListener("click", () => {
       openUnifiedReview().catch((error) => {
-        showStatus(`Failed to open active work: ${error.message}`, true);
+        showStatus(`作業中のレビューを開けませんでした: ${error.message}`, true);
       });
     });
     el.taskSummary.append(backButton);
@@ -750,14 +750,14 @@ function renderArchiveSearchPanel(track) {
   heading.className = "archive-search-heading";
   heading.innerHTML = `
     <div>
-      <strong>Search Corpus Map</strong>
-      <p class="muted">Search finalized documents by raw source text.</p>
+      <strong>コーパスマップを検索</strong>
+      <p class="muted">確定済み文書の原文を検索します。</p>
     </div>
   `;
   const input = document.createElement("input");
   input.type = "search";
   input.className = "archive-search-input";
-  input.placeholder = "Search document text";
+  input.placeholder = "文書の原文を検索";
   input.autocomplete = "off";
   input.value = state.archiveSearchQuery || "";
   input.disabled = !track.search_path;
@@ -767,8 +767,8 @@ function renderArchiveSearchPanel(track) {
   const status = document.createElement("p");
   status.className = "archive-search-status muted";
   status.textContent = track.search_path
-    ? "The compact search index loads after you enter a query."
-    : "No search index was published for this track.";
+    ? "検索語を入力すると検索用インデックスを読み込みます。"
+    : "このトラックには検索用インデックスがありません。";
   panel.append(status);
 
   const results = document.createElement("div");
@@ -792,7 +792,7 @@ function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
   }
   const query = state.archiveSearchQuery.trim();
   if (!query) {
-    nodes.status.textContent = "The compact search index loads after you enter a query.";
+    nodes.status.textContent = "検索語を入力すると検索用インデックスを読み込みます。";
     nodes.results.innerHTML = "";
     return;
   }
@@ -801,7 +801,7 @@ function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
       if (!nodes.panel.isConnected) {
         return;
       }
-      nodes.status.textContent = `Search failed: ${error.message}`;
+      nodes.status.textContent = `検索に失敗しました: ${error.message}`;
       nodes.status.classList.add("error");
     });
   };
@@ -815,7 +815,7 @@ async function performArchiveSearch(track, query, nodes) {
   }
   nodes.status.classList.remove("error");
   if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
-    nodes.status.textContent = "Loading search index…";
+    nodes.status.textContent = "検索用インデックスを読み込んでいます…";
     state.archiveSearchIndex = await fetchJson(searchPath);
     state.archiveSearchIndexPath = searchPath;
   }
@@ -863,7 +863,7 @@ function countNormalizedSearchHits(text, normalizedQuery) {
 function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
   nodes.results.innerHTML = "";
   if (!totalMatches) {
-    nodes.status.textContent = `No documents found for “${query}”.`;
+    nodes.status.textContent = `「${query}」を含む文書は見つかりませんでした。`;
     return;
   }
   nodes.status.textContent = totalMatches > matches.length
@@ -883,7 +883,7 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
     `;
     button.addEventListener("click", () => {
       openArchiveSearchResult(doc, query).catch((error) => {
-        showStatus(`Failed to open search result: ${error.message}`, true);
+        showStatus(`検索結果を開けませんでした: ${error.message}`, true);
       });
     });
     nodes.results.append(button);
@@ -901,7 +901,7 @@ function archiveSearchSnippet(text, query) {
 async function openArchiveSearchResult(result, query) {
   const shardPath = String(result.shard_path || "");
   if (!shardPath) {
-    throw new Error("Search result has no archive shard path.");
+    throw new Error("検索結果にアーカイブの保存先がありません。");
   }
   if (!state.archiveCurrentShard || state.archiveCurrentShardPath !== shardPath) {
     state.archiveCurrentShard = await fetchJson(shardPath);
@@ -914,7 +914,7 @@ async function openArchiveSearchResult(result, query) {
       Number(candidate.track_doc_seq || 0) === Number(result.track_doc_seq || 0),
   );
   if (!doc) {
-    throw new Error("Document was not found in its archive shard.");
+    throw new Error("アーカイブ内に文書が見つかりません。");
   }
   openArchiveCorrectionEditor(doc);
   scrollArchiveCorrectionToFirstMatch(doc, query);
@@ -953,7 +953,7 @@ function renderArchiveShardRow(shard) {
   `;
   button.addEventListener("click", () => {
     openArchiveShard(shard).catch((error) => {
-      showStatus(`Failed to open archive shard: ${error.message}`, true);
+      showStatus(`アーカイブを開けませんでした: ${error.message}`, true);
     });
   });
   return button;
@@ -983,7 +983,7 @@ function renderCorpusMapTileGrid(docs) {
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-    }${manualCorrectionCount ? `\n${manualCorrectionCount} manual correction(s) required` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "Submitted correction waiting for server" : "Local correction draft"}` : ""}`;
+    }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
     tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
     wrap.append(tile);
   }
@@ -1149,7 +1149,7 @@ function markArchiveCorrectionSubmitted(key) {
   const store = loadArchiveCorrectionStore();
   const record = store.records[key];
   if (!record) {
-    showStatus("The correction draft no longer exists locally.", true);
+    showStatus("ローカルの修正案はすでに削除されています。", true);
     return;
   }
   store.records[key] = {
@@ -1160,7 +1160,7 @@ function markArchiveCorrectionSubmitted(key) {
   saveArchiveCorrectionStore(store);
   closeWorkflowDocumentPreview();
   render();
-  showStatus("Correction marked submitted locally. It remains visible until the server applies it.");
+  showStatus("修正をローカルで提出済みにしました。サーバーに反映されるまで表示されます。");
 }
 
 function archiveCorrectionIsEditing() {
@@ -1193,26 +1193,26 @@ function archiveCorrectionHasUnsavedEdits() {
 function openArchiveCorrectionEditor(doc) {
   const units = doc.units || [];
   const localCorrection = archiveCorrectionRecordForDoc(doc);
-  el.workflowPreviewTitle.textContent = `Correct Document ${doc.track_doc_seq}`;
+  el.workflowPreviewTitle.textContent = `文書 ${doc.track_doc_seq} を修正`;
   const correctionCount = Number(doc.finalized_correction_count || 0);
   const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · finalized correction request${
+  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · 確定済みデータの修正${
     correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-  }${doc.manual_correction_required_count ? ` · ${doc.manual_correction_required_count} manual correction(s) required` : ""}`;
+  }${doc.manual_correction_required_count ? ` · 要手動修正: ${doc.manual_correction_required_count}件` : ""}`;
   el.workflowPreviewBody.innerHTML = "";
 
   const intro = document.createElement("p");
   intro.className = "muted archive-correction-help";
   intro.textContent =
-    "Choose the finalized unit(s) to correct. This editor changes yomi inside existing units only; boundary changes are a separate future workflow.";
+    "修正する確定済みの文を選んでください。この画面では既存の文区切りを維持したまま読みを修正します。文区切りの変更にはまだ対応していません。";
   el.workflowPreviewBody.append(intro);
 
   if (localCorrection) {
     const localState = document.createElement("p");
     localState.className = `archive-correction-local-state ${localCorrection.status}`;
     localState.textContent = localCorrection.status === "submitted"
-      ? "Submitted locally; waiting for server-side Issue import. You may edit and resubmit it."
-      : "Local correction draft restored from this browser.";
+      ? "ローカルでは提出済みです。サーバーによるIssueの取り込みを待っています。再編集・再提出もできます。"
+      : "このブラウザに保存された修正案を復元しました。";
     el.workflowPreviewBody.append(localState);
   }
 
@@ -1226,14 +1226,14 @@ function openArchiveCorrectionEditor(doc) {
   const validation = document.createElement("p");
   validation.className = "archive-correction-validation muted";
   validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "Edit and save one or more units, then copy JSON and open an Issue.";
+  validation.textContent = "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
   const copyOnlyButton = document.createElement("button");
   copyOnlyButton.type = "button";
   copyOnlyButton.className = "secondary-button";
-  copyOnlyButton.textContent = "Copy JSON";
+  copyOnlyButton.textContent = "JSONをコピー";
   copyOnlyButton.dataset.archiveCorrectionExport = "true";
   copyOnlyButton.disabled = true;
   copyOnlyButton.addEventListener("click", async () => {
@@ -1242,7 +1242,7 @@ function openArchiveCorrectionEditor(doc) {
 
   const openIssueButton = document.createElement("button");
   openIssueButton.type = "button";
-  openIssueButton.textContent = "Copy JSON and Open Issue";
+  openIssueButton.textContent = "JSONをコピーしてIssueを開く";
   openIssueButton.dataset.archiveCorrectionExport = "true";
   openIssueButton.disabled = true;
   openIssueButton.addEventListener("click", async () => {
@@ -1251,7 +1251,7 @@ function openArchiveCorrectionEditor(doc) {
 
   const note = document.createElement("p");
   note.className = "muted";
-  note.textContent = "Correction requests are copied as JSON and submitted through GitHub Issues.";
+  note.textContent = "修正依頼はJSONとしてコピーし、GitHub Issueから提出します。";
   el.workflowPreviewActions.append(copyOnlyButton, openIssueButton, note);
   updateArchiveCorrectionSummary();
   el.workflowPreviewBody.scrollTop = 0;
@@ -1288,7 +1288,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
       ),
     );
   } else if (unit.excluded) {
-    rubyLine.textContent = unit.tombstone_label || "Removed";
+    rubyLine.textContent = unit.tombstone_label || "除外済み";
   } else {
     rubyLine.textContent = unit.text || "";
   }
@@ -1296,10 +1296,10 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.type = "button";
   editButton.className = "secondary-button compact-button";
   editButton.dataset.archiveYomiEdit = "true";
-  editButton.textContent = unit.skipped ? "Restore and Edit" : "Edit";
+  editButton.textContent = unit.skipped ? "復帰して編集" : "編集";
   editButton.disabled = Boolean(unit.excluded);
   if (unit.skipped) {
-    editButton.title = "Restore this skipped sentence and edit its preserved hybrid yomi";
+    editButton.title = "スキップされた文をコーパスに戻し、保存済みの読みを編集します";
   }
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
@@ -1307,32 +1307,32 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   if (unit.excluded) {
     const excluded = document.createElement("span");
     excluded.className = "excluded-tombstone-label";
-    excluded.textContent = unit.tombstone_label || "Removed";
+    excluded.textContent = unit.tombstone_label || "除外済み";
     actions.append(excluded);
   }
   if (unit.manual_correction_required) {
     const flag = document.createElement("span");
     flag.className = "manual-correction-row-flag";
     flag.textContent = "⚑";
-    flag.title = "Requires later manual correction";
-    flag.setAttribute("aria-label", "Requires later manual correction");
+    flag.title = "後で手動修正が必要です";
+    flag.setAttribute("aria-label", "後で手動修正が必要です");
     actions.append(flag);
   }
   if (!unit.excluded) {
     const dispositionControls = document.createElement("div");
     dispositionControls.className = "archive-disposition-controls";
     dispositionControls.setAttribute("role", "group");
-    dispositionControls.setAttribute("aria-label", "Corpus disposition");
+    dispositionControls.setAttribute("aria-label", "コーパスでの扱い");
     const options = [
       {
         value: unit.skipped ? "Keep" : "Skip",
-        label: unit.skipped ? "Restore" : "Skip",
-        title: unit.skipped ? "Restore this sentence to the corpus" : "Skip, but allow later restoration",
+        label: unit.skipped ? "復帰" : "スキップ",
+        title: unit.skipped ? "この文をコーパスに戻します" : "後から復帰可能な状態でスキップします",
       },
       {
         value: "Exclude",
-        label: "Exclude",
-        title: "Permanently remove sensitive content after submission",
+        label: "除外",
+        title: "機密性の高い内容を提出後に恒久的に除外します",
       },
     ];
     for (const option of options) {
@@ -1358,7 +1358,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const saved = document.createElement("div");
   saved.className = "archive-correction-saved hidden";
   saved.innerHTML = `
-    <strong>Rendered Yomi</strong>
+    <strong>編集後の読み</strong>
     <code></code>
   `;
 
@@ -1367,13 +1367,13 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editor.dataset.originalYomi = originalEditableYomi;
   editor.innerHTML = `
     <label>
-      <span>Rendered yomi</span>
+      <span>読みデータ</span>
       <textarea class="archive-correction-unit-textarea" rows="3">${escapeHtml(originalEditableYomi)}</textarea>
     </label>
-    <p class="archive-correction-row-validation muted">No change yet.</p>
+    <p class="archive-correction-row-validation muted">まだ変更されていません。</p>
     <div class="archive-correction-editor-actions">
-      <button type="button" class="secondary-button compact-button" data-archive-correction-save>Save</button>
-      <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>Cancel</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-save>保存</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>キャンセル</button>
     </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
@@ -1441,11 +1441,11 @@ function updateArchiveCorrectionRowState(row, unit) {
   validationNode.classList.remove("error");
   validationNode.textContent = !dirty
     ? row.classList.contains("changed")
-      ? "Saved."
-      : "No change yet."
+      ? "保存済みです。"
+      : "まだ変更されていません。"
     : changed
-      ? "Unsaved edit. Save to validate and include it in the Issue JSON."
-      : "Unsaved edit clears the saved correction if saved.";
+      ? "未保存の変更があります。保存すると検証され、Issue用JSONに含まれます。"
+      : "保存すると、保存済みの修正が取り消されます。";
   updateArchiveCorrectionSummary();
 }
 
@@ -1467,7 +1467,7 @@ function collectArchiveCorrectionChanges(doc) {
     }
     const validation = validateRenderedYomiCorrection(unit, proposed);
     if (!validation.ok) {
-      return { ok: false, error: `Unit ${unit.unit_id || index + 1}: ${validation.error}` };
+      return { ok: false, error: `文 ${unit.unit_id || index + 1}: ${validation.error}` };
     }
     changedUnits.push({
       unit_id: String(unit.unit_id || ""),
@@ -1484,7 +1484,7 @@ function collectArchiveCorrectionChanges(doc) {
     });
   }
   if (!changedUnits.length) {
-    return { ok: false, error: "No yomi changes found." };
+    return { ok: false, error: "読みの変更がありません。" };
   }
   return { ok: true, changedUnits };
 }
@@ -1518,7 +1518,7 @@ function saveArchiveCorrectionRow(row, unit, doc) {
   updateArchiveCorrectionChangedState(row);
   updateArchiveDispositionControls(row);
   row.classList.remove("invalid", "submitted");
-  validationNode.textContent = "Saved.";
+  validationNode.textContent = "保存済みです。";
   validationNode.classList.remove("error");
   renderArchiveCorrectionSavedYomi(row);
   closeArchiveCorrectionRowEditor(row);
@@ -1536,7 +1536,7 @@ function clearArchiveCorrectionRow(row, doc = null) {
     textarea.value = editor.dataset.originalYomi || "";
   }
   if (validationNode) {
-    validationNode.textContent = "No change yet.";
+    validationNode.textContent = "まだ変更されていません。";
     validationNode.classList.remove("error");
   }
   renderArchiveCorrectionSavedYomi(row);
@@ -1554,13 +1554,13 @@ function cancelArchiveCorrectionRowEdit(row) {
   if (editor && textarea) {
     const baseline = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
     const proposed = String(textarea.value || "").trim();
-    if (proposed !== baseline && !window.confirm("Discard the unsaved yomi edit?")) {
+    if (proposed !== baseline && !window.confirm("未保存の読み編集を破棄しますか？")) {
       return;
     }
     textarea.value = baseline;
     const validationNode = editor.querySelector(".archive-correction-row-validation");
     if (validationNode) {
-      validationNode.textContent = row.classList.contains("changed") ? "Saved." : "No change yet.";
+      validationNode.textContent = row.classList.contains("changed") ? "保存済みです。" : "まだ変更されていません。";
       validationNode.classList.remove("error");
     }
     row.classList.remove("invalid");
@@ -1638,28 +1638,28 @@ function updateArchiveCorrectionSummary() {
     button.disabled = !canExport;
   }
   if (invalid) {
-    summary.textContent = `${invalid} invalid unit(s). Fix validation errors before exporting.`;
+    summary.textContent = `${invalid}件の文にエラーがあります。提出前に修正してください。`;
     summary.classList.add("error");
     return;
   }
   if (openEditors) {
-    summary.textContent = "Save or cancel the open editor before exporting.";
+    summary.textContent = "開いている編集欄を保存またはキャンセルしてから提出してください。";
     summary.classList.add("error");
     return;
   }
   summary.textContent = changed
-    ? `${changed} changed unit(s) ready for correction Issue.`
-    : "Edit and save one or more units, then copy JSON and open an Issue.";
+    ? `${changed}件の変更をIssueで提出できます。`
+    : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   summary.classList.remove("error");
 }
 
 function validateRenderedYomiCorrection(unit, proposed) {
   if (!proposed) {
-    return { ok: false, error: "rendered yomi is empty." };
+    return { ok: false, error: "読みデータが空です。" };
   }
   const tokens = parseRenderedYomiCorrectionTokens(proposed);
   if (!tokens.length) {
-    return { ok: false, error: "rendered yomi has no tokens." };
+    return { ok: false, error: "読みデータにトークンがありません。" };
   }
   const surfaceText = [];
   const baselinePairCounts = new Map();

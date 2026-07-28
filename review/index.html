@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>yomi-corpus review</title>
+    <title>yomi-corpus レビュー</title>
     <link rel="stylesheet" href="./style.css?v=081748d38eff" />
   </head>
   <body>
@@ -11,23 +11,23 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">yomi-corpus</p>
-          <h1>Review Workspace</h1>
+          <h1>レビュー画面</h1>
           <p class="subtitle">
-            Review active documents or browse finalized corpus data.
+            作業中の文書をレビューしたり、確定済みコーパスを閲覧したりできます。
           </p>
         </div>
         <div class="topbar-actions">
           <label class="reviewer-field">
-            <span>Reviewer</span>
-            <input id="reviewer-name" type="text" placeholder="Optional name" />
+            <span>作業者</span>
+            <input id="reviewer-name" type="text" placeholder="名前（任意）" />
           </label>
         </div>
       </header>
 
       <div id="status-banner" class="status-banner hidden"></div>
       <div id="server-update-banner" class="server-update-banner hidden">
-        <span id="server-update-message">Server state updated.</span>
-        <button id="server-update-refresh" type="button">Refresh workspace</button>
+        <span id="server-update-message">サーバー側の状態が更新されました。</span>
+        <button id="server-update-refresh" type="button">画面を更新</button>
       </div>
       <div id="runtime-status-line" class="runtime-status-line hidden"></div>
 
@@ -35,11 +35,11 @@
         <main class="main">
           <section id="task-picker-panel" class="panel controls-panel">
             <div class="panel-heading">
-              <h2>Select Review Task</h2>
+              <h2>レビュー対象を選択</h2>
               <div id="task-picker-global-actions" class="button-row">
-                <button id="select-all-docs" class="secondary-button" type="button">Select All</button>
-                <button id="clear-doc-selection" class="secondary-button" type="button">Clear</button>
-                <button id="start-task" type="button">Start Review Task</button>
+                <button id="select-all-docs" class="secondary-button" type="button">すべて選択</button>
+                <button id="clear-doc-selection" class="secondary-button" type="button">選択解除</button>
+                <button id="start-task" type="button">レビューを開始</button>
               </div>
             </div>
             <div id="task-summary" class="task-summary muted"></div>
@@ -49,12 +49,12 @@
 
           <section class="panel controls-panel task-work-panel">
             <div class="panel-heading">
-              <h2>Submission Range</h2>
+              <h2>提出範囲</h2>
               <div class="button-row">
-                <button id="back-to-task-picker" class="secondary-button" type="button">Defer Task</button>
-                <button id="complete-task" class="secondary-button" type="button">Complete Task</button>
-                <button id="clear-range" class="secondary-button" type="button">Clear Markers</button>
-                <button id="reset-draft" class="secondary-button danger-button" type="button">Reset Draft</button>
+                <button id="back-to-task-picker" class="secondary-button" type="button">作業を保留</button>
+                <button id="complete-task" class="secondary-button" type="button">作業を完了</button>
+                <button id="clear-range" class="secondary-button" type="button">範囲指定を解除</button>
+                <button id="reset-draft" class="secondary-button danger-button" type="button">編集をリセット</button>
               </div>
             </div>
             <div id="range-summary" class="range-summary"></div>
@@ -62,11 +62,11 @@
 
           <section class="panel export-panel task-work-panel">
             <div class="panel-heading">
-              <h2>Submission Export</h2>
+              <h2>レビュー結果を提出</h2>
               <div class="button-row">
-                <button id="open-issue-title" type="button">Copy JSON and Open Issue</button>
-                <button id="copy-json" class="secondary-button" type="button">Copy JSON Only</button>
-                <button id="download-json" class="secondary-button" type="button">Download JSON</button>
+                <button id="open-issue-title" type="button">JSONをコピーしてIssueを開く</button>
+                <button id="copy-json" class="secondary-button" type="button">JSONのみコピー</button>
+                <button id="download-json" class="secondary-button" type="button">JSONをダウンロード</button>
               </div>
             </div>
             <div id="issue-url-summary" class="issue-url-summary muted"></div>
@@ -75,14 +75,14 @@
 
           <section class="panel items-panel task-work-panel">
             <div class="panel-heading">
-              <h2>Items</h2>
+              <h2>レビュー項目</h2>
               <span id="items-summary" class="muted"></span>
             </div>
             <div id="items-container" class="items-container"></div>
           </section>
 
           <section class="review-submit-footer task-work-panel">
-            <button id="open-issue-bottom" type="button">Copy JSON and Open Issue</button>
+            <button id="open-issue-bottom" type="button">JSONをコピーしてIssueを開く</button>
           </section>
         </main>
       </div>
@@ -93,11 +93,11 @@
       <section class="workflow-preview-panel">
         <header class="workflow-preview-header">
           <div>
-            <p class="eyebrow">Document Preview</p>
-            <h2 id="workflow-preview-title">Document</h2>
+            <p class="eyebrow">文書プレビュー</p>
+            <h2 id="workflow-preview-title">文書</h2>
             <div id="workflow-preview-meta" class="muted"></div>
           </div>
-          <button id="workflow-preview-close" class="secondary-button" type="button">Close</button>
+          <button id="workflow-preview-close" class="secondary-button" type="button">閉じる</button>
         </header>
         <div id="workflow-preview-body" class="workflow-preview-body"></div>
         <footer id="workflow-preview-actions" class="workflow-preview-actions"></footer>
@@ -107,14 +107,14 @@
     <div id="issue-return-modal" class="issue-return-modal hidden" role="dialog" aria-modal="true" aria-labelledby="issue-return-title">
       <div class="issue-return-backdrop"></div>
       <section class="issue-return-panel">
-        <h2 id="issue-return-title">Did you create the GitHub issue?</h2>
+        <h2 id="issue-return-title">GitHub Issueを作成しましたか？</h2>
         <p id="issue-return-description" class="muted">
-          If you pasted the copied JSON and created the issue, mark this task submitted.
-          If not, keep working locally.
+          コピーしたJSONを貼り付けてIssueを作成した場合は、提出済みにしてください。
+          まだの場合はローカル作業を続けられます。
         </p>
         <div class="button-row">
-          <button id="mark-submitted" type="button">Mark Submitted</button>
-          <button id="issue-not-yet" class="secondary-button" type="button">Not Yet</button>
+          <button id="mark-submitted" type="button">提出済みにする</button>
+          <button id="issue-not-yet" class="secondary-button" type="button">まだ提出していない</button>
         </div>
       </section>
     </div>
@@ -134,43 +134,43 @@
             </div>
           </div>
           <div class="item-controls editable-only">
-            <button class="secondary-button set-from" type="button">Set From</button>
-            <button class="secondary-button set-to" type="button">Set To</button>
+            <button class="secondary-button set-from" type="button">ここから</button>
+            <button class="secondary-button set-to" type="button">ここまで</button>
           </div>
         </header>
 
         <dl class="item-meta"></dl>
 
         <section class="item-section">
-          <h4>Examples</h4>
+          <h4>例</h4>
           <ul class="example-list"></ul>
         </section>
 
         <section class="item-section">
-          <h4>Notes</h4>
+          <h4>注記</h4>
           <ul class="note-list"></ul>
         </section>
 
         <section class="item-section editable-only">
-          <h4>Override</h4>
+          <h4>判定を変更</h4>
           <div class="button-row">
-            <button class="secondary-button accept-default" type="button">Accept Default</button>
-            <button class="secondary-button reject-item" type="button">Reject</button>
-            <button class="secondary-button defer-item" type="button">Defer</button>
+            <button class="secondary-button accept-default" type="button">既定値を採用</button>
+            <button class="secondary-button reject-item" type="button">却下</button>
+            <button class="secondary-button defer-item" type="button">保留</button>
           </div>
           <label class="note-field">
-            <span>Optional note</span>
-            <textarea class="override-note" rows="2" placeholder="Optional note for this override"></textarea>
+            <span>注記（任意）</span>
+            <textarea class="override-note" rows="2" placeholder="判定変更についての注記（任意）"></textarea>
           </label>
         </section>
 
         <section class="item-section readonly-only hidden">
-          <h4>Read-only</h4>
-          <p class="muted">Archived packs are visible for reference only.</p>
+          <h4>閲覧専用</h4>
+          <p class="muted">過去のパックは参照のみ可能です。</p>
         </section>
       </article>
     </template>
 
-    <script src="./app.js?v=7e93fba2b1c1" type="module"></script>
+    <script src="./app.js?v=6f4f26af1428" type="module"></script>
   </body>
 </html>
