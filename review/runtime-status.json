@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1841,
-  "generated_at": "2026-07-28T04:34:08Z",
-  "generated_at_epoch": 1785213248,
+  "state_revision": 1842,
+  "generated_at": "2026-07-28T04:39:08Z",
+  "generated_at_epoch": 1785213548,
   "last_successful_sync": "2026-07-28T04:10:07Z",
   "last_successful_sync_epoch": 1785211807,
   "status": "error",
@@ -15,8 +15,8 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0026",
-    "current_stage": "scope_triage_llm_completed",
-    "next_stage": "yomi_generated",
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
     "active_queue_count": 40,
     "queue_counts": {
       "bulk_review_selectable": 40,
@@ -37,8 +37,8 @@
   },
   "message": "YomiTokenError: finalized unit ja_cc_level2:0000000164:u0002 token 8 '一'/'' is structurally invalid: kanji or alphabetic surfaces need a kana reading",
   "observed": {
-    "started_at_epoch": 1785213248,
-    "completed_at_epoch": 1785213248,
+    "started_at_epoch": 1785213548,
+    "completed_at_epoch": 1785213548,
     "drift_seconds": 17
   },
   "client_polling": {
