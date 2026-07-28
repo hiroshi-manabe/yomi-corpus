@@ -18,5 +18,5 @@ If the rejected span is a symbolic kaomoji, keep it as one item and use カオ�
 Use one item only for an established unsplittable name that contains no whitespace.
 If you know the reading of the span, answer directly without web search.
 If you do not know it or are not confident, use web search, find the reading that fits this context, and output the final JSON together with your investigation process.
-Include a concise comment explaining the decision or evidence in each item.
-Format: [{{"surface":"（表記）", "reading":"（読み）", "used_web_search":true/false, "comment":"（brief reason or evidence）"}}...]
+Include a concise comment in Japanese explaining the decision or evidence in each item.
+Format: [{{"surface":"（表記）", "reading":"（読み）", "used_web_search":true/false, "comment":"（簡潔な判断理由または根拠）"}}...]
