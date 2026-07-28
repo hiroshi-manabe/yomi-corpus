@@ -1678,7 +1678,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
     } else {
       const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
       if (!readingValidation.ok) {
-        return { ok: false, error: `token ${token.raw}: ${readingValidation.error}` };
+        return { ok: false, error: `トークン ${token.raw}: ${readingValidation.error}` };
       }
     }
     surfaceText.push(token.surface);
@@ -1689,7 +1689,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
   if (expectedText && proposedText !== expectedText) {
     return {
       ok: false,
-      error: `source text changed: got ${proposedText}, expected ${expectedText}.`,
+      error: `原文が変わっています: 入力 ${proposedText} / 期待値 ${expectedText}。`,
     };
   }
   return { ok: true, tokens: tokens.map((token) => [token.surface, token.reading]) };
@@ -1729,40 +1729,40 @@ function hiraganaToKatakana(value) {
 
 function validateRenderedYomiReading(surface, reading) {
   if (/^[ \u00a0\u3000]+$/u.test(surface)) {
-    return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
-      ? { ok: false, error: "space tokens must have an empty or whitespace reading." }
+      return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
+      ? { ok: false, error: "空白トークンの読みは空または空白である必要があります。" }
       : { ok: true };
   }
   if (isNumericOnlySurface(surface)) {
-    return reading ? { ok: false, error: "numeric-only surfaces must have an empty reading." } : { ok: true };
+    return reading ? { ok: false, error: "数字のみの表記には読みを付けないでください。" } : { ok: true };
   }
   const numericReadings = numericCompoundReadings(surface);
   if (numericReadings) {
     return numericReadings.includes(reading)
       ? { ok: true }
-      : { ok: false, error: `reading should be one of ${numericReadings.join(", ")}.` };
+      : { ok: false, error: `読みは ${numericReadings.join("、")} のいずれかにしてください。` };
   }
   if (reading === "カオモジ") {
     return isSymbolicKaomojiCorrectionSurface(surface)
       ? { ok: true }
-      : { ok: false, error: "カオモジ is reserved for symbolic kaomoji surfaces." };
+      : { ok: false, error: "「カオモジ」は記号的な顔文字だけに使用できます。" };
   }
   if (isStandaloneLaughterW(surface) && !reading) {
     return { ok: true };
   }
   if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
-      return { ok: false, error: "kanji or alphabetic surfaces need a kana reading." };
+      return { ok: false, error: "漢字または英字を含む表記には仮名の読みが必要です。" };
     }
     return /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
-      : { ok: false, error: "reading for kanji or alphabetic surfaces must be katakana." };
+      : { ok: false, error: "漢字または英字を含む表記の読みはカタカナにしてください。" };
   }
   const expected = surface.replace(/[ぁ-ゖ]/gu, (char) => hiraganaToKatakana(char));
   if (reading === expected) {
     return { ok: true };
   }
-  return { ok: false, error: `reading should be ${expected || "(empty)"}.` };
+  return { ok: false, error: `読みは ${expected || "（空）"} にしてください。` };
 }
 
 function isSymbolicKaomojiCorrectionSurface(surface) {
@@ -1862,7 +1862,7 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   if (
     exclusionCount &&
     !window.confirm(
-      `${exclusionCount} sentence(s) will be permanently excluded after the server applies this Issue. Continue?`,
+      `${exclusionCount}文が、サーバーによるIssue適用後に恒久的に除外されます。続けますか？`,
     )
   ) {
     return false;
@@ -1876,8 +1876,8 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   }
   showStatus(
     copied
-      ? "Correction JSON copied. Paste it into the GitHub issue body."
-      : "Clipboard copy failed. Copy the correction JSON manually from the editor.",
+      ? "修正用JSONをコピーしました。GitHub Issueの本文に貼り付けてください。"
+      : "クリップボードへのコピーに失敗しました。編集画面から修正用JSONを手動でコピーしてください。",
     !copied,
   );
   return copied;
@@ -1897,8 +1897,8 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       docs: allDocs,
       task,
       queueStage: "yomi_final_review",
-      title: "Bulk Review",
-      actionLabel: "Start Bulk Review",
+      title: "一括レビュー",
+      actionLabel: "一括レビューを開始",
       takeNextCount: 5,
       takeNextOptions: workflowTakeNextOptions,
     }),
@@ -1906,8 +1906,8 @@ function renderWorkflowTaskDashboard(allDocs, actionableDocs, task) {
       docs: allDocs,
       task,
       queueStage: "yomi_strong_repair_review",
-      title: "Escalated Repair",
-      actionLabel: "Start Escalated Repair",
+      title: "詳細修正",
+      actionLabel: "詳細修正を開始",
       takeNextCount: 5,
       takeNextOptions: workflowTakeNextOptions,
     }),
@@ -1924,22 +1924,22 @@ function renderWorkflowPackMap(docs) {
   section.innerHTML = `
     <div class="workflow-heading">
       <div>
-        <h3>Pack Map</h3>
-        <p class="muted">Status of all documents in this pack.</p>
+        <h3>パック一覧</h3>
+        <p class="muted">このパックに含まれる全文書の状態です。</p>
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>Finalized</span>
-          <span><span class="workflow-dot strong"></span>Escalated Repair</span>
-          <span><span class="workflow-dot final"></span>Bulk Review Pending</span>
+          <span><span class="workflow-dot resolved"></span>確定済み</span>
+          <span><span class="workflow-dot strong"></span>詳細修正</span>
+          <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
-        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">Corpus Map</button>' : ''}
+        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">コーパスマップ</button>' : ''}
       </div>
     </div>
   `;
   section.querySelector(".corpus-map-link")?.addEventListener("click", () => {
     openArchiveBrowser().catch((error) => {
-      showStatus(`Failed to open Corpus Map: ${error.message}`, true);
+      showStatus(`コーパスマップを開けませんでした: ${error.message}`, true);
     });
   });
   const tileGrid = document.createElement("div");
@@ -1975,11 +1975,11 @@ function renderWorkflowQueue({
   heading.innerHTML = `
     <div>
       <h3>${escapeHtml(title)}</h3>
-      <p class="muted">Available: ${actionableDocs.length} document(s)${submittedCount ? ` · ${submittedCount} submitted locally` : ""}</p>
+      <p class="muted">作業可能: ${actionableDocs.length}文書${submittedCount ? ` · ローカル提出済み: ${submittedCount}` : ""}</p>
     </div>
     <strong class="workflow-selected-count">${selectedDocs.length
-      ? `Selected: ${selectedDocs.length} document(s), ${selectedItems.length} item(s)`
-      : "No selection"}</strong>
+      ? `選択中: ${selectedDocs.length}文書、${selectedItems.length}項目`
+      : "未選択"}</strong>
   `;
   section.append(heading);
 
@@ -1999,7 +1999,7 @@ function renderWorkflowQueue({
   if (!actionableDocs.length) {
     const empty = document.createElement("p");
     empty.className = "muted";
-    empty.textContent = "No actionable documents in this queue.";
+    empty.textContent = "このキューには作業可能な文書がありません。";
     tiles.append(empty);
   }
   section.append(tiles);
@@ -2011,7 +2011,7 @@ function renderWorkflowQueue({
   const selectRangeButton = document.createElement("button");
   selectRangeButton.type = "button";
   selectRangeButton.className = "secondary-button";
-  selectRangeButton.textContent = "Select range";
+  selectRangeButton.textContent = "範囲を選択";
   selectRangeButton.disabled = actionableDocs.length === 0;
   selectRangeButton.addEventListener("click", () => {
     selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, true);
@@ -2019,16 +2019,16 @@ function renderWorkflowQueue({
   const deselectRangeButton = document.createElement("button");
   deselectRangeButton.type = "button";
   deselectRangeButton.className = "secondary-button";
-  deselectRangeButton.textContent = "Deselect range";
+  deselectRangeButton.textContent = "範囲を選択解除";
   deselectRangeButton.disabled = actionableDocs.length === 0;
   deselectRangeButton.addEventListener("click", () => {
     selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, false);
   });
   controls.append(
-    textNodeElement("span", "Range:"),
-    textNodeElement("span", "From"),
+    textNodeElement("span", "範囲:"),
+    textNodeElement("span", "開始"),
     fromSelect,
-    textNodeElement("span", "to"),
+    textNodeElement("span", "終了"),
     toSelect,
     selectRangeButton,
     deselectRangeButton,
@@ -2045,7 +2045,7 @@ function renderWorkflowQueue({
   const takeNextButton = document.createElement("button");
   takeNextButton.type = "button";
   takeNextButton.className = "secondary-button";
-  takeNextButton.textContent = takeNextOptions ? "Take next" : `Take next ${takeNextCount}`;
+  takeNextButton.textContent = takeNextOptions ? "次を選択" : `次の${takeNextCount}件を選択`;
   takeNextButton.disabled = actionableDocs.length === 0;
   let selectedTakeNextCount = takeNextCount;
   let takeNextControl = takeNextButton;
@@ -2057,7 +2057,7 @@ function renderWorkflowQueue({
     );
     const takeNextSelect = document.createElement("select");
     takeNextSelect.className = "workflow-take-next-count";
-    takeNextSelect.setAttribute("aria-label", `${title} document count`);
+    takeNextSelect.setAttribute("aria-label", `${title}の文書数`);
     for (const optionCount of takeNextOptions) {
       const option = document.createElement("option");
       option.value = String(optionCount);
@@ -2081,13 +2081,13 @@ function renderWorkflowQueue({
   const selectAllButton = document.createElement("button");
   selectAllButton.type = "button";
   selectAllButton.className = "secondary-button";
-  selectAllButton.textContent = "Select all";
+  selectAllButton.textContent = "すべて選択";
   selectAllButton.disabled = actionableDocs.length === 0 || selectedDocs.length === actionableDocs.length;
   selectAllButton.addEventListener("click", () => selectAllDocumentTasks(queueStage));
   const clearButton = document.createElement("button");
   clearButton.type = "button";
   clearButton.className = "secondary-button";
-  clearButton.textContent = "Clear";
+  clearButton.textContent = "選択解除";
   clearButton.disabled = selectedDocs.length === 0;
   clearButton.addEventListener("click", () => clearQueueTaskSelection(queueStage));
   actions.append(startButton, takeNextControl, selectAllButton, clearButton);
@@ -2105,19 +2105,19 @@ function renderWorkflowTile(row, { compact }) {
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
-    ${row.apply_failed ? '<em class="workflow-apply-failed-badge">Apply failed</em>' : ""}
+    ${row.apply_failed ? '<em class="workflow-apply-failed-badge">適用失敗</em>' : ""}
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
   } else if (row.apply_failed) {
-    tile.title = "The submitted correction could not be applied. Its GitHub issue remains open.";
+    tile.title = "提出された修正を適用できませんでした。GitHub Issueは開いたままです。";
   } else if (row.submitted) {
-    tile.title = row.completed_via || "Submitted. Reopen it from Submitted local tasks to edit.";
+    tile.title = row.completed_via || "提出済みです。再編集する場合はローカル提出済みタスクから開いてください。";
   }
   if (!compact) {
     tile.addEventListener("click", () => {
       openWorkflowDocumentPreview(row.display_seq).catch((error) => {
-        showStatus(`Failed to open document preview: ${error.message}`, true);
+        showStatus(`文書プレビューを開けませんでした: ${error.message}`, true);
       });
     });
   }
@@ -2139,7 +2139,7 @@ async function openWorkflowDocumentPreview(displaySeq) {
     : null;
   const actionDoc = workflowPreviewActionDocument(docs, row);
   const previewDraft = workflowPreviewDraftForRow(row);
-  el.workflowPreviewTitle.textContent = `Document ${row.display_seq}`;
+  el.workflowPreviewTitle.textContent = `文書 ${row.display_seq}`;
   el.workflowPreviewMeta.textContent = workflowPreviewMetaText(
     row,
     archivedDocument?.units || previewItems,
@@ -2151,7 +2151,7 @@ async function openWorkflowDocumentPreview(displaySeq) {
   } else if (previewItems.length === 0) {
     const empty = document.createElement("p");
     empty.className = "muted";
-    empty.textContent = row.preview || "No review items were published for this document.";
+    empty.textContent = row.preview || "この文書にはレビュー項目がありません。";
     el.workflowPreviewBody.append(empty);
   } else {
     let lastDocId = null;
@@ -2172,8 +2172,8 @@ async function openWorkflowDocumentPreview(displaySeq) {
     startButton.type = "button";
     startButton.textContent =
       actionDoc.queue_stage === "yomi_strong_repair_review"
-        ? "Start Escalated Repair"
-        : "Start Bulk Review";
+        ? "詳細修正を開始"
+        : "一括レビューを開始";
     startButton.addEventListener("click", () => {
       closeWorkflowDocumentPreview();
       startSingleDocumentTask(actionDoc);
@@ -2182,7 +2182,7 @@ async function openWorkflowDocumentPreview(displaySeq) {
   } else {
     const note = document.createElement("span");
     note.className = "muted";
-    note.textContent = "Read-only preview. This document has no active queue action.";
+    note.textContent = "閲覧専用です。この文書には現在作業できるキューがありません。";
     el.workflowPreviewActions.append(note);
   }
 
@@ -2397,21 +2397,21 @@ function workflowPreviewActionDocument(docs, row) {
 
 function workflowPreviewMetaText(row, items, actionDoc) {
   if (row.apply_failed) {
-    return `Apply failed · ${items.length} item(s) · reopen after the server-side problem is fixed`;
+    return `適用失敗 · ${items.length}項目 · サーバー側の問題解決後に再度開いてください`;
   }
   const statusLabel = row.status === "strong"
-    ? "Escalated Repair"
+    ? "詳細修正"
     : row.status === "final"
-      ? "Bulk Review"
+      ? "一括レビュー"
       : row.status === "resolved"
-        ? "Resolved"
-        : "No active review";
-  const itemText = `${items.length} item(s)`;
+        ? "確定済み"
+        : "作業なし";
+  const itemText = `${items.length}項目`;
   if (actionDoc) {
-    return `${statusLabel} · ${itemText} · click Start to work on this document`;
+    return `${statusLabel} · ${itemText} · 開始ボタンからこの文書を作業できます`;
   }
   if (row.submitted) {
-    return `${statusLabel} · ${itemText} · ${row.completed_via || "Submitted"}`;
+    return `${statusLabel} · ${itemText} · ${row.completed_via || "提出済み"}`;
   }
   return `${statusLabel} · ${itemText}`;
 }
@@ -2538,8 +2538,8 @@ function workflowDocumentStates(docs) {
         row.status = "resolved";
         row.completed_via =
           String(doc.state || "") === "strong_reviewed" || Number(doc.strong_repair_item_count || 0) > 0
-            ? "Resolved after Escalated Repair"
-            : "Bulk Review only";
+            ? "詳細修正後に確定"
+            : "一括レビューのみで確定";
       }
       continue;
     }
@@ -2559,8 +2559,8 @@ function workflowDocumentStates(docs) {
       row.status = "resolved";
       row.completed_via =
         doc.queue_stage === "yomi_strong_repair_review"
-          ? "Resolved after Escalated Repair"
-          : "Bulk Review only";
+          ? "詳細修正後に確定"
+          : "一括レビューのみで確定";
     }
   }
   return [...bySeq.values()].sort((left, right) => left.display_seq - right.display_seq);
@@ -2586,12 +2586,12 @@ function documentHasPendingCanonicalState(doc) {
 function submittedWorkflowLabel(doc) {
   const stateName = String(doc?.state || "");
   if (stateName.startsWith("strong_")) {
-    return "Submitted, waiting for repair processing";
+    return "提出済み・修正処理待ち";
   }
   if (stateName === "final_reviewed") {
-    return "Submitted, waiting for processing";
+    return "提出済み・処理待ち";
   }
-  return "Submitted, waiting for import";
+  return "提出済み・取り込み待ち";
 }
 
 function pendingSourceQueueStatus(doc) {
@@ -2759,12 +2759,12 @@ function renderSavedTaskDrafts(docs) {
   }
 
   renderSavedTaskGroup(
-    "Deferred local tasks",
+    "保留中のローカルタスク",
     savedTasks.filter((record) => taskRecordStatus(record) === "deferred"),
     docs,
   );
   renderSavedTaskGroup(
-    "Submitted local tasks",
+    "提出済みのローカルタスク",
     savedTasks.filter((record) => taskRecordStatus(record) === "submitted"),
     docs,
   );
@@ -2787,7 +2787,7 @@ function renderSavedTaskGroup(titleText, records, docs) {
     const body = document.createElement("div");
     body.className = "task-draft-body";
     const title = document.createElement("strong");
-    title.textContent = record.task_label || record.task_id || "Local Task";
+    title.textContent = record.task_label || record.task_id || "ローカルタスク";
     const meta = document.createElement("div");
     meta.className = "task-draft-meta";
     meta.textContent = formatTaskDraftMeta(record, docs);
@@ -2797,8 +2797,8 @@ function renderSavedTaskGroup(titleText, records, docs) {
     button.type = "button";
     button.textContent =
       taskRecordStatus(record) === "submitted"
-        ? `Reopen ${record.task_label || "Task"}`
-        : `Return to ${record.task_label || "Task"}`;
+        ? `${record.task_label || "タスク"}を再度開く`
+        : `${record.task_label || "タスク"}に戻る`;
     button.addEventListener("click", () => {
       resumeTaskDraft(record.task_id);
     });
@@ -2854,19 +2854,19 @@ function renderTaskDocumentRow(doc, task) {
   });
   const title = document.createElement("span");
   title.className = "task-doc-title";
-  title.textContent = `Doc ${documentDisplaySeq(doc)}`;
+  title.textContent = `文書 ${documentDisplaySeq(doc)}`;
   label.append(checkbox, title);
 
   const meta = document.createElement("div");
   meta.className = "task-doc-meta";
-  const itemSeq = doc.item_count > 0 ? `seq ${doc.from_seq}-${doc.to_seq}` : "no review cards";
+  const itemSeq = doc.item_count > 0 ? `項目 ${doc.from_seq}-${doc.to_seq}` : "レビュー項目なし";
   const stateText = doc.state ? `${doc.state} · ` : "";
-  const submittedText = submitted ? "submitted locally · " : "";
+  const submittedText = submitted ? "ローカル提出済み · " : "";
   const sourceText = isUnifiedReviewPack(state.currentPack)
-    ? `final ${doc.final_item_count || 0} / strong ${doc.strong_repair_item_count || 0} · `
+    ? `一括 ${doc.final_item_count || 0} / 詳細 ${doc.strong_repair_item_count || 0} · `
     : "";
   meta.textContent =
-    `${submittedText}${stateText}${sourceText}${doc.item_count} item(s) · ${doc.unresolved_count} review target(s) · ${doc.unit_count || 0} sentence(s) · ${itemSeq}`;
+    `${submittedText}${stateText}${sourceText}${doc.item_count}項目 · 要確認 ${doc.unresolved_count}か所 · ${doc.unit_count || 0}文 · ${itemSeq}`;
 
   const preview = document.createElement("div");
   preview.className = "task-doc-preview";
@@ -2875,9 +2875,9 @@ function renderTaskDocumentRow(doc, task) {
   const actions = document.createElement("div");
   actions.className = "task-doc-actions";
   for (const [labelText, handler] of [
-    ["From", () => setDocumentRangeBoundary(docKey, "start")],
-    ["To", () => setDocumentRangeBoundary(docKey, "end")],
-    ["Only", () => selectOnlyDocumentTask(docKey)],
+    ["ここから", () => setDocumentRangeBoundary(docKey, "start")],
+    ["ここまで", () => setDocumentRangeBoundary(docKey, "end")],
+    ["これだけ", () => selectOnlyDocumentTask(docKey)],
   ]) {
     const button = document.createElement("button");
     button.type = "button";
@@ -2897,11 +2897,11 @@ function renderRangeSummary() {
   const overrides = getSubmissionOverridesForCurrentStage();
   const defaultAcceptCount = Math.max(includedCount - overrides.length, 0);
   const summaryCards = [
-    makeSummaryCard("From", String(fromSeq)),
-    makeSummaryCard("To", String(toSeq)),
-    makeSummaryCard("Included", String(includedCount)),
-    makeSummaryCard("Default Accept", String(defaultAcceptCount)),
-    makeSummaryCard("Overrides", String(overrides.length)),
+    makeSummaryCard("開始", String(fromSeq)),
+    makeSummaryCard("終了", String(toSeq)),
+    makeSummaryCard("対象", String(includedCount)),
+    makeSummaryCard("既定値を採用", String(defaultAcceptCount)),
+    makeSummaryCard("変更", String(overrides.length)),
   ];
   el.rangeSummary.innerHTML = summaryCards.join("");
 }
@@ -2920,7 +2920,7 @@ function renderItems() {
   const { fromSeq, toSeq } = getEffectiveRange();
   const editable = isEditable();
   const visibleItems = getVisibleItems();
-  el.itemsSummary.textContent = `${visibleItems.length} shown / ${pack.items.length} total item(s)`;
+  el.itemsSummary.textContent = `${pack.items.length}項目中 ${visibleItems.length}項目を表示`;
   el.itemsContainer.innerHTML = "";
 
   let lastDocId = null;
@@ -2959,13 +2959,13 @@ function renderItems() {
 
     const markerBadge = node.querySelector(".marker-badge");
     if (isFrom && isTo) {
-      markerBadge.textContent = "from + to";
+      markerBadge.textContent = "開始・終了";
       markerBadge.classList.remove("hidden");
     } else if (isFrom) {
-      markerBadge.textContent = "from";
+      markerBadge.textContent = "開始";
       markerBadge.classList.remove("hidden");
     } else if (isTo) {
-      markerBadge.textContent = "to";
+      markerBadge.textContent = "終了";
       markerBadge.classList.remove("hidden");
     } else {
       markerBadge.classList.add("hidden");
@@ -2981,10 +2981,10 @@ function renderItems() {
 
     const meta = node.querySelector(".item-meta");
     meta.innerHTML = [
-      ["Surface Forms", (item.surface_forms || []).join(" | ") || "None"],
-      ["Support", `${item.evidence.supporting_observations} obs / ${item.evidence.supporting_batch_count} batch(es)`],
-      ["Oppose", `${item.evidence.opposing_observations} obs / ${item.evidence.opposing_batch_count} batch(es)`],
-      ["Confidence", formatConfidenceCounts(item.evidence.confidence_counts)],
+      ["表記", (item.surface_forms || []).join(" | ") || "なし"],
+      ["支持", `${item.evidence.supporting_observations}件 / ${item.evidence.supporting_batch_count}バッチ`],
+      ["反対", `${item.evidence.opposing_observations}件 / ${item.evidence.opposing_batch_count}バッチ`],
+      ["確信度", formatConfidenceCounts(item.evidence.confidence_counts)],
     ]
       .map(
         ([label, value]) => `
@@ -3010,7 +3010,7 @@ function renderItems() {
     if (noteSamples.length === 0) {
       const li = document.createElement("li");
       li.className = "muted";
-      li.textContent = "No note samples.";
+      li.textContent = "注記の例はありません。";
       notes.append(li);
     } else {
       for (const text of noteSamples) {
@@ -3071,7 +3071,7 @@ function renderDocumentSeparator(item) {
   const separator = document.createElement("div");
   separator.className = "document-separator";
   const left = document.createElement("strong");
-  left.textContent = `Document ${itemDisplayDocSeq(item) || ""}`;
+  left.textContent = `文書 ${itemDisplayDocSeq(item) || ""}`;
   const right = document.createElement("span");
   right.textContent = item.doc_id || "";
   separator.append(left, right);
@@ -3103,8 +3103,8 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   const statusBadge = document.createElement("span");
   statusBadge.className = "badge proposed-badge";
   statusBadge.textContent = item.region_count
-    ? `${item.region_count} region(s)`
-    : item.repair_status || "pending";
+    ? `${item.region_count}か所`
+    : item.repair_status || "処理待ち";
   badges.append(statusBadge);
   if (item.used_web_search) {
     const webBadge = document.createElement("span");
@@ -3115,7 +3115,7 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   if (override?.decision) {
     const overrideBadge = document.createElement("span");
     overrideBadge.className = "badge override-badge";
-    overrideBadge.textContent = "edited";
+    overrideBadge.textContent = "編集済み";
     badges.append(overrideBadge);
   }
   titleWrap.append(titleRow, badges);
@@ -3143,16 +3143,16 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   const details = document.createElement("details");
   details.className = "strong-repair-debug";
   const summary = document.createElement("summary");
-  summary.textContent = "Details";
+  summary.textContent = "詳細";
   details.append(summary);
   const grid = document.createElement("dl");
   grid.className = "strong-repair-grid";
   for (const [label, value] of [
-    ["Text", item.text || ""],
-    ["Rejected", strongRepairRegions(item).map(formatRejectedReadings).join(" | ")],
-    ["Proposal", strongRepairRegions(item).map((region) => formatRepairProposal(region.llm_parsed || [])).join(" | ")],
-    ["Before", item.rendered_yomi_before || ""],
-    ["After", item.rendered_yomi_after || ""],
+    ["原文", item.text || ""],
+    ["却下した読み", strongRepairRegions(item).map(formatRejectedReadings).join(" | ")],
+    ["修正案", strongRepairRegions(item).map((region) => formatRepairProposal(region.llm_parsed || [])).join(" | ")],
+    ["修正前", item.rendered_yomi_before || ""],
+    ["修正後", item.rendered_yomi_after || ""],
   ]) {
     const wrap = document.createElement("div");
     const dt = document.createElement("dt");
@@ -3169,7 +3169,7 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
     const noteLabel = document.createElement("label");
     noteLabel.className = "note-field strong-repair-note";
     const noteTitle = document.createElement("span");
-    noteTitle.textContent = "Note";
+    noteTitle.textContent = "注記";
     const note = document.createElement("textarea");
     note.className = "override-note";
     note.rows = 2;
@@ -3399,7 +3399,7 @@ function renderStrongRepairMappingErrors(errors) {
   return errors.map((message) => {
     const node = document.createElement("span");
     node.className = "strong-repair-mapping-error";
-    node.textContent = "mapping error";
+    node.textContent = "対応付けエラー";
     node.title = message;
     return node;
   });
@@ -3492,7 +3492,7 @@ function renderStrongRepairSpanEditor(item, region, override, editable) {
     const input = document.createElement("input");
     input.type = "text";
     input.value = segment.reading || "";
-    input.placeholder = "reading";
+    input.placeholder = "読み";
     input.addEventListener("input", () => {
       const current = ensureStrongRepairRegionOverride(item.item_id, region.region_id || region.item_id);
       const currentSegments = current.manual_segments?.length
@@ -3535,7 +3535,7 @@ function renderStrongRepairSegmentRuby(item, region, segments, editable) {
     button.type = "button";
     button.className = "strong-repair-segment-token";
     button.disabled = !editable;
-    button.title = editable ? "Cycle reading candidate" : "";
+    button.title = editable ? "読み候補を切り替える" : "";
     if (segment.reading) {
       const ruby = document.createElement("ruby");
       ruby.append(document.createTextNode(segment.surface || ""));
@@ -3627,7 +3627,7 @@ function renderStrongRepairSplitControls(item, region, segments) {
       button.type = "button";
       button.className = "split-toggle";
       button.textContent = indexes.has(boundaryIndex) ? "/" : "=";
-      button.title = "Toggle split";
+      button.title = "区切りを切り替える";
       button.addEventListener("click", () => updateStrongRepairSplit(item, region, boundaryIndex));
       wrap.append(button);
     }
@@ -3657,7 +3657,7 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   const hasUserEditedReadings = previousSegments.some((segment) => segment.edited);
   if (
     hasUserEditedReadings &&
-    !window.confirm("Changing this split will rebuild reading fields for this span. Continue?")
+    !window.confirm("区切りを変更すると、この範囲の読み入力欄が作り直されます。続けますか？")
   ) {
     return;
   }
@@ -4122,14 +4122,14 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   const scopeSelector = document.createElement("div");
   scopeSelector.className = "yomi-scope-selector";
   scopeSelector.setAttribute("role", "group");
-  scopeSelector.setAttribute("aria-label", "Corpus disposition");
+  scopeSelector.setAttribute("aria-label", "コーパスでの扱い");
   const scopeOptions = [
     {
       value: "Skip",
       glyph: "▣",
-      title: skipReason ? `Recoverable skip: ${skipReason}` : "Skip, but allow later restoration",
+      title: skipReason ? `復帰可能なスキップ: ${skipReason}` : "後から復帰可能な状態でスキップします",
     },
-    { value: "Exclude", glyph: "⛨", title: "Permanently exclude sensitive content" },
+    { value: "Exclude", glyph: "⛨", title: "機密性の高い内容を恒久的に除外します" },
   ];
   for (const option of scopeOptions) {
     const button = document.createElement("button");
@@ -4198,12 +4198,12 @@ function setYomiDispositionClasses(node, disposition) {
 function createManualCorrectionFlag({ checked, editable, onChange }) {
   const label = document.createElement("label");
   label.className = "yomi-control yomi-flag yomi-manual-correction-flag";
-  label.title = "Requires later manual correction";
+  label.title = "後で手動修正が必要です";
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.disabled = !editable;
   checkbox.checked = Boolean(checked);
-  checkbox.setAttribute("aria-label", "Requires later manual correction");
+  checkbox.setAttribute("aria-label", "後で手動修正が必要です");
   const glyph = document.createElement("span");
   glyph.className = "control-glyph";
   glyph.setAttribute("aria-hidden", "true");
@@ -4345,8 +4345,8 @@ function renderNumericMergeButton(item, target, digits, side, override, editable
   button.classList.toggle("changed", active);
   button.disabled = !editable;
   button.title = active
-    ? "Numeric merge is active; tap to clear."
-    : "Merge this number with the no-ruby target for Escalated Repair.";
+    ? "数字を結合中です。タップすると解除します。"
+    : "この数字をルビなしの対象と結合して詳細修正に送ります。";
   button.textContent = digits;
   if (editable) {
     button.addEventListener("click", () => toggleNumericMergeSpan(item, span));
@@ -4608,7 +4608,7 @@ function cleanupYomiOverride(itemId) {
 function renderSubmissionPreview() {
   if (!isEditable()) {
     el.submissionPreview.value =
-      "Archived pack. Submission export is disabled for read-only history views.";
+      "過去のパックは閲覧専用のため、レビュー結果を提出できません。";
     renderIssueUrlSummary(null);
     return;
   }
@@ -4677,8 +4677,8 @@ async function openIssueForCurrentTask() {
   state.pendingIssueTaskId = record.task_id;
   showStatus(
     copied
-      ? "Submission JSON copied. Paste it into the GitHub issue body, create the issue, then return here."
-      : "Clipboard copy failed. Copy the selected JSON manually, paste it into the GitHub issue body, create the issue, then return here.",
+      ? "提出用JSONをコピーしました。GitHub Issueの本文に貼り付けてIssueを作成し、この画面に戻ってください。"
+      : "クリップボードへのコピーに失敗しました。選択されたJSONを手動でコピーしてGitHub Issueの本文に貼り付け、Issueを作成してからこの画面に戻ってください。",
     !copied,
   );
 }
@@ -4719,7 +4719,7 @@ function confirmTerminalExclusions(payload) {
     return true;
   }
   if (!window.confirm(
-    `${itemIds.length} sentence(s) will be permanently excluded. Their text and readings will be removed from published data and cannot be restored in Corpus Map. Continue?`,
+    `${itemIds.length}文を恒久的に除外します。原文と読みは公開データから削除され、コーパスマップから復帰できなくなります。続けますか？`,
   )) {
     return false;
   }
@@ -4818,13 +4818,13 @@ function showIssueReturnModal() {
   const archiveCorrection = Boolean(state.pendingArchiveCorrectionKey);
   if (el.issueReturnTitle) {
     el.issueReturnTitle.textContent = archiveCorrection
-      ? "Did you create the correction issue?"
-      : "Did you create the GitHub issue?";
+      ? "修正用Issueを作成しましたか？"
+      : "GitHub Issueを作成しましたか？";
   }
   if (el.issueReturnDescription) {
     el.issueReturnDescription.textContent = archiveCorrection
-      ? "If you pasted the correction JSON and created the issue, mark it submitted. Otherwise, keep the local draft."
-      : "If you pasted the copied JSON and created the issue, mark this task submitted. If not, keep working locally.";
+      ? "修正用JSONを貼り付けてIssueを作成した場合は、提出済みにしてください。まだの場合はローカルの修正案を残します。"
+      : "コピーしたJSONを貼り付けてIssueを作成した場合は、このタスクを提出済みにしてください。まだの場合はローカル作業を続けられます。";
   }
   el.issueReturnModal?.classList.remove("hidden");
   updateRuntimePollingForInteraction();
@@ -4879,12 +4879,12 @@ function renderIssueUrlSummary(urls, payload = null) {
     return;
   }
   if (!urls) {
-    el.issueUrlSummary.textContent = "Issue export is disabled for read-only history views.";
+    el.issueUrlSummary.textContent = "過去のパックは閲覧専用のため、Issueを作成できません。";
     return;
   }
   const jsonLength = payload ? formatSubmissionJson(payload).length : 0;
   el.issueUrlSummary.textContent =
-    `Issue URL: ${urls.issue.length} chars. The primary button copies ${jsonLength} chars of JSON and opens GitHub.`;
+    `Issue URL: ${urls.issue.length}文字。メインボタンで${jsonLength}文字のJSONをコピーしてGitHubを開きます。`;
 }
 
 function buildSubmissionPayload() {
@@ -5782,7 +5782,7 @@ function formatTaskOverlapMessage(overlap) {
     .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
     .filter((seq) => Number.isInteger(seq));
   const label = overlap?.record?.task_label || overlap?.record?.task_id || "another local task";
-  const docsText = docSeqs.length ? `Docs ${formatDocSeqs(docSeqs)}` : "Selected documents";
+  const docsText = docSeqs.length ? `文書 ${formatDocSeqs(docSeqs)}` : "選択した文書";
   return `${docsText} already belong to ${label}. Resume or reopen that task first.`;
 }
 
@@ -5799,7 +5799,7 @@ function allocateTaskIdentity() {
   state.currentDraft.next_task_number = number + 1;
   return {
     task_id: `task_${number}`,
-    task_label: `Task ${number}`,
+    task_label: `タスク ${number}`,
     task_number: number,
   };
 }
@@ -6096,13 +6096,13 @@ function setDocumentRangeBoundary(docId, side) {
 function startReviewTask() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   if (task.doc_ids.length === 0) {
-    showStatus("Select at least one document before starting a task.", true);
+    showStatus("タスクを開始する前に一つ以上の文書を選択してください。", true);
     return;
   }
   const matchingDraft = findSavedTaskDraftByDocIds(task.doc_ids);
   if (matchingDraft) {
     resumeTaskDraft(matchingDraft.task_id);
-    showStatus(`Returned to ${matchingDraft.task_label || "deferred task"}.`);
+    showStatus(`${matchingDraft.task_label || "保留中のタスク"}に戻りました。`);
     return;
   }
   const overlap = findSavedTaskDraftOverlap(task.doc_ids);
@@ -6147,7 +6147,7 @@ function deferCurrentTask() {
   state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
   clearActiveTaskState();
   touchDraft();
-  showStatus(`${record.task_label || "Task"} deferred locally.`);
+  showStatus(`${record.task_label || "タスク"}をローカルで保留しました。`);
   render();
 }
 
@@ -6158,7 +6158,7 @@ function completeCurrentTask() {
   }
   if (
     !window.confirm(
-      "Mark this local task submitted? Use the copy-and-open issue action first unless you already created the GitHub issue.",
+      "このローカルタスクを提出済みにしますか？ GitHub Issueをすでに作成している場合を除き、先に「JSONをコピーしてIssueを開く」を実行してください。",
     )
   ) {
     return;
@@ -6171,7 +6171,7 @@ function completeCurrentTask() {
   };
   clearActiveTaskState();
   touchDraft();
-  showStatus(`${record.task_label || "Task"} marked submitted locally. Waiting for server-side issue import.`);
+  showStatus(`${record.task_label || "タスク"}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render();
 }
 
@@ -6180,7 +6180,7 @@ function resumeTaskDraft(taskId) {
   if (!record) {
     delete state.currentDraft.saved_tasks?.[taskId];
     touchDraft();
-    showStatus("That local task no longer applies to the current review stage.", true);
+    showStatus("そのローカルタスクは現在のレビューステージには適用できません。", true);
     render();
     return;
   }
@@ -6209,7 +6209,7 @@ function markSavedTaskSubmitted(taskId) {
     clearActiveTaskState();
   }
   touchDraft();
-  showStatus(`${record.task_label || "Task"} marked submitted locally. Waiting for server-side issue import.`);
+  showStatus(`${record.task_label || "タスク"}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render();
 }
 
@@ -6284,7 +6284,7 @@ function normalizeReviewDraft(parsed, pack) {
     maxTaskNumber = Math.max(maxTaskNumber, taskNumber);
     draft.saved_tasks[taskId] = {
       task_id: taskId,
-      task_label: rawRecord?.task_label || (taskNumber ? `Task ${taskNumber}` : taskId),
+      task_label: rawRecord?.task_label || (taskNumber ? `タスク ${taskNumber}` : taskId),
       task_number: taskNumber || null,
       status: rawRecord?.status === "submitted" ? "submitted" : "deferred",
       task: { ...task, started: false },
@@ -6365,14 +6365,14 @@ function normalizeUiMode(mode) {
 function formatConfidenceCounts(counts) {
   const entries = Object.entries(counts || {});
   if (entries.length === 0) {
-    return "None";
+    return "なし";
   }
   return entries.map(([key, value]) => `${key}:${value}`).join(", ");
 }
 
 function formatDate(epochSeconds) {
   if (!epochSeconds) {
-    return "Unknown";
+    return "不明";
   }
   return new Date(epochSeconds * 1000).toLocaleString();
 }
@@ -6425,7 +6425,7 @@ async function pollRuntimeStatus() {
     renderRuntimeStatus();
     if (previousRevision > 0 && nextRevision > previousRevision) {
       if (isTaskStarted()) {
-        el.serverUpdateMessage.textContent = "Server state updated while this task was open. Your local work is preserved.";
+        el.serverUpdateMessage.textContent = "作業中にサーバー側の状態が更新されました。ローカル作業は保存されています。";
         el.serverUpdateBanner.classList.remove("hidden");
       } else {
         window.location.reload();
@@ -6522,18 +6522,18 @@ function renderRuntimeStatus() {
     return;
   }
   const labels = {
-    idle: "idle",
-    waiting_for_review: "waiting for review",
-    running: "sync running",
-    error: "sync error",
+    idle: "待機中",
+    waiting_for_review: "レビュー待ち",
+    running: "同期中",
+    error: "同期エラー",
   };
-  const parts = [`Server: ${labels[status.status] || status.status || "unknown"}`];
+  const parts = [`サーバー: ${labels[status.status] || status.status || "不明"}`];
   if (status.last_successful_sync_epoch) {
-    parts.push(`last synced ${formatDate(status.last_successful_sync_epoch)}`);
+    parts.push(`最終同期 ${formatDate(status.last_successful_sync_epoch)}`);
   }
   const nextExpected = nextExpectedRuntimeEpoch(status);
   if (nextExpected) {
-    parts.push(`next check expected ${formatDate(nextExpected)}`);
+    parts.push(`次回確認予定 ${formatDate(nextExpected)}`);
   }
   el.runtimeStatusLine.textContent = parts.join(" · ");
   el.runtimeStatusLine.classList.remove("hidden");
