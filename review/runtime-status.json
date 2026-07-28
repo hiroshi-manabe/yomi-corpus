@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1855,
-  "generated_at": "2026-07-28T05:47:22Z",
-  "generated_at_epoch": 1785217642,
-  "last_successful_sync": "2026-07-28T04:10:07Z",
-  "last_successful_sync_epoch": 1785211807,
-  "status": "error",
+  "state_revision": 1857,
+  "generated_at": "2026-07-28T05:57:28Z",
+  "generated_at_epoch": 1785218248,
+  "last_successful_sync": "2026-07-28T05:57:28Z",
+  "last_successful_sync_epoch": 1785218248,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1785216969,
     "interval_seconds": 300,
@@ -14,32 +14,32 @@
     "next_expected_epoch": 1785217269
   },
   "state": {
-    "current_batch_name": "dev_batch_0026",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
-    "active_queue_count": 50,
+    "current_batch_name": "dev_batch_0027",
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
+    "active_queue_count": 23,
     "queue_counts": {
-      "bulk_review_selectable": 50,
+      "bulk_review_selectable": 20,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 0,
+      "escalated_repair_selectable": 3,
       "escalated_repair_submitted": 0,
-      "resolved": 10
+      "resolved": 17
     },
     "pool_counts": {
-      "bulk-ready": 50,
+      "bulk-ready": 20,
       "bulk-submitted": 0,
-      "escalated-ready": 0,
+      "escalated-ready": 3,
       "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 10,
+      "resolved": 17,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000180:u0003 token 2 '一'/'' is structurally invalid: kanji or alphabetic surfaces need a kana reading",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1785217642,
-    "completed_at_epoch": 1785217642,
-    "drift_seconds": 73
+    "started_at_epoch": 1785218138,
+    "completed_at_epoch": 1785218248,
+    "drift_seconds": 31
   },
   "client_polling": {
     "normal_seconds": 60,

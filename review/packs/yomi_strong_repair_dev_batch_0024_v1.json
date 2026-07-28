@@ -1,0 +1,1777 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0024_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0024",
+  "created_at_epoch": 1785218097,
+  "created_at": "2026-07-28T05:54:57Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000204",
+      "doc_seq": 1,
+      "track_doc_seq": 204,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 204,
+      "preview": "電気代、ガソリン代、乳製品など物価上昇はほぼ全国一律で起きる。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000205",
+      "doc_seq": 2,
+      "track_doc_seq": 205,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 205,
+      "preview": "とても欲しい本があるのだけど近所の本屋にはどこも売っておらず、ネット通販も届くまで二週間はかかるとの事で、最終手段として近所で一番大規模な駅前の本屋に問い合わせて取り寄せてもらう事にしました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-28T05:57:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000206",
+      "doc_seq": 3,
+      "track_doc_seq": 206,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 206,
+      "preview": "おそうじ本舗広島大町店の藤原です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000207",
+      "doc_seq": 4,
+      "track_doc_seq": 207,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 207,
+      "preview": "点検整備済ステッカーを剥がす方法を紹介します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000208",
+      "doc_seq": 5,
+      "track_doc_seq": 208,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 208,
+      "preview": "紹介してくださるのです！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000209",
+      "doc_seq": 6,
+      "track_doc_seq": 209,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 209,
+      "preview": "先日「アスリートの皆さんへ」の記事の中で呼びかけさせていただいた『スペシャルウォーク』（ノルディックウォーク体験会）を希望が丘文化公園にて実施しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000210",
+      "doc_seq": 7,
+      "track_doc_seq": 210,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 210,
+      "preview": "ごめん、ようやく戻れた。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-28T05:57:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000211",
+      "doc_seq": 8,
+      "track_doc_seq": 211,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 211,
+      "preview": "遠隔での生存確認システムです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000212",
+      "doc_seq": 9,
+      "track_doc_seq": 212,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 212,
+      "preview": "いかがお過ごしでしょうか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000213",
+      "doc_seq": 10,
+      "track_doc_seq": 213,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 213,
+      "preview": "目の前に起こっている出来事、自分と直接関わり合いがあるかないか、そんなこと問題ではありません。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-28T05:53:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000205:u0005::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000205",
+      "doc_seq": 2,
+      "track_doc_seq": 205,
+      "unit_id": "ja_cc_level2:0000000205:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 205,
+      "text": "ゴールまでペン先を辿らせる側ではなく、自身が紙の上に迷路を描いていく側です、複雑だけど絶対ゴールまでつながっている正確性を持っている迷路を描く事が趣味と化しています。",
+      "rendered_yomi_before": "ゴール/ゴール まで/マデ ペン先/ペンサキ を/ヲ 辿ら/タドラ せる/セル 側/ガワ で/デ は/ハ なく/ナク 、/、 自身/ジシン が/ガ 紙/カミ の/ノ 上/ウエ に/ニ 迷路/メイロ を/ヲ 描い/エガイ て/テ いく/イク 側/ガワ です/デス 、/、 複雑/フクザツ だ/ダ けど/ケド 絶対/ゼッタイ ゴール/ゴール まで/マデ つながっ/ツナガッ て/テ いる/イル 正確性/セイカクセイ を/ヲ 持っ/モッ て/テ いる/イル 迷路/メイロ を/ヲ 描く/エガク 事/コト が/ガ 趣味/シュミ と/ト 化し/カシ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "ゴール/ゴール まで/マデ ペン先/ペンサキ を/ヲ 辿ら/タドラ せる/セル 側/ガワ で/デ は/ハ なく/ナク 、/、 自身/ジシン が/ガ 紙/カミ の/ノ 上/ウエ に/ニ 迷路/メイロ を/ヲ 描い/エガイ て/テ いく/イク 側/ガワ です/デス 、/、 複雑/フクザツ だ/ダ けど/ケド 絶対/ゼッタイ ゴール/ゴール まで/マデ つながっ/ツナガッ て/テ いる/イル 正確性/セイカクセイ を/ヲ 持っ/モッ て/テ いる/イル 迷路/メイロ を/ヲ 描く/エガク 事/コト が/ガ 趣味/シュミ と/ト 化し/カシ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ゴール",
+          "ゴール"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "ペン先",
+          "ペンサキ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "辿ら",
+          "タドラ"
+        ],
+        [
+          "せる",
+          "セル"
+        ],
+        [
+          "側",
+          "ガワ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "なく",
+          "ナク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "自身",
+          "ジシン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "紙",
+          "カミ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "上",
+          "ウエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "迷路",
+          "メイロ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "描い",
+          "エガイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いく",
+          "イク"
+        ],
+        [
+          "側",
+          "ガワ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "複雑",
+          "フクザツ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "けど",
+          "ケド"
+        ],
+        [
+          "絶対",
+          "ゼッタイ"
+        ],
+        [
+          "ゴール",
+          "ゴール"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "つながっ",
+          "ツナガッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "正確性",
+          "セイカクセイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "持っ",
+          "モッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "迷路",
+          "メイロ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "描く",
+          "エガク"
+        ],
+        [
+          "事",
+          "コト"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "趣味",
+          "シュミ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "化し",
+          "カシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ゴール",
+          "reading": "ゴール",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゴール"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "ペン先",
+          "reading": "ペンサキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ペン"
+            },
+            {
+              "type": "ruby",
+              "text": "先",
+              "reading": "さき"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "辿ら",
+          "reading": "タドラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "辿",
+              "reading": "たど"
+            },
+            {
+              "type": "text",
+              "text": "ら"
+            }
+          ]
+        },
+        {
+          "surface": "せる",
+          "reading": "セル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "せる"
+            }
+          ]
+        },
+        {
+          "surface": "側",
+          "reading": "ガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "側",
+              "reading": "がわ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "なく",
+          "reading": "ナク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "自身",
+          "reading": "ジシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自身",
+              "reading": "じしん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "紙",
+          "reading": "カミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紙",
+              "reading": "かみ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "上",
+          "reading": "ウエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "うえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "迷路",
+          "reading": "メイロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "迷路",
+              "reading": "めいろ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "描い",
+          "reading": "エガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "描",
+              "reading": "えが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いく",
+          "reading": "イク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いく"
+            }
+          ]
+        },
+        {
+          "surface": "側",
+          "reading": "ガワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "側",
+              "reading": "がわ"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "複雑",
+          "reading": "フクザツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "複雑",
+              "reading": "ふくざつ"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "けど",
+          "reading": "ケド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "けど"
+            }
+          ]
+        },
+        {
+          "surface": "絶対",
+          "reading": "ゼッタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "絶対",
+              "reading": "ぜったい"
+            }
+          ]
+        },
+        {
+          "surface": "ゴール",
+          "reading": "ゴール",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ゴール"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "つながっ",
+          "reading": "ツナガッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つながっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "正確性",
+          "reading": "セイカクセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "正確性",
+              "reading": "せいかくせい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "持っ",
+          "reading": "モッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "持",
+              "reading": "も"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "迷路",
+          "reading": "メイロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "迷路",
+              "reading": "めいろ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "描く",
+          "reading": "エガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "描",
+              "reading": "えが"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "事",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事",
+              "reading": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "趣味",
+          "reading": "シュミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "趣味",
+              "reading": "しゅみ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "化し",
+          "reading": "カシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "化",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000000205:u0005",
+          "text": "ゴールまでペン先を辿らせる側ではなく、自身が紙の上に迷路を描いていく側です、複雑だけど絶対ゴールまでつながっている正確性を持っている迷路を描く事が趣味と化しています。",
+          "rendered_yomi_before": "ゴール/ゴール まで/マデ ペン先/ペンサキ を/ヲ 辿ら/タドラ せる/セル 側/ガワ で/デ は/ハ なく/ナク 、/、 自身/ジシン が/ガ 紙/カミ の/ノ 上/ウエ に/ニ 迷路/メイロ を/ヲ 描い/エガイ て/テ いく/イク 側/ガワ です/デス 、/、 複雑/フクザツ だ/ダ けど/ケド 絶対/ゼッタイ ゴール/ゴール まで/マデ つながっ/ツナガッ て/テ いる/イル 正確性/セイカクセイ を/ヲ 持っ/モッ て/テ いる/イル 迷路/メイロ を/ヲ 描く/エガク 事/コト が/ガ 趣味/シュミ と/ト 化し/カシ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "ゴール/ゴール まで/マデ ペン先/ペンサキ を/ヲ 辿ら/タドラ せる/セル 側/ガワ で/デ は/ハ なく/ナク 、/、 自身/ジシン が/ガ 紙/カミ の/ノ 上/ウエ に/ニ 迷路/メイロ を/ヲ 描い/エガイ て/テ いく/イク 側/ガワ です/デス 、/、 複雑/フクザツ だ/ダ けど/ケド 絶対/ゼッタイ ゴール/ゴール まで/マデ つながっ/ツナガッ て/テ いる/イル 正確性/セイカクセイ を/ヲ 持っ/モッ て/テ いる/イル 迷路/メイロ を/ヲ 描く/エガク 事/コト が/ガ 趣味/シュミ と/ト 化し/カシ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 19,
+            "end": 20,
+            "char_start": 29,
+            "char_end": 31,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000205:u0005:s0030-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "描い",
+              "token_surface": "描い",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "えがい",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "描い",
+                  "reading": "えがい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000205:u0005:s0030-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "描い",
+              "token_surface": "描い",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "えがい",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "描い",
+                  "reading": "えがい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "描い",
+          "reading_candidates": {
+            "描い": [
+              "えがい"
+            ]
+          },
+          "reading_hints": {
+            "描い": "えがい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "描い",
+              "reading": "えがい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"描い\",\"reading\":\"えがい\",\"used_web_search\":false,\"comment\":\"『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "描い",
+              "reading": "えがい",
+              "used_web_search": false,
+              "comment": "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。"
+            }
+          ],
+          "llm_comments": [
+            "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "描い",
+            "reading": "エガイ",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+                "surface": "描い",
+                "comment": "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "描い",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000205:u0005:s0030-0031",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "描い",
+          "token_surface": "描い",
+          "token_index": 19,
+          "chunk_index": 0,
+          "current_reading_hiragana": "えがい",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "描い",
+              "reading": "えがい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "描い",
+          "reading": "えがい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "描い": [
+          "えがい"
+        ]
+      },
+      "reading_hints": {
+        "描い": "えがい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "描い",
+          "reading": "えがい",
+          "used_web_search": false,
+          "comment": "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"描い\",\"reading\":\"えがい\",\"used_web_search\":false,\"comment\":\"『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。\"}]",
+      "llm_comments": [
+        "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "reused_rejected_reading",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+        "status": "reused_rejected_reading",
+        "reason": "replacement reused rejected reading",
+        "surface": "描い",
+        "reading": "エガイ",
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000205:u0005::target_group:1",
+            "surface": "描い",
+            "comment": "『描く』の連用形。ここは『迷路を描いていく』なので読みは『えがい』が自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000210:u0019::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000210",
+      "doc_seq": 7,
+      "track_doc_seq": 210,
+      "unit_id": "ja_cc_level2:0000000210:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 210,
+      "text": "ナタリー殿狂狼以前にトルテ狼の線は薄いということか。",
+      "rendered_yomi_before": "ナタリー/ナタリー 殿/ドノ 狂/キョウ 狼/オオカミ 以前/イゼン に/ニ トルテ/トルテ 狼/オオカミ の/ノ 線/セン は/ハ 薄い/ウスイ と/ト いう/イウ こと/コト か/カ 。/。",
+      "rendered_yomi_after": "ナタリー/ナタリー 殿/ドノ 狂狼/キョウロウ 以前/イゼン に/ニ トルテ/トルテ 狼/オオカミ の/ノ 線/セン は/ハ 薄い/ウスイ と/ト いう/イウ こと/コト か/カ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ナタリー",
+          "ナタリー"
+        ],
+        [
+          "殿",
+          "ドノ"
+        ],
+        [
+          "狂狼",
+          "キョウロウ"
+        ],
+        [
+          "以前",
+          "イゼン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "トルテ",
+          "トルテ"
+        ],
+        [
+          "狼",
+          "オオカミ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "線",
+          "セン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "薄い",
+          "ウスイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ナタリー",
+          "reading": "ナタリー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ナタリー"
+            }
+          ]
+        },
+        {
+          "surface": "殿",
+          "reading": "ドノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "殿",
+              "reading": "どの"
+            }
+          ]
+        },
+        {
+          "surface": "狂狼",
+          "reading": "キョウロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "狂狼",
+              "reading": "きょうろう"
+            }
+          ]
+        },
+        {
+          "surface": "以前",
+          "reading": "イゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "以前",
+              "reading": "いぜん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "トルテ",
+          "reading": "トルテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "トルテ"
+            }
+          ]
+        },
+        {
+          "surface": "狼",
+          "reading": "オオカミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "狼",
+              "reading": "おおかみ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "線",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "線",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "薄い",
+          "reading": "ウスイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "薄",
+              "reading": "うす"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+          "item_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+          "unit_id": "ja_cc_level2:0000000210:u0019",
+          "text": "ナタリー殿狂狼以前にトルテ狼の線は薄いということか。",
+          "rendered_yomi_before": "ナタリー/ナタリー 殿/ドノ 狂/キョウ 狼/オオカミ 以前/イゼン に/ニ トルテ/トルテ 狼/オオカミ の/ノ 線/セン は/ハ 薄い/ウスイ と/ト いう/イウ こと/コト か/カ 。/。",
+          "rendered_yomi_after": "ナタリー/ナタリー 殿/ドノ 狂狼/キョウロウ 以前/イゼン に/ニ トルテ/トルテ 狼/オオカミ の/ノ 線/セン は/ハ 薄い/ウスイ と/ト いう/イウ こと/コト か/カ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 5,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000210:u0019:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狂",
+              "token_surface": "狂",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "狂",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000210:u0019:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狼",
+              "token_surface": "狼",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおかみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "狼",
+                  "reading": "おおかみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000210:u0019:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狂",
+              "token_surface": "狂",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "狂",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000210:u0019:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狼",
+              "token_surface": "狼",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおかみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "狼",
+                  "reading": "おおかみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "狂狼",
+          "reading_candidates": {
+            "狂": [
+              "きょう"
+            ],
+            "狼": [
+              "おいの",
+              "おおかみ",
+              "ろう"
+            ]
+          },
+          "reading_hints": {
+            "狂": "きょう",
+            "狼": "おいの"
+          },
+          "rejected_readings": [
+            {
+              "surface": "狂",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "狼",
+              "reading": "おおかみ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"狂狼\",\"reading\":\"キョウロウ\",\"used_web_search\":false,\"comment\":\"Compound reading fits the context; 狼 is read ろう here rather than おおかみ.\"}]",
+          "llm_parsed": [
+            {
+              "surface": "狂狼",
+              "reading": "キョウロウ",
+              "used_web_search": false,
+              "comment": "Compound reading fits the context; 狼 is read ろう here rather than おおかみ."
+            }
+          ],
+          "llm_comments": [
+            "Compound reading fits the context; 狼 is read ろう here rather than おおかみ."
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "狂狼",
+            "replacement": [
+              {
+                "surface": "狂狼",
+                "reading": "キョウロウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+                "surface": "狂狼",
+                "comment": "Compound reading fits the context; 狼 is read ろう here rather than おおかみ.",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "狂狼",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000210:u0019:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "狂",
+          "token_surface": "狂",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きょう",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "狂",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000210:u0019:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "狼",
+          "token_surface": "狼",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "おおかみ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "狼",
+              "reading": "おおかみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "狂",
+          "reading": "きょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "狼",
+          "reading": "おおかみ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "狂": [
+          "きょう"
+        ],
+        "狼": [
+          "おいの",
+          "おおかみ",
+          "ろう"
+        ]
+      },
+      "reading_hints": {
+        "狂": "きょう",
+        "狼": "おいの"
+      },
+      "llm_parsed": [
+        {
+          "surface": "狂狼",
+          "reading": "キョウロウ",
+          "used_web_search": false,
+          "comment": "Compound reading fits the context; 狼 is read ろう here rather than おおかみ."
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"狂狼\",\"reading\":\"キョウロウ\",\"used_web_search\":false,\"comment\":\"Compound reading fits the context; 狼 is read ろう here rather than おおかみ.\"}]",
+      "llm_comments": [
+        "Compound reading fits the context; 狼 is read ろう here rather than おおかみ."
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "狂狼",
+        "replacement": [
+          {
+            "surface": "狂狼",
+            "reading": "キョウロウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000210:u0019::target_group:1",
+            "surface": "狂狼",
+            "comment": "Compound reading fits the context; 狼 is read ろう here rather than おおかみ.",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
