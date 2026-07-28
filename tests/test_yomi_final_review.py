@@ -42,6 +42,89 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_review_item_derives_alternate_inflected_dictionary_reading(self) -> None:
+        unit = {
+            "unit_id": "u-draw",
+            "doc_id": "d-draw",
+            "text": "で描いて",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "で/デ 描い/エガイ て/テ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "で",
+                                    "pos": "助詞,格助詞,*,*,*,*",
+                                    "dictionary_form": "で",
+                                    "reading": "デ",
+                                },
+                                {
+                                    "surface": "描い",
+                                    "pos": "動詞,一般,*,*,五段-カ行,連用形-イ音便",
+                                    "dictionary_form": "描く",
+                                    "reading": "エガイ",
+                                },
+                                {
+                                    "surface": "て",
+                                    "pos": "助詞,接続助詞,*,*,*,*",
+                                    "dictionary_form": "て",
+                                    "reading": "テ",
+                                },
+                            ]
+                        },
+                    }
+                },
+                "safety": {
+                    "yomi": {
+                        "targets": [
+                            {
+                                "item_id": "u-draw:r0001c01",
+                                "surface": "描",
+                                "token_surface": "描い",
+                                "target_start": 1,
+                                "target_end": 2,
+                                # Numeric regrouping can leave this index stale.
+                                "token_index": 0,
+                                "chunk_index": 0,
+                                "current_reading": "エガ",
+                                "current_reading_hiragana": "えが",
+                                "is_safe": True,
+                                "review_status": "safe",
+                                "highlight_level": "none",
+                                "accepted_signal_names": [],
+                                "signals": [],
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+
+        with patch(
+            "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+            return_value={
+                "描い": ("えがい",),
+                "描く": ("えがく", "かく"),
+            },
+        ):
+            item = build_review_item(unit, seq=1, doc_seq=1, track_doc_seq=1)
+
+        span = item["interaction_spans"][0]
+        self.assertEqual(span["surface"], "描い")
+        self.assertEqual(
+            [candidate["reading"] for candidate in span["candidates"]],
+            ["えがい", "かい", None],
+        )
+        alternate = span["candidates"][1]
+        self.assertEqual(
+            alternate["ruby_nodes"],
+            [
+                {"type": "ruby", "text": "描", "reading": "か"},
+                {"type": "text", "text": "い"},
+            ],
+        )
+
     def test_materialize_review_units_restores_scope_skips_in_source_order(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

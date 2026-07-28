@@ -889,10 +889,14 @@ def build_review_item(
         targets = fallback_review_targets_for_scoped_unit(unit)
     review_targets = [
         build_review_target(
-            normalize_parenthesized_laughter_target(
-                target,
+            with_sudachi_token_metadata(
+                normalize_parenthesized_laughter_target(
+                    target,
+                    text=text,
+                    rendered_yomi=rendered_yomi,
+                ),
+                yomi=yomi,
                 text=text,
-                rendered_yomi=rendered_yomi,
             )
         )
         for target in targets
@@ -990,6 +994,56 @@ def fallback_review_targets_for_scoped_unit(unit: dict[str, Any]) -> list[dict[s
             }
         )
     return targets
+
+
+def with_sudachi_token_metadata(
+    target: dict[str, Any],
+    *,
+    yomi: dict[str, Any],
+    text: str,
+) -> dict[str, Any]:
+    token_index = target.get("token_index")
+    sudachi = yomi.get("sudachi")
+    sudachi_tokens = sudachi.get("tokens", []) if isinstance(sudachi, dict) else []
+    if not isinstance(sudachi_tokens, list):
+        return target
+    token_surface = str(target.get("token_surface") or "")
+    token = None
+    if isinstance(token_index, int) and 0 <= token_index < len(sudachi_tokens):
+        indexed_token = sudachi_tokens[token_index]
+        if (
+            isinstance(indexed_token, dict)
+            and indexed_token.get("surface") == token_surface
+        ):
+            token = indexed_token
+    if token is None:
+        target_start = target.get("target_start")
+        cursor = 0
+        for candidate in sudachi_tokens:
+            if not isinstance(candidate, dict):
+                continue
+            surface = str(candidate.get("surface") or "")
+            if not surface:
+                continue
+            start = text.find(surface, cursor)
+            if start < 0:
+                continue
+            cursor = start + len(surface)
+            if (
+                surface == token_surface
+                and isinstance(target_start, int)
+                and start == target_start
+            ):
+                token = candidate
+                break
+    if not isinstance(token, dict):
+        return target
+    return {
+        **target,
+        "token_dictionary_form": token.get("dictionary_form"),
+        "token_sudachi_reading": token.get("reading"),
+        "token_pos": token.get("pos"),
+    }
 
 
 def build_numeric_compound_review_targets(
@@ -1102,6 +1156,9 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "chunk_index": target.get("chunk_index"),
         "current_reading": target.get("current_reading"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
+        "token_dictionary_form": target.get("token_dictionary_form"),
+        "token_sudachi_reading": target.get("token_sudachi_reading"),
+        "token_pos": target.get("token_pos"),
         "is_safe": bool(target.get("is_safe")),
         "review_status": target.get("review_status"),
         "highlight_level": target.get("highlight_level"),
@@ -1625,12 +1682,90 @@ def final_review_dictionary_readings(target: dict[str, Any]) -> tuple[str, ...]:
     inventory = load_final_review_surface_readings()
     readings = list(inventory.get(surface, ()))
     token_surface = str(target.get("token_surface") or "")
-    if token_surface and token_surface != surface:
-        for token_reading in inventory.get(token_surface, ()):
-            projected = project_token_reading_to_target(target, token_reading)
-            if projected and projected not in readings:
-                readings.append(projected)
+    if token_surface:
+        token_readings = list(inventory.get(token_surface, ()))
+        for reading in inflected_token_dictionary_readings(target, inventory=inventory):
+            if reading not in token_readings:
+                token_readings.append(reading)
+        if token_surface == surface:
+            for reading in token_readings:
+                if reading not in readings:
+                    readings.append(reading)
+        else:
+            for token_reading in token_readings:
+                projected = project_token_reading_to_target(target, token_reading)
+                if projected and projected not in readings:
+                    readings.append(projected)
     return tuple(readings)
+
+
+def inflected_token_dictionary_readings(
+    target: dict[str, Any],
+    *,
+    inventory: dict[str, tuple[str, ...]],
+) -> tuple[str, ...]:
+    token_surface = str(target.get("token_surface") or "")
+    dictionary_form = str(target.get("token_dictionary_form") or "")
+    raw_token_reading = target.get("token_sudachi_reading")
+    token_reading = (
+        normalize_hiragana_reading(raw_token_reading)
+        if isinstance(raw_token_reading, str)
+        else ""
+    )
+    token_pos = str(target.get("token_pos") or "")
+    if (
+        not token_surface
+        or not dictionary_form
+        or token_surface == dictionary_form
+        or not token_reading
+        or not token_pos.startswith("動詞,")
+    ):
+        return ()
+    lemma_readings = inventory.get(dictionary_form, ())
+    if len(lemma_readings) < 2:
+        return ()
+
+    scored = [
+        (common_prefix_length(token_reading, lemma_reading), lemma_reading)
+        for lemma_reading in lemma_readings
+    ]
+    best_prefix_length = max((score for score, _reading in scored), default=0)
+    if best_prefix_length < 1:
+        return ()
+
+    derived: list[str] = []
+    for score, source_lemma_reading in scored:
+        if score != best_prefix_length:
+            continue
+        lemma_suffix = source_lemma_reading[score:]
+        inflected_suffix = token_reading[score:]
+        if not lemma_suffix or not inflected_suffix:
+            continue
+        if len(lemma_suffix) > 2 or len(inflected_suffix) > 3:
+            continue
+        for alternate_lemma_reading in lemma_readings:
+            if not alternate_lemma_reading.endswith(lemma_suffix):
+                continue
+            stem = alternate_lemma_reading[: -len(lemma_suffix)]
+            if not stem:
+                continue
+            candidate = stem + inflected_suffix
+            if (
+                candidate != token_reading
+                and is_valid_yomi_reading(candidate)
+                and candidate not in derived
+            ):
+                derived.append(candidate)
+    return tuple(derived)
+
+
+def common_prefix_length(left: str, right: str) -> int:
+    length = 0
+    for left_char, right_char in zip(left, right):
+        if left_char != right_char:
+            break
+        length += 1
+    return length
 
 
 def project_token_reading_to_target(target: dict[str, Any], reading: object) -> str | None:
