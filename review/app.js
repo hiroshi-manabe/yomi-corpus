@@ -2644,7 +2644,7 @@ function workflowStatusGlyph(status) {
     return "!";
   }
   if (status === "final") {
-    return "B";
+    return "一";
   }
   return "–";
 }
@@ -5781,7 +5781,9 @@ function formatTaskOverlapMessage(overlap) {
   const docSeqs = (overlap?.overlap || [])
     .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
     .filter((seq) => Number.isInteger(seq));
-  const label = overlap?.record?.task_label || overlap?.record?.task_id || "別のローカルタスク";
+  const label = localizedTaskLabel(
+    overlap?.record?.task_label || overlap?.record?.task_id || "別のローカルタスク",
+  );
   const docsText = docSeqs.length ? `文書 ${formatDocSeqs(docSeqs)}` : "選択した文書";
   return `${docsText}はすでに${label}に含まれています。先にそのタスクを再開してください。`;
 }
@@ -6102,7 +6104,7 @@ function startReviewTask() {
   const matchingDraft = findSavedTaskDraftByDocIds(task.doc_ids);
   if (matchingDraft) {
     resumeTaskDraft(matchingDraft.task_id);
-    showStatus(`${matchingDraft.task_label || "保留中のタスク"}に戻りました。`);
+    showStatus(`${localizedTaskLabel(matchingDraft.task_label || "保留中のタスク")}に戻りました。`);
     return;
   }
   const overlap = findSavedTaskDraftOverlap(task.doc_ids);
@@ -6147,7 +6149,7 @@ function deferCurrentTask() {
   state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
   clearActiveTaskState();
   touchDraft();
-  showStatus(`${record.task_label || "タスク"}をローカルで保留しました。`);
+  showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで保留しました。`);
   render();
 }
 
@@ -6171,7 +6173,7 @@ function completeCurrentTask() {
   };
   clearActiveTaskState();
   touchDraft();
-  showStatus(`${record.task_label || "タスク"}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
+  showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render();
 }
 
@@ -6209,7 +6211,7 @@ function markSavedTaskSubmitted(taskId) {
     clearActiveTaskState();
   }
   touchDraft();
-  showStatus(`${record.task_label || "タスク"}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
+  showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render();
 }
 
@@ -6407,7 +6409,7 @@ function formatDate(epochSeconds) {
   if (!epochSeconds) {
     return "不明";
   }
-  return new Date(epochSeconds * 1000).toLocaleString();
+  return new Date(epochSeconds * 1000).toLocaleString("ja-JP");
 }
 
 function showStatus(message, isError = false) {
