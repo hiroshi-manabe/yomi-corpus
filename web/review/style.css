@@ -1728,6 +1728,13 @@ button:disabled {
   cursor: pointer;
 }
 
+.ruby-token:not(:disabled) {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
 .ruby-token:disabled {
   border-color: transparent;
   background: transparent;

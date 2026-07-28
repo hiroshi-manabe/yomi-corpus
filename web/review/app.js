@@ -4437,11 +4437,8 @@ function renderRubySpan(item, target, override, editable) {
     button.addEventListener("pointerup", clearLongPressTimer);
     button.addEventListener("pointercancel", clearLongPressTimer);
     button.addEventListener("pointerleave", clearLongPressTimer);
-    button.addEventListener("contextmenu", (event) => {
-      if (suppressNextClick) {
-        event.preventDefault();
-      }
-    });
+    button.addEventListener("selectstart", (event) => event.preventDefault());
+    button.addEventListener("contextmenu", (event) => event.preventDefault());
     button.addEventListener("click", () => {
       if (suppressNextClick) {
         suppressNextClick = false;
