@@ -5,12 +5,12 @@
     "dev": {
       "track_name": "dev",
       "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "pack_id": "yomi_final_dev_batch_0027_v1",
-      "title": "Yomi final review / dev_batch_0027 / v1",
-      "path": "./packs/yomi_final_dev_batch_0027_v1.json",
-      "created_at_epoch": 1785218466,
-      "item_count": 134
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_0028_v1",
+      "title": "一括レビュー / dev_batch_0028 / v1",
+      "path": "./packs/yomi_final_dev_batch_0028_v1.json",
+      "created_at_epoch": 1785221214,
+      "item_count": 216
     }
   },
   "current_review_queues": [
@@ -18,9 +18,9 @@
       "track_name": "dev",
       "batch_name": "dev_batch_0025",
       "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
+      "label": "一括レビュー",
       "pack_id": "yomi_final_dev_batch_0025_v1",
-      "title": "Yomi final review / dev_batch_0025 / v1",
+      "title": "一括レビュー / dev_batch_0025 / v1",
       "path": "./packs/yomi_final_dev_batch_0025_v1.json",
       "created_at_epoch": 1785212796,
       "item_count": 238,
@@ -36,9 +36,9 @@
       "track_name": "dev",
       "batch_name": "dev_batch_0026",
       "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
+      "label": "一括レビュー",
       "pack_id": "yomi_final_dev_batch_0026_v1",
-      "title": "Yomi final review / dev_batch_0026 / v1",
+      "title": "一括レビュー / dev_batch_0026 / v1",
       "path": "./packs/yomi_final_dev_batch_0026_v1.json",
       "created_at_epoch": 1785215614,
       "item_count": 225,
@@ -54,12 +54,30 @@
       "track_name": "dev",
       "batch_name": "dev_batch_0027",
       "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
+      "label": "一括レビュー",
       "pack_id": "yomi_final_dev_batch_0027_v1",
-      "title": "Yomi final review / dev_batch_0027 / v1",
+      "title": "一括レビュー / dev_batch_0027 / v1",
       "path": "./packs/yomi_final_dev_batch_0027_v1.json",
       "created_at_epoch": 1785218466,
       "item_count": 134,
+      "document_count": 10,
+      "selectable_document_count": 10,
+      "document_state_counts": {
+        "final_pending": 10
+      },
+      "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_batch_0028",
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_0028_v1",
+      "title": "一括レビュー / dev_batch_0028 / v1",
+      "path": "./packs/yomi_final_dev_batch_0028_v1.json",
+      "created_at_epoch": 1785221214,
+      "item_count": 216,
       "document_count": 10,
       "selectable_document_count": 10,
       "document_state_counts": {
@@ -72,15 +90,15 @@
   "stages": {
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
-      "label": "Yomi Final Review",
-      "latest_pack_id": "yomi_final_dev_batch_0027_v1",
+      "label": "一括レビュー",
+      "latest_pack_id": "yomi_final_dev_batch_0028_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_0027_v1"
+        "dev": "yomi_final_dev_batch_0028_v1"
       },
       "packs": [
         {
           "pack_id": "yomi_final_dev_batch_0001_v1",
-          "title": "Yomi final review / dev_batch_0001 / v1",
+          "title": "一括レビュー / dev_batch_0001 / v1",
           "path": "./packs/yomi_final_dev_batch_0001_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0001",
@@ -94,7 +112,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0002_v1",
-          "title": "Yomi final review / dev_batch_0002 / v1",
+          "title": "一括レビュー / dev_batch_0002 / v1",
           "path": "./packs/yomi_final_dev_batch_0002_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0002",
@@ -108,7 +126,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0003_v1",
-          "title": "Yomi final review / dev_batch_0003 / v1",
+          "title": "一括レビュー / dev_batch_0003 / v1",
           "path": "./packs/yomi_final_dev_batch_0003_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0003",
@@ -122,7 +140,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0004_v1",
-          "title": "Yomi final review / dev_batch_0004 / v1",
+          "title": "一括レビュー / dev_batch_0004 / v1",
           "path": "./packs/yomi_final_dev_batch_0004_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0004",
@@ -139,7 +157,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0005_v1",
-          "title": "Yomi final review / dev_batch_0005 / v1",
+          "title": "一括レビュー / dev_batch_0005 / v1",
           "path": "./packs/yomi_final_dev_batch_0005_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0005",
@@ -155,7 +173,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0006_v1",
-          "title": "Yomi final review / dev_batch_0006 / v1",
+          "title": "一括レビュー / dev_batch_0006 / v1",
           "path": "./packs/yomi_final_dev_batch_0006_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0006",
@@ -172,7 +190,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0007_v1",
-          "title": "Yomi final review / dev_batch_0007 / v1",
+          "title": "一括レビュー / dev_batch_0007 / v1",
           "path": "./packs/yomi_final_dev_batch_0007_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0007",
@@ -188,7 +206,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0008_v1",
-          "title": "Yomi final review / dev_batch_0008 / v1",
+          "title": "一括レビュー / dev_batch_0008 / v1",
           "path": "./packs/yomi_final_dev_batch_0008_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0008",
@@ -205,7 +223,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0009_v1",
-          "title": "Yomi final review / dev_batch_0009 / v1",
+          "title": "一括レビュー / dev_batch_0009 / v1",
           "path": "./packs/yomi_final_dev_batch_0009_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0009",
@@ -222,7 +240,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0010_v1",
-          "title": "Yomi final review / dev_batch_0010 / v1",
+          "title": "一括レビュー / dev_batch_0010 / v1",
           "path": "./packs/yomi_final_dev_batch_0010_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0010",
@@ -239,7 +257,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0011_v1",
-          "title": "Yomi final review / dev_batch_0011 / v1",
+          "title": "一括レビュー / dev_batch_0011 / v1",
           "path": "./packs/yomi_final_dev_batch_0011_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0011",
@@ -256,7 +274,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0012_v1",
-          "title": "Yomi final review / dev_batch_0012 / v1",
+          "title": "一括レビュー / dev_batch_0012 / v1",
           "path": "./packs/yomi_final_dev_batch_0012_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0012",
@@ -273,7 +291,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0013_v1",
-          "title": "Yomi final review / dev_batch_0013 / v1",
+          "title": "一括レビュー / dev_batch_0013 / v1",
           "path": "./packs/yomi_final_dev_batch_0013_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0013",
@@ -290,7 +308,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0014_v1",
-          "title": "Yomi final review / dev_batch_0014 / v1",
+          "title": "一括レビュー / dev_batch_0014 / v1",
           "path": "./packs/yomi_final_dev_batch_0014_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0014",
@@ -307,7 +325,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0015_v1",
-          "title": "Yomi final review / dev_batch_0015 / v1",
+          "title": "一括レビュー / dev_batch_0015 / v1",
           "path": "./packs/yomi_final_dev_batch_0015_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0015",
@@ -324,7 +342,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0016_v1",
-          "title": "Yomi final review / dev_batch_0016 / v1",
+          "title": "一括レビュー / dev_batch_0016 / v1",
           "path": "./packs/yomi_final_dev_batch_0016_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0016",
@@ -341,7 +359,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0017_v1",
-          "title": "Yomi final review / dev_batch_0017 / v1",
+          "title": "一括レビュー / dev_batch_0017 / v1",
           "path": "./packs/yomi_final_dev_batch_0017_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0017",
@@ -358,7 +376,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0018_v1",
-          "title": "Yomi final review / dev_batch_0018 / v1",
+          "title": "一括レビュー / dev_batch_0018 / v1",
           "path": "./packs/yomi_final_dev_batch_0018_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0018",
@@ -375,7 +393,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0019_v1",
-          "title": "Yomi final review / dev_batch_0019 / v1",
+          "title": "一括レビュー / dev_batch_0019 / v1",
           "path": "./packs/yomi_final_dev_batch_0019_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0019",
@@ -392,7 +410,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0020_v1",
-          "title": "Yomi final review / dev_batch_0020 / v1",
+          "title": "一括レビュー / dev_batch_0020 / v1",
           "path": "./packs/yomi_final_dev_batch_0020_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0020",
@@ -409,7 +427,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0021_v1",
-          "title": "Yomi final review / dev_batch_0021 / v1",
+          "title": "一括レビュー / dev_batch_0021 / v1",
           "path": "./packs/yomi_final_dev_batch_0021_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0021",
@@ -425,7 +443,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0022_v1",
-          "title": "Yomi final review / dev_batch_0022 / v1",
+          "title": "一括レビュー / dev_batch_0022 / v1",
           "path": "./packs/yomi_final_dev_batch_0022_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0022",
@@ -441,7 +459,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0023_v1",
-          "title": "Yomi final review / dev_batch_0023 / v1",
+          "title": "一括レビュー / dev_batch_0023 / v1",
           "path": "./packs/yomi_final_dev_batch_0023_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0023",
@@ -458,7 +476,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0024_v1",
-          "title": "Yomi final review / dev_batch_0024 / v1",
+          "title": "一括レビュー / dev_batch_0024 / v1",
           "path": "./packs/yomi_final_dev_batch_0024_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0024",
@@ -475,7 +493,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0025_v1",
-          "title": "Yomi final review / dev_batch_0025 / v1",
+          "title": "一括レビュー / dev_batch_0025 / v1",
           "path": "./packs/yomi_final_dev_batch_0025_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0025",
@@ -491,7 +509,7 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0026_v1",
-          "title": "Yomi final review / dev_batch_0026 / v1",
+          "title": "一括レビュー / dev_batch_0026 / v1",
           "path": "./packs/yomi_final_dev_batch_0026_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0026",
@@ -507,12 +525,28 @@
         },
         {
           "pack_id": "yomi_final_dev_batch_0027_v1",
-          "title": "Yomi final review / dev_batch_0027 / v1",
+          "title": "一括レビュー / dev_batch_0027 / v1",
           "path": "./packs/yomi_final_dev_batch_0027_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0027",
           "created_at_epoch": 1785218466,
           "item_count": 134,
+          "document_count": 10,
+          "selectable_document_count": 10,
+          "document_state_counts": {
+            "final_pending": 10
+          },
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_batch_0028_v1",
+          "title": "一括レビュー / dev_batch_0028 / v1",
+          "path": "./packs/yomi_final_dev_batch_0028_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0028",
+          "created_at_epoch": 1785221214,
+          "item_count": 216,
           "document_count": 10,
           "selectable_document_count": 10,
           "document_state_counts": {
@@ -525,7 +559,7 @@
     },
     "yomi_strong_repair_review": {
       "review_stage": "yomi_strong_repair_review",
-      "label": "Yomi Strong Repair Review",
+      "label": "詳細修正",
       "latest_pack_id": "yomi_strong_repair_dev_batch_0024_v1",
       "latest_pack_ids_by_track": {
         "dev": "yomi_strong_repair_dev_batch_0024_v1"
@@ -533,7 +567,7 @@
       "packs": [
         {
           "pack_id": "yomi_strong_repair_dev_batch_0002_v1",
-          "title": "Yomi strong repair review / dev_batch_0002 / v1",
+          "title": "詳細修正 / dev_batch_0002 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0002_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0002",
@@ -547,7 +581,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0003_v1",
-          "title": "Yomi strong repair review / dev_batch_0003 / v1",
+          "title": "詳細修正 / dev_batch_0003 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0003_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0003",
@@ -561,7 +595,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0004_v1",
-          "title": "Yomi strong repair review / dev_batch_0004 / v1",
+          "title": "詳細修正 / dev_batch_0004 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0004_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0004",
@@ -578,7 +612,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0006_v1",
-          "title": "Yomi strong repair review / dev_batch_0006 / v1",
+          "title": "詳細修正 / dev_batch_0006 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0006_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0006",
@@ -595,7 +629,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0008_v1",
-          "title": "Yomi strong repair review / dev_batch_0008 / v1",
+          "title": "詳細修正 / dev_batch_0008 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0008_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0008",
@@ -612,7 +646,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0009_v1",
-          "title": "Yomi strong repair review / dev_batch_0009 / v1",
+          "title": "詳細修正 / dev_batch_0009 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0009_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0009",
@@ -628,7 +662,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0010_v1",
-          "title": "Yomi strong repair review / dev_batch_0010 / v1",
+          "title": "詳細修正 / dev_batch_0010 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0010_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0010",
@@ -644,7 +678,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0011_v1",
-          "title": "Yomi strong repair review / dev_batch_0011 / v1",
+          "title": "詳細修正 / dev_batch_0011 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0011_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0011",
@@ -661,7 +695,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0012_v1",
-          "title": "Yomi strong repair review / dev_batch_0012 / v1",
+          "title": "詳細修正 / dev_batch_0012 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0012_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0012",
@@ -678,7 +712,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0013_v1",
-          "title": "Yomi strong repair review / dev_batch_0013 / v1",
+          "title": "詳細修正 / dev_batch_0013 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0013_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0013",
@@ -695,7 +729,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0014_v1",
-          "title": "Yomi strong repair review / dev_batch_0014 / v1",
+          "title": "詳細修正 / dev_batch_0014 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0014_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0014",
@@ -712,7 +746,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0015_v1",
-          "title": "Yomi strong repair review / dev_batch_0015 / v1",
+          "title": "詳細修正 / dev_batch_0015 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0015_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0015",
@@ -729,7 +763,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0016_v1",
-          "title": "Yomi strong repair review / dev_batch_0016 / v1",
+          "title": "詳細修正 / dev_batch_0016 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0016_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0016",
@@ -746,7 +780,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0017_v1",
-          "title": "Yomi strong repair review / dev_batch_0017 / v1",
+          "title": "詳細修正 / dev_batch_0017 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0017_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0017",
@@ -763,7 +797,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0018_v1",
-          "title": "Yomi strong repair review / dev_batch_0018 / v1",
+          "title": "詳細修正 / dev_batch_0018 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0018_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0018",
@@ -780,7 +814,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0019_v1",
-          "title": "Yomi strong repair review / dev_batch_0019 / v1",
+          "title": "詳細修正 / dev_batch_0019 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0019_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0019",
@@ -797,7 +831,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0020_v1",
-          "title": "Yomi strong repair review / dev_batch_0020 / v1",
+          "title": "詳細修正 / dev_batch_0020 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0020_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0020",
@@ -814,7 +848,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0023_v1",
-          "title": "Yomi strong repair review / dev_batch_0023 / v1",
+          "title": "詳細修正 / dev_batch_0023 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0023_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0023",
@@ -831,7 +865,7 @@
         },
         {
           "pack_id": "yomi_strong_repair_dev_batch_0024_v1",
-          "title": "Yomi strong repair review / dev_batch_0024 / v1",
+          "title": "詳細修正 / dev_batch_0024 / v1",
           "path": "./packs/yomi_strong_repair_dev_batch_0024_v1.json",
           "track_name": "dev",
           "batch_name": "dev_batch_0024",

@@ -268,7 +268,7 @@ function bindEvents() {
     state.pendingIssueTaskId = null;
     state.pendingArchiveCorrectionKey = null;
     hideIssueReturnModal();
-    showStatus("Issue submission not marked complete. The local draft remains available.");
+    showStatus("Issueは提出済みにされませんでした。ローカルの作業内容は残っています。");
   });
 
   el.reviewerName.addEventListener("input", () => {
@@ -867,8 +867,8 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
     return;
   }
   nodes.status.textContent = totalMatches > matches.length
-    ? `${totalMatches} document(s) found. Showing the first ${matches.length}.`
-    : `${totalMatches} document(s) found.`;
+    ? `${totalMatches}文書が見つかりました。先頭の${matches.length}件を表示します。`
+    : `${totalMatches}文書が見つかりました。`;
   for (const doc of matches) {
     const button = document.createElement("button");
     button.type = "button";
@@ -876,8 +876,8 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
     const hitCount = Number(doc.search_hit_count || 0);
     button.innerHTML = `
       <span class="archive-search-result-heading">
-        <strong>Document ${escapeHtml(doc.track_doc_seq)}</strong>
-        <span class="archive-search-hit-count">${hitCount} ${hitCount === 1 ? "hit" : "hits"}</span>
+        <strong>文書 ${escapeHtml(doc.track_doc_seq)}</strong>
+        <span class="archive-search-hit-count">${hitCount}件</span>
       </span>
       <span class="archive-search-snippet">${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
     `;
@@ -948,8 +948,8 @@ function renderArchiveShardRow(shard) {
   button.type = "button";
   button.className = "task-doc-row archive-shard-row";
   button.innerHTML = `
-    <span class="task-doc-title">Docs ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
-    <span class="task-doc-meta">${Number(shard.document_count || 0)} document(s)</span>
+    <span class="task-doc-title">文書 ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
+    <span class="task-doc-meta">${Number(shard.document_count || 0)}文書</span>
   `;
   button.addEventListener("click", () => {
     openArchiveShard(shard).catch((error) => {
@@ -979,7 +979,7 @@ function renderCorpusMapTileGrid(docs) {
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
       ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
       ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
-      ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "sent" : "edit"}</em>` : ""}
+      ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
@@ -993,7 +993,7 @@ function renderCorpusMapTileGrid(docs) {
 function formatArchiveCorrectionSummary(count, sentenceCount) {
   const corrections = Number(count || 0);
   const sentences = Number(sentenceCount || 0);
-  return `${corrections} correction${corrections === 1 ? "" : "s"} · ${sentences} sentence${sentences === 1 ? "" : "s"} changed`;
+  return `修正 ${corrections}回 · 変更文 ${sentences}件`;
 }
 
 function archiveCorrectionDocKey(doc) {
@@ -1288,7 +1288,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
       ),
     );
   } else if (unit.excluded) {
-    rubyLine.textContent = unit.tombstone_label || "除外済み";
+    rubyLine.textContent = localizedTombstoneLabel(unit.tombstone_label);
   } else {
     rubyLine.textContent = unit.text || "";
   }
@@ -1307,7 +1307,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   if (unit.excluded) {
     const excluded = document.createElement("span");
     excluded.className = "excluded-tombstone-label";
-    excluded.textContent = unit.tombstone_label || "除外済み";
+    excluded.textContent = localizedTombstoneLabel(unit.tombstone_label);
     actions.append(excluded);
   }
   if (unit.manual_correction_required) {
@@ -1705,7 +1705,7 @@ function parseRenderedYomiCorrectionTokens(rendered) {
         return { ok: true, raw, surface: " ", reading: "" };
       }
       const parsed = splitEditableYomiToken(raw);
-      return parsed.ok ? { ...parsed, raw } : { ...parsed, raw, error: `token ${raw}: ${parsed.error}` };
+      return parsed.ok ? { ...parsed, raw } : { ...parsed, raw, error: `トークン ${raw}: ${parsed.error}` };
     });
 }
 
@@ -2238,7 +2238,7 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
         ),
       );
     } else if (unit.excluded) {
-      rubyLine.textContent = unit.tombstone_label || "Removed";
+      rubyLine.textContent = localizedTombstoneLabel(unit.tombstone_label);
     } else {
       rubyLine.textContent = unit.text || "";
     }
@@ -2247,13 +2247,13 @@ function renderArchivedWorkflowDocumentPreview(doc, container) {
     if (unit.skipped) {
       const label = document.createElement("span");
       label.className = "skipped-tombstone-label";
-      label.textContent = "Skipped";
+      label.textContent = "スキップ済み";
       node.append(label);
     }
     if (unit.excluded) {
       const label = document.createElement("span");
       label.className = "excluded-tombstone-label";
-      label.textContent = unit.tombstone_label || "Removed";
+      label.textContent = localizedTombstoneLabel(unit.tombstone_label);
       node.append(label);
     }
     container.append(node);
@@ -2323,7 +2323,7 @@ function closeWorkflowDocumentPreview() {
 function requestCloseWorkflowDocumentPreview() {
   if (
     archiveCorrectionHasUnsavedEdits() &&
-    !window.confirm("Discard unsaved yomi edits and close? Saved local drafts will be kept.")
+    !window.confirm("未保存の読み編集を破棄して閉じますか？ 保存済みのローカル修正案は残ります。")
   ) {
     return false;
   }
@@ -2787,7 +2787,7 @@ function renderSavedTaskGroup(titleText, records, docs) {
     const body = document.createElement("div");
     body.className = "task-draft-body";
     const title = document.createElement("strong");
-    title.textContent = record.task_label || record.task_id || "ローカルタスク";
+    title.textContent = localizedTaskLabel(record.task_label || record.task_id || "ローカルタスク");
     const meta = document.createElement("div");
     meta.className = "task-draft-meta";
     meta.textContent = formatTaskDraftMeta(record, docs);
@@ -2797,8 +2797,8 @@ function renderSavedTaskGroup(titleText, records, docs) {
     button.type = "button";
     button.textContent =
       taskRecordStatus(record) === "submitted"
-        ? `${record.task_label || "タスク"}を再度開く`
-        : `${record.task_label || "タスク"}に戻る`;
+        ? `${localizedTaskLabel(record.task_label || "タスク")}を再度開く`
+        : `${localizedTaskLabel(record.task_label || "タスク")}に戻る`;
     button.addEventListener("click", () => {
       resumeTaskDraft(record.task_id);
     });
@@ -2860,7 +2860,7 @@ function renderTaskDocumentRow(doc, task) {
   const meta = document.createElement("div");
   meta.className = "task-doc-meta";
   const itemSeq = doc.item_count > 0 ? `項目 ${doc.from_seq}-${doc.to_seq}` : "レビュー項目なし";
-  const stateText = doc.state ? `${doc.state} · ` : "";
+  const stateText = doc.state ? `${localizedDocumentState(doc.state)} · ` : "";
   const submittedText = submitted ? "ローカル提出済み · " : "";
   const sourceText = isUnifiedReviewPack(state.currentPack)
     ? `一括 ${doc.final_item_count || 0} / 詳細 ${doc.strong_repair_item_count || 0} · `
@@ -2954,7 +2954,7 @@ function renderItems() {
     node.querySelector(".item-title").textContent = item.entity_key;
 
     const proposedBadge = node.querySelector(".proposed-badge");
-    proposedBadge.textContent = item.proposed_action;
+    proposedBadge.textContent = localizedDecisionLabel(item.proposed_action);
     proposedBadge.classList.add(item.proposed_action);
 
     const markerBadge = node.querySelector(".marker-badge");
@@ -2973,7 +2973,7 @@ function renderItems() {
 
     const overrideBadge = node.querySelector(".override-badge");
     if (override) {
-      overrideBadge.textContent = override.decision;
+      overrideBadge.textContent = localizedDecisionLabel(override.decision);
       overrideBadge.classList.remove("hidden");
     } else {
       overrideBadge.classList.add("hidden");
@@ -3109,7 +3109,7 @@ function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }
   if (item.used_web_search) {
     const webBadge = document.createElement("span");
     webBadge.className = "badge";
-    webBadge.textContent = "web";
+    webBadge.textContent = "検索";
     badges.append(webBadge);
   }
   if (override?.decision) {
@@ -4069,14 +4069,14 @@ function splitEditableYomiToken(token) {
     parts[partIndex].push(char);
   }
   if (escaped) {
-    return { ok: false, error: "incomplete trailing escape." };
+    return { ok: false, error: "末尾のエスケープが不完全です。" };
   }
   if (partIndex === 0) {
-    return { ok: false, error: "must be surface/reading." };
+    return { ok: false, error: "表記/読み の形式にしてください。" };
   }
   const surface = parts[0].join("");
   if (!surface) {
-    return { ok: false, error: "has no surface before the slash." };
+    return { ok: false, error: "スラッシュの前に表記がありません。" };
   }
   return { ok: true, surface, reading: parts[1].join("") };
 }
@@ -4496,7 +4496,7 @@ function defaultCandidate(target) {
 }
 
 function rubyTitle(target, candidate) {
-  const reading = candidate?.reading ? ` / ${candidate.reading}` : " / no ruby";
+  const reading = candidate?.reading ? ` / ${candidate.reading}` : " / ルビなし";
   return `${target.surface}${reading}`;
 }
 
@@ -5480,12 +5480,12 @@ function selectableDocsForCurrentTask(docs, task, queueStage = null) {
 
 function formatReviewStageLabel(stage) {
   if (stage === "yomi_final_review") {
-    return "bulk review";
+    return "一括レビュー";
   }
   if (stage === "yomi_strong_repair_review") {
-    return "escalated repair";
+    return "詳細修正";
   }
-  return stage || "review";
+  return stage || "レビュー";
 }
 
 function syncLocalTaskRecordsForCurrentPack() {
@@ -5781,9 +5781,9 @@ function formatTaskOverlapMessage(overlap) {
   const docSeqs = (overlap?.overlap || [])
     .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
     .filter((seq) => Number.isInteger(seq));
-  const label = overlap?.record?.task_label || overlap?.record?.task_id || "another local task";
+  const label = overlap?.record?.task_label || overlap?.record?.task_id || "別のローカルタスク";
   const docsText = docSeqs.length ? `文書 ${formatDocSeqs(docSeqs)}` : "選択した文書";
-  return `${docsText} already belong to ${label}. Resume or reopen that task first.`;
+  return `${docsText}はすでに${label}に含まれています。先にそのタスクを再開してください。`;
 }
 
 function canonicalDocIdKey(docIds) {
@@ -5853,14 +5853,14 @@ function formatTaskDraftMeta(record, docs) {
     parts.push(queueStages.map(formatReviewStageLabel).join(" + "));
   }
   if (docSeqs.length) {
-    parts.push(`docs ${formatDocSeqs(docSeqs)}`);
+    parts.push(`文書 ${formatDocSeqs(docSeqs)}`);
   }
-  parts.push(`${itemCount} item(s)`);
+  parts.push(`${itemCount}項目`);
   if (record.updated_at_epoch) {
-    parts.push(`saved ${formatDate(record.updated_at_epoch)}`);
+    parts.push(`保存 ${formatDate(record.updated_at_epoch)}`);
   }
   if (record.submitted_at_epoch) {
-    parts.push(`submitted ${formatDate(record.submitted_at_epoch)}`);
+    parts.push(`提出 ${formatDate(record.submitted_at_epoch)}`);
   }
   return parts.join(" · ");
 }
@@ -6368,6 +6368,39 @@ function formatConfidenceCounts(counts) {
     return "なし";
   }
   return entries.map(([key, value]) => `${key}:${value}`).join(", ");
+}
+
+function localizedDecisionLabel(value) {
+  return {
+    accept: "採用",
+    reject: "却下",
+    defer: "保留",
+    keep: "維持",
+    skip: "スキップ",
+    exclude: "除外",
+  }[String(value || "").toLowerCase()] || String(value || "");
+}
+
+function localizedTombstoneLabel(value) {
+  return !value || value === "Removed" ? "除外済み" : String(value);
+}
+
+function localizedTaskLabel(value) {
+  return String(value || "").replace(/^Task (\d+)$/u, "タスク $1");
+}
+
+function localizedDocumentState(value) {
+  return {
+    final_pending: "一括レビュー待ち",
+    final_in_review: "一括レビュー中",
+    final_reviewed: "一括レビュー提出済み",
+    strong_pending: "詳細修正待ち",
+    strong_in_review: "詳細修正中",
+    strong_apply_failed: "詳細修正の適用失敗",
+    strong_reviewed: "詳細修正済み",
+    complete: "確定済み",
+    skipped: "スキップ済み",
+  }[String(value || "")] || String(value || "");
 }
 
 function formatDate(epochSeconds) {
