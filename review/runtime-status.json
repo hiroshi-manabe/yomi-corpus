@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1959,
-  "generated_at": "2026-07-29T05:49:17Z",
-  "generated_at_epoch": 1785304157,
-  "last_successful_sync": "2026-07-29T04:34:33Z",
-  "last_successful_sync_epoch": 1785299673,
-  "status": "error",
+  "state_revision": 1960,
+  "generated_at": "2026-07-29T06:00:30Z",
+  "generated_at_epoch": 1785304830,
+  "last_successful_sync": "2026-07-29T06:00:30Z",
+  "last_successful_sync_epoch": 1785304830,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1785303230,
     "interval_seconds": 300,
@@ -14,32 +14,32 @@
     "next_expected_epoch": 1785303530
   },
   "state": {
-    "current_batch_name": "dev_batch_0033",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
-    "active_queue_count": 50,
+    "current_batch_name": "dev_batch_0034",
+    "current_stage": "scope_triage_queued",
+    "next_stage": "scope_triage_llm_completed",
+    "active_queue_count": 27,
     "queue_counts": {
-      "bulk_review_selectable": 50,
+      "bulk_review_selectable": 20,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 0,
-      "escalated_repair_submitted": 4,
-      "resolved": 6
+      "escalated_repair_selectable": 7,
+      "escalated_repair_submitted": 0,
+      "resolved": 23
     },
     "pool_counts": {
-      "bulk-ready": 50,
+      "bulk-ready": 20,
       "bulk-submitted": 0,
-      "escalated-ready": 0,
-      "escalated-submitted": 4,
+      "escalated-ready": 7,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 6,
+      "resolved": 23,
       "unprocessed": 0
     }
   },
-  "message": "ValueError: overlapping interaction span at 29:30",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1785304157,
-    "completed_at_epoch": 1785304157,
-    "drift_seconds": 27
+    "started_at_epoch": 1785304432,
+    "completed_at_epoch": 1785304830,
+    "drift_seconds": 2
   },
   "client_polling": {
     "normal_seconds": 60,
