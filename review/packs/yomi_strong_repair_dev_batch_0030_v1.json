@@ -10,11 +10,10 @@
   "item_count": 2,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_apply_failed": 1,
-      "strong_reviewed": 1
+      "strong_reviewed": 2
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -240,23 +239,14 @@
       "source_line_no": 272,
       "preview": "東京で安いセミナー会場を探すと、最寄り駅から遠く離れた怪しい雑居ビルの一室だったりする。",
       "queue_id": "strong_repair",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-29T06:46:56Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2:0000000272:u0047::target_group:1",
-          "doc_id": "ja_cc_level2:0000000272",
-          "unit_id": "ja_cc_level2:0000000272:u0047",
-          "submission_id": "yomi_strong_repair_dev_batch_0030_v1__2026-07-29T06:36:17.564Z",
-          "status": "invalid_manual_segments",
-          "reason": "invalid manual segment readings"
-        }
-      ],
+      "selectable": false,
+      "state_updated_at": "2026-07-29T06:50:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -1434,7 +1424,7 @@
       "source_line_no": 272,
       "text": "その年の4月1日現在の所有者が1年分を前もって払う。",
       "rendered_yomi_before": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/ツイタチ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
-      "rendered_yomi_after": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/ツイタチ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
+      "rendered_yomi_after": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/イッピ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "その",
@@ -1458,7 +1448,7 @@
         ],
         [
           "1日",
-          "ツイタチ"
+          "イッピ"
         ],
         [
           "現在",
@@ -1560,12 +1550,12 @@
         },
         {
           "surface": "1日",
-          "reading": "ツイタチ",
+          "reading": "イッピ",
           "nodes": [
             {
               "type": "ruby",
               "text": "1日",
-              "reading": "ついたち"
+              "reading": "いっぴ"
             }
           ]
         },
@@ -1707,7 +1697,7 @@
           "unit_id": "ja_cc_level2:0000000272:u0047",
           "text": "その年の4月1日現在の所有者が1年分を前もって払う。",
           "rendered_yomi_before": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/ツイタチ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
-          "rendered_yomi_after": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/ツイタチ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
+          "rendered_yomi_after": "その/ソノ 年/トシ の/ノ 4/ 月/ガツ 1日/イッピ 現在/ゲンザイ の/ノ 所有者/ショユウシャ が/ガ 1/ 年/ネン 分/ブン を/ヲ 前もって/マエモッテ 払う/ハラウ 。/。",
           "display_mapping": {
             "start": 5,
             "end": 6,

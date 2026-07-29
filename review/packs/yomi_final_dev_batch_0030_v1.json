@@ -14,8 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_apply_failed": 1,
-      "strong_reviewed": 1
+      "strong_reviewed": 2
     },
     "unresolved_item_count": 21,
     "unresolved_target_count": 25,
@@ -240,23 +239,14 @@
       "source_line_no": 272,
       "preview": "東京で安いセミナー会場を探すと、最寄り駅から遠く離れた怪しい雑居ビルの一室だったりする。",
       "queue_id": "final_review",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:46:56Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2:0000000272:u0047::target_group:1",
-          "doc_id": "ja_cc_level2:0000000272",
-          "unit_id": "ja_cc_level2:0000000272:u0047",
-          "submission_id": "yomi_strong_repair_dev_batch_0030_v1__2026-07-29T06:36:17.564Z",
-          "status": "invalid_manual_segments",
-          "reason": "invalid manual segment readings"
-        }
-      ],
+      "state_updated_at": "2026-07-29T06:50:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 51,
       "region_count": 0,
       "unresolved_count": 3,
@@ -306853,6 +306843,20 @@
               ]
             },
             {
+              "id": "numeric_compound:2",
+              "source": "numeric_compound",
+              "label": "Japanese numeric compound",
+              "reading": "いっぴ",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "1日",
+                  "reading": "いっぴ"
+                }
+              ]
+            },
+            {
               "id": "none",
               "source": "none",
               "label": "No ruby",
@@ -308008,6 +308012,25 @@
                   "type": "ruby",
                   "text": "1日",
                   "reading": "いちにち"
+                }
+              ]
+            },
+            {
+              "id": "numeric_compound:2",
+              "source": "numeric_compound",
+              "label": "Japanese numeric compound",
+              "reading": "いっぴ",
+              "tokens": [
+                [
+                  "1日",
+                  "イッピ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "1日",
+                  "reading": "いっぴ"
                 }
               ]
             },
@@ -319347,6 +319370,20 @@
               ]
             },
             {
+              "id": "numeric_compound:2",
+              "source": "numeric_compound",
+              "label": "Japanese numeric compound",
+              "reading": "いっぴ",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "1日",
+                  "reading": "いっぴ"
+                }
+              ]
+            },
+            {
               "id": "none",
               "source": "none",
               "label": "No ruby",
@@ -320398,6 +320435,25 @@
                   "type": "ruby",
                   "text": "1日",
                   "reading": "ついたち"
+                }
+              ]
+            },
+            {
+              "id": "numeric_compound:2",
+              "source": "numeric_compound",
+              "label": "Japanese numeric compound",
+              "reading": "いっぴ",
+              "tokens": [
+                [
+                  "1日",
+                  "イッピ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "1日",
+                  "reading": "いっぴ"
                 }
               ]
             },

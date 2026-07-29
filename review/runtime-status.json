@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1970,
-  "generated_at": "2026-07-29T06:48:01Z",
-  "generated_at_epoch": 1785307681,
+  "state_revision": 1971,
+  "generated_at": "2026-07-29T06:52:51Z",
+  "generated_at_epoch": 1785307971,
   "last_successful_sync": "2026-07-29T06:48:01Z",
   "last_successful_sync_epoch": 1785307681,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1785304893,
     "interval_seconds": 300,
@@ -17,29 +17,29 @@
     "current_batch_name": "dev_batch_0036",
     "current_stage": "final_review_prepared",
     "next_stage": "final_review_applied",
-    "active_queue_count": 51,
+    "active_queue_count": 50,
     "queue_counts": {
       "bulk_review_selectable": 50,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 1,
-      "escalated_repair_submitted": 1,
+      "escalated_repair_selectable": 0,
+      "escalated_repair_submitted": 2,
       "resolved": 8
     },
     "pool_counts": {
       "bulk-ready": 50,
       "bulk-submitted": 0,
-      "escalated-ready": 1,
-      "escalated-submitted": 1,
+      "escalated-ready": 0,
+      "escalated-submitted": 2,
       "prepared": 0,
       "resolved": 8,
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000268:u0001 token 2 '★彡'/'カオモジ' is structurally invalid: カオモジ is reserved for symbolic kaomoji surfaces",
   "observed": {
-    "started_at_epoch": 1785307615,
-    "completed_at_epoch": 1785307681,
-    "drift_seconds": 22
+    "started_at_epoch": 1785307971,
+    "completed_at_epoch": 1785307971,
+    "drift_seconds": 78
   },
   "client_polling": {
     "normal_seconds": 60,
