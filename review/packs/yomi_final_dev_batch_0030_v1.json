@@ -14,7 +14,8 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_apply_failed": 1,
+      "strong_reviewed": 1
     },
     "unresolved_item_count": 21,
     "unresolved_target_count": 25,
@@ -31,12 +32,12 @@
       "source_line_no": 264,
       "preview": "※本授業は「大ナゴヤの日」の授業として企画しております。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:33:07Z",
+      "state_updated_at": "2026-07-29T06:38:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 27,
@@ -239,14 +240,23 @@
       "source_line_no": 272,
       "preview": "東京で安いセミナー会場を探すと、最寄り駅から遠く離れた怪しい雑居ビルの一室だったりする。",
       "queue_id": "final_review",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:33:07Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-07-29T06:38:58Z",
+      "application_failure_count": 1,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2:0000000272:u0047::target_group:1",
+          "doc_id": "ja_cc_level2:0000000272",
+          "unit_id": "ja_cc_level2:0000000272:u0047",
+          "submission_id": "yomi_strong_repair_dev_batch_0030_v1__2026-07-29T06:36:17.564Z",
+          "status": "invalid_manual_segments",
+          "reason": "invalid manual segment readings"
+        }
+      ],
       "item_count": 51,
       "region_count": 0,
       "unresolved_count": 3,
