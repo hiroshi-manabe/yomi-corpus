@@ -1786,11 +1786,10 @@ function validateRenderedYomiReading(surface, reading) {
     }
     return reading ? { ok: false, error: "数字のみの表記には読みを付けないでください。" } : { ok: true };
   }
-  const numericReadings = numericCompoundReadings(surface);
-  if (numericReadings) {
-    return numericReadings.includes(reading)
+  if (numericCompoundReadings(surface)) {
+    return reading && /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
-      : { ok: false, error: `読みは ${numericReadings.join("、")} のいずれかにしてください。` };
+      : { ok: false, error: "数字複合語の読みは空でないカタカナにしてください。" };
   }
   if (reading === "カオモジ") {
     return isSymbolicKaomojiCorrectionSurface(surface)
