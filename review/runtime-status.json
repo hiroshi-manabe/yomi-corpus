@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1945,
-  "generated_at": "2026-07-29T04:34:33Z",
-  "generated_at_epoch": 1785299673,
+  "state_revision": 1946,
+  "generated_at": "2026-07-29T04:39:15Z",
+  "generated_at_epoch": 1785299955,
   "last_successful_sync": "2026-07-29T04:34:33Z",
   "last_successful_sync_epoch": 1785299673,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1785299296,
     "interval_seconds": 300,
@@ -15,8 +15,8 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0033",
-    "current_stage": "scope_triage_llm_completed",
-    "next_stage": "yomi_generated",
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
     "active_queue_count": 44,
     "queue_counts": {
       "bulk_review_selectable": 40,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "ValueError: overlapping interaction span at 29:30",
   "observed": {
-    "started_at_epoch": 1785299597,
-    "completed_at_epoch": 1785299673,
-    "drift_seconds": 1
+    "started_at_epoch": 1785299955,
+    "completed_at_epoch": 1785299955,
+    "drift_seconds": 59
   },
   "client_polling": {
     "normal_seconds": 60,

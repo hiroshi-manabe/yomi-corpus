@@ -374282,11 +374282,15 @@
       "ruby_segments": [
         {
           "type": "ruby",
-          "text": "中３",
-          "target_item_id": "ja_cc_level2:0000000261:u0029:s0001-0002",
-          "reading": null,
+          "text": "中",
+          "target_item_id": "ja_cc_level2:0000000261:u0029:s0001-0001",
+          "reading": "ちゅう",
           "is_safe": false,
           "highlight_level": "target"
+        },
+        {
+          "type": "text",
+          "text": "３"
         },
         {
           "type": "ruby",
@@ -374467,43 +374471,29 @@
         {
           "item_id": "ja_cc_level2:0000000261:u0029:r0001c01",
           "surface": "中",
-          "token_surface": "中３",
+          "token_surface": "中",
           "target_start": 0,
           "target_end": 1,
           "token_index": 0,
           "chunk_index": 0,
-          "current_reading": "チュウサン",
-          "current_reading_hiragana": "ちゅうさん",
-          "token_dictionary_form": "中三",
-          "token_sudachi_reading": "チュウサン",
-          "token_pos": "名詞,普通名詞,一般,*,*,*",
+          "current_reading": "チュウ",
+          "current_reading_hiragana": "ちゅう",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
           "accepted_signal_names": [],
           "status_reason": "llm_reading_mismatched",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
           "default_reading": "ちゅう",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
-              "reading": "ちゅうさん",
-              "accepted": false,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "中",
-                  "reading": "ちゅうさん"
-                }
-              ]
-            },
-            {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
               "reading": "ちゅう",
               "accepted": false,
               "ruby_nodes": [
@@ -375271,23 +375261,194 @@
       ],
       "interaction_spans": [
         {
-          "item_id": "ja_cc_level2:0000000261:u0029:s0001-0002",
-          "span_id": "ja_cc_level2:0000000261:u0029:s0001-0002",
-          "surface": "中３",
-          "token_surface": "中３",
+          "item_id": "ja_cc_level2:0000000261:u0029:s0001-0001",
+          "span_id": "ja_cc_level2:0000000261:u0029:s0001-0001",
+          "surface": "中",
+          "token_surface": "中",
           "target_start": 0,
-          "target_end": 2,
+          "target_end": 1,
           "token_index": 0,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
+          "current_reading": "チュウ",
+          "current_reading_hiragana": "ちゅう",
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ちゅう",
           "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ちゅう",
+              "tokens": [
+                [
+                  "中",
+                  "チュウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "ちゅう"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "あたり",
+              "tokens": [
+                [
+                  "中",
+                  "アタリ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "あたり"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "あたる",
+              "tokens": [
+                [
+                  "中",
+                  "アタル"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "あたる"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:2",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "うち",
+              "tokens": [
+                [
+                  "中",
+                  "ウチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "うち"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:3",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "じゅう",
+              "tokens": [
+                [
+                  "中",
+                  "ジュウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "じゅう"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:4",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "ただし",
+              "tokens": [
+                [
+                  "中",
+                  "タダシ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "ただし"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:6",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "ぢゅう",
+              "tokens": [
+                [
+                  "中",
+                  "ヂュウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "ぢゅう"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:7",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "なか",
+              "tokens": [
+                [
+                  "中",
+                  "ナカ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "なか"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:8",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "なかば",
+              "tokens": [
+                [
+                  "中",
+                  "ナカバ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "中",
+                  "reading": "なかば"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -375297,7 +375458,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "中３"
+                  "text": "中"
                 }
               ]
             }
@@ -376042,7 +376203,7 @@
       ],
       "interaction_span_count": 5,
       "reading_hints": {
-        "中": "ちゅうさん",
+        "中": "ちゅう",
         "生": "せい",
         "学校": "がっこう",
         "挑戦": "ちょうせん"
@@ -470332,15 +470493,15 @@
         },
         {
           "type": "ruby",
-          "text": "寝たきり",
-          "target_item_id": "ja_cc_level2:0000000263:u0026:s0010-0013",
-          "reading": "ねたきり",
+          "text": "寝",
+          "target_item_id": "ja_cc_level2:0000000263:u0026:s0010-0010",
+          "reading": "ね",
           "is_safe": true,
           "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "の"
+          "text": "たきりの"
         },
         {
           "type": "ruby",
@@ -471709,16 +471870,16 @@
         {
           "item_id": "ja_cc_level2:0000000263:u0026:r0008c01",
           "surface": "寝",
-          "token_surface": "寝たきり",
+          "token_surface": "寝",
           "target_start": 9,
           "target_end": 10,
           "token_index": 7,
           "chunk_index": 0,
           "current_reading": "ネ",
           "current_reading_hiragana": "ね",
-          "token_dictionary_form": "寝た切り",
-          "token_sudachi_reading": "ネタキリ",
-          "token_pos": "名詞,普通名詞,一般,*,*,*",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
           "is_safe": true,
           "review_status": "safe",
           "highlight_level": "none",
@@ -473817,32 +473978,32 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000263:u0026:s0010-0013",
-          "span_id": "ja_cc_level2:0000000263:u0026:s0010-0013",
-          "surface": "寝たきり",
-          "token_surface": "寝たきり",
+          "item_id": "ja_cc_level2:0000000263:u0026:s0010-0010",
+          "span_id": "ja_cc_level2:0000000263:u0026:s0010-0010",
+          "surface": "寝",
+          "token_surface": "寝",
           "target_start": 9,
-          "target_end": 13,
+          "target_end": 10,
           "token_index": 7,
           "chunk_index": 0,
-          "current_reading": "ネタキリ",
-          "current_reading_hiragana": "ねたきり",
+          "current_reading": "ネ",
+          "current_reading_hiragana": "ね",
           "is_safe": true,
           "review_status": "safe",
           "highlight_level": "none",
           "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": "ねたきり",
+          "default_reading": "ね",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
-              "reading": "ねたきり",
+              "reading": "ね",
               "tokens": [
                 [
-                  "寝たきり",
-                  "ネタキリ"
+                  "寝",
+                  "ネ"
                 ]
               ],
               "ruby_nodes": [
@@ -473850,10 +474011,6 @@
                   "type": "ruby",
                   "text": "寝",
                   "reading": "ね"
-                },
-                {
-                  "type": "text",
-                  "text": "たきり"
                 }
               ]
             },
@@ -473861,11 +474018,11 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
-              "reading": "ぬたきり",
+              "reading": "ぬ",
               "tokens": [
                 [
-                  "寝たきり",
-                  "ヌタキリ"
+                  "寝",
+                  "ヌ"
                 ]
               ],
               "ruby_nodes": [
@@ -473873,10 +474030,6 @@
                   "type": "ruby",
                   "text": "寝",
                   "reading": "ぬ"
-                },
-                {
-                  "type": "text",
-                  "text": "たきり"
                 }
               ]
             },
@@ -473889,7 +474042,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "寝たきり"
+                  "text": "寝"
                 }
               ]
             }
