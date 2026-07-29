@@ -984,7 +984,11 @@ function renderCorpusMapTileGrid(docs) {
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
-    tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
+    tile.addEventListener("click", () =>
+      openArchiveCorrectionEditor(doc, {
+        scrollToManualCorrection: manualCorrectionCount > 0,
+      }),
+    );
     wrap.append(tile);
   }
   return wrap;
@@ -1190,7 +1194,7 @@ function archiveCorrectionHasUnsavedEdits() {
   });
 }
 
-function openArchiveCorrectionEditor(doc) {
+function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } = {}) {
   const units = doc.units || [];
   const localCorrection = archiveCorrectionRecordForDoc(doc);
   el.workflowPreviewTitle.textContent = `文書 ${doc.track_doc_seq} を修正`;
@@ -1258,6 +1262,15 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewBody.scrollLeft = 0;
   el.workflowPreviewModal.classList.remove("hidden");
   window.requestAnimationFrame(() => {
+    if (scrollToManualCorrection) {
+      const flaggedRow = el.workflowPreviewBody.querySelector(
+        ".archive-correction-row.manual-correction-required",
+      );
+      if (flaggedRow) {
+        flaggedRow.scrollIntoView({ block: "center", behavior: "auto" });
+        return;
+      }
+    }
     el.workflowPreviewBody.scrollTo({ top: 0, left: 0, behavior: "auto" });
   });
   updateRuntimePollingForInteraction();
@@ -1931,6 +1944,7 @@ function renderWorkflowPackMap(docs) {
   const section = document.createElement("section");
   section.className = "workflow-pack-map";
   const rows = workflowDocumentStates(docs);
+  const manualCorrectionCount = archiveManualCorrectionCount();
   section.innerHTML = `
     <div class="workflow-heading">
       <div>
@@ -1943,7 +1957,7 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
-        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">コーパスマップ</button>' : ''}
+        ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button">コーパスマップ${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
   `;
@@ -1959,6 +1973,11 @@ function renderWorkflowPackMap(docs) {
   }
   section.append(tileGrid);
   return section;
+}
+
+function archiveManualCorrectionCount() {
+  const track = state.archiveIndex?.tracks?.dev || state.manifest?.archive?.tracks?.dev;
+  return Number(track?.manual_correction_required_count || 0);
 }
 
 function renderWorkflowQueue({
