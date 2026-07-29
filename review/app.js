@@ -176,7 +176,7 @@ function bindEvents() {
     if (!isEditable()) {
       return;
     }
-    if (!window.confirm("このパックのローカル変更をすべてリセットしますか？")) {
+    if (!window.confirm("現在のローカル変更をすべてリセットしますか？")) {
       return;
     }
     state.currentDraft = createEmptyDraft(state.currentPack);
@@ -423,7 +423,7 @@ async function openArchiveBrowser() {
   state.archiveCurrentShardPath = firstShard?.path || "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
-    title: "コーパスマップ",
+    title: "確定済みコーパス",
     track_name: "dev",
     status: "archive",
   };
@@ -668,7 +668,7 @@ function renderTaskSelector() {
     panel.classList.toggle("hidden", editable && !started);
   });
   if (!editable) {
-    el.taskSummary.textContent = "過去のパックは閲覧専用です。";
+    el.taskSummary.textContent = "過去のレビュー内容は閲覧専用です。";
     return;
   }
 
@@ -715,7 +715,7 @@ function renderArchiveBrowserPanel() {
   const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
     el.taskSummary.textContent = shards.length
-      ? "下からコーパスマップの範囲を選択してください。"
+      ? "下から確定済みコーパスの範囲を選択してください。"
       : "確定済み文書はまだ公開されていません。";
     for (const shard of shards) {
       el.taskDocList.append(renderArchiveShardRow(shard));
@@ -750,7 +750,7 @@ function renderArchiveSearchPanel(track) {
   heading.className = "archive-search-heading";
   heading.innerHTML = `
     <div>
-      <strong>コーパスマップを検索</strong>
+      <strong>確定済みコーパスを検索</strong>
       <p class="muted">確定済み文書の原文を検索します。</p>
     </div>
   `;
@@ -1989,8 +1989,8 @@ function renderWorkflowPackMap(docs) {
   section.innerHTML = `
     <div class="workflow-heading">
       <div>
-        <h3>パック一覧</h3>
-        <p class="muted">このパックに含まれる全文書の状態です。</p>
+        <h3>作業中の文書</h3>
+        <p class="muted">現在レビュー対象になっている文書と、その処理状況です。</p>
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
@@ -1998,7 +1998,7 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
-        ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button">コーパスマップ${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
+        ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button" title="コーパスマップを開く">確定済みコーパス${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
   `;
@@ -4678,7 +4678,7 @@ function cleanupYomiOverride(itemId) {
 function renderSubmissionPreview() {
   if (!isEditable()) {
     el.submissionPreview.value =
-      "過去のパックは閲覧専用のため、レビュー結果を提出できません。";
+      "過去のレビュー内容は閲覧専用のため、レビュー結果を提出できません。";
     renderIssueUrlSummary(null);
     return;
   }
@@ -4949,7 +4949,7 @@ function renderIssueUrlSummary(urls, payload = null) {
     return;
   }
   if (!urls) {
-    el.issueUrlSummary.textContent = "過去のパックは閲覧専用のため、Issueを作成できません。";
+    el.issueUrlSummary.textContent = "過去のレビュー内容は閲覧専用のため、Issueを作成できません。";
     return;
   }
   const jsonLength = payload ? formatSubmissionJson(payload).length : 0;
