@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 1943,
-  "generated_at": "2026-07-29T04:25:55Z",
-  "generated_at_epoch": 1785299155,
-  "last_successful_sync": "2026-07-29T04:25:51Z",
-  "last_successful_sync_epoch": 1785299151,
-  "status": "error",
+  "state_revision": 1944,
+  "generated_at": "2026-07-29T04:29:32Z",
+  "generated_at_epoch": 1785299372,
+  "last_successful_sync": "2026-07-29T04:29:32Z",
+  "last_successful_sync_epoch": 1785299372,
+  "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1785297704,
+    "anchor_epoch": 1785299296,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1785298004
+    "next_expected_epoch": 1785299596
   },
   "state": {
-    "current_batch_name": "dev_batch_0032",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
+    "current_batch_name": "dev_batch_0033",
+    "current_stage": "scope_triage_queued",
+    "next_stage": "scope_triage_llm_completed",
     "active_queue_count": 44,
     "queue_counts": {
       "bulk_review_selectable": 40,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "OSError: [Errno 39] Directory not empty: PosixPath('/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/packs')",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1785299155,
-    "completed_at_epoch": 1785299155,
-    "drift_seconds": 49
+    "started_at_epoch": 1785299296,
+    "completed_at_epoch": 1785299372,
+    "drift_seconds": 92
   },
   "client_polling": {
     "normal_seconds": 60,
