@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -161,12 +161,12 @@
       "source_line_no": 239,
       "preview": "凄い武器を見つけました、早く検討すれば良かった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-29T01:44:55Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-29T01:50:28Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 240,
       "preview": "虚数の情緒も今日で読み終わりそうである。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-29T01:44:55Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-29T01:50:28Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -774,7 +774,7 @@
       "source_line_no": 240,
       "text": "２〜３日で読んだのだから仕方ないが、また数学を始めるタームのとっかかりととしてまた読もうと思う。",
       "rendered_yomi_before": "２/ 〜/〜 ３日/ミッカ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
-      "rendered_yomi_after": "２/ 〜/〜 ３日/サンニチ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
+      "rendered_yomi_after": "２/ 〜/〜 ３/ 日/ニチ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "２",
@@ -785,8 +785,12 @@
           "〜"
         ],
         [
-          "３日",
-          "サンニチ"
+          "３",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
         ],
         [
           "で",
@@ -911,13 +915,23 @@
           ]
         },
         {
-          "surface": "３日",
-          "reading": "サンニチ",
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "３日",
-              "reading": "さんにち"
+              "text": "日",
+              "reading": "にち"
             }
           ]
         },
@@ -1211,14 +1225,14 @@
           "unit_id": "ja_cc_level2:0000000240:u0014",
           "text": "２〜３日で読んだのだから仕方ないが、また数学を始めるタームのとっかかりととしてまた読もうと思う。",
           "rendered_yomi_before": "２/ 〜/〜 ３日/ミッカ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
-          "rendered_yomi_after": "２/ 〜/〜 ３日/サンニチ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
+          "rendered_yomi_after": "２/ 〜/〜 ３/ 日/ニチ で/デ 読ん/ヨン だ/ダ の/ノ だ/ダ から/カラ 仕方ない/シカタナイ が/ガ 、/、 また/マタ 数学/スウガク を/ヲ 始める/ハジメル ターム/ターム の/ノ とっかかり/トッカカリ と/ト と/ト し/シ て/テ また/マタ 読もう/ヨモウ と/ト 思う/オモウ 。/。",
           "display_mapping": {
             "start": 2,
-            "end": 3,
+            "end": 4,
             "char_start": 2,
             "char_end": 4,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
