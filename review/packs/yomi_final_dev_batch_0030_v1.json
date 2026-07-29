@@ -16,8 +16,8 @@
       "complete": 8,
       "strong_pending": 2
     },
-    "unresolved_item_count": 22,
-    "unresolved_target_count": 27,
+    "unresolved_item_count": 21,
+    "unresolved_target_count": 25,
     "interaction_span_count": 1499,
     "provisional_skip_item_count": 2
   },
@@ -36,7 +36,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:02:55Z",
+      "state_updated_at": "2026-07-29T06:07:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 27,
@@ -197,7 +197,7 @@
       "application_failures": [],
       "item_count": 14,
       "region_count": 0,
-      "unresolved_count": 7,
+      "unresolved_count": 5,
       "from_seq": 142,
       "to_seq": 155,
       "reviewed_unit_count": 14,
@@ -244,7 +244,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:02:55Z",
+      "state_updated_at": "2026-07-29T06:07:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 51,
@@ -214492,19 +214492,19 @@
         },
         {
           "type": "text",
-          "text": "シュンビン"
+          "text": "シュンビン（"
         },
         {
           "type": "ruby",
-          "text": "（株）",
-          "target_item_id": "ja_cc_level2:0000000270:u0009:s0070-0072",
-          "reading": "かぶしきがいしゃ",
-          "is_safe": false,
-          "highlight_level": "target"
+          "text": "株",
+          "target_item_id": "ja_cc_level2:0000000270:u0009:s0071-0071",
+          "reading": "かぶ",
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "に"
+          "text": "）に"
         },
         {
           "type": "ruby",
@@ -214519,7 +214519,7 @@
           "text": "。"
         }
       ],
-      "rendered_yomi": "立命館/リツメイカン 大学/ダイガク 産業/サンギョウ 社会学/シャカイガク 部/ブ 卒業後/ソツギョウゴ 、/、 Web/ウェブ プロダクション/プロダクション 及び/オヨビ コンサルティング/コンサルティング 業/ギョウ 界/カイ にて/ニテ 多く/オオク の/ノ Web/ウェブ 制作/セイサク ・/・ 運用/ウンヨウ 支援/シエン の/ノ 経験/ケイケン を/ヲ 積み/ツミ 、/、 2015/ 年/ネン シュン/シュン ビン/ビン （株）/カブシキガイシャ に/ニ 入社/ニュウシャ 。/。",
+      "rendered_yomi": "立命館/リツメイカン 大学/ダイガク 産業/サンギョウ 社会学/シャカイガク 部/ブ 卒業後/ソツギョウゴ 、/、 Web/ウェブ プロダクション/プロダクション 及び/オヨビ コンサルティング/コンサルティング 業/ギョウ 界/カイ にて/ニテ 多く/オオク の/ノ Web/ウェブ 制作/セイサク ・/・ 運用/ウンヨウ 支援/シエン の/ノ 経験/ケイケン を/ヲ 積み/ツミ 、/、 2015/ 年/ネン シュン/シュン ビン/ビン （/（ 株/カブ ）/） に/ニ 入社/ニュウシャ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "立命館",
@@ -214852,18 +214852,30 @@
           ]
         },
         {
-          "surface": "（株）",
-          "reading": "カブシキガイシャ",
+          "surface": "（",
+          "reading": "（",
           "nodes": [
             {
               "type": "text",
               "text": "（"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "株",
+          "reading": "カブ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "株",
-              "reading": "かぶしきがいしゃ"
-            },
+              "reading": "かぶ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
             {
               "type": "text",
               "text": "）"
@@ -214911,9 +214923,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 20,
-      "safe_target_count": 19,
-      "unresolved_target_count": 1,
-      "all_targets_safe": false,
+      "safe_target_count": 20,
+      "unresolved_target_count": 0,
+      "all_targets_safe": true,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000270:u0009:r0001c01",
@@ -216613,45 +216625,53 @@
         },
         {
           "item_id": "ja_cc_level2:0000000270:u0009:r0031c01",
-          "surface": "（株）",
-          "token_surface": "（株）",
-          "target_start": 69,
-          "target_end": 72,
-          "token_index": 30,
+          "surface": "株",
+          "token_surface": "株",
+          "target_start": 70,
+          "target_end": 71,
+          "token_index": 31,
           "chunk_index": 0,
-          "current_reading": "（株）",
-          "current_reading_hiragana": "（株）",
-          "token_dictionary_form": "(株)",
-          "token_sudachi_reading": "カブシキガイシャ",
-          "token_pos": "補助記号,一般,*,*,*,*",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "accepted_signal_names": [],
-          "status_reason": "llm_reading_mismatched",
-          "default_candidate_id": null,
+          "current_reading": "カブ",
+          "current_reading_hiragana": "かぶ",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_parenthesized_semantic_normalization"
+          ],
+          "status_reason": "normalized_parenthesized_semantic_token",
+          "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": null,
+          "default_reading": "かぶ",
           "candidates": [
             {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
-              "reading": "かぶしきがいしゃ",
-              "accepted": false,
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かぶ",
+              "accepted": true,
               "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "（"
-                },
                 {
                   "type": "ruby",
                   "text": "株",
-                  "reading": "かぶしきがいしゃ"
-                },
+                  "reading": "かぶ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "しゅ",
+              "accepted": false,
+              "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "）"
+                  "type": "ruby",
+                  "text": "株",
+                  "reading": "しゅ"
                 }
               ]
             },
@@ -216664,42 +216684,16 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（株）"
+                  "text": "株"
                 }
               ]
             }
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（株）",
-              "evidence_reading": "（株）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カブシキガイシャ",
-                "count": 9,
-                "surface_total_count": 9,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260728T064618Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かぶしきがいしゃ",
-              "current_reading_hiragana": "（株）"
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -216709,7 +216703,7 @@
           "token_surface": "入社",
           "target_start": 73,
           "target_end": 75,
-          "token_index": 32,
+          "token_index": 34,
           "chunk_index": 0,
           "current_reading": "ニュウシャ",
           "current_reading_hiragana": "にゅうしゃ",
@@ -218610,47 +218604,58 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000270:u0009:s0070-0072",
-          "span_id": "ja_cc_level2:0000000270:u0009:s0070-0072",
-          "surface": "（株）",
-          "token_surface": "（株）",
-          "target_start": 69,
-          "target_end": 72,
-          "token_index": 30,
+          "item_id": "ja_cc_level2:0000000270:u0009:s0071-0071",
+          "span_id": "ja_cc_level2:0000000270:u0009:s0071-0071",
+          "surface": "株",
+          "token_surface": "株",
+          "target_start": 70,
+          "target_end": 71,
+          "token_index": 31,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "corpus_frequency",
-          "default_choice_source": "corpus_frequency",
-          "default_reading": "かぶしきがいしゃ",
+          "current_reading": "カブ",
+          "current_reading_hiragana": "かぶ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "かぶ",
           "candidates": [
             {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
-              "reading": "かぶしきがいしゃ",
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かぶ",
               "tokens": [
                 [
-                  "（株）",
-                  "カブシキガイシャ"
+                  "株",
+                  "カブ"
                 ]
               ],
               "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "（"
-                },
+                  "type": "ruby",
+                  "text": "株",
+                  "reading": "かぶ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "しゅ",
+              "tokens": [
+                [
+                  "株",
+                  "シュ"
+                ]
+              ],
+              "ruby_nodes": [
                 {
                   "type": "ruby",
                   "text": "株",
-                  "reading": "かぶしきがいしゃ"
-                },
-                {
-                  "type": "text",
-                  "text": "）"
+                  "reading": "しゅ"
                 }
               ]
             },
@@ -218663,7 +218668,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（株）"
+                  "text": "株"
                 }
               ]
             }
@@ -218673,35 +218678,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（株）",
-              "evidence_reading": "（株）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カブシキガイシャ",
-                "count": 9,
-                "surface_total_count": 9,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260728T064618Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かぶしきがいしゃ",
-              "current_reading_hiragana": "（株）"
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -218712,7 +218691,7 @@
           "token_surface": "入社",
           "target_start": 73,
           "target_end": 75,
-          "token_index": 32,
+          "token_index": 34,
           "chunk_index": 0,
           "current_reading": "ニュウシャ",
           "current_reading_hiragana": "にゅうしゃ",
@@ -218806,7 +218785,7 @@
         "経験": "けいけん",
         "積": "つ",
         "年": "ねん",
-        "（株）": "かぶしきがいしゃ",
+        "株": "かぶ",
         "入社": "にゅうしゃ"
       }
     },
@@ -223039,19 +223018,19 @@
         },
         {
           "type": "text",
-          "text": "にグラフィックデザイナーとしてシュンビン"
+          "text": "にグラフィックデザイナーとしてシュンビン（"
         },
         {
           "type": "ruby",
-          "text": "（株）",
-          "target_item_id": "ja_cc_level2:0000000270:u0012:s0045-0047",
-          "reading": "かぶしきがいしゃ",
-          "is_safe": false,
-          "highlight_level": "target"
+          "text": "株",
+          "target_item_id": "ja_cc_level2:0000000270:u0012:s0046-0046",
+          "reading": "かぶ",
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "に"
+          "text": "）に"
         },
         {
           "type": "ruby",
@@ -223066,7 +223045,7 @@
           "text": "。"
         }
       ],
-      "rendered_yomi": "ＤＴＰ/ディーティーピー デザイナー/デザイナー と/ト し/シ て/テ 経験/ケイケン を/ヲ 積ん/ツン だ/ダ 後/ノチ 、/、 2009/ 年/ネン に/ニ グラフィック/グラフィック デザイナー/デザイナー と/ト し/シ て/テ シュン/シュン ビン/ビン （株）/カブシキガイシャ に/ニ 入社/ニュウシャ 。/。",
+      "rendered_yomi": "ＤＴＰ/ディーティーピー デザイナー/デザイナー と/ト し/シ て/テ 経験/ケイケン を/ヲ 積ん/ツン だ/ダ 後/ノチ 、/、 2009/ 年/ネン に/ニ グラフィック/グラフィック デザイナー/デザイナー と/ト し/シ て/テ シュン/シュン ビン/ビン （/（ 株/カブ ）/） に/ニ 入社/ニュウシャ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "ＤＴＰ",
@@ -223288,18 +223267,30 @@
           ]
         },
         {
-          "surface": "（株）",
-          "reading": "カブシキガイシャ",
+          "surface": "（",
+          "reading": "（",
           "nodes": [
             {
               "type": "text",
               "text": "（"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "株",
+          "reading": "カブ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "株",
-              "reading": "かぶしきがいしゃ"
-            },
+              "reading": "かぶ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
             {
               "type": "text",
               "text": "）"
@@ -223347,8 +223338,8 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 7,
-      "safe_target_count": 5,
-      "unresolved_target_count": 2,
+      "safe_target_count": 6,
+      "unresolved_target_count": 1,
       "all_targets_safe": false,
       "targets": [
         {
@@ -223917,45 +223908,53 @@
         },
         {
           "item_id": "ja_cc_level2:0000000270:u0012:r0022c01",
-          "surface": "（株）",
-          "token_surface": "（株）",
-          "target_start": 44,
-          "target_end": 47,
-          "token_index": 21,
+          "surface": "株",
+          "token_surface": "株",
+          "target_start": 45,
+          "target_end": 46,
+          "token_index": 22,
           "chunk_index": 0,
-          "current_reading": "（株）",
-          "current_reading_hiragana": "（株）",
-          "token_dictionary_form": "(株)",
-          "token_sudachi_reading": "カブシキガイシャ",
-          "token_pos": "補助記号,一般,*,*,*,*",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "accepted_signal_names": [],
-          "status_reason": "llm_reading_mismatched",
-          "default_candidate_id": null,
+          "current_reading": "カブ",
+          "current_reading_hiragana": "かぶ",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_parenthesized_semantic_normalization"
+          ],
+          "status_reason": "normalized_parenthesized_semantic_token",
+          "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": null,
+          "default_reading": "かぶ",
           "candidates": [
             {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
-              "reading": "かぶしきがいしゃ",
-              "accepted": false,
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かぶ",
+              "accepted": true,
               "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "（"
-                },
                 {
                   "type": "ruby",
                   "text": "株",
-                  "reading": "かぶしきがいしゃ"
-                },
+                  "reading": "かぶ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "しゅ",
+              "accepted": false,
+              "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "）"
+                  "type": "ruby",
+                  "text": "株",
+                  "reading": "しゅ"
                 }
               ]
             },
@@ -223968,42 +223967,16 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（株）"
+                  "text": "株"
                 }
               ]
             }
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（株）",
-              "evidence_reading": "（株）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カブシキガイシャ",
-                "count": 9,
-                "surface_total_count": 9,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260728T064618Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かぶしきがいしゃ",
-              "current_reading_hiragana": "（株）"
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -224013,7 +223986,7 @@
           "token_surface": "入社",
           "target_start": 48,
           "target_end": 50,
-          "token_index": 23,
+          "token_index": 25,
           "chunk_index": 0,
           "current_reading": "ニュウシャ",
           "current_reading_hiragana": "にゅうしゃ",
@@ -224749,47 +224722,58 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000270:u0012:s0045-0047",
-          "span_id": "ja_cc_level2:0000000270:u0012:s0045-0047",
-          "surface": "（株）",
-          "token_surface": "（株）",
-          "target_start": 44,
-          "target_end": 47,
-          "token_index": 21,
+          "item_id": "ja_cc_level2:0000000270:u0012:s0046-0046",
+          "span_id": "ja_cc_level2:0000000270:u0012:s0046-0046",
+          "surface": "株",
+          "token_surface": "株",
+          "target_start": 45,
+          "target_end": 46,
+          "token_index": 22,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "corpus_frequency",
-          "default_choice_source": "corpus_frequency",
-          "default_reading": "かぶしきがいしゃ",
+          "current_reading": "カブ",
+          "current_reading_hiragana": "かぶ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "かぶ",
           "candidates": [
             {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
-              "reading": "かぶしきがいしゃ",
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "かぶ",
               "tokens": [
                 [
-                  "（株）",
-                  "カブシキガイシャ"
+                  "株",
+                  "カブ"
                 ]
               ],
               "ruby_nodes": [
                 {
-                  "type": "text",
-                  "text": "（"
-                },
+                  "type": "ruby",
+                  "text": "株",
+                  "reading": "かぶ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "しゅ",
+              "tokens": [
+                [
+                  "株",
+                  "シュ"
+                ]
+              ],
+              "ruby_nodes": [
                 {
                   "type": "ruby",
                   "text": "株",
-                  "reading": "かぶしきがいしゃ"
-                },
-                {
-                  "type": "text",
-                  "text": "）"
+                  "reading": "しゅ"
                 }
               ]
             },
@@ -224802,7 +224786,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（株）"
+                  "text": "株"
                 }
               ]
             }
@@ -224812,35 +224796,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（株）",
-              "evidence_reading": "（株）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": {
-                "reading": "カブシキガイシャ",
-                "count": 9,
-                "surface_total_count": 9,
-                "share": 1.0,
-                "source_corpus_version": "dev:20260728T064618Z"
-              },
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "mismatched",
-              "llm_reading": "かぶしきがいしゃ",
-              "current_reading_hiragana": "（株）"
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -224851,7 +224809,7 @@
           "token_surface": "入社",
           "target_start": 48,
           "target_end": 50,
-          "token_index": 23,
+          "token_index": 25,
           "chunk_index": 0,
           "current_reading": "ニュウシャ",
           "current_reading_hiragana": "にゅうしゃ",
@@ -224933,7 +224891,7 @@
         "積": "つ",
         "後": "あと",
         "年": "ねん",
-        "（株）": "かぶしきがいしゃ",
+        "株": "かぶ",
         "入社": "にゅうしゃ"
       }
     },

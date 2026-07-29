@@ -16,8 +16,8 @@
       "complete": 7,
       "strong_pending": 3
     },
-    "unresolved_item_count": 30,
-    "unresolved_target_count": 36,
+    "unresolved_item_count": 29,
+    "unresolved_target_count": 35,
     "interaction_span_count": 1453,
     "provisional_skip_item_count": 1
   },
@@ -93,7 +93,7 @@
       "application_failures": [],
       "item_count": 42,
       "region_count": 0,
-      "unresolved_count": 6,
+      "unresolved_count": 5,
       "from_seq": 33,
       "to_seq": 74,
       "reviewed_unit_count": 42,
@@ -192,7 +192,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:03:20Z",
+      "state_updated_at": "2026-07-29T06:08:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 61,
@@ -244,7 +244,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:03:20Z",
+      "state_updated_at": "2026-07-29T06:08:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 33,
@@ -270,7 +270,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-29T06:03:20Z",
+      "state_updated_at": "2026-07-29T06:08:19Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -100065,9 +100065,9 @@
           "review_status": "safe",
           "highlight_level": "none",
           "accepted_signal_names": [
-            "safe_by_parenthesized_laughter_normalization"
+            "safe_by_parenthesized_semantic_normalization"
           ],
-          "status_reason": "normalized_parenthesized_laughter",
+          "status_reason": "normalized_parenthesized_semantic_token",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "わらい",
@@ -100116,9 +100116,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_parenthesized_laughter_normalization",
+              "name": "safe_by_parenthesized_semantic_normalization",
               "accepted": true,
-              "reason": "punctuation_unread_laugh_read_as_warai"
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -102820,9 +102820,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_parenthesized_laughter_normalization",
+              "name": "safe_by_parenthesized_semantic_normalization",
               "accepted": true,
-              "reason": "punctuation_unread_laugh_read_as_warai"
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         },
@@ -103760,22 +103760,22 @@
         },
         {
           "type": "text",
-          "text": "ていませんがぁ～"
+          "text": "ていませんがぁ～（"
         },
         {
           "type": "ruby",
-          "text": "（涙）",
-          "target_item_id": "ja_cc_level2:0000000276:u0027:s0029-0031",
-          "reading": null,
-          "is_safe": false,
-          "highlight_level": "target"
+          "text": "涙",
+          "target_item_id": "ja_cc_level2:0000000276:u0027:s0030-0030",
+          "reading": "なみだ",
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "text",
-          "text": "。"
+          "text": "）。"
         }
       ],
-      "rendered_yomi": "コロナ/コロナ の/ノ おかげ/オカゲ で/デ 長らく/ナガラク そんな/ソンナ 幸せ/シアワセ も/モ 味わっ/アジワッ て/テ い/イ ませ/マセ ん/ン がぁ/ガァ ～/～ （涙）/ 。/。",
+      "rendered_yomi": "コロナ/コロナ の/ノ おかげ/オカゲ で/デ 長らく/ナガラク そんな/ソンナ 幸せ/シアワセ も/モ 味わっ/アジワッ て/テ い/イ ませ/マセ ん/ン がぁ/ガァ ～/～ （/（ 涙/ナミダ ）/） 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "コロナ",
@@ -103943,12 +103943,33 @@
           ]
         },
         {
-          "surface": "（涙）",
-          "reading": "",
+          "surface": "（",
+          "reading": "（",
           "nodes": [
             {
               "type": "text",
-              "text": "（涙）"
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "涙",
+          "reading": "ナミダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "涙",
+              "reading": "なみだ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
             }
           ]
         },
@@ -103972,9 +103993,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 4,
-      "safe_target_count": 3,
-      "unresolved_target_count": 1,
-      "all_targets_safe": false,
+      "safe_target_count": 4,
+      "unresolved_target_count": 0,
+      "all_targets_safe": true,
       "targets": [
         {
           "item_id": "ja_cc_level2:0000000276:u0027:r0005c01",
@@ -104411,26 +104432,56 @@
         },
         {
           "item_id": "ja_cc_level2:0000000276:u0027:r0016c01",
-          "surface": "（涙）",
-          "token_surface": "（涙）",
-          "target_start": 28,
-          "target_end": 31,
-          "token_index": 15,
+          "surface": "涙",
+          "token_surface": "涙",
+          "target_start": 29,
+          "target_end": 30,
+          "token_index": 16,
           "chunk_index": 0,
-          "current_reading": "（涙）",
-          "current_reading_hiragana": "（涙）",
-          "token_dictionary_form": "(涙)",
-          "token_sudachi_reading": "キゴウ",
-          "token_pos": "補助記号,ＡＡ,顔文字,*,*,*",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "accepted_signal_names": [],
-          "status_reason": "llm_reading_parse_error",
-          "default_candidate_id": null,
+          "current_reading": "ナミダ",
+          "current_reading_hiragana": "なみだ",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_parenthesized_semantic_normalization"
+          ],
+          "status_reason": "normalized_parenthesized_semantic_token",
+          "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": null,
+          "default_reading": "なみだ",
           "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "なみだ",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "涙",
+                  "reading": "なみだ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "るい",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "涙",
+                  "reading": "るい"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -104440,37 +104491,16 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（涙）"
+                  "text": "涙"
                 }
               ]
             }
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（涙）",
-              "evidence_reading": "（涙）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": null,
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "parse_error",
-              "llm_reading": null,
-              "current_reading_hiragana": "（涙）",
-              "parse_error": "Expected JSON key '（涙）'; got ['涙']."
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         }
@@ -105054,23 +105084,61 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000276:u0027:s0029-0031",
-          "span_id": "ja_cc_level2:0000000276:u0027:s0029-0031",
-          "surface": "（涙）",
-          "token_surface": "（涙）",
-          "target_start": 28,
-          "target_end": 31,
-          "token_index": 15,
+          "item_id": "ja_cc_level2:0000000276:u0027:s0030-0030",
+          "span_id": "ja_cc_level2:0000000276:u0027:s0030-0030",
+          "surface": "涙",
+          "token_surface": "涙",
+          "target_start": 29,
+          "target_end": 30,
+          "token_index": 16,
           "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "none",
-          "default_choice_source": "none",
-          "default_reading": null,
+          "current_reading": "ナミダ",
+          "current_reading_hiragana": "なみだ",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "なみだ",
           "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "なみだ",
+              "tokens": [
+                [
+                  "涙",
+                  "ナミダ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "涙",
+                  "reading": "なみだ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "るい",
+              "tokens": [
+                [
+                  "涙",
+                  "ルイ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "涙",
+                  "reading": "るい"
+                }
+              ]
+            },
             {
               "id": "none",
               "source": "none",
@@ -105080,7 +105148,7 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "（涙）"
+                  "text": "涙"
                 }
               ]
             }
@@ -105090,30 +105158,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_stable_dictionary",
-              "accepted": false,
-              "reason": "not_two_kanji"
-            },
-            {
-              "name": "safe_by_corpus_frequency",
-              "accepted": false,
-              "evidence_scope": "target",
-              "evidence_surface": "（涙）",
-              "evidence_reading": "（涙）",
-              "normalization_rule": null,
-              "min_count": 5,
-              "min_share": 0.95,
-              "dominant": null,
-              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260728T064618Z/surface_reading_stats.tsv",
-              "source_corpus_version": "dev:20260728T064618Z"
-            },
-            {
-              "name": "safe_by_llm_match",
-              "accepted": false,
-              "status": "parse_error",
-              "llm_reading": null,
-              "current_reading_hiragana": "（涙）",
-              "parse_error": "Expected JSON key '（涙）'; got ['涙']."
+              "name": "safe_by_parenthesized_semantic_normalization",
+              "accepted": true,
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         }
@@ -105122,7 +105169,8 @@
       "reading_hints": {
         "長": "なが",
         "幸": "しあわ",
-        "味": "あじ"
+        "味": "あじ",
+        "涙": "なみだ"
       }
     },
     {
@@ -118912,9 +118960,9 @@
           "review_status": "safe",
           "highlight_level": "none",
           "accepted_signal_names": [
-            "safe_by_parenthesized_laughter_normalization"
+            "safe_by_parenthesized_semantic_normalization"
           ],
-          "status_reason": "normalized_parenthesized_laughter",
+          "status_reason": "normalized_parenthesized_semantic_token",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "わらい",
@@ -118963,9 +119011,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_parenthesized_laughter_normalization",
+              "name": "safe_by_parenthesized_semantic_normalization",
               "accepted": true,
-              "reason": "punctuation_unread_laugh_read_as_warai"
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         }
@@ -119621,9 +119669,9 @@
           ],
           "signals": [
             {
-              "name": "safe_by_parenthesized_laughter_normalization",
+              "name": "safe_by_parenthesized_semantic_normalization",
               "accepted": true,
-              "reason": "punctuation_unread_laugh_read_as_warai"
+              "reason": "punctuation_unread_known_parenthetical_reading"
             }
           ]
         }
@@ -299577,8 +299625,8 @@
         "ＧＯＮＩＮ": "ごにん",
         "枚": "まい",
         "組": "くみ",
-        "ＩＮ": "いん",
-        "ＧＯ": "ごー"
+        "ＧＯ": "ごー",
+        "ＩＮ": "いん"
       }
     },
     {
@@ -304671,8 +304719,8 @@
         "突然": "とつぜん",
         "見": "み",
         "ＧＯＮＩＮ": "ごにん",
-        "ＩＮ": "いん",
-        "ＧＯ": "ごー"
+        "ＧＯ": "ごー",
+        "ＩＮ": "いん"
       }
     },
     {
@@ -307396,8 +307444,8 @@
         "筆舌": "ひつぜつ",
         "出来事": "できごと",
         "描": "えが",
-        "ＩＮ": "いん",
-        "ＧＯ": "ごー"
+        "ＧＯ": "ごー",
+        "ＩＮ": "いん"
       }
     },
     {
@@ -317357,8 +317405,8 @@
         "結局": "けっきょく",
         "ＧＯＮＩＮ": "ごにん",
         "見": "み",
-        "ＩＮ": "いん",
-        "ＧＯ": "ごー"
+        "ＧＯ": "ごー",
+        "ＩＮ": "いん"
       }
     },
     {
