@@ -4351,24 +4351,34 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextNoRuby = nextTarget && isNoRubyTarget(nextTarget, override);
   const previousMergeEligible = previousNoRuby || isNumericMergeEligibleTarget(previousTarget);
   const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
-  let remaining = text;
-
-  const trailing = nextMergeEligible ? numericMergeRun(remaining, "trailing") : "";
-  const leading = previousMergeEligible ? numericMergeRun(remaining, "leading") : "";
-  if (trailing && trailing.length < remaining.length) {
-    nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
-    remaining = trailing;
+  let leading = previousMergeEligible ? numericMergeRun(text, "leading") : "";
+  let trailing = nextMergeEligible ? numericMergeRun(text, "trailing") : "";
+  let leadingKind = leading ? "numeric" : "";
+  let trailingKind = trailing ? "numeric" : "";
+  if (!leading && previousNoRuby && isKanaMergeEligibleTarget(previousTarget)) {
+    leading = adjacentKanaToken(item, previousTarget, text, "after");
+    leadingKind = leading ? "kana" : "";
   }
-  if (trailing && nextTarget) {
-    nodes.push(renderNumericMergeButton(item, nextTarget, trailing, "before", override, editable));
-    remaining = "";
+  if (!trailing && nextNoRuby && isKanaMergeEligibleTarget(nextTarget)) {
+    trailing = adjacentKanaToken(item, nextTarget, text, "before");
+    trailingKind = trailing ? "kana" : "";
+  }
+  if ([...leading].length + [...trailing].length > [...text].length) {
+    leading = "";
+    leadingKind = "";
+    trailing = "";
+    trailingKind = "";
   }
   if (leading && previousTarget) {
-    nodes.push(renderNumericMergeButton(item, previousTarget, leading, "after", override, editable));
-    remaining = remaining.slice(leading.length);
+    nodes.push(renderAdjacentMergeButton(item, previousTarget, leading, "after", leadingKind, override, editable));
   }
-  if (remaining) {
-    nodes.push(document.createTextNode(remaining));
+  const middleStart = leading.length;
+  const middleEnd = trailing ? text.length - trailing.length : text.length;
+  if (middleStart < middleEnd) {
+    nodes.push(document.createTextNode(text.slice(middleStart, middleEnd)));
+  }
+  if (trailing && nextTarget) {
+    nodes.push(renderAdjacentMergeButton(item, nextTarget, trailing, "before", trailingKind, override, editable));
   }
   return nodes;
 }
@@ -4402,44 +4412,79 @@ function isNumericMergeEligibleTarget(target) {
   return /[A-Za-zＡ-Ｚａ-ｚ]/u.test(target.surface || "");
 }
 
+function isKanaMergeEligibleTarget(target) {
+  return Boolean(target) && /[\p{Script=Han}々〆ヵヶ]/u.test(target.surface || "");
+}
+
+function adjacentKanaToken(item, target, textSegment, side) {
+  const tokens = renderedYomiTokenSpans(item);
+  const boundary = Number(side === "before" ? target.target_start : target.target_end);
+  if (!Number.isInteger(boundary)) {
+    return "";
+  }
+  const token = tokens.find((candidate) =>
+    side === "before" ? candidate.end === boundary : candidate.start === boundary
+  );
+  if (!token || !/^[ぁ-ゖゝゞァ-ヺヽヾー]+$/u.test(token.surface)) {
+    return "";
+  }
+  if (side === "before" && !textSegment.endsWith(token.surface)) {
+    return "";
+  }
+  if (side === "after" && !textSegment.startsWith(token.surface)) {
+    return "";
+  }
+  return token.surface;
+}
+
+function renderedYomiTokenSpans(item) {
+  let cursor = 0;
+  return parseRenderedYomiTokens(item.rendered_yomi || "").map((token) => {
+    const surface = String(token.surface || "").replaceAll("\u00a0", " ");
+    const start = cursor;
+    cursor += [...surface].length;
+    return { surface, reading: token.reading || "", start, end: cursor };
+  });
+}
+
 function hasNoRubyCandidate(target) {
   return (target?.candidates || []).some((candidate) => candidate.source === "none");
 }
 
-function renderNumericMergeButton(item, target, digits, side, override, editable) {
+function renderAdjacentMergeButton(item, target, neighbor, side, kind, override, editable) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "ruby-token numeric-merge-token";
-  const span = numericMergeSpanDraft(target, digits, side);
+  button.className = `ruby-token adjacent-merge-token ${kind}-merge-token`;
+  const span = adjacentMergeSpanDraft(target, neighbor, side, kind);
   const active = Boolean(override?.span_overrides?.[span.id]);
   button.classList.toggle("changed", active);
   button.disabled = !editable;
   button.title = active
-    ? "数字を結合中です。タップすると解除します。"
-    : "この数字をルビなしの対象と結合して詳細修正に送ります。";
-  button.textContent = digits;
+    ? `${kind === "kana" ? "カナ" : "数字"}を結合中です。タップすると解除します。`
+    : `この${kind === "kana" ? "カナ" : "数字"}をルビなしの対象と結合して詳細修正に送ります。`;
+  button.textContent = neighbor;
   if (editable) {
-    button.addEventListener("click", () => toggleNumericMergeSpan(item, span));
+    button.addEventListener("click", () => toggleAdjacentMergeSpan(item, span));
   }
   return button;
 }
 
-function numericMergeSpanDraft(target, digits, side) {
+function adjacentMergeSpanDraft(target, neighbor, side, kind) {
   const originalSurface = side === "before"
-    ? `${digits}${target.surface || ""}`
-    : `${target.surface || ""}${digits}`;
+    ? `${neighbor}${target.surface || ""}`
+    : `${target.surface || ""}${neighbor}`;
   return {
-    id: `numeric-merge:${target.item_id}:${side}:${digits}`,
+    id: `${kind}-merge:${target.item_id}:${side}:${neighbor}`,
     decision: "segmentation",
     target_item_ids: [target.item_id],
     original_surface: originalSurface,
     segments: [{ surface: originalSurface, reading: "" }],
     repair_required: true,
-    repair_reason: "numeric_merge_no_reading",
+    repair_reason: `${kind}_merge_no_reading`,
   };
 }
 
-function toggleNumericMergeSpan(item, span) {
+function toggleAdjacentMergeSpan(item, span) {
   const draft = ensureYomiOverride(item.item_id);
   if (!draft.span_overrides) {
     draft.span_overrides = {};
@@ -4621,17 +4666,17 @@ function applyYomiCandidate(item, target, next) {
     };
   }
   if (next.source !== "none") {
-    removeNumericMergeSpansForTarget(draft, target.item_id);
+    removeAdjacentMergeSpansForTarget(draft, target.item_id);
     cleanupYomiOverride(item.item_id);
   }
   touchDraft();
   render();
 }
 
-function removeNumericMergeSpansForTarget(draft, targetItemId) {
+function removeAdjacentMergeSpansForTarget(draft, targetItemId) {
   for (const [spanId, span] of Object.entries(draft.span_overrides || {})) {
     if (
-      span?.repair_reason === "numeric_merge_no_reading" &&
+      ["numeric_merge_no_reading", "kana_merge_no_reading"].includes(span?.repair_reason) &&
       (span.target_item_ids || []).includes(targetItemId)
     ) {
       delete draft.span_overrides[spanId];

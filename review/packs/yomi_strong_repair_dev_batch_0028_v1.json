@@ -1,0 +1,5610 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0028_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0028",
+  "created_at_epoch": 1785299105,
+  "created_at": "2026-07-29T04:25:05Z",
+  "item_count": 5,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 5,
+    "queued_repair_row_count": 7,
+    "result_row_count": 7,
+    "reviewable_repair_row_count": 7,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000244",
+      "doc_seq": 1,
+      "track_doc_seq": 244,
+      "unit_count": 46,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 244,
+      "preview": "工場見学を通して、ものづくりの現場を体感。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 46,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000245",
+      "doc_seq": 2,
+      "track_doc_seq": 245,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 245,
+      "preview": "お好きな記事が見つかれば幸いです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000246",
+      "doc_seq": 3,
+      "track_doc_seq": 246,
+      "unit_count": 37,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 246,
+      "preview": "もう散り始めているところも。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-29T04:25:31Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 37,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000247",
+      "doc_seq": 4,
+      "track_doc_seq": 247,
+      "unit_count": 28,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 247,
+      "preview": "『水曜日のダウンタウン』で始まった男女５人とクロちゃんとの恋愛リアリティー『モンスターハウス』の第６話が１２月１９日に放送されました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-29T04:25:31Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 28,
+      "skipped_unit_count": 4,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000248",
+      "doc_seq": 5,
+      "track_doc_seq": 248,
+      "unit_count": 37,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 248,
+      "preview": "大阪・神戸三宮・舞子・徳島方面より、高速バスにて「洲本高速バスセンター」までお越しください。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-29T04:25:31Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 3,
+      "to_seq": 4,
+      "reviewed_unit_count": 37,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000249",
+      "doc_seq": 6,
+      "track_doc_seq": 249,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 249,
+      "preview": "2日間で「基礎・前期」の全単位(14単位)が取得できます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000250",
+      "doc_seq": 7,
+      "track_doc_seq": 250,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 250,
+      "preview": "という詩を2008年作りました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-29T04:25:31Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 5,
+      "to_seq": 5,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000251",
+      "doc_seq": 8,
+      "track_doc_seq": 251,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 251,
+      "preview": "特定の場所でまわすことが出来る「あやかしガシャ」について。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000252",
+      "doc_seq": 9,
+      "track_doc_seq": 252,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 252,
+      "preview": "新元号が発表になりましたね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000253",
+      "doc_seq": 10,
+      "track_doc_seq": 253,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 253,
+      "preview": "ハピバルのバルーンアーチは、屋内外の入り口や通路に飾る大型のバルーンのことだよ！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-29T04:23:50Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000246:u0035::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000246",
+      "doc_seq": 3,
+      "track_doc_seq": 246,
+      "unit_id": "ja_cc_level2:0000000246:u0035",
+      "unit_seq": 35,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 246,
+      "text": "20、30分位放流が続きました。",
+      "rendered_yomi_before": "20/ 、/、 30/ 分位/ブンイ 放流/ホウリュウ が/ガ 続き/ツヅキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "20/ 、/、 30/ 分/フン 位/クライ 放流/ホウリュウ が/ガ 続き/ツヅキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "20",
+          ""
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "30",
+          ""
+        ],
+        [
+          "分",
+          "フン"
+        ],
+        [
+          "位",
+          "クライ"
+        ],
+        [
+          "放流",
+          "ホウリュウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "続き",
+          "ツヅキ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "20",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "20"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "30",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "surface": "分",
+          "reading": "フン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "ふん"
+            }
+          ]
+        },
+        {
+          "surface": "位",
+          "reading": "クライ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "位",
+              "reading": "くらい"
+            }
+          ]
+        },
+        {
+          "surface": "放流",
+          "reading": "ホウリュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "放流",
+              "reading": "ほうりゅう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "続き",
+          "reading": "ツヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+          "item_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+          "unit_id": "ja_cc_level2:0000000246:u0035",
+          "text": "20、30分位放流が続きました。",
+          "rendered_yomi_before": "20/ 、/、 30/ 分位/ブンイ 放流/ホウリュウ が/ガ 続き/ツヅキ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "20/ 、/、 30/ 分/フン 位/クライ 放流/ホウリュウ が/ガ 続き/ツヅキ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 5,
+            "char_start": 5,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000246:u0035:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分位",
+              "token_surface": "分位",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶんい",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "分位",
+                  "reading": "ぶんい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000246:u0035:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分位",
+              "token_surface": "分位",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶんい",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "分位",
+                  "reading": "ぶんい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "分位",
+          "reading_candidates": {
+            "分": [
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "ぷん",
+              "わけ"
+            ],
+            "分位": [
+              "ぶんい"
+            ],
+            "位": [
+              "い",
+              "くらい",
+              "ただし"
+            ]
+          },
+          "reading_hints": {
+            "分": "ふん",
+            "分位": "ぶんい",
+            "位": "い"
+          },
+          "rejected_readings": [
+            {
+              "surface": "分位",
+              "reading": "ぶんい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"分\",\"reading\":\"ふん\",\"used_web_search\":false,\"comment\":\"数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。\"},{\"surface\":\"位\",\"reading\":\"くらい\",\"used_web_search\":false,\"comment\":\"「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "分",
+              "reading": "ふん",
+              "used_web_search": false,
+              "comment": "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。"
+            },
+            {
+              "surface": "位",
+              "reading": "くらい",
+              "used_web_search": false,
+              "comment": "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。"
+            }
+          ],
+          "llm_comments": [
+            "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。",
+            "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+            "status": "applied",
+            "rejected_span": "分位",
+            "replacement": [
+              {
+                "surface": "分",
+                "reading": "フン"
+              },
+              {
+                "surface": "位",
+                "reading": "クライ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+                "surface": "分位",
+                "comment": "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+                "surface": "分位",
+                "comment": "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "分位",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000246:u0035:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "分位",
+          "token_surface": "分位",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぶんい",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "分位",
+              "reading": "ぶんい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "分位",
+          "reading": "ぶんい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "分": [
+          "ふん",
+          "ぶ",
+          "ぶん",
+          "ぷん",
+          "わけ"
+        ],
+        "分位": [
+          "ぶんい"
+        ],
+        "位": [
+          "い",
+          "くらい",
+          "ただし"
+        ]
+      },
+      "reading_hints": {
+        "分": "ふん",
+        "分位": "ぶんい",
+        "位": "い"
+      },
+      "llm_parsed": [
+        {
+          "surface": "分",
+          "reading": "ふん",
+          "used_web_search": false,
+          "comment": "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。"
+        },
+        {
+          "surface": "位",
+          "reading": "くらい",
+          "used_web_search": false,
+          "comment": "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"分\",\"reading\":\"ふん\",\"used_web_search\":false,\"comment\":\"数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。\"},{\"surface\":\"位\",\"reading\":\"くらい\",\"used_web_search\":false,\"comment\":\"「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。\"}]",
+      "llm_comments": [
+        "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。",
+        "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+        "status": "applied",
+        "rejected_span": "分位",
+        "replacement": [
+          {
+            "surface": "分",
+            "reading": "フン"
+          },
+          {
+            "surface": "位",
+            "reading": "クライ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+            "surface": "分位",
+            "comment": "数量表現「20、30分位」の一部なので、ここは助数詞の「分」を「ふん」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000246:u0035::target_group:1",
+            "surface": "分位",
+            "comment": "「位」は程度・概数を表す助字で、「〜くらい」の意味になるため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000247:u0028::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000247",
+      "doc_seq": 4,
+      "track_doc_seq": 247,
+      "unit_id": "ja_cc_level2:0000000247:u0028",
+      "unit_seq": 28,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 247,
+      "text": "前回の第３話では、世吹すずめ（満島ひかり）が昔、超能力が使えないのに父親に超能力少女に仕立て上げられ、テレビで話題になった後、嘘つき呼ばわりされて生きてきたという秘密が明かされました。",
+      "rendered_yomi_before": "前回/ゼンカイ の/ノ 第/ダイ ３/ 話/ワ で/デ は/ハ 、/、 世/ヨ 吹/フキ すずめ/スズメ （/（ 満島/ミツシマ ひかり/ヒカリ ）/） が/ガ 昔/ムカシ 、/、 超能力/チョウノウリョク が/ガ 使え/ツカエ ない/ナイ の/ノ に/ニ 父親/チチオヤ に/ニ 超能力/チョウノウリョク 少女/ショウジョ に/ニ 仕立て上げ/シタテアゲ られ/ラレ 、/、 テレビ/テレビ で/デ 話題/ワダイ に/ニ なっ/ナッ た/タ 後/アト 、/、 嘘つき/ウソツキ 呼ばわり/ヨバワリ さ/サ れ/レ て/テ 生き/イキ て/テ き/キ た/タ と/ト いう/イウ 秘密/ヒミツ が/ガ 明かさ/アカサ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "前回/ゼンカイ の/ノ 第/ダイ ３/ 話/ワ で/デ は/ハ 、/、 世吹/セブキ すずめ/スズメ （/（ 満島/ミツシマ ひかり/ヒカリ ）/） が/ガ 昔/ムカシ 、/、 超能力/チョウノウリョク が/ガ 使え/ツカエ ない/ナイ の/ノ に/ニ 父親/チチオヤ に/ニ 超能力/チョウノウリョク 少女/ショウジョ に/ニ 仕立て上げ/シタテアゲ られ/ラレ 、/、 テレビ/テレビ で/デ 話題/ワダイ に/ニ なっ/ナッ た/タ 後/アト 、/、 嘘つき/ウソツキ 呼ばわり/ヨバワリ さ/サ れ/レ て/テ 生き/イキ て/テ き/キ た/タ と/ト いう/イウ 秘密/ヒミツ が/ガ 明かさ/アカサ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "前回",
+          "ゼンカイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "３",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "世吹",
+          "セブキ"
+        ],
+        [
+          "すずめ",
+          "スズメ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "満島",
+          "ミツシマ"
+        ],
+        [
+          "ひかり",
+          "ヒカリ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "昔",
+          "ムカシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "超能力",
+          "チョウノウリョク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "使え",
+          "ツカエ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "父親",
+          "チチオヤ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "超能力",
+          "チョウノウリョク"
+        ],
+        [
+          "少女",
+          "ショウジョ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "仕立て上げ",
+          "シタテアゲ"
+        ],
+        [
+          "られ",
+          "ラレ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "テレビ",
+          "テレビ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "話題",
+          "ワダイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "後",
+          "アト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "嘘つき",
+          "ウソツキ"
+        ],
+        [
+          "呼ばわり",
+          "ヨバワリ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "生き",
+          "イキ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "秘密",
+          "ヒミツ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "明かさ",
+          "アカサ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "前回",
+          "reading": "ゼンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前回",
+              "reading": "ぜんかい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "世吹",
+          "reading": "セブキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "世吹",
+              "reading": "せぶき"
+            }
+          ]
+        },
+        {
+          "surface": "すずめ",
+          "reading": "スズメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すずめ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "満島",
+          "reading": "ミツシマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "満島",
+              "reading": "みつしま"
+            }
+          ]
+        },
+        {
+          "surface": "ひかり",
+          "reading": "ヒカリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ひかり"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "昔",
+          "reading": "ムカシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昔",
+              "reading": "むかし"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "超能力",
+          "reading": "チョウノウリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "超能力",
+              "reading": "ちょうのうりょく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "使え",
+          "reading": "ツカエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使",
+              "reading": "つか"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "父親",
+          "reading": "チチオヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "父親",
+              "reading": "ちちおや"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "超能力",
+          "reading": "チョウノウリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "超能力",
+              "reading": "ちょうのうりょく"
+            }
+          ]
+        },
+        {
+          "surface": "少女",
+          "reading": "ショウジョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "少女",
+              "reading": "しょうじょ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "仕立て上げ",
+          "reading": "シタテアゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "仕立",
+              "reading": "した"
+            },
+            {
+              "type": "text",
+              "text": "て"
+            },
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "げ"
+            }
+          ]
+        },
+        {
+          "surface": "られ",
+          "reading": "ラレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "られ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "テレビ",
+          "reading": "テレビ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "テレビ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "話題",
+          "reading": "ワダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話題",
+              "reading": "わだい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "アト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "あと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "嘘つき",
+          "reading": "ウソツキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嘘",
+              "reading": "うそ"
+            },
+            {
+              "type": "text",
+              "text": "つき"
+            }
+          ]
+        },
+        {
+          "surface": "呼ばわり",
+          "reading": "ヨバワリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "呼",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "ばわり"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "生き",
+          "reading": "イキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "秘密",
+          "reading": "ヒミツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "秘密",
+              "reading": "ひみつ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "明かさ",
+          "reading": "アカサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "かさ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+          "item_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+          "unit_id": "ja_cc_level2:0000000247:u0028",
+          "text": "前回の第３話では、世吹すずめ（満島ひかり）が昔、超能力が使えないのに父親に超能力少女に仕立て上げられ、テレビで話題になった後、嘘つき呼ばわりされて生きてきたという秘密が明かされました。",
+          "rendered_yomi_before": "前回/ゼンカイ の/ノ 第/ダイ ３/ 話/ワ で/デ は/ハ 、/、 世/ヨ 吹/フキ すずめ/スズメ （/（ 満島/ミツシマ ひかり/ヒカリ ）/） が/ガ 昔/ムカシ 、/、 超能力/チョウノウリョク が/ガ 使え/ツカエ ない/ナイ の/ノ に/ニ 父親/チチオヤ に/ニ 超能力/チョウノウリョク 少女/ショウジョ に/ニ 仕立て上げ/シタテアゲ られ/ラレ 、/、 テレビ/テレビ で/デ 話題/ワダイ に/ニ なっ/ナッ た/タ 後/アト 、/、 嘘つき/ウソツキ 呼ばわり/ヨバワリ さ/サ れ/レ て/テ 生き/イキ て/テ き/キ た/タ と/ト いう/イウ 秘密/ヒミツ が/ガ 明かさ/アカサ れ/レ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "前回/ゼンカイ の/ノ 第/ダイ ３/ 話/ワ で/デ は/ハ 、/、 世吹/セブキ すずめ/スズメ （/（ 満島/ミツシマ ひかり/ヒカリ ）/） が/ガ 昔/ムカシ 、/、 超能力/チョウノウリョク が/ガ 使え/ツカエ ない/ナイ の/ノ に/ニ 父親/チチオヤ に/ニ 超能力/チョウノウリョク 少女/ショウジョ に/ニ 仕立て上げ/シタテアゲ られ/ラレ 、/、 テレビ/テレビ で/デ 話題/ワダイ に/ニ なっ/ナッ た/タ 後/アト 、/、 嘘つき/ウソツキ 呼ばわり/ヨバワリ さ/サ れ/レ て/テ 生き/イキ て/テ き/キ た/タ と/ト いう/イウ 秘密/ヒミツ が/ガ 明かさ/アカサ れ/レ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 9,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000247:u0028:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "世",
+              "token_surface": "世",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "世",
+                  "reading": "よ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000247:u0028:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "吹",
+              "token_surface": "吹",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふき",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "吹",
+                  "reading": "ふき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000247:u0028:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "世",
+              "token_surface": "世",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "よ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "世",
+                  "reading": "よ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000247:u0028:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "吹",
+              "token_surface": "吹",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふき",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "吹",
+                  "reading": "ふき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "世吹",
+          "reading_candidates": {
+            "世": [
+              "せ",
+              "せい",
+              "ぜ",
+              "よ"
+            ],
+            "吹": [
+              "ふき",
+              "ぶき"
+            ]
+          },
+          "reading_hints": {
+            "世": "せ",
+            "吹": "ふき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "世",
+              "reading": "よ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "吹",
+              "reading": "ふき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"世吹\",\"reading\":\"セブキ\",\"used_web_search\":true,\"comment\":\"『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "世吹",
+              "reading": "セブキ",
+              "used_web_search": true,
+              "comment": "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+            "status": "applied",
+            "rejected_span": "世吹",
+            "replacement": [
+              {
+                "surface": "世吹",
+                "reading": "セブキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+                "surface": "世吹",
+                "comment": "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "世吹",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000247:u0028:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "世",
+          "token_surface": "世",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "よ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "世",
+              "reading": "よ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000247:u0028:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "吹",
+          "token_surface": "吹",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ふき",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "吹",
+              "reading": "ふき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "世",
+          "reading": "よ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "吹",
+          "reading": "ふき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "世": [
+          "せ",
+          "せい",
+          "ぜ",
+          "よ"
+        ],
+        "吹": [
+          "ふき",
+          "ぶき"
+        ]
+      },
+      "reading_hints": {
+        "世": "せ",
+        "吹": "ふき"
+      },
+      "llm_parsed": [
+        {
+          "surface": "世吹",
+          "reading": "セブキ",
+          "used_web_search": true,
+          "comment": "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"世吹\",\"reading\":\"セブキ\",\"used_web_search\":true,\"comment\":\"『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))\"}]",
+      "llm_comments": [
+        "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+        "status": "applied",
+        "rejected_span": "世吹",
+        "replacement": [
+          {
+            "surface": "世吹",
+            "reading": "セブキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000247:u0028::target_group:1",
+            "surface": "世吹",
+            "comment": "『世吹すずめ』の姓として公式表記があり、読みは「せぶき」。 ([tbs.co.jp](https://www.tbs.co.jp/quartet2017/chart/chara2.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000248:u0025::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000248",
+      "doc_seq": 5,
+      "track_doc_seq": 248,
+      "unit_id": "ja_cc_level2:0000000248:u0025",
+      "unit_seq": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 248,
+      "text": "2016年12月31日ガルパン年越し一挙上映、終了いたしました。",
+      "rendered_yomi_before": "2016/ 年/ネン 12/ 月/ガツ 31/ 日/ニチ ガル/ガル パン/パン 年越し/トシコシ 一/イチ 挙上/キョジョウ 映/映 、/、 終了/シュウリョウ いたし/イタシ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "2016/ 年/ネン 12/ 月/ガツ 31/ 日/ニチ ガル/ガル パン/パン 年越し/トシコシ 一挙/イッキョ 上映/ジョウエイ 、/、 終了/シュウリョウ いたし/イタシ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2016",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "12",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "31",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "ガル",
+          "ガル"
+        ],
+        [
+          "パン",
+          "パン"
+        ],
+        [
+          "年越し",
+          "トシコシ"
+        ],
+        [
+          "一挙",
+          "イッキョ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "終了",
+          "シュウリョウ"
+        ],
+        [
+          "いたし",
+          "イタシ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2016",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2016"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "12",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "12"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "31",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "31"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "ガル",
+          "reading": "ガル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガル"
+            }
+          ]
+        },
+        {
+          "surface": "パン",
+          "reading": "パン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パン"
+            }
+          ]
+        },
+        {
+          "surface": "年越し",
+          "reading": "トシコシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年越",
+              "reading": "としこ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "一挙",
+          "reading": "イッキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一挙",
+              "reading": "いっきょ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "終了",
+          "reading": "シュウリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "終了",
+              "reading": "しゅうりょう"
+            }
+          ]
+        },
+        {
+          "surface": "いたし",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いたし"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+          "item_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+          "unit_id": "ja_cc_level2:0000000248:u0025",
+          "text": "2016年12月31日ガルパン年越し一挙上映、終了いたしました。",
+          "rendered_yomi_before": "2016/ 年/ネン 12/ 月/ガツ 31/ 日/ニチ ガル/ガル パン/パン 年越し/トシコシ 一/イチ 挙上/キョジョウ 映/映 、/、 終了/シュウリョウ いたし/イタシ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "2016/ 年/ネン 12/ 月/ガツ 31/ 日/ニチ ガル/ガル パン/パン 年越し/トシコシ 一挙/イッキョ 上映/ジョウエイ 、/、 終了/シュウリョウ いたし/イタシ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 11,
+            "char_start": 18,
+            "char_end": 22,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一",
+              "token_surface": "一",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いち",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "一",
+                  "reading": "いち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "挙上",
+              "token_surface": "挙上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょじょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "挙上",
+                  "reading": "きょじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一",
+              "token_surface": "一",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いち",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "一",
+                  "reading": "いち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "挙上",
+              "token_surface": "挙上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょじょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "挙上",
+                  "reading": "きょじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0025:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "rejected_span": "一挙上映",
+          "reading_candidates": {
+            "一": [
+              "いち",
+              "いっ",
+              "いつ",
+              "かず",
+              "しん",
+              "にのまえ",
+              "はじむ",
+              "はじめ",
+              "ひ",
+              "ひい",
+              "ひと",
+              "ひとし",
+              "ひとつ",
+              "びと",
+              "まこと"
+            ],
+            "一挙": [
+              "いっきょ"
+            ],
+            "挙": [
+              "きょ"
+            ],
+            "挙上": [
+              "きょじょう"
+            ],
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ],
+            "上映": [
+              "じょうえい"
+            ],
+            "映": [
+              "えい",
+              "はえる"
+            ]
+          },
+          "reading_hints": {
+            "一": "いち",
+            "一挙": "いっきょ",
+            "挙": "きょ",
+            "挙上": "きょじょう",
+            "上": "あげ",
+            "上映": "じょうえい",
+            "映": "えい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "一",
+              "reading": "いち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "挙上",
+              "reading": "きょじょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"一挙\",\"reading\":\"いっきょ\",\"used_web_search\":false,\"comment\":\"慣用的に「一挙」は「いっきょ」と読む。\"},{\"surface\":\"上映\",\"reading\":\"じょうえい\",\"used_web_search\":false,\"comment\":\"後続の名詞で、通常の読みは「じょうえい」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "一挙",
+              "reading": "いっきょ",
+              "used_web_search": false,
+              "comment": "慣用的に「一挙」は「いっきょ」と読む。"
+            },
+            {
+              "surface": "上映",
+              "reading": "じょうえい",
+              "used_web_search": false,
+              "comment": "後続の名詞で、通常の読みは「じょうえい」。"
+            }
+          ],
+          "llm_comments": [
+            "慣用的に「一挙」は「いっきょ」と読む。",
+            "後続の名詞で、通常の読みは「じょうえい」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+            "status": "applied",
+            "rejected_span": "一挙上映",
+            "replacement": [
+              {
+                "surface": "一挙",
+                "reading": "イッキョ"
+              },
+              {
+                "surface": "上映",
+                "reading": "ジョウエイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+                "surface": "一挙上映",
+                "comment": "慣用的に「一挙」は「いっきょ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+                "surface": "一挙上映",
+                "comment": "後続の名詞で、通常の読みは「じょうえい」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "一挙上映",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000248:u0025:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "一",
+          "token_surface": "一",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いち",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "一",
+              "reading": "いち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000248:u0025:s0020-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "挙上",
+          "token_surface": "挙上",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きょじょう",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "挙上",
+              "reading": "きょじょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000248:u0025:s0022-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "映",
+          "token_surface": "映",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "一",
+          "reading": "いち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "挙上",
+          "reading": "きょじょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "一": [
+          "いち",
+          "いっ",
+          "いつ",
+          "かず",
+          "しん",
+          "にのまえ",
+          "はじむ",
+          "はじめ",
+          "ひ",
+          "ひい",
+          "ひと",
+          "ひとし",
+          "ひとつ",
+          "びと",
+          "まこと"
+        ],
+        "一挙": [
+          "いっきょ"
+        ],
+        "挙": [
+          "きょ"
+        ],
+        "挙上": [
+          "きょじょう"
+        ],
+        "上": [
+          "あげ",
+          "うえ",
+          "うわ",
+          "かみ",
+          "かみの",
+          "かむら",
+          "じょう",
+          "たかし",
+          "のぼる"
+        ],
+        "上映": [
+          "じょうえい"
+        ],
+        "映": [
+          "えい",
+          "はえる"
+        ]
+      },
+      "reading_hints": {
+        "一": "いち",
+        "一挙": "いっきょ",
+        "挙": "きょ",
+        "挙上": "きょじょう",
+        "上": "あげ",
+        "上映": "じょうえい",
+        "映": "えい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "一挙",
+          "reading": "いっきょ",
+          "used_web_search": false,
+          "comment": "慣用的に「一挙」は「いっきょ」と読む。"
+        },
+        {
+          "surface": "上映",
+          "reading": "じょうえい",
+          "used_web_search": false,
+          "comment": "後続の名詞で、通常の読みは「じょうえい」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"一挙\",\"reading\":\"いっきょ\",\"used_web_search\":false,\"comment\":\"慣用的に「一挙」は「いっきょ」と読む。\"},{\"surface\":\"上映\",\"reading\":\"じょうえい\",\"used_web_search\":false,\"comment\":\"後続の名詞で、通常の読みは「じょうえい」。\"}]",
+      "llm_comments": [
+        "慣用的に「一挙」は「いっきょ」と読む。",
+        "後続の名詞で、通常の読みは「じょうえい」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+        "status": "applied",
+        "rejected_span": "一挙上映",
+        "replacement": [
+          {
+            "surface": "一挙",
+            "reading": "イッキョ"
+          },
+          {
+            "surface": "上映",
+            "reading": "ジョウエイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+            "surface": "一挙上映",
+            "comment": "慣用的に「一挙」は「いっきょ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000248:u0025::target_group:1",
+            "surface": "一挙上映",
+            "comment": "後続の名詞で、通常の読みは「じょうえい」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000248:u0037::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000248",
+      "doc_seq": 5,
+      "track_doc_seq": 248,
+      "unit_id": "ja_cc_level2:0000000248:u0037",
+      "unit_seq": 37,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 248,
+      "text": "洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)インタビューによる自己紹介：映画を軸にコミュニケーションの場をつくる 山口賀生さん洲本オリオン2021-2022 劇場版少女歌劇レヴュースタァライト上映＆TVシリーズ一挙上映のお知らせ洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)洲本オリオン『ガールズ＆パンツァー最終章 第2話』上映決定!",
+      "rendered_yomi_before": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル / 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ / 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上/ジョウ 映/映 ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ / 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+      "rendered_yomi_after": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル \\s/ 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ \\s/ 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上映/ジョウエイ ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ \\s/ 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+      "rendered_yomi_after_tokens": [
+        [
+          "洲本",
+          "スモト"
+        ],
+        [
+          "オリオン",
+          "オリオン"
+        ],
+        [
+          "ガールズ",
+          "ガールズ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "パン",
+          "パン"
+        ],
+        [
+          "ツァー",
+          "ツァー"
+        ],
+        [
+          "最終章",
+          "サイシュウショウ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "転進",
+          "テンシン"
+        ],
+        [
+          "的",
+          "テキ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "Petit",
+          "プチ"
+        ],
+        [
+          "一挙",
+          "イッキョ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "開催",
+          "カイサイ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "7",
+          ""
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "18",
+          ""
+        ],
+        [
+          "更新",
+          "コウシン"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "インタビュー",
+          "インタビュー"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よる",
+          "ヨル"
+        ],
+        [
+          "自己",
+          "ジコ"
+        ],
+        [
+          "紹介",
+          "ショウカイ"
+        ],
+        [
+          "：",
+          "："
+        ],
+        [
+          "映画",
+          "エイガ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "軸",
+          "ジク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "コミュニケーション",
+          "コミュニケーション"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "場",
+          "バ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "つくる",
+          "ツクル"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "山口",
+          "ヤマグチ"
+        ],
+        [
+          "賀生",
+          "ヨシオ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "洲本",
+          "スモト"
+        ],
+        [
+          "オリオン",
+          "オリオン"
+        ],
+        [
+          "2021",
+          ""
+        ],
+        [
+          "-2022",
+          ""
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "劇場版",
+          "ゲキジョウバン"
+        ],
+        [
+          "少女",
+          "ショウジョ"
+        ],
+        [
+          "歌劇",
+          "カゲキ"
+        ],
+        [
+          "レヴュー",
+          "レヴュー"
+        ],
+        [
+          "ス",
+          "ス"
+        ],
+        [
+          "タァ",
+          "タァ"
+        ],
+        [
+          "ライト",
+          "ライト"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "TV",
+          "テレビ"
+        ],
+        [
+          "シリーズ",
+          "シリーズ"
+        ],
+        [
+          "一挙",
+          "イッキョ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "お知らせ",
+          "オシラセ"
+        ],
+        [
+          "洲本",
+          "スモト"
+        ],
+        [
+          "オリオン",
+          "オリオン"
+        ],
+        [
+          "ガールズ",
+          "ガールズ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "パン",
+          "パン"
+        ],
+        [
+          "ツァー",
+          "ツァー"
+        ],
+        [
+          "最終章",
+          "サイシュウショウ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "転進",
+          "テンシン"
+        ],
+        [
+          "的",
+          "テキ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "Petit",
+          "プチ"
+        ],
+        [
+          "一挙",
+          "イッキョ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "開催",
+          "カイサイ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "7",
+          ""
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "18",
+          ""
+        ],
+        [
+          "更新",
+          "コウシン"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "洲本",
+          "スモト"
+        ],
+        [
+          "オリオン",
+          "オリオン"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "ガールズ",
+          "ガールズ"
+        ],
+        [
+          "＆",
+          "＆"
+        ],
+        [
+          "パン",
+          "パン"
+        ],
+        [
+          "ツァー",
+          "ツァー"
+        ],
+        [
+          "最終章",
+          "サイシュウショウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "2",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "決定",
+          "ケッテイ"
+        ],
+        [
+          "!",
+          "!"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "洲本",
+          "reading": "スモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洲本",
+              "reading": "すもと"
+            }
+          ]
+        },
+        {
+          "surface": "オリオン",
+          "reading": "オリオン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オリオン"
+            }
+          ]
+        },
+        {
+          "surface": "ガールズ",
+          "reading": "ガールズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガールズ"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "パン",
+          "reading": "パン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パン"
+            }
+          ]
+        },
+        {
+          "surface": "ツァー",
+          "reading": "ツァー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツァー"
+            }
+          ]
+        },
+        {
+          "surface": "最終章",
+          "reading": "サイシュウショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最終章",
+              "reading": "さいしゅうしょう"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "転進",
+          "reading": "テンシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "転進",
+              "reading": "てんしん"
+            }
+          ]
+        },
+        {
+          "surface": "的",
+          "reading": "テキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "Petit",
+          "reading": "プチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Petit",
+              "reading": "ぷち"
+            }
+          ]
+        },
+        {
+          "surface": "一挙",
+          "reading": "イッキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一挙",
+              "reading": "いっきょ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "開催",
+          "reading": "カイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開催",
+              "reading": "かいさい"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "7",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "18",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "18"
+            }
+          ]
+        },
+        {
+          "surface": "更新",
+          "reading": "コウシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "更新",
+              "reading": "こうしん"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "インタビュー",
+          "reading": "インタビュー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "インタビュー"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よる",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "自己",
+          "reading": "ジコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自己",
+              "reading": "じこ"
+            }
+          ]
+        },
+        {
+          "surface": "紹介",
+          "reading": "ショウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紹介",
+              "reading": "しょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "：",
+          "reading": "：",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "："
+            }
+          ]
+        },
+        {
+          "surface": "映画",
+          "reading": "エイガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "映画",
+              "reading": "えいが"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "軸",
+          "reading": "ジク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "軸",
+              "reading": "じく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "コミュニケーション",
+          "reading": "コミュニケーション",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コミュニケーション"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "場",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場",
+              "reading": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "つくる",
+          "reading": "ツクル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つくる"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "山口",
+          "reading": "ヤマグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山口",
+              "reading": "やまぐち"
+            }
+          ]
+        },
+        {
+          "surface": "賀生",
+          "reading": "ヨシオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "賀生",
+              "reading": "よしお"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "洲本",
+          "reading": "スモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洲本",
+              "reading": "すもと"
+            }
+          ]
+        },
+        {
+          "surface": "オリオン",
+          "reading": "オリオン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オリオン"
+            }
+          ]
+        },
+        {
+          "surface": "2021",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2021"
+            }
+          ]
+        },
+        {
+          "surface": "-2022",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "-2022"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "劇場版",
+          "reading": "ゲキジョウバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "劇場版",
+              "reading": "げきじょうばん"
+            }
+          ]
+        },
+        {
+          "surface": "少女",
+          "reading": "ショウジョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "少女",
+              "reading": "しょうじょ"
+            }
+          ]
+        },
+        {
+          "surface": "歌劇",
+          "reading": "カゲキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歌劇",
+              "reading": "かげき"
+            }
+          ]
+        },
+        {
+          "surface": "レヴュー",
+          "reading": "レヴュー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レヴュー"
+            }
+          ]
+        },
+        {
+          "surface": "ス",
+          "reading": "ス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ス"
+            }
+          ]
+        },
+        {
+          "surface": "タァ",
+          "reading": "タァ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タァ"
+            }
+          ]
+        },
+        {
+          "surface": "ライト",
+          "reading": "ライト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ライト"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "TV",
+          "reading": "テレビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "TV",
+              "reading": "てれび"
+            }
+          ]
+        },
+        {
+          "surface": "シリーズ",
+          "reading": "シリーズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シリーズ"
+            }
+          ]
+        },
+        {
+          "surface": "一挙",
+          "reading": "イッキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一挙",
+              "reading": "いっきょ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "お知らせ",
+          "reading": "オシラセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            },
+            {
+              "type": "ruby",
+              "text": "知",
+              "reading": "し"
+            },
+            {
+              "type": "text",
+              "text": "らせ"
+            }
+          ]
+        },
+        {
+          "surface": "洲本",
+          "reading": "スモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洲本",
+              "reading": "すもと"
+            }
+          ]
+        },
+        {
+          "surface": "オリオン",
+          "reading": "オリオン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オリオン"
+            }
+          ]
+        },
+        {
+          "surface": "ガールズ",
+          "reading": "ガールズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガールズ"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "パン",
+          "reading": "パン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パン"
+            }
+          ]
+        },
+        {
+          "surface": "ツァー",
+          "reading": "ツァー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツァー"
+            }
+          ]
+        },
+        {
+          "surface": "最終章",
+          "reading": "サイシュウショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最終章",
+              "reading": "さいしゅうしょう"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "転進",
+          "reading": "テンシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "転進",
+              "reading": "てんしん"
+            }
+          ]
+        },
+        {
+          "surface": "的",
+          "reading": "テキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "Petit",
+          "reading": "プチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Petit",
+              "reading": "ぷち"
+            }
+          ]
+        },
+        {
+          "surface": "一挙",
+          "reading": "イッキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一挙",
+              "reading": "いっきょ"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "開催",
+          "reading": "カイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開催",
+              "reading": "かいさい"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "7",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "7"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "18",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "18"
+            }
+          ]
+        },
+        {
+          "surface": "更新",
+          "reading": "コウシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "更新",
+              "reading": "こうしん"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "洲本",
+          "reading": "スモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "洲本",
+              "reading": "すもと"
+            }
+          ]
+        },
+        {
+          "surface": "オリオン",
+          "reading": "オリオン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オリオン"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "ガールズ",
+          "reading": "ガールズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガールズ"
+            }
+          ]
+        },
+        {
+          "surface": "＆",
+          "reading": "＆",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "＆"
+            }
+          ]
+        },
+        {
+          "surface": "パン",
+          "reading": "パン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パン"
+            }
+          ]
+        },
+        {
+          "surface": "ツァー",
+          "reading": "ツァー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツァー"
+            }
+          ]
+        },
+        {
+          "surface": "最終章",
+          "reading": "サイシュウショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最終章",
+              "reading": "さいしゅうしょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "決定",
+          "reading": "ケッテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決定",
+              "reading": "けってい"
+            }
+          ]
+        },
+        {
+          "surface": "!",
+          "reading": "!",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "!"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 3,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+          "item_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+          "unit_id": "ja_cc_level2:0000000248:u0037",
+          "text": "洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)インタビューによる自己紹介：映画を軸にコミュニケーションの場をつくる 山口賀生さん洲本オリオン2021-2022 劇場版少女歌劇レヴュースタァライト上映＆TVシリーズ一挙上映のお知らせ洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)洲本オリオン『ガールズ＆パンツァー最終章 第2話』上映決定!",
+          "rendered_yomi_before": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル / 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ / 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上/ジョウ 映/映 ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ / 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "rendered_yomi_after": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル \\s/ 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ \\s/ 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上映/ジョウエイ ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ \\s/ 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 22,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0023-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "rejected_span": "上映",
+          "reading_candidates": {
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ],
+            "上映": [
+              "じょうえい"
+            ],
+            "映": [
+              "えい",
+              "はえる"
+            ]
+          },
+          "reading_hints": {
+            "上": "あげ",
+            "上映": "じょうえい",
+            "映": "えい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上映\",\"reading\":\"ジョウエイ\",\"used_web_search\":false,\"comment\":\"一般語で「上映」は一語として読むため、分割せず「じょうえい」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "上映",
+              "reading": "ジョウエイ",
+              "used_web_search": false,
+              "comment": "一般語で「上映」は一語として読むため、分割せず「じょうえい」。"
+            }
+          ],
+          "llm_comments": [
+            "一般語で「上映」は一語として読むため、分割せず「じょうえい」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+            "status": "applied",
+            "rejected_span": "上映",
+            "replacement": [
+              {
+                "surface": "上映",
+                "reading": "ジョウエイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+                "surface": "上映",
+                "comment": "一般語で「上映」は一語として読むため、分割せず「じょうえい」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000248:u0037::target_group:2",
+          "item_id": "ja_cc_level2:0000000248:u0037::target_group:2",
+          "unit_id": "ja_cc_level2:0000000248:u0037",
+          "text": "洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)インタビューによる自己紹介：映画を軸にコミュニケーションの場をつくる 山口賀生さん洲本オリオン2021-2022 劇場版少女歌劇レヴュースタァライト上映＆TVシリーズ一挙上映のお知らせ洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)洲本オリオン『ガールズ＆パンツァー最終章 第2話』上映決定!",
+          "rendered_yomi_before": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル / 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ / 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上/ジョウ 映/映 ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ / 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "rendered_yomi_after": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル \\s/ 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ \\s/ 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上映/ジョウエイ ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ \\s/ 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "display_mapping": {
+            "start": 57,
+            "end": 58,
+            "char_start": 123,
+            "char_end": 125,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0124-0124",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 58,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0125-0125",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 59,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0124-0124",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 58,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0125-0125",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 59,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "rejected_span": "上映",
+          "reading_candidates": {
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ],
+            "上映": [
+              "じょうえい"
+            ],
+            "映": [
+              "えい",
+              "はえる"
+            ]
+          },
+          "reading_hints": {
+            "上": "あげ",
+            "上映": "じょうえい",
+            "映": "えい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上映\",\"reading\":\"ジョウエイ\",\"used_web_search\":false,\"comment\":\"「上映」は一語の一般的な語で、分割せず「じょうえい」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "上映",
+              "reading": "ジョウエイ",
+              "used_web_search": false,
+              "comment": "「上映」は一語の一般的な語で、分割せず「じょうえい」と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "「上映」は一語の一般的な語で、分割せず「じょうえい」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000248:u0037::target_group:2",
+            "status": "applied",
+            "rejected_span": "上映",
+            "replacement": [
+              {
+                "surface": "上映",
+                "reading": "ジョウエイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000248:u0037::target_group:2",
+                "surface": "上映",
+                "comment": "「上映」は一語の一般的な語で、分割せず「じょうえい」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000248:u0037::target_group:3",
+          "item_id": "ja_cc_level2:0000000248:u0037::target_group:3",
+          "unit_id": "ja_cc_level2:0000000248:u0037",
+          "text": "洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)インタビューによる自己紹介：映画を軸にコミュニケーションの場をつくる 山口賀生さん洲本オリオン2021-2022 劇場版少女歌劇レヴュースタァライト上映＆TVシリーズ一挙上映のお知らせ洲本オリオンガールズ＆パンツァー最終章第3話上映＆「転進的」Petit一挙上映開催(7/18更新)洲本オリオン『ガールズ＆パンツァー最終章 第2話』上映決定!",
+          "rendered_yomi_before": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル / 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ / 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上/ジョウ 映/映 ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上/ジョウ 映/映 ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ /// 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ / 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "rendered_yomi_after": "洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) インタビュー/インタビュー に/ニ よる/ヨル 自己/ジコ 紹介/ショウカイ ：/： 映画/エイガ を/ヲ 軸/ジク に/ニ コミュニケーション/コミュニケーション の/ノ 場/バ を/ヲ つくる/ツクル \\s/ 山口/ヤマグチ 賀生/ヨシオ さん/サン 洲本/スモト オリオン/オリオン 2021/ -2022/ \\s/ 劇場版/ゲキジョウバン 少女/ショウジョ 歌劇/カゲキ レヴュー/レヴュー ス/ス タァ/タァ ライト/ライト 上映/ジョウエイ ＆/＆ TV/テレビ シリーズ/シリーズ 一挙/イッキョ 上映/ジョウエイ の/ノ お知らせ/オシラセ 洲本/スモト オリオン/オリオン ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ 第/ダイ 3/ 話/ワ 上映/ジョウエイ ＆/＆ 「/「 転進/テンシン 的/テキ 」/」 Petit/プチ 一挙/イッキョ 上映/ジョウエイ 開催/カイサイ (/( 7/ \\//\\/ 18/ 更新/コウシン )/) 洲本/スモト オリオン/オリオン 『/『 ガールズ/ガールズ ＆/＆ パン/パン ツァー/ツァー 最終章/サイシュウショウ \\s/ 第/ダイ 2/ 話/ワ 』/』 上映/ジョウエイ 決定/ケッテイ !/!",
+          "display_mapping": {
+            "start": 75,
+            "end": 76,
+            "char_start": 163,
+            "char_end": 165,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0164-0164",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 77,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0165-0165",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 78,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0164-0164",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 77,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000248:u0037:s0165-0165",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "映",
+              "token_surface": "映",
+              "token_index": 78,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false
+            }
+          ],
+          "rejected_span": "上映",
+          "reading_candidates": {
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ],
+            "上映": [
+              "じょうえい"
+            ],
+            "映": [
+              "えい",
+              "はえる"
+            ]
+          },
+          "reading_hints": {
+            "上": "あげ",
+            "上映": "じょうえい",
+            "映": "えい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上映\",\"reading\":\"ジョウエイ\",\"used_web_search\":false,\"comment\":\"「上映」は一般語で、分割せず「じょうえい」と読むため1項目にまとめました。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "上映",
+              "reading": "ジョウエイ",
+              "used_web_search": false,
+              "comment": "「上映」は一般語で、分割せず「じょうえい」と読むため1項目にまとめました。"
+            }
+          ],
+          "llm_comments": [
+            "「上映」は一般語で、分割せず「じょうえい」と読むため1項目にまとめました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000248:u0037::target_group:3",
+            "status": "applied",
+            "rejected_span": "上映",
+            "replacement": [
+              {
+                "surface": "上映",
+                "reading": "ジョウエイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000248:u0037::target_group:3",
+                "surface": "上映",
+                "comment": "「上映」は一般語で、分割せず「じょうえい」と読むため1項目にまとめました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "上映",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000248:u0037:s0023-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じょう",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000248:u0037:s0024-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "映",
+          "token_surface": "映",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "上",
+          "reading": "じょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "上": [
+          "あげ",
+          "うえ",
+          "うわ",
+          "かみ",
+          "かみの",
+          "かむら",
+          "じょう",
+          "たかし",
+          "のぼる"
+        ],
+        "上映": [
+          "じょうえい"
+        ],
+        "映": [
+          "えい",
+          "はえる"
+        ]
+      },
+      "reading_hints": {
+        "上": "あげ",
+        "上映": "じょうえい",
+        "映": "えい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "used_web_search": false,
+          "comment": "一般語で「上映」は一語として読むため、分割せず「じょうえい」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"上映\",\"reading\":\"ジョウエイ\",\"used_web_search\":false,\"comment\":\"一般語で「上映」は一語として読むため、分割せず「じょうえい」。\"}]",
+      "llm_comments": [
+        "一般語で「上映」は一語として読むため、分割せず「じょうえい」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+        "status": "applied",
+        "rejected_span": "上映",
+        "replacement": [
+          {
+            "surface": "上映",
+            "reading": "ジョウエイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000248:u0037::target_group:1",
+            "surface": "上映",
+            "comment": "一般語で「上映」は一語として読むため、分割せず「じょうえい」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000250:u0008::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000250",
+      "doc_seq": 7,
+      "track_doc_seq": 250,
+      "unit_id": "ja_cc_level2:0000000250:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 250,
+      "text": "住居の隣は「岡部鮮魚店」で、おじさんは近所の子どもを勢ぞろいさせて一列にして、口を開けた子どもたちに「ナマコのこのわた」を一本？",
+      "rendered_yomi_before": "住居/ジュウキョ の/ノ 隣/トナリ は/ハ 「/「 岡部/オカベ 鮮魚店/センギョテン 」/」 で/デ 、/、 おじ/オジ さん/サン は/ハ 近所/キンジョ の/ノ 子ども/コドモ を/ヲ 勢ぞろい/セイゾロイ さ/サ せ/セ て/テ 一列/カズナミ に/ニ し/シ て/テ 、/、 口/クチ を/ヲ 開け/アケ た/タ 子ども/コドモ たち/タチ に/ニ 「/「 ナマコ/ナマコ の/ノ この/コノ わた/ワタ 」/」 を/ヲ 一/イッ 本/ポン ？/？",
+      "rendered_yomi_after": "住居/ジュウキョ の/ノ 隣/トナリ は/ハ 「/「 岡部/オカベ 鮮魚店/センギョテン 」/」 で/デ 、/、 おじ/オジ さん/サン は/ハ 近所/キンジョ の/ノ 子ども/コドモ を/ヲ 勢ぞろい/セイゾロイ さ/サ せ/セ て/テ 一列/イチレツ に/ニ し/シ て/テ 、/、 口/クチ を/ヲ 開け/アケ た/タ 子ども/コドモ たち/タチ に/ニ 「/「 ナマコ/ナマコ の/ノ この/コノ わた/ワタ 」/」 を/ヲ 一/イッ 本/ポン ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "住居",
+          "ジュウキョ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "隣",
+          "トナリ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "岡部",
+          "オカベ"
+        ],
+        [
+          "鮮魚店",
+          "センギョテン"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "おじ",
+          "オジ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "近所",
+          "キンジョ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "子ども",
+          "コドモ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "勢ぞろい",
+          "セイゾロイ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "せ",
+          "セ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "一列",
+          "イチレツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "口",
+          "クチ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "開け",
+          "アケ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "子ども",
+          "コドモ"
+        ],
+        [
+          "たち",
+          "タチ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "ナマコ",
+          "ナマコ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "わた",
+          "ワタ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "一",
+          "イッ"
+        ],
+        [
+          "本",
+          "ポン"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "住居",
+          "reading": "ジュウキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "住居",
+              "reading": "じゅうきょ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "隣",
+          "reading": "トナリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "隣",
+              "reading": "となり"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "岡部",
+          "reading": "オカベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "岡部",
+              "reading": "おかべ"
+            }
+          ]
+        },
+        {
+          "surface": "鮮魚店",
+          "reading": "センギョテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鮮魚店",
+              "reading": "せんぎょてん"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "おじ",
+          "reading": "オジ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おじ"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "近所",
+          "reading": "キンジョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近所",
+              "reading": "きんじょ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "子ども",
+          "reading": "コドモ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "子",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "ども"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "勢ぞろい",
+          "reading": "セイゾロイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勢",
+              "reading": "せい"
+            },
+            {
+              "type": "text",
+              "text": "ぞろい"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "せ",
+          "reading": "セ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "一列",
+          "reading": "イチレツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一列",
+              "reading": "いちれつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "口",
+          "reading": "クチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "口",
+              "reading": "くち"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "開け",
+          "reading": "アケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "子ども",
+          "reading": "コドモ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "子",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "ども"
+            }
+          ]
+        },
+        {
+          "surface": "たち",
+          "reading": "タチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たち"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "ナマコ",
+          "reading": "ナマコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ナマコ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "わた",
+          "reading": "ワタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "わた"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いっ"
+            }
+          ]
+        },
+        {
+          "surface": "本",
+          "reading": "ポン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本",
+              "reading": "ぽん"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+          "item_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+          "unit_id": "ja_cc_level2:0000000250:u0008",
+          "text": "住居の隣は「岡部鮮魚店」で、おじさんは近所の子どもを勢ぞろいさせて一列にして、口を開けた子どもたちに「ナマコのこのわた」を一本？",
+          "rendered_yomi_before": "住居/ジュウキョ の/ノ 隣/トナリ は/ハ 「/「 岡部/オカベ 鮮魚店/センギョテン 」/」 で/デ 、/、 おじ/オジ さん/サン は/ハ 近所/キンジョ の/ノ 子ども/コドモ を/ヲ 勢ぞろい/セイゾロイ さ/サ せ/セ て/テ 一列/カズナミ に/ニ し/シ て/テ 、/、 口/クチ を/ヲ 開け/アケ た/タ 子ども/コドモ たち/タチ に/ニ 「/「 ナマコ/ナマコ の/ノ この/コノ わた/ワタ 」/」 を/ヲ 一/イッ 本/ポン ？/？",
+          "rendered_yomi_after": "住居/ジュウキョ の/ノ 隣/トナリ は/ハ 「/「 岡部/オカベ 鮮魚店/センギョテン 」/」 で/デ 、/、 おじ/オジ さん/サン は/ハ 近所/キンジョ の/ノ 子ども/コドモ を/ヲ 勢ぞろい/セイゾロイ さ/サ せ/セ て/テ 一列/イチレツ に/ニ し/シ て/テ 、/、 口/クチ を/ヲ 開け/アケ た/タ 子ども/コドモ たち/タチ に/ニ 「/「 ナマコ/ナマコ の/ノ この/コノ わた/ワタ 」/」 を/ヲ 一/イッ 本/ポン ？/？",
+          "display_mapping": {
+            "start": 21,
+            "end": 22,
+            "char_start": 33,
+            "char_end": 35,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000250:u0008:s0034-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一列",
+              "token_surface": "一列",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かずなみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "一列",
+                  "reading": "かずなみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000250:u0008:s0034-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一列",
+              "token_surface": "一列",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かずなみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "一列",
+                  "reading": "かずなみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "一列",
+          "reading_candidates": {
+            "一": [
+              "いち",
+              "いっ",
+              "いつ",
+              "かず",
+              "しん",
+              "にのまえ",
+              "はじむ",
+              "はじめ",
+              "ひ",
+              "ひい",
+              "ひと",
+              "ひとし",
+              "ひとつ",
+              "びと",
+              "まこと"
+            ],
+            "一列": [
+              "かずなみ"
+            ],
+            "列": [
+              "れつ"
+            ]
+          },
+          "reading_hints": {
+            "一": "いち",
+            "一列": "かずなみ",
+            "列": "れつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "一列",
+              "reading": "かずなみ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"一列\",\"reading\":\"いちれつ\",\"used_web_search\":false,\"comment\":\"文脈上は「一列にして」で、通常の読みは「いちれつ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "一列",
+              "reading": "いちれつ",
+              "used_web_search": false,
+              "comment": "文脈上は「一列にして」で、通常の読みは「いちれつ」。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「一列にして」で、通常の読みは「いちれつ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "一列",
+            "replacement": [
+              {
+                "surface": "一列",
+                "reading": "イチレツ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+                "surface": "一列",
+                "comment": "文脈上は「一列にして」で、通常の読みは「いちれつ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "一列",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000250:u0008:s0034-0035",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "一列",
+          "token_surface": "一列",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かずなみ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "一列",
+              "reading": "かずなみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "一列",
+          "reading": "かずなみ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "一": [
+          "いち",
+          "いっ",
+          "いつ",
+          "かず",
+          "しん",
+          "にのまえ",
+          "はじむ",
+          "はじめ",
+          "ひ",
+          "ひい",
+          "ひと",
+          "ひとし",
+          "ひとつ",
+          "びと",
+          "まこと"
+        ],
+        "一列": [
+          "かずなみ"
+        ],
+        "列": [
+          "れつ"
+        ]
+      },
+      "reading_hints": {
+        "一": "いち",
+        "一列": "かずなみ",
+        "列": "れつ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "一列",
+          "reading": "いちれつ",
+          "used_web_search": false,
+          "comment": "文脈上は「一列にして」で、通常の読みは「いちれつ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"一列\",\"reading\":\"いちれつ\",\"used_web_search\":false,\"comment\":\"文脈上は「一列にして」で、通常の読みは「いちれつ」。\"}]",
+      "llm_comments": [
+        "文脈上は「一列にして」で、通常の読みは「いちれつ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "一列",
+        "replacement": [
+          {
+            "surface": "一列",
+            "reading": "イチレツ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000250:u0008::target_group:1",
+            "surface": "一列",
+            "comment": "文脈上は「一列にして」で、通常の読みは「いちれつ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
