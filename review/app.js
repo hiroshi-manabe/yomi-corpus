@@ -1734,6 +1734,11 @@ function validateRenderedYomiReading(surface, reading) {
       : { ok: true };
   }
   if (isNumericOnlySurface(surface)) {
+    if (allowsOptionalJapaneseNumeralReading(surface)) {
+      return !reading || /^[ァ-ヺー]+$/u.test(reading)
+        ? { ok: true }
+        : { ok: false, error: "漢数字列の読みは空またはカタカナにしてください。" };
+    }
     return reading ? { ok: false, error: "数字のみの表記には読みを付けないでください。" } : { ok: true };
   }
   const numericReadings = numericCompoundReadings(surface);
@@ -1817,6 +1822,11 @@ function isNumericOnlySurface(surface) {
     return true;
   }
   return [...value].length >= 2 || value === "〇" || value === "○";
+}
+
+function allowsOptionalJapaneseNumeralReading(surface) {
+  const value = String(surface || "");
+  return [...value].length >= 2 && /^[〇○零一二三四五六七八九]+$/u.test(value);
 }
 
 function isStandaloneLaughterW(surface) {
