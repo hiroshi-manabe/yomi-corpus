@@ -1107,8 +1107,8 @@ function archiveCorrectionRecordForDoc(doc) {
   return store.records[key];
 }
 
-function persistArchiveCorrectionDraft(doc) {
-  const parsed = collectArchiveCorrectionChanges(doc);
+function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
+  const parsed = parsedChanges || collectArchiveCorrectionChanges(doc);
   const store = loadArchiveCorrectionStore();
   const key = archiveCorrectionDocKey(doc);
   if (!parsed.ok) {
@@ -1230,7 +1230,9 @@ function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } =
   const validation = document.createElement("p");
   validation.className = "archive-correction-validation muted";
   validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
+  validation.textContent = doc.manual_correction_required_count
+    ? "変更がなくても、要手動修正の確認結果をIssueで提出できます。"
+    : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
@@ -1462,7 +1464,7 @@ function updateArchiveCorrectionRowState(row, unit) {
   updateArchiveCorrectionSummary();
 }
 
-function collectArchiveCorrectionChanges(doc) {
+function collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements = false } = {}) {
   const units = doc.units || [];
   const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
   const changedUnits = [];
@@ -1496,10 +1498,35 @@ function collectArchiveCorrectionChanges(doc) {
         : {}),
     });
   }
+  if (!changedUnits.length && includeFlagAcknowledgements) {
+    for (const [index, unit] of units.entries()) {
+      if (!unit.manual_correction_required || unit.excluded) {
+        continue;
+      }
+      const originalTokens = archiveUnitYomiTokenPairs(unit);
+      const original = serializeEditableYomiTokens(originalTokens);
+      const validation = validateRenderedYomiCorrection(unit, original);
+      if (!validation.ok) {
+        return { ok: false, error: `文 ${unit.unit_id || index + 1}: ${validation.error}` };
+      }
+      changedUnits.push({
+        unit_id: String(unit.unit_id || ""),
+        unit_seq: Number(unit.unit_seq || index + 1),
+        text: unit.text || "",
+        original_yomi_tokens: originalTokens,
+        proposed_yomi_tokens: validation.tokens,
+        acknowledgement_only: true,
+      });
+    }
+  }
   if (!changedUnits.length) {
     return { ok: false, error: "読みの変更がありません。" };
   }
-  return { ok: true, changedUnits };
+  return {
+    ok: true,
+    changedUnits,
+    acknowledgementOnly: changedUnits.every((unit) => unit.acknowledgement_only === true),
+  };
 }
 
 function saveArchiveCorrectionRow(row, unit, doc) {
@@ -1645,8 +1672,11 @@ function updateArchiveCorrectionSummary() {
   const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
   const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
   const openEditors = el.workflowPreviewBody.querySelectorAll(".archive-correction-editor:not(.hidden)").length;
+  const flagged = el.workflowPreviewBody.querySelectorAll(
+    ".archive-correction-row.manual-correction-required",
+  ).length;
   const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
-  const canExport = changed > 0 && invalid === 0 && openEditors === 0;
+  const canExport = (changed > 0 || flagged > 0) && invalid === 0 && openEditors === 0;
   for (const button of exportButtons) {
     button.disabled = !canExport;
   }
@@ -1662,7 +1692,9 @@ function updateArchiveCorrectionSummary() {
   }
   summary.textContent = changed
     ? `${changed}件の変更をIssueで提出できます。`
-    : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
+    : flagged
+      ? `要手動修正 ${flagged}件を、変更なしの確認結果としてIssueで提出できます。`
+      : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   summary.classList.remove("error");
 }
 
@@ -1874,9 +1906,17 @@ function buildArchiveCorrectionPayload(doc, parsed) {
 }
 
 async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
-  const parsed = collectArchiveCorrectionChanges(doc);
+  const parsed = collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements: true });
   if (!parsed.ok) {
     showStatus(parsed.error, true);
+    return false;
+  }
+  if (
+    parsed.acknowledgementOnly &&
+    !window.confirm(
+      `${parsed.changedUnits.length}件の要手動修正フラグを、読みの変更なしで確認済みにします。続けますか？`,
+    )
+  ) {
     return false;
   }
   const exclusionCount = parsed.changedUnits.filter(
@@ -1890,6 +1930,7 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   ) {
     return false;
   }
+  persistArchiveCorrectionDraft(doc, parsed);
   const payload = buildArchiveCorrectionPayload(doc, parsed);
   const copied = await copyTextToClipboard(formatSubmissionJson(payload));
   if (openIssue) {
