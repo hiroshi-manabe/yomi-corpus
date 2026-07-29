@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -83,12 +83,12 @@
       "source_line_no": 216,
       "preview": "2015年6月6日 関西選手権決勝 関西学院大学vs阪南大学の試合前、成山監督は「勝てたらいいなじゃないからな、絶対優勝するんだからな」と選手を鼓舞する。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-29T00:41:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-29T00:46:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -187,12 +187,12 @@
       "source_line_no": 220,
       "preview": "科学道100冊は、書籍を通じて科学者の生き方・考え方、科学のおもしろさ・素晴らしさを届ける事業です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-29T00:41:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-29T00:46:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1209,7 +1209,7 @@
       "source_line_no": 216,
       "text": "この組織の、そして全部員の可能性を引き出し、「きっかけ」を生み出し、全員で「日本一」を獲りに行くと、心の底から感じたからだ。",
       "rendered_yomi_before": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全部/ゼンブ 員/イン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
-      "rendered_yomi_after": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全部員/ゼンブイン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
+      "rendered_yomi_after": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全/ゼン 部員/ブイン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "この",
@@ -1232,8 +1232,12 @@
           "ソシテ"
         ],
         [
-          "全部員",
-          "ゼンブイン"
+          "全",
+          "ゼン"
+        ],
+        [
+          "部員",
+          "ブイン"
         ],
         [
           "の",
@@ -1417,13 +1421,24 @@
           ]
         },
         {
-          "surface": "全部員",
-          "reading": "ゼンブイン",
+          "surface": "全",
+          "reading": "ゼン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "全部員",
-              "reading": "ぜんぶいん"
+              "text": "全",
+              "reading": "ぜん"
+            }
+          ]
+        },
+        {
+          "surface": "部員",
+          "reading": "ブイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部員",
+              "reading": "ぶいん"
             }
           ]
         },
@@ -1810,14 +1825,14 @@
           "unit_id": "ja_cc_level2:0000000216:u0018",
           "text": "この組織の、そして全部員の可能性を引き出し、「きっかけ」を生み出し、全員で「日本一」を獲りに行くと、心の底から感じたからだ。",
           "rendered_yomi_before": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全部/ゼンブ 員/イン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
-          "rendered_yomi_after": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全部員/ゼンブイン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
+          "rendered_yomi_after": "この/コノ 組織/ソシキ の/ノ 、/、 そして/ソシテ 全/ゼン 部員/ブイン の/ノ 可能性/カノウセイ を/ヲ 引き出し/ヒキダシ 、/、 「/「 きっかけ/キッカケ 」/」 を/ヲ 生み出し/ウミダシ 、/、 全員/ゼンイン で/デ 「/「 日本/ニッポン 一/イチ 」/」 を/ヲ 獲り/トリ に/ニ 行く/イク と/ト 、/、 心/ココロ の/ノ 底/ソコ から/カラ 感じ/カンジ た/タ から/カラ だ/ダ 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 6,
+            "end": 7,
             "char_start": 9,
             "char_end": 12,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2115,7 +2130,7 @@
       "source_line_no": 216,
       "text": "俺は、この日まで、自分自身に、そして全部員に問い続ける。",
       "rendered_yomi_before": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全部/ゼンブ 員/イン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
-      "rendered_yomi_after": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全部員/ゼンブイン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
+      "rendered_yomi_after": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全/ゼン 部員/ブイン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "俺",
@@ -2166,8 +2181,12 @@
           "ソシテ"
         ],
         [
-          "全部員",
-          "ゼンブイン"
+          "全",
+          "ゼン"
+        ],
+        [
+          "部員",
+          "ブイン"
         ],
         [
           "に",
@@ -2312,13 +2331,24 @@
           ]
         },
         {
-          "surface": "全部員",
-          "reading": "ゼンブイン",
+          "surface": "全",
+          "reading": "ゼン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "全部員",
-              "reading": "ぜんぶいん"
+              "text": "全",
+              "reading": "ぜん"
+            }
+          ]
+        },
+        {
+          "surface": "部員",
+          "reading": "ブイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部員",
+              "reading": "ぶいん"
             }
           ]
         },
@@ -2386,14 +2416,14 @@
           "unit_id": "ja_cc_level2:0000000216:u0028",
           "text": "俺は、この日まで、自分自身に、そして全部員に問い続ける。",
           "rendered_yomi_before": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全部/ゼンブ 員/イン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
-          "rendered_yomi_after": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全部員/ゼンブイン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
+          "rendered_yomi_after": "俺/オレ は/ハ 、/、 この/コノ 日/ヒ まで/マデ 、/、 自分/ジブン 自身/ジシン に/ニ 、/、 そして/ソシテ 全/ゼン 部員/ブイン に/ニ 問い/トイ 続ける/ツヅケル 。/。",
           "display_mapping": {
             "start": 12,
-            "end": 13,
+            "end": 14,
             "char_start": 18,
             "char_end": 21,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
