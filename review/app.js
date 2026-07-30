@@ -2073,7 +2073,6 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>確定済み</span>
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
@@ -2716,7 +2715,7 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
-  if (doc?.awaiting_finalization) {
+  if (isUnifiedReviewPack(state.currentPack) || doc?.awaiting_finalization) {
     return false;
   }
   const stateName = String(doc?.state || "");
@@ -2823,6 +2822,9 @@ function workflowDocumentBucketStatus(doc) {
     return pendingSourceQueueStatus(doc);
   }
   if (doc?.awaiting_finalization) {
+    return queueStatusForStage(doc.queue_stage);
+  }
+  if (isUnifiedReviewPack(state.currentPack)) {
     return queueStatusForStage(doc.queue_stage);
   }
   if (docIsSubmittedLocally(doc)) {
