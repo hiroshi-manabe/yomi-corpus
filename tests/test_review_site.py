@@ -5,10 +5,23 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from yomi_corpus.review_site import build_review_manifest, publish_review_archive, publish_review_site
+from yomi_corpus.review_site import (
+    build_review_manifest,
+    normalize_archive_yomi_tokens,
+    publish_review_archive,
+    publish_review_site,
+)
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_archive_preserves_optional_japanese_numeral_reading(self) -> None:
+        self.assertEqual(
+            normalize_archive_yomi_tokens(
+                [["一二三", "ヒフミ"], ["二〇〇二", ""], ["Ⅲ", "サン"]]
+            ),
+            [["一二三", "ヒフミ"], ["二〇〇二", ""], ["Ⅲ", ""]],
+        )
+
     def test_review_assets_use_japanese_user_interface(self) -> None:
         asset_root = Path(__file__).resolve().parents[1] / "web" / "review"
         html = (asset_root / "index.html").read_text(encoding="utf-8")
@@ -19,7 +32,13 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("JSONをコピーしてIssueを開く", html)
         self.assertIn('title: "一括レビュー"', app)
         self.assertIn('title: "詳細修正"', app)
-        self.assertIn('title: "コーパスマップ"', app)
+        self.assertIn('title: "確定済みコーパス"', app)
+        self.assertIn("<h3>作業中の文書</h3>", app)
+        self.assertIn("現在レビュー対象になっている文書と、その処理状況です。", app)
+        self.assertIn("corpus-map-manual-correction-badge", app)
+        self.assertIn("scrollToManualCorrection", app)
+        self.assertIn("includeFlagAcknowledgements", app)
+        self.assertIn("acknowledgement_only", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(
@@ -452,6 +471,8 @@ class ReviewSiteTests(unittest.TestCase):
 
             index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
             self.assertEqual(archive["tracks"]["dev"]["document_count"], 3)
+            self.assertEqual(archive["tracks"]["dev"]["manual_correction_required_count"], 1)
+            self.assertEqual(index["tracks"]["dev"]["manual_correction_required_count"], 1)
             self.assertEqual(index["tracks"]["dev"]["search_path"], "./archive/dev/search.json")
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))

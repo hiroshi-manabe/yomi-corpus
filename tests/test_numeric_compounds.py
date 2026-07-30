@@ -73,6 +73,12 @@ class NumericCompoundTests(unittest.TestCase):
             "1日/ツイタチ です/デス",
         )
 
+    def test_preserves_supported_ippi_reading(self) -> None:
+        self.assertEqual(
+            normalize_numeric_compounds("1/ 日/イッピ 現在/ゲンザイ").rendered,
+            "1日/イッピ 現在/ゲンザイ",
+        )
+
     def test_splits_sudachi_duration_token_after_lexicalized_date(self) -> None:
         self.assertEqual(
             normalize_numeric_compounds("3/ 日間/カカン です/デス").rendered,
@@ -136,7 +142,7 @@ class NumericCompoundTests(unittest.TestCase):
 
         self.assertEqual(build_yomi_llm_reading_items(unit), [])
 
-    def test_review_candidates_include_both_ichinichi_readings(self) -> None:
+    def test_review_candidates_include_supported_ichinichi_readings(self) -> None:
         candidates = reading_candidates(
             {
                 "surface": "1日",
@@ -147,7 +153,7 @@ class NumericCompoundTests(unittest.TestCase):
 
         self.assertEqual(
             [candidate["reading"] for candidate in candidates if candidate["reading"]],
-            ["いちにち", "ついたち"],
+            ["いちにち", "ついたち", "いっぴ"],
         )
 
     def test_finalization_expands_ichinichi_but_keeps_tsuitachi_fused(self) -> None:

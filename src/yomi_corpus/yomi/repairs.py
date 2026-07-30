@@ -23,19 +23,29 @@ class YomiRepairResult:
     metadata: dict[str, Any]
 
 
-PARENTHESIZED_LAUGHTER = {
+PARENTHESIZED_SEMANTIC_TOKENS = {
     "(笑)": (("(", "("), ("笑", "ワライ"), (")", ")")),
     "（笑）": (("（", "（"), ("笑", "ワライ"), ("）", "）")),
+    "(株)": (("(", "("), ("株", "カブ"), (")", ")")),
+    "（株）": (("（", "（"), ("株", "カブ"), ("）", "）")),
+    "(有)": (("(", "("), ("有", "ユウ"), (")", ")")),
+    "（有）": (("（", "（"), ("有", "ユウ"), ("）", "）")),
+    "(社)": (("(", "("), ("社", "シャ"), (")", ")")),
+    "（社）": (("（", "（"), ("社", "シャ"), ("）", "）")),
+    "(財)": (("(", "("), ("財", "ザイ"), (")", ")")),
+    "（財）": (("（", "（"), ("財", "ザイ"), ("）", "）")),
+    "(涙)": (("(", "("), ("涙", "ナミダ"), (")", ")")),
+    "（涙）": (("（", "（"), ("涙", "ナミダ"), ("）", "）")),
 }
 
 
-def normalize_parenthesized_laughter_tokens(
+def normalize_parenthesized_semantic_tokens(
     tokens: list[list[str]],
 ) -> list[list[str]]:
     """Normalize canonical tokens, including stale pre-repair artifacts."""
     output: list[list[str]] = []
     for surface, reading in tokens:
-        replacement = PARENTHESIZED_LAUGHTER.get(surface)
+        replacement = PARENTHESIZED_SEMANTIC_TOKENS.get(surface)
         if replacement is None:
             output.append([surface, reading])
             continue
@@ -43,14 +53,14 @@ def normalize_parenthesized_laughter_tokens(
     return output
 
 
-def normalize_parenthesized_laughter(rendered: str) -> YomiRepairResult:
-    """Keep punctuation unannotated and assign ワライ only to 笑."""
+def normalize_parenthesized_semantic_tokens_rendered(rendered: str) -> YomiRepairResult:
+    """Keep punctuation unannotated and read known semantic parentheticals."""
     output: list[str] = []
     count = 0
     for token in rendered.split():
         separator = token.rfind("/")
         surface = token[:separator] if separator >= 0 else token
-        replacement = PARENTHESIZED_LAUGHTER.get(surface)
+        replacement = PARENTHESIZED_SEMANTIC_TOKENS.get(surface)
         if replacement is None:
             output.append(token)
             continue
@@ -62,7 +72,7 @@ def normalize_parenthesized_laughter(rendered: str) -> YomiRepairResult:
     return YomiRepairResult(
         rendered=normalized,
         metadata={
-            "rule_id": "normalize_parenthesized_laughter",
+            "rule_id": "normalize_parenthesized_semantic_tokens",
             "count": count,
         },
     )

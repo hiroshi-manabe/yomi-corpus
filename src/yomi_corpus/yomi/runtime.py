@@ -3,7 +3,10 @@ from __future__ import annotations
 from yomi_corpus.models import MechanicalYomi
 from yomi_corpus.yomi.adapters import run_decoder, run_sudachi
 from yomi_corpus.yomi.config import YomiGenerationConfig
-from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs, normalize_parenthesized_laughter
+from yomi_corpus.yomi.repairs import (
+    apply_post_hybrid_repairs,
+    normalize_parenthesized_semantic_tokens_rendered,
+)
 from yomi_corpus.yomi.numeric_compounds import normalize_numeric_compounds
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
@@ -33,13 +36,15 @@ def generate_mechanical_yomi(
         strategy_result.rendered,
         rules_path=config.post_hybrid_repair_rules,
     )
-    laughter_result = normalize_parenthesized_laughter(repair_result.rendered)
-    numeric_result = normalize_numeric_compounds(laughter_result.rendered)
+    parenthetical_result = normalize_parenthesized_semantic_tokens_rendered(
+        repair_result.rendered
+    )
+    numeric_result = normalize_numeric_compounds(parenthetical_result.rendered)
     signals = list(strategy_result.signals)
     if repair_result.metadata:
         signals.append("apply_post_hybrid_yomi_repairs")
-    if laughter_result.metadata:
-        signals.append("normalize_parenthesized_laughter")
+    if parenthetical_result.metadata:
+        signals.append("normalize_parenthesized_semantic_tokens")
     if numeric_result.applied_surfaces:
         signals.append("normalize_japanese_numeric_compounds")
     if numeric_result.formatted_numeric_surfaces:

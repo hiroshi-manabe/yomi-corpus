@@ -78,25 +78,65 @@ class AlphabeticPipelineTests(unittest.TestCase):
         self.assertEqual(len(occurrences), 1)
         self.assertEqual(occurrences[0].entity_key, "AI")
         self.assertTrue(occurrences[0].strict_case)
-        self.assertEqual(occurrences[0].base_list_status, "unknown")
+        self.assertEqual(occurrences[0].base_list_status, "short_uppercase")
 
-    def test_single_letter_entity_is_deterministically_resolved(self) -> None:
+    def test_short_uppercase_initialisms_are_deterministically_resolved(self) -> None:
         unit = {
             "doc_id": "d1",
             "unit_id": "d1:u0001",
             "unit_seq": 1,
-            "text": "Tシャツを着ています。",
+            "text": "TシャツとPSIについて。",
         }
-        occurrences = self.occurrences(unit, "T")
-        self.assertEqual(len(occurrences), 1)
-        self.assertEqual(occurrences[0].entity_key, "T")
-        self.assertEqual(occurrences[0].base_list_status, "single_letter")
-        self.assertEqual(occurrences[0].resolved_status, "single_letter")
+        occurrences = self.occurrences(unit, "T", "PSI")
+        self.assertEqual([row.entity_key for row in occurrences], ["T", "PSI"])
+        self.assertTrue(
+            all(row.base_list_status == "short_uppercase" for row in occurrences)
+        )
+        self.assertTrue(
+            all(row.resolved_status == "short_uppercase" for row in occurrences)
+        )
 
         judgment = project_minor_alphabetic_judgment(occurrences)
         self.assertFalse(judgment.value)
         self.assertTrue(judgment.certain)
-        self.assertIn("single_letter_exception", judgment.signals)
+        self.assertIn("short_uppercase_initialism_exception", judgment.signals)
+
+    def test_fullwidth_short_uppercase_initialism_is_deterministically_resolved(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "ＰＳＩについて。",
+        }
+        occurrences = self.occurrences(unit, "ＰＳＩ")
+
+        self.assertEqual(occurrences[0].entity_key, "PSI")
+        self.assertEqual(occurrences[0].base_list_status, "short_uppercase")
+
+    def test_short_lowercase_and_mixed_entities_still_require_judgment(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "psiとPsIとGI9について。",
+        }
+        occurrences = self.occurrences(unit, "psi", "PsI", "GI9")
+
+        self.assertEqual([row.base_list_status for row in occurrences], ["unknown"] * 3)
+
+    def test_global_decision_cannot_override_short_uppercase_initialism(self) -> None:
+        unit = {
+            "doc_id": "d1",
+            "unit_id": "d1:u0001",
+            "unit_seq": 1,
+            "text": "PSIについて。",
+        }
+        occurrences = apply_global_decisions(
+            self.occurrences(unit, "PSI"), {"PSI": "blacklist"}
+        )
+
+        self.assertEqual(occurrences[0].resolved_status, "short_uppercase")
+        self.assertEqual(project_alphabetic_scope(occurrences)["status"], "in_scope")
 
     def test_numeric_measurements_are_deterministically_resolved(self) -> None:
         unit = {

@@ -14,6 +14,7 @@ from yomi_corpus.yomi.types import SudachiToken
 
 TOKEN_CONNECTORS = "-'’.．"
 MEASUREMENT_PREFIX_RE = re.compile(r"[0-9０-９]+(?:[.．][0-9０-９]+)?$")
+SHORT_UPPERCASE_MAX_LENGTH = 3
 
 
 @dataclass(frozen=True)
@@ -199,13 +200,15 @@ def _is_unicode_number(char: str) -> bool:
     return unicodedata.category(char).startswith("N")
 
 
-def classify_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> str:
+def classify_entity(
+    entity: AlphabeticEntity, config: AlphabeticConfig, *, source_text: str = ""
+) -> str:
+    if _is_short_uppercase_initialism(entity, source_text=source_text):
+        return "short_uppercase"
     if _is_blacklisted(entity, config):
         return "blacklist"
     if _is_whitelisted(entity, config):
         return "whitelist"
-    if _is_single_letter_entity(entity):
-        return "single_letter"
     if _is_measurement_entity(entity, config):
         return "measurement"
     return "unknown"
@@ -245,7 +248,7 @@ def build_occurrences_for_unit(
     occurrences: list[AlphabeticOccurrence] = []
     entities = extract_alphabetic_entities(unit["text"], config, sudachi_tokens)
     for index, entity in enumerate(entities, start=1):
-        base_status = classify_entity(entity, config)
+        base_status = classify_entity(entity, config, source_text=str(unit["text"]))
         occurrences.append(
             AlphabeticOccurrence(
                 occurrence_id=f"{unit['unit_id']}:a{index:04d}",
@@ -271,8 +274,12 @@ def apply_global_decisions(
 ) -> list[AlphabeticOccurrence]:
     updated: list[AlphabeticOccurrence] = []
     for occurrence in occurrences:
-        if occurrence.base_list_status == "measurement":
-            resolved_status = "measurement"
+        if occurrence.base_list_status in {
+            "measurement",
+            "short_uppercase",
+            "single_letter",
+        }:
+            resolved_status = occurrence.base_list_status
         else:
             resolved_status = decision_status_by_key.get(
                 occurrence.entity_key, occurrence.base_list_status
@@ -390,8 +397,12 @@ def project_minor_alphabetic_judgment(
     whitelisted = _unique_preserve_order(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "whitelist"]
     )
-    single_letter = _unique_preserve_order(
-        [occ.entity_text for occ in occurrences if occ.resolved_status == "single_letter"]
+    short_uppercase = _unique_preserve_order(
+        [
+            occ.entity_text
+            for occ in occurrences
+            if occ.resolved_status in {"short_uppercase", "single_letter"}
+        ]
     )
     measurements = _unique_preserve_order(
         [occ.entity_text for occ in occurrences if occ.resolved_status == "measurement"]
@@ -409,15 +420,15 @@ def project_minor_alphabetic_judgment(
         signals = ["all_entities_in_scope"]
         if whitelisted:
             signals.append("entity_level_lookup")
-        if single_letter:
-            signals.append("single_letter_exception")
+        if short_uppercase:
+            signals.append("short_uppercase_initialism_exception")
         if measurements:
             signals.append("measurement_exception")
         return BooleanJudgment(
             value=False,
             certain=True,
             signals=signals,
-            matches=whitelisted + single_letter + measurements,
+            matches=whitelisted + short_uppercase + measurements,
         )
 
     signals = ["unresolved_latin_entity_types"]
@@ -513,9 +524,31 @@ def _requires_strict_case(token: AlphabeticToken, config: AlphabeticConfig) -> b
     return len(_normalize_width(token.text)) <= config.strict_case_max_length
 
 
-def _is_single_letter_entity(entity: AlphabeticEntity) -> bool:
+def _is_short_uppercase_initialism(
+    entity: AlphabeticEntity, *, source_text: str = ""
+) -> bool:
     text = _normalize_width(entity.text)
-    return len(entity.component_texts) == 1 and len(text) == 1 and text.isascii() and text.isalpha()
+    if not (
+        len(entity.component_texts) == 1
+        and 1 <= len(text) <= SHORT_UPPERCASE_MAX_LENGTH
+        and text.isascii()
+        and text.isalpha()
+        and text.isupper()
+    ):
+        return False
+    if not source_text:
+        return True
+    neighbors = []
+    if entity.start > 0:
+        neighbors.append(source_text[entity.start - 1])
+    if entity.end < len(source_text):
+        neighbors.append(source_text[entity.end])
+    return not any(_is_ascii_alphanumeric_after_width_normalization(char) for char in neighbors)
+
+
+def _is_ascii_alphanumeric_after_width_normalization(char: str) -> bool:
+    normalized = _normalize_width(char)
+    return len(normalized) == 1 and normalized.isascii() and normalized.isalnum()
 
 
 def _is_measurement_entity(entity: AlphabeticEntity, config: AlphabeticConfig) -> bool:
@@ -593,7 +626,12 @@ def _unique_preserve_order(items: list[str]) -> list[str]:
 def _effective_scope_status(resolved_status: str) -> str:
     if resolved_status == "blacklist":
         return "out_of_scope"
-    if resolved_status in {"whitelist", "single_letter", "measurement"}:
+    if resolved_status in {
+        "whitelist",
+        "short_uppercase",
+        "single_letter",
+        "measurement",
+    }:
         return "in_scope"
     return "unknown"
 
@@ -603,8 +641,8 @@ def _default_scope_source(occurrence: AlphabeticOccurrence) -> str:
         return "static_blacklist"
     if occurrence.resolved_status == "whitelist" and occurrence.base_list_status == "whitelist":
         return "static_whitelist"
-    if occurrence.resolved_status == "single_letter":
-        return "single_letter_exception"
+    if occurrence.resolved_status in {"short_uppercase", "single_letter"}:
+        return "short_uppercase_initialism_exception"
     if occurrence.resolved_status == "measurement":
         return "deterministic_measurement"
     return "unknown"

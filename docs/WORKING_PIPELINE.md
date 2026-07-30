@@ -226,6 +226,19 @@ Those signals will likely include:
   canonical tokens must preserve each source whitespace boundary. Repair output
   omits whitespace items; the application layer restores the original spaces as
   separate non-ruby tokens.
+- Apply the same structural policy to Japanese middle dots (`・` and `･`) and
+  parentheses in every Sudachi POS, including proper names and kana-only names
+  such as `ラ・カンパネラ`. Split at the separator and look up each
+  non-separator component independently. Known abbreviations
+  such as `（株）`, `（有）`, `（社）`, and `（財）` use short readings. If the
+  component readings conflict with the full token reading, leave the affected
+  lexical components unresolved for LLM reading generation instead of guessing.
+  Other punctuation in proper-name tokens remains intact because it can be part
+  of an established spelling and reading, as in `ZE:A`, `M&A`, or `COVID-19`.
+- Treat `〜` and `～` attached to a non-proper-name lexical token as expressive
+  vowel lengthening while preserving the source surface: for example,
+  `な〜/ナー` and `う～ん/ウーン`. Do not apply this rule to standalone wave
+  marks, numeric ranges, or proper names.
 - N-gram decoder behavior
 - script and orthography heuristics
 
@@ -527,9 +540,11 @@ Current preference:
 - use word-boundary-aware matching for Latin/alphanumeric material
 - match case-insensitively by default
 - handle short tokens and acronyms more cautiously with exact-case exceptions
-- treat a single alphabetic letter as a deterministic exception that does not
-  enter LLM judgment; examples include the `T` in `Tシャツ`, but this is a
-  general low-value exception rather than a lexical whitelist entry
+- treat pure uppercase ASCII initialisms of one to three letters as
+  deterministic in-scope exceptions after full-width normalization; `T` in
+  `Tシャツ` and an obscure `PSI` do not enter entity-level LLM judgment because
+  their standard letter-name readings are reliable. Normal reading assignment
+  still applies. Mixed forms such as `GI9`, `ZE:A`, and `2nd` are not exempt.
 - likewise, treat a numeric value followed by an explicitly configured common
   measurement unit as deterministic; keep the unit list narrow so identifiers
   such as `CLA180` and `Day2020` still receive ordinary entity judgment
@@ -1002,6 +1017,14 @@ Implementation status:
      such as `ノ`, `ツ`, or `シ` remain eligible for automatic `カオモジ`.
      Unrecognized or partially segmented kaomoji likewise remain reviewable or
      skippable rather than being joined by a speculative regular expression.
+   - Known one-character semantic parentheticals are split after hybrid
+     rendering so punctuation never receives ruby. The current deterministic
+     forms are `（/（ 株/カブ ）/）`, `（/（ 有/ユウ ）/）`,
+     `（/（ 笑/ワライ ）/）`, and `（/（ 涙/ナミダ ）/）`, with equivalent
+     handling for ASCII parentheses. `株` and `有` intentionally use the short
+     readings `カブ` and `ユウ`, not `カブシキガイシャ` and
+     `ユウゲンガイシャ`. Review-pack and finalization normalization also
+     repair older artifacts that stored the entire parenthetical as one token.
    - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
      `yomi_safety_pre_llm_summary.json`, then queues only targets not already
      marked safe.
@@ -2948,12 +2971,16 @@ Browser validation must reject:
 - rendered-yomi tokens without `/`
 - empty token surfaces
 - readings that violate the canonical `surface/reading` structural rule:
-  kanji or Latin surfaces need a katakana reading, numeric-only surfaces need
-  an empty reading, and kana/symbol surfaces need their normalized literal
-  reading. Numeric-only includes ASCII/fullwidth digits, Unicode Roman numeral
+  kanji or Latin surfaces normally need a katakana reading, Arabic and Unicode
+  Roman-numeral surfaces need an empty reading, and kana/symbol surfaces need
+  their normalized literal reading. Numeric-only includes ASCII/fullwidth digits, Unicode Roman numeral
   symbols such as `Ⅲ`, and multi-character digit-style Japanese numeral runs such
   as `二五`, `二〇〇二`, and `二○二六`, but not ASCII Roman-looking strings such as
-  `III`. Japanese numeral runs containing units such as `十`, `百`, `千`, `万`, or
+  `III`. Unlike Arabic digits and Roman numeral symbols, those multi-character
+  Japanese digit runs accept either no reading or a katakana reading. Default
+  generation blanks numeral uses identified by Sudachi but preserves proper-name
+  readings such as `一二三/ヒフミ`; human review may add or remove the reading.
+  Japanese numeral runs containing units such as `十`, `百`, `千`, `万`, or
   `億` use ordinary lexical readings, as do single lexical numerals such as `七`.
   Standalone notation symbols `〇` and `○` remain no-ruby. Thus `Ⅲ/` and
   `二〇〇二/` are canonical,
@@ -3167,6 +3194,14 @@ concatenate to that surface. Adjacent rejected interaction spans may be merged
 for one repair request; the merged source range, not adjacent ruby nodes,
 defines the repair boundary.
 
+Bulk Review also supports a constrained adjacent-token merge for common local
+segmentation errors. After a kanji-bearing interaction span is changed to no
+ruby, its immediately adjacent canonical kana token becomes tappable. Selecting
+that token creates one `kana_merge_no_reading` span override for Escalated
+Repair. This is explicit and one-token-at-a-time: the browser does not infer how
+far a kana run belongs to the rejected word. The same control and submission
+shape are used for the existing adjacent-number merge.
+
 Implementation should proceed without migrating finalized corpus data:
 
 1. Extend pack generation with interaction spans while preserving legacy target
@@ -3181,10 +3216,11 @@ Implementation should proceed without migrating finalized corpus data:
 5. Remove kanji-target compatibility code after no active review artifact
    depends on it.
 
-Segmentation editing belongs to the Escalated Repair confirmation UI. That UI
-can toggle split points between characters and rebuild the corresponding
-reading fields. Keeping this control out of Bulk Review avoids two competing
-span editors and preserves its fast tap-to-review workflow.
+General segmentation editing belongs to the Escalated Repair confirmation UI.
+That UI can toggle split points between characters and rebuild the corresponding
+reading fields. Bulk Review only provides the constrained adjacent-token merge
+described above; keeping arbitrary boundary editing out of Bulk Review avoids
+two competing span editors and preserves its fast tap-to-review workflow.
 
 ## 12.3 Escalated Repair and finalization
 

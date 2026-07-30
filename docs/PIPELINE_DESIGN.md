@@ -172,11 +172,15 @@ Canonical tokens should also satisfy a structural validity
 rule before any `OK` decision is trusted:
 
 - if `surface` contains kanji or Latin letters, `reading` must be non-empty and
-  contain only katakana plus the long-vowel mark `ー`
-- if `surface` is numeric only, including ASCII/fullwidth digits, Unicode
-  Roman numeral symbols, and Japanese numeral digits, `reading` must be empty,
-  so `2021/`, `Ⅲ/`, and `二〇〇二/` are valid
-  while `2021/2021` and `Ⅲ/サン` are invalid. ASCII Roman-looking strings such
+  contain only katakana plus the long-vowel mark `ー`, except for the Japanese
+  digit-run case below
+- if `surface` is numeric only, including ASCII/fullwidth digits and Unicode
+  Roman numeral symbols, `reading` must be empty, so `2021/` and `Ⅲ/` are valid
+  while `2021/2021` and `Ⅲ/サン` are invalid. A multi-character digit-style
+  Japanese numeral run may have either an empty reading or a katakana reading;
+  `二〇〇二/` and `一二三/ヒフミ` are both valid. Generation defaults numeral
+  uses to no reading but preserves a valid Sudachi proper-name reading, and
+  human review may change either choice. ASCII Roman-looking strings such
   as `I`, `II`, and `III` remain alphabetic surfaces, so `III/スリー` can be
   valid while `III/` is invalid.
 - otherwise, `reading` must equal the result of converting hiragana in
@@ -288,6 +292,22 @@ some named entities, but it is still only a candidate source. Readings that do
 not pass our yomi-format validation, such as alphabetic lowercase readings, must
 not be accepted merely because Sudachi full produced them. Tokens that span
 spaces are split at source-space boundaries by project policy.
+
+An internal Japanese middle dot (`・`, or half-width `･`) is likewise a hard
+output boundary for every Sudachi POS, including proper names and kana-only
+names such as `ラ・カンパネラ`. Preserve the separator as punctuation and look
+up each lexical component independently with Sudachi. Parentheses follow the
+same structural rule;
+known abbreviations such as `（株）`, `（有）`, `（社）`, and `（財）` use their
+short spoken readings. If independently looked-up component readings conflict
+with the full token reading, leave the affected lexical components unresolved
+for the normal LLM-reading and review path rather than inventing a reading.
+Other punctuation inside proper-name tokens remains untouched because it can be
+part of an established spelling and reading, as in `ZE:A`, `M&A`, or
+`COVID-19`. Attached `〜` or `～` in a non-proper-name lexical token expresses
+vowel lengthening, so forms such as
+`な〜` and `う～ん` keep their surfaces but use `ナー` and `ウーン`. Standalone
+wave marks and numeric ranges remain literal separators.
 
 Alphabetic scope analysis uses the same configured Sudachi mode and dictionary
 as its lightweight boundary source, but does not invoke `yomi-decoder`. It sends
@@ -1506,9 +1526,11 @@ For classification:
   types that are either in scope for modern Japanese text or out of scope
 - match those entity-list entries case-insensitively by default
 - keep exact-case exceptions for short tokens and acronyms
-- treat single alphabetic letters as deterministic low-value exceptions rather
-  than whitelist entries; they should be extracted for auditability but should
-  not be sent to the alphabetic LLM judge
+- treat pure uppercase ASCII initialisms of one to three letters as
+  deterministic in-scope exceptions rather than whitelist entries; normalize
+  full-width forms first, extract them for auditability, and do not send them to
+  the alphabetic LLM judge. Normal reading assignment and review still apply.
+  Mixed forms such as `GI9`, `ZE:A`, and `2nd` do not receive this exemption.
 - judge those entities primarily at the entity-type level, not the sentence
   level
 - remain cautious about rule harvesting for non-target status
@@ -1985,6 +2007,15 @@ surface to Escalated Repair. Strong-repair proposals must concatenate to that
 surface, while being free to return different word boundaries. This prevents
 truncated repairs such as sending `後払` when the reviewed unit was `後払い`.
 
+Bulk Review may expose one deliberately narrow segmentation action after a
+kanji-bearing interaction span is changed to `No ruby`: the immediately
+adjacent canonical kana token on either side becomes tappable, just as an
+adjacent numeric token does. Tapping it creates one merged Escalated Repair
+region without guessing across additional token boundaries. For example,
+`はる/ハル 夏/ナツ` may be submitted as the rejected region `はる夏`; the model
+can then return `はる夏/ハルカ`. Punctuation, spaces, non-kana tokens, and kana
+outside that single adjacent canonical token are not absorbed automatically.
+
 Migration should be incremental:
 
 1. Add interaction-span IDs, source offsets, complete surfaces, candidates,
@@ -2360,8 +2391,9 @@ in-place archive mutation. The browser can prepare a
 - unchanged unit IDs and order
 - compact original and proposed `[surface, reading]` arrays
 - readings must satisfy the canonical token structural rule: kanji or Latin
-  surfaces need katakana readings, numeric-only surfaces need empty readings,
-  and kana/symbol surfaces need normalized literal readings
+  surfaces normally need katakana readings, Arabic and Roman-numeral surfaces
+  need empty readings, multi-character Japanese digit runs permit either empty
+  or katakana readings, and kana/symbol surfaces need normalized literal readings
 - source surfaces preserved relative to the original rendered-yomi tokens after
   removing whitespace. ASCII-space/NBSP differences should not invalidate an
   otherwise unit-scoped yomi correction. The editable text view uses reversible

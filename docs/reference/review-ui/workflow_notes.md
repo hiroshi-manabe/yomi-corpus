@@ -433,17 +433,27 @@ correction`. A reason field may appear only after the flag is enabled. Unlike
 `Skip`, the flag is additive: the sentence remains in the ordinary review flow.
 
 Corpus Map shows a red badge containing the number of distinct unresolved
-flagged units in each document. This badge is separate from the existing blue
-badge, which counts applied correction submissions: red means work remains;
-blue records correction history. Opening the manual-correction workflow for a
-document should scroll to its first flagged unit and support navigation among
-all remaining flagged units.
+flagged units in each document. Its entry button also shows the aggregate
+unresolved count so outstanding work remains visible before Corpus Map is
+opened. These badges are separate from the existing blue badge, which counts
+applied correction submissions: red means work remains; blue records
+correction history. Opening a flagged document directly from Corpus Map scrolls
+to its first flagged unit. Opening it from search instead preserves the more
+specific behavior of scrolling to the first text match.
 
 Saving or submitting a browser draft does not resolve a flag. The server clears
 the corresponding unit flag only after a correction has been validated and
 applied to finalized data. Application failures leave the flag in place and
 surface the failure reason. When all flagged units in a document have been
 resolved, its red Corpus Map badge disappears automatically.
+
+A flagged unit may already be correct by the time it is revisited, for example
+because regeneration removed the defect that originally caused the flag. In
+that case Corpus Map permits a no-edit submission after an explicit warning.
+The payload contains an acknowledgement patch for each still-flagged unit, with
+identical original and proposed yomi, rather than an empty patch list. The
+server validates the current text and yomi before recording the acknowledgement
+and clearing the flag. A no-edit submission never acknowledges unflagged units.
 
 ## Resolved Document Corrections
 

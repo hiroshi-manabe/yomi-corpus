@@ -5,12 +5,15 @@ import unittest
 from pathlib import Path
 
 from yomi_corpus.yomi.config import load_yomi_generation_config
-from yomi_corpus.yomi.repairs import apply_post_hybrid_repairs, normalize_parenthesized_laughter
+from yomi_corpus.yomi.repairs import (
+    apply_post_hybrid_repairs,
+    normalize_parenthesized_semantic_tokens_rendered,
+)
 
 
 class YomiRepairTests(unittest.TestCase):
     def test_splits_parenthesized_laughter_and_reads_only_laugh(self) -> None:
-        result = normalize_parenthesized_laughter(
+        result = normalize_parenthesized_semantic_tokens_rendered(
             "面白い/オモシロイ （笑）/カッコワライ (笑)/ワライ"
         )
 
@@ -23,10 +26,23 @@ class YomiRepairTests(unittest.TestCase):
     def test_parenthesized_laughter_normalization_is_idempotent(self) -> None:
         rendered = "（/（ 笑/ワライ ）/）"
 
-        result = normalize_parenthesized_laughter(rendered)
+        result = normalize_parenthesized_semantic_tokens_rendered(rendered)
 
         self.assertEqual(result.rendered, rendered)
         self.assertEqual(result.metadata, {})
+
+    def test_splits_known_semantic_parentheticals(self) -> None:
+        result = normalize_parenthesized_semantic_tokens_rendered(
+            "（株）/カブシキガイシャ （有）/キゴウ （社）/シャダンホウジン "
+            "（財）/ザイダンホウジン （涙）/（涙）"
+        )
+
+        self.assertEqual(
+            result.rendered,
+            "（/（ 株/カブ ）/） （/（ 有/ユウ ）/） （/（ 社/シャ ）/） "
+            "（/（ 財/ザイ ）/） （/（ 涙/ナミダ ）/）",
+        )
+        self.assertEqual(result.metadata["count"], 5)
 
     def test_applies_active_regex_rules_and_records_log(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

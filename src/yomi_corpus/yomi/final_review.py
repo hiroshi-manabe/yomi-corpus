@@ -29,10 +29,14 @@ from yomi_corpus.yomi.numeric_compounds import (
     numeric_compound_occurrences,
     numeric_compound_rule,
 )
-from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
+from yomi_corpus.yomi.numeric_surfaces import (
+    allows_optional_japanese_numeral_reading,
+    is_numeric_only_surface,
+)
 from yomi_corpus.yomi.repairs import (
-    normalize_parenthesized_laughter,
-    normalize_parenthesized_laughter_tokens,
+    PARENTHESIZED_SEMANTIC_TOKENS,
+    normalize_parenthesized_semantic_tokens,
+    normalize_parenthesized_semantic_tokens_rendered,
 )
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
@@ -879,19 +883,25 @@ def build_review_item(
     rendered_yomi = str(yomi.get("rendered") or "") if isinstance(yomi, dict) else ""
     if isinstance(yomi, dict):
         try:
-            canonical_pairs = normalize_parenthesized_laughter_tokens(
+            canonical_pairs = normalize_parenthesized_semantic_tokens(
                 yomi_tokens_from_mapping(yomi, text=text)
             )
             rendered_yomi = yomi_tokens_to_editable_rendered(canonical_pairs)
         except YomiTokenError:
-            rendered_yomi = normalize_parenthesized_laughter(rendered_yomi).rendered
+            rendered_yomi = normalize_parenthesized_semantic_tokens_rendered(
+                rendered_yomi
+            ).rendered
     if not targets and scope_status in {SCOPE_SKIP, SCOPE_EXCLUDE}:
         targets = fallback_review_targets_for_scoped_unit(unit)
     review_targets = [
         build_review_target(
             with_sudachi_token_metadata(
-                normalize_parenthesized_laughter_target(
-                    target,
+                align_target_to_canonical_yomi_pair(
+                    normalize_parenthesized_semantic_target(
+                        target,
+                        text=text,
+                        rendered_yomi=rendered_yomi,
+                    ),
                     text=text,
                     rendered_yomi=rendered_yomi,
                 ),
@@ -1172,7 +1182,42 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def normalize_parenthesized_laughter_target(
+def align_target_to_canonical_yomi_pair(
+    target: dict[str, Any],
+    *,
+    text: str,
+    rendered_yomi: str,
+) -> dict[str, Any]:
+    start = target.get("target_start")
+    end = target.get("target_end")
+    surface = str(target.get("surface") or "")
+    if not isinstance(start, int) or not isinstance(end, int) or not surface:
+        return target
+    token_index = rendered_token_index_for_range(
+        text,
+        rendered_yomi,
+        start=start,
+        end=end,
+    )
+    if token_index is None:
+        return target
+    pairs = parse_rendered_pairs(rendered_yomi)
+    if not 0 <= token_index < len(pairs):
+        return target
+    canonical_surface, canonical_reading = pairs[token_index]
+    if not source_surfaces_equal(canonical_surface, surface):
+        return target
+    canonical_hiragana = kata_to_hira(canonical_reading)
+    return {
+        **target,
+        "token_surface": canonical_surface,
+        "token_index": token_index,
+        "current_reading": canonical_reading,
+        "current_reading_hiragana": canonical_hiragana,
+    }
+
+
+def normalize_parenthesized_semantic_target(
     target: dict[str, Any],
     *,
     text: str,
@@ -1180,7 +1225,11 @@ def normalize_parenthesized_laughter_target(
 ) -> dict[str, Any]:
     surface = str(target.get("surface") or "")
     token_surface = str(target.get("token_surface") or surface)
-    if token_surface not in {"(笑)", "（笑）"} or surface not in {token_surface, "笑"}:
+    replacement = PARENTHESIZED_SEMANTIC_TOKENS.get(token_surface)
+    if replacement is None:
+        return target
+    inner_surface, inner_reading = replacement[1]
+    if surface not in {token_surface, inner_surface}:
         return target
     start = target.get("target_start")
     end = target.get("target_end")
@@ -1194,7 +1243,7 @@ def normalize_parenthesized_laughter_target(
     else:
         normalized_start = start
         normalized_end = end
-    if text[normalized_start:normalized_end] != "笑":
+    if text[normalized_start:normalized_end] != inner_surface:
         return target
     token_index = rendered_token_index_for_range(
         text,
@@ -1206,23 +1255,23 @@ def normalize_parenthesized_laughter_target(
         return target
     return {
         **target,
-        "surface": "笑",
-        "token_surface": "笑",
+        "surface": inner_surface,
+        "token_surface": inner_surface,
         "target_start": normalized_start,
         "target_end": normalized_end,
         "token_index": token_index,
-        "current_reading": "ワライ",
-        "current_reading_hiragana": "わらい",
+        "current_reading": inner_reading,
+        "current_reading_hiragana": kata_to_hira(inner_reading),
         "is_safe": True,
         "review_status": "safe",
         "highlight_level": "none",
-        "accepted_signal_names": ["safe_by_parenthesized_laughter_normalization"],
-        "status_reason": "normalized_parenthesized_laughter",
+        "accepted_signal_names": ["safe_by_parenthesized_semantic_normalization"],
+        "status_reason": "normalized_parenthesized_semantic_token",
         "signals": [
             {
-                "name": "safe_by_parenthesized_laughter_normalization",
+                "name": "safe_by_parenthesized_semantic_normalization",
                 "accepted": True,
-                "reason": "punctuation_unread_laugh_read_as_warai",
+                "reason": "punctuation_unread_known_parenthetical_reading",
             }
         ],
     }
@@ -1257,15 +1306,14 @@ def build_interaction_spans(
     pairs = parse_rendered_pairs(rendered_yomi) if rendered_yomi else []
     grouped: dict[tuple[int, int, int, str], list[dict[str, Any]]] = {}
     for target in targets:
-        bounds = interaction_token_bounds(text, target)
+        bounds = interaction_token_bounds(text, target, pairs=pairs)
         if bounds is None:
             continue
-        start, end = bounds
-        token_index = target.get("token_index")
+        start, end, token_index = bounds
         key = (
             start,
             end,
-            int(token_index) if isinstance(token_index, int) else -1,
+            token_index,
             text[start:end],
         )
         grouped.setdefault(key, []).append(target)
@@ -1359,13 +1407,33 @@ def validate_interaction_spans(text: str, spans: list[dict[str, Any]]) -> None:
 def interaction_token_bounds(
     text: str,
     target: dict[str, Any],
-) -> tuple[int, int] | None:
+    *,
+    pairs: list[tuple[str, str]] | None = None,
+) -> tuple[int, int, int] | None:
     surface = str(target.get("surface") or "")
     token_surface = str(target.get("token_surface") or surface)
     start = target.get("target_start")
     end = target.get("target_end")
     if not surface or not token_surface or not isinstance(start, int) or not isinstance(end, int):
         return None
+
+    # The target metadata may describe an older tokenization. Prefer the
+    # canonical rendered token that currently contains the target range.
+    cursor = 0
+    canonical_matches: list[tuple[int, int, int]] = []
+    canonical_aligned = bool(pairs)
+    for index, (pair_surface, _reading) in enumerate(pairs or []):
+        source_surface = pair_surface.replace("\u00a0", " ")
+        token_end = cursor + len(source_surface)
+        if not source_surfaces_equal(text[cursor:token_end], source_surface):
+            canonical_aligned = False
+            break
+        if cursor <= start and end <= token_end:
+            canonical_matches.append((cursor, token_end, index))
+        cursor = token_end
+    if canonical_aligned and cursor == len(text) and len(canonical_matches) == 1:
+        return canonical_matches[0]
+
     candidates: list[tuple[int, int]] = []
     offset = token_surface.find(surface)
     while offset >= 0:
@@ -1379,9 +1447,12 @@ def interaction_token_bounds(
             candidates.append((token_start, token_end))
         offset = token_surface.find(surface, offset + 1)
     if len(set(candidates)) == 1:
-        return candidates[0]
+        token_start, token_end = candidates[0]
+        token_index = target.get("token_index")
+        return token_start, token_end, int(token_index) if isinstance(token_index, int) else -1
     if source_surfaces_equal(text[start:end], surface):
-        return start, end
+        token_index = target.get("token_index")
+        return start, end, int(token_index) if isinstance(token_index, int) else -1
     return None
 
 
@@ -1495,9 +1566,9 @@ def complete_interaction_reading(
         return None
     prefix_reading = kana_surface_to_hira(prefix)
     suffix_reading = kana_surface_to_hira(suffix)
-    if prefix_reading and not normalized.startswith(prefix_reading):
+    if prefix_reading:
         normalized = prefix_reading + normalized
-    if suffix_reading and not normalized.endswith(suffix_reading):
+    if suffix_reading:
         normalized += suffix_reading
     return normalized
 
@@ -2052,6 +2123,8 @@ def split_rendered_yomi_token(token: str) -> tuple[str, str]:
 
 
 def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str, str]]:
+    if numeric_compound_rule(surface) is not None and reading:
+        return [{"type": "ruby", "text": surface, "reading": kata_to_hira(reading)}]
     if not should_display_ruby(surface, reading):
         return [{"type": "text", "text": surface}]
     reading_hira = kata_to_hira(reading)
@@ -2901,7 +2974,10 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
         normalized_reading = hiragana_to_katakana_for_finalized_correction(reading)
         if numeric_compound_rule(surface) is not None:
             pass
-        elif is_numeric_only_finalized_correction_surface(surface):
+        elif (
+            is_numeric_only_finalized_correction_surface(surface)
+            and not allows_optional_japanese_numeral_reading(surface)
+        ):
             normalized_reading = ""
         elif re.fullmatch(r"[ \u00a0\u3000]+", surface):
             if normalized_reading and not re.fullmatch(r"[ \u00a0\u3000]+", normalized_reading):
@@ -2976,7 +3052,10 @@ def normalize_rendered_yomi_for_finalized_correction(rendered: str) -> str:
             continue
         surface = str(token["surface"])
         reading = hiragana_to_katakana_for_finalized_correction(str(token["reading"]))
-        if is_numeric_only_finalized_correction_surface(surface):
+        if (
+            is_numeric_only_finalized_correction_surface(surface)
+            and not allows_optional_japanese_numeral_reading(surface)
+        ):
             reading = ""
         tokens.append(f"{surface}/{reading}")
     return " ".join(tokens)
@@ -2988,17 +3067,23 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
             return {"ok": False, "error": "space tokens must have an empty or whitespace reading"}
         return {"ok": True}
     if is_numeric_only_finalized_correction_surface(surface):
+        if allows_optional_japanese_numeral_reading(surface):
+            if not reading or re.fullmatch(r"[ァ-ヺー]+", reading):
+                return {"ok": True}
+            return {
+                "ok": False,
+                "error": "Japanese numeral digit-run readings must be katakana",
+            }
         if reading:
             return {"ok": False, "error": "numeric-only surfaces must have an empty reading"}
         return {"ok": True}
     numeric_rule = numeric_compound_rule(surface)
     if numeric_rule is not None:
-        allowed = (numeric_rule.reading, *numeric_rule.review_readings)
-        if reading in allowed:
+        if reading and re.fullmatch(r"[ァ-ヺー]+", reading):
             return {"ok": True}
         return {
             "ok": False,
-            "error": f"reading should be one of {', '.join(allowed)}",
+            "error": "numeric-compound readings must be nonempty katakana",
         }
     if reading == "カオモジ":
         if is_symbolic_kaomoji_correction_surface(surface):
@@ -3020,7 +3105,7 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
 
 def is_symbolic_kaomoji_correction_surface(surface: str) -> bool:
     return (
-        len(surface) >= 3
+        len(surface) >= 2
         and not re.fullmatch(
             r"(?:\([\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+\)"
             r"|（[\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+）)",
@@ -4917,7 +5002,7 @@ def canonicalize_finalized_unit_yomi(
         .setdefault("yomi", {})
     )
     tokens = canonicalize_final_numeric_compounds(
-        normalize_parenthesized_laughter_tokens(
+        normalize_parenthesized_semantic_tokens(
             normalize_correction_yomi_tokens(
                 yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
             )

@@ -24,6 +24,7 @@ from yomi_corpus.yomi.strategies import (
 )
 from yomi_corpus.yomi.furigana import FuriganaConverter, parse_annotated_chunks
 from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
+from yomi_corpus.yomi.numeric_surfaces import allows_optional_japanese_numeral_reading
 from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
 
@@ -230,20 +231,45 @@ def build_yomi_llm_reading_items(
         token = span.token
         if is_symbolic_sudachi_kaomoji(token):
             continue
+        if (
+            "固有名詞" not in token.pos
+            and sudachi_span_is_inside_no_ruby_japanese_numeral_run(
+                span_start=span.start,
+                span_end=span.end,
+                canonical_spans=canonical_spans,
+            )
+        ):
+            continue
         if any(span.start < end and span.end > start for start, end in compound_spans):
             continue
         if not is_llm_reading_target(token.surface):
             continue
-        if token_contains_space(token):
-            component_pairs = [
-                pair_span
-                for pair_span in canonical_spans
-                if span.start <= pair_span[1]
-                and pair_span[2] <= span.end
-                and not pair_span[3].isspace()
-            ]
+        component_pairs = [
+            pair_span
+            for pair_span in canonical_spans
+            if span.start <= pair_span[1]
+            and pair_span[2] <= span.end
+            and not pair_span[3].isspace()
+        ]
+        exact_canonical_pairs = [
+            pair_span
+            for pair_span in component_pairs
+            if pair_span[1] == span.start and pair_span[2] == span.end
+        ]
+        canonical_pair = exact_canonical_pairs[0] if len(exact_canonical_pairs) == 1 else None
+        canonical_decomposition = (
+            canonical_pair is None
+            and len(component_pairs) > 1
+            and component_pairs[0][1] == span.start
+            and component_pairs[-1][2] == span.end
+            and all(
+                left[2] == right[1]
+                for left, right in zip(component_pairs, component_pairs[1:])
+            )
+        )
+        if token_contains_space(token) or canonical_decomposition:
             for pair_index, start, end, surface, reading in component_pairs:
-                if not reading or not is_llm_reading_target(surface):
+                if not is_llm_reading_target(surface):
                     continue
                 append_yomi_reading_targets(
                     items,
@@ -259,12 +285,6 @@ def build_yomi_llm_reading_items(
                     stable_checker=stable_checker,
                 )
             continue
-        exact_canonical_pairs = [
-            pair_span
-            for pair_span in canonical_spans
-            if pair_span[1] == span.start and pair_span[2] == span.end
-        ]
-        canonical_pair = exact_canonical_pairs[0] if len(exact_canonical_pairs) == 1 else None
         effective_token_index = canonical_pair[0] if canonical_pair is not None else index
         current_reading = (
             canonical_pair[4]
@@ -322,6 +342,21 @@ def build_yomi_llm_reading_items(
         )
     items.sort(key=lambda item: (int(item["target_start"]), int(item["target_end"])))
     return items
+
+
+def sudachi_span_is_inside_no_ruby_japanese_numeral_run(
+    *,
+    span_start: int,
+    span_end: int,
+    canonical_spans: list[tuple[int, int, int, str, str]],
+) -> bool:
+    return any(
+        pair_start <= span_start
+        and span_end <= pair_end
+        and not reading
+        and allows_optional_japanese_numeral_reading(surface)
+        for _pair_index, pair_start, pair_end, surface, reading in canonical_spans
+    )
 
 
 def append_yomi_reading_targets(

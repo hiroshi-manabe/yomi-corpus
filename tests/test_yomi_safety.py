@@ -108,7 +108,7 @@ class YomiSafetyTests(unittest.TestCase):
         numeral = next(record for record in records if record["surface"] == "七")
         self.assertNotIn("safe_by_no_ruby_numeric_surface", numeral["accepted_signal_names"])
 
-    def test_japanese_numeral_targets_prefer_safe_no_ruby(self) -> None:
+    def test_japanese_numeral_targets_are_omitted_when_canonical_run_has_no_ruby(self) -> None:
         payload = {
             "unit_id": "u-numeral",
             "text": "二〇〇二年",
@@ -141,13 +141,45 @@ class YomiSafetyTests(unittest.TestCase):
 
         records = build_pre_llm_safety_records(payload)
 
-        numeral = next(record for record in records if record["surface"] == "二〇〇二")
-        self.assertTrue(numeral["is_safe"])
-        self.assertIn("safe_by_no_ruby_numeric_surface", numeral["accepted_signal_names"])
-        signal = next(
-            row for row in numeral["signals"] if row["name"] == "safe_by_no_ruby_numeric_surface"
+        self.assertNotIn("二〇〇二", {record["surface"] for record in records})
+
+    def test_japanese_numeral_proper_name_reading_is_not_forced_to_no_ruby(self) -> None:
+        payload = {
+            "unit_id": "u-numeral-name",
+            "text": "加藤一二三",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "加藤/カトウ 一二三/ヒフミ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "加藤",
+                                    "pos": "名詞,固有名詞,人名,姓,*,*",
+                                    "dictionary_form": "加藤",
+                                    "normalized_form": "加藤",
+                                    "reading": "カトウ",
+                                },
+                                {
+                                    "surface": "一二三",
+                                    "pos": "名詞,固有名詞,人名,名,*,*",
+                                    "dictionary_form": "一二三",
+                                    "normalized_form": "一二三",
+                                    "reading": "ヒフミ",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        numeral = next(record for record in records if record["surface"] == "一二三")
+        self.assertNotIn(
+            "safe_by_no_ruby_numeric_surface", numeral["accepted_signal_names"]
         )
-        self.assertEqual(signal["preferred_choice_source"], "none")
 
     def test_model_local_frequency_stats_override_configured_fallback(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

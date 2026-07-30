@@ -42,7 +42,7 @@ class NumericCompoundNormalization:
 # These lexicalized Japanese forms are more useful as single reading units than
 # as a digit plus the generic reading of a counter/date suffix.
 NUMERIC_COMPOUND_RULES: dict[str, NumericCompoundRule] = {
-    "1日": NumericCompoundRule("イチニチ", ("イチニチ", "ツイタチ")),
+    "1日": NumericCompoundRule("イチニチ", ("イチニチ", "ツイタチ", "イッピ")),
     "2日": NumericCompoundRule("フツカ"),
     "3日": NumericCompoundRule("ミッカ"),
     "4日": NumericCompoundRule("ヨッカ"),

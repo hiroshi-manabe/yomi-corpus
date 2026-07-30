@@ -204,6 +204,62 @@ class YomiLLMReadingsTests(unittest.TestCase):
         self.assertEqual(items[1]["marked_text"], "学校は**上**です。")
         self.assertEqual(items[1]["marked_furigana_text"], "学校（がっこう）は**上**です。")
 
+    def test_build_items_skip_grouped_no_ruby_japanese_numeral_run(self) -> None:
+        payload = {
+            "unit_id": "u_numeral_run",
+            "text": "一九四九",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "一九四九/",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": surface,
+                                    "pos": "名詞,数詞,*,*,*,*",
+                                    "dictionary_form": surface,
+                                    "normalized_form": surface,
+                                    "reading": reading,
+                                }
+                                for surface, reading in zip("一九四九", ("イチ", "キュウ", "ヨン", "キュウ"))
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        self.assertEqual(build_yomi_llm_reading_items(payload), [])
+
+    def test_build_items_keep_proper_name_japanese_numeral(self) -> None:
+        payload = {
+            "unit_id": "u_numeral_name",
+            "text": "一二三",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "一二三/ヒフミ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "一二三",
+                                    "pos": "名詞,固有名詞,人名,名,*,*",
+                                    "dictionary_form": "一二三",
+                                    "normalized_form": "一二三",
+                                    "reading": "ヒフミ",
+                                }
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertTrue(items)
+        self.assertEqual("".join(item["surface"] for item in items), "一二三")
+
     def test_build_items_skips_symbolic_sudachi_kaomoji(self) -> None:
         surface = "（●＾o＾●）"
         payload = {
@@ -306,6 +362,79 @@ class YomiLLMReadingsTests(unittest.TestCase):
         )
         self.assertEqual(len({item["item_id"] for item in items}), len(items))
         self.assertTrue(all(not any(char.isspace() for char in item["surface"]) for item in items))
+
+    def test_build_items_follow_canonical_split_for_mixed_numeric_token(self) -> None:
+        payload = {
+            "unit_id": "u_mixed_numeric",
+            "text": "中３生",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "中/チュウ ３/ 生/セイ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "中３",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "中三",
+                                    "normalized_form": "中3",
+                                    "reading": "チュウサン",
+                                },
+                                {
+                                    "surface": "生",
+                                    "pos": "接尾辞,名詞的,一般,*,*,*",
+                                    "dictionary_form": "生",
+                                    "normalized_form": "生",
+                                    "reading": "セイ",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual([item["surface"] for item in items], ["中", "生"])
+        self.assertEqual([item["token_surface"] for item in items], ["中", "生"])
+        self.assertEqual(
+            [item["current_reading_hiragana"] for item in items],
+            ["ちゅう", "せい"],
+        )
+        self.assertEqual([item["token_index"] for item in items], [0, 2])
+
+    def test_build_items_include_unresolved_parenthesis_components(self) -> None:
+        payload = {
+            "unit_id": "u_parenthesis",
+            "text": "男（女）性",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "男/ （/（ 女/ ）/） 性/",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "男（女）性",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "男女性",
+                                    "normalized_form": "男(女)性",
+                                    "reading": "ダンジョセイ",
+                                }
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual([item["surface"] for item in items], ["男", "女", "性"])
+        self.assertEqual(
+            [item["current_reading_hiragana"] for item in items],
+            ["", "", ""],
+        )
 
     def test_build_items_uses_hybrid_rendered_reading_as_current(self) -> None:
         payload = {

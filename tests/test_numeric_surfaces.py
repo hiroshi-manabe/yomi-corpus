@@ -1,4 +1,5 @@
 from yomi_corpus.yomi.numeric_surfaces import (
+    allows_optional_japanese_numeral_reading,
     is_formatted_arabic_number_surface,
     is_numeric_digit_surface,
     is_numeric_only_surface,
@@ -19,6 +20,13 @@ def test_japanese_numeral_surface_is_numeric() -> None:
     assert is_numeric_only_surface("二○二六")
     assert is_numeric_only_surface("〇")
     assert is_numeric_only_surface("○")
+
+
+def test_multi_character_japanese_numeral_reading_is_optional() -> None:
+    for surface in ("一三", "一二三", "二〇〇二", "二○二六"):
+        assert allows_optional_japanese_numeral_reading(surface)
+    for surface in ("一", "〇", "13", "Ⅲ", "十三"):
+        assert not allows_optional_japanese_numeral_reading(surface)
 
 
 def test_single_lexical_japanese_numeral_keeps_ordinary_reading() -> None:

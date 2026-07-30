@@ -176,6 +176,241 @@ class YomiPipelineTests(unittest.TestCase):
 
         self.assertEqual(rendered, "Qxz/ \u00a0/\u00a0 Zxq/")
 
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_splits_internal_middle_dot(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "小": "ショウ",
+            "中学": "チュウガク",
+        }.get
+
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "小・中学",
+                    "名詞,普通名詞,一般,*,*,*",
+                    "小中学",
+                    "小・中学",
+                    "ショウチュウガク",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "小/ショウ ・/・ 中学/チュウガク")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_localizes_failed_middle_dot_lookup(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {"小": "ショウ", "未知語": ""}.get
+
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "小・未知語",
+                    "名詞,普通名詞,一般,*,*,*",
+                    "小未知語",
+                    "小・未知語",
+                    "ショウミチゴ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "小/ショウ ・/・ 未知語/")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_splits_middle_dot_in_proper_name(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "サントメ": "サントメ",
+            "プリンシペ": "プリンシペ",
+        }.get
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "サントメ・プリンシペ",
+                    "名詞,固有名詞,地名,国,*,*",
+                    "サントメプリンシペ",
+                    "サントメ・プリンシペ",
+                    "サントメプリンシペ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "サントメ/サントメ ・/・ プリンシペ/プリンシペ")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_splits_kana_middle_dot_name(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "ラ": "ラ",
+            "カンパネラ": "カンパネラ",
+        }.get
+
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "ラ・カンパネラ",
+                    "名詞,固有名詞,一般,*,*,*",
+                    "ラ・カンパネラ",
+                    "ラ・カンパネラ",
+                    "ラカンパネラ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "ラ/ラ ・/・ カンパネラ/カンパネラ")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_splits_nonproper_parentheses(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "男": "ダン",
+            "女": "オンナ",
+            "性": "セイ",
+        }.get
+
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "男（女）性",
+                    "名詞,普通名詞,一般,*,*,*",
+                    "男女性",
+                    "男(女)性",
+                    "ダンジョセイ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "男/ダン （/（ 女/ジョ ）/） 性/セイ")
+
+    def test_render_pairs_from_sudachi_uses_short_semantic_parenthetical_reading(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "（社）",
+                    "補助記号,一般,*,*,*,*",
+                    "(社)",
+                    "(社)",
+                    "シャダンホウジン",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "（/（ 社/シャ ）/）")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_render_pairs_from_sudachi_splits_parentheses_in_proper_name(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {"広": "ヒロ", "島": "シマ"}.get
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "広（島）",
+                    "名詞,固有名詞,地名,一般,*,*",
+                    "広島",
+                    "広(島)",
+                    "ヒロシマ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "広/ヒロ （/（ 島/シマ ）/）")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_parenthesis_split_does_not_use_incompatible_standalone_readings(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "男": "オトコ",
+            "女": "オンナ",
+            "性": "セイ",
+        }.get
+
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "男（女）性",
+                    "名詞,普通名詞,一般,*,*,*",
+                    "男女性",
+                    "男(女)性",
+                    "ダンジョセイ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "男/ （/（ 女/ ）/） 性/")
+
+    def test_render_pairs_from_sudachi_normalizes_attached_wave_reading(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken("な〜", "助詞,終助詞,*,*,*,*", "な", "な", "ナ"),
+                SudachiToken("う～ん", "感動詞,一般,*,*,*,*", "うん", "うん", "ウウン"),
+            ]
+        )
+
+        self.assertEqual(rendered, "な〜/ナー う～ん/ウーン")
+
+    def test_render_pairs_from_sudachi_does_not_read_standalone_wave_as_long_vowel(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [SudachiToken("〜", "補助記号,一般,*,*,*,*", "〜", "〜", "キゴウ")]
+        )
+
+        self.assertEqual(rendered, "〜/〜")
+
+    def test_render_pairs_from_sudachi_preserves_symbol_reading_in_proper_name(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "う～み",
+                    "名詞,固有名詞,人名,一般,*,*",
+                    "う～み",
+                    "う～み",
+                    "ウーミ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "う～み/ウーミ")
+
+    @patch("yomi_corpus.yomi.strategies.lookup_component_reading")
+    def test_aligned_hybrid_splits_internal_middle_dot_before_decoder_selection(
+        self, lookup_component_reading
+    ) -> None:
+        lookup_component_reading.side_effect = {
+            "小": "ショウ",
+            "中学": "チュウガク",
+        }.get
+
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="小・中学",
+            sudachi_tokens=[
+                SudachiToken(
+                    "小・中学",
+                    "名詞,普通名詞,一般,*,*,*",
+                    "小中学",
+                    "小・中学",
+                    "ショウチュウガク",
+                )
+            ],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("小・中学", "ショウチュウガク", 2, [2])],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "小/ショウ ・/・ 中学/チュウガク")
+        self.assertIn("split_middle_dot_spanning_sudachi_token", result.signals)
+
     def test_aligned_hybrid_uses_contextual_override_for_kata(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",
@@ -464,6 +699,21 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "二〇〇二/ 年/ネン")
         self.assertIn("group_numeric_run", result.signals)
 
+    def test_sudachi_render_preserves_proper_name_japanese_numeral_reading(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "一二三",
+                    "名詞,固有名詞,人名,名,*,*",
+                    "一二三",
+                    "一二三",
+                    "ヒフミ",
+                )
+            ]
+        )
+
+        self.assertEqual(rendered, "一二三/ヒフミ")
+
     def test_aligned_hybrid_keeps_single_japanese_numeral_reading(self) -> None:
         result = apply_strategy(
             "aligned_hybrid_v1",
@@ -613,7 +863,7 @@ class YomiPipelineTests(unittest.TestCase):
                 ),
             ]
         )
-        self.assertEqual(rendered, "（笑）/（笑）")
+        self.assertEqual(rendered, "（/（ 笑/ワライ ）/）")
 
     def test_sudachi_render_accepts_japanese_character_inside_symbolic_kaomoji(self) -> None:
         rendered = render_pairs_from_sudachi(

@@ -176,7 +176,7 @@ function bindEvents() {
     if (!isEditable()) {
       return;
     }
-    if (!window.confirm("このパックのローカル変更をすべてリセットしますか？")) {
+    if (!window.confirm("現在のローカル変更をすべてリセットしますか？")) {
       return;
     }
     state.currentDraft = createEmptyDraft(state.currentPack);
@@ -423,7 +423,7 @@ async function openArchiveBrowser() {
   state.archiveCurrentShardPath = firstShard?.path || "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
-    title: "コーパスマップ",
+    title: "確定済みコーパス",
     track_name: "dev",
     status: "archive",
   };
@@ -668,7 +668,7 @@ function renderTaskSelector() {
     panel.classList.toggle("hidden", editable && !started);
   });
   if (!editable) {
-    el.taskSummary.textContent = "過去のパックは閲覧専用です。";
+    el.taskSummary.textContent = "過去のレビュー内容は閲覧専用です。";
     return;
   }
 
@@ -715,7 +715,7 @@ function renderArchiveBrowserPanel() {
   const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
     el.taskSummary.textContent = shards.length
-      ? "下からコーパスマップの範囲を選択してください。"
+      ? "下から確定済みコーパスの範囲を選択してください。"
       : "確定済み文書はまだ公開されていません。";
     for (const shard of shards) {
       el.taskDocList.append(renderArchiveShardRow(shard));
@@ -750,7 +750,7 @@ function renderArchiveSearchPanel(track) {
   heading.className = "archive-search-heading";
   heading.innerHTML = `
     <div>
-      <strong>コーパスマップを検索</strong>
+      <strong>確定済みコーパスを検索</strong>
       <p class="muted">確定済み文書の原文を検索します。</p>
     </div>
   `;
@@ -984,7 +984,11 @@ function renderCorpusMapTileGrid(docs) {
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
-    tile.addEventListener("click", () => openArchiveCorrectionEditor(doc));
+    tile.addEventListener("click", () =>
+      openArchiveCorrectionEditor(doc, {
+        scrollToManualCorrection: manualCorrectionCount > 0,
+      }),
+    );
     wrap.append(tile);
   }
   return wrap;
@@ -1103,8 +1107,8 @@ function archiveCorrectionRecordForDoc(doc) {
   return store.records[key];
 }
 
-function persistArchiveCorrectionDraft(doc) {
-  const parsed = collectArchiveCorrectionChanges(doc);
+function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
+  const parsed = parsedChanges || collectArchiveCorrectionChanges(doc);
   const store = loadArchiveCorrectionStore();
   const key = archiveCorrectionDocKey(doc);
   if (!parsed.ok) {
@@ -1190,7 +1194,7 @@ function archiveCorrectionHasUnsavedEdits() {
   });
 }
 
-function openArchiveCorrectionEditor(doc) {
+function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } = {}) {
   const units = doc.units || [];
   const localCorrection = archiveCorrectionRecordForDoc(doc);
   el.workflowPreviewTitle.textContent = `文書 ${doc.track_doc_seq} を修正`;
@@ -1226,7 +1230,9 @@ function openArchiveCorrectionEditor(doc) {
   const validation = document.createElement("p");
   validation.className = "archive-correction-validation muted";
   validation.dataset.archiveCorrectionSummary = "true";
-  validation.textContent = "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
+  validation.textContent = doc.manual_correction_required_count
+    ? "変更がなくても、要手動修正の確認結果をIssueで提出できます。"
+    : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   el.workflowPreviewBody.append(validation);
 
   el.workflowPreviewActions.innerHTML = "";
@@ -1258,6 +1264,15 @@ function openArchiveCorrectionEditor(doc) {
   el.workflowPreviewBody.scrollLeft = 0;
   el.workflowPreviewModal.classList.remove("hidden");
   window.requestAnimationFrame(() => {
+    if (scrollToManualCorrection) {
+      const flaggedRow = el.workflowPreviewBody.querySelector(
+        ".archive-correction-row.manual-correction-required",
+      );
+      if (flaggedRow) {
+        flaggedRow.scrollIntoView({ block: "center", behavior: "auto" });
+        return;
+      }
+    }
     el.workflowPreviewBody.scrollTo({ top: 0, left: 0, behavior: "auto" });
   });
   updateRuntimePollingForInteraction();
@@ -1449,7 +1464,7 @@ function updateArchiveCorrectionRowState(row, unit) {
   updateArchiveCorrectionSummary();
 }
 
-function collectArchiveCorrectionChanges(doc) {
+function collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements = false } = {}) {
   const units = doc.units || [];
   const rows = [...(el.workflowPreviewBody?.querySelectorAll?.(".archive-correction-row") || [])];
   const changedUnits = [];
@@ -1483,10 +1498,35 @@ function collectArchiveCorrectionChanges(doc) {
         : {}),
     });
   }
+  if (!changedUnits.length && includeFlagAcknowledgements) {
+    for (const [index, unit] of units.entries()) {
+      if (!unit.manual_correction_required || unit.excluded) {
+        continue;
+      }
+      const originalTokens = archiveUnitYomiTokenPairs(unit);
+      const original = serializeEditableYomiTokens(originalTokens);
+      const validation = validateRenderedYomiCorrection(unit, original);
+      if (!validation.ok) {
+        return { ok: false, error: `文 ${unit.unit_id || index + 1}: ${validation.error}` };
+      }
+      changedUnits.push({
+        unit_id: String(unit.unit_id || ""),
+        unit_seq: Number(unit.unit_seq || index + 1),
+        text: unit.text || "",
+        original_yomi_tokens: originalTokens,
+        proposed_yomi_tokens: validation.tokens,
+        acknowledgement_only: true,
+      });
+    }
+  }
   if (!changedUnits.length) {
     return { ok: false, error: "読みの変更がありません。" };
   }
-  return { ok: true, changedUnits };
+  return {
+    ok: true,
+    changedUnits,
+    acknowledgementOnly: changedUnits.every((unit) => unit.acknowledgement_only === true),
+  };
 }
 
 function saveArchiveCorrectionRow(row, unit, doc) {
@@ -1632,8 +1672,11 @@ function updateArchiveCorrectionSummary() {
   const changed = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.changed").length;
   const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
   const openEditors = el.workflowPreviewBody.querySelectorAll(".archive-correction-editor:not(.hidden)").length;
+  const flagged = el.workflowPreviewBody.querySelectorAll(
+    ".archive-correction-row.manual-correction-required",
+  ).length;
   const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
-  const canExport = changed > 0 && invalid === 0 && openEditors === 0;
+  const canExport = (changed > 0 || flagged > 0) && invalid === 0 && openEditors === 0;
   for (const button of exportButtons) {
     button.disabled = !canExport;
   }
@@ -1649,7 +1692,9 @@ function updateArchiveCorrectionSummary() {
   }
   summary.textContent = changed
     ? `${changed}件の変更をIssueで提出できます。`
-    : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
+    : flagged
+      ? `要手動修正 ${flagged}件を、変更なしの確認結果としてIssueで提出できます。`
+      : "一つ以上の文を編集・保存してから、JSONをコピーしてIssueを開いてください。";
   summary.classList.remove("error");
 }
 
@@ -1734,13 +1779,17 @@ function validateRenderedYomiReading(surface, reading) {
       : { ok: true };
   }
   if (isNumericOnlySurface(surface)) {
+    if (allowsOptionalJapaneseNumeralReading(surface)) {
+      return !reading || /^[ァ-ヺー]+$/u.test(reading)
+        ? { ok: true }
+        : { ok: false, error: "漢数字列の読みは空またはカタカナにしてください。" };
+    }
     return reading ? { ok: false, error: "数字のみの表記には読みを付けないでください。" } : { ok: true };
   }
-  const numericReadings = numericCompoundReadings(surface);
-  if (numericReadings) {
-    return numericReadings.includes(reading)
+  if (numericCompoundReadings(surface)) {
+    return reading && /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
-      : { ok: false, error: `読みは ${numericReadings.join("、")} のいずれかにしてください。` };
+      : { ok: false, error: "数字複合語の読みは空でないカタカナにしてください。" };
   }
   if (reading === "カオモジ") {
     return isSymbolicKaomojiCorrectionSurface(surface)
@@ -1819,6 +1868,11 @@ function isNumericOnlySurface(surface) {
   return [...value].length >= 2 || value === "〇" || value === "○";
 }
 
+function allowsOptionalJapaneseNumeralReading(surface) {
+  const value = String(surface || "");
+  return [...value].length >= 2 && /^[〇○零一二三四五六七八九]+$/u.test(value);
+}
+
 function isStandaloneLaughterW(surface) {
   return /^[wｗ]+$/iu.test(String(surface || ""));
 }
@@ -1851,9 +1905,17 @@ function buildArchiveCorrectionPayload(doc, parsed) {
 }
 
 async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
-  const parsed = collectArchiveCorrectionChanges(doc);
+  const parsed = collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements: true });
   if (!parsed.ok) {
     showStatus(parsed.error, true);
+    return false;
+  }
+  if (
+    parsed.acknowledgementOnly &&
+    !window.confirm(
+      `${parsed.changedUnits.length}件の要手動修正フラグを、読みの変更なしで確認済みにします。続けますか？`,
+    )
+  ) {
     return false;
   }
   const exclusionCount = parsed.changedUnits.filter(
@@ -1867,6 +1929,7 @@ async function copyArchiveCorrectionPayload(doc, { openIssue = false } = {}) {
   ) {
     return false;
   }
+  persistArchiveCorrectionDraft(doc, parsed);
   const payload = buildArchiveCorrectionPayload(doc, parsed);
   const copied = await copyTextToClipboard(formatSubmissionJson(payload));
   if (openIssue) {
@@ -1921,11 +1984,12 @@ function renderWorkflowPackMap(docs) {
   const section = document.createElement("section");
   section.className = "workflow-pack-map";
   const rows = workflowDocumentStates(docs);
+  const manualCorrectionCount = archiveManualCorrectionCount();
   section.innerHTML = `
     <div class="workflow-heading">
       <div>
-        <h3>パック一覧</h3>
-        <p class="muted">このパックに含まれる全文書の状態です。</p>
+        <h3>作業中の文書</h3>
+        <p class="muted">現在レビュー対象になっている文書と、その処理状況です。</p>
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
@@ -1933,7 +1997,7 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
-        ${hasReviewArchive() ? '<button class="secondary-button compact-button corpus-map-link" type="button">コーパスマップ</button>' : ''}
+        ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button" title="コーパスマップを開く">確定済みコーパス${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
   `;
@@ -1949,6 +2013,11 @@ function renderWorkflowPackMap(docs) {
   }
   section.append(tileGrid);
   return section;
+}
+
+function archiveManualCorrectionCount() {
+  const track = state.archiveIndex?.tracks?.dev || state.manifest?.archive?.tracks?.dev;
+  return Number(track?.manual_correction_required_count || 0);
 }
 
 function renderWorkflowQueue({
@@ -4281,24 +4350,34 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextNoRuby = nextTarget && isNoRubyTarget(nextTarget, override);
   const previousMergeEligible = previousNoRuby || isNumericMergeEligibleTarget(previousTarget);
   const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
-  let remaining = text;
-
-  const trailing = nextMergeEligible ? numericMergeRun(remaining, "trailing") : "";
-  const leading = previousMergeEligible ? numericMergeRun(remaining, "leading") : "";
-  if (trailing && trailing.length < remaining.length) {
-    nodes.push(document.createTextNode(remaining.slice(0, -trailing.length)));
-    remaining = trailing;
+  let leading = previousMergeEligible ? numericMergeRun(text, "leading") : "";
+  let trailing = nextMergeEligible ? numericMergeRun(text, "trailing") : "";
+  let leadingKind = leading ? "numeric" : "";
+  let trailingKind = trailing ? "numeric" : "";
+  if (!leading && previousNoRuby && isKanaMergeEligibleTarget(previousTarget)) {
+    leading = adjacentKanaToken(item, previousTarget, text, "after");
+    leadingKind = leading ? "kana" : "";
   }
-  if (trailing && nextTarget) {
-    nodes.push(renderNumericMergeButton(item, nextTarget, trailing, "before", override, editable));
-    remaining = "";
+  if (!trailing && nextNoRuby && isKanaMergeEligibleTarget(nextTarget)) {
+    trailing = adjacentKanaToken(item, nextTarget, text, "before");
+    trailingKind = trailing ? "kana" : "";
+  }
+  if ([...leading].length + [...trailing].length > [...text].length) {
+    leading = "";
+    leadingKind = "";
+    trailing = "";
+    trailingKind = "";
   }
   if (leading && previousTarget) {
-    nodes.push(renderNumericMergeButton(item, previousTarget, leading, "after", override, editable));
-    remaining = remaining.slice(leading.length);
+    nodes.push(renderAdjacentMergeButton(item, previousTarget, leading, "after", leadingKind, override, editable));
   }
-  if (remaining) {
-    nodes.push(document.createTextNode(remaining));
+  const middleStart = leading.length;
+  const middleEnd = trailing ? text.length - trailing.length : text.length;
+  if (middleStart < middleEnd) {
+    nodes.push(document.createTextNode(text.slice(middleStart, middleEnd)));
+  }
+  if (trailing && nextTarget) {
+    nodes.push(renderAdjacentMergeButton(item, nextTarget, trailing, "before", trailingKind, override, editable));
   }
   return nodes;
 }
@@ -4332,44 +4411,79 @@ function isNumericMergeEligibleTarget(target) {
   return /[A-Za-zＡ-Ｚａ-ｚ]/u.test(target.surface || "");
 }
 
+function isKanaMergeEligibleTarget(target) {
+  return Boolean(target) && /[\p{Script=Han}々〆ヵヶ]/u.test(target.surface || "");
+}
+
+function adjacentKanaToken(item, target, textSegment, side) {
+  const tokens = renderedYomiTokenSpans(item);
+  const boundary = Number(side === "before" ? target.target_start : target.target_end);
+  if (!Number.isInteger(boundary)) {
+    return "";
+  }
+  const token = tokens.find((candidate) =>
+    side === "before" ? candidate.end === boundary : candidate.start === boundary
+  );
+  if (!token || !/^[ぁ-ゖゝゞァ-ヺヽヾー]+$/u.test(token.surface)) {
+    return "";
+  }
+  if (side === "before" && !textSegment.endsWith(token.surface)) {
+    return "";
+  }
+  if (side === "after" && !textSegment.startsWith(token.surface)) {
+    return "";
+  }
+  return token.surface;
+}
+
+function renderedYomiTokenSpans(item) {
+  let cursor = 0;
+  return parseRenderedYomiTokens(item.rendered_yomi || "").map((token) => {
+    const surface = String(token.surface || "").replaceAll("\u00a0", " ");
+    const start = cursor;
+    cursor += [...surface].length;
+    return { surface, reading: token.reading || "", start, end: cursor };
+  });
+}
+
 function hasNoRubyCandidate(target) {
   return (target?.candidates || []).some((candidate) => candidate.source === "none");
 }
 
-function renderNumericMergeButton(item, target, digits, side, override, editable) {
+function renderAdjacentMergeButton(item, target, neighbor, side, kind, override, editable) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = "ruby-token numeric-merge-token";
-  const span = numericMergeSpanDraft(target, digits, side);
+  button.className = `ruby-token adjacent-merge-token ${kind}-merge-token`;
+  const span = adjacentMergeSpanDraft(target, neighbor, side, kind);
   const active = Boolean(override?.span_overrides?.[span.id]);
   button.classList.toggle("changed", active);
   button.disabled = !editable;
   button.title = active
-    ? "数字を結合中です。タップすると解除します。"
-    : "この数字をルビなしの対象と結合して詳細修正に送ります。";
-  button.textContent = digits;
+    ? `${kind === "kana" ? "カナ" : "数字"}を結合中です。タップすると解除します。`
+    : `この${kind === "kana" ? "カナ" : "数字"}をルビなしの対象と結合して詳細修正に送ります。`;
+  button.textContent = neighbor;
   if (editable) {
-    button.addEventListener("click", () => toggleNumericMergeSpan(item, span));
+    button.addEventListener("click", () => toggleAdjacentMergeSpan(item, span));
   }
   return button;
 }
 
-function numericMergeSpanDraft(target, digits, side) {
+function adjacentMergeSpanDraft(target, neighbor, side, kind) {
   const originalSurface = side === "before"
-    ? `${digits}${target.surface || ""}`
-    : `${target.surface || ""}${digits}`;
+    ? `${neighbor}${target.surface || ""}`
+    : `${target.surface || ""}${neighbor}`;
   return {
-    id: `numeric-merge:${target.item_id}:${side}:${digits}`,
+    id: `${kind}-merge:${target.item_id}:${side}:${neighbor}`,
     decision: "segmentation",
     target_item_ids: [target.item_id],
     original_surface: originalSurface,
     segments: [{ surface: originalSurface, reading: "" }],
     repair_required: true,
-    repair_reason: "numeric_merge_no_reading",
+    repair_reason: `${kind}_merge_no_reading`,
   };
 }
 
-function toggleNumericMergeSpan(item, span) {
+function toggleAdjacentMergeSpan(item, span) {
   const draft = ensureYomiOverride(item.item_id);
   if (!draft.span_overrides) {
     draft.span_overrides = {};
@@ -4551,17 +4665,17 @@ function applyYomiCandidate(item, target, next) {
     };
   }
   if (next.source !== "none") {
-    removeNumericMergeSpansForTarget(draft, target.item_id);
+    removeAdjacentMergeSpansForTarget(draft, target.item_id);
     cleanupYomiOverride(item.item_id);
   }
   touchDraft();
   render();
 }
 
-function removeNumericMergeSpansForTarget(draft, targetItemId) {
+function removeAdjacentMergeSpansForTarget(draft, targetItemId) {
   for (const [spanId, span] of Object.entries(draft.span_overrides || {})) {
     if (
-      span?.repair_reason === "numeric_merge_no_reading" &&
+      ["numeric_merge_no_reading", "kana_merge_no_reading"].includes(span?.repair_reason) &&
       (span.target_item_ids || []).includes(targetItemId)
     ) {
       delete draft.span_overrides[spanId];
@@ -4608,7 +4722,7 @@ function cleanupYomiOverride(itemId) {
 function renderSubmissionPreview() {
   if (!isEditable()) {
     el.submissionPreview.value =
-      "過去のパックは閲覧専用のため、レビュー結果を提出できません。";
+      "過去のレビュー内容は閲覧専用のため、レビュー結果を提出できません。";
     renderIssueUrlSummary(null);
     return;
   }
@@ -4879,7 +4993,7 @@ function renderIssueUrlSummary(urls, payload = null) {
     return;
   }
   if (!urls) {
-    el.issueUrlSummary.textContent = "過去のパックは閲覧専用のため、Issueを作成できません。";
+    el.issueUrlSummary.textContent = "過去のレビュー内容は閲覧専用のため、Issueを作成できません。";
     return;
   }
   const jsonLength = payload ? formatSubmissionJson(payload).length : 0;

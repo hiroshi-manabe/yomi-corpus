@@ -13,7 +13,10 @@ from yomi_corpus.yomi.final_review import (
     manual_correction_state,
     yomi_tokens_ruby_tokens,
 )
-from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
+from yomi_corpus.yomi.numeric_surfaces import (
+    allows_optional_japanese_numeral_reading,
+    is_numeric_only_surface,
+)
 from yomi_corpus.yomi.token_codec import (
     legacy_rendered_to_yomi_tokens,
     yomi_tokens_from_mapping,
@@ -306,6 +309,10 @@ def publish_review_archive(
         tracks[track_name] = {
             "track_name": track_name,
             "document_count": len(documents),
+            "manual_correction_required_count": sum(
+                int(doc.get("manual_correction_required_count") or 0)
+                for doc in documents
+            ),
             "shard_size": shard_size,
             "shards": shards,
             "search_path": search_path,
@@ -325,6 +332,9 @@ def publish_review_archive(
         "tracks": {
             track_name: {
                 "document_count": track["document_count"],
+                "manual_correction_required_count": track[
+                    "manual_correction_required_count"
+                ],
                 "shard_count": len(track["shards"]),
             }
             for track_name, track in tracks.items()
@@ -624,7 +634,13 @@ def archive_yomi_tokens(row: dict) -> list[list[str]]:
 
 def normalize_archive_yomi_tokens(tokens: list[list[str]]) -> list[list[str]]:
     return [
-        [surface, "" if is_numeric_only_surface(surface) else reading]
+        [
+            surface,
+            ""
+            if is_numeric_only_surface(surface)
+            and not allows_optional_japanese_numeral_reading(surface)
+            else reading,
+        ]
         for surface, reading in tokens
     ]
 
@@ -633,7 +649,10 @@ def normalize_archive_rendered_yomi(rendered: str) -> str:
     tokens: list[str] = []
     for token in rendered_yomi_tokens_for_archive(rendered):
         surface, reading = split_rendered_yomi_token_for_archive(token)
-        if is_numeric_only_surface(surface):
+        if (
+            is_numeric_only_surface(surface)
+            and not allows_optional_japanese_numeral_reading(surface)
+        ):
             tokens.append(f"{surface}/")
         else:
             tokens.append(f"{surface}/{reading}")

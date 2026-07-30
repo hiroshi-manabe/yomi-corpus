@@ -15,6 +15,7 @@ from yomi_corpus.yomi.numeric_surfaces import (
     is_numeric_only_surface,
 )
 from yomi_corpus.yomi.numeric_compounds import numeric_compound_rule
+from yomi_corpus.yomi.repairs import PARENTHESIZED_SEMANTIC_TOKENS
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,9 @@ class RenderedPair:
 ASCII_SPACE = " "
 NBSP = "\u00a0"
 SPACE_RUN_RE = re.compile(r"(\s+)")
+INTERNAL_MIDDLE_DOT_RUN_RE = re.compile(r"([・･]+)")
+INTERNAL_PARENTHESIS_RUN_RE = re.compile(r"([()（）]+)")
+ATTACHED_WAVE_MARKS = {"〜", "～"}
 HAN_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff々〆〻]")
 SEMANTIC_PARENTHESIZED_JAPANESE_RE = re.compile(
     r"(?:\([\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff\uf900-\ufaff々〆〻]+\)"
@@ -293,15 +297,27 @@ def strategy_aligned_hybrid(
             index += 1
             continue
 
+        if is_symbolic_sudachi_kaomoji(token):
+            rendered_pairs.append(RenderedPair(surface=token.surface, reading="カオモジ"))
+            signals.append("normalize_symbolic_sudachi_kaomoji")
+            index += 1
+            continue
+
         if token_contains_space(token):
             rendered_pairs.extend(render_space_spanning_sudachi_token(token))
             signals.append("split_space_spanning_sudachi_token")
             index += 1
             continue
 
-        if is_symbolic_sudachi_kaomoji(token):
-            rendered_pairs.append(RenderedPair(surface=token.surface, reading="カオモジ"))
-            signals.append("normalize_symbolic_sudachi_kaomoji")
+        if token_contains_internal_middle_dot(token):
+            rendered_pairs.extend(render_middle_dot_spanning_sudachi_token(token))
+            signals.append("split_middle_dot_spanning_sudachi_token")
+            index += 1
+            continue
+
+        if token_contains_parenthesis(token):
+            rendered_pairs.extend(render_parenthesis_spanning_sudachi_token(token))
+            signals.append("split_parenthesis_spanning_sudachi_token")
             index += 1
             continue
 
@@ -619,11 +635,59 @@ def render_sudachi_token(token: SudachiToken) -> RenderedPair:
         return RenderedPair(surface=token.surface, reading=token.surface)
     if is_numeric_token(token) and is_numeric_only_surface(token.surface):
         return RenderedPair(surface=token.surface, reading="")
-    return RenderedPair(surface=token.surface, reading=token.reading or token.surface)
+    return RenderedPair(
+        surface=token.surface,
+        reading=normalized_attached_wave_reading(token),
+    )
+
+
+def normalized_attached_wave_reading(token: SudachiToken) -> str:
+    reading = token.reading or token.surface
+    if is_proper_name_token(token) or not any(mark in token.surface for mark in ATTACHED_WAVE_MARKS):
+        return reading
+    non_wave_surface = "".join(
+        char for char in token.surface if char not in ATTACHED_WAVE_MARKS
+    )
+    if not non_wave_surface:
+        return reading
+    if all(is_hiragana_or_katakana(char) or char == "ー" for char in non_wave_surface):
+        return "".join(
+            "ー" if char in ATTACHED_WAVE_MARKS else hiragana_to_katakana(char)
+            for char in token.surface
+        )
+    trailing_count = len(token.surface) - len(token.surface.rstrip("〜～"))
+    if trailing_count and is_katakana_reading(reading):
+        existing_count = len(reading) - len(reading.rstrip("ー"))
+        return reading + ("ー" * max(0, trailing_count - existing_count))
+    return reading
+
+
+def is_hiragana_or_katakana(char: str) -> bool:
+    return "\u3041" <= char <= "\u3096" or is_katakana(char) or char in {"ゝ", "ゞ"}
+
+
+def hiragana_to_katakana(char: str) -> str:
+    if "\u3041" <= char <= "\u3096":
+        return chr(ord(char) + 0x60)
+    return {"ゝ": "ヽ", "ゞ": "ヾ"}.get(char, char)
 
 
 def token_contains_space(token: SudachiToken) -> bool:
     return any(char.isspace() for char in token.surface) and not is_whitespace_token(token)
+
+
+def token_contains_internal_middle_dot(token: SudachiToken) -> bool:
+    parts = split_surface_preserving_middle_dots(token.surface)
+    return (
+        len(parts) >= 3
+        and not is_middle_dot_run(parts[0])
+        and not is_middle_dot_run(parts[-1])
+    )
+
+
+def token_contains_parenthesis(token: SudachiToken) -> bool:
+    parts = split_surface_preserving_parentheses(token.surface)
+    return len(parts) >= 2 and any(is_parenthesis_run(part) for part in parts)
 
 
 def render_space_spanning_sudachi_token(token: SudachiToken) -> list[RenderedPair]:
@@ -653,6 +717,110 @@ def render_space_spanning_sudachi_token(token: SudachiToken) -> list[RenderedPai
 
 def split_surface_preserving_spaces(surface: str) -> list[str]:
     return [part for part in SPACE_RUN_RE.split(surface) if part]
+
+
+def render_middle_dot_spanning_sudachi_token(token: SudachiToken) -> list[RenderedPair]:
+    rendered: list[RenderedPair] = []
+    for part in split_surface_preserving_middle_dots(token.surface):
+        if is_middle_dot_run(part):
+            rendered.append(RenderedPair(surface=part, reading=part))
+        else:
+            rendered.append(RenderedPair(surface=part, reading=lookup_component_reading(part)))
+    return rendered
+
+
+def split_surface_preserving_middle_dots(surface: str) -> list[str]:
+    return [part for part in INTERNAL_MIDDLE_DOT_RUN_RE.split(surface) if part]
+
+
+def is_middle_dot_run(value: str) -> bool:
+    return bool(value) and all(char in {"・", "･"} for char in value)
+
+
+def render_parenthesis_spanning_sudachi_token(token: SudachiToken) -> list[RenderedPair]:
+    semantic_replacement = PARENTHESIZED_SEMANTIC_TOKENS.get(token.surface)
+    if semantic_replacement is not None:
+        return [
+            RenderedPair(surface=surface, reading=reading)
+            for surface, reading in semantic_replacement
+        ]
+    parts = split_surface_preserving_parentheses(token.surface)
+    component_surfaces = [part for part in parts if not is_parenthesis_run(part)]
+    component_readings = infer_symbol_separated_component_readings(
+        full_reading=token.reading,
+        component_surfaces=component_surfaces,
+    )
+    rendered: list[RenderedPair] = []
+    component_index = 0
+    for part in parts:
+        if is_parenthesis_run(part):
+            rendered.append(RenderedPair(surface=part, reading=part))
+        else:
+            rendered.append(
+                RenderedPair(surface=part, reading=component_readings[component_index])
+            )
+            component_index += 1
+    return rendered
+
+
+def split_surface_preserving_parentheses(surface: str) -> list[str]:
+    return [part for part in INTERNAL_PARENTHESIS_RUN_RE.split(surface) if part]
+
+
+def is_parenthesis_run(value: str) -> bool:
+    return bool(value) and all(char in {"(", ")", "（", "）"} for char in value)
+
+
+def is_proper_name_token(token: SudachiToken) -> bool:
+    return "固有名詞" in token.pos.split(",")
+
+
+def infer_symbol_separated_component_readings(
+    *,
+    full_reading: str,
+    component_surfaces: list[str],
+) -> list[str]:
+    readings = [lookup_component_reading(surface) for surface in component_surfaces]
+    if not full_reading or not is_katakana_reading(full_reading):
+        return readings
+    if all(readings) and "".join(readings) == full_reading:
+        return readings
+
+    candidates: list[list[str]] = []
+    for index, surface in enumerate(component_surfaces):
+        if not HAN_RE.search(surface) and not any(char.isalpha() and char.isascii() for char in surface):
+            continue
+        if any(not reading for offset, reading in enumerate(readings) if offset != index):
+            continue
+        prefix = "".join(readings[:index])
+        suffix = "".join(readings[index + 1 :])
+        if prefix and not full_reading.startswith(prefix):
+            continue
+        if suffix and not full_reading.endswith(suffix):
+            continue
+        residual_start = len(prefix)
+        residual_end = len(full_reading) - len(suffix) if suffix else len(full_reading)
+        if residual_end < residual_start:
+            continue
+        residual = full_reading[residual_start:residual_end]
+        if residual and not is_katakana_reading(residual):
+            continue
+        candidate = list(readings)
+        candidate[index] = residual
+        candidates.append(candidate)
+    unique_candidates = {tuple(candidate) for candidate in candidates}
+    if len(unique_candidates) == 1:
+        return list(next(iter(unique_candidates)))
+    return [
+        kana_surface_reading(surface)
+        if all(is_hiragana_or_katakana(char) or char == "ー" for char in surface)
+        else ""
+        for surface in component_surfaces
+    ]
+
+
+def kana_surface_reading(surface: str) -> str:
+    return "".join(hiragana_to_katakana(char) for char in surface)
 
 
 def infer_space_spanning_component_readings(
@@ -843,6 +1011,10 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
             pairs.append(render_sudachi_token(token))
             index += 1
             continue
+        if is_symbolic_sudachi_kaomoji(token):
+            pairs.append(render_sudachi_token(token))
+            index += 1
+            continue
         if is_numeric_token(token):
             start_index = index
             while index < len(tokens) and is_numeric_token(tokens[index]):
@@ -855,6 +1027,14 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
             continue
         if token_contains_space(token):
             pairs.extend(render_space_spanning_sudachi_token(token))
+            index += 1
+            continue
+        if token_contains_internal_middle_dot(token):
+            pairs.extend(render_middle_dot_spanning_sudachi_token(token))
+            index += 1
+            continue
+        if token_contains_parenthesis(token):
+            pairs.extend(render_parenthesis_spanning_sudachi_token(token))
             index += 1
             continue
         numeric_parts = split_mixed_arabic_numeric_token(token)

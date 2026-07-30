@@ -35,5 +35,13 @@ def is_numeric_only_surface(surface: str) -> bool:
     return len(surface) >= 2 or surface in {"〇", "○"}
 
 
+def allows_optional_japanese_numeral_reading(surface: str) -> bool:
+    """Return whether a digit-style kanji run may retain a lexical reading."""
+    return bool(
+        len(surface) >= 2
+        and JAPANESE_NUMERAL_DIGIT_RE.fullmatch(surface)
+    )
+
+
 def is_formatted_arabic_number_surface(surface: str) -> bool:
     return bool(surface and FORMATTED_ARABIC_NUMBER_RE.fullmatch(surface))
