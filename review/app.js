@@ -911,6 +911,11 @@ function archiveSearchSnippet(text, query) {
 }
 
 async function openArchiveSearchResult(result, query) {
+  const packPath = String(result.pack_path || "");
+  if (packPath) {
+    await openPendingSearchResult(result, query, packPath);
+    return;
+  }
   const shardPath = String(result.shard_path || "");
   if (!shardPath) {
     throw new Error("検索結果にアーカイブの保存先がありません。");
@@ -930,6 +935,58 @@ async function openArchiveSearchResult(result, query) {
   }
   openArchiveCorrectionEditor(doc);
   scrollArchiveCorrectionToFirstMatch(doc, query);
+}
+
+async function openPendingSearchResult(result, query, packPath) {
+  const pack = await fetchJson(packPath);
+  const items = (pack.items || []).filter(
+    (item) =>
+      String(item.doc_id || "") === String(result.doc_id || "") &&
+      Number(item.track_doc_seq || item.doc_seq || 0) === Number(result.track_doc_seq || 0),
+  );
+  if (!items.length) {
+    throw new Error("レビュー用データ内に文書が見つかりません。");
+  }
+
+  el.workflowPreviewTitle.textContent = `文書 ${result.track_doc_seq}`;
+  el.workflowPreviewMeta.textContent = "処理中 · 閲覧専用";
+  el.workflowPreviewBody.innerHTML = "";
+  const originalPack = state.currentPack;
+  const originalDraft = state.currentDraft;
+  state.currentPack = pack;
+  state.currentDraft = { overrides: {} };
+  try {
+    for (const item of items.sort((left, right) => Number(left.unit_seq || left.seq || 0) - Number(right.unit_seq || right.seq || 0))) {
+      const node = renderPreviewItem(item);
+      node.dataset.searchText = item.text || "";
+      el.workflowPreviewBody.append(node);
+    }
+  } finally {
+    state.currentPack = originalPack;
+    state.currentDraft = originalDraft;
+  }
+  el.workflowPreviewActions.innerHTML = "";
+  const note = document.createElement("span");
+  note.className = "muted";
+  note.textContent = "この文書は処理中です。現在のレビュー用データを表示しています。";
+  el.workflowPreviewActions.append(note);
+  el.workflowPreviewModal.classList.remove("hidden");
+  scrollPendingSearchToFirstMatch(query);
+  updateRuntimePollingForInteraction();
+}
+
+function scrollPendingSearchToFirstMatch(query) {
+  const normalizedQuery = normalizeArchiveSearchText(query).trim();
+  const target = [...(el.workflowPreviewBody?.querySelectorAll("[data-search-text]") || [])].find(
+    (node) => normalizeArchiveSearchText(node.dataset.searchText).includes(normalizedQuery),
+  );
+  if (!target) {
+    return;
+  }
+  target.classList.add("search-match");
+  window.requestAnimationFrame(() => {
+    target.scrollIntoView({ block: "center", behavior: "auto" });
+  });
 }
 
 function scrollArchiveCorrectionToFirstMatch(doc, query) {
