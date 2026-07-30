@@ -2001,6 +2001,11 @@ Keep these layers explicit in review-pack and submission processing:
 - **ruby ranges** are dictionary-derived display nodes inside an interaction
   span and may cover only part of its surface
 
+Ruby projection should leave an already-readable kana suffix outside the ruby
+base. For example, canonical `1つ/ヒトツ` remains one corpus token but is
+displayed as `1（ひと）つ`, while lexicalized forms ending in kanji such as
+`2日/フツカ` may keep ruby over the complete compound.
+
 An accepted candidate replaces the complete interaction span with its recorded
 token sequence. `No ruby` rejects that complete span and sends the same exact
 surface to Escalated Repair. Strong-repair proposals must concatenate to that

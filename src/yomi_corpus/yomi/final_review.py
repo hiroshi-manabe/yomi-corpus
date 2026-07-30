@@ -2124,7 +2124,20 @@ def split_rendered_yomi_token(token: str) -> tuple[str, str]:
 
 def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str, str]]:
     if numeric_compound_rule(surface) is not None and reading:
-        return [{"type": "ruby", "text": surface, "reading": kata_to_hira(reading)}]
+        reading_hira = kata_to_hira(reading)
+        match = re.fullmatch(r"([0-9０-９]+)([ぁ-ゖァ-ヺー]+)", surface)
+        if match:
+            suffix_hira = kata_to_hira(match.group(2))
+            if reading_hira.endswith(suffix_hira) and len(reading_hira) > len(suffix_hira):
+                return [
+                    {
+                        "type": "ruby",
+                        "text": match.group(1),
+                        "reading": reading_hira[: -len(suffix_hira)],
+                    },
+                    {"type": "text", "text": match.group(2)},
+                ]
+        return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if not should_display_ruby(surface, reading):
         return [{"type": "text", "text": surface}]
     reading_hira = kata_to_hira(reading)

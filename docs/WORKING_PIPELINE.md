@@ -3185,6 +3185,8 @@ not overlap within one candidate view. Candidate token surfaces must concatenate
 exactly to `surface`, and ruby nodes must preserve source order without claiming
 characters outside the span. The browser may derive ruby nodes when they are
 not stored, but must never derive the interaction boundary from those nodes.
+Digit-plus-kana compounds retain one canonical token while leaving the kana
+suffix outside the visual ruby base, so `1つ/ヒトツ` renders as `1（ひと）つ`.
 
 Submission overrides should identify `span_id` and the selected candidate, or
 record `none` for rejection. Replay replaces the complete span token sequence.
