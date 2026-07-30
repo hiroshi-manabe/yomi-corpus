@@ -8,6 +8,7 @@ from yomi_corpus.yomi.repairs import (
     normalize_parenthesized_semantic_tokens_rendered,
 )
 from yomi_corpus.yomi.numeric_compounds import normalize_numeric_compounds
+from yomi_corpus.yomi.learned_lexicon import apply_exact_yomi_rewrites
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
     normalize_ascii_spaces_for_yomi,
@@ -32,8 +33,12 @@ def generate_mechanical_yomi(
         sudachi_tokens=sudachi_tokens,
         decoder_candidates=decoder_candidates,
     )
-    repair_result = apply_post_hybrid_repairs(
+    learned_result = apply_exact_yomi_rewrites(
         strategy_result.rendered,
+        rewrites_path=config.learned_exact_rewrites,
+    )
+    repair_result = apply_post_hybrid_repairs(
+        learned_result.rendered,
         rules_path=config.post_hybrid_repair_rules,
     )
     parenthetical_result = normalize_parenthesized_semantic_tokens_rendered(
@@ -41,6 +46,8 @@ def generate_mechanical_yomi(
     )
     numeric_result = normalize_numeric_compounds(parenthetical_result.rendered)
     signals = list(strategy_result.signals)
+    if learned_result.applications:
+        signals.append("apply_learned_exact_yomi_rewrites")
     if repair_result.metadata:
         signals.append("apply_post_hybrid_yomi_repairs")
     if parenthetical_result.metadata:
@@ -86,6 +93,13 @@ def generate_mechanical_yomi(
                 for candidate in decoder_candidates
             ]
         },
-        post_hybrid_repairs=repair_result.metadata,
+        post_hybrid_repairs={
+            **repair_result.metadata,
+            **(
+                {"learned_exact_rewrites": list(learned_result.applications)}
+                if learned_result.applications
+                else {}
+            ),
+        },
         signals=signals,
     )

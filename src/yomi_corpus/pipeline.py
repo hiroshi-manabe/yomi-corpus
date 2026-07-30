@@ -3418,6 +3418,9 @@ class PipelineWorkspace:
             batch_supplemental_furigana_tsv=batch_dir / "supplemental_furigana.tsv",
             global_manual_rewrites_jsonl=self.root / "data" / "lexicon" / "manual_yomi_rewrites.jsonl",
             global_supplemental_furigana_tsv=self.root / "data" / "lexicon" / "supplemental_furigana.tsv",
+            strong_queue_jsonl=batch_dir / "yomi_strong_repair_queue.jsonl",
+            batch_learned_readings_tsv=batch_dir / "learned_yomi_readings.tsv",
+            global_learned_readings_tsv=self.root / "data" / "lexicon" / "learned_yomi_readings.tsv",
             summary_json=harvest_summary_path,
             batch_name=batch_name,
             track_name=batch_state.track_name,
@@ -3443,6 +3446,13 @@ class PipelineWorkspace:
                 ),
                 "global_supplemental_furigana_tsv": str(
                     self.root / "data" / "lexicon" / "supplemental_furigana.tsv"
+                ),
+                "learned_yomi_readings_tsv": str(batch_dir / "learned_yomi_readings.tsv"),
+                "learned_yomi_readings_appended": str(
+                    harvest_summary["learned_reading_appended_count"]
+                ),
+                "global_learned_yomi_readings_tsv": str(
+                    self.root / "data" / "lexicon" / "learned_yomi_readings.tsv"
                 ),
                 "human_review_required": "false",
                 "human_review_gate": "",

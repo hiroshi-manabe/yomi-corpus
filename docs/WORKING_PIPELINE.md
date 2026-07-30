@@ -3443,19 +3443,37 @@ the full candidate list is preserved in JSON for later richer controls.
 Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
 units are retained.
 
-At batch finalization, the pipeline also harvests two conservative reusable
+At batch finalization, the pipeline also harvests three conservative reusable
 artifacts:
 
 - exact Escalated Repair rewrite rules, appended de-duplicated to
   `data/lexicon/manual_yomi_rewrites.jsonl`
 - supplemental furigana allocations, appended de-duplicated to
   `data/lexicon/supplemental_furigana.tsv`
+- accepted Escalated Repair readings, appended with provenance to
+  `data/lexicon/learned_yomi_readings.tsv`
 
-Manual yomi rewrites affect future tokenization/readings only by exact surface
-span match at first. For example, if a reviewed repair establishes
+Manual yomi rewrites are reserved for repairs whose accepted token boundaries
+differ from the rejected token boundaries. They affect future
+tokenization/readings only by exact surface-span match. For example, if a reviewed repair establishes
 `池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ`, a later exact
 `池尻中学校` occurrence can use that as a default. Do not generalize these
-rules into regexes until there is explicit evidence.
+rules into regexes until there is explicit evidence. If historical evidence
+contains multiple accepted replacements for the same exact surface, omit that
+surface from automatic defaults and report the conflict for inspection.
+
+Reading-only repairs do not become unconditional defaults. Their accepted
+`surface/reading` pairs are added to `learned_yomi_readings.tsv` and appear as
+additional candidates in later Bulk Review and Escalated Repair interfaces.
+Thus an accepted `一日/イチニチ` adds `いちにち` alongside legitimate readings
+such as `ついたち`; it does not globally replace the mechanical default. A
+boundary-changing repair contributes both its exact rewrite default and its
+component readings as reusable candidates.
+
+Human-edited Escalated Repair segments supersede the LLM proposal for harvesting.
+Every learned row retains batch, track, unit, item, and method provenance. Rebuild
+the canonical artifacts deterministically from finalized batches with
+`scripts/rebuild_learned_yomi_lexicons.py`; do not treat append order as authority.
 
 Supplemental furigana is display-only. It records accepted `surface/reading` to
 annotated-form mappings not already present as exact Sudachi-derived dictionary

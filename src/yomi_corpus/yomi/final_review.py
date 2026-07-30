@@ -75,6 +75,7 @@ STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
 SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
 ANNOTATED_FORMS_PATH = Path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
 SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
+LEARNED_YOMI_READINGS_PATH = Path("data/lexicon/learned_yomi_readings.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 MAX_READING_HINT_SURFACE_LENGTH = 12
@@ -1491,6 +1492,8 @@ def interaction_span_candidates(
     current = interaction_current_reading(surface, token_index, pairs)
     add("current", "current", "Current mechanical/hybrid", current)
     full_dictionary_readings = final_review_surface_readings(surface)
+    for index, reading in enumerate(learned_yomi_surface_readings(surface)):
+        add(f"learned_repair:{index}", "learned_repair", "Accepted repair", reading)
     for target in targets:
         for candidate in target.get("candidates", []):
             if not isinstance(candidate, dict) or candidate.get("source") == "none":
@@ -1734,6 +1737,14 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             reading,
             candidate_id=f"usage_alternative:{index}",
         )
+    surface = str(target.get("surface") or "")
+    for index, reading in enumerate(learned_yomi_surface_readings(surface)):
+        add(
+            "learned_repair",
+            "Accepted repair",
+            reading,
+            candidate_id=f"learned_repair:{index}",
+        )
     candidates.append(
         {
             "id": "none",
@@ -1918,7 +1929,7 @@ def target_substrings_for_hints(targets: list[dict[str, Any]]) -> set[str]:
 
 def build_strong_repair_reading_candidates(rejected_span: str) -> dict[str, list[str]]:
     candidates: dict[str, list[str]] = {}
-    surface_readings = load_annotated_form_surface_readings()
+    surface_readings = load_strong_repair_surface_readings()
     for surface in substrings_for_reading_candidates(rejected_span):
         readings = surface_readings.get(surface)
         if readings:
@@ -1948,6 +1959,22 @@ def load_annotated_form_surface_readings() -> dict[str, tuple[str, ...]]:
 @lru_cache(maxsize=1)
 def load_final_review_surface_readings() -> dict[str, tuple[str, ...]]:
     return load_surface_readings_from_tsv_paths((SUPPLEMENTAL_FURIGANA_PATH, ANNOTATED_FORMS_PATH))
+
+
+@lru_cache(maxsize=1)
+def load_learned_yomi_surface_readings() -> dict[str, tuple[str, ...]]:
+    return load_surface_readings_from_tsv_paths((LEARNED_YOMI_READINGS_PATH,))
+
+
+def learned_yomi_surface_readings(surface: str) -> tuple[str, ...]:
+    return load_learned_yomi_surface_readings().get(surface, ())
+
+
+@lru_cache(maxsize=1)
+def load_strong_repair_surface_readings() -> dict[str, tuple[str, ...]]:
+    return load_surface_readings_from_tsv_paths(
+        (LEARNED_YOMI_READINGS_PATH, ANNOTATED_FORMS_PATH)
+    )
 
 
 def load_surface_readings_from_tsv_paths(paths: tuple[Path, ...]) -> dict[str, tuple[str, ...]]:
@@ -5117,9 +5144,19 @@ def harvest_yomi_finalization_artifacts_file(
     summary_json: Path,
     batch_name: str,
     track_name: str,
+    strong_queue_jsonl: Path | None = None,
+    batch_learned_readings_tsv: Path | None = None,
+    global_learned_readings_tsv: Path | None = None,
 ) -> dict[str, Any]:
     units = load_jsonl(final_units_jsonl)
+    queue_by_item_id = load_strong_repair_queue_by_item_id(strong_queue_jsonl)
     manual_rewrites = harvest_manual_yomi_rewrites(
+        units,
+        batch_name=batch_name,
+        track_name=track_name,
+        queue_by_item_id=queue_by_item_id,
+    )
+    learned_readings = harvest_learned_yomi_readings(
         units,
         batch_name=batch_name,
         track_name=track_name,
@@ -5143,10 +5180,15 @@ def harvest_yomi_finalization_artifacts_file(
             "source_method",
         ],
     )
-    appended_rewrites = append_unique_jsonl(
+    if batch_learned_readings_tsv is not None:
+        write_tsv(
+            batch_learned_readings_tsv,
+            learned_readings,
+            learned_yomi_reading_fields(),
+        )
+    appended_rewrites, rewrite_conflicts = append_nonconflicting_exact_rewrites(
         global_manual_rewrites_jsonl,
         manual_rewrites,
-        key_fields=["original_surface", "replacement_rendered"],
     )
     appended_furigana = append_unique_tsv(
         global_supplemental_furigana_tsv,
@@ -5162,6 +5204,14 @@ def harvest_yomi_finalization_artifacts_file(
         ],
         key_fields=["surface", "reading", "annotated_surface"],
     )
+    appended_learned_readings = 0
+    if global_learned_readings_tsv is not None:
+        appended_learned_readings = append_unique_tsv(
+            global_learned_readings_tsv,
+            learned_readings,
+            learned_yomi_reading_fields(),
+            key_fields=["source_batch", "source_unit_id", "source_item_id", "surface", "reading"],
+        )
     summary = {
         "rule": "yomi_finalization_harvest_v1",
         "batch_name": batch_name,
@@ -5169,12 +5219,18 @@ def harvest_yomi_finalization_artifacts_file(
         "unit_count": len(units),
         "manual_rewrite_count": len(manual_rewrites),
         "manual_rewrite_appended_count": appended_rewrites,
+        "manual_rewrite_conflict_count": len(rewrite_conflicts),
+        "manual_rewrite_conflicts": rewrite_conflicts,
         "supplemental_furigana_count": len(supplemental_furigana),
         "supplemental_furigana_appended_count": appended_furigana,
+        "learned_reading_count": len(learned_readings),
+        "learned_reading_appended_count": appended_learned_readings,
         "batch_manual_rewrites_jsonl": str(batch_manual_rewrites_jsonl),
         "batch_supplemental_furigana_tsv": str(batch_supplemental_furigana_tsv),
         "global_manual_rewrites_jsonl": str(global_manual_rewrites_jsonl),
         "global_supplemental_furigana_tsv": str(global_supplemental_furigana_tsv),
+        "batch_learned_readings_tsv": str(batch_learned_readings_tsv or ""),
+        "global_learned_readings_tsv": str(global_learned_readings_tsv or ""),
     }
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     summary_json.write_text(
@@ -5189,11 +5245,67 @@ def harvest_manual_yomi_rewrites(
     *,
     batch_name: str,
     track_name: str,
+    queue_by_item_id: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     seen: set[tuple[str, str]] = set()
+    for repair in accepted_strong_repairs(units, batch_name=batch_name, track_name=track_name):
+        original_pairs = original_pairs_for_repair(
+            repair,
+            (queue_by_item_id or {}).get(str(repair.get("item_id") or "")),
+        )
+        replacement_surfaces = tuple(
+            str(segment.get("surface") or "")
+            for segment in repair.get("replacement", [])
+            if isinstance(segment, dict)
+        )
+        original_surface = str(repair.get("rejected_span") or "")
+        if any(char.isspace() for char in original_surface) or any(
+            not surface.strip() or any(char.isspace() for char in surface)
+            for surface in replacement_surfaces
+        ):
+            continue
+        if original_pairs is not None and tuple(surface for surface, _reading in original_pairs) == replacement_surfaces:
+            continue
+        row = manual_rewrite_row_from_repair(
+            repair,
+            batch_name=batch_name,
+            track_name=track_name,
+            unit_id=str(repair.get("unit_id") or ""),
+            source=str(repair.get("source") or "llm_strong_repair"),
+        )
+        if row and (row["original_surface"], row["replacement_rendered"]) not in seen:
+            seen.add((row["original_surface"], row["replacement_rendered"]))
+            rows.append(row)
+    return rows
+
+
+def load_strong_repair_queue_by_item_id(path: Path | None) -> dict[str, dict[str, Any]]:
+    if path is None or not path.exists():
+        return {}
+    return {
+        str(row.get("item_id") or ""): row
+        for row in load_jsonl(path)
+        if str(row.get("item_id") or "")
+    }
+
+
+def accepted_strong_repairs(
+    units: list[dict[str, Any]],
+    *,
+    batch_name: str,
+    track_name: str,
+) -> list[dict[str, Any]]:
+    accepted: list[dict[str, Any]] = []
     for unit in units:
         unit_id = str(unit.get("unit_id") or "")
+        manual = (
+            unit.get("analysis", {})
+            .get("human_review", {})
+            .get("yomi_strong_repair", {})
+        )
+        manual_item_id = str(manual.get("item_id") or "") if isinstance(manual, dict) else ""
+        manual_segments = manual.get("manual_segments") if isinstance(manual, dict) else None
         for repair in (
             unit.get("analysis", {})
             .get("llm", {})
@@ -5202,41 +5314,117 @@ def harvest_manual_yomi_rewrites(
         ):
             if not isinstance(repair, dict) or repair.get("status") != "applied":
                 continue
-            row = manual_rewrite_row_from_repair(
-                repair,
-                batch_name=batch_name,
-                track_name=track_name,
-                unit_id=unit_id,
-                source="llm_strong_repair",
-            )
-            if row and (row["original_surface"], row["replacement_rendered"]) not in seen:
-                seen.add((row["original_surface"], row["replacement_rendered"]))
-                rows.append(row)
-        manual = (
-            unit.get("analysis", {})
-            .get("human_review", {})
-            .get("yomi_strong_repair", {})
-        )
-        if isinstance(manual, dict) and manual.get("manual_segments"):
-            row = manual_rewrite_row_from_repair(
+            item_id = str(repair.get("item_id") or "")
+            if item_id == manual_item_id and isinstance(manual_segments, list) and manual_segments:
+                replacement = manual_segments
+                source = "human_strong_repair"
+            else:
+                replacement = repair.get("replacement", [])
+                source = "llm_strong_repair"
+            accepted.append(
                 {
+                    **repair,
+                    "replacement": replacement,
+                    "source": source,
+                    "unit_id": unit_id,
+                    "source_batch": batch_name,
+                    "source_track": track_name,
+                }
+            )
+        if (
+            isinstance(manual, dict)
+            and isinstance(manual_segments, list)
+            and manual_segments
+            and not any(str(row.get("item_id") or "") == manual_item_id for row in accepted if row.get("unit_id") == unit_id)
+        ):
+            accepted.append(
+                {
+                    "item_id": manual_item_id,
                     "rejected_span": "".join(
                         str(segment.get("surface") or "")
-                        for segment in manual.get("manual_segments", [])
+                        for segment in manual_segments
                         if isinstance(segment, dict)
                     ),
-                    "replacement": manual.get("manual_segments"),
-                    "item_id": manual.get("item_id"),
-                },
-                batch_name=batch_name,
-                track_name=track_name,
-                unit_id=unit_id,
-                source="human_strong_repair",
+                    "replacement": manual_segments,
+                    "source": "human_strong_repair",
+                    "unit_id": unit_id,
+                    "source_batch": batch_name,
+                    "source_track": track_name,
+                }
             )
-            if row and (row["original_surface"], row["replacement_rendered"]) not in seen:
-                seen.add((row["original_surface"], row["replacement_rendered"]))
-                rows.append(row)
+    return accepted
+
+
+def original_pairs_for_repair(
+    repair: dict[str, Any],
+    queue_item: dict[str, Any] | None,
+) -> tuple[tuple[str, str], ...] | None:
+    if not isinstance(queue_item, dict):
+        return None
+    original_surface = str(repair.get("rejected_span") or "")
+    rendered = str(queue_item.get("rendered_yomi") or "")
+    pairs = parse_rendered_pairs(rendered)
+    span = find_unique_rendered_span(pairs, original_surface)
+    if span is None:
+        return None
+    start, end = span
+    return tuple(pairs[start:end])
+
+
+def harvest_learned_yomi_readings(
+    units: list[dict[str, Any]],
+    *,
+    batch_name: str,
+    track_name: str,
+) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str, str]] = set()
+    for repair in accepted_strong_repairs(units, batch_name=batch_name, track_name=track_name):
+        for segment in repair.get("replacement", []):
+            if not isinstance(segment, dict):
+                continue
+            surface = str(segment.get("surface") or "")
+            reading = hira_to_kata(str(segment.get("reading") or ""))
+            if (
+                not surface.strip()
+                or not reading.strip()
+                or any(char.isspace() for char in surface)
+                or not is_valid_yomi_reading(reading)
+            ):
+                continue
+            key = (
+                str(repair.get("unit_id") or ""),
+                str(repair.get("item_id") or ""),
+                surface,
+                reading,
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(
+                {
+                    "surface": surface,
+                    "reading": reading,
+                    "source_batch": batch_name,
+                    "source_track": track_name,
+                    "source_unit_id": str(repair.get("unit_id") or ""),
+                    "source_item_id": str(repair.get("item_id") or ""),
+                    "source_method": str(repair.get("source") or "llm_strong_repair"),
+                }
+            )
     return rows
+
+
+def learned_yomi_reading_fields() -> list[str]:
+    return [
+        "surface",
+        "reading",
+        "source_batch",
+        "source_track",
+        "source_unit_id",
+        "source_item_id",
+        "source_method",
+    ]
 
 
 def manual_rewrite_row_from_repair(
@@ -5341,27 +5529,40 @@ def write_tsv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> 
             writer.writerow({field: row.get(field, "") for field in fieldnames})
 
 
-def append_unique_jsonl(
+def append_nonconflicting_exact_rewrites(
     path: Path,
     rows: list[dict[str, Any]],
-    *,
-    key_fields: list[str],
-) -> int:
+) -> tuple[int, list[dict[str, str]]]:
     path.parent.mkdir(parents=True, exist_ok=True)
-    existing: set[tuple[str, ...]] = set()
-    if path.exists():
-        for row in load_jsonl(path):
-            existing.add(tuple(str(row.get(field) or "") for field in key_fields))
+    existing_rows = load_jsonl(path) if path.exists() else []
+    existing = {
+        str(row.get("original_surface") or ""): str(row.get("replacement_rendered") or "")
+        for row in existing_rows
+        if str(row.get("original_surface") or "")
+    }
     appended = 0
+    conflicts: list[dict[str, str]] = []
     with path.open("a", encoding="utf-8") as handle:
         for row in rows:
-            key = tuple(str(row.get(field) or "") for field in key_fields)
-            if key in existing:
+            surface = str(row.get("original_surface") or "")
+            replacement = str(row.get("replacement_rendered") or "")
+            previous = existing.get(surface)
+            if previous is not None:
+                if previous != replacement:
+                    conflicts.append(
+                        {
+                            "original_surface": surface,
+                            "existing_replacement": previous,
+                            "rejected_replacement": replacement,
+                            "source_unit_id": str(row.get("source_unit_id") or ""),
+                            "source_item_id": str(row.get("source_item_id") or ""),
+                        }
+                    )
                 continue
-            existing.add(key)
+            existing[surface] = replacement
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
             appended += 1
-    return appended
+    return appended, conflicts
 
 
 def append_unique_tsv(

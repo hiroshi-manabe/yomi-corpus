@@ -2620,13 +2620,25 @@ data/units/<batch>/supplemental_furigana.tsv
 data/units/<batch>/yomi_finalization_harvest_summary.json
 data/lexicon/manual_yomi_rewrites.jsonl
 data/lexicon/supplemental_furigana.tsv
+data/lexicon/learned_yomi_readings.tsv
 ```
 
 Manual yomi rewrite rows come from accepted Escalated Repair results or human
-`manual_segments`. They are exact surface-span defaults only. For example,
+`manual_segments` only when the accepted boundaries differ from the rejected
+boundaries. They are exact surface-span defaults only. For example,
 `池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ` may be reused
 when the exact same surface span appears later. These rows should not be
-generalized automatically.
+generalized automatically. Conflicting replacements for one surface are
+reported and excluded from automatic application.
+
+Every accepted repair also contributes provenance-bearing surface/reading rows
+to `learned_yomi_readings.tsv`. These rows add review candidates but do not
+override mechanical defaults. This distinction preserves ambiguity: a
+reading-only `一日/イチニチ` repair adds `いちにち` as a candidate, while a
+boundary-changing repair can establish an exact default. Human manual segments
+replace, rather than accompany, a superseded LLM proposal during harvesting.
+Canonical learned artifacts must be reproducibly rebuildable from all finalized
+batches and their original Escalated Repair queues.
 
 Supplemental furigana rows are display/allocation knowledge only. They record
 final accepted `surface`, `reading`, and `annotated_surface` triples not already
