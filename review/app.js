@@ -4183,6 +4183,12 @@ function setOverride(itemId, decision) {
 }
 
 function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
+  if (override) {
+    override.targets ||= {};
+    override.bridge_atoms ||= {};
+    override.span_overrides ||= {};
+    recomputeRepairAtomSpans(item, override);
+  }
   node.innerHTML = "";
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
@@ -4360,10 +4366,8 @@ function renderYomiTextSegmentWithNumericMerge(
   const nextTarget = targetForRubySegment(nextSegment, targetsById);
   const previousNoRuby = previousTarget && isNoRubyTarget(previousTarget, override);
   const nextNoRuby = nextTarget && isNoRubyTarget(nextTarget, override);
-  const previousMergeEligible = previousNoRuby || isNumericMergeEligibleTarget(previousTarget);
-  const nextMergeEligible = nextNoRuby || isNumericMergeEligibleTarget(nextTarget);
-  let leading = previousMergeEligible ? numericMergeRun(text, "leading") : "";
-  let trailing = nextMergeEligible ? numericMergeRun(text, "trailing") : "";
+  let leading = previousNoRuby ? numericMergeRun(text, "leading") : "";
+  let trailing = nextNoRuby ? numericMergeRun(text, "trailing") : "";
   let leadingKind = leading ? "numeric" : "";
   let trailingKind = trailing ? "numeric" : "";
   if (!leading && previousNoRuby && isKanaMergeEligibleTarget(previousTarget)) {
@@ -4374,22 +4378,51 @@ function renderYomiTextSegmentWithNumericMerge(
     trailing = adjacentKanaToken(item, nextTarget, text, "before");
     trailingKind = trailing ? "kana" : "";
   }
-  if ([...leading].length + [...trailing].length > [...text].length) {
-    leading = "";
-    leadingKind = "";
-    trailing = "";
-    trailingKind = "";
-  }
+  const textChars = [...text];
+  const opportunities = [];
   if (leading && previousTarget) {
-    nodes.push(renderAdjacentMergeButton(item, previousTarget, leading, "after", leadingKind, override, editable));
-  }
-  const middleStart = leading.length;
-  const middleEnd = trailing ? text.length - trailing.length : text.length;
-  if (middleStart < middleEnd) {
-    nodes.push(document.createTextNode(text.slice(middleStart, middleEnd)));
+    opportunities.push({
+      start: 0,
+      end: [...leading].length,
+      absoluteStart: Number(previousTarget.target_end),
+      absoluteEnd: Number(previousTarget.target_end) + [...leading].length,
+      surface: leading,
+      kind: leadingKind,
+    });
   }
   if (trailing && nextTarget) {
-    nodes.push(renderAdjacentMergeButton(item, nextTarget, trailing, "before", trailingKind, override, editable));
+    const length = [...trailing].length;
+    opportunities.push({
+      start: textChars.length - length,
+      end: textChars.length,
+      absoluteStart: Number(nextTarget.target_start) - length,
+      absoluteEnd: Number(nextTarget.target_start),
+      surface: trailing,
+      kind: trailingKind,
+    });
+  }
+  const unique = [];
+  for (const opportunity of opportunities.sort((left, right) => left.start - right.start)) {
+    const existing = unique.find(
+      (candidate) => candidate.start === opportunity.start && candidate.end === opportunity.end
+    );
+    if (!existing) {
+      unique.push(opportunity);
+    }
+  }
+  let cursor = 0;
+  for (const opportunity of unique) {
+    if (opportunity.start < cursor) {
+      continue;
+    }
+    if (cursor < opportunity.start) {
+      nodes.push(document.createTextNode(textChars.slice(cursor, opportunity.start).join("")));
+    }
+    nodes.push(renderRepairBridgeButton(item, opportunity, override, editable));
+    cursor = opportunity.end;
+  }
+  if (cursor < textChars.length) {
+    nodes.push(document.createTextNode(textChars.slice(cursor).join("")));
   }
   return nodes;
 }
@@ -4414,13 +4447,6 @@ function targetForRubySegment(segment, targetsById) {
 function isNoRubyTarget(target, override) {
   const targetDraft = override?.targets?.[target.item_id] || null;
   return selectedCandidate(target, targetDraft)?.source === "none";
-}
-
-function isNumericMergeEligibleTarget(target) {
-  if (!target || !hasNoRubyCandidate(target)) {
-    return false;
-  }
-  return /[A-Za-zＡ-Ｚａ-ｚ]/u.test(target.surface || "");
 }
 
 function isKanaMergeEligibleTarget(target) {
@@ -4462,69 +4488,191 @@ function hasNoRubyCandidate(target) {
   return (target?.candidates || []).some((candidate) => candidate.source === "none");
 }
 
-function renderAdjacentMergeButton(item, target, neighbor, side, kind, override, editable) {
+function renderRepairBridgeButton(item, opportunity, override, editable) {
   const button = document.createElement("button");
   button.type = "button";
-  button.className = `ruby-token adjacent-merge-token ${kind}-merge-token`;
-  const span = adjacentMergeSpanDraft(target, neighbor, side, kind);
-  const active = Boolean(override?.span_overrides?.[span.id]);
+  button.className = `ruby-token adjacent-merge-token ${opportunity.kind}-merge-token`;
+  const atom = repairBridgeAtom(opportunity);
+  const active = Boolean(override?.bridge_atoms?.[atom.id]);
   button.classList.toggle("changed", active);
   button.disabled = !editable;
   button.title = active
-    ? `${kind === "kana" ? "カナ" : "数字"}を結合中です。タップすると解除します。`
-    : `この${kind === "kana" ? "カナ" : "数字"}をルビなしの対象と結合して詳細修正に送ります。`;
-  button.textContent = neighbor;
+    ? `${opportunity.kind === "kana" ? "カナ" : "数字"}を修正範囲に含めています。タップすると解除します。`
+    : `この${opportunity.kind === "kana" ? "カナ" : "数字"}を隣接する読みキャンセル範囲に含めます。`;
+  button.textContent = opportunity.surface;
   if (editable) {
-    button.addEventListener("click", () => toggleAdjacentMergeSpan(item, span));
+    button.addEventListener("click", () => toggleRepairBridgeAtom(item, atom));
   }
   return button;
 }
 
-function adjacentMergeSpanDraft(target, neighbor, side, kind) {
-  const originalSurface = side === "before"
-    ? `${neighbor}${target.surface || ""}`
-    : `${target.surface || ""}${neighbor}`;
+function repairBridgeAtom(opportunity) {
   return {
-    id: `${kind}-merge:${target.item_id}:${side}:${neighbor}`,
-    decision: "segmentation",
-    target_item_ids: [target.item_id],
-    original_surface: originalSurface,
-    segments: [{ surface: originalSurface, reading: "" }],
-    repair_required: true,
-    repair_reason: `${kind}_merge_no_reading`,
+    id: `bridge:${opportunity.absoluteStart}-${opportunity.absoluteEnd}:${opportunity.kind}`,
+    start: opportunity.absoluteStart,
+    end: opportunity.absoluteEnd,
+    surface: opportunity.surface,
+    kind: opportunity.kind,
   };
 }
 
-function toggleAdjacentMergeSpan(item, span) {
+function toggleRepairBridgeAtom(item, atom) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   const draft = ensureYomiOverride(item.item_id);
-  if (!draft.span_overrides) {
-    draft.span_overrides = {};
-  }
-  const enabling = !draft.span_overrides[span.id];
+  const enabling = !draft.bridge_atoms[atom.id];
   if (!enabling) {
-    delete draft.span_overrides[span.id];
+    delete draft.bridge_atoms[atom.id];
   } else {
-    for (const targetItemId of span.target_item_ids || []) {
-      draft.targets[targetItemId] = {
-        choice_source: "none",
-        selected_reading: null,
-        custom_reading: null,
-      };
-    }
-    draft.span_overrides[span.id] = span;
+    draft.bridge_atoms[atom.id] = atom;
   }
+  recomputeRepairAtomSpans(item, draft);
   cleanupYomiOverride(item.item_id);
   touchDraft();
   render();
   if (enabling) {
-    const target = reviewActionTargets(item).find(
-      (candidate) => candidate.item_id === span.target_item_ids?.[0]
-    );
+    const target = cancelledTargetsTouchingAtom(item, draft, atom)[0];
     if (target) {
       registerRepeatedCancellation(item, target, previousOverride, candidateForSource(target, "none"));
     }
   }
+}
+
+function cancelledTargetsTouchingAtom(item, draft, atom) {
+  return reviewActionTargets(item).filter((target) =>
+    isNoRubyTarget(target, draft) &&
+    (Number(target.target_end) === Number(atom.start) || Number(target.target_start) === Number(atom.end))
+  );
+}
+
+function isDerivedRepairAtomSpan(span) {
+  return [
+    "numeric_merge_no_reading",
+    "kana_merge_no_reading",
+    "repair_atom_merge_no_reading",
+  ].includes(span?.repair_reason);
+}
+
+function recomputeRepairAtomSpans(item, draft) {
+  migrateLegacyMergeSpans(item, draft);
+  for (const [spanId, span] of Object.entries(draft.span_overrides || {})) {
+    if (isDerivedRepairAtomSpan(span)) {
+      delete draft.span_overrides[spanId];
+    }
+  }
+  const targetAtoms = reviewActionTargets(item)
+    .filter((target) => isNoRubyTarget(target, draft))
+    .map((target) => ({
+      type: "target",
+      start: Number(target.target_start),
+      end: Number(target.target_end),
+      surface: target.surface || "",
+      target,
+    }))
+    .filter((atom) => Number.isInteger(atom.start) && Number.isInteger(atom.end));
+  const bridgeAtoms = Object.values(draft.bridge_atoms || {})
+    .map((atom) => ({
+      type: "bridge",
+      start: Number(atom.start),
+      end: Number(atom.end),
+      surface: String(atom.surface || ""),
+      kind: atom.kind === "numeric" ? "numeric" : "kana",
+      id: atom.id,
+    }))
+    .filter((atom) => Number.isInteger(atom.start) && Number.isInteger(atom.end));
+  const connectedBridgeIds = new Set();
+  const components = connectedRepairAtomComponents([...targetAtoms, ...bridgeAtoms]);
+  const text = [...String(item.text || "")];
+  for (const component of components) {
+    const targets = component.filter((atom) => atom.type === "target");
+    const bridges = component.filter((atom) => atom.type === "bridge");
+    if (!targets.length || !bridges.length) {
+      continue;
+    }
+    bridges.forEach((atom) => connectedBridgeIds.add(atom.id));
+    const start = Math.min(...component.map((atom) => atom.start));
+    const end = Math.max(...component.map((atom) => atom.end));
+    const originalSurface = text.slice(start, end).join("");
+    const kinds = new Set(bridges.map((atom) => atom.kind));
+    const repairReason = kinds.size === 1
+      ? `${[...kinds][0]}_merge_no_reading`
+      : "repair_atom_merge_no_reading";
+    const span = {
+      id: `repair-atoms:${item.item_id}:${start}-${end}`,
+      decision: "segmentation",
+      target_item_ids: targets.map((atom) => atom.target.item_id),
+      original_surface: originalSurface,
+      segments: [{ surface: originalSurface, reading: "" }],
+      repair_required: true,
+      repair_reason: repairReason,
+    };
+    draft.span_overrides[span.id] = span;
+  }
+  for (const atomId of Object.keys(draft.bridge_atoms || {})) {
+    if (!connectedBridgeIds.has(atomId)) {
+      delete draft.bridge_atoms[atomId];
+    }
+  }
+}
+
+function connectedRepairAtomComponents(atoms) {
+  const ordered = atoms.slice().sort((left, right) => left.start - right.start || left.end - right.end);
+  const components = [];
+  for (const atom of ordered) {
+    const current = components.at(-1);
+    const currentEnd = current ? Math.max(...current.map((entry) => entry.end)) : null;
+    if (!current || atom.start > currentEnd) {
+      components.push([atom]);
+    } else {
+      current.push(atom);
+    }
+  }
+  return components;
+}
+
+function migrateLegacyMergeSpans(item, draft) {
+  if (draft.repair_atoms_migrated) {
+    return;
+  }
+  draft.repair_atoms_migrated = true;
+  const text = [...String(item.text || "")];
+  const targetsById = new Map(reviewActionTargets(item).map((target) => [target.item_id, target]));
+  for (const span of Object.values(draft.span_overrides || {})) {
+    if (!isDerivedRepairAtomSpan(span) || span.repair_reason === "repair_atom_merge_no_reading") {
+      continue;
+    }
+    const targets = (span.target_item_ids || []).map((id) => targetsById.get(id)).filter(Boolean);
+    const originalSurface = String(span.original_surface || "");
+    if (!targets.length || !originalSurface) {
+      continue;
+    }
+    const targetStart = Math.min(...targets.map((target) => Number(target.target_start)));
+    const targetEnd = Math.max(...targets.map((target) => Number(target.target_end)));
+    const length = [...originalSurface].length;
+    for (let start = Math.max(0, targetEnd - length); start <= targetStart; start += 1) {
+      const end = start + length;
+      if (end < targetEnd || text.slice(start, end).join("") !== originalSurface) {
+        continue;
+      }
+      addMigratedBridgeAtom(draft, text, start, targetStart, span.repair_reason);
+      addMigratedBridgeAtom(draft, text, targetEnd, end, span.repair_reason);
+      break;
+    }
+  }
+}
+
+function addMigratedBridgeAtom(draft, text, start, end, repairReason) {
+  if (end <= start) {
+    return;
+  }
+  const kind = repairReason === "numeric_merge_no_reading" ? "numeric" : "kana";
+  const atom = {
+    id: `bridge:${start}-${end}:${kind}`,
+    start,
+    end,
+    surface: text.slice(start, end).join(""),
+    kind,
+  };
+  draft.bridge_atoms[atom.id] = atom;
 }
 
 function renderRubySpan(item, target, override, editable) {
@@ -4725,7 +4873,20 @@ function cancellationTouchesAction(item, target, action) {
   }
   const targets = reviewActionTargets(item);
   return targets.some((candidate) =>
-    action.targetIds.has(candidate.item_id) && targetsAreAdjacent(candidate, target)
+    action.targetIds.has(candidate.item_id) &&
+    (
+      targetsAreAdjacent(candidate, target) ||
+      targetsConnectedByBridgeAtom(item, candidate, target)
+    )
+  );
+}
+
+function targetsConnectedByBridgeAtom(item, left, right) {
+  const draft = state.currentDraft.overrides[item.item_id];
+  const gapStart = Math.min(Number(left.target_end), Number(right.target_end));
+  const gapEnd = Math.max(Number(left.target_start), Number(right.target_start));
+  return Object.values(draft?.bridge_atoms || {}).some(
+    (atom) => Number(atom.start) === gapStart && Number(atom.end) === gapEnd
   );
 }
 
@@ -4778,9 +4939,14 @@ function repeatedCancellationPattern(item, action) {
   const targets = reviewActionTargets(item)
     .filter((target) => action.targetIds.has(target.item_id))
     .sort((left, right) => Number(left.target_start) - Number(right.target_start));
-  if (!targets.length || !targetsFormContiguousSequence(targets)) {
+  if (!targets.length) {
     return null;
   }
+  const mergeOps = repeatedCancellationMergeOps(item, targets);
+  if (!targetsConnectedByMergeOps(targets, mergeOps)) {
+    return null;
+  }
+  const origin = Number(targets[0].target_start);
   const targetSpecs = targets.map((target) => {
     const original = action.originalCandidates.get(target.item_id) || {};
     const fallback = defaultCandidate(target);
@@ -4788,51 +4954,48 @@ function repeatedCancellationPattern(item, action) {
       surface: target.surface || "",
       candidateKey: original.key || candidateKey(fallback),
       reading: original.reading || fallback?.reading || "",
+      offsetStart: Number(target.target_start) - origin,
+      offsetEnd: Number(target.target_end) - origin,
     };
   });
+  const componentStart = Math.min(0, ...mergeOps.map((operation) => operation.offsetStart));
+  const componentEnd = Math.max(
+    ...targetSpecs.map((spec) => spec.offsetEnd),
+    ...mergeOps.map((operation) => operation.offsetEnd),
+  );
+  const text = [...String(item.text || "")];
   return {
-    surface: targetSpecs.map((spec) => spec.surface).join(""),
+    surface: text.slice(origin + componentStart, origin + componentEnd).join(""),
     targetSpecs,
-    mergeOps: repeatedCancellationMergeOps(item, targets),
+    mergeOps,
   };
 }
 
-function targetsFormContiguousSequence(targets) {
-  return targets.every((target, index) => index === 0 || targetsAreAdjacent(targets[index - 1], target));
+function repeatedCancellationMergeOps(item, targets) {
+  const draft = state.currentDraft.overrides[item.item_id];
+  const origin = Number(targets[0].target_start);
+  const minTargetStart = Math.min(...targets.map((target) => Number(target.target_start)));
+  const maxTargetEnd = Math.max(...targets.map((target) => Number(target.target_end)));
+  return Object.values(draft?.bridge_atoms || {})
+    .filter((atom) => Number(atom.end) >= minTargetStart && Number(atom.start) <= maxTargetEnd)
+    .map((atom) => ({
+      offsetStart: Number(atom.start) - origin,
+      offsetEnd: Number(atom.end) - origin,
+      surface: String(atom.surface || ""),
+      kind: atom.kind === "numeric" ? "numeric" : "kana",
+    }));
 }
 
-function repeatedCancellationMergeOps(item, targets) {
-  const targetIndex = new Map(targets.map((target, index) => [target.item_id, index]));
-  const draft = state.currentDraft.overrides[item.item_id];
-  const operations = [];
-  for (const span of Object.values(draft?.span_overrides || {})) {
-    const targetId = span?.target_item_ids?.[0];
-    if (!targetIndex.has(targetId)) {
-      continue;
-    }
-    const kind = span.repair_reason === "numeric_merge_no_reading"
-      ? "numeric"
-      : span.repair_reason === "kana_merge_no_reading"
-        ? "kana"
-        : "";
-    const target = targets[targetIndex.get(targetId)];
-    const originalSurface = String(span.original_surface || "");
-    if (!kind || !originalSurface || !target?.surface) {
-      continue;
-    }
-    const before = originalSurface.endsWith(target.surface)
-      ? originalSurface.slice(0, -target.surface.length)
-      : "";
-    const after = originalSurface.startsWith(target.surface)
-      ? originalSurface.slice(target.surface.length)
-      : "";
-    if (before) {
-      operations.push({ targetIndex: targetIndex.get(targetId), neighbor: before, side: "before", kind });
-    } else if (after) {
-      operations.push({ targetIndex: targetIndex.get(targetId), neighbor: after, side: "after", kind });
-    }
-  }
-  return operations;
+function targetsConnectedByMergeOps(targets, mergeOps) {
+  const origin = Number(targets[0].target_start);
+  const atoms = [
+    ...targets.map((target) => ({
+      start: Number(target.target_start) - origin,
+      end: Number(target.target_end) - origin,
+    })),
+    ...mergeOps.map((operation) => ({ start: operation.offsetStart, end: operation.offsetEnd })),
+  ];
+  return connectedRepairAtomComponents(atoms).length === 1;
 }
 
 function findRepeatedCancellationMatches(sourceItem, pattern) {
@@ -4849,9 +5012,6 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
     );
     for (let start = 0; start <= targets.length - pattern.targetSpecs.length; start += 1) {
       const windowTargets = targets.slice(start, start + pattern.targetSpecs.length);
-      if (!targetsFormContiguousSequence(windowTargets)) {
-        continue;
-      }
       if (
         item.item_id === sourceItem.item_id &&
         windowTargets.every((target) => state.repeatCancellation.targetIds.has(target.item_id))
@@ -4861,7 +5021,14 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
       if (!windowTargets.every((target, index) => targetMatchesCancellationSpec(item, target, pattern.targetSpecs[index]))) {
         continue;
       }
-      if (!pattern.mergeOps.every((operation) => mergeOperationFitsItem(item, windowTargets[operation.targetIndex], operation))) {
+      const matchOrigin = Number(windowTargets[0].target_start);
+      if (!windowTargets.every((target, index) =>
+        Number(target.target_start) - matchOrigin === pattern.targetSpecs[index].offsetStart &&
+        Number(target.target_end) - matchOrigin === pattern.targetSpecs[index].offsetEnd
+      )) {
+        continue;
+      }
+      if (!pattern.mergeOps.every((operation) => mergeOperationFitsItem(item, matchOrigin, operation))) {
         continue;
       }
       matches.push({ item, targets: windowTargets });
@@ -4879,17 +5046,14 @@ function targetMatchesCancellationSpec(item, target, spec) {
   return selected?.source !== "none" && selected?.reading === spec.reading;
 }
 
-function mergeOperationFitsItem(item, target, operation) {
+function mergeOperationFitsItem(item, origin, operation) {
   const text = [...String(item.text || "")];
-  const start = Number(target?.target_start);
-  const end = Number(target?.target_end);
+  const start = origin + operation.offsetStart;
+  const end = origin + operation.offsetEnd;
   if (!Number.isInteger(start) || !Number.isInteger(end)) {
     return false;
   }
-  const neighbor = [...operation.neighbor];
-  return operation.side === "before"
-    ? text.slice(Math.max(0, start - neighbor.length), start).join("") === operation.neighbor
-    : text.slice(end, end + neighbor.length).join("") === operation.neighbor;
+  return text.slice(start, end).join("") === operation.surface;
 }
 
 function applyRepeatedCancellation() {
@@ -4915,15 +5079,16 @@ function applyRepeatedCancellation() {
       };
     });
     for (const operation of action.pattern?.mergeOps || []) {
-      const target = match.targets[operation.targetIndex];
-      const span = adjacentMergeSpanDraft(
-        target,
-        operation.neighbor,
-        operation.side,
-        operation.kind,
-      );
-      draft.span_overrides[span.id] = span;
+      const origin = Number(match.targets[0].target_start);
+      const atom = repairBridgeAtom({
+        absoluteStart: origin + operation.offsetStart,
+        absoluteEnd: origin + operation.offsetEnd,
+        surface: operation.surface,
+        kind: operation.kind,
+      });
+      draft.bridge_atoms[atom.id] = atom;
     }
+    recomputeRepairAtomSpans(match.item, draft);
   }
   touchDraft();
   render();
@@ -4975,34 +5140,30 @@ function applyYomiCandidate(item, target, next) {
       custom_reading: null,
     };
   }
-  if (next.source !== "none") {
-    removeAdjacentMergeSpansForTarget(draft, target.item_id);
-    cleanupYomiOverride(item.item_id);
-  }
+  recomputeRepairAtomSpans(item, draft);
+  cleanupYomiOverride(item.item_id);
   touchDraft();
   render();
 }
 
-function removeAdjacentMergeSpansForTarget(draft, targetItemId) {
-  for (const [spanId, span] of Object.entries(draft.span_overrides || {})) {
-    if (
-      ["numeric_merge_no_reading", "kana_merge_no_reading"].includes(span?.repair_reason) &&
-      (span.target_item_ids || []).includes(targetItemId)
-    ) {
-      delete draft.span_overrides[spanId];
-    }
-  }
-}
-
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
-    state.currentDraft.overrides[itemId] = { skip: false, targets: {}, span_overrides: {}, note: "" };
+    state.currentDraft.overrides[itemId] = {
+      skip: false,
+      targets: {},
+      bridge_atoms: {},
+      span_overrides: {},
+      note: "",
+    };
   }
   if (!state.currentDraft.overrides[itemId].targets) {
     state.currentDraft.overrides[itemId].targets = {};
   }
   if (!state.currentDraft.overrides[itemId].span_overrides) {
     state.currentDraft.overrides[itemId].span_overrides = {};
+  }
+  if (!state.currentDraft.overrides[itemId].bridge_atoms) {
+    state.currentDraft.overrides[itemId].bridge_atoms = {};
   }
   return state.currentDraft.overrides[itemId];
 }
@@ -5014,6 +5175,7 @@ function cleanupYomiOverride(itemId) {
   }
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
+  const hasBridgeAtoms = Object.keys(draft.bridge_atoms || {}).length > 0;
   const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
   const defaultDisposition = item?.scope_default || (item?.skip_default ? "Skip" : "Keep");
   const hasDispositionChange =
@@ -5021,6 +5183,7 @@ function cleanupYomiOverride(itemId) {
   if (
     !hasTargets &&
     !hasSpanOverrides &&
+    !hasBridgeAtoms &&
     !draft.skip &&
     !hasDispositionChange &&
     !draft.note &&
