@@ -4538,7 +4538,6 @@ function toggleRepairBridgeAtom(item, atom, anchorRect = null) {
         item,
         target,
         previousOverride,
-        candidateForSource(target, "none"),
         anchorRect,
       );
     }
@@ -4829,7 +4828,7 @@ function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = nu
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
   if (next.source === "none") {
-    registerRepeatedCancellation(item, target, previousOverride, currentCandidate, anchorRect);
+    registerRepeatedCancellation(item, target, previousOverride, anchorRect);
   } else if (state.repeatCancellation?.targetIds?.has(target.item_id)) {
     dismissRepeatedCancellation();
   }
@@ -4845,7 +4844,6 @@ function registerRepeatedCancellation(
   item,
   target,
   previousOverride,
-  previousCandidate,
   anchorRect = null,
 ) {
   if (!item?.doc_id || !target?.item_id) {
@@ -4863,7 +4861,6 @@ function registerRepeatedCancellation(
       docId: item.doc_id,
       reviewStage: itemReviewStage(item),
       targetIds: new Set(),
-      originalCandidates: new Map(),
       itemSnapshots: new Map(),
       delayTimer: null,
       expiryTimer: null,
@@ -4876,24 +4873,6 @@ function registerRepeatedCancellation(
     action.itemSnapshots.set(item.item_id, previousOverride);
   }
   action.targetIds = componentIds;
-  for (const componentTarget of componentTargets) {
-    if (action.originalCandidates.has(componentTarget.item_id)) {
-      continue;
-    }
-    const snapshotCandidate = componentTarget.item_id === target.item_id
-      ? previousCandidate
-      : selectedCandidate(
-        componentTarget,
-        previousOverride?.targets?.[componentTarget.item_id] || null,
-      );
-    const fallback = snapshotCandidate?.source !== "none"
-      ? snapshotCandidate
-      : defaultCandidate(componentTarget);
-    action.originalCandidates.set(componentTarget.item_id, {
-      key: candidateKey(fallback),
-      reading: fallback?.reading || "",
-    });
-  }
   action.anchorRect = anchorRect || action.anchorRect;
   scheduleRepeatedCancellation(action);
 }
@@ -5012,17 +4991,11 @@ function repeatedCancellationPattern(item, action) {
     return null;
   }
   const origin = Number(targets[0].target_start);
-  const targetSpecs = targets.map((target) => {
-    const original = action.originalCandidates.get(target.item_id) || {};
-    const fallback = defaultCandidate(target);
-    return {
-      surface: target.surface || "",
-      candidateKey: original.key || candidateKey(fallback),
-      reading: original.reading || fallback?.reading || "",
-      offsetStart: Number(target.target_start) - origin,
-      offsetEnd: Number(target.target_end) - origin,
-    };
-  });
+  const targetSpecs = targets.map((target) => ({
+    surface: target.surface || "",
+    offsetStart: Number(target.target_start) - origin,
+    offsetEnd: Number(target.target_end) - origin,
+  }));
   const componentStart = Math.min(0, ...mergeOps.map((operation) => operation.offsetStart));
   const componentEnd = Math.max(
     ...targetSpecs.map((spec) => spec.offsetEnd),
