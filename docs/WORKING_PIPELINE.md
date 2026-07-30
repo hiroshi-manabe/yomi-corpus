@@ -3458,9 +3458,14 @@ differ from the rejected token boundaries. They affect future
 tokenization/readings only by exact surface-span match. For example, if a reviewed repair establishes
 `池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ`, a later exact
 `池尻中学校` occurrence can use that as a default. Do not generalize these
-rules into regexes until there is explicit evidence. If historical evidence
-contains multiple accepted replacements for the same exact surface, omit that
-surface from automatic defaults and report the conflict for inspection.
+rules into regexes until there is explicit evidence. Compare replacement
+boundaries separately from readings when historical evidence differs. If all
+evidence agrees on boundaries but supports multiple readings, preserve the
+learned segmentation while carrying forward the current mechanical reading;
+expose every accepted reading as a review candidate. For example, conflicting
+`貢船/コウセン` and `貢船/ミツギブネ` evidence still establishes the single
+span `貢船`. Only genuinely different boundary sequences are omitted and
+reported as exact-rewrite conflicts.
 
 Reading-only repairs do not become unconditional defaults. Their accepted
 `surface/reading` pairs are added to `learned_yomi_readings.tsv` and appear as

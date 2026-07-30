@@ -18,7 +18,9 @@ class LearnedRewriteResult:
     applications: tuple[dict[str, Any], ...]
 
 
-def load_exact_yomi_rewrites(path: str | Path | None) -> dict[str, tuple[tuple[str, str], ...]]:
+def load_exact_yomi_rewrites(
+    path: str | Path | None,
+) -> dict[str, tuple[tuple[str, str | None], ...]]:
     if path is None:
         return {}
     source = Path(path)
@@ -33,9 +35,9 @@ def _load_exact_yomi_rewrites_cached(
     path: str,
     _mtime_ns: int,
     _size: int,
-) -> tuple[tuple[str, tuple[tuple[str, str], ...]], ...]:
+) -> tuple[tuple[str, tuple[tuple[str, str | None], ...]], ...]:
     source = Path(path)
-    rewrites: dict[str, tuple[tuple[str, str], ...]] = {}
+    rewrites: dict[str, tuple[tuple[str, str | None], ...]] = {}
     with source.open(encoding="utf-8") as handle:
         for line_number, line in enumerate(handle, start=1):
             if not line.strip():
@@ -43,7 +45,10 @@ def _load_exact_yomi_rewrites_cached(
             row = json.loads(line)
             original_surface = str(row.get("original_surface") or "")
             replacement = tuple(
-                (str(item.get("surface") or ""), str(item.get("reading") or ""))
+                (
+                    str(item.get("surface") or ""),
+                    None if item.get("reading") is None else str(item.get("reading")),
+                )
                 for item in row.get("replacement", [])
                 if isinstance(item, dict)
             )
@@ -90,7 +95,11 @@ def apply_exact_yomi_rewrites(
             index += 1
             continue
         original_surface, end = matched
-        replacement = rewrites[original_surface]
+        replacement = resolve_replacement_readings(tokens[index:end], rewrites[original_surface])
+        if replacement is None:
+            output.extend(tokens[index:end])
+            index = end
+            continue
         output.extend([[surface, reading] for surface, reading in replacement])
         applications.append(
             {
@@ -106,3 +115,32 @@ def apply_exact_yomi_rewrites(
         rendered=yomi_tokens_to_legacy_rendered(output),
         applications=tuple(applications),
     )
+
+
+def resolve_replacement_readings(
+    original_tokens: list[list[str]],
+    replacement: tuple[tuple[str, str | None], ...],
+) -> tuple[tuple[str, str], ...] | None:
+    if all(reading is not None for _surface, reading in replacement):
+        return tuple((surface, str(reading)) for surface, reading in replacement)
+    resolved: list[tuple[str, str]] = []
+    original_index = 0
+    for replacement_surface, replacement_reading in replacement:
+        combined_surface = ""
+        combined_reading = ""
+        while original_index < len(original_tokens) and len(combined_surface) < len(replacement_surface):
+            surface, reading = original_tokens[original_index]
+            combined_surface += surface
+            combined_reading += reading
+            original_index += 1
+        if combined_surface != replacement_surface:
+            return None
+        resolved.append(
+            (
+                replacement_surface,
+                combined_reading if replacement_reading is None else replacement_reading,
+            )
+        )
+    if original_index != len(original_tokens):
+        return None
+    return tuple(resolved)

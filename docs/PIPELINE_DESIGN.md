@@ -2628,7 +2628,10 @@ Manual yomi rewrite rows come from accepted Escalated Repair results or human
 boundaries. They are exact surface-span defaults only. For example,
 `池尻中学校 -> 池尻/イケジリ 中学校/チュウガッコウ` may be reused
 when the exact same surface span appears later. These rows should not be
-generalized automatically. Conflicting replacements for one surface are
+generalized automatically. Reading conflicts and boundary conflicts are
+different: shared replacement boundaries establish a segmentation-only rule
+that preserves the current mechanical reading, while all accepted readings
+remain candidates. Only disagreement in the replacement surface sequence is
 reported and excluded from automatic application.
 
 Every accepted repair also contributes provenance-bearing surface/reading rows

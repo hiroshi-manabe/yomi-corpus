@@ -6,6 +6,7 @@ from pathlib import Path
 import pytest
 
 from yomi_corpus.yomi.final_review import (
+    append_nonconflicting_exact_rewrites,
     harvest_learned_yomi_readings,
     harvest_manual_yomi_rewrites,
 )
@@ -40,6 +41,29 @@ def test_exact_rewrite_replaces_matching_token_span(tmp_path: Path) -> None:
 
     assert result.rendered == "旧/キュウ 池尻/イケジリ 中学校/チュウガッコウ で/デ"
     assert len(result.applications) == 1
+
+
+def test_segmentation_only_rewrite_preserves_current_reading(tmp_path: Path) -> None:
+    path = tmp_path / "rewrites.jsonl"
+    path.write_text(
+        json.dumps(
+            {
+                "original_surface": "貢船",
+                "replacement": [{"surface": "貢船", "reading": None}],
+                "reading_mode": "preserve_current",
+            },
+            ensure_ascii=False,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    result = apply_exact_yomi_rewrites(
+        "貢/ミツギ 船/ブネ が/ガ",
+        rewrites_path=path,
+    )
+
+    assert result.rendered == "貢船/ミツギブネ が/ガ"
 
 
 def test_exact_rewrite_loader_rejects_conflicts(tmp_path: Path) -> None:
@@ -142,7 +166,7 @@ def test_whitespace_spanning_repair_is_not_learned() -> None:
     ] == [("The", "ザ"), ("last", "ラスト")]
 
 
-def test_conflicting_exact_defaults_are_reported_and_omitted() -> None:
+def test_reading_conflict_preserves_shared_segmentation() -> None:
     rows = [
         rewrite_evidence("櫻丘", "櫻丘/オウキュウ", "u1"),
         rewrite_evidence("櫻丘", "櫻丘/サクラオカ", "u2"),
@@ -150,9 +174,49 @@ def test_conflicting_exact_defaults_are_reported_and_omitted() -> None:
 
     consolidated, conflicts = consolidate_exact_rewrites(rows)
 
+    assert conflicts == []
+    assert consolidated[0]["reading_mode"] == "preserve_current"
+    assert consolidated[0]["replacement"] == [{"surface": "櫻丘", "reading": None}]
+    assert consolidated[0]["reading_variants"] == [["オウキュウ"], ["サクラオカ"]]
+
+
+def test_boundary_conflict_is_reported_and_omitted() -> None:
+    rows = [
+        rewrite_evidence("３日", "３日/ミッカ", "u1"),
+        {
+            **rewrite_evidence("３日", "３/ 日/ニチ", "u2"),
+            "replacement": [
+                {"surface": "３", "reading": ""},
+                {"surface": "日", "reading": "ニチ"},
+            ],
+        },
+    ]
+
+    consolidated, conflicts = consolidate_exact_rewrites(rows)
+
     assert consolidated == []
-    assert conflicts[0]["original_surface"] == "櫻丘"
-    assert len(conflicts[0]["variants"]) == 2
+    assert conflicts[0]["original_surface"] == "３日"
+    assert {tuple(row["replacement_surfaces"]) for row in conflicts[0]["variants"]} == {
+        ("３日",),
+        ("３", "日"),
+    }
+
+
+def test_incremental_reading_conflict_converts_default_to_segmentation_only(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "rewrites.jsonl"
+    first = rewrite_evidence("貢船", "貢船/コウセン", "u1")
+    second = rewrite_evidence("貢船", "貢船/ミツギブネ", "u2")
+    path.write_text(json.dumps(first, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    appended, conflicts = append_nonconflicting_exact_rewrites(path, [second])
+    saved = json.loads(path.read_text(encoding="utf-8"))
+
+    assert appended == 0
+    assert conflicts == []
+    assert saved["reading_mode"] == "preserve_current"
+    assert saved["replacement"] == [{"surface": "貢船", "reading": None}]
 
 
 def strong_repaired_unit(

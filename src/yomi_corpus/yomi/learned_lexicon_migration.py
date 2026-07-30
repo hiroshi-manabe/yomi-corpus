@@ -95,6 +95,9 @@ def rebuild_learned_yomi_lexicons(
         "batches": batch_reports,
         "exact_rewrite_evidence_count": len(all_rewrites),
         "exact_rewrite_count": len(canonical_rewrites),
+        "segmentation_only_rewrite_count": sum(
+            row.get("reading_mode") == "preserve_current" for row in canonical_rewrites
+        ),
         "exact_rewrite_conflict_count": len(conflicts),
         "exact_rewrite_conflicts": conflicts,
         "learned_reading_evidence_count": len(canonical_readings),
@@ -127,29 +130,37 @@ def rebuild_learned_yomi_lexicons(
 def consolidate_exact_rewrites(
     rows: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    grouped: dict[str, dict[str, list[dict[str, Any]]]] = defaultdict(lambda: defaultdict(list))
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        grouped[str(row["original_surface"])][str(row["replacement_rendered"])].append(row)
+        grouped[str(row["original_surface"])].append(row)
     output: list[dict[str, Any]] = []
     conflicts: list[dict[str, Any]] = []
     for original_surface in sorted(grouped):
-        variants = grouped[original_surface]
-        if len(variants) != 1:
+        evidence = grouped[original_surface]
+        boundary_variants: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+        for row in evidence:
+            boundary_variants[replacement_surface_signature(row)].append(row)
+        if len(boundary_variants) != 1:
             conflicts.append(
                 {
                     "original_surface": original_surface,
                     "variants": [
                         {
-                            "replacement_rendered": replacement,
-                            "evidence_count": len(evidence),
-                            "sources": [source_reference(row) for row in evidence],
+                            "replacement_surfaces": list(signature),
+                            "replacement_rendered": sorted(
+                                {
+                                    str(row.get("replacement_rendered") or "")
+                                    for row in variant_evidence
+                                }
+                            ),
+                            "evidence_count": len(variant_evidence),
+                            "sources": [source_reference(row) for row in variant_evidence],
                         }
-                        for replacement, evidence in sorted(variants.items())
+                        for signature, variant_evidence in sorted(boundary_variants.items())
                     ],
                 }
             )
             continue
-        replacement_rendered, evidence = next(iter(variants.items()))
         representative = sorted(
             evidence,
             key=lambda row: (
@@ -158,15 +169,47 @@ def consolidate_exact_rewrites(
                 str(row.get("source_item_id") or ""),
             ),
         )[0]
-        output.append(
-            {
-                **representative,
-                "replacement_rendered": replacement_rendered,
-                "evidence_count": len(evidence),
-                "evidence": [source_reference(row) for row in evidence],
-            }
-        )
+        reading_variants = {
+            tuple(
+                None if segment.get("reading") is None else str(segment.get("reading"))
+                for segment in row.get("replacement", [])
+                if isinstance(segment, dict)
+            )
+            for row in evidence
+        }
+        consolidated = {
+            **representative,
+            "evidence_count": len(evidence),
+            "evidence": [source_reference(row) for row in evidence],
+        }
+        if len(reading_variants) > 1:
+            surfaces = replacement_surface_signature(representative)
+            consolidated.update(
+                {
+                    "replacement_rendered": " ".join(f"{surface}/*" for surface in surfaces),
+                    "replacement": [
+                        {"surface": surface, "reading": None} for surface in surfaces
+                    ],
+                    "reading_mode": "preserve_current",
+                    "reading_variants": [
+                        list(readings)
+                        for readings in sorted(
+                            reading_variants,
+                            key=lambda values: tuple("" if value is None else value for value in values),
+                        )
+                    ],
+                }
+            )
+        output.append(consolidated)
     return output, conflicts
+
+
+def replacement_surface_signature(row: dict[str, Any]) -> tuple[str, ...]:
+    return tuple(
+        str(segment.get("surface") or "")
+        for segment in row.get("replacement", [])
+        if isinstance(segment, dict)
+    )
 
 
 def source_reference(row: dict[str, Any]) -> dict[str, str]:

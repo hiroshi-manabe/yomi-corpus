@@ -5536,33 +5536,68 @@ def append_nonconflicting_exact_rewrites(
     path.parent.mkdir(parents=True, exist_ok=True)
     existing_rows = load_jsonl(path) if path.exists() else []
     existing = {
-        str(row.get("original_surface") or ""): str(row.get("replacement_rendered") or "")
+        str(row.get("original_surface") or ""): row
         for row in existing_rows
         if str(row.get("original_surface") or "")
     }
     appended = 0
     conflicts: list[dict[str, str]] = []
-    with path.open("a", encoding="utf-8") as handle:
-        for row in rows:
-            surface = str(row.get("original_surface") or "")
-            replacement = str(row.get("replacement_rendered") or "")
-            previous = existing.get(surface)
-            if previous is not None:
-                if previous != replacement:
-                    conflicts.append(
-                        {
-                            "original_surface": surface,
-                            "existing_replacement": previous,
-                            "rejected_replacement": replacement,
-                            "source_unit_id": str(row.get("source_unit_id") or ""),
-                            "source_item_id": str(row.get("source_item_id") or ""),
-                        }
-                    )
-                continue
-            existing[surface] = replacement
-            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+    changed = False
+    for row in rows:
+        surface = str(row.get("original_surface") or "")
+        previous = existing.get(surface)
+        if previous is None:
+            existing[surface] = row
             appended += 1
+            changed = True
+            continue
+        previous_surfaces = exact_rewrite_surface_signature(previous)
+        new_surfaces = exact_rewrite_surface_signature(row)
+        if previous_surfaces != new_surfaces:
+            conflicts.append(
+                {
+                    "original_surface": surface,
+                    "existing_replacement": str(previous.get("replacement_rendered") or ""),
+                    "rejected_replacement": str(row.get("replacement_rendered") or ""),
+                    "source_unit_id": str(row.get("source_unit_id") or ""),
+                    "source_item_id": str(row.get("source_item_id") or ""),
+                }
+            )
+            continue
+        if exact_rewrite_reading_signature(previous) == exact_rewrite_reading_signature(row):
+            continue
+        if previous.get("reading_mode") != "preserve_current":
+            existing[surface] = {
+                **previous,
+                "replacement_rendered": " ".join(
+                    f"{replacement_surface}/*" for replacement_surface in previous_surfaces
+                ),
+                "replacement": [
+                    {"surface": replacement_surface, "reading": None}
+                    for replacement_surface in previous_surfaces
+                ],
+                "reading_mode": "preserve_current",
+            }
+            changed = True
+    if changed:
+        write_jsonl(path, [existing[surface] for surface in sorted(existing)])
     return appended, conflicts
+
+
+def exact_rewrite_surface_signature(row: dict[str, Any]) -> tuple[str, ...]:
+    return tuple(
+        str(segment.get("surface") or "")
+        for segment in row.get("replacement", [])
+        if isinstance(segment, dict)
+    )
+
+
+def exact_rewrite_reading_signature(row: dict[str, Any]) -> tuple[str | None, ...]:
+    return tuple(
+        None if segment.get("reading") is None else str(segment.get("reading"))
+        for segment in row.get("replacement", [])
+        if isinstance(segment, dict)
+    )
 
 
 def append_unique_tsv(
