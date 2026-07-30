@@ -5108,7 +5108,7 @@ function targetMatchesCancellationSpec(item, target, spec) {
   }
   const draft = state.currentDraft.overrides[item.item_id];
   const selected = selectedCandidate(target, draft?.targets?.[target.item_id] || null);
-  return selected?.source !== "none" && selected?.reading === spec.reading;
+  return selected?.source !== "none";
 }
 
 function mergeOperationFitsItem(item, origin, operation) {
