@@ -3194,13 +3194,17 @@ concatenate to that surface. Adjacent rejected interaction spans may be merged
 for one repair request; the merged source range, not adjacent ruby nodes,
 defines the repair boundary.
 
-Bulk Review also supports a constrained adjacent-token merge for common local
-segmentation errors. After a kanji-bearing interaction span is changed to no
-ruby, its immediately adjacent canonical kana token becomes tappable. Selecting
-that token creates one `kana_merge_no_reading` span override for Escalated
-Repair. This is explicit and one-token-at-a-time: the browser does not infer how
-far a kana run belongs to the rejected word. The same control and submission
-shape are used for the existing adjacent-number merge.
+Bulk Review also supports explicit repair atoms for common local segmentation
+errors. After a kanji-bearing interaction span is changed to no ruby, its
+immediately adjacent canonical kana or numeric token becomes tappable. The
+selected text token is neutral rather than attached to one side. The browser
+recomputes maximal contiguous components from selected text atoms and cancelled
+interaction spans, then emits canonical `kana_merge_no_reading`,
+`numeric_merge_no_reading`, or mixed repair span overrides. Thus selecting the
+kana between two cancelled kanji joins all three regardless of whether the
+kana or either kanji was selected first. This remains explicit and
+one-token-at-a-time: the browser does not infer how far a neighboring run
+belongs to the rejected word.
 
 Implementation should proceed without migrating finalized corpus data:
 

@@ -2007,14 +2007,17 @@ surface to Escalated Repair. Strong-repair proposals must concatenate to that
 surface, while being free to return different word boundaries. This prevents
 truncated repairs such as sending `後払` when the reviewed unit was `後払い`.
 
-Bulk Review may expose one deliberately narrow segmentation action after a
-kanji-bearing interaction span is changed to `No ruby`: the immediately
-adjacent canonical kana token on either side becomes tappable, just as an
-adjacent numeric token does. Tapping it creates one merged Escalated Repair
-region without guessing across additional token boundaries. For example,
-`はる/ハル 夏/ナツ` may be submitted as the rejected region `はる夏`; the model
-can then return `はる夏/ハルカ`. Punctuation, spaces, non-kana tokens, and kana
-outside that single adjacent canonical token are not absorbed automatically.
+Bulk Review may expose deliberately narrow repair atoms after a kanji-bearing
+interaction span is changed to `No ruby`. An immediately adjacent canonical
+kana or numeric token becomes tappable and may be explicitly included as a
+no-reading repair atom. The browser derives maximal contiguous repair regions
+from cancelled interaction spans and selected text atoms; it does not attach a
+text atom permanently to the left or right target. This makes the result
+independent of action order. Cancelling `菜`, selecting `の`, and cancelling
+`香` therefore produces the same `菜の香` region in any order, with both kanji
+target IDs. Likewise, `はる/ハル 夏/ナツ` may be submitted as `はる夏` and
+repaired as `はる夏/ハルカ`. Punctuation, spaces, non-kana tokens, and
+unselected neighboring tokens are not absorbed automatically.
 
 Migration should be incremental:
 

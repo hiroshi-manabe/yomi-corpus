@@ -39,6 +39,12 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("scrollToManualCorrection", app)
         self.assertIn("includeFlagAcknowledgements", app)
         self.assertIn("acknowledgement_only", app)
+        self.assertIn('id="repeat-cancellation-bar"', html)
+        self.assertIn("registerRepeatedCancellation", app)
+        self.assertIn("findRepeatedCancellationMatches", app)
+        self.assertIn("残り${action.matches.length}件にも適用", app)
+        self.assertIn("recomputeRepairAtomSpans", app)
+        self.assertIn("connectedRepairAtomComponents", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(

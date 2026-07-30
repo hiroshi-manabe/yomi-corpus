@@ -88,6 +88,15 @@
       </div>
     </div>
 
+    <div id="repeat-cancellation-bar" class="repeat-cancellation-bar hidden" role="status" aria-live="polite">
+      <span id="repeat-cancellation-message"></span>
+      <div class="repeat-cancellation-actions">
+        <button id="repeat-cancellation-apply" type="button">残りにも適用</button>
+        <button id="repeat-cancellation-undo" class="secondary-button" type="button">取り消す</button>
+        <button id="repeat-cancellation-dismiss" class="secondary-button repeat-cancellation-dismiss" type="button" aria-label="閉じる">×</button>
+      </div>
+    </div>
+
     <div id="workflow-preview-modal" class="workflow-preview-modal hidden" role="dialog" aria-modal="true" aria-labelledby="workflow-preview-title">
       <div class="workflow-preview-backdrop" data-preview-close></div>
       <section class="workflow-preview-panel">
