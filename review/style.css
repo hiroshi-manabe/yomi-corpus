@@ -1771,7 +1771,7 @@ button:disabled {
 .repeat-cancellation-bar {
   position: fixed;
   left: 50%;
-  bottom: max(18px, env(safe-area-inset-bottom));
+  top: 18px;
   z-index: 1200;
   display: flex;
   align-items: center;
@@ -1783,6 +1783,7 @@ button:disabled {
   background: rgba(255, 253, 249, 0.98);
   box-shadow: 0 10px 32px rgba(31, 28, 23, 0.22);
   color: var(--ink);
+  transform: translateX(-50%);
 }
 
 .repeat-cancellation-bar.hidden {

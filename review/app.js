@@ -4501,7 +4501,9 @@ function renderRepairBridgeButton(item, opportunity, override, editable) {
     : `この${opportunity.kind === "kana" ? "カナ" : "数字"}を隣接する読みキャンセル範囲に含めます。`;
   button.textContent = opportunity.surface;
   if (editable) {
-    button.addEventListener("click", () => toggleRepairBridgeAtom(item, atom));
+    button.addEventListener("click", () => {
+      toggleRepairBridgeAtom(item, atom, elementAnchorRect(button));
+    });
   }
   return button;
 }
@@ -4516,7 +4518,7 @@ function repairBridgeAtom(opportunity) {
   };
 }
 
-function toggleRepairBridgeAtom(item, atom) {
+function toggleRepairBridgeAtom(item, atom, anchorRect = null) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   const draft = ensureYomiOverride(item.item_id);
   const enabling = !draft.bridge_atoms[atom.id];
@@ -4532,7 +4534,13 @@ function toggleRepairBridgeAtom(item, atom) {
   if (enabling) {
     const target = cancelledTargetsTouchingAtom(item, draft, atom)[0];
     if (target) {
-      registerRepeatedCancellation(item, target, previousOverride, candidateForSource(target, "none"));
+      registerRepeatedCancellation(
+        item,
+        target,
+        previousOverride,
+        candidateForSource(target, "none"),
+        anchorRect,
+      );
     }
   }
 }
@@ -4715,7 +4723,7 @@ function renderRubySpan(item, target, override, editable) {
       longPressTimer = window.setTimeout(() => {
         longPressTimer = null;
         suppressNextClick = true;
-        toggleYomiNoRubyDefault(item, target, candidate);
+        toggleYomiNoRubyDefault(item, target, candidate, elementAnchorRect(button));
       }, yomiLongPressMs);
     });
     button.addEventListener("pointerup", clearLongPressTimer);
@@ -4811,7 +4819,7 @@ function yomiCycleCandidates(target) {
   return [...readingCandidates, ...noRubyCandidates];
 }
 
-function toggleYomiNoRubyDefault(item, target, currentCandidate) {
+function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = null) {
   const noneCandidate = candidateForSource(target, "none");
   const defaultChoice = defaultCandidate(target);
   const next = currentCandidate?.source === "none" ? defaultChoice : noneCandidate;
@@ -4821,7 +4829,7 @@ function toggleYomiNoRubyDefault(item, target, currentCandidate) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
   if (next.source === "none") {
-    registerRepeatedCancellation(item, target, previousOverride, currentCandidate);
+    registerRepeatedCancellation(item, target, previousOverride, currentCandidate, anchorRect);
   } else if (state.repeatCancellation?.targetIds?.has(target.item_id)) {
     dismissRepeatedCancellation();
   }
@@ -4833,12 +4841,21 @@ function cloneDraftValue(value) {
     : JSON.parse(JSON.stringify(value));
 }
 
-function registerRepeatedCancellation(item, target, previousOverride, previousCandidate) {
+function registerRepeatedCancellation(
+  item,
+  target,
+  previousOverride,
+  previousCandidate,
+  anchorRect = null,
+) {
   if (!item?.doc_id || !target?.item_id) {
     return;
   }
+  const componentTargets = connectedCancelledTargets(item, target);
+  const componentIds = new Set(componentTargets.map((candidate) => candidate.item_id));
   let action = state.repeatCancellation;
-  const canExtend = action && action.itemId === item.item_id && cancellationTouchesAction(item, target, action);
+  const canExtend = action && action.itemId === item.item_id &&
+    [...componentIds].some((targetId) => action.targetIds.has(targetId));
   if (!canExtend) {
     dismissRepeatedCancellation();
     action = {
@@ -4851,57 +4868,62 @@ function registerRepeatedCancellation(item, target, previousOverride, previousCa
       delayTimer: null,
       expiryTimer: null,
       matches: [],
+      anchorRect: null,
     };
     state.repeatCancellation = action;
   }
   if (!action.itemSnapshots.has(item.item_id)) {
     action.itemSnapshots.set(item.item_id, previousOverride);
   }
-  action.targetIds.add(target.item_id);
-  if (!action.originalCandidates.has(target.item_id)) {
-    action.originalCandidates.set(target.item_id, {
-      key: candidateKey(previousCandidate),
-      reading: previousCandidate?.reading || "",
+  action.targetIds = componentIds;
+  for (const componentTarget of componentTargets) {
+    if (action.originalCandidates.has(componentTarget.item_id)) {
+      continue;
+    }
+    const snapshotCandidate = componentTarget.item_id === target.item_id
+      ? previousCandidate
+      : selectedCandidate(
+        componentTarget,
+        previousOverride?.targets?.[componentTarget.item_id] || null,
+      );
+    const fallback = snapshotCandidate?.source !== "none"
+      ? snapshotCandidate
+      : defaultCandidate(componentTarget);
+    action.originalCandidates.set(componentTarget.item_id, {
+      key: candidateKey(fallback),
+      reading: fallback?.reading || "",
     });
   }
+  action.anchorRect = anchorRect || action.anchorRect;
   scheduleRepeatedCancellation(action);
 }
 
-function cancellationTouchesAction(item, target, action) {
-  if (action.targetIds.has(target.item_id)) {
-    return true;
-  }
-  const targets = reviewActionTargets(item);
-  return targets.some((candidate) =>
-    action.targetIds.has(candidate.item_id) &&
-    (
-      targetsAreAdjacent(candidate, target) ||
-      targetsConnectedByBridgeAtom(item, candidate, target)
+function connectedCancelledTargets(item, anchorTarget) {
+  const draft = state.currentDraft.overrides[item.item_id];
+  const atoms = [
+    ...reviewActionTargets(item)
+      .filter((candidate) => isNoRubyTarget(candidate, draft))
+      .map((candidate) => ({
+        type: "target",
+        start: Number(candidate.target_start),
+        end: Number(candidate.target_end),
+        target: candidate,
+      })),
+    ...Object.values(draft?.bridge_atoms || {}).map((atom) => ({
+      type: "bridge",
+      start: Number(atom.start),
+      end: Number(atom.end),
+    })),
+  ].filter((atom) => Number.isInteger(atom.start) && Number.isInteger(atom.end));
+  const component = connectedRepairAtomComponents(atoms).find((candidate) =>
+    candidate.some(
+      (atom) => atom.type === "target" && atom.target.item_id === anchorTarget.item_id,
     )
   );
-}
-
-function targetsConnectedByBridgeAtom(item, left, right) {
-  const draft = state.currentDraft.overrides[item.item_id];
-  const gapStart = Math.min(Number(left.target_end), Number(right.target_end));
-  const gapEnd = Math.max(Number(left.target_start), Number(right.target_start));
-  return Object.values(draft?.bridge_atoms || {}).some(
-    (atom) => Number(atom.start) === gapStart && Number(atom.end) === gapEnd
-  );
-}
-
-function targetsAreAdjacent(left, right) {
-  const leftStart = Number(left?.target_start);
-  const leftEnd = Number(left?.target_end);
-  const rightStart = Number(right?.target_start);
-  const rightEnd = Number(right?.target_end);
-  return (
-    Number.isInteger(leftStart) &&
-    Number.isInteger(leftEnd) &&
-    Number.isInteger(rightStart) &&
-    Number.isInteger(rightEnd) &&
-    (leftEnd === rightStart || rightEnd === leftStart)
-  );
+  return (component || [])
+    .filter((atom) => atom.type === "target")
+    .map((atom) => atom.target)
+    .sort((left, right) => Number(left.target_start) - Number(right.target_start));
 }
 
 function scheduleRepeatedCancellation(action) {
@@ -4932,7 +4954,50 @@ function showRepeatedCancellation(action) {
     `「${pattern.surface}」と同じ箇所がこの文書に残り${action.matches.length}件あります。`;
   el.repeatCancellationApply.textContent = `残り${action.matches.length}件にも適用`;
   el.repeatCancellationBar.classList.remove("hidden");
+  positionRepeatedCancellationBar(action.anchorRect);
   action.expiryTimer = window.setTimeout(dismissRepeatedCancellation, repeatCancellationLifetimeMs);
+}
+
+function elementAnchorRect(element) {
+  const rect = element?.getBoundingClientRect?.();
+  if (!rect) {
+    return null;
+  }
+  return {
+    left: rect.left,
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+  };
+}
+
+function positionRepeatedCancellationBar(anchorRect) {
+  const bar = el.repeatCancellationBar;
+  if (!bar || !anchorRect) {
+    return;
+  }
+  const viewport = window.visualViewport;
+  const viewportLeft = viewport?.offsetLeft || 0;
+  const viewportTop = viewport?.offsetTop || 0;
+  const viewportWidth = viewport?.width || window.innerWidth;
+  const viewportHeight = viewport?.height || window.innerHeight;
+  const margin = 10;
+  const gap = 8;
+  bar.style.width = `${Math.max(140, Math.min(680, viewportWidth - margin * 2))}px`;
+  bar.style.left = `${viewportLeft + margin}px`;
+  bar.style.top = `${viewportTop + margin}px`;
+  bar.style.bottom = "auto";
+  bar.style.transform = "none";
+  const bounds = bar.getBoundingClientRect();
+  const preferredLeft = (anchorRect.left + anchorRect.right - bounds.width) / 2;
+  const maxLeft = viewportLeft + viewportWidth - bounds.width - margin;
+  const left = Math.max(viewportLeft + margin, Math.min(preferredLeft, maxLeft));
+  const below = anchorRect.bottom + gap;
+  const above = anchorRect.top - bounds.height - gap;
+  const maxTop = viewportTop + viewportHeight - bounds.height - margin;
+  const top = below <= maxTop ? below : Math.max(viewportTop + margin, above);
+  bar.style.left = `${left}px`;
+  bar.style.top = `${top}px`;
 }
 
 function repeatedCancellationPattern(item, action) {
@@ -5125,6 +5190,13 @@ function dismissRepeatedCancellation() {
   state.repeatCancellation = null;
   el.repeatCancellationBar?.classList.add("hidden");
   el.repeatCancellationApply?.classList.remove("hidden");
+  if (el.repeatCancellationBar) {
+    el.repeatCancellationBar.style.removeProperty("width");
+    el.repeatCancellationBar.style.removeProperty("left");
+    el.repeatCancellationBar.style.removeProperty("top");
+    el.repeatCancellationBar.style.removeProperty("bottom");
+    el.repeatCancellationBar.style.removeProperty("transform");
+  }
 }
 
 function applyYomiCandidate(item, target, next) {

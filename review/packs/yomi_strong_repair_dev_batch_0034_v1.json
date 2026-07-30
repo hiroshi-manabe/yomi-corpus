@@ -1,0 +1,5023 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0034_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0034",
+  "created_at_epoch": 1785384872,
+  "created_at": "2026-07-30T04:14:32Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 8,
+    "result_row_count": 8,
+    "reviewable_repair_row_count": 8,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000304",
+      "doc_seq": 1,
+      "track_doc_seq": 304,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 304,
+      "preview": "健康増進センターでは地域で得られるデータを地域診断・施策等に活用するための一連のスキルをやさしく実践的に習得する研修会を開催します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000305",
+      "doc_seq": 2,
+      "track_doc_seq": 305,
+      "unit_count": 170,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 305,
+      "preview": "> 「プロジェクト」はうまくいかなくて当たり前！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 170,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000306",
+      "doc_seq": 3,
+      "track_doc_seq": 306,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 306,
+      "preview": "人気料理家のレシピを、さらに編集部が社内キッチンですべて試作し練りあげた、「おいしく」「わかりやすく」「作りやすい」オレンジページのレシピです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000307",
+      "doc_seq": 4,
+      "track_doc_seq": 307,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 307,
+      "preview": "・漫画家って体調崩したりと激務だよね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000308",
+      "doc_seq": 5,
+      "track_doc_seq": 308,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 308,
+      "preview": "北風のように感じてしまいました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-30T04:15:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 6,
+      "unresolved_count": 6,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 6
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000309",
+      "doc_seq": 6,
+      "track_doc_seq": 309,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 309,
+      "preview": "前回に引き続き　庭遊館12周年イベント　17日（日）２日目の様子をお伝えいたします。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-30T04:15:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000310",
+      "doc_seq": 7,
+      "track_doc_seq": 310,
+      "unit_count": 55,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 310,
+      "preview": "紫のバラを使った落ち着いた色合いのアレンジです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 55,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000311",
+      "doc_seq": 8,
+      "track_doc_seq": 311,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 311,
+      "preview": "障がい福祉サービスを提供する事業者の報酬の額は国が定め、三年に一度見直しが行われています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000312",
+      "doc_seq": 9,
+      "track_doc_seq": 312,
+      "unit_count": 76,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 312,
+      "preview": "出世するべきか悩む、仕事をつづけて出世するメリットは何？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-30T04:13:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 76,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000313",
+      "doc_seq": 10,
+      "track_doc_seq": 313,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 313,
+      "preview": "4月1日、桜の季節にちなんでおやつに桜餅を食べていただきました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-30T04:15:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000308:u0007::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000308",
+      "doc_seq": 5,
+      "track_doc_seq": 308,
+      "unit_id": "ja_cc_level2:0000000308:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 308,
+      "text": "菜の香では会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、お茶会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+      "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "菜の香",
+          "ナノカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "会議",
+          "カイギ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "研修",
+          "ケンシュウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "セミナー",
+          "セミナー"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "打ち合せ",
+          "ウチアワセ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ミーティング",
+          "ミーティング"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "勉強会",
+          "ベンキョウカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "送別会",
+          "ソウベツカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "歓迎会",
+          "カンゲイカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "女子会",
+          "ジョシカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "茶会",
+          "チャカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "卒業式",
+          "ソツギョウシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "入学式",
+          "ニュウガクシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "入社式",
+          "ニュウシャシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "接待",
+          "セッタイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "役員会",
+          "ヤクインカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "上",
+          "ジョウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "棟",
+          "トウ"
+        ],
+        [
+          "式",
+          "シキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "長寿",
+          "チョウジュ"
+        ],
+        [
+          "祝い",
+          "イワイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "改装",
+          "カイソウ"
+        ],
+        [
+          "記念",
+          "キネン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "法事",
+          "ホウジ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "法要",
+          "ホウヨウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "スポーツ",
+          "スポーツ"
+        ],
+        [
+          "大会",
+          "タイカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "発表会",
+          "ハッピョウカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "町内会",
+          "チョウナイカイ"
+        ],
+        [
+          ",",
+          ","
+        ],
+        [
+          "食事会",
+          "ショクジカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "節句",
+          "セック"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "行楽",
+          "コウラク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "花見",
+          "ハナミ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "誕生会",
+          "タンジョウカイ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "様々",
+          "サマザマ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "シーン",
+          "シーン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "弁当",
+          "ベントウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "用意",
+          "ヨウイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "菜の香",
+          "reading": "ナノカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "菜",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "の"
+            },
+            {
+              "type": "ruby",
+              "text": "香",
+              "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "会議",
+          "reading": "カイギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会議",
+              "reading": "かいぎ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "研修",
+          "reading": "ケンシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "研修",
+              "reading": "けんしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "セミナー",
+          "reading": "セミナー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "セミナー"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "打ち合せ",
+          "reading": "ウチアワセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "打",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            },
+            {
+              "type": "ruby",
+              "text": "合",
+              "reading": "あわ"
+            },
+            {
+              "type": "text",
+              "text": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ミーティング",
+          "reading": "ミーティング",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ミーティング"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "勉強会",
+          "reading": "ベンキョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勉強会",
+              "reading": "べんきょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "送別会",
+          "reading": "ソウベツカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "送別会",
+              "reading": "そうべつかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "歓迎会",
+          "reading": "カンゲイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歓迎会",
+              "reading": "かんげいかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "女子会",
+          "reading": "ジョシカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女子会",
+              "reading": "じょしかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "茶会",
+          "reading": "チャカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "茶会",
+              "reading": "ちゃかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "卒業式",
+          "reading": "ソツギョウシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "卒業式",
+              "reading": "そつぎょうしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "入学式",
+          "reading": "ニュウガクシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入学式",
+              "reading": "にゅうがくしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "入社式",
+          "reading": "ニュウシャシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入社式",
+              "reading": "にゅうしゃしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "接待",
+          "reading": "セッタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "接待",
+              "reading": "せったい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "役員会",
+          "reading": "ヤクインカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "役員会",
+              "reading": "やくいんかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "上",
+          "reading": "ジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "じょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "棟",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "棟",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "式",
+          "reading": "シキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "式",
+              "reading": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "長寿",
+          "reading": "チョウジュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長寿",
+              "reading": "ちょうじゅ"
+            }
+          ]
+        },
+        {
+          "surface": "祝い",
+          "reading": "イワイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祝",
+              "reading": "いわ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "改装",
+          "reading": "カイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "改装",
+              "reading": "かいそう"
+            }
+          ]
+        },
+        {
+          "surface": "記念",
+          "reading": "キネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "記念",
+              "reading": "きねん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "法事",
+          "reading": "ホウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法事",
+              "reading": "ほうじ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "法要",
+          "reading": "ホウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法要",
+              "reading": "ほうよう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "スポーツ",
+          "reading": "スポーツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スポーツ"
+            }
+          ]
+        },
+        {
+          "surface": "大会",
+          "reading": "タイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大会",
+              "reading": "たいかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "発表会",
+          "reading": "ハッピョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発表会",
+              "reading": "はっぴょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "町内会",
+          "reading": "チョウナイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "町内会",
+              "reading": "ちょうないかい"
+            }
+          ]
+        },
+        {
+          "surface": ",",
+          "reading": ",",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ","
+            }
+          ]
+        },
+        {
+          "surface": "食事会",
+          "reading": "ショクジカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "食事会",
+              "reading": "しょくじかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "節句",
+          "reading": "セック",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "節句",
+              "reading": "せっく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "行楽",
+          "reading": "コウラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行楽",
+              "reading": "こうらく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "花見",
+          "reading": "ハナミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "花見",
+              "reading": "はなみ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "誕生会",
+          "reading": "タンジョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "誕生会",
+              "reading": "たんじょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "様々",
+          "reading": "サマザマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様々",
+              "reading": "さまざま"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "シーン",
+          "reading": "シーン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シーン"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "弁当",
+          "reading": "ベントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弁当",
+              "reading": "べんとう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "用意",
+          "reading": "ヨウイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "用意",
+              "reading": "ようい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 3,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000000308:u0007",
+          "text": "菜の香では会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、お茶会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 34,
+            "end": 35,
+            "char_start": 67,
+            "char_end": 68,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0007:s0068-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うえ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "うえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0007:s0068-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うえ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "うえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "上",
+          "reading_candidates": {
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ]
+          },
+          "reading_hints": {
+            "上": "あげ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "うえ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上\",\"reading\":\"ジョウ\",\"used_web_search\":false,\"comment\":\"「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "上",
+              "reading": "ジョウ",
+              "used_web_search": false,
+              "comment": "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "上",
+            "replacement": [
+              {
+                "surface": "上",
+                "reading": "ジョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+                "surface": "上",
+                "comment": "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000308:u0007::target_group:2",
+          "item_id": "ja_cc_level2:0000000308:u0007::target_group:2",
+          "unit_id": "ja_cc_level2:0000000308:u0007",
+          "text": "菜の香では会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、お茶会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 36,
+            "end": 37,
+            "char_start": 69,
+            "char_end": 70,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0007:s0070-0070",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "棟",
+              "token_surface": "棟",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むね",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "棟",
+                  "reading": "むね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0007:s0070-0070",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "棟",
+              "token_surface": "棟",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むね",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "棟",
+                  "reading": "むね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "棟",
+          "reading_candidates": {
+            "棟": [
+              "たかし",
+              "とう",
+              "むなぎ",
+              "むね"
+            ]
+          },
+          "reading_hints": {
+            "棟": "たかし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "棟",
+              "reading": "むね",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"棟\",\"reading\":\"トウ\",\"used_web_search\":false,\"comment\":\"「上棟式」の「棟」は、この文脈では「とう」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "棟",
+              "reading": "トウ",
+              "used_web_search": false,
+              "comment": "「上棟式」の「棟」は、この文脈では「とう」と読むため。"
+            }
+          ],
+          "llm_comments": [
+            "「上棟式」の「棟」は、この文脈では「とう」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0007::target_group:2",
+            "status": "applied",
+            "rejected_span": "棟",
+            "replacement": [
+              {
+                "surface": "棟",
+                "reading": "トウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0007::target_group:2",
+                "surface": "棟",
+                "comment": "「上棟式」の「棟」は、この文脈では「とう」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000308:u0007::span_group:1",
+          "item_id": "ja_cc_level2:0000000308:u0007::span_group:1",
+          "unit_id": "ja_cc_level2:0000000308:u0007",
+          "text": "菜の香では会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、お茶会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 お/オ 茶会/チャカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "菜の香",
+              "token_surface": "菜の香",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0034_v1:ja_cc_level2:0000000308:u0007:0-3",
+              "rejected_readings": [
+                {
+                  "surface": "菜の香",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "菜の香",
+              "token_surface": "菜の香",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0034_v1:ja_cc_level2:0000000308:u0007:0-3",
+              "rejected_readings": [
+                {
+                  "surface": "菜の香",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "菜の香",
+          "reading_candidates": {
+            "菜": [
+              "さい",
+              "な"
+            ],
+            "香": [
+              "か",
+              "かおり",
+              "かおる",
+              "きょう",
+              "こう",
+              "こうやつ"
+            ]
+          },
+          "reading_hints": {
+            "菜": "さい",
+            "香": "か"
+          },
+          "rejected_readings": [
+            {
+              "surface": "菜の香",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"菜の香\",\"reading\":\"ナノカ\",\"used_web_search\":true,\"comment\":\"公式サイトで店名が「菜の香『なのか』」と表記されているため。([nanoka-obento.com](https://nanoka-obento.com/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "菜の香",
+              "reading": "ナノカ",
+              "used_web_search": true,
+              "comment": "公式サイトで店名が「菜の香『なのか』」と表記されているため。([nanoka-obento.com](https://nanoka-obento.com/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "公式サイトで店名が「菜の香『なのか』」と表記されているため。([nanoka-obento.com](https://nanoka-obento.com/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0007::span_group:1",
+            "status": "applied",
+            "rejected_span": "菜の香",
+            "replacement": [
+              {
+                "surface": "菜の香",
+                "reading": "ナノカ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0007::span_group:1",
+                "surface": "菜の香",
+                "comment": "公式サイトで店名が「菜の香『なのか』」と表記されているため。([nanoka-obento.com](https://nanoka-obento.com/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "上",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000308:u0007:s0068-0068",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 36,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うえ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "うえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "上",
+          "reading": "うえ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "上": [
+          "あげ",
+          "うえ",
+          "うわ",
+          "かみ",
+          "かみの",
+          "かむら",
+          "じょう",
+          "たかし",
+          "のぼる"
+        ]
+      },
+      "reading_hints": {
+        "上": "あげ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "上",
+          "reading": "ジョウ",
+          "used_web_search": false,
+          "comment": "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"上\",\"reading\":\"ジョウ\",\"used_web_search\":false,\"comment\":\"「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "上",
+        "replacement": [
+          {
+            "surface": "上",
+            "reading": "ジョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000308:u0007::target_group:1",
+            "surface": "上",
+            "comment": "「上棟式」の「上」で、ここでは熟語の一部として「ジョウ」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000308:u0008::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000308",
+      "doc_seq": 5,
+      "track_doc_seq": 308,
+      "unit_id": "ja_cc_level2:0000000308:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 308,
+      "text": "菜の香では 会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+      "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ / 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ \\s/ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "菜の香",
+          "ナノカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "会議",
+          "カイギ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "研修",
+          "ケンシュウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "セミナー",
+          "セミナー"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "打ち合せ",
+          "ウチアワセ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ミーティング",
+          "ミーティング"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "勉強会",
+          "ベンキョウカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "送別会",
+          "ソウベツカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "歓迎会",
+          "カンゲイカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "女子会",
+          "ジョシカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "卒業式",
+          "ソツギョウシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "入学式",
+          "ニュウガクシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "入社式",
+          "ニュウシャシキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "接待",
+          "セッタイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "役員会",
+          "ヤクインカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "上",
+          "ジョウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "棟",
+          "トウ"
+        ],
+        [
+          "式",
+          "シキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "長寿",
+          "チョウジュ"
+        ],
+        [
+          "祝い",
+          "イワイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "改装",
+          "カイソウ"
+        ],
+        [
+          "記念",
+          "キネン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "法事",
+          "ホウジ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "法要",
+          "ホウヨウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "スポーツ",
+          "スポーツ"
+        ],
+        [
+          "大会",
+          "タイカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "発表会",
+          "ハッピョウカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "町内会",
+          "チョウナイカイ"
+        ],
+        [
+          ",",
+          ","
+        ],
+        [
+          "食事会",
+          "ショクジカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "節句",
+          "セック"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "行楽",
+          "コウラク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "花見",
+          "ハナミ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "誕生会",
+          "タンジョウカイ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "様々",
+          "サマザマ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "シーン",
+          "シーン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "弁当",
+          "ベントウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "用意",
+          "ヨウイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "菜の香",
+          "reading": "ナノカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "菜",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "の"
+            },
+            {
+              "type": "ruby",
+              "text": "香",
+              "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "会議",
+          "reading": "カイギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会議",
+              "reading": "かいぎ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "研修",
+          "reading": "ケンシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "研修",
+              "reading": "けんしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "セミナー",
+          "reading": "セミナー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "セミナー"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "打ち合せ",
+          "reading": "ウチアワセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "打",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            },
+            {
+              "type": "ruby",
+              "text": "合",
+              "reading": "あわ"
+            },
+            {
+              "type": "text",
+              "text": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ミーティング",
+          "reading": "ミーティング",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ミーティング"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "勉強会",
+          "reading": "ベンキョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勉強会",
+              "reading": "べんきょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "送別会",
+          "reading": "ソウベツカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "送別会",
+              "reading": "そうべつかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "歓迎会",
+          "reading": "カンゲイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歓迎会",
+              "reading": "かんげいかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "女子会",
+          "reading": "ジョシカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女子会",
+              "reading": "じょしかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "卒業式",
+          "reading": "ソツギョウシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "卒業式",
+              "reading": "そつぎょうしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "入学式",
+          "reading": "ニュウガクシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入学式",
+              "reading": "にゅうがくしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "入社式",
+          "reading": "ニュウシャシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入社式",
+              "reading": "にゅうしゃしき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "接待",
+          "reading": "セッタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "接待",
+              "reading": "せったい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "役員会",
+          "reading": "ヤクインカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "役員会",
+              "reading": "やくいんかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "上",
+          "reading": "ジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "じょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "棟",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "棟",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "式",
+          "reading": "シキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "式",
+              "reading": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "長寿",
+          "reading": "チョウジュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長寿",
+              "reading": "ちょうじゅ"
+            }
+          ]
+        },
+        {
+          "surface": "祝い",
+          "reading": "イワイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祝",
+              "reading": "いわ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "改装",
+          "reading": "カイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "改装",
+              "reading": "かいそう"
+            }
+          ]
+        },
+        {
+          "surface": "記念",
+          "reading": "キネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "記念",
+              "reading": "きねん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "法事",
+          "reading": "ホウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法事",
+              "reading": "ほうじ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "法要",
+          "reading": "ホウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法要",
+              "reading": "ほうよう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "スポーツ",
+          "reading": "スポーツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スポーツ"
+            }
+          ]
+        },
+        {
+          "surface": "大会",
+          "reading": "タイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大会",
+              "reading": "たいかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "発表会",
+          "reading": "ハッピョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発表会",
+              "reading": "はっぴょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "町内会",
+          "reading": "チョウナイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "町内会",
+              "reading": "ちょうないかい"
+            }
+          ]
+        },
+        {
+          "surface": ",",
+          "reading": ",",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ","
+            }
+          ]
+        },
+        {
+          "surface": "食事会",
+          "reading": "ショクジカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "食事会",
+              "reading": "しょくじかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "節句",
+          "reading": "セック",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "節句",
+              "reading": "せっく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "行楽",
+          "reading": "コウラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行楽",
+              "reading": "こうらく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "花見",
+          "reading": "ハナミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "花見",
+              "reading": "はなみ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "誕生会",
+          "reading": "タンジョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "誕生会",
+              "reading": "たんじょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "様々",
+          "reading": "サマザマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様々",
+              "reading": "さまざま"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "シーン",
+          "reading": "シーン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シーン"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "弁当",
+          "reading": "ベントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弁当",
+              "reading": "べんとう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "用意",
+          "reading": "ヨウイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "用意",
+              "reading": "ようい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 3,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+          "item_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+          "unit_id": "ja_cc_level2:0000000308:u0008",
+          "text": "菜の香では 会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ / 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ \\s/ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 32,
+            "end": 33,
+            "char_start": 64,
+            "char_end": 65,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0008:s0065-0065",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 34,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うえ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "うえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0008:s0065-0065",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 34,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うえ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "うえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "上",
+          "reading_candidates": {
+            "上": [
+              "あげ",
+              "うえ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "じょう",
+              "たかし",
+              "のぼる"
+            ]
+          },
+          "reading_hints": {
+            "上": "あげ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "うえ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"上\",\"reading\":\"ジョウ\",\"used_web_search\":false,\"comment\":\"「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "上",
+              "reading": "ジョウ",
+              "used_web_search": false,
+              "comment": "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。"
+            }
+          ],
+          "llm_comments": [
+            "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "上",
+            "replacement": [
+              {
+                "surface": "上",
+                "reading": "ジョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+                "surface": "上",
+                "comment": "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000308:u0008::target_group:2",
+          "item_id": "ja_cc_level2:0000000308:u0008::target_group:2",
+          "unit_id": "ja_cc_level2:0000000308:u0008",
+          "text": "菜の香では 会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ / 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ \\s/ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 34,
+            "end": 35,
+            "char_start": 66,
+            "char_end": 67,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0008:s0067-0067",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "棟",
+              "token_surface": "棟",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むね",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "棟",
+                  "reading": "むね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000308:u0008:s0067-0067",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "棟",
+              "token_surface": "棟",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むね",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "棟",
+                  "reading": "むね",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "棟",
+          "reading_candidates": {
+            "棟": [
+              "たかし",
+              "とう",
+              "むなぎ",
+              "むね"
+            ]
+          },
+          "reading_hints": {
+            "棟": "たかし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "棟",
+              "reading": "むね",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"棟\",\"reading\":\"トウ\",\"used_web_search\":false,\"comment\":\"「上棟式」は通常「じょうとうしき」と読むため、この「棟」は「とう」が適切です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "棟",
+              "reading": "トウ",
+              "used_web_search": false,
+              "comment": "「上棟式」は通常「じょうとうしき」と読むため、この「棟」は「とう」が適切です。"
+            }
+          ],
+          "llm_comments": [
+            "「上棟式」は通常「じょうとうしき」と読むため、この「棟」は「とう」が適切です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0008::target_group:2",
+            "status": "applied",
+            "rejected_span": "棟",
+            "replacement": [
+              {
+                "surface": "棟",
+                "reading": "トウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0008::target_group:2",
+                "surface": "棟",
+                "comment": "「上棟式」は通常「じょうとうしき」と読むため、この「棟」は「とう」が適切です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000308:u0008::span_group:1",
+          "item_id": "ja_cc_level2:0000000308:u0008::span_group:1",
+          "unit_id": "ja_cc_level2:0000000308:u0008",
+          "text": "菜の香では 会議、研修、セミナー、打ち合せ、ミーティング、勉強会、送別会、歓迎会、女子会、卒業式、入学式、入社式、接待、役員会、上 棟式、長寿祝い、 改装記念、法事、法要、スポーツ大会、発表会、町内会,食事会、節句、行楽、花見、誕生会など様々なシーンにあったお弁当をご用意しています。",
+          "rendered_yomi_before": "菜/ナ の/ノ 香/カ で/デ は/ハ / 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ウエ / 棟/ムネ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 / 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "菜の香/ナノカ で/デ は/ハ \\s/ 会議/カイギ 、/、 研修/ケンシュウ 、/、 セミナー/セミナー 、/、 打ち合せ/ウチアワセ 、/、 ミーティング/ミーティング 、/、 勉強会/ベンキョウカイ 、/、 送別会/ソウベツカイ 、/、 歓迎会/カンゲイカイ 、/、 女子会/ジョシカイ 、/、 卒業式/ソツギョウシキ 、/、 入学式/ニュウガクシキ 、/、 入社式/ニュウシャシキ 、/、 接待/セッタイ 、/、 役員会/ヤクインカイ 、/、 上/ジョウ \\s/ 棟/トウ 式/シキ 、/、 長寿/チョウジュ 祝い/イワイ 、/、 \\s/ 改装/カイソウ 記念/キネン 、/、 法事/ホウジ 、/、 法要/ホウヨウ 、/、 スポーツ/スポーツ 大会/タイカイ 、/、 発表会/ハッピョウカイ 、/、 町内会/チョウナイカイ ,/, 食事会/ショクジカイ 、/、 節句/セック 、/、 行楽/コウラク 、/、 花見/ハナミ 、/、 誕生会/タンジョウカイ など/ナド 様々/サマザマ な/ナ シーン/シーン に/ニ あっ/アッ た/タ お/オ 弁当/ベントウ を/ヲ ご/ゴ 用意/ヨウイ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "菜の香",
+              "token_surface": "菜の香",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0034_v1:ja_cc_level2:0000000308:u0008:0-3",
+              "rejected_readings": [
+                {
+                  "surface": "菜の香",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "菜の香",
+              "token_surface": "菜の香",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0034_v1:ja_cc_level2:0000000308:u0008:0-3",
+              "rejected_readings": [
+                {
+                  "surface": "菜の香",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "菜の香",
+          "reading_candidates": {
+            "菜": [
+              "さい",
+              "な"
+            ],
+            "香": [
+              "か",
+              "かおり",
+              "かおる",
+              "きょう",
+              "こう",
+              "こうやつ"
+            ]
+          },
+          "reading_hints": {
+            "菜": "さい",
+            "香": "か"
+          },
+          "rejected_readings": [
+            {
+              "surface": "菜の香",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"菜の香\",\"reading\":\"なのか\",\"used_web_search\":false,\"comment\":\"店名・施設名として一まとまりで読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "菜の香",
+              "reading": "なのか",
+              "used_web_search": false,
+              "comment": "店名・施設名として一まとまりで読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "店名・施設名として一まとまりで読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000308:u0008::span_group:1",
+            "status": "applied",
+            "rejected_span": "菜の香",
+            "replacement": [
+              {
+                "surface": "菜の香",
+                "reading": "ナノカ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000308:u0008::span_group:1",
+                "surface": "菜の香",
+                "comment": "店名・施設名として一まとまりで読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "上",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000308:u0008:s0065-0065",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 34,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うえ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "うえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "上",
+          "reading": "うえ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "上": [
+          "あげ",
+          "うえ",
+          "うわ",
+          "かみ",
+          "かみの",
+          "かむら",
+          "じょう",
+          "たかし",
+          "のぼる"
+        ]
+      },
+      "reading_hints": {
+        "上": "あげ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "上",
+          "reading": "ジョウ",
+          "used_web_search": false,
+          "comment": "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"上\",\"reading\":\"ジョウ\",\"used_web_search\":false,\"comment\":\"「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。\"}]",
+      "llm_comments": [
+        "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "上",
+        "replacement": [
+          {
+            "surface": "上",
+            "reading": "ジョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000308:u0008::target_group:1",
+            "surface": "上",
+            "comment": "「上棟式」の一部なので、ここは訓読の「うえ」ではなく音読みの「ジョウ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000309:u0001::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000309",
+      "doc_seq": 6,
+      "track_doc_seq": 309,
+      "unit_id": "ja_cc_level2:0000000309:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 309,
+      "text": "前回に引き続き　庭遊館12周年イベント　17日（日）２日目の様子をお伝えいたします。",
+      "rendered_yomi_before": "前回/ゼンカイ に/ニ 引き続き/ヒキツヅキ / 庭/ニワ 遊/ユウ 館/カン 12/ 周年/シュウネン イベント/イベント / 17/ 日/ニチ （/（ 日/ニチ ）/） ２日/フツカ 目/メ の/ノ 様子/ヨウス を/ヲ お/オ 伝え/ツタエ いたし/イタシ ます/マス 。/。",
+      "rendered_yomi_after": "前回/ゼンカイ に/ニ 引き続き/ヒキツヅキ \\u3000/ 庭遊館/テイユウカン 12/ 周年/シュウネン イベント/イベント \\u3000/ 17/ 日/ニチ （/（ 日/ニチ ）/） ２日/フツカ 目/メ の/ノ 様子/ヨウス を/ヲ お/オ 伝え/ツタエ いたし/イタシ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "前回",
+          "ゼンカイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "引き続き",
+          "ヒキツヅキ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "庭遊館",
+          "テイユウカン"
+        ],
+        [
+          "12",
+          ""
+        ],
+        [
+          "周年",
+          "シュウネン"
+        ],
+        [
+          "イベント",
+          "イベント"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "17",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "２日",
+          "フツカ"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "様子",
+          "ヨウス"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "伝え",
+          "ツタエ"
+        ],
+        [
+          "いたし",
+          "イタシ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "前回",
+          "reading": "ゼンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前回",
+              "reading": "ぜんかい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "引き続き",
+          "reading": "ヒキツヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "引",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            },
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "庭遊館",
+          "reading": "テイユウカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "庭遊館",
+              "reading": "ていゆうかん"
+            }
+          ]
+        },
+        {
+          "surface": "12",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "12"
+            }
+          ]
+        },
+        {
+          "surface": "周年",
+          "reading": "シュウネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "周年",
+              "reading": "しゅうねん"
+            }
+          ]
+        },
+        {
+          "surface": "イベント",
+          "reading": "イベント",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "イベント"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "17",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "17"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "２日",
+          "reading": "フツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "２日",
+              "reading": "ふつか"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "様子",
+          "reading": "ヨウス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様子",
+              "reading": "ようす"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "伝え",
+          "reading": "ツタエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伝",
+              "reading": "つた"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "いたし",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いたし"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+          "item_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+          "unit_id": "ja_cc_level2:0000000309:u0001",
+          "text": "前回に引き続き　庭遊館12周年イベント　17日（日）２日目の様子をお伝えいたします。",
+          "rendered_yomi_before": "前回/ゼンカイ に/ニ 引き続き/ヒキツヅキ / 庭/ニワ 遊/ユウ 館/カン 12/ 周年/シュウネン イベント/イベント / 17/ 日/ニチ （/（ 日/ニチ ）/） ２日/フツカ 目/メ の/ノ 様子/ヨウス を/ヲ お/オ 伝え/ツタエ いたし/イタシ ます/マス 。/。",
+          "rendered_yomi_after": "前回/ゼンカイ に/ニ 引き続き/ヒキツヅキ \\u3000/ 庭遊館/テイユウカン 12/ 周年/シュウネン イベント/イベント \\u3000/ 17/ 日/ニチ （/（ 日/ニチ ）/） ２日/フツカ 目/メ の/ノ 様子/ヨウス を/ヲ お/オ 伝え/ツタエ いたし/イタシ ます/マス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 8,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "庭",
+              "token_surface": "庭",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "にわ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "庭",
+                  "reading": "にわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遊",
+              "token_surface": "遊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ゆう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "遊",
+                  "reading": "ゆう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "館",
+              "token_surface": "館",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かん",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "館",
+                  "reading": "かん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "庭",
+              "token_surface": "庭",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "にわ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "庭",
+                  "reading": "にわ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遊",
+              "token_surface": "遊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ゆう",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "遊",
+                  "reading": "ゆう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000309:u0001:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "館",
+              "token_surface": "館",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かん",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "館",
+                  "reading": "かん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "庭遊館",
+          "reading_candidates": {
+            "庭": [
+              "にわ"
+            ],
+            "遊": [
+              "あそぶ",
+              "ゆう"
+            ],
+            "館": [
+              "かん",
+              "たち",
+              "たて",
+              "だち",
+              "だて",
+              "やかた"
+            ]
+          },
+          "reading_hints": {
+            "庭": "にわ",
+            "遊": "あそぶ",
+            "館": "かん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "庭",
+              "reading": "にわ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "遊",
+              "reading": "ゆう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "館",
+              "reading": "かん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"庭遊館\",\"reading\":\"テイユウカン\",\"used_web_search\":true,\"comment\":\"会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "庭遊館",
+              "reading": "テイユウカン",
+              "used_web_search": true,
+              "comment": "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "庭遊館",
+            "replacement": [
+              {
+                "surface": "庭遊館",
+                "reading": "テイユウカン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+                "surface": "庭遊館",
+                "comment": "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "庭遊館",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000309:u0001:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "庭",
+          "token_surface": "庭",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "にわ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "庭",
+              "reading": "にわ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000309:u0001:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "遊",
+          "token_surface": "遊",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ゆう",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "遊",
+              "reading": "ゆう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000309:u0001:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "館",
+          "token_surface": "館",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かん",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "館",
+              "reading": "かん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "庭",
+          "reading": "にわ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "遊",
+          "reading": "ゆう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "館",
+          "reading": "かん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "庭": [
+          "にわ"
+        ],
+        "遊": [
+          "あそぶ",
+          "ゆう"
+        ],
+        "館": [
+          "かん",
+          "たち",
+          "たて",
+          "だち",
+          "だて",
+          "やかた"
+        ]
+      },
+      "reading_hints": {
+        "庭": "にわ",
+        "遊": "あそぶ",
+        "館": "かん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "庭遊館",
+          "reading": "テイユウカン",
+          "used_web_search": true,
+          "comment": "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"庭遊館\",\"reading\":\"テイユウカン\",\"used_web_search\":true,\"comment\":\"会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))\"}]",
+      "llm_comments": [
+        "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "庭遊館",
+        "replacement": [
+          {
+            "surface": "庭遊館",
+            "reading": "テイユウカン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000309:u0001::target_group:1",
+            "surface": "庭遊館",
+            "comment": "会社情報で社名の読みが「テイユウカン」と確認できるため、全体を1項目で処理する。 ([cnavi.g-search.or.jp](https://cnavi.g-search.or.jp/detail/2200002007269.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000313:u0002::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000313",
+      "doc_seq": 10,
+      "track_doc_seq": 313,
+      "unit_id": "ja_cc_level2:0000000313:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 313,
+      "text": "桂高校の前にある鼓月　桂店様が桜餅と花すだれを配達してくださいました。",
+      "rendered_yomi_before": "桂/カツラ 高校/コウコウ の/ノ 前/マエ に/ニ ある/アル 鼓/ツヅミ 月/ツキ / 桂/カツラ 店/テン 様/サマ が/ガ 桜餅/サクラモチ と/ト 花/ハナ すだれ/スダレ を/ヲ 配達/ハイタツ し/シ て/テ ください/クダサイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "桂/カツラ 高校/コウコウ の/ノ 前/マエ に/ニ ある/アル 鼓月/コゲツ \\u3000/ 桂/カツラ 店/テン 様/サマ が/ガ 桜餅/サクラモチ と/ト 花/ハナ すだれ/スダレ を/ヲ 配達/ハイタツ し/シ て/テ ください/クダサイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "桂",
+          "カツラ"
+        ],
+        [
+          "高校",
+          "コウコウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "鼓月",
+          "コゲツ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "桂",
+          "カツラ"
+        ],
+        [
+          "店",
+          "テン"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "桜餅",
+          "サクラモチ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "花",
+          "ハナ"
+        ],
+        [
+          "すだれ",
+          "スダレ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "配達",
+          "ハイタツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "ください",
+          "クダサイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "桂",
+          "reading": "カツラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "桂",
+              "reading": "かつら"
+            }
+          ]
+        },
+        {
+          "surface": "高校",
+          "reading": "コウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高校",
+              "reading": "こうこう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "鼓月",
+          "reading": "コゲツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鼓月",
+              "reading": "こげつ"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "桂",
+          "reading": "カツラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "桂",
+              "reading": "かつら"
+            }
+          ]
+        },
+        {
+          "surface": "店",
+          "reading": "テン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "店",
+              "reading": "てん"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "桜餅",
+          "reading": "サクラモチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "桜餅",
+              "reading": "さくらもち"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "花",
+          "reading": "ハナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "花",
+              "reading": "はな"
+            }
+          ]
+        },
+        {
+          "surface": "すだれ",
+          "reading": "スダレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すだれ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "配達",
+          "reading": "ハイタツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "配達",
+              "reading": "はいたつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "ください",
+          "reading": "クダサイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ください"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+          "item_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+          "unit_id": "ja_cc_level2:0000000313:u0002",
+          "text": "桂高校の前にある鼓月　桂店様が桜餅と花すだれを配達してくださいました。",
+          "rendered_yomi_before": "桂/カツラ 高校/コウコウ の/ノ 前/マエ に/ニ ある/アル 鼓/ツヅミ 月/ツキ / 桂/カツラ 店/テン 様/サマ が/ガ 桜餅/サクラモチ と/ト 花/ハナ すだれ/スダレ を/ヲ 配達/ハイタツ し/シ て/テ ください/クダサイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "桂/カツラ 高校/コウコウ の/ノ 前/マエ に/ニ ある/アル 鼓月/コゲツ \\u3000/ 桂/カツラ 店/テン 様/サマ が/ガ 桜餅/サクラモチ と/ト 花/ハナ すだれ/スダレ を/ヲ 配達/ハイタツ し/シ て/テ ください/クダサイ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 8,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000313:u0002:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "鼓",
+              "token_surface": "鼓",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つづみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "鼓",
+                  "reading": "つづみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000313:u0002:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000313:u0002:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "鼓",
+              "token_surface": "鼓",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つづみ",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "鼓",
+                  "reading": "つづみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000313:u0002:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "鼓月",
+          "reading_candidates": {
+            "鼓": [
+              "つづみ"
+            ],
+            "月": [
+              "がっ",
+              "がつ",
+              "げっ",
+              "げつ",
+              "つき",
+              "づき",
+              "ゆえ",
+              "らいと",
+              "るな"
+            ]
+          },
+          "reading_hints": {
+            "鼓": "つづみ",
+            "月": "がっ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "鼓",
+              "reading": "つづみ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"鼓月\",\"reading\":\"コゲツ\",\"used_web_search\":false,\"comment\":\"京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "鼓月",
+              "reading": "コゲツ",
+              "used_web_search": false,
+              "comment": "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+            "status": "applied",
+            "rejected_span": "鼓月",
+            "replacement": [
+              {
+                "surface": "鼓月",
+                "reading": "コゲツ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+                "surface": "鼓月",
+                "comment": "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "鼓月",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000313:u0002:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "鼓",
+          "token_surface": "鼓",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つづみ",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "鼓",
+              "reading": "つづみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000313:u0002:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "月",
+          "token_surface": "月",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つき",
+          "automatic_default": false,
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "鼓",
+          "reading": "つづみ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "月",
+          "reading": "つき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "鼓": [
+          "つづみ"
+        ],
+        "月": [
+          "がっ",
+          "がつ",
+          "げっ",
+          "げつ",
+          "つき",
+          "づき",
+          "ゆえ",
+          "らいと",
+          "るな"
+        ]
+      },
+      "reading_hints": {
+        "鼓": "つづみ",
+        "月": "がっ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "鼓月",
+          "reading": "コゲツ",
+          "used_web_search": false,
+          "comment": "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"鼓月\",\"reading\":\"コゲツ\",\"used_web_search\":false,\"comment\":\"京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。\"}]",
+      "llm_comments": [
+        "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+        "status": "applied",
+        "rejected_span": "鼓月",
+        "replacement": [
+          {
+            "surface": "鼓月",
+            "reading": "コゲツ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000313:u0002::target_group:1",
+            "surface": "鼓月",
+            "comment": "京都の和菓子店名として定着している固有名詞なので、熟字として「コゲツ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
