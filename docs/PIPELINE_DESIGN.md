@@ -2019,6 +2019,15 @@ target IDs. Likewise, `はる/ハル 夏/ナツ` may be submitted as `はる夏`
 repaired as `はる夏/ハルカ`. Punctuation, spaces, non-kana tokens, and
 unselected neighboring tokens are not absorbed automatically.
 
+When the reviewer cancels a reading in a repeated expression, any propagation
+offer must use the entire connected repair region containing that target, even
+if earlier atoms were selected before a previous offer expired. Matching stays
+document-local and requires the same surfaces, offsets, and selected bridge
+text, but does not require the old readings to agree: the operation being
+propagated is rejection of those readings. On touch-oriented layouts, show the
+offer beside the triggering target within the visual viewport rather than at a
+fixed page edge, because reviewers commonly work at a zoomed scale.
+
 Migration should be incremental:
 
 1. Add interaction-span IDs, source offsets, complete surfaces, candidates,

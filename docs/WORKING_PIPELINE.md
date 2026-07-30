@@ -3206,6 +3206,14 @@ kana or either kanji was selected first. This remains explicit and
 one-token-at-a-time: the browser does not infer how far a neighboring run
 belongs to the rejected word.
 
+Repeated-cancellation suggestions are derived from the complete connected
+component containing the most recently touched target, not merely from atoms
+touched while one transient suggestion remains visible. Exact surface layout
+and selected bridges must match within the same document, while prior readings
+may differ. The suggestion is positioned near the triggering target and clamped
+to the current visual viewport so it remains usable when an iPad page is
+zoomed.
+
 Implementation should proceed without migrating finalized corpus data:
 
 1. Extend pack generation with interaction spans while preserving legacy target

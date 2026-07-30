@@ -45,6 +45,10 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("残り${action.matches.length}件にも適用", app)
         self.assertIn("recomputeRepairAtomSpans", app)
         self.assertIn("connectedRepairAtomComponents", app)
+        self.assertIn("connectedCancelledTargets", app)
+        self.assertIn("positionRepeatedCancellationBar", app)
+        self.assertIn("window.visualViewport", app)
+        self.assertIn('return selected?.source !== "none";', app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(
