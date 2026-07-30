@@ -762,8 +762,8 @@ function renderArchiveSearchPanel(track) {
   heading.className = "archive-search-heading";
   heading.innerHTML = `
     <div>
-      <strong>確定済みコーパスを検索</strong>
-      <p class="muted">確定済み文書の原文を検索します。</p>
+      <strong>コーパスを検索</strong>
+      <p class="muted">確定済み文書と処理中の文書の原文を検索します。</p>
     </div>
   `;
   const input = document.createElement("input");
@@ -956,7 +956,11 @@ async function openPendingSearchResult(result, query, packPath) {
   state.currentPack = pack;
   state.currentDraft = { overrides: {} };
   try {
-    for (const item of items.sort((left, right) => Number(left.unit_seq || left.seq || 0) - Number(right.unit_seq || right.seq || 0))) {
+    const sortedItems = items.sort(
+      (left, right) =>
+        Number(left.unit_seq || left.seq || 0) - Number(right.unit_seq || right.seq || 0),
+    );
+    for (const item of sortedItems) {
       const node = renderPreviewItem(item);
       node.dataset.searchText = item.text || "";
       el.workflowPreviewBody.append(node);
