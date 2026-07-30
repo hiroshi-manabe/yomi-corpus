@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>yomi-corpus レビュー</title>
-    <link rel="stylesheet" href="./style.css?v=57465ab1e133" />
+    <link rel="stylesheet" href="./style.css?v=cf9eccbea758" />
   </head>
   <body>
     <div class="page">
@@ -85,6 +85,15 @@
             <button id="open-issue-bottom" type="button">JSONをコピーしてIssueを開く</button>
           </section>
         </main>
+      </div>
+    </div>
+
+    <div id="repeat-cancellation-bar" class="repeat-cancellation-bar hidden" role="status" aria-live="polite">
+      <span id="repeat-cancellation-message"></span>
+      <div class="repeat-cancellation-actions">
+        <button id="repeat-cancellation-apply" type="button">残りにも適用</button>
+        <button id="repeat-cancellation-undo" class="secondary-button" type="button">取り消す</button>
+        <button id="repeat-cancellation-dismiss" class="secondary-button repeat-cancellation-dismiss" type="button" aria-label="閉じる">×</button>
       </div>
     </div>
 
@@ -171,6 +180,6 @@
       </article>
     </template>
 
-    <script src="./app.js?v=6f0e5e4f32a5" type="module"></script>
+    <script src="./app.js?v=483c9815805f" type="module"></script>
   </body>
 </html>

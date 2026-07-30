@@ -1768,6 +1768,61 @@ button:disabled {
   background: rgba(45, 106, 79, 0.18);
 }
 
+.repeat-cancellation-bar {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(680px, calc(100vw - 28px));
+  padding: 10px 12px 10px 16px;
+  border: 1px solid rgba(45, 106, 79, 0.34);
+  border-radius: 12px;
+  background: rgba(255, 253, 249, 0.98);
+  box-shadow: 0 10px 32px rgba(31, 28, 23, 0.22);
+  color: var(--ink);
+}
+
+.repeat-cancellation-bar.hidden {
+  display: none;
+}
+
+.repeat-cancellation-bar > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.repeat-cancellation-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.repeat-cancellation-actions button {
+  white-space: nowrap;
+}
+
+.repeat-cancellation-dismiss {
+  min-width: 34px;
+  padding-inline: 8px;
+}
+
+@media (max-width: 640px) {
+  .repeat-cancellation-bar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .repeat-cancellation-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
 .adjacent-merge-token {
   outline: 1px dashed rgba(45, 106, 79, 0.4);
   outline-offset: -1px;

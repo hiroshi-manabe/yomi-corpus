@@ -2,6 +2,8 @@ const manifestUrl = "./manifest.json";
 const submissionSchemaVersion = 1;
 const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/new";
 const yomiLongPressMs = 550;
+const repeatCancellationDelayMs = 700;
+const repeatCancellationLifetimeMs = 12000;
 
 const state = {
   manifest: null,
@@ -27,6 +29,7 @@ const state = {
   runtimePollTimer: null,
   runtimePollGeneration: 0,
   runtimePollFailures: 0,
+  repeatCancellation: null,
 };
 
 const el = {
@@ -71,6 +74,11 @@ const el = {
   workflowPreviewClose: document.querySelector("#workflow-preview-close"),
   reviewerName: document.querySelector("#reviewer-name"),
   itemTemplate: document.querySelector("#item-template"),
+  repeatCancellationBar: document.querySelector("#repeat-cancellation-bar"),
+  repeatCancellationMessage: document.querySelector("#repeat-cancellation-message"),
+  repeatCancellationApply: document.querySelector("#repeat-cancellation-apply"),
+  repeatCancellationUndo: document.querySelector("#repeat-cancellation-undo"),
+  repeatCancellationDismiss: document.querySelector("#repeat-cancellation-dismiss"),
 };
 
 const settingsKey = "yomi-corpus:review-ui:settings:v2";
@@ -108,6 +116,10 @@ async function boot() {
 }
 
 function bindEvents() {
+  el.repeatCancellationApply?.addEventListener("click", applyRepeatedCancellation);
+  el.repeatCancellationUndo?.addEventListener("click", undoRepeatedCancellation);
+  el.repeatCancellationDismiss?.addEventListener("click", dismissRepeatedCancellation);
+
   el.serverUpdateRefresh.addEventListener("click", () => {
     if (isTaskStarted() && !window.confirm("サーバー側の状態を反映して画面を更新しますか？ ローカル作業は保存され、再開できます。")) {
       return;
@@ -4484,11 +4496,13 @@ function adjacentMergeSpanDraft(target, neighbor, side, kind) {
 }
 
 function toggleAdjacentMergeSpan(item, span) {
+  const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   const draft = ensureYomiOverride(item.item_id);
   if (!draft.span_overrides) {
     draft.span_overrides = {};
   }
-  if (draft.span_overrides[span.id]) {
+  const enabling = !draft.span_overrides[span.id];
+  if (!enabling) {
     delete draft.span_overrides[span.id];
   } else {
     for (const targetItemId of span.target_item_ids || []) {
@@ -4503,6 +4517,14 @@ function toggleAdjacentMergeSpan(item, span) {
   cleanupYomiOverride(item.item_id);
   touchDraft();
   render();
+  if (enabling) {
+    const target = reviewActionTargets(item).find(
+      (candidate) => candidate.item_id === span.target_item_ids?.[0]
+    );
+    if (target) {
+      registerRepeatedCancellation(item, target, previousOverride, candidateForSource(target, "none"));
+    }
+  }
 }
 
 function renderRubySpan(item, target, override, editable) {
@@ -4648,7 +4670,296 @@ function toggleYomiNoRubyDefault(item, target, currentCandidate) {
   if (!next) {
     return;
   }
+  const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
+  if (next.source === "none") {
+    registerRepeatedCancellation(item, target, previousOverride, currentCandidate);
+  } else if (state.repeatCancellation?.targetIds?.has(target.item_id)) {
+    dismissRepeatedCancellation();
+  }
+}
+
+function cloneDraftValue(value) {
+  return value === null || value === undefined
+    ? null
+    : JSON.parse(JSON.stringify(value));
+}
+
+function registerRepeatedCancellation(item, target, previousOverride, previousCandidate) {
+  if (!item?.doc_id || !target?.item_id) {
+    return;
+  }
+  let action = state.repeatCancellation;
+  const canExtend = action && action.itemId === item.item_id && cancellationTouchesAction(item, target, action);
+  if (!canExtend) {
+    dismissRepeatedCancellation();
+    action = {
+      itemId: item.item_id,
+      docId: item.doc_id,
+      reviewStage: itemReviewStage(item),
+      targetIds: new Set(),
+      originalCandidates: new Map(),
+      itemSnapshots: new Map(),
+      delayTimer: null,
+      expiryTimer: null,
+      matches: [],
+    };
+    state.repeatCancellation = action;
+  }
+  if (!action.itemSnapshots.has(item.item_id)) {
+    action.itemSnapshots.set(item.item_id, previousOverride);
+  }
+  action.targetIds.add(target.item_id);
+  if (!action.originalCandidates.has(target.item_id)) {
+    action.originalCandidates.set(target.item_id, {
+      key: candidateKey(previousCandidate),
+      reading: previousCandidate?.reading || "",
+    });
+  }
+  scheduleRepeatedCancellation(action);
+}
+
+function cancellationTouchesAction(item, target, action) {
+  if (action.targetIds.has(target.item_id)) {
+    return true;
+  }
+  const targets = reviewActionTargets(item);
+  return targets.some((candidate) =>
+    action.targetIds.has(candidate.item_id) && targetsAreAdjacent(candidate, target)
+  );
+}
+
+function targetsAreAdjacent(left, right) {
+  const leftStart = Number(left?.target_start);
+  const leftEnd = Number(left?.target_end);
+  const rightStart = Number(right?.target_start);
+  const rightEnd = Number(right?.target_end);
+  return (
+    Number.isInteger(leftStart) &&
+    Number.isInteger(leftEnd) &&
+    Number.isInteger(rightStart) &&
+    Number.isInteger(rightEnd) &&
+    (leftEnd === rightStart || rightEnd === leftStart)
+  );
+}
+
+function scheduleRepeatedCancellation(action) {
+  window.clearTimeout(action.delayTimer);
+  window.clearTimeout(action.expiryTimer);
+  el.repeatCancellationBar?.classList.add("hidden");
+  el.repeatCancellationApply?.classList.remove("hidden");
+  action.delayTimer = window.setTimeout(() => showRepeatedCancellation(action), repeatCancellationDelayMs);
+}
+
+function showRepeatedCancellation(action) {
+  if (state.repeatCancellation !== action) {
+    return;
+  }
+  const sourceItem = state.currentPack?.items?.find((item) => item.item_id === action.itemId);
+  if (!sourceItem) {
+    dismissRepeatedCancellation();
+    return;
+  }
+  const pattern = repeatedCancellationPattern(sourceItem, action);
+  action.pattern = pattern;
+  action.matches = pattern ? findRepeatedCancellationMatches(sourceItem, pattern) : [];
+  if (!pattern || action.matches.length === 0) {
+    dismissRepeatedCancellation();
+    return;
+  }
+  el.repeatCancellationMessage.textContent =
+    `「${pattern.surface}」と同じ箇所がこの文書に残り${action.matches.length}件あります。`;
+  el.repeatCancellationApply.textContent = `残り${action.matches.length}件にも適用`;
+  el.repeatCancellationBar.classList.remove("hidden");
+  action.expiryTimer = window.setTimeout(dismissRepeatedCancellation, repeatCancellationLifetimeMs);
+}
+
+function repeatedCancellationPattern(item, action) {
+  const targets = reviewActionTargets(item)
+    .filter((target) => action.targetIds.has(target.item_id))
+    .sort((left, right) => Number(left.target_start) - Number(right.target_start));
+  if (!targets.length || !targetsFormContiguousSequence(targets)) {
+    return null;
+  }
+  const targetSpecs = targets.map((target) => {
+    const original = action.originalCandidates.get(target.item_id) || {};
+    const fallback = defaultCandidate(target);
+    return {
+      surface: target.surface || "",
+      candidateKey: original.key || candidateKey(fallback),
+      reading: original.reading || fallback?.reading || "",
+    };
+  });
+  return {
+    surface: targetSpecs.map((spec) => spec.surface).join(""),
+    targetSpecs,
+    mergeOps: repeatedCancellationMergeOps(item, targets),
+  };
+}
+
+function targetsFormContiguousSequence(targets) {
+  return targets.every((target, index) => index === 0 || targetsAreAdjacent(targets[index - 1], target));
+}
+
+function repeatedCancellationMergeOps(item, targets) {
+  const targetIndex = new Map(targets.map((target, index) => [target.item_id, index]));
+  const draft = state.currentDraft.overrides[item.item_id];
+  const operations = [];
+  for (const span of Object.values(draft?.span_overrides || {})) {
+    const targetId = span?.target_item_ids?.[0];
+    if (!targetIndex.has(targetId)) {
+      continue;
+    }
+    const kind = span.repair_reason === "numeric_merge_no_reading"
+      ? "numeric"
+      : span.repair_reason === "kana_merge_no_reading"
+        ? "kana"
+        : "";
+    const target = targets[targetIndex.get(targetId)];
+    const originalSurface = String(span.original_surface || "");
+    if (!kind || !originalSurface || !target?.surface) {
+      continue;
+    }
+    const before = originalSurface.endsWith(target.surface)
+      ? originalSurface.slice(0, -target.surface.length)
+      : "";
+    const after = originalSurface.startsWith(target.surface)
+      ? originalSurface.slice(target.surface.length)
+      : "";
+    if (before) {
+      operations.push({ targetIndex: targetIndex.get(targetId), neighbor: before, side: "before", kind });
+    } else if (after) {
+      operations.push({ targetIndex: targetIndex.get(targetId), neighbor: after, side: "after", kind });
+    }
+  }
+  return operations;
+}
+
+function findRepeatedCancellationMatches(sourceItem, pattern) {
+  const matches = [];
+  for (const item of state.currentPack?.items || []) {
+    if (
+      String(item.doc_id || "") !== String(sourceItem.doc_id || "") ||
+      itemReviewStage(item) !== itemReviewStage(sourceItem)
+    ) {
+      continue;
+    }
+    const targets = reviewActionTargets(item).slice().sort(
+      (left, right) => Number(left.target_start) - Number(right.target_start)
+    );
+    for (let start = 0; start <= targets.length - pattern.targetSpecs.length; start += 1) {
+      const windowTargets = targets.slice(start, start + pattern.targetSpecs.length);
+      if (!targetsFormContiguousSequence(windowTargets)) {
+        continue;
+      }
+      if (
+        item.item_id === sourceItem.item_id &&
+        windowTargets.every((target) => state.repeatCancellation.targetIds.has(target.item_id))
+      ) {
+        continue;
+      }
+      if (!windowTargets.every((target, index) => targetMatchesCancellationSpec(item, target, pattern.targetSpecs[index]))) {
+        continue;
+      }
+      if (!pattern.mergeOps.every((operation) => mergeOperationFitsItem(item, windowTargets[operation.targetIndex], operation))) {
+        continue;
+      }
+      matches.push({ item, targets: windowTargets });
+    }
+  }
+  return matches;
+}
+
+function targetMatchesCancellationSpec(item, target, spec) {
+  if ((target.surface || "") !== spec.surface || !candidateForSource(target, "none")) {
+    return false;
+  }
+  const draft = state.currentDraft.overrides[item.item_id];
+  const selected = selectedCandidate(target, draft?.targets?.[target.item_id] || null);
+  return selected?.source !== "none" && selected?.reading === spec.reading;
+}
+
+function mergeOperationFitsItem(item, target, operation) {
+  const text = [...String(item.text || "")];
+  const start = Number(target?.target_start);
+  const end = Number(target?.target_end);
+  if (!Number.isInteger(start) || !Number.isInteger(end)) {
+    return false;
+  }
+  const neighbor = [...operation.neighbor];
+  return operation.side === "before"
+    ? text.slice(Math.max(0, start - neighbor.length), start).join("") === operation.neighbor
+    : text.slice(end, end + neighbor.length).join("") === operation.neighbor;
+}
+
+function applyRepeatedCancellation() {
+  const action = state.repeatCancellation;
+  if (!action?.matches?.length) {
+    return;
+  }
+  for (const match of action.matches) {
+    if (!action.itemSnapshots.has(match.item.item_id)) {
+      action.itemSnapshots.set(
+        match.item.item_id,
+        cloneDraftValue(state.currentDraft.overrides[match.item.item_id] || null),
+      );
+    }
+    const draft = ensureYomiOverride(match.item.item_id);
+    match.targets.forEach((target) => {
+      const none = candidateForSource(target, "none");
+      draft.targets[target.item_id] = {
+        choice_id: candidateKey(none),
+        choice_source: "none",
+        selected_reading: null,
+        custom_reading: null,
+      };
+    });
+    for (const operation of action.pattern?.mergeOps || []) {
+      const target = match.targets[operation.targetIndex];
+      const span = adjacentMergeSpanDraft(
+        target,
+        operation.neighbor,
+        operation.side,
+        operation.kind,
+      );
+      draft.span_overrides[span.id] = span;
+    }
+  }
+  touchDraft();
+  render();
+  el.repeatCancellationMessage.textContent =
+    `「${action.pattern.surface}」を同じ${action.matches.length}件にも適用しました。`;
+  el.repeatCancellationApply.classList.add("hidden");
+  window.clearTimeout(action.expiryTimer);
+  action.expiryTimer = window.setTimeout(dismissRepeatedCancellation, repeatCancellationLifetimeMs);
+}
+
+function undoRepeatedCancellation() {
+  const action = state.repeatCancellation;
+  if (!action) {
+    return;
+  }
+  for (const [itemId, snapshot] of action.itemSnapshots.entries()) {
+    if (snapshot === null) {
+      delete state.currentDraft.overrides[itemId];
+    } else {
+      state.currentDraft.overrides[itemId] = cloneDraftValue(snapshot);
+    }
+  }
+  touchDraft();
+  dismissRepeatedCancellation();
+  render();
+}
+
+function dismissRepeatedCancellation() {
+  const action = state.repeatCancellation;
+  if (action) {
+    window.clearTimeout(action.delayTimer);
+    window.clearTimeout(action.expiryTimer);
+  }
+  state.repeatCancellation = null;
+  el.repeatCancellationBar?.classList.add("hidden");
+  el.repeatCancellationApply?.classList.remove("hidden");
 }
 
 function applyYomiCandidate(item, target, next) {
