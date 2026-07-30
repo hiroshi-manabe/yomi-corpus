@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "default_stage": "yomi_strong_repair_review",
+  "default_stage": "yomi_final_review",
   "current_tracks": {
     "dev": {
       "track_name": "dev",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_0037_v1",
-      "title": "詳細修正 / dev_batch_0037 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_0037_v1.json",
-      "created_at_epoch": 1785391126,
-      "item_count": 2
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_0041_v1",
+      "title": "一括レビュー / dev_batch_0041 / v1",
+      "path": "./packs/yomi_final_dev_batch_0041_v1.json",
+      "created_at_epoch": 1785391401,
+      "item_count": 233
     }
   },
   "current_review_queues": [
@@ -70,6 +70,24 @@
     },
     {
       "track_name": "dev",
+      "batch_name": "dev_batch_0041",
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_0041_v1",
+      "title": "一括レビュー / dev_batch_0041 / v1",
+      "path": "./packs/yomi_final_dev_batch_0041_v1.json",
+      "created_at_epoch": 1785391401,
+      "item_count": 233,
+      "document_count": 10,
+      "selectable_document_count": 10,
+      "document_state_counts": {
+        "final_pending": 10
+      },
+      "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
       "batch_name": "dev_batch_0037",
       "review_stage": "yomi_strong_repair_review",
       "label": "詳細修正",
@@ -92,9 +110,9 @@
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "latest_pack_id": "yomi_final_dev_batch_0040_v1",
+      "latest_pack_id": "yomi_final_dev_batch_0041_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_0040_v1"
+        "dev": "yomi_final_dev_batch_0041_v1"
       },
       "packs": [
         {
@@ -751,6 +769,22 @@
           "batch_name": "dev_batch_0040",
           "created_at_epoch": 1785388476,
           "item_count": 179,
+          "document_count": 10,
+          "selectable_document_count": 10,
+          "document_state_counts": {
+            "final_pending": 10
+          },
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_batch_0041_v1",
+          "title": "一括レビュー / dev_batch_0041 / v1",
+          "path": "./packs/yomi_final_dev_batch_0041_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0041",
+          "created_at_epoch": 1785391401,
+          "item_count": 233,
           "document_count": 10,
           "selectable_document_count": 10,
           "document_state_counts": {
