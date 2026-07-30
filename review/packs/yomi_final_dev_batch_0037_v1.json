@@ -1216,7 +1216,7 @@
           "type": "ruby",
           "text": "日",
           "target_item_id": "ja_cc_level2:0000000334:u0002:s0009-0009",
-          "reading": "にち",
+          "reading": "じつ",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -1237,7 +1237,7 @@
           "text": "なのだ。"
         }
       ],
-      "rendered_yomi": "11/ 月/ガツ も/モ 、/、 あと/アト 数/スウ 日/ニチ で/デ 終わり/オワリ な/ナ の/ノ だ/ダ 。/。",
+      "rendered_yomi": "11/ 月/ガツ も/モ 、/、 あと/アト 数/スウ 日/ジツ で/デ 終わり/オワリ な/ナ の/ノ だ/ダ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "11",
@@ -1303,12 +1303,12 @@
         },
         {
           "surface": "日",
-          "reading": "ニチ",
+          "reading": "ジツ",
           "nodes": [
             {
               "type": "ruby",
               "text": "日",
-              "reading": "にち"
+              "reading": "じつ"
             }
           ]
         },
@@ -2389,9 +2389,9 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "にち",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "じつ",
           "candidates": [
             {
               "id": "current",
@@ -2413,9 +2413,9 @@
               ]
             },
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "にち",
               "tokens": [
                 [
@@ -105281,9 +105281,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "くらい",
               "tokens": [
                 [
@@ -168433,6 +168433,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "にち",
+              "tokens": [
+                [
+                  "日",
+                  "ニチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "日",
+                  "reading": "にち"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -168467,25 +168486,6 @@
                   "type": "ruby",
                   "text": "日",
                   "reading": "じつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にち",
-              "tokens": [
-                [
-                  "日",
-                  "ニチ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "日",
-                  "reading": "にち"
                 }
               ]
             },
@@ -279049,7 +279049,7 @@
           "type": "ruby",
           "text": "上",
           "target_item_id": "ja_cc_level2:0000000339:u0072:s0004-0004",
-          "reading": "じょう",
+          "reading": "うえ",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -279126,7 +279126,7 @@
           "text": "ますがよろしいですか？"
         }
       ],
-      "rendered_yomi": "マップ/マップ 上/ジョウ に/ニ 落ち/オチ てる/テル オレンジ/オレンジ グミ/グミ や/ヤ ライフ/ライフ ボトル/ボトル に/ニ 感謝/カンシャ し/シ た/タ 事/コト なんか/ナンカ 今まで/イママデ の/ノ テイルズ/テイルズ シリーズ/シリーズ ないし/ナイシ アップル/アップル グミ/グミ が/ガ 上限/ジョウゲン 超え/コエ ます/マス が/ガ よろしい/ヨロシイ です/デス か/カ ？/？",
+      "rendered_yomi": "マップ/マップ 上/ウエ に/ニ 落ち/オチ てる/テル オレンジ/オレンジ グミ/グミ や/ヤ ライフ/ライフ ボトル/ボトル に/ニ 感謝/カンシャ し/シ た/タ 事/コト なんか/ナンカ 今まで/イママデ の/ノ テイルズ/テイルズ シリーズ/シリーズ ないし/ナイシ アップル/アップル グミ/グミ が/ガ 上限/ジョウゲン 超え/コエ ます/マス が/ガ よろしい/ヨロシイ です/デス か/カ ？/？",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "マップ",
@@ -279140,12 +279140,12 @@
         },
         {
           "surface": "上",
-          "reading": "ジョウ",
+          "reading": "ウエ",
           "nodes": [
             {
               "type": "ruby",
               "text": "上",
-              "reading": "じょう"
+              "reading": "うえ"
             }
           ]
         },
@@ -280303,9 +280303,9 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "じょう",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "うえ",
           "candidates": [
             {
               "id": "current",
@@ -280327,9 +280327,9 @@
               ]
             },
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "じょう",
               "tokens": [
                 [
@@ -291078,7 +291078,7 @@
           "type": "ruby",
           "text": "本",
           "target_item_id": "ja_cc_level2:0000000339:u0080:s0015-0015",
-          "reading": "ほん",
+          "reading": "ぼん",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -291163,7 +291163,7 @@
           "text": "。"
         }
       ],
-      "rendered_yomi": "ただ/タダ 、/、 シリーズ/シリーズ 最速/サイソク で/デ 100/ 万/マン 本/ホン 出荷/シュッカ の/ノ 大ヒット/ダイヒット し/シ て/テ いる/イル の/ノ で/デ これ/コレ から/カラ の/ノ 新作/シンサク で/デ ＤＬＣ/ディーエルシー 誘導/ユウドウ が/ガ 減っ/ヘッ て/テ くれる/クレル と/ト 嬉しい/ウレシイ 。/。",
+      "rendered_yomi": "ただ/タダ 、/、 シリーズ/シリーズ 最速/サイソク で/デ 100/ 万/マン 本/ボン 出荷/シュッカ の/ノ 大ヒット/ダイヒット し/シ て/テ いる/イル の/ノ で/デ これ/コレ から/カラ の/ノ 新作/シンサク で/デ ＤＬＣ/ディーエルシー 誘導/ユウドウ が/ガ 減っ/ヘッ て/テ くれる/クレル と/ト 嬉しい/ウレシイ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "ただ",
@@ -291239,12 +291239,12 @@
         },
         {
           "surface": "本",
-          "reading": "ホン",
+          "reading": "ボン",
           "nodes": [
             {
               "type": "ruby",
               "text": "本",
-              "reading": "ほん"
+              "reading": "ぼん"
             }
           ]
         },
@@ -292879,9 +292879,9 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "ほん",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ぼん",
           "candidates": [
             {
               "id": "current",
@@ -292903,9 +292903,9 @@
               ]
             },
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "ほん",
               "tokens": [
                 [
@@ -346216,6 +346216,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "にち",
+              "tokens": [
+                [
+                  "日",
+                  "ニチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "日",
+                  "reading": "にち"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -346250,25 +346269,6 @@
                   "type": "ruby",
                   "text": "日",
                   "reading": "じつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にち",
-              "tokens": [
-                [
-                  "日",
-                  "ニチ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "日",
-                  "reading": "にち"
                 }
               ]
             },
@@ -390866,6 +390866,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -390957,25 +390976,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -415053,7 +415053,7 @@
           "type": "ruby",
           "text": "本",
           "target_item_id": "ja_cc_level2:0000000343:u0017:s0020-0020",
-          "reading": "ほん",
+          "reading": "ぽん",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -415074,7 +415074,7 @@
           "text": "します。"
         }
       ],
-      "rendered_yomi": "魔法/マホウ に/ニ 掛かっ/カカッ た/タ よう/ヨウ に/ニ 眠る/ネムル 子猫/コネコ の/ノ 動画/ドウガ を/ヲ 2/ 本/ホン ご/ゴ 紹介/ショウカイ し/シ ます/マス 。/。",
+      "rendered_yomi": "魔法/マホウ に/ニ 掛かっ/カカッ た/タ よう/ヨウ に/ニ 眠る/ネムル 子猫/コネコ の/ノ 動画/ドウガ を/ヲ 2/ 本/ポン ご/ゴ 紹介/ショウカイ し/シ ます/マス 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "魔法",
@@ -415211,12 +415211,12 @@
         },
         {
           "surface": "本",
-          "reading": "ホン",
+          "reading": "ポン",
           "nodes": [
             {
               "type": "ruby",
               "text": "本",
-              "reading": "ほん"
+              "reading": "ぽん"
             }
           ]
         },
@@ -416634,9 +416634,9 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "ほん",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ぽん",
           "candidates": [
             {
               "id": "current",
@@ -416658,9 +416658,9 @@
               ]
             },
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "ほん",
               "tokens": [
                 [
