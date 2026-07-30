@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2243,
-  "generated_at": "2026-07-30T10:19:31Z",
-  "generated_at_epoch": 1785406771,
+  "state_revision": 2244,
+  "generated_at": "2026-07-30T10:25:02Z",
+  "generated_at_epoch": 1785407102,
   "last_successful_sync": "2026-07-30T06:18:04Z",
   "last_successful_sync_epoch": 1785392284,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1785405782,
+    "anchor_epoch": 1785407102,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1785406082
+    "next_expected_epoch": 1785407402
   },
   "state": {
     "current_batch_name": "dev_batch_0043",
@@ -37,9 +37,9 @@
   },
   "message": "YomiTokenError: finalized unit ja_cc_level2:0000000339:u0006 token 4 '○○'/'○○' is structurally invalid: Japanese numeral digit-run readings must be katakana",
   "observed": {
-    "started_at_epoch": 1785406771,
-    "completed_at_epoch": 1785406771,
-    "drift_seconds": 89
+    "started_at_epoch": 1785407102,
+    "completed_at_epoch": 1785407102,
+    "drift_seconds": 120
   },
   "client_polling": {
     "normal_seconds": 60,
