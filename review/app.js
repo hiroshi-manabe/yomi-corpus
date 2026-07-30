@@ -3618,12 +3618,17 @@ function renderStrongRepairSegmentRuby(item, region, segments, editable) {
     button.disabled = !editable;
     button.title = editable ? "読み候補を切り替える" : "";
     if (segment.reading) {
-      const ruby = document.createElement("ruby");
-      ruby.append(document.createTextNode(segment.surface || ""));
-      const rt = document.createElement("rt");
-      rt.textContent = segment.reading;
-      ruby.append(rt);
-      button.append(ruby);
+      const numericNodes = numericKanaSuffixRubyNodes(segment.surface, segment.reading);
+      if (numericNodes) {
+        button.append(...renderRubyDisplayNodes(numericNodes));
+      } else {
+        const ruby = document.createElement("ruby");
+        ruby.append(document.createTextNode(segment.surface || ""));
+        const rt = document.createElement("rt");
+        rt.textContent = segment.reading;
+        ruby.append(rt);
+        button.append(ruby);
+      }
     } else {
       button.append(document.createTextNode(segment.surface || ""));
     }
@@ -4027,6 +4032,10 @@ function renderReadonlyRubyFromTokens(tokens) {
 }
 
 function renderReadonlyRubyFromToken(item, token, index) {
+  const numericNodes = numericKanaSuffixRubyNodes(token.surface, token.reading);
+  if (numericNodes) {
+    return renderRubyDisplayNodes(numericNodes);
+  }
   const tokenNodes = item?.rendered_yomi_after_ruby_tokens?.[index]?.nodes || null;
   if (tokenNodes?.length) {
     return renderRubyDisplayNodes(tokenNodes);
@@ -4065,6 +4074,29 @@ function renderRubyDisplayNodes(displayNodes) {
     }
   }
   return nodes;
+}
+
+function numericKanaSuffixRubyNodes(surface, reading) {
+  if (!numericCompoundReadings(surface) || !reading) {
+    return null;
+  }
+  const match = String(surface).match(/^([0-9０-９]+)([ぁ-ゖァ-ヺー]+)$/u);
+  if (!match) {
+    return null;
+  }
+  const readingHiragana = katakanaToHiragana(reading);
+  const suffixHiragana = katakanaToHiragana(match[2]);
+  if (!readingHiragana.endsWith(suffixHiragana) || readingHiragana.length <= suffixHiragana.length) {
+    return null;
+  }
+  return [
+    {
+      type: "ruby",
+      text: match[1],
+      reading: readingHiragana.slice(0, -suffixHiragana.length),
+    },
+    { type: "text", text: match[2] },
+  ];
 }
 
 function parseRenderedYomiTokens(rendered) {
@@ -4699,7 +4731,10 @@ function renderRubySpan(item, target, override, editable) {
   button.disabled = !editable;
   button.title = rubyTitle(target, candidate);
 
-  if (candidate?.ruby_nodes?.length) {
+  const numericNodes = numericKanaSuffixRubyNodes(target.surface, candidate?.reading);
+  if (numericNodes) {
+    button.append(...renderRubyDisplayNodes(numericNodes));
+  } else if (candidate?.ruby_nodes?.length) {
     button.append(...renderRubyDisplayNodes(candidate.ruby_nodes));
   } else if (candidate?.reading) {
     const ruby = document.createElement("ruby");
