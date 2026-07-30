@@ -13,10 +13,16 @@ _FURIGANA_RE = re.compile(r"([^（）]+?)（([^（）]+)）")
 
 
 def is_han(char: str) -> bool:
+    if len(char) != 1:
+        return False
+    code = ord(char)
     return (
-        "\u4e00" <= char <= "\u9fff"
-        or "\u3400" <= char <= "\u4dbf"
-        or "\uf900" <= char <= "\ufaff"
+        0x3400 <= code <= 0x4DBF
+        or 0x4E00 <= code <= 0x9FFF
+        or 0xF900 <= code <= 0xFAFF
+        or 0x20000 <= code <= 0x2EE5F
+        or 0x2F800 <= code <= 0x2FA1F
+        or 0x30000 <= code <= 0x323AF
         or char in {"々", "〆", "〻"}
     )
 

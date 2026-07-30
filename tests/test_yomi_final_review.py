@@ -2230,7 +2230,6 @@ class YomiFinalReviewTests(unittest.TestCase):
         tokens = rendered_yomi_ruby_tokens(
             "2日/フツカ ３日/ミッカ 1つ/ヒトツ ２つ/フタツ 1番/イチバン 30/ 分/プン"
         )
-
         self.assertEqual(
             [token["nodes"] for token in tokens],
             [
@@ -2247,6 +2246,20 @@ class YomiFinalReviewTests(unittest.TestCase):
                 [{"type": "ruby", "text": "1番", "reading": "いちばん"}],
                 [{"type": "text", "text": "30"}],
                 [{"type": "ruby", "text": "分", "reading": "ぷん"}],
+            ],
+        )
+
+    def test_rendered_yomi_ruby_tokens_support_supplementary_cjk_characters(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("𠮟られる/シカラレル 𩸽/ホッケ")
+
+        self.assertEqual(
+            [token["nodes"] for token in tokens],
+            [
+                [
+                    {"type": "ruby", "text": "𠮟", "reading": "しか"},
+                    {"type": "text", "text": "られる"},
+                ],
+                [{"type": "ruby", "text": "𩸽", "reading": "ほっけ"}],
             ],
         )
 

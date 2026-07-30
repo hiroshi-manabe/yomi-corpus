@@ -3187,6 +3187,8 @@ characters outside the span. The browser may derive ruby nodes when they are
 not stored, but must never derive the interaction boundary from those nodes.
 Digit-plus-kana compounds retain one canonical token while leaving the kana
 suffix outside the visual ruby base, so `1つ/ヒトツ` renders as `1（ひと）つ`.
+All Han checks include supplementary CJK planes; `𠮟` and `𩸽` must not fall
+through to the kana/symbol path merely because they are outside the BMP.
 
 Submission overrides should identify `span_id` and the selected candidate, or
 record `none` for rejection. Replay replaces the complete span token sequence.

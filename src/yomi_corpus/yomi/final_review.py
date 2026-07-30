@@ -2159,7 +2159,7 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
 def should_display_ruby(surface: str, reading: str) -> bool:
     if not surface or not reading or surface == reading:
         return False
-    return bool(re.search(r"[一-龯々〆ヵヶA-Za-zＡ-Ｚａ-ｚ]", surface))
+    return has_han(surface) or has_latin(surface) or any(char in "ヵヶ" for char in surface)
 
 
 def mixed_latin_kana_ruby_nodes(surface: str, reading_hira: str) -> list[dict[str, str]] | None:
@@ -2995,7 +2995,7 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
         elif re.fullmatch(r"[ \u00a0\u3000]+", surface):
             if normalized_reading and not re.fullmatch(r"[ \u00a0\u3000]+", normalized_reading):
                 normalized_reading = surface
-        elif not re.search(r"[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]", surface):
+        elif not has_han(surface) and not has_latin(surface):
             normalized_reading = hiragana_to_katakana_for_finalized_correction(surface)
         normalized.append([surface, normalized_reading])
     return normalized

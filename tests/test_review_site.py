@@ -50,6 +50,7 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("window.visualViewport", app)
         self.assertIn('return selected?.source !== "none";', app)
         self.assertIn("numericKanaSuffixRubyNodes", app)
+        self.assertIn("Script=Han", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(

@@ -4,7 +4,9 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-KANJI_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff々〆〻]")
+from yomi_corpus.yomi.furigana import has_han, is_han
+
+
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
 SOURCE_PAREN_ESCAPES = {
     "（": "-LRB-",
@@ -39,7 +41,7 @@ def compact_rendered_token_for_llm(token: str) -> str:
     surface, _reading = token.rsplit("/", 1)
     if not surface:
         return token
-    if KANJI_RE.search(surface) or LATIN_RE.search(surface):
+    if has_han(surface) or LATIN_RE.search(surface):
         return token
     return surface
 
@@ -57,9 +59,9 @@ def furigana_no_space_token_for_llm(token: str) -> str:
     prefix = "|" if is_fused_digit_yomi_token(surface, reading) else ""
     if not reading:
         return escape_source_parentheses(surface)
-    if (KANJI_RE.search(surface) or LATIN_RE.search(surface)) and not is_katakana_reading(reading):
+    if (has_han(surface) or LATIN_RE.search(surface)) and not is_katakana_reading(reading):
         return escape_source_parentheses(surface)
-    if KANJI_RE.search(surface):
+    if has_han(surface):
         result = _furigana_converter().convert(surface, reading)
         # Some dictionary rows preserve the surface but provide no ruby placement.
         if result.annotated_surface and "（" in result.annotated_surface:
@@ -83,7 +85,7 @@ def escape_source_parentheses_in_annotated(text: str) -> str:
     index = 0
     for match in re.finditer(r"（[^（）]*）", text):
         prefix = text[index : match.start()]
-        if prefix and KANJI_RE.search(prefix[-1]):
+        if prefix and is_han(prefix[-1]):
             output.append(escape_source_parentheses(prefix))
             output.append(match.group(0))
         else:

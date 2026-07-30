@@ -26,6 +26,12 @@ class LLMRenderingTests(unittest.TestCase):
             "荷物（にもつ）を送（おく）って、-LRB-明日（あした）-RRB-届（とど）く。",
         )
 
+    def test_furigana_no_space_supports_supplementary_cjk_characters(self) -> None:
+        self.assertEqual(
+            furigana_no_space_rendered_for_llm("𠮟られる/シカラレル 𩸽/ホッケ"),
+            "𠮟（しか）られる𩸽（ほっけ）",
+        )
+
     def test_rendered_for_llm_supports_furigana_display(self) -> None:
         self.assertEqual(
             rendered_for_llm("大学/ダイガク です/デス 。/。", "furigana_no_space"),

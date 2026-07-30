@@ -22,13 +22,17 @@ from yomi_corpus.yomi.strategies import (
     span_sudachi_tokens,
     token_contains_space,
 )
-from yomi_corpus.yomi.furigana import FuriganaConverter, parse_annotated_chunks
+from yomi_corpus.yomi.furigana import (
+    FuriganaConverter,
+    has_han,
+    is_han,
+    parse_annotated_chunks,
+)
 from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
 from yomi_corpus.yomi.numeric_surfaces import allows_optional_japanese_numeral_reading
 from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
 
-KANJI_RE = re.compile(r"[\u3400-\u9fff々〆〻]")
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
 LAUGHTER_W_RE = re.compile(r"[wｗ]+")
 
@@ -781,7 +785,7 @@ def load_results(path: Path) -> dict[str, dict[str, Any]]:
 
 
 def is_llm_reading_target(surface: str) -> bool:
-    return bool(KANJI_RE.search(surface) or LATIN_RE.search(surface))
+    return bool(has_han(surface) or LATIN_RE.search(surface))
 
 
 def is_standalone_laughter_w(surface: str) -> bool:
@@ -878,8 +882,10 @@ def marked_furigana_token(surface: str, reading: str, target_chunk_index: int) -
 
 
 def trailing_kanji_run(text: str) -> str:
-    match = re.search(r"[\u3400-\u9fff々〆〻]+$", text)
-    return "" if match is None else match.group(0)
+    index = len(text)
+    while index > 0 and is_han(text[index - 1]):
+        index -= 1
+    return text[index:]
 
 
 def katakana_to_hiragana(text: str) -> str:

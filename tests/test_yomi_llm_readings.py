@@ -72,6 +72,52 @@ def unit() -> dict:
 
 
 class YomiLLMReadingsTests(unittest.TestCase):
+    def test_supplementary_cjk_targets_are_queued_with_local_furigana(self) -> None:
+        payload = {
+            "unit_id": "u-supplementary-han",
+            "text": "𠮟られる𩸽。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "𠮟られる/シカラレル 𩸽/ホッケ 。/。",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "𠮟られる",
+                                    "pos": "動詞,一般,*,*,下一段-ラ行,終止形-一般",
+                                    "dictionary_form": "𠮟る",
+                                    "normalized_form": "叱る",
+                                    "reading": "シカラレル",
+                                },
+                                {
+                                    "surface": "𩸽",
+                                    "pos": "名詞,普通名詞,一般,*,*,*",
+                                    "dictionary_form": "𩸽",
+                                    "normalized_form": "𩸽",
+                                    "reading": "ホッケ",
+                                },
+                                {
+                                    "surface": "。",
+                                    "pos": "補助記号,句点,*,*,*,*",
+                                    "dictionary_form": "。",
+                                    "normalized_form": "。",
+                                    "reading": "。",
+                                },
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        items = build_yomi_llm_reading_items(payload)
+
+        self.assertEqual([item["surface"] for item in items], ["𠮟", "𩸽"])
+        self.assertEqual([item["current_reading_hiragana"] for item in items], ["しか", "ほっけ"])
+        self.assertEqual(items[0]["marked_text"], "**𠮟**られる𩸽。")
+        self.assertIn("**𠮟**られる", items[0]["marked_furigana_text"])
+        self.assertIn("𩸽（ほっけ）", items[0]["marked_furigana_text"])
+
     def test_yomi_prompt_legacy_context_clips_only_pathologically_long_context(self) -> None:
         task_config = load_llm_task_config("config/llm/yomi_reading.toml")
         task_config = replace(task_config, yomi_reading_context_side_chars=None)

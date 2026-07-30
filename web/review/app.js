@@ -1811,7 +1811,7 @@ function validateRenderedYomiReading(surface, reading) {
   if (isStandaloneLaughterW(surface) && !reading) {
     return { ok: true };
   }
-  if (/[一-龯々〆A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
+  if (/[\p{Script=Han}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
     if (!reading) {
       return { ok: false, error: "漢字または英字を含む表記には仮名の読みが必要です。" };
     }
@@ -1829,7 +1829,7 @@ function validateRenderedYomiReading(surface, reading) {
 function isSymbolicKaomojiCorrectionSurface(surface) {
   return (
     [...String(surface || "")].length >= 3 &&
-    !/^(?:\([ぁ-ゖァ-ヺ一-龯々〆]+\)|（[ぁ-ゖァ-ヺ一-龯々〆]+）)$/u.test(surface) &&
+    !/^(?:\([ぁ-ゖァ-ヺ\p{Script=Han}々〆〻]+\)|（[ぁ-ゖァ-ヺ\p{Script=Han}々〆〻]+）)$/u.test(surface) &&
     /[^\p{L}\p{N}\s]/u.test(surface)
   );
 }
@@ -4198,7 +4198,7 @@ function shouldDisplayRuby(surface, reading) {
   if (!surface || !reading || surface === reading) {
     return false;
   }
-  return /[一-龯々〆ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
+  return /[\p{Script=Han}々〆〻ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
 }
 
 function katakanaToHiragana(text) {
