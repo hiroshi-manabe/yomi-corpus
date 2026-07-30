@@ -16,8 +16,8 @@
       "final_pending": 10
     },
     "unresolved_item_count": 30,
-    "unresolved_target_count": 40,
-    "interaction_span_count": 1609,
+    "unresolved_target_count": 41,
+    "interaction_span_count": 1610,
     "provisional_skip_item_count": 4
   },
   "documents": [
@@ -35,7 +35,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 17,
@@ -61,7 +61,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 7,
@@ -87,7 +87,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 19,
@@ -113,7 +113,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 39,
@@ -139,7 +139,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 8,
@@ -165,7 +165,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 96,
@@ -191,7 +191,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 26,
@@ -217,7 +217,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 10,
@@ -243,7 +243,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -269,12 +269,12 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-07-29T08:16:23Z",
+      "state_updated_at": "2026-07-30T00:34:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 42,
       "region_count": 0,
-      "unresolved_count": 7,
+      "unresolved_count": 8,
       "from_seq": 228,
       "to_seq": 269,
       "reviewed_unit_count": 0,
@@ -422533,7 +422533,19 @@
         },
         {
           "type": "text",
-          "text": ", Thank "
+          "text": ", "
+        },
+        {
+          "type": "ruby",
+          "text": "Thank",
+          "target_item_id": "ja_cc_level2:0000000343:u0021:s0012-0016",
+          "reading": "さんきゅー",
+          "is_safe": false,
+          "highlight_level": "target"
+        },
+        {
+          "type": "text",
+          "text": " "
         },
         {
           "type": "ruby",
@@ -422560,7 +422572,7 @@
           "text": "でいます。"
         }
       ],
-      "rendered_yomi": "飼い主/カイヌシ さん/サン も/モ “/“ Oh/オー ,/, \\s/ Thank/ \\s/ you/ユー ”/” と/ト 喜ん/ヨロコン で/デ い/イ ます/マス 。/。",
+      "rendered_yomi": "飼い主/カイヌシ さん/サン も/モ “/“ Oh/オー ,/, \\s/ Thank/サンキュー \\s/ you/ユー ”/” と/ト 喜ん/ヨロコン で/デ い/イ ます/マス 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "飼い主",
@@ -422645,11 +422657,12 @@
         },
         {
           "surface": "Thank",
-          "reading": "",
+          "reading": "サンキュー",
           "nodes": [
             {
-              "type": "text",
-              "text": "Thank"
+              "type": "ruby",
+              "text": "Thank",
+              "reading": "さんきゅー"
             }
           ]
         },
@@ -422758,9 +422771,9 @@
       "skip_reasons": [],
       "manual_correction_required": false,
       "manual_correction": {},
-      "target_count": 5,
+      "target_count": 6,
       "safe_target_count": 4,
-      "unresolved_target_count": 1,
+      "unresolved_target_count": 2,
       "all_targets_safe": false,
       "targets": [
         {
@@ -423108,6 +423121,84 @@
               "status": "mismatched",
               "llm_reading": "おー",
               "current_reading_hiragana": "おーえいち"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000343:u0021:r0008c01",
+          "surface": "Thank",
+          "token_surface": "Thank",
+          "target_start": 11,
+          "target_end": 16,
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading": "",
+          "current_reading_hiragana": "",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "accepted_signal_names": [],
+          "status_reason": "llm_reading_mismatched",
+          "default_candidate_id": "llm",
+          "default_choice_source": "llm",
+          "default_reading": "さんきゅー",
+          "candidates": [
+            {
+              "id": "llm",
+              "source": "llm",
+              "label": "LLM reading",
+              "reading": "さんきゅー",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "Thank",
+                  "reading": "さんきゅー"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "Thank"
+                }
+              ]
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "evidence_scope": "target",
+              "evidence_surface": "Thank",
+              "evidence_reading": "",
+              "normalization_rule": null,
+              "min_count": 5,
+              "min_share": 0.95,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260729T070044Z/surface_reading_stats.tsv",
+              "source_corpus_version": "dev:20260729T070044Z"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": false,
+              "status": "mismatched",
+              "llm_reading": "さんきゅー",
+              "current_reading_hiragana": ""
             }
           ]
         },
@@ -423517,6 +423608,88 @@
           ]
         },
         {
+          "item_id": "ja_cc_level2:0000000343:u0021:s0012-0016",
+          "span_id": "ja_cc_level2:0000000343:u0021:s0012-0016",
+          "surface": "Thank",
+          "token_surface": "Thank",
+          "target_start": 11,
+          "target_end": 16,
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading": "",
+          "current_reading_hiragana": null,
+          "is_safe": false,
+          "review_status": "unresolved",
+          "highlight_level": "target",
+          "default_candidate_id": "llm",
+          "default_choice_source": "llm",
+          "default_reading": "さんきゅー",
+          "candidates": [
+            {
+              "id": "llm",
+              "source": "llm",
+              "label": "LLM reading",
+              "reading": "さんきゅー",
+              "tokens": [
+                [
+                  "Thank",
+                  "サンキュー"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "Thank",
+                  "reading": "さんきゅー"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "No ruby",
+              "reading": null,
+              "tokens": [],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "Thank"
+                }
+              ]
+            }
+          ],
+          "legacy_target_item_ids": [
+            "ja_cc_level2:0000000343:u0021:r0008c01"
+          ],
+          "signals": [
+            {
+              "name": "safe_by_stable_dictionary",
+              "accepted": false,
+              "reason": "not_two_kanji"
+            },
+            {
+              "name": "safe_by_corpus_frequency",
+              "accepted": false,
+              "evidence_scope": "target",
+              "evidence_surface": "Thank",
+              "evidence_reading": "",
+              "normalization_rule": null,
+              "min_count": 5,
+              "min_share": 0.95,
+              "dominant": null,
+              "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260729T070044Z/surface_reading_stats.tsv",
+              "source_corpus_version": "dev:20260729T070044Z"
+            },
+            {
+              "name": "safe_by_llm_match",
+              "accepted": false,
+              "status": "mismatched",
+              "llm_reading": "さんきゅー",
+              "current_reading_hiragana": ""
+            }
+          ]
+        },
+        {
           "item_id": "ja_cc_level2:0000000343:u0021:s0018-0020",
           "span_id": "ja_cc_level2:0000000343:u0021:s0018-0020",
           "surface": "you",
@@ -423730,11 +423903,12 @@
           ]
         }
       ],
-      "interaction_span_count": 4,
+      "interaction_span_count": 5,
       "reading_hints": {
         "飼": "か",
         "主": "ぬし",
         "Oh": "おーえいち",
+        "Thank": "さんきゅー",
         "you": "ゆー",
         "喜": "よろこ"
       }
