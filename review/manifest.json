@@ -49,63 +49,6 @@
       },
       "queue_id": "final_review",
       "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0034",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_0034_v1",
-      "title": "詳細修正 / dev_batch_0034 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_0034_v1.json",
-      "created_at_epoch": 1785384872,
-      "item_count": 4,
-      "document_count": 10,
-      "selectable_document_count": 3,
-      "document_state_counts": {
-        "complete": 7,
-        "strong_pending": 3
-      },
-      "queue_id": "strong_repair",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0035",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_0035_v1",
-      "title": "詳細修正 / dev_batch_0035 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_0035_v1.json",
-      "created_at_epoch": 1785385213,
-      "item_count": 6,
-      "document_count": 10,
-      "selectable_document_count": 6,
-      "document_state_counts": {
-        "complete": 4,
-        "strong_pending": 6
-      },
-      "queue_id": "strong_repair",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_0036",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_0036_v1",
-      "title": "詳細修正 / dev_batch_0036 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_0036_v1.json",
-      "created_at_epoch": 1785385840,
-      "item_count": 4,
-      "document_count": 10,
-      "selectable_document_count": 2,
-      "document_state_counts": {
-        "complete": 8,
-        "strong_pending": 2
-      },
-      "queue_id": "strong_repair",
-      "status": "active-dev"
     }
   ],
   "stages": {
@@ -675,7 +618,7 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 7,
-            "strong_pending": 3
+            "strong_reviewed": 3
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -692,7 +635,7 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 4,
-            "strong_pending": 6
+            "strong_reviewed": 6
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -709,7 +652,7 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 8,
-            "strong_pending": 2
+            "strong_reviewed": 2
           },
           "queue_id": "final_review",
           "status": "archived"
@@ -1216,10 +1159,10 @@
           "created_at_epoch": 1785384872,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 3,
+          "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 7,
-            "strong_pending": 3
+            "strong_reviewed": 3
           },
           "queue_id": "strong_repair",
           "status": "archived"
@@ -1233,10 +1176,10 @@
           "created_at_epoch": 1785385213,
           "item_count": 6,
           "document_count": 10,
-          "selectable_document_count": 6,
+          "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 4,
-            "strong_pending": 6
+            "strong_reviewed": 6
           },
           "queue_id": "strong_repair",
           "status": "archived"
@@ -1250,10 +1193,10 @@
           "created_at_epoch": 1785385840,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 2,
+          "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 8,
-            "strong_pending": 2
+            "strong_reviewed": 2
           },
           "queue_id": "strong_repair",
           "status": "active-dev"
@@ -1268,8 +1211,8 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 303,
-        "manual_correction_required_count": 0,
+        "document_count": 333,
+        "manual_correction_required_count": 1,
         "shard_count": 1
       }
     }

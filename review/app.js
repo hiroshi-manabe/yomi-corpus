@@ -4328,12 +4328,17 @@ function renderRubySegments(item, override, editable) {
     const target = targetsById[segment.target_item_id];
     if (!target) {
       if (segment.display_only && segment.reading) {
-        const ruby = document.createElement("ruby");
-        ruby.append(document.createTextNode(segment.text || ""));
-        const rt = document.createElement("rt");
-        rt.textContent = segment.reading;
-        ruby.append(rt);
-        nodes.push(ruby);
+        const numericNodes = numericKanaSuffixRubyNodes(segment.text, segment.reading);
+        if (numericNodes) {
+          nodes.push(...renderRubyDisplayNodes(numericNodes));
+        } else {
+          const ruby = document.createElement("ruby");
+          ruby.append(document.createTextNode(segment.text || ""));
+          const rt = document.createElement("rt");
+          rt.textContent = segment.reading;
+          ruby.append(rt);
+          nodes.push(ruby);
+        }
       } else {
         nodes.push(document.createTextNode(segment.text || ""));
       }
