@@ -485,8 +485,14 @@ function buildUnifiedReviewPack(sources) {
   const items = [];
   const sourceDocuments = [];
   let nextSeq = 1;
-  for (const { pack } of sources) {
+  for (const { pack, meta } of sources) {
+    const pendingDocIds = Array.isArray(meta.pending_doc_ids)
+      ? new Set(meta.pending_doc_ids.map(String))
+      : null;
     for (const item of pack.items || []) {
+      if (pendingDocIds && !pendingDocIds.has(String(item.doc_id || ""))) {
+        continue;
+      }
       const unifiedItem = {
         ...item,
         item_id: `${pack.review_stage}:${pack.pack_id}:${item.item_id}`,
@@ -500,11 +506,12 @@ function buildUnifiedReviewPack(sources) {
     }
     for (const doc of pack.documents || []) {
       const docId = String(doc.doc_id || "");
-      if (!docId) {
+      if (!docId || (pendingDocIds && !pendingDocIds.has(docId))) {
         continue;
       }
       sourceDocuments.push({
         ...doc,
+        awaiting_finalization: Boolean(pendingDocIds),
         queue_stage: pack.review_stage,
         source_pack_id: pack.pack_id,
         task_doc_id: queueDocKey(pack.review_stage, docId),
@@ -2709,8 +2716,11 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
+  if (doc?.awaiting_finalization) {
+    return false;
+  }
   const stateName = String(doc?.state || "");
-  return stateName === "complete" || stateName === "skipped" || stateName === "strong_reviewed";
+  return stateName === "complete" || stateName === "skipped";
 }
 
 function documentHasPendingCanonicalState(doc) {
@@ -2811,6 +2821,9 @@ function workflowDocumentBucketStatus(doc) {
   }
   if (documentHasPendingCanonicalState(doc)) {
     return pendingSourceQueueStatus(doc);
+  }
+  if (doc?.awaiting_finalization) {
+    return queueStatusForStage(doc.queue_stage);
   }
   if (docIsSubmittedLocally(doc)) {
     return submittedSourceQueueStatus(doc);

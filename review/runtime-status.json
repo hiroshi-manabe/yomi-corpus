@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2212,
-  "generated_at": "2026-07-30T07:29:19Z",
-  "generated_at_epoch": 1785396559,
+  "state_revision": 2213,
+  "generated_at": "2026-07-30T07:34:27Z",
+  "generated_at_epoch": 1785396867,
   "last_successful_sync": "2026-07-30T06:18:04Z",
   "last_successful_sync_epoch": 1785392284,
   "status": "error",
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000339:u0006 token 4 '○○'/'○○' is structurally invalid: Japanese numeral digit-run readings must be katakana",
+  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
   "observed": {
-    "started_at_epoch": 1785396559,
-    "completed_at_epoch": 1785396559,
-    "drift_seconds": 72
+    "started_at_epoch": 1785396867,
+    "completed_at_epoch": 1785396867,
+    "drift_seconds": 80
   },
   "client_polling": {
     "normal_seconds": 60,
