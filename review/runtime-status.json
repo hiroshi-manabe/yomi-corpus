@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2480,
-  "generated_at": "2026-07-31T08:37:24Z",
-  "generated_at_epoch": 1785487044,
+  "state_revision": 2482,
+  "generated_at": "2026-07-31T08:47:44Z",
+  "generated_at_epoch": 1785487664,
   "last_successful_sync": "2026-07-31T07:21:47Z",
   "last_successful_sync_epoch": 1785482507,
   "status": "error",
@@ -14,19 +14,19 @@
     "next_expected_epoch": 1785483174
   },
   "state": {
-    "current_batch_name": "dev_batch_0048",
-    "current_stage": "yomi_reading_queued",
-    "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 20,
+    "current_batch_name": "dev_batch_0049",
+    "current_stage": "alphabetic_reported",
+    "next_stage": "alphabetic_llm_judged",
+    "active_queue_count": 30,
     "queue_counts": {
-      "bulk_review_selectable": 20,
+      "bulk_review_selectable": 30,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 0,
       "escalated_repair_submitted": 1,
       "resolved": 9
     },
     "pool_counts": {
-      "bulk-ready": 20,
+      "bulk-ready": 30,
       "bulk-submitted": 0,
       "escalated-ready": 0,
       "escalated-submitted": 1,
@@ -37,9 +37,9 @@
   },
   "message": "YomiTokenError: legacy token 19 surface '/イチ' does not match source at offset 28",
   "observed": {
-    "started_at_epoch": 1785487044,
-    "completed_at_epoch": 1785487044,
-    "drift_seconds": 30
+    "started_at_epoch": 1785487664,
+    "completed_at_epoch": 1785487664,
+    "drift_seconds": 10
   },
   "client_polling": {
     "normal_seconds": 60,
