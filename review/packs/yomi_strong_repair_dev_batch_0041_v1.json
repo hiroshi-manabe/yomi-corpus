@@ -1,0 +1,5484 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0041_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0041",
+  "created_at_epoch": 1785472613,
+  "created_at": "2026-07-31T04:36:53Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 8,
+    "result_row_count": 8,
+    "reviewable_repair_row_count": 8,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000374",
+      "doc_seq": 1,
+      "track_doc_seq": 374,
+      "unit_count": 55,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 374,
+      "preview": "…と思っていたんですが、実はそうでもないみたいなんです!!実は「オーエス」以外にも、綱引きの掛け声はあるんですよ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 55,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000375",
+      "doc_seq": 2,
+      "track_doc_seq": 375,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 375,
+      "preview": "家庭にはそれぞれ事情があり、先輩だからといって何を言ってもいいわけではない。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "preview": "日本三大厄神の一つ・門戸厄神東光寺の最寄駅である、今津線の相対式２面２線の地上駅。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-31T04:37:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 5,
+      "region_count": 7,
+      "unresolved_count": 7,
+      "from_seq": 1,
+      "to_seq": 5,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 7
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000377",
+      "doc_seq": 4,
+      "track_doc_seq": 377,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 377,
+      "preview": "昨日はジムに行く時間が減ったと書きましたけど、厳密に言うと、体力が無くなったという理由もあるんですよね例えば、金曜夜に妹がうちに来てくれるので、そこからジムに行こうとするんですけど、平日の張り詰めていた神経が緩んでしまうせいか、ベッドに倒れ込むようにして寝てしまうんですよ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000378",
+      "doc_seq": 5,
+      "track_doc_seq": 378,
+      "unit_count": 35,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 378,
+      "preview": "アポロ11号にもかかわる物語だったのです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-07-31T04:37:21Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 6,
+      "to_seq": 6,
+      "reviewed_unit_count": 35,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000379",
+      "doc_seq": 6,
+      "track_doc_seq": 379,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 379,
+      "preview": "アンガールズのようなスリム（貧弱）な体系脱却のためにダンベルを購入しようと決意しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000380",
+      "doc_seq": 7,
+      "track_doc_seq": 380,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 380,
+      "preview": "の全ての基礎スクリプトと、リライトを完了した。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000381",
+      "doc_seq": 8,
+      "track_doc_seq": 381,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 381,
+      "preview": "夏の暑い時期…誰かに手土産を持っていきたいとき、長時間の移動の場合気になるのは「要冷蔵か常温で保存可能か」「溶ける可能性があるか」「日持ちが短すぎないか」…この3つだと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000382",
+      "doc_seq": 9,
+      "track_doc_seq": 382,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 382,
+      "preview": "暖かい日があったと思ったら急に寒くなって、天気予報に雪のマークも付きはじめて、冬になったなぁとしみじみ感じます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000383",
+      "doc_seq": 10,
+      "track_doc_seq": 383,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 383,
+      "preview": "新しいWebサイトは、より優れたユーザーエクスペリエンスを実現するためにデザインされています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-07-31T04:35:43Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000376:u0019::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_id": "ja_cc_level2:0000000376:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "text": "当駅は、今津線の西宮北口ー宝塚（当時：西宝線）開通と同時の1921年（大正10年）に開業した。",
+      "rendered_yomi_before": "当/トウ 駅/エキ は/ハ 、/、 今津線/イマヅセン の/ノ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ （/（ 当時/トウジ ：/： 西/ニシ 宝/タカラ 線/セン ）/） 開通/カイツウ と/ト 同時/ドウジ の/ノ 1921/ 年/ネン （/（ 大正/タイショウ 10/ 年/ネン ）/） に/ニ 開業/カイギョウ し/シ た/タ 。/。",
+      "rendered_yomi_after": "当/トウ 駅/エキ は/ハ 、/、 今津線/イマヅセン の/ノ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ （/（ 当時/トウジ ：/： 西/ニシ 宝/タカラ 線/セン ）/） 開通/カイツウ と/ト 同時/ドウジ の/ノ 1921/ 年/ネン （/（ 大正/タイショウ 10/ 年/ネン ）/） に/ニ 開業/カイギョウ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "当",
+          "トウ"
+        ],
+        [
+          "駅",
+          "エキ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "今津線",
+          "イマヅセン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "西宮",
+          "ニシノミヤ"
+        ],
+        [
+          "北口",
+          "キタグチ"
+        ],
+        [
+          "ー",
+          "ー"
+        ],
+        [
+          "宝塚",
+          "タカラヅカ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "当時",
+          "トウジ"
+        ],
+        [
+          "：",
+          "："
+        ],
+        [
+          "西",
+          "ニシ"
+        ],
+        [
+          "宝",
+          "タカラ"
+        ],
+        [
+          "線",
+          "セン"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "開通",
+          "カイツウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "同時",
+          "ドウジ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "1921",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "大正",
+          "タイショウ"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "開業",
+          "カイギョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "当",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "駅",
+          "reading": "エキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "駅",
+              "reading": "えき"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "今津線",
+          "reading": "イマヅセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今津線",
+              "reading": "いまづせん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "西宮",
+          "reading": "ニシノミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西宮",
+              "reading": "にしのみや"
+            }
+          ]
+        },
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北口",
+              "reading": "きたぐち"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
+            }
+          ]
+        },
+        {
+          "surface": "宝塚",
+          "reading": "タカラヅカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝塚",
+              "reading": "たからづか"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "当時",
+          "reading": "トウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当時",
+              "reading": "とうじ"
+            }
+          ]
+        },
+        {
+          "surface": "：",
+          "reading": "：",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "："
+            }
+          ]
+        },
+        {
+          "surface": "西",
+          "reading": "ニシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西",
+              "reading": "にし"
+            }
+          ]
+        },
+        {
+          "surface": "宝",
+          "reading": "タカラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝",
+              "reading": "たから"
+            }
+          ]
+        },
+        {
+          "surface": "線",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "線",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "開通",
+          "reading": "カイツウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開通",
+              "reading": "かいつう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "同時",
+          "reading": "ドウジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同時",
+              "reading": "どうじ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "1921",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1921"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "大正",
+          "reading": "タイショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大正",
+              "reading": "たいしょう"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "開業",
+          "reading": "カイギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開業",
+              "reading": "かいぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+          "item_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+          "unit_id": "ja_cc_level2:0000000376:u0019",
+          "text": "当駅は、今津線の西宮北口ー宝塚（当時：西宝線）開通と同時の1921年（大正10年）に開業した。",
+          "rendered_yomi_before": "当/トウ 駅/エキ は/ハ 、/、 今津線/イマヅセン の/ノ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ （/（ 当時/トウジ ：/： 西/ニシ 宝/タカラ 線/セン ）/） 開通/カイツウ と/ト 同時/ドウジ の/ノ 1921/ 年/ネン （/（ 大正/タイショウ 10/ 年/ネン ）/） に/ニ 開業/カイギョウ し/シ た/タ 。/。",
+          "rendered_yomi_after": "当/トウ 駅/エキ は/ハ 、/、 今津線/イマヅセン の/ノ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ （/（ 当時/トウジ ：/： 西/ニシ 宝/タカラ 線/セン ）/） 開通/カイツウ と/ト 同時/ドウジ の/ノ 1921/ 年/ネン （/（ 大正/タイショウ 10/ 年/ネン ）/） に/ニ 開業/カイギョウ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 7,
+            "end": 9,
+            "char_start": 10,
+            "char_end": 13,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0019:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0019:s0012-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0019:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0019:s0012-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "北口ー",
+          "reading_candidates": {
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "北口": [
+              "きたぐち"
+            ],
+            "口": [
+              "く",
+              "くち",
+              "ぐち",
+              "こう"
+            ]
+          },
+          "reading_hints": {
+            "北": "きた",
+            "北口": "きたぐち",
+            "口": "く"
+          },
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"キタグチ\",\"used_web_search\":false,\"comment\":\"駅名の一部なので『北口』は一語で『キタグチ』と読む。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切り記号として扱い、音読はせず記号のまま保持する。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "北口",
+              "reading": "キタグチ",
+              "used_web_search": false,
+              "comment": "駅名の一部なので『北口』は一語で『キタグチ』と読む。"
+            },
+            {
+              "surface": "ー",
+              "reading": "ー",
+              "used_web_search": false,
+              "comment": "区切り記号として扱い、音読はせず記号のまま保持する。"
+            }
+          ],
+          "llm_comments": [
+            "駅名の一部なので『北口』は一語で『キタグチ』と読む。",
+            "区切り記号として扱い、音読はせず記号のまま保持する。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "北口ー",
+            "replacement": [
+              {
+                "surface": "北口",
+                "reading": "キタグチ"
+              },
+              {
+                "surface": "ー",
+                "reading": "ー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+                "surface": "北口ー",
+                "comment": "駅名の一部なので『北口』は一語で『キタグチ』と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+                "surface": "北口ー",
+                "comment": "区切り記号として扱い、音読はせず記号のまま保持する。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "北口ー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000376:u0019:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "北",
+          "token_surface": "北",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きた",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000376:u0019:s0012-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "口ー",
+          "token_surface": "口ー",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "北",
+          "reading": "きた",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "北口": [
+          "きたぐち"
+        ],
+        "口": [
+          "く",
+          "くち",
+          "ぐち",
+          "こう"
+        ]
+      },
+      "reading_hints": {
+        "北": "きた",
+        "北口": "きたぐち",
+        "口": "く"
+      },
+      "llm_parsed": [
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "used_web_search": false,
+          "comment": "駅名の一部なので『北口』は一語で『キタグチ』と読む。"
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "used_web_search": false,
+          "comment": "区切り記号として扱い、音読はせず記号のまま保持する。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"キタグチ\",\"used_web_search\":false,\"comment\":\"駅名の一部なので『北口』は一語で『キタグチ』と読む。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切り記号として扱い、音読はせず記号のまま保持する。\"}]",
+      "llm_comments": [
+        "駅名の一部なので『北口』は一語で『キタグチ』と読む。",
+        "区切り記号として扱い、音読はせず記号のまま保持する。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "北口ー",
+        "replacement": [
+          {
+            "surface": "北口",
+            "reading": "キタグチ"
+          },
+          {
+            "surface": "ー",
+            "reading": "ー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+            "surface": "北口ー",
+            "comment": "駅名の一部なので『北口』は一語で『キタグチ』と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000376:u0019::target_group:1",
+            "surface": "北口ー",
+            "comment": "区切り記号として扱い、音読はせず記号のまま保持する。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000376:u0022::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_id": "ja_cc_level2:0000000376:u0022",
+      "unit_seq": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "text": "今津線は、公式には今津ー宝塚間となっているが、1984年（昭和59年）に西宮北口駅における神戸線とのダイヤモンドクロス廃止後、同駅を境に南北に分断された。",
+      "rendered_yomi_before": "今津線/イマヅセン は/ハ 、/、 公式/コウシキ に/ニ は/ハ 今/イマ 津ー/津ー 宝塚/タカラヅカ 間/カン と/ト なっ/ナッ て/テ いる/イル が/ガ 、/、 1984/ 年/ネン （/（ 昭和/ショウワ 59/ 年/ネン ）/） に/ニ 西宮/ニシノミヤ 北口/キタグチ 駅/エキ に/ニ おけ/オケ る/ル 神戸線/コウベセン と/ト の/ノ ダイヤモンド/ダイヤモンド クロス/クロス 廃止/ハイシ 後/ゴ 、/、 同駅/ドウエキ を/ヲ 境/サカイ に/ニ 南北/ナンボク に/ニ 分断/ブンダン さ/サ れ/レ た/タ 。/。",
+      "rendered_yomi_after": "今津線/イマヅセン は/ハ 、/、 公式/コウシキ に/ニ は/ハ 今津/イマヅ ー/ー 宝塚/タカラヅカ 間/カン と/ト なっ/ナッ て/テ いる/イル が/ガ 、/、 1984/ 年/ネン （/（ 昭和/ショウワ 59/ 年/ネン ）/） に/ニ 西宮/ニシノミヤ 北口/キタグチ 駅/エキ に/ニ おけ/オケ る/ル 神戸線/コウベセン と/ト の/ノ ダイヤモンド/ダイヤモンド クロス/クロス 廃止/ハイシ 後/ゴ 、/、 同駅/ドウエキ を/ヲ 境/サカイ に/ニ 南北/ナンボク に/ニ 分断/ブンダン さ/サ れ/レ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "今津線",
+          "イマヅセン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "公式",
+          "コウシキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "今津",
+          "イマヅ"
+        ],
+        [
+          "ー",
+          "ー"
+        ],
+        [
+          "宝塚",
+          "タカラヅカ"
+        ],
+        [
+          "間",
+          "カン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "1984",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "昭和",
+          "ショウワ"
+        ],
+        [
+          "59",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "西宮",
+          "ニシノミヤ"
+        ],
+        [
+          "北口",
+          "キタグチ"
+        ],
+        [
+          "駅",
+          "エキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "おけ",
+          "オケ"
+        ],
+        [
+          "る",
+          "ル"
+        ],
+        [
+          "神戸線",
+          "コウベセン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ダイヤモンド",
+          "ダイヤモンド"
+        ],
+        [
+          "クロス",
+          "クロス"
+        ],
+        [
+          "廃止",
+          "ハイシ"
+        ],
+        [
+          "後",
+          "ゴ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "同駅",
+          "ドウエキ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "境",
+          "サカイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "南北",
+          "ナンボク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "分断",
+          "ブンダン"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今津線",
+          "reading": "イマヅセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今津線",
+              "reading": "いまづせん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "公式",
+          "reading": "コウシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "公式",
+              "reading": "こうしき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "今津",
+          "reading": "イマヅ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今津",
+              "reading": "いまづ"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
+            }
+          ]
+        },
+        {
+          "surface": "宝塚",
+          "reading": "タカラヅカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝塚",
+              "reading": "たからづか"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "かん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "1984",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1984"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "昭和",
+          "reading": "ショウワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昭和",
+              "reading": "しょうわ"
+            }
+          ]
+        },
+        {
+          "surface": "59",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "59"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "西宮",
+          "reading": "ニシノミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西宮",
+              "reading": "にしのみや"
+            }
+          ]
+        },
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北口",
+              "reading": "きたぐち"
+            }
+          ]
+        },
+        {
+          "surface": "駅",
+          "reading": "エキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "駅",
+              "reading": "えき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "おけ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おけ"
+            }
+          ]
+        },
+        {
+          "surface": "る",
+          "reading": "ル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "神戸線",
+          "reading": "コウベセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神戸線",
+              "reading": "こうべせん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ダイヤモンド",
+          "reading": "ダイヤモンド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ダイヤモンド"
+            }
+          ]
+        },
+        {
+          "surface": "クロス",
+          "reading": "クロス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "クロス"
+            }
+          ]
+        },
+        {
+          "surface": "廃止",
+          "reading": "ハイシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "廃止",
+              "reading": "はいし"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "同駅",
+          "reading": "ドウエキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同駅",
+              "reading": "どうえき"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "境",
+          "reading": "サカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "境",
+              "reading": "さかい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "南北",
+          "reading": "ナンボク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "南北",
+              "reading": "なんぼく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "分断",
+          "reading": "ブンダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分断",
+              "reading": "ぶんだん"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+          "item_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+          "unit_id": "ja_cc_level2:0000000376:u0022",
+          "text": "今津線は、公式には今津ー宝塚間となっているが、1984年（昭和59年）に西宮北口駅における神戸線とのダイヤモンドクロス廃止後、同駅を境に南北に分断された。",
+          "rendered_yomi_before": "今津線/イマヅセン は/ハ 、/、 公式/コウシキ に/ニ は/ハ 今/イマ 津ー/津ー 宝塚/タカラヅカ 間/カン と/ト なっ/ナッ て/テ いる/イル が/ガ 、/、 1984/ 年/ネン （/（ 昭和/ショウワ 59/ 年/ネン ）/） に/ニ 西宮/ニシノミヤ 北口/キタグチ 駅/エキ に/ニ おけ/オケ る/ル 神戸線/コウベセン と/ト の/ノ ダイヤモンド/ダイヤモンド クロス/クロス 廃止/ハイシ 後/ゴ 、/、 同駅/ドウエキ を/ヲ 境/サカイ に/ニ 南北/ナンボク に/ニ 分断/ブンダン さ/サ れ/レ た/タ 。/。",
+          "rendered_yomi_after": "今津線/イマヅセン は/ハ 、/、 公式/コウシキ に/ニ は/ハ 今津/イマヅ ー/ー 宝塚/タカラヅカ 間/カン と/ト なっ/ナッ て/テ いる/イル が/ガ 、/、 1984/ 年/ネン （/（ 昭和/ショウワ 59/ 年/ネン ）/） に/ニ 西宮/ニシノミヤ 北口/キタグチ 駅/エキ に/ニ おけ/オケ る/ル 神戸線/コウベセン と/ト の/ノ ダイヤモンド/ダイヤモンド クロス/クロス 廃止/ハイシ 後/ゴ 、/、 同駅/ドウエキ を/ヲ 境/サカイ に/ニ 南北/ナンボク に/ニ 分断/ブンダン さ/サ れ/レ た/タ 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 8,
+            "char_start": 9,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0022:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "今",
+              "token_surface": "今",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いま",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "今",
+                  "reading": "いま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0022:s0011-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "津ー",
+              "token_surface": "津ー",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0022:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "今",
+              "token_surface": "今",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いま",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "今",
+                  "reading": "いま",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0022:s0011-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "津ー",
+              "token_surface": "津ー",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "今津ー",
+          "reading_candidates": {
+            "今": [
+              "いま",
+              "こん"
+            ],
+            "今津": [
+              "いまづ"
+            ],
+            "津": [
+              "しん",
+              "つ",
+              "わたる"
+            ]
+          },
+          "reading_hints": {
+            "今": "いま",
+            "今津": "いまづ",
+            "津": "しん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "今",
+              "reading": "いま",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"今津\",\"reading\":\"イマヅ\",\"used_web_search\":false,\"comment\":\"地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"続く区切り記号なので、表記どおり独立した記号として扱う。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "今津",
+              "reading": "イマヅ",
+              "used_web_search": false,
+              "comment": "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。"
+            },
+            {
+              "surface": "ー",
+              "reading": "ー",
+              "used_web_search": false,
+              "comment": "続く区切り記号なので、表記どおり独立した記号として扱う。"
+            }
+          ],
+          "llm_comments": [
+            "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。",
+            "続く区切り記号なので、表記どおり独立した記号として扱う。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+            "status": "applied",
+            "rejected_span": "今津ー",
+            "replacement": [
+              {
+                "surface": "今津",
+                "reading": "イマヅ"
+              },
+              {
+                "surface": "ー",
+                "reading": "ー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+                "surface": "今津ー",
+                "comment": "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+                "surface": "今津ー",
+                "comment": "続く区切り記号なので、表記どおり独立した記号として扱う。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "今津ー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000376:u0022:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "今",
+          "token_surface": "今",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いま",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "今",
+              "reading": "いま",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000376:u0022:s0011-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "津ー",
+          "token_surface": "津ー",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "今",
+          "reading": "いま",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "今": [
+          "いま",
+          "こん"
+        ],
+        "今津": [
+          "いまづ"
+        ],
+        "津": [
+          "しん",
+          "つ",
+          "わたる"
+        ]
+      },
+      "reading_hints": {
+        "今": "いま",
+        "今津": "いまづ",
+        "津": "しん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "今津",
+          "reading": "イマヅ",
+          "used_web_search": false,
+          "comment": "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。"
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "used_web_search": false,
+          "comment": "続く区切り記号なので、表記どおり独立した記号として扱う。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"今津\",\"reading\":\"イマヅ\",\"used_web_search\":false,\"comment\":\"地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"続く区切り記号なので、表記どおり独立した記号として扱う。\"}]",
+      "llm_comments": [
+        "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。",
+        "続く区切り記号なので、表記どおり独立した記号として扱う。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+        "status": "applied",
+        "rejected_span": "今津ー",
+        "replacement": [
+          {
+            "surface": "今津",
+            "reading": "イマヅ"
+          },
+          {
+            "surface": "ー",
+            "reading": "ー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+            "surface": "今津ー",
+            "comment": "地名「今津」は「イマヅ」と読むため、ダッシュから分けて修正。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000376:u0022::target_group:1",
+            "surface": "今津ー",
+            "comment": "続く区切り記号なので、表記どおり独立した記号として扱う。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000376:u0023::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_id": "ja_cc_level2:0000000376:u0023",
+      "unit_seq": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "text": "現在は旧西宝線と同じ西宮北口ー宝塚間の折り返し運転となっており、６両編成の電車が、日中10分間隔、ラッシュ時は6～8分間隔で運行されている。",
+      "rendered_yomi_before": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分間/フンカン 隔/隔 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分/フン 間隔/カンカク 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "現在",
+          "ゲンザイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "旧",
+          "キュウ"
+        ],
+        [
+          "西",
+          "ニシ"
+        ],
+        [
+          "宝",
+          "タカラ"
+        ],
+        [
+          "線",
+          "セン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "同じ",
+          "オナジ"
+        ],
+        [
+          "西宮",
+          "ニシノミヤ"
+        ],
+        [
+          "北口",
+          "キタグチ"
+        ],
+        [
+          "ー",
+          "ー"
+        ],
+        [
+          "宝塚",
+          "タカラヅカ"
+        ],
+        [
+          "間",
+          "カン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "折り返し",
+          "オリカエシ"
+        ],
+        [
+          "運転",
+          "ウンテン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "おり",
+          "オリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "６",
+          ""
+        ],
+        [
+          "両",
+          "リョウ"
+        ],
+        [
+          "編成",
+          "ヘンセイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "電車",
+          "デンシャ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "日中",
+          "ニッチュウ"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "分",
+          "フン"
+        ],
+        [
+          "間隔",
+          "カンカク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ラッシュ時",
+          "ラッシュジ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "6",
+          ""
+        ],
+        [
+          "～",
+          "～"
+        ],
+        [
+          "8",
+          ""
+        ],
+        [
+          "分間",
+          "フンカン"
+        ],
+        [
+          "隔",
+          "隔"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "運行",
+          "ウンコウ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "現在",
+          "reading": "ゲンザイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "現在",
+              "reading": "げんざい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "旧",
+          "reading": "キュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧",
+              "reading": "きゅう"
+            }
+          ]
+        },
+        {
+          "surface": "西",
+          "reading": "ニシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西",
+              "reading": "にし"
+            }
+          ]
+        },
+        {
+          "surface": "宝",
+          "reading": "タカラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝",
+              "reading": "たから"
+            }
+          ]
+        },
+        {
+          "surface": "線",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "線",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "同じ",
+          "reading": "オナジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同",
+              "reading": "おな"
+            },
+            {
+              "type": "text",
+              "text": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "西宮",
+          "reading": "ニシノミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西宮",
+              "reading": "にしのみや"
+            }
+          ]
+        },
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北口",
+              "reading": "きたぐち"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
+            }
+          ]
+        },
+        {
+          "surface": "宝塚",
+          "reading": "タカラヅカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝塚",
+              "reading": "たからづか"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "かん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "折り返し",
+          "reading": "オリカエシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "折",
+              "reading": "お"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "返",
+              "reading": "かえ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "運転",
+          "reading": "ウンテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "運転",
+              "reading": "うんてん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "おり",
+          "reading": "オリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "６",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "６"
+            }
+          ]
+        },
+        {
+          "surface": "両",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "両",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "編成",
+          "reading": "ヘンセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "編成",
+              "reading": "へんせい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "電車",
+          "reading": "デンシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "電車",
+              "reading": "でんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "日中",
+          "reading": "ニッチュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日中",
+              "reading": "にっちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "分",
+          "reading": "フン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "ふん"
+            }
+          ]
+        },
+        {
+          "surface": "間隔",
+          "reading": "カンカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間隔",
+              "reading": "かんかく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ラッシュ時",
+          "reading": "ラッシュジ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ラッシュ"
+            },
+            {
+              "type": "ruby",
+              "text": "時",
+              "reading": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "6",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "6"
+            }
+          ]
+        },
+        {
+          "surface": "～",
+          "reading": "～",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "～"
+            }
+          ]
+        },
+        {
+          "surface": "8",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "8"
+            }
+          ]
+        },
+        {
+          "surface": "分間",
+          "reading": "フンカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分間",
+              "reading": "ふんかん"
+            }
+          ]
+        },
+        {
+          "surface": "隔",
+          "reading": "隔",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "隔"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "運行",
+          "reading": "ウンコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "運行",
+              "reading": "うんこう"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 3,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+          "item_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+          "unit_id": "ja_cc_level2:0000000376:u0023",
+          "text": "現在は旧西宝線と同じ西宮北口ー宝塚間の折り返し運転となっており、６両編成の電車が、日中10分間隔、ラッシュ時は6～8分間隔で運行されている。",
+          "rendered_yomi_before": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分間/フンカン 隔/隔 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分/フン 間隔/カンカク 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 11,
+            "char_start": 12,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "北口ー",
+          "reading_candidates": {
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "北口": [
+              "きたぐち"
+            ],
+            "口": [
+              "く",
+              "くち",
+              "ぐち",
+              "こう"
+            ]
+          },
+          "reading_hints": {
+            "北": "きた",
+            "北口": "きたぐち",
+            "口": "く"
+          },
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"キタグチ\",\"used_web_search\":false,\"comment\":\"「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切り記号として扱い、読みは付けない。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "北口",
+              "reading": "キタグチ",
+              "used_web_search": false,
+              "comment": "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。"
+            },
+            {
+              "surface": "ー",
+              "reading": "ー",
+              "used_web_search": false,
+              "comment": "区切り記号として扱い、読みは付けない。"
+            }
+          ],
+          "llm_comments": [
+            "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。",
+            "区切り記号として扱い、読みは付けない。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+            "status": "applied",
+            "rejected_span": "北口ー",
+            "replacement": [
+              {
+                "surface": "北口",
+                "reading": "キタグチ"
+              },
+              {
+                "surface": "ー",
+                "reading": "ー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+                "surface": "北口ー",
+                "comment": "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+                "surface": "北口ー",
+                "comment": "区切り記号として扱い、読みは付けない。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000376:u0023::target_group:2",
+          "item_id": "ja_cc_level2:0000000376:u0023::target_group:2",
+          "unit_id": "ja_cc_level2:0000000376:u0023",
+          "text": "現在は旧西宝線と同じ西宮北口ー宝塚間の折り返し運転となっており、６両編成の電車が、日中10分間隔、ラッシュ時は6～8分間隔で運行されている。",
+          "rendered_yomi_before": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分間/フンカン 隔/隔 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分/フン 間隔/カンカク 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 30,
+            "end": 32,
+            "char_start": 45,
+            "char_end": 48,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0046-0047",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分間",
+              "token_surface": "分間",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "分間",
+                  "reading": "ふんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0048-0048",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隔",
+              "token_surface": "隔",
+              "token_index": 31,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0046-0047",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分間",
+              "token_surface": "分間",
+              "token_index": 30,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "分間",
+                  "reading": "ふんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0048-0048",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隔",
+              "token_surface": "隔",
+              "token_index": 31,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "分間隔",
+          "reading_candidates": {
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分間": [
+              "ふんかん",
+              "ぶんけん",
+              "ぷんかん"
+            ],
+            "間": [
+              "ま",
+              "あい",
+              "あいだ",
+              "あわい",
+              "かん",
+              "けん",
+              "げん",
+              "はさま",
+              "はざま"
+            ],
+            "間隔": [
+              "かんかく"
+            ]
+          },
+          "reading_hints": {
+            "分": "ぷん",
+            "分間": "ふんかん",
+            "間": "ま",
+            "間隔": "かんかく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "分間",
+              "reading": "ふんかん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"分\",\"reading\":\"ふん\",\"used_web_search\":false,\"comment\":\"数詞の後に付く「分」で、この文脈では「ふん」読み。\"},{\"surface\":\"間隔\",\"reading\":\"かんかく\",\"used_web_search\":false,\"comment\":\"「〜分間隔」の後半の一般語なので、まとめて「かんかく」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "分",
+              "reading": "ふん",
+              "used_web_search": false,
+              "comment": "数詞の後に付く「分」で、この文脈では「ふん」読み。"
+            },
+            {
+              "surface": "間隔",
+              "reading": "かんかく",
+              "used_web_search": false,
+              "comment": "「〜分間隔」の後半の一般語なので、まとめて「かんかく」。"
+            }
+          ],
+          "llm_comments": [
+            "数詞の後に付く「分」で、この文脈では「ふん」読み。",
+            "「〜分間隔」の後半の一般語なので、まとめて「かんかく」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0023::target_group:2",
+            "status": "applied",
+            "rejected_span": "分間隔",
+            "replacement": [
+              {
+                "surface": "分",
+                "reading": "フン"
+              },
+              {
+                "surface": "間隔",
+                "reading": "カンカク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:2",
+                "surface": "分間隔",
+                "comment": "数詞の後に付く「分」で、この文脈では「ふん」読み。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:2",
+                "surface": "分間隔",
+                "comment": "「〜分間隔」の後半の一般語なので、まとめて「かんかく」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 0
+        },
+        {
+          "region_id": "ja_cc_level2:0000000376:u0023::target_group:3",
+          "item_id": "ja_cc_level2:0000000376:u0023::target_group:3",
+          "unit_id": "ja_cc_level2:0000000376:u0023",
+          "text": "現在は旧西宝線と同じ西宮北口ー宝塚間の折り返し運転となっており、６両編成の電車が、日中10分間隔、ラッシュ時は6～8分間隔で運行されている。",
+          "rendered_yomi_before": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分間/フンカン 隔/隔 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "現在/ゲンザイ は/ハ 旧/キュウ 西/ニシ 宝/タカラ 線/セン と/ト 同じ/オナジ 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 折り返し/オリカエシ 運転/ウンテン と/ト なっ/ナッ て/テ おり/オリ 、/、 ６/ 両/リョウ 編成/ヘンセイ の/ノ 電車/デンシャ が/ガ 、/、 日中/ニッチュウ 10/ 分/フン 間隔/カンカク 、/、 ラッシュ時/ラッシュジ は/ハ 6/ ～/～ 8/ 分間/フンカン 隔/隔 で/デ 運行/ウンコウ さ/サ れ/レ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 38,
+            "end": 40,
+            "char_start": 58,
+            "char_end": 61,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0059-0060",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分間",
+              "token_surface": "分間",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "分間",
+                  "reading": "ふんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0061-0061",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隔",
+              "token_surface": "隔",
+              "token_index": 39,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0059-0060",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "分間",
+              "token_surface": "分間",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "分間",
+                  "reading": "ふんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0023:s0061-0061",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "隔",
+              "token_surface": "隔",
+              "token_index": 39,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "分間隔",
+          "reading_candidates": {
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分間": [
+              "ふんかん",
+              "ぶんけん",
+              "ぷんかん"
+            ],
+            "間": [
+              "ま",
+              "あい",
+              "あいだ",
+              "あわい",
+              "かん",
+              "けん",
+              "げん",
+              "はさま",
+              "はざま"
+            ],
+            "間隔": [
+              "かんかく"
+            ]
+          },
+          "reading_hints": {
+            "分": "ぷん",
+            "分間": "ふんかん",
+            "間": "ま",
+            "間隔": "かんかく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "分間",
+              "reading": "ふんかん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"分間\",\"reading\":\"フンカン\",\"used_web_search\":false,\"comment\":\"「10分間隔」の「分間」。ここでは「ふんかん」と読む。\"},{\"surface\":\"隔\",\"reading\":\"カク\",\"used_web_search\":false,\"comment\":\"間隔を表す後半で、読みは「かく」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "分間",
+              "reading": "フンカン",
+              "used_web_search": false,
+              "comment": "「10分間隔」の「分間」。ここでは「ふんかん」と読む。"
+            },
+            {
+              "surface": "隔",
+              "reading": "カク",
+              "used_web_search": false,
+              "comment": "間隔を表す後半で、読みは「かく」。"
+            }
+          ],
+          "llm_comments": [
+            "「10分間隔」の「分間」。ここでは「ふんかん」と読む。",
+            "間隔を表す後半で、読みは「かく」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0023::target_group:3",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "分間",
+            "reading": "フンカン",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:3",
+                "surface": "分間隔",
+                "comment": "「10分間隔」の「分間」。ここでは「ふんかん」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0023::target_group:3",
+                "surface": "分間隔",
+                "comment": "間隔を表す後半で、読みは「かく」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 1
+        }
+      ],
+      "rejected_span": "北口ー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000376:u0023:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "北",
+          "token_surface": "北",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きた",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000376:u0023:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "口ー",
+          "token_surface": "口ー",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "北",
+          "reading": "きた",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "北口": [
+          "きたぐち"
+        ],
+        "口": [
+          "く",
+          "くち",
+          "ぐち",
+          "こう"
+        ]
+      },
+      "reading_hints": {
+        "北": "きた",
+        "北口": "きたぐち",
+        "口": "く"
+      },
+      "llm_parsed": [
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "used_web_search": false,
+          "comment": "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。"
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "used_web_search": false,
+          "comment": "区切り記号として扱い、読みは付けない。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"キタグチ\",\"used_web_search\":false,\"comment\":\"「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切り記号として扱い、読みは付けない。\"}]",
+      "llm_comments": [
+        "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。",
+        "区切り記号として扱い、読みは付けない。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+        "status": "applied",
+        "rejected_span": "北口ー",
+        "replacement": [
+          {
+            "surface": "北口",
+            "reading": "キタグチ"
+          },
+          {
+            "surface": "ー",
+            "reading": "ー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+            "surface": "北口ー",
+            "comment": "「北口」は地名ではなく一般語の「北の出口」で、自然な読みは「キタグチ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000376:u0023::target_group:1",
+            "surface": "北口ー",
+            "comment": "区切り記号として扱い、読みは付けない。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000376:u0026::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_id": "ja_cc_level2:0000000376:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "text": "梅田ー宝塚間の短絡ルートともなっている今津（北）線は、支線としては利用客の多い路線となっている。",
+      "rendered_yomi_before": "梅/ウメ 田ー/田ー 宝塚/タカラヅカ 間/カン の/ノ 短絡/タンラク ルート/ルート と/ト も/モ なっ/ナッ て/テ いる/イル 今津/イマヅ （/（ 北/キタ ）/） 線/セン は/ハ 、/、 支線/シセン と/ト し/シ て/テ は/ハ 利用客/リヨウキャク の/ノ 多い/オオイ 路線/ロセン と/ト なっ/ナッ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "梅田/ウメダ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 短絡/タンラク ルート/ルート と/ト も/モ なっ/ナッ て/テ いる/イル 今津/イマヅ （/（ 北/キタ ）/） 線/セン は/ハ 、/、 支線/シセン と/ト し/シ て/テ は/ハ 利用客/リヨウキャク の/ノ 多い/オオイ 路線/ロセン と/ト なっ/ナッ て/テ いる/イル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "梅田",
+          "ウメダ"
+        ],
+        [
+          "ー",
+          "ー"
+        ],
+        [
+          "宝塚",
+          "タカラヅカ"
+        ],
+        [
+          "間",
+          "カン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "短絡",
+          "タンラク"
+        ],
+        [
+          "ルート",
+          "ルート"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "今津",
+          "イマヅ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "北",
+          "キタ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "線",
+          "セン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "支線",
+          "シセン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "利用客",
+          "リヨウキャク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "多い",
+          "オオイ"
+        ],
+        [
+          "路線",
+          "ロセン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "梅田",
+          "reading": "ウメダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "梅田",
+              "reading": "うめだ"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
+            }
+          ]
+        },
+        {
+          "surface": "宝塚",
+          "reading": "タカラヅカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝塚",
+              "reading": "たからづか"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "かん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "短絡",
+          "reading": "タンラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "短絡",
+              "reading": "たんらく"
+            }
+          ]
+        },
+        {
+          "surface": "ルート",
+          "reading": "ルート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ルート"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "今津",
+          "reading": "イマヅ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今津",
+              "reading": "いまづ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "北",
+          "reading": "キタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北",
+              "reading": "きた"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "線",
+          "reading": "セン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "線",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "支線",
+          "reading": "シセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "支線",
+              "reading": "しせん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "利用客",
+          "reading": "リヨウキャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "利用客",
+              "reading": "りようきゃく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "多い",
+          "reading": "オオイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多",
+              "reading": "おお"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "路線",
+          "reading": "ロセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "路線",
+              "reading": "ろせん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+          "item_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+          "unit_id": "ja_cc_level2:0000000376:u0026",
+          "text": "梅田ー宝塚間の短絡ルートともなっている今津（北）線は、支線としては利用客の多い路線となっている。",
+          "rendered_yomi_before": "梅/ウメ 田ー/田ー 宝塚/タカラヅカ 間/カン の/ノ 短絡/タンラク ルート/ルート と/ト も/モ なっ/ナッ て/テ いる/イル 今津/イマヅ （/（ 北/キタ ）/） 線/セン は/ハ 、/、 支線/シセン と/ト し/シ て/テ は/ハ 利用客/リヨウキャク の/ノ 多い/オオイ 路線/ロセン と/ト なっ/ナッ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "梅田/ウメダ ー/ー 宝塚/タカラヅカ 間/カン の/ノ 短絡/タンラク ルート/ルート と/ト も/モ なっ/ナッ て/テ いる/イル 今津/イマヅ （/（ 北/キタ ）/） 線/セン は/ハ 、/、 支線/シセン と/ト し/シ て/テ は/ハ 利用客/リヨウキャク の/ノ 多い/オオイ 路線/ロセン と/ト なっ/ナッ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0026:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "梅",
+              "token_surface": "梅",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "梅",
+                  "reading": "うめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0026:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "田ー",
+              "token_surface": "田ー",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0026:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "梅",
+              "token_surface": "梅",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "梅",
+                  "reading": "うめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0026:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "田ー",
+              "token_surface": "田ー",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "梅田ー",
+          "reading_candidates": {
+            "梅": [
+              "うめ",
+              "ばい"
+            ],
+            "梅田": [
+              "うめた",
+              "うめだ",
+              "ばいた"
+            ],
+            "田": [
+              "た",
+              "だ",
+              "でん"
+            ]
+          },
+          "reading_hints": {
+            "梅": "うめ",
+            "梅田": "うめた",
+            "田": "た"
+          },
+          "rejected_readings": [
+            {
+              "surface": "梅",
+              "reading": "うめ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"梅田\",\"reading\":\"ウメダ\",\"used_web_search\":false,\"comment\":\"大阪の地名・駅名として一般的な読みです。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切りの記号なので、別要素として分けます。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "梅田",
+              "reading": "ウメダ",
+              "used_web_search": false,
+              "comment": "大阪の地名・駅名として一般的な読みです。"
+            },
+            {
+              "surface": "ー",
+              "reading": "ー",
+              "used_web_search": false,
+              "comment": "区切りの記号なので、別要素として分けます。"
+            }
+          ],
+          "llm_comments": [
+            "大阪の地名・駅名として一般的な読みです。",
+            "区切りの記号なので、別要素として分けます。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "梅田ー",
+            "replacement": [
+              {
+                "surface": "梅田",
+                "reading": "ウメダ"
+              },
+              {
+                "surface": "ー",
+                "reading": "ー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+                "surface": "梅田ー",
+                "comment": "大阪の地名・駅名として一般的な読みです。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+                "surface": "梅田ー",
+                "comment": "区切りの記号なので、別要素として分けます。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "梅田ー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000376:u0026:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "梅",
+          "token_surface": "梅",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うめ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "梅",
+              "reading": "うめ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000376:u0026:s0002-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "田ー",
+          "token_surface": "田ー",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "梅",
+          "reading": "うめ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "梅": [
+          "うめ",
+          "ばい"
+        ],
+        "梅田": [
+          "うめた",
+          "うめだ",
+          "ばいた"
+        ],
+        "田": [
+          "た",
+          "だ",
+          "でん"
+        ]
+      },
+      "reading_hints": {
+        "梅": "うめ",
+        "梅田": "うめた",
+        "田": "た"
+      },
+      "llm_parsed": [
+        {
+          "surface": "梅田",
+          "reading": "ウメダ",
+          "used_web_search": false,
+          "comment": "大阪の地名・駅名として一般的な読みです。"
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "used_web_search": false,
+          "comment": "区切りの記号なので、別要素として分けます。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"梅田\",\"reading\":\"ウメダ\",\"used_web_search\":false,\"comment\":\"大阪の地名・駅名として一般的な読みです。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"区切りの記号なので、別要素として分けます。\"}]",
+      "llm_comments": [
+        "大阪の地名・駅名として一般的な読みです。",
+        "区切りの記号なので、別要素として分けます。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "梅田ー",
+        "replacement": [
+          {
+            "surface": "梅田",
+            "reading": "ウメダ"
+          },
+          {
+            "surface": "ー",
+            "reading": "ー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+            "surface": "梅田ー",
+            "comment": "大阪の地名・駅名として一般的な読みです。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000376:u0026::target_group:1",
+            "surface": "梅田ー",
+            "comment": "区切りの記号なので、別要素として分けます。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000376:u0029::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000376",
+      "doc_seq": 3,
+      "track_doc_seq": 376,
+      "unit_id": "ja_cc_level2:0000000376:u0029",
+      "unit_seq": 29,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 376,
+      "text": "ほぼ全列車が線内折り返しのためか、行先幕は両方向とも「西宮北口ー宝塚」となっている。",
+      "rendered_yomi_before": "ほぼ/ホボ 全/ゼン 列車/レッシャ が/ガ 線内/センナイ 折り返し/オリカエシ の/ノ ため/タメ か/カ 、/、 行先/イキサキ 幕/マク は/ハ 両方向/リョウホウコウ とも/トモ 「/「 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 」/」 と/ト なっ/ナッ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "ほぼ/ホボ 全/ゼン 列車/レッシャ が/ガ 線内/センナイ 折り返し/オリカエシ の/ノ ため/タメ か/カ 、/、 行先/イキサキ 幕/マク は/ハ 両方向/リョウホウコウ とも/トモ 「/「 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 」/」 と/ト なっ/ナッ て/テ いる/イル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ほぼ",
+          "ホボ"
+        ],
+        [
+          "全",
+          "ゼン"
+        ],
+        [
+          "列車",
+          "レッシャ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "線内",
+          "センナイ"
+        ],
+        [
+          "折り返し",
+          "オリカエシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "行先",
+          "イキサキ"
+        ],
+        [
+          "幕",
+          "マク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "両方向",
+          "リョウホウコウ"
+        ],
+        [
+          "とも",
+          "トモ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "西宮",
+          "ニシノミヤ"
+        ],
+        [
+          "北口",
+          "キタグチ"
+        ],
+        [
+          "ー",
+          "ー"
+        ],
+        [
+          "宝塚",
+          "タカラヅカ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ほぼ",
+          "reading": "ホボ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほぼ"
+            }
+          ]
+        },
+        {
+          "surface": "全",
+          "reading": "ゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "全",
+              "reading": "ぜん"
+            }
+          ]
+        },
+        {
+          "surface": "列車",
+          "reading": "レッシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "列車",
+              "reading": "れっしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "線内",
+          "reading": "センナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "線内",
+              "reading": "せんない"
+            }
+          ]
+        },
+        {
+          "surface": "折り返し",
+          "reading": "オリカエシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "折",
+              "reading": "お"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "返",
+              "reading": "かえ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "行先",
+          "reading": "イキサキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行先",
+              "reading": "いきさき"
+            }
+          ]
+        },
+        {
+          "surface": "幕",
+          "reading": "マク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "幕",
+              "reading": "まく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "両方向",
+          "reading": "リョウホウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "両方向",
+              "reading": "りょうほうこう"
+            }
+          ]
+        },
+        {
+          "surface": "とも",
+          "reading": "トモ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とも"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "西宮",
+          "reading": "ニシノミヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "西宮",
+              "reading": "にしのみや"
+            }
+          ]
+        },
+        {
+          "surface": "北口",
+          "reading": "キタグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北口",
+              "reading": "きたぐち"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
+            }
+          ]
+        },
+        {
+          "surface": "宝塚",
+          "reading": "タカラヅカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宝塚",
+              "reading": "たからづか"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+          "item_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+          "unit_id": "ja_cc_level2:0000000376:u0029",
+          "text": "ほぼ全列車が線内折り返しのためか、行先幕は両方向とも「西宮北口ー宝塚」となっている。",
+          "rendered_yomi_before": "ほぼ/ホボ 全/ゼン 列車/レッシャ が/ガ 線内/センナイ 折り返し/オリカエシ の/ノ ため/タメ か/カ 、/、 行先/イキサキ 幕/マク は/ハ 両方向/リョウホウコウ とも/トモ 「/「 西宮/ニシノミヤ 北/キタ 口ー/口ー 宝塚/タカラヅカ 」/」 と/ト なっ/ナッ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "ほぼ/ホボ 全/ゼン 列車/レッシャ が/ガ 線内/センナイ 折り返し/オリカエシ の/ノ ため/タメ か/カ 、/、 行先/イキサキ 幕/マク は/ハ 両方向/リョウホウコウ とも/トモ 「/「 西宮/ニシノミヤ 北口/キタグチ ー/ー 宝塚/タカラヅカ 」/」 と/ト なっ/ナッ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 17,
+            "end": 19,
+            "char_start": 29,
+            "char_end": 32,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0029:s0030-0030",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0029:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000376:u0029:s0030-0030",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北",
+              "token_surface": "北",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "北",
+                  "reading": "きた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000376:u0029:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "口ー",
+              "token_surface": "口ー",
+              "token_index": 18,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false
+            }
+          ],
+          "rejected_span": "北口ー",
+          "reading_candidates": {
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "北口": [
+              "きたぐち"
+            ],
+            "口": [
+              "く",
+              "くち",
+              "ぐち",
+              "こう"
+            ]
+          },
+          "reading_hints": {
+            "北": "きた",
+            "北口": "きたぐち",
+            "口": "く"
+          },
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"きたぐち\",\"used_web_search\":false,\"comment\":\"駅名「西宮北口」の一部で、ここは「きたぐち」と読む。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"駅名どうしをつなぐ区切り記号で、音読みは付けない。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "北口",
+              "reading": "きたぐち",
+              "used_web_search": false,
+              "comment": "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。"
+            },
+            {
+              "surface": "ー",
+              "reading": "ー",
+              "used_web_search": false,
+              "comment": "駅名どうしをつなぐ区切り記号で、音読みは付けない。"
+            }
+          ],
+          "llm_comments": [
+            "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。",
+            "駅名どうしをつなぐ区切り記号で、音読みは付けない。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+            "status": "applied",
+            "rejected_span": "北口ー",
+            "replacement": [
+              {
+                "surface": "北口",
+                "reading": "キタグチ"
+              },
+              {
+                "surface": "ー",
+                "reading": "ー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+                "surface": "北口ー",
+                "comment": "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+                "surface": "北口ー",
+                "comment": "駅名どうしをつなぐ区切り記号で、音読みは付けない。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "北口ー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000376:u0029:s0030-0030",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "北",
+          "token_surface": "北",
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きた",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "北",
+              "reading": "きた",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000376:u0029:s0031-0032",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "口ー",
+          "token_surface": "口ー",
+          "token_index": 18,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "北",
+          "reading": "きた",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "北口": [
+          "きたぐち"
+        ],
+        "口": [
+          "く",
+          "くち",
+          "ぐち",
+          "こう"
+        ]
+      },
+      "reading_hints": {
+        "北": "きた",
+        "北口": "きたぐち",
+        "口": "く"
+      },
+      "llm_parsed": [
+        {
+          "surface": "北口",
+          "reading": "きたぐち",
+          "used_web_search": false,
+          "comment": "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。"
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "used_web_search": false,
+          "comment": "駅名どうしをつなぐ区切り記号で、音読みは付けない。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"北口\",\"reading\":\"きたぐち\",\"used_web_search\":false,\"comment\":\"駅名「西宮北口」の一部で、ここは「きたぐち」と読む。\"},{\"surface\":\"ー\",\"reading\":\"ー\",\"used_web_search\":false,\"comment\":\"駅名どうしをつなぐ区切り記号で、音読みは付けない。\"}]",
+      "llm_comments": [
+        "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。",
+        "駅名どうしをつなぐ区切り記号で、音読みは付けない。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+        "status": "applied",
+        "rejected_span": "北口ー",
+        "replacement": [
+          {
+            "surface": "北口",
+            "reading": "キタグチ"
+          },
+          {
+            "surface": "ー",
+            "reading": "ー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+            "surface": "北口ー",
+            "comment": "駅名「西宮北口」の一部で、ここは「きたぐち」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000376:u0029::target_group:1",
+            "surface": "北口ー",
+            "comment": "駅名どうしをつなぐ区切り記号で、音読みは付けない。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000378:u0010::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000378",
+      "doc_seq": 5,
+      "track_doc_seq": 378,
+      "unit_id": "ja_cc_level2:0000000378:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 378,
+      "text": "爽やかに春緒さん…春のようなかたです。",
+      "rendered_yomi_before": "爽やか/サワヤカ に/ニ 春/ハル 緒/イトグチ さん/サン …/… / / 春/ハル の/ノ よう/ヨウ な/ナ かた/カタ です/デス 。/。",
+      "rendered_yomi_after": "爽やか/サワヤカ に/ニ 春緒/ハルオ さん/サン …/… 春/ハル の/ノ よう/ヨウ な/ナ かた/カタ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "爽やか",
+          "サワヤカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "春緒",
+          "ハルオ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "…",
+          "…"
+        ],
+        [
+          "春",
+          "ハル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "かた",
+          "カタ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "爽やか",
+          "reading": "サワヤカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "爽",
+              "reading": "さわ"
+            },
+            {
+              "type": "text",
+              "text": "やか"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "春緒",
+          "reading": "ハルオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春緒",
+              "reading": "はるお"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "…",
+          "reading": "…",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "…"
+            }
+          ]
+        },
+        {
+          "surface": "春",
+          "reading": "ハル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春",
+              "reading": "はる"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "かた",
+          "reading": "カタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かた"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+          "item_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+          "unit_id": "ja_cc_level2:0000000378:u0010",
+          "text": "爽やかに春緒さん…春のようなかたです。",
+          "rendered_yomi_before": "爽やか/サワヤカ に/ニ 春/ハル 緒/イトグチ さん/サン …/… / / 春/ハル の/ノ よう/ヨウ な/ナ かた/カタ です/デス 。/。",
+          "rendered_yomi_after": "爽やか/サワヤカ に/ニ 春緒/ハルオ さん/サン …/… 春/ハル の/ノ よう/ヨウ な/ナ かた/カタ です/デス 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000378:u0010:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "春",
+              "token_surface": "春",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はる",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "春",
+                  "reading": "はる",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000378:u0010:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "緒",
+              "token_surface": "緒",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いとぐち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "緒",
+                  "reading": "いとぐち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000378:u0010:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "春",
+              "token_surface": "春",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はる",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "春",
+                  "reading": "はる",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000378:u0010:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "緒",
+              "token_surface": "緒",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いとぐち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "緒",
+                  "reading": "いとぐち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "春緒",
+          "reading_candidates": {
+            "春": [
+              "しゅん",
+              "はる"
+            ],
+            "緒": [
+              "いとぐち",
+              "お",
+              "ちょ"
+            ]
+          },
+          "reading_hints": {
+            "春": "しゅん",
+            "緒": "いとぐち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "春",
+              "reading": "はる",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "緒",
+              "reading": "いとぐち",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"春緒\",\"reading\":\"ハルオ\",\"used_web_search\":true,\"comment\":\"人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "春緒",
+              "reading": "ハルオ",
+              "used_web_search": true,
+              "comment": "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "春緒",
+            "replacement": [
+              {
+                "surface": "春緒",
+                "reading": "ハルオ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+                "surface": "春緒",
+                "comment": "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "春緒",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000378:u0010:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "春",
+          "token_surface": "春",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はる",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "春",
+              "reading": "はる",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000378:u0010:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "緒",
+          "token_surface": "緒",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いとぐち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "緒",
+              "reading": "いとぐち",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "春",
+          "reading": "はる",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "緒",
+          "reading": "いとぐち",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "春": [
+          "しゅん",
+          "はる"
+        ],
+        "緒": [
+          "いとぐち",
+          "お",
+          "ちょ"
+        ]
+      },
+      "reading_hints": {
+        "春": "しゅん",
+        "緒": "いとぐち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "春緒",
+          "reading": "ハルオ",
+          "used_web_search": true,
+          "comment": "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"春緒\",\"reading\":\"ハルオ\",\"used_web_search\":true,\"comment\":\"人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))\"}]",
+      "llm_comments": [
+        "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "春緒",
+        "replacement": [
+          {
+            "surface": "春緒",
+            "reading": "ハルオ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000378:u0010::target_group:1",
+            "surface": "春緒",
+            "comment": "人名として「はるお」の用例が複数確認できるため、固有名詞として1語にまとめる。([pon-navi.net](https://www.pon-navi.net/nazuke/name/%E6%98%A5%E7%B7%92?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
