@@ -1008,15 +1008,17 @@ button:disabled {
 }
 
 .archive-correction-row.draft-skip {
-  background: rgba(73, 78, 75, 0.08);
+  border-color: rgba(73, 78, 75, 0.3);
+  background: rgba(73, 78, 75, 0.12);
   color: rgba(31, 28, 23, 0.68);
+  box-shadow: inset 3px 0 0 rgba(73, 78, 75, 0.42);
 }
 
 .archive-correction-row.draft-exclude {
-  border-color: rgba(145, 48, 42, 0.45);
-  background: rgba(145, 48, 42, 0.09);
+  border-color: rgba(145, 48, 42, 0.52);
+  background: rgba(145, 48, 42, 0.14);
   color: rgba(76, 37, 33, 0.7);
-  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.62);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.7);
 }
 
 .archive-correction-row.draft-exclude .ruby-line {
@@ -1134,13 +1136,16 @@ button:disabled {
 
 .yomi-card.machine-skip,
 .skipped-tombstone {
-  background: rgba(73, 78, 75, 0.07);
+  border-color: rgba(73, 78, 75, 0.28);
+  background: rgba(73, 78, 75, 0.12);
   color: rgba(31, 28, 23, 0.66);
+  box-shadow: inset 3px 0 0 rgba(73, 78, 75, 0.42);
 }
 
 .yomi-card.machine-exclude {
-  background: rgba(145, 48, 42, 0.06);
-  box-shadow: inset 3px 0 0 rgba(145, 48, 42, 0.48);
+  border-color: rgba(145, 48, 42, 0.42);
+  background: rgba(145, 48, 42, 0.13);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.64);
 }
 
 .skipped-tombstone-label {
@@ -1158,8 +1163,10 @@ button:disabled {
 }
 
 .excluded-tombstone {
-  background: rgba(145, 48, 42, 0.06);
+  border-color: rgba(145, 48, 42, 0.4);
+  background: rgba(145, 48, 42, 0.12);
   color: rgba(76, 37, 33, 0.66);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.6);
 }
 
 .excluded-tombstone-label {

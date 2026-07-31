@@ -5125,7 +5125,9 @@ function positionRepeatedCancellationBar(anchorRect) {
   const viewportWidth = viewport?.width || window.innerWidth;
   const viewportHeight = viewport?.height || window.innerHeight;
   const margin = 10;
-  const gap = 8;
+  // Leave enough separation that the popover does not visually cover the
+  // cancelled ruby target, especially on a zoomed touch viewport.
+  const gap = 16;
   bar.style.width = `${Math.max(140, Math.min(680, viewportWidth - margin * 2))}px`;
   bar.style.left = `${viewportLeft + margin}px`;
   bar.style.top = `${viewportTop + margin}px`;
