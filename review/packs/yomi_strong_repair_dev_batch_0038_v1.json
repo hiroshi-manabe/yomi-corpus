@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 6,
@@ -83,12 +83,12 @@
       "source_line_no": 346,
       "preview": "布団から出てる部分が凍るかと思った。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-30T06:17:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T01:15:45Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 348,
       "preview": "しまについては村確定というのはちと早いな。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-30T06:17:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T01:15:45Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -634,9 +634,9 @@
               "ついたち"
             ],
             "日": [
+              "にち",
               "か",
               "じつ",
-              "にち",
               "ひ",
               "び",
               "ぴ"
@@ -645,7 +645,7 @@
           "reading_hints": {
             "一": "いち",
             "一日": "いちひ",
-            "日": "か"
+            "日": "にち"
           },
           "rejected_readings": [
             {
@@ -744,9 +744,9 @@
           "ついたち"
         ],
         "日": [
+          "にち",
           "か",
           "じつ",
-          "にち",
           "ひ",
           "び",
           "ぴ"
@@ -755,7 +755,7 @@
       "reading_hints": {
         "一": "いち",
         "一日": "いちひ",
-        "日": "か"
+        "日": "にち"
       },
       "llm_parsed": [
         {

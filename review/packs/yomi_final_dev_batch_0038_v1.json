@@ -14,7 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "unresolved_item_count": 26,
     "unresolved_target_count": 35,
@@ -83,12 +83,12 @@
       "source_line_no": 346,
       "preview": "布団から出てる部分が凍るかと思った。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-30T06:17:33Z",
+      "state_updated_at": "2026-07-31T01:15:45Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 27,
@@ -135,12 +135,12 @@
       "source_line_no": 348,
       "preview": "しまについては村確定というのはちと早いな。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-07-30T06:17:33Z",
+      "state_updated_at": "2026-07-31T01:15:45Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 44,
@@ -29789,9 +29789,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "いっかい",
               "tokens": [
                 [
@@ -71142,6 +71142,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "ま",
+              "tokens": [
+                [
+                  "間",
+                  "マ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "間",
+                  "reading": "ま"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -71271,25 +71290,6 @@
                   "type": "ruby",
                   "text": "間",
                   "reading": "はざま"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:8",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ま",
-              "tokens": [
-                [
-                  "間",
-                  "マ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "間",
-                  "reading": "ま"
                 }
               ]
             },
@@ -113793,6 +113793,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -113884,25 +113903,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -186828,6 +186828,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "にち",
+              "tokens": [
+                [
+                  "日",
+                  "ニチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "日",
+                  "reading": "にち"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -186843,25 +186862,6 @@
                   "type": "ruby",
                   "text": "日",
                   "reading": "か"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にち",
-              "tokens": [
-                [
-                  "日",
-                  "ニチ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "日",
-                  "reading": "にち"
                 }
               ]
             },
@@ -195266,9 +195266,9 @@
               ]
             },
             {
-              "id": "corpus_frequency",
-              "source": "corpus_frequency",
-              "label": "Corpus-frequency dominant",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "てき",
               "tokens": [
                 [
@@ -292339,6 +292339,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -292430,25 +292449,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -296445,6 +296445,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -296536,25 +296555,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -317239,6 +317239,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -317330,25 +317349,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -329641,9 +329641,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "づかれ",
               "tokens": [
                 [
@@ -338386,7 +338386,7 @@
           "type": "ruby",
           "text": "日",
           "target_item_id": "ja_cc_level2:0000000350:u0003:s0006-0006",
-          "reading": "にち",
+          "reading": "ひ",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -338487,7 +338487,7 @@
           "text": "とさせていただきます。"
         }
       ],
-      "rendered_yomi": "また/マタ 、/、 土/ド ・/・ 日/ニチ 、/、 祝日/シュクジツ 、/、 年末/ネンマツ 年始/ネンシ 、/、 その/ソノ 他/ホカ 休業/キュウギョウ 期間/キカン は/ハ 、/、 翌営業日/ヨクエイギョウビ 以降/イコウ の/ノ 対応/タイオウ と/ト さ/サ せ/セ て/テ いただき/イタダキ ます/マス 。/。",
+      "rendered_yomi": "また/マタ 、/、 土/ド ・/・ 日/ヒ 、/、 祝日/シュクジツ 、/、 年末/ネンマツ 年始/ネンシ 、/、 その/ソノ 他/ホカ 休業/キュウギョウ 期間/キカン は/ハ 、/、 翌営業日/ヨクエイギョウビ 以降/イコウ の/ノ 対応/タイオウ と/ト さ/サ せ/セ て/テ いただき/イタダキ ます/マス 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "また",
@@ -338532,12 +338532,12 @@
         },
         {
           "surface": "日",
-          "reading": "ニチ",
+          "reading": "ヒ",
           "nodes": [
             {
               "type": "ruby",
               "text": "日",
-              "reading": "にち"
+              "reading": "ひ"
             }
           ]
         },
@@ -339930,9 +339930,9 @@
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "にち",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ひ",
           "candidates": [
             {
               "id": "current",
@@ -339954,9 +339954,9 @@
               ]
             },
             {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "にち",
               "tokens": [
                 [
@@ -343056,6 +343056,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "じょう",
+              "tokens": [
+                [
+                  "上",
+                  "ジョウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "上",
+                  "reading": "じょう"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -343147,25 +343166,6 @@
                   "type": "ruby",
                   "text": "上",
                   "reading": "かむら"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "じょう",
-              "tokens": [
-                [
-                  "上",
-                  "ジョウ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "上",
-                  "reading": "じょう"
                 }
               ]
             },
@@ -358057,6 +358057,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "ぷん",
+              "tokens": [
+                [
+                  "分",
+                  "プン"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "分",
+                  "reading": "ぷん"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -358091,25 +358110,6 @@
                   "type": "ruby",
                   "text": "分",
                   "reading": "ぶ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ぷん",
-              "tokens": [
-                [
-                  "分",
-                  "プン"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "分",
-                  "reading": "ぷん"
                 }
               ]
             },
@@ -373030,6 +373030,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "いっぴ",
+              "tokens": [
+                [
+                  "1日",
+                  "イッピ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "1日",
+                  "reading": "いっぴ"
+                }
+              ]
+            },
+            {
               "id": "numeric_compound:0",
               "source": "numeric_compound",
               "label": "Japanese numeric compound",
@@ -373045,25 +373064,6 @@
                   "type": "ruby",
                   "text": "1日",
                   "reading": "いちにち"
-                }
-              ]
-            },
-            {
-              "id": "numeric_compound:2",
-              "source": "numeric_compound",
-              "label": "Japanese numeric compound",
-              "reading": "いっぴ",
-              "tokens": [
-                [
-                  "1日",
-                  "イッピ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "1日",
-                  "reading": "いっぴ"
                 }
               ]
             },
@@ -373231,6 +373231,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "にち",
+              "tokens": [
+                [
+                  "日",
+                  "ニチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "日",
+                  "reading": "にち"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -373265,25 +373284,6 @@
                   "type": "ruby",
                   "text": "日",
                   "reading": "じつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にち",
-              "tokens": [
-                [
-                  "日",
-                  "ニチ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "日",
-                  "reading": "にち"
                 }
               ]
             },
@@ -375597,6 +375597,25 @@
               ]
             },
             {
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
+              "reading": "にち",
+              "tokens": [
+                [
+                  "日",
+                  "ニチ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "日",
+                  "reading": "にち"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -375631,25 +375650,6 @@
                   "type": "ruby",
                   "text": "日",
                   "reading": "じつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にち",
-              "tokens": [
-                [
-                  "日",
-                  "ニチ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "日",
-                  "reading": "にち"
                 }
               ]
             },

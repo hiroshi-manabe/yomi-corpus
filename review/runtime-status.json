@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2404,
-  "generated_at": "2026-07-31T01:09:30Z",
-  "generated_at_epoch": 1785460170,
-  "last_successful_sync": "2026-07-30T06:18:04Z",
-  "last_successful_sync_epoch": 1785392284,
-  "status": "error",
+  "state_revision": 2405,
+  "generated_at": "2026-07-31T01:17:33Z",
+  "generated_at_epoch": 1785460653,
+  "last_successful_sync": "2026-07-31T01:17:33Z",
+  "last_successful_sync_epoch": 1785460653,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1785459522,
     "interval_seconds": 300,
@@ -17,29 +17,29 @@
     "current_batch_name": "dev_batch_0043",
     "current_stage": "final_review_prepared",
     "next_stage": "final_review_applied",
-    "active_queue_count": 52,
+    "active_queue_count": 50,
     "queue_counts": {
       "bulk_review_selectable": 50,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 2,
-      "escalated_repair_submitted": 2,
-      "resolved": 16
+      "escalated_repair_selectable": 0,
+      "escalated_repair_submitted": 0,
+      "resolved": 0
     },
     "pool_counts": {
       "bulk-ready": 50,
       "bulk-submitted": 0,
-      "escalated-ready": 2,
-      "escalated-submitted": 2,
+      "escalated-ready": 0,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 16,
+      "resolved": 0,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000339:u0041 token 50 '𠮟'/'𠮟' is structurally invalid: reading for kanji or alphabetic surfaces must be katakana",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1785460170,
-    "completed_at_epoch": 1785460170,
-    "drift_seconds": 48
+    "started_at_epoch": 1785460395,
+    "completed_at_epoch": 1785460653,
+    "drift_seconds": 27
   },
   "client_polling": {
     "normal_seconds": 60,
