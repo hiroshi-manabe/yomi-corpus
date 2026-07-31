@@ -179,6 +179,10 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("scrollToManualCorrection", app)
         self.assertIn("includeFlagAcknowledgements", app)
         self.assertIn("acknowledgement_only", app)
+        self.assertIn(
+            "return !current || Boolean(current.manual_correction_required);",
+            app,
+        )
         self.assertIn('id="repeat-cancellation-bar"', html)
         self.assertIn("registerRepeatedCancellation", app)
         self.assertIn("findRepeatedCancellationMatches", app)
