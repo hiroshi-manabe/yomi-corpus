@@ -191,6 +191,9 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn('return selected?.source !== "none";', app)
         self.assertIn("numericKanaSuffixRubyNodes", app)
         self.assertIn("Script=Han", app)
+        self.assertIn("docIsProcessingOnServer", app)
+        self.assertIn("サーバー処理中", app)
+        self.assertIn('stateName === "strong_reviewed"', app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(

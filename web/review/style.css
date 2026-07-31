@@ -806,6 +806,35 @@ button:disabled {
   line-height: 1;
 }
 
+.workflow-processing-badge,
+.workflow-local-submitted-badge {
+  grid-column: 1 / -1;
+  font-size: 0.62rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.workflow-processing-badge {
+  color: #8a5200;
+}
+
+.workflow-local-submitted-badge {
+  color: #5d5960;
+}
+
+.workflow-doc-tile.processing {
+  opacity: 0.72;
+  border-style: solid;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 5px,
+    rgba(138, 82, 0, 0.08) 5px,
+    rgba(138, 82, 0, 0.08) 10px
+  );
+}
+
 .workflow-doc-tile.apply-failed {
   border-color: #b42318;
   box-shadow: inset 0 0 0 2px #b42318;

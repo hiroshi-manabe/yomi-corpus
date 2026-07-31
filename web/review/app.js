@@ -2119,13 +2119,14 @@ function renderWorkflowQueue({
   const actionableDocs = queueDocs.filter((doc) => docIsActionable(doc));
   const selectedDocs = actionableDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
   const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queueStage);
-  const submittedCount = queueDocs.filter((doc) => doc.selectable === false || docIsSubmittedLocally(doc)).length;
+  const localSubmittedCount = queueDocs.filter((doc) => docIsSubmittedLocally(doc) && !docIsProcessingOnServer(doc)).length;
+  const processingCount = queueDocs.filter((doc) => docIsProcessingOnServer(doc)).length;
   const heading = document.createElement("div");
   heading.className = "workflow-heading";
   heading.innerHTML = `
     <div>
       <h3>${escapeHtml(title)}</h3>
-      <p class="muted">作業可能: ${actionableDocs.length}文書${submittedCount ? ` · ローカル提出済み: ${submittedCount}` : ""}</p>
+      <p class="muted">作業可能: ${actionableDocs.length}文書${localSubmittedCount ? ` · ローカル提出済み: ${localSubmittedCount}` : ""}${processingCount ? ` · サーバー処理中: ${processingCount}` : ""}</p>
     </div>
     <strong class="workflow-selected-count">${selectedDocs.length
       ? `選択中: ${selectedDocs.length}文書、${selectedItems.length}項目`
@@ -2250,18 +2251,24 @@ function renderWorkflowTile(row, { compact }) {
   tile.type = "button";
   tile.className = `workflow-doc-tile ${row.status}`;
   tile.classList.toggle("submitted", Boolean(row.submitted));
+  tile.classList.toggle("local-submitted", Boolean(row.local_submitted && !row.processing));
+  tile.classList.toggle("processing", Boolean(row.processing));
   tile.classList.toggle("apply-failed", Boolean(row.apply_failed));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
+    ${row.processing ? '<em class="workflow-processing-badge">サーバー処理中</em>' : ""}
+    ${row.local_submitted && !row.processing ? '<em class="workflow-local-submitted-badge">ローカル提出済み</em>' : ""}
     ${row.apply_failed ? '<em class="workflow-apply-failed-badge">適用失敗</em>' : ""}
   `;
   if (!compact && row.preview) {
     tile.title = row.preview;
   } else if (row.apply_failed) {
     tile.title = "提出された修正を適用できませんでした。GitHub Issueは開いたままです。";
-  } else if (row.submitted) {
+  } else if (row.processing) {
+    tile.title = "提出内容をサーバーで処理しています。";
+  } else if (row.local_submitted) {
     tile.title = row.completed_via || "提出済みです。再編集する場合はローカル提出済みタスクから開いてください。";
   }
   if (!compact) {
@@ -2677,6 +2684,8 @@ function workflowDocumentStates(docs) {
         preview: doc.preview || "",
         completed_via: "",
         submitted: false,
+        local_submitted: false,
+        processing: false,
         apply_failed: false,
       });
     }
@@ -2697,10 +2706,14 @@ function workflowDocumentStates(docs) {
     if (bucketStatus === "final") {
       row.status = "final";
       row.submitted = row.submitted || docIsSubmitted(doc);
+      row.local_submitted = row.local_submitted || docIsSubmittedLocally(doc);
+      row.processing = row.processing || docIsProcessingOnServer(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
       row.submitted = row.submitted || docIsSubmitted(doc);
+      row.local_submitted = row.local_submitted || docIsSubmittedLocally(doc);
+      row.processing = row.processing || docIsProcessingOnServer(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (
       !["final", "strong"].includes(row.status) &&
@@ -2742,10 +2755,10 @@ function submittedWorkflowLabel(doc) {
     return "提出済み・確定処理待ち";
   }
   if (stateName.startsWith("strong_")) {
-    return "提出済み・修正処理待ち";
+    return "サーバーで詳細修正を処理中";
   }
   if (stateName === "final_reviewed") {
-    return "提出済み・処理待ち";
+    return "サーバーで一括レビューを処理中";
   }
   return "提出済み・取り込み待ち";
 }
@@ -2780,6 +2793,8 @@ function submittedSourceQueueStatus(doc) {
 
 function workflowDocumentStateForQueueDoc(doc) {
   const submitted = docIsSubmitted(doc);
+  const localSubmitted = docIsSubmittedLocally(doc);
+  const processing = docIsProcessingOnServer(doc);
   return {
     doc_seq: doc.doc_seq,
     track_doc_seq: doc.track_doc_seq || doc.doc_seq,
@@ -2787,6 +2802,8 @@ function workflowDocumentStateForQueueDoc(doc) {
     status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
     preview: doc.preview || "",
     submitted,
+    local_submitted: localSubmitted,
+    processing,
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
     apply_failed: String(doc.state || "") === "strong_apply_failed",
   };
@@ -2849,7 +2866,8 @@ function queueStatusFromDocumentState(doc) {
   if (
     stateName === "strong_pending" ||
     stateName === "strong_in_review" ||
-    stateName === "strong_apply_failed"
+    stateName === "strong_apply_failed" ||
+    stateName === "strong_reviewed"
   ) {
     return "strong";
   }
@@ -2991,7 +3009,7 @@ function docIsSubmittedLocally(doc) {
   return submittedTaskDocIds().has(taskDocKey(doc));
 }
 
-function docHasServerSubmittedState(doc) {
+function docIsProcessingOnServer(doc) {
   const stateName = String(doc?.state || "");
   const workflowState = String(doc?.workflow_state || "");
   return (
@@ -3004,18 +3022,20 @@ function docHasServerSubmittedState(doc) {
 }
 
 function docIsSubmitted(doc) {
-  return docIsSubmittedLocally(doc) || docHasServerSubmittedState(doc);
+  return docIsSubmittedLocally(doc) || docIsProcessingOnServer(doc);
 }
 
 function docIsActionable(doc) {
-  return doc?.selectable !== false && !docIsSubmittedLocally(doc);
+  return doc?.selectable !== false && !docIsSubmittedLocally(doc) && !docIsProcessingOnServer(doc);
 }
 
 function renderTaskDocumentRow(doc, task) {
   const row = document.createElement("article");
   row.className = "task-doc-row";
   const docKey = taskDocKey(doc);
-  const submitted = docIsSubmittedLocally(doc);
+  const localSubmitted = docIsSubmittedLocally(doc);
+  const processing = docIsProcessingOnServer(doc);
+  const submitted = localSubmitted || processing;
   row.classList.toggle("selected", !submitted && task.doc_ids.includes(docKey));
   row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
   row.classList.toggle("unselectable-task-doc", doc.selectable === false || submitted);
@@ -3039,7 +3059,11 @@ function renderTaskDocumentRow(doc, task) {
   meta.className = "task-doc-meta";
   const itemSeq = doc.item_count > 0 ? `項目 ${doc.from_seq}-${doc.to_seq}` : "レビュー項目なし";
   const stateText = doc.state ? `${localizedDocumentState(doc.state)} · ` : "";
-  const submittedText = submitted ? "ローカル提出済み · " : "";
+  const submittedText = processing
+    ? "サーバー処理中 · "
+    : localSubmitted
+      ? "ローカル提出済み · "
+      : "";
   const sourceText = isUnifiedReviewPack(state.currentPack)
     ? `一括 ${doc.final_item_count || 0} / 詳細 ${doc.strong_repair_item_count || 0} · `
     : "";
@@ -6430,7 +6454,7 @@ function docServerStageIsTaskValid(doc, { submitted = false } = {}) {
   if (!doc || documentIsResolved(doc)) {
     return false;
   }
-  return doc.selectable !== false || (submitted && docHasServerSubmittedState(doc));
+  return doc.selectable !== false || (submitted && docIsProcessingOnServer(doc));
 }
 
 function localTaskRecordStage(record, sourceStage = "") {
@@ -7173,11 +7197,11 @@ function localizedDocumentState(value) {
   return {
     final_pending: "一括レビュー待ち",
     final_in_review: "一括レビュー中",
-    final_reviewed: "一括レビュー提出済み",
+    final_reviewed: "一括レビューをサーバーで処理中",
     strong_pending: "詳細修正待ち",
     strong_in_review: "詳細修正中",
     strong_apply_failed: "詳細修正の適用失敗",
-    strong_reviewed: "詳細修正済み",
+    strong_reviewed: "詳細修正をサーバーで処理中",
     complete: "確定済み",
     skipped: "スキップ済み",
   }[String(value || "")] || String(value || "");
