@@ -10,10 +10,10 @@
   "item_count": 1,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 1,
     "queued_repair_row_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 362,
       "preview": "夫の職場の知人のＦさんは職場山歩きの会の会長で、普段から夫はあちこちの山歩きをご一緒しています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-31T01:45:41Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T01:50:44Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 362,
       "text": "築２５年の我が家、バブル最高値期で買った簡素な住宅・・・。",
       "rendered_yomi_before": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最高/サイコウ 値/チ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
-      "rendered_yomi_after": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最高値/サイコウチ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
+      "rendered_yomi_after": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最/サイ 高値/タカネ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "築",
@@ -327,8 +327,12 @@
           "バブル"
         ],
         [
-          "最高値",
-          "サイコウチ"
+          "最",
+          "サイ"
+        ],
+        [
+          "高値",
+          "タカネ"
         ],
         [
           "期",
@@ -459,13 +463,24 @@
           ]
         },
         {
-          "surface": "最高値",
-          "reading": "サイコウチ",
+          "surface": "最",
+          "reading": "サイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "最高値",
-              "reading": "さいこうち"
+              "text": "最",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "高値",
+          "reading": "タカネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高値",
+              "reading": "たかね"
             }
           ]
         },
@@ -601,14 +616,14 @@
           "unit_id": "ja_cc_level2:0000000362:u0016",
           "text": "築２５年の我が家、バブル最高値期で買った簡素な住宅・・・。",
           "rendered_yomi_before": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最高/サイコウ 値/チ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
-          "rendered_yomi_after": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最高値/サイコウチ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
+          "rendered_yomi_after": "築/チク ２５/ 年/ネン の/ノ 我が家/ワガヤ 、/、 バブル/バブル 最/サイ 高値/タカネ 期/キ で/デ 買っ/カッ た/タ 簡素/カンソ な/ナ 住宅/ジュウタク ・/・ ・/・ ・/・ 。/。",
           "display_mapping": {
             "start": 7,
-            "end": 8,
+            "end": 9,
             "char_start": 12,
             "char_end": 15,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
