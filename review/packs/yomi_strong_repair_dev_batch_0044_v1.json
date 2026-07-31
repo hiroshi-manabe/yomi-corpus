@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -57,12 +57,12 @@
       "source_line_no": 405,
       "preview": "気持ちの良い取り引きの出来る方お願いします。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-31T05:56:13Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T07:12:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 412,
       "preview": "18階に苦戦中の筆者です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-31T05:56:13Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T07:12:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -265,12 +265,12 @@
       "source_line_no": 413,
       "preview": "日本で初めてタクシーが走った日、8月5日を記念して生まれた「タクシーの日」に合わせ、（一財）京都府タクシー協会では「タクシーフェア」を2022年8月5日に「イオンモール」で開催いたします。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-07-31T05:56:13Z",
+      "selectable": false,
+      "state_updated_at": "2026-07-31T07:12:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -2545,7 +2545,7 @@
       "source_line_no": 413,
       "text": "日本で初めてタクシーが走った日、8月5日を記念して生まれた「タクシーの日」に合わせ、（一財）京都府タクシー協会では「タクシーフェア」を2022年8月5日に「イオンモール」で開催いたします。",
       "rendered_yomi_before": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一/イチ 財/ザイ ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
-      "rendered_yomi_after": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一財/イッパンザイダンホウジン ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
+      "rendered_yomi_after": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一財/イチザイ ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "日本",
@@ -2657,7 +2657,7 @@
         ],
         [
           "一財",
-          "イッパンザイダンホウジン"
+          "イチザイ"
         ],
         [
           "）",
@@ -3067,12 +3067,12 @@
         },
         {
           "surface": "一財",
-          "reading": "イッパンザイダンホウジン",
+          "reading": "イチザイ",
           "nodes": [
             {
               "type": "ruby",
               "text": "一財",
-              "reading": "いっぱんざいだんほうじん"
+              "reading": "いちざい"
             }
           ]
         },
@@ -3367,7 +3367,7 @@
           "unit_id": "ja_cc_level2:0000000413:u0001",
           "text": "日本で初めてタクシーが走った日、8月5日を記念して生まれた「タクシーの日」に合わせ、（一財）京都府タクシー協会では「タクシーフェア」を2022年8月5日に「イオンモール」で開催いたします。",
           "rendered_yomi_before": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一/イチ 財/ザイ ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
-          "rendered_yomi_after": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一財/イッパンザイダンホウジン ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
+          "rendered_yomi_after": "日本/ニッポン で/デ 初めて/ハジメテ タクシー/タクシー が/ガ 走っ/ハシッ た/タ 日/ヒ 、/、 8/ 月/ガツ 5日/イツカ を/ヲ 記念/キネン し/シ て/テ 生まれ/ウマレ た/タ 「/「 タクシー/タクシー の/ノ 日/ヒ 」/」 に/ニ 合わせ/アワセ 、/、 （/（ 一財/イチザイ ）/） 京都/キョウト 府/フ タクシー/タクシー 協会/キョウカイ で/デ は/ハ 「/「 タクシー/タクシー フェア/フェア 」/」 を/ヲ 2022/ 年/ネン 8/ 月/ガツ 5日/イツカ に/ニ 「/「 イオン/イオン モール/モール 」/」 で/デ 開催/カイサイ いたし/イタシ ます/マス 。/。",
           "display_mapping": {
             "start": 27,
             "end": 28,

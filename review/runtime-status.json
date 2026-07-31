@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2463,
-  "generated_at": "2026-07-31T06:43:08Z",
-  "generated_at_epoch": 1785480188,
-  "last_successful_sync": "2026-07-31T05:56:51Z",
-  "last_successful_sync_epoch": 1785477411,
-  "status": "error",
+  "state_revision": 2464,
+  "generated_at": "2026-07-31T07:17:44Z",
+  "generated_at_epoch": 1785482264,
+  "last_successful_sync": "2026-07-31T07:17:44Z",
+  "last_successful_sync_epoch": 1785482264,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1785479527,
     "interval_seconds": 300,
@@ -15,31 +15,31 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0046",
-    "current_stage": "scope_triage_llm_completed",
-    "next_stage": "yomi_generated",
-    "active_queue_count": 13,
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
+    "active_queue_count": 1,
     "queue_counts": {
-      "bulk_review_selectable": 10,
+      "bulk_review_selectable": 0,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 3,
-      "escalated_repair_submitted": 3,
-      "resolved": 14
+      "escalated_repair_selectable": 1,
+      "escalated_repair_submitted": 0,
+      "resolved": 9
     },
     "pool_counts": {
-      "bulk-ready": 10,
+      "bulk-ready": 0,
       "bulk-submitted": 0,
-      "escalated-ready": 3,
-      "escalated-submitted": 3,
+      "escalated-ready": 1,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 14,
+      "resolved": 9,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: legacy token 26 surface '^' does not match source at offset 39",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1785480188,
-    "completed_at_epoch": 1785480188,
-    "drift_seconds": 61
+    "started_at_epoch": 1785481917,
+    "completed_at_epoch": 1785482264,
+    "drift_seconds": 10
   },
   "client_polling": {
     "normal_seconds": 60,
