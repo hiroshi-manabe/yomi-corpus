@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2454,
-  "generated_at": "2026-07-31T05:56:51Z",
-  "generated_at_epoch": 1785477411,
+  "state_revision": 2455,
+  "generated_at": "2026-07-31T06:01:20Z",
+  "generated_at_epoch": 1785477680,
   "last_successful_sync": "2026-07-31T05:56:51Z",
   "last_successful_sync_epoch": 1785477411,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1785477165,
     "interval_seconds": 300,
@@ -17,29 +17,29 @@
     "current_batch_name": "dev_batch_0046",
     "current_stage": "scope_triage_llm_completed",
     "next_stage": "yomi_generated",
-    "active_queue_count": 16,
+    "active_queue_count": 13,
     "queue_counts": {
       "bulk_review_selectable": 10,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 6,
-      "escalated_repair_submitted": 0,
+      "escalated_repair_selectable": 3,
+      "escalated_repair_submitted": 3,
       "resolved": 14
     },
     "pool_counts": {
       "bulk-ready": 10,
       "bulk-submitted": 0,
-      "escalated-ready": 6,
-      "escalated-submitted": 0,
+      "escalated-ready": 3,
+      "escalated-submitted": 3,
       "prepared": 0,
       "resolved": 14,
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "YomiTokenError: legacy token 26 surface '^' does not match source at offset 39",
   "observed": {
-    "started_at_epoch": 1785477165,
-    "completed_at_epoch": 1785477411,
-    "drift_seconds": 120
+    "started_at_epoch": 1785477680,
+    "completed_at_epoch": 1785477680,
+    "drift_seconds": 85
   },
   "client_polling": {
     "normal_seconds": 60,
