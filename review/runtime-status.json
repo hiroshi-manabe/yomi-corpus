@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 2460,
-  "generated_at": "2026-07-31T06:26:40Z",
-  "generated_at_epoch": 1785479200,
+  "state_revision": 2461,
+  "generated_at": "2026-07-31T06:32:07Z",
+  "generated_at_epoch": 1785479527,
   "last_successful_sync": "2026-07-31T05:56:51Z",
   "last_successful_sync_epoch": 1785477411,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1785477918,
+    "anchor_epoch": 1785479527,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1785478218
+    "next_expected_epoch": 1785479827
   },
   "state": {
     "current_batch_name": "dev_batch_0046",
@@ -37,9 +37,9 @@
   },
   "message": "YomiTokenError: legacy token 26 surface '^' does not match source at offset 39",
   "observed": {
-    "started_at_epoch": 1785479200,
-    "completed_at_epoch": 1785479200,
-    "drift_seconds": 82
+    "started_at_epoch": 1785479527,
+    "completed_at_epoch": 1785479527,
+    "drift_seconds": 109
   },
   "client_polling": {
     "normal_seconds": 60,
