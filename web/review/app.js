@@ -485,8 +485,14 @@ function buildUnifiedReviewPack(sources) {
   const items = [];
   const sourceDocuments = [];
   let nextSeq = 1;
-  for (const { pack } of sources) {
+  for (const { pack, meta } of sources) {
+    const pendingDocIds = Array.isArray(meta.pending_doc_ids)
+      ? new Set(meta.pending_doc_ids.map(String))
+      : null;
     for (const item of pack.items || []) {
+      if (pendingDocIds && !pendingDocIds.has(String(item.doc_id || ""))) {
+        continue;
+      }
       const unifiedItem = {
         ...item,
         item_id: `${pack.review_stage}:${pack.pack_id}:${item.item_id}`,
@@ -500,11 +506,12 @@ function buildUnifiedReviewPack(sources) {
     }
     for (const doc of pack.documents || []) {
       const docId = String(doc.doc_id || "");
-      if (!docId) {
+      if (!docId || (pendingDocIds && !pendingDocIds.has(docId))) {
         continue;
       }
       sourceDocuments.push({
         ...doc,
+        awaiting_finalization: Boolean(pendingDocIds),
         queue_stage: pack.review_stage,
         source_pack_id: pack.pack_id,
         task_doc_id: queueDocKey(pack.review_stage, docId),
@@ -647,7 +654,9 @@ function documentBelongsToQueue(queueStage, doc) {
 }
 
 function render() {
-  syncLocalTaskRecordsForCurrentPack();
+  if (state.currentStageId !== "archive_browser") {
+    syncLocalTaskRecordsForCurrentPack();
+  }
   renderTaskSelector();
   renderRangeSummary();
   renderItems();
@@ -762,8 +771,8 @@ function renderArchiveSearchPanel(track) {
   heading.className = "archive-search-heading";
   heading.innerHTML = `
     <div>
-      <strong>確定済みコーパスを検索</strong>
-      <p class="muted">確定済み文書の原文を検索します。</p>
+      <strong>コーパスを検索</strong>
+      <p class="muted">確定済み文書と処理中の文書の原文を検索します。</p>
     </div>
   `;
   const input = document.createElement("input");
@@ -911,6 +920,11 @@ function archiveSearchSnippet(text, query) {
 }
 
 async function openArchiveSearchResult(result, query) {
+  const packPath = String(result.pack_path || "");
+  if (packPath) {
+    await openPendingSearchResult(result, query, packPath);
+    return;
+  }
   const shardPath = String(result.shard_path || "");
   if (!shardPath) {
     throw new Error("検索結果にアーカイブの保存先がありません。");
@@ -930,6 +944,62 @@ async function openArchiveSearchResult(result, query) {
   }
   openArchiveCorrectionEditor(doc);
   scrollArchiveCorrectionToFirstMatch(doc, query);
+}
+
+async function openPendingSearchResult(result, query, packPath) {
+  const pack = await fetchJson(packPath);
+  const items = (pack.items || []).filter(
+    (item) =>
+      String(item.doc_id || "") === String(result.doc_id || "") &&
+      Number(item.track_doc_seq || item.doc_seq || 0) === Number(result.track_doc_seq || 0),
+  );
+  if (!items.length) {
+    throw new Error("レビュー用データ内に文書が見つかりません。");
+  }
+
+  el.workflowPreviewTitle.textContent = `文書 ${result.track_doc_seq}`;
+  el.workflowPreviewMeta.textContent = "処理中 · 閲覧専用";
+  el.workflowPreviewBody.innerHTML = "";
+  const originalPack = state.currentPack;
+  const originalDraft = state.currentDraft;
+  state.currentPack = pack;
+  state.currentDraft = { overrides: {} };
+  try {
+    const sortedItems = items.sort(
+      (left, right) =>
+        Number(left.unit_seq || left.seq || 0) - Number(right.unit_seq || right.seq || 0),
+    );
+    for (const item of sortedItems) {
+      const node = renderPreviewItem(item);
+      node.dataset.searchText = item.text || "";
+      el.workflowPreviewBody.append(node);
+    }
+  } finally {
+    state.currentPack = originalPack;
+    state.currentDraft = originalDraft;
+  }
+  el.workflowPreviewActions.innerHTML = "";
+  const note = document.createElement("span");
+  note.className = "muted";
+  note.textContent = "この文書は処理中です。現在のレビュー用データを表示しています。";
+  el.workflowPreviewActions.append(note);
+  el.workflowPreviewModal.classList.remove("hidden");
+  scrollPendingSearchToFirstMatch(query);
+  updateRuntimePollingForInteraction();
+}
+
+function scrollPendingSearchToFirstMatch(query) {
+  const normalizedQuery = normalizeArchiveSearchText(query).trim();
+  const target = [...(el.workflowPreviewBody?.querySelectorAll("[data-search-text]") || [])].find(
+    (node) => normalizeArchiveSearchText(node.dataset.searchText).includes(normalizedQuery),
+  );
+  if (!target) {
+    return;
+  }
+  target.classList.add("search-match");
+  window.requestAnimationFrame(() => {
+    target.scrollIntoView({ block: "center", behavior: "auto" });
+  });
 }
 
 function scrollArchiveCorrectionToFirstMatch(doc, query) {
@@ -2005,7 +2075,6 @@ function renderWorkflowPackMap(docs) {
       </div>
       <div class="workflow-heading-actions">
         <div class="workflow-legend-inline">
-          <span><span class="workflow-dot resolved"></span>確定済み</span>
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
@@ -2627,11 +2696,11 @@ function workflowDocumentStates(docs) {
     const bucketStatus = workflowDocumentBucketStatus(doc);
     if (bucketStatus === "final") {
       row.status = "final";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmitted(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (row.status !== "final" && bucketStatus === "strong") {
       row.status = "strong";
-      row.submitted = row.submitted || docIsSubmittedLocally(doc);
+      row.submitted = row.submitted || docIsSubmitted(doc);
       row.completed_via = row.submitted ? submittedWorkflowLabel(doc) : "";
     } else if (
       !["final", "strong"].includes(row.status) &&
@@ -2648,8 +2717,11 @@ function workflowDocumentStates(docs) {
 }
 
 function documentIsResolved(doc) {
+  if (isUnifiedReviewPack(state.currentPack) || doc?.awaiting_finalization) {
+    return false;
+  }
   const stateName = String(doc?.state || "");
-  return stateName === "complete" || stateName === "skipped" || stateName === "strong_reviewed";
+  return stateName === "complete" || stateName === "skipped";
 }
 
 function documentHasPendingCanonicalState(doc) {
@@ -2666,6 +2738,9 @@ function documentHasPendingCanonicalState(doc) {
 
 function submittedWorkflowLabel(doc) {
   const stateName = String(doc?.state || "");
+  if (stateName === "complete" || stateName === "skipped") {
+    return "提出済み・確定処理待ち";
+  }
   if (stateName.startsWith("strong_")) {
     return "提出済み・修正処理待ち";
   }
@@ -2704,7 +2779,7 @@ function submittedSourceQueueStatus(doc) {
 }
 
 function workflowDocumentStateForQueueDoc(doc) {
-  const submitted = docIsSubmittedLocally(doc);
+  const submitted = docIsSubmitted(doc);
   return {
     doc_seq: doc.doc_seq,
     track_doc_seq: doc.track_doc_seq || doc.doc_seq,
@@ -2750,6 +2825,12 @@ function workflowDocumentBucketStatus(doc) {
   }
   if (documentHasPendingCanonicalState(doc)) {
     return pendingSourceQueueStatus(doc);
+  }
+  if (doc?.awaiting_finalization) {
+    return queueStatusForStage(doc.queue_stage);
+  }
+  if (isUnifiedReviewPack(state.currentPack)) {
+    return queueStatusForStage(doc.queue_stage);
   }
   if (docIsSubmittedLocally(doc)) {
     return submittedSourceQueueStatus(doc);
@@ -2908,6 +2989,22 @@ function submittedTaskDocIds() {
 
 function docIsSubmittedLocally(doc) {
   return submittedTaskDocIds().has(taskDocKey(doc));
+}
+
+function docHasServerSubmittedState(doc) {
+  const stateName = String(doc?.state || "");
+  const workflowState = String(doc?.workflow_state || "");
+  return (
+    stateName === "final_reviewed" ||
+    stateName === "strong_reviewed" ||
+    (Boolean(doc?.awaiting_finalization) && (stateName === "complete" || stateName === "skipped")) ||
+    workflowState === "bulk_submitted" ||
+    workflowState === "escalated_submitted"
+  );
+}
+
+function docIsSubmitted(doc) {
+  return docIsSubmittedLocally(doc) || docHasServerSubmittedState(doc);
 }
 
 function docIsActionable(doc) {
@@ -6289,9 +6386,10 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   if (!taskStage) {
     return null;
   }
+  const submitted = taskRecordStatus(rawRecord) === "submitted";
   const docIds = taskDocIdsForStorageTask(rawRecord.task);
   const validDocs = docIds
-    .map((docId) => currentQueueDocForTaskDocId(docId, taskStage))
+    .map((docId) => currentQueueDocForTaskDocId(docId, taskStage, { submitted }))
     .filter(Boolean);
   if (!validDocs.length) {
     return null;
@@ -6302,8 +6400,12 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     doc_id: undefined,
     doc_ids: validDocs.map((doc) => taskDocKey(doc)),
     started: false,
-    range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage),
-    range_end_doc_id: validLocalTaskBoundary(rawRecord.task?.range_end_doc_id, taskStage),
+    range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage, {
+      submitted,
+    }),
+    range_end_doc_id: validLocalTaskBoundary(rawRecord.task?.range_end_doc_id, taskStage, {
+      submitted,
+    }),
   };
   return {
     ...rawRecord,
@@ -6314,18 +6416,21 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   };
 }
 
-function currentQueueDocForTaskDocId(taskDocId, taskStage) {
+function currentQueueDocForTaskDocId(taskDocId, taskStage, { submitted = false } = {}) {
   const baseDocId = baseDocIdFromTaskDocId(taskDocId);
   return buildDocumentTasks(state.currentPack).find(
     (doc) =>
       String(doc.doc_id || "") === baseDocId &&
       doc.queue_stage === taskStage &&
-      docServerStageIsTaskValid(doc),
+      docServerStageIsTaskValid(doc, { submitted }),
   ) || null;
 }
 
-function docServerStageIsTaskValid(doc) {
-  return Boolean(doc) && doc.selectable !== false && !documentIsResolved(doc);
+function docServerStageIsTaskValid(doc, { submitted = false } = {}) {
+  if (!doc || documentIsResolved(doc)) {
+    return false;
+  }
+  return doc.selectable !== false || (submitted && docHasServerSubmittedState(doc));
 }
 
 function localTaskRecordStage(record, sourceStage = "") {
@@ -6344,8 +6449,8 @@ function localTaskRecordStage(record, sourceStage = "") {
   return "";
 }
 
-function validLocalTaskBoundary(docId, taskStage) {
-  const doc = currentQueueDocForTaskDocId(docId, taskStage);
+function validLocalTaskBoundary(docId, taskStage, { submitted = false } = {}) {
+  const doc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
   return doc ? taskDocKey(doc) : null;
 }
 

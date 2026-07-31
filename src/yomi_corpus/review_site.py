@@ -31,7 +31,11 @@ def load_review_pack(path: str | Path) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
+def collect_review_pack_entries(
+    review_pack_root: str | Path,
+    *,
+    finalized_document_keys: set[tuple[int, str]] | None = None,
+) -> list[dict]:
     root = Path(review_pack_root)
     entries: list[dict] = []
     if not root.exists():
@@ -44,30 +48,62 @@ def collect_review_pack_entries(review_pack_root: str | Path) -> list[dict]:
             continue
         pack_id = str(payload["pack_id"])
         title = build_pack_title(payload, path)
-        entries.append(
-            {
-                "pack_id": pack_id,
-                "title": title,
-                "review_stage": str(payload["review_stage"]),
-                "queue_id": str(payload.get("queue_id") or payload["review_stage"]),
-                "track_name": track_name,
-                "batch_name": str(payload.get("batch_name") or ""),
-                "created_at_epoch": int(payload.get("created_at_epoch", 0)),
-                "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
-                "document_count": int(
-                    payload.get("summary", {}).get("document_count", len(payload.get("documents", [])))
-                ),
-                "selectable_document_count": int(
-                    payload.get("summary", {}).get("selectable_document_count", 0)
-                ),
-                "document_state_counts": payload.get("summary", {}).get(
-                    "document_state_counts", {}
-                ),
-                "source_path": path,
-                "site_filename": f"{pack_id}.json",
-            }
-        )
+        entry = {
+            "pack_id": pack_id,
+            "title": title,
+            "review_stage": str(payload["review_stage"]),
+            "queue_id": str(payload.get("queue_id") or payload["review_stage"]),
+            "track_name": track_name,
+            "batch_name": str(payload.get("batch_name") or ""),
+            "created_at_epoch": int(payload.get("created_at_epoch", 0)),
+            "item_count": int(payload.get("item_count", len(payload.get("items", [])))),
+            "document_count": int(
+                payload.get("summary", {}).get(
+                    "document_count", len(payload.get("documents", []))
+                )
+            ),
+            "selectable_document_count": int(
+                payload.get("summary", {}).get("selectable_document_count", 0)
+            ),
+            "document_state_counts": payload.get("summary", {}).get(
+                "document_state_counts", {}
+            ),
+            "source_path": path,
+            "site_filename": f"{pack_id}.json",
+        }
+        if finalized_document_keys is not None:
+            pending_doc_ids = []
+            for doc in payload.get("documents", []):
+                doc_id = str(doc.get("doc_id") or "")
+                try:
+                    track_doc_seq = int(doc.get("track_doc_seq") or doc.get("doc_seq") or 0)
+                except (TypeError, ValueError):
+                    continue
+                if (
+                    doc_id
+                    and (track_doc_seq, doc_id) not in finalized_document_keys
+                    and document_belongs_to_pending_pack(doc, entry["review_stage"])
+                ):
+                    pending_doc_ids.append(doc_id)
+            entry["pending_doc_ids"] = pending_doc_ids
+            entry["pending_document_count"] = len(pending_doc_ids)
+        entries.append(entry)
     return entries
+
+
+def document_belongs_to_pending_pack(doc: dict, review_stage: str) -> bool:
+    workflow_queue_stage = str(doc.get("workflow_queue_stage") or "")
+    if workflow_queue_stage:
+        return workflow_queue_stage == review_stage
+    has_strong_repairs = (
+        int(doc.get("strong_repair_item_count") or 0) > 0
+        or (review_stage == "yomi_strong_repair_review" and int(doc.get("item_count") or 0) > 0)
+    )
+    if review_stage == "yomi_strong_repair_review":
+        return has_strong_repairs
+    if review_stage == "yomi_final_review":
+        return not has_strong_repairs
+    return False
 
 
 def build_review_manifest(entries: list[dict]) -> dict:
@@ -96,6 +132,8 @@ def build_review_manifest(entries: list[dict]) -> dict:
                 "document_count": int(entry.get("document_count", 0)),
                 "selectable_document_count": int(entry.get("selectable_document_count", 0)),
                 "document_state_counts": entry.get("document_state_counts", {}),
+                "pending_doc_ids": entry.get("pending_doc_ids"),
+                "pending_document_count": entry.get("pending_document_count"),
                 "queue_id": entry.get("queue_id", stage_id),
                 "status": "archived",
             }
@@ -184,7 +222,11 @@ def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
             ):
                 latest_by_batch[batch_key] = pack
         for pack in latest_by_batch.values():
-            if int(pack.get("selectable_document_count") or 0) <= 0:
+            if pack.get("pending_document_count") is not None:
+                has_working_documents = int(pack["pending_document_count"]) > 0
+            else:
+                has_working_documents = int(pack.get("selectable_document_count") or 0) > 0
+            if not has_working_documents:
                 continue
             queues.append(
                 {
@@ -200,6 +242,8 @@ def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
                     "document_count": pack.get("document_count", 0),
                     "selectable_document_count": pack.get("selectable_document_count", 0),
                     "document_state_counts": pack.get("document_state_counts", {}),
+                    "pending_doc_ids": pack.get("pending_doc_ids"),
+                    "pending_document_count": pack.get("pending_document_count"),
                     "queue_id": pack.get("queue_id", stage_id),
                     "status": "active-dev",
                 }
@@ -249,7 +293,16 @@ def publish_review_site(
     rewrite_index_asset_versions(review_output_dir)
     write_root_redirect(docs_root / "index.html")
 
-    entries = collect_review_pack_entries(review_root)
+    finalized_document_keys = None
+    if project_root is not None:
+        finalized_document_keys = {
+            (int(doc["track_doc_seq"]), str(doc.get("doc_id") or ""))
+            for doc in collect_finalized_archive_documents(Path(project_root), DEV_TRACK)
+        }
+    entries = collect_review_pack_entries(
+        review_root,
+        finalized_document_keys=finalized_document_keys,
+    )
     manifest = build_review_manifest(entries)
     if project_root is not None:
         runtime_source = (
@@ -265,6 +318,7 @@ def publish_review_site(
         archive_manifest = publish_review_archive(
             project_root=project_root,
             review_output_dir=review_output_dir,
+            review_pack_entries=entries,
         )
         manifest["archive"] = archive_manifest
 
@@ -283,6 +337,7 @@ def publish_review_archive(
     project_root: str | Path,
     review_output_dir: str | Path,
     shard_size: int = ARCHIVE_SHARD_SIZE,
+    review_pack_entries: list[dict] | None = None,
 ) -> dict:
     root = Path(project_root)
     output_root = Path(review_output_dir) / "archive"
@@ -305,6 +360,11 @@ def publish_review_archive(
             shards=shards,
             output_root=track_dir,
             url_prefix=f"./archive/{track_name}",
+            supplemental_records=collect_pending_review_search_records(
+                review_pack_entries or [],
+                track_name=track_name,
+                finalized_documents=documents,
+            ),
         )
         tracks[track_name] = {
             "track_name": track_name,
@@ -717,6 +777,7 @@ def write_archive_search_index(
     shards: list[dict],
     output_root: Path,
     url_prefix: str,
+    supplemental_records: list[dict] | None = None,
 ) -> str:
     records = []
     for doc in documents:
@@ -741,9 +802,11 @@ def write_archive_search_index(
                 ),
             }
         )
+    records.extend(supplemental_records or [])
+    records.sort(key=lambda row: (int(row["track_doc_seq"]), str(row.get("doc_id") or "")))
     filename = "search.json"
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
         "document_count": len(records),
         "documents": records,
     }
@@ -752,6 +815,67 @@ def write_archive_search_index(
         encoding="utf-8",
     )
     return f"{url_prefix}/{filename}"
+
+
+def collect_pending_review_search_records(
+    entries: list[dict],
+    *,
+    track_name: str,
+    finalized_documents: list[dict],
+) -> list[dict]:
+    finalized_keys = {
+        (int(doc["track_doc_seq"]), str(doc.get("doc_id") or ""))
+        for doc in finalized_documents
+    }
+    latest_by_batch: dict[str, dict] = {}
+    for entry in entries:
+        if (
+            entry.get("track_name") != track_name
+            or entry.get("review_stage") != "yomi_final_review"
+        ):
+            continue
+        batch_name = str(entry.get("batch_name") or "")
+        current = latest_by_batch.get(batch_name)
+        if current is None or (
+            int(entry.get("created_at_epoch") or 0),
+            str(entry.get("pack_id") or ""),
+        ) > (
+            int(current.get("created_at_epoch") or 0),
+            str(current.get("pack_id") or ""),
+        ):
+            latest_by_batch[batch_name] = entry
+
+    records: dict[tuple[int, str], dict] = {}
+    for entry in latest_by_batch.values():
+        payload = load_review_pack(entry["source_path"])
+        text_by_doc: dict[str, list[tuple[int, str]]] = {}
+        for item in payload.get("items", []):
+            doc_id = str(item.get("doc_id") or "")
+            if not doc_id:
+                continue
+            text_by_doc.setdefault(doc_id, []).append(
+                (
+                    int(item.get("unit_seq") or item.get("seq") or 0),
+                    str(item.get("text") or ""),
+                )
+            )
+        for doc in payload.get("documents", []):
+            doc_id = str(doc.get("doc_id") or "")
+            try:
+                track_doc_seq = int(doc.get("track_doc_seq") or 0)
+            except (TypeError, ValueError):
+                continue
+            key = (track_doc_seq, doc_id)
+            if not doc_id or track_doc_seq <= 0 or key in finalized_keys:
+                continue
+            unit_texts = text_by_doc.get(doc_id, [])
+            records[key] = {
+                "track_doc_seq": track_doc_seq,
+                "doc_id": doc_id,
+                "pack_path": f"./packs/{entry['site_filename']}",
+                "text": "\n".join(text for _, text in sorted(unit_texts)),
+            }
+    return [records[key] for key in sorted(records)]
 
 
 def iter_jsonl(path: Path):

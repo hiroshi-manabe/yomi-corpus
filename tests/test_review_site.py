@@ -7,6 +7,9 @@ from pathlib import Path
 
 from yomi_corpus.review_site import (
     build_review_manifest,
+    collect_pending_review_search_records,
+    collect_review_pack_entries,
+    document_belongs_to_pending_pack,
     normalize_archive_yomi_tokens,
     publish_review_archive,
     publish_review_site,
@@ -14,6 +17,143 @@ from yomi_corpus.review_site import (
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_pending_pack_ownership_uses_canonical_stage_then_repair_history(self) -> None:
+        submitted = {
+            "workflow_queue_stage": "yomi_strong_repair_review",
+            "strong_repair_item_count": 1,
+        }
+        completed_without_repairs = {"strong_repair_item_count": 0}
+
+        self.assertFalse(document_belongs_to_pending_pack(submitted, "yomi_final_review"))
+        self.assertTrue(
+            document_belongs_to_pending_pack(submitted, "yomi_strong_repair_review")
+        )
+        self.assertTrue(
+            document_belongs_to_pending_pack(completed_without_repairs, "yomi_final_review")
+        )
+        self.assertFalse(
+            document_belongs_to_pending_pack(
+                completed_without_repairs,
+                "yomi_strong_repair_review",
+            )
+        )
+
+    def test_review_pack_entries_keep_nonfinalized_documents_pending(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            pack_root = Path(tmp)
+            pack_path = pack_root / "pack.json"
+            pack_path.write_text(
+                json.dumps(
+                    {
+                        "pack_id": "yomi_final_dev_batch_0001_v1",
+                        "review_stage": "yomi_final_review",
+                        "track_name": "dev",
+                        "batch_name": "dev_batch_0001",
+                        "documents": [
+                            {"doc_id": "doc1", "track_doc_seq": 1},
+                            {"doc_id": "doc2", "track_doc_seq": 2},
+                        ],
+                        "items": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            entries = collect_review_pack_entries(
+                pack_root,
+                finalized_document_keys={(1, "doc1")},
+            )
+
+            self.assertEqual(entries[0]["pending_doc_ids"], ["doc2"])
+            self.assertEqual(entries[0]["pending_document_count"], 1)
+
+    def test_manifest_keeps_submitted_only_pack_in_current_work(self) -> None:
+        manifest = build_review_manifest(
+            [
+                {
+                    "pack_id": "yomi_strong_repair_dev_batch_0001_v1",
+                    "title": "Strong repair submitted",
+                    "review_stage": "yomi_strong_repair_review",
+                    "track_name": "dev",
+                    "batch_name": "dev_batch_0001",
+                    "created_at_epoch": 10,
+                    "item_count": 1,
+                    "document_count": 1,
+                    "selectable_document_count": 0,
+                    "pending_doc_ids": ["doc1"],
+                    "pending_document_count": 1,
+                    "queue_id": "strong_repair",
+                    "site_filename": "yomi_strong_repair_dev_batch_0001_v1.json",
+                }
+            ]
+        )
+
+        self.assertEqual(len(manifest["current_review_queues"]), 1)
+        self.assertEqual(manifest["current_review_queues"][0]["pending_doc_ids"], ["doc1"])
+        self.assertEqual(
+            manifest["current_review_queues"][0]["selectable_document_count"],
+            0,
+        )
+
+    def test_pending_review_search_includes_nonfinalized_document_text(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            pack_path = Path(tmp) / "yomi_final_dev_batch_0037_v1.json"
+            pack_path.write_text(
+                json.dumps(
+                    {
+                        "documents": [
+                            {
+                                "doc_id": "ja_cc_level2:0000000339",
+                                "track_doc_seq": 339,
+                            }
+                        ],
+                        "items": [
+                            {
+                                "doc_id": "ja_cc_level2:0000000339",
+                                "track_doc_seq": 339,
+                                "unit_seq": 2,
+                                "text": "𠮟られたりする。",
+                            },
+                            {
+                                "doc_id": "ja_cc_level2:0000000339",
+                                "track_doc_seq": 339,
+                                "unit_seq": 1,
+                                "text": "前の文。",
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            records = collect_pending_review_search_records(
+                [
+                    {
+                        "track_name": "dev",
+                        "review_stage": "yomi_final_review",
+                        "batch_name": "dev_batch_0037",
+                        "created_at_epoch": 1,
+                        "pack_id": "yomi_final_dev_batch_0037_v1",
+                        "site_filename": pack_path.name,
+                        "source_path": pack_path,
+                    }
+                ],
+                track_name="dev",
+                finalized_documents=[],
+            )
+
+            self.assertEqual(
+                records,
+                [
+                    {
+                        "track_doc_seq": 339,
+                        "doc_id": "ja_cc_level2:0000000339",
+                        "pack_path": "./packs/yomi_final_dev_batch_0037_v1.json",
+                        "text": "前の文。\n𠮟られたりする。",
+                    }
+                ],
+            )
+
     def test_archive_preserves_optional_japanese_numeral_reading(self) -> None:
         self.assertEqual(
             normalize_archive_yomi_tokens(
