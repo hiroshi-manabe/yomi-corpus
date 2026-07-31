@@ -1159,6 +1159,9 @@ function archiveCorrectionRecordForDoc(doc) {
   }
   const remaining = (currentRecord.units || []).filter((saved) => {
     const current = currentUnits.get(String(saved.unit_id || ""));
+    if (saved.acknowledgement_only === true) {
+      return !current || Boolean(current.manual_correction_required);
+    }
     const disposition = saved.disposition || (saved.skip === false ? "Keep" : saved.skip ? "Skip" : "");
     if (disposition === "Keep" && current?.skipped) {
       return true;
