@@ -1202,6 +1202,32 @@ class YomiFinalReviewTests(unittest.TestCase):
             {"ok": True},
         )
 
+    @patch("yomi_corpus.yomi.final_review.load_final_review_surface_readings")
+    def test_finalization_repairs_invalid_reading_from_unique_trusted_lexicon_entry(
+        self,
+        load_readings,
+    ) -> None:
+        load_readings.return_value = {"𠮟": ("しか",)}
+        unit = {
+            "unit_id": "u1",
+            "text": "𠮟られる。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "token_schema_version": 1,
+                        "tokens": [["𠮟", "𠮟"], ["られる", "ラレル"], ["。", "。"]],
+                    }
+                }
+            },
+        }
+
+        canonicalize_finalized_unit_yomi(unit)
+
+        self.assertEqual(
+            unit["analysis"]["mechanical"]["yomi"]["tokens"][0],
+            ["𠮟", "シカ"],
+        )
+
     def test_finalized_correction_normalizes_optional_numeral_reading_to_katakana(self) -> None:
         self.assertEqual(
             normalize_correction_yomi_tokens([["一二三", "ひふみ"]]),

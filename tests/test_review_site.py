@@ -194,6 +194,7 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("docIsProcessingOnServer", app)
         self.assertIn("サーバー処理中", app)
         self.assertIn('stateName === "strong_reviewed"', app)
+        self.assertIn("awaiting_finalization: Boolean(doc.awaiting_finalization)", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(

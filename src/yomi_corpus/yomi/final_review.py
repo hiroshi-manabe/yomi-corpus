@@ -74,6 +74,7 @@ APPLY_RULE = "yomi_final_review_apply_v1"
 STRONG_REPAIR_REVIEW_RULE = "yomi_strong_repair_review_v1"
 SURFACE_READING_STATS_PATH = Path("data/generated/yomi_surface_reading_stats.tsv")
 ANNOTATED_FORMS_PATH = Path("data/external/sudachi_annotated_forms/sudachi_20251022.tsv")
+MANUAL_FURIGANA_PATH = Path("config/yomi/manual_furigana.tsv")
 SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 LEARNED_YOMI_READINGS_PATH = Path("data/lexicon/learned_yomi_readings.tsv")
 READING_HINT_MIN_COUNT = 2
@@ -1958,7 +1959,9 @@ def load_annotated_form_surface_readings() -> dict[str, tuple[str, ...]]:
 
 @lru_cache(maxsize=1)
 def load_final_review_surface_readings() -> dict[str, tuple[str, ...]]:
-    return load_surface_readings_from_tsv_paths((SUPPLEMENTAL_FURIGANA_PATH, ANNOTATED_FORMS_PATH))
+    return load_surface_readings_from_tsv_paths(
+        (MANUAL_FURIGANA_PATH, SUPPLEMENTAL_FURIGANA_PATH, ANNOTATED_FORMS_PATH)
+    )
 
 
 @lru_cache(maxsize=1)
@@ -2314,7 +2317,9 @@ def split_trailing_ruby_surface(text: str) -> tuple[str, str]:
 
 @lru_cache(maxsize=1)
 def furigana_converter() -> FuriganaConverter:
-    return FuriganaConverter.from_tsv_many([ANNOTATED_FORMS_PATH, SUPPLEMENTAL_FURIGANA_PATH])
+    return FuriganaConverter.from_tsv_many(
+        [ANNOTATED_FORMS_PATH, SUPPLEMENTAL_FURIGANA_PATH, MANUAL_FURIGANA_PATH]
+    )
 
 
 def load_json(path: str | Path) -> dict[str, Any]:
@@ -5063,11 +5068,13 @@ def canonicalize_finalized_unit_yomi(
             grandfathered_counts[(surface, reading)] -= 1
             continue
         candidates = human_readings.get(surface, set())
-        valid_candidates = sorted(
-            candidate
+        if not candidates:
+            candidates = set(load_final_review_surface_readings().get(surface, ()))
+        valid_candidates = sorted({
+            hira_to_kata(candidate)
             for candidate in candidates
-            if validate_finalized_correction_reading(surface, candidate)["ok"]
-        )
+            if validate_finalized_correction_reading(surface, hira_to_kata(candidate))["ok"]
+        })
         if len(valid_candidates) == 1:
             tokens[index][1] = valid_candidates[0]
             continue
