@@ -29,10 +29,15 @@ def is_numeric_only_surface(surface: str) -> bool:
         return False
     if not JAPANESE_NUMERAL_DIGIT_RE.fullmatch(surface):
         return True
+    # A run made entirely of white circles is normally a redaction or
+    # placeholder, not a number. A circle inside an otherwise numeric run,
+    # such as 一○ or 二○二六, retains its zero-like numeric role.
+    if set(surface) == {"○"}:
+        return False
     # Multi-character digit-style runs are delegated to the numeric layer.
-    # Single lexical numerals retain their ordinary reading; circle zero is a
-    # notation symbol and remains no-ruby even by itself.
-    return len(surface) >= 2 or surface in {"〇", "○"}
+    # Single lexical numerals retain their ordinary reading; ideographic zero
+    # remains no-ruby even by itself.
+    return len(surface) >= 2 or surface == "〇"
 
 
 def allows_optional_japanese_numeral_reading(surface: str) -> bool:
@@ -40,6 +45,7 @@ def allows_optional_japanese_numeral_reading(surface: str) -> bool:
     return bool(
         len(surface) >= 2
         and JAPANESE_NUMERAL_DIGIT_RE.fullmatch(surface)
+        and set(surface) != {"○"}
     )
 
 

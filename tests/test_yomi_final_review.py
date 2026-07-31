@@ -1191,6 +1191,17 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertFalse(validate_finalized_correction_reading("一三", "13")["ok"])
         self.assertFalse(validate_finalized_correction_reading("Ⅲ", "サン")["ok"])
 
+    def test_finalized_correction_treats_white_circle_placeholders_as_symbols(self) -> None:
+        self.assertEqual(
+            validate_finalized_correction_reading("○○", "○○"),
+            {"ok": True},
+        )
+        self.assertFalse(validate_finalized_correction_reading("○○", "")["ok"])
+        self.assertEqual(
+            validate_finalized_correction_reading("一○", ""),
+            {"ok": True},
+        )
+
     def test_finalized_correction_normalizes_optional_numeral_reading_to_katakana(self) -> None:
         self.assertEqual(
             normalize_correction_yomi_tokens([["一二三", "ひふみ"]]),
