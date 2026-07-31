@@ -512,7 +512,87 @@ class YomiFinalReviewTests(unittest.TestCase):
         override = build_target_override(rows[0], {"u1:r1": target})
 
         self.assertTrue(override["automatic_default"])
+        self.assertFalse(override["accepted_no_ruby"])
         self.assertNotIn("rejected_readings", override)
+
+    def test_rule_accepted_no_ruby_default_is_recorded_separately(self) -> None:
+        target = {
+            "item_id": "u1:r1",
+            "surface": "二〇〇二",
+            "token_surface": "二〇〇二",
+            "current_reading_hiragana": "にれいれいに",
+            "default_choice_source": "none",
+            "default_reading": None,
+            "signals": [
+                {
+                    "name": "safe_numeric_no_ruby",
+                    "accepted": True,
+                    "preferred_choice_source": "none",
+                }
+            ],
+        }
+
+        rows = default_target_rows({"targets": [target]})
+        override = build_target_override(rows[0], {"u1:r1": target})
+
+        self.assertTrue(override["automatic_default"])
+        self.assertTrue(override["accepted_no_ruby"])
+        self.assertNotIn("rejected_readings", override)
+
+    def test_fallback_no_ruby_default_queues_strong_repair(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            units_path = root / "reviewed.jsonl"
+            queue_path = root / "queue.jsonl"
+            summary_path = root / "summary.json"
+            units_path.write_text(
+                json.dumps(
+                    {
+                        "unit_id": "u1",
+                        "text": "INOSHIRUです。",
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {"rendered": "INOSHIRU/INOSHIRU です/デス 。/。"}
+                            },
+                            "human_review": {
+                                "yomi_final": {
+                                    "reviewed": True,
+                                    "skip": False,
+                                    "target_overrides": [
+                                        {
+                                            "item_id": "u1:s0001-0008",
+                                            "choice_source": "none",
+                                            "selected_reading": None,
+                                            "surface": "INOSHIRU",
+                                            "token_surface": "INOSHIRU",
+                                            "token_index": 0,
+                                            "target_start": 0,
+                                            "target_end": 8,
+                                            "automatic_default": True,
+                                            "accepted_no_ruby": False,
+                                        }
+                                    ],
+                                    "span_overrides": [],
+                                }
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            summary = build_strong_repair_queue_file(
+                units_jsonl=units_path,
+                output_jsonl=queue_path,
+                summary_json=summary_path,
+            )
+
+            self.assertEqual(summary["queued_items"], 1)
+            self.assertEqual(summary["target_escalations"], 1)
+            queued = json.loads(queue_path.read_text(encoding="utf-8"))
+            self.assertEqual(queued["rejected_span"], "INOSHIRU")
 
     def test_finalization_normalizes_stale_parenthesized_laughter_token(self) -> None:
         unit = {

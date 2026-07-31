@@ -4009,6 +4009,7 @@ def build_target_override(
         "chunk_index": target.get("chunk_index"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
         "automatic_default": bool(row.get("automatic_default")),
+        "accepted_no_ruby": has_accepted_no_ruby_signal(target),
     }
     if row.get("legacy_target_item_id"):
         override["legacy_target_item_id"] = str(row["legacy_target_item_id"])
@@ -4270,7 +4271,7 @@ def build_strong_repair_queue_file(
                 row
                 for row in target_constraints
                 if row.get("choice_source") == "none"
-                and not row.get("automatic_default")
+                and not row.get("accepted_no_ruby")
                 and str(row.get("item_id") or "") not in span_repair_target_ids
                 and not is_no_ruby_laughter_w_override(row)
             ]
