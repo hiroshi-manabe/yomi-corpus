@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 4230,
-  "generated_at": "2026-08-07T00:54:40Z",
-  "generated_at_epoch": 1786064080,
+  "state_revision": 4231,
+  "generated_at": "2026-08-07T01:00:11Z",
+  "generated_at_epoch": 1786064411,
   "last_successful_sync": "2026-07-31T07:21:47Z",
   "last_successful_sync_epoch": 1785482507,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1786063090,
+    "anchor_epoch": 1786064411,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786063390
+    "next_expected_epoch": 1786064711
   },
   "state": {
     "current_batch_name": "dev_batch_0050",
@@ -37,9 +37,9 @@
   },
   "message": "YomiTokenError: legacy token 19 surface '/イチ' does not match source at offset 28",
   "observed": {
-    "started_at_epoch": 1786064080,
-    "completed_at_epoch": 1786064080,
-    "drift_seconds": 90
+    "started_at_epoch": 1786064411,
+    "completed_at_epoch": 1786064411,
+    "drift_seconds": 121
   },
   "client_polling": {
     "normal_seconds": 60,
