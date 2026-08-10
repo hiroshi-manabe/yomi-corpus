@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5048,
-  "generated_at": "2026-08-10T04:37:35Z",
-  "generated_at_epoch": 1786336655,
+  "state_revision": 5049,
+  "generated_at": "2026-08-10T04:43:35Z",
+  "generated_at_epoch": 1786337015,
   "last_successful_sync": "2026-08-10T04:21:09Z",
   "last_successful_sync_epoch": 1786335669,
   "status": "error",
@@ -15,8 +15,8 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0058",
-    "current_stage": "yomi_reading_llm_completed",
-    "next_stage": "final_review_prepared",
+    "current_stage": "final_review_prepared",
+    "next_stage": "final_review_applied",
     "active_queue_count": 104,
     "queue_counts": {
       "bulk_review_selectable": 100,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
+  "message": "YomiTokenError: legacy token 21 surface '/' does not match source at offset 32",
   "observed": {
-    "started_at_epoch": 1786336655,
-    "completed_at_epoch": 1786336655,
-    "drift_seconds": 110
+    "started_at_epoch": 1786337015,
+    "completed_at_epoch": 1786337015,
+    "drift_seconds": 60
   },
   "client_polling": {
     "normal_seconds": 60,

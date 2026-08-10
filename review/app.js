@@ -4899,7 +4899,7 @@ function renderRubySpan(item, target, override, editable) {
         suppressNextClick = false;
         return;
       }
-      cycleYomiTarget(item, target, candidate);
+      cycleYomiTarget(item, target, candidate, elementAnchorRect(button));
     });
   }
   return button;
@@ -4955,7 +4955,7 @@ function rubyTitle(target, candidate) {
   return `${target.surface}${reading}`;
 }
 
-function cycleYomiTarget(item, target, currentCandidate) {
+function cycleYomiTarget(item, target, currentCandidate, anchorRect = null) {
   const candidates = yomiCycleCandidates(target);
   if (candidates.length === 0) {
     return;
@@ -4964,7 +4964,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
     (candidate) => candidateKey(candidate) === candidateKey(currentCandidate)
   );
   const next = candidates[(currentIndex + 1 + candidates.length) % candidates.length];
-  applyYomiCandidate(item, target, next);
+  applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect);
 }
 
 function yomiCycleCandidates(target) {
@@ -4989,6 +4989,10 @@ function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = nu
   if (!next) {
     return;
   }
+  applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect);
+}
+
+function applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect = null) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
   if (next.source === "none") {
