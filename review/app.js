@@ -696,7 +696,7 @@ function renderTaskSelector() {
   renderSavedTaskDrafts(actionableDocs);
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
-    renderWorkflowTaskDashboard(docs, actionableDocs, task);
+    renderWorkflowTaskDashboard(withSubmittedProcessingPlaceholders(docs), actionableDocs, task);
     el.taskSummary.textContent = "キューを一つ選び、その中から文書を選択してレビューを開始してください。";
     el.startTask.disabled = true;
     el.clearDocSelection.disabled = true;
@@ -2730,6 +2730,41 @@ function workflowDocumentStates(docs) {
     }
   }
   return [...bySeq.values()].sort((left, right) => left.display_seq - right.display_seq);
+}
+
+function withSubmittedProcessingPlaceholders(docs) {
+  const result = [...docs];
+  const existing = new Set(docs.map((doc) => taskDocKey(doc)));
+  for (const record of listSavedTaskDrafts()) {
+    if (taskRecordStatus(record) !== "submitted") {
+      continue;
+    }
+    for (const ref of record.document_refs || []) {
+      const taskKey = String(ref.task_doc_id || "");
+      if (!taskKey || existing.has(taskKey) || finalizedArchiveContainsDocumentRef(ref)) {
+        continue;
+      }
+      const queueStage = ref.queue_stage || record.queue_stage || stageFromTaskDocId(taskKey);
+      result.push({
+        doc_id: ref.doc_id || baseDocIdFromTaskDocId(taskKey),
+        task_doc_id: taskKey,
+        queue_stage: queueStage,
+        doc_seq: Number(ref.doc_seq || ref.track_doc_seq || 0),
+        track_doc_seq: Number(ref.track_doc_seq || ref.doc_seq || 0),
+        item_count: Number(ref.item_count || 0),
+        unresolved_count: Number(ref.unresolved_count || 0),
+        state: queueStage === "yomi_strong_repair_review" ? "strong_reviewed" : "final_reviewed",
+        workflow_state: queueStage === "yomi_strong_repair_review"
+          ? "escalated_submitted"
+          : "bulk_submitted",
+        queue_member: true,
+        selectable: false,
+        preview: ref.preview || "",
+      });
+      existing.add(taskKey);
+    }
+  }
+  return result;
 }
 
 function documentIsResolved(doc) {
