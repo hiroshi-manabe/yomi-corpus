@@ -3821,10 +3821,30 @@ function strongRepairReadingCycleCandidates(item, surface) {
   return values;
 }
 
+function isVariationSelector(char) {
+  const codePoint = String(char || "").codePointAt(0);
+  return Number.isInteger(codePoint) && (
+    (codePoint >= 0xfe00 && codePoint <= 0xfe0f) ||
+    (codePoint >= 0xe0100 && codePoint <= 0xe01ef)
+  );
+}
+
+function reviewSurfaceGraphemes(surface) {
+  const graphemes = [];
+  for (const char of Array.from(surface || "")) {
+    if (isVariationSelector(char) && graphemes.length) {
+      graphemes[graphemes.length - 1] += char;
+    } else {
+      graphemes.push(char);
+    }
+  }
+  return graphemes;
+}
+
 function renderStrongRepairSplitControls(item, region, segments) {
   const wrap = document.createElement("span");
   wrap.className = "split-controls";
-  const chars = Array.from(region.rejected_span || "");
+  const chars = reviewSurfaceGraphemes(region.rejected_span);
   const indexes = strongRepairSplitIndexes(segments);
   for (let index = 0; index < chars.length; index += 1) {
     const charSpan = document.createElement("span");
@@ -3849,12 +3869,15 @@ function strongRepairSplitIndexes(segments) {
   const indexes = new Set();
   let cursor = 0;
   for (const segment of segments || []) {
-    cursor += Array.from(segment.surface || "").length;
+    cursor += reviewSurfaceGraphemes(segment.surface).length;
     indexes.add(cursor);
   }
   indexes.delete(0);
   indexes.delete(
-    (segments || []).reduce((total, segment) => total + Array.from(segment.surface || "").length, 0)
+    (segments || []).reduce(
+      (total, segment) => total + reviewSurfaceGraphemes(segment.surface).length,
+      0,
+    )
   );
   return indexes;
 }
@@ -3878,7 +3901,7 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
     indexes.add(boundaryIndex);
   }
   const ordered = [...indexes].sort((a, b) => a - b);
-  const chars = Array.from(region.rejected_span || "");
+  const chars = reviewSurfaceGraphemes(region.rejected_span);
   let start = 0;
   const surfaces = [];
   for (const end of [...ordered, chars.length]) {
