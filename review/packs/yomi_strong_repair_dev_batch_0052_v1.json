@@ -10,10 +10,10 @@
   "item_count": 11,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 11,
     "queued_repair_row_count": 11,
@@ -83,12 +83,12 @@
       "source_line_no": 486,
       "preview": "イギリス雇用統計で稼ぐ！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-10T08:10:22Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-10T08:15:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -109,12 +109,12 @@
       "source_line_no": 487,
       "preview": "かつてNHKの将棋番組の正月番組で「大逆転将棋」というのがあった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-10T08:10:22Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-10T08:15:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -161,12 +161,12 @@
       "source_line_no": 489,
       "preview": "路上キスはいつの話で相手は誰？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-10T08:10:22Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-10T08:15:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 492,
       "preview": "メンテが始まっていない？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-10T08:10:22Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-10T08:15:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -1953,7 +1953,7 @@
       "source_line_no": 487,
       "text": "実はプロの勝負というのは、一手二手の違いで勝敗が決まる。",
       "rendered_yomi_before": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/フタテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
-      "rendered_yomi_after": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/フタテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
+      "rendered_yomi_after": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/ニテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "実",
@@ -2001,7 +2001,7 @@
         ],
         [
           "二手",
-          "フタテ"
+          "ニテ"
         ],
         [
           "の",
@@ -2148,12 +2148,12 @@
         },
         {
           "surface": "二手",
-          "reading": "フタテ",
+          "reading": "ニテ",
           "nodes": [
             {
               "type": "ruby",
               "text": "二手",
-              "reading": "ふたて"
+              "reading": "にて"
             }
           ]
         },
@@ -2252,7 +2252,7 @@
           "unit_id": "ja_cc_level2:0000000487:u0007",
           "text": "実はプロの勝負というのは、一手二手の違いで勝敗が決まる。",
           "rendered_yomi_before": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/フタテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
-          "rendered_yomi_after": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/フタテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
+          "rendered_yomi_after": "実/ジツ は/ハ プロ/プロ の/ノ 勝負/ショウブ と/ト いう/イウ の/ノ は/ハ 、/、 一手/イッテ 二手/ニテ の/ノ 違い/チガイ で/デ 勝敗/ショウハイ が/ガ 決まる/キマル 。/。",
           "display_mapping": {
             "start": 11,
             "end": 12,
@@ -2482,7 +2482,7 @@
       "source_line_no": 487,
       "text": "つまり、アマがその一手二手を間違えるとたちまち勝敗の行方は混沌とし、さらに間違えるとあっという間にプロに逆転され、逆にアッサリと詰まされてしまうのである。",
       "rendered_yomi_before": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/フタテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
-      "rendered_yomi_after": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/フタテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
+      "rendered_yomi_after": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/ニテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "つまり",
@@ -2510,7 +2510,7 @@
         ],
         [
           "二手",
-          "フタテ"
+          "ニテ"
         ],
         [
           "を",
@@ -2733,12 +2733,12 @@
         },
         {
           "surface": "二手",
-          "reading": "フタテ",
+          "reading": "ニテ",
           "nodes": [
             {
               "type": "ruby",
               "text": "二手",
-              "reading": "ふたて"
+              "reading": "にて"
             }
           ]
         },
@@ -3167,7 +3167,7 @@
           "unit_id": "ja_cc_level2:0000000487:u0008",
           "text": "つまり、アマがその一手二手を間違えるとたちまち勝敗の行方は混沌とし、さらに間違えるとあっという間にプロに逆転され、逆にアッサリと詰まされてしまうのである。",
           "rendered_yomi_before": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/フタテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
-          "rendered_yomi_after": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/フタテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
+          "rendered_yomi_after": "つまり/ツマリ 、/、 アマ/アマ が/ガ その/ソノ 一手/イッテ 二手/ニテ を/ヲ 間違える/マチガエル と/ト たちまち/タチマチ 勝敗/ショウハイ の/ノ 行方/ユクエ は/ハ 混沌/コントン と/ト し/シ 、/、 さらに/サラニ 間違える/マチガエル と/ト あっ/アッ と/ト いう/イウ 間/マ に/ニ プロ/プロ に/ニ 逆転/ギャクテン さ/サ れ/レ 、/、 逆/ギャク に/ニ アッサリ/アッサリ と/ト 詰ま/ツマ さ/サ れ/レ て/テ しまう/シマウ の/ノ で/デ ある/アル 。/。",
           "display_mapping": {
             "start": 6,
             "end": 7,
@@ -6371,7 +6371,7 @@
       "source_line_no": 492,
       "text": "夏祭りがモチーフとなったシノンとコハルがピックアップされた「夏夜の祭典オーダー」第1弾が開催されています！",
       "rendered_yomi_before": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/カヨ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
-      "rendered_yomi_after": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/カヤ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
+      "rendered_yomi_after": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/ナツヨ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
       "rendered_yomi_after_tokens": [
         [
           "夏祭り",
@@ -6435,7 +6435,7 @@
         ],
         [
           "夏夜",
-          "カヤ"
+          "ナツヨ"
         ],
         [
           "の",
@@ -6656,12 +6656,12 @@
         },
         {
           "surface": "夏夜",
-          "reading": "カヤ",
+          "reading": "ナツヨ",
           "nodes": [
             {
               "type": "ruby",
               "text": "夏夜",
-              "reading": "かや"
+              "reading": "なつよ"
             }
           ]
         },
@@ -6833,7 +6833,7 @@
           "unit_id": "ja_cc_level2:0000000492:u0010",
           "text": "夏祭りがモチーフとなったシノンとコハルがピックアップされた「夏夜の祭典オーダー」第1弾が開催されています！",
           "rendered_yomi_before": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/カヨ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
-          "rendered_yomi_after": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/カヤ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
+          "rendered_yomi_after": "夏祭り/ナツマツリ が/ガ モチーフ/モチーフ と/ト なっ/ナッ た/タ シノン/シノン と/ト コハル/コハル が/ガ ピックアップ/ピックアップ さ/サ れ/レ た/タ 「/「 夏夜/ナツヨ の/ノ 祭典/サイテン オーダー/オーダー 」/」 第/ダイ 1/ 弾/ダン が/ガ 開催/カイサイ さ/サ れ/レ て/テ い/イ ます/マス ！/！",
           "display_mapping": {
             "start": 15,
             "end": 16,
