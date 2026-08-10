@@ -4898,6 +4898,13 @@ function renderRubySpan(item, target, override, editable) {
   const numericNodes = numericKanaSuffixRubyNodes(target.surface, candidate?.reading);
   if (numericNodes) {
     button.append(...renderRubyDisplayNodes(numericNodes));
+  } else if (candidate?.source === "none") {
+    const ruby = document.createElement("ruby");
+    ruby.append(document.createTextNode(target.surface));
+    const rt = document.createElement("rt");
+    rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";
+    ruby.append(rt);
+    button.append(ruby);
   } else if (candidate?.ruby_nodes?.length) {
     button.append(...renderRubyDisplayNodes(candidate.ruby_nodes));
   } else if (candidate?.reading) {
@@ -4905,13 +4912,6 @@ function renderRubySpan(item, target, override, editable) {
     ruby.append(document.createTextNode(target.surface));
     const rt = document.createElement("rt");
     rt.textContent = candidate.reading;
-    ruby.append(rt);
-    button.append(ruby);
-  } else if (candidate?.source === "none") {
-    const ruby = document.createElement("ruby");
-    ruby.append(document.createTextNode(target.surface));
-    const rt = document.createElement("rt");
-    rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";
     ruby.append(rt);
     button.append(ruby);
   } else {

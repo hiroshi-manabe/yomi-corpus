@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5081,
-  "generated_at": "2026-08-10T07:54:08Z",
-  "generated_at_epoch": 1786348448,
+  "state_revision": 5082,
+  "generated_at": "2026-08-10T08:01:54Z",
+  "generated_at_epoch": 1786348914,
   "last_successful_sync": "2026-08-10T07:54:08Z",
   "last_successful_sync_epoch": 1786348448,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1786347794,
     "interval_seconds": 300,
@@ -15,18 +15,18 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0062",
-    "current_stage": "scope_triage_queued",
-    "next_stage": "scope_triage_llm_completed",
-    "active_queue_count": 95,
+    "current_stage": "yomi_reading_llm_completed",
+    "next_stage": "final_review_prepared",
+    "active_queue_count": 105,
     "queue_counts": {
-      "bulk_review_selectable": 90,
+      "bulk_review_selectable": 100,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 5,
       "escalated_repair_submitted": 0,
       "resolved": 15
     },
     "pool_counts": {
-      "bulk-ready": 90,
+      "bulk-ready": 100,
       "bulk-submitted": 0,
       "escalated-ready": 5,
       "escalated-submitted": 0,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "FileNotFoundError: [Errno 2] No such file or directory",
   "observed": {
-    "started_at_epoch": 1786348124,
-    "completed_at_epoch": 1786348448,
-    "drift_seconds": 30
+    "started_at_epoch": 1786348914,
+    "completed_at_epoch": 1786348914,
+    "drift_seconds": 80
   },
   "client_polling": {
     "normal_seconds": 60,
