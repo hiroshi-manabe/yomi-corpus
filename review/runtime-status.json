@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5047,
-  "generated_at": "2026-08-10T04:34:25Z",
-  "generated_at_epoch": 1786336465,
+  "state_revision": 5048,
+  "generated_at": "2026-08-10T04:37:35Z",
+  "generated_at_epoch": 1786336655,
   "last_successful_sync": "2026-08-10T04:21:09Z",
   "last_successful_sync_epoch": 1786335669,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1786336465,
+    "anchor_epoch": 1786336655,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786336765
+    "next_expected_epoch": 1786336955
   },
   "state": {
     "current_batch_name": "dev_batch_0058",
-    "current_stage": "yomi_reading_queued",
-    "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 94,
+    "current_stage": "yomi_reading_llm_completed",
+    "next_stage": "final_review_prepared",
+    "active_queue_count": 104,
     "queue_counts": {
-      "bulk_review_selectable": 90,
+      "bulk_review_selectable": 100,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 4,
       "escalated_repair_submitted": 1,
       "resolved": 15
     },
     "pool_counts": {
-      "bulk-ready": 90,
+      "bulk-ready": 100,
       "bulk-submitted": 0,
       "escalated-ready": 4,
       "escalated-submitted": 1,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: legacy token 21 surface '/' does not match source at offset 32",
+  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
   "observed": {
-    "started_at_epoch": 1786336465,
-    "completed_at_epoch": 1786336465,
-    "drift_seconds": 106
+    "started_at_epoch": 1786336655,
+    "completed_at_epoch": 1786336655,
+    "drift_seconds": 110
   },
   "client_polling": {
     "normal_seconds": 60,
