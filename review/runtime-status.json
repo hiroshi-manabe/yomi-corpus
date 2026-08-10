@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5064,
-  "generated_at": "2026-08-10T06:16:58Z",
-  "generated_at_epoch": 1786342618,
+  "state_revision": 5065,
+  "generated_at": "2026-08-10T06:22:12Z",
+  "generated_at_epoch": 1786342932,
   "last_successful_sync": "2026-08-10T06:16:58Z",
   "last_successful_sync_epoch": 1786342618,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1786342072,
     "interval_seconds": 300,
@@ -15,18 +15,18 @@
   },
   "state": {
     "current_batch_name": "dev_batch_0059",
-    "current_stage": "yomi_reading_queued",
-    "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 87,
+    "current_stage": "yomi_reading_llm_completed",
+    "next_stage": "final_review_prepared",
+    "active_queue_count": 97,
     "queue_counts": {
-      "bulk_review_selectable": 80,
+      "bulk_review_selectable": 90,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 7,
       "escalated_repair_submitted": 0,
       "resolved": 13
     },
     "pool_counts": {
-      "bulk-ready": 80,
+      "bulk-ready": 90,
       "bulk-submitted": 0,
       "escalated-ready": 7,
       "escalated-submitted": 0,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
   "observed": {
-    "started_at_epoch": 1786342403,
-    "completed_at_epoch": 1786342618,
-    "drift_seconds": 31
+    "started_at_epoch": 1786342932,
+    "completed_at_epoch": 1786342932,
+    "drift_seconds": 40
   },
   "client_polling": {
     "normal_seconds": 60,
