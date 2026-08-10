@@ -1,0 +1,5583 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0048_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0048",
+  "created_at_epoch": 1786335573,
+  "created_at": "2026-08-10T04:19:33Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 6,
+    "result_row_count": 6,
+    "reviewable_repair_row_count": 6,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000444",
+      "doc_seq": 1,
+      "track_doc_seq": 444,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 444,
+      "preview": "秋葉原にボルダリング初体験してきました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000445",
+      "doc_seq": 2,
+      "track_doc_seq": 445,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 445,
+      "preview": "多数のお客様がお越しくださり頑張ってくださいました‼︎朝からボラのダンゴ当たりもあり活性高そうでしたが、午後からは伸びず。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000446",
+      "doc_seq": 3,
+      "track_doc_seq": 446,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 446,
+      "preview": "ついに「進撃の巨人」アニメのファイナルパート2が放送されます。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-10T04:20:10Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000447",
+      "doc_seq": 4,
+      "track_doc_seq": 447,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 447,
+      "preview": "株式会社かんき出版が、2018年12月17日より、「1万円からはじめる投資 ソーシャルレンディング入門」 を全国の書店・オンライン書店等（一部除く）にて発売開始することを発表しました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-10T04:20:10Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000448",
+      "doc_seq": 5,
+      "track_doc_seq": 448,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 448,
+      "preview": "新型コロナ禍の中、自宅で過ごす時間がながくなっている。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000449",
+      "doc_seq": 6,
+      "track_doc_seq": 449,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 449,
+      "preview": "ディアペット東京の道案内です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000450",
+      "doc_seq": 7,
+      "track_doc_seq": 450,
+      "unit_count": 65,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 450,
+      "preview": "0歳は非常に発育の早い時期です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 65,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000451",
+      "doc_seq": 8,
+      "track_doc_seq": 451,
+      "unit_count": 45,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 451,
+      "preview": "神奈川県にある音楽教室を教えている楽器の種類やレッスン料金と共に一覧にしました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-10T04:20:10Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 45,
+      "skipped_unit_count": 2,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000452",
+      "doc_seq": 9,
+      "track_doc_seq": 452,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 452,
+      "preview": "毎週土曜日のみオープンしているハッテン場です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-10T04:18:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000453",
+      "doc_seq": 10,
+      "track_doc_seq": 453,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 453,
+      "preview": "【ソウル聯合ニュース】韓国の文在寅（ムン・ジェイン）大統領は２１日、国連創設７５周年に合わせテレビ会議方式で開かれたハイレベル会合で演説し、「連帯と協力は新型コロナウイルスに勝利するための最も強力な武器」とし、ワクチンと治療薬を各国が公平に入手できるよう保障しなければならないと呼びかけた。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-10T04:20:10Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 4,
+      "to_seq": 6,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000446:u0024::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000446",
+      "doc_seq": 3,
+      "track_doc_seq": 446,
+      "unit_id": "ja_cc_level2:0000000446:u0024",
+      "unit_seq": 24,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 446,
+      "text": "2020年春アニメ「キングダム」の3期（合従事軍編）がNHK総合放送で始まります。",
+      "rendered_yomi_before": "2020/ 年/ネン 春/ハル アニメ/アニメ 「/「 キングダム/キングダム 」/」 の/ノ 3/ 期/キ （/（ 合/ゴウ 従事/ジュウジ 軍/グン 編/ヘン ）/） が/ガ NHK/エヌエイチケー 総合/ソウゴウ 放送/ホウソウ で/デ 始まり/ハジマリ ます/マス 。/。",
+      "rendered_yomi_after": "2020/ 年/ネン 春/ハル アニメ/アニメ 「/「 キングダム/キングダム 」/」 の/ノ 3/ 期/キ （/（ 合従事軍/ガッショウグン 編/ヘン ）/） が/ガ NHK/エヌエイチケー 総合/ソウゴウ 放送/ホウソウ で/デ 始まり/ハジマリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2020",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "春",
+          "ハル"
+        ],
+        [
+          "アニメ",
+          "アニメ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "キングダム",
+          "キングダム"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "期",
+          "キ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "合従事軍",
+          "ガッショウグン"
+        ],
+        [
+          "編",
+          "ヘン"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "NHK",
+          "エヌエイチケー"
+        ],
+        [
+          "総合",
+          "ソウゴウ"
+        ],
+        [
+          "放送",
+          "ホウソウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "始まり",
+          "ハジマリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2020",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2020"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "春",
+          "reading": "ハル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春",
+              "reading": "はる"
+            }
+          ]
+        },
+        {
+          "surface": "アニメ",
+          "reading": "アニメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アニメ"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "キングダム",
+          "reading": "キングダム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "キングダム"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "期",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "期",
+              "reading": "き"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "合従事軍",
+          "reading": "ガッショウグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "合従事軍",
+              "reading": "がっしょうぐん"
+            }
+          ]
+        },
+        {
+          "surface": "編",
+          "reading": "ヘン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "編",
+              "reading": "へん"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "NHK",
+          "reading": "エヌエイチケー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "NHK",
+              "reading": "えぬえいちけー"
+            }
+          ]
+        },
+        {
+          "surface": "総合",
+          "reading": "ソウゴウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "総合",
+              "reading": "そうごう"
+            }
+          ]
+        },
+        {
+          "surface": "放送",
+          "reading": "ホウソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "放送",
+              "reading": "ほうそう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "始まり",
+          "reading": "ハジマリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "始",
+              "reading": "はじ"
+            },
+            {
+              "type": "text",
+              "text": "まり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+          "item_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+          "unit_id": "ja_cc_level2:0000000446:u0024",
+          "text": "2020年春アニメ「キングダム」の3期（合従事軍編）がNHK総合放送で始まります。",
+          "rendered_yomi_before": "2020/ 年/ネン 春/ハル アニメ/アニメ 「/「 キングダム/キングダム 」/」 の/ノ 3/ 期/キ （/（ 合/ゴウ 従事/ジュウジ 軍/グン 編/ヘン ）/） が/ガ NHK/エヌエイチケー 総合/ソウゴウ 放送/ホウソウ で/デ 始まり/ハジマリ ます/マス 。/。",
+          "rendered_yomi_after": "2020/ 年/ネン 春/ハル アニメ/アニメ 「/「 キングダム/キングダム 」/」 の/ノ 3/ 期/キ （/（ 合従事軍/ガッショウグン 編/ヘン ）/） が/ガ NHK/エヌエイチケー 総合/ソウゴウ 放送/ホウソウ で/デ 始まり/ハジマリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 20,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "合",
+              "token_surface": "合",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ごう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "合",
+                  "reading": "ごう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "従事",
+              "token_surface": "従事",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じゅうじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "従事",
+                  "reading": "じゅうじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "軍",
+              "token_surface": "軍",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぐん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "軍",
+                  "reading": "ぐん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "合",
+              "token_surface": "合",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ごう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "合",
+                  "reading": "ごう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "従事",
+              "token_surface": "従事",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じゅうじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "従事",
+                  "reading": "じゅうじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000446:u0024:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "軍",
+              "token_surface": "軍",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぐん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "軍",
+                  "reading": "ぐん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "合従事軍",
+          "reading_candidates": {
+            "合": [
+              "あ",
+              "あい",
+              "あえ",
+              "あわせ",
+              "ごう"
+            ],
+            "合従": [
+              "がっしょう"
+            ],
+            "従": [
+              "じゅ",
+              "じゅう"
+            ],
+            "従事": [
+              "じゅうじ"
+            ],
+            "事": [
+              "こと",
+              "ごと",
+              "じ"
+            ],
+            "軍": [
+              "ぐん"
+            ]
+          },
+          "reading_hints": {
+            "合": "あ",
+            "合従": "がっしょう",
+            "従": "じゅ",
+            "従事": "じゅうじ",
+            "事": "こと",
+            "軍": "ぐん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "合",
+              "reading": "ごう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "従事",
+              "reading": "じゅうじ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "軍",
+              "reading": "ぐん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"合従事軍\",\"reading\":\"ガッショウグン\",\"used_web_search\":true,\"comment\":\"文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "合従事軍",
+              "reading": "ガッショウグン",
+              "used_web_search": true,
+              "comment": "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+            "status": "applied",
+            "rejected_span": "合従事軍",
+            "replacement": [
+              {
+                "surface": "合従事軍",
+                "reading": "ガッショウグン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+                "surface": "合従事軍",
+                "comment": "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "合従事軍",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000446:u0024:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "合",
+          "token_surface": "合",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ごう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "合",
+              "reading": "ごう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000446:u0024:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "従事",
+          "token_surface": "従事",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じゅうじ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "従事",
+              "reading": "じゅうじ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000446:u0024:s0024-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "軍",
+          "token_surface": "軍",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぐん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "軍",
+              "reading": "ぐん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "合",
+          "reading": "ごう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "従事",
+          "reading": "じゅうじ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "軍",
+          "reading": "ぐん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "合": [
+          "あ",
+          "あい",
+          "あえ",
+          "あわせ",
+          "ごう"
+        ],
+        "合従": [
+          "がっしょう"
+        ],
+        "従": [
+          "じゅ",
+          "じゅう"
+        ],
+        "従事": [
+          "じゅうじ"
+        ],
+        "事": [
+          "こと",
+          "ごと",
+          "じ"
+        ],
+        "軍": [
+          "ぐん"
+        ]
+      },
+      "reading_hints": {
+        "合": "あ",
+        "合従": "がっしょう",
+        "従": "じゅ",
+        "従事": "じゅうじ",
+        "事": "こと",
+        "軍": "ぐん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "合従事軍",
+          "reading": "ガッショウグン",
+          "used_web_search": true,
+          "comment": "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"合従事軍\",\"reading\":\"ガッショウグン\",\"used_web_search\":true,\"comment\":\"文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))\"}]",
+      "llm_comments": [
+        "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+        "status": "applied",
+        "rejected_span": "合従事軍",
+        "replacement": [
+          {
+            "surface": "合従事軍",
+            "reading": "ガッショウグン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000446:u0024::target_group:1",
+            "surface": "合従事軍",
+            "comment": "文脈上は『キングダム』の『合従軍編』の誤記とみられ、辞書でも『合従』は「ガッショウ」。 ([kingdom-anime.com](https://kingdom-anime.com/news/detail.php?id=1130201&utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000447:u0011::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000447",
+      "doc_seq": 4,
+      "track_doc_seq": 447,
+      "unit_id": "ja_cc_level2:0000000447:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 447,
+      "text": "これまでソーシャルレンディングで投資した案件数は1000件以上、投資額は8000万円以上、年間不労所得は400万円以上にのぼります。",
+      "rendered_yomi_before": "これ/コレ まで/マデ ソーシャル/ソーシャル レン/レン ディン/ディン グ/グ で/デ 投資/トウシ し/シ た/タ 案/アン 件数/ケンスウ は/ハ 1000/ 件/ケン 以上/イジョウ 、/、 投資額/トウシガク は/ハ 8000/ 万/マン 円/エン 以上/イジョウ 、/、 年間/ネンカン 不労/フロウ 所得/ショトク は/ハ 400/ 万/マン 円/エン 以上/イジョウ に/ニ のぼり/ノボリ ます/マス 。/。",
+      "rendered_yomi_after": "これ/コレ まで/マデ ソーシャル/ソーシャル レン/レン ディン/ディン グ/グ で/デ 投資/トウシ し/シ た/タ 案件数/アンケンスウ は/ハ 1000/ 件/ケン 以上/イジョウ 、/、 投資額/トウシガク は/ハ 8000/ 万/マン 円/エン 以上/イジョウ 、/、 年間/ネンカン 不労/フロウ 所得/ショトク は/ハ 400/ 万/マン 円/エン 以上/イジョウ に/ニ のぼり/ノボリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "これ",
+          "コレ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "ソーシャル",
+          "ソーシャル"
+        ],
+        [
+          "レン",
+          "レン"
+        ],
+        [
+          "ディン",
+          "ディン"
+        ],
+        [
+          "グ",
+          "グ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "投資",
+          "トウシ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "案件数",
+          "アンケンスウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "1000",
+          ""
+        ],
+        [
+          "件",
+          "ケン"
+        ],
+        [
+          "以上",
+          "イジョウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "投資額",
+          "トウシガク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "8000",
+          ""
+        ],
+        [
+          "万",
+          "マン"
+        ],
+        [
+          "円",
+          "エン"
+        ],
+        [
+          "以上",
+          "イジョウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "年間",
+          "ネンカン"
+        ],
+        [
+          "不労",
+          "フロウ"
+        ],
+        [
+          "所得",
+          "ショトク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "400",
+          ""
+        ],
+        [
+          "万",
+          "マン"
+        ],
+        [
+          "円",
+          "エン"
+        ],
+        [
+          "以上",
+          "イジョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "のぼり",
+          "ノボリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "これ",
+          "reading": "コレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "これ"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "ソーシャル",
+          "reading": "ソーシャル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ソーシャル"
+            }
+          ]
+        },
+        {
+          "surface": "レン",
+          "reading": "レン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レン"
+            }
+          ]
+        },
+        {
+          "surface": "ディン",
+          "reading": "ディン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ディン"
+            }
+          ]
+        },
+        {
+          "surface": "グ",
+          "reading": "グ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "グ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "投資",
+          "reading": "トウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投資",
+              "reading": "とうし"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "案件数",
+          "reading": "アンケンスウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "案件数",
+              "reading": "あんけんすう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "1000",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1000"
+            }
+          ]
+        },
+        {
+          "surface": "件",
+          "reading": "ケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "件",
+              "reading": "けん"
+            }
+          ]
+        },
+        {
+          "surface": "以上",
+          "reading": "イジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "以上",
+              "reading": "いじょう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "投資額",
+          "reading": "トウシガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投資額",
+              "reading": "とうしがく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "8000",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "8000"
+            }
+          ]
+        },
+        {
+          "surface": "万",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "万",
+              "reading": "まん"
+            }
+          ]
+        },
+        {
+          "surface": "円",
+          "reading": "エン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "円",
+              "reading": "えん"
+            }
+          ]
+        },
+        {
+          "surface": "以上",
+          "reading": "イジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "以上",
+              "reading": "いじょう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "年間",
+          "reading": "ネンカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年間",
+              "reading": "ねんかん"
+            }
+          ]
+        },
+        {
+          "surface": "不労",
+          "reading": "フロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "不労",
+              "reading": "ふろう"
+            }
+          ]
+        },
+        {
+          "surface": "所得",
+          "reading": "ショトク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "所得",
+              "reading": "しょとく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "400",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "400"
+            }
+          ]
+        },
+        {
+          "surface": "万",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "万",
+              "reading": "まん"
+            }
+          ]
+        },
+        {
+          "surface": "円",
+          "reading": "エン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "円",
+              "reading": "えん"
+            }
+          ]
+        },
+        {
+          "surface": "以上",
+          "reading": "イジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "以上",
+              "reading": "いじょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "のぼり",
+          "reading": "ノボリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "のぼり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+          "item_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+          "unit_id": "ja_cc_level2:0000000447:u0011",
+          "text": "これまでソーシャルレンディングで投資した案件数は1000件以上、投資額は8000万円以上、年間不労所得は400万円以上にのぼります。",
+          "rendered_yomi_before": "これ/コレ まで/マデ ソーシャル/ソーシャル レン/レン ディン/ディン グ/グ で/デ 投資/トウシ し/シ た/タ 案/アン 件数/ケンスウ は/ハ 1000/ 件/ケン 以上/イジョウ 、/、 投資額/トウシガク は/ハ 8000/ 万/マン 円/エン 以上/イジョウ 、/、 年間/ネンカン 不労/フロウ 所得/ショトク は/ハ 400/ 万/マン 円/エン 以上/イジョウ に/ニ のぼり/ノボリ ます/マス 。/。",
+          "rendered_yomi_after": "これ/コレ まで/マデ ソーシャル/ソーシャル レン/レン ディン/ディン グ/グ で/デ 投資/トウシ し/シ た/タ 案件数/アンケンスウ は/ハ 1000/ 件/ケン 以上/イジョウ 、/、 投資額/トウシガク は/ハ 8000/ 万/マン 円/エン 以上/イジョウ 、/、 年間/ネンカン 不労/フロウ 所得/ショトク は/ハ 400/ 万/マン 円/エン 以上/イジョウ に/ニ のぼり/ノボリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 20,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000447:u0011:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "案",
+              "token_surface": "案",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "案",
+                  "reading": "あん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000447:u0011:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "件数",
+              "token_surface": "件数",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんすう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "件数",
+                  "reading": "けんすう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000447:u0011:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "案",
+              "token_surface": "案",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "案",
+                  "reading": "あん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000447:u0011:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "件数",
+              "token_surface": "件数",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんすう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "件数",
+                  "reading": "けんすう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "案件数",
+          "reading_candidates": {
+            "案": [
+              "あん"
+            ],
+            "案件": [
+              "あんけん"
+            ],
+            "件": [
+              "くだり",
+              "くだん",
+              "けん",
+              "げん"
+            ],
+            "件数": [
+              "けんすう"
+            ],
+            "数": [
+              "かず",
+              "かずえ",
+              "かずさ",
+              "すう"
+            ]
+          },
+          "reading_hints": {
+            "案": "あん",
+            "案件": "あんけん",
+            "件": "くだり",
+            "件数": "けんすう",
+            "数": "かず"
+          },
+          "rejected_readings": [
+            {
+              "surface": "案",
+              "reading": "あん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "件数",
+              "reading": "けんすう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"案件数\",\"reading\":\"あんけんすう\",\"used_web_search\":false,\"comment\":\"「案件数」は一般的な複合語で、読みは「あんけんすう」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "案件数",
+              "reading": "あんけんすう",
+              "used_web_search": false,
+              "comment": "「案件数」は一般的な複合語で、読みは「あんけんすう」。"
+            }
+          ],
+          "llm_comments": [
+            "「案件数」は一般的な複合語で、読みは「あんけんすう」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "案件数",
+            "replacement": [
+              {
+                "surface": "案件数",
+                "reading": "アンケンスウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+                "surface": "案件数",
+                "comment": "「案件数」は一般的な複合語で、読みは「あんけんすう」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "案件数",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000447:u0011:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "案",
+          "token_surface": "案",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "案",
+              "reading": "あん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000447:u0011:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "件数",
+          "token_surface": "件数",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けんすう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "件数",
+              "reading": "けんすう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "案",
+          "reading": "あん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "件数",
+          "reading": "けんすう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "案": [
+          "あん"
+        ],
+        "案件": [
+          "あんけん"
+        ],
+        "件": [
+          "くだり",
+          "くだん",
+          "けん",
+          "げん"
+        ],
+        "件数": [
+          "けんすう"
+        ],
+        "数": [
+          "かず",
+          "かずえ",
+          "かずさ",
+          "すう"
+        ]
+      },
+      "reading_hints": {
+        "案": "あん",
+        "案件": "あんけん",
+        "件": "くだり",
+        "件数": "けんすう",
+        "数": "かず"
+      },
+      "llm_parsed": [
+        {
+          "surface": "案件数",
+          "reading": "あんけんすう",
+          "used_web_search": false,
+          "comment": "「案件数」は一般的な複合語で、読みは「あんけんすう」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"案件数\",\"reading\":\"あんけんすう\",\"used_web_search\":false,\"comment\":\"「案件数」は一般的な複合語で、読みは「あんけんすう」。\"}]",
+      "llm_comments": [
+        "「案件数」は一般的な複合語で、読みは「あんけんすう」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "案件数",
+        "replacement": [
+          {
+            "surface": "案件数",
+            "reading": "アンケンスウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000447:u0011::target_group:1",
+            "surface": "案件数",
+            "comment": "「案件数」は一般的な複合語で、読みは「あんけんすう」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000451:u0031::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000451",
+      "doc_seq": 8,
+      "track_doc_seq": 451,
+      "unit_id": "ja_cc_level2:0000000451:u0031",
+      "unit_seq": 31,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 451,
+      "text": "音楽（ピアノ、歌、ウクレレやギター、座学に試験対策など）、英会話などの語学、各種オンライン（美術、音楽、国語算数、ダンス、料理など）を行うスクール。",
+      "rendered_yomi_before": "音楽/オンガク （/（ ピアノ/ピアノ 、/、 歌/ウタ 、/、 ウクレレ/ウクレレ や/ヤ ギター/ギター 、/、 座学/ザガク に/ニ 試験/シケン 対策/タイサク など/ナド ）/） 、/、 英会話/エイカイワ など/ナド の/ノ 語/ゴ 学/ガク 、/、 各種/カクシュ オンライン/オンライン （/（ 美術/ビジュツ 、/、 音楽/オンガク 、/、 国語/コクゴ 算数/サンスウ 、/、 ダンス/ダンス 、/、 料理/リョウリ など/ナド ）/） を/ヲ 行う/オコナウ スクール/スクール 。/。",
+      "rendered_yomi_after": "音楽/オンガク （/（ ピアノ/ピアノ 、/、 歌/ウタ 、/、 ウクレレ/ウクレレ や/ヤ ギター/ギター 、/、 座学/ザガク に/ニ 試験/シケン 対策/タイサク など/ナド ）/） 、/、 英会話/エイカイワ など/ナド の/ノ 語学/ゴガク 、/、 各種/カクシュ オンライン/オンライン （/（ 美術/ビジュツ 、/、 音楽/オンガク 、/、 国語/コクゴ 算数/サンスウ 、/、 ダンス/ダンス 、/、 料理/リョウリ など/ナド ）/） を/ヲ 行う/オコナウ スクール/スクール 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "音楽",
+          "オンガク"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "ピアノ",
+          "ピアノ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "歌",
+          "ウタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ウクレレ",
+          "ウクレレ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "ギター",
+          "ギター"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "座学",
+          "ザガク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "試験",
+          "シケン"
+        ],
+        [
+          "対策",
+          "タイサク"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "英会話",
+          "エイカイワ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "語学",
+          "ゴガク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "各種",
+          "カクシュ"
+        ],
+        [
+          "オンライン",
+          "オンライン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "美術",
+          "ビジュツ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "音楽",
+          "オンガク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "国語",
+          "コクゴ"
+        ],
+        [
+          "算数",
+          "サンスウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ダンス",
+          "ダンス"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "料理",
+          "リョウリ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行う",
+          "オコナウ"
+        ],
+        [
+          "スクール",
+          "スクール"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "音楽",
+          "reading": "オンガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音楽",
+              "reading": "おんがく"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "ピアノ",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ピアノ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "歌",
+          "reading": "ウタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歌",
+              "reading": "うた"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ウクレレ",
+          "reading": "ウクレレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ウクレレ"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "ギター",
+          "reading": "ギター",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ギター"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "座学",
+          "reading": "ザガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "座学",
+              "reading": "ざがく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "試験",
+          "reading": "シケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "試験",
+              "reading": "しけん"
+            }
+          ]
+        },
+        {
+          "surface": "対策",
+          "reading": "タイサク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対策",
+              "reading": "たいさく"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "英会話",
+          "reading": "エイカイワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "英会話",
+              "reading": "えいかいわ"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "語学",
+          "reading": "ゴガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "語学",
+              "reading": "ごがく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "各種",
+          "reading": "カクシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "各種",
+              "reading": "かくしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "オンライン",
+          "reading": "オンライン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オンライン"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "美術",
+          "reading": "ビジュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "美術",
+              "reading": "びじゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "音楽",
+          "reading": "オンガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音楽",
+              "reading": "おんがく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "国語",
+          "reading": "コクゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国語",
+              "reading": "こくご"
+            }
+          ]
+        },
+        {
+          "surface": "算数",
+          "reading": "サンスウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "算数",
+              "reading": "さんすう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ダンス",
+          "reading": "ダンス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ダンス"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "料理",
+          "reading": "リョウリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "料理",
+              "reading": "りょうり"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行う",
+          "reading": "オコナウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "スクール",
+          "reading": "スクール",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スクール"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+          "item_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+          "unit_id": "ja_cc_level2:0000000451:u0031",
+          "text": "音楽（ピアノ、歌、ウクレレやギター、座学に試験対策など）、英会話などの語学、各種オンライン（美術、音楽、国語算数、ダンス、料理など）を行うスクール。",
+          "rendered_yomi_before": "音楽/オンガク （/（ ピアノ/ピアノ 、/、 歌/ウタ 、/、 ウクレレ/ウクレレ や/ヤ ギター/ギター 、/、 座学/ザガク に/ニ 試験/シケン 対策/タイサク など/ナド ）/） 、/、 英会話/エイカイワ など/ナド の/ノ 語/ゴ 学/ガク 、/、 各種/カクシュ オンライン/オンライン （/（ 美術/ビジュツ 、/、 音楽/オンガク 、/、 国語/コクゴ 算数/サンスウ 、/、 ダンス/ダンス 、/、 料理/リョウリ など/ナド ）/） を/ヲ 行う/オコナウ スクール/スクール 。/。",
+          "rendered_yomi_after": "音楽/オンガク （/（ ピアノ/ピアノ 、/、 歌/ウタ 、/、 ウクレレ/ウクレレ や/ヤ ギター/ギター 、/、 座学/ザガク に/ニ 試験/シケン 対策/タイサク など/ナド ）/） 、/、 英会話/エイカイワ など/ナド の/ノ 語学/ゴガク 、/、 各種/カクシュ オンライン/オンライン （/（ 美術/ビジュツ 、/、 音楽/オンガク 、/、 国語/コクゴ 算数/サンスウ 、/、 ダンス/ダンス 、/、 料理/リョウリ など/ナド ）/） を/ヲ 行う/オコナウ スクール/スクール 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 21,
+            "char_start": 35,
+            "char_end": 37,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000451:u0031:s0036-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "語",
+              "token_surface": "語",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ご",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "語",
+                  "reading": "ご",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000451:u0031:s0037-0037",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000451:u0031:s0036-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "語",
+              "token_surface": "語",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ご",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "語",
+                  "reading": "ご",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000451:u0031:s0037-0037",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "語学",
+          "reading_candidates": {
+            "語": [
+              "かたり",
+              "ご"
+            ],
+            "語学": [
+              "ごがく",
+              "ごがっ"
+            ],
+            "学": [
+              "あきら",
+              "おさむ",
+              "がく",
+              "がっ",
+              "さとる",
+              "まこと",
+              "まなび",
+              "まなぶ"
+            ]
+          },
+          "reading_hints": {
+            "語": "かたり",
+            "語学": "ごがく",
+            "学": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "語",
+              "reading": "ご",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"語学\",\"reading\":\"ゴガク\",\"used_web_search\":false,\"comment\":\"一般語で「語学」は「ゴガク」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "語学",
+              "reading": "ゴガク",
+              "used_web_search": false,
+              "comment": "一般語で「語学」は「ゴガク」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "一般語で「語学」は「ゴガク」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+            "status": "applied",
+            "rejected_span": "語学",
+            "replacement": [
+              {
+                "surface": "語学",
+                "reading": "ゴガク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+                "surface": "語学",
+                "comment": "一般語で「語学」は「ゴガク」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "語学",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000451:u0031:s0036-0036",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "語",
+          "token_surface": "語",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ご",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "語",
+              "reading": "ご",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000451:u0031:s0037-0037",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "学",
+          "token_surface": "学",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "がく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "語",
+          "reading": "ご",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "学",
+          "reading": "がく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "語": [
+          "かたり",
+          "ご"
+        ],
+        "語学": [
+          "ごがく",
+          "ごがっ"
+        ],
+        "学": [
+          "あきら",
+          "おさむ",
+          "がく",
+          "がっ",
+          "さとる",
+          "まこと",
+          "まなび",
+          "まなぶ"
+        ]
+      },
+      "reading_hints": {
+        "語": "かたり",
+        "語学": "ごがく",
+        "学": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "語学",
+          "reading": "ゴガク",
+          "used_web_search": false,
+          "comment": "一般語で「語学」は「ゴガク」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"語学\",\"reading\":\"ゴガク\",\"used_web_search\":false,\"comment\":\"一般語で「語学」は「ゴガク」と読む。\"}]",
+      "llm_comments": [
+        "一般語で「語学」は「ゴガク」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+        "status": "applied",
+        "rejected_span": "語学",
+        "replacement": [
+          {
+            "surface": "語学",
+            "reading": "ゴガク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000451:u0031::target_group:1",
+            "surface": "語学",
+            "comment": "一般語で「語学」は「ゴガク」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000453:u0004::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000453",
+      "doc_seq": 10,
+      "track_doc_seq": 453,
+      "unit_id": "ja_cc_level2:0000000453:u0004",
+      "unit_seq": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 453,
+      "text": "その上で、「主要２０カ国・地域（Ｇ２０）首脳会議で封鎖の代わりにビジネス客など不可欠な人の移動を許容することを提案した」とし、「韓国は国連の多国間主義の協力に率先して参加する」と述べた。",
+      "rendered_yomi_before": "その/ソノ 上/ウエ で/デ 、/、 「/「 主要/シュヨウ ２０/ カ国/カコク ・/・ 地域/チイキ （/（ Ｇ/ジー ２０/ ）/） 首脳/シュノウ 会議/カイギ で/デ 封鎖/フウサ の/ノ 代わり/カワリ に/ニ ビジネス/ビジネス 客/キャク など/ナド 不可欠/フカケツ な/ナ 人/ヒト の/ノ 移動/イドウ を/ヲ 許容/キョヨウ する/スル こと/コト を/ヲ 提案/テイアン し/シ た/タ 」/」 と/ト し/シ 、/、 「/「 韓国/カンコク は/ハ 国連/コクレン の/ノ 多国間/タコクカン 主義/シュギ の/ノ 協力/キョウリョク に/ニ 率先/ソッセン し/シ て/テ 参加/サンカ する/スル 」/」 と/ト 述べ/ノベ た/タ 。/。",
+      "rendered_yomi_after": "その/ソノ 上/ウエ で/デ 、/、 「/「 主要/シュヨウ ２０/ カ国/カコク ・/・ 地域/チイキ （/（ Ｇ２０/ジートゥエンティ ）/） 首脳/シュノウ 会議/カイギ で/デ 封鎖/フウサ の/ノ 代わり/カワリ に/ニ ビジネス/ビジネス 客/キャク など/ナド 不可欠/フカケツ な/ナ 人/ヒト の/ノ 移動/イドウ を/ヲ 許容/キョヨウ する/スル こと/コト を/ヲ 提案/テイアン し/シ た/タ 」/」 と/ト し/シ 、/、 「/「 韓国/カンコク は/ハ 国連/コクレン の/ノ 多国間/タコクカン 主義/シュギ の/ノ 協力/キョウリョク に/ニ 率先/ソッセン し/シ て/テ 参加/サンカ する/スル 」/」 と/ト 述べ/ノベ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "上",
+          "ウエ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "主要",
+          "シュヨウ"
+        ],
+        [
+          "２０",
+          ""
+        ],
+        [
+          "カ国",
+          "カコク"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "地域",
+          "チイキ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "Ｇ２０",
+          "ジートゥエンティ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "首脳",
+          "シュノウ"
+        ],
+        [
+          "会議",
+          "カイギ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "封鎖",
+          "フウサ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "代わり",
+          "カワリ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ビジネス",
+          "ビジネス"
+        ],
+        [
+          "客",
+          "キャク"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "不可欠",
+          "フカケツ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "移動",
+          "イドウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "許容",
+          "キョヨウ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "提案",
+          "テイアン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "韓国",
+          "カンコク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "国連",
+          "コクレン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "多国間",
+          "タコクカン"
+        ],
+        [
+          "主義",
+          "シュギ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "協力",
+          "キョウリョク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "率先",
+          "ソッセン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "参加",
+          "サンカ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "述べ",
+          "ノベ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "上",
+          "reading": "ウエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "うえ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "主要",
+          "reading": "シュヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主要",
+              "reading": "しゅよう"
+            }
+          ]
+        },
+        {
+          "surface": "２０",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２０"
+            }
+          ]
+        },
+        {
+          "surface": "カ国",
+          "reading": "カコク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "カ"
+            },
+            {
+              "type": "ruby",
+              "text": "国",
+              "reading": "こく"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "地域",
+          "reading": "チイキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "地域",
+              "reading": "ちいき"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "Ｇ２０",
+          "reading": "ジートゥエンティ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Ｇ２０",
+              "reading": "じーとぅえんてぃ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "首脳",
+          "reading": "シュノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "首脳",
+              "reading": "しゅのう"
+            }
+          ]
+        },
+        {
+          "surface": "会議",
+          "reading": "カイギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会議",
+              "reading": "かいぎ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "封鎖",
+          "reading": "フウサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "封鎖",
+              "reading": "ふうさ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "代わり",
+          "reading": "カワリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "わり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ビジネス",
+          "reading": "ビジネス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ビジネス"
+            }
+          ]
+        },
+        {
+          "surface": "客",
+          "reading": "キャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "客",
+              "reading": "きゃく"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "不可欠",
+          "reading": "フカケツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "不可欠",
+              "reading": "ふかけつ"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "移動",
+          "reading": "イドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "移動",
+              "reading": "いどう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "許容",
+          "reading": "キョヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "許容",
+              "reading": "きょよう"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "提案",
+          "reading": "テイアン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "提案",
+              "reading": "ていあん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "韓国",
+          "reading": "カンコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "韓国",
+              "reading": "かんこく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "国連",
+          "reading": "コクレン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国連",
+              "reading": "こくれん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "多国間",
+          "reading": "タコクカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多国間",
+              "reading": "たこくかん"
+            }
+          ]
+        },
+        {
+          "surface": "主義",
+          "reading": "シュギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主義",
+              "reading": "しゅぎ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "協力",
+          "reading": "キョウリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "協力",
+              "reading": "きょうりょく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "率先",
+          "reading": "ソッセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "率先",
+              "reading": "そっせん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "参加",
+          "reading": "サンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参加",
+              "reading": "さんか"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "述べ",
+          "reading": "ノベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "述",
+              "reading": "の"
+            },
+            {
+              "type": "text",
+              "text": "べ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+          "item_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+          "unit_id": "ja_cc_level2:0000000453:u0004",
+          "text": "その上で、「主要２０カ国・地域（Ｇ２０）首脳会議で封鎖の代わりにビジネス客など不可欠な人の移動を許容することを提案した」とし、「韓国は国連の多国間主義の協力に率先して参加する」と述べた。",
+          "rendered_yomi_before": "その/ソノ 上/ウエ で/デ 、/、 「/「 主要/シュヨウ ２０/ カ国/カコク ・/・ 地域/チイキ （/（ Ｇ/ジー ２０/ ）/） 首脳/シュノウ 会議/カイギ で/デ 封鎖/フウサ の/ノ 代わり/カワリ に/ニ ビジネス/ビジネス 客/キャク など/ナド 不可欠/フカケツ な/ナ 人/ヒト の/ノ 移動/イドウ を/ヲ 許容/キョヨウ する/スル こと/コト を/ヲ 提案/テイアン し/シ た/タ 」/」 と/ト し/シ 、/、 「/「 韓国/カンコク は/ハ 国連/コクレン の/ノ 多国間/タコクカン 主義/シュギ の/ノ 協力/キョウリョク に/ニ 率先/ソッセン し/シ て/テ 参加/サンカ する/スル 」/」 と/ト 述べ/ノベ た/タ 。/。",
+          "rendered_yomi_after": "その/ソノ 上/ウエ で/デ 、/、 「/「 主要/シュヨウ ２０/ カ国/カコク ・/・ 地域/チイキ （/（ Ｇ２０/ジートゥエンティ ）/） 首脳/シュノウ 会議/カイギ で/デ 封鎖/フウサ の/ノ 代わり/カワリ に/ニ ビジネス/ビジネス 客/キャク など/ナド 不可欠/フカケツ な/ナ 人/ヒト の/ノ 移動/イドウ を/ヲ 許容/キョヨウ する/スル こと/コト を/ヲ 提案/テイアン し/シ た/タ 」/」 と/ト し/シ 、/、 「/「 韓国/カンコク は/ハ 国連/コクレン の/ノ 多国間/タコクカン 主義/シュギ の/ノ 協力/キョウリョク に/ニ 率先/ソッセン し/シ て/テ 参加/サンカ する/スル 」/」 と/ト 述べ/ノベ た/タ 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 16,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "Ｇ２０",
+              "token_surface": "Ｇ２０",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0048_v1:ja_cc_level2:0000000453:u0004:16-19",
+              "rejected_readings": [
+                {
+                  "surface": "Ｇ２０",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "Ｇ２０",
+              "token_surface": "Ｇ２０",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0048_v1:ja_cc_level2:0000000453:u0004:16-19",
+              "rejected_readings": [
+                {
+                  "surface": "Ｇ２０",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Ｇ２０",
+          "reading_candidates": {},
+          "reading_hints": {},
+          "rejected_readings": [
+            {
+              "surface": "Ｇ２０",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Ｇ２０\",\"reading\":\"ジートゥエンティ\",\"used_web_search\":false,\"comment\":\"国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Ｇ２０",
+              "reading": "ジートゥエンティ",
+              "used_web_search": false,
+              "comment": "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。"
+            }
+          ],
+          "llm_comments": [
+            "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+            "status": "applied",
+            "rejected_span": "Ｇ２０",
+            "replacement": [
+              {
+                "surface": "Ｇ２０",
+                "reading": "ジートゥエンティ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+                "surface": "Ｇ２０",
+                "comment": "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Ｇ２０",
+      "target_escalations": [
+        {
+          "surface": "Ｇ２０",
+          "token_surface": "Ｇ２０",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0048_v1:ja_cc_level2:0000000453:u0004:16-19",
+          "rejected_readings": [
+            {
+              "surface": "Ｇ２０",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Ｇ２０",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {},
+      "reading_hints": {},
+      "llm_parsed": [
+        {
+          "surface": "Ｇ２０",
+          "reading": "ジートゥエンティ",
+          "used_web_search": false,
+          "comment": "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Ｇ２０\",\"reading\":\"ジートゥエンティ\",\"used_web_search\":false,\"comment\":\"国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。\"}]",
+      "llm_comments": [
+        "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+        "status": "applied",
+        "rejected_span": "Ｇ２０",
+        "replacement": [
+          {
+            "surface": "Ｇ２０",
+            "reading": "ジートゥエンティ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000453:u0004::span_group:1",
+            "surface": "Ｇ２０",
+            "comment": "国際会議の略称として定着しているため一括で読み、一般的な読みは「ジートゥエンティ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000453:u0007::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000453",
+      "doc_seq": 10,
+      "track_doc_seq": 453,
+      "unit_id": "ja_cc_level2:0000000453:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 453,
+      "text": "文大統領はハイレベル会合で、韓国、メキシコ、インドネシア、オーストラリア、トルコによる中堅国機構（ＭＩＫＴＡ）の議長国の首脳として代表発言を行った。",
+      "rendered_yomi_before": "文/ブン 大統領/ダイトウリョウ は/ハ ハイ/ハイ レベル/レベル 会合/カイゴウ で/デ 、/、 韓国/カンコク 、/、 メキシコ/メキシコ 、/、 インドネシア/インドネシア 、/、 オーストラリア/オーストラリア 、/、 トルコ/トルコ に/ニ よる/ヨル 中堅/チュウケン 国/コク 機構/キコウ （/（ ＭＩＫＴＡ/ミクタ ）/） の/ノ 議長国/ギチョウコク の/ノ 首脳/シュノウ と/ト し/シ て/テ 代表/ダイヒョウ 発言/ハツゲン を/ヲ 行っ/オコナッ た/タ 。/。",
+      "rendered_yomi_after": "文/ムン 大統領/ダイトウリョウ は/ハ ハイ/ハイ レベル/レベル 会合/カイゴウ で/デ 、/、 韓国/カンコク 、/、 メキシコ/メキシコ 、/、 インドネシア/インドネシア 、/、 オーストラリア/オーストラリア 、/、 トルコ/トルコ に/ニ よる/ヨル 中堅/チュウケン 国/コク 機構/キコウ （/（ ＭＩＫＴＡ/ミクタ ）/） の/ノ 議長国/ギチョウコク の/ノ 首脳/シュノウ と/ト し/シ て/テ 代表/ダイヒョウ 発言/ハツゲン を/ヲ 行っ/オコナッ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "文",
+          "ムン"
+        ],
+        [
+          "大統領",
+          "ダイトウリョウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ハイ",
+          "ハイ"
+        ],
+        [
+          "レベル",
+          "レベル"
+        ],
+        [
+          "会合",
+          "カイゴウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "韓国",
+          "カンコク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "メキシコ",
+          "メキシコ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "インドネシア",
+          "インドネシア"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "オーストラリア",
+          "オーストラリア"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "トルコ",
+          "トルコ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よる",
+          "ヨル"
+        ],
+        [
+          "中堅",
+          "チュウケン"
+        ],
+        [
+          "国",
+          "コク"
+        ],
+        [
+          "機構",
+          "キコウ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "ＭＩＫＴＡ",
+          "ミクタ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "議長国",
+          "ギチョウコク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "首脳",
+          "シュノウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "代表",
+          "ダイヒョウ"
+        ],
+        [
+          "発言",
+          "ハツゲン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行っ",
+          "オコナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "文",
+          "reading": "ムン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "文",
+              "reading": "むん"
+            }
+          ]
+        },
+        {
+          "surface": "大統領",
+          "reading": "ダイトウリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大統領",
+              "reading": "だいとうりょう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ハイ",
+          "reading": "ハイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ハイ"
+            }
+          ]
+        },
+        {
+          "surface": "レベル",
+          "reading": "レベル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レベル"
+            }
+          ]
+        },
+        {
+          "surface": "会合",
+          "reading": "カイゴウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会合",
+              "reading": "かいごう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "韓国",
+          "reading": "カンコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "韓国",
+              "reading": "かんこく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "メキシコ",
+          "reading": "メキシコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メキシコ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "インドネシア",
+          "reading": "インドネシア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "インドネシア"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "オーストラリア",
+          "reading": "オーストラリア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オーストラリア"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "トルコ",
+          "reading": "トルコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "トルコ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よる",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "中堅",
+          "reading": "チュウケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中堅",
+              "reading": "ちゅうけん"
+            }
+          ]
+        },
+        {
+          "surface": "国",
+          "reading": "コク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国",
+              "reading": "こく"
+            }
+          ]
+        },
+        {
+          "surface": "機構",
+          "reading": "キコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "機構",
+              "reading": "きこう"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "ＭＩＫＴＡ",
+          "reading": "ミクタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ＭＩＫＴＡ",
+              "reading": "みくた"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "議長国",
+          "reading": "ギチョウコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "議長国",
+              "reading": "ぎちょうこく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "首脳",
+          "reading": "シュノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "首脳",
+              "reading": "しゅのう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "代表",
+          "reading": "ダイヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代表",
+              "reading": "だいひょう"
+            }
+          ]
+        },
+        {
+          "surface": "発言",
+          "reading": "ハツゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発言",
+              "reading": "はつげん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行っ",
+          "reading": "オコナッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000000453:u0007",
+          "text": "文大統領はハイレベル会合で、韓国、メキシコ、インドネシア、オーストラリア、トルコによる中堅国機構（ＭＩＫＴＡ）の議長国の首脳として代表発言を行った。",
+          "rendered_yomi_before": "文/ブン 大統領/ダイトウリョウ は/ハ ハイ/ハイ レベル/レベル 会合/カイゴウ で/デ 、/、 韓国/カンコク 、/、 メキシコ/メキシコ 、/、 インドネシア/インドネシア 、/、 オーストラリア/オーストラリア 、/、 トルコ/トルコ に/ニ よる/ヨル 中堅/チュウケン 国/コク 機構/キコウ （/（ ＭＩＫＴＡ/ミクタ ）/） の/ノ 議長国/ギチョウコク の/ノ 首脳/シュノウ と/ト し/シ て/テ 代表/ダイヒョウ 発言/ハツゲン を/ヲ 行っ/オコナッ た/タ 。/。",
+          "rendered_yomi_after": "文/ムン 大統領/ダイトウリョウ は/ハ ハイ/ハイ レベル/レベル 会合/カイゴウ で/デ 、/、 韓国/カンコク 、/、 メキシコ/メキシコ 、/、 インドネシア/インドネシア 、/、 オーストラリア/オーストラリア 、/、 トルコ/トルコ に/ニ よる/ヨル 中堅/チュウケン 国/コク 機構/キコウ （/（ ＭＩＫＴＡ/ミクタ ）/） の/ノ 議長国/ギチョウコク の/ノ 首脳/シュノウ と/ト し/シ て/テ 代表/ダイヒョウ 発言/ハツゲン を/ヲ 行っ/オコナッ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 1,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000453:u0007:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "文",
+              "token_surface": "文",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "文",
+                  "reading": "ぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000453:u0007:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "文",
+              "token_surface": "文",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "文",
+                  "reading": "ぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "文",
+          "reading_candidates": {
+            "文": [
+              "あや",
+              "ふみ",
+              "ぶみ",
+              "ぶん",
+              "もん"
+            ]
+          },
+          "reading_hints": {
+            "文": "あや"
+          },
+          "rejected_readings": [
+            {
+              "surface": "文",
+              "reading": "ぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"文\",\"reading\":\"ムン\",\"used_web_search\":false,\"comment\":\"文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "文",
+              "reading": "ムン",
+              "used_web_search": false,
+              "comment": "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "文",
+            "replacement": [
+              {
+                "surface": "文",
+                "reading": "ムン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+                "surface": "文",
+                "comment": "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "文",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000453:u0007:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "文",
+          "token_surface": "文",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぶん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "文",
+              "reading": "ぶん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "文",
+          "reading": "ぶん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "文": [
+          "あや",
+          "ふみ",
+          "ぶみ",
+          "ぶん",
+          "もん"
+        ]
+      },
+      "reading_hints": {
+        "文": "あや"
+      },
+      "llm_parsed": [
+        {
+          "surface": "文",
+          "reading": "ムン",
+          "used_web_search": false,
+          "comment": "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"文\",\"reading\":\"ムン\",\"used_web_search\":false,\"comment\":\"文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。\"}]",
+      "llm_comments": [
+        "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "文",
+        "replacement": [
+          {
+            "surface": "文",
+            "reading": "ムン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000453:u0007::target_group:1",
+            "surface": "文",
+            "comment": "文大統領の「文」は韓国人名の姓で、ここでは「ムン」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000453:u0009::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000453",
+      "doc_seq": 10,
+      "track_doc_seq": 453,
+      "unit_id": "ja_cc_level2:0000000453:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 453,
+      "text": "文大統領は演説で「ＭＩＫＴＡ５カ国は国連が作ってきた多国間主義の秩序に基づいて発展してきたが、新型コロナは国連とＭＩＫＴＡ５カ国の多国間主義を脅かしている」と指摘した。",
+      "rendered_yomi_before": "文/ブン 大統領/ダイトウリョウ は/ハ 演説/エンゼツ で/デ 「/「 ＭＩＫＴＡ/ミクタ ５/ カ国/カコク は/ハ 国連/コクレン が/ガ 作っ/ツクッ て/テ き/キ た/タ 多国間/タコクカン 主義/シュギ の/ノ 秩序/チツジョ に/ニ 基づい/モトヅイ て/テ 発展/ハッテン し/シ て/テ き/キ た/タ が/ガ 、/、 新型/シンガタ コロナ/コロナ は/ハ 国連/コクレン と/ト ＭＩＫＴＡ/ミクタ ５/ カ国/カコク の/ノ 多国間/タコクカン 主義/シュギ を/ヲ 脅かし/オビヤカシ て/テ いる/イル 」/」 と/ト 指摘/シテキ し/シ た/タ 。/。",
+      "rendered_yomi_after": "文/ムン 大統領/ダイトウリョウ は/ハ 演説/エンゼツ で/デ 「/「 ＭＩＫＴＡ/ミクタ ５/ カ国/カコク は/ハ 国連/コクレン が/ガ 作っ/ツクッ て/テ き/キ た/タ 多国間/タコクカン 主義/シュギ の/ノ 秩序/チツジョ に/ニ 基づい/モトヅイ て/テ 発展/ハッテン し/シ て/テ き/キ た/タ が/ガ 、/、 新型/シンガタ コロナ/コロナ は/ハ 国連/コクレン と/ト ＭＩＫＴＡ/ミクタ ５/ カ国/カコク の/ノ 多国間/タコクカン 主義/シュギ を/ヲ 脅かし/オビヤカシ て/テ いる/イル 」/」 と/ト 指摘/シテキ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "文",
+          "ムン"
+        ],
+        [
+          "大統領",
+          "ダイトウリョウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "演説",
+          "エンゼツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "ＭＩＫＴＡ",
+          "ミクタ"
+        ],
+        [
+          "５",
+          ""
+        ],
+        [
+          "カ国",
+          "カコク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "国連",
+          "コクレン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "作っ",
+          "ツクッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "多国間",
+          "タコクカン"
+        ],
+        [
+          "主義",
+          "シュギ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "秩序",
+          "チツジョ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "基づい",
+          "モトヅイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "発展",
+          "ハッテン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "新型",
+          "シンガタ"
+        ],
+        [
+          "コロナ",
+          "コロナ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "国連",
+          "コクレン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "ＭＩＫＴＡ",
+          "ミクタ"
+        ],
+        [
+          "５",
+          ""
+        ],
+        [
+          "カ国",
+          "カコク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "多国間",
+          "タコクカン"
+        ],
+        [
+          "主義",
+          "シュギ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "脅かし",
+          "オビヤカシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "指摘",
+          "シテキ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "文",
+          "reading": "ムン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "文",
+              "reading": "むん"
+            }
+          ]
+        },
+        {
+          "surface": "大統領",
+          "reading": "ダイトウリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大統領",
+              "reading": "だいとうりょう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "演説",
+          "reading": "エンゼツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演説",
+              "reading": "えんぜつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "ＭＩＫＴＡ",
+          "reading": "ミクタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ＭＩＫＴＡ",
+              "reading": "みくた"
+            }
+          ]
+        },
+        {
+          "surface": "５",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "５"
+            }
+          ]
+        },
+        {
+          "surface": "カ国",
+          "reading": "カコク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "カ"
+            },
+            {
+              "type": "ruby",
+              "text": "国",
+              "reading": "こく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "国連",
+          "reading": "コクレン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国連",
+              "reading": "こくれん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "作っ",
+          "reading": "ツクッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作",
+              "reading": "つく"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "多国間",
+          "reading": "タコクカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多国間",
+              "reading": "たこくかん"
+            }
+          ]
+        },
+        {
+          "surface": "主義",
+          "reading": "シュギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主義",
+              "reading": "しゅぎ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "秩序",
+          "reading": "チツジョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "秩序",
+              "reading": "ちつじょ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "基づい",
+          "reading": "モトヅイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "基",
+              "reading": "もと"
+            },
+            {
+              "type": "text",
+              "text": "づい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "発展",
+          "reading": "ハッテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発展",
+              "reading": "はってん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "新型",
+          "reading": "シンガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新型",
+              "reading": "しんがた"
+            }
+          ]
+        },
+        {
+          "surface": "コロナ",
+          "reading": "コロナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コロナ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "国連",
+          "reading": "コクレン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国連",
+              "reading": "こくれん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "ＭＩＫＴＡ",
+          "reading": "ミクタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ＭＩＫＴＡ",
+              "reading": "みくた"
+            }
+          ]
+        },
+        {
+          "surface": "５",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "５"
+            }
+          ]
+        },
+        {
+          "surface": "カ国",
+          "reading": "カコク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "カ"
+            },
+            {
+              "type": "ruby",
+              "text": "国",
+              "reading": "こく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "多国間",
+          "reading": "タコクカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多国間",
+              "reading": "たこくかん"
+            }
+          ]
+        },
+        {
+          "surface": "主義",
+          "reading": "シュギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主義",
+              "reading": "しゅぎ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "脅かし",
+          "reading": "オビヤカシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "脅",
+              "reading": "おびや"
+            },
+            {
+              "type": "text",
+              "text": "かし"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "指摘",
+          "reading": "シテキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "指摘",
+              "reading": "してき"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+          "item_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+          "unit_id": "ja_cc_level2:0000000453:u0009",
+          "text": "文大統領は演説で「ＭＩＫＴＡ５カ国は国連が作ってきた多国間主義の秩序に基づいて発展してきたが、新型コロナは国連とＭＩＫＴＡ５カ国の多国間主義を脅かしている」と指摘した。",
+          "rendered_yomi_before": "文/ブン 大統領/ダイトウリョウ は/ハ 演説/エンゼツ で/デ 「/「 ＭＩＫＴＡ/ミクタ ５/ カ国/カコク は/ハ 国連/コクレン が/ガ 作っ/ツクッ て/テ き/キ た/タ 多国間/タコクカン 主義/シュギ の/ノ 秩序/チツジョ に/ニ 基づい/モトヅイ て/テ 発展/ハッテン し/シ て/テ き/キ た/タ が/ガ 、/、 新型/シンガタ コロナ/コロナ は/ハ 国連/コクレン と/ト ＭＩＫＴＡ/ミクタ ５/ カ国/カコク の/ノ 多国間/タコクカン 主義/シュギ を/ヲ 脅かし/オビヤカシ て/テ いる/イル 」/」 と/ト 指摘/シテキ し/シ た/タ 。/。",
+          "rendered_yomi_after": "文/ムン 大統領/ダイトウリョウ は/ハ 演説/エンゼツ で/デ 「/「 ＭＩＫＴＡ/ミクタ ５/ カ国/カコク は/ハ 国連/コクレン が/ガ 作っ/ツクッ て/テ き/キ た/タ 多国間/タコクカン 主義/シュギ の/ノ 秩序/チツジョ に/ニ 基づい/モトヅイ て/テ 発展/ハッテン し/シ て/テ き/キ た/タ が/ガ 、/、 新型/シンガタ コロナ/コロナ は/ハ 国連/コクレン と/ト ＭＩＫＴＡ/ミクタ ５/ カ国/カコク の/ノ 多国間/タコクカン 主義/シュギ を/ヲ 脅かし/オビヤカシ て/テ いる/イル 」/」 と/ト 指摘/シテキ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 1,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000453:u0009:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "文",
+              "token_surface": "文",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "文",
+                  "reading": "ぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000453:u0009:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "文",
+              "token_surface": "文",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "rejected_readings": [
+                {
+                  "surface": "文",
+                  "reading": "ぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "文",
+          "reading_candidates": {
+            "文": [
+              "あや",
+              "ふみ",
+              "ぶみ",
+              "ぶん",
+              "もん"
+            ]
+          },
+          "reading_hints": {
+            "文": "あや"
+          },
+          "rejected_readings": [
+            {
+              "surface": "文",
+              "reading": "ぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"文\",\"reading\":\"ムン\",\"used_web_search\":false,\"comment\":\"韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "文",
+              "reading": "ムン",
+              "used_web_search": false,
+              "comment": "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。"
+            }
+          ],
+          "llm_comments": [
+            "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "文",
+            "replacement": [
+              {
+                "surface": "文",
+                "reading": "ムン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+                "surface": "文",
+                "comment": "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "文",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000453:u0009:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "文",
+          "token_surface": "文",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぶん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "rejected_readings": [
+            {
+              "surface": "文",
+              "reading": "ぶん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "文",
+          "reading": "ぶん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "文": [
+          "あや",
+          "ふみ",
+          "ぶみ",
+          "ぶん",
+          "もん"
+        ]
+      },
+      "reading_hints": {
+        "文": "あや"
+      },
+      "llm_parsed": [
+        {
+          "surface": "文",
+          "reading": "ムン",
+          "used_web_search": false,
+          "comment": "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"文\",\"reading\":\"ムン\",\"used_web_search\":false,\"comment\":\"韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。\"}]",
+      "llm_comments": [
+        "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "文",
+        "replacement": [
+          {
+            "surface": "文",
+            "reading": "ムン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000453:u0009::target_group:1",
+            "surface": "文",
+            "comment": "韓国の姓としての「文」で、文大統領は「ムン大統領」と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
