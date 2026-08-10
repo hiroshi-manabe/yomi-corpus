@@ -3013,10 +3013,19 @@ function renderSavedTaskGroup(titleText, records, docs) {
 
     const button = document.createElement("button");
     button.type = "button";
+    const submitted = taskRecordStatus(record) === "submitted";
+    const currentDocs = buildDocumentTasks(state.currentPack);
+    const canReopenSubmitted = !submitted || (record.task?.doc_ids || []).some((docId) => {
+      const doc = currentDocs.find((candidate) => taskDocKey(candidate) === String(docId));
+      return doc && !docIsProcessingOnServer(doc);
+    });
     button.textContent =
-      taskRecordStatus(record) === "submitted"
-        ? `${localizedTaskLabel(record.task_label || "タスク")}を再度開く`
+      submitted
+        ? canReopenSubmitted
+          ? `${localizedTaskLabel(record.task_label || "タスク")}を再度開く`
+          : "サーバー処理中"
         : `${localizedTaskLabel(record.task_label || "タスク")}に戻る`;
+    button.disabled = !canReopenSubmitted;
     button.addEventListener("click", () => {
       resumeTaskDraft(record.task_id);
     });
@@ -6511,17 +6520,40 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   }
   const submitted = taskRecordStatus(rawRecord) === "submitted";
   const docIds = taskDocIdsForStorageTask(rawRecord.task);
-  const validDocs = docIds
-    .map((docId) => currentQueueDocForTaskDocId(docId, taskStage, { submitted }))
-    .filter(Boolean);
-  if (!validDocs.length) {
+  const storedRefs = new Map(
+    (rawRecord.document_refs || []).map((ref) => [String(ref.task_doc_id || ""), ref]),
+  );
+  const currentDocs = buildDocumentTasks(state.currentPack);
+  const retainedDocIds = [];
+  const documentRefs = [];
+  for (const docId of docIds) {
+    const currentDoc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
+    if (currentDoc) {
+      retainedDocIds.push(taskDocKey(currentDoc));
+      documentRefs.push(localTaskDocumentRef(currentDoc));
+      continue;
+    }
+    const ref = storedRefs.get(String(docId));
+    if (!submitted || !ref || finalizedArchiveContainsDocumentRef(ref)) {
+      continue;
+    }
+    const currentOtherStage = currentDocs.some(
+      (doc) => String(doc.doc_id || "") === baseDocIdFromTaskDocId(docId),
+    );
+    if (currentOtherStage) {
+      continue;
+    }
+    retainedDocIds.push(String(docId));
+    documentRefs.push(ref);
+  }
+  if (!retainedDocIds.length) {
     return null;
   }
   const task = {
     ...rawRecord.task,
     mode: "documents",
     doc_id: undefined,
-    doc_ids: validDocs.map((doc) => taskDocKey(doc)),
+    doc_ids: retainedDocIds,
     started: false,
     range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage, {
       submitted,
@@ -6535,8 +6567,35 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     queue_stage: taskStage,
     status: taskRecordStatus(rawRecord),
     task,
-    overrides: filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
+    document_refs: documentRefs,
+    overrides: submitted
+      ? cloneJson(rawRecord.overrides || {})
+      : filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
   };
+}
+
+function localTaskDocumentRef(doc) {
+  return {
+    task_doc_id: taskDocKey(doc),
+    doc_id: String(doc.doc_id || ""),
+    queue_stage: String(doc.queue_stage || ""),
+    doc_seq: Number(doc.doc_seq || 0),
+    track_doc_seq: Number(doc.track_doc_seq || doc.doc_seq || 0),
+    item_count: Number(doc.item_count || 0),
+    unresolved_count: Number(doc.unresolved_count || 0),
+    preview: String(doc.preview || ""),
+  };
+}
+
+function finalizedArchiveContainsDocumentRef(ref) {
+  const seq = Number(ref?.track_doc_seq || ref?.doc_seq || 0);
+  if (!Number.isInteger(seq) || seq <= 0) {
+    return false;
+  }
+  const ranges = state.manifest?.archive?.tracks?.dev?.finalized_track_doc_seq_ranges || [];
+  return ranges.some(
+    (range) => Array.isArray(range) && seq >= Number(range[0]) && seq <= Number(range[1]),
+  );
 }
 
 function currentQueueDocForTaskDocId(taskDocId, taskStage, { submitted = false } = {}) {
@@ -6725,14 +6784,22 @@ function currentTaskDraftRecord() {
       : allocateTaskIdentity();
   state.currentDraft.active_task_id = identity.task_id;
   state.currentDraft.active_task_label = identity.task_label;
+  const normalizedTask = normalizeTask(state.currentDraft.task, state.currentPack);
+  const docsByKey = new Map(
+    buildDocumentTasks(state.currentPack).map((doc) => [taskDocKey(doc), doc]),
+  );
   return {
     ...identity,
     status: "deferred",
     queue_stage: taskQueueStage(state.currentDraft.task),
     task: {
-      ...normalizeTask(state.currentDraft.task, state.currentPack),
+      ...normalizedTask,
       started: false,
     },
+    document_refs: normalizedTask.doc_ids
+      .map((docId) => docsByKey.get(docId))
+      .filter(Boolean)
+      .map(localTaskDocumentRef),
     from_seq: state.currentDraft.from_seq ?? null,
     to_seq: state.currentDraft.to_seq ?? null,
     overrides: cloneJson(state.currentDraft.overrides || {}),
@@ -6748,8 +6815,16 @@ function taskNumberFromId(taskId) {
 function formatTaskDraftMeta(record, docs) {
   const docIds = new Set(record.task?.doc_ids || []);
   const selectedDocs = docs.filter((doc) => docIds.has(taskDocKey(doc)));
-  const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
-  const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
+  const selectedKeys = new Set(selectedDocs.map((doc) => taskDocKey(doc)));
+  const missingRefs = (record.document_refs || []).filter(
+    (ref) => docIds.has(String(ref.task_doc_id || "")) && !selectedKeys.has(String(ref.task_doc_id || "")),
+  );
+  const docSeqs = [
+    ...selectedDocs.map((doc) => doc.doc_seq),
+    ...missingRefs.map((ref) => Number(ref.doc_seq || ref.track_doc_seq || 0)),
+  ].filter((seq) => Number.isInteger(seq) && seq > 0);
+  const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0) +
+    missingRefs.reduce((sum, ref) => sum + Number(ref.item_count || 0), 0);
   const parts = [];
   const queueStages = [...new Set(selectedDocs.map((doc) => doc.queue_stage).filter(Boolean))];
   if (queueStages.length) {
