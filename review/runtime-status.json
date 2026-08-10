@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5065,
-  "generated_at": "2026-08-10T06:22:12Z",
-  "generated_at_epoch": 1786342932,
-  "last_successful_sync": "2026-08-10T06:16:58Z",
-  "last_successful_sync_epoch": 1786342618,
-  "status": "error",
+  "state_revision": 5066,
+  "generated_at": "2026-08-10T06:27:39Z",
+  "generated_at_epoch": 1786343259,
+  "last_successful_sync": "2026-08-10T06:27:39Z",
+  "last_successful_sync_epoch": 1786343259,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1786342072,
     "interval_seconds": 300,
@@ -14,9 +14,9 @@
     "next_expected_epoch": 1786342372
   },
   "state": {
-    "current_batch_name": "dev_batch_0059",
-    "current_stage": "yomi_reading_llm_completed",
-    "next_stage": "final_review_prepared",
+    "current_batch_name": "dev_batch_0060",
+    "current_stage": "scope_triage_queued",
+    "next_stage": "scope_triage_llm_completed",
     "active_queue_count": 97,
     "queue_counts": {
       "bulk_review_selectable": 90,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1786342932,
-    "completed_at_epoch": 1786342932,
-    "drift_seconds": 40
+    "started_at_epoch": 1786343046,
+    "completed_at_epoch": 1786343259,
+    "drift_seconds": 74
   },
   "client_polling": {
     "normal_seconds": 60,
