@@ -4630,7 +4630,22 @@ function targetForRubySegment(segment, targetsById) {
 
 function isNoRubyTarget(target, override) {
   const targetDraft = override?.targets?.[target.item_id] || null;
-  return selectedCandidate(target, targetDraft)?.source === "none";
+  return isUnresolvedNoRubyCandidate(selectedCandidate(target, targetDraft));
+}
+
+function noRubyState(candidate) {
+  if (candidate?.source !== "none") {
+    return "";
+  }
+  return candidate.no_ruby_state || (candidate.accepted ? "intentional" : "unresolved");
+}
+
+function isUnresolvedNoRubyCandidate(candidate) {
+  return noRubyState(candidate) === "unresolved";
+}
+
+function isIntentionalNoRubyCandidate(candidate) {
+  return noRubyState(candidate) === "intentional";
 }
 
 function isKanaMergeEligibleTarget(target) {
@@ -4669,7 +4684,7 @@ function renderedYomiTokenSpans(item) {
 }
 
 function hasNoRubyCandidate(target) {
-  return (target?.candidates || []).some((candidate) => candidate.source === "none");
+  return (target?.candidates || []).some(isUnresolvedNoRubyCandidate);
 }
 
 function renderRepairBridgeButton(item, opportunity, override, editable) {
@@ -4875,6 +4890,8 @@ function renderRubySpan(item, target, override, editable) {
   button.classList.toggle("unresolved", !target.is_safe);
   button.classList.toggle("safe", Boolean(target.is_safe));
   button.classList.toggle("changed", Boolean(targetDraft));
+  button.classList.toggle("no-ruby-unresolved", isUnresolvedNoRubyCandidate(candidate));
+  button.classList.toggle("no-ruby-intentional", isIntentionalNoRubyCandidate(candidate));
   button.disabled = !editable;
   button.title = rubyTitle(target, candidate);
 
@@ -4888,6 +4905,13 @@ function renderRubySpan(item, target, override, editable) {
     ruby.append(document.createTextNode(target.surface));
     const rt = document.createElement("rt");
     rt.textContent = candidate.reading;
+    ruby.append(rt);
+    button.append(ruby);
+  } else if (candidate?.source === "none") {
+    const ruby = document.createElement("ruby");
+    ruby.append(document.createTextNode(target.surface));
+    const rt = document.createElement("rt");
+    rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";
     ruby.append(rt);
     button.append(ruby);
   } else {
@@ -4974,7 +4998,12 @@ function defaultCandidate(target) {
 }
 
 function rubyTitle(target, candidate) {
-  const reading = candidate?.reading ? ` / ${candidate.reading}` : " / ルビなし";
+  let reading = candidate?.reading ? ` / ${candidate.reading}` : " / ルビなし";
+  if (isIntentionalNoRubyCandidate(candidate)) {
+    reading = " / ルビなし（確定）";
+  } else if (isUnresolvedNoRubyCandidate(candidate)) {
+    reading = " / 未解決・要修正";
+  }
   return `${target.surface}${reading}`;
 }
 
@@ -5006,9 +5035,9 @@ function yomiCycleCandidates(target) {
 }
 
 function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = null) {
-  const noneCandidate = candidateForSource(target, "none");
+  const noneCandidate = candidateForId(target, "none") || candidateForSource(target, "none");
   const defaultChoice = defaultCandidate(target);
-  const next = currentCandidate?.source === "none" ? defaultChoice : noneCandidate;
+  const next = isUnresolvedNoRubyCandidate(currentCandidate) ? defaultChoice : noneCandidate;
   if (!next) {
     return;
   }
@@ -5018,7 +5047,7 @@ function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = nu
 function applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect = null) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
-  if (next.source === "none") {
+  if (isUnresolvedNoRubyCandidate(next)) {
     registerRepeatedCancellation(item, target, previousOverride, anchorRect);
   } else if (state.repeatCancellation?.targetIds?.has(target.item_id)) {
     dismissRepeatedCancellation();
@@ -5269,12 +5298,12 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
 }
 
 function targetMatchesCancellationSpec(item, target, spec) {
-  if ((target.surface || "") !== spec.surface || !candidateForSource(target, "none")) {
+  if ((target.surface || "") !== spec.surface || !candidateForId(target, "none")) {
     return false;
   }
   const draft = state.currentDraft.overrides[item.item_id];
   const selected = selectedCandidate(target, draft?.targets?.[target.item_id] || null);
-  return selected?.source !== "none";
+  return !isUnresolvedNoRubyCandidate(selected);
 }
 
 function mergeOperationFitsItem(item, origin, operation) {
@@ -5301,7 +5330,7 @@ function applyRepeatedCancellation() {
     }
     const draft = ensureYomiOverride(match.item.item_id);
     match.targets.forEach((target) => {
-      const none = candidateForSource(target, "none");
+      const none = candidateForId(target, "none") || candidateForSource(target, "none");
       draft.targets[target.item_id] = {
         choice_id: candidateKey(none),
         choice_source: "none",

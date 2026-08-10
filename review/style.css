@@ -1828,6 +1828,16 @@ button:disabled {
   background: rgba(156, 79, 30, 0.16);
 }
 
+.ruby-token.no-ruby-unresolved rt {
+  color: #a33a24;
+  font-weight: 800;
+}
+
+.ruby-token.no-ruby-intentional rt {
+  color: #687269;
+  font-weight: 700;
+}
+
 .ruby-token.changed {
   background: rgba(45, 106, 79, 0.18);
 }
