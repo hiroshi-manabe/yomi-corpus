@@ -199,12 +199,16 @@ structurally invalid token can still be sent to the LLM for `Skip` detection,
 but an LLM `OK` must be forced back to `Review`.
 
 Original source whitespace should be preserved in the canonical yomi token
-stream. Before Sudachi and decoder processing, convert source ASCII space
-`U+0020` to NBSP `U+00A0`; keep full-width space `U+3000` unchanged. The JSON
-array stores whitespace surfaces without delimiter ambiguity. In the editable
-compatibility view, escape literal `/` as `\/`, backslash as `\\`, and ASCII
-space as `\s`; these escapes are UI syntax and never alter canonical source
-text.
+stream. Sudachi and decoder adapters may temporarily convert source ASCII space
+`U+0020` to NBSP `U+00A0`, but must map returned boundaries back to the original
+text immediately. Canonical surfaces retain the exact source code points,
+including ASCII space, source NBSP, full-width space, and tabs. The JSON array
+stores whitespace surfaces without delimiter ambiguity. In the editable
+compatibility view, escape literal `/` as `\/`, backslash as `\\`, ASCII space
+as `\s`, source NBSP as `\u00a0`, and full-width space as `\u3000`; these
+escapes are UI syntax and never alter canonical source text. The implementation
+and existing-artifact rollout are specified in
+[`SOURCE_SURFACE_MIGRATION.md`](SOURCE_SURFACE_MIGRATION.md).
 
 N-gram support is currently an experimental confidence feature, not a committed
 pipeline gate. The useful diagnostic variant is comma-span based: exclude units

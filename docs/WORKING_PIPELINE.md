@@ -331,11 +331,15 @@ This validation is separate from yomi correctness. A structurally invalid unit
 may still be sent to LLM triage so the model can identify `Skip`, but an LLM
 `OK` must be blocked and converted to `Review`.
 
-Original source whitespace should not be dropped. Before Sudachi and decoder
-processing, convert ASCII space `U+0020` to NBSP `U+00A0`; keep full-width
-space `U+3000` as-is. Compact token arrays preserve whitespace directly. The
-editable compatibility projection escapes literal slash as `\/`, backslash as
-`\\`, and ASCII space as `\s`.
+Original source whitespace must be preserved code point for code point.
+Sudachi and decoder adapters may temporarily convert ASCII space `U+0020` to
+NBSP `U+00A0`, but returned token boundaries must immediately be projected onto
+the original text. Compact token arrays therefore retain ASCII space, source
+NBSP, full-width space, tabs, and other whitespace exactly. The editable
+compatibility projection escapes literal slash as `\/`, backslash as `\\`,
+ASCII space as `\s`, source NBSP as `\u00a0`, and full-width space as
+`\u3000`. See `SOURCE_SURFACE_MIGRATION.md` for the implementation and
+existing-artifact migration plan.
 
 Yomi review should prioritize reading correctness over ideal segmentation.
 Katakana expressions may be over-split by the current analyzers, but this is not
