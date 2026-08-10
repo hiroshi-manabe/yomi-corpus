@@ -18,7 +18,7 @@
     },
     "unresolved_item_count": 28,
     "unresolved_target_count": 30,
-    "interaction_span_count": 1948,
+    "interaction_span_count": 1947,
     "provisional_skip_item_count": 0
   },
   "documents": [
@@ -511980,17 +511980,9 @@
         },
         {
           "type": "ruby",
-          "text": "一",
-          "target_item_id": "ja_cc_level2:0000000443:u0003:s0013-0013",
-          "reading": "いっ",
-          "is_safe": false,
-          "highlight_level": "target"
-        },
-        {
-          "type": "ruby",
-          "text": "発",
-          "target_item_id": "ja_cc_level2:0000000443:u0003:s0014-0014",
-          "reading": "ぱつ",
+          "text": "一発",
+          "target_item_id": "ja_cc_level2:0000000443:u0003:s0013-0014",
+          "reading": "いっぱつ",
           "is_safe": false,
           "highlight_level": "target"
         },
@@ -512047,7 +512039,7 @@
           "text": "というかなんというか。"
         }
       ],
-      "rendered_yomi": "で/デ 、/、 慣れ/ナレ て/テ き/キ た/タ 頃/コロ に/ニ 大きな/オオキナ 一発/イッパツ が/ガ 繰り出さ/クリダサ れ/レ て/テ 、/、 ドーン/ドーン と/ト 動く/ウゴク よう/ヨウ な/ナ …/… // // それ/ソレ は/ハ それ/ソレ で/デ 怖い/コワイ と/ト いう/イウ か/カ 迷惑/メイワク と/ト いう/イウ か/カ なん/ナン と/ト いう/イウ か/カ 。/。",
+      "rendered_yomi": "で/デ 、/、 慣れ/ナレ て/テ き/キ た/タ 頃/コロ に/ニ 大きな/オオキナ 一発/イッパツ が/ガ 繰り出さ/クリダサ れ/レ て/テ 、/、 ドーン/ドーン と/ト 動く/ウゴク よう/ヨウ な/ナ …/… それ/ソレ は/ハ それ/ソレ で/デ 怖い/コワイ と/ト いう/イウ か/カ 迷惑/メイワク と/ト いう/イウ か/カ なん/ナン と/ト いう/イウ か/カ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "で",
@@ -512287,26 +512279,6 @@
             {
               "type": "text",
               "text": "…"
-            }
-          ]
-        },
-        {
-          "surface": "/",
-          "reading": "",
-          "nodes": [
-            {
-              "type": "text",
-              "text": "/"
-            }
-          ]
-        },
-        {
-          "surface": "/",
-          "reading": "",
-          "nodes": [
-            {
-              "type": "text",
-              "text": "/"
             }
           ]
         },
@@ -513790,7 +513762,7 @@
           "token_surface": "迷惑",
           "target_start": 44,
           "target_end": 46,
-          "token_index": 32,
+          "token_index": 29,
           "chunk_index": 0,
           "current_reading": "メイワク",
           "current_reading_hiragana": "めいわく",
@@ -514460,305 +514432,39 @@
           ]
         },
         {
-          "item_id": "ja_cc_level2:0000000443:u0003:s0013-0013",
-          "span_id": "ja_cc_level2:0000000443:u0003:s0013-0013",
-          "surface": "一",
-          "token_surface": "一",
+          "item_id": "ja_cc_level2:0000000443:u0003:s0013-0014",
+          "span_id": "ja_cc_level2:0000000443:u0003:s0013-0014",
+          "surface": "一発",
+          "token_surface": "一発",
           "target_start": 12,
-          "target_end": 13,
+          "target_end": 14,
           "token_index": 9,
           "chunk_index": 0,
-          "current_reading": "イチ",
-          "current_reading_hiragana": "いち",
+          "current_reading": "イッパツ",
+          "current_reading_hiragana": "いっぱつ",
           "is_safe": false,
           "review_status": "unresolved",
           "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "いっ",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "いっぱつ",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
-              "reading": "いち",
+              "reading": "いっぱつ",
               "tokens": [
                 [
-                  "一",
-                  "イチ"
+                  "一発",
+                  "イッパツ"
                 ]
               ],
               "ruby_nodes": [
                 {
                   "type": "ruby",
-                  "text": "一",
-                  "reading": "いち"
-                }
-              ]
-            },
-            {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
-              "reading": "いっ",
-              "tokens": [
-                [
-                  "一",
-                  "イッ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "いっ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "いつ",
-              "tokens": [
-                [
-                  "一",
-                  "イツ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "いつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "かず",
-              "tokens": [
-                [
-                  "一",
-                  "カズ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "かず"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:4",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "しん",
-              "tokens": [
-                [
-                  "一",
-                  "シン"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "しん"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:5",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "にのまえ",
-              "tokens": [
-                [
-                  "一",
-                  "ニノマエ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "にのまえ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:6",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "はじむ",
-              "tokens": [
-                [
-                  "一",
-                  "ハジム"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "はじむ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:7",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "はじめ",
-              "tokens": [
-                [
-                  "一",
-                  "ハジメ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "はじめ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:8",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひ",
-              "tokens": [
-                [
-                  "一",
-                  "ヒ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "ひ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:9",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひい",
-              "tokens": [
-                [
-                  "一",
-                  "ヒイ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "ひい"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:10",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひと",
-              "tokens": [
-                [
-                  "一",
-                  "ヒト"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "ひと"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:11",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひとし",
-              "tokens": [
-                [
-                  "一",
-                  "ヒトシ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "ひとし"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:12",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひとつ",
-              "tokens": [
-                [
-                  "一",
-                  "ヒトツ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "ひとつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:13",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "びと",
-              "tokens": [
-                [
-                  "一",
-                  "ビト"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "びと"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:14",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "まこと",
-              "tokens": [
-                [
-                  "一",
-                  "マコト"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "一",
-                  "reading": "まこと"
+                  "text": "一発",
+                  "reading": "いっぱつ"
                 }
               ]
             },
@@ -514771,13 +514477,14 @@
               "ruby_nodes": [
                 {
                   "type": "text",
-                  "text": "一"
+                  "text": "一発"
                 }
               ]
             }
           ],
           "legacy_target_item_ids": [
-            "ja_cc_level2:0000000443:u0003:r0010c01"
+            "ja_cc_level2:0000000443:u0003:r0010c01",
+            "ja_cc_level2:0000000443:u0003:r0011c01"
           ],
           "signals": [
             {
@@ -514804,102 +514511,7 @@
               "status": "mismatched",
               "llm_reading": "いっ",
               "current_reading_hiragana": "いち"
-            }
-          ]
-        },
-        {
-          "item_id": "ja_cc_level2:0000000443:u0003:s0014-0014",
-          "span_id": "ja_cc_level2:0000000443:u0003:s0014-0014",
-          "surface": "発",
-          "token_surface": "発",
-          "target_start": 13,
-          "target_end": 14,
-          "token_index": 10,
-          "chunk_index": 0,
-          "current_reading": "ハツ",
-          "current_reading_hiragana": "はつ",
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "llm",
-          "default_choice_source": "llm",
-          "default_reading": "ぱつ",
-          "candidates": [
-            {
-              "id": "current",
-              "source": "current",
-              "label": "Current mechanical/hybrid",
-              "reading": "はつ",
-              "tokens": [
-                [
-                  "発",
-                  "ハツ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "発",
-                  "reading": "はつ"
-                }
-              ]
             },
-            {
-              "id": "llm",
-              "source": "llm",
-              "label": "LLM reading",
-              "reading": "ぱつ",
-              "tokens": [
-                [
-                  "発",
-                  "パツ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "発",
-                  "reading": "ぱつ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:2",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "ひらく",
-              "tokens": [
-                [
-                  "発",
-                  "ヒラク"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "発",
-                  "reading": "ひらく"
-                }
-              ]
-            },
-            {
-              "id": "none",
-              "source": "none",
-              "label": "No ruby",
-              "reading": null,
-              "tokens": [],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "発"
-                }
-              ]
-            }
-          ],
-          "legacy_target_item_ids": [
-            "ja_cc_level2:0000000443:u0003:r0011c01"
-          ],
-          "signals": [
             {
               "name": "safe_by_stable_dictionary",
               "accepted": false,
@@ -514934,7 +514546,7 @@
           "token_surface": "繰り出さ",
           "target_start": 15,
           "target_end": 19,
-          "token_index": 12,
+          "token_index": 11,
           "chunk_index": 0,
           "current_reading": "クリダサ",
           "current_reading_hiragana": "くりださ",
@@ -515053,7 +514665,7 @@
           "token_surface": "動く",
           "target_start": 26,
           "target_end": 28,
-          "token_index": 18,
+          "token_index": 17,
           "chunk_index": 0,
           "current_reading": "ウゴク",
           "current_reading_hiragana": "うごく",
@@ -515161,7 +514773,7 @@
           "token_surface": "怖い",
           "target_start": 38,
           "target_end": 40,
-          "token_index": 28,
+          "token_index": 25,
           "chunk_index": 0,
           "current_reading": "コワイ",
           "current_reading_hiragana": "こわい",
@@ -515246,7 +514858,7 @@
           "token_surface": "迷惑",
           "target_start": 44,
           "target_end": 46,
-          "token_index": 32,
+          "token_index": 29,
           "chunk_index": 0,
           "current_reading": "メイワク",
           "current_reading_hiragana": "めいわく",
@@ -515321,7 +514933,7 @@
           ]
         }
       ],
-      "interaction_span_count": 9,
+      "interaction_span_count": 8,
       "reading_hints": {
         "慣": "な",
         "頃": "ころ",
