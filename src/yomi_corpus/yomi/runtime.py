@@ -15,6 +15,10 @@ from yomi_corpus.yomi.strategies import (
     render_pairs_from_decoder,
     render_pairs_from_sudachi,
 )
+from yomi_corpus.yomi.token_codec import (
+    canonicalize_whitespace_readings,
+    legacy_rendered_to_yomi_tokens,
+)
 
 
 def generate_mechanical_yomi(
@@ -24,12 +28,12 @@ def generate_mechanical_yomi(
     strategy_name: str | None = None,
 ) -> MechanicalYomi:
     normalized_text = normalize_ascii_spaces_for_yomi(text)
-    sudachi_tokens = run_sudachi(normalized_text, config)
-    decoder_candidates = run_decoder(normalized_text, config)
+    sudachi_tokens = run_sudachi(normalized_text, config, source_text=text)
+    decoder_candidates = run_decoder(normalized_text, config, source_text=text)
     resolved_strategy = strategy_name or config.default_strategy
     strategy_result = apply_strategy(
         resolved_strategy,
-        text=normalized_text,
+        text=text,
         sudachi_tokens=sudachi_tokens,
         decoder_candidates=decoder_candidates,
     )
@@ -58,9 +62,16 @@ def generate_mechanical_yomi(
         signals.append("normalize_formatted_numeric_expressions")
     if numeric_result.measurement_unit_surfaces:
         signals.append("normalize_common_measurement_unit_readings")
+    canonical_tokens = canonicalize_whitespace_readings(
+        legacy_rendered_to_yomi_tokens(
+            numeric_result.rendered,
+            text=text,
+        )
+    )
     return MechanicalYomi(
         rendered=numeric_result.rendered,
         certain=strategy_result.certain,
+        tokens=canonical_tokens,
         sudachi={
             "tokens": [
                 {

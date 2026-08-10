@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 from typing import Any
 
+from yomi_corpus.yomi.token_codec import split_ascii_rendered_tokens
 from yomi_corpus.yomi.strategies import (
     SpannedDecoderEntry,
     is_punctuation_token,
@@ -615,7 +616,7 @@ def votes_for_span(
 
 def parse_rendered_pairs(rendered: str) -> list[RenderedEntry]:
     pairs: list[RenderedEntry] = []
-    for raw_pair in rendered.split():
+    for raw_pair in split_ascii_rendered_tokens(rendered):
         match = RENDERED_PAIR_RE.fullmatch(raw_pair)
         if match is None:
             pairs.append(RenderedEntry(surface=raw_pair, reading=""))

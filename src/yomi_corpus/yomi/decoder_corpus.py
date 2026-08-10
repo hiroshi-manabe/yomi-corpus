@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterator
 
-from yomi_corpus.yomi.token_codec import yomi_tokens_from_mapping
+from yomi_corpus.yomi.token_codec import split_ascii_rendered_tokens, yomi_tokens_from_mapping
 
 
 @dataclass(frozen=True)
@@ -77,7 +77,7 @@ def export_decoder_corpus_file(
 
 
 def parse_rendered_pairs(rendered: str) -> Iterator[tuple[str, str]]:
-    for token in rendered.split():
+    for token in split_ascii_rendered_tokens(rendered):
         if "/" not in token:
             yield token, ""
             continue

@@ -43,6 +43,7 @@ from yomi_corpus.yomi.token_codec import (
     editable_rendered_to_yomi_tokens,
     normalize_yomi_tokens,
     set_canonical_yomi_tokens,
+    split_ascii_rendered_tokens,
     validate_yomi_token_surfaces,
     yomi_tokens_from_mapping,
     yomi_tokens_to_editable_rendered,
@@ -3024,9 +3025,10 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
             and not allows_optional_japanese_numeral_reading(surface)
         ):
             normalized_reading = ""
-        elif re.fullmatch(r"[ \u00a0\u3000]+", surface):
-            if normalized_reading and not re.fullmatch(r"[ \u00a0\u3000]+", normalized_reading):
-                normalized_reading = surface
+        elif surface.isspace():
+            normalized_reading = ""
+        elif normalized_reading == "カオモジ" and is_symbolic_kaomoji_correction_surface(surface):
+            pass
         elif not has_han(surface) and not has_latin(surface):
             normalized_reading = hiragana_to_katakana_for_finalized_correction(surface)
         normalized.append([surface, normalized_reading])
@@ -3107,9 +3109,9 @@ def normalize_rendered_yomi_for_finalized_correction(rendered: str) -> str:
 
 
 def validate_finalized_correction_reading(surface: str, reading: str) -> dict[str, Any]:
-    if re.fullmatch(r"[ \u00a0\u3000]+", surface):
-        if reading and not re.fullmatch(r"[ \u00a0\u3000]+", reading):
-            return {"ok": False, "error": "space tokens must have an empty or whitespace reading"}
+    if surface.isspace():
+        if reading:
+            return {"ok": False, "error": "whitespace tokens must have an empty reading"}
         return {"ok": True}
     if is_numeric_only_finalized_correction_surface(surface):
         if allows_optional_japanese_numeral_reading(surface):
@@ -5047,6 +5049,7 @@ def canonicalize_finalized_unit_yomi(
         .setdefault("mechanical", {})
         .setdefault("yomi", {})
     )
+    restore_legacy_whitespace_kaomoji_rendered(yomi)
     tokens = canonicalize_final_numeric_compounds(
         normalize_parenthesized_semantic_tokens(
             normalize_correction_yomi_tokens(
@@ -5084,6 +5087,31 @@ def canonicalize_finalized_unit_yomi(
             f"{surface!r}/{reading!r} is structurally invalid: {validation['error']}"
         )
     set_canonical_yomi_tokens(yomi, tokens)
+
+
+def restore_legacy_whitespace_kaomoji_rendered(yomi: dict[str, Any]) -> None:
+    """Repair artifacts generated before NBSP-safe parenthetical normalization."""
+    rendered = yomi.get("rendered")
+    if not isinstance(rendered, str):
+        return
+    sudachi = yomi.get("sudachi")
+    sudachi_tokens = sudachi.get("tokens", []) if isinstance(sudachi, dict) else []
+    for token in sudachi_tokens:
+        if not isinstance(token, dict):
+            continue
+        if str(token.get("pos") or "").split(",")[:3] != ["補助記号", "ＡＡ", "顔文字"]:
+            continue
+        surface = str(token.get("surface") or "")
+        parts = [part for part in re.split(r"\s+", surface) if part]
+        if len(parts) < 2:
+            continue
+        broken = " ".join(
+            f"{part}/カオモジ" if index == len(parts) - 1 else f"{part}/"
+            for index, part in enumerate(parts)
+        )
+        restored = surface.replace(" ", "\u00a0") + "/カオモジ"
+        rendered = rendered.replace(broken, restored)
+    yomi["rendered"] = rendered
 
 
 def finalized_human_readings_by_surface(unit: dict[str, Any]) -> dict[str, set[str]]:
@@ -5648,7 +5676,7 @@ def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
         except YomiTokenError:
             pass
     pairs = []
-    for token in rendered.split():
+    for token in split_ascii_rendered_tokens(rendered):
         if "/" not in token:
             pairs.append((token, ""))
             continue

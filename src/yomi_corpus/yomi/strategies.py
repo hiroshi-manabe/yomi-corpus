@@ -566,10 +566,15 @@ def can_refine_single_sudachi_token(
 def render_decoder_entries(entries: list[SpannedDecoderEntry]) -> list[RenderedPair]:
     rendered: list[RenderedPair] = []
     for entry in entries:
+        surface = (
+            canonical_whitespace_surface(entry.entry.surface)
+            if entry.entry.surface.isspace()
+            else entry.entry.surface
+        )
         rendered.append(
             RenderedPair(
-                surface=entry.entry.surface,
-                reading=entry.entry.reading or entry.entry.surface,
+                surface=surface,
+                reading=entry.entry.reading or surface,
             )
         )
     return rendered
@@ -1050,8 +1055,13 @@ def render_pairs_from_sudachi(tokens: list[SudachiToken]) -> str:
 def render_pairs_from_decoder(candidate: DecoderCandidate) -> str:
     rendered: list[str] = []
     for entry in candidate.entries:
-        reading = entry.reading or entry.surface
-        rendered.append(f"{entry.surface}/{reading}")
+        surface = (
+            canonical_whitespace_surface(entry.surface)
+            if entry.surface.isspace()
+            else entry.surface
+        )
+        reading = entry.reading or surface
+        rendered.append(f"{surface}/{reading}")
     return " ".join(rendered)
 
 

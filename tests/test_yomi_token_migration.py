@@ -9,7 +9,7 @@ from yomi_corpus.yomi.token_migration import migrate_finalized_yomi_tokens
 
 
 class YomiTokenMigrationTests(unittest.TestCase):
-    def test_migration_preserves_fullwidth_space_reading(self) -> None:
+    def test_migration_clears_fullwidth_space_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             path = root / "data" / "units" / "dev_batch_0001" / "units.yomi.final.jsonl"
@@ -42,7 +42,7 @@ class YomiTokenMigrationTests(unittest.TestCase):
             migrated = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(
                 migrated["analysis"]["mechanical"]["yomi"]["tokens"],
-                [["A", "エー"], ["　", "　"], ["B", "ビー"]],
+                [["A", "エー"], ["　", ""], ["B", "ビー"]],
             )
 
     def test_migration_normalizes_symbol_readings_to_literal_surface(self) -> None:

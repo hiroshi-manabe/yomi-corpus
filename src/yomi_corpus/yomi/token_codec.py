@@ -12,6 +12,15 @@ class YomiTokenError(ValueError):
     pass
 
 
+def split_ascii_rendered_tokens(rendered: str) -> list[str]:
+    """Split serialized tokens without consuming Unicode source whitespace."""
+    return [
+        token
+        for token in _ASCII_WHITESPACE_RE.split(rendered.strip(" \t\r\n"))
+        if token
+    ]
+
+
 def normalize_yomi_tokens(value: Any) -> list[list[str]]:
     if not isinstance(value, list):
         raise YomiTokenError("yomi tokens must be an array")
@@ -28,6 +37,14 @@ def normalize_yomi_tokens(value: Any) -> list[list[str]]:
     return normalized
 
 
+def canonicalize_whitespace_readings(tokens: Iterable[Iterable[str]]) -> list[list[str]]:
+    normalized = normalize_yomi_tokens([list(token) for token in tokens])
+    return [
+        [surface, "" if surface.isspace() else reading]
+        for surface, reading in normalized
+    ]
+
+
 def yomi_tokens_from_mapping(yomi: dict[str, Any], *, text: str | None = None) -> list[list[str]]:
     if "tokens" in yomi:
         tokens = normalize_yomi_tokens(yomi["tokens"])
@@ -40,7 +57,7 @@ def yomi_tokens_from_mapping(yomi: dict[str, Any], *, text: str | None = None) -
 
 
 def set_canonical_yomi_tokens(yomi: dict[str, Any], tokens: Iterable[Iterable[str]]) -> None:
-    normalized = normalize_yomi_tokens([list(token) for token in tokens])
+    normalized = canonicalize_whitespace_readings(tokens)
     yomi["token_schema_version"] = YOMI_TOKEN_SCHEMA_VERSION
     yomi["tokens"] = normalized
     yomi.pop("rendered", None)
@@ -57,10 +74,24 @@ def validate_yomi_token_surfaces(tokens: list[list[str]], *, text: str | None) -
 
 
 def legacy_rendered_to_yomi_tokens(rendered: str, *, text: str | None = None) -> list[list[str]]:
-    raw_tokens = [token for token in _ASCII_WHITESPACE_RE.split(rendered.strip()) if token]
+    raw_tokens = split_ascii_rendered_tokens(rendered)
     tokens: list[list[str]] = []
     cursor = 0
     for index, raw_token in enumerate(raw_tokens):
+        if (
+            raw_token.startswith("/")
+            and raw_token != "/"
+            and "/" not in raw_token[1:]
+        ):
+            # Older Sudachi output could expand one compatibility character
+            # into visible + empty-surface morphemes, serialized as e.g.
+            # ``⑴/⑴ /イチ /``. Recover the useful reading on the visible token.
+            continuation_reading = raw_token[1:]
+            if tokens and continuation_reading:
+                previous_surface, previous_reading = tokens[-1]
+                if previous_reading in {"", previous_surface, "キゴウ"}:
+                    tokens[-1][1] = continuation_reading
+            continue
         if raw_token == "/" and text is not None:
             remaining = text[cursor:]
             if remaining and remaining[0].isspace() and not has_following_explicit_whitespace_token(raw_tokens, index):
@@ -154,7 +185,7 @@ def escape_editable_component(value: str) -> str:
 def editable_rendered_to_yomi_tokens(rendered: str, *, text: str | None = None) -> list[list[str]]:
     if "\\" not in rendered:
         return legacy_rendered_to_yomi_tokens(rendered, text=text)
-    raw_tokens = [token for token in _ASCII_WHITESPACE_RE.split(rendered.strip()) if token]
+    raw_tokens = split_ascii_rendered_tokens(rendered)
     tokens = [list(split_editable_rendered_token(token)) for token in raw_tokens]
     validate_yomi_token_surfaces(tokens, text=text)
     return tokens

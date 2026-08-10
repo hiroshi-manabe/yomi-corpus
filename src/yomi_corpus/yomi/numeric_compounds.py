@@ -5,8 +5,12 @@ import re
 from typing import Iterable
 import unicodedata
 
-from yomi_corpus.yomi.token_codec import YomiTokenError, legacy_rendered_to_yomi_tokens
 from yomi_corpus.yomi.numeric_surfaces import is_formatted_arabic_number_surface
+from yomi_corpus.yomi.token_codec import (
+    YomiTokenError,
+    legacy_rendered_to_yomi_tokens,
+    split_ascii_rendered_tokens,
+)
 
 
 _ASCII_DIGITS = "0123456789"
@@ -249,9 +253,7 @@ def canonicalize_final_numeric_compounds(tokens: Iterable[Iterable[str]]) -> lis
 
 def _parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
     pairs: list[tuple[str, str]] = []
-    for token in rendered.split(" "):
-        if not token:
-            continue
+    for token in split_ascii_rendered_tokens(rendered):
         if "/" not in token:
             pairs.append((token, ""))
             continue

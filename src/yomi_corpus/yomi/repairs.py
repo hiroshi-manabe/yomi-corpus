@@ -57,7 +57,11 @@ def normalize_parenthesized_semantic_tokens_rendered(rendered: str) -> YomiRepai
     """Keep punctuation unannotated and read known semantic parentheticals."""
     output: list[str] = []
     count = 0
-    for token in rendered.split():
+    # ASCII spaces delimit rendered tokens. NBSP is used inside a token to
+    # preserve source spaces, including spaces within Sudachi kaomoji tokens.
+    for token in rendered.split(" "):
+        if not token:
+            continue
         separator = token.rfind("/")
         surface = token[:separator] if separator >= 0 else token
         replacement = PARENTHESIZED_SEMANTIC_TOKENS.get(surface)

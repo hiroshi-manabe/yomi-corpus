@@ -4,10 +4,16 @@ import json
 import subprocess
 
 from yomi_corpus.yomi.config import YomiGenerationConfig
+from yomi_corpus.yomi.source_mapping import SourceSurfaceMappingError, SourceTextMapping
 from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, SudachiToken
 
 
-def run_sudachi(text: str, config: YomiGenerationConfig) -> list[SudachiToken]:
+def run_sudachi(
+    text: str,
+    config: YomiGenerationConfig,
+    *,
+    source_text: str | None = None,
+) -> list[SudachiToken]:
     command = [config.sudachi_command, *config.sudachi_args]
     completed = subprocess.run(
         command,
@@ -16,11 +22,21 @@ def run_sudachi(text: str, config: YomiGenerationConfig) -> list[SudachiToken]:
         capture_output=True,
         check=True,
     )
-    return parse_sudachi_output(completed.stdout)
+    tokens = parse_sudachi_output(completed.stdout)
+    if source_text is not None:
+        tokens = restore_sudachi_source_surfaces(
+            tokens,
+            source_text=source_text,
+            analysis_text=text,
+        )
+    return tokens
 
 
 def run_sudachi_many(
-    texts: list[str], config: YomiGenerationConfig
+    texts: list[str],
+    config: YomiGenerationConfig,
+    *,
+    source_texts: list[str] | None = None,
 ) -> list[list[SudachiToken]]:
     if not texts:
         return []
@@ -39,7 +55,20 @@ def run_sudachi_many(
         raise ValueError(
             f"Sudachi returned {len(documents)} documents for {len(texts)} input texts"
         )
-    return documents
+    if source_texts is None:
+        return documents
+    if len(source_texts) != len(texts):
+        raise ValueError("Sudachi source-text count must match analysis-text count")
+    return [
+        restore_sudachi_source_surfaces(
+            tokens,
+            source_text=source_text,
+            analysis_text=analysis_text,
+        )
+        for tokens, source_text, analysis_text in zip(
+            documents, source_texts, texts, strict=True
+        )
+    ]
 
 
 def parse_sudachi_output(stdout: str) -> list[SudachiToken]:
@@ -55,7 +84,7 @@ def parse_sudachi_documents(stdout: str) -> list[list[SudachiToken]]:
         if not line:
             continue
         if line == "EOS":
-            documents.append(tokens)
+            documents.append(collapse_empty_surface_sudachi_tokens(tokens))
             tokens = []
             continue
         parts = line.split("\t")
@@ -71,19 +100,77 @@ def parse_sudachi_documents(stdout: str) -> list[list[SudachiToken]]:
             )
         )
     if tokens:
-        documents.append(tokens)
+        documents.append(collapse_empty_surface_sudachi_tokens(tokens))
     return documents
 
 
-def run_decoder(text: str, config: YomiGenerationConfig) -> list[DecoderCandidate]:
+def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[SudachiToken]:
+    """Collapse normalized morphemes that have no corresponding source text."""
+    collapsed: list[SudachiToken] = []
+    for token in tokens:
+        if token.surface:
+            collapsed.append(token)
+            continue
+        if not collapsed:
+            raise SourceSurfaceMappingError(
+                "Sudachi returned an empty surface before any source-bearing token"
+            )
+        if token.reading in {"", "キゴウ"}:
+            continue
+        previous = collapsed[-1]
+        if not previous.pos.startswith("補助記号,"):
+            raise SourceSurfaceMappingError(
+                "Sudachi returned an unsupported meaningful empty-surface morpheme "
+                f"after {previous.surface!r}: reading={token.reading!r}"
+            )
+        collapsed[-1] = SudachiToken(
+            surface=previous.surface,
+            pos=token.pos,
+            dictionary_form=token.dictionary_form,
+            normalized_form=token.normalized_form,
+            reading=token.reading,
+        )
+    return collapsed
+
+
+def restore_sudachi_source_surfaces(
+    tokens: list[SudachiToken],
+    *,
+    source_text: str,
+    analysis_text: str,
+) -> list[SudachiToken]:
+    restored = SourceTextMapping(
+        source_text=source_text,
+        analysis_text=analysis_text,
+    ).restore_partition(
+        [token.surface for token in tokens],
+        stage="Sudachi",
+    )
+    return [
+        SudachiToken(
+            surface=surface,
+            pos=token.pos,
+            dictionary_form=token.dictionary_form,
+            normalized_form=token.normalized_form,
+            reading=token.reading,
+        )
+        for token, surface in zip(tokens, restored, strict=True)
+    ]
+
+
+def run_decoder(
+    text: str,
+    config: YomiGenerationConfig,
+    *,
+    source_text: str | None = None,
+) -> list[DecoderCandidate]:
     command = [
         config.decoder_python,
         config.decoder_script,
         "--config",
         config.decoder_config,
         "--json",
-        "--text",
-        text,
+        f"--text={text}",
         "--nbest",
         str(config.decoder_nbest),
     ]
@@ -93,7 +180,45 @@ def run_decoder(text: str, config: YomiGenerationConfig) -> list[DecoderCandidat
         command.extend(["--beam", str(config.decoder_beam)])
 
     completed = subprocess.run(command, text=True, capture_output=True, check=True)
-    return parse_decoder_output(completed.stdout)
+    candidates = parse_decoder_output(completed.stdout)
+    if source_text is not None:
+        candidates = restore_decoder_source_surfaces(
+            candidates,
+            source_text=source_text,
+            analysis_text=text,
+        )
+    return candidates
+
+
+def restore_decoder_source_surfaces(
+    candidates: list[DecoderCandidate],
+    *,
+    source_text: str,
+    analysis_text: str,
+) -> list[DecoderCandidate]:
+    mapping = SourceTextMapping(source_text=source_text, analysis_text=analysis_text)
+    restored_candidates: list[DecoderCandidate] = []
+    for candidate in candidates:
+        restored = mapping.restore_partition(
+            [entry.surface for entry in candidate.entries],
+            stage=f"decoder candidate {candidate.rank}",
+        )
+        restored_candidates.append(
+            DecoderCandidate(
+                rank=candidate.rank,
+                score=candidate.score,
+                entries=[
+                    DecoderEntry(
+                        surface=surface,
+                        reading=entry.reading,
+                        final_order=entry.final_order,
+                        piece_orders=entry.piece_orders,
+                    )
+                    for entry, surface in zip(candidate.entries, restored, strict=True)
+                ],
+            )
+        )
+    return restored_candidates
 
 
 def parse_decoder_output(stdout: str) -> list[DecoderCandidate]:

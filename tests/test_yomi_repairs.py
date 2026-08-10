@@ -31,6 +31,14 @@ class YomiRepairTests(unittest.TestCase):
         self.assertEqual(result.rendered, rendered)
         self.assertEqual(result.metadata, {})
 
+    def test_parenthetical_normalization_preserves_nbsp_inside_kaomoji(self) -> None:
+        rendered = "参加/サンカ (/( ^\u00a0^/カオモジ )/) 方法/ホウホウ"
+
+        result = normalize_parenthesized_semantic_tokens_rendered(rendered)
+
+        self.assertEqual(result.rendered, rendered)
+        self.assertEqual(result.metadata, {})
+
     def test_splits_known_semantic_parentheticals(self) -> None:
         result = normalize_parenthesized_semantic_tokens_rendered(
             "（株）/カブシキガイシャ （有）/キゴウ （社）/シャダンホウジン "

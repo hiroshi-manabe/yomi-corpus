@@ -77,6 +77,9 @@ until a complete post-migration audit succeeds.
 After canonical migration, regenerate review packs, safety projections, learned
 reading candidates, decoder-corpus additions, corpus exports, and search
 indexes. Rebuild N-gram models only from exports that pass exact validation.
+The migration tool rewrites only authoritative aligned-hybrid, reviewed, and
+finalized artifacts. Queue snapshots and other duplicated stage artifacts are
+regenerated instead of being migrated in place.
 
 ## Rollout
 

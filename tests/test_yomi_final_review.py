@@ -36,6 +36,7 @@ from yomi_corpus.yomi.final_review import (
     manual_correction_required,
     materialize_yomi_review_units_file,
     normalize_correction_yomi_tokens,
+    parse_rendered_pairs,
     store_review_submission,
     target_group_rejected_span,
     validate_finalized_correction_reading,
@@ -44,6 +45,12 @@ from yomi_corpus.yomi.final_review import (
 
 
 class YomiFinalReviewTests(unittest.TestCase):
+    def test_parse_rendered_pairs_preserves_unicode_source_whitespace(self) -> None:
+        self.assertEqual(
+            parse_rendered_pairs("著/チョ \u2009/\u2009 『/『"),
+            [("著", "チョ"), ("\u2009", "\u2009"), ("『", "『")],
+        )
+
     def test_review_item_derives_alternate_inflected_dictionary_reading(self) -> None:
         unit = {
             "unit_id": "u-draw",
@@ -613,6 +620,55 @@ class YomiFinalReviewTests(unittest.TestCase):
             [["面白い", "オモシロイ"], ["（", "（"], ["笑", "ワライ"], ["）", "）"], ["。", "。"]],
         )
 
+    def test_finalization_restores_legacy_whitespace_kaomoji_token(self) -> None:
+        unit = {
+            "unit_id": "u-kaomoji-space",
+            "text": "参加(^ ^)方法",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "参加/サンカ (/( ^/ ^/カオモジ )/) 方法/ホウホウ",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "^\u00a0^",
+                                    "pos": "補助記号,ＡＡ,顔文字,*,*,*",
+                                    "reading": "キゴウ",
+                                }
+                            ]
+                        },
+                    }
+                },
+                "human_review": {"yomi_final": {"reviewed": True}},
+            },
+        }
+
+        canonicalize_finalized_unit_yomi(unit)
+
+        self.assertEqual(
+            unit["analysis"]["mechanical"]["yomi"]["tokens"],
+            [["参加", "サンカ"], ["(", "("], ["^ ^", "カオモジ"], [")", ")"], ["方法", "ホウホウ"]],
+        )
+
+    def test_finalization_restores_empty_surface_compatibility_expansion(self) -> None:
+        unit = {
+            "unit_id": "u-parenthesized-number",
+            "text": "⑴環境",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {"rendered": "⑴/⑴ /イチ / 環境/カンキョウ"}
+                },
+                "human_review": {"yomi_final": {"reviewed": True}},
+            },
+        }
+
+        canonicalize_finalized_unit_yomi(unit)
+
+        self.assertEqual(
+            unit["analysis"]["mechanical"]["yomi"]["tokens"],
+            [["⑴", "⑴"], ["環境", "カンキョウ"]],
+        )
+
     def test_review_item_keeps_japanese_numeral_run_without_ruby(self) -> None:
         targets = []
         for index, start in enumerate((0, 3), start=1):
@@ -925,11 +981,11 @@ class YomiFinalReviewTests(unittest.TestCase):
             payload["analysis"]["mechanical"]["yomi"]["tokens"][:7],
             [
                 ["The", "ザ"],
-                [" ", " "],
+                [" ", ""],
                 ["last", "ラスト"],
-                [" ", " "],
+                [" ", ""],
                 ["of", "オブ"],
-                [" ", " "],
+                [" ", ""],
                 ["US", "アス"],
             ],
         )

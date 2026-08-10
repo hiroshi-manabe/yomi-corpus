@@ -12,6 +12,7 @@ from yomi_corpus.yomi.adapters import (
     parse_sudachi_documents,
     parse_sudachi_output,
     run_decoder,
+    run_sudachi,
 )
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.experiments import compare_yomi_experiments
@@ -23,6 +24,8 @@ from yomi_corpus.yomi.strategies import (
     render_pairs_from_sudachi,
 )
 from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, SudachiToken
+from yomi_corpus.yomi.source_mapping import SourceSurfaceMappingError, SourceTextMapping
+from yomi_corpus.yomi.runtime import generate_mechanical_yomi
 
 
 class YomiPipelineTests(unittest.TestCase):
@@ -45,6 +48,68 @@ class YomiPipelineTests(unittest.TestCase):
             [[token.surface for token in row] for row in documents],
             [["BGM"], ["ZE:A"]],
         )
+
+    def test_parse_sudachi_documents_collapses_empty_compatibility_expansion(self) -> None:
+        documents = parse_sudachi_documents(
+            "⑴\t補助記号,括弧開,*,*,*,*\t(\t(\tキゴウ\n"
+            "\t名詞,数詞,*,*,*,*\t1\t1\tイチ\n"
+            "\t補助記号,括弧閉,*,*,*,*\t)\t)\tキゴウ\n"
+            "EOS\n"
+        )
+
+        self.assertEqual(len(documents[0]), 1)
+        self.assertEqual(documents[0][0].surface, "⑴")
+        self.assertEqual(documents[0][0].reading, "イチ")
+        self.assertTrue(documents[0][0].pos.startswith("名詞,数詞,"))
+
+    def test_parse_sudachi_documents_rejects_unknown_empty_surface(self) -> None:
+        with self.assertRaises(SourceSurfaceMappingError):
+            parse_sudachi_documents(
+                "語\t名詞,普通名詞,一般,*,*,*\t語\t語\tゴ\n"
+                "\t名詞,普通名詞,一般,*,*,*\t別\t別\tベツ\n"
+                "EOS\n"
+            )
+
+    def test_source_text_mapping_restores_original_whitespace(self) -> None:
+        mapping = SourceTextMapping(
+            source_text="A B\u3000C\u00a0D",
+            analysis_text="A\u00a0B\u3000C\u00a0D",
+        )
+
+        self.assertEqual(
+            mapping.restore_partition(
+                ["A", "\u00a0", "B", "\u3000", "C", "\u00a0", "D"],
+                stage="test",
+            ),
+            ["A", " ", "B", "\u3000", "C", "\u00a0", "D"],
+        )
+
+    def test_source_text_mapping_rejects_non_space_normalization(self) -> None:
+        with self.assertRaises(SourceSurfaceMappingError):
+            SourceTextMapping(source_text="⑴", analysis_text="(1)")
+
+    def test_run_sudachi_restores_source_space(self) -> None:
+        config = YomiGenerationConfig(
+            sudachi_command="sudachi",
+            sudachi_args=(),
+            decoder_python="python",
+            decoder_script="decode.py",
+            decoder_config="config.toml",
+            decoder_beam=10,
+            decoder_nbest=5,
+            default_strategy="aligned_hybrid_v1",
+        )
+        with patch("yomi_corpus.yomi.adapters.subprocess.run") as mocked_run:
+            mocked_run.return_value = SimpleNamespace(
+                stdout=(
+                    "A\t名詞\tA\tA\tエー\n"
+                    "\u00a0\t空白\t\u00a0\t\u00a0\tキゴウ\n"
+                    "B\t名詞\tB\tB\tビー\nEOS\n"
+                )
+            )
+            tokens = run_sudachi("A\u00a0B", config, source_text="A B")
+
+        self.assertEqual([token.surface for token in tokens], ["A", " ", "B"])
 
     def test_parse_decoder_output(self) -> None:
         candidates = parse_decoder_output(
@@ -91,8 +156,64 @@ class YomiPipelineTests(unittest.TestCase):
             run_decoder("方", config)
 
         command = mocked_run.call_args.args[0]
+        self.assertIn("--text=方", command)
+        self.assertNotIn("--text", command)
         self.assertIn("--model-dir", command)
         self.assertEqual(command[command.index("--model-dir") + 1], "/tmp/yomi-model")
+
+    def test_run_decoder_passes_leading_hyphen_text_as_option_value(self) -> None:
+        config = YomiGenerationConfig(
+            sudachi_command="sudachi",
+            sudachi_args=(),
+            decoder_python="python",
+            decoder_script="decode.py",
+            decoder_config="config.toml",
+            decoder_beam=10,
+            decoder_nbest=5,
+            default_strategy="aligned_hybrid_v1",
+        )
+        with patch("yomi_corpus.yomi.adapters.subprocess.run") as mocked_run:
+            mocked_run.return_value = SimpleNamespace(stdout=json.dumps({"results": []}))
+            run_decoder("-\u00a0本文", config)
+
+        command = mocked_run.call_args.args[0]
+        self.assertIn("--text=-\u00a0本文", command)
+
+    def test_run_decoder_restores_source_space(self) -> None:
+        config = YomiGenerationConfig(
+            sudachi_command="sudachi",
+            sudachi_args=(),
+            decoder_python="python",
+            decoder_script="decode.py",
+            decoder_config="config.toml",
+            decoder_beam=10,
+            decoder_nbest=5,
+            default_strategy="aligned_hybrid_v1",
+        )
+        with patch("yomi_corpus.yomi.adapters.subprocess.run") as mocked_run:
+            mocked_run.return_value = SimpleNamespace(
+                stdout=json.dumps(
+                    {
+                        "results": [
+                            {
+                                "rank": 1,
+                                "score": -1.0,
+                                "entries": [
+                                    {"surface": "A", "reading": "エー"},
+                                    {"surface": "\u00a0", "reading": ""},
+                                    {"surface": "B", "reading": "ビー"},
+                                ],
+                            }
+                        ]
+                    }
+                )
+            )
+            candidates = run_decoder("A\u00a0B", config, source_text="A B")
+
+        self.assertEqual(
+            [entry.surface for entry in candidates[0].entries],
+            ["A", " ", "B"],
+        )
 
     def test_agreement_prefer_decoder_marks_exact_agreement_certain(self) -> None:
         result = apply_strategy(
@@ -1008,6 +1129,45 @@ class YomiPipelineTests(unittest.TestCase):
 
     def test_normalize_ascii_spaces_for_yomi(self) -> None:
         self.assertEqual(normalize_ascii_spaces_for_yomi("A B　C"), "A\u00a0B　C")
+
+    @patch("yomi_corpus.yomi.runtime.run_decoder")
+    @patch("yomi_corpus.yomi.runtime.run_sudachi")
+    def test_generate_mechanical_yomi_stores_exact_readingless_source_whitespace(
+        self,
+        mocked_sudachi,
+        mocked_decoder,
+    ) -> None:
+        text = "A B\u00a0C\u3000D"
+        mocked_sudachi.return_value = [
+            SudachiToken("A", "名詞", "A", "A", "エー"),
+            SudachiToken(" ", "空白", " ", " ", "キゴウ"),
+            SudachiToken("B", "名詞", "B", "B", "ビー"),
+            SudachiToken("\u00a0", "空白", "\u00a0", "\u00a0", "キゴウ"),
+            SudachiToken("C", "名詞", "C", "C", "シー"),
+            SudachiToken("\u3000", "空白", "\u3000", "\u3000", "キゴウ"),
+            SudachiToken("D", "名詞", "D", "D", "ディー"),
+        ]
+        mocked_decoder.return_value = []
+
+        result = generate_mechanical_yomi(
+            text,
+            config=YomiGenerationConfig(
+                sudachi_command="sudachi",
+                sudachi_args=(),
+                decoder_python="python",
+                decoder_script="decode.py",
+                decoder_config="config.toml",
+                decoder_beam=10,
+                decoder_nbest=5,
+                default_strategy="sudachi_only_v1",
+            ),
+        )
+
+        self.assertEqual("".join(surface for surface, _reading in result.tokens), text)
+        self.assertEqual(
+            [pair for pair in result.tokens if pair[0].isspace()],
+            [[" ", ""], ["\u00a0", ""], ["\u3000", ""]],
+        )
 
     def test_render_pairs_from_sudachi_groups_numeric_runs_without_reading(self) -> None:
         rendered = render_pairs_from_sudachi(

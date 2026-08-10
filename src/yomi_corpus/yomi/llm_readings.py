@@ -28,9 +28,13 @@ from yomi_corpus.yomi.furigana import (
     is_han,
     parse_annotated_chunks,
 )
-from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
 from yomi_corpus.yomi.numeric_surfaces import allows_optional_japanese_numeral_reading
-from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
+from yomi_corpus.yomi.numeric_compounds import numeric_compound_occurrences
+from yomi_corpus.yomi.token_codec import (
+    YomiTokenError,
+    split_ascii_rendered_tokens,
+    yomi_tokens_from_mapping,
+)
 
 
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
@@ -460,7 +464,7 @@ def rendered_readings_by_token_index(yomi: dict[str, Any], tokens: list[Any]) ->
 
 def parse_rendered_pairs(rendered: str) -> list[tuple[str, str]]:
     pairs: list[tuple[str, str]] = []
-    for token in rendered.split():
+    for token in split_ascii_rendered_tokens(rendered):
         if "/" not in token:
             pairs.append((token, ""))
             continue
