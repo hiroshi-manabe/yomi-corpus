@@ -6,11 +6,11 @@
       "track_name": "dev",
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "pack_id": "yomi_final_dev_batch_0059_v1",
-      "title": "一括レビュー / dev_batch_0059 / v1",
-      "path": "./packs/yomi_final_dev_batch_0059_v1.json",
-      "created_at_epoch": 1786342813,
-      "item_count": 244
+      "pack_id": "yomi_final_dev_batch_0060_v1",
+      "title": "一括レビュー / dev_batch_0060 / v1",
+      "path": "./packs/yomi_final_dev_batch_0060_v1.json",
+      "created_at_epoch": 1786344879,
+      "item_count": 379
     }
   },
   "current_review_queues": [
@@ -28,7 +28,7 @@
       "selectable_document_count": 0,
       "document_state_counts": {
         "complete": 8,
-        "strong_pending": 2
+        "strong_reviewed": 2
       },
       "pending_doc_ids": [
         "ja_cc_level2:0000000454",
@@ -352,6 +352,37 @@
     },
     {
       "track_name": "dev",
+      "batch_name": "dev_batch_0060",
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_batch_0060_v1",
+      "title": "一括レビュー / dev_batch_0060 / v1",
+      "path": "./packs/yomi_final_dev_batch_0060_v1.json",
+      "created_at_epoch": 1786344879,
+      "item_count": 379,
+      "document_count": 10,
+      "selectable_document_count": 10,
+      "document_state_counts": {
+        "final_pending": 10
+      },
+      "pending_doc_ids": [
+        "ja_cc_level2:0000000564",
+        "ja_cc_level2:0000000565",
+        "ja_cc_level2:0000000566",
+        "ja_cc_level2:0000000567",
+        "ja_cc_level2:0000000568",
+        "ja_cc_level2:0000000569",
+        "ja_cc_level2:0000000570",
+        "ja_cc_level2:0000000571",
+        "ja_cc_level2:0000000572",
+        "ja_cc_level2:0000000573"
+      ],
+      "pending_document_count": 10,
+      "queue_id": "final_review",
+      "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
       "batch_name": "dev_batch_0049",
       "review_stage": "yomi_strong_repair_review",
       "label": "詳細修正",
@@ -361,10 +392,10 @@
       "created_at_epoch": 1786341653,
       "item_count": 2,
       "document_count": 10,
-      "selectable_document_count": 2,
+      "selectable_document_count": 0,
       "document_state_counts": {
         "complete": 8,
-        "strong_pending": 2
+        "strong_reviewed": 2
       },
       "pending_doc_ids": [
         "ja_cc_level2:0000000456",
@@ -406,9 +437,9 @@
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "latest_pack_id": "yomi_final_dev_batch_0059_v1",
+      "latest_pack_id": "yomi_final_dev_batch_0060_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_0059_v1"
+        "dev": "yomi_final_dev_batch_0060_v1"
       },
       "packs": [
         {
@@ -1320,7 +1351,7 @@
           "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 8,
-            "strong_pending": 2
+            "strong_reviewed": 2
           },
           "pending_doc_ids": [
             "ja_cc_level2:0000000454",
@@ -1617,6 +1648,35 @@
             "ja_cc_level2:0000000561",
             "ja_cc_level2:0000000562",
             "ja_cc_level2:0000000563"
+          ],
+          "pending_document_count": 10,
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_batch_0060_v1",
+          "title": "一括レビュー / dev_batch_0060 / v1",
+          "path": "./packs/yomi_final_dev_batch_0060_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_batch_0060",
+          "created_at_epoch": 1786344879,
+          "item_count": 379,
+          "document_count": 10,
+          "selectable_document_count": 10,
+          "document_state_counts": {
+            "final_pending": 10
+          },
+          "pending_doc_ids": [
+            "ja_cc_level2:0000000564",
+            "ja_cc_level2:0000000565",
+            "ja_cc_level2:0000000566",
+            "ja_cc_level2:0000000567",
+            "ja_cc_level2:0000000568",
+            "ja_cc_level2:0000000569",
+            "ja_cc_level2:0000000570",
+            "ja_cc_level2:0000000571",
+            "ja_cc_level2:0000000572",
+            "ja_cc_level2:0000000573"
           ],
           "pending_document_count": 10,
           "queue_id": "final_review",
@@ -2431,10 +2491,10 @@
           "created_at_epoch": 1786341653,
           "item_count": 2,
           "document_count": 10,
-          "selectable_document_count": 2,
+          "selectable_document_count": 0,
           "document_state_counts": {
             "complete": 8,
-            "strong_pending": 2
+            "strong_reviewed": 2
           },
           "pending_doc_ids": [
             "ja_cc_level2:0000000456",
