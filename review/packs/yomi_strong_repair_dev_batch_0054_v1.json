@@ -10,10 +10,10 @@
   "item_count": 2,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -135,12 +135,12 @@
       "source_line_no": 508,
       "preview": "ブックレット16『「エクセレントNPO」の評価基準　「エクセレントNPO」を目指すための自己診断リスト―初級編―』発売にあたって、なぜ、「エクセレントNPO」の評価基準を公表するに至ったのか、代表の工藤が語ります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T07:49:32Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-14T07:55:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 510,
       "preview": "ボードゲームバーPeeGee大阪心斎橋店の店長ぴーやんです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T07:49:32Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-14T07:55:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 508,
       "text": "「社会変革性」が2つ目のキーワードですが、社会変革性という言葉自体、何となくNPOより社会起業家の十八番のように言われています。",
       "rendered_yomi_before": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十/ジュウ 八/ハチ 番/バン の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十八番/オハコ の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十八番/ジュウハチバン の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "「",
@@ -416,7 +416,7 @@
         ],
         [
           "十八番",
-          "オハコ"
+          "ジュウハチバン"
         ],
         [
           "の",
@@ -766,12 +766,12 @@
         },
         {
           "surface": "十八番",
-          "reading": "オハコ",
+          "reading": "ジュウハチバン",
           "nodes": [
             {
               "type": "ruby",
               "text": "十八番",
-              "reading": "おはこ"
+              "reading": "じゅうはちばん"
             }
           ]
         },
@@ -884,7 +884,7 @@
           "unit_id": "ja_cc_level2:0000000508:u0034",
           "text": "「社会変革性」が2つ目のキーワードですが、社会変革性という言葉自体、何となくNPOより社会起業家の十八番のように言われています。",
           "rendered_yomi_before": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十/ジュウ 八/ハチ 番/バン の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十八番/オハコ の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "「/「 社会/シャカイ 変革/ヘンカク 性/セイ 」/」 が/ガ 2つ/フタツ 目/メ の/ノ キーワード/キーワード です/デス が/ガ 、/、 社会/シャカイ 変革/ヘンカク 性/セイ と/ト いう/イウ 言葉/コトバ 自体/ジタイ 、/、 何/ナン と/ト なく/ナク NPO/エヌピーオー より/ヨリ 社会/シャカイ 起業家/キギョウカ の/ノ 十八番/ジュウハチバン の/ノ よう/ヨウ に/ニ 言わ/イワ れ/レ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 29,
             "end": 30,
