@@ -1,0 +1,5393 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0053_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0053",
+  "created_at_epoch": 1786683364,
+  "created_at": "2026-08-14T04:56:04Z",
+  "item_count": 7,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 7,
+    "queued_repair_row_count": 7,
+    "result_row_count": 7,
+    "reviewable_repair_row_count": 7,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000494",
+      "doc_seq": 1,
+      "track_doc_seq": 494,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 494,
+      "preview": "桐朋学園大学附属「子供のための音楽教室」って？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000495",
+      "doc_seq": 2,
+      "track_doc_seq": 495,
+      "unit_count": 39,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 495,
+      "preview": "お寺のお堂の響きぐあいが彼女の声と竪琴にマッチしている。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-14T04:57:02Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 39,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000496",
+      "doc_seq": 3,
+      "track_doc_seq": 496,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 496,
+      "preview": "ツィンバロン演奏家・生頼（おうらい）まゆみさん（右）との演奏会が実現しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000497",
+      "doc_seq": 4,
+      "track_doc_seq": 497,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 497,
+      "preview": "うちのシャルロッテが着弾。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000498",
+      "doc_seq": 5,
+      "track_doc_seq": 498,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 498,
+      "preview": "ブログを始めて嬉しいのは、海外在住の方と繋がりが持てることです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-14T04:57:02Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000499",
+      "doc_seq": 6,
+      "track_doc_seq": 499,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 499,
+      "preview": "天候が危ぶまれましたが、大丈夫でした。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_count": 56,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "preview": "Cさんは以前の経験から誤飲を疑ったようですが、実際には別の病気が隠れていました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-14T04:57:02Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 5,
+      "region_count": 5,
+      "unresolved_count": 5,
+      "from_seq": 3,
+      "to_seq": 7,
+      "reviewed_unit_count": 56,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 5
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000501",
+      "doc_seq": 8,
+      "track_doc_seq": 501,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 501,
+      "preview": "ドライブの帰り、五城目道の駅に寄りました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000502",
+      "doc_seq": 9,
+      "track_doc_seq": 502,
+      "unit_count": 37,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 502,
+      "preview": "パニック障害というのは、何の理由もないのに動悸やめまい、発汗、窒息感、手足の震え、窒息感が発生してしまう発作が長く続いている症状です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 37,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000503",
+      "doc_seq": 10,
+      "track_doc_seq": 503,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 503,
+      "preview": "結婚、出産というライフスタイルの変化もありました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-14T04:54:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000495:u0009::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000495",
+      "doc_seq": 2,
+      "track_doc_seq": 495,
+      "unit_id": "ja_cc_level2:0000000495:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 495,
+      "text": "闘う場面と健康法的に身体を動かすこととを統一してとらえようということらしい。",
+      "rendered_yomi_before": "闘う/タタカウ 場面/バメン と/ト 健康/ケンコウ 法的/ホウテキ に/ニ 身体/カラダ を/ヲ 動かす/ウゴカス こと/コト と/ト を/ヲ 統一/トウイツ し/シ て/テ とらえよう/トラエヨウ と/ト いう/イウ こと/コト らしい/ラシイ 。/。",
+      "rendered_yomi_after": "闘う/タタカウ 場面/バメン と/ト 健康法/ケンコウホウ 的/テキ に/ニ 身体/カラダ を/ヲ 動かす/ウゴカス こと/コト と/ト を/ヲ 統一/トウイツ し/シ て/テ とらえよう/トラエヨウ と/ト いう/イウ こと/コト らしい/ラシイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "闘う",
+          "タタカウ"
+        ],
+        [
+          "場面",
+          "バメン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "健康法",
+          "ケンコウホウ"
+        ],
+        [
+          "的",
+          "テキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "身体",
+          "カラダ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "動かす",
+          "ウゴカス"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "統一",
+          "トウイツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "とらえよう",
+          "トラエヨウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "らしい",
+          "ラシイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "闘う",
+          "reading": "タタカウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "闘",
+              "reading": "たたか"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "場面",
+          "reading": "バメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場面",
+              "reading": "ばめん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "健康法",
+          "reading": "ケンコウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "健康法",
+              "reading": "けんこうほう"
+            }
+          ]
+        },
+        {
+          "surface": "的",
+          "reading": "テキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "的",
+              "reading": "てき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "身体",
+          "reading": "カラダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "身体",
+              "reading": "からだ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "動かす",
+          "reading": "ウゴカス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "動",
+              "reading": "うご"
+            },
+            {
+              "type": "text",
+              "text": "かす"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "統一",
+          "reading": "トウイツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "統一",
+              "reading": "とういつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "とらえよう",
+          "reading": "トラエヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とらえよう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "らしい",
+          "reading": "ラシイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "らしい"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+          "item_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+          "unit_id": "ja_cc_level2:0000000495:u0009",
+          "text": "闘う場面と健康法的に身体を動かすこととを統一してとらえようということらしい。",
+          "rendered_yomi_before": "闘う/タタカウ 場面/バメン と/ト 健康/ケンコウ 法的/ホウテキ に/ニ 身体/カラダ を/ヲ 動かす/ウゴカス こと/コト と/ト を/ヲ 統一/トウイツ し/シ て/テ とらえよう/トラエヨウ と/ト いう/イウ こと/コト らしい/ラシイ 。/。",
+          "rendered_yomi_after": "闘う/タタカウ 場面/バメン と/ト 健康法/ケンコウホウ 的/テキ に/ニ 身体/カラダ を/ヲ 動かす/ウゴカス こと/コト と/ト を/ヲ 統一/トウイツ し/シ て/テ とらえよう/トラエヨウ と/ト いう/イウ こと/コト らしい/ラシイ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 5,
+            "char_start": 5,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000495:u0009:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "健康",
+              "token_surface": "健康",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "健康",
+                  "reading": "けんこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000495:u0009:s0008-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "法的",
+              "token_surface": "法的",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほうてき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "法的",
+                  "reading": "ほうてき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000495:u0009:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "健康",
+              "token_surface": "健康",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "健康",
+                  "reading": "けんこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000495:u0009:s0008-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "法的",
+              "token_surface": "法的",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほうてき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "法的",
+                  "reading": "ほうてき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "健康法的",
+          "reading_candidates": {
+            "健": [
+              "けん",
+              "たけし",
+              "たけび",
+              "たける",
+              "つよし",
+              "まさる"
+            ],
+            "健康": [
+              "けんこう",
+              "たけやす"
+            ],
+            "健康法": [
+              "けんこうほう"
+            ],
+            "康": [
+              "こう",
+              "ひろし",
+              "やす",
+              "やすし"
+            ],
+            "康法": [
+              "やすのり"
+            ],
+            "法": [
+              "のり",
+              "ほう",
+              "ほっ",
+              "ぽう"
+            ],
+            "法的": [
+              "ほうてき"
+            ],
+            "的": [
+              "てき",
+              "いくわ",
+              "まと"
+            ]
+          },
+          "reading_hints": {
+            "健": "けん",
+            "健康": "けんこう",
+            "健康法": "けんこうほう",
+            "康": "こう",
+            "康法": "やすのり",
+            "法": "のり",
+            "法的": "ほうてき",
+            "的": "てき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "健康",
+              "reading": "けんこう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "法的",
+              "reading": "ほうてき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"健康法\",\"reading\":\"けんこうほう\",\"used_web_search\":false,\"comment\":\"「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。\"},{\"surface\":\"的\",\"reading\":\"てき\",\"used_web_search\":false,\"comment\":\"形容動詞的な接尾辞として読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "健康法",
+              "reading": "けんこうほう",
+              "used_web_search": false,
+              "comment": "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。"
+            },
+            {
+              "surface": "的",
+              "reading": "てき",
+              "used_web_search": false,
+              "comment": "形容動詞的な接尾辞として読む。"
+            }
+          ],
+          "llm_comments": [
+            "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。",
+            "形容動詞的な接尾辞として読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "健康法的",
+            "replacement": [
+              {
+                "surface": "健康法",
+                "reading": "ケンコウホウ"
+              },
+              {
+                "surface": "的",
+                "reading": "テキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+                "surface": "健康法的",
+                "comment": "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+                "surface": "健康法的",
+                "comment": "形容動詞的な接尾辞として読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "健康法的",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000495:u0009:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "健康",
+          "token_surface": "健康",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けんこう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "健康",
+              "reading": "けんこう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000495:u0009:s0008-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "法的",
+          "token_surface": "法的",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほうてき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "法的",
+              "reading": "ほうてき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "健康",
+          "reading": "けんこう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "法的",
+          "reading": "ほうてき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "健": [
+          "けん",
+          "たけし",
+          "たけび",
+          "たける",
+          "つよし",
+          "まさる"
+        ],
+        "健康": [
+          "けんこう",
+          "たけやす"
+        ],
+        "健康法": [
+          "けんこうほう"
+        ],
+        "康": [
+          "こう",
+          "ひろし",
+          "やす",
+          "やすし"
+        ],
+        "康法": [
+          "やすのり"
+        ],
+        "法": [
+          "のり",
+          "ほう",
+          "ほっ",
+          "ぽう"
+        ],
+        "法的": [
+          "ほうてき"
+        ],
+        "的": [
+          "てき",
+          "いくわ",
+          "まと"
+        ]
+      },
+      "reading_hints": {
+        "健": "けん",
+        "健康": "けんこう",
+        "健康法": "けんこうほう",
+        "康": "こう",
+        "康法": "やすのり",
+        "法": "のり",
+        "法的": "ほうてき",
+        "的": "てき"
+      },
+      "llm_parsed": [
+        {
+          "surface": "健康法",
+          "reading": "けんこうほう",
+          "used_web_search": false,
+          "comment": "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。"
+        },
+        {
+          "surface": "的",
+          "reading": "てき",
+          "used_web_search": false,
+          "comment": "形容動詞的な接尾辞として読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"健康法\",\"reading\":\"けんこうほう\",\"used_web_search\":false,\"comment\":\"「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。\"},{\"surface\":\"的\",\"reading\":\"てき\",\"used_web_search\":false,\"comment\":\"形容動詞的な接尾辞として読む。\"}]",
+      "llm_comments": [
+        "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。",
+        "形容動詞的な接尾辞として読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "健康法的",
+        "replacement": [
+          {
+            "surface": "健康法",
+            "reading": "ケンコウホウ"
+          },
+          {
+            "surface": "的",
+            "reading": "テキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+            "surface": "健康法的",
+            "comment": "「健康法的」は「健康法」＋接尾辞「的」と見るのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000495:u0009::target_group:1",
+            "surface": "健康法的",
+            "comment": "形容動詞的な接尾辞として読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000498:u0016::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000498",
+      "doc_seq": 5,
+      "track_doc_seq": 498,
+      "unit_id": "ja_cc_level2:0000000498:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 498,
+      "text": "私が通ったのは小さな街の州立大学でしたが、様々な年齢の学生がいました。",
+      "rendered_yomi_before": "私/ワタシ が/ガ 通っ/カヨッ た/タ の/ノ は/ハ 小さな/チイサナ 街/マチ の/ノ 州/シュウ 立/リツ 大学/ダイガク でし/デシ た/タ が/ガ 、/、 様々/サマザマ な/ナ 年齢/ネンレイ の/ノ 学生/ガクセイ が/ガ い/イ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "私/ワタシ が/ガ 通っ/カヨッ た/タ の/ノ は/ハ 小さな/チイサナ 街/マチ の/ノ 州立/シュウリツ 大学/ダイガク でし/デシ た/タ が/ガ 、/、 様々/サマザマ な/ナ 年齢/ネンレイ の/ノ 学生/ガクセイ が/ガ い/イ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "私",
+          "ワタシ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "通っ",
+          "カヨッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "小さな",
+          "チイサナ"
+        ],
+        [
+          "街",
+          "マチ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "州立",
+          "シュウリツ"
+        ],
+        [
+          "大学",
+          "ダイガク"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "様々",
+          "サマザマ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "年齢",
+          "ネンレイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "学生",
+          "ガクセイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "私",
+          "reading": "ワタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "私",
+              "reading": "わたし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "通っ",
+          "reading": "カヨッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "通",
+              "reading": "かよ"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "小さな",
+          "reading": "チイサナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小",
+              "reading": "ちい"
+            },
+            {
+              "type": "text",
+              "text": "さな"
+            }
+          ]
+        },
+        {
+          "surface": "街",
+          "reading": "マチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "街",
+              "reading": "まち"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "州立",
+          "reading": "シュウリツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "州立",
+              "reading": "しゅうりつ"
+            }
+          ]
+        },
+        {
+          "surface": "大学",
+          "reading": "ダイガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大学",
+              "reading": "だいがく"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "様々",
+          "reading": "サマザマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様々",
+              "reading": "さまざま"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "年齢",
+          "reading": "ネンレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年齢",
+              "reading": "ねんれい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "学生",
+          "reading": "ガクセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学生",
+              "reading": "がくせい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+          "item_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+          "unit_id": "ja_cc_level2:0000000498:u0016",
+          "text": "私が通ったのは小さな街の州立大学でしたが、様々な年齢の学生がいました。",
+          "rendered_yomi_before": "私/ワタシ が/ガ 通っ/カヨッ た/タ の/ノ は/ハ 小さな/チイサナ 街/マチ の/ノ 州/シュウ 立/リツ 大学/ダイガク でし/デシ た/タ が/ガ 、/、 様々/サマザマ な/ナ 年齢/ネンレイ の/ノ 学生/ガクセイ が/ガ い/イ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "私/ワタシ が/ガ 通っ/カヨッ た/タ の/ノ は/ハ 小さな/チイサナ 街/マチ の/ノ 州立/シュウリツ 大学/ダイガク でし/デシ た/タ が/ガ 、/、 様々/サマザマ な/ナ 年齢/ネンレイ の/ノ 学生/ガクセイ が/ガ い/イ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 12,
+            "char_end": 14,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000498:u0016:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "州",
+              "token_surface": "州",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "州",
+                  "reading": "しゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000498:u0016:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "立",
+              "token_surface": "立",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "立",
+                  "reading": "りつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000498:u0016:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "州",
+              "token_surface": "州",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "州",
+                  "reading": "しゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000498:u0016:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "立",
+              "token_surface": "立",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "立",
+                  "reading": "りつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "州立",
+          "reading_candidates": {
+            "州": [
+              "しゅう",
+              "す"
+            ],
+            "州立": [
+              "しゅうりつ"
+            ],
+            "立": [
+              "たち",
+              "たつ",
+              "たつる",
+              "たて",
+              "だち",
+              "だて",
+              "りっ",
+              "りつ",
+              "りゅう"
+            ]
+          },
+          "reading_hints": {
+            "州": "しゅう",
+            "州立": "しゅうりつ",
+            "立": "たち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "州",
+              "reading": "しゅう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "立",
+              "reading": "りつ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"州立\",\"reading\":\"シュウリツ\",\"used_web_search\":false,\"comment\":\"「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "州立",
+              "reading": "シュウリツ",
+              "used_web_search": false,
+              "comment": "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。"
+            }
+          ],
+          "llm_comments": [
+            "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "州立",
+            "replacement": [
+              {
+                "surface": "州立",
+                "reading": "シュウリツ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+                "surface": "州立",
+                "comment": "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "州立",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000498:u0016:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "州",
+          "token_surface": "州",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "州",
+              "reading": "しゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000498:u0016:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "立",
+          "token_surface": "立",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "りつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "立",
+              "reading": "りつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "州",
+          "reading": "しゅう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "立",
+          "reading": "りつ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "州": [
+          "しゅう",
+          "す"
+        ],
+        "州立": [
+          "しゅうりつ"
+        ],
+        "立": [
+          "たち",
+          "たつ",
+          "たつる",
+          "たて",
+          "だち",
+          "だて",
+          "りっ",
+          "りつ",
+          "りゅう"
+        ]
+      },
+      "reading_hints": {
+        "州": "しゅう",
+        "州立": "しゅうりつ",
+        "立": "たち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "州立",
+          "reading": "シュウリツ",
+          "used_web_search": false,
+          "comment": "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"州立\",\"reading\":\"シュウリツ\",\"used_web_search\":false,\"comment\":\"「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。\"}]",
+      "llm_comments": [
+        "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "州立",
+        "replacement": [
+          {
+            "surface": "州立",
+            "reading": "シュウリツ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000498:u0016::target_group:1",
+            "surface": "州立",
+            "comment": "「州立大学」で一まとまりの語で、読みは通常「しゅうりつ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000500:u0015::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_id": "ja_cc_level2:0000000500:u0015",
+      "unit_seq": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "text": "「マダニが動物や人に媒介する重症熱性血小板減少症候群（SFTS）」について、いぬのきもち獣医師相談室の原駿太朗先生が解説します。",
+      "rendered_yomi_before": "「/「 マダニ/マダニ が/ガ 動物/ドウブツ や/ヤ 人/ヒト に/ニ 媒介/バイカイ する/スル 重症/ジュウショウ 熱性/ネッセイ 血/ケツ 小板/ショウバン 減少/ゲンショウ 症候群/ショウコウグン （/（ SFTS/エスエフティーエス ）/） 」/」 に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 原/ハラ 駿太朗/シュンタロウ 先生/センセイ が/ガ 解説/カイセツ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "「/「 マダニ/マダニ が/ガ 動物/ドウブツ や/ヤ 人/ヒト に/ニ 媒介/バイカイ する/スル 重症/ジュウショウ 熱性/ネッセイ 血小板/ケッショウバン 減少/ゲンショウ 症候群/ショウコウグン （/（ SFTS/エスエフティーエス ）/） 」/」 に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 原/ハラ 駿太朗/シュンタロウ 先生/センセイ が/ガ 解説/カイセツ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "「",
+          "「"
+        ],
+        [
+          "マダニ",
+          "マダニ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "動物",
+          "ドウブツ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "媒介",
+          "バイカイ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "重症",
+          "ジュウショウ"
+        ],
+        [
+          "熱性",
+          "ネッセイ"
+        ],
+        [
+          "血小板",
+          "ケッショウバン"
+        ],
+        [
+          "減少",
+          "ゲンショウ"
+        ],
+        [
+          "症候群",
+          "ショウコウグン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "SFTS",
+          "エスエフティーエス"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "いぬ",
+          "イヌ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "きもち",
+          "キモチ"
+        ],
+        [
+          "獣医師",
+          "ジュウイシ"
+        ],
+        [
+          "相談",
+          "ソウダン"
+        ],
+        [
+          "室",
+          "シツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "原",
+          "ハラ"
+        ],
+        [
+          "駿太朗",
+          "シュンタロウ"
+        ],
+        [
+          "先生",
+          "センセイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "解説",
+          "カイセツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "マダニ",
+          "reading": "マダニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マダニ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "動物",
+          "reading": "ドウブツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "動物",
+              "reading": "どうぶつ"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "媒介",
+          "reading": "バイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "媒介",
+              "reading": "ばいかい"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "重症",
+          "reading": "ジュウショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "重症",
+              "reading": "じゅうしょう"
+            }
+          ]
+        },
+        {
+          "surface": "熱性",
+          "reading": "ネッセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "熱性",
+              "reading": "ねっせい"
+            }
+          ]
+        },
+        {
+          "surface": "血小板",
+          "reading": "ケッショウバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "血小板",
+              "reading": "けっしょうばん"
+            }
+          ]
+        },
+        {
+          "surface": "減少",
+          "reading": "ゲンショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "減少",
+              "reading": "げんしょう"
+            }
+          ]
+        },
+        {
+          "surface": "症候群",
+          "reading": "ショウコウグン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "症候群",
+              "reading": "しょうこうぐん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "SFTS",
+          "reading": "エスエフティーエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "SFTS",
+              "reading": "えすえふてぃーえす"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "いぬ",
+          "reading": "イヌ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いぬ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "きもち",
+          "reading": "キモチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "きもち"
+            }
+          ]
+        },
+        {
+          "surface": "獣医師",
+          "reading": "ジュウイシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "獣医師",
+              "reading": "じゅういし"
+            }
+          ]
+        },
+        {
+          "surface": "相談",
+          "reading": "ソウダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "相談",
+              "reading": "そうだん"
+            }
+          ]
+        },
+        {
+          "surface": "室",
+          "reading": "シツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "室",
+              "reading": "しつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "原",
+          "reading": "ハラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "原",
+              "reading": "はら"
+            }
+          ]
+        },
+        {
+          "surface": "駿太朗",
+          "reading": "シュンタロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "駿太朗",
+              "reading": "しゅんたろう"
+            }
+          ]
+        },
+        {
+          "surface": "先生",
+          "reading": "センセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先生",
+              "reading": "せんせい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "解説",
+          "reading": "カイセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "解説",
+              "reading": "かいせつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+          "item_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+          "unit_id": "ja_cc_level2:0000000500:u0015",
+          "text": "「マダニが動物や人に媒介する重症熱性血小板減少症候群（SFTS）」について、いぬのきもち獣医師相談室の原駿太朗先生が解説します。",
+          "rendered_yomi_before": "「/「 マダニ/マダニ が/ガ 動物/ドウブツ や/ヤ 人/ヒト に/ニ 媒介/バイカイ する/スル 重症/ジュウショウ 熱性/ネッセイ 血/ケツ 小板/ショウバン 減少/ゲンショウ 症候群/ショウコウグン （/（ SFTS/エスエフティーエス ）/） 」/」 に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 原/ハラ 駿太朗/シュンタロウ 先生/センセイ が/ガ 解説/カイセツ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "「/「 マダニ/マダニ が/ガ 動物/ドウブツ や/ヤ 人/ヒト に/ニ 媒介/バイカイ する/スル 重症/ジュウショウ 熱性/ネッセイ 血小板/ケッショウバン 減少/ゲンショウ 症候群/ショウコウグン （/（ SFTS/エスエフティーエス ）/） 」/」 に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 原/ハラ 駿太朗/シュンタロウ 先生/センセイ が/ガ 解説/カイセツ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 18,
+            "char_end": 21,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0015:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "血",
+              "token_surface": "血",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "血",
+                  "reading": "けつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0015:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小板",
+              "token_surface": "小板",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょうばん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "小板",
+                  "reading": "しょうばん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0015:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "血",
+              "token_surface": "血",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "血",
+                  "reading": "けつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0015:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小板",
+              "token_surface": "小板",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょうばん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "小板",
+                  "reading": "しょうばん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "血小板",
+          "reading_candidates": {
+            "血": [
+              "けっ",
+              "けつ",
+              "ち"
+            ],
+            "血小板": [
+              "けっしょうばん"
+            ],
+            "小": [
+              "おむら",
+              "こ",
+              "さ",
+              "しょう",
+              "ちいさ"
+            ],
+            "小板": [
+              "こいた",
+              "しょうばん"
+            ],
+            "板": [
+              "いた",
+              "はん",
+              "ばん"
+            ]
+          },
+          "reading_hints": {
+            "血": "けっ",
+            "血小板": "けっしょうばん",
+            "小": "おむら",
+            "小板": "こいた",
+            "板": "いた"
+          },
+          "rejected_readings": [
+            {
+              "surface": "血",
+              "reading": "けつ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "小板",
+              "reading": "しょうばん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"血小板\",\"reading\":\"ケッショウバン\",\"used_web_search\":false,\"comment\":\"医学用語として一語の定着した語で、読みは「けっしょうばん」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "血小板",
+              "reading": "ケッショウバン",
+              "used_web_search": false,
+              "comment": "医学用語として一語の定着した語で、読みは「けっしょうばん」。"
+            }
+          ],
+          "llm_comments": [
+            "医学用語として一語の定着した語で、読みは「けっしょうばん」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+            "status": "applied",
+            "rejected_span": "血小板",
+            "replacement": [
+              {
+                "surface": "血小板",
+                "reading": "ケッショウバン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+                "surface": "血小板",
+                "comment": "医学用語として一語の定着した語で、読みは「けっしょうばん」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "血小板",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000500:u0015:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "血",
+          "token_surface": "血",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "血",
+              "reading": "けつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0015:s0020-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "小板",
+          "token_surface": "小板",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょうばん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "小板",
+              "reading": "しょうばん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "血",
+          "reading": "けつ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "小板",
+          "reading": "しょうばん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "血": [
+          "けっ",
+          "けつ",
+          "ち"
+        ],
+        "血小板": [
+          "けっしょうばん"
+        ],
+        "小": [
+          "おむら",
+          "こ",
+          "さ",
+          "しょう",
+          "ちいさ"
+        ],
+        "小板": [
+          "こいた",
+          "しょうばん"
+        ],
+        "板": [
+          "いた",
+          "はん",
+          "ばん"
+        ]
+      },
+      "reading_hints": {
+        "血": "けっ",
+        "血小板": "けっしょうばん",
+        "小": "おむら",
+        "小板": "こいた",
+        "板": "いた"
+      },
+      "llm_parsed": [
+        {
+          "surface": "血小板",
+          "reading": "ケッショウバン",
+          "used_web_search": false,
+          "comment": "医学用語として一語の定着した語で、読みは「けっしょうばん」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"血小板\",\"reading\":\"ケッショウバン\",\"used_web_search\":false,\"comment\":\"医学用語として一語の定着した語で、読みは「けっしょうばん」。\"}]",
+      "llm_comments": [
+        "医学用語として一語の定着した語で、読みは「けっしょうばん」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+        "status": "applied",
+        "rejected_span": "血小板",
+        "replacement": [
+          {
+            "surface": "血小板",
+            "reading": "ケッショウバン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000500:u0015::target_group:1",
+            "surface": "血小板",
+            "comment": "医学用語として一語の定着した語で、読みは「けっしょうばん」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000500:u0019::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_id": "ja_cc_level2:0000000500:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "text": "犬の換毛期を獣医師が解説　どんなお手入れが必要？",
+      "rendered_yomi_before": "犬/イヌ の/ノ 換/カエ 毛/モウ 期/キ を/ヲ 獣医師/ジュウイシ が/ガ 解説/カイセツ 　/　 どんな/ドンナ お/オ 手入れ/テイレ が/ガ 必要/ヒツヨウ ？/？",
+      "rendered_yomi_after": "犬/イヌ の/ノ 換毛期/カンモウキ を/ヲ 獣医師/ジュウイシ が/ガ 解説/カイセツ \\u3000/ どんな/ドンナ お/オ 手入れ/テイレ が/ガ 必要/ヒツヨウ ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "犬",
+          "イヌ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "換毛期",
+          "カンモウキ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "獣医師",
+          "ジュウイシ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "解説",
+          "カイセツ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "どんな",
+          "ドンナ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "手入れ",
+          "テイレ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "必要",
+          "ヒツヨウ"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "犬",
+          "reading": "イヌ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "犬",
+              "reading": "いぬ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "換毛期",
+              "reading": "かんもうき"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "獣医師",
+          "reading": "ジュウイシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "獣医師",
+              "reading": "じゅういし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "解説",
+          "reading": "カイセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "解説",
+              "reading": "かいせつ"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "どんな",
+          "reading": "ドンナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どんな"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "手入れ",
+          "reading": "テイレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手入",
+              "reading": "てい"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "必要",
+          "reading": "ヒツヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "必要",
+              "reading": "ひつよう"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+          "item_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+          "unit_id": "ja_cc_level2:0000000500:u0019",
+          "text": "犬の換毛期を獣医師が解説　どんなお手入れが必要？",
+          "rendered_yomi_before": "犬/イヌ の/ノ 換/カエ 毛/モウ 期/キ を/ヲ 獣医師/ジュウイシ が/ガ 解説/カイセツ 　/　 どんな/ドンナ お/オ 手入れ/テイレ が/ガ 必要/ヒツヨウ ？/？",
+          "rendered_yomi_after": "犬/イヌ の/ノ 換毛期/カンモウキ を/ヲ 獣医師/ジュウイシ が/ガ 解説/カイセツ \\u3000/ どんな/ドンナ お/オ 手入れ/テイレ が/ガ 必要/ヒツヨウ ？/？",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 2,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0019:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "換毛期",
+          "reading_candidates": {
+            "換": [
+              "かえ",
+              "がえ"
+            ],
+            "毛": [
+              "け",
+              "げ",
+              "もう"
+            ],
+            "期": [
+              "き",
+              "ご"
+            ]
+          },
+          "reading_hints": {
+            "換": "かえ",
+            "毛": "け",
+            "期": "き"
+          },
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"かんもうき\",\"used_web_search\":false,\"comment\":\"獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "換毛期",
+              "reading": "かんもうき",
+              "used_web_search": false,
+              "comment": "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "換毛期",
+            "replacement": [
+              {
+                "surface": "換毛期",
+                "reading": "カンモウキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+                "surface": "換毛期",
+                "comment": "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "換毛期",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000500:u0019:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "換",
+          "token_surface": "換",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0019:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "毛",
+          "token_surface": "毛",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0019:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "期",
+          "token_surface": "期",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "き",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "換",
+          "reading": "かえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "毛",
+          "reading": "もう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "期",
+          "reading": "き",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "換": [
+          "かえ",
+          "がえ"
+        ],
+        "毛": [
+          "け",
+          "げ",
+          "もう"
+        ],
+        "期": [
+          "き",
+          "ご"
+        ]
+      },
+      "reading_hints": {
+        "換": "かえ",
+        "毛": "け",
+        "期": "き"
+      },
+      "llm_parsed": [
+        {
+          "surface": "換毛期",
+          "reading": "かんもうき",
+          "used_web_search": false,
+          "comment": "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"かんもうき\",\"used_web_search\":false,\"comment\":\"獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。\"}]",
+      "llm_comments": [
+        "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "換毛期",
+        "replacement": [
+          {
+            "surface": "換毛期",
+            "reading": "カンモウキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000500:u0019::target_group:1",
+            "surface": "換毛期",
+            "comment": "獣医・ペット文脈で使う定番語で、「換毛期」は一語として「かんもうき」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000500:u0020::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_id": "ja_cc_level2:0000000500:u0020",
+      "unit_seq": 20,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "text": "大量に毛が抜ける犬の換毛期。",
+      "rendered_yomi_before": "大量/タイリョウ に/ニ 毛/ケ が/ガ 抜ける/ヌケル 犬/イヌ の/ノ 換/カエ 毛/モウ 期/キ 。/。",
+      "rendered_yomi_after": "大量/タイリョウ に/ニ 毛/ケ が/ガ 抜ける/ヌケル 犬/イヌ の/ノ 換毛期/カンモウキ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "大量",
+          "タイリョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "毛",
+          "ケ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "抜ける",
+          "ヌケル"
+        ],
+        [
+          "犬",
+          "イヌ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "換毛期",
+          "カンモウキ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "大量",
+          "reading": "タイリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大量",
+              "reading": "たいりょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "毛",
+          "reading": "ケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "毛",
+              "reading": "け"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "抜ける",
+          "reading": "ヌケル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抜",
+              "reading": "ぬ"
+            },
+            {
+              "type": "text",
+              "text": "ける"
+            }
+          ]
+        },
+        {
+          "surface": "犬",
+          "reading": "イヌ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "犬",
+              "reading": "いぬ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "換毛期",
+              "reading": "かんもうき"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+          "item_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+          "unit_id": "ja_cc_level2:0000000500:u0020",
+          "text": "大量に毛が抜ける犬の換毛期。",
+          "rendered_yomi_before": "大量/タイリョウ に/ニ 毛/ケ が/ガ 抜ける/ヌケル 犬/イヌ の/ノ 換/カエ 毛/モウ 期/キ 。/。",
+          "rendered_yomi_after": "大量/タイリョウ に/ニ 毛/ケ が/ガ 抜ける/ヌケル 犬/イヌ の/ノ 換毛期/カンモウキ 。/。",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 10,
+            "char_end": 13,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0020:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "換毛期",
+          "reading_candidates": {
+            "換": [
+              "かえ",
+              "がえ"
+            ],
+            "毛": [
+              "け",
+              "げ",
+              "もう"
+            ],
+            "期": [
+              "き",
+              "ご"
+            ]
+          },
+          "reading_hints": {
+            "換": "かえ",
+            "毛": "け",
+            "期": "き"
+          },
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"カンモウキ\",\"used_web_search\":false,\"comment\":\"動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "換毛期",
+              "reading": "カンモウキ",
+              "used_web_search": false,
+              "comment": "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。"
+            }
+          ],
+          "llm_comments": [
+            "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+            "status": "applied",
+            "rejected_span": "換毛期",
+            "replacement": [
+              {
+                "surface": "換毛期",
+                "reading": "カンモウキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+                "surface": "換毛期",
+                "comment": "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "換毛期",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000500:u0020:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "換",
+          "token_surface": "換",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0020:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "毛",
+          "token_surface": "毛",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0020:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "期",
+          "token_surface": "期",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "き",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "換",
+          "reading": "かえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "毛",
+          "reading": "もう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "期",
+          "reading": "き",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "換": [
+          "かえ",
+          "がえ"
+        ],
+        "毛": [
+          "け",
+          "げ",
+          "もう"
+        ],
+        "期": [
+          "き",
+          "ご"
+        ]
+      },
+      "reading_hints": {
+        "換": "かえ",
+        "毛": "け",
+        "期": "き"
+      },
+      "llm_parsed": [
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "used_web_search": false,
+          "comment": "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"カンモウキ\",\"used_web_search\":false,\"comment\":\"動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。\"}]",
+      "llm_comments": [
+        "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+        "status": "applied",
+        "rejected_span": "換毛期",
+        "replacement": [
+          {
+            "surface": "換毛期",
+            "reading": "カンモウキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000500:u0020::target_group:1",
+            "surface": "換毛期",
+            "comment": "動物の毛が生え替わる時期を表す一般的な語で、読みは「かんもうき」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000500:u0021::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_id": "ja_cc_level2:0000000500:u0021",
+      "unit_seq": 21,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "text": "じつは犬によって、換毛期の有無や、抜ける毛の量が異なることをご存じでしたか？",
+      "rendered_yomi_before": "じつ/ジツ は/ハ 犬/イヌ に/ニ よっ/ヨッ て/テ 、/、 換/カエ 毛/モウ 期/キ の/ノ 有無/ウム や/ヤ 、/、 抜ける/ヌケル 毛/ケ の/ノ 量/リョウ が/ガ 異なる/コトナル こと/コト を/ヲ ご/ゴ 存じ/ゾンジ でし/デシ た/タ か/カ ？/？",
+      "rendered_yomi_after": "じつ/ジツ は/ハ 犬/イヌ に/ニ よっ/ヨッ て/テ 、/、 換毛期/カンモウキ の/ノ 有無/ウム や/ヤ 、/、 抜ける/ヌケル 毛/ケ の/ノ 量/リョウ が/ガ 異なる/コトナル こと/コト を/ヲ ご/ゴ 存じ/ゾンジ でし/デシ た/タ か/カ ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "じつ",
+          "ジツ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "犬",
+          "イヌ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よっ",
+          "ヨッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "換毛期",
+          "カンモウキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "有無",
+          "ウム"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "抜ける",
+          "ヌケル"
+        ],
+        [
+          "毛",
+          "ケ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "量",
+          "リョウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "異なる",
+          "コトナル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "存じ",
+          "ゾンジ"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "じつ",
+          "reading": "ジツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "じつ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "犬",
+          "reading": "イヌ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "犬",
+              "reading": "いぬ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よっ",
+          "reading": "ヨッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "換毛期",
+              "reading": "かんもうき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "有無",
+          "reading": "ウム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "有無",
+              "reading": "うむ"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "抜ける",
+          "reading": "ヌケル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "抜",
+              "reading": "ぬ"
+            },
+            {
+              "type": "text",
+              "text": "ける"
+            }
+          ]
+        },
+        {
+          "surface": "毛",
+          "reading": "ケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "毛",
+              "reading": "け"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "量",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "量",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "異なる",
+          "reading": "コトナル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "異",
+              "reading": "こと"
+            },
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "存じ",
+          "reading": "ゾンジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "存",
+              "reading": "ぞん"
+            },
+            {
+              "type": "text",
+              "text": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+          "item_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+          "unit_id": "ja_cc_level2:0000000500:u0021",
+          "text": "じつは犬によって、換毛期の有無や、抜ける毛の量が異なることをご存じでしたか？",
+          "rendered_yomi_before": "じつ/ジツ は/ハ 犬/イヌ に/ニ よっ/ヨッ て/テ 、/、 換/カエ 毛/モウ 期/キ の/ノ 有無/ウム や/ヤ 、/、 抜ける/ヌケル 毛/ケ の/ノ 量/リョウ が/ガ 異なる/コトナル こと/コト を/ヲ ご/ゴ 存じ/ゾンジ でし/デシ た/タ か/カ ？/？",
+          "rendered_yomi_after": "じつ/ジツ は/ハ 犬/イヌ に/ニ よっ/ヨッ て/テ 、/、 換毛期/カンモウキ の/ノ 有無/ウム や/ヤ 、/、 抜ける/ヌケル 毛/ケ の/ノ 量/リョウ が/ガ 異なる/コトナル こと/コト を/ヲ ご/ゴ 存じ/ゾンジ でし/デシ た/タ か/カ ？/？",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 9,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0021:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "換毛期",
+          "reading_candidates": {
+            "換": [
+              "かえ",
+              "がえ"
+            ],
+            "毛": [
+              "け",
+              "げ",
+              "もう"
+            ],
+            "期": [
+              "き",
+              "ご"
+            ]
+          },
+          "reading_hints": {
+            "換": "かえ",
+            "毛": "け",
+            "期": "き"
+          },
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"かんもうき\",\"used_web_search\":false,\"comment\":\"定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "換毛期",
+              "reading": "かんもうき",
+              "used_web_search": false,
+              "comment": "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。"
+            }
+          ],
+          "llm_comments": [
+            "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+            "status": "applied",
+            "rejected_span": "換毛期",
+            "replacement": [
+              {
+                "surface": "換毛期",
+                "reading": "カンモウキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+                "surface": "換毛期",
+                "comment": "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "換毛期",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000500:u0021:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "換",
+          "token_surface": "換",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0021:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "毛",
+          "token_surface": "毛",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0021:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "期",
+          "token_surface": "期",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "き",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "換",
+          "reading": "かえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "毛",
+          "reading": "もう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "期",
+          "reading": "き",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "換": [
+          "かえ",
+          "がえ"
+        ],
+        "毛": [
+          "け",
+          "げ",
+          "もう"
+        ],
+        "期": [
+          "き",
+          "ご"
+        ]
+      },
+      "reading_hints": {
+        "換": "かえ",
+        "毛": "け",
+        "期": "き"
+      },
+      "llm_parsed": [
+        {
+          "surface": "換毛期",
+          "reading": "かんもうき",
+          "used_web_search": false,
+          "comment": "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"かんもうき\",\"used_web_search\":false,\"comment\":\"定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。\"}]",
+      "llm_comments": [
+        "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+        "status": "applied",
+        "rejected_span": "換毛期",
+        "replacement": [
+          {
+            "surface": "換毛期",
+            "reading": "カンモウキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000500:u0021::target_group:1",
+            "surface": "換毛期",
+            "comment": "定着した用語で、「換毛」は「かんもう」と読むため、全体で「かんもうき」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000500:u0022::strong_repair",
+      "seq": 7,
+      "doc_id": "ja_cc_level2:0000000500",
+      "doc_seq": 7,
+      "track_doc_seq": 500,
+      "unit_id": "ja_cc_level2:0000000500:u0022",
+      "unit_seq": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 500,
+      "text": "今回は、犬種による換毛期の違いや、お手入れのポイントについて、いぬのきもち獣医師相談室の岡本りさ先生に教えていただきました。",
+      "rendered_yomi_before": "今回/コンカイ は/ハ 、/、 犬種/ケンシュ に/ニ よる/ヨル 換/カエ 毛/モウ 期/キ の/ノ 違い/チガイ や/ヤ 、/、 お/オ 手入れ/テイレ の/ノ ポイント/ポイント に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 岡本/オカモト りさ/リサ 先生/センセイ に/ニ 教え/オシエ て/テ いただき/イタダキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "今回/コンカイ は/ハ 、/、 犬種/ケンシュ に/ニ よる/ヨル 換毛期/カンモウキ の/ノ 違い/チガイ や/ヤ 、/、 お/オ 手入れ/テイレ の/ノ ポイント/ポイント に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 岡本/オカモト りさ/リサ 先生/センセイ に/ニ 教え/オシエ て/テ いただき/イタダキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "今回",
+          "コンカイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "犬種",
+          "ケンシュ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よる",
+          "ヨル"
+        ],
+        [
+          "換毛期",
+          "カンモウキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "違い",
+          "チガイ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "手入れ",
+          "テイレ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ポイント",
+          "ポイント"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "いぬ",
+          "イヌ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "きもち",
+          "キモチ"
+        ],
+        [
+          "獣医師",
+          "ジュウイシ"
+        ],
+        [
+          "相談",
+          "ソウダン"
+        ],
+        [
+          "室",
+          "シツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "岡本",
+          "オカモト"
+        ],
+        [
+          "りさ",
+          "リサ"
+        ],
+        [
+          "先生",
+          "センセイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "教え",
+          "オシエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いただき",
+          "イタダキ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今回",
+          "reading": "コンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今回",
+              "reading": "こんかい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "犬種",
+          "reading": "ケンシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "犬種",
+              "reading": "けんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よる",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "換毛期",
+              "reading": "かんもうき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "違い",
+          "reading": "チガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "違",
+              "reading": "ちが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "手入れ",
+          "reading": "テイレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手入",
+              "reading": "てい"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ポイント",
+          "reading": "ポイント",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ポイント"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "いぬ",
+          "reading": "イヌ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いぬ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "きもち",
+          "reading": "キモチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "きもち"
+            }
+          ]
+        },
+        {
+          "surface": "獣医師",
+          "reading": "ジュウイシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "獣医師",
+              "reading": "じゅういし"
+            }
+          ]
+        },
+        {
+          "surface": "相談",
+          "reading": "ソウダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "相談",
+              "reading": "そうだん"
+            }
+          ]
+        },
+        {
+          "surface": "室",
+          "reading": "シツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "室",
+              "reading": "しつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "岡本",
+          "reading": "オカモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "岡本",
+              "reading": "おかもと"
+            }
+          ]
+        },
+        {
+          "surface": "りさ",
+          "reading": "リサ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "りさ"
+            }
+          ]
+        },
+        {
+          "surface": "先生",
+          "reading": "センセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先生",
+              "reading": "せんせい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "教え",
+          "reading": "オシエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "教",
+              "reading": "おし"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いただき",
+          "reading": "イタダキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いただき"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+          "item_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+          "unit_id": "ja_cc_level2:0000000500:u0022",
+          "text": "今回は、犬種による換毛期の違いや、お手入れのポイントについて、いぬのきもち獣医師相談室の岡本りさ先生に教えていただきました。",
+          "rendered_yomi_before": "今回/コンカイ は/ハ 、/、 犬種/ケンシュ に/ニ よる/ヨル 換/カエ 毛/モウ 期/キ の/ノ 違い/チガイ や/ヤ 、/、 お/オ 手入れ/テイレ の/ノ ポイント/ポイント に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 岡本/オカモト りさ/リサ 先生/センセイ に/ニ 教え/オシエ て/テ いただき/イタダキ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "今回/コンカイ は/ハ 、/、 犬種/ケンシュ に/ニ よる/ヨル 換毛期/カンモウキ の/ノ 違い/チガイ や/ヤ 、/、 お/オ 手入れ/テイレ の/ノ ポイント/ポイント に/ニ つい/ツイ て/テ 、/、 いぬ/イヌ の/ノ きもち/キモチ 獣医師/ジュウイシ 相談/ソウダン 室/シツ の/ノ 岡本/オカモト りさ/リサ 先生/センセイ に/ニ 教え/オシエ て/テ いただき/イタダキ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 9,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "換",
+              "token_surface": "換",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "換",
+                  "reading": "かえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "毛",
+              "token_surface": "毛",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "毛",
+                  "reading": "もう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000500:u0022:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "期",
+              "token_surface": "期",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "き",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "期",
+                  "reading": "き",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "換毛期",
+          "reading_candidates": {
+            "換": [
+              "かえ",
+              "がえ"
+            ],
+            "毛": [
+              "け",
+              "げ",
+              "もう"
+            ],
+            "期": [
+              "き",
+              "ご"
+            ]
+          },
+          "reading_hints": {
+            "換": "かえ",
+            "毛": "け",
+            "期": "き"
+          },
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"カンモウキ\",\"used_web_search\":false,\"comment\":\"一般的な用語で「かんもうき」と読むため、1語としてまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "換毛期",
+              "reading": "カンモウキ",
+              "used_web_search": false,
+              "comment": "一般的な用語で「かんもうき」と読むため、1語としてまとめる。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な用語で「かんもうき」と読むため、1語としてまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+            "status": "applied",
+            "rejected_span": "換毛期",
+            "replacement": [
+              {
+                "surface": "換毛期",
+                "reading": "カンモウキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+                "surface": "換毛期",
+                "comment": "一般的な用語で「かんもうき」と読むため、1語としてまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "換毛期",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000500:u0022:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "換",
+          "token_surface": "換",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "換",
+              "reading": "かえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0022:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "毛",
+          "token_surface": "毛",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "毛",
+              "reading": "もう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000500:u0022:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "期",
+          "token_surface": "期",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "き",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "期",
+              "reading": "き",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "換",
+          "reading": "かえ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "毛",
+          "reading": "もう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "期",
+          "reading": "き",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "換": [
+          "かえ",
+          "がえ"
+        ],
+        "毛": [
+          "け",
+          "げ",
+          "もう"
+        ],
+        "期": [
+          "き",
+          "ご"
+        ]
+      },
+      "reading_hints": {
+        "換": "かえ",
+        "毛": "け",
+        "期": "き"
+      },
+      "llm_parsed": [
+        {
+          "surface": "換毛期",
+          "reading": "カンモウキ",
+          "used_web_search": false,
+          "comment": "一般的な用語で「かんもうき」と読むため、1語としてまとめる。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"換毛期\",\"reading\":\"カンモウキ\",\"used_web_search\":false,\"comment\":\"一般的な用語で「かんもうき」と読むため、1語としてまとめる。\"}]",
+      "llm_comments": [
+        "一般的な用語で「かんもうき」と読むため、1語としてまとめる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+        "status": "applied",
+        "rejected_span": "換毛期",
+        "replacement": [
+          {
+            "surface": "換毛期",
+            "reading": "カンモウキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000500:u0022::target_group:1",
+            "surface": "換毛期",
+            "comment": "一般的な用語で「かんもうき」と読むため、1語としてまとめる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
