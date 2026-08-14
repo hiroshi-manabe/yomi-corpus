@@ -454,12 +454,6 @@ async function openArchiveBrowser() {
   updateRuntimePollingForInteraction();
 }
 
-async function openArchiveShard(shard) {
-  state.archiveCurrentShard = await fetchJson(shard.path);
-  state.archiveCurrentShardPath = shard.path || "";
-  render();
-}
-
 function activeDevYomiReviewSources() {
   const activeSources = activeDevReviewQueues();
   if (activeSources.length > 0) {
@@ -1008,22 +1002,6 @@ function scrollArchiveCorrectionToFirstMatch(doc, query) {
   window.requestAnimationFrame(() => {
     target.scrollIntoView({ block: "center", behavior: "auto" });
   });
-}
-
-function renderArchiveShardRow(shard) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "task-doc-row archive-shard-row";
-  button.innerHTML = `
-    <span class="task-doc-title">文書 ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
-    <span class="task-doc-meta">${Number(shard.document_count || 0)}文書</span>
-  `;
-  button.addEventListener("click", () => {
-    openArchiveShard(shard).catch((error) => {
-      showStatus(`アーカイブを開けませんでした: ${error.message}`, true);
-    });
-  });
-  return button;
 }
 
 function renderCorpusMapTileGrid(docs) {
