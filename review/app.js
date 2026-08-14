@@ -430,9 +430,9 @@ async function openArchiveBrowser() {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
   state.archiveCurrentTrack = "dev";
-  const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
-  state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
-  state.archiveCurrentShardPath = firstShard?.path || "";
+  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
+  state.archiveCurrentShard = { documents: track.documents || [] };
+  state.archiveCurrentShardPath = "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
     title: "確定済みコーパス",
@@ -733,14 +733,8 @@ function renderArchiveBrowserPanel() {
   el.clearDocSelection.disabled = true;
   el.startTask.disabled = true;
   const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
-    el.taskSummary.textContent = shards.length
-      ? "下から確定済みコーパスの範囲を選択してください。"
-      : "確定済み文書はまだ公開されていません。";
-    for (const shard of shards) {
-      el.taskDocList.append(renderArchiveShardRow(shard));
-    }
+    el.taskSummary.textContent = "確定済み文書はまだ公開されていません。";
     return;
   }
   const docs = state.archiveCurrentShard.documents || [];
@@ -929,16 +923,7 @@ async function openArchiveSearchResult(result, query) {
   if (!shardPath) {
     throw new Error("検索結果にアーカイブの保存先がありません。");
   }
-  if (!state.archiveCurrentShard || state.archiveCurrentShardPath !== shardPath) {
-    state.archiveCurrentShard = await fetchJson(shardPath);
-    state.archiveCurrentShardPath = shardPath;
-    render();
-  }
-  const doc = (state.archiveCurrentShard.documents || []).find(
-    (candidate) =>
-      String(candidate.doc_id || "") === String(result.doc_id || "") &&
-      Number(candidate.track_doc_seq || 0) === Number(result.track_doc_seq || 0),
-  );
+  const doc = await loadArchiveDocument(result);
   if (!doc) {
     throw new Error("アーカイブ内に文書が見つかりません。");
   }
@@ -1066,14 +1051,24 @@ function renderCorpusMapTileGrid(docs) {
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
-    tile.addEventListener("click", () =>
-      openArchiveCorrectionEditor(doc, {
+    tile.addEventListener("click", () => {
+      openArchiveDocumentSummary(doc, {
         scrollToManualCorrection: manualCorrectionCount > 0,
-      }),
-    );
+      }).catch((error) => {
+        showStatus(`確定済み文書を開けませんでした: ${error.message}`, true);
+      });
+    });
     wrap.append(tile);
   }
   return wrap;
+}
+
+async function openArchiveDocumentSummary(summary, options = {}) {
+  const doc = await loadArchiveDocument(summary);
+  if (!doc) {
+    throw new Error("アーカイブ内に文書が見つかりません。");
+  }
+  openArchiveCorrectionEditor(doc, options);
 }
 
 function formatArchiveCorrectionSummary(count, sentenceCount) {
@@ -1140,6 +1135,21 @@ function archiveCorrectionRecordForDoc(doc) {
     saveArchiveCorrectionStore(store);
   }
   const currentRecord = store.records[key];
+  const appliedSubmissionIds = new Set(
+    doc.applied_finalized_correction_submission_ids || [],
+  );
+  if (
+    currentRecord.status === "submitted" &&
+    currentRecord.submission_id &&
+    appliedSubmissionIds.has(currentRecord.submission_id)
+  ) {
+    delete store.records[key];
+    saveArchiveCorrectionStore(store);
+    return null;
+  }
+  if (!Array.isArray(doc.units)) {
+    return currentRecord;
+  }
   const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
   if (
     currentRecord.status === "submitted" &&
@@ -1214,7 +1224,7 @@ function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
     doc_id: doc.doc_id || "",
     track_doc_seq: Number(doc.track_doc_seq || 0) || null,
     batch_name: doc.batch_name || "",
-    archive_shard: state.archiveCurrentShardPath || "",
+    archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
     base_archive_revision: doc.archive_revision || "",
     status: "draft",
     units: parsed.changedUnits,
@@ -1982,7 +1992,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
     base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
     source: {
       archive_index_path: state.manifest?.archive?.index_path || "",
-      archive_shard: state.archiveCurrentShardPath || "",
+      archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
       page_url: window.location.href,
     },
     units: parsed.changedUnits,
@@ -2357,14 +2367,28 @@ async function loadArchivedWorkflowDocument(row) {
   if (!state.archiveIndex) {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
-  const trackName = state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev";
+  return loadArchiveDocument({
+    track_name: state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev",
+    track_doc_seq: Number(row.display_seq || 0),
+    doc_id: row.doc_id || "",
+  });
+}
+
+async function loadArchiveDocument(summary) {
+  if (!state.archiveIndex) {
+    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
+  }
+  const trackName = summary.track_name || state.archiveCurrentTrack || "dev";
   const track = state.archiveIndex?.tracks?.[trackName];
-  const displaySeq = Number(row.display_seq || 0);
-  const shard = (track?.shards || []).find(
-    (candidate) =>
-      displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
-      displaySeq <= Number(candidate.end_track_doc_seq || 0),
-  );
+  const displaySeq = Number(summary.track_doc_seq || summary.display_seq || 0);
+  const shardPath = String(summary.shard_path || "");
+  const shard = shardPath
+    ? { path: shardPath }
+    : (track?.shards || []).find(
+        (candidate) =>
+          displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
+          displaySeq <= Number(candidate.end_track_doc_seq || 0),
+      );
   if (!shard?.path) {
     return null;
   }
@@ -2373,11 +2397,12 @@ async function loadArchivedWorkflowDocument(row) {
     payload = await fetchJson(shard.path);
     state.archiveShardCache.set(shard.path, payload);
   }
-  return (payload.documents || []).find(
+  const doc = (payload.documents || []).find(
     (doc) =>
       Number(doc.track_doc_seq || 0) === displaySeq &&
-      (!row.doc_id || String(doc.doc_id || "") === String(row.doc_id)),
+      (!summary.doc_id || String(doc.doc_id || "") === String(summary.doc_id)),
   ) || null;
+  return doc ? { ...doc, archive_shard: shard.path } : null;
 }
 
 function renderArchivedWorkflowDocumentPreview(doc, container) {
