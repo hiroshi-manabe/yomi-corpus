@@ -1,22 +1,22 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5554,
-  "generated_at": "2026-08-17T02:27:34Z",
-  "generated_at_epoch": 1786933654,
-  "last_successful_sync": "2026-08-17T02:21:51Z",
-  "last_successful_sync_epoch": 1786933311,
-  "status": "error",
+  "state_revision": 5555,
+  "generated_at": "2026-08-17T02:35:54Z",
+  "generated_at_epoch": 1786934154,
+  "last_successful_sync": "2026-08-17T02:35:54Z",
+  "last_successful_sync_epoch": 1786934154,
+  "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1786933654,
+    "anchor_epoch": 1786933800,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786933954
+    "next_expected_epoch": 1786934100
   },
   "state": {
-    "current_batch_name": "dev_batch_0068",
-    "current_stage": "yomi_reading_llm_completed",
-    "next_stage": "final_review_prepared",
+    "current_batch_name": "dev_batch_0069",
+    "current_stage": "scope_triage_queued",
+    "next_stage": "scope_triage_llm_completed",
     "active_queue_count": 98,
     "queue_counts": {
       "bulk_review_selectable": 90,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1786933654,
-    "completed_at_epoch": 1786933654,
-    "drift_seconds": 100
+    "started_at_epoch": 1786933800,
+    "completed_at_epoch": 1786934154,
+    "drift_seconds": 146
   },
   "client_polling": {
     "normal_seconds": 60,
