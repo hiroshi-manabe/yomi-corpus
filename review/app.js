@@ -112,6 +112,7 @@ async function boot() {
       preferredPackId: initialTarget.packId,
     });
   }
+  restorePendingIssueConfirmation();
   startRuntimeStatusPolling();
 }
 
@@ -266,19 +267,23 @@ function bindEvents() {
   });
 
   el.markSubmitted?.addEventListener("click", () => {
+    const pendingTaskId = state.pendingIssueTaskId;
     if (state.pendingArchiveCorrectionKey) {
       markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
-    } else if (state.pendingIssueTaskId) {
-      markSavedTaskSubmitted(state.pendingIssueTaskId);
+    } else if (pendingTaskId) {
+      markSavedTaskSubmitted(pendingTaskId);
     }
     state.pendingIssueTaskId = null;
     state.pendingArchiveCorrectionKey = null;
+    clearPendingIssueConfirmation(pendingTaskId);
     hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
+    const pendingTaskId = state.pendingIssueTaskId;
     state.pendingIssueTaskId = null;
     state.pendingArchiveCorrectionKey = null;
+    clearPendingIssueConfirmation(pendingTaskId);
     hideIssueReturnModal();
     showStatus("Issueは提出済みにされませんでした。ローカルの作業内容は残っています。");
   });
@@ -5591,7 +5596,11 @@ async function openIssueForCurrentTask() {
     return;
   }
   const record = currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
+  state.currentDraft.saved_tasks[record.task_id] = {
+    ...record,
+    status: "deferred",
+    awaiting_issue_confirmation: true,
+  };
   touchDraft();
   const copied = await copyTextToClipboard(formatSubmissionJson(submission));
   const urls = buildIssueUrls();
@@ -5603,6 +5612,32 @@ async function openIssueForCurrentTask() {
       : "クリップボードへのコピーに失敗しました。選択されたJSONを手動でコピーしてGitHub Issueの本文に貼り付け、Issueを作成してからこの画面に戻ってください。",
     !copied,
   );
+}
+
+function restorePendingIssueConfirmation() {
+  if (!state.currentDraft) {
+    return;
+  }
+  const pending = Object.values(state.currentDraft.saved_tasks || {}).find(
+    (record) => record?.awaiting_issue_confirmation,
+  );
+  if (!pending?.task_id) {
+    return;
+  }
+  state.pendingIssueTaskId = pending.task_id;
+  showIssueReturnModal();
+}
+
+function clearPendingIssueConfirmation(taskId) {
+  if (!state.currentDraft || !taskId) {
+    return;
+  }
+  const record = state.currentDraft.saved_tasks?.[taskId];
+  if (!record?.awaiting_issue_confirmation) {
+    return;
+  }
+  delete record.awaiting_issue_confirmation;
+  touchDraft();
 }
 
 async function copySubmissionJsonToClipboard() {
@@ -7328,6 +7363,7 @@ function normalizeReviewDraft(parsed, pack) {
       overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
+      awaiting_issue_confirmation: Boolean(rawRecord?.awaiting_issue_confirmation),
     };
   }
 
