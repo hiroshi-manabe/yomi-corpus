@@ -11,11 +11,16 @@ from yomi_corpus.pipeline import PipelineWorkspace, STAGE_YOMI_FINALIZED, normal
 from yomi_corpus.yomi.config import load_yomi_generation_config
 from yomi_corpus.yomi.corpus_frequency import build_surface_reading_stats
 from yomi_corpus.yomi.decoder_corpus import export_decoder_corpus_file
+from yomi_corpus.yomi.stable_surface_lexicon import (
+    MODEL_STABLE_SURFACE_LEXICON_FILENAME,
+    build_stable_surface_lexicon,
+)
 
 
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
 MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
 MODEL_FREQUENCY_MANIFEST_FILENAME = "surface_reading_stats.manifest.json"
+MODEL_STABLE_SURFACE_MANIFEST_FILENAME = "stable_surface_readings.manifest.json"
 
 
 @dataclass(frozen=True)
@@ -31,6 +36,8 @@ class DecoderModelRefreshSummary:
     skip_kenlm: bool
     track_state_path: str
     refreshed_at: str
+    stable_surface_lexicon_artifact: str | None = None
+    stable_surface_lexicon_manifest: str | None = None
     build_stdout: str | None = None
     build_stderr: str | None = None
 
@@ -109,6 +116,16 @@ def refresh_decoder_model(
         surface_filter="target",
         checksum=True,
     )
+    stable_surface_path = model_dir / MODEL_STABLE_SURFACE_LEXICON_FILENAME
+    stable_surface_manifest_path = model_dir / MODEL_STABLE_SURFACE_MANIFEST_FILENAME
+    build_stable_surface_lexicon(
+        source_corpus=chosen_base_corpus,
+        additional_source_corpora=[Path(path) for path in exported_corpora],
+        output_tsv=stable_surface_path,
+        manifest_json=stable_surface_manifest_path,
+        source_corpus_version=f"{normalized_track}:{chosen_model_id}",
+        checksum=True,
+    )
 
     track_state = workspace.load_track_state(normalized_track)
     track_state.decoder_model_dir = str(model_dir)
@@ -123,6 +140,8 @@ def refresh_decoder_model(
         base_corpus=str(chosen_base_corpus),
         corpus_frequency_stats_artifact=str(frequency_stats_path),
         corpus_frequency_manifest=str(frequency_manifest_path),
+        stable_surface_lexicon_artifact=str(stable_surface_path),
+        stable_surface_lexicon_manifest=str(stable_surface_manifest_path),
         skip_kenlm=skip_kenlm,
         track_state_path=str(workspace.track_state_path(normalized_track)),
         refreshed_at=now_iso(),

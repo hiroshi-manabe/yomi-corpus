@@ -2259,6 +2259,7 @@ class PipelineWorkspace:
             output_jsonl=output_path,
             summary_json=summary_path,
             auto_accept_profile=auto_accept_profile,
+            decoder_model_dir=batch_state.decoder_model_dir,
         )
         return {
             "artifacts": {
@@ -2271,6 +2272,9 @@ class PipelineWorkspace:
                 "yomi_auto_accept_stable_two_kanji_enabled": str(
                     summary.stable_two_kanji_enabled
                 ).lower(),
+                "yomi_auto_accept_stable_surface_lexicon": str(
+                    getattr(summary, "stable_surface_lexicon_artifact", "") or ""
+                ),
             }
         }
 
@@ -2426,11 +2430,17 @@ class PipelineWorkspace:
                 "yomi_safety_pre_llm_targets": str(safety_summary.target_count),
                 "yomi_safety_pre_llm_safe": str(safety_summary.safe_targets),
                 "yomi_safety_pre_llm_unresolved": str(safety_summary.unresolved_targets),
+                "yomi_safety_pre_llm_stable_surface_safe": str(
+                    getattr(safety_summary, "stable_surface_lexicon_safe", 0)
+                ),
                 "yomi_safety_pre_llm_unit_auto_accept": str(
                     getattr(safety_summary, "unit_auto_accept_safe", 0)
                 ),
                 "yomi_safety_pre_llm_corpus_frequency_stats": str(
                     getattr(safety_summary, "corpus_frequency_stats_artifact", "") or ""
+                ),
+                "yomi_safety_pre_llm_stable_surface_lexicon": str(
+                    getattr(safety_summary, "stable_surface_lexicon_artifact", "") or ""
                 ),
                 "yomi_reading_input_jsonl": str(output_path),
                 "yomi_reading_queue_summary_json": str(summary_path),

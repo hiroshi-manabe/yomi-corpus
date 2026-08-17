@@ -14,7 +14,6 @@ from yomi_corpus.yomi.corpus_frequency import (
 )
 from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_items, is_standalone_laughter_w
 from yomi_corpus.yomi.ngram_diagnostics import (
-    DEFAULT_DECODER_LEXICON_PATH,
     DEFAULT_RAW_SUDACHI_DICT_DIR,
     StableTwoKanjiChecker,
 )
@@ -22,8 +21,12 @@ from yomi_corpus.yomi.numeric_surfaces import (
     allows_optional_japanese_numeral_reading,
     is_numeric_only_surface,
 )
+from yomi_corpus.yomi.stable_surface_lexicon import (
+    StableSurfaceReadingLexicon,
+    resolve_stable_surface_lexicon_artifact,
+)
 
-SAFETY_RULE = "per_target_pre_llm_safety_v2"
+SAFETY_RULE = "per_target_pre_llm_safety_v3"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
 MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
 
@@ -42,6 +45,9 @@ class YomiSafetySummary:
     summary_json: str
     corpus_frequency_stats_artifact: str | None
     corpus_frequency_source_version: str | None
+    stable_surface_lexicon_safe: int = 0
+    stable_surface_lexicon_artifact: str | None = None
+    stable_surface_source_version: str | None = None
     rule: str = SAFETY_RULE
 
 
@@ -60,13 +66,10 @@ def apply_yomi_safety_pre_llm_file(
     summary_json.parent.mkdir(parents=True, exist_ok=True)
 
     yomi_config = load_yomi_generation_config(yomi_config_path)
+    stable_surface_path = resolve_stable_surface_lexicon_artifact(decoder_model_dir)
     stable_checker = (
-        StableTwoKanjiChecker(
-            rows=[],
-            decoder_lexicon_path=DEFAULT_DECODER_LEXICON_PATH,
-            raw_sudachi_dict_dir=raw_sudachi_dict_dir,
-        )
-        if enable_stable_two_kanji
+        StableSurfaceReadingLexicon.load_tsv(stable_surface_path)
+        if enable_stable_two_kanji and stable_surface_path is not None
         else None
     )
     corpus_stats_path = resolve_corpus_frequency_stats_artifact(
@@ -80,6 +83,7 @@ def apply_yomi_safety_pre_llm_file(
     target_count = 0
     safe_targets = 0
     stable_two_kanji_safe = 0
+    stable_surface_lexicon_safe = 0
     corpus_frequency_safe = 0
     unit_auto_accept_safe = 0
 
@@ -102,6 +106,8 @@ def apply_yomi_safety_pre_llm_file(
                     safe_targets += 1
                 if "safe_by_stable_dictionary" in record["accepted_signal_names"]:
                     stable_two_kanji_safe += 1
+                if "safe_by_stable_surface_lexicon" in record["accepted_signal_names"]:
+                    stable_surface_lexicon_safe += 1
                 if "safe_by_corpus_frequency" in record["accepted_signal_names"]:
                     corpus_frequency_safe += 1
                 if "safe_by_unit_auto_accept" in record["accepted_signal_names"]:
@@ -125,6 +131,13 @@ def apply_yomi_safety_pre_llm_file(
         corpus_frequency_source_version=None
         if corpus_stats is None
         else corpus_stats.source_corpus_version,
+        stable_surface_lexicon_safe=stable_surface_lexicon_safe,
+        stable_surface_lexicon_artifact=None
+        if stable_checker is None
+        else stable_checker.artifact_path,
+        stable_surface_source_version=None
+        if stable_checker is None
+        else stable_checker.source_corpus_version,
     )
     summary_json.write_text(
         json.dumps(asdict(summary), ensure_ascii=False, indent=2) + "\n",
@@ -148,7 +161,7 @@ def resolve_corpus_frequency_stats_artifact(
 def build_pre_llm_safety_records(
     unit: dict[str, Any],
     *,
-    stable_checker: StableTwoKanjiChecker | None = None,
+    stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = None,
     corpus_stats: SurfaceReadingStats | None = None,
     corpus_frequency_min_count: int = 5,
     corpus_frequency_min_share: float = 0.95,
@@ -198,15 +211,32 @@ def build_pre_llm_safety_records(
 
         if stable_checker is not None:
             stable = stable_checker.judge(str(item["surface"]), str(item["current_reading"]))
+            stable_signal_name = (
+                "safe_by_stable_surface_lexicon"
+                if isinstance(stable_checker, StableSurfaceReadingLexicon)
+                else "safe_by_stable_dictionary"
+            )
+            evidence = getattr(stable, "evidence", None)
             signals.append(
                 {
-                    "name": "safe_by_stable_dictionary",
+                    "name": stable_signal_name,
                     "accepted": stable.value,
                     "reason": stable.reason,
+                    **(
+                        {}
+                        if evidence is None
+                        else {
+                            "count": evidence.count,
+                            "surface_total_count": evidence.surface_total_count,
+                            "share": evidence.share,
+                            "source_corpus_version": evidence.source_corpus_version,
+                            "artifact_path": stable_checker.artifact_path,
+                        }
+                    ),
                 }
             )
             if stable.value:
-                accepted_signal_names.append("safe_by_stable_dictionary")
+                accepted_signal_names.append(stable_signal_name)
 
         if corpus_stats is not None:
             token_surface = str(item.get("token_surface") or item["surface"])

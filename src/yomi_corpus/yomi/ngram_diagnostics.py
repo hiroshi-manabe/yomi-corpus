@@ -421,7 +421,7 @@ class StableTwoKanjiChecker:
 def analyze_hybrid_stable_two_kanji_row(
     row: dict[str, Any],
     *,
-    stable_checker: StableTwoKanjiChecker,
+    stable_checker: Any,
 ) -> dict[str, list[dict[str, Any]]]:
     text = str(row.get("text", ""))
     if has_alphabetic(text):

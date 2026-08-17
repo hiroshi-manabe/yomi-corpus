@@ -126,5 +126,13 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
     assert stats.rows_by_surface["学校"][0].count == 1
     stats_manifest = json.loads(stats_manifest_path.read_text(encoding="utf-8"))
     assert stats_manifest["source_corpus_paths"] == [str(base_corpus), str(corpus_path)]
+    stable_path = model_dir / "stable_surface_readings.tsv"
+    stable_manifest_path = model_dir / "stable_surface_readings.manifest.json"
+    assert summary.stable_surface_lexicon_artifact == str(stable_path)
+    assert summary.stable_surface_lexicon_manifest == str(stable_manifest_path)
+    assert stable_path.exists()
+    stable_manifest = json.loads(stable_manifest_path.read_text(encoding="utf-8"))
+    assert stable_manifest["source_corpus_paths"] == [str(base_corpus), str(corpus_path)]
+    assert stable_manifest["parameters"]["max_span_tokens"] == 4
     assert (model_dir / "build.stdout.log").read_text(encoding="utf-8").strip() == "fake stdout"
     assert (model_dir / "build.stderr.log").read_text(encoding="utf-8").strip() == "fake stderr"

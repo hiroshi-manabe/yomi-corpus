@@ -255,6 +255,54 @@ class YomiAcceptanceTests(unittest.TestCase):
             self.assertTrue(payload["stable_two_kanji_enabled"])
             self.assertEqual(payload["auto_accept_profile"], AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI)
 
+    def test_file_application_uses_pinned_stable_surface_lexicon(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            model_dir = root / "model"
+            model_dir.mkdir()
+            (model_dir / "stable_surface_readings.tsv").write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "min_span_tokens\tmax_span_tokens\tsegmentation_counts_json\t"
+                "source_corpus_version\n"
+                "一回\tイッカイ\t57\t57\t1\t1\t2\t[]\tfixture\n"
+                "株式会社\tカブシキガイシャ\t38\t38\t1\t1\t2\t[]\tfixture\n",
+                encoding="utf-8",
+            )
+            input_path = root / "input.jsonl"
+            output_path = root / "output.jsonl"
+            summary_path = root / "summary.json"
+            rows = []
+            for text, rendered in [
+                ("株式会社です。", "株式会社/カブシキガイシャ です/デス 。/。"),
+                ("一回です。", "一回/イチカイ です/デス 。/。"),
+            ]:
+                entries = fully_supported_entries(rendered)
+                entries[0]["final_order"] = 1
+                entries[0]["piece_orders"] = [1]
+                rows.append(unit(text, rendered, entries=entries))
+            input_path.write_text(
+                "\n".join(json.dumps(row, ensure_ascii=False) for row in rows) + "\n",
+                encoding="utf-8",
+            )
+
+            summary = apply_yomi_auto_acceptance_file(
+                input_jsonl=input_path,
+                output_jsonl=output_path,
+                summary_json=summary_path,
+                auto_accept_profile=AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI,
+                decoder_model_dir=model_dir,
+            )
+
+            results = [json.loads(line) for line in output_path.read_text().splitlines()]
+            self.assertTrue(results[0]["analysis"]["mechanical"]["yomi"]["auto_accept"]["value"])
+            self.assertFalse(results[1]["analysis"]["mechanical"]["yomi"]["auto_accept"]["value"])
+            self.assertEqual(summary.accepted, 1)
+            self.assertEqual(summary.rejected, 1)
+            self.assertEqual(
+                summary.stable_surface_lexicon_artifact,
+                str(model_dir / "stable_surface_readings.tsv"),
+            )
+
 
 def make_stable_checker(raw_csv: str) -> StableTwoKanjiChecker:
     tmp = tempfile.TemporaryDirectory()

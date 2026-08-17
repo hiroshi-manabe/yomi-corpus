@@ -17,6 +17,7 @@ from yomi_corpus.yomi.safety import (
     resolve_corpus_frequency_stats_artifact,
     set_yomi_safety_records,
 )
+from yomi_corpus.yomi.stable_surface_lexicon import StableSurfaceReadingLexicon
 
 
 def unit() -> dict:
@@ -72,6 +73,47 @@ def unit() -> dict:
 
 
 class YomiSafetyTests(unittest.TestCase):
+    def test_stable_surface_lexicon_rejects_wrong_mechanical_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "source_corpus_version\n"
+                "一回\tイッカイ\t57\t57\t1\tfixture\n",
+                encoding="utf-8",
+            )
+            payload = {
+                "unit_id": "u-ikkai",
+                "text": "一回です。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "sudachi": {
+                                "tokens": [
+                                    token("一回", "イチカイ"),
+                                    token("です", "デス"),
+                                    token("。", "。"),
+                                ]
+                            }
+                        }
+                    }
+                },
+            }
+
+            records = build_pre_llm_safety_records(
+                payload,
+                stable_checker=StableSurfaceReadingLexicon.load_tsv(artifact),
+            )
+
+            record = next(row for row in records if row["surface"] == "一回")
+            signal = next(
+                row for row in record["signals"]
+                if row["name"] == "safe_by_stable_surface_lexicon"
+            )
+            self.assertFalse(record["is_safe"])
+            self.assertFalse(signal["accepted"])
+            self.assertEqual(signal["reason"], "stable_surface_reading_mismatch:イッカイ")
+
     def test_single_japanese_numeral_does_not_prefer_no_ruby(self) -> None:
         payload = {
             "unit_id": "u-single-numeral",

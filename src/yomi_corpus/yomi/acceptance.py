@@ -12,8 +12,12 @@ from yomi_corpus.yomi.ngram_diagnostics import (
     analyze_hybrid_stable_two_kanji_row,
 )
 from yomi_corpus.yomi.numeric_surfaces import is_numeric_only_surface
+from yomi_corpus.yomi.stable_surface_lexicon import (
+    StableSurfaceReadingLexicon,
+    resolve_stable_surface_lexicon_artifact,
+)
 
-AUTO_ACCEPT_RULE = "sudachi_decoder_agree_repeated_ngram_or_stable_two_kanji_support_v2"
+AUTO_ACCEPT_RULE = "sudachi_decoder_agree_repeated_ngram_or_stable_surface_support_v3"
 AUTO_ACCEPT_PROFILE_OFF = "off"
 AUTO_ACCEPT_PROFILE_STRICT = "strict"
 AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI = "stable_two_kanji"
@@ -44,13 +48,14 @@ class YomiAutoAcceptSummary:
     rule: str
     auto_accept_profile: str
     stable_two_kanji_enabled: bool
+    stable_surface_lexicon_artifact: str | None = None
 
 
 def judge_yomi_auto_accept(
     unit: dict[str, Any],
     *,
     auto_accept_profile: str = AUTO_ACCEPT_PROFILE_STRICT,
-    stable_two_kanji_checker: StableTwoKanjiChecker | None = None,
+    stable_two_kanji_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = None,
 ) -> YomiAutoAcceptance:
     if auto_accept_profile not in AUTO_ACCEPT_PROFILES:
         raise ValueError(f"Unsupported yomi auto-accept profile: {auto_accept_profile}")
@@ -104,12 +109,17 @@ def judge_yomi_auto_accept(
         signals.append("decoder_lacks_full_repeated_ngram_support")
 
     has_stable_two_kanji_support = False
+    stable_signal_prefix = (
+        "stable_surface_lexicon"
+        if isinstance(stable_two_kanji_checker, StableSurfaceReadingLexicon)
+        else "stable_two_kanji"
+    )
     if auto_accept_profile != AUTO_ACCEPT_PROFILE_STABLE_TWO_KANJI:
-        signals.append("stable_two_kanji_relaxation_disabled")
+        signals.append(f"{stable_signal_prefix}_relaxation_disabled")
     elif stable_two_kanji_checker is None:
-        signals.append("stable_two_kanji_relaxation_disabled")
+        signals.append("stable_surface_lexicon_relaxation_unavailable")
     elif top_candidate is None:
-        signals.append("stable_two_kanji_relaxation_unavailable")
+        signals.append(f"{stable_signal_prefix}_relaxation_unavailable")
     else:
         stable_result = analyze_hybrid_stable_two_kanji_row(
             unit,
@@ -117,14 +127,14 @@ def judge_yomi_auto_accept(
         )
         stable_spans = stable_result.get("spans", [])
         if not stable_spans:
-            signals.append("stable_two_kanji_relaxation_no_spans")
+            signals.append(f"{stable_signal_prefix}_relaxation_no_spans")
         elif all(span.get("relaxed_pass") for span in stable_spans):
             has_stable_two_kanji_support = True
-            signals.append("decoder_full_support_with_stable_two_kanji_relaxation")
+            signals.append(f"decoder_full_support_with_{stable_signal_prefix}_relaxation")
             if any(span.get("newly_pass") for span in stable_spans):
-                signals.append("stable_two_kanji_relaxation_used")
+                signals.append(f"{stable_signal_prefix}_relaxation_used")
         else:
-            signals.append("stable_two_kanji_relaxation_failed")
+            signals.append(f"{stable_signal_prefix}_relaxation_failed")
 
     accepted = all(
         signal in signals
@@ -192,6 +202,7 @@ def apply_yomi_auto_acceptance_file(
     auto_accept_profile: str = AUTO_ACCEPT_PROFILE_STRICT,
     enable_stable_two_kanji: bool = False,
     raw_sudachi_dict_dir: Path = DEFAULT_RAW_SUDACHI_DICT_DIR,
+    decoder_model_dir: str | Path | None = None,
 ) -> YomiAutoAcceptSummary:
     if auto_accept_profile not in AUTO_ACCEPT_PROFILES:
         raise ValueError(f"Unsupported yomi auto-accept profile: {auto_accept_profile}")
@@ -211,15 +222,19 @@ def apply_yomi_auto_acceptance_file(
     written = 0
     accepted = 0
     rejected = 0
-    stable_checker = (
-        StableTwoKanjiChecker(
+    stable_surface_path = resolve_stable_surface_lexicon_artifact(decoder_model_dir)
+    if enable_stable_two_kanji and stable_surface_path is not None:
+        stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = (
+            StableSurfaceReadingLexicon.load_tsv(stable_surface_path)
+        )
+    elif enable_stable_two_kanji and decoder_model_dir is None:
+        stable_checker = StableTwoKanjiChecker(
             rows=[],
             decoder_lexicon_path=DEFAULT_DECODER_LEXICON_PATH,
             raw_sudachi_dict_dir=raw_sudachi_dict_dir,
         )
-        if enable_stable_two_kanji
-        else None
-    )
+    else:
+        stable_checker = None
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
             if not line.strip():
@@ -249,6 +264,9 @@ def apply_yomi_auto_acceptance_file(
         rule=AUTO_ACCEPT_RULE,
         auto_accept_profile=auto_accept_profile,
         stable_two_kanji_enabled=enable_stable_two_kanji,
+        stable_surface_lexicon_artifact=None
+        if not isinstance(stable_checker, StableSurfaceReadingLexicon)
+        else stable_checker.artifact_path,
     )
     summary_json.write_text(
         json.dumps(asdict(summary), ensure_ascii=False, indent=2) + "\n",
