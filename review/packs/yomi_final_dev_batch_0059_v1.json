@@ -18,7 +18,7 @@
     },
     "unresolved_item_count": 39,
     "unresolved_target_count": 49,
-    "interaction_span_count": 1562,
+    "interaction_span_count": 1561,
     "provisional_skip_item_count": 1
   },
   "documents": [
@@ -438193,16 +438193,8 @@
       "text": "〇〇をきっかけに売り上げが右肩上がり？",
       "ruby_segments": [
         {
-          "type": "ruby",
-          "text": "〇〇",
-          "target_item_id": "ja_cc_level2:0000000562:u0021:s0001-0002",
-          "reading": null,
-          "is_safe": true,
-          "highlight_level": "none"
-        },
-        {
           "type": "text",
-          "text": "をきっかけに"
+          "text": "〇〇をきっかけに"
         },
         {
           "type": "ruby",
@@ -438358,74 +438350,11 @@
       "skip_reasons": [],
       "manual_correction_required": false,
       "manual_correction": {},
-      "target_count": 5,
-      "safe_target_count": 5,
+      "target_count": 4,
+      "safe_target_count": 4,
       "unresolved_target_count": 0,
       "all_targets_safe": true,
       "targets": [
-        {
-          "item_id": "ja_cc_level2:0000000562:u0021:j0001",
-          "surface": "〇〇",
-          "token_surface": "〇〇",
-          "target_start": 0,
-          "target_end": 2,
-          "token_index": 0,
-          "chunk_index": 0,
-          "current_reading": null,
-          "current_reading_hiragana": null,
-          "token_dictionary_form": null,
-          "token_sudachi_reading": null,
-          "token_pos": null,
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "accepted_signal_names": [
-            "safe_by_no_ruby_numeric_surface"
-          ],
-          "status_reason": "accepted_numeric_no_ruby_default",
-          "allows_intentional_no_ruby": true,
-          "default_candidate_id": "accepted_none",
-          "default_choice_source": "none",
-          "default_reading": null,
-          "candidates": [
-            {
-              "id": "none",
-              "source": "none",
-              "label": "Unresolved; escalate",
-              "reading": null,
-              "accepted": false,
-              "no_ruby_state": "unresolved",
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "〇〇"
-                }
-              ]
-            },
-            {
-              "id": "accepted_none",
-              "source": "none",
-              "label": "Intentionally no ruby",
-              "reading": null,
-              "accepted": true,
-              "no_ruby_state": "intentional",
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "〇〇"
-                }
-              ]
-            }
-          ],
-          "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            }
-          ]
-        },
         {
           "item_id": "ja_cc_level2:0000000562:u0021:r0005c01",
           "surface": "売",
@@ -439025,67 +438954,6 @@
       ],
       "interaction_spans": [
         {
-          "item_id": "ja_cc_level2:0000000562:u0021:s0001-0002",
-          "span_id": "ja_cc_level2:0000000562:u0021:s0001-0002",
-          "surface": "〇〇",
-          "token_surface": "〇〇",
-          "target_start": 0,
-          "target_end": 2,
-          "token_index": 0,
-          "chunk_index": 0,
-          "current_reading": "",
-          "current_reading_hiragana": null,
-          "is_safe": true,
-          "review_status": "safe",
-          "highlight_level": "none",
-          "default_candidate_id": "accepted_none",
-          "default_choice_source": "none",
-          "default_reading": null,
-          "candidates": [
-            {
-              "id": "none",
-              "source": "none",
-              "label": "Unresolved; escalate",
-              "reading": null,
-              "tokens": [],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "〇〇"
-                }
-              ],
-              "accepted": false,
-              "no_ruby_state": "unresolved"
-            },
-            {
-              "id": "accepted_none",
-              "source": "none",
-              "label": "Intentionally no ruby",
-              "reading": null,
-              "tokens": [],
-              "ruby_nodes": [
-                {
-                  "type": "text",
-                  "text": "〇〇"
-                }
-              ],
-              "accepted": true,
-              "no_ruby_state": "intentional"
-            }
-          ],
-          "legacy_target_item_ids": [
-            "ja_cc_level2:0000000562:u0021:j0001"
-          ],
-          "signals": [
-            {
-              "name": "safe_by_no_ruby_numeric_surface",
-              "accepted": true,
-              "reason": "numeric_surface_uses_separate_reading_layer",
-              "preferred_choice_source": "none"
-            }
-          ]
-        },
-        {
           "item_id": "ja_cc_level2:0000000562:u0021:s0009-0012",
           "span_id": "ja_cc_level2:0000000562:u0021:s0009-0012",
           "surface": "売り上げ",
@@ -439589,7 +439457,7 @@
           ]
         }
       ],
-      "interaction_span_count": 4,
+      "interaction_span_count": 3,
       "reading_hints": {
         "売": "う",
         "上": "あ",
