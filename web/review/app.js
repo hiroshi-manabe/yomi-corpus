@@ -112,6 +112,7 @@ async function boot() {
       preferredPackId: initialTarget.packId,
     });
   }
+  restorePendingIssueConfirmation();
   startRuntimeStatusPolling();
 }
 
@@ -266,19 +267,23 @@ function bindEvents() {
   });
 
   el.markSubmitted?.addEventListener("click", () => {
+    const pendingTaskId = state.pendingIssueTaskId;
     if (state.pendingArchiveCorrectionKey) {
       markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
-    } else if (state.pendingIssueTaskId) {
-      markSavedTaskSubmitted(state.pendingIssueTaskId);
+    } else if (pendingTaskId) {
+      markSavedTaskSubmitted(pendingTaskId);
     }
     state.pendingIssueTaskId = null;
     state.pendingArchiveCorrectionKey = null;
+    clearPendingIssueConfirmation(pendingTaskId);
     hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
+    const pendingTaskId = state.pendingIssueTaskId;
     state.pendingIssueTaskId = null;
     state.pendingArchiveCorrectionKey = null;
+    clearPendingIssueConfirmation(pendingTaskId);
     hideIssueReturnModal();
     showStatus("Issueは提出済みにされませんでした。ローカルの作業内容は残っています。");
   });
@@ -389,7 +394,7 @@ async function openPack(stageId, packId) {
   state.currentPack = pack;
   state.currentDraft = loadDraft(pack);
   updateLocation(stageId, packId);
-  render();
+  render({ scrollToTop: isTaskStarted() });
 }
 
 async function openUnifiedReview() {
@@ -416,7 +421,7 @@ async function openUnifiedReview() {
   state.unifiedSources = sources;
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
-  render();
+  render({ scrollToTop: isTaskStarted() });
   updateRuntimePollingForInteraction();
 }
 
@@ -430,9 +435,9 @@ async function openArchiveBrowser() {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
   state.archiveCurrentTrack = "dev";
-  const firstShard = state.archiveIndex?.tracks?.[state.archiveCurrentTrack]?.shards?.[0] || null;
-  state.archiveCurrentShard = firstShard ? await fetchJson(firstShard.path) : null;
-  state.archiveCurrentShardPath = firstShard?.path || "";
+  const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
+  state.archiveCurrentShard = { documents: track.documents || [] };
+  state.archiveCurrentShardPath = "";
   state.currentPackMeta = {
     pack_id: "archive_browser",
     title: "確定済みコーパス",
@@ -452,12 +457,6 @@ async function openArchiveBrowser() {
   updateLocation("archive_browser", "archive_browser");
   render();
   updateRuntimePollingForInteraction();
-}
-
-async function openArchiveShard(shard) {
-  state.archiveCurrentShard = await fetchJson(shard.path);
-  state.archiveCurrentShardPath = shard.path || "";
-  render();
 }
 
 function activeDevYomiReviewSources() {
@@ -653,7 +652,7 @@ function documentBelongsToQueue(queueStage, doc) {
   return Boolean(doc?.selectable);
 }
 
-function render() {
+function render({ scrollToTop = false } = {}) {
   if (state.currentStageId !== "archive_browser") {
     syncLocalTaskRecordsForCurrentPack();
   }
@@ -662,6 +661,24 @@ function render() {
   renderItems();
   renderControlState();
   renderSubmissionPreview();
+  if (scrollToTop) {
+    scrollReviewPageToTop();
+  }
+}
+
+function scrollReviewPageToTop() {
+  const reset = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTop = 0;
+      document.scrollingElement.scrollLeft = 0;
+    }
+  };
+  if (typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(reset);
+  } else {
+    reset();
+  }
 }
 
 function renderTaskSelector() {
@@ -696,7 +713,7 @@ function renderTaskSelector() {
   renderSavedTaskDrafts(actionableDocs);
   el.taskDocList.innerHTML = "";
   if (isUnifiedReviewPack(state.currentPack)) {
-    renderWorkflowTaskDashboard(docs, actionableDocs, task);
+    renderWorkflowTaskDashboard(withSubmittedProcessingPlaceholders(docs), actionableDocs, task);
     el.taskSummary.textContent = "キューを一つ選び、その中から文書を選択してレビューを開始してください。";
     el.startTask.disabled = true;
     el.clearDocSelection.disabled = true;
@@ -733,14 +750,8 @@ function renderArchiveBrowserPanel() {
   el.clearDocSelection.disabled = true;
   el.startTask.disabled = true;
   const track = state.archiveIndex?.tracks?.[state.archiveCurrentTrack] || {};
-  const shards = track.shards || [];
   if (!state.archiveCurrentShard) {
-    el.taskSummary.textContent = shards.length
-      ? "下から確定済みコーパスの範囲を選択してください。"
-      : "確定済み文書はまだ公開されていません。";
-    for (const shard of shards) {
-      el.taskDocList.append(renderArchiveShardRow(shard));
-    }
+    el.taskSummary.textContent = "確定済み文書はまだ公開されていません。";
     return;
   }
   const docs = state.archiveCurrentShard.documents || [];
@@ -929,16 +940,7 @@ async function openArchiveSearchResult(result, query) {
   if (!shardPath) {
     throw new Error("検索結果にアーカイブの保存先がありません。");
   }
-  if (!state.archiveCurrentShard || state.archiveCurrentShardPath !== shardPath) {
-    state.archiveCurrentShard = await fetchJson(shardPath);
-    state.archiveCurrentShardPath = shardPath;
-    render();
-  }
-  const doc = (state.archiveCurrentShard.documents || []).find(
-    (candidate) =>
-      String(candidate.doc_id || "") === String(result.doc_id || "") &&
-      Number(candidate.track_doc_seq || 0) === Number(result.track_doc_seq || 0),
-  );
+  const doc = await loadArchiveDocument(result);
   if (!doc) {
     throw new Error("アーカイブ内に文書が見つかりません。");
   }
@@ -1025,22 +1027,6 @@ function scrollArchiveCorrectionToFirstMatch(doc, query) {
   });
 }
 
-function renderArchiveShardRow(shard) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "task-doc-row archive-shard-row";
-  button.innerHTML = `
-    <span class="task-doc-title">文書 ${escapeHtml(shard.start_track_doc_seq)}-${escapeHtml(shard.end_track_doc_seq)}</span>
-    <span class="task-doc-meta">${Number(shard.document_count || 0)}文書</span>
-  `;
-  button.addEventListener("click", () => {
-    openArchiveShard(shard).catch((error) => {
-      showStatus(`アーカイブを開けませんでした: ${error.message}`, true);
-    });
-  });
-  return button;
-}
-
 function renderCorpusMapTileGrid(docs) {
   const wrap = document.createElement("div");
   wrap.className = "workflow-tile-grid corpus-map-grid";
@@ -1066,14 +1052,24 @@ function renderCorpusMapTileGrid(docs) {
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
-    tile.addEventListener("click", () =>
-      openArchiveCorrectionEditor(doc, {
+    tile.addEventListener("click", () => {
+      openArchiveDocumentSummary(doc, {
         scrollToManualCorrection: manualCorrectionCount > 0,
-      }),
-    );
+      }).catch((error) => {
+        showStatus(`確定済み文書を開けませんでした: ${error.message}`, true);
+      });
+    });
     wrap.append(tile);
   }
   return wrap;
+}
+
+async function openArchiveDocumentSummary(summary, options = {}) {
+  const doc = await loadArchiveDocument(summary);
+  if (!doc) {
+    throw new Error("アーカイブ内に文書が見つかりません。");
+  }
+  openArchiveCorrectionEditor(doc, options);
 }
 
 function formatArchiveCorrectionSummary(count, sentenceCount) {
@@ -1140,6 +1136,21 @@ function archiveCorrectionRecordForDoc(doc) {
     saveArchiveCorrectionStore(store);
   }
   const currentRecord = store.records[key];
+  const appliedSubmissionIds = new Set(
+    doc.applied_finalized_correction_submission_ids || [],
+  );
+  if (
+    currentRecord.status === "submitted" &&
+    currentRecord.submission_id &&
+    appliedSubmissionIds.has(currentRecord.submission_id)
+  ) {
+    delete store.records[key];
+    saveArchiveCorrectionStore(store);
+    return null;
+  }
+  if (!Array.isArray(doc.units)) {
+    return currentRecord;
+  }
   const currentUnits = new Map((doc.units || []).map((unit) => [String(unit.unit_id || ""), unit]));
   if (
     currentRecord.status === "submitted" &&
@@ -1214,7 +1225,7 @@ function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
     doc_id: doc.doc_id || "",
     track_doc_seq: Number(doc.track_doc_seq || 0) || null,
     batch_name: doc.batch_name || "",
-    archive_shard: state.archiveCurrentShardPath || "",
+    archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
     base_archive_revision: doc.archive_revision || "",
     status: "draft",
     units: parsed.changedUnits,
@@ -1982,7 +1993,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
     base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
     source: {
       archive_index_path: state.manifest?.archive?.index_path || "",
-      archive_shard: state.archiveCurrentShardPath || "",
+      archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
       page_url: window.location.href,
     },
     units: parsed.changedUnits,
@@ -2357,14 +2368,28 @@ async function loadArchivedWorkflowDocument(row) {
   if (!state.archiveIndex) {
     state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
   }
-  const trackName = state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev";
+  return loadArchiveDocument({
+    track_name: state.currentPack?.track_name || state.currentPackMeta?.track_name || "dev",
+    track_doc_seq: Number(row.display_seq || 0),
+    doc_id: row.doc_id || "",
+  });
+}
+
+async function loadArchiveDocument(summary) {
+  if (!state.archiveIndex) {
+    state.archiveIndex = await fetchJson(state.manifest.archive.index_path);
+  }
+  const trackName = summary.track_name || state.archiveCurrentTrack || "dev";
   const track = state.archiveIndex?.tracks?.[trackName];
-  const displaySeq = Number(row.display_seq || 0);
-  const shard = (track?.shards || []).find(
-    (candidate) =>
-      displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
-      displaySeq <= Number(candidate.end_track_doc_seq || 0),
-  );
+  const displaySeq = Number(summary.track_doc_seq || summary.display_seq || 0);
+  const shardPath = String(summary.shard_path || "");
+  const shard = shardPath
+    ? { path: shardPath }
+    : (track?.shards || []).find(
+        (candidate) =>
+          displaySeq >= Number(candidate.start_track_doc_seq || 0) &&
+          displaySeq <= Number(candidate.end_track_doc_seq || 0),
+      );
   if (!shard?.path) {
     return null;
   }
@@ -2373,11 +2398,12 @@ async function loadArchivedWorkflowDocument(row) {
     payload = await fetchJson(shard.path);
     state.archiveShardCache.set(shard.path, payload);
   }
-  return (payload.documents || []).find(
+  const doc = (payload.documents || []).find(
     (doc) =>
       Number(doc.track_doc_seq || 0) === displaySeq &&
-      (!row.doc_id || String(doc.doc_id || "") === String(row.doc_id)),
+      (!summary.doc_id || String(doc.doc_id || "") === String(summary.doc_id)),
   ) || null;
+  return doc ? { ...doc, archive_shard: shard.path } : null;
 }
 
 function renderArchivedWorkflowDocumentPreview(doc, container) {
@@ -2732,6 +2758,41 @@ function workflowDocumentStates(docs) {
   return [...bySeq.values()].sort((left, right) => left.display_seq - right.display_seq);
 }
 
+function withSubmittedProcessingPlaceholders(docs) {
+  const result = [...docs];
+  const existing = new Set(docs.map((doc) => taskDocKey(doc)));
+  for (const record of listSavedTaskDrafts()) {
+    if (taskRecordStatus(record) !== "submitted") {
+      continue;
+    }
+    for (const ref of record.document_refs || []) {
+      const taskKey = String(ref.task_doc_id || "");
+      if (!taskKey || existing.has(taskKey) || finalizedArchiveContainsDocumentRef(ref)) {
+        continue;
+      }
+      const queueStage = ref.queue_stage || record.queue_stage || stageFromTaskDocId(taskKey);
+      result.push({
+        doc_id: ref.doc_id || baseDocIdFromTaskDocId(taskKey),
+        task_doc_id: taskKey,
+        queue_stage: queueStage,
+        doc_seq: Number(ref.doc_seq || ref.track_doc_seq || 0),
+        track_doc_seq: Number(ref.track_doc_seq || ref.doc_seq || 0),
+        item_count: Number(ref.item_count || 0),
+        unresolved_count: Number(ref.unresolved_count || 0),
+        state: queueStage === "yomi_strong_repair_review" ? "strong_reviewed" : "final_reviewed",
+        workflow_state: queueStage === "yomi_strong_repair_review"
+          ? "escalated_submitted"
+          : "bulk_submitted",
+        queue_member: true,
+        selectable: false,
+        preview: ref.preview || "",
+      });
+      existing.add(taskKey);
+    }
+  }
+  return result;
+}
+
 function documentIsResolved(doc) {
   if (isUnifiedReviewPack(state.currentPack) || doc?.awaiting_finalization) {
     return false;
@@ -2978,10 +3039,19 @@ function renderSavedTaskGroup(titleText, records, docs) {
 
     const button = document.createElement("button");
     button.type = "button";
+    const submitted = taskRecordStatus(record) === "submitted";
+    const currentDocs = buildDocumentTasks(state.currentPack);
+    const canReopenSubmitted = !submitted || (record.task?.doc_ids || []).some((docId) => {
+      const doc = currentDocs.find((candidate) => taskDocKey(candidate) === String(docId));
+      return doc && !docIsProcessingOnServer(doc);
+    });
     button.textContent =
-      taskRecordStatus(record) === "submitted"
-        ? `${localizedTaskLabel(record.task_label || "タスク")}を再度開く`
+      submitted
+        ? canReopenSubmitted
+          ? `${localizedTaskLabel(record.task_label || "タスク")}を再度開く`
+          : "サーバー処理中"
         : `${localizedTaskLabel(record.task_label || "タスク")}に戻る`;
+    button.disabled = !canReopenSubmitted;
     button.addEventListener("click", () => {
       resumeTaskDraft(record.task_id);
     });
@@ -3821,10 +3891,30 @@ function strongRepairReadingCycleCandidates(item, surface) {
   return values;
 }
 
+function isVariationSelector(char) {
+  const codePoint = String(char || "").codePointAt(0);
+  return Number.isInteger(codePoint) && (
+    (codePoint >= 0xfe00 && codePoint <= 0xfe0f) ||
+    (codePoint >= 0xe0100 && codePoint <= 0xe01ef)
+  );
+}
+
+function reviewSurfaceGraphemes(surface) {
+  const graphemes = [];
+  for (const char of Array.from(surface || "")) {
+    if (isVariationSelector(char) && graphemes.length) {
+      graphemes[graphemes.length - 1] += char;
+    } else {
+      graphemes.push(char);
+    }
+  }
+  return graphemes;
+}
+
 function renderStrongRepairSplitControls(item, region, segments) {
   const wrap = document.createElement("span");
   wrap.className = "split-controls";
-  const chars = Array.from(region.rejected_span || "");
+  const chars = reviewSurfaceGraphemes(region.rejected_span);
   const indexes = strongRepairSplitIndexes(segments);
   for (let index = 0; index < chars.length; index += 1) {
     const charSpan = document.createElement("span");
@@ -3849,12 +3939,15 @@ function strongRepairSplitIndexes(segments) {
   const indexes = new Set();
   let cursor = 0;
   for (const segment of segments || []) {
-    cursor += Array.from(segment.surface || "").length;
+    cursor += reviewSurfaceGraphemes(segment.surface).length;
     indexes.add(cursor);
   }
   indexes.delete(0);
   indexes.delete(
-    (segments || []).reduce((total, segment) => total + Array.from(segment.surface || "").length, 0)
+    (segments || []).reduce(
+      (total, segment) => total + reviewSurfaceGraphemes(segment.surface).length,
+      0,
+    )
   );
   return indexes;
 }
@@ -3878,7 +3971,7 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
     indexes.add(boundaryIndex);
   }
   const ordered = [...indexes].sort((a, b) => a - b);
-  const chars = Array.from(region.rejected_span || "");
+  const chars = reviewSurfaceGraphemes(region.rejected_span);
   let start = 0;
   const surfaces = [];
   for (const end of [...ordered, chars.length]) {
@@ -4607,7 +4700,22 @@ function targetForRubySegment(segment, targetsById) {
 
 function isNoRubyTarget(target, override) {
   const targetDraft = override?.targets?.[target.item_id] || null;
-  return selectedCandidate(target, targetDraft)?.source === "none";
+  return isUnresolvedNoRubyCandidate(selectedCandidate(target, targetDraft));
+}
+
+function noRubyState(candidate) {
+  if (candidate?.source !== "none") {
+    return "";
+  }
+  return candidate.no_ruby_state || (candidate.accepted ? "intentional" : "unresolved");
+}
+
+function isUnresolvedNoRubyCandidate(candidate) {
+  return noRubyState(candidate) === "unresolved";
+}
+
+function isIntentionalNoRubyCandidate(candidate) {
+  return noRubyState(candidate) === "intentional";
 }
 
 function isKanaMergeEligibleTarget(target) {
@@ -4646,7 +4754,7 @@ function renderedYomiTokenSpans(item) {
 }
 
 function hasNoRubyCandidate(target) {
-  return (target?.candidates || []).some((candidate) => candidate.source === "none");
+  return (target?.candidates || []).some(isUnresolvedNoRubyCandidate);
 }
 
 function renderRepairBridgeButton(item, opportunity, override, editable) {
@@ -4852,12 +4960,21 @@ function renderRubySpan(item, target, override, editable) {
   button.classList.toggle("unresolved", !target.is_safe);
   button.classList.toggle("safe", Boolean(target.is_safe));
   button.classList.toggle("changed", Boolean(targetDraft));
+  button.classList.toggle("no-ruby-unresolved", isUnresolvedNoRubyCandidate(candidate));
+  button.classList.toggle("no-ruby-intentional", isIntentionalNoRubyCandidate(candidate));
   button.disabled = !editable;
   button.title = rubyTitle(target, candidate);
 
   const numericNodes = numericKanaSuffixRubyNodes(target.surface, candidate?.reading);
   if (numericNodes) {
     button.append(...renderRubyDisplayNodes(numericNodes));
+  } else if (candidate?.source === "none") {
+    const ruby = document.createElement("ruby");
+    ruby.append(document.createTextNode(target.surface));
+    const rt = document.createElement("rt");
+    rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";
+    ruby.append(rt);
+    button.append(ruby);
   } else if (candidate?.ruby_nodes?.length) {
     button.append(...renderRubyDisplayNodes(candidate.ruby_nodes));
   } else if (candidate?.reading) {
@@ -4899,7 +5016,7 @@ function renderRubySpan(item, target, override, editable) {
         suppressNextClick = false;
         return;
       }
-      cycleYomiTarget(item, target, candidate);
+      cycleYomiTarget(item, target, candidate, elementAnchorRect(button));
     });
   }
   return button;
@@ -4951,11 +5068,16 @@ function defaultCandidate(target) {
 }
 
 function rubyTitle(target, candidate) {
-  const reading = candidate?.reading ? ` / ${candidate.reading}` : " / ルビなし";
+  let reading = candidate?.reading ? ` / ${candidate.reading}` : " / ルビなし";
+  if (isIntentionalNoRubyCandidate(candidate)) {
+    reading = " / ルビなし（確定）";
+  } else if (isUnresolvedNoRubyCandidate(candidate)) {
+    reading = " / 未解決・要修正";
+  }
   return `${target.surface}${reading}`;
 }
 
-function cycleYomiTarget(item, target, currentCandidate) {
+function cycleYomiTarget(item, target, currentCandidate, anchorRect = null) {
   const candidates = yomiCycleCandidates(target);
   if (candidates.length === 0) {
     return;
@@ -4964,7 +5086,7 @@ function cycleYomiTarget(item, target, currentCandidate) {
     (candidate) => candidateKey(candidate) === candidateKey(currentCandidate)
   );
   const next = candidates[(currentIndex + 1 + candidates.length) % candidates.length];
-  applyYomiCandidate(item, target, next);
+  applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect);
 }
 
 function yomiCycleCandidates(target) {
@@ -4983,15 +5105,19 @@ function yomiCycleCandidates(target) {
 }
 
 function toggleYomiNoRubyDefault(item, target, currentCandidate, anchorRect = null) {
-  const noneCandidate = candidateForSource(target, "none");
+  const noneCandidate = candidateForId(target, "none") || candidateForSource(target, "none");
   const defaultChoice = defaultCandidate(target);
-  const next = currentCandidate?.source === "none" ? defaultChoice : noneCandidate;
+  const next = isUnresolvedNoRubyCandidate(currentCandidate) ? defaultChoice : noneCandidate;
   if (!next) {
     return;
   }
+  applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect);
+}
+
+function applyYomiCandidateWithRepeatedCancellation(item, target, next, anchorRect = null) {
   const previousOverride = cloneDraftValue(state.currentDraft.overrides[item.item_id] || null);
   applyYomiCandidate(item, target, next);
-  if (next.source === "none") {
+  if (isUnresolvedNoRubyCandidate(next)) {
     registerRepeatedCancellation(item, target, previousOverride, anchorRect);
   } else if (state.repeatCancellation?.targetIds?.has(target.item_id)) {
     dismissRepeatedCancellation();
@@ -5125,7 +5251,9 @@ function positionRepeatedCancellationBar(anchorRect) {
   const viewportWidth = viewport?.width || window.innerWidth;
   const viewportHeight = viewport?.height || window.innerHeight;
   const margin = 10;
-  const gap = 8;
+  // Leave enough separation that the popover does not visually cover the
+  // cancelled ruby target, especially on a zoomed touch viewport.
+  const gap = 16;
   bar.style.width = `${Math.max(140, Math.min(680, viewportWidth - margin * 2))}px`;
   bar.style.left = `${viewportLeft + margin}px`;
   bar.style.top = `${viewportTop + margin}px`;
@@ -5240,12 +5368,12 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
 }
 
 function targetMatchesCancellationSpec(item, target, spec) {
-  if ((target.surface || "") !== spec.surface || !candidateForSource(target, "none")) {
+  if ((target.surface || "") !== spec.surface || !candidateForId(target, "none")) {
     return false;
   }
   const draft = state.currentDraft.overrides[item.item_id];
   const selected = selectedCandidate(target, draft?.targets?.[target.item_id] || null);
-  return selected?.source !== "none";
+  return !isUnresolvedNoRubyCandidate(selected);
 }
 
 function mergeOperationFitsItem(item, origin, operation) {
@@ -5272,7 +5400,7 @@ function applyRepeatedCancellation() {
     }
     const draft = ensureYomiOverride(match.item.item_id);
     match.targets.forEach((target) => {
-      const none = candidateForSource(target, "none");
+      const none = candidateForId(target, "none") || candidateForSource(target, "none");
       draft.targets[target.item_id] = {
         choice_id: candidateKey(none),
         choice_source: "none",
@@ -5466,7 +5594,11 @@ async function openIssueForCurrentTask() {
     return;
   }
   const record = currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
+  state.currentDraft.saved_tasks[record.task_id] = {
+    ...record,
+    status: "deferred",
+    awaiting_issue_confirmation: true,
+  };
   touchDraft();
   const copied = await copyTextToClipboard(formatSubmissionJson(submission));
   const urls = buildIssueUrls();
@@ -5478,6 +5610,32 @@ async function openIssueForCurrentTask() {
       : "クリップボードへのコピーに失敗しました。選択されたJSONを手動でコピーしてGitHub Issueの本文に貼り付け、Issueを作成してからこの画面に戻ってください。",
     !copied,
   );
+}
+
+function restorePendingIssueConfirmation() {
+  if (!state.currentDraft) {
+    return;
+  }
+  const pending = Object.values(state.currentDraft.saved_tasks || {}).find(
+    (record) => record?.awaiting_issue_confirmation,
+  );
+  if (!pending?.task_id) {
+    return;
+  }
+  state.pendingIssueTaskId = pending.task_id;
+  showIssueReturnModal();
+}
+
+function clearPendingIssueConfirmation(taskId) {
+  if (!state.currentDraft || !taskId) {
+    return;
+  }
+  const record = state.currentDraft.saved_tasks?.[taskId];
+  if (!record?.awaiting_issue_confirmation) {
+    return;
+  }
+  delete record.awaiting_issue_confirmation;
+  touchDraft();
 }
 
 async function copySubmissionJsonToClipboard() {
@@ -6418,17 +6576,47 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   }
   const submitted = taskRecordStatus(rawRecord) === "submitted";
   const docIds = taskDocIdsForStorageTask(rawRecord.task);
-  const validDocs = docIds
-    .map((docId) => currentQueueDocForTaskDocId(docId, taskStage, { submitted }))
-    .filter(Boolean);
-  if (!validDocs.length) {
+  const storedRefs = new Map(
+    (rawRecord.document_refs || []).map((ref) => [String(ref.task_doc_id || ""), ref]),
+  );
+  const currentDocs = buildDocumentTasks(state.currentPack);
+  const retainedDocIds = [];
+  const documentRefs = [];
+  for (const docId of docIds) {
+    const currentDoc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
+    if (currentDoc) {
+      retainedDocIds.push(taskDocKey(currentDoc));
+      documentRefs.push(localTaskDocumentRef(currentDoc));
+      continue;
+    }
+    if (!submitted) {
+      continue;
+    }
+    const baseDocId = baseDocIdFromTaskDocId(docId);
+    const sameStageDoc = currentDocs.find(
+      (doc) =>
+        String(doc.doc_id || "") === baseDocId &&
+        String(doc.queue_stage || "") === taskStage,
+    );
+    const ref = storedRefs.get(String(docId)) ||
+      (sameStageDoc ? localTaskDocumentRef(sameStageDoc) : minimalLocalTaskDocumentRef(docId, taskStage));
+    if (finalizedArchiveContainsDocumentRef(ref)) {
+      continue;
+    }
+    if (documentHasAdvancedBeyondTaskStage(baseDocId, taskStage, currentDocs)) {
+      continue;
+    }
+    retainedDocIds.push(String(docId));
+    documentRefs.push(ref);
+  }
+  if (!retainedDocIds.length) {
     return null;
   }
   const task = {
     ...rawRecord.task,
     mode: "documents",
     doc_id: undefined,
-    doc_ids: validDocs.map((doc) => taskDocKey(doc)),
+    doc_ids: retainedDocIds,
     started: false,
     range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage, {
       submitted,
@@ -6442,8 +6630,62 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     queue_stage: taskStage,
     status: taskRecordStatus(rawRecord),
     task,
-    overrides: filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
+    document_refs: documentRefs,
+    overrides: submitted
+      ? cloneJson(rawRecord.overrides || {})
+      : filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
   };
+}
+
+function localTaskDocumentRef(doc) {
+  return {
+    task_doc_id: taskDocKey(doc),
+    doc_id: String(doc.doc_id || ""),
+    queue_stage: String(doc.queue_stage || ""),
+    doc_seq: Number(doc.doc_seq || 0),
+    track_doc_seq: Number(doc.track_doc_seq || doc.doc_seq || 0),
+    item_count: Number(doc.item_count || 0),
+    unresolved_count: Number(doc.unresolved_count || 0),
+    preview: String(doc.preview || ""),
+  };
+}
+
+function minimalLocalTaskDocumentRef(taskDocId, queueStage) {
+  return {
+    task_doc_id: String(taskDocId || ""),
+    doc_id: baseDocIdFromTaskDocId(taskDocId),
+    queue_stage: String(queueStage || stageFromTaskDocId(taskDocId) || ""),
+    doc_seq: 0,
+    track_doc_seq: 0,
+    item_count: 0,
+    unresolved_count: 0,
+    preview: "",
+  };
+}
+
+function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
+  const taskOrder = queueStageSort(taskStage);
+  if (taskOrder >= 99) {
+    return false;
+  }
+  return docs.some((doc) => {
+    if (String(doc.doc_id || "") !== String(docId || "")) {
+      return false;
+    }
+    const currentOrder = queueStageSort(doc.queue_stage);
+    return currentOrder < 99 && currentOrder > taskOrder;
+  });
+}
+
+function finalizedArchiveContainsDocumentRef(ref) {
+  const seq = Number(ref?.track_doc_seq || ref?.doc_seq || 0);
+  if (!Number.isInteger(seq) || seq <= 0) {
+    return false;
+  }
+  const ranges = state.manifest?.archive?.tracks?.dev?.finalized_track_doc_seq_ranges || [];
+  return ranges.some(
+    (range) => Array.isArray(range) && seq >= Number(range[0]) && seq <= Number(range[1]),
+  );
 }
 
 function currentQueueDocForTaskDocId(taskDocId, taskStage, { submitted = false } = {}) {
@@ -6632,14 +6874,22 @@ function currentTaskDraftRecord() {
       : allocateTaskIdentity();
   state.currentDraft.active_task_id = identity.task_id;
   state.currentDraft.active_task_label = identity.task_label;
+  const normalizedTask = normalizeTask(state.currentDraft.task, state.currentPack);
+  const docsByKey = new Map(
+    buildDocumentTasks(state.currentPack).map((doc) => [taskDocKey(doc), doc]),
+  );
   return {
     ...identity,
     status: "deferred",
     queue_stage: taskQueueStage(state.currentDraft.task),
     task: {
-      ...normalizeTask(state.currentDraft.task, state.currentPack),
+      ...normalizedTask,
       started: false,
     },
+    document_refs: normalizedTask.doc_ids
+      .map((docId) => docsByKey.get(docId))
+      .filter(Boolean)
+      .map(localTaskDocumentRef),
     from_seq: state.currentDraft.from_seq ?? null,
     to_seq: state.currentDraft.to_seq ?? null,
     overrides: cloneJson(state.currentDraft.overrides || {}),
@@ -6655,8 +6905,16 @@ function taskNumberFromId(taskId) {
 function formatTaskDraftMeta(record, docs) {
   const docIds = new Set(record.task?.doc_ids || []);
   const selectedDocs = docs.filter((doc) => docIds.has(taskDocKey(doc)));
-  const docSeqs = selectedDocs.map((doc) => doc.doc_seq);
-  const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0);
+  const selectedKeys = new Set(selectedDocs.map((doc) => taskDocKey(doc)));
+  const missingRefs = (record.document_refs || []).filter(
+    (ref) => docIds.has(String(ref.task_doc_id || "")) && !selectedKeys.has(String(ref.task_doc_id || "")),
+  );
+  const docSeqs = [
+    ...selectedDocs.map((doc) => doc.doc_seq),
+    ...missingRefs.map((ref) => Number(ref.doc_seq || ref.track_doc_seq || 0)),
+  ].filter((seq) => Number.isInteger(seq) && seq > 0);
+  const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0) +
+    missingRefs.reduce((sum, ref) => sum + Number(ref.item_count || 0), 0);
   const parts = [];
   const queueStages = [...new Set(selectedDocs.map((doc) => doc.queue_stage).filter(Boolean))];
   if (queueStages.length) {
@@ -6931,7 +7189,7 @@ function startReviewTask() {
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
-  render();
+  render({ scrollToTop: true });
 }
 
 function isTaskStarted() {
@@ -6958,7 +7216,7 @@ function deferCurrentTask() {
   clearActiveTaskState();
   touchDraft();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで保留しました。`);
-  render();
+  render({ scrollToTop: true });
 }
 
 function completeCurrentTask() {
@@ -6982,7 +7240,7 @@ function completeCurrentTask() {
   clearActiveTaskState();
   touchDraft();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
-  render();
+  render({ scrollToTop: true });
 }
 
 function resumeTaskDraft(taskId) {
@@ -7005,7 +7263,7 @@ function resumeTaskDraft(taskId) {
   state.currentDraft.overrides = cloneJson(record.overrides || {});
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
-  render();
+  render({ scrollToTop: true });
 }
 
 function markSavedTaskSubmitted(taskId) {
@@ -7103,6 +7361,7 @@ function normalizeReviewDraft(parsed, pack) {
       overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
+      awaiting_issue_confirmation: Boolean(rawRecord?.awaiting_issue_confirmation),
     };
   }
 

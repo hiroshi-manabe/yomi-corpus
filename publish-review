@@ -21,7 +21,7 @@ SRC_ROOT = PROJECT_ROOT / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from yomi_corpus.review_site import publish_review_site
+from yomi_corpus.review_site import publish_review_site, review_site_publish_lock
 
 REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
 REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
@@ -102,6 +102,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    with review_site_publish_lock(PROJECT_ROOT / "docs"):
+        run_publish(args)
+
+
+def run_publish(args: argparse.Namespace) -> None:
     if not args.no_generate:
         manifest = regenerate_review_artifacts()
         print(

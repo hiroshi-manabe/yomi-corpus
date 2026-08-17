@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from contextlib import contextmanager
+import fcntl
 import json
 import re
 import shutil
@@ -24,7 +26,28 @@ from yomi_corpus.yomi.token_codec import (
 )
 
 
-ARCHIVE_SHARD_SIZE = 1000
+# Corpus Map loads summaries from the index and fetches one document on demand.
+ARCHIVE_SHARD_SIZE = 1
+_ACTIVE_REVIEW_PUBLISH_LOCKS: set[Path] = set()
+
+
+@contextmanager
+def review_site_publish_lock(docs_dir: str | Path):
+    """Serialize generation and publication of the shared review tree."""
+    docs_root = Path(docs_dir).resolve()
+    lock_path = docs_root.parent / "data" / "state" / "review_site" / "publish.lock"
+    if lock_path in _ACTIVE_REVIEW_PUBLISH_LOCKS:
+        yield
+        return
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a+", encoding="utf-8") as handle:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        _ACTIVE_REVIEW_PUBLISH_LOCKS.add(lock_path)
+        try:
+            yield
+        finally:
+            _ACTIVE_REVIEW_PUBLISH_LOCKS.discard(lock_path)
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
 def load_review_pack(path: str | Path) -> dict:
@@ -278,6 +301,22 @@ def publish_review_site(
     review_pack_root: str | Path,
     project_root: str | Path | None = None,
 ) -> dict:
+    with review_site_publish_lock(docs_dir):
+        return _publish_review_site_unlocked(
+            web_review_dir=web_review_dir,
+            docs_dir=docs_dir,
+            review_pack_root=review_pack_root,
+            project_root=project_root,
+        )
+
+
+def _publish_review_site_unlocked(
+    *,
+    web_review_dir: str | Path,
+    docs_dir: str | Path,
+    review_pack_root: str | Path,
+    project_root: str | Path | None = None,
+) -> dict:
     web_root = Path(web_review_dir)
     docs_root = Path(docs_dir)
     review_root = Path(review_pack_root)
@@ -366,15 +405,22 @@ def publish_review_archive(
                 finalized_documents=documents,
             ),
         )
+        document_summaries = [
+            archive_document_summary(doc, shards=shards) for doc in documents
+        ]
         tracks[track_name] = {
             "track_name": track_name,
             "document_count": len(documents),
+            "finalized_track_doc_seq_ranges": compact_integer_ranges(
+                int(doc["track_doc_seq"]) for doc in documents
+            ),
             "manual_correction_required_count": sum(
                 int(doc.get("manual_correction_required_count") or 0)
                 for doc in documents
             ),
             "shard_size": shard_size,
             "shards": shards,
+            "documents": document_summaries,
             "search_path": search_path,
         }
 
@@ -395,10 +441,70 @@ def publish_review_archive(
                 "manual_correction_required_count": track[
                     "manual_correction_required_count"
                 ],
+                "finalized_track_doc_seq_ranges": track[
+                    "finalized_track_doc_seq_ranges"
+                ],
                 "shard_count": len(track["shards"]),
             }
             for track_name, track in tracks.items()
         },
+    }
+
+
+def compact_integer_ranges(values: Any) -> list[list[int]]:
+    numbers = sorted({int(value) for value in values})
+    if not numbers:
+        return []
+    ranges: list[list[int]] = []
+    start = end = numbers[0]
+    for number in numbers[1:]:
+        if number == end + 1:
+            end = number
+            continue
+        ranges.append([start, end])
+        start = end = number
+    ranges.append([start, end])
+    return ranges
+
+
+def archive_document_summary(doc: dict, *, shards: list[dict]) -> dict:
+    track_doc_seq = int(doc["track_doc_seq"])
+    shard_path = next(
+        (
+            str(shard["path"])
+            for shard in shards
+            if int(shard["start_track_doc_seq"])
+            <= track_doc_seq
+            <= int(shard["end_track_doc_seq"])
+        ),
+        "",
+    )
+    return {
+        "track_name": str(doc.get("track_name") or ""),
+        "track_doc_seq": track_doc_seq,
+        "doc_id": str(doc.get("doc_id") or ""),
+        "batch_name": str(doc.get("batch_name") or ""),
+        "unit_count": int(doc.get("unit_count") or 0),
+        "finalized_correction_count": int(
+            doc.get("finalized_correction_count") or 0
+        ),
+        "finalized_correction_sentence_count": int(
+            doc.get("finalized_correction_sentence_count") or 0
+        ),
+        "manual_correction_required_count": int(
+            doc.get("manual_correction_required_count") or 0
+        ),
+        "skipped_unit_count": int(doc.get("skipped_unit_count") or 0),
+        "excluded_unit_count": int(doc.get("excluded_unit_count") or 0),
+        "text_preview": str(doc.get("text_preview") or ""),
+        "archive_revision": str(doc.get("archive_revision") or ""),
+        "applied_review_submission_ids": list(
+            doc.get("applied_review_submission_ids") or []
+        ),
+        "applied_finalized_correction_submission_ids": list(
+            doc.get("applied_finalized_correction_submission_ids") or []
+        ),
+        "shard_path": shard_path,
     }
 
 
@@ -441,6 +547,7 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
                     "manual_correction_required_count": 0,
                     "skipped_unit_count": 0,
                     "excluded_unit_count": 0,
+                    "_review_submission_ids": set(),
                     "_finalized_correction_submission_ids": set(),
                     "text_preview": "",
                     "units": [],
@@ -452,6 +559,7 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
             doc["units"].append(unit)
             doc["unit_count"] = len(doc["units"])
             correction_ids = finalized_correction_submission_ids(row)
+            doc["_review_submission_ids"].update(review_submission_ids(row))
             doc["_finalized_correction_submission_ids"].update(correction_ids)
             doc["finalized_correction_count"] = len(doc["_finalized_correction_submission_ids"])
             if correction_ids:
@@ -476,6 +584,9 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
         doc["applied_finalized_correction_submission_ids"] = sorted(
             doc.pop("_finalized_correction_submission_ids", set())
         )
+        doc["applied_review_submission_ids"] = sorted(
+            doc.pop("_review_submission_ids", set())
+        )
         doc["archive_revision"] = finalized_archive_document_revision(doc)
         result.append(doc)
     return result
@@ -486,6 +597,9 @@ def finalized_archive_document_revision(doc: dict) -> str:
         "track_name": str(doc.get("track_name") or ""),
         "track_doc_seq": int(doc.get("track_doc_seq") or 0),
         "doc_id": str(doc.get("doc_id") or ""),
+        "applied_review_submission_ids": list(
+            doc.get("applied_review_submission_ids") or []
+        ),
         "applied_finalized_correction_submission_ids": list(
             doc.get("applied_finalized_correction_submission_ids") or []
         ),
@@ -667,6 +781,18 @@ def finalized_correction_submission_ids(row: dict) -> set[str]:
         submission_id = str(correction.get("submission_id") or "") if isinstance(correction, dict) else ""
         submission_ids.add(submission_id or f"legacy-correction:{unit_id}:{index}")
     return submission_ids
+
+
+def review_submission_ids(row: dict) -> set[str]:
+    review = (
+        row.get("analysis", {})
+        .get("human_review", {})
+        .get("yomi_final")
+    )
+    if not isinstance(review, dict):
+        return set()
+    submission_id = str(review.get("submission_id") or "")
+    return {submission_id} if submission_id else set()
 
 
 def archive_rendered_yomi(row: dict) -> str:

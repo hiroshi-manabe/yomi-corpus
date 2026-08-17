@@ -1008,15 +1008,17 @@ button:disabled {
 }
 
 .archive-correction-row.draft-skip {
-  background: rgba(73, 78, 75, 0.08);
+  border-color: rgba(68, 82, 91, 0.34);
+  background: rgba(101, 119, 130, 0.16);
   color: rgba(31, 28, 23, 0.68);
+  box-shadow: inset 3px 0 0 rgba(68, 82, 91, 0.52);
 }
 
 .archive-correction-row.draft-exclude {
-  border-color: rgba(145, 48, 42, 0.45);
-  background: rgba(145, 48, 42, 0.09);
+  border-color: rgba(145, 48, 42, 0.56);
+  background: rgba(168, 67, 59, 0.18);
   color: rgba(76, 37, 33, 0.7);
-  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.62);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.76);
 }
 
 .archive-correction-row.draft-exclude .ruby-line {
@@ -1134,13 +1136,16 @@ button:disabled {
 
 .yomi-card.machine-skip,
 .skipped-tombstone {
-  background: rgba(73, 78, 75, 0.07);
+  border-color: rgba(68, 82, 91, 0.32);
+  background: rgba(101, 119, 130, 0.16);
   color: rgba(31, 28, 23, 0.66);
+  box-shadow: inset 3px 0 0 rgba(68, 82, 91, 0.52);
 }
 
 .yomi-card.machine-exclude {
-  background: rgba(145, 48, 42, 0.06);
-  box-shadow: inset 3px 0 0 rgba(145, 48, 42, 0.48);
+  border-color: rgba(145, 48, 42, 0.48);
+  background: rgba(168, 67, 59, 0.18);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.72);
 }
 
 .skipped-tombstone-label {
@@ -1158,8 +1163,10 @@ button:disabled {
 }
 
 .excluded-tombstone {
-  background: rgba(145, 48, 42, 0.06);
+  border-color: rgba(145, 48, 42, 0.4);
+  background: rgba(145, 48, 42, 0.12);
   color: rgba(76, 37, 33, 0.66);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.6);
 }
 
 .excluded-tombstone-label {
@@ -1390,6 +1397,34 @@ button:disabled {
 
 .item-card.yomi-card.all-safe {
   opacity: 0.82;
+}
+
+/* Disposition colors must win over unresolved/safe card backgrounds. */
+.item-card.yomi-card.machine-skip {
+  border-bottom-color: rgba(68, 82, 91, 0.34);
+  background: rgba(101, 119, 130, 0.16);
+  color: rgba(31, 28, 23, 0.72);
+  box-shadow: inset 3px 0 0 rgba(68, 82, 91, 0.56);
+}
+
+.item-card.yomi-card.machine-exclude {
+  border-bottom-color: rgba(145, 48, 42, 0.5);
+  background: rgba(168, 67, 59, 0.19);
+  color: rgba(76, 37, 33, 0.76);
+  box-shadow: inset 4px 0 0 rgba(145, 48, 42, 0.76);
+}
+
+.item-card.yomi-card.machine-skip.all-safe,
+.item-card.yomi-card.machine-exclude.all-safe {
+  opacity: 1;
+}
+
+.item-card.yomi-card.machine-skip:hover {
+  background: rgba(101, 119, 130, 0.2);
+}
+
+.item-card.yomi-card.machine-exclude:hover {
+  background: rgba(168, 67, 59, 0.23);
 }
 
 .item-card.marker-start,
@@ -1791,6 +1826,16 @@ button:disabled {
 
 .ruby-token.unresolved {
   background: rgba(156, 79, 30, 0.16);
+}
+
+.ruby-token.no-ruby-unresolved rt {
+  color: #a33a24;
+  font-weight: 800;
+}
+
+.ruby-token.no-ruby-intentional rt {
+  color: #687269;
+  font-weight: 700;
 }
 
 .ruby-token.changed {

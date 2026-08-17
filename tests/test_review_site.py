@@ -177,6 +177,8 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("現在レビュー対象になっている文書と、その処理状況です。", app)
         self.assertIn("corpus-map-manual-correction-badge", app)
         self.assertIn("scrollToManualCorrection", app)
+        self.assertIn("function scrollReviewPageToTop()", app)
+        self.assertIn("render({ scrollToTop: true });", app)
         self.assertIn("includeFlagAcknowledgements", app)
         self.assertIn("acknowledgement_only", app)
         self.assertIn(
@@ -186,18 +188,32 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn('id="repeat-cancellation-bar"', html)
         self.assertIn("registerRepeatedCancellation", app)
         self.assertIn("findRepeatedCancellationMatches", app)
+        self.assertIn("applyYomiCandidateWithRepeatedCancellation", app)
+        self.assertIn(
+            "cycleYomiTarget(item, target, candidate, elementAnchorRect(button));",
+            app,
+        )
         self.assertIn("残り${action.matches.length}件にも適用", app)
         self.assertIn("recomputeRepairAtomSpans", app)
         self.assertIn("connectedRepairAtomComponents", app)
         self.assertIn("connectedCancelledTargets", app)
         self.assertIn("positionRepeatedCancellationBar", app)
         self.assertIn("window.visualViewport", app)
-        self.assertIn('return selected?.source !== "none";', app)
+        self.assertIn("return !isUnresolvedNoRubyCandidate(selected);", app)
+        self.assertIn('rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";', app)
+        self.assertIn("function noRubyState(candidate)", app)
         self.assertIn("numericKanaSuffixRubyNodes", app)
         self.assertIn("Script=Han", app)
+        self.assertIn("function reviewSurfaceGraphemes", app)
+        self.assertIn("codePoint >= 0xe0100", app)
         self.assertIn("docIsProcessingOnServer", app)
         self.assertIn("サーバー処理中", app)
         self.assertIn('stateName === "strong_reviewed"', app)
+        self.assertIn("documentHasAdvancedBeyondTaskStage", app)
+        self.assertIn("minimalLocalTaskDocumentRef", app)
+        self.assertIn("withSubmittedProcessingPlaceholders", app)
+        self.assertIn("finalizedArchiveContainsDocumentRef", app)
+        self.assertIn("finalized_track_doc_seq_ranges", app)
         self.assertIn("awaiting_finalization: Boolean(doc.awaiting_finalization)", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
@@ -525,6 +541,9 @@ class ReviewSiteTests(unittest.TestCase):
                                         }
                                     },
                                     "human_review": {
+                                        "yomi_final": {
+                                            "submission_id": "review_1",
+                                        },
                                         "manual_correction": {
                                             "required": True,
                                             "reason": "segmentation",
@@ -627,13 +646,37 @@ class ReviewSiteTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
-            archive = publish_review_archive(project_root=root, review_output_dir=output_root, shard_size=100)
+            archive = publish_review_archive(project_root=root, review_output_dir=output_root)
 
             index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
             self.assertEqual(archive["tracks"]["dev"]["document_count"], 3)
+            self.assertEqual(
+                archive["tracks"]["dev"]["finalized_track_doc_seq_ranges"],
+                [[1, 3]],
+            )
             self.assertEqual(archive["tracks"]["dev"]["manual_correction_required_count"], 1)
+            self.assertEqual(
+                index["tracks"]["dev"]["finalized_track_doc_seq_ranges"],
+                [[1, 3]],
+            )
             self.assertEqual(index["tracks"]["dev"]["manual_correction_required_count"], 1)
             self.assertEqual(index["tracks"]["dev"]["search_path"], "./archive/dev/search.json")
+            self.assertEqual(index["tracks"]["dev"]["shard_size"], 1)
+            self.assertEqual(len(index["tracks"]["dev"]["shards"]), 3)
+            summaries = index["tracks"]["dev"]["documents"]
+            self.assertEqual(len(summaries), 3)
+            self.assertNotIn("units", summaries[0])
+            self.assertEqual(summaries[0]["track_doc_seq"], 1)
+            self.assertEqual(summaries[0]["text_preview"], "学校です。")
+            self.assertEqual(
+                summaries[0]["applied_review_submission_ids"],
+                ["review_1"],
+            )
+            self.assertEqual(
+                summaries[0]["applied_finalized_correction_submission_ids"],
+                ["correction_1", "correction_2"],
+            )
+            self.assertEqual(summaries[0]["shard_path"], index["tracks"]["dev"]["shards"][0]["path"])
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))
             search = json.loads((output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8"))
@@ -645,6 +688,10 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(shard["documents"][0]["finalized_correction_count"], 2)
             self.assertEqual(shard["documents"][0]["finalized_correction_sentence_count"], 2)
             self.assertEqual(shard["documents"][0]["manual_correction_required_count"], 1)
+            self.assertEqual(
+                shard["documents"][0]["applied_review_submission_ids"],
+                ["review_1"],
+            )
             self.assertEqual(
                 shard["documents"][0]["applied_finalized_correction_submission_ids"],
                 ["correction_1", "correction_2"],
@@ -674,8 +721,21 @@ class ReviewSiteTests(unittest.TestCase):
                 shard["documents"][0]["units"][0]["applied_finalized_correction_submission_ids"],
                 ["correction_1", "correction_2"],
             )
-            self.assertEqual(shard["documents"][1]["units"][0]["rendered_yomi"], "Ⅱ/")
-            self.assertEqual(shard["documents"][2]["units"][0]["rendered_yomi"], "聖飢魔Ⅱ/セイキマツ")
+            second_shard_path = (
+                output_root
+                / index["tracks"]["dev"]["shards"][1]["path"].removeprefix("./")
+            )
+            second_shard = json.loads(second_shard_path.read_text(encoding="utf-8"))
+            third_shard_path = (
+                output_root
+                / index["tracks"]["dev"]["shards"][2]["path"].removeprefix("./")
+            )
+            third_shard = json.loads(third_shard_path.read_text(encoding="utf-8"))
+            self.assertEqual(second_shard["documents"][0]["units"][0]["rendered_yomi"], "Ⅱ/")
+            self.assertEqual(
+                third_shard["documents"][0]["units"][0]["rendered_yomi"],
+                "聖飢魔Ⅱ/セイキマツ",
+            )
 
     def test_publish_review_archive_exports_confirmed_skip_with_hybrid_ruby(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

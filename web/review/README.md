@@ -1,6 +1,6 @@
 # Review UI Source
 
-This directory is the source area for the static review UI.
+This directory contains the editable source files for the static review UI.
 
 Current intended split:
 
@@ -19,7 +19,8 @@ generated artifacts with:
 ./publish-review
 ```
 
-The helper stages and commits `docs/review/manifest.json` plus review-pack JSON
-files referenced by that manifest to the `gh-pages` branch, then runs
+The helper generates the complete site under the ignored `docs/review/`
+staging directory, stages that output on the `gh-pages` branch, and runs
 `git push`. Configure GitHub Pages to deploy from `gh-pages` / root. Use
-`./publish-review --dry-run` to inspect the exact path set first.
+`./publish-review --dry-run` to inspect the exact path set first; note that it
+still regenerates the ignored staging directory.
