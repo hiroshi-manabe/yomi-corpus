@@ -1,6 +1,6 @@
 # Review UI Source
 
-This directory is the ignored staging area for the generated static review UI.
+This directory contains the editable source files for the static review UI.
 
 Current intended split:
 
@@ -19,8 +19,8 @@ generated artifacts with:
 ./publish-review
 ```
 
-The helper generates the complete site under `docs/review/`, stages that output
-on the `gh-pages` branch, and runs `git push`. Generated files in this directory
-are intentionally not tracked on the main branch. Configure GitHub Pages to
-deploy from `gh-pages` / root. Use `./publish-review --dry-run` to inspect the
-exact path set first; note that it still regenerates this ignored staging area.
+The helper generates the complete site under the ignored `docs/review/`
+staging directory, stages that output on the `gh-pages` branch, and runs
+`git push`. Configure GitHub Pages to deploy from `gh-pages` / root. Use
+`./publish-review --dry-run` to inspect the exact path set first; note that it
+still regenerates the ignored staging directory.
