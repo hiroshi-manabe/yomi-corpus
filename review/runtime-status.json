@@ -1,45 +1,31 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5583,
-  "generated_at": "2026-08-17T07:22:30Z",
-  "generated_at_epoch": 1786951350,
+  "state_revision": 5584,
+  "generated_at": "2026-08-17T07:25:27Z",
+  "generated_at_epoch": 1786951527,
   "last_successful_sync": "2026-08-17T07:22:30Z",
   "last_successful_sync_epoch": 1786951350,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
-    "anchor_epoch": 1786949540,
+    "anchor_epoch": 1786951527,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786949840
+    "next_expected_epoch": 1786951827
   },
   "state": {
-    "current_batch_name": "dev_batch_0077",
-    "current_stage": "yomi_reading_queued",
-    "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 86,
-    "queue_counts": {
-      "bulk_review_selectable": 80,
-      "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 6,
-      "escalated_repair_submitted": 0,
-      "resolved": 34
-    },
-    "pool_counts": {
-      "bulk-ready": 80,
-      "bulk-submitted": 0,
-      "escalated-ready": 6,
-      "escalated-submitted": 0,
-      "prepared": 0,
-      "resolved": 34,
-      "unprocessed": 0
-    }
+    "current_batch_name": null,
+    "current_stage": null,
+    "next_stage": null,
+    "active_queue_count": 0,
+    "queue_counts": {},
+    "pool_counts": {}
   },
-  "message": "",
+  "message": "ValueError: Unsupported LLM task in policy: alphabetic_entity_judge",
   "observed": {
-    "started_at_epoch": 1786950753,
-    "completed_at_epoch": 1786951350,
-    "drift_seconds": 13
+    "started_at_epoch": 1786951527,
+    "completed_at_epoch": 1786951527,
+    "drift_seconds": 113
   },
   "client_polling": {
     "normal_seconds": 60,
