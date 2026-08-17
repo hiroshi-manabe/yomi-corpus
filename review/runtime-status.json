@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5567,
-  "generated_at": "2026-08-17T04:24:55Z",
-  "generated_at_epoch": 1786940695,
+  "state_revision": 5568,
+  "generated_at": "2026-08-17T04:28:22Z",
+  "generated_at_epoch": 1786940902,
   "last_successful_sync": "2026-08-17T04:10:48Z",
   "last_successful_sync_epoch": 1786939848,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1786939260,
+    "anchor_epoch": 1786940902,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786939560
+    "next_expected_epoch": 1786941202
   },
   "state": {
     "current_batch_name": "dev_batch_0070",
-    "current_stage": "yomi_reading_queued",
-    "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 93,
+    "current_stage": "yomi_reading_llm_completed",
+    "next_stage": "final_review_prepared",
+    "active_queue_count": 103,
     "queue_counts": {
-      "bulk_review_selectable": 90,
+      "bulk_review_selectable": 100,
       "bulk_review_submitted": 0,
       "escalated_repair_selectable": 3,
       "escalated_repair_submitted": 2,
       "resolved": 15
     },
     "pool_counts": {
-      "bulk-ready": 90,
+      "bulk-ready": 100,
       "bulk-submitted": 0,
       "escalated-ready": 3,
       "escalated-submitted": 2,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000000562:u0021 token 0 '〇〇'/'〇〇' is structurally invalid: Japanese numeral digit-run readings must be katakana",
+  "message": "OSError: [Errno 39] Directory not empty: PosixPath('/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/packs')",
   "observed": {
-    "started_at_epoch": 1786940695,
-    "completed_at_epoch": 1786940695,
-    "drift_seconds": 65
+    "started_at_epoch": 1786940902,
+    "completed_at_epoch": 1786940902,
+    "drift_seconds": 142
   },
   "client_polling": {
     "normal_seconds": 60,

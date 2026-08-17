@@ -6554,14 +6554,21 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
       documentRefs.push(localTaskDocumentRef(currentDoc));
       continue;
     }
-    const ref = storedRefs.get(String(docId));
-    if (!submitted || !ref || finalizedArchiveContainsDocumentRef(ref)) {
+    if (!submitted) {
       continue;
     }
-    const currentOtherStage = currentDocs.some(
-      (doc) => String(doc.doc_id || "") === baseDocIdFromTaskDocId(docId),
+    const baseDocId = baseDocIdFromTaskDocId(docId);
+    const sameStageDoc = currentDocs.find(
+      (doc) =>
+        String(doc.doc_id || "") === baseDocId &&
+        String(doc.queue_stage || "") === taskStage,
     );
-    if (currentOtherStage) {
+    const ref = storedRefs.get(String(docId)) ||
+      (sameStageDoc ? localTaskDocumentRef(sameStageDoc) : minimalLocalTaskDocumentRef(docId, taskStage));
+    if (finalizedArchiveContainsDocumentRef(ref)) {
+      continue;
+    }
+    if (documentHasAdvancedBeyondTaskStage(baseDocId, taskStage, currentDocs)) {
       continue;
     }
     retainedDocIds.push(String(docId));
@@ -6606,6 +6613,33 @@ function localTaskDocumentRef(doc) {
     unresolved_count: Number(doc.unresolved_count || 0),
     preview: String(doc.preview || ""),
   };
+}
+
+function minimalLocalTaskDocumentRef(taskDocId, queueStage) {
+  return {
+    task_doc_id: String(taskDocId || ""),
+    doc_id: baseDocIdFromTaskDocId(taskDocId),
+    queue_stage: String(queueStage || stageFromTaskDocId(taskDocId) || ""),
+    doc_seq: 0,
+    track_doc_seq: 0,
+    item_count: 0,
+    unresolved_count: 0,
+    preview: "",
+  };
+}
+
+function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
+  const taskOrder = queueStageSort(taskStage);
+  if (taskOrder >= 99) {
+    return false;
+  }
+  return docs.some((doc) => {
+    if (String(doc.doc_id || "") !== String(docId || "")) {
+      return false;
+    }
+    const currentOrder = queueStageSort(doc.queue_stage);
+    return currentOrder < 99 && currentOrder > taskOrder;
+  });
 }
 
 function finalizedArchiveContainsDocumentRef(ref) {
