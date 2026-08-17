@@ -1031,6 +1031,7 @@ function renderCorpusMapTileGrid(docs) {
     const correctionCount = Number(doc.finalized_correction_count || 0);
     const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
     const manualCorrectionCount = Number(doc.manual_correction_required_count || 0);
+    const appliedReviewCount = (doc.applied_review_submission_ids || []).length;
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
@@ -1040,13 +1041,14 @@ function renderCorpusMapTileGrid(docs) {
     tile.innerHTML = `
       <span>${escapeHtml(workflowStatusGlyph("resolved"))}</span>
       <strong>${escapeHtml(doc.track_doc_seq)}</strong>
+      ${appliedReviewCount ? `<em class="review-applied-badge" title="サーバー適用済みのレビュー ${escapeHtml(appliedReviewCount)}件">適用済</em>` : ""}
       ${correctionCount ? `<em class="correction-count-badge">${escapeHtml(correctionCount)}</em>` : ""}
       ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
       ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}
     `;
     tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
-    }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
+    }${appliedReviewCount ? `\nレビュー適用済み: ${appliedReviewCount}件` : ""}${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
     tile.addEventListener("click", () => {
       openArchiveDocumentSummary(doc, {
         scrollToManualCorrection: manualCorrectionCount > 0,
