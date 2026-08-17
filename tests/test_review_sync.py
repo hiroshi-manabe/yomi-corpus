@@ -820,6 +820,10 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertTrue(result["request_created"])
             request_path = Path(result["request_path"])
             self.assertTrue(request_path.exists())
+            trigger_path = Path(result["trigger_path"])
+            self.assertTrue(trigger_path.exists())
+            first_trigger = json.loads(trigger_path.read_text(encoding="utf-8"))
+            self.assertEqual(first_trigger["request_id"], result["request_id"])
             request = json.loads(request_path.read_text(encoding="utf-8"))
             self.assertEqual(request["plan"]["new_since_refresh"], ["dev_batch_0001"])
 
@@ -832,6 +836,12 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(duplicate["status"], "queued")
             self.assertFalse(duplicate["request_created"])
             self.assertEqual(duplicate["request_id"], result["request_id"])
+            second_trigger = json.loads(trigger_path.read_text(encoding="utf-8"))
+            self.assertEqual(second_trigger["request_id"], result["request_id"])
+            self.assertNotEqual(
+                second_trigger["notification_nonce"],
+                first_trigger["notification_nonce"],
+            )
 
     def test_list_track_batches_returns_only_requested_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

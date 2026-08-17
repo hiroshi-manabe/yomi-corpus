@@ -745,10 +745,16 @@ def request_decoder_model_refresh(
     existing = read_json_object(request_path)
     policy = decoder_refresh_policy_from_options(options)
     if existing and decoder_refresh_request_covers_plan(existing, plan=plan, policy=policy):
+        trigger_path = notify_decoder_refresh_worker(
+            root=root,
+            track_name=options.track_name,
+            request_id=str(existing.get("request_id") or ""),
+        )
         return {
             **plan,
             "status": "queued",
             "request_path": str(request_path),
+            "trigger_path": str(trigger_path),
             "request_id": str(existing.get("request_id") or ""),
             "request_created": False,
         }
@@ -775,10 +781,16 @@ def request_decoder_model_refresh(
         "plan": plan,
     }
     write_json_atomic(request_path, request)
+    trigger_path = notify_decoder_refresh_worker(
+        root=root,
+        track_name=options.track_name,
+        request_id=request_id,
+    )
     return {
         **plan,
         "status": "queued",
         "request_path": str(request_path),
+        "trigger_path": str(trigger_path),
         "request_id": request_id,
         "request_created": True,
     }
@@ -786,6 +798,30 @@ def request_decoder_model_refresh(
 
 def decoder_refresh_request_path(root: Path, track_name: str) -> Path:
     return root / "data" / "state" / "decoder_refresh" / f"{track_name}.request.json"
+
+
+def decoder_refresh_trigger_path(root: Path, track_name: str) -> Path:
+    return root / "data" / "state" / "decoder_refresh" / f"{track_name}.trigger.json"
+
+
+def notify_decoder_refresh_worker(
+    *,
+    root: Path,
+    track_name: str,
+    request_id: str,
+) -> Path:
+    trigger_path = decoder_refresh_trigger_path(root, track_name)
+    write_json_atomic(
+        trigger_path,
+        {
+            "schema_version": 1,
+            "track_name": track_name,
+            "request_id": request_id,
+            "notified_at": now_iso(),
+            "notification_nonce": time.time_ns(),
+        },
+    )
+    return trigger_path
 
 
 def decoder_refresh_policy_from_options(options: ReviewSyncOptions) -> dict[str, Any]:
