@@ -458,12 +458,15 @@ Example signals:
 The first yomi auto-accept rule is intentionally narrow. A unit is accepted
 only when it has generated yomi, has no unresolved non-numeric readings,
 Sudachi and the decoder agree on the rendered output, and the decoder top
-candidate has full repeated N-gram support. The stable two-kanji relaxation is
-an optional auto-accept profile, not a hardcoded `dev` behavior. That relaxation
-is still conservative because Sudachi/decoder agreement remains mandatory and
-ambiguous raw SudachiDict readings are rejected. Grouped numeric runs such as
-`2021/` are allowed because number pronunciation is outside the current yomi
-task.
+candidate has full repeated N-gram support. The optional `stable_two_kanji`
+profile name is retained for configuration compatibility, but its production
+relaxation now uses the stable surface-reading lexicon pinned inside the
+batch's decoder model. A surface is eligible when its dominant corpus reading
+has at least 95% share and five observations, and the current reading must
+match that dominant reading. There is no raw-Sudachi fallback when a pinned
+model lacks the artifact. Sudachi/decoder agreement remains mandatory. Grouped
+numeric runs such as `2021/` are allowed because number pronunciation is
+outside the current yomi task.
 
 ### S30 LLM Scope Gate and Reading Signals
 
@@ -539,9 +542,9 @@ In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or
 unit may be low-risk enough for high-throughput audit or future auto-acceptance
 experiments. The source of every low-risk signal must remain visible, for
-example N-gram support, stable two-kanji support, LLM reading agreement, or
-human approval, so later audits can measure false-accept rates separately by
-source.
+example N-gram support, stable surface-reading corpus support, LLM reading
+agreement, or human approval, so later audits can measure false-accept rates
+separately by source.
 
 #### Per-target safety evidence
 
@@ -554,8 +557,8 @@ coarse sentence-level `OK` or `Review`.
 
 Candidate safety signals:
 
-- stable dictionary evidence: the target has one trusted dictionary reading,
-  such as a stable two-kanji raw SudachiDict item, and the current reading
+- stable surface-reading evidence: the model-pinned corpus artifact has a
+  dominant reading for the exact target surface, and the current reading
   matches it
 - corpus-frequency evidence: a trusted decoder/training-corpus stats artifact
   shows that one reading dominates the exact full token surface, or the target
@@ -626,6 +629,24 @@ decoder refresh should build its N-gram model, lexicon, and surface/reading
 frequency table from the same ordered corpus set: the configured base corpus
 plus all finalized batches selected for that track refresh. Store the frequency
 TSV and its source manifest inside the immutable decoder model directory.
+
+The refresh also builds `stable_surface_readings.tsv` from that identical
+ordered corpus set. This artifact pools observations by concatenated surface,
+not by the corpus token boundary: contiguous spans of one through four source
+morphemes compete in the same surface bucket. A surface is emitted only when
+its dominant reading has at least five observations and at least 95% of all
+observations for that surface. The artifact retains counts and observed
+segmentation signatures so
+decisions remain auditable. For example, `皆|様/ミナ|サマ` and
+`皆様/ミナサマ` reinforce one entry, while competing `一回` observations are
+pooled before the dominant reading is tested. Sentence boundaries, whitespace,
+punctuation, and tokens without kana readings terminate candidate spans.
+
+The pinned model-local lexicon is the runtime source for stable-surface safety.
+It replaces raw Sudachi dictionary uniqueness in auto-acceptance and pre-LLM
+safety. The current mechanical surface and reading must exactly match an emitted
+lexicon row. A pinned model without the artifact disables this relaxation rather
+than falling back to the unsafe dictionary-only rule.
 
 When a batch is prepared, it pins a decoder model directory. Mechanical yomi
 generation and pre-LLM corpus-frequency safety must both use artifacts from that
@@ -1973,7 +1994,14 @@ The candidate list should be derived from recorded evidence:
 - LLM reading when it differs
 - corpus-frequency dominant reading when available
 - stable dictionary reading when available
-- no-ruby / remove reading
+- unresolved no-ruby (`?`), which requests Escalated Repair
+- intentional no-ruby (`−`), which accepts an empty reading
+
+Both no-ruby states retain `choice_source: "none"` for compatibility, but they
+must use distinct candidate IDs and metadata. Repair grouping must inspect the
+state rather than treating every empty reading as unresolved. Multi-character
+Japanese numeral runs are always interaction spans: an empty reading defaults
+to `−`, but dictionary readings and `?` remain available.
 
 Ruby placement and review interaction boundaries are separate concepts. Bulk
 Review must not use an individual kanji or an individual `<ruby>` node as its
@@ -2092,11 +2120,10 @@ Review entry point migration:
   page with the title filled in, and then show a return/focus modal asking
   whether the Issue was created
 - if the user confirms submission, the task should move to `Submitted local
-  tasks`; submitted tasks are greyed out in the Pack Map and disabled in the
-  active queues only while their documents remain in the submitted task's stage.
-  If regenerated server-side state moves a document to another stage or to
-  resolved, remove that document from the local task. If no documents remain,
-  delete the task. Local tasks are resumeable work, not history
+  tasks`; submitted tasks follow `locally submitted -> server processing ->
+  applied` and remain greyed out and disabled during both pre-import and
+  server-processing intervals. Remove them only when a Bulk document advances
+  to Escalated Repair or the archive manifest confirms finalization
 - Unified Yomi Review is now the only normal human-facing review entrypoint.
   Legacy stage packs may remain as internal/history payloads while cleanup is
   incremental, but the public page should not expose a Classic mode or a stage

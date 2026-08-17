@@ -775,8 +775,8 @@ The first implementation should stay deliberately simple:
 
 Deterministic skip hooks can reduce query volume:
 
-- skip stable two-kanji compounds whose raw SudachiDict surface has exactly one
-  reading and whose current reading matches it
+- skip exact target surfaces whose current reading matches the dominant reading
+  in the stable surface-reading lexicon pinned to the batch's decoder model
 - later, skip targets whose N-gram evidence is overwhelmingly dominated by one
   reading, for example at least 99.5% of observed support
 
@@ -792,10 +792,11 @@ LLM reading results should be applied as comparison metadata:
 - `skipped`: deterministic rule suppressed the query
 
 Agreement is a candidate signal for bulk review or future auto-acceptance, but
-it should remain distinguishable from N-gram safety, stable two-kanji safety,
-and human approval. Disagreement should route the target or unit to focused
-review or later repair. Ambiguous cases such as `辛い` should eventually be
-handled by explicit ambiguity policy rather than hidden inside an `OK` label.
+it should remain distinguishable from N-gram safety, stable surface-reading
+corpus safety, and human approval. Disagreement should route the target or unit
+to focused review or later repair. Ambiguous cases such as `辛い` should
+eventually be handled by explicit ambiguity policy rather than hidden inside an
+`OK` label.
 
 This per-target design is intentionally less ambitious than asking the LLM to
 repair whole sentences. It avoids relying on the model's token-boundary
@@ -818,9 +819,9 @@ human review.
 
 Candidate per-target signals:
 
-- `safe_by_stable_dictionary`: the target is a stable dictionary item such as a
-  two-kanji compound with exactly one trusted raw SudachiDict reading, and the
-  mechanical reading matches it.
+- `safe_by_stable_surface_lexicon`: the model-pinned corpus artifact contains
+  the exact target surface with a dominant reading at the configured count and
+  share thresholds, and the mechanical reading matches it.
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
   same exact full-token `(surface, reading)` pair, or target-level pair as a
   fallback, dominates with at least 95% share and a minimum count threshold.
@@ -999,6 +1000,14 @@ Implementation status:
      decoder model. A batch's pinned `decoder_model_dir` selects both decoding
      artifacts and frequency evidence. The static base-corpus stats path remains
      a compatibility fallback for older model directories only.
+   - Decoder refreshes also generate `stable_surface_readings.tsv` and its
+     manifest. Its builder enumerates contiguous one-to-four-token spans,
+     groups all tokenizations under the concatenated surface, and emits only
+     surfaces whose dominant concatenated reading has at least five observations
+     and at least 95% share. Segmentation counts are retained for audit. This
+     artifact is the runtime stable-surface signal. New processing resolves it
+     from the batch's pinned decoder model and does not fall back to raw Sudachi
+     uniqueness when an older model lacks the artifact.
 2. `src/yomi_corpus/yomi/safety.py` now implements pre-LLM deterministic
    per-target safety.
    - Reuse the same target extraction logic as `llm_readings.py` so safety
@@ -2641,15 +2650,17 @@ journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 #### 11.2.1 Review sync, refill, and decoder-refresh worker separation
 
 Review synchronization is latency-sensitive; refill and decoder rebuilding are
-throughput-sensitive. They must be separate scheduled processes with separate
-execution policies and locks.
+throughput-sensitive. They must be separate processes with separate execution
+policies and locks. Refill remains scheduled, while decoder rebuilding is
+event-driven from a durable request emitted by review sync.
 
 `review-sync` should remain a short five-minute operation:
 
 - import and apply Bulk Review and Escalated Repair Issue submissions
 - close successfully consumed Issues
 - transition reviewed documents and finalize eligible batches
-- atomically queue decoder refresh demand according to finalization policy
+- atomically queue decoder refresh demand according to finalization policy and
+  notify the independent decoder worker
 - regenerate and publish changed review artifacts and runtime status
 - calculate refill demand, but only enqueue or reserve work rather than running
   long decoder or LLM stages
@@ -2709,7 +2720,7 @@ For dev, install the version-controlled user units from
 systemctl --user daemon-reload
 systemctl --user enable --now yomi-corpus-review-sync-dev.timer
 systemctl --user enable --now yomi-corpus-refill-dev.timer
-systemctl --user enable --now yomi-corpus-decoder-refresh-dev.timer
+systemctl --user enable --now yomi-corpus-decoder-refresh-dev.path
 ```
 
 Useful diagnostics:
@@ -2800,12 +2811,15 @@ Decoder refresh policy:
   not yet represented in the last successful decoder refresh and the
   since-last-refresh thresholds are satisfied.
 - `./decoder-refresh-worker <track>` consumes that request under its own lock,
-  recomputes eligibility, and performs the export and KenLM build. Its systemd
-  timer may poll every five minutes because an idle pass is cheap.
+  recomputes eligibility, and performs the export and KenLM build. Review sync
+  rewrites `data/state/decoder_refresh/<track>.trigger.json` whenever it creates
+  or reasserts pending demand; a systemd path unit starts the worker when that
+  trigger changes. There is no independent decoder polling timer.
 - requests live at `data/state/decoder_refresh/<track>.request.json`. A failed
-  build leaves the request in place for retry. A successful build clears only
-  the request ID it started with, so a newer request written during the build
-  cannot be lost.
+  build leaves the request in place. The next review-sync pass re-notifies the
+  worker, providing bounded retries without idle polling. A successful build
+  clears only the request ID it started with, so a newer request written during
+  the build cannot be lost.
 - worker summaries are written to
   `data/state/decoder_refresh/<track>.last.json` with timestamped history.
 - refresh uses the existing `refresh_decoder_model()` path, exports all
@@ -2821,15 +2835,16 @@ Browser-local task state is separate from imported pipeline state:
 - `Submitted local tasks` are tasks whose JSON was copied and whose GitHub
   Issue was reported as created, but whose Issue has not necessarily been
   imported yet
-- a local task is valid only while each target document remains in that task's
-  stage. If a Bulk Review task's document leaves Bulk Review, or an Escalated
-  Repair task's document leaves Escalated Repair, remove that document from the
-  local task. If no target documents remain, delete the local task. Local tasks
-  are resumeable work, not history
-- submitted local tasks should grey out and disable their documents in the
-  browser queues and Pack Map only while their documents still remain in the
-  submitted task's stage; editing requires an explicit reopen during that
-  interval
+- a deferred local task is valid only while each target document remains in
+  that task's stage. Submitted tasks instead follow the monotonic lifecycle
+  `locally submitted -> server processing -> applied`
+- if a submitted document temporarily disappears from active packs before its
+  finalized archive entry is published, retain a disabled processing
+  placeholder rather than reverting it to an ordinary item or deleting it
+- compact finalized document-number ranges in the published archive manifest
+  explicitly acknowledge application. Only then may the browser remove the
+  submitted overlay. A move from Bulk Review to Escalated Repair likewise
+  acknowledges application of the Bulk Review submission
 - imported Issue state remains authoritative. Once the importer applies the
   submission, regenerated packs should move those documents to the next queue
   or to resolved state
@@ -3136,9 +3151,13 @@ controls:
 - tappable ruby spans
 
 For each highlighted target, tapping cycles through the recorded reading
-candidates and no-ruby. A selected reading is applied directly. No-ruby marks a
-local target for Escalated Repair; consecutive canceled targets are grouped
-there rather than edited through a second segmentation control in Bulk Review.
+candidates and two explicit no-ruby states. `−` means that no ruby is an
+intentional accepted result; `?` means that the reading is unresolved and must
+enter Escalated Repair. A selected reading is applied directly. Consecutive
+`?` targets are grouped for repair, while `−` targets never become repair
+atoms. Multi-character Japanese numeral runs remain tappable even when `−` is
+their deterministic default, so lexical exceptions such as `七五三` can select
+a dictionary reading without weakening the general no-ruby default.
 
 ### 12.2.1 Interaction spans and ruby projection
 
@@ -3300,12 +3319,12 @@ The submission format is the JSON exported by the GitHub Pages review UI:
 - `pack_id` must match the generated review pack
 - `reviewed_ranges` define which sentence items were actually reviewed
 - sparse `overrides` carry `skip` and target-level reading choices
-- an explicitly submitted target-level `choice_source: "none"` means the
-  previous reading was rejected and should enter the Escalated Repair queue;
-  consecutive no-ruby targets are grouped into one Escalated Repair span
-- automatic accepted no-ruby defaults are applied to rendered yomi but retain
-  `automatic_default: true`; they are not human rejections and must not enter
-  Escalated Repair
+- no-ruby choices retain `choice_source: "none"` for compatibility, but their
+  candidate ID and `no_ruby_state` distinguish unresolved `?` from intentional
+  `−`; only unresolved choices enter Escalated Repair
+- automatic accepted no-ruby defaults select `accepted_none`, retain
+  `automatic_default: true`, and are not human rejections; legacy submissions
+  without a candidate ID infer this state only for automatic accepted defaults
 - `skip` dominates operational output: target choices on a skipped sentence are
   preserved as audit data, but they are not applied to rendered yomi and do not
   trigger Escalated Repair

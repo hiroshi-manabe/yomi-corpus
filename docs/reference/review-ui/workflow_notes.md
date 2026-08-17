@@ -290,20 +290,22 @@ the UI should copy JSON and open a pre-titled GitHub Issue page. When the page
 regains focus, a modal asks whether the Issue was created. If the user confirms
 submission, the task moves to submitted local tasks.
 
-Local tasks are resumable work, not history. A task is valid only while each
-target document remains in that task's stage. If a Bulk Review task's document
-leaves Bulk Review, or an Escalated Repair task's document leaves Escalated
-Repair, that document should be removed from the local task. If no target
-documents remain, the task should be deleted. This applies equally to deferred
-and submitted local tasks.
+Deferred tasks are resumable work, not history, and expire when their documents
+leave the task stage. Submitted tasks instead follow one monotonic lifecycle:
+`locally submitted -> server processing -> applied`. When an Escalated Repair
+document is temporarily absent from active packs, the browser retains a
+disabled processing placeholder. It removes the submitted task only after the
+archive manifest explicitly confirms that document number as finalized. A
+move from Bulk Review to Escalated Repair also confirms application of the
+Bulk Review submission.
 
 Submitted local tasks are a temporary local overlay: the user has probably
 submitted the work, but the pipeline has not yet imported and applied the
 Issue. While the target document is still in the same stage, it should be
 greyed out in the Pack Map and disabled in queues. It should be editable again
-only through an explicit reopen action. Once the server-side state moves the
-document to another stage or resolved state, the local task is no longer
-resumeable and should disappear.
+only through an explicit reopen action. Once authoritative server state moves
+a Bulk document to Escalated Repair, or the archive confirms a document as
+finalized, the local task is no longer resumeable and should disappear.
 
 The server-side importer remains authoritative. Once the Issue is imported and
 applied, the generated review pack should move those documents into the next
