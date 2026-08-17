@@ -1,0 +1,7860 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0059_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0059",
+  "created_at_epoch": 1786931867,
+  "created_at": "2026-08-17T01:57:47Z",
+  "item_count": 10,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 10,
+    "queued_repair_row_count": 12,
+    "result_row_count": 12,
+    "reviewable_repair_row_count": 12,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000554",
+      "doc_seq": 1,
+      "track_doc_seq": 554,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 554,
+      "preview": "先日１０月２８日、阪南マリーナにて第２８回釣り大会を開催しました！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000555",
+      "doc_seq": 2,
+      "track_doc_seq": 555,
+      "unit_count": 29,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 555,
+      "preview": "しかし、どうにか外へと踏み出し、仕事へ行った。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-17T01:58:35Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 29,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000556",
+      "doc_seq": 3,
+      "track_doc_seq": 556,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 556,
+      "preview": "南フランス出身の銭湯ジャーナリスト、ステファニー・コロインさんが、魅力的な銭湯の紹介するとともに、銭湯文化についてわかりやすく解説した一冊。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "preview": "昨日木曜日夜に、アンドレア・バッティストーニ指揮の東フィル130回東京オペラシティ定期シリーズの演奏を聴いてきました（2020.1.23.19:00～）。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-17T01:58:35Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 9,
+      "region_count": 11,
+      "unresolved_count": 11,
+      "from_seq": 2,
+      "to_seq": 10,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 11
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000558",
+      "doc_seq": 5,
+      "track_doc_seq": 558,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 558,
+      "preview": "残念ながら餌釣りは向いていないのかも知れません。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000559",
+      "doc_seq": 6,
+      "track_doc_seq": 559,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 559,
+      "preview": "6月22日に824-1編成が全検を終え、出場しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000560",
+      "doc_seq": 7,
+      "track_doc_seq": 560,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 560,
+      "preview": "前略、先日は息子の障害年金の手続きをしていただきまして、誠にありがとうございました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000561",
+      "doc_seq": 8,
+      "track_doc_seq": 561,
+      "unit_count": 62,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 561,
+      "preview": "ウタイストが、いつも大変お世話になっております【まほろ座 MACHIDA 】 でワンマンライブを開催します！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 62,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000562",
+      "doc_seq": 9,
+      "track_doc_seq": 562,
+      "unit_count": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 562,
+      "preview": "著者の経営する幼稚園で、子育て中のお母さん１００人を対象にアンケートをとったところ、１００人中１００人のお母さんが、子育てに関して「イライラを感じている」と答えました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 25,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000563",
+      "doc_seq": 10,
+      "track_doc_seq": 563,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 563,
+      "preview": "サービス付き高齢者向け住宅 たかやの郷で開催された『きく茶屋』に参加してきました『きく茶屋』は、認知症のある方や家族、地域の方々や専門家が相互に情報を共有し、お互いを理解し合う場所です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T01:56:34Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000555:u0008::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000555",
+      "doc_seq": 2,
+      "track_doc_seq": 555,
+      "unit_id": "ja_cc_level2:0000000555:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 555,
+      "text": "遊んでいるソフトも3DSソフトでなくDSソフトのよう。",
+      "rendered_yomi_before": "遊ん/アソン で/デ いる/イル ソフト/ソフト も/モ 3/ DS/ディーエス ソフト/ソフト で/デ なく/ナク DS/ディーエス ソフト/ソフト の/ノ よう/ヨウ 。/。",
+      "rendered_yomi_after": "遊ん/アソン で/デ いる/イル ソフト/ソフト も/モ 3DS/スリーディーエス ソフト/ソフト で/デ なく/ナク DS/ディーエス ソフト/ソフト の/ノ よう/ヨウ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "遊ん",
+          "アソン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "ソフト",
+          "ソフト"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "3DS",
+          "スリーディーエス"
+        ],
+        [
+          "ソフト",
+          "ソフト"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "なく",
+          "ナク"
+        ],
+        [
+          "DS",
+          "ディーエス"
+        ],
+        [
+          "ソフト",
+          "ソフト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "遊ん",
+          "reading": "アソン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遊",
+              "reading": "あそ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "ソフト",
+          "reading": "ソフト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ソフト"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "3DS",
+          "reading": "スリーディーエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "3DS",
+              "reading": "すりーでぃーえす"
+            }
+          ]
+        },
+        {
+          "surface": "ソフト",
+          "reading": "ソフト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ソフト"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "なく",
+          "reading": "ナク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なく"
+            }
+          ]
+        },
+        {
+          "surface": "DS",
+          "reading": "ディーエス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "DS",
+              "reading": "でぃーえす"
+            }
+          ]
+        },
+        {
+          "surface": "ソフト",
+          "reading": "ソフト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ソフト"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+          "item_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+          "unit_id": "ja_cc_level2:0000000555:u0008",
+          "text": "遊んでいるソフトも3DSソフトでなくDSソフトのよう。",
+          "rendered_yomi_before": "遊ん/アソン で/デ いる/イル ソフト/ソフト も/モ 3/ DS/ディーエス ソフト/ソフト で/デ なく/ナク DS/ディーエス ソフト/ソフト の/ノ よう/ヨウ 。/。",
+          "rendered_yomi_after": "遊ん/アソン で/デ いる/イル ソフト/ソフト も/モ 3DS/スリーディーエス ソフト/ソフト で/デ なく/ナク DS/ディーエス ソフト/ソフト の/ノ よう/ヨウ 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 9,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "3DS",
+              "token_surface": "3DS",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000555:u0008:9-12",
+              "rejected_readings": [
+                {
+                  "surface": "3DS",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "3DS",
+              "token_surface": "3DS",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000555:u0008:9-12",
+              "rejected_readings": [
+                {
+                  "surface": "3DS",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "3DS",
+          "reading_candidates": {
+            "3D": [
+              "すりーでぃー"
+            ],
+            "D": [
+              "でぃー"
+            ],
+            "DS": [
+              "でぃーえす"
+            ],
+            "S": [
+              "えす",
+              "すとっぷ"
+            ]
+          },
+          "reading_hints": {
+            "3D": "すりーでぃー",
+            "D": "でぃー",
+            "DS": "でぃーえす",
+            "S": "えす"
+          },
+          "rejected_readings": [
+            {
+              "surface": "3DS",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"3DS\",\"reading\":\"スリーディーエス\",\"used_web_search\":false,\"comment\":\"任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "3DS",
+              "reading": "スリーディーエス",
+              "used_web_search": false,
+              "comment": "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+            "status": "applied",
+            "rejected_span": "3DS",
+            "replacement": [
+              {
+                "surface": "3DS",
+                "reading": "スリーディーエス"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+                "surface": "3DS",
+                "comment": "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "3DS",
+      "target_escalations": [
+        {
+          "surface": "3DS",
+          "token_surface": "3DS",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000555:u0008:9-12",
+          "rejected_readings": [
+            {
+              "surface": "3DS",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "3DS",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "3D": [
+          "すりーでぃー"
+        ],
+        "D": [
+          "でぃー"
+        ],
+        "DS": [
+          "でぃーえす"
+        ],
+        "S": [
+          "えす",
+          "すとっぷ"
+        ]
+      },
+      "reading_hints": {
+        "3D": "すりーでぃー",
+        "D": "でぃー",
+        "DS": "でぃーえす",
+        "S": "えす"
+      },
+      "llm_parsed": [
+        {
+          "surface": "3DS",
+          "reading": "スリーディーエス",
+          "used_web_search": false,
+          "comment": "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"3DS\",\"reading\":\"スリーディーエス\",\"used_web_search\":false,\"comment\":\"任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。\"}]",
+      "llm_comments": [
+        "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+        "status": "applied",
+        "rejected_span": "3DS",
+        "replacement": [
+          {
+            "surface": "3DS",
+            "reading": "スリーディーエス"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000555:u0008::span_group:1",
+            "surface": "3DS",
+            "comment": "任天堂の機種名として定着した略称なので、全体を一まとまりで「スリーディーエス」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0001::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "昨日木曜日夜に、アンドレア・バッティストーニ指揮の東フィル130回東京オペラシティ定期シリーズの演奏を聴いてきました（2020.1.23.19:00～）。",
+      "rendered_yomi_before": "昨日/キノウ 木曜日/モクヨウビ 夜/ヨル に/ニ 、/、 アンドレア/アンドレア ・/・ バッティストーニ/バッティストーニ 指揮/シキ の/ノ 東/ヒガシ フィル/フィル 130/ 回/カイ 東京/トウキョウ オペラ/オペラ シティ/シティ 定期/テイキ シリーズ/シリーズ の/ノ 演奏/エンソウ を/ヲ 聴い/キイ て/テ き/キ まし/マシ た/タ （/（ 2020.1/ ./. 23.19/ :/: 00/ ～/～ ）/） 。/。",
+      "rendered_yomi_after": "昨日/キノウ 木曜日/モクヨウビ 夜/ヨル に/ニ 、/、 アンドレア/アンドレア ・/・ バッティストーニ/バッティストーニ 指揮/シキ の/ノ 東フィル/トウフィル 130/ 回/カイ 東京/トウキョウ オペラ/オペラ シティ/シティ 定期/テイキ シリーズ/シリーズ の/ノ 演奏/エンソウ を/ヲ 聴い/キイ て/テ き/キ まし/マシ た/タ （/（ 2020.1/ ./. 23.19/ :/: 00/ ～/～ ）/） 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "昨日",
+          "キノウ"
+        ],
+        [
+          "木曜日",
+          "モクヨウビ"
+        ],
+        [
+          "夜",
+          "ヨル"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "アンドレア",
+          "アンドレア"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "バッティストーニ",
+          "バッティストーニ"
+        ],
+        [
+          "指揮",
+          "シキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "東フィル",
+          "トウフィル"
+        ],
+        [
+          "130",
+          ""
+        ],
+        [
+          "回",
+          "カイ"
+        ],
+        [
+          "東京",
+          "トウキョウ"
+        ],
+        [
+          "オペラ",
+          "オペラ"
+        ],
+        [
+          "シティ",
+          "シティ"
+        ],
+        [
+          "定期",
+          "テイキ"
+        ],
+        [
+          "シリーズ",
+          "シリーズ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "聴い",
+          "キイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "2020.1",
+          ""
+        ],
+        [
+          ".",
+          "."
+        ],
+        [
+          "23.19",
+          ""
+        ],
+        [
+          ":",
+          ":"
+        ],
+        [
+          "00",
+          ""
+        ],
+        [
+          "～",
+          "～"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "昨日",
+          "reading": "キノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昨日",
+              "reading": "きのう"
+            }
+          ]
+        },
+        {
+          "surface": "木曜日",
+          "reading": "モクヨウビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "木曜日",
+              "reading": "もくようび"
+            }
+          ]
+        },
+        {
+          "surface": "夜",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夜",
+              "reading": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "アンドレア",
+          "reading": "アンドレア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アンドレア"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "バッティストーニ",
+          "reading": "バッティストーニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "バッティストーニ"
+            }
+          ]
+        },
+        {
+          "surface": "指揮",
+          "reading": "シキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "指揮",
+              "reading": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "東フィル",
+          "reading": "トウフィル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東",
+              "reading": "とう"
+            },
+            {
+              "type": "text",
+              "text": "フィル"
+            }
+          ]
+        },
+        {
+          "surface": "130",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "130"
+            }
+          ]
+        },
+        {
+          "surface": "回",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "東京",
+          "reading": "トウキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東京",
+              "reading": "とうきょう"
+            }
+          ]
+        },
+        {
+          "surface": "オペラ",
+          "reading": "オペラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オペラ"
+            }
+          ]
+        },
+        {
+          "surface": "シティ",
+          "reading": "シティ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シティ"
+            }
+          ]
+        },
+        {
+          "surface": "定期",
+          "reading": "テイキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "定期",
+              "reading": "ていき"
+            }
+          ]
+        },
+        {
+          "surface": "シリーズ",
+          "reading": "シリーズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シリーズ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "聴い",
+          "reading": "キイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聴",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "2020.1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2020.1"
+            }
+          ]
+        },
+        {
+          "surface": ".",
+          "reading": ".",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "."
+            }
+          ]
+        },
+        {
+          "surface": "23.19",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "23.19"
+            }
+          ]
+        },
+        {
+          "surface": ":",
+          "reading": ":",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ":"
+            }
+          ]
+        },
+        {
+          "surface": "00",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "00"
+            }
+          ]
+        },
+        {
+          "surface": "～",
+          "reading": "～",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "～"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0001",
+          "text": "昨日木曜日夜に、アンドレア・バッティストーニ指揮の東フィル130回東京オペラシティ定期シリーズの演奏を聴いてきました（2020.1.23.19:00～）。",
+          "rendered_yomi_before": "昨日/キノウ 木曜日/モクヨウビ 夜/ヨル に/ニ 、/、 アンドレア/アンドレア ・/・ バッティストーニ/バッティストーニ 指揮/シキ の/ノ 東/ヒガシ フィル/フィル 130/ 回/カイ 東京/トウキョウ オペラ/オペラ シティ/シティ 定期/テイキ シリーズ/シリーズ の/ノ 演奏/エンソウ を/ヲ 聴い/キイ て/テ き/キ まし/マシ た/タ （/（ 2020.1/ ./. 23.19/ :/: 00/ ～/～ ）/） 。/。",
+          "rendered_yomi_after": "昨日/キノウ 木曜日/モクヨウビ 夜/ヨル に/ニ 、/、 アンドレア/アンドレア ・/・ バッティストーニ/バッティストーニ 指揮/シキ の/ノ 東フィル/トウフィル 130/ 回/カイ 東京/トウキョウ オペラ/オペラ シティ/シティ 定期/テイキ シリーズ/シリーズ の/ノ 演奏/エンソウ を/ヲ 聴い/キイ て/テ き/キ まし/マシ た/タ （/（ 2020.1/ ./. 23.19/ :/: 00/ ～/～ ）/） 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 25,
+            "char_end": 29,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "kana_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "東フィル",
+              "token_surface": "東フィル",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000557:u0001:25-29",
+              "rejected_readings": [
+                {
+                  "surface": "東フィル",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "東フィル",
+              "token_surface": "東フィル",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000557:u0001:25-29",
+              "rejected_readings": [
+                {
+                  "surface": "東フィル",
+                  "reading": "",
+                  "source": "kana_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "東フィル",
+          "reading_candidates": {
+            "東": [
+              "あきら",
+              "あずま",
+              "あづま",
+              "とう",
+              "とん",
+              "はじめ",
+              "ひがし",
+              "ひがしの"
+            ]
+          },
+          "reading_hints": {
+            "東": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "東フィル",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"東フィル\",\"reading\":\"トウフィル\",\"used_web_search\":false,\"comment\":\"東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "東フィル",
+              "reading": "トウフィル",
+              "used_web_search": false,
+              "comment": "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。"
+            }
+          ],
+          "llm_comments": [
+            "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+            "status": "applied",
+            "rejected_span": "東フィル",
+            "replacement": [
+              {
+                "surface": "東フィル",
+                "reading": "トウフィル"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+                "surface": "東フィル",
+                "comment": "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "東フィル",
+      "target_escalations": [
+        {
+          "surface": "東フィル",
+          "token_surface": "東フィル",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0059_v1:ja_cc_level2:0000000557:u0001:25-29",
+          "rejected_readings": [
+            {
+              "surface": "東フィル",
+              "reading": "",
+              "source": "kana_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "東フィル",
+          "reading": "",
+          "source": "kana_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "東": [
+          "あきら",
+          "あずま",
+          "あづま",
+          "とう",
+          "とん",
+          "はじめ",
+          "ひがし",
+          "ひがしの"
+        ]
+      },
+      "reading_hints": {
+        "東": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "東フィル",
+          "reading": "トウフィル",
+          "used_web_search": false,
+          "comment": "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"東フィル\",\"reading\":\"トウフィル\",\"used_web_search\":false,\"comment\":\"東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。\"}]",
+      "llm_comments": [
+        "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+        "status": "applied",
+        "rejected_span": "東フィル",
+        "replacement": [
+          {
+            "surface": "東フィル",
+            "reading": "トウフィル"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0001::span_group:1",
+            "surface": "東フィル",
+            "comment": "東京フィルハーモニー交響楽団の通称で、まとめて「トウフィル」と読む固有名詞です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0002::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "演奏曲目は、①ラフマニノフ作曲『ピアノ（Pf.）協奏曲第3番ニ短調Op.30』 Pf.演奏は阪田知樹。",
+      "rendered_yomi_before": "演奏/エンソウ 曲目/キョクモク は/ハ 、/、 ①/イチ ラフマニノフ/ラフマニノフ 作曲/サッキョク 『/『 ピアノ/ピアノ （/（ Pf/ピーエフ ./. ）/） 協奏曲/キョウソウキョク 第/ダイ 3/ 番/バン ニ短調/ニタンチョウ Op/オーパス ./. 30/ 』/』  /  Pf/ピーエフ ./. 演奏/エンソウ は/ハ 阪田/サカタ 知樹/トモキ 。/。",
+      "rendered_yomi_after": "演奏/エンソウ 曲目/キョクモク は/ハ 、/、 ①/イチ ラフマニノフ/ラフマニノフ 作曲/サッキョク 『/『 ピアノ/ピアノ （/（ Pf/ピーエフ ./. ）/） 協奏曲/キョウソウキョク 第/ダイ 3/ 番/バン ニ短調/ニタンチョウ Op/オーピー ./. 30/ 』/』 \\s/ Pf/ピーエフ ./. 演奏/エンソウ は/ハ 阪田/サカタ 知樹/トモキ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "曲目",
+          "キョクモク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "①",
+          "イチ"
+        ],
+        [
+          "ラフマニノフ",
+          "ラフマニノフ"
+        ],
+        [
+          "作曲",
+          "サッキョク"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "ピアノ",
+          "ピアノ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "Pf",
+          "ピーエフ"
+        ],
+        [
+          ".",
+          "."
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "協奏曲",
+          "キョウソウキョク"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "番",
+          "バン"
+        ],
+        [
+          "ニ短調",
+          "ニタンチョウ"
+        ],
+        [
+          "Op",
+          "オーピー"
+        ],
+        [
+          ".",
+          "."
+        ],
+        [
+          "30",
+          ""
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "Pf",
+          "ピーエフ"
+        ],
+        [
+          ".",
+          "."
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "阪田",
+          "サカタ"
+        ],
+        [
+          "知樹",
+          "トモキ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "曲目",
+          "reading": "キョクモク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "曲目",
+              "reading": "きょくもく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "①",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "①"
+            }
+          ]
+        },
+        {
+          "surface": "ラフマニノフ",
+          "reading": "ラフマニノフ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ラフマニノフ"
+            }
+          ]
+        },
+        {
+          "surface": "作曲",
+          "reading": "サッキョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作曲",
+              "reading": "さっきょく"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "ピアノ",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ピアノ"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピーエフ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴーえふ"
+            }
+          ]
+        },
+        {
+          "surface": ".",
+          "reading": ".",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "."
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "協奏曲",
+          "reading": "キョウソウキョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "協奏曲",
+              "reading": "きょうそうきょく"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "番",
+          "reading": "バン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "番",
+              "reading": "ばん"
+            }
+          ]
+        },
+        {
+          "surface": "ニ短調",
+          "reading": "ニタンチョウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ニ"
+            },
+            {
+              "type": "ruby",
+              "text": "短調",
+              "reading": "たんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "Op",
+          "reading": "オーピー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Op",
+              "reading": "おーぴー"
+            }
+          ]
+        },
+        {
+          "surface": ".",
+          "reading": ".",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "."
+            }
+          ]
+        },
+        {
+          "surface": "30",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピーエフ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴーえふ"
+            }
+          ]
+        },
+        {
+          "surface": ".",
+          "reading": ".",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "."
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "阪田",
+          "reading": "サカタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "阪田",
+              "reading": "さかた"
+            }
+          ]
+        },
+        {
+          "surface": "知樹",
+          "reading": "トモキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "知樹",
+              "reading": "ともき"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0002",
+          "text": "演奏曲目は、①ラフマニノフ作曲『ピアノ（Pf.）協奏曲第3番ニ短調Op.30』 Pf.演奏は阪田知樹。",
+          "rendered_yomi_before": "演奏/エンソウ 曲目/キョクモク は/ハ 、/、 ①/イチ ラフマニノフ/ラフマニノフ 作曲/サッキョク 『/『 ピアノ/ピアノ （/（ Pf/ピーエフ ./. ）/） 協奏曲/キョウソウキョク 第/ダイ 3/ 番/バン ニ短調/ニタンチョウ Op/オーパス ./. 30/ 』/』  /  Pf/ピーエフ ./. 演奏/エンソウ は/ハ 阪田/サカタ 知樹/トモキ 。/。",
+          "rendered_yomi_after": "演奏/エンソウ 曲目/キョクモク は/ハ 、/、 ①/イチ ラフマニノフ/ラフマニノフ 作曲/サッキョク 『/『 ピアノ/ピアノ （/（ Pf/ピーエフ ./. ）/） 協奏曲/キョウソウキョク 第/ダイ 3/ 番/バン ニ短調/ニタンチョウ Op/オーピー ./. 30/ 』/』 \\s/ Pf/ピーエフ ./. 演奏/エンソウ は/ハ 阪田/サカタ 知樹/トモキ 。/。",
+          "display_mapping": {
+            "start": 23,
+            "end": 24,
+            "char_start": 40,
+            "char_end": 42,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0002:s0041-0042",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0002:s0041-0042",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピーエフ\",\"used_web_search\":false,\"comment\":\"音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピーエフ",
+              "used_web_search": false,
+              "comment": "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。"
+            }
+          ],
+          "llm_comments": [
+            "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "Pf",
+            "reading": "ピーエフ",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+                "surface": "Pf",
+                "comment": "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0002:s0041-0042",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピーエフ",
+          "used_web_search": false,
+          "comment": "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピーエフ\",\"used_web_search\":false,\"comment\":\"音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。\"}]",
+      "llm_comments": [
+        "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "reused_rejected_reading",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+        "status": "reused_rejected_reading",
+        "reason": "replacement reused rejected reading",
+        "surface": "Pf",
+        "reading": "ピーエフ",
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0002::target_group:1",
+            "surface": "Pf",
+            "comment": "音楽文脈の略記「Pf.」はピアノを表す表記で、読みは通常「ピーエフ」。1語として扱う。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0009::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "スタートからPfは、第１主題の陰鬱なメロディを静かに、しめやかに弾いている。",
+      "rendered_yomi_before": "スタート/スタート から/カラ Pf/ピーエフ は/ハ 、/、 第/ダイ １/ 主題/シュダイ の/ノ 陰鬱/インウツ な/ナ メロディ/メロディ を/ヲ 静か/シズカ に/ニ 、/、 しめやか/シメヤカ に/ニ 弾い/ヒイ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "スタート/スタート から/カラ Pf/ピアノ は/ハ 、/、 第/ダイ １/ 主題/シュダイ の/ノ 陰鬱/インウツ な/ナ メロディ/メロディ を/ヲ 静か/シズカ に/ニ 、/、 しめやか/シメヤカ に/ニ 弾い/ヒイ て/テ いる/イル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "スタート",
+          "スタート"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "１",
+          ""
+        ],
+        [
+          "主題",
+          "シュダイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "陰鬱",
+          "インウツ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "メロディ",
+          "メロディ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "静か",
+          "シズカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "しめやか",
+          "シメヤカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "弾い",
+          "ヒイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "スタート",
+          "reading": "スタート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スタート"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１"
+            }
+          ]
+        },
+        {
+          "surface": "主題",
+          "reading": "シュダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主題",
+              "reading": "しゅだい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "陰鬱",
+          "reading": "インウツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陰鬱",
+              "reading": "いんうつ"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "メロディ",
+          "reading": "メロディ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メロディ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "静か",
+          "reading": "シズカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "静",
+              "reading": "しず"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "しめやか",
+          "reading": "シメヤカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しめやか"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "弾い",
+          "reading": "ヒイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弾",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0009",
+          "text": "スタートからPfは、第１主題の陰鬱なメロディを静かに、しめやかに弾いている。",
+          "rendered_yomi_before": "スタート/スタート から/カラ Pf/ピーエフ は/ハ 、/、 第/ダイ １/ 主題/シュダイ の/ノ 陰鬱/インウツ な/ナ メロディ/メロディ を/ヲ 静か/シズカ に/ニ 、/、 しめやか/シメヤカ に/ニ 弾い/ヒイ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "スタート/スタート から/カラ Pf/ピアノ は/ハ 、/、 第/ダイ １/ 主題/シュダイ の/ノ 陰鬱/インウツ な/ナ メロディ/メロディ を/ヲ 静か/シズカ に/ニ 、/、 しめやか/シメヤカ に/ニ 弾い/ヒイ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 6,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。"
+            }
+          ],
+          "llm_comments": [
+            "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+                "surface": "Pf",
+                "comment": "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0009:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。\"}]",
+      "llm_comments": [
+        "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0009::target_group:1",
+            "surface": "Pf",
+            "comment": "楽譜・音楽文脈では Pf はピアノ（piano）を指す略記として読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0013::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0013",
+      "unit_seq": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "暫しPfの休止中にオケは朗々と歌い出し、それに合わせて阪田さんもまた弾き始めるが、中盤にかけてのff演奏も弱い気がします。",
+      "rendered_yomi_before": "暫し/シバラクシ Pf/ピーエフ の/ノ 休止/キュウシ 中/チュウ に/ニ オケ/オケ は/ハ 朗々/ロウロウ と/ト 歌い出し/ウタイダシ 、/、 それ/ソレ に/ニ 合わせ/アワセ て/テ 阪田/サカタ さん/サン も/モ また/マタ 弾き/ヒキ 始める/ハジメル が/ガ 、/、 中盤/チュウバン に/ニ かけ/カケ て/テ の/ノ ff/フォルティッシモ 演奏/エンソウ も/モ 弱い/ヨワイ 気/キ が/ガ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "暫し/シバシ Pf/ピアノ の/ノ 休止/キュウシ 中/チュウ に/ニ オケ/オケ は/ハ 朗々/ロウロウ と/ト 歌い出し/ウタイダシ 、/、 それ/ソレ に/ニ 合わせ/アワセ て/テ 阪田/サカタ さん/サン も/モ また/マタ 弾き/ヒキ 始める/ハジメル が/ガ 、/、 中盤/チュウバン に/ニ かけ/カケ て/テ の/ノ ff/エフエフ 演奏/エンソウ も/モ 弱い/ヨワイ 気/キ が/ガ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "暫し",
+          "シバシ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "休止",
+          "キュウシ"
+        ],
+        [
+          "中",
+          "チュウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "オケ",
+          "オケ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "朗々",
+          "ロウロウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "歌い出し",
+          "ウタイダシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "合わせ",
+          "アワセ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "阪田",
+          "サカタ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "また",
+          "マタ"
+        ],
+        [
+          "弾き",
+          "ヒキ"
+        ],
+        [
+          "始める",
+          "ハジメル"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "中盤",
+          "チュウバン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "かけ",
+          "カケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ff",
+          "エフエフ"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "弱い",
+          "ヨワイ"
+        ],
+        [
+          "気",
+          "キ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "暫し",
+          "reading": "シバシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "暫",
+              "reading": "しば"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "休止",
+          "reading": "キュウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "休止",
+              "reading": "きゅうし"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "チュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "ちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "オケ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オケ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "朗々",
+          "reading": "ロウロウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "朗々",
+              "reading": "ろうろう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "歌い出し",
+          "reading": "ウタイダシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歌",
+              "reading": "うた"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            },
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "だ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "合わせ",
+          "reading": "アワセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "合",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "わせ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "阪田",
+          "reading": "サカタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "阪田",
+              "reading": "さかた"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "また",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "また"
+            }
+          ]
+        },
+        {
+          "surface": "弾き",
+          "reading": "ヒキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弾",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "始める",
+          "reading": "ハジメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "始",
+              "reading": "はじ"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "中盤",
+          "reading": "チュウバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中盤",
+              "reading": "ちゅうばん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "かけ",
+          "reading": "カケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かけ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ff",
+          "reading": "エフエフ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ff",
+              "reading": "えふえふ"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "弱い",
+          "reading": "ヨワイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弱",
+              "reading": "よわ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "気",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気",
+              "reading": "き"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0013",
+          "text": "暫しPfの休止中にオケは朗々と歌い出し、それに合わせて阪田さんもまた弾き始めるが、中盤にかけてのff演奏も弱い気がします。",
+          "rendered_yomi_before": "暫し/シバラクシ Pf/ピーエフ の/ノ 休止/キュウシ 中/チュウ に/ニ オケ/オケ は/ハ 朗々/ロウロウ と/ト 歌い出し/ウタイダシ 、/、 それ/ソレ に/ニ 合わせ/アワセ て/テ 阪田/サカタ さん/サン も/モ また/マタ 弾き/ヒキ 始める/ハジメル が/ガ 、/、 中盤/チュウバン に/ニ かけ/カケ て/テ の/ノ ff/フォルティッシモ 演奏/エンソウ も/モ 弱い/ヨワイ 気/キ が/ガ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "暫し/シバシ Pf/ピアノ の/ノ 休止/キュウシ 中/チュウ に/ニ オケ/オケ は/ハ 朗々/ロウロウ と/ト 歌い出し/ウタイダシ 、/、 それ/ソレ に/ニ 合わせ/アワセ て/テ 阪田/サカタ さん/サン も/モ また/マタ 弾き/ヒキ 始める/ハジメル が/ガ 、/、 中盤/チュウバン に/ニ かけ/カケ て/テ の/ノ ff/エフエフ 演奏/エンソウ も/モ 弱い/ヨワイ 気/キ が/ガ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 2,
+            "char_end": 4,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0013:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0013:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。"
+            }
+          ],
+          "llm_comments": [
+            "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+                "surface": "Pf",
+                "comment": "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0013:s0003-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。\"}]",
+      "llm_comments": [
+        "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0013::target_group:1",
+            "surface": "Pf",
+            "comment": "音楽文脈では Pf はピアノの略として読むのが自然で、英字読みの「ピーエフ」ではない。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0014::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0014",
+      "unit_seq": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "中盤過ぎのフルオーケストラの轟音下、Pfもかなりの強音を出すパッセージではPfの音は伴奏音の波に飲み込まれて全然聴こえない。",
+      "rendered_yomi_before": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピーエフ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピーエフ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+      "rendered_yomi_after": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピアノ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピアノ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "中盤",
+          "チュウバン"
+        ],
+        [
+          "過ぎ",
+          "スギ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "フル",
+          "フル"
+        ],
+        [
+          "オーケストラ",
+          "オーケストラ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "轟音",
+          "ゴウオン"
+        ],
+        [
+          "下",
+          "カ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "かなり",
+          "カナリ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "強音",
+          "キョウオン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "出す",
+          "ダス"
+        ],
+        [
+          "パッセージ",
+          "パッセージ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "音",
+          "オト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "伴奏",
+          "バンソウ"
+        ],
+        [
+          "音",
+          "オン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "波",
+          "ナミ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "飲み込ま",
+          "ノミコマ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "全然",
+          "ゼンゼン"
+        ],
+        [
+          "聴こえ",
+          "キコエ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "中盤",
+          "reading": "チュウバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中盤",
+              "reading": "ちゅうばん"
+            }
+          ]
+        },
+        {
+          "surface": "過ぎ",
+          "reading": "スギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "過",
+              "reading": "す"
+            },
+            {
+              "type": "text",
+              "text": "ぎ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "フル",
+          "reading": "フル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フル"
+            }
+          ]
+        },
+        {
+          "surface": "オーケストラ",
+          "reading": "オーケストラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オーケストラ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "轟音",
+          "reading": "ゴウオン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "轟音",
+              "reading": "ごうおん"
+            }
+          ]
+        },
+        {
+          "surface": "下",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下",
+              "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "かなり",
+          "reading": "カナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かなり"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "強音",
+          "reading": "キョウオン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "強音",
+              "reading": "きょうおん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "出す",
+          "reading": "ダス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "だ"
+            },
+            {
+              "type": "text",
+              "text": "す"
+            }
+          ]
+        },
+        {
+          "surface": "パッセージ",
+          "reading": "パッセージ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パッセージ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "音",
+          "reading": "オト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音",
+              "reading": "おと"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "伴奏",
+          "reading": "バンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "伴奏",
+              "reading": "ばんそう"
+            }
+          ]
+        },
+        {
+          "surface": "音",
+          "reading": "オン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音",
+              "reading": "おん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "波",
+          "reading": "ナミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "波",
+              "reading": "なみ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "飲み込ま",
+          "reading": "ノミコマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "飲",
+              "reading": "の"
+            },
+            {
+              "type": "text",
+              "text": "み"
+            },
+            {
+              "type": "ruby",
+              "text": "込",
+              "reading": "こ"
+            },
+            {
+              "type": "text",
+              "text": "ま"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "全然",
+          "reading": "ゼンゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "全然",
+              "reading": "ぜんぜん"
+            }
+          ]
+        },
+        {
+          "surface": "聴こえ",
+          "reading": "キコエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聴",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "こえ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0014",
+          "text": "中盤過ぎのフルオーケストラの轟音下、Pfもかなりの強音を出すパッセージではPfの音は伴奏音の波に飲み込まれて全然聴こえない。",
+          "rendered_yomi_before": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピーエフ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピーエフ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+          "rendered_yomi_after": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピアノ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピアノ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 18,
+            "char_end": 20,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0014:s0019-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0014:s0019-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf はピアノの略として読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "音楽文脈では Pf はピアノの略として読むのが自然。"
+            }
+          ],
+          "llm_comments": [
+            "音楽文脈では Pf はピアノの略として読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+                "surface": "Pf",
+                "comment": "音楽文脈では Pf はピアノの略として読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 0
+        },
+        {
+          "region_id": "ja_cc_level2:0000000557:u0014::target_group:2",
+          "item_id": "ja_cc_level2:0000000557:u0014::target_group:2",
+          "unit_id": "ja_cc_level2:0000000557:u0014",
+          "text": "中盤過ぎのフルオーケストラの轟音下、Pfもかなりの強音を出すパッセージではPfの音は伴奏音の波に飲み込まれて全然聴こえない。",
+          "rendered_yomi_before": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピーエフ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピーエフ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+          "rendered_yomi_after": "中盤/チュウバン 過ぎ/スギ の/ノ フル/フル オーケストラ/オーケストラ の/ノ 轟音/ゴウオン 下/カ 、/、 Pf/ピアノ も/モ かなり/カナリ の/ノ 強音/キョウオン を/ヲ 出す/ダス パッセージ/パッセージ で/デ は/ハ Pf/ピアノ の/ノ 音/オト は/ハ 伴奏/バンソウ 音/オン の/ノ 波/ナミ に/ニ 飲み込ま/ノミコマ れ/レ て/テ 全然/ゼンゼン 聴こえ/キコエ ない/ナイ 。/。",
+          "display_mapping": {
+            "start": 19,
+            "end": 20,
+            "char_start": 37,
+            "char_end": 39,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0014:s0038-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0014:s0038-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 19,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・音楽用語で Pf は piano（ピアノ）の略。文脈上もピアノを指す。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "楽譜・音楽用語で Pf は piano（ピアノ）の略。文脈上もピアノを指す。"
+            }
+          ],
+          "llm_comments": [
+            "楽譜・音楽用語で Pf は piano（ピアノ）の略。文脈上もピアノを指す。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0014::target_group:2",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0014::target_group:2",
+                "surface": "Pf",
+                "comment": "楽譜・音楽用語で Pf は piano（ピアノ）の略。文脈上もピアノを指す。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 1
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0014:s0019-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "音楽文脈では Pf はピアノの略として読むのが自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf はピアノの略として読むのが自然。\"}]",
+      "llm_comments": [
+        "音楽文脈では Pf はピアノの略として読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0014::target_group:1",
+            "surface": "Pf",
+            "comment": "音楽文脈では Pf はピアノの略として読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0019::strong_repair",
+      "seq": 7,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "再び第１主題が繰り返され、第1楽章の２/３位進んだ処でオケは全開、大きな音をたてましたが、それに隠れてPfの音が殆ど聞こえません。",
+      "rendered_yomi_before": "再び/フタタビ 第/ダイ １/ 主題/シュダイ が/ガ 繰り返さ/クリカエサ れ/レ 、/、 第/ダイ 1/ 楽章/ガクショウ の/ノ ２/ /// ３/ 位/クライ 進ん/ススン だ/ダ 処/トコロ で/デ オケ/オケ は/ハ 全開/ゼンカイ 、/、 大きな/オオキナ 音/オト を/ヲ たて/タテ まし/マシ た/タ が/ガ 、/、 それ/ソレ に/ニ 隠れ/カクレ て/テ Pf/ピーエフ の/ノ 音/オト が/ガ 殆ど/ホトンド 聞こえ/キコエ ませ/マセ ん/ン 。/。",
+      "rendered_yomi_after": "再び/フタタビ 第/ダイ １/ 主題/シュダイ が/ガ 繰り返さ/クリカエサ れ/レ 、/、 第/ダイ 1/ 楽章/ガクショウ の/ノ ２/ \\//\\/ ３/ 位/イ 進ん/ススン だ/ダ 処/トコロ で/デ オケ/オケ は/ハ 全開/ゼンカイ 、/、 大きな/オオキナ 音/オト を/ヲ たて/タテ まし/マシ た/タ が/ガ 、/、 それ/ソレ に/ニ 隠れ/カクレ て/テ Pf/ピアノ の/ノ 音/オト が/ガ 殆ど/ホトンド 聞こえ/キコエ ませ/マセ ん/ン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "再び",
+          "フタタビ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "１",
+          ""
+        ],
+        [
+          "主題",
+          "シュダイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "繰り返さ",
+          "クリカエサ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "楽章",
+          "ガクショウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "２",
+          ""
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "３",
+          ""
+        ],
+        [
+          "位",
+          "イ"
+        ],
+        [
+          "進ん",
+          "ススン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "処",
+          "トコロ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "オケ",
+          "オケ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "全開",
+          "ゼンカイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "大きな",
+          "オオキナ"
+        ],
+        [
+          "音",
+          "オト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "たて",
+          "タテ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "隠れ",
+          "カクレ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "音",
+          "オト"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "殆ど",
+          "ホトンド"
+        ],
+        [
+          "聞こえ",
+          "キコエ"
+        ],
+        [
+          "ませ",
+          "マセ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "再び",
+          "reading": "フタタビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "再",
+              "reading": "ふたた"
+            },
+            {
+              "type": "text",
+              "text": "び"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１"
+            }
+          ]
+        },
+        {
+          "surface": "主題",
+          "reading": "シュダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主題",
+              "reading": "しゅだい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "繰り返さ",
+          "reading": "クリカエサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "繰",
+              "reading": "く"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "返",
+              "reading": "かえ"
+            },
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "楽章",
+          "reading": "ガクショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "楽章",
+              "reading": "がくしょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "位",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "位",
+              "reading": "い"
+            }
+          ]
+        },
+        {
+          "surface": "進ん",
+          "reading": "ススン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進",
+              "reading": "すす"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "処",
+          "reading": "トコロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "処",
+              "reading": "ところ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "オケ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オケ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "全開",
+          "reading": "ゼンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "全開",
+              "reading": "ぜんかい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "大きな",
+          "reading": "オオキナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "おお"
+            },
+            {
+              "type": "text",
+              "text": "きな"
+            }
+          ]
+        },
+        {
+          "surface": "音",
+          "reading": "オト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音",
+              "reading": "おと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "たて",
+          "reading": "タテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たて"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "隠れ",
+          "reading": "カクレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "隠",
+              "reading": "かく"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "音",
+          "reading": "オト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音",
+              "reading": "おと"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "殆ど",
+          "reading": "ホトンド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "殆",
+              "reading": "ほとん"
+            },
+            {
+              "type": "text",
+              "text": "ど"
+            }
+          ]
+        },
+        {
+          "surface": "聞こえ",
+          "reading": "キコエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聞",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "こえ"
+            }
+          ]
+        },
+        {
+          "surface": "ませ",
+          "reading": "マセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ませ"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0019",
+          "text": "再び第１主題が繰り返され、第1楽章の２/３位進んだ処でオケは全開、大きな音をたてましたが、それに隠れてPfの音が殆ど聞こえません。",
+          "rendered_yomi_before": "再び/フタタビ 第/ダイ １/ 主題/シュダイ が/ガ 繰り返さ/クリカエサ れ/レ 、/、 第/ダイ 1/ 楽章/ガクショウ の/ノ ２/ /// ３/ 位/クライ 進ん/ススン だ/ダ 処/トコロ で/デ オケ/オケ は/ハ 全開/ゼンカイ 、/、 大きな/オオキナ 音/オト を/ヲ たて/タテ まし/マシ た/タ が/ガ 、/、 それ/ソレ に/ニ 隠れ/カクレ て/テ Pf/ピーエフ の/ノ 音/オト が/ガ 殆ど/ホトンド 聞こえ/キコエ ませ/マセ ん/ン 。/。",
+          "rendered_yomi_after": "再び/フタタビ 第/ダイ １/ 主題/シュダイ が/ガ 繰り返さ/クリカエサ れ/レ 、/、 第/ダイ 1/ 楽章/ガクショウ の/ノ ２/ \\//\\/ ３/ 位/イ 進ん/ススン だ/ダ 処/トコロ で/デ オケ/オケ は/ハ 全開/ゼンカイ 、/、 大きな/オオキナ 音/オト を/ヲ たて/タテ まし/マシ た/タ が/ガ 、/、 それ/ソレ に/ニ 隠れ/カクレ て/テ Pf/ピアノ の/ノ 音/オト が/ガ 殆ど/ホトンド 聞こえ/キコエ ませ/マセ ん/ン 。/。",
+          "display_mapping": {
+            "start": 36,
+            "end": 37,
+            "char_start": 51,
+            "char_end": 53,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0019:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0019:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+                "surface": "Pf",
+                "comment": "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0019:s0052-0053",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 36,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。\"}]",
+      "llm_comments": [
+        "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0019::target_group:1",
+            "surface": "Pf",
+            "comment": "楽譜・演奏文脈のPf.はピアノを指す略記なので、ここでは『ピアノ』と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0024::strong_repair",
+      "seq": 8,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0024",
+      "unit_seq": 24,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "引き続きPfが力強く弾き始め独奏部演奏も良く聞こえた。",
+      "rendered_yomi_before": "引き続き/ヒキツヅキ Pf/ピーエフ が/ガ 力強く/チカラヅヨク 弾き/ヒキ 始め/ハジメ 独奏/ドクソウ 部/ブ 演奏/エンソウ も/モ 良く/ヨク 聞こえ/キコエ た/タ 。/。",
+      "rendered_yomi_after": "引き続き/ヒキツヅキ Pf/ピアノ が/ガ 力強く/チカラヅヨク 弾き/ヒキ 始め/ハジメ 独奏/ドクソウ 部/ブ 演奏/エンソウ も/モ 良く/ヨク 聞こえ/キコエ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "引き続き",
+          "ヒキツヅキ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "力強く",
+          "チカラヅヨク"
+        ],
+        [
+          "弾き",
+          "ヒキ"
+        ],
+        [
+          "始め",
+          "ハジメ"
+        ],
+        [
+          "独奏",
+          "ドクソウ"
+        ],
+        [
+          "部",
+          "ブ"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "良く",
+          "ヨク"
+        ],
+        [
+          "聞こえ",
+          "キコエ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "引き続き",
+          "reading": "ヒキツヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "引",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            },
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "力強く",
+          "reading": "チカラヅヨク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "力強",
+              "reading": "ちからづよ"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "弾き",
+          "reading": "ヒキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弾",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "始め",
+          "reading": "ハジメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "始",
+              "reading": "はじ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "独奏",
+          "reading": "ドクソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "独奏",
+              "reading": "どくそう"
+            }
+          ]
+        },
+        {
+          "surface": "部",
+          "reading": "ブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部",
+              "reading": "ぶ"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "良く",
+          "reading": "ヨク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "良",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "聞こえ",
+          "reading": "キコエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "聞",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "こえ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0024",
+          "text": "引き続きPfが力強く弾き始め独奏部演奏も良く聞こえた。",
+          "rendered_yomi_before": "引き続き/ヒキツヅキ Pf/ピーエフ が/ガ 力強く/チカラヅヨク 弾き/ヒキ 始め/ハジメ 独奏/ドクソウ 部/ブ 演奏/エンソウ も/モ 良く/ヨク 聞こえ/キコエ た/タ 。/。",
+          "rendered_yomi_after": "引き続き/ヒキツヅキ Pf/ピアノ が/ガ 力強く/チカラヅヨク 弾き/ヒキ 始め/ハジメ 独奏/ドクソウ 部/ブ 演奏/エンソウ も/モ 良く/ヨク 聞こえ/キコエ た/タ 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0024:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0024:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+                "surface": "Pf",
+                "comment": "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0024:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0024::target_group:1",
+            "surface": "Pf",
+            "comment": "楽譜・音楽用語の略記で、文脈上は piano（Pf.=Piano/Forte）を指すため「ピアノ」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0025::strong_repair",
+      "seq": 9,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0025",
+      "unit_seq": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "小休止の後、力強いPf の再開音は第1楽章の阪田さんの演奏とは別人の様に迫力ある演奏となっていました。",
+      "rendered_yomi_before": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピーエフ  /  の/ノ 再/サイ 開音/カイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピアノ \\s/ の/ノ 再開音/サイカイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "小休止",
+          "ショウキュウシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "後",
+          "アト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "力強い",
+          "チカラヅヨイ"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "再開音",
+          "サイカイオン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "楽章",
+          "ガクショウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "阪田",
+          "サカタ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "別人",
+          "ベツジン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "様",
+          "ヨウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "迫力",
+          "ハクリョク"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "小休止",
+          "reading": "ショウキュウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小休止",
+              "reading": "しょうきゅうし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "アト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "あと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "力強い",
+          "reading": "チカラヅヨイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "力強",
+              "reading": "ちからづよ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "再開音",
+          "reading": "サイカイオン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "再開音",
+              "reading": "さいかいおん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "楽章",
+          "reading": "ガクショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "楽章",
+              "reading": "がくしょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "阪田",
+          "reading": "サカタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "阪田",
+              "reading": "さかた"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "別人",
+          "reading": "ベツジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "別人",
+              "reading": "べつじん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "迫力",
+          "reading": "ハクリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "迫力",
+              "reading": "はくりょく"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0025",
+          "text": "小休止の後、力強いPf の再開音は第1楽章の阪田さんの演奏とは別人の様に迫力ある演奏となっていました。",
+          "rendered_yomi_before": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピーエフ  /  の/ノ 再/サイ 開音/カイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピアノ \\s/ の/ノ 再開音/サイカイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 9,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。"
+            }
+          ],
+          "llm_comments": [
+            "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+                "surface": "Pf",
+                "comment": "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000000557:u0025::target_group:2",
+          "item_id": "ja_cc_level2:0000000557:u0025::target_group:2",
+          "unit_id": "ja_cc_level2:0000000557:u0025",
+          "text": "小休止の後、力強いPf の再開音は第1楽章の阪田さんの演奏とは別人の様に迫力ある演奏となっていました。",
+          "rendered_yomi_before": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピーエフ  /  の/ノ 再/サイ 開音/カイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "小休止/ショウキュウシ の/ノ 後/アト 、/、 力強い/チカラヅヨイ Pf/ピアノ \\s/ の/ノ 再開音/サイカイオン は/ハ 第/ダイ 1/ 楽章/ガクショウ の/ノ 阪田/サカタ さん/サン の/ノ 演奏/エンソウ と/ト は/ハ 別人/ベツジン の/ノ 様/ヨウ に/ニ 迫力/ハクリョク ある/アル 演奏/エンソウ と/ト なっ/ナッ て/テ い/イ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 13,
+            "char_end": 16,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "再",
+              "token_surface": "再",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "再",
+                  "reading": "さい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0015-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "開音",
+              "token_surface": "開音",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かいおん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "開音",
+                  "reading": "かいおん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "再",
+              "token_surface": "再",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "再",
+                  "reading": "さい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000557:u0025:s0015-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "開音",
+              "token_surface": "開音",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かいおん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "開音",
+                  "reading": "かいおん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "再開音",
+          "reading_candidates": {
+            "再": [
+              "さい"
+            ],
+            "再開": [
+              "さいかい"
+            ],
+            "開": [
+              "かい",
+              "ひらき",
+              "ひらく",
+              "ひらけ"
+            ],
+            "開音": [
+              "かいおん"
+            ],
+            "音": [
+              "おと",
+              "おん",
+              "ね"
+            ]
+          },
+          "reading_hints": {
+            "再": "さい",
+            "再開": "さいかい",
+            "開": "かい",
+            "開音": "かいおん",
+            "音": "おと"
+          },
+          "rejected_readings": [
+            {
+              "surface": "再",
+              "reading": "さい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "開音",
+              "reading": "かいおん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"再開音\",\"reading\":\"サイカイオン\",\"used_web_search\":false,\"comment\":\"音楽文脈の普通名詞として一語で読むのが自然なので、分割せず全体を「サイカイオン」とした。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "再開音",
+              "reading": "サイカイオン",
+              "used_web_search": false,
+              "comment": "音楽文脈の普通名詞として一語で読むのが自然なので、分割せず全体を「サイカイオン」とした。"
+            }
+          ],
+          "llm_comments": [
+            "音楽文脈の普通名詞として一語で読むのが自然なので、分割せず全体を「サイカイオン」とした。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0025::target_group:2",
+            "status": "applied",
+            "rejected_span": "再開音",
+            "replacement": [
+              {
+                "surface": "再開音",
+                "reading": "サイカイオン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0025::target_group:2",
+                "surface": "再開音",
+                "comment": "音楽文脈の普通名詞として一語で読むのが自然なので、分割せず全体を「サイカイオン」とした。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0025:s0010-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。\"}]",
+      "llm_comments": [
+        "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0025::target_group:1",
+            "surface": "Pf",
+            "comment": "クラシック音楽の表記で、Pf は piano の略として読むのが自然。文脈上もピアノ演奏を指す。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000557:u0026::strong_repair",
+      "seq": 10,
+      "doc_id": "ja_cc_level2:0000000557",
+      "doc_seq": 4,
+      "track_doc_seq": 557,
+      "unit_id": "ja_cc_level2:0000000557:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 557,
+      "text": "第3楽章はアッタカで2楽章から続けて演奏、オケの調べの後、Pfが小気味のいい音で、タラッタッタ、タラッタッタ、タラッタッタと三回鳴らした後、速いリズムで力強さとスピードを次第に速めて行き、オケも力一杯鳴らし始めています。",
+      "rendered_yomi_before": "第/ダイ 3/ 楽章/ガクショウ は/ハ アッ/アッ タカ/タカ で/デ 2/ 楽章/ガクショウ から/カラ 続け/ツヅケ て/テ 演奏/エンソウ 、/、 オケ/オケ の/ノ 調べ/シラベ の/ノ 後/アト 、/、 Pf/ピーエフ が/ガ 小気味/コキミ の/ノ いい/イイ 音/オト で/デ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ と/ト 三/サン 回/カイ 鳴らし/ナラシ た/タ 後/アト 、/、 速い/ハヤイ リズム/リズム で/デ 力強/チカラヅヨ さ/サ と/ト スピード/スピード を/ヲ 次第/シダイ に/ニ 速め/ハヤメ て/テ 行き/イキ 、/、 オケ/オケ も/モ 力/チカラ 一/イッ 杯/パイ 鳴らし/ナラシ 始め/ハジメ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "第/ダイ 3/ 楽章/ガクショウ は/ハ アッ/アッ タカ/タカ で/デ 2/ 楽章/ガクショウ から/カラ 続け/ツヅケ て/テ 演奏/エンソウ 、/、 オケ/オケ の/ノ 調べ/シラベ の/ノ 後/アト 、/、 Pf/ピアノ が/ガ 小気味/コキミ の/ノ いい/イイ 音/オト で/デ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ と/ト 三/サン 回/カイ 鳴らし/ナラシ た/タ 後/アト 、/、 速い/ハヤイ リズム/リズム で/デ 力強/チカラヅヨ さ/サ と/ト スピード/スピード を/ヲ 次第/シダイ に/ニ 速め/ハヤメ て/テ 行き/イキ 、/、 オケ/オケ も/モ 力/チカラ 一/イチ 杯/バイ 鳴らし/ナラシ 始め/ハジメ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "楽章",
+          "ガクショウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "アッ",
+          "アッ"
+        ],
+        [
+          "タカ",
+          "タカ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "2",
+          ""
+        ],
+        [
+          "楽章",
+          "ガクショウ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "続け",
+          "ツヅケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "演奏",
+          "エンソウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "オケ",
+          "オケ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "調べ",
+          "シラベ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "後",
+          "アト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "Pf",
+          "ピアノ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "小気味",
+          "コキミ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "いい",
+          "イイ"
+        ],
+        [
+          "音",
+          "オト"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "タラッ",
+          "タラッ"
+        ],
+        [
+          "タッタ",
+          "タッタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "タラッ",
+          "タラッ"
+        ],
+        [
+          "タッタ",
+          "タッタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "タラッ",
+          "タラッ"
+        ],
+        [
+          "タッタ",
+          "タッタ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "三",
+          "サン"
+        ],
+        [
+          "回",
+          "カイ"
+        ],
+        [
+          "鳴らし",
+          "ナラシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "後",
+          "アト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "速い",
+          "ハヤイ"
+        ],
+        [
+          "リズム",
+          "リズム"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "力強",
+          "チカラヅヨ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "スピード",
+          "スピード"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "次第",
+          "シダイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "速め",
+          "ハヤメ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "行き",
+          "イキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "オケ",
+          "オケ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "力",
+          "チカラ"
+        ],
+        [
+          "一",
+          "イチ"
+        ],
+        [
+          "杯",
+          "バイ"
+        ],
+        [
+          "鳴らし",
+          "ナラシ"
+        ],
+        [
+          "始め",
+          "ハジメ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "楽章",
+          "reading": "ガクショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "楽章",
+              "reading": "がくしょう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "アッ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アッ"
+            }
+          ]
+        },
+        {
+          "surface": "タカ",
+          "reading": "タカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タカ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "楽章",
+          "reading": "ガクショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "楽章",
+              "reading": "がくしょう"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "続け",
+          "reading": "ツヅケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続",
+              "reading": "つづ"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "演奏",
+          "reading": "エンソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "演奏",
+              "reading": "えんそう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "オケ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オケ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "調べ",
+          "reading": "シラベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "調",
+              "reading": "しら"
+            },
+            {
+              "type": "text",
+              "text": "べ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "アト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "あと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Pf",
+              "reading": "ぴあの"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "小気味",
+          "reading": "コキミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小気味",
+              "reading": "こきみ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "いい",
+          "reading": "イイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いい"
+            }
+          ]
+        },
+        {
+          "surface": "音",
+          "reading": "オト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音",
+              "reading": "おと"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "タラッ",
+          "reading": "タラッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タラッ"
+            }
+          ]
+        },
+        {
+          "surface": "タッタ",
+          "reading": "タッタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タッタ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "タラッ",
+          "reading": "タラッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タラッ"
+            }
+          ]
+        },
+        {
+          "surface": "タッタ",
+          "reading": "タッタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タッタ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "タラッ",
+          "reading": "タラッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タラッ"
+            }
+          ]
+        },
+        {
+          "surface": "タッタ",
+          "reading": "タッタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タッタ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "三",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三",
+              "reading": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "回",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "鳴らし",
+          "reading": "ナラシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鳴",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "らし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "後",
+          "reading": "アト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後",
+              "reading": "あと"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "速い",
+          "reading": "ハヤイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "速",
+              "reading": "はや"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "リズム",
+          "reading": "リズム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "リズム"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "力強",
+          "reading": "チカラヅヨ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "力強",
+              "reading": "ちからづよ"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "スピード",
+          "reading": "スピード",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スピード"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "次第",
+          "reading": "シダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "次第",
+              "reading": "しだい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "速め",
+          "reading": "ハヤメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "速",
+              "reading": "はや"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "行き",
+          "reading": "イキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "オケ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オケ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "力",
+          "reading": "チカラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "力",
+              "reading": "ちから"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
+            }
+          ]
+        },
+        {
+          "surface": "杯",
+          "reading": "バイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "杯",
+              "reading": "ばい"
+            }
+          ]
+        },
+        {
+          "surface": "鳴らし",
+          "reading": "ナラシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鳴",
+              "reading": "な"
+            },
+            {
+              "type": "text",
+              "text": "らし"
+            }
+          ]
+        },
+        {
+          "surface": "始め",
+          "reading": "ハジメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "始",
+              "reading": "はじ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+          "item_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+          "unit_id": "ja_cc_level2:0000000557:u0026",
+          "text": "第3楽章はアッタカで2楽章から続けて演奏、オケの調べの後、Pfが小気味のいい音で、タラッタッタ、タラッタッタ、タラッタッタと三回鳴らした後、速いリズムで力強さとスピードを次第に速めて行き、オケも力一杯鳴らし始めています。",
+          "rendered_yomi_before": "第/ダイ 3/ 楽章/ガクショウ は/ハ アッ/アッ タカ/タカ で/デ 2/ 楽章/ガクショウ から/カラ 続け/ツヅケ て/テ 演奏/エンソウ 、/、 オケ/オケ の/ノ 調べ/シラベ の/ノ 後/アト 、/、 Pf/ピーエフ が/ガ 小気味/コキミ の/ノ いい/イイ 音/オト で/デ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ と/ト 三/サン 回/カイ 鳴らし/ナラシ た/タ 後/アト 、/、 速い/ハヤイ リズム/リズム で/デ 力強/チカラヅヨ さ/サ と/ト スピード/スピード を/ヲ 次第/シダイ に/ニ 速め/ハヤメ て/テ 行き/イキ 、/、 オケ/オケ も/モ 力/チカラ 一/イッ 杯/パイ 鳴らし/ナラシ 始め/ハジメ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "第/ダイ 3/ 楽章/ガクショウ は/ハ アッ/アッ タカ/タカ で/デ 2/ 楽章/ガクショウ から/カラ 続け/ツヅケ て/テ 演奏/エンソウ 、/、 オケ/オケ の/ノ 調べ/シラベ の/ノ 後/アト 、/、 Pf/ピアノ が/ガ 小気味/コキミ の/ノ いい/イイ 音/オト で/デ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ 、/、 タラッ/タラッ タッタ/タッタ と/ト 三/サン 回/カイ 鳴らし/ナラシ た/タ 後/アト 、/、 速い/ハヤイ リズム/リズム で/デ 力強/チカラヅヨ さ/サ と/ト スピード/スピード を/ヲ 次第/シダイ に/ニ 速め/ハヤメ て/テ 行き/イキ 、/、 オケ/オケ も/モ 力/チカラ 一/イチ 杯/バイ 鳴らし/ナラシ 始め/ハジメ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 21,
+            "char_start": 29,
+            "char_end": 31,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0026:s0030-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000557:u0026:s0030-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "Pf",
+              "token_surface": "Pf",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぴーえふ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": null,
+              "rejected_readings": [
+                {
+                  "surface": "Pf",
+                  "reading": "ぴーえふ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "Pf",
+          "reading_candidates": {
+            "P": [
+              "ぴー"
+            ],
+            "f": [
+              "えふ"
+            ]
+          },
+          "reading_hints": {
+            "P": "ぴー",
+            "f": "えふ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf は piano の略として扱うのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "Pf",
+              "reading": "ピアノ",
+              "used_web_search": false,
+              "comment": "音楽文脈では Pf は piano の略として扱うのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "音楽文脈では Pf は piano の略として扱うのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "Pf",
+            "replacement": [
+              {
+                "surface": "Pf",
+                "reading": "ピアノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+                "surface": "Pf",
+                "comment": "音楽文脈では Pf は piano の略として扱うのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "Pf",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000557:u0026:s0030-0031",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "Pf",
+          "token_surface": "Pf",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぴーえふ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": null,
+          "rejected_readings": [
+            {
+              "surface": "Pf",
+              "reading": "ぴーえふ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "Pf",
+          "reading": "ぴーえふ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "P": [
+          "ぴー"
+        ],
+        "f": [
+          "えふ"
+        ]
+      },
+      "reading_hints": {
+        "P": "ぴー",
+        "f": "えふ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "Pf",
+          "reading": "ピアノ",
+          "used_web_search": false,
+          "comment": "音楽文脈では Pf は piano の略として扱うのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"Pf\",\"reading\":\"ピアノ\",\"used_web_search\":false,\"comment\":\"音楽文脈では Pf は piano の略として扱うのが自然です。\"}]",
+      "llm_comments": [
+        "音楽文脈では Pf は piano の略として扱うのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "Pf",
+        "replacement": [
+          {
+            "surface": "Pf",
+            "reading": "ピアノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000557:u0026::target_group:1",
+            "surface": "Pf",
+            "comment": "音楽文脈では Pf は piano の略として扱うのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,45 +1,45 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5549,
-  "generated_at": "2026-08-17T01:48:07Z",
-  "generated_at_epoch": 1786931287,
-  "last_successful_sync": "2026-08-17T01:24:41Z",
-  "last_successful_sync_epoch": 1786929881,
-  "status": "error",
+  "state_revision": 5550,
+  "generated_at": "2026-08-17T01:59:44Z",
+  "generated_at_epoch": 1786931984,
+  "last_successful_sync": "2026-08-17T01:59:44Z",
+  "last_successful_sync_epoch": 1786931984,
+  "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1786930684,
+    "anchor_epoch": 1786931474,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1786930984
+    "next_expected_epoch": 1786931774
   },
   "state": {
-    "current_batch_name": "dev_batch_0066",
-    "current_stage": "yomi_reading_llm_completed",
-    "next_stage": "final_review_prepared",
-    "active_queue_count": 93,
+    "current_batch_name": "dev_batch_0067",
+    "current_stage": "scope_triage_llm_completed",
+    "next_stage": "yomi_generated",
+    "active_queue_count": 78,
     "queue_counts": {
-      "bulk_review_selectable": 90,
+      "bulk_review_selectable": 70,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 3,
+      "escalated_repair_selectable": 8,
       "escalated_repair_submitted": 0,
-      "resolved": 7
+      "resolved": 22
     },
     "pool_counts": {
-      "bulk-ready": 90,
+      "bulk-ready": 70,
       "bulk-submitted": 0,
-      "escalated-ready": 3,
+      "escalated-ready": 8,
       "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 7,
+      "resolved": 22,
       "unprocessed": 0
     }
   },
-  "message": "FileNotFoundError: [Errno 2] No such file or directory: '/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/archive/dev/search.json'",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1786931287,
-    "completed_at_epoch": 1786931287,
-    "drift_seconds": 3
+    "started_at_epoch": 1786931474,
+    "completed_at_epoch": 1786931984,
+    "drift_seconds": 110
   },
   "client_polling": {
     "normal_seconds": 60,
