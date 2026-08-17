@@ -62,6 +62,19 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(documents[0][0].reading, "イチ")
         self.assertTrue(documents[0][0].pos.startswith("名詞,数詞,"))
 
+    def test_parse_sudachi_documents_attaches_variation_selector_to_previous_token(self) -> None:
+        documents = parse_sudachi_documents(
+            "禰\t名詞,固有名詞,人名,名,*,*\t禰\t禰\tネ\n"
+            "󠄀\t補助記号,一般,*,*,*,*\t󠄀\t󠄀\t󠄀\n"
+            "豆子\t名詞,固有名詞,人名,名,*,*\t豆子\t豆子\tズシ\n"
+            "EOS\n"
+        )
+
+        self.assertEqual(
+            [(token.surface, token.reading) for token in documents[0]],
+            [("禰󠄀", "ネ"), ("豆子", "ズシ")],
+        )
+
     def test_parse_sudachi_documents_rejects_unknown_empty_surface(self) -> None:
         with self.assertRaises(SourceSurfaceMappingError):
             parse_sudachi_documents(
@@ -136,6 +149,31 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(len(candidates), 1)
         self.assertEqual(candidates[0].entries[0].reading, "ホウ")
+
+    def test_parse_decoder_output_attaches_variation_selector_to_previous_entry(self) -> None:
+        candidates = parse_decoder_output(
+            json.dumps(
+                {
+                    "results": [
+                        {
+                            "rank": 1,
+                            "score": -1.0,
+                            "entries": [
+                                {"surface": "禰", "reading": "ネ", "final_order": 1},
+                                {"surface": "󠄀", "reading": "", "final_order": 1},
+                                {"surface": "豆子", "reading": "ズシ", "final_order": 1},
+                            ],
+                        }
+                    ]
+                },
+                ensure_ascii=False,
+            )
+        )
+
+        self.assertEqual(
+            [(entry.surface, entry.reading) for entry in candidates[0].entries],
+            [("禰󠄀", "ネ"), ("豆子", "ズシ")],
+        )
 
     def test_run_decoder_passes_model_dir(self) -> None:
         config = YomiGenerationConfig(

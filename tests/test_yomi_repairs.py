@@ -116,6 +116,20 @@ class YomiRepairTests(unittest.TestCase):
         self.assertEqual(result.rendered, "私/ワタシ は/ハ 私/ワタシ 私/アタシ")
         self.assertIn("yomi_repair_0003", result.metadata["applied_rule_ids"])
 
+    def test_default_rules_prefer_nihon_without_rewriting_other_readings(self) -> None:
+        config = load_yomi_generation_config("config/yomi/default.toml")
+
+        result = apply_post_hybrid_repairs(
+            "日本/ニッポン と/ト 日本/ニホン 日本橋/ニホンバシ",
+            rules_path=config.post_hybrid_repair_rules,
+        )
+
+        self.assertEqual(
+            result.rendered,
+            "日本/ニホン と/ト 日本/ニホン 日本橋/ニホンバシ",
+        )
+        self.assertIn("yomi_repair_0004", result.metadata["applied_rule_ids"])
+
 
 if __name__ == "__main__":
     unittest.main()

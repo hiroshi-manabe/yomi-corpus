@@ -4,6 +4,7 @@ import json
 import subprocess
 
 from yomi_corpus.yomi.config import YomiGenerationConfig
+from yomi_corpus.yomi.furigana import is_variation_selector
 from yomi_corpus.yomi.source_mapping import SourceSurfaceMappingError, SourceTextMapping
 from yomi_corpus.yomi.types import DecoderCandidate, DecoderEntry, SudachiToken
 
@@ -105,9 +106,23 @@ def parse_sudachi_documents(stdout: str) -> list[list[SudachiToken]]:
 
 
 def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[SudachiToken]:
-    """Collapse normalized morphemes that have no corresponding source text."""
+    """Collapse source modifiers and morphemes with no independent surface."""
     collapsed: list[SudachiToken] = []
     for token in tokens:
+        if token.surface and all(is_variation_selector(char) for char in token.surface):
+            if not collapsed:
+                raise SourceSurfaceMappingError(
+                    "Sudachi returned a variation selector before any source-bearing token"
+                )
+            previous = collapsed[-1]
+            collapsed[-1] = SudachiToken(
+                surface=previous.surface + token.surface,
+                pos=previous.pos,
+                dictionary_form=previous.dictionary_form,
+                normalized_form=previous.normalized_form,
+                reading=previous.reading,
+            )
+            continue
         if token.surface:
             collapsed.append(token)
             continue
@@ -230,7 +245,7 @@ def parse_decoder_output(stdout: str) -> list[DecoderCandidate]:
             DecoderCandidate(
                 rank=int(row["rank"]),
                 score=float(row["score"]),
-                entries=[
+                entries=collapse_variation_selector_decoder_entries([
                     DecoderEntry(
                         surface=str(entry["surface"]),
                         reading=str(entry["reading"]),
@@ -238,7 +253,29 @@ def parse_decoder_output(stdout: str) -> list[DecoderCandidate]:
                         piece_orders=[int(value) for value in entry.get("piece_orders", [])],
                     )
                     for entry in row.get("entries", [])
-                ],
+                ]),
             )
         )
     return candidates
+
+
+def collapse_variation_selector_decoder_entries(
+    entries: list[DecoderEntry],
+) -> list[DecoderEntry]:
+    collapsed: list[DecoderEntry] = []
+    for entry in entries:
+        if entry.surface and all(is_variation_selector(char) for char in entry.surface):
+            if not collapsed:
+                raise SourceSurfaceMappingError(
+                    "Decoder returned a variation selector before any source-bearing entry"
+                )
+            previous = collapsed[-1]
+            collapsed[-1] = DecoderEntry(
+                surface=previous.surface + entry.surface,
+                reading=previous.reading,
+                final_order=max(previous.final_order, entry.final_order),
+                piece_orders=[*previous.piece_orders, *entry.piece_orders],
+            )
+            continue
+        collapsed.append(entry)
+    return collapsed

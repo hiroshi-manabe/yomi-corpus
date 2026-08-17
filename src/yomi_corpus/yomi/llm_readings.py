@@ -26,6 +26,7 @@ from yomi_corpus.yomi.furigana import (
     FuriganaConverter,
     has_han,
     is_han,
+    is_han_run_char,
     parse_annotated_chunks,
 )
 from yomi_corpus.yomi.numeric_surfaces import allows_optional_japanese_numeral_reading
@@ -34,6 +35,10 @@ from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
     split_ascii_rendered_tokens,
     yomi_tokens_from_mapping,
+)
+from yomi_corpus.yomi.stable_surface_lexicon import (
+    StableSurfaceReadingLexicon,
+    resolve_stable_surface_lexicon_artifact,
 )
 
 
@@ -50,6 +55,8 @@ class YomiLLMReadingQueueSummary:
     safety_skipped: int
     output_jsonl: str
     summary_json: str
+    stable_surface_lexicon_skipped: int = 0
+    stable_surface_lexicon_artifact: str | None = None
 
 
 @dataclass(frozen=True)
@@ -81,23 +88,29 @@ def build_yomi_llm_reading_queue_file(
     skip_stable_two_kanji: bool = True,
     skip_auto_accepted: bool = True,
     raw_sudachi_dict_dir: Path = DEFAULT_RAW_SUDACHI_DICT_DIR,
+    decoder_model_dir: str | Path | None = None,
 ) -> YomiLLMReadingQueueSummary:
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
-    stable_checker = (
-        StableTwoKanjiChecker(
+    stable_surface_path = resolve_stable_surface_lexicon_artifact(decoder_model_dir)
+    if skip_stable_two_kanji and stable_surface_path is not None:
+        stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = (
+            StableSurfaceReadingLexicon.load_tsv(stable_surface_path)
+        )
+    elif skip_stable_two_kanji and decoder_model_dir is None:
+        stable_checker = StableTwoKanjiChecker(
             rows=[],
             decoder_lexicon_path=DEFAULT_DECODER_LEXICON_PATH,
             raw_sudachi_dict_dir=raw_sudachi_dict_dir,
         )
-        if skip_stable_two_kanji
-        else None
-    )
+    else:
+        stable_checker = None
 
     read_units = 0
     queued_items = 0
     skipped_items = 0
     stable_two_kanji_skipped = 0
+    stable_surface_lexicon_skipped = 0
     safety_skipped = 0
     with input_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
         for line in src:
@@ -124,6 +137,8 @@ def build_yomi_llm_reading_queue_file(
                     skipped_items += 1
                     if item.get("skip_reason") == "stable_two_kanji":
                         stable_two_kanji_skipped += 1
+                    if item.get("skip_reason") == "stable_surface_lexicon":
+                        stable_surface_lexicon_skipped += 1
 
     summary = YomiLLMReadingQueueSummary(
         read_units=read_units,
@@ -133,6 +148,10 @@ def build_yomi_llm_reading_queue_file(
         safety_skipped=safety_skipped,
         output_jsonl=str(output_jsonl),
         summary_json=str(summary_json),
+        stable_surface_lexicon_skipped=stable_surface_lexicon_skipped,
+        stable_surface_lexicon_artifact=None
+        if not isinstance(stable_checker, StableSurfaceReadingLexicon)
+        else stable_checker.artifact_path,
     )
     summary_json.write_text(
         json.dumps(asdict(summary), ensure_ascii=False, indent=2) + "\n",
@@ -214,7 +233,7 @@ def safe_yomi_item_ids(unit: dict[str, Any]) -> set[str]:
 def build_yomi_llm_reading_items(
     unit: dict[str, Any],
     *,
-    stable_checker: StableTwoKanjiChecker | None = None,
+    stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = None,
 ) -> list[dict[str, Any]]:
     text = str(unit.get("text", ""))
     yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
@@ -379,7 +398,7 @@ def append_yomi_reading_targets(
     token_end: int,
     current_reading: str,
     marked_furigana_text: str,
-    stable_checker: StableTwoKanjiChecker | None,
+    stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None,
 ) -> None:
     targets = target_reading_chunks(token_surface, current_reading)
     for chunk_index, target in enumerate(targets, start=1):
@@ -410,11 +429,16 @@ def append_yomi_reading_targets(
         if stable_checker is not None:
             stable = stable_checker.judge(base_item["surface"], base_item["current_reading"])
             if stable.value:
+                skip_reason = (
+                    "stable_surface_lexicon"
+                    if isinstance(stable_checker, StableSurfaceReadingLexicon)
+                    else "stable_two_kanji"
+                )
                 items.append(
                     {
                         **base_item,
                         "queue_status": "skipped",
-                        "skip_reason": "stable_two_kanji",
+                        "skip_reason": skip_reason,
                         "skip_detail": stable.reason,
                     }
                 )
@@ -887,9 +911,10 @@ def marked_furigana_token(surface: str, reading: str, target_chunk_index: int) -
 
 def trailing_kanji_run(text: str) -> str:
     index = len(text)
-    while index > 0 and is_han(text[index - 1]):
+    while index > 0 and is_han_run_char(text[index - 1]):
         index -= 1
-    return text[index:]
+    value = text[index:]
+    return value if has_han(value) else ""
 
 
 def katakana_to_hiragana(text: str) -> str:

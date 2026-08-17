@@ -27,6 +27,18 @@ def is_han(char: str) -> bool:
     )
 
 
+def is_variation_selector(char: str) -> bool:
+    if len(char) != 1:
+        return False
+    code = ord(char)
+    return 0xFE00 <= code <= 0xFE0F or 0xE0100 <= code <= 0xE01EF
+
+
+def is_han_run_char(char: str) -> bool:
+    """Return whether a character may continue a Han grapheme run."""
+    return is_han(char) or is_variation_selector(char)
+
+
 def has_han(text: str) -> bool:
     return any(is_han(char) for char in text)
 
@@ -286,9 +298,10 @@ def parse_annotated_chunks(annotated_surface: str) -> list[tuple[str, str]]:
 def _trailing_han_run(text: str) -> str:
     end = len(text)
     start = end
-    while start > 0 and is_han(text[start - 1]):
+    while start > 0 and is_han_run_char(text[start - 1]):
         start -= 1
-    return text[start:end]
+    value = text[start:end]
+    return value if has_han(value) else ""
 
 
 def _surface_elements(surface: str) -> list[tuple[str, str]]:
@@ -298,7 +311,7 @@ def _surface_elements(surface: str) -> list[tuple[str, str]]:
         char = surface[index]
         if is_han(char):
             start = index
-            while index < len(surface) and is_han(surface[index]):
+            while index < len(surface) and is_han_run_char(surface[index]):
                 index += 1
             elements.append(("han", surface[start:index]))
             continue

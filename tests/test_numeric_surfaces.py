@@ -24,8 +24,9 @@ def test_japanese_numeral_surface_is_numeric() -> None:
 
 def test_white_circle_placeholders_are_symbols() -> None:
     assert not is_numeric_only_surface("○")
-    assert not is_numeric_only_surface("○○")
-    assert not allows_optional_japanese_numeral_reading("○○")
+    for surface in ("○○", "〇〇", "〇○"):
+        assert not is_numeric_only_surface(surface)
+        assert not allows_optional_japanese_numeral_reading(surface)
 
 
 def test_multi_character_japanese_numeral_reading_is_optional() -> None:

@@ -8,7 +8,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from yomi_corpus.yomi.furigana import FuriganaConverter, has_han, is_han, parse_annotated_chunks
+from yomi_corpus.yomi.furigana import (
+    FuriganaConverter,
+    has_han,
+    is_han,
+    is_variation_selector,
+    parse_annotated_chunks,
+)
 
 
 def write_lookup(path: Path, rows: list[tuple[str, str, str]]) -> None:
@@ -30,6 +36,16 @@ class FuriganaConverterTests(unittest.TestCase):
 
         self.assertEqual(converter.convert("𠮟られる", "シカラレル").annotated_surface, "𠮟（しか）られる")
         self.assertEqual(converter.convert("𩸽", "ホッケ").annotated_surface, "𩸽（ほっけ）")
+
+    def test_variation_selector_extends_preceding_han_surface(self) -> None:
+        converter = FuriganaConverter()
+
+        self.assertTrue(is_variation_selector("󠄀"))
+        self.assertFalse(is_han("󠄀"))
+        self.assertEqual(
+            converter.convert("禰󠄀豆子", "ネズコ").annotated_surface,
+            "禰󠄀豆子（ねずこ）",
+        )
 
     def test_parse_annotated_chunks(self) -> None:
         self.assertEqual(

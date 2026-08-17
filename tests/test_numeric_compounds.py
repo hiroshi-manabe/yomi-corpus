@@ -62,6 +62,19 @@ class NumericCompoundTests(unittest.TestCase):
             "2日/フツカ 14日/ジュウヨッカ ２０日/ハツカ 1人/ヒトリ 9つ/ココノツ",
         )
 
+    def test_normalizes_lexicalized_three_and_four_star_compounds(self) -> None:
+        result = normalize_numeric_compounds(
+            "3/ミッ つ/ツ 星/ホシ と/ト ４/ヨン つ/ツ 星/ホシ"
+        )
+
+        self.assertEqual(result.rendered, "3つ星/ミツボシ と/ト ４つ星/ヨツボシ")
+
+    def test_preserves_supported_short_three_and_four_counter_readings(self) -> None:
+        self.assertEqual(
+            normalize_numeric_compounds("3つ/ミツ 目/メ 4つ/ヨツ 目/メ").rendered,
+            "3つ/ミツ 目/メ 4つ/ヨツ 目/メ",
+        )
+
     def test_normalizes_existing_fused_form(self) -> None:
         result = normalize_numeric_compounds("24日/ニジュウヨンニチ です/デス")
 
@@ -154,6 +167,31 @@ class NumericCompoundTests(unittest.TestCase):
         self.assertEqual(
             [candidate["reading"] for candidate in candidates if candidate["reading"]],
             ["いちにち", "ついたち", "いっぴ"],
+        )
+
+    def test_review_candidates_include_short_three_and_four_counter_readings(self) -> None:
+        three = reading_candidates(
+            {
+                "surface": "3つ",
+                "current_reading_hiragana": "みっつ",
+                "signals": [],
+            }
+        )
+        four = reading_candidates(
+            {
+                "surface": "4つ",
+                "current_reading_hiragana": "よっつ",
+                "signals": [],
+            }
+        )
+
+        self.assertEqual(
+            [candidate["reading"] for candidate in three if candidate["reading"]],
+            ["みっつ", "みつ"],
+        )
+        self.assertEqual(
+            [candidate["reading"] for candidate in four if candidate["reading"]],
+            ["よっつ", "よつ"],
         )
 
     def test_finalization_expands_ichinichi_but_keeps_tsuitachi_fused(self) -> None:

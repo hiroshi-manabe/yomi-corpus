@@ -8,7 +8,7 @@ import unicodedata
 from yomi_corpus.yomi.numeric_surfaces import is_formatted_arabic_number_surface
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
-    legacy_rendered_to_yomi_tokens,
+    editable_rendered_to_yomi_tokens,
     split_ascii_rendered_tokens,
 )
 
@@ -63,13 +63,15 @@ NUMERIC_COMPOUND_RULES: dict[str, NumericCompoundRule] = {
     "2人": NumericCompoundRule("フタリ"),
     "1つ": NumericCompoundRule("ヒトツ"),
     "2つ": NumericCompoundRule("フタツ"),
-    "3つ": NumericCompoundRule("ミッツ"),
-    "4つ": NumericCompoundRule("ヨッツ"),
+    "3つ": NumericCompoundRule("ミッツ", ("ミッツ", "ミツ")),
+    "4つ": NumericCompoundRule("ヨッツ", ("ヨッツ", "ヨツ")),
     "5つ": NumericCompoundRule("イツツ"),
     "6つ": NumericCompoundRule("ムッツ"),
     "7つ": NumericCompoundRule("ナナツ"),
     "8つ": NumericCompoundRule("ヤッツ"),
     "9つ": NumericCompoundRule("ココノツ"),
+    "3つ星": NumericCompoundRule("ミツボシ"),
+    "4つ星": NumericCompoundRule("ヨツボシ"),
 }
 
 # These abbreviations are conventionally read in their shortened form in
@@ -123,13 +125,18 @@ def normalize_numeric_compounds(rendered: str) -> NumericCompoundNormalization:
                     applied.append(surface + next_surface)
                     index += 2
                     continue
-            combined = surface + next_surface
-            combined_rule = numeric_compound_rule(combined)
-            if combined_rule is not None:
+            for end in range(min(len(pairs), index + 3), index + 1, -1):
+                combined = "".join(pair_surface for pair_surface, _ in pairs[index:end])
+                combined_rule = numeric_compound_rule(combined)
+                if combined_rule is None:
+                    continue
                 surface = combined
                 rule = combined_rule
-                source_reading = next_reading
-                consumed = 2
+                source_reading = "".join(
+                    pair_reading for _pair_surface, pair_reading in pairs[index:end]
+                )
+                consumed = end - index
+                break
         if rule is not None:
             normalized_reading = (
                 source_reading
@@ -206,7 +213,7 @@ def _merge_formatted_numeric_expressions(
 def numeric_compound_occurrences(text: str, rendered: str) -> list[NumericCompoundOccurrence]:
     occurrences: list[NumericCompoundOccurrence] = []
     try:
-        pairs = legacy_rendered_to_yomi_tokens(rendered, text=text)
+        pairs = editable_rendered_to_yomi_tokens(rendered, text=text)
     except YomiTokenError:
         return []
     cursor = 0

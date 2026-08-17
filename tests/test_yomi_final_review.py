@@ -546,6 +546,39 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertTrue(override["accepted_no_ruby"])
         self.assertNotIn("rejected_readings", override)
 
+    def test_explicit_unresolved_choice_overrides_accepted_no_ruby_default(self) -> None:
+        target = build_review_target(
+            {
+                "item_id": "u1:r1",
+                "surface": "七五三",
+                "token_surface": "七五三",
+                "current_reading_hiragana": None,
+                "default_choice_source": "none",
+                "default_reading": None,
+                "allows_intentional_no_ruby": True,
+                "signals": [
+                    {
+                        "name": "safe_by_no_ruby_numeric_surface",
+                        "accepted": True,
+                        "preferred_choice_source": "none",
+                    }
+                ],
+            }
+        )
+
+        override = build_target_override(
+            {
+                "item_id": "u1:r1",
+                "choice_id": "none",
+                "choice_source": "none",
+                "selected_reading": None,
+            },
+            {"u1:r1": target},
+        )
+
+        self.assertFalse(override["accepted_no_ruby"])
+        self.assertEqual(override["no_ruby_state"], "unresolved")
+
     def test_fallback_no_ruby_default_queues_strong_repair(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -719,6 +752,46 @@ class YomiFinalReviewTests(unittest.TestCase):
         ]
         self.assertTrue(numeral_segments)
         self.assertTrue(all(not segment.get("reading") for segment in numeral_segments))
+        span = next(span for span in item["interaction_spans"] if span["surface"] == "二〇〇二")
+        self.assertEqual(span["default_candidate_id"], "accepted_none")
+        self.assertEqual(
+            [candidate["id"] for candidate in span["candidates"] if candidate["source"] == "none"],
+            ["none", "accepted_none"],
+        )
+
+    def test_unknown_japanese_numeral_run_is_clickable_with_dictionary_candidates(self) -> None:
+        with patch(
+            "yomi_corpus.yomi.final_review.load_final_review_surface_readings",
+            return_value={"七五三": ("しちごさん", "しめ")},
+        ):
+            item = build_review_item(
+                {
+                    "unit_id": "u1",
+                    "doc_id": "d1",
+                    "text": "七五三",
+                    "analysis": {
+                        "mechanical": {"yomi": {"rendered": "七五三/"}},
+                        "safety": {"yomi": {"targets": []}},
+                    },
+                },
+                seq=1,
+                doc_seq=1,
+                track_doc_seq=1,
+            )
+
+        self.assertEqual(len(item["interaction_spans"]), 1)
+        span = item["interaction_spans"][0]
+        self.assertEqual(span["surface"], "七五三")
+        self.assertEqual(span["default_candidate_id"], "accepted_none")
+        self.assertEqual(
+            [(candidate["id"], candidate["reading"]) for candidate in span["candidates"]],
+            [
+                ("dictionary:0", "しちごさん"),
+                ("dictionary:1", "しめ"),
+                ("none", None),
+                ("accepted_none", None),
+            ],
+        )
 
     def test_build_review_item_reads_only_laugh_inside_parentheses(self) -> None:
         for surface, start, end in (("（笑）", 3, 6), ("笑", 4, 5)):
@@ -812,6 +885,28 @@ class YomiFinalReviewTests(unittest.TestCase):
         ):
             with self.subTest(text=text):
                 self.assertEqual(target_group_rejected_span(text, groups[0]), expected)
+
+    def test_groups_targets_across_variation_selector(self) -> None:
+        text = "禰󠄀豆子"
+        targets = [
+            {
+                "item_id": "u1:s0001-0001",
+                "surface": "禰",
+                "token_index": 0,
+                "chunk_index": 0,
+            },
+            {
+                "item_id": "u1:s0003-0004",
+                "surface": "豆子",
+                "token_index": 2,
+                "chunk_index": 0,
+            },
+        ]
+
+        groups = group_consecutive_target_overrides(targets, text=text)
+
+        self.assertEqual(len(groups), 1)
+        self.assertEqual(target_group_rejected_span(text, groups[0]), text)
 
     def test_reconstructs_mixed_script_span_without_absolute_offsets(self) -> None:
         yashima_targets = [
@@ -1330,6 +1425,10 @@ class YomiFinalReviewTests(unittest.TestCase):
     def test_finalized_correction_treats_white_circle_placeholders_as_symbols(self) -> None:
         self.assertEqual(
             validate_finalized_correction_reading("○○", "○○"),
+            {"ok": True},
+        )
+        self.assertEqual(
+            validate_finalized_correction_reading("〇〇", "〇〇"),
             {"ok": True},
         )
         self.assertFalse(validate_finalized_correction_reading("○○", "")["ok"])
@@ -2022,6 +2121,15 @@ class YomiFinalReviewTests(unittest.TestCase):
             [{"type": "ruby", "text": "鎌ヶ谷駅", "reading": "かまがやえき"}],
         )
 
+    def test_rendered_yomi_ruby_tokens_keep_small_ka_counter_in_reading(self) -> None:
+        tokens = rendered_yomi_ruby_tokens("２/ ヵ月/カゲツ")
+
+        self.assertEqual(tokens[0]["nodes"], [{"type": "text", "text": "２"}])
+        self.assertEqual(
+            tokens[1]["nodes"],
+            [{"type": "ruby", "text": "ヵ月", "reading": "かげつ"}],
+        )
+
     def test_review_ruby_segments_include_numeric_compounds(self) -> None:
         segments = build_ruby_segments(
             "予約開始は12月2日からです。",
@@ -2037,6 +2145,80 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "type": "ruby",
                 "text": "2日",
                 "reading": "ふつか",
+                "display_only": True,
+            },
+            segments,
+        )
+
+    def test_review_ruby_segments_keep_numeric_compounds_before_escaped_whitespace(self) -> None:
+        segments = build_ruby_segments(
+            "9月5日(火)\u3000展示します。",
+            [],
+            rendered_yomi=(
+                r"9/ 月/ガツ 5日/イツカ (/( 火/カ )/) \u3000/ "
+                "展示/テンジ し/シ ます/マス 。/。"
+            ),
+        )
+
+        self.assertIn(
+            {
+                "type": "ruby",
+                "text": "5日",
+                "reading": "いつか",
+                "display_only": True,
+            },
+            segments,
+        )
+
+    def test_review_ruby_segments_keep_noninteractive_duration_ruby(self) -> None:
+        segments = build_ruby_segments(
+            "最高40度、10日間下がる。",
+            [
+                {
+                    "item_id": "u1:highest",
+                    "target_start": 0,
+                    "target_end": 2,
+                    "default_reading": "さいこう",
+                    "is_safe": True,
+                    "highlight_level": "none",
+                },
+                {
+                    "item_id": "u1:degree",
+                    "target_start": 4,
+                    "target_end": 5,
+                    "default_reading": "ど",
+                    "is_safe": True,
+                    "highlight_level": "none",
+                },
+                {
+                    "item_id": "u1:fall",
+                    "target_start": 10,
+                    "target_end": 13,
+                    "default_reading": "さがる",
+                    "is_safe": True,
+                    "highlight_level": "none",
+                },
+            ],
+            rendered_yomi=(
+                "最高/サイコウ 40/ 度/ド 、/、 10日/トオカ "
+                "間/カン 下がる/サガル 。/。"
+            ),
+        )
+
+        self.assertIn(
+            {
+                "type": "ruby",
+                "text": "10日",
+                "reading": "とおか",
+                "display_only": True,
+            },
+            segments,
+        )
+        self.assertIn(
+            {
+                "type": "ruby",
+                "text": "間",
+                "reading": "かん",
                 "display_only": True,
             },
             segments,
@@ -2895,11 +3077,21 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertIsNone(target["default_reading"])
             self.assertEqual(
                 [
-                    (candidate["source"], candidate["reading"], candidate["accepted"])
+                    (
+                        candidate["id"],
+                        candidate["source"],
+                        candidate["reading"],
+                        candidate["accepted"],
+                    )
                     for candidate in target["candidates"]
                 ],
-                [("current", "わっと", False), ("none", None, True)],
+                [
+                    ("current", "current", "わっと", False),
+                    ("none", "none", None, False),
+                    ("accepted_none", "none", None, True),
+                ],
             )
+            self.assertEqual(target["default_candidate_id"], "accepted_none")
             self.assertEqual(pack["items"][0]["ruby_segments"][0]["reading"], None)
 
     def test_replay_yomi_review_submissions_applies_later_overlap(self) -> None:
@@ -3096,6 +3288,33 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertEqual(
             payload["analysis"]["mechanical"]["yomi"]["rendered"],
             "『/『 Led/レッド / Zeppelin/ツェッペリン 』/』",
+        )
+
+    def test_exact_rendered_target_override_applies_intentional_no_ruby(self) -> None:
+        payload = {
+            "analysis": {
+                "mechanical": {"yomi": {"rendered": "七五三/シチゴサン です/デス"}}
+            }
+        }
+
+        updated = apply_exact_rendered_target_overrides(
+            payload,
+            [
+                {
+                    "surface": "七五三",
+                    "token_surface": "七五三",
+                    "token_index": 0,
+                    "choice_source": "none",
+                    "selected_reading": None,
+                    "accepted_no_ruby": True,
+                }
+            ],
+        )
+
+        self.assertEqual(updated, 1)
+        self.assertEqual(
+            payload["analysis"]["mechanical"]["yomi"]["rendered"],
+            "七五三/ です/デス",
         )
 
     def test_apply_final_review_applies_llm_default_for_reviewed_range(self) -> None:

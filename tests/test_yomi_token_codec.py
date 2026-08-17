@@ -59,6 +59,15 @@ class YomiTokenCodecTests(unittest.TestCase):
             [["…", "…"], ["次", "ツギ"]],
         )
 
+    def test_variation_selector_token_is_attached_to_previous_surface(self) -> None:
+        self.assertEqual(
+            legacy_rendered_to_yomi_tokens(
+                "禰/ネ 󠄀/󠄀 豆子/ズコ",
+                text="禰󠄀豆子",
+            ),
+            [["禰󠄀", "ネ"], ["豆子", "ズコ"]],
+        )
+
     def test_explicit_nbsp_space_wins_over_phantom_bare_slashes(self) -> None:
         self.assertEqual(
             legacy_rendered_to_yomi_tokens("…/… / / \u00a0/\u00a0 次/ツギ", text="… 次"),

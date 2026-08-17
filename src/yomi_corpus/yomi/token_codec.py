@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from typing import Any, Iterable
 
+from yomi_corpus.yomi.furigana import is_variation_selector
+
 
 YOMI_TOKEN_SCHEMA_VERSION = 1
 _ASCII_WHITESPACE_RE = re.compile(r"[ \t\r\n]+")
@@ -33,6 +35,13 @@ def normalize_yomi_tokens(value: Any) -> list[list[str]]:
             raise YomiTokenError(f"yomi token {index} values must be strings")
         if not surface:
             raise YomiTokenError(f"yomi token {index} has an empty surface")
+        if all(is_variation_selector(char) for char in surface):
+            if not normalized:
+                raise YomiTokenError(
+                    f"yomi token {index} has a variation selector without a base surface"
+                )
+            normalized[-1][0] += surface
+            continue
         normalized.append([surface, reading])
     return normalized
 
@@ -114,8 +123,9 @@ def legacy_rendered_to_yomi_tokens(rendered: str, *, text: str | None = None) ->
                 )
             cursor += len(surface)
         tokens.append([surface, reading])
-    validate_yomi_token_surfaces(tokens, text=text)
-    return tokens
+    normalized = normalize_yomi_tokens(tokens)
+    validate_yomi_token_surfaces(normalized, text=text)
+    return normalized
 
 
 def has_following_explicit_whitespace_token(raw_tokens: list[str], index: int) -> bool:
@@ -186,7 +196,9 @@ def editable_rendered_to_yomi_tokens(rendered: str, *, text: str | None = None) 
     if "\\" not in rendered:
         return legacy_rendered_to_yomi_tokens(rendered, text=text)
     raw_tokens = split_ascii_rendered_tokens(rendered)
-    tokens = [list(split_editable_rendered_token(token)) for token in raw_tokens]
+    tokens = normalize_yomi_tokens(
+        [list(split_editable_rendered_token(token)) for token in raw_tokens]
+    )
     validate_yomi_token_surfaces(tokens, text=text)
     return tokens
 

@@ -20,6 +20,8 @@ from yomi_corpus.yomi.llm_readings import (
 from yomi_corpus.yomi.furigana import (
     FuriganaConverter,
     has_han,
+    is_han_run_char,
+    is_variation_selector,
     kata_to_hira,
     parse_annotated_chunks,
 )
@@ -923,6 +925,14 @@ def build_review_item(
             existing_targets=review_targets,
         )
     )
+    review_targets.extend(
+        build_japanese_numeral_review_targets(
+            unit_id=str(unit.get("unit_id") or ""),
+            text=text,
+            rendered_yomi=rendered_yomi,
+            existing_targets=review_targets,
+        )
+    )
     review_targets.sort(
         key=lambda target: (
             int(target.get("target_start") or 0),
@@ -1110,6 +1120,75 @@ def build_numeric_compound_review_targets(
     return targets
 
 
+def build_japanese_numeral_review_targets(
+    *,
+    unit_id: str,
+    text: str,
+    rendered_yomi: str,
+    existing_targets: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Keep digit-style kanji runs reviewable even when no ruby is the default."""
+    existing_ranges = [
+        (int(target["target_start"]), int(target["target_end"]))
+        for target in existing_targets
+        if isinstance(target.get("target_start"), int)
+        and isinstance(target.get("target_end"), int)
+    ]
+    targets: list[dict[str, Any]] = []
+    cursor = 0
+    for token_index, (surface, reading) in enumerate(parse_rendered_pairs(rendered_yomi)):
+        source_surface = surface.replace("\u00a0", " ")
+        end = cursor + len(source_surface)
+        if not source_surfaces_equal(text[cursor:end], source_surface):
+            return []
+        if allows_optional_japanese_numeral_reading(source_surface) and not any(
+            cursor < target_end and end > target_start
+            for target_start, target_end in existing_ranges
+        ):
+            reading_hiragana = normalize_hiragana_reading(reading) if reading else None
+            no_ruby_default = not reading_hiragana
+            signals = []
+            accepted_signal_names = []
+            if no_ruby_default:
+                signals.append(
+                    {
+                        "name": "safe_by_no_ruby_numeric_surface",
+                        "accepted": True,
+                        "reason": "numeric_surface_uses_separate_reading_layer",
+                        "preferred_choice_source": "none",
+                    }
+                )
+                accepted_signal_names.append("safe_by_no_ruby_numeric_surface")
+            targets.append(
+                build_review_target(
+                    {
+                        "item_id": f"{unit_id}:j{cursor + 1:04d}",
+                        "surface": source_surface,
+                        "token_surface": source_surface,
+                        "target_start": cursor,
+                        "target_end": end,
+                        "token_index": token_index,
+                        "chunk_index": 0,
+                        "current_reading": reading or None,
+                        "current_reading_hiragana": reading_hiragana,
+                        "is_safe": True,
+                        "review_status": "safe",
+                        "highlight_level": "none",
+                        "accepted_signal_names": accepted_signal_names,
+                        "status_reason": (
+                            "accepted_numeric_no_ruby_default"
+                            if no_ruby_default
+                            else "reviewable_japanese_numeral_reading"
+                        ),
+                        "allows_intentional_no_ruby": True,
+                        "signals": signals,
+                    }
+                )
+            )
+        cursor = end
+    return targets
+
+
 def rendered_yomi_with_review_defaults(
     rendered: str,
     targets: list[dict[str, Any]],
@@ -1155,7 +1234,17 @@ def rendered_yomi_with_review_defaults(
 def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
     candidates = reading_candidates(target)
     default_choice_source = default_candidate_source(target, candidates)
-    default_candidate = candidate_by_source(candidates, default_choice_source)
+    if default_choice_source == "none" and has_accepted_no_ruby_signal(target):
+        default_candidate = next(
+            (
+                candidate
+                for candidate in candidates
+                if candidate.get("no_ruby_state") == "intentional"
+            ),
+            None,
+        )
+    else:
+        default_candidate = candidate_by_source(candidates, default_choice_source)
     default_candidate_id = default_candidate.get("id") if default_candidate else None
     surface = str(target.get("surface") or "")
     candidates = [with_ruby_display_nodes(surface, candidate) for candidate in candidates]
@@ -1177,6 +1266,7 @@ def build_review_target(target: dict[str, Any]) -> dict[str, Any]:
         "highlight_level": target.get("highlight_level"),
         "accepted_signal_names": list(target.get("accepted_signal_names") or []),
         "status_reason": target.get("status_reason"),
+        "allows_intentional_no_ruby": bool(target.get("allows_intentional_no_ruby")),
         "default_candidate_id": default_candidate_id,
         "default_choice_source": default_choice_source,
         "default_reading": default_candidate.get("reading") if default_candidate else None,
@@ -1519,12 +1609,31 @@ def interaction_span_candidates(
         {
             "id": "none",
             "source": "none",
-            "label": "No ruby",
+            "label": "Unresolved; escalate",
             "reading": None,
             "tokens": [],
             "ruby_nodes": [{"type": "text", "text": surface}],
+            "accepted": False,
+            "no_ruby_state": "unresolved",
         }
     )
+    if any(
+        has_accepted_no_ruby_signal(target)
+        or bool(target.get("allows_intentional_no_ruby"))
+        for target in targets
+    ):
+        candidates.append(
+            {
+                "id": "accepted_none",
+                "source": "none",
+                "label": "Intentionally no ruby",
+                "reading": None,
+                "tokens": [],
+                "ruby_nodes": [{"type": "text", "text": surface}],
+                "accepted": True,
+                "no_ruby_state": "intentional",
+            }
+        )
     return candidates
 
 
@@ -1725,6 +1834,13 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
                 target.get("current_reading_hiragana") or target.get("current_reading"),
                 accepted=True,
             )
+        elif name == "safe_by_stable_surface_lexicon" and signal.get("accepted"):
+            add(
+                "stable_surface_lexicon",
+                "Stable corpus reading",
+                target.get("current_reading_hiragana") or target.get("current_reading"),
+                accepted=True,
+            )
     for index, reading in enumerate(final_review_dictionary_readings(target)):
         add(
             "dictionary",
@@ -1751,11 +1867,23 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
         {
             "id": "none",
             "source": "none",
-            "label": "No ruby",
+            "label": "Unresolved; escalate",
             "reading": None,
-            "accepted": accepted_no_ruby,
+            "accepted": False,
+            "no_ruby_state": "unresolved",
         }
     )
+    if accepted_no_ruby or target.get("allows_intentional_no_ruby"):
+        candidates.append(
+            {
+                "id": "accepted_none",
+                "source": "none",
+                "label": "Intentionally no ruby",
+                "reading": None,
+                "accepted": True,
+                "no_ruby_state": "intentional",
+            }
+        )
     return candidates
 
 
@@ -2070,20 +2198,13 @@ def build_ruby_segments(
         for target in ordered_targets
     ]
     target_ranges = [(start, end) for start, end, _, _ in display_spans]
-    for occurrence in numeric_compound_occurrences(text, rendered_yomi):
+    for start, end, reading in rendered_yomi_display_ruby_spans(text, rendered_yomi):
         if any(
-            occurrence.start < target_end and occurrence.end > target_start
+            start < target_end and end > target_start
             for target_start, target_end in target_ranges
         ):
             continue
-        display_spans.append(
-            (
-                occurrence.start,
-                occurrence.end,
-                None,
-                kata_to_hira(occurrence.reading),
-            )
-        )
+        display_spans.append((start, end, None, reading))
     display_spans.sort(key=lambda span: (span[0], span[1], span[2] is None))
     for start, end, target, static_reading in display_spans:
         if start < cursor:
@@ -2114,6 +2235,33 @@ def build_ruby_segments(
     if cursor < len(text):
         segments.append({"type": "text", "text": text[cursor:]})
     return segments
+
+
+def rendered_yomi_display_ruby_spans(
+    text: str,
+    rendered_yomi: str,
+) -> list[tuple[int, int, str]]:
+    spans: list[tuple[int, int, str]] = []
+    cursor = 0
+    for surface, reading in parse_rendered_pairs(rendered_yomi):
+        source_surface = surface.replace("\u00a0", " ")
+        token_end = cursor + len(source_surface)
+        if not source_surfaces_equal(text[cursor:token_end], source_surface):
+            return []
+        node_cursor = cursor
+        nodes = ruby_nodes_for_surface_reading(text[cursor:token_end], reading)
+        if "".join(str(node.get("text") or "") for node in nodes) != text[cursor:token_end]:
+            return []
+        for node in nodes:
+            node_text = str(node.get("text") or "")
+            node_end = node_cursor + len(node_text)
+            if node.get("type") == "ruby" and node_text and node.get("reading"):
+                spans.append((node_cursor, node_end, str(node["reading"])))
+            node_cursor = node_end
+        cursor = token_end
+    if cursor != len(text):
+        return []
+    return spans
 
 
 def ruby_segment_reading(target: dict[str, Any]) -> str | None:
@@ -2172,6 +2320,8 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
     if not should_display_ruby(surface, reading):
         return [{"type": "text", "text": surface}]
     reading_hira = kata_to_hira(reading)
+    if has_han(surface) and any(char in "ヵヶ" for char in surface):
+        return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface) and re.search(r"[0-9０-９]", surface):
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface) and has_latin(surface):
@@ -2307,11 +2457,13 @@ def annotated_furigana_nodes(annotated: str) -> list[dict[str, str]]:
 
 
 def split_trailing_ruby_surface(text: str) -> tuple[str, str]:
-    if has_han(text) and all(has_han(char) or char in {"ヶ", "ケ", "ヵ"} for char in text):
+    if has_han(text) and all(
+        is_han_run_char(char) or char in {"ヶ", "ケ", "ヵ"} for char in text
+    ):
         return "", text
     end = len(text)
     start = end
-    while start > 0 and has_han(text[start - 1]):
+    while start > 0 and is_han_run_char(text[start - 1]):
         start -= 1
     return text[:start], text[start:end]
 
@@ -3762,6 +3914,7 @@ def default_target_rows(item: dict[str, Any]) -> list[dict[str, Any]]:
         rows.append(
             {
                 "item_id": str(target.get("item_id") or ""),
+                "choice_id": str(target.get("default_candidate_id") or ""),
                 "choice_source": source,
                 "selected_reading": target.get("default_reading"),
                 "automatic_default": True,
@@ -3827,7 +3980,22 @@ def interaction_candidate_for_legacy_row(
 ) -> dict[str, Any] | None:
     candidates = [candidate for candidate in span.get("candidates", []) if isinstance(candidate, dict)]
     if row.get("choice_source") == "none":
-        return next((candidate for candidate in candidates if candidate.get("source") == "none"), None)
+        if row.get("automatic_default"):
+            default_id = str(span.get("default_candidate_id") or "")
+            default = next(
+                (candidate for candidate in candidates if candidate.get("id") == default_id),
+                None,
+            )
+            if default is not None and default.get("source") == "none":
+                return default
+        return next(
+            (
+                candidate
+                for candidate in candidates
+                if candidate.get("no_ruby_state") == "unresolved"
+            ),
+            next((candidate for candidate in candidates if candidate.get("source") == "none"), None),
+        )
     choice_id = str(row.get("choice_id") or "")
     if choice_id:
         match = next((candidate for candidate in candidates if candidate.get("id") == choice_id), None)
@@ -4000,9 +4168,31 @@ def build_target_override(
     target = targets_by_id.get(target_id)
     if target is None:
         return None
+    choice_id = str(row.get("choice_id") or "")
+    selected_candidate = next(
+        (
+            candidate
+            for candidate in target.get("candidates", [])
+            if isinstance(candidate, dict) and str(candidate.get("id") or "") == choice_id
+        ),
+        None,
+    )
+    no_ruby_state = (
+        str(selected_candidate.get("no_ruby_state") or "")
+        if selected_candidate is not None
+        else ""
+    )
+    if (
+        not no_ruby_state
+        and row.get("choice_source") == "none"
+        and row.get("automatic_default")
+        and has_accepted_no_ruby_signal(target)
+    ):
+        # Legacy automatic defaults did not carry a candidate ID.
+        no_ruby_state = "intentional"
     override = {
         "item_id": target_id,
-        "choice_id": str(row.get("choice_id") or ""),
+        "choice_id": choice_id,
         "choice_source": str(row.get("choice_source") or ""),
         "selected_reading": row.get("selected_reading"),
         "surface": target.get("surface"),
@@ -4011,7 +4201,8 @@ def build_target_override(
         "chunk_index": target.get("chunk_index"),
         "current_reading_hiragana": target.get("current_reading_hiragana"),
         "automatic_default": bool(row.get("automatic_default")),
-        "accepted_no_ruby": has_accepted_no_ruby_signal(target),
+        "accepted_no_ruby": no_ruby_state == "intentional",
+        "no_ruby_state": no_ruby_state or None,
     }
     if row.get("legacy_target_item_id"):
         override["legacy_target_item_id"] = str(row["legacy_target_item_id"])
@@ -4102,7 +4293,11 @@ def apply_exact_rendered_target_overrides(
     updated = 0
     for override in target_overrides:
         selected = override.get("selected_reading")
-        if not isinstance(selected, str) or not selected:
+        accepted_no_ruby = (
+            override.get("choice_source") == "none"
+            and bool(override.get("accepted_no_ruby"))
+        )
+        if not accepted_no_ruby and (not isinstance(selected, str) or not selected):
             continue
         token_surface = str(override.get("token_surface") or "")
         if override.get("surface") != token_surface:
@@ -4119,7 +4314,7 @@ def apply_exact_rendered_target_overrides(
         if replacement_index is None:
             continue
         surface, old_reading = pairs[replacement_index]
-        new_reading = hira_to_kata(selected)
+        new_reading = "" if accepted_no_ruby else hira_to_kata(str(selected))
         if old_reading != new_reading:
             pairs[replacement_index] = (surface, new_reading)
             updated += 1
@@ -4285,7 +4480,10 @@ def build_strong_repair_queue_file(
                 .get("yomi", {})
                 .get("rendered")
             )
-            target_groups = group_consecutive_target_overrides(target_escalation_overrides)
+            target_groups = group_consecutive_target_overrides(
+                target_escalation_overrides,
+                text=str(unit.get("text") or ""),
+            )
             target_escalations += len(target_escalation_overrides)
             for group_index, target_group in enumerate(target_groups, start=1):
                 rejected_span = target_group_rejected_span(
@@ -4751,7 +4949,11 @@ def find_unique_rendered_span(
     return matches[0]
 
 
-def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
+def group_consecutive_target_overrides(
+    targets: list[dict[str, Any]],
+    *,
+    text: str | None = None,
+) -> list[list[dict[str, Any]]]:
     def sort_key(target: dict[str, Any]) -> tuple[int, int, str]:
         token_index = target.get("token_index")
         chunk_index = target.get("chunk_index")
@@ -4765,11 +4967,20 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
     current: list[dict[str, Any]] = []
     previous_chunk: int | None = None
     previous_token: int | None = None
+    previous_target_end: int | None = None
     for target in sorted(targets, key=sort_key):
         chunk_index = target.get("chunk_index")
         token_index = target.get("token_index")
         chunk = chunk_index if isinstance(chunk_index, int) else None
         token = token_index if isinstance(token_index, int) else None
+        target_range = target_source_range(target)
+        start = target_range[0] if target_range is not None else None
+        source_continues = False
+        if text is not None and previous_target_end is not None and start is not None:
+            gap = text[previous_target_end:start] if start >= previous_target_end else ""
+            source_continues = start >= previous_target_end and all(
+                is_variation_selector(char) for char in gap
+            )
         continues_previous = (
             bool(current)
             and chunk is not None
@@ -4779,6 +4990,7 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
             and (
                 (token == previous_token and chunk == previous_chunk + 1)
                 or (token == previous_token + 1 and chunk == 0)
+                or source_continues
             )
         )
         if not continues_previous:
@@ -4788,33 +5000,20 @@ def group_consecutive_target_overrides(targets: list[dict[str, Any]]) -> list[li
         current.append(target)
         previous_chunk = chunk
         previous_token = token
+        previous_target_end = target_range[1] if target_range is not None else None
     if current:
         groups.append(current)
     return groups
 
 
 def target_group_rejected_span(text: str, targets: list[dict[str, Any]]) -> str:
-    starts = [
-        int(target["target_start"])
-        for target in targets
-        if isinstance(target.get("target_start"), int)
-    ]
-    ends = [
-        int(target["target_end"])
-        for target in targets
-        if isinstance(target.get("target_end"), int)
-    ]
+    ranges = [value for target in targets if (value := target_source_range(target)) is not None]
+    starts = [start for start, _end in ranges]
+    ends = [end for _start, end in ranges]
     if starts and ends:
         start = min(starts)
         end = max(ends)
-        last_target = max(
-            (
-                target
-                for target in targets
-                if isinstance(target.get("target_end"), int)
-            ),
-            key=lambda target: int(target["target_end"]),
-        )
+        last_target = max(targets, key=lambda target: (target_source_range(target) or (-1, -1))[1])
         token_surface = str(last_target.get("token_surface") or "")
         surface = str(last_target.get("surface") or "")
         surface_end = token_surface.rfind(surface) + len(surface) if surface else 0
@@ -4872,6 +5071,25 @@ def target_group_rejected_span(text: str, targets: list[dict[str, Any]]) -> str:
             token_parts.append(token_surface[start:end])
 
     return "".join(token_parts)
+
+
+_LEGACY_TARGET_SOURCE_SPAN_RE = re.compile(r":s(\d+)-(\d+)$")
+
+
+def target_source_range(target: dict[str, Any]) -> tuple[int, int] | None:
+    """Return a zero-based source range, including for legacy review targets."""
+    start = target.get("target_start")
+    end = target.get("target_end")
+    if isinstance(start, int) and isinstance(end, int):
+        return start, end
+    match = _LEGACY_TARGET_SOURCE_SPAN_RE.search(str(target.get("item_id") or ""))
+    if match is None:
+        return None
+    legacy_start = int(match.group(1))
+    legacy_end = int(match.group(2))
+    if legacy_start < 1 or legacy_end < legacy_start:
+        return None
+    return legacy_start - 1, legacy_end
 
 
 def finalize_reviewed_yomi_file(
