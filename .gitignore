@@ -8,11 +8,9 @@ debug/
 runs/
 scratch/
 
-# Review pages are published from generated output. Existing tracked fixtures
-# remain tracked, while newly generated packs and archive shards stay local.
-docs/review/archive/
-docs/review/runtime-status.json
-docs/review/packs/*.json
+# Review pages are generated locally and published through the gh-pages branch.
+docs/review/*
+!docs/review/README.md
 
 # Exploratory prompt variants produced during local tuning.
 # Keep promoted production prompts under config/prompts/ and committed baseline
