@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 5,
@@ -31,12 +31,12 @@
       "source_line_no": 644,
       "preview": "ぼちぼちのつもりが・・・たくさんの方においでいただきました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-17T08:20:10Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-17T08:37:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -213,12 +213,12 @@
       "source_line_no": 651,
       "preview": "心の学校 佐藤学長の「図解 神のメッセージ3」の頁12『Aさんとはとても馬が合うし仲良くできる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-17T08:20:10Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-17T08:37:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1247,7 +1247,7 @@
       "source_line_no": 644,
       "text": "４日、５日と、あと二日間ありますので、どうぞ、ぼちぼち雪浦に遊びに来てくださいね。",
       "rendered_yomi_before": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二/フタ 日間/カカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
-      "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日間/フツカカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
+      "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日/フツカ 間/カン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキノウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "４日",
@@ -1274,8 +1274,12 @@
           "アト"
         ],
         [
-          "二日間",
-          "フツカカン"
+          "二日",
+          "フツカ"
+        ],
+        [
+          "間",
+          "カン"
         ],
         [
           "あり",
@@ -1311,7 +1315,7 @@
         ],
         [
           "雪浦",
-          "ユキウラ"
+          "ユキノウラ"
         ],
         [
           "に",
@@ -1410,13 +1414,24 @@
           ]
         },
         {
-          "surface": "二日間",
-          "reading": "フツカカン",
+          "surface": "二日",
+          "reading": "フツカ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "二日間",
-              "reading": "ふつかかん"
+              "text": "二日",
+              "reading": "ふつか"
+            }
+          ]
+        },
+        {
+          "surface": "間",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "間",
+              "reading": "かん"
             }
           ]
         },
@@ -1502,12 +1517,12 @@
         },
         {
           "surface": "雪浦",
-          "reading": "ユキウラ",
+          "reading": "ユキノウラ",
           "nodes": [
             {
               "type": "ruby",
               "text": "雪浦",
-              "reading": "ゆきうら"
+              "reading": "ゆきのうら"
             }
           ]
         },
@@ -1611,14 +1626,14 @@
           "unit_id": "ja_cc_level2:0000000644:u0014",
           "text": "４日、５日と、あと二日間ありますので、どうぞ、ぼちぼち雪浦に遊びに来てくださいね。",
           "rendered_yomi_before": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二/フタ 日間/カカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
-          "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日間/フツカカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
+          "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日/フツカ 間/カン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキノウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 9,
             "char_end": 12,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -1814,10 +1829,10 @@
           "unit_id": "ja_cc_level2:0000000644:u0014",
           "text": "４日、５日と、あと二日間ありますので、どうぞ、ぼちぼち雪浦に遊びに来てくださいね。",
           "rendered_yomi_before": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二/フタ 日間/カカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
-          "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日間/フツカカン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
+          "rendered_yomi_after": "４日/ヨッカ 、/、 ５日/イツカ と/ト 、/、 あと/アト 二日/フツカ 間/カン あり/アリ ます/マス の/ノ で/デ 、/、 どうぞ/ドウゾ 、/、 ぼちぼち/ボチボチ 雪浦/ユキノウラ に/ニ 遊び/アソビ に/ニ 来/キ て/テ ください/クダサイ ね/ネ 。/。",
           "display_mapping": {
-            "start": 15,
-            "end": 16,
+            "start": 16,
+            "end": 17,
             "char_start": 27,
             "char_end": 29,
             "start_offset": 0,

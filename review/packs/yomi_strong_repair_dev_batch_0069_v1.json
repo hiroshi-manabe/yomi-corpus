@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -57,12 +57,12 @@
       "source_line_no": 655,
       "preview": "本日、全国高等学校ラグビーフットボール大会大阪府予選が本校グラウンドで行われました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-17T08:22:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-17T08:41:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -135,12 +135,12 @@
       "source_line_no": 658,
       "preview": "前回の更新の辺りから取り組んでいたプロジェクトが、ようやく結実しました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-17T08:22:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-17T08:41:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 661,
       "preview": "柄谷行人『遊動論 ――柳田国男と山人』（２０１４）は、私たちの遊動性（＝ノマドロジー）を大きく二種類に区別している。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-17T08:22:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-17T08:41:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1727,11 +1727,11 @@
       "source_line_no": 655,
       "text": "畷高オープンスクールを開催しました！",
       "rendered_yomi_before": "畷/ナワテ 高/ダカ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
-      "rendered_yomi_after": "畷高/ナワテコウ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
+      "rendered_yomi_after": "畷高/ナワコウ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "畷高",
-          "ナワテコウ"
+          "ナワコウ"
         ],
         [
           "オープン",
@@ -1769,12 +1769,12 @@
       "rendered_yomi_after_ruby_tokens": [
         {
           "surface": "畷高",
-          "reading": "ナワテコウ",
+          "reading": "ナワコウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "畷高",
-              "reading": "なわてこう"
+              "reading": "なわこう"
             }
           ]
         },
@@ -1873,7 +1873,7 @@
           "unit_id": "ja_cc_level2:0000000655:u0025",
           "text": "畷高オープンスクールを開催しました！",
           "rendered_yomi_before": "畷/ナワテ 高/ダカ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
-          "rendered_yomi_after": "畷高/ナワテコウ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
+          "rendered_yomi_after": "畷高/ナワコウ オープン/オープン スクール/スクール を/ヲ 開催/カイサイ し/シ まし/マシ た/タ ！/！",
           "display_mapping": {
             "start": 0,
             "end": 1,
@@ -2164,7 +2164,7 @@
       "source_line_no": 658,
       "text": "さて、一区切りついたところで、次！",
       "rendered_yomi_before": "さて/サテ 、/、 一区/イチク 切り/キリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
-      "rendered_yomi_after": "さて/サテ 、/、 一区切り/ヒトクギリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
+      "rendered_yomi_after": "さて/サテ 、/、 一/ヒト 区切り/クギリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "さて",
@@ -2175,8 +2175,12 @@
           "、"
         ],
         [
-          "一区切り",
-          "ヒトクギリ"
+          "一",
+          "ヒト"
+        ],
+        [
+          "区切り",
+          "クギリ"
         ],
         [
           "つい",
@@ -2229,13 +2233,24 @@
           ]
         },
         {
-          "surface": "一区切り",
-          "reading": "ヒトクギリ",
+          "surface": "一",
+          "reading": "ヒト",
           "nodes": [
             {
               "type": "ruby",
-              "text": "一区切",
-              "reading": "ひとくぎ"
+              "text": "一",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "区切り",
+          "reading": "クギリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区切",
+              "reading": "くぎ"
             },
             {
               "type": "text",
@@ -2328,14 +2343,14 @@
           "unit_id": "ja_cc_level2:0000000658:u0021",
           "text": "さて、一区切りついたところで、次！",
           "rendered_yomi_before": "さて/サテ 、/、 一区/イチク 切り/キリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
-          "rendered_yomi_after": "さて/サテ 、/、 一区切り/ヒトクギリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
+          "rendered_yomi_after": "さて/サテ 、/、 一/ヒト 区切り/クギリ つい/ツイ た/タ ところ/トコロ で/デ 、/、 次/ツギ ！/！",
           "display_mapping": {
             "start": 2,
-            "end": 3,
+            "end": 4,
             "char_start": 3,
             "char_end": 7,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -2701,7 +2716,7 @@
       "source_line_no": 661,
       "text": "カプローニは世界的に著名な飛行機製作者のイタリア人であり、しばしば堀越二郎の夢のなかに現れる。",
       "rendered_yomi_before": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀/ホリ 越二郎/エツジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
-      "rendered_yomi_after": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀越二郎/ホリコシジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
+      "rendered_yomi_after": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀越/ホリコシ 二郎/ジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "カプローニ",
@@ -2760,8 +2775,12 @@
           "シバシバ"
         ],
         [
-          "堀越二郎",
-          "ホリコシジロウ"
+          "堀越",
+          "ホリコシ"
+        ],
+        [
+          "二郎",
+          "ジロウ"
         ],
         [
           "の",
@@ -2943,14 +2962,20 @@
           ]
         },
         {
-          "surface": "堀越二郎",
-          "reading": "ホリコシジロウ",
+          "surface": "堀越",
+          "reading": "ホリコシ",
           "nodes": [
             {
               "type": "ruby",
               "text": "堀越",
               "reading": "ほりこし"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "二郎",
+          "reading": "ジロウ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "二郎",
@@ -3048,14 +3073,14 @@
           "unit_id": "ja_cc_level2:0000000661:u0020",
           "text": "カプローニは世界的に著名な飛行機製作者のイタリア人であり、しばしば堀越二郎の夢のなかに現れる。",
           "rendered_yomi_before": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀/ホリ 越二郎/エツジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
-          "rendered_yomi_after": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀越二郎/ホリコシジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
+          "rendered_yomi_after": "カプローニ/カプローニ は/ハ 世界的/セカイテキ に/ニ 著名/チョメイ な/ナ 飛行機/ヒコウキ 製作者/セイサクシャ の/ノ イタリア人/イタリアジン で/デ あり/アリ 、/、 しばしば/シバシバ 堀越/ホリコシ 二郎/ジロウ の/ノ 夢/ユメ の/ノ なか/ナカ に/ニ 現れる/アラワレル 。/。",
           "display_mapping": {
             "start": 14,
-            "end": 15,
+            "end": 16,
             "char_start": 33,
             "char_end": 37,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
