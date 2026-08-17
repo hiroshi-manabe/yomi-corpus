@@ -389,7 +389,7 @@ async function openPack(stageId, packId) {
   state.currentPack = pack;
   state.currentDraft = loadDraft(pack);
   updateLocation(stageId, packId);
-  render();
+  render({ scrollToTop: isTaskStarted() });
 }
 
 async function openUnifiedReview() {
@@ -416,7 +416,7 @@ async function openUnifiedReview() {
   state.unifiedSources = sources;
   state.currentDraft = loadDraft(unified);
   updateLocation("unified_yomi_review", unified.pack_id);
-  render();
+  render({ scrollToTop: isTaskStarted() });
   updateRuntimePollingForInteraction();
 }
 
@@ -647,7 +647,7 @@ function documentBelongsToQueue(queueStage, doc) {
   return Boolean(doc?.selectable);
 }
 
-function render() {
+function render({ scrollToTop = false } = {}) {
   if (state.currentStageId !== "archive_browser") {
     syncLocalTaskRecordsForCurrentPack();
   }
@@ -656,6 +656,24 @@ function render() {
   renderItems();
   renderControlState();
   renderSubmissionPreview();
+  if (scrollToTop) {
+    scrollReviewPageToTop();
+  }
+}
+
+function scrollReviewPageToTop() {
+  const reset = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTop = 0;
+      document.scrollingElement.scrollLeft = 0;
+    }
+  };
+  if (typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(reset);
+  } else {
+    reset();
+  }
 }
 
 function renderTaskSelector() {
@@ -7102,7 +7120,7 @@ function startReviewTask() {
   state.currentDraft.from_seq = null;
   state.currentDraft.to_seq = null;
   touchDraft();
-  render();
+  render({ scrollToTop: true });
 }
 
 function isTaskStarted() {
@@ -7129,7 +7147,7 @@ function deferCurrentTask() {
   clearActiveTaskState();
   touchDraft();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで保留しました。`);
-  render();
+  render({ scrollToTop: true });
 }
 
 function completeCurrentTask() {
@@ -7153,7 +7171,7 @@ function completeCurrentTask() {
   clearActiveTaskState();
   touchDraft();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
-  render();
+  render({ scrollToTop: true });
 }
 
 function resumeTaskDraft(taskId) {
@@ -7176,7 +7194,7 @@ function resumeTaskDraft(taskId) {
   state.currentDraft.overrides = cloneJson(record.overrides || {});
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
-  render();
+  render({ scrollToTop: true });
 }
 
 function markSavedTaskSubmitted(taskId) {
