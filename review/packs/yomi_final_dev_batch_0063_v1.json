@@ -11,13 +11,14 @@
   "item_count": 285,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 10,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "final_pending": 10
+      "complete": 8,
+      "strong_pending": 2
     },
     "unresolved_item_count": 23,
     "unresolved_target_count": 30,
-    "interaction_span_count": 1663,
+    "interaction_span_count": 1664,
     "provisional_skip_item_count": 0
   },
   "documents": [
@@ -30,12 +31,12 @@
       "source_line_no": 594,
       "preview": "2月も引き続き12時から17時まで、時短営業いたします。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -43,7 +44,7 @@
       "unresolved_count": 0,
       "from_seq": 1,
       "to_seq": 5,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 5,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -56,12 +57,12 @@
       "source_line_no": 595,
       "preview": "『１０月　歌声あふれる林中！",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 51,
@@ -69,7 +70,7 @@
       "unresolved_count": 0,
       "from_seq": 6,
       "to_seq": 56,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 51,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -82,12 +83,12 @@
       "source_line_no": 596,
       "preview": "アニパで隊長を務めるているエクルです。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 8,
@@ -95,7 +96,7 @@
       "unresolved_count": 1,
       "from_seq": 57,
       "to_seq": 64,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 8,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -108,12 +109,12 @@
       "source_line_no": 597,
       "preview": "当社のサービスであるSynergy!の UI デザインを担当しています、吉開敦です。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 44,
@@ -121,7 +122,7 @@
       "unresolved_count": 6,
       "from_seq": 65,
       "to_seq": 108,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 44,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -134,12 +135,12 @@
       "source_line_no": 598,
       "preview": "明日の天気予報では長野マークだったので今からどのくらい降るのかドキドキです(>_<)　３連休最終日、お出掛けの際にはくれぐれもお気を付け下さい・・！",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T05:01:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 7,
@@ -147,9 +148,9 @@
       "unresolved_count": 6,
       "from_seq": 109,
       "to_seq": 115,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 7,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 2
     },
     {
       "doc_id": "ja_cc_level2:0000000599",
@@ -160,12 +161,12 @@
       "source_line_no": 599,
       "preview": "弊社きびだんごを販売しております、高速道路 山陽道 吉備サービスエリアの下り線（広島方面）側が2021年8月2日にリニューアルオープンとなります。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T05:01:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -173,9 +174,9 @@
       "unresolved_count": 4,
       "from_seq": 116,
       "to_seq": 119,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 4,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 1
     },
     {
       "doc_id": "ja_cc_level2:0000000600",
@@ -186,12 +187,12 @@
       "source_line_no": 600,
       "preview": "しばらく王宮内を走っていると目の前に異様なプレッシャーを感じる部屋を見つけた。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 67,
@@ -199,7 +200,7 @@
       "unresolved_count": 7,
       "from_seq": 120,
       "to_seq": 186,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 67,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -212,12 +213,12 @@
       "source_line_no": 601,
       "preview": "当社グループは、気候変動対応が地球規模で取り組むべき最重要課題の一つであると認識しており、グループが保有する資産を最大限に活用して、「緩和」と「適応」の両面から課題解決に向けた取り組みを進めています。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 19,
@@ -225,7 +226,7 @@
       "unresolved_count": 2,
       "from_seq": 187,
       "to_seq": 205,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 19,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -238,12 +239,12 @@
       "source_line_no": 602,
       "preview": "あまりビールに強くない人も安心です。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -251,7 +252,7 @@
       "unresolved_count": 3,
       "from_seq": 206,
       "to_seq": 216,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 11,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -264,12 +265,12 @@
       "source_line_no": 603,
       "preview": "まったく・・・そういいつつも表情は穏やかです。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-14T05:14:20Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-17T04:59:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 69,
@@ -277,7 +278,7 @@
       "unresolved_count": 1,
       "from_seq": 217,
       "to_seq": 285,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 69,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     }
@@ -152651,9 +152652,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "こん",
               "tokens": [
                 [
@@ -178113,9 +178114,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "こん",
               "tokens": [
                 [
@@ -197229,8 +197230,16 @@
           "highlight_level": "none"
         },
         {
+          "type": "ruby",
+          "text": "2日",
+          "target_item_id": "ja_cc_level2:0000000599:u0001:s0055-0056",
+          "reading": "ふつか",
+          "is_safe": true,
+          "highlight_level": "none"
+        },
+        {
           "type": "text",
-          "text": "2日にリニューアルオープンとなります。"
+          "text": "にリニューアルオープンとなります。"
         }
       ],
       "rendered_yomi": "弊社/ヘイシャ きび/キビ だんご/ダンゴ を/ヲ 販売/ハンバイ し/シ て/テ おり/オリ ます/マス 、/、 高速/コウソク 道路/ドウロ \\s/ 山陽/サンヨウ 道/ドウ \\s/ 吉備/キビ サービス/サービス エリア/エリア の/ノ 下り線/クダリセン （/（ 広島/ヒロシマ 方面/ホウメン ）/） 側/ガワ が/ガ 2021/ 年/ネン 8/ 月/ガツ 2日/フツカ に/ニ リニューアル/リニューアル オープン/オープン と/ト なり/ナリ ます/マス 。/。",
@@ -197657,8 +197666,8 @@
       "skip_reasons": [],
       "manual_correction_required": false,
       "manual_correction": {},
-      "target_count": 14,
-      "safe_target_count": 13,
+      "target_count": 15,
+      "safe_target_count": 14,
       "unresolved_target_count": 1,
       "all_targets_safe": false,
       "targets": [
@@ -199240,6 +199249,68 @@
               "source_corpus_version": "dev:20260810T081824Z"
             }
           ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000599:u0001:n0055",
+          "surface": "2日",
+          "token_surface": "2日",
+          "target_start": 54,
+          "target_end": 56,
+          "token_index": 31,
+          "chunk_index": 0,
+          "current_reading": "フツカ",
+          "current_reading_hiragana": "ふつか",
+          "token_dictionary_form": null,
+          "token_sudachi_reading": null,
+          "token_pos": null,
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "accepted_signal_names": [
+            "safe_by_numeric_compound"
+          ],
+          "status_reason": "accepted_numeric_compound_rule",
+          "allows_intentional_no_ruby": false,
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ふつか",
+          "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふつか",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "2日",
+                  "reading": "ふつか"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "Unresolved; escalate",
+              "reading": null,
+              "accepted": false,
+              "no_ruby_state": "unresolved",
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "2日"
+                }
+              ]
+            }
+          ],
+          "signals": [
+            {
+              "name": "safe_by_numeric_compound",
+              "accepted": true,
+              "reading": "ふつか"
+            }
+          ]
         }
       ],
       "interaction_spans": [
@@ -200793,9 +200864,73 @@
               "source_corpus_version": "dev:20260810T081824Z"
             }
           ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000599:u0001:s0055-0056",
+          "span_id": "ja_cc_level2:0000000599:u0001:s0055-0056",
+          "surface": "2日",
+          "token_surface": "2日",
+          "target_start": 54,
+          "target_end": 56,
+          "token_index": 31,
+          "chunk_index": 0,
+          "current_reading": "フツカ",
+          "current_reading_hiragana": "ふつか",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "current",
+          "default_choice_source": "current",
+          "default_reading": "ふつか",
+          "candidates": [
+            {
+              "id": "current",
+              "source": "current",
+              "label": "Current mechanical/hybrid",
+              "reading": "ふつか",
+              "tokens": [
+                [
+                  "2日",
+                  "フツカ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "2日",
+                  "reading": "ふつか"
+                }
+              ]
+            },
+            {
+              "id": "none",
+              "source": "none",
+              "label": "Unresolved; escalate",
+              "reading": null,
+              "tokens": [],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "2日"
+                }
+              ],
+              "accepted": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "legacy_target_item_ids": [
+            "ja_cc_level2:0000000599:u0001:n0055"
+          ],
+          "signals": [
+            {
+              "name": "safe_by_numeric_compound",
+              "accepted": true,
+              "reading": "ふつか"
+            }
+          ]
         }
       ],
-      "interaction_span_count": 13,
+      "interaction_span_count": 14,
       "reading_hints": {
         "弊社": "へいしゃ",
         "販売": "はんばい",
@@ -200810,7 +200945,8 @@
         "方面": "ほうめん",
         "側": "がわ",
         "年": "ねん",
-        "月": "がつ"
+        "月": "がつ",
+        "2日": "ふつか"
       }
     },
     {
@@ -377355,9 +377491,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "こん",
               "tokens": [
                 [
@@ -486866,9 +487002,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
+              "id": "learned_repair:0",
+              "source": "learned_repair",
+              "label": "Accepted repair",
               "reading": "こん",
               "tokens": [
                 [
