@@ -23,8 +23,8 @@ Initial project stance:
 - For non-target detection and mechanical "safe" decisions, collect
   raw features first and defer real deterministic gating until reviewed data
   exists.
-- Use cheap LLM triage, then more expensive contextual repair, then human
-  review.
+- Use deterministic reading evidence, targeted LLM readings, contextual
+  repair, and human review. Scope decisions belong to human review.
 
 Prompt iteration scaffold:
 
@@ -61,9 +61,6 @@ Prompt iteration scaffold:
 Default model policy:
 
 - use `gpt-5.6-sol` for normal judgment and repair tasks
-- use `gpt-5.4-mini` / `economy` for scope triage on both `dev` and
-  `working`; triage is a recoverable scope gate, not the final yomi-quality
-  signal
 - reserve `gpt-5.5-pro` for a tiny last-resort rescue tail
 - use `gpt-5.4-nano` only for plumbing and instrumentation checks
 - treat other `gpt-5.4-mini` use as opt-in per task, not the default path
@@ -76,18 +73,15 @@ Default model policy:
   Python code; at prepare time CLI explicit overrides should win over the
   configured track default, and later stages should use the stored batch policy
 
-Alphabetic entity policy:
+Scope policy:
 
-- unresolved Latin/alphanumeric entity types are judged once and cached globally
-- cached judgments are operational: an `out_of_scope` entity causes provisional
-  skip for units that contain it
-- provisional skip is not deletion; Bulk Review shows the same `Skip` checkbox
-  pre-checked and greyed so the human can restore the unit
-- if a human restores a provisional alphabetic skip, the triggering entity is
-  treated as `in_scope` from then on; human skip decisions do not change entity
-  status
-- judgment source is kept for audit/debug, but behavior only needs
-  `in_scope`, `out_of_scope`, or `unknown`
+- every prepared unit follows the ordinary deterministic and LLM reading path
+- alphabetic and mixed-script material is handled as reading work, not as a
+  separate scope-classification problem
+- Bulk Review starts at `Keep`; humans may explicitly choose `Skip` or terminal
+  `Exclude`
+- finalized historical scope decisions remain auditable, but new batches do
+  not run machine scope classifiers
 
 Review transport policy:
 
@@ -244,18 +238,15 @@ Yomi generation scaffold:
 - yomi quality is judged primarily by reading correctness, not ideal
   segmentation; over-split katakana or morphology is acceptable for now if the
   readings are correct
-- after alphabetic checks, units with cached `out_of_scope` alphabetic entities
-  are marked as provisional skip; raw-text scope triage still handles general
-  non-target material before yomi generation
 - after yomi generation, `yomi_auto_accepted` adds
   `analysis.mechanical.yomi.auto_accept` only for low-risk units where Sudachi
   and the decoder agree and the decoder candidate has full repeated N-gram
   support
-- after scope triage and yomi auto-acceptance, the yomi-reading queue asks for
+- after yomi auto-acceptance, the yomi-reading queue asks for
   independent LLM readings only for unresolved kanji/Latin targets that were
   not suppressed by deterministic safety evidence
-- LLM work uses a generic resumable job layer shared by alphabetic judgment,
-  yomi triage, yomi repair, and rescue repair; sync, background, and batch
+- LLM work uses a generic resumable job layer shared by yomi reading, repair,
+  and rescue tasks; sync, background, and batch
   modes report completed/total progress and support interruption and resume
 - `./next` should print concise operator-facing progress by default and write
   full structured summaries to pipeline logs; `./next --json` should keep the

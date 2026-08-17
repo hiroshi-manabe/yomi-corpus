@@ -8,30 +8,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 import tomllib
 
-from yomi_corpus.alphabetic import (
-    AlphabeticOccurrence,
-    apply_global_decisions,
-    aggregate_occurrences,
-    attach_examples_to_types,
-    build_occurrences_for_unit,
-    load_alphabetic_config,
-    project_alphabetic_scope,
-    project_minor_alphabetic_judgment,
-)
-from yomi_corpus.alphabetic_reports import build_unresolved_entity_rows
-from yomi_corpus.alphabetic_review import (
-    append_alphabetic_llm_judgments,
-    build_llm_judgments_from_results,
-    load_jsonl as load_alphabetic_review_jsonl,
-)
-from yomi_corpus.alphabetic_state import (
-    AlphabeticDecision,
-    AlphabeticEvidence,
-    append_alphabetic_evidence,
-    decision_status_to_resolved_status,
-    load_alphabetic_decisions,
-    upsert_alphabetic_decision,
-)
 from yomi_corpus.document_review_state import (
     build_initial_document_review_state,
     load_document_review_state,
@@ -73,7 +49,6 @@ from yomi_corpus.yomi.llm_readings import (
     build_yomi_llm_reading_retry_queue_file,
 )
 from yomi_corpus.yomi.safety import apply_yomi_safety_pre_llm_file
-from yomi_corpus.yomi.scope import apply_scope_triage_results_file, build_scope_triage_queue_file
 
 
 WORKING_TRACK = "working"
@@ -119,14 +94,13 @@ LLM_EXECUTION_MODE_BATCH = "batch"
 LLM_EXECUTION_MODES = frozenset(
     {LLM_EXECUTION_MODE_SYNC, LLM_EXECUTION_MODE_BACKGROUND, LLM_EXECUTION_MODE_BATCH}
 )
-LLM_TASK_ALPHABETIC_ENTITY_JUDGE = "alphabetic_entity_judge"
-LLM_TASK_SCOPE_TRIAGE = "scope_triage"
 LLM_TASK_YOMI_READING = "yomi_reading"
 LLM_TASK_YOMI_REPAIR = "yomi_repair"
 LLM_TASK_YOMI_RESCUE = "yomi_rescue"
+RETIRED_LLM_POLICY_TASKS = frozenset(
+    {"alphabetic_entity_judge", "scope_triage"}
+)
 LLM_POLICY_TASKS = (
-    LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
-    LLM_TASK_SCOPE_TRIAGE,
     LLM_TASK_YOMI_READING,
     LLM_TASK_YOMI_REPAIR,
     LLM_TASK_YOMI_RESCUE,
@@ -146,12 +120,6 @@ LEGACY_YOMI_LLM_PROFILES = frozenset(
     LEGACY_YOMI_LLM_PROFILE_MAP
 )
 STAGE_PREPARED = "prepared"
-STAGE_ALPHABETIC_ANALYZED = "alphabetic_analyzed"
-STAGE_ALPHABETIC_REPORTED = "alphabetic_reported"
-STAGE_ALPHABETIC_LLM_JUDGED = "alphabetic_llm_judged"
-STAGE_ALPHABETIC_PROMOTION_CANDIDATES = "alphabetic_promotion_candidates"
-STAGE_SCOPE_TRIAGE_QUEUED = "scope_triage_queued"
-STAGE_SCOPE_TRIAGE_LLM_COMPLETED = "scope_triage_llm_completed"
 STAGE_YOMI_GENERATED = "yomi_generated"
 STAGE_YOMI_AUTO_ACCEPTED = "yomi_auto_accepted"
 STAGE_YOMI_READING_QUEUED = "yomi_reading_queued"
@@ -162,13 +130,17 @@ STAGE_YOMI_STRONG_REPAIR_QUEUED = "yomi_strong_repair_queued"
 STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED = "yomi_strong_repair_llm_completed"
 STAGE_YOMI_FINALIZED = "yomi_finalized"
 LEGACY_STAGE_MAP = {
-    "alphabetic_judged": STAGE_ALPHABETIC_LLM_JUDGED,
-    "scope_triage_completed": STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
+    "alphabetic_analyzed": STAGE_PREPARED,
+    "alphabetic_reported": STAGE_PREPARED,
+    "alphabetic_judged": STAGE_PREPARED,
+    "alphabetic_llm_judged": STAGE_PREPARED,
+    "alphabetic_promotion_candidates": STAGE_PREPARED,
+    "scope_triage_queued": STAGE_PREPARED,
+    "scope_triage_completed": STAGE_PREPARED,
+    "scope_triage_llm_completed": STAGE_PREPARED,
     "yomi_reading_completed": STAGE_YOMI_READING_LLM_COMPLETED,
 }
 STAGE_LLM_TASKS = {
-    STAGE_ALPHABETIC_LLM_JUDGED: LLM_TASK_ALPHABETIC_ENTITY_JUDGE,
-    STAGE_SCOPE_TRIAGE_LLM_COMPLETED: LLM_TASK_SCOPE_TRIAGE,
     STAGE_YOMI_READING_LLM_COMPLETED: LLM_TASK_YOMI_READING,
     STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED: LLM_TASK_YOMI_REPAIR,
 }
@@ -188,12 +160,6 @@ TRACKS: dict[str, dict[str, str]] = {
 
 STAGE_SEQUENCE = [
     STAGE_PREPARED,
-    STAGE_ALPHABETIC_ANALYZED,
-    STAGE_ALPHABETIC_REPORTED,
-    STAGE_ALPHABETIC_LLM_JUDGED,
-    STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
-    STAGE_SCOPE_TRIAGE_QUEUED,
-    STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
     STAGE_YOMI_GENERATED,
     STAGE_YOMI_AUTO_ACCEPTED,
     STAGE_YOMI_READING_QUEUED,
@@ -207,14 +173,8 @@ STAGE_SEQUENCE = [
 
 RERUNNABLE_STAGES = frozenset(
     {
-        STAGE_ALPHABETIC_ANALYZED,
-        STAGE_ALPHABETIC_REPORTED,
-        STAGE_ALPHABETIC_LLM_JUDGED,
-        STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
         STAGE_YOMI_GENERATED,
         STAGE_YOMI_AUTO_ACCEPTED,
-        STAGE_SCOPE_TRIAGE_QUEUED,
-        STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
         STAGE_YOMI_READING_QUEUED,
         STAGE_YOMI_READING_LLM_COMPLETED,
         STAGE_FINAL_REVIEW_PREPARED,
@@ -397,6 +357,8 @@ def normalize_llm_policy(
     if policy:
         for task, profile in policy.items():
             task_name = str(task)
+            if task_name in RETIRED_LLM_POLICY_TASKS:
+                continue
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in policy: {task_name}")
             normalized[task_name] = str(profile)
@@ -429,6 +391,8 @@ def normalize_llm_execution_policy(
     if policy:
         for task, mode in policy.items():
             task_name = str(task)
+            if task_name in RETIRED_LLM_POLICY_TASKS:
+                continue
             if task_name not in LLM_POLICY_TASK_SET:
                 raise ValueError(f"Unsupported LLM task in execution policy: {task_name}")
             normalized[task_name] = str(mode)
@@ -1110,31 +1074,10 @@ class PipelineWorkspace:
         llm_execution_mode_override: str | None = None,
     ) -> dict[str, object]:
         stage_name = normalize_stage_name(stage_name)
-        if stage_name == STAGE_ALPHABETIC_ANALYZED:
-            return self._run_alphabetic_analysis(batch_name)
-        if stage_name == STAGE_ALPHABETIC_REPORTED:
-            return self._build_unresolved_alphabetic_report(batch_name)
-        if stage_name == STAGE_ALPHABETIC_LLM_JUDGED:
-            return self._run_alphabetic_entity_judgment(
-                batch_name,
-                llm_execution_mode_override=llm_execution_mode_override,
-            )
-        if stage_name == STAGE_ALPHABETIC_PROMOTION_CANDIDATES:
-            return self._build_alphabetic_promotion_candidates(
-                batch_name,
-                skip_review_gates=skip_review_gates,
-            )
         if stage_name == STAGE_YOMI_GENERATED:
             return self._generate_mechanical_yomi(batch_name)
         if stage_name == STAGE_YOMI_AUTO_ACCEPTED:
             return self._auto_accept_mechanical_yomi(batch_name)
-        if stage_name == STAGE_SCOPE_TRIAGE_QUEUED:
-            return self._queue_scope_triage(batch_name)
-        if stage_name == STAGE_SCOPE_TRIAGE_LLM_COMPLETED:
-            return self._run_scope_triage(
-                batch_name,
-                llm_execution_mode_override=llm_execution_mode_override,
-            )
         if stage_name == STAGE_YOMI_READING_QUEUED:
             return self._queue_yomi_llm_reading(batch_name)
         if stage_name == STAGE_YOMI_READING_LLM_COMPLETED:
@@ -1160,28 +1103,6 @@ class PipelineWorkspace:
     def _stage_artifact_paths(self, *, batch_state: BatchState, stage_name: str) -> list[Path]:
         stage_name = normalize_stage_name(stage_name)
         batch_dir = self.batch_dir(batch_state.batch_name)
-        if stage_name == STAGE_ALPHABETIC_ANALYZED:
-            return [
-                batch_dir / "units.alphabetic.jsonl",
-                batch_dir / "alphabetic_occurrences.jsonl",
-                batch_dir / "alphabetic_types.jsonl",
-            ]
-        if stage_name == STAGE_ALPHABETIC_REPORTED:
-            return [
-                batch_dir / "alphabetic_unresolved_entities.jsonl",
-                batch_dir / "alphabetic_unresolved_entities.tsv",
-            ]
-        if stage_name == STAGE_ALPHABETIC_LLM_JUDGED:
-            return [
-                batch_dir / "alphabetic_judgment_input.jsonl",
-                batch_dir / "alphabetic_judgment_results.jsonl",
-                batch_dir / "alphabetic_judgment_usage_summary.json",
-                batch_dir / "alphabetic_judgment_ingest_summary.json",
-            ]
-        if stage_name == STAGE_ALPHABETIC_PROMOTION_CANDIDATES:
-            return [
-                batch_dir / "alphabetic_promotion_candidates_summary.json",
-            ]
         if stage_name == STAGE_YOMI_GENERATED:
             return [
                 batch_dir / "units.yomi.aligned_hybrid.jsonl",
@@ -1190,18 +1111,6 @@ class PipelineWorkspace:
             return [
                 batch_dir / "units.yomi.auto_accept.jsonl",
                 batch_dir / "yomi_auto_accept_summary.json",
-            ]
-        if stage_name == STAGE_SCOPE_TRIAGE_QUEUED:
-            return [
-                batch_dir / "scope_triage_input.jsonl",
-                batch_dir / "scope_triage_queue_summary.json",
-            ]
-        if stage_name == STAGE_SCOPE_TRIAGE_LLM_COMPLETED:
-            return [
-                batch_dir / "scope_triage_results.jsonl",
-                batch_dir / "scope_triage_usage_summary.json",
-                batch_dir / "units.scope_triaged.jsonl",
-                batch_dir / "scope_triage_apply_summary.json",
             ]
         if stage_name == STAGE_YOMI_READING_QUEUED:
             return [
@@ -1325,94 +1234,6 @@ class PipelineWorkspace:
             "manifest": str(manifest_path),
         }
         if current_stage in {
-            STAGE_ALPHABETIC_ANALYZED,
-            STAGE_ALPHABETIC_REPORTED,
-            STAGE_ALPHABETIC_LLM_JUDGED,
-            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_SCOPE_TRIAGE_QUEUED,
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts.update(
-                {
-                    "units_alphabetic_jsonl": str(self.batch_dir(batch_name) / "units.alphabetic.jsonl"),
-                    "alphabetic_occurrences_jsonl": str(self.batch_dir(batch_name) / "alphabetic_occurrences.jsonl"),
-                    "alphabetic_types_jsonl": str(self.batch_dir(batch_name) / "alphabetic_types.jsonl"),
-                }
-            )
-        if current_stage in {
-            STAGE_ALPHABETIC_REPORTED,
-            STAGE_ALPHABETIC_LLM_JUDGED,
-            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_SCOPE_TRIAGE_QUEUED,
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts.update(
-                {
-                    "alphabetic_unresolved_jsonl": str(
-                        self.batch_dir(batch_name) / "alphabetic_unresolved_entities.jsonl"
-                    ),
-                    "alphabetic_unresolved_tsv": str(
-                        self.batch_dir(batch_name) / "alphabetic_unresolved_entities.tsv"
-                    ),
-                }
-            )
-        if current_stage in {
-            STAGE_ALPHABETIC_LLM_JUDGED,
-            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_SCOPE_TRIAGE_QUEUED,
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts.update(
-                {
-                    "alphabetic_judgment_results_jsonl": str(
-                        self.batch_dir(batch_name) / "alphabetic_judgment_results.jsonl"
-                    ),
-                    "alphabetic_judgment_input_jsonl": str(
-                        self.batch_dir(batch_name) / "alphabetic_judgment_input.jsonl"
-                    ),
-                    "alphabetic_judgment_usage_summary_json": str(
-                        self.batch_dir(batch_name) / "alphabetic_judgment_usage_summary.json"
-                    ),
-                    "alphabetic_judgment_ingest_summary_json": str(
-                        self.batch_dir(batch_name) / "alphabetic_judgment_ingest_summary.json"
-                    ),
-                }
-            )
-        if current_stage in {
-            STAGE_ALPHABETIC_PROMOTION_CANDIDATES,
-            STAGE_SCOPE_TRIAGE_QUEUED,
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts.update(
-                {
-                    "alphabetic_promotion_candidates_summary_json": str(
-                        self.batch_dir(batch_name) / "alphabetic_promotion_candidates_summary.json"
-                    ),
-                    "alphabetic_projection_summary_json": str(
-                        self.batch_dir(batch_name) / "alphabetic_promotion_candidates_summary.json"
-                    ),
-                    "alphabetic_token_decisions_jsonl": str(
-                        self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
-                    ),
-                }
-            )
-        if current_stage in {
             STAGE_YOMI_GENERATED,
             STAGE_YOMI_AUTO_ACCEPTED,
             STAGE_YOMI_READING_QUEUED,
@@ -1431,39 +1252,6 @@ class PipelineWorkspace:
             )
             artifacts["yomi_auto_accept_summary_json"] = str(
                 self.batch_dir(batch_name) / "yomi_auto_accept_summary.json"
-            )
-        if current_stage in {
-            STAGE_SCOPE_TRIAGE_QUEUED,
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts["scope_triage_input_jsonl"] = str(
-                self.batch_dir(batch_name) / "scope_triage_input.jsonl"
-            )
-            artifacts["scope_triage_queue_summary_json"] = str(
-                self.batch_dir(batch_name) / "scope_triage_queue_summary.json"
-            )
-        if current_stage in {
-            STAGE_SCOPE_TRIAGE_LLM_COMPLETED,
-            STAGE_YOMI_GENERATED,
-            STAGE_YOMI_AUTO_ACCEPTED,
-            STAGE_YOMI_READING_QUEUED,
-            STAGE_YOMI_READING_LLM_COMPLETED,
-        }:
-            artifacts["scope_triage_results_jsonl"] = str(
-                self.batch_dir(batch_name) / "scope_triage_results.jsonl"
-            )
-            artifacts["scope_triage_usage_summary_json"] = str(
-                self.batch_dir(batch_name) / "scope_triage_usage_summary.json"
-            )
-            artifacts["units_scope_triaged_jsonl"] = str(
-                self.batch_dir(batch_name) / "units.scope_triaged.jsonl"
-            )
-            artifacts["scope_triage_apply_summary_json"] = str(
-                self.batch_dir(batch_name) / "scope_triage_apply_summary.json"
             )
         if current_stage in {STAGE_YOMI_READING_QUEUED, STAGE_YOMI_READING_LLM_COMPLETED}:
             artifacts["units_yomi_safety_pre_llm_jsonl"] = str(
@@ -1569,18 +1357,6 @@ class PipelineWorkspace:
             return STAGE_YOMI_AUTO_ACCEPTED
         if (batch_dir / "units.yomi.aligned_hybrid.jsonl").exists():
             return STAGE_YOMI_GENERATED
-        if (batch_dir / "units.scope_triaged.jsonl").exists():
-            return STAGE_SCOPE_TRIAGE_LLM_COMPLETED
-        if (batch_dir / "scope_triage_input.jsonl").exists():
-            return STAGE_SCOPE_TRIAGE_QUEUED
-        if (batch_dir / "alphabetic_promotion_candidates_summary.json").exists():
-            return STAGE_ALPHABETIC_PROMOTION_CANDIDATES
-        if (batch_dir / "alphabetic_judgment_ingest_summary.json").exists():
-            return STAGE_ALPHABETIC_LLM_JUDGED
-        if (batch_dir / "alphabetic_unresolved_entities.jsonl").exists():
-            return STAGE_ALPHABETIC_REPORTED
-        if (batch_dir / "units.alphabetic.jsonl").exists():
-            return STAGE_ALPHABETIC_ANALYZED
         return STAGE_PREPARED
 
     def _load_dataset_config(self, path_str: str) -> dict[str, object]:
@@ -1819,416 +1595,10 @@ class PipelineWorkspace:
                     latest = max(latest, source_line_no)
         return latest
 
-    def _run_alphabetic_analysis(self, batch_name: str) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        config = load_alphabetic_config("config/alphabetic/default.toml")
-        input_path = batch_dir / "units.jsonl"
-        output_units_path = batch_dir / "units.alphabetic.jsonl"
-        output_occurrences_path = batch_dir / "alphabetic_occurrences.jsonl"
-        output_types_path = batch_dir / "alphabetic_types.jsonl"
-        global_decisions_path = self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
-        global_evidence_path = self.root / "data" / "state" / "alphabetic" / "token_evidence.jsonl"
-        output_units_path.parent.mkdir(parents=True, exist_ok=True)
-
-        units: list[dict] = []
-        occurrences_by_unit: dict[str, list] = {}
-        all_occurrences = []
-        unit_text_by_id: dict[str, str] = {}
-        decision_status_by_key = {
-            entity_key: decision_status_to_resolved_status(decision.status)
-            for entity_key, decision in load_alphabetic_decisions(global_decisions_path).items()
-        }
-        decisions_by_key = load_alphabetic_decisions(global_decisions_path)
-
-        with input_path.open(encoding="utf-8") as src:
-            units = [json.loads(line) for line in src if line.strip()]
-
-        yomi_config = load_yomi_generation_config("config/yomi/default.toml")
-        sudachi_documents = run_sudachi_many(
-            [str(unit["text"]) for unit in units], yomi_config
-        )
-        for unit, sudachi_tokens in zip(units, sudachi_documents, strict=True):
-            unit_text_by_id[str(unit["unit_id"])] = str(unit["text"])
-            occurrences = apply_global_decisions(
-                build_occurrences_for_unit(unit, config, sudachi_tokens),
-                decision_status_by_key,
-            )
-            occurrences_by_unit[str(unit["unit_id"])] = occurrences
-            all_occurrences.extend(occurrences)
-
-        types = attach_examples_to_types(
-            aggregate_occurrences(all_occurrences),
-            unit_text_by_id,
-        )
-
-        with output_occurrences_path.open("w", encoding="utf-8") as dst:
-            for occurrence in all_occurrences:
-                dst.write(json.dumps(asdict(occurrence), ensure_ascii=False) + "\n")
-
-        with output_types_path.open("w", encoding="utf-8") as dst:
-            for entity_type in types:
-                dst.write(json.dumps(asdict(entity_type), ensure_ascii=False) + "\n")
-
-        append_alphabetic_evidence(
-            global_evidence_path,
-            [
-                AlphabeticEvidence(
-                    batch_name=batch_name,
-                    entity_key=entity_type.entity_key,
-                    strict_case=entity_type.strict_case,
-                    resolved_status=entity_type.resolved_status,
-                    base_list_status=entity_type.base_list_status,
-                    occurrence_count=entity_type.occurrence_count,
-                    unit_count=entity_type.unit_count,
-                    surface_forms=entity_type.surface_forms,
-                    example_unit_ids=entity_type.example_unit_ids,
-                )
-                for entity_type in types
-            ],
-        )
-
-        with output_units_path.open("w", encoding="utf-8") as dst:
-            for unit in units:
-                judgment = project_minor_alphabetic_judgment(occurrences_by_unit[str(unit["unit_id"])])
-                unit["analysis"]["mechanical"]["minor_alphabetic_sequence"] = {
-                    "value": judgment.value,
-                    "certain": judgment.certain,
-                    "signals": judgment.signals,
-                    "matches": judgment.matches,
-                    "decision_granularity": "entity_type",
-                }
-                unit["analysis"]["mechanical"]["alphabetic_scope"] = project_alphabetic_scope(
-                    occurrences_by_unit[str(unit["unit_id"])],
-                    decisions_by_key,
-                )
-                dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
-
-        return {
-            "artifacts": {
-                "units_alphabetic_jsonl": str(output_units_path),
-                "alphabetic_occurrences_jsonl": str(output_occurrences_path),
-                "alphabetic_types_jsonl": str(output_types_path),
-            }
-        }
-
-    def _build_unresolved_alphabetic_report(self, batch_name: str) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        input_types_path = batch_dir / "alphabetic_types.jsonl"
-        output_jsonl_path = batch_dir / "alphabetic_unresolved_entities.jsonl"
-        output_tsv_path = batch_dir / "alphabetic_unresolved_entities.tsv"
-
-        rows: list[dict] = []
-        with input_types_path.open(encoding="utf-8") as handle:
-            for line in handle:
-                if line.strip():
-                    rows.append(json.loads(line))
-
-        unresolved = build_unresolved_entity_rows(
-            rows,
-            min_occurrences=1,
-            max_examples=3,
-            max_example_chars=160,
-        )
-
-        with output_jsonl_path.open("w", encoding="utf-8") as handle:
-            for row in unresolved:
-                handle.write(json.dumps(row, ensure_ascii=False) + "\n")
-
-        with output_tsv_path.open("w", encoding="utf-8") as handle:
-            header = [
-                "entity_key",
-                "strict_case",
-                "resolved_status",
-                "base_list_status",
-                "occurrence_count",
-                "unit_count",
-                "surface_forms",
-                "example_unit_ids",
-                "example_texts",
-            ]
-            handle.write("\t".join(header) + "\n")
-            for row in unresolved:
-                handle.write(
-                    "\t".join(
-                        [
-                            row["entity_key"],
-                            str(row["strict_case"]),
-                            row["resolved_status"],
-                            row["base_list_status"],
-                            str(row["occurrence_count"]),
-                            str(row["unit_count"]),
-                            " | ".join(row["surface_forms"]),
-                            " | ".join(row["example_unit_ids"]),
-                            " || ".join(
-                                text.replace("\t", " ").replace("\n", " ") for text in row["example_texts"]
-                            ),
-                        ]
-                    )
-                    + "\n"
-                )
-        return {
-            "artifacts": {
-                "alphabetic_unresolved_jsonl": str(output_jsonl_path),
-                "alphabetic_unresolved_tsv": str(output_tsv_path),
-            }
-        }
-
-    def _run_alphabetic_entity_judgment(
-        self,
-        batch_name: str,
-        *,
-        llm_execution_mode_override: str | None = None,
-    ) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        batch_state = self.load_batch_state(batch_name)
-        task_config_path = "config/llm/alphabetic_entity_judge.toml"
-        llm_profile = batch_state.llm_policy[LLM_TASK_ALPHABETIC_ENTITY_JUDGE]
-        execution_mode = (
-            llm_execution_mode_override
-            or batch_state.llm_execution_policy[LLM_TASK_ALPHABETIC_ENTITY_JUDGE]
-        )
-        base_task_config = load_llm_task_config(task_config_path)
-        task_config = apply_llm_profile(base_task_config, llm_profile)
-        input_path = batch_dir / "alphabetic_unresolved_entities.jsonl"
-        llm_input_path = batch_dir / "alphabetic_judgment_input.jsonl"
-        results_path = batch_dir / "alphabetic_judgment_results.jsonl"
-        usage_summary_path = batch_dir / "alphabetic_judgment_usage_summary.json"
-        ingest_summary_path = batch_dir / "alphabetic_judgment_ingest_summary.json"
-        ledger_path = self.root / "data" / "state" / "alphabetic" / "llm_judgments.jsonl"
-        decisions_path = self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
-        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_alphabetic_judgment"
-
-        existing_decisions = load_alphabetic_decisions(decisions_path)
-        llm_input_path.parent.mkdir(parents=True, exist_ok=True)
-        input_entities = 0
-        cached_entity_skips = 0
-        with input_path.open(encoding="utf-8") as src, llm_input_path.open("w", encoding="utf-8") as dst:
-            for line in src:
-                if not line.strip():
-                    continue
-                input_entities += 1
-                row = json.loads(line)
-                if str(row.get("entity_key", "")) in existing_decisions:
-                    cached_entity_skips += 1
-                    continue
-                dst.write(json.dumps(row, ensure_ascii=False) + "\n")
-
-        queued_count = count_nonempty_lines(llm_input_path)
-        job_summary = None
-        if queued_count:
-            job_summary = run_llm_task(
-                task_config_path,
-                str(llm_input_path),
-                str(results_path),
-                execution_mode=execution_mode,
-                task_config_override=task_config,
-                job_dir=str(job_dir),
-                show_progress=True,
-            )
-            if job_summary.status != "completed":
-                return {
-                    "stage_complete": False,
-                    "blocking_reason": self._llm_incomplete_blocking_reason(
-                        execution_mode=execution_mode,
-                        job_summary=job_summary,
-                    ),
-                    "artifacts": self._llm_running_artifacts(
-                        prefix="alphabetic_judgment",
-                        task_config_path=task_config_path,
-                        task_config=task_config,
-                        llm_profile=llm_profile,
-                        execution_mode=execution_mode,
-                        job_dir=job_dir,
-                        job_summary=job_summary,
-                        queued_count=queued_count,
-                    ),
-                }
-        else:
-            results_path.parent.mkdir(parents=True, exist_ok=True)
-            results_path.write_text("", encoding="utf-8")
-
-        usage_summary = summarize_results_jsonl(
-            str(results_path),
-            model=task_config.model,
-            processing_tier="standard",
-            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
-        )
-        usage_summary_path.write_text(
-            json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-
-        result_rows = load_alphabetic_review_jsonl(results_path)
-        judgments = build_llm_judgments_from_results(
-            result_rows,
-            batch_name=batch_name,
-            source_path=str(results_path),
-        )
-        append_alphabetic_llm_judgments(ledger_path, judgments)
-        cached_decisions = 0
-        for judgment in judgments:
-            existing = existing_decisions.get(judgment.entity_key)
-            if existing is not None and existing.source not in {"llm", "unknown"}:
-                continue
-            upsert_alphabetic_decision(
-                decisions_path,
-                AlphabeticDecision(
-                    entity_key=judgment.entity_key,
-                    strict_case=judgment.strict_case,
-                    status=judgment.llm_status,
-                    source="llm",
-                    note=judgment.note,
-                ),
-            )
-            cached_decisions += 1
-        ingest_summary = {
-            "batch_name": batch_name,
-            "input_entities": input_entities,
-            "queued_entities": queued_count,
-            "cached_entity_skips": cached_entity_skips,
-            "result_rows": len(result_rows),
-            "ingested_judgments": len(judgments),
-            "cached_decisions": cached_decisions,
-            "ledger_jsonl": str(ledger_path),
-            "decisions_jsonl": str(decisions_path),
-        }
-        ingest_summary_path.write_text(
-            json.dumps(ingest_summary, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-
-        return {
-            "artifacts": {
-                **self._llm_completed_artifacts(
-                    prefix="alphabetic_judgment",
-                    results_path=results_path,
-                    usage_summary_path=usage_summary_path,
-                    apply_summary_path=ingest_summary_path,
-                    task_config_path=task_config_path,
-                    task_config=task_config,
-                    llm_profile=llm_profile,
-                    execution_mode=execution_mode,
-                    job_dir=job_dir,
-                    job_summary=job_summary,
-                    queued_count=queued_count,
-                ),
-                "alphabetic_judgment_input_jsonl": str(llm_input_path),
-                "alphabetic_judgment_ingested": str(len(judgments)),
-                "alphabetic_judgment_cached_decisions": str(cached_decisions),
-                "alphabetic_judgment_cached_entity_skips": str(cached_entity_skips),
-                "alphabetic_llm_judgments_jsonl": str(ledger_path),
-                "alphabetic_token_decisions_jsonl": str(decisions_path),
-            }
-        }
-
-    def _build_alphabetic_promotion_candidates(
-        self,
-        batch_name: str,
-        *,
-        skip_review_gates: bool = False,
-    ) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        decisions_path = self.root / "data" / "state" / "alphabetic" / "token_decisions.jsonl"
-        summary_path = batch_dir / "alphabetic_promotion_candidates_summary.json"
-        decisions = load_alphabetic_decisions(decisions_path)
-        input_path = batch_dir / "units.alphabetic.jsonl"
-        occurrences_path = batch_dir / "alphabetic_occurrences.jsonl"
-        decision_status_by_key = {
-            entity_key: decision_status_to_resolved_status(decision.status)
-            for entity_key, decision in decisions.items()
-        }
-
-        read_units = 0
-        provisional_skip_units = 0
-        unresolved_units = 0
-        in_scope_units = 0
-        updated_units: list[dict] = []
-        occurrences_by_unit: dict[str, list] = {}
-        if input_path.exists() and not occurrences_path.exists():
-            raise FileNotFoundError(
-                f"Alphabetic occurrence artifact is missing: {occurrences_path}"
-            )
-        if occurrences_path.exists():
-            with occurrences_path.open(encoding="utf-8") as src:
-                for line in src:
-                    if not line.strip():
-                        continue
-                    occurrence = AlphabeticOccurrence(**json.loads(line))
-                    occurrences_by_unit.setdefault(occurrence.unit_id, []).append(
-                        occurrence
-                    )
-        if input_path.exists():
-            with input_path.open(encoding="utf-8") as src:
-                for line in src:
-                    if not line.strip():
-                        continue
-                    read_units += 1
-                    unit = json.loads(line)
-                    occurrences = apply_global_decisions(
-                        occurrences_by_unit.get(str(unit["unit_id"]), []),
-                        decision_status_by_key,
-                    )
-                    judgment = project_minor_alphabetic_judgment(occurrences)
-                    alphabetic_scope = project_alphabetic_scope(occurrences, decisions)
-                    mechanical = unit.setdefault("analysis", {}).setdefault("mechanical", {})
-                    mechanical["minor_alphabetic_sequence"] = {
-                        "value": judgment.value,
-                        "certain": judgment.certain,
-                        "signals": judgment.signals,
-                        "matches": judgment.matches,
-                        "decision_granularity": "entity_type",
-                    }
-                    mechanical["alphabetic_scope"] = alphabetic_scope
-                    if alphabetic_scope["status"] == "provisional_skip":
-                        provisional_skip_units += 1
-                    elif alphabetic_scope["status"] == "unresolved":
-                        unresolved_units += 1
-                    else:
-                        in_scope_units += 1
-                    updated_units.append(unit)
-
-            with input_path.open("w", encoding="utf-8") as dst:
-                for unit in updated_units:
-                    dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
-
-        summary = {
-            "batch_name": batch_name,
-            "read_units": read_units,
-            "existing_decisions": len(decisions),
-            "provisional_skip_units": provisional_skip_units,
-            "unresolved_units": unresolved_units,
-            "in_scope_units": in_scope_units,
-            "units_alphabetic_jsonl": str(input_path),
-            "decisions_jsonl": str(decisions_path),
-        }
-        summary_path.write_text(
-            json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-
-        if skip_review_gates:
-            summary["skip_review_gates_ignored"] = True
-            summary_path.write_text(
-                json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
-                encoding="utf-8",
-            )
-
-        return {
-            "artifacts": {
-                "alphabetic_promotion_candidates_summary_json": str(summary_path),
-                "alphabetic_projection_summary_json": str(summary_path),
-                "alphabetic_token_decisions_jsonl": str(decisions_path),
-                "alphabetic_provisional_skip_units": str(provisional_skip_units),
-                "alphabetic_unresolved_units": str(unresolved_units),
-                "alphabetic_in_scope_units": str(in_scope_units),
-                "alphabetic_projection_units_jsonl": str(input_path),
-            }
-        }
-
     def _generate_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        input_path = batch_dir / "units.scope_triaged.jsonl"
+        input_path = batch_dir / "units.jsonl"
         summary = export_named_variant(
             variant_name="aligned_hybrid",
             batch_dir=batch_dir,
@@ -2275,131 +1645,6 @@ class PipelineWorkspace:
                 "yomi_auto_accept_stable_surface_lexicon": str(
                     getattr(summary, "stable_surface_lexicon_artifact", "") or ""
                 ),
-            }
-        }
-
-    def _queue_scope_triage(self, batch_name: str) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        input_path = batch_dir / "units.alphabetic.jsonl"
-        output_path = batch_dir / "scope_triage_input.jsonl"
-        summary_path = batch_dir / "scope_triage_queue_summary.json"
-        summary = build_scope_triage_queue_file(
-            input_jsonl=input_path,
-            output_jsonl=output_path,
-            summary_json=summary_path,
-        )
-        return {
-            "artifacts": {
-                "scope_triage_input_jsonl": str(output_path),
-                "scope_triage_source_jsonl": str(input_path),
-                "scope_triage_queue_summary_json": str(summary_path),
-                "scope_triage_task_config": "config/llm/scope_triage.toml",
-                "scope_triage_queued": str(summary.queued),
-                "scope_triage_provisional_alphabetic_skip": str(
-                    summary.provisional_alphabetic_skip
-                ),
-                "scope_triage_symbol_only_keep": str(summary.symbol_only_keep),
-            }
-        }
-
-    def _run_scope_triage(
-        self,
-        batch_name: str,
-        *,
-        llm_execution_mode_override: str | None = None,
-    ) -> dict[str, object]:
-        batch_dir = self.batch_dir(batch_name)
-        batch_state = self.load_batch_state(batch_name)
-        task_config_path = "config/llm/scope_triage.toml"
-        llm_profile = batch_state.llm_policy[LLM_TASK_SCOPE_TRIAGE]
-        execution_mode = (
-            llm_execution_mode_override
-            or batch_state.llm_execution_policy[LLM_TASK_SCOPE_TRIAGE]
-        )
-        base_task_config = load_llm_task_config(task_config_path)
-        task_config = apply_llm_profile(base_task_config, llm_profile)
-        input_path = batch_dir / "scope_triage_input.jsonl"
-        results_path = batch_dir / "scope_triage_results.jsonl"
-        usage_summary_path = batch_dir / "scope_triage_usage_summary.json"
-        output_path = batch_dir / "units.scope_triaged.jsonl"
-        apply_summary_path = batch_dir / "scope_triage_apply_summary.json"
-        job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_scope_triage"
-
-        queued_count = count_nonempty_lines(input_path)
-        job_summary = None
-        if queued_count:
-            job_summary = run_llm_task(
-                task_config_path,
-                str(input_path),
-                str(results_path),
-                execution_mode=execution_mode,
-                task_config_override=task_config,
-                job_dir=str(job_dir),
-                show_progress=True,
-            )
-            if job_summary.status != "completed":
-                return {
-                    "stage_complete": False,
-                    "blocking_reason": self._llm_incomplete_blocking_reason(
-                        execution_mode=execution_mode,
-                        job_summary=job_summary,
-                    ),
-                    "artifacts": self._llm_running_artifacts(
-                        prefix="scope_triage",
-                        task_config_path=task_config_path,
-                        task_config=task_config,
-                        llm_profile=llm_profile,
-                        execution_mode=execution_mode,
-                        job_dir=job_dir,
-                        job_summary=job_summary,
-                        queued_count=queued_count,
-                    ),
-                }
-        else:
-            results_path.parent.mkdir(parents=True, exist_ok=True)
-            results_path.write_text("", encoding="utf-8")
-
-        usage_summary = summarize_results_jsonl(
-            str(results_path),
-            model=task_config.model,
-            processing_tier="standard",
-            pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
-        )
-        usage_summary_path.write_text(
-            json.dumps(usage_summary, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-        apply_summary = apply_scope_triage_results_file(
-            units_jsonl=batch_dir / "units.alphabetic.jsonl",
-            results_jsonl=results_path,
-            output_jsonl=output_path,
-            summary_json=apply_summary_path,
-        )
-        return {
-            "artifacts": {
-                **self._llm_completed_artifacts(
-                    prefix="scope_triage",
-                    results_path=results_path,
-                    usage_summary_path=usage_summary_path,
-                    apply_summary_path=apply_summary_path,
-                    task_config_path=task_config_path,
-                    task_config=task_config,
-                    llm_profile=llm_profile,
-                    execution_mode=execution_mode,
-                    job_dir=job_dir,
-                    job_summary=job_summary,
-                    queued_count=queued_count,
-                ),
-                "units_scope_triaged_jsonl": str(output_path),
-                "scope_triage_keep": str(apply_summary.keep),
-                "scope_triage_skip": str(apply_summary.skip),
-                "scope_triage_exclude": str(apply_summary.exclude),
-                "scope_triage_provisional_alphabetic_skip": str(
-                    apply_summary.provisional_alphabetic_skip
-                ),
-                "scope_triage_symbol_only_keep": str(apply_summary.symbol_only_keep),
-                "scope_triage_parse_error_keep": str(apply_summary.parse_error_keep),
-                "scope_triage_missing_result_keep": str(apply_summary.missing_result_keep),
             }
         }
 
@@ -2667,7 +1912,7 @@ class PipelineWorkspace:
 
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        source_path, review_units_summary = self._materialize_yomi_review_units(batch_name)
+        source_path, _ = self._materialize_yomi_review_units(batch_name)
         pack_id = f"yomi_final_{batch_name}_v1"
         document_state_path = self.document_review_state_path(batch_name)
         document_state = build_initial_document_review_state(
@@ -2697,9 +1942,6 @@ class PipelineWorkspace:
                     document_state["summary"]["state_counts"].get("final_pending", 0)
                 ),
                 "units_yomi_review_input_jsonl": str(source_path),
-                "yomi_review_restored_scope_skips": str(
-                    review_units_summary["restored_scope_skips"]
-                ),
                 **pack_artifacts,
                 "review_site_manifest_json": str(manifest_path),
                 "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
@@ -2708,9 +1950,6 @@ class PipelineWorkspace:
                 "final_review_items": str(summary.item_count),
                 "final_review_unresolved_items": str(summary.unresolved_item_count),
                 "final_review_unresolved_targets": str(summary.unresolved_target_count),
-                "final_review_provisional_skip_items": str(
-                    summary.provisional_skip_item_count
-                ),
                 "review_site_default_stage": str(manifest.get("default_stage") or ""),
             }
         }
@@ -2723,7 +1962,7 @@ class PipelineWorkspace:
     ) -> tuple[object, dict[str, str]]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
-        source_path, review_units_summary = self._materialize_yomi_review_units(batch_name)
+        source_path, _ = self._materialize_yomi_review_units(batch_name)
         batch_pack_path = batch_dir / "final_review_pack.json"
         summary_path = batch_dir / "final_review_pack_summary.json"
         review_pack_path = (
@@ -2743,9 +1982,6 @@ class PipelineWorkspace:
         write_yomi_final_review_summary(summary, summary_path)
         return summary, {
             "units_yomi_review_input_jsonl": str(source_path),
-            "yomi_review_restored_scope_skips": str(
-                review_units_summary["restored_scope_skips"]
-            ),
             "final_review_pack_json": str(batch_pack_path),
             "final_review_pack_summary_json": str(summary_path),
             "review_pack_json": str(review_pack_path),
@@ -2758,10 +1994,8 @@ class PipelineWorkspace:
         batch_dir = self.batch_dir(batch_name)
         output_path = batch_dir / "units.yomi.review_input.jsonl"
         summary = materialize_yomi_review_units_file(
-            scope_units_jsonl=batch_dir / "units.scope_triaged.jsonl",
             processed_units_jsonl=batch_dir / "units.yomi.llm_readings.jsonl",
             output_jsonl=output_path,
-            hybrid_units_jsonl=batch_dir / "units.yomi.aligned_hybrid.jsonl",
         )
         return output_path, summary
 

@@ -251,96 +251,6 @@ class YomiFinalReviewTests(unittest.TestCase):
             [("使い", 0, 2), ("方", 2, 3)],
         )
 
-    def test_materialize_review_units_restores_scope_skips_in_source_order(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            scope = root / "scope.jsonl"
-            processed = root / "processed.jsonl"
-            hybrid = root / "hybrid.jsonl"
-            output = root / "review.jsonl"
-            scope.write_text(
-                "\n".join(
-                    json.dumps(row, ensure_ascii=False)
-                    for row in (
-                        {
-                            "unit_id": "u1",
-                            "text": "通常文",
-                            "analysis": {"llm": {"scope_triage": {"status": "Keep"}}},
-                        },
-                        {
-                            "unit_id": "u2",
-                            "text": "MeguruQuruwa",
-                            "analysis": {
-                                "llm": {"scope_triage": {"status": "Skip"}},
-                                "mechanical": {
-                                    "alphabetic_scope": {
-                                        "provisional_skip": True,
-                                        "reasons": [{"entity_key": "meguruquruwa"}],
-                                    }
-                                },
-                            },
-                        },
-                    )
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            processed.write_text(
-                json.dumps(
-                    {
-                        "unit_id": "u1",
-                        "text": "通常文",
-                        "analysis": {
-                            "llm": {"scope_triage": {"status": "Keep"}},
-                            "mechanical": {"yomi": {"rendered": "通常/ツウジョウ 文/ブン"}},
-                        },
-                    },
-                    ensure_ascii=False,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            hybrid.write_text(
-                json.dumps(
-                    {
-                        "unit_id": "u2",
-                        "text": "MeguruQuruwa",
-                        "analysis": {
-                            "llm": {"scope_triage": {"status": "Skip"}},
-                            "mechanical": {
-                                "yomi": {"rendered": "MeguruQuruwa/メグルクルワ"},
-                                "alphabetic_scope": {
-                                    "provisional_skip": True,
-                                    "reasons": [{"entity_key": "meguruquruwa"}],
-                                },
-                            },
-                        },
-                    },
-                    ensure_ascii=False,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-
-            summary = materialize_yomi_review_units_file(
-                scope_units_jsonl=scope,
-                processed_units_jsonl=processed,
-                output_jsonl=output,
-                hybrid_units_jsonl=hybrid,
-            )
-            rows = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
-
-            self.assertEqual([row["unit_id"] for row in rows], ["u1", "u2"])
-            self.assertEqual(summary["restored_scope_skips"], 1)
-            self.assertEqual(
-                rows[1]["analysis"]["mechanical"]["yomi"]["rendered"],
-                "MeguruQuruwa/メグルクルワ",
-            )
-            item = build_review_item(rows[1], seq=2, doc_seq=1, track_doc_seq=1)
-            self.assertTrue(item["provisional_skip"])
-            self.assertTrue(item["skip_default"])
-            self.assertEqual(item["skip_reasons"][0]["entity_key"], "meguruquruwa")
-
     def test_finalization_writes_confirmed_skips_only_to_tombstone_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -433,27 +343,6 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(tombstone["confirmation_submission_id"], "review-13")
             for forbidden in ("text", "source_file", "analysis", "rendered_yomi"):
                 self.assertNotIn(forbidden, tombstone)
-
-    def test_review_item_uses_exclude_as_scope_default(self) -> None:
-        item = build_review_item(
-            {
-                "doc_id": "doc-sensitive",
-                "unit_id": "doc-sensitive:u0001",
-                "unit_seq": 1,
-                "text": "機密です。",
-                "analysis": {
-                    "llm": {"scope_triage": {"status": "Exclude"}},
-                    "mechanical": {"yomi": {"rendered": "機密/キミツ です/デス 。/。"}},
-                },
-            },
-            seq=1,
-            doc_seq=1,
-            track_doc_seq=13,
-        )
-
-        self.assertEqual(item["scope_default"], "Exclude")
-        self.assertTrue(item["exclude_default"])
-        self.assertFalse(item["skip_default"])
 
     def test_replay_supports_exclude_and_legacy_skip(self) -> None:
         pack = {
@@ -2036,7 +1925,6 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "analysis": {
                     "mechanical": {"yomi": {"rendered": "2017/ /// 11/"}},
                     "safety": {"yomi": {"targets": []}},
-                    "llm": {"scope_triage": {"status": "Skip"}},
                 },
             },
             seq=1,
@@ -2049,65 +1937,6 @@ class YomiFinalReviewTests(unittest.TestCase):
             [token["surface"] for token in item["rendered_yomi_ruby_tokens"]],
             ["2017", "/", "11"],
         )
-
-    def test_scoped_item_without_safety_targets_recovers_editable_hybrid_targets(self) -> None:
-        item = build_review_item(
-            {
-                "unit_id": "u-skip",
-                "doc_id": "d-skip",
-                "text": "京都タワーです。",
-                "analysis": {
-                    "mechanical": {
-                        "yomi": {
-                            "rendered": "京都/キョウト タワー/タワー です/デス 。/。",
-                            "sudachi": {
-                                "tokens": [
-                                    {
-                                        "surface": "京都",
-                                        "pos": "名詞,固有名詞,地名,*,*,*",
-                                        "dictionary_form": "京都",
-                                        "normalized_form": "京都",
-                                        "reading": "キョウト",
-                                    },
-                                    {
-                                        "surface": "タワー",
-                                        "pos": "名詞,普通名詞,一般,*,*,*",
-                                        "dictionary_form": "タワー",
-                                        "normalized_form": "タワー",
-                                        "reading": "タワー",
-                                    },
-                                    {
-                                        "surface": "です",
-                                        "pos": "助動詞,*,*,*,助動詞-ダ,終止形-一般",
-                                        "dictionary_form": "だ",
-                                        "normalized_form": "だ",
-                                        "reading": "デス",
-                                    },
-                                    {
-                                        "surface": "。",
-                                        "pos": "補助記号,句点,*,*,*,*",
-                                        "dictionary_form": "。",
-                                        "normalized_form": "。",
-                                        "reading": "。",
-                                    },
-                                ]
-                            },
-                        }
-                    },
-                    "safety": {"yomi": {"targets": []}},
-                    "llm": {"scope_triage": {"status": "Skip"}},
-                },
-            },
-            seq=1,
-            doc_seq=1,
-            track_doc_seq=166,
-        )
-
-        self.assertEqual(item["scope_default"], "Skip")
-        self.assertEqual([target["surface"] for target in item["targets"]], ["京都"])
-        self.assertEqual(item["interaction_spans"][0]["surface"], "京都")
-        self.assertFalse(item["interaction_spans"][0]["is_safe"])
-        self.assertEqual(item["ruby_segments"][0]["type"], "ruby")
 
     def test_rendered_yomi_ruby_tokens_keep_ke_place_name_ruby_on_full_surface(self) -> None:
         tokens = rendered_yomi_ruby_tokens("新鎌ケ谷/シンカマガヤ 鎌ヶ谷駅/カマガヤエキ")
@@ -2352,7 +2181,6 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "text": "後払いです。",
                 "analysis": {
                     "mechanical": {"yomi": {"rendered": "後払い/ゴバライ です/デス 。/。"}},
-                    "llm": {"scope_triage": {"status": "Keep"}},
                     "safety": {
                         "yomi": {
                             "targets": [
@@ -2951,7 +2779,6 @@ class YomiFinalReviewTests(unittest.TestCase):
                             "rendered": "Diploma/ディプロマ Mill/mill",
                         }
                     },
-                    "llm": {"scope_triage": {"status": "Keep", "source": "llm"}},
                     "safety": {
                         "yomi": {
                             "targets": [
@@ -3025,7 +2852,6 @@ class YomiFinalReviewTests(unittest.TestCase):
                             "rendered": "ｗ/ワット 　/　 そして/ソシテ 学校/ガッコウ です/デス 。/。",
                         }
                     },
-                    "llm": {"scope_triage": {"status": "Keep", "source": "llm"}},
                     "safety": {
                         "yomi": {
                             "targets": [
@@ -5437,12 +5263,6 @@ def unit(doc_id: str, unit_id: str, text: str, *, safe: bool = False) -> dict:
             "mechanical": {
                 "yomi": {
                     "rendered": f"{text}/キンキン",
-                }
-            },
-            "llm": {
-                "scope_triage": {
-                    "status": "Keep",
-                    "source": "llm",
                 }
             },
             "safety": {

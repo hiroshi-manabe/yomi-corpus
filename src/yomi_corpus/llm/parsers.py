@@ -18,8 +18,6 @@ def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None
         return parse_yomi_repair_json_array(text, metadata=metadata)
     if parser_name == "yomi_reading_completion_json":
         return parse_yomi_reading_completion_json(text, metadata=metadata)
-    if parser_name == "scope_triage_label":
-        return parse_scope_triage_label(text)
     raise ValueError(f"Unsupported parser: {parser_name}")
 
 
@@ -273,10 +271,3 @@ def _expected_rejected_span(metadata: dict[str, Any] | None) -> str:
                 if joined:
                     return joined
     raise ValueError("Missing rejected span metadata for yomi repair parser.")
-
-
-def parse_scope_triage_label(text: str) -> dict[str, str]:
-    label = text.strip()
-    if label not in {"Keep", "Skip", "Exclude"}:
-        raise ValueError("Expected exactly one of Keep, Skip, or Exclude.")
-    return {"status": label}

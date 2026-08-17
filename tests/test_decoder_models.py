@@ -52,15 +52,11 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
                     "auto_accept_profile": "stable_two_kanji",
                 },
                 "llm_policy": {
-                    "alphabetic_entity_judge": "economy",
-                    "scope_triage": "economy",
                     "yomi_reading": "standard",
                     "yomi_repair": "economy",
                     "yomi_rescue": "standard",
                 },
                 "llm_execution_policy": {
-                    "alphabetic_entity_judge": "background",
-                    "scope_triage": "background",
                     "yomi_reading": "background",
                     "yomi_repair": "background",
                     "yomi_rescue": "background",

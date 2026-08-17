@@ -68,21 +68,16 @@ The original JSON payload is not rewritten.
 
 ## 3.1.1 Batch artifacts vs. global state
 
-The alphabetic subsystem should keep both:
+The pipeline should distinguish:
 
 - immutable batch-local artifacts
 - cross-batch global state
 
-Batch-local artifacts include:
+Batch-local artifacts include generated yomi, safety evidence, LLM readings,
+and human review packs.
 
-- alphabetic entity occurrences for one batch
-- alphabetic entity types for one batch
-- projected unit-level alphabetic flags for one batch
-
-Cross-batch global state includes:
-
-- a token decision registry
-- an append-only token evidence log
+Cross-batch global state includes reusable reading evidence, harvested repair
+rules, and decoder-model metadata.
 
 The batch artifacts describe one run. The global state carries knowledge
 forward to later batches.
@@ -196,14 +191,10 @@ failure patterns.
 
 For each unit, the mechanical pipeline should produce:
 
-### 5.1 Non-target judgment
+### 5.1 Reading analysis
 
-- raw signals that may later help predict whether the unit is non-target
-  material, such as classical Japanese, kanbun, foreign-language text, or
-  garbled text
-- no mechanical `value` or `certain` decision yet
-
-Those signals will likely include:
+The mechanical pass produces reading candidates and evidence, not a scope
+decision. Its signals include:
 
 - Sudachi behavior
   The current mechanical baseline should use Sudachi B-mode with
@@ -328,8 +319,8 @@ none of them if any token stream cannot be aligned exactly to source text. A
 post-migration dry run must report zero anomalies and zero changed units.
 
 This validation is separate from yomi correctness. A structurally invalid unit
-may still be sent to LLM triage so the model can identify `Skip`, but an LLM
-`OK` must be blocked and converted to `Review`.
+remains ordinary reading-review work and cannot be accepted merely because
+another signal considers it low risk.
 
 Original source whitespace must be preserved code point for code point.
 Sudachi and decoder adapters may temporarily convert ASCII space `U+0020` to
@@ -389,56 +380,13 @@ be much more conservative: Sudachi and decoder should agree, and the relevant
 span should be supported from start to end by the stricter repeated-2-gram
 boundary rule.
 
-### 5.2 Batch-level alphabetic entity extraction
+### 5.2 Alphabetic and mixed-script material
 
-The alphabetic problem should not be treated as a pure sentence-level
-classification task.
-
-Instead, for each batch:
-
-- run B-mode Sudachi with the configured full dictionary once over the batch,
-  without invoking `yomi-decoder`
-- derive alphabetic entity boundaries from those Sudachi tokens rather than
-  independently scanning the raw sentence with a competing regex tokenizer
-- keep source whitespace as a hard entity boundary even when Sudachi returns a
-  dictionary token spanning spaces
-- extract an alphabetic run inside a mixed-script Sudachi token, such as `AB`
-  from `AB型`, but preserve internal punctuation in an alphabetic Sudachi token,
-  such as `ZE:A`
-- aggregate them into entity types
-- resolve numeric measurements with an explicit recognized unit, such as
-  `1kg` or `30km`, deterministically as in scope
-- apply current whitelist/blacklist lookup
-- send only unresolved entity types to the LLM once, then cache the judgment
-  globally
-- project cached `out_of_scope` judgments back to units as provisional skip
-- let final human review correct provisional skip with the same `Skip` checkbox
-
-Persist the resulting occurrences and reuse them when later LLM judgments are
-projected back to units. Do not tokenize the source a second time at promotion:
-that could assign a cached decision to boundaries different from those shown to
-the LLM. A boundary change intentionally produces a new entity key; stale
-decisions for old regex-derived keys must not silently transfer to it.
-
-For example, Sudachi yields `ZE:A` as one known-name token but splits
-`BGM8選` into `BGM`, `8`, and `選`. Alphabetic scope therefore judges `ZE:A`
-and `BGM`, not the former regex fragments `ZE` and `BGM8`.
-
-The cache keeps source metadata for audit/debug, but behavior should only need
-the effective status: `in_scope`, `out_of_scope`, or `unknown`.
-
-This is not limited to English. The problem includes other Latin-script foreign
-material such as French.
-
-Examples of entity types that may be skipped:
-
-- `concerts de midi`
-- `run boys`
-
-Examples of entity types that may be retained:
-
-- `iphone`
-- `android`
+Alphabetic and mixed-script tokens follow the same mechanical and LLM reading
+path as Japanese-script tokens. Deterministic rules may provide standard letter
+names, unit readings, or token boundaries, but no alphabetic whitelist,
+blacklist, or LLM entity classifier decides corpus scope. Uncertain readings
+remain ordinary unresolved targets for Bulk Review.
 
 ### 5.3 Mechanical yomi
 
@@ -463,152 +411,37 @@ Segmentation policy for yomi evaluation:
 
 ## 6. Interpretation of "Certain"
 
-For sentence-level tasks, "certain" is a future concept, not an active one yet.
+For reading tasks, "certain" is evidence-backed and local rather than a broad
+sentence-level scope label.
 
 Current policy:
 
-- do not assign `certain=true` mechanically for non-target judgment
 - do not assign `certain=true` mechanically for yomi safety
 - collect raw features now and define certainty rules only after reviewed data
   accumulates
 
-So the current effective branch is:
-
-- non-target judgment
-- yomi correctness judgment
-
-For both of those, go to the LLM unless a future reviewed-data-backed rule says
-otherwise.
-
-For alphabetic material, the equivalent branching point is the entity type:
-
-- if an entity type is already covered by whitelist/blacklist rules, do not ask
-  the LLM
-- otherwise send that entity type, not the whole sentence, to the LLM
-- treat the LLM answer as a cached provisional decision, not as final human
-  corpus review
+The effective branch is therefore yomi correctness and uncertainty only. Scope
+remains an explicit human disposition in Bulk Review.
 
 
-## 7. Minor Alphabetic Sequences
+## 7. Alphabetic and Mixed-Script Readings
 
-This is a cost-control policy as much as a linguistic policy.
-
-The working assumption is:
-
-- a small percentage of difficult foreign alphabetic strings could consume a
-  disproportionate amount of time
-- therefore the system should prefer to skip low-value long-tail cases rather
-  than aggressively annotate everything
-
-## 7.1 Batch-level token inventory
-
-The batch should produce two alphabetic artifacts:
-
-- entity occurrences
-- entity types
-
-The entity-type table is the main decision surface for this problem.
-
-Sentence-level flags should be derived afterward from entity-type decisions.
-
-## 7.2 Whitelist
-
-The project should keep a whitelist of Latin/alphanumeric entity types that are
-accepted as rooted in modern Japanese usage.
-
-Examples:
-
-- `iPhone`
-- `Android`
-
-Initial idea:
-
-- start with no whitelist
-- keep units that were accepted and successfully yomi-annotated
-- extract useful alphabetic strings from those accepted units
-- add good recurring items to the whitelist
-
-Then the projection rule can become:
-
-- if all alphabetic entity types in a unit are in the whitelist, mark that unit
-  safe on the alphabetic dimension
-
-## 7.3 Blacklist
-
-A blacklist-oriented approach may be simpler than generating regex rules for
-out-of-scope Latin/alphanumeric entities.
-
-Current preference:
-
-- start with word-level whitelist and blacklist entries
-- use word-boundary-aware matching for Latin/alphanumeric material
-- match case-insensitively by default
-- handle short tokens and acronyms more cautiously with exact-case exceptions
-- treat pure uppercase ASCII initialisms of one to three letters as
-  deterministic in-scope exceptions after full-width normalization; `T` in
-  `Tシャツ` and an obscure `PSI` do not enter entity-level LLM judgment because
-  their standard letter-name readings are reliable. Normal reading assignment
-  still applies. Mixed forms such as `GI9`, `ZE:A`, and `2nd` are not exempt.
-- likewise, treat a numeric value followed by an explicitly configured common
-  measurement unit as deterministic; keep the unit list narrow so identifiers
-  such as `CLA180` and `Day2020` still receive ordinary entity judgment
-- avoid regex unless there is a clear payoff
-
-This remains a working decision, not a final one.
-
-## 7.4 LLM and human judgment unit
-
-The preferred unit for LLM and human judgment is now the alphabetic entity, not
-the whole sentence.
-
-Recommended flow:
-
-- extract alphabetic entities from persisted lightweight Sudachi boundaries
-- remove already known whitelist/blacklist entries
-- ask the LLM to classify unresolved entity types, with short example snippets
-  from the batch
-- append the LLM results to the cross-batch judgment cache
-- do not ask the LLM again for the same effective entity key unless a cache
-  entry is explicitly superseded
-- mark units containing any cached `out_of_scope` entity as provisional skip
-
-Sentence context is still useful, but mainly as supporting evidence for the
-entity-level decision.
-
-The LLM stage should answer whether the entity is naturally usable in modern
-Japanese context or is obscure/foreign/noisy enough to skip. This answer may
-pre-check `Skip` for affected units, but it is not final deletion.
-
-At Bulk Review time, provisional alphabetic skip units should be greyed out
-with the same `Skip` checkbox already checked. If the human leaves the checkbox
-checked, no entity-level status changes. If the human unchecks it, the
-triggering `out_of_scope` entities become effective `in_scope` entries. If a
-human checks `Skip` for a normal unit, that also does not change entity status,
-because the reason may be unrelated to alphabetic material.
-
-## 7.5 Rule harvesting
-
-If the LLM or a human identifies an entity type as out of scope, the system may
-later harvest a reusable blacklist-like entry from that decision.
-
-Current preference:
-
-- do not do this too early
-- start with explicit token entries
-- only introduce broader matching patterns if maintenance remains manageable
+Treat these as reading problems, not scope-classification problems. Standard
+acronyms, units, and dictionary-supported names may use deterministic
+candidates. Anything unresolved goes through the normal targeted reading LLM
+and remains editable by the reviewer.
 
 
 ## 8. Classical Japanese and Kanbun
 
-This area is less settled.
+Scope classification for this material is now a human-review decision.
 
 Current working idea:
 
 - rely first on how well Sudachi and the N-gram system can analyze the unit
 - combine that with orthographic and script-level heuristics
 - store those signals as features for later learning
-- use LLM judgment for now instead of trying to force an early mechanical
-  classifier
+- expose uncertain readings to ordinary Bulk Review
 
 Potential signals:
 
@@ -624,12 +457,9 @@ real examples and failure cases.
 
 ## 9. LLM Stage
 
-The current direction is to split LLM work into two separate questions:
-
-1. scope triage: should this raw text stay in the modern Japanese reading
-   corpus?
-2. reading generation: for each unresolved kanji/Latin target, what reading
-   does the LLM assign in context?
+The active LLM path asks one primary question: for each unresolved kanji/Latin
+target, what reading does the LLM assign in context? Escalated Repair is a
+separate later task for rejected local spans.
 
 The LLM should no longer be asked to decide yomi correctness directly as
 `OK/Review/Skip` in the main path. That label set remains useful as historical
@@ -637,7 +467,12 @@ eval context, but the production direction is more diagnostic: compare an
 independent LLM reading against the mechanical Sudachi/hybrid reading, then use
 agreement and disagreement as review-routing signals.
 
-### 9.0 Scope Triage
+### 9.0 Retired Scope-Triage Design
+
+The remainder of this subsection records the former classifier semantics only
+for migration context. It is not active pipeline behavior. New batches perform
+no machine `Keep`/`Skip`/`Exclude` classification; all prepared units proceed
+through reading generation and start Bulk Review at implicit `Keep`.
 
 Scope triage is a compact three-way task over raw text. The model returns
 exactly one token:
@@ -683,7 +518,7 @@ private person together with sensitive negative information. Examples include
 arrest, criminal suspicion, accusations, scandals, disciplinary action,
 illness, or similar private/reputational details. This is a conservative
 labor-saving rule: the corpus has enough ordinary modern Japanese text, so when
-scope triage is unsure about this risk, it should choose `Exclude`.
+the former scope-triage prompt was unsure about this risk, it chose `Exclude`.
 
 All machine labels remain provisional through Bulk Review. `Skip` is a durable
 but recoverable state: it remains visible as subdued ruby in Corpus Map and can
@@ -743,8 +578,8 @@ preference exists, and naturally takes fewer documents when the queue contains
 fewer than the selected count. Escalated Repair can use the same range because
 a document often contains only a small amount of actual repair work.
 
-This task should use the configured profile selected by evaluation. Its output
-is only a scope gate; it is not expected to notice yomi errors.
+Historically this task used a separately configured profile and was only a
+scope gate; it was not expected to notice yomi errors.
 
 ### 9.0.1 LLM Reading Generation
 
@@ -834,7 +669,6 @@ Candidate per-target signals:
 
 The unit-level status should be derived from target-level evidence:
 
-- if scope triage says `Skip`, the whole unit remains non-target material
 - if every yomi-bearing target has a safety signal, the unit can enter bulk
   review or a later auto-accept experiment
 - if any target is unresolved, the unit remains reviewable and the unresolved
@@ -1206,8 +1040,6 @@ Example LLM policies:
 
 ```json
 {
-  "alphabetic_entity_judge": "standard",
-  "scope_triage": "economy",
   "yomi_reading": "standard",
   "yomi_repair": "standard",
   "yomi_rescue": "strong"
@@ -1216,8 +1048,6 @@ Example LLM policies:
 
 ```json
 {
-  "alphabetic_entity_judge": "background",
-  "scope_triage": "background",
   "yomi_reading": "background",
   "yomi_repair": "background",
   "yomi_rescue": "background"
@@ -1236,11 +1066,10 @@ auto_accept_profile=strict}` and
 `dev={unit_mode=sentence,auto_accept_profile=stable_two_kanji}`.
 Operators should still be able to run dev with `off` or `strict`, and later run
 working with `stable_two_kanji` once that policy is trusted. Track defaults
-should also choose LLM profiles per task. Dev can use `economy` for scope gates
-and plumbing-oriented tasks, but `yomi_reading` should default to `standard`
+should also choose LLM profiles per task. `yomi_reading` should default to `standard`
 even on dev: cheaper mini-model mistakes create false engineering problems and
-make prompt/pipeline evaluation noisier. Working likewise uses `economy` for
-the scope gate, `standard` for ordinary reading work, and `strong` for rescue.
+make prompt/pipeline evaluation noisier. Working likewise uses `standard` for
+ordinary reading work and `strong` for rescue.
 Track defaults should also choose execution modes per task. `background` should
 be the normal default for both
 `dev` and `working`, because it submits independent requests, polls until
@@ -1266,15 +1095,11 @@ unit_mode = "sentence"
 auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
-alphabetic_entity_judge = "standard"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"
@@ -1284,15 +1109,11 @@ unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
-alphabetic_entity_judge = "economy"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"
@@ -1382,8 +1203,8 @@ neither route recovered any of the 6 conceptual `Ambiguous` rows. With
 (15/19 overall), but the first 3-way pass still sent all 6 gold `Ambiguous`
 rows to `OK`, so they never reached the router in the true end-to-end route.
 Conclusion for now: do not depend on triage-time `Ambiguous` detection. The
-main path should use binary scope triage plus independent LLM reading
-generation instead of direct yomi correctness triage.
+active main path uses independent LLM reading generation instead of direct yomi
+correctness or scope triage.
 
 Each example should store the original sentence, the exact mechanical yomi
 annotation that the model will see, the expected conceptual label, and optional
@@ -1456,20 +1277,12 @@ static prefix around 1050-1150 exact API-counted tokens.
 
 Likely current split:
 
-- `scope_triage`: compact raw-text prompt that returns `Keep`, `Skip`, or
-  `Exclude`
 - `yomi_reading`: per-target reading prompt that returns one JSON object for
   the marked kanji/Latin target
-- `alphabetic_entity_judge`: separate prompt, and also a different unit type
-  because it operates on batch-level entity types rather than sentence units
 - `yomi_repair`: separate prompt because repair should not be mixed into
   ordinary judgment prompts
 
 ## 9.1 Inputs to the LLM
-
-For scope triage, the LLM should receive raw unit text only. It should decide
-whether the text is target material, not whether the current yomi annotation is
-correct.
 
 For LLM reading generation, the LLM should receive plain source text with
 exactly one marked target. Surrounding tokens should not normally include
@@ -1719,61 +1532,12 @@ Current idea:
 
 That should reduce noise.
 
-## 10.2 Non-target rules
+## 10.2 Scope decisions
 
-If a unit is judged to be non-target material, ask an LLM for one
- conservative reusable trigger that:
-
-- matches this case
-- aims for broad coverage
-- avoids over-triggering as much as possible
-
-Examples discussed:
-
-- a token such as `言ひ`
-
-This is only a sketch, not a validated rule design.
-
-## 10.3 Latin/alphanumeric entity entries
-
-If a Latin/alphanumeric entity type is judged to be out of scope, add or
-propose a reusable entity-level entry.
-
-Current preference is still to keep these as simple entity-level entries rather
-than general regexes.
-
-## 10.4 Provisional alphabetic skip review
-
-Alphabetic review should piggyback on final unit review rather than introducing
-a separate routine promotion-candidate surface.
-
-Recommended flow:
-
-- keep cached LLM judgments for entity types
-- mark units with `out_of_scope` entities as provisional skip
-- display provisional skip units greyed out, with `Skip` pre-checked
-- show concise reasons such as the triggering entity and cached status
-- if the reviewer unchecks `Skip`, store an effective `in_scope` override for
-  the triggering entities
-
-This is meant to minimize human effort while keeping all final skip decisions
-visible in the same review interface used for yomi quality.
-
-The review unit remains the sentence/unit. For each provisional skip, show:
-
-- entity key
-- effective status
-- source, such as static blacklist or LLM cache
-- optional short rationale and example snippets for debugging
-
-Human actions can stay simple:
-
-- approve
-- reject
-- defer
-
-This review should remain separate from sentence-level yomi review. Its purpose
-is policy confirmation for global automation, not direct corpus annotation.
+Do not harvest machine non-target or alphabetic-scope rules. Scope is an
+explicit human disposition in Bulk Review: implicit `Keep`, recoverable `Skip`,
+or terminal `Exclude`. Reading-rule harvesting remains independent of those
+choices.
 
 ## 10.4 Yomi repair rules
 
@@ -2060,14 +1824,11 @@ without `--stages` it calls `./next --status --json`, and with `--stages` it
 calls `./next --status --stages`.
 
 Stages that call the LLM should include `llm` in the stage name. Current
-LLM-calling stages are:
+LLM-calling stages are `yomi_reading_llm_completed` and
+`yomi_strong_repair_llm_completed`.
 
-- `alphabetic_llm_judged`
-- `scope_triage_llm_completed`
-- `yomi_reading_llm_completed`
-
-Queue-building stages such as `scope_triage_queued` and `yomi_reading_queued`
-prepare LLM inputs but do not call the API, so they should not be treated as
+Queue-building stages such as `yomi_reading_queued` prepare LLM inputs but do
+not call the API, so they should not be treated as
 LLM-calling stages. `./next --llm-mode <mode>` is a per-invocation override for
 the stage being run. It should be accepted only when that stage calls the LLM;
 on deterministic stages it should fail explicitly rather than being silently
@@ -2084,25 +1845,14 @@ protected `working` track it requires interactive confirmation or `--yes`.
 
 Example behavior:
 
-- if a batch is only prepared, `./next` should build the alphabetic artifacts
-- the next `./next` should build the unresolved alphabetic report
-- the next `./next` should run or resume alphabetic entity LLM judgment for
-  unresolved entity types and update the global judgment cache
-- the next `./next` should project cached `out_of_scope` entity status to
-  provisional skip reasons before general scope/yomi processing
-- the next `./next` should queue raw-text scope triage
-- the next `./next` should run or resume three-way scope triage; all three
-  outcomes continue through the same reading pipeline, while `Skip` and
-  provisional `Exclude` change review defaults and final disposition only
-- the next `./next` should build the mechanical yomi JSONL
+- if a batch is only prepared, `./next` should build the mechanical yomi JSONL
 - the next `./next` should add the yomi auto-accept artifact
 - the next `./next` should build a yomi-reading queue from unresolved targets
 - the next `./next` should run or resume the configured yomi-reading LLM task
   and write comparison metadata
 - after that, later repair/review stages should consume targets or units with
-  LLM/mechanical disagreement, parse failure, or unresolved ambiguity; `Skip`
-  units are excluded and agreement cases enter bulk audit or later
-  auto-acceptance experiments
+  LLM/mechanical disagreement, parse failure, or unresolved ambiguity;
+  agreement cases enter bulk audit or later auto-acceptance experiments
 - `./next --force-stage <stage>` should rerun the current completed stage
 - on `working`, confirmation should happen only when that rerun would actually
   overwrite existing artifacts
@@ -2116,9 +1866,8 @@ The intended UX is:
 ### 10.6.4 Resumable LLM Jobs
 
 LLM calls should be orchestrated through a generic resumable job layer. This is
-needed because the project will use LLMs in multiple stages: alphabetic entity
-judgment, scope triage, yomi reading generation, ordinary yomi repair, and
-rescue repair. Each stage should not invent its own
+needed because the project uses LLMs for yomi reading generation, ordinary yomi
+repair, and rescue repair. Each stage should not invent its own
 sync/background/batch lifecycle.
 
 The pipeline stage should own the domain transition, while the LLM job owns
@@ -2676,8 +2425,8 @@ reserves at most `pass_limit` new documents when the aggregate pool is below
 `refill-worker` should own preparation of new review material:
 
 - atomically reserve the next source documents and create a concrete batch
-- advance that batch through deterministic preprocessing, scope triage, hybrid
-  reading generation, and LLM reading
+- advance that batch through deterministic preprocessing, hybrid reading
+  generation, and LLM reading
 - persist every remote job identifier and resume from durable job state after
   interruption
 - commit the batch to the Bulk Review pool only after all required artifacts
@@ -2870,9 +2619,9 @@ Policy:
 - rerunning `./next` or `./review-sync` resumes polling/submission from the same
   job state, so already completed results are not duplicated
 
-This guard is intentionally at the shared LLM-runner layer. Alphabet judgment,
-scope triage, yomi reading, retry reading, and Escalated Repair should all get
-the same failure behavior without each stage inventing its own timeout logic.
+This guard is intentionally at the shared LLM-runner layer. Yomi reading, retry
+reading, and Escalated Repair should all get the same failure behavior without
+each stage inventing its own timeout logic.
 
 Pipeline status messages should surface the incomplete reason, for example:
 
@@ -3291,9 +3040,7 @@ Within a batch:
 - import documents
 - derive units
 - run mechanical analysis for every unit
-- build the batch-level alphabetic entity inventory
-- run entity-level LLM judgment only for unresolved alphabetic entity types
-- run sentence-level LLM classification by default for now
+- query unresolved reading targets with the configured LLM
 - run LLM yomi repair where needed
 - build human review queues
 

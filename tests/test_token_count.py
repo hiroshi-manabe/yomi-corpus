@@ -27,8 +27,8 @@ class TokenCountTests(unittest.TestCase):
     @patch("yomi_corpus.llm.token_count.load_token_encoding", return_value=FakeEncoding())
     def test_count_task_prompt_tokens_counts_rendered_prompt(self, mock_load_encoding) -> None:
         rows = count_task_prompt_tokens(
-            "config/llm/alphabetic_entity_judge.toml",
-            "data/evals/alphabetic_entity_judge/dev.jsonl",
+            "config/llm/yomi_reading.toml",
+            "data/evals/yomi_reading/regression_v1.jsonl",
         )
         self.assertTrue(rows)
         self.assertIn("item_id", rows[0])

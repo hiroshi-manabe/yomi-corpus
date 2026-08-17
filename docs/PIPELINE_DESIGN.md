@@ -195,8 +195,8 @@ invalid, finalization may recover it only from one unique valid reading already
 recorded by human final review; otherwise it must stop rather than guess.
 
 This is a format guardrail, not a semantic yomi correctness rule. A unit with a
-structurally invalid token can still be sent to the LLM for `Skip` detection,
-but an LLM `OK` must be forced back to `Review`.
+structurally invalid token remains ordinary reading-review work and must not be
+accepted merely because another signal considers it low risk.
 
 Original source whitespace should be preserved in the canonical yomi token
 stream. Sudachi and decoder adapters may temporarily convert source ASCII space
@@ -238,12 +238,6 @@ This keeps both cost and failure modes under control.
 
 Current LLM yomi direction:
 
-- use a compact raw-text scope triage (`Keep`/`Skip`/`Exclude`) before reading
-  work: `Skip` is recoverable non-target material, while `Exclude` is a
-  provisional recommendation for sensitive material that should disappear
-  permanently after explicit human confirmation
-- do not ask the first LLM pass to certify yomi correctness as
-  `OK/Review/Skip`
 - ask the LLM for independent readings of marked kanji/Latin targets in
   furigana-style context
 - compare those readings with the stored Sudachi/hybrid readings
@@ -256,32 +250,12 @@ two-kanji safety, LLM agreement, and human approval remain separate signals.
 The older `OK/Review/Skip` and `OK/Fix/Ambiguous/Skip` triage experiments remain
 available through Git history, not as active prompts or implementation targets.
 
-### 3.4 Use two judgment granularities
+### 3.4 Keep scope decisions in human review
 
-Sentence-level judgments should handle:
-
-- non-target material
-- whether the current mechanical yomi is correct with high confidence
-
-The minor-alphabetic problem should instead be handled at the batch entity-type
-level:
-
-- run lightweight Sudachi analysis over the batch and extract alphabetic entity
-  occurrences from its token boundaries; do not run the N-gram decoder here
-- treat source whitespace as a hard boundary even for a space-spanning Sudachi
-  dictionary token
-- aggregate them into entity types
-- resolve entity types through whitelist/blacklist lookup first
-- send only unresolved entity types to the LLM once, then cache the judgment
-  globally
-- use the effective entity status immediately for provisional unit-level skip
-- let final human review override provisional skip with the same `Skip`
-  checkbox used for ordinary skip decisions
-- keep the judgment source for audit/debug, but make behavior depend only on
-  effective `in_scope`, `out_of_scope`, or `unknown`
-
-This matters because the alphabetic long tail is primarily a repeated entity
-problem, not a repeated sentence problem.
+Every prepared unit follows the same reading path, including units containing
+alphabetic or mixed-script material. Machine analysis may improve readings and
+highlight uncertainty, but it does not choose `Skip` or `Exclude`. Bulk Review
+starts from implicit `Keep` and records explicit human disposition changes.
 
 ### 3.5 Use Python for the main pipeline, not shell wrappers
 
@@ -312,13 +286,6 @@ part of an established spelling and reading, as in `ZE:A`, `M&A`, or
 vowel lengthening, so forms such as
 `な〜` and `う～ん` keep their surfaces but use `ナー` and `ウーン`. Standalone
 wave marks and numeric ranges remain literal separators.
-
-Alphabetic scope analysis uses the same configured Sudachi mode and dictionary
-as its lightweight boundary source, but does not invoke `yomi-decoder`. It sends
-all unit lines through one Sudachi subprocess per batch, persists the resulting
-alphabetic occurrences, and reuses those occurrences when cached LLM decisions
-are projected. This avoids both per-sentence process startup and later boundary
-drift from re-tokenizing with another implementation.
 
 The wrapper is useful as the source of truth for configuration, but the
 production pipeline should eventually call SudachiPy from Python and point it at
@@ -429,17 +396,11 @@ Responsibilities:
 Output:
 
 - unit records enriched with mechanical analysis
-- batch-level alphabetic entity inventory
 
 Responsibilities:
 
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
-- extract alphabetic entity occurrences and aggregate entity types
-- use persisted lightweight Sudachi-derived boundaries for those occurrences;
-  never rerun an independent regex tokenizer during decision promotion
-- resolve number-plus-recognized-measurement-unit entities deterministically,
-  while retaining them in the occurrence artifacts for audit
 - keep numeric values separate and readingless before `kg` and `km`; default
   those unit tokens to `キロ`, while retaining their formal expansions as
   review alternatives
@@ -468,41 +429,19 @@ model lacks the artifact. Sudachi/decoder agreement remains mandatory. Grouped
 numeric runs such as `2021/` are allowed because number pronunciation is
 outside the current yomi task.
 
-### S30 LLM Scope Gate and Reading Signals
+### S30 LLM Reading Signals
 
 Output:
 
-- unit records enriched with three-way scope judgments for target, recoverable
-  non-target, and terminally excluded text
-- per-target LLM reading results for yomi targets that were not suppressed by
+- per-target LLM reading results for yomi targets that were not resolved by
   deterministic confidence rules
 
 Responsibilities:
 
-- run scope triage on raw text before mechanical yomi generation
-- mechanically keep non-lexical units containing no letters or numbers (for
-  example a standalone `！` or emoji) without sending them to the LLM; Latin or
-  other alphabetic text still follows the normal alphabetic/scope checks
-- return exactly one scope label: `Keep`, `Skip`, or `Exclude`
-- treat `Skip` as non-target material such as foreign-language text, old
-  Japanese prose, kanbun, Chinese, spam, obvious nonstandard OCR corruption, or
-  flattened ruby interleaved with source characters; isolated ordinary typos
-  remain in scope
-- treat `Exclude` as a conservative privacy/reputational-risk recommendation
-  when a unit
-  identifies a private person together with sensitive negative information such
-  as arrest, criminal suspicion, accusations, scandal, disciplinary action, or
-  illness
 - build a yomi-reading queue from unresolved kanji/Latin targets in the
   Sudachi/hybrid token stream
 - ask the LLM for the reading of exactly one marked target per request
 - compare the LLM reading with the stored mechanical reading
-
-The default scope-triage output should be a single token, not JSON. Reasons
-belong in debug/eval mode because ordinary production runs should minimize
-expensive model output. Scope triage should normally use the `economy` profile
-unless evals show that a stronger model materially reduces dangerous `Keep` or
-`Skip` errors.
 
 The default LLM reading output should be a one-key JSON object such as
 `{"話":"はな"}`. The current default request context is plain source text with
@@ -514,29 +453,15 @@ The materialized LLM stage writes separate artifacts:
 
 - raw LLM results, preserving raw text, parsed status, parse errors, usage, and
   metadata for audit and cost reporting
-- scope-gated unit artifacts, where every unit has a parsed
-  `Keep`/`Skip`/`Exclude`
-  result or a safe fallback
 - yomi-reading queue/result/apply artifacts, where each requested target has an
   LLM reading, comparison status, and usage metadata
 
-Scope parse errors must be treated conservatively so malformed model output
-cannot silently skip or accept a unit. Yomi-reading parse errors must not become
-agreement. Because yomi-reading requests ask for a tiny one-key JSON object,
+Yomi-reading parse errors must not become agreement. Because yomi-reading
+requests ask for a tiny one-key JSON object,
 format/key parse errors should first be retried once with a stricter prompt:
 `Return exactly one JSON object with key "{surface}"; no explanation.` Retry
 results override first-pass results for the same item ID. Any remaining parse
 error after retry routes the target or unit to focused review.
-
-Scope triage is intentionally ordered before reading work because it only needs
-raw unit text, but its result does not branch the reading pipeline. `Keep`,
-`Skip`, and `Exclude` all continue through the same deterministic safety checks,
-Sudachi/hybrid generation, and unresolved-target LLM reading calls. Scope status
-changes review presentation and eventual corpus inclusion only. This keeps the
-stored yomi schema identical, avoids skip-specific reconstruction bugs, and
-preserves useful readings when a provisional decision is reversed. `Exclude`
-remains provisional until Bulk Review; the model alone must never make text
-disappear.
 
 In this pipeline, agreement is operational rather than absolute. LLM/mechanical
 agreement does not mean "guaranteed correct forever." It means the target or
@@ -576,8 +501,7 @@ Candidate safety signals:
 - unresolved evidence: no signal applies, the LLM disagrees, or the LLM output
   is missing/malformed
 
-The unit-level status is derived from target-level evidence. If scope triage
-returns `Skip`, the entire unit is excluded. Otherwise, a unit with no
+The unit-level status is derived from target-level evidence. A unit with no
 unresolved targets can enter bulk review or later auto-accept experiments. A
 unit with unresolved targets stays reviewable, and the UI should highlight the
 specific targets. Highlight intensity can reflect evidence strength: a
@@ -867,9 +791,9 @@ files and each request's `custom_id`.
 
 The domain stage should complete only after the job has produced a complete
 result JSONL and those results have been applied to the domain artifact. For
-scope triage or yomi reading generation, that means the job can be running
-while the domain step is still active, and the stage advances only after the
-scope artifact or yomi-reading comparison artifact is written.
+yomi reading generation, that means the job can be running while the domain
+step is still active, and the stage advances only after the yomi-reading
+comparison artifact is written.
 
 Interruptions should be normal. The operator may stop sync mode partway through;
 rerunning `./next` resumes from result rows already present. For background
@@ -938,8 +862,6 @@ task-to-setting maps:
 
 ```json
 {
-  "alphabetic_entity_judge": "standard",
-  "scope_triage": "economy",
   "yomi_reading": "standard",
   "yomi_repair": "standard",
   "yomi_rescue": "strong"
@@ -948,8 +870,6 @@ task-to-setting maps:
 
 ```json
 {
-  "alphabetic_entity_judge": "background",
-  "scope_triage": "background",
   "yomi_reading": "background",
   "yomi_repair": "background",
   "yomi_rescue": "background"
@@ -988,15 +908,11 @@ unit_mode = "sentence"
 auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
-alphabetic_entity_judge = "standard"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"
@@ -1006,15 +922,11 @@ unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
-alphabetic_entity_judge = "economy"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"
@@ -1241,69 +1153,26 @@ Output:
 Responsibilities:
 
 - show the yomi-annotated sentence
-- show two checkboxes:
-  - non-target status
-  - yomi fully correct
-- allow the first box to be prefilled
-- keep the yomi-correct box initially unchecked
+- provide compact human `Skip` and terminal `Exclude` controls
+- keep `Keep` implicit when neither control is selected
+- let reading candidates be corrected or escalated independently of disposition
 
 Important UI rule:
 
 - do not show the raw sentence separately in this UI; the yomi-annotated
   sentence already contains the original text
 
-Minor alphabetic review should not be a separate routine human surface. Entity
-judgments are cached and projected to provisional unit skip; the final
-sentence/unit review UI is where a human restores wrongly skipped units.
-
 ### S60 Rule Harvesting
 
 Output:
 
 - candidate reusable rules derived from reviewed cases
-- candidate human overrides for alphabetic entity types
 
 Responsibilities:
 
-- propose non-target triggers
-- propose minor-alphabetic entity status updates when human review contradicts
-  provisional skip
 - keep yomi repair rules separate from classification lists
 
 This should remain conservative and is still an open design area.
-
-### S62 Alphabetic Entity Judgment
-
-Output:
-
-- cached LLM judgments for unresolved alphabetic entity types
-- unit-level provisional skip reasons derived from effective entity status
-
-Responsibilities:
-
-- read the unresolved entity-type report produced after alphabetic extraction
-- ask the LLM once per unresolved entity type, using a few short batch examples
-  as context
-- judge whether the entity is naturally usable in modern Japanese context or is
-  obscure/foreign/noisy enough to skip
-- store the answer in the cross-batch alphabetic judgment cache
-- do not ask again for the same effective entity key unless the cache is
-  explicitly invalidated or superseded
-- mark a unit as provisional skip when any effective entity status is
-  `out_of_scope`
-- preserve raw model output and usage metadata for later audit
-
-The LLM answer is provisional policy, not a final corpus decision. It may cause
-a unit to start with `Skip` checked, but that unit remains visible in final
-review. If the human unchecks `Skip` for a provisional alphabetic skip, the
-triggering `out_of_scope` entities become effective `in_scope` entries from then
-on. If the human leaves the unit skipped, or manually skips a unit that was not
-provisionally skipped, entity status does not change.
-
-The cache should preserve source metadata such as `static_whitelist`,
-`static_blacklist`, `llm`, or `human_unskip`, but ordinary behavior should not
-depend on the source. The effective status is just `in_scope`, `out_of_scope`,
-or `unknown`.
 
 Human-facing review labels should avoid internal stage names. In the browser,
 the normal high-throughput yomi review should be called `Bulk Review`, even
@@ -1313,25 +1182,19 @@ internal stage ID remains `yomi_strong_repair_review`. Technical logs and file
 paths may keep internal names; UI copy and operator-facing docs should prefer
 the human labels.
 
-### S65 Provisional Scope Review
+### S65 Human Disposition Review
 
 Output:
 
-- Bulk Review records containing the displayed three-way scope state
-- optional human overrides for alphabetic entities when provisional skip is
-  restored
+- Bulk Review records containing explicit human disposition overrides
 
 Responsibilities:
 
-- show provisional alphabetic skip units greyed out with `Skip` selected
-- show concise skip reasons such as the triggering entity key and cached status
-- let the human select `Keep` to restore the unit
-- show LLM-proposed sensitive exclusions as provisional `Exclude`; require an
-  explicit confirmation before submission accepts that terminal disposition
-- write effective `in_scope` overrides for triggering `out_of_scope` entities
-  only when the human restores a provisional alphabetic skip
-- retain every machine-skipped unit through mechanical/hybrid yomi generation
-  and pack generation; only paid LLM reading work is suppressed
+- start every unit at implicit `Keep`
+- let the human select recoverable `Skip` or terminal `Exclude`
+- require explicit confirmation before submission accepts terminal exclusion
+- retain generated yomi for human-confirmed skips so later restoration remains
+  possible
 
 The sentence-level control has two compact toggle buttons: archive box for
 `Skip` and shield-with-X for `Exclude`. `Keep` is the implicit state when
@@ -1342,12 +1205,10 @@ red styling so the reviewer sees the draft disposition before submission.
 This replaces both the unused range-selection control and the visually heavier
 three-segment selector.
 
-Asymmetric update rule:
+Disposition rule:
 
-- human keeps a provisional skip checked: no entity-level change
-- human checks `Skip` on a normal unit: no entity-level change
-- human selects `Keep` for a provisional alphabetic skip: triggering entities become
-  effective `in_scope`
+- human selects `Keep`: include the reviewed unit normally
+- human selects `Skip`: preserve it as a recoverable skipped record
 - human confirms `Exclude`: replace the unit with a content-free structural
   tombstone in finalized browsing and remove its text from every downstream
   corpus/model/search input, while retaining only the minimum private audit
@@ -1357,18 +1218,15 @@ Rationale:
 
 - Bulk Review is already required for yomi quality, so skip correction should
   piggyback on the same UI
-- machine skip decisions are deliberately fallible and must always be visible
-  to a human before becoming final
-- provisional skips reduce downstream cost without requiring a separate
-  promotion-candidate review loop
-- source-aware audit records remain available if the LLM cache proves noisy
+- scope is uncommon enough that a separate machine classifier adds more
+  complexity than useful review reduction
 
 #### Confirmed skip lifecycle
 
-Machine and LLM skip decisions remain provisional until Bulk Review confirms
-the displayed `Skip` state. Before submission, the reviewer may restore the
-unit by unchecking it. Human confirmation changes the unit into a durable
-skipped record rather than deleting it.
+Only explicit Bulk Review decisions create new skipped records. Before
+submission, the reviewer may restore the unit by toggling `Skip` off. Human
+confirmation changes the unit into a durable skipped record rather than
+deleting it.
 
 A confirmed skipped record retains:
 
@@ -1402,7 +1260,7 @@ exclusion is still an immutable, non-editable tombstone.
 
 `Exclude` is distinct from ordinary skip. It is intended for sensitive material
 that must not remain browsable or restorable through Corpus Map. Before human
-confirmation it behaves like a provisional skip and retains hybrid yomi for
+confirmation it is a reversible review draft and retains hybrid yomi for
 inspection. After confirmation it is terminal: finalized browsing retains only
 a content-free tombstone such as `Removed`, in the original unit position.
 Published review packs, archive shards, and Corpus Map must not contain the
@@ -1425,7 +1283,7 @@ pre-exclusion decoder models as superseded rather than attempting to rewrite
 immutable historical model files. Document-level exclusion must not be inferred
 from a few excluded units. In document 13, only the previously reviewed units
 about alleged violations, arrest, or related private-person reporting are
-terminally excluded; ordinary finalized units and recoverable alphabetic skips
+terminally excluded; ordinary finalized units and recoverable skips
 remain available.
 
 ### S70 Expensive Yomi Recovery
@@ -1625,12 +1483,6 @@ rows record counts by Responses API output type, especially
 and expose both components as well as their combined total. Tool availability
 alone must never be counted as tool use.
 
-Scope triage is an intentional exception to "working means standard model".
-Use the `economy` profile for scope triage on both `dev` and `working` by
-default. Its job is to provide a recoverable scope/skip signal, not to certify
-yomi quality, and `dev_batch_0002` showed that promoting it to `gpt-5.5` would
-be a material cost increase without directly improving the final readings.
-
 The mapping from track/task to default LLM profile should come from the same
 source-controlled defaults config as `unit_mode` and `auto_accept_profile`.
 Profile definitions live in the LLM profile config, while the prepared batch
@@ -1639,9 +1491,6 @@ settings.
 
 Stage-oriented defaults:
 
-- `alphabetic_entity_judge`: `gpt-5.6-sol`
-- `scope_triage`: `gpt-5.4-mini` through the `economy` profile unless evals
-  justify a stronger model
 - `yomi_reading`: `gpt-5.6-sol` for production-quality reading comparison,
   `gpt-5.4-mini` for dev flow checks
 - `yomi_repair`: `gpt-5.6-sol`
@@ -1851,17 +1700,8 @@ touching only `track.current_batch_name`.
 
 Examples:
 
-- if a batch is freshly prepared, `./next` should build the alphabetic
-  artifacts
-- the following `./next` should build the unresolved alphabetic report
-- the following `./next` should judge unresolved alphabetic entity types with
-  the configured LLM mode and update the cached effective entity status
-- the following `./next` should project cached alphabetic status back to units
-  as provisional skip reasons before general scope/yomi processing
-- the following `./next` should queue raw-text scope triage
-- the following `./next` should run or resume scope triage and write
-  `units.scope_triaged.jsonl`
-- the following `./next` should build the mechanical yomi JSONL
+- if a batch is freshly prepared, `./next` should build the mechanical yomi
+  JSONL directly from stable prepared units
 - the following `./next` should add the yomi auto-accept artifact
 - the following `./next` should build per-target safety evidence and queue LLM
   readings for unresolved kanji/Latin targets
@@ -2810,7 +2650,7 @@ Measure:
 - auto-accept rate
 - obvious failure buckets
 
-### Iteration 2: cheap LLM triage
+### Iteration 2: targeted LLM readings
 
 Before production use, run a concentrated prompt-optimization phase that is
 separate from corpus batch progression. Build a fixed gold eval set, test many
@@ -2826,7 +2666,7 @@ fluid.
 Build:
 
 - synchronous prompt-testing command
-- one compact triage prompt
+- one compact per-target reading prompt
 - batch submission path reusing the same prompt format
 - gold eval data under the active task's directory in `data/evals/`
 - prompt candidates under `config/prompts/experiments/`
@@ -2834,14 +2674,13 @@ Build:
 Measure:
 
 - accuracy against the fixed gold set
-- dangerous confusion types, especially `Keep` when scope triage expects
-  `Skip`
+- reading mismatches and key/format failures
 - parse-error rate
 - input/output token counts
 - cached input token counts when reported
 - estimated cost
 - cost per 10k units
-- distribution of class codes
+- distribution of agreement and mismatch outcomes
 - model and reasoning effort
 - exact API input-token counts for cache-sensitive candidate prompts
 

@@ -119,7 +119,7 @@ class UsageReportTests(unittest.TestCase):
         (job_dir / "manifest.json").write_text(
             json.dumps(
                 {
-                    "task_name": "alphabetic_entity_judge",
+                    "task_name": "generic_json_test",
                     "model": "gpt-5.4-mini",
                     "item_count": 1,
                 },

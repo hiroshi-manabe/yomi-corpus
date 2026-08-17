@@ -1,0 +1,11 @@
+task_name = "generic_json_test"
+input_builder = "generic_text"
+parser = "json_object"
+model = "gpt-5.6-sol"
+prompt_template = "tests/fixtures/llm/generic_json.txt"
+reasoning_effort = "none"
+verbosity = "low"
+max_output_tokens = 128
+include_source_text = true
+batch_max_requests_per_batch = 50000
+

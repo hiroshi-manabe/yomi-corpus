@@ -1,6 +1,13 @@
 # Scope-Triage and Alphabetic-Scope Removal Plan
 
-Status: planned, not yet implemented.
+Status: implemented and migrated on the dev track on 2026-08-17.
+
+The rollout preserved active batch/document identity, removed retired policy
+and artifact references from active metadata, and regenerated active Bulk
+Review packs without machine-derived scope defaults. The migration is
+idempotent and independently detects interrupted or legacy review-pack output,
+not only stale batch metadata. Batches prepared under the shortened path create
+no classifier jobs and enter Bulk Review at implicit `Keep`.
 
 ## Decision
 

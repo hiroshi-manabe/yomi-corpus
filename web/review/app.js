@@ -4446,11 +4446,7 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
-  const skipReason = (item.skip_reasons || [])
-    .map((reason) => reason.note || reason.entity_text || reason.entity_key || "")
-    .filter(Boolean)
-    .join("; ");
-  const defaultDisposition = item.scope_default || (item.skip_default ? "Skip" : "Keep");
+  const defaultDisposition = "Keep";
   const currentDisposition =
     override?.disposition ||
     (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
@@ -4463,7 +4459,7 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     {
       value: "Skip",
       glyph: "▣",
-      title: skipReason ? `復帰可能なスキップ: ${skipReason}` : "後から復帰可能な状態でスキップします",
+      title: "後から復帰可能な状態でスキップします",
     },
     { value: "Exclude", glyph: "⛨", title: "機密性の高い内容を恒久的に除外します" },
   ];
@@ -5514,7 +5510,7 @@ function cleanupYomiOverride(itemId) {
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
   const hasBridgeAtoms = Object.keys(draft.bridge_atoms || {}).length > 0;
   const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
-  const defaultDisposition = item?.scope_default || (item?.skip_default ? "Skip" : "Keep");
+  const defaultDisposition = "Keep";
   const hasDispositionChange =
     typeof draft.disposition === "string" && draft.disposition !== defaultDisposition;
   if (
@@ -5656,20 +5652,7 @@ function confirmTerminalExclusions(payload) {
     .filter((row) => row?.disposition === "Exclude")
     .map((row) => String(row.item_id || ""))
     .filter(Boolean);
-  const defaultIds = (state.currentPack?.items || [])
-    .filter(
-      (item) =>
-        isItemIncludedInSubmission(item) &&
-        itemReviewStage(item) === "yomi_final_review" &&
-        item.scope_default === "Exclude" &&
-        !overrides.some(
-          (row) =>
-            String(row?.item_id || "") === originalItemId(item) &&
-            row?.disposition !== "Exclude",
-        ),
-    )
-    .map((item) => originalItemId(item));
-  const itemIds = [...new Set([...explicitIds, ...defaultIds])];
+  const itemIds = [...new Set(explicitIds)];
   if (!itemIds.length) {
     return true;
   }

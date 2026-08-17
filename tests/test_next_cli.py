@@ -21,19 +21,19 @@ class NextCliTests(unittest.TestCase):
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "scope_triage_llm_completed",
+                "current_stage": "yomi_reading_llm_completed",
                 "next_stage": "yomi_generated",
                 "advanced": True,
                 "artifacts": {
-                    "scope_triage_llm_job_completed": "64",
-                    "scope_triage_llm_job_total": "64",
+                    "yomi_reading_llm_job_completed": "64",
+                    "yomi_reading_llm_job_total": "64",
                 },
             }
         )
 
         self.assertEqual(
             rendered,
-            "current_stage: scope_triage_llm_completed\nnext_stage: yomi_generated",
+            "current_stage: yomi_reading_llm_completed\nnext_stage: yomi_generated",
         )
 
     def test_format_suppresses_completed_prior_llm_status_on_non_llm_stage(self) -> None:
@@ -41,39 +41,39 @@ class NextCliTests(unittest.TestCase):
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "alphabetic_promotion_candidates",
+                "current_stage": "yomi_generated",
                 "advanced": True,
                 "artifacts": {
-                    "alphabetic_judgment_llm_job_completed": "2",
-                    "alphabetic_judgment_llm_job_total": "2",
-                    "alphabetic_judgment_llm_job_status": "completed",
-                    "alphabetic_promotion_candidates_jsonl": "data/state/alphabetic/promotion_candidates.jsonl",
+                    "yomi_reading_llm_job_completed": "2",
+                    "yomi_reading_llm_job_total": "2",
+                    "yomi_reading_llm_job_status": "completed",
+                    "units_yomi_jsonl": "data/units/dev_batch_0001/units.yomi.aligned_hybrid.jsonl",
                 },
             }
         )
 
         self.assertNotIn("LLM progress", rendered)
         self.assertNotIn("LLM job", rendered)
-        self.assertIn("Output: data/state/alphabetic/promotion_candidates.jsonl", rendered)
+        self.assertIn("Output: data/units/dev_batch_0001/units.yomi.aligned_hybrid.jsonl", rendered)
 
     def test_format_shows_running_llm_status_on_blocked_llm_stage(self) -> None:
         rendered = format_next_summary(
             {
                 "track_name": "dev",
                 "batch_name": "dev_batch_0001",
-                "current_stage": "alphabetic_llm_judged",
+                "current_stage": "yomi_reading_llm_completed",
                 "advanced": False,
                 "blocking_reason": "LLM background job is running; rerun ./next to poll or resume.",
                 "artifacts": {
-                    "alphabetic_judgment_llm_job_completed": "1",
-                    "alphabetic_judgment_llm_job_total": "2",
-                    "alphabetic_judgment_llm_job_status": "running",
+                    "yomi_reading_llm_job_completed": "1",
+                    "yomi_reading_llm_job_total": "2",
+                    "yomi_reading_llm_job_status": "running",
                 },
             }
         )
 
-        self.assertIn("LLM progress (alphabetic_judgment): 1/2 completed", rendered)
-        self.assertIn("LLM job (alphabetic_judgment): running", rendered)
+        self.assertIn("LLM progress (yomi_reading): 1/2 completed", rendered)
+        self.assertIn("LLM job (yomi_reading): running", rendered)
 
     def test_format_shows_empty_llm_queue_without_zero_over_zero_progress(self) -> None:
         rendered = format_next_summary(

@@ -3,15 +3,11 @@ unit_mode = "sentence"
 auto_accept_profile = "strict"
 
 [tracks.working.llm_policy]
-alphabetic_entity_judge = "standard"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "standard"
 yomi_rescue = "strong"
 
 [tracks.working.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"
@@ -21,15 +17,11 @@ unit_mode = "sentence"
 auto_accept_profile = "stable_two_kanji"
 
 [tracks.dev.llm_policy]
-alphabetic_entity_judge = "standard"
-scope_triage = "economy"
 yomi_reading = "standard"
 yomi_repair = "economy"
 yomi_rescue = "standard"
 
 [tracks.dev.llm_execution_policy]
-alphabetic_entity_judge = "background"
-scope_triage = "background"
 yomi_reading = "background"
 yomi_repair = "background"
 yomi_rescue = "background"

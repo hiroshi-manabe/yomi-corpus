@@ -121,7 +121,7 @@ class BatchJobTests(unittest.TestCase):
 
     def test_prepare_submit_poll_fetch_lifecycle(self) -> None:
         prepare_batch_job(
-            "config/llm/alphabetic_entity_judge.toml",
+            "tests/fixtures/llm/generic_json.toml",
             str(self.input_path),
             str(self.job_dir),
         )
@@ -156,7 +156,7 @@ class BatchJobTests(unittest.TestCase):
 
     def test_list_batch_jobs(self) -> None:
         prepare_batch_job(
-            "config/llm/alphabetic_entity_judge.toml",
+            "tests/fixtures/llm/generic_json.toml",
             str(self.input_path),
             str(self.job_dir),
         )
@@ -184,7 +184,7 @@ class BatchJobTests(unittest.TestCase):
             encoding="utf-8",
         )
         task_config = replace(
-            load_llm_task_config("config/llm/alphabetic_entity_judge.toml"),
+            load_llm_task_config("tests/fixtures/llm/generic_json.toml"),
             batch_max_requests_per_batch=2,
         )
 
@@ -244,7 +244,7 @@ class BatchJobTests(unittest.TestCase):
 
         backend = ChunkedBackend()
         prepare_batch_job(
-            "config/llm/alphabetic_entity_judge.toml",
+            "tests/fixtures/llm/generic_json.toml",
             str(input_path),
             str(self.job_dir),
             task_config_override=task_config,
@@ -295,11 +295,11 @@ class BatchJobTests(unittest.TestCase):
             encoding="utf-8",
         )
         task_config = replace(
-            load_llm_task_config("config/llm/alphabetic_entity_judge.toml"),
+            load_llm_task_config("tests/fixtures/llm/generic_json.toml"),
             batch_max_requests_per_batch=2,
         )
         prepare_batch_job(
-            "config/llm/alphabetic_entity_judge.toml",
+            "tests/fixtures/llm/generic_json.toml",
             str(input_path),
             str(self.job_dir),
             task_config_override=task_config,

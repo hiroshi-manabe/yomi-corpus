@@ -42,22 +42,20 @@ def build_task_variables(
     task_config: LLMTaskConfig, row: dict[str, Any], *, index: int
 ) -> tuple[str, dict[str, Any], dict[str, Any]]:
     builder_name = task_config.input_builder
-    if builder_name == "alphabetic_entity_judge":
-        item_id = str(row.get("entity_key", f"item_{index:05d}"))
+    if builder_name == "generic_text":
+        item_id = str(
+            row.get("item_id")
+            or row.get("unit_id")
+            or row.get("entity_key")
+            or f"item_{index:05d}"
+        )
+        examples = row.get("example_texts")
+        fallback_text = examples[0] if isinstance(examples, list) and examples else ""
         return (
             item_id,
-            {
-                "entity_key": row["entity_key"],
-                "surface_forms": " | ".join(row.get("surface_forms", [])),
-                "occurrence_count": row.get("occurrence_count", 0),
-                "unit_count": row.get("unit_count", 0),
-                "example_texts": _join_examples(row.get("example_texts", [])),
-            },
+            {"text": str(row.get("text") or fallback_text)},
             {"source_row": row},
         )
-    if builder_name == "scope_triage":
-        item_id = str(row.get("unit_id", f"item_{index:05d}"))
-        return item_id, {"text": row["text"]}, {"source_row": row}
     if builder_name == "yomi_check":
         item_id = str(row.get("unit_id", f"item_{index:05d}"))
         rendered = _rendered_variable(task_config, row)
@@ -227,12 +225,6 @@ def _fixed_yomi_reading_context(
         ),
         metadata,
     )
-
-
-def _join_examples(examples: list[str]) -> str:
-    if not examples:
-        return "(no examples)"
-    return "\n".join(f"- {example}" for example in examples)
 
 
 def _rendered_variable(task_config: LLMTaskConfig, row: dict[str, Any]) -> str:

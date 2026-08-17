@@ -38,8 +38,8 @@ from yomi_corpus.llm.usage import normalize_usage
 
 class LLMScaffoldingTests(unittest.TestCase):
     def test_load_llm_task_config(self) -> None:
-        config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
-        self.assertEqual(config.task_name, "alphabetic_entity_judge")
+        config = load_llm_task_config("tests/fixtures/llm/generic_json.toml")
+        self.assertEqual(config.task_name, "generic_json_test")
         self.assertEqual(config.model, "gpt-5.6-sol")
         self.assertEqual(config.parser, "json_object")
         self.assertEqual(config.rendered_yomi_display, "full")
@@ -54,26 +54,8 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertTrue(config.enable_web_search)
         self.assertEqual(config.web_search_context_size, "medium")
 
-    def test_scope_triage_prompt_mentions_sensitive_private_person_exclusion(self) -> None:
-        config = load_llm_task_config("config/llm/scope_triage.toml")
-        prompt = Path(config.prompt_template).read_text(encoding="utf-8")
-
-        self.assertIn("private person", prompt)
-        self.assertIn("criminal suspicion", prompt)
-        self.assertIn("When unsure about this risk, Exclude", prompt)
-
-    def test_scope_triage_prompt_skips_obvious_source_corruption_not_ordinary_typos(self) -> None:
-        config = load_llm_task_config("config/llm/scope_triage.toml")
-        prompt = Path(config.prompt_template).read_text(encoding="utf-8")
-
-        self.assertIn("Keep isolated ordinary typos", prompt)
-        self.assertIn("only when it is systematic across the prose", prompt)
-        self.assertIn("one typo or old-looking form such as `なつた`", prompt)
-        self.assertIn("nonstandard OCR corruption", prompt)
-        self.assertIn("flattened ruby", prompt)
-
     def test_apply_llm_profile_overrides_model(self) -> None:
-        config = load_llm_task_config("config/llm/scope_triage.toml")
+        config = load_llm_task_config("tests/fixtures/llm/generic_json.toml")
         profile = load_llm_profile("smoke")
         self.assertEqual(profile["model"], "gpt-5.4-nano")
 
@@ -84,25 +66,6 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_render_prompt_requires_variables(self) -> None:
         prompt = render_prompt("Hello {name}", {"name": "world"})
         self.assertEqual(prompt, "Hello world")
-
-    def test_build_prompt_items_for_alphabetic_entity(self) -> None:
-        config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
-        rows = [
-            {
-                "entity_key": "led zeppelin",
-                "surface_forms": ["Led Zeppelin"],
-                "occurrence_count": 1,
-                "unit_count": 1,
-                "example_texts": ["Led Zeppelinが好きです。"],
-            }
-        ]
-        items = build_prompt_items(config, rows)
-        self.assertEqual(len(items), 1)
-        self.assertEqual(items[0].item_id, "led zeppelin")
-        self.assertIn("Led Zeppelin", items[0].prompt)
-        self.assertIn("uncommon alphabetic strings are out of scope", items[0].prompt)
-        self.assertIn("confidently provide an established, conventional Japanese reading", items[0].prompt)
-        self.assertIn("uncertain guessing or disproportionate research", items[0].prompt)
 
     def test_compact_rendered_for_llm_keeps_kanji_and_latin_readings(self) -> None:
         rendered = (
@@ -301,15 +264,8 @@ class LLMScaffoldingTests(unittest.TestCase):
             {"FX": "エフエックス", "CFD": "シーエフディー"},
         )
 
-    def test_parse_scope_triage_label_output(self) -> None:
-        parsed = parse_output("Skip", "scope_triage_label")
-        self.assertEqual(parsed, {"status": "Skip"})
-
-        excluded = parse_output("Exclude", "scope_triage_label")
-        self.assertEqual(excluded, {"status": "Exclude"})
-
     def test_build_response_kwargs_for_gpt5(self) -> None:
-        config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
+        config = load_llm_task_config("tests/fixtures/llm/generic_json.toml")
         kwargs = build_response_create_kwargs(config, "prompt")
         self.assertEqual(kwargs["model"], "gpt-5.6-sol")
         self.assertIn("text", kwargs)
@@ -331,7 +287,7 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(kwargs["input"][0]["content"], "prompt")
 
     def test_write_batch_requests_jsonl(self) -> None:
-        config = load_llm_task_config("config/llm/alphabetic_entity_judge.toml")
+        config = load_llm_task_config("tests/fixtures/llm/generic_json.toml")
         rows = [
             {
                 "entity_key": "run boys",
@@ -421,7 +377,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                 json.dumps(
                     {
                         "item_id": "u1",
-                        "raw_text": "Keep",
+                        "raw_text": '{"status":"Keep"}',
                         "parsed": {"status": "Keep"},
                         "parse_error": None,
                         "usage": {},
@@ -443,7 +399,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                     self.seen.append(item.item_id)
                     return LLMResult(
                         item_id=item.item_id,
-                        raw_text="Skip",
+                        raw_text='{"status":"Skip"}',
                         parsed={"status": "Skip"},
                         parse_error=None,
                         usage={"input_tokens": 1},
@@ -452,7 +408,7 @@ class LLMScaffoldingTests(unittest.TestCase):
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_sync_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -513,7 +469,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                 patch("yomi_corpus.llm.runner.poll_batch_job", side_effect=fake_poll),
             ):
                 summary = run_llm_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     execution_mode="batch",
@@ -566,7 +522,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                 patch("yomi_corpus.llm.runner.poll_batch_job", side_effect=fake_poll),
             ):
                 summary = run_llm_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     execution_mode="batch",
@@ -615,13 +571,13 @@ class LLMScaffoldingTests(unittest.TestCase):
                     return {
                         "response_id": response_id,
                         "status": "completed",
-                        "raw_text": "Keep",
+                        "raw_text": '{"status":"Keep"}',
                         "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
                     }
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -688,13 +644,13 @@ class LLMScaffoldingTests(unittest.TestCase):
                     return {
                         "response_id": response_id,
                         "status": "completed",
-                        "raw_text": "Skip",
+                        "raw_text": '{"status":"Skip"}',
                         "usage": None,
                     }
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -759,13 +715,13 @@ class LLMScaffoldingTests(unittest.TestCase):
                     return {
                         "response_id": response_id,
                         "status": "completed",
-                        "raw_text": "Keep",
+                        "raw_text": '{"status":"Keep"}',
                         "usage": None,
                     }
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -816,13 +772,13 @@ class LLMScaffoldingTests(unittest.TestCase):
                     return {
                         "response_id": response_id,
                         "status": "completed",
-                        "raw_text": "Keep",
+                        "raw_text": '{"status":"Keep"}',
                         "usage": {"input_tokens": 1, "output_tokens": 1, "total_tokens": 2},
                     }
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -889,13 +845,13 @@ class LLMScaffoldingTests(unittest.TestCase):
                     return {
                         "response_id": response_id,
                         "status": "completed",
-                        "raw_text": "Keep",
+                        "raw_text": '{"status":"Keep"}',
                         "usage": None,
                     }
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -953,7 +909,7 @@ class LLMScaffoldingTests(unittest.TestCase):
 
             with patch("yomi_corpus.llm.runner.OpenAIResponsesBackend", FakeBackend):
                 summary = run_background_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     job_dir=str(job_dir),
@@ -1044,7 +1000,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                     json.dumps(
                         {
                             "item_id": "u1",
-                            "raw_text": "Keep",
+                            "raw_text": '{"status":"Keep"}',
                             "parsed": {"status": "Keep"},
                             "parse_error": None,
                             "usage": {},
@@ -1062,7 +1018,7 @@ class LLMScaffoldingTests(unittest.TestCase):
                 patch("yomi_corpus.llm.runner.fetch_batch_job", side_effect=fake_fetch),
             ):
                 summary = run_llm_task(
-                    "config/llm/scope_triage.toml",
+                    "tests/fixtures/llm/generic_json.toml",
                     str(input_path),
                     str(output_path),
                     execution_mode="batch",

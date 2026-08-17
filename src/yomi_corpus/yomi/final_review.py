@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.llm_readings import (
-    build_yomi_llm_reading_items,
     is_standalone_laughter_w,
     is_valid_yomi_reading,
     normalize_hiragana_reading,
@@ -148,7 +147,6 @@ class YomiFinalReviewPackSummary:
     item_count: int
     unresolved_item_count: int
     unresolved_target_count: int
-    provisional_skip_item_count: int
     output_json: str
     latest_json: str | None
 
@@ -164,86 +162,17 @@ class YomiStrongRepairReviewPackSummary:
 
 def materialize_yomi_review_units_file(
     *,
-    scope_units_jsonl: Path,
     processed_units_jsonl: Path,
     output_jsonl: Path,
-    hybrid_units_jsonl: Path | None = None,
 ) -> dict[str, Any]:
-    """Merge processed units while supporting pre-migration scope-skip artifacts."""
-    processed_rows = load_jsonl(processed_units_jsonl)
-    scope_rows = load_jsonl(scope_units_jsonl)
-    hybrid_rows = (
-        load_jsonl(hybrid_units_jsonl)
-        if hybrid_units_jsonl is not None and hybrid_units_jsonl.exists()
-        else []
-    )
-    hybrid_by_id: dict[str, dict[str, Any]] = {}
-    for row in hybrid_rows:
-        unit_id = str(row.get("unit_id") or "")
-        if not unit_id or unit_id in hybrid_by_id:
-            raise ValueError(f"Invalid or duplicate hybrid unit id: {unit_id!r}")
-        hybrid_by_id[unit_id] = row
-    processed_by_id: dict[str, dict[str, Any]] = {}
-    for row in processed_rows:
-        unit_id = str(row.get("unit_id") or "")
-        if not unit_id or unit_id in processed_by_id:
-            raise ValueError(f"Invalid or duplicate processed unit id: {unit_id!r}")
-        processed_by_id[unit_id] = row
-
-    output_jsonl.parent.mkdir(parents=True, exist_ok=True)
-    written = 0
-    restored_skips = 0
-    missing_non_skips: list[str] = []
-    with output_jsonl.open("w", encoding="utf-8") as dst:
-        if not scope_rows:
-            for row in processed_rows:
-                dst.write(json.dumps(row, ensure_ascii=False) + "\n")
-                written += 1
-            processed_by_id.clear()
-        for scope_unit in scope_rows:
-            unit_id = str(scope_unit.get("unit_id") or "")
-            processed = processed_by_id.pop(unit_id, None)
-            if processed is not None:
-                row = processed
-            elif is_scope_triage_skipped(scope_unit):
-                row = hybrid_by_id.get(unit_id, scope_unit)
-                if unit_id not in hybrid_by_id:
-                    row.setdefault("analysis", {}).setdefault("pipeline", {})[
-                        "yomi_processing"
-                    ] = {
-                        "status": "skipped",
-                        "reason": "scope_triage_skip_without_hybrid",
-                    }
-                restored_skips += 1
-            else:
-                missing_non_skips.append(unit_id)
-                continue
-            dst.write(json.dumps(row, ensure_ascii=False) + "\n")
-            written += 1
-
-    if missing_non_skips or processed_by_id:
-        output_jsonl.unlink(missing_ok=True)
-        raise ValueError(
-            "Cannot materialize review units: "
-            f"missing non-skips={missing_non_skips[:5]!r}, "
-            f"unexpected processed ids={list(processed_by_id)[:5]!r}"
-        )
+    """Materialize all processed units for Bulk Review without scope filtering."""
+    rows = load_jsonl(processed_units_jsonl)
+    write_jsonl(output_jsonl, rows)
     return {
-        "written_units": written,
-        "processed_units": written - restored_skips,
-        "restored_scope_skips": restored_skips,
+        "written_units": len(rows),
+        "processed_units": len(rows),
         "output_jsonl": str(output_jsonl),
     }
-
-
-def is_scope_triage_skipped(unit: dict[str, Any]) -> bool:
-    return (
-        unit.get("analysis", {})
-        .get("llm", {})
-        .get("scope_triage", {})
-        .get("status")
-        == "Skip"
-    )
 
 
 def build_yomi_final_review_pack_file(
@@ -265,27 +194,28 @@ def build_yomi_final_review_pack_file(
         document_state_json=document_state_json,
         created_at_epoch=created_at_epoch,
     )
-    output_json.parent.mkdir(parents=True, exist_ok=True)
-    output_json.write_text(
-        json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_json_atomic(output_json, pack)
     if latest_json is not None:
-        latest_json.parent.mkdir(parents=True, exist_ok=True)
-        latest_json.write_text(
-            json.dumps(pack, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
+        write_json_atomic(latest_json, pack)
     return YomiFinalReviewPackSummary(
         pack_id=pack_id,
         review_stage=REVIEW_STAGE,
         item_count=int(pack["item_count"]),
         unresolved_item_count=int(pack["summary"]["unresolved_item_count"]),
         unresolved_target_count=int(pack["summary"]["unresolved_target_count"]),
-        provisional_skip_item_count=int(pack["summary"]["provisional_skip_item_count"]),
         output_json=str(output_json),
         latest_json=str(latest_json) if latest_json is not None else None,
     )
+
+
+def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def build_yomi_strong_repair_review_pack_file(
@@ -362,7 +292,6 @@ def build_yomi_final_review_pack(
 
     unresolved_items = [item for item in items if item["unresolved_target_count"] > 0]
     unresolved_targets = sum(int(item["unresolved_target_count"]) for item in items)
-    provisional_skip_items = [item for item in items if item["provisional_skip"]]
     documents = with_queue_document_metadata(
         documents,
         items,
@@ -392,7 +321,6 @@ def build_yomi_final_review_pack(
             "interaction_span_count": sum(
                 len(item.get("interaction_spans", [])) for item in items
             ),
-            "provisional_skip_item_count": len(provisional_skip_items),
         },
         "documents": documents,
         "items": items,
@@ -882,8 +810,6 @@ def build_review_item(
     if not isinstance(targets, list):
         targets = []
     text = str(unit.get("text") or "")
-    scope = unit.get("analysis", {}).get("llm", {}).get("scope_triage", {})
-    scope_status = normalize_scope_disposition(scope.get("status"))
     yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
     rendered_yomi = str(yomi.get("rendered") or "") if isinstance(yomi, dict) else ""
     if isinstance(yomi, dict):
@@ -896,8 +822,6 @@ def build_review_item(
             rendered_yomi = normalize_parenthesized_semantic_tokens_rendered(
                 rendered_yomi
             ).rendered
-    if not targets and scope_status in {SCOPE_SKIP, SCOPE_EXCLUDE}:
-        targets = fallback_review_targets_for_scoped_unit(unit)
     review_targets = [
         build_review_target(
             with_sudachi_token_metadata(
@@ -946,15 +870,6 @@ def build_review_item(
         targets=review_targets,
     )
     unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
-    alphabetic_scope = unit.get("analysis", {}).get("mechanical", {}).get("alphabetic_scope", {})
-    provisional_skip = bool(
-        scope_status == SCOPE_SKIP
-        and (
-            scope.get("provisional")
-            or scope.get("source") == "provisional_alphabetic_skip"
-            or alphabetic_scope.get("provisional_skip")
-        )
-    )
     rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, interaction_spans)
     return {
         "item_id": str(unit.get("unit_id", "")),
@@ -974,14 +889,6 @@ def build_review_item(
         ),
         "rendered_yomi": rendered_yomi,
         "rendered_yomi_ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi),
-        "scope_status": scope_status,
-        "scope_default": SCOPE_SKIP if provisional_skip else scope_status,
-        "exclude_default": scope_status == SCOPE_EXCLUDE,
-        "provisional_skip": provisional_skip,
-        "skip_default": bool(scope_status == SCOPE_SKIP or provisional_skip),
-        "skip_reasons": list(alphabetic_scope.get("reasons") or [])
-        if isinstance(alphabetic_scope, dict)
-        else [],
         "manual_correction_required": manual_correction_required(unit),
         "manual_correction": manual_correction_state(unit),
         "target_count": len(review_targets),
@@ -993,30 +900,6 @@ def build_review_item(
         "interaction_span_count": len(interaction_spans),
         "reading_hints": build_reading_hints(review_targets),
     }
-
-
-def fallback_review_targets_for_scoped_unit(unit: dict[str, Any]) -> list[dict[str, Any]]:
-    """Recover editable targets for historical scoped rows lacking safety analysis."""
-    targets: list[dict[str, Any]] = []
-    for item in build_yomi_llm_reading_items(unit, stable_checker=None):
-        targets.append(
-            {
-                **item,
-                "is_safe": False,
-                "review_status": "unresolved",
-                "highlight_level": "target",
-                "accepted_signal_names": [],
-                "status_reason": "missing_safety_target_fallback",
-                "signals": [
-                    {
-                        "name": "review_pack_fallback",
-                        "accepted": False,
-                        "reason": "historical_scoped_unit_missing_safety_targets",
-                    }
-                ],
-            }
-        )
-    return targets
 
 
 def with_sudachi_token_metadata(

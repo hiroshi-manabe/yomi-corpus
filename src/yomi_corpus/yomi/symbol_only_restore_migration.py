@@ -11,10 +11,12 @@ from yomi_corpus.yomi.final_review import (
     canonicalize_finalized_unit_yomi,
     current_yomi_tokens_for_correction,
 )
-from yomi_corpus.yomi.scope import is_symbol_only_unit
-
-
 MIGRATION_ID = "symbol_only_skip_restore_v1"
+
+
+def is_symbol_only_unit(unit: dict[str, Any]) -> bool:
+    text = str(unit.get("text", ""))
+    return bool(text.strip()) and not any(char.isalnum() for char in text)
 
 
 def migrate_symbol_only_skips(
