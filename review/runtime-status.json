@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5979,
-  "generated_at": "2026-08-19T01:23:13Z",
-  "generated_at_epoch": 1787102593,
-  "last_successful_sync": "2026-08-19T01:10:26Z",
-  "last_successful_sync_epoch": 1787101826,
-  "status": "error",
+  "state_revision": 5980,
+  "generated_at": "2026-08-19T01:46:13Z",
+  "generated_at_epoch": 1787103973,
+  "last_successful_sync": "2026-08-19T01:46:13Z",
+  "last_successful_sync_epoch": 1787103973,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1787102593,
     "interval_seconds": 300,
@@ -14,32 +14,32 @@
     "next_expected_epoch": 1787102893
   },
   "state": {
-    "current_batch_name": "dev_batch_0082",
+    "current_batch_name": "dev_batch_0083",
     "current_stage": "yomi_reading_queued",
     "next_stage": "yomi_reading_llm_completed",
-    "active_queue_count": 63,
+    "active_queue_count": 58,
     "queue_counts": {
-      "bulk_review_selectable": 60,
+      "bulk_review_selectable": 50,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 3,
+      "escalated_repair_selectable": 8,
       "escalated_repair_submitted": 0,
-      "resolved": 17
+      "resolved": 32
     },
     "pool_counts": {
-      "bulk-ready": 60,
+      "bulk-ready": 50,
       "bulk-submitted": 0,
-      "escalated-ready": 3,
+      "escalated-ready": 8,
       "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 17,
+      "resolved": 32,
       "unprocessed": 0
     }
   },
-  "message": "OSError: [Errno 39] Directory not empty: PosixPath('/panfs/panmt22/users/hmanabe/yomi-corpus/docs/review/packs')",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1787102593,
-    "completed_at_epoch": 1787102593,
-    "drift_seconds": 133
+    "started_at_epoch": 1787103203,
+    "completed_at_epoch": 1787103973,
+    "drift_seconds": 10
   },
   "client_polling": {
     "normal_seconds": 60,
