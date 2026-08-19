@@ -14,7 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "unresolved_item_count": 24,
     "unresolved_target_count": 32,
@@ -56,12 +56,12 @@
       "source_line_no": 805,
       "preview": "チケットへのご署名などお車の中で事前にお願いいたします。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T05:59:08Z",
+      "state_updated_at": "2026-08-19T06:48:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -134,12 +134,12 @@
       "source_line_no": 808,
       "preview": "※返答方法のご希望が「電話」の場合、電話番号は必ずご記入ください。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T05:59:08Z",
+      "state_updated_at": "2026-08-19T06:48:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -212,12 +212,12 @@
       "source_line_no": 811,
       "preview": "という悩みを持っています。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T05:59:08Z",
+      "state_updated_at": "2026-08-19T06:48:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 43,
@@ -238,12 +238,12 @@
       "source_line_no": 812,
       "preview": "2011年7月10日、HKT48第1期生オーディションに合格。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T05:59:08Z",
+      "state_updated_at": "2026-08-19T06:48:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 18,
@@ -305484,6 +305484,20 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "きごう",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "泣",
+                  "reading": "きごう"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "なき",
               "accepted": false,
               "ruby_nodes": [
@@ -306123,6 +306137,20 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "きごう",
+              "accepted": false,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "泣",
+                  "reading": "きごう"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "なき",
               "accepted": false,
               "ruby_nodes": [
@@ -306573,6 +306601,29 @@
             },
             {
               "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "きごうく",
+              "tokens": [
+                [
+                  "泣く",
+                  "キゴウク"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "泣",
+                  "reading": "きごう"
+                },
+                {
+                  "type": "text",
+                  "text": "く"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "なきく",
@@ -307202,6 +307253,29 @@
             },
             {
               "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "きごうく",
+              "tokens": [
+                [
+                  "泣く",
+                  "キゴウク"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "泣",
+                  "reading": "きごう"
+                },
+                {
+                  "type": "text",
+                  "text": "く"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "なきく",

@@ -44,7 +44,6 @@ const el = {
   backToTaskPicker: document.querySelector("#back-to-task-picker"),
   completeTask: document.querySelector("#complete-task"),
   taskWorkPanels: document.querySelectorAll(".task-work-panel"),
-  rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
@@ -59,7 +58,6 @@ const el = {
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
   issueUrlSummary: document.querySelector("#issue-url-summary"),
-  clearRange: document.querySelector("#clear-range"),
   resetDraft: document.querySelector("#reset-draft"),
   openIssueTitle: document.querySelector("#open-issue-title"),
   openIssueBottom: document.querySelector("#open-issue-bottom"),
@@ -173,16 +171,6 @@ function bindEvents() {
       return;
     }
     completeCurrentTask();
-  });
-
-  el.clearRange.addEventListener("click", () => {
-    if (!isEditable()) {
-      return;
-    }
-    state.currentDraft.from_seq = null;
-    state.currentDraft.to_seq = null;
-    touchDraft();
-    render();
   });
 
   el.resetDraft.addEventListener("click", () => {
@@ -656,7 +644,6 @@ function documentBelongsToQueue(queueStage, doc) {
 
 function render({ scrollToTop = false } = {}) {
   renderTaskSelector();
-  renderRangeSummary();
   renderItems();
   renderControlState();
   renderSubmissionPreview();
@@ -2168,37 +2155,6 @@ function renderWorkflowQueue({
   }
   section.append(tiles);
 
-  const controls = document.createElement("div");
-  controls.className = "workflow-range-controls";
-  const fromSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[0] || actionableDocs[0] || null);
-  const toSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[selectedDocs.length - 1] || actionableDocs[actionableDocs.length - 1] || null);
-  const selectRangeButton = document.createElement("button");
-  selectRangeButton.type = "button";
-  selectRangeButton.className = "secondary-button";
-  selectRangeButton.textContent = "範囲を選択";
-  selectRangeButton.disabled = actionableDocs.length === 0;
-  selectRangeButton.addEventListener("click", () => {
-    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, true);
-  });
-  const deselectRangeButton = document.createElement("button");
-  deselectRangeButton.type = "button";
-  deselectRangeButton.className = "secondary-button";
-  deselectRangeButton.textContent = "範囲を選択解除";
-  deselectRangeButton.disabled = actionableDocs.length === 0;
-  deselectRangeButton.addEventListener("click", () => {
-    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, false);
-  });
-  controls.append(
-    textNodeElement("span", "範囲:"),
-    textNodeElement("span", "開始"),
-    fromSelect,
-    textNodeElement("span", "終了"),
-    toSelect,
-    selectRangeButton,
-    deselectRangeButton,
-  );
-  section.append(controls);
-
   const actions = document.createElement("div");
   actions.className = "button-row workflow-actions";
   const startButton = document.createElement("button");
@@ -2972,19 +2928,6 @@ function workflowQueueDocRank(doc, queueStage) {
   return 3;
 }
 
-function buildWorkflowDocSelect(docs, selectedDoc) {
-  const select = document.createElement("select");
-  select.disabled = docs.length === 0;
-  for (const doc of docs) {
-    const option = document.createElement("option");
-    option.value = taskDocKey(doc);
-    option.textContent = String(documentDisplaySeq(doc));
-    option.selected = selectedDoc && taskDocKey(selectedDoc) === taskDocKey(doc);
-    select.append(option);
-  }
-  return select;
-}
-
 function textNodeElement(tagName, text) {
   const element = document.createElement(tagName);
   element.textContent = text;
@@ -3149,8 +3092,6 @@ function renderTaskDocumentRow(doc, task) {
   const actions = document.createElement("div");
   actions.className = "task-doc-actions";
   for (const [labelText, handler] of [
-    ["ここから", () => setDocumentRangeBoundary(docKey, "start")],
-    ["ここまで", () => setDocumentRangeBoundary(docKey, "end")],
     ["これだけ", () => selectOnlyDocumentTask(docKey)],
   ]) {
     const button = document.createElement("button");
@@ -3166,20 +3107,6 @@ function renderTaskDocumentRow(doc, task) {
   return row;
 }
 
-function renderRangeSummary() {
-  const { fromSeq, toSeq, includedCount } = getEffectiveRange();
-  const overrides = getSubmissionOverridesForCurrentStage();
-  const defaultAcceptCount = Math.max(includedCount - overrides.length, 0);
-  const summaryCards = [
-    makeSummaryCard("開始", String(fromSeq)),
-    makeSummaryCard("終了", String(toSeq)),
-    makeSummaryCard("対象", String(includedCount)),
-    makeSummaryCard("既定値を採用", String(defaultAcceptCount)),
-    makeSummaryCard("変更", String(overrides.length)),
-  ];
-  el.rangeSummary.innerHTML = summaryCards.join("");
-}
-
 function makeSummaryCard(label, value) {
   return `
     <div class="meta-card">
@@ -3191,7 +3118,6 @@ function makeSummaryCard(label, value) {
 
 function renderItems() {
   const pack = state.currentPack;
-  const { fromSeq, toSeq } = getEffectiveRange();
   const editable = isEditable();
   const visibleItems = getVisibleItems();
   el.itemsSummary.textContent = `${pack.items.length}項目中 ${visibleItems.length}項目を表示`;
@@ -3204,24 +3130,18 @@ function renderItems() {
       lastDocId = item.doc_id;
     }
     const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
-    const inRange = item.seq >= fromSeq && item.seq <= toSeq;
     const override = state.currentDraft.overrides[item.item_id] || null;
-    const isFrom = state.currentDraft.from_seq === item.seq;
-    const isTo = state.currentDraft.to_seq === item.seq;
 
-    node.classList.toggle("out-of-range", !inRange);
     node.classList.toggle("has-override", Boolean(override));
-    node.classList.toggle("marker-start", isFrom);
-    node.classList.toggle("marker-end", isTo);
 
     node.querySelector(".item-seq").textContent = `#${item.seq}`;
     if (itemReviewStage(item) === "yomi_final_review") {
-      renderYomiItem({ node, item, override, editable, isFrom, isTo });
+      renderYomiItem({ node, item, override, editable });
       el.itemsContainer.append(node);
       continue;
     }
     if (itemReviewStage(item) === "yomi_strong_repair_review") {
-      renderStrongRepairItem({ node, item, override, editable, isFrom, isTo });
+      renderStrongRepairItem({ node, item, override, editable });
       el.itemsContainer.append(node);
       continue;
     }
@@ -3230,20 +3150,6 @@ function renderItems() {
     const proposedBadge = node.querySelector(".proposed-badge");
     proposedBadge.textContent = localizedDecisionLabel(item.proposed_action);
     proposedBadge.classList.add(item.proposed_action);
-
-    const markerBadge = node.querySelector(".marker-badge");
-    if (isFrom && isTo) {
-      markerBadge.textContent = "開始・終了";
-      markerBadge.classList.remove("hidden");
-    } else if (isFrom) {
-      markerBadge.textContent = "開始";
-      markerBadge.classList.remove("hidden");
-    } else if (isTo) {
-      markerBadge.textContent = "終了";
-      markerBadge.classList.remove("hidden");
-    } else {
-      markerBadge.classList.add("hidden");
-    }
 
     const overrideBadge = node.querySelector(".override-badge");
     if (override) {
@@ -3300,17 +3206,6 @@ function renderItems() {
     readonlySections.forEach((section) => section.classList.toggle("hidden", editable));
 
     if (editable) {
-      node.querySelector(".set-from").addEventListener("click", () => {
-        state.currentDraft.from_seq = item.seq;
-        touchDraft();
-        render();
-      });
-      node.querySelector(".set-to").addEventListener("click", () => {
-        state.currentDraft.to_seq = item.seq;
-        touchDraft();
-        render();
-      });
-
       node.querySelector(".accept-default").addEventListener("click", () => {
         delete state.currentDraft.overrides[item.item_id];
         touchDraft();
@@ -3352,12 +3247,10 @@ function renderDocumentSeparator(item) {
   return separator;
 }
 
-function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }) {
+function renderStrongRepairItem({ node, item, override, editable }) {
   node.innerHTML = "";
   node.classList.add("strong-repair-card");
   node.classList.toggle("has-override", Boolean(override));
-  node.classList.toggle("marker-start", isFrom);
-  node.classList.toggle("marker-end", isTo);
 
   const header = document.createElement("header");
   header.className = "item-header";
@@ -4430,7 +4323,7 @@ function setOverride(itemId, decision) {
   render();
 }
 
-function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
+function renderYomiItem({ node, item, override, editable }) {
   if (override) {
     override.targets ||= {};
     override.bridge_atoms ||= {};

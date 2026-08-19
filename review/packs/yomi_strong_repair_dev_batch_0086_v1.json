@@ -1,0 +1,6624 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0086_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0086",
+  "created_at_epoch": 1787122580,
+  "created_at": "2026-08-19T06:56:20Z",
+  "item_count": 10,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 10,
+    "queued_repair_row_count": 10,
+    "result_row_count": 10,
+    "reviewable_repair_row_count": 10,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000824",
+      "doc_seq": 1,
+      "track_doc_seq": 824,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 824,
+      "preview": "今年はコロナの影響で各種展示会が中止になりなかなか寂しい年でした。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000825",
+      "doc_seq": 2,
+      "track_doc_seq": 825,
+      "unit_count": 83,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 825,
+      "preview": "ファンタジーな世界観を楽しもう！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 83,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000826",
+      "doc_seq": 3,
+      "track_doc_seq": 826,
+      "unit_count": 65,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 826,
+      "preview": "そして年齢層が本当に幅広い。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T06:57:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 65,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000827",
+      "doc_seq": 4,
+      "track_doc_seq": 827,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 827,
+      "preview": "進学先の蕨青南高校で、待望の女子サッカー部へ入部する。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T06:57:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 3,
+      "to_seq": 5,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000828",
+      "doc_seq": 5,
+      "track_doc_seq": 828,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 828,
+      "preview": "スニーカーブランド CLAE（クレイ）は、サボテンから出来たカクタスレザーをスニーカーに使用した「BRADLEY CACTUS（ブラッドリーカクタス）」を発売します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000829",
+      "doc_seq": 6,
+      "track_doc_seq": 829,
+      "unit_count": 57,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 829,
+      "preview": "って言葉って結構多いです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 57,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000830",
+      "doc_seq": 7,
+      "track_doc_seq": 830,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 830,
+      "preview": "実は、いま東京にきてます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000831",
+      "doc_seq": 8,
+      "track_doc_seq": 831,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 831,
+      "preview": "③なわとび（波跳び、大縄跳び）です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "preview": "今ネットでは浜田保徳市長 パワハラ報道についてのヤフー記事が話題になっています！",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T06:57:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 5,
+      "region_count": 5,
+      "unresolved_count": 5,
+      "from_seq": 6,
+      "to_seq": 10,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 5
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000833",
+      "doc_seq": 10,
+      "track_doc_seq": 833,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 833,
+      "preview": "ブリュッセルの王立美術館のすぐ近くに、楽器博物館があります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:56:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000826:u0009::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000826",
+      "doc_seq": 3,
+      "track_doc_seq": 826,
+      "unit_id": "ja_cc_level2:0000000826:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 826,
+      "text": "2Dと3Dの切り替わりが本当に分からなかった。",
+      "rendered_yomi_before": "2/ D/ディー と/ト 3D/スリーディー の/ノ 切り替わり/キリカワリ が/ガ 本当/ホントウ に/ニ 分から/ワカラ なかっ/ナカッ た/タ 。/。",
+      "rendered_yomi_after": "2D/ツーディー と/ト 3D/スリーディー の/ノ 切り替わり/キリカワリ が/ガ 本当/ホントウ に/ニ 分から/ワカラ なかっ/ナカッ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2D",
+          "ツーディー"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "3D",
+          "スリーディー"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "切り替わり",
+          "キリカワリ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "本当",
+          "ホントウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "分から",
+          "ワカラ"
+        ],
+        [
+          "なかっ",
+          "ナカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2D",
+          "reading": "ツーディー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "2D",
+              "reading": "つーでぃー"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "3D",
+          "reading": "スリーディー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "3D",
+              "reading": "すりーでぃー"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "切り替わり",
+          "reading": "キリカワリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "切",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "替",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "わり"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "本当",
+          "reading": "ホントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本当",
+              "reading": "ほんとう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "分から",
+          "reading": "ワカラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "わ"
+            },
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "なかっ",
+          "reading": "ナカッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なかっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+          "item_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+          "unit_id": "ja_cc_level2:0000000826:u0009",
+          "text": "2Dと3Dの切り替わりが本当に分からなかった。",
+          "rendered_yomi_before": "2/ D/ディー と/ト 3D/スリーディー の/ノ 切り替わり/キリカワリ が/ガ 本当/ホントウ に/ニ 分から/ワカラ なかっ/ナカッ た/タ 。/。",
+          "rendered_yomi_after": "2D/ツーディー と/ト 3D/スリーディー の/ノ 切り替わり/キリカワリ が/ガ 本当/ホントウ に/ニ 分から/ワカラ なかっ/ナカッ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "2D",
+              "token_surface": "2D",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0009:0-2",
+              "rejected_readings": [
+                {
+                  "surface": "2D",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "2D",
+              "token_surface": "2D",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0009:0-2",
+              "rejected_readings": [
+                {
+                  "surface": "2D",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "2D",
+          "reading_candidates": {
+            "D": [
+              "でぃー"
+            ]
+          },
+          "reading_hints": {
+            "D": "でぃー"
+          },
+          "rejected_readings": [
+            {
+              "surface": "2D",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"2D\",\"reading\":\"ツーディー\",\"used_web_search\":false,\"comment\":\"文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "2D",
+              "reading": "ツーディー",
+              "used_web_search": false,
+              "comment": "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+            "status": "applied",
+            "rejected_span": "2D",
+            "replacement": [
+              {
+                "surface": "2D",
+                "reading": "ツーディー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+                "surface": "2D",
+                "comment": "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "2D",
+      "target_escalations": [
+        {
+          "surface": "2D",
+          "token_surface": "2D",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0009:0-2",
+          "rejected_readings": [
+            {
+              "surface": "2D",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "2D",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "D": [
+          "でぃー"
+        ]
+      },
+      "reading_hints": {
+        "D": "でぃー"
+      },
+      "llm_parsed": [
+        {
+          "surface": "2D",
+          "reading": "ツーディー",
+          "used_web_search": false,
+          "comment": "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"2D\",\"reading\":\"ツーディー\",\"used_web_search\":false,\"comment\":\"文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。\"}]",
+      "llm_comments": [
+        "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+        "status": "applied",
+        "rejected_span": "2D",
+        "replacement": [
+          {
+            "surface": "2D",
+            "reading": "ツーディー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000826:u0009::span_group:1",
+            "surface": "2D",
+            "comment": "文脈上の一般的な用語で、2Dは「ツーディー」と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000826:u0059::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000826",
+      "doc_seq": 3,
+      "track_doc_seq": 826,
+      "unit_id": "ja_cc_level2:0000000826:u0059",
+      "unit_seq": 59,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 826,
+      "text": "ガンダム、特に宇宙世紀は妙に神聖視されているような気がするんだけど、1stって色んな意味で大らかだったんだなぁって。",
+      "rendered_yomi_before": "ガンダム/ガンダム 、/、 特に/トクニ 宇宙/ウチュウ 世紀/セイキ は/ハ 妙/ミョウ に/ニ 神聖/シンセイ 視/シ さ/サ れ/レ て/テ いる/イル よう/ヨウ な/ナ 気/キ が/ガ する/スル ん/ン だ/ダ けど/ケド 、/、 1/ st/エスティー って/ッテ 色んな/イロンナ 意味/イミ で/デ 大らか/オオラカ だっ/ダッ た/タ ん/ン だ/ダ なぁ/ナァ って/ッテ 。/。",
+      "rendered_yomi_after": "ガンダム/ガンダム 、/、 特に/トクニ 宇宙/ウチュウ 世紀/セイキ は/ハ 妙/ミョウ に/ニ 神聖/シンセイ 視/シ さ/サ れ/レ て/テ いる/イル よう/ヨウ な/ナ 気/キ が/ガ する/スル ん/ン だ/ダ けど/ケド 、/、 1st/ファースト って/ッテ 色んな/イロンナ 意味/イミ で/デ 大らか/オオラカ だっ/ダッ た/タ ん/ン だ/ダ なぁ/ナァ って/ッテ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ガンダム",
+          "ガンダム"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "特に",
+          "トクニ"
+        ],
+        [
+          "宇宙",
+          "ウチュウ"
+        ],
+        [
+          "世紀",
+          "セイキ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "妙",
+          "ミョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "神聖",
+          "シンセイ"
+        ],
+        [
+          "視",
+          "シ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "気",
+          "キ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "けど",
+          "ケド"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "1st",
+          "ファースト"
+        ],
+        [
+          "って",
+          "ッテ"
+        ],
+        [
+          "色んな",
+          "イロンナ"
+        ],
+        [
+          "意味",
+          "イミ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "大らか",
+          "オオラカ"
+        ],
+        [
+          "だっ",
+          "ダッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "なぁ",
+          "ナァ"
+        ],
+        [
+          "って",
+          "ッテ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ガンダム",
+          "reading": "ガンダム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ガンダム"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "特に",
+          "reading": "トクニ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "特",
+              "reading": "とく"
+            },
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "宇宙",
+          "reading": "ウチュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇宙",
+              "reading": "うちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "世紀",
+          "reading": "セイキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "世紀",
+              "reading": "せいき"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "妙",
+          "reading": "ミョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "妙",
+              "reading": "みょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "神聖",
+          "reading": "シンセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神聖",
+              "reading": "しんせい"
+            }
+          ]
+        },
+        {
+          "surface": "視",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "視",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "気",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気",
+              "reading": "き"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "けど",
+          "reading": "ケド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "けど"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "1st",
+          "reading": "ファースト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1st",
+              "reading": "ふぁーすと"
+            }
+          ]
+        },
+        {
+          "surface": "って",
+          "reading": "ッテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "って"
+            }
+          ]
+        },
+        {
+          "surface": "色んな",
+          "reading": "イロンナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "色",
+              "reading": "いろ"
+            },
+            {
+              "type": "text",
+              "text": "んな"
+            }
+          ]
+        },
+        {
+          "surface": "意味",
+          "reading": "イミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "意味",
+              "reading": "いみ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "大らか",
+          "reading": "オオラカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "おお"
+            },
+            {
+              "type": "text",
+              "text": "らか"
+            }
+          ]
+        },
+        {
+          "surface": "だっ",
+          "reading": "ダッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "なぁ",
+          "reading": "ナァ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なぁ"
+            }
+          ]
+        },
+        {
+          "surface": "って",
+          "reading": "ッテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "って"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+          "item_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+          "unit_id": "ja_cc_level2:0000000826:u0059",
+          "text": "ガンダム、特に宇宙世紀は妙に神聖視されているような気がするんだけど、1stって色んな意味で大らかだったんだなぁって。",
+          "rendered_yomi_before": "ガンダム/ガンダム 、/、 特に/トクニ 宇宙/ウチュウ 世紀/セイキ は/ハ 妙/ミョウ に/ニ 神聖/シンセイ 視/シ さ/サ れ/レ て/テ いる/イル よう/ヨウ な/ナ 気/キ が/ガ する/スル ん/ン だ/ダ けど/ケド 、/、 1/ st/エスティー って/ッテ 色んな/イロンナ 意味/イミ で/デ 大らか/オオラカ だっ/ダッ た/タ ん/ン だ/ダ なぁ/ナァ って/ッテ 。/。",
+          "rendered_yomi_after": "ガンダム/ガンダム 、/、 特に/トクニ 宇宙/ウチュウ 世紀/セイキ は/ハ 妙/ミョウ に/ニ 神聖/シンセイ 視/シ さ/サ れ/レ て/テ いる/イル よう/ヨウ な/ナ 気/キ が/ガ する/スル ん/ン だ/ダ けど/ケド 、/、 1st/ファースト って/ッテ 色んな/イロンナ 意味/イミ で/デ 大らか/オオラカ だっ/ダッ た/タ ん/ン だ/ダ なぁ/ナァ って/ッテ 。/。",
+          "display_mapping": {
+            "start": 23,
+            "end": 24,
+            "char_start": 34,
+            "char_end": 37,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "1st",
+              "token_surface": "1st",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0059:34-37",
+              "rejected_readings": [
+                {
+                  "surface": "1st",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "1st",
+              "token_surface": "1st",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0059:34-37",
+              "rejected_readings": [
+                {
+                  "surface": "1st",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1st",
+          "reading_candidates": {
+            "s": [
+              "えす"
+            ],
+            "st": [
+              "しょーととん"
+            ],
+            "t": [
+              "てぃー",
+              "とん"
+            ]
+          },
+          "reading_hints": {
+            "s": "えす",
+            "st": "しょーととん",
+            "t": "てぃー"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1st",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1st\",\"reading\":\"ファースト\",\"used_web_search\":false,\"comment\":\"文脈上は英語の序数表記で、一般に「ファースト」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1st",
+              "reading": "ファースト",
+              "used_web_search": false,
+              "comment": "文脈上は英語の序数表記で、一般に「ファースト」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は英語の序数表記で、一般に「ファースト」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+            "status": "applied",
+            "rejected_span": "1st",
+            "replacement": [
+              {
+                "surface": "1st",
+                "reading": "ファースト"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+                "surface": "1st",
+                "comment": "文脈上は英語の序数表記で、一般に「ファースト」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1st",
+      "target_escalations": [
+        {
+          "surface": "1st",
+          "token_surface": "1st",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0086_v1:ja_cc_level2:0000000826:u0059:34-37",
+          "rejected_readings": [
+            {
+              "surface": "1st",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1st",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "s": [
+          "えす"
+        ],
+        "st": [
+          "しょーととん"
+        ],
+        "t": [
+          "てぃー",
+          "とん"
+        ]
+      },
+      "reading_hints": {
+        "s": "えす",
+        "st": "しょーととん",
+        "t": "てぃー"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1st",
+          "reading": "ファースト",
+          "used_web_search": false,
+          "comment": "文脈上は英語の序数表記で、一般に「ファースト」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1st\",\"reading\":\"ファースト\",\"used_web_search\":false,\"comment\":\"文脈上は英語の序数表記で、一般に「ファースト」と読む。\"}]",
+      "llm_comments": [
+        "文脈上は英語の序数表記で、一般に「ファースト」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+        "status": "applied",
+        "rejected_span": "1st",
+        "replacement": [
+          {
+            "surface": "1st",
+            "reading": "ファースト"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000826:u0059::span_group:1",
+            "surface": "1st",
+            "comment": "文脈上は英語の序数表記で、一般に「ファースト」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000827:u0007::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000827",
+      "doc_seq": 4,
+      "track_doc_seq": 827,
+      "unit_id": "ja_cc_level2:0000000827:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 827,
+      "text": "ちょっと下品な漫画を描いてる漫画家の後藤可久士。",
+      "rendered_yomi_before": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後/アト 藤可/フジカ 久士/ヒサオ 。/。",
+      "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤可久士/ゴトウカクシ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ちょっと",
+          "チョット"
+        ],
+        [
+          "下品",
+          "ゲヒン"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "漫画",
+          "マンガ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "描い",
+          "エガイ"
+        ],
+        [
+          "てる",
+          "テル"
+        ],
+        [
+          "漫画家",
+          "マンガカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "後藤可久士",
+          "ゴトウカクシ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ちょっと",
+          "reading": "チョット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ちょっと"
+            }
+          ]
+        },
+        {
+          "surface": "下品",
+          "reading": "ゲヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下品",
+              "reading": "げひん"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "漫画",
+          "reading": "マンガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "漫画",
+              "reading": "まんが"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "描い",
+          "reading": "エガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "描",
+              "reading": "えが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "てる",
+          "reading": "テル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "てる"
+            }
+          ]
+        },
+        {
+          "surface": "漫画家",
+          "reading": "マンガカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "漫画家",
+              "reading": "まんがか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "後藤可久士",
+          "reading": "ゴトウカクシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "後藤可久士",
+              "reading": "ごとうかくし"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000000827:u0007",
+          "text": "ちょっと下品な漫画を描いてる漫画家の後藤可久士。",
+          "rendered_yomi_before": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後/アト 藤可/フジカ 久士/ヒサオ 。/。",
+          "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤可久士/ゴトウカクシ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 18,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 5,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "後",
+              "token_surface": "後",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "後",
+                  "reading": "あと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "藤可",
+              "token_surface": "藤可",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "藤可",
+                  "reading": "ふじか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "久士",
+              "token_surface": "久士",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひさお",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "久士",
+                  "reading": "ひさお",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "後",
+              "token_surface": "後",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "後",
+                  "reading": "あと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "藤可",
+              "token_surface": "藤可",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "藤可",
+                  "reading": "ふじか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0007:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "久士",
+              "token_surface": "久士",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひさお",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "久士",
+                  "reading": "ひさお",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "後藤可久士",
+          "reading_candidates": {
+            "後": [
+              "こう",
+              "あと",
+              "うしろ",
+              "ご",
+              "しり",
+              "のち"
+            ],
+            "後藤": [
+              "ごとう"
+            ],
+            "藤": [
+              "とう",
+              "ふじ"
+            ],
+            "藤可": [
+              "ふじか"
+            ],
+            "可": [
+              "か"
+            ],
+            "可久": [
+              "かく"
+            ],
+            "久": [
+              "きゅう",
+              "ひさ",
+              "ひさし"
+            ],
+            "久士": [
+              "ひさお",
+              "ひさし"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ]
+          },
+          "reading_hints": {
+            "後": "こう",
+            "後藤": "ごとう",
+            "藤": "とう",
+            "藤可": "ふじか",
+            "可": "か",
+            "可久": "かく",
+            "久": "きゅう",
+            "久士": "ひさお",
+            "士": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "後",
+              "reading": "あと",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "藤可",
+              "reading": "ふじか",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "久士",
+              "reading": "ひさお",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"後藤可久士\",\"reading\":\"ゴトウカクシ\",\"used_web_search\":false,\"comment\":\"固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "後藤可久士",
+              "reading": "ゴトウカクシ",
+              "used_web_search": false,
+              "comment": "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。"
+            }
+          ],
+          "llm_comments": [
+            "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "後藤可久士",
+            "replacement": [
+              {
+                "surface": "後藤可久士",
+                "reading": "ゴトウカクシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+                "surface": "後藤可久士",
+                "comment": "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "後藤可久士",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000827:u0007:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "後",
+          "token_surface": "後",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "後",
+              "reading": "あと",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000827:u0007:s0020-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "藤可",
+          "token_surface": "藤可",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ふじか",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "藤可",
+              "reading": "ふじか",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000827:u0007:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "久士",
+          "token_surface": "久士",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひさお",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "久士",
+              "reading": "ひさお",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "後",
+          "reading": "あと",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "藤可",
+          "reading": "ふじか",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "久士",
+          "reading": "ひさお",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "後": [
+          "こう",
+          "あと",
+          "うしろ",
+          "ご",
+          "しり",
+          "のち"
+        ],
+        "後藤": [
+          "ごとう"
+        ],
+        "藤": [
+          "とう",
+          "ふじ"
+        ],
+        "藤可": [
+          "ふじか"
+        ],
+        "可": [
+          "か"
+        ],
+        "可久": [
+          "かく"
+        ],
+        "久": [
+          "きゅう",
+          "ひさ",
+          "ひさし"
+        ],
+        "久士": [
+          "ひさお",
+          "ひさし"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ]
+      },
+      "reading_hints": {
+        "後": "こう",
+        "後藤": "ごとう",
+        "藤": "とう",
+        "藤可": "ふじか",
+        "可": "か",
+        "可久": "かく",
+        "久": "きゅう",
+        "久士": "ひさお",
+        "士": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "後藤可久士",
+          "reading": "ゴトウカクシ",
+          "used_web_search": false,
+          "comment": "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"後藤可久士\",\"reading\":\"ゴトウカクシ\",\"used_web_search\":false,\"comment\":\"固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。\"}]",
+      "llm_comments": [
+        "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "後藤可久士",
+        "replacement": [
+          {
+            "surface": "後藤可久士",
+            "reading": "ゴトウカクシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000827:u0007::target_group:1",
+            "surface": "後藤可久士",
+            "comment": "固有名詞として一まとまりの人名。作品中の人物名「後藤可久士」は「ごとうかくし」と読むため、分割せず全体で付与する。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000827:u0009::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000827",
+      "doc_seq": 4,
+      "track_doc_seq": 827,
+      "unit_id": "ja_cc_level2:0000000827:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 827,
+      "text": "可久士は、何においても、愛娘・姫が最優先。",
+      "rendered_yomi_before": "可久/カク 士/シ は/ハ 、/、 何/ナニ に/ニ おい/オイ て/テ も/モ 、/、 愛娘/マナムスメ ・/・ 姫/ヒメ が/ガ 最優先/サイユウセン 。/。",
+      "rendered_yomi_after": "可久士/カクシ は/ハ 、/、 何/ナニ に/ニ おい/オイ て/テ も/モ 、/、 愛娘/マナムスメ ・/・ 姫/ヒメ が/ガ 最優先/サイユウセン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "可久士",
+          "カクシ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "何",
+          "ナニ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "おい",
+          "オイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "愛娘",
+          "マナムスメ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "姫",
+          "ヒメ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "最優先",
+          "サイユウセン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "可久士",
+          "reading": "カクシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "可久士",
+              "reading": "かくし"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "何",
+          "reading": "ナニ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "何",
+              "reading": "なに"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "おい",
+          "reading": "オイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "愛娘",
+          "reading": "マナムスメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "愛娘",
+              "reading": "まなむすめ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "姫",
+          "reading": "ヒメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "姫",
+              "reading": "ひめ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "最優先",
+          "reading": "サイユウセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最優先",
+              "reading": "さいゆうせん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+          "item_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+          "unit_id": "ja_cc_level2:0000000827:u0009",
+          "text": "可久士は、何においても、愛娘・姫が最優先。",
+          "rendered_yomi_before": "可久/カク 士/シ は/ハ 、/、 何/ナニ に/ニ おい/オイ て/テ も/モ 、/、 愛娘/マナムスメ ・/・ 姫/ヒメ が/ガ 最優先/サイユウセン 。/。",
+          "rendered_yomi_after": "可久士/カクシ は/ハ 、/、 何/ナニ に/ニ おい/オイ て/テ も/モ 、/、 愛娘/マナムスメ ・/・ 姫/ヒメ が/ガ 最優先/サイユウセン 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0009:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "可久",
+              "token_surface": "可久",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "可久",
+                  "reading": "かく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0009:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0009:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "可久",
+              "token_surface": "可久",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "可久",
+                  "reading": "かく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0009:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "可久士",
+          "reading_candidates": {
+            "可": [
+              "か"
+            ],
+            "可久": [
+              "かく"
+            ],
+            "久": [
+              "きゅう",
+              "ひさ",
+              "ひさし"
+            ],
+            "久士": [
+              "ひさお",
+              "ひさし"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ]
+          },
+          "reading_hints": {
+            "可": "か",
+            "可久": "かく",
+            "久": "きゅう",
+            "久士": "ひさお",
+            "士": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "可久",
+              "reading": "かく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"可久士\",\"reading\":\"カクシ\",\"used_web_search\":false,\"comment\":\"作品名・人物名の固有名で、分割せず全体で「かくし」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "可久士",
+              "reading": "カクシ",
+              "used_web_search": false,
+              "comment": "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "可久士",
+            "replacement": [
+              {
+                "surface": "可久士",
+                "reading": "カクシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+                "surface": "可久士",
+                "comment": "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "可久士",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000827:u0009:s0001-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "可久",
+          "token_surface": "可久",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "可久",
+              "reading": "かく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000827:u0009:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "士",
+          "token_surface": "士",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "可久",
+          "reading": "かく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "士",
+          "reading": "し",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "可": [
+          "か"
+        ],
+        "可久": [
+          "かく"
+        ],
+        "久": [
+          "きゅう",
+          "ひさ",
+          "ひさし"
+        ],
+        "久士": [
+          "ひさお",
+          "ひさし"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ]
+      },
+      "reading_hints": {
+        "可": "か",
+        "可久": "かく",
+        "久": "きゅう",
+        "久士": "ひさお",
+        "士": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "可久士",
+          "reading": "カクシ",
+          "used_web_search": false,
+          "comment": "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"可久士\",\"reading\":\"カクシ\",\"used_web_search\":false,\"comment\":\"作品名・人物名の固有名で、分割せず全体で「かくし」と読む。\"}]",
+      "llm_comments": [
+        "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "可久士",
+        "replacement": [
+          {
+            "surface": "可久士",
+            "reading": "カクシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000827:u0009::target_group:1",
+            "surface": "可久士",
+            "comment": "作品名・人物名の固有名で、分割せず全体で「かくし」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000827:u0010::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000827",
+      "doc_seq": 4,
+      "track_doc_seq": 827,
+      "unit_id": "ja_cc_level2:0000000827:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 827,
+      "text": "親バカ・可久士が娘・姫に知られたくないこと。",
+      "rendered_yomi_before": "親バカ/オヤバカ ・/・ 可久/カク 士/シ が/ガ 娘/ムスメ ・/・ 姫/ヒメ に/ニ 知ら/シラ れ/レ たく/タク ない/ナイ こと/コト 。/。",
+      "rendered_yomi_after": "親バカ/オヤバカ ・/・ 可久士/カクシ が/ガ 娘/ムスメ ・/・ 姫/ヒメ に/ニ 知ら/シラ れ/レ たく/タク ない/ナイ こと/コト 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "親バカ",
+          "オヤバカ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "可久士",
+          "カクシ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "娘",
+          "ムスメ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "姫",
+          "ヒメ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "知ら",
+          "シラ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "たく",
+          "タク"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "親バカ",
+          "reading": "オヤバカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "親",
+              "reading": "おや"
+            },
+            {
+              "type": "text",
+              "text": "バカ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "可久士",
+          "reading": "カクシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "可久士",
+              "reading": "かくし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "娘",
+          "reading": "ムスメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "娘",
+              "reading": "むすめ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "姫",
+          "reading": "ヒメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "姫",
+              "reading": "ひめ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "知ら",
+          "reading": "シラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "知",
+              "reading": "し"
+            },
+            {
+              "type": "text",
+              "text": "ら"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "たく",
+          "reading": "タク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たく"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+          "item_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+          "unit_id": "ja_cc_level2:0000000827:u0010",
+          "text": "親バカ・可久士が娘・姫に知られたくないこと。",
+          "rendered_yomi_before": "親バカ/オヤバカ ・/・ 可久/カク 士/シ が/ガ 娘/ムスメ ・/・ 姫/ヒメ に/ニ 知ら/シラ れ/レ たく/タク ない/ナイ こと/コト 。/。",
+          "rendered_yomi_after": "親バカ/オヤバカ ・/・ 可久士/カクシ が/ガ 娘/ムスメ ・/・ 姫/ヒメ に/ニ 知ら/シラ れ/レ たく/タク ない/ナイ こと/コト 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 4,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0010:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "可久",
+              "token_surface": "可久",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "可久",
+                  "reading": "かく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0010:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000827:u0010:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "可久",
+              "token_surface": "可久",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "可久",
+                  "reading": "かく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000827:u0010:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "可久士",
+          "reading_candidates": {
+            "可": [
+              "か"
+            ],
+            "可久": [
+              "かく"
+            ],
+            "久": [
+              "きゅう",
+              "ひさ",
+              "ひさし"
+            ],
+            "久士": [
+              "ひさお",
+              "ひさし"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ]
+          },
+          "reading_hints": {
+            "可": "か",
+            "可久": "かく",
+            "久": "きゅう",
+            "久士": "ひさお",
+            "士": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "可久",
+              "reading": "かく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"可久士\",\"reading\":\"カクシ\",\"used_web_search\":false,\"comment\":\"作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "可久士",
+              "reading": "カクシ",
+              "used_web_search": false,
+              "comment": "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。"
+            }
+          ],
+          "llm_comments": [
+            "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "可久士",
+            "replacement": [
+              {
+                "surface": "可久士",
+                "reading": "カクシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+                "surface": "可久士",
+                "comment": "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "可久士",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000827:u0010:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "可久",
+          "token_surface": "可久",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "可久",
+              "reading": "かく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000827:u0010:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "士",
+          "token_surface": "士",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "可久",
+          "reading": "かく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "士",
+          "reading": "し",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "可": [
+          "か"
+        ],
+        "可久": [
+          "かく"
+        ],
+        "久": [
+          "きゅう",
+          "ひさ",
+          "ひさし"
+        ],
+        "久士": [
+          "ひさお",
+          "ひさし"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ]
+      },
+      "reading_hints": {
+        "可": "か",
+        "可久": "かく",
+        "久": "きゅう",
+        "久士": "ひさお",
+        "士": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "可久士",
+          "reading": "カクシ",
+          "used_web_search": false,
+          "comment": "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"可久士\",\"reading\":\"カクシ\",\"used_web_search\":false,\"comment\":\"作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。\"}]",
+      "llm_comments": [
+        "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "可久士",
+        "replacement": [
+          {
+            "surface": "可久士",
+            "reading": "カクシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000827:u0010::target_group:1",
+            "surface": "可久士",
+            "comment": "作品中の人物名「後藤可久士」の読み。固有名詞なので全体を1項目で処理。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000832:u0001::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_id": "ja_cc_level2:0000000832:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "text": "今ネットでは浜田保徳市長 パワハラ報道についてのヤフー記事が話題になっています！",
+      "rendered_yomi_before": "今/イマ ネット/ネット で/デ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ ヤフー/ヤフー 記事/キジ が/ガ 話題/ワダイ に/ニ なっ/ナッ て/テ い/イ ます/マス ！/！",
+      "rendered_yomi_after": "今/イマ ネット/ネット で/デ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ ヤフー/ヤフー 記事/キジ が/ガ 話題/ワダイ に/ニ なっ/ナッ て/テ い/イ ます/マス ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "今",
+          "イマ"
+        ],
+        [
+          "ネット",
+          "ネット"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "浜田",
+          "ハマダ"
+        ],
+        [
+          "保徳",
+          "ヤスノリ"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "パワハラ",
+          "パワハラ"
+        ],
+        [
+          "報道",
+          "ホウドウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ヤフー",
+          "ヤフー"
+        ],
+        [
+          "記事",
+          "キジ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "話題",
+          "ワダイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今",
+          "reading": "イマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今",
+              "reading": "いま"
+            }
+          ]
+        },
+        {
+          "surface": "ネット",
+          "reading": "ネット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ネット"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "浜田",
+          "reading": "ハマダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "浜田",
+              "reading": "はまだ"
+            }
+          ]
+        },
+        {
+          "surface": "保徳",
+          "reading": "ヤスノリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保徳",
+              "reading": "やすのり"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "パワハラ",
+          "reading": "パワハラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワハラ"
+            }
+          ]
+        },
+        {
+          "surface": "報道",
+          "reading": "ホウドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "報道",
+              "reading": "ほうどう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ヤフー",
+          "reading": "ヤフー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ヤフー"
+            }
+          ]
+        },
+        {
+          "surface": "記事",
+          "reading": "キジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "記事",
+              "reading": "きじ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "話題",
+          "reading": "ワダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話題",
+              "reading": "わだい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+          "item_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+          "unit_id": "ja_cc_level2:0000000832:u0001",
+          "text": "今ネットでは浜田保徳市長 パワハラ報道についてのヤフー記事が話題になっています！",
+          "rendered_yomi_before": "今/イマ ネット/ネット で/デ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ ヤフー/ヤフー 記事/キジ が/ガ 話題/ワダイ に/ニ なっ/ナッ て/テ い/イ ます/マス ！/！",
+          "rendered_yomi_after": "今/イマ ネット/ネット で/デ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ ヤフー/ヤフー 記事/キジ が/ガ 話題/ワダイ に/ニ なっ/ナッ て/テ い/イ ます/マス ！/！",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 10,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0001:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0001:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0001:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0001:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "市長",
+          "reading_candidates": {
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市長": [
+              "しちょう"
+            ],
+            "長": [
+              "おさ",
+              "おさむ",
+              "ちょう",
+              "つかさ",
+              "なが",
+              "ながし",
+              "はじめ",
+              "ひさし"
+            ]
+          },
+          "reading_hints": {
+            "市": "いち",
+            "市長": "しちょう",
+            "長": "おさ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "市長",
+              "reading": "シチョウ",
+              "used_web_search": false,
+              "comment": "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。"
+            }
+          ],
+          "llm_comments": [
+            "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "市長",
+            "replacement": [
+              {
+                "surface": "市長",
+                "reading": "シチョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+                "surface": "市長",
+                "comment": "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "市長",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000832:u0001:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市",
+          "token_surface": "市",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000832:u0001:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "長",
+          "token_surface": "長",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "市",
+          "reading": "し",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "長",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市長": [
+          "しちょう"
+        ],
+        "長": [
+          "おさ",
+          "おさむ",
+          "ちょう",
+          "つかさ",
+          "なが",
+          "ながし",
+          "はじめ",
+          "ひさし"
+        ]
+      },
+      "reading_hints": {
+        "市": "いち",
+        "市長": "しちょう",
+        "長": "おさ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "used_web_search": false,
+          "comment": "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。\"}]",
+      "llm_comments": [
+        "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "市長",
+        "replacement": [
+          {
+            "surface": "市長",
+            "reading": "シチョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000832:u0001::target_group:1",
+            "surface": "市長",
+            "comment": "一般名詞の「市長」で、ここでは役職名として一語読みの「しちょう」が自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000832:u0002::strong_repair",
+      "seq": 7,
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_id": "ja_cc_level2:0000000832:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "text": "浜田保徳市長 パワハラ報道についての情報や、ネットでの反応を調べてみました。",
+      "rendered_yomi_before": "浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 情報/ジョウホウ や/ヤ 、/、 ネット/ネット で/デ の/ノ 反応/ハンノウ を/ヲ 調べ/シラベ て/テ み/ミ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 情報/ジョウホウ や/ヤ 、/、 ネット/ネット で/デ の/ノ 反応/ハンノウ を/ヲ 調べ/シラベ て/テ み/ミ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "浜田",
+          "ハマダ"
+        ],
+        [
+          "保徳",
+          "ヤスノリ"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "パワハラ",
+          "パワハラ"
+        ],
+        [
+          "報道",
+          "ホウドウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "情報",
+          "ジョウホウ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ネット",
+          "ネット"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "反応",
+          "ハンノウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "調べ",
+          "シラベ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "み",
+          "ミ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "浜田",
+          "reading": "ハマダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "浜田",
+              "reading": "はまだ"
+            }
+          ]
+        },
+        {
+          "surface": "保徳",
+          "reading": "ヤスノリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保徳",
+              "reading": "やすのり"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "パワハラ",
+          "reading": "パワハラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワハラ"
+            }
+          ]
+        },
+        {
+          "surface": "報道",
+          "reading": "ホウドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "報道",
+              "reading": "ほうどう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "情報",
+          "reading": "ジョウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "情報",
+              "reading": "じょうほう"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ネット",
+          "reading": "ネット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ネット"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "反応",
+          "reading": "ハンノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "反応",
+              "reading": "はんのう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "調べ",
+          "reading": "シラベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "調",
+              "reading": "しら"
+            },
+            {
+              "type": "text",
+              "text": "べ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "み",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+          "item_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+          "unit_id": "ja_cc_level2:0000000832:u0002",
+          "text": "浜田保徳市長 パワハラ報道についての情報や、ネットでの反応を調べてみました。",
+          "rendered_yomi_before": "浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 情報/ジョウホウ や/ヤ 、/、 ネット/ネット で/デ の/ノ 反応/ハンノウ を/ヲ 調べ/シラベ て/テ み/ミ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 情報/ジョウホウ や/ヤ 、/、 ネット/ネット で/デ の/ノ 反応/ハンノウ を/ヲ 調べ/シラベ て/テ み/ミ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0002:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0002:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0002:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0002:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "市長",
+          "reading_candidates": {
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市長": [
+              "しちょう"
+            ],
+            "長": [
+              "おさ",
+              "おさむ",
+              "ちょう",
+              "つかさ",
+              "なが",
+              "ながし",
+              "はじめ",
+              "ひさし"
+            ]
+          },
+          "reading_hints": {
+            "市": "いち",
+            "市長": "しちょう",
+            "長": "おさ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"肩書きの「市長」は一語で「しちょう」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "市長",
+              "reading": "シチョウ",
+              "used_web_search": false,
+              "comment": "肩書きの「市長」は一語で「しちょう」と読むため。"
+            }
+          ],
+          "llm_comments": [
+            "肩書きの「市長」は一語で「しちょう」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+            "status": "applied",
+            "rejected_span": "市長",
+            "replacement": [
+              {
+                "surface": "市長",
+                "reading": "シチョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+                "surface": "市長",
+                "comment": "肩書きの「市長」は一語で「しちょう」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "市長",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000832:u0002:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市",
+          "token_surface": "市",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000832:u0002:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "長",
+          "token_surface": "長",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "市",
+          "reading": "し",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "長",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市長": [
+          "しちょう"
+        ],
+        "長": [
+          "おさ",
+          "おさむ",
+          "ちょう",
+          "つかさ",
+          "なが",
+          "ながし",
+          "はじめ",
+          "ひさし"
+        ]
+      },
+      "reading_hints": {
+        "市": "いち",
+        "市長": "しちょう",
+        "長": "おさ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "used_web_search": false,
+          "comment": "肩書きの「市長」は一語で「しちょう」と読むため。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"肩書きの「市長」は一語で「しちょう」と読むため。\"}]",
+      "llm_comments": [
+        "肩書きの「市長」は一語で「しちょう」と読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+        "status": "applied",
+        "rejected_span": "市長",
+        "replacement": [
+          {
+            "surface": "市長",
+            "reading": "シチョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000832:u0002::target_group:1",
+            "surface": "市長",
+            "comment": "肩書きの「市長」は一語で「しちょう」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000832:u0003::strong_repair",
+      "seq": 8,
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_id": "ja_cc_level2:0000000832:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "text": "小松島市副市長を13日に解任された孫田勤氏が、浜田保徳市長による入札結果の改ざん強要やパワーハラスメントがあったと証言した問題で、徳島新聞は証拠となる音声データを入手した。",
+      "rendered_yomi_before": "小松島市/コマツシマシ 副/フク 市/シ 長/チョウ を/ヲ 13/ 日/ニチ に/ニ 解任/カイニン さ/サ れ/レ た/タ 孫田/マゴタ 勤/ツトム 氏/シ が/ガ 、/、 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ に/ニ よる/ヨル 入札/ニュウサツ 結果/ケッカ の/ノ 改ざん/カイザン 強要/キョウヨウ や/ヤ パワー/パワー ハラスメント/ハラスメント が/ガ あっ/アッ た/タ と/ト 証言/ショウゲン し/シ た/タ 問題/モンダイ で/デ 、/、 徳島/トクシマ 新聞/シンブン は/ハ 証拠/ショウコ と/ト なる/ナル 音声/オンセイ データ/データ を/ヲ 入手/ニュウシュ し/シ た/タ 。/。",
+      "rendered_yomi_after": "小松島市/コマツシマシ 副/フク 市長/シチョウ を/ヲ 13/ 日/ニチ に/ニ 解任/カイニン さ/サ れ/レ た/タ 孫田/マゴタ 勤/ツトム 氏/シ が/ガ 、/、 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ に/ニ よる/ヨル 入札/ニュウサツ 結果/ケッカ の/ノ 改ざん/カイザン 強要/キョウヨウ や/ヤ パワー/パワー ハラスメント/ハラスメント が/ガ あっ/アッ た/タ と/ト 証言/ショウゲン し/シ た/タ 問題/モンダイ で/デ 、/、 徳島/トクシマ 新聞/シンブン は/ハ 証拠/ショウコ と/ト なる/ナル 音声/オンセイ データ/データ を/ヲ 入手/ニュウシュ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "小松島市",
+          "コマツシマシ"
+        ],
+        [
+          "副",
+          "フク"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "13",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "解任",
+          "カイニン"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "孫田",
+          "マゴタ"
+        ],
+        [
+          "勤",
+          "ツトム"
+        ],
+        [
+          "氏",
+          "シ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "浜田",
+          "ハマダ"
+        ],
+        [
+          "保徳",
+          "ヤスノリ"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "よる",
+          "ヨル"
+        ],
+        [
+          "入札",
+          "ニュウサツ"
+        ],
+        [
+          "結果",
+          "ケッカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "改ざん",
+          "カイザン"
+        ],
+        [
+          "強要",
+          "キョウヨウ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "パワー",
+          "パワー"
+        ],
+        [
+          "ハラスメント",
+          "ハラスメント"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "証言",
+          "ショウゲン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "問題",
+          "モンダイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "徳島",
+          "トクシマ"
+        ],
+        [
+          "新聞",
+          "シンブン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "証拠",
+          "ショウコ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なる",
+          "ナル"
+        ],
+        [
+          "音声",
+          "オンセイ"
+        ],
+        [
+          "データ",
+          "データ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "入手",
+          "ニュウシュ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "小松島市",
+          "reading": "コマツシマシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小松島市",
+              "reading": "こまつしまし"
+            }
+          ]
+        },
+        {
+          "surface": "副",
+          "reading": "フク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "副",
+              "reading": "ふく"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "13",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "13"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "解任",
+          "reading": "カイニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "解任",
+              "reading": "かいにん"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "孫田",
+          "reading": "マゴタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "孫田",
+              "reading": "まごた"
+            }
+          ]
+        },
+        {
+          "surface": "勤",
+          "reading": "ツトム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勤",
+              "reading": "つとむ"
+            }
+          ]
+        },
+        {
+          "surface": "氏",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "氏",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "浜田",
+          "reading": "ハマダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "浜田",
+              "reading": "はまだ"
+            }
+          ]
+        },
+        {
+          "surface": "保徳",
+          "reading": "ヤスノリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保徳",
+              "reading": "やすのり"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "よる",
+          "reading": "ヨル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よる"
+            }
+          ]
+        },
+        {
+          "surface": "入札",
+          "reading": "ニュウサツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入札",
+              "reading": "にゅうさつ"
+            }
+          ]
+        },
+        {
+          "surface": "結果",
+          "reading": "ケッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "結果",
+              "reading": "けっか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "改ざん",
+          "reading": "カイザン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "改",
+              "reading": "かい"
+            },
+            {
+              "type": "text",
+              "text": "ざん"
+            }
+          ]
+        },
+        {
+          "surface": "強要",
+          "reading": "キョウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "強要",
+              "reading": "きょうよう"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "パワー",
+          "reading": "パワー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワー"
+            }
+          ]
+        },
+        {
+          "surface": "ハラスメント",
+          "reading": "ハラスメント",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ハラスメント"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "証言",
+          "reading": "ショウゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証言",
+              "reading": "しょうげん"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "問題",
+          "reading": "モンダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "問題",
+              "reading": "もんだい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "徳島",
+          "reading": "トクシマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "徳島",
+              "reading": "とくしま"
+            }
+          ]
+        },
+        {
+          "surface": "新聞",
+          "reading": "シンブン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新聞",
+              "reading": "しんぶん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "証拠",
+          "reading": "ショウコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証拠",
+              "reading": "しょうこ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "音声",
+          "reading": "オンセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "音声",
+              "reading": "おんせい"
+            }
+          ]
+        },
+        {
+          "surface": "データ",
+          "reading": "データ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "データ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "入手",
+          "reading": "ニュウシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入手",
+              "reading": "にゅうしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+          "item_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+          "unit_id": "ja_cc_level2:0000000832:u0003",
+          "text": "小松島市副市長を13日に解任された孫田勤氏が、浜田保徳市長による入札結果の改ざん強要やパワーハラスメントがあったと証言した問題で、徳島新聞は証拠となる音声データを入手した。",
+          "rendered_yomi_before": "小松島市/コマツシマシ 副/フク 市/シ 長/チョウ を/ヲ 13/ 日/ニチ に/ニ 解任/カイニン さ/サ れ/レ た/タ 孫田/マゴタ 勤/ツトム 氏/シ が/ガ 、/、 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ に/ニ よる/ヨル 入札/ニュウサツ 結果/ケッカ の/ノ 改ざん/カイザン 強要/キョウヨウ や/ヤ パワー/パワー ハラスメント/ハラスメント が/ガ あっ/アッ た/タ と/ト 証言/ショウゲン し/シ た/タ 問題/モンダイ で/デ 、/、 徳島/トクシマ 新聞/シンブン は/ハ 証拠/ショウコ と/ト なる/ナル 音声/オンセイ データ/データ を/ヲ 入手/ニュウシュ し/シ た/タ 。/。",
+          "rendered_yomi_after": "小松島市/コマツシマシ 副/フク 市長/シチョウ を/ヲ 13/ 日/ニチ に/ニ 解任/カイニン さ/サ れ/レ た/タ 孫田/マゴタ 勤/ツトム 氏/シ が/ガ 、/、 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ に/ニ よる/ヨル 入札/ニュウサツ 結果/ケッカ の/ノ 改ざん/カイザン 強要/キョウヨウ や/ヤ パワー/パワー ハラスメント/ハラスメント が/ガ あっ/アッ た/タ と/ト 証言/ショウゲン し/シ た/タ 問題/モンダイ で/デ 、/、 徳島/トクシマ 新聞/シンブン は/ハ 証拠/ショウコ と/ト なる/ナル 音声/オンセイ データ/データ を/ヲ 入手/ニュウシュ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 5,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0003:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0003:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0003:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0003:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "市長",
+          "reading_candidates": {
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市長": [
+              "しちょう"
+            ],
+            "長": [
+              "おさ",
+              "おさむ",
+              "ちょう",
+              "つかさ",
+              "なが",
+              "ながし",
+              "はじめ",
+              "ひさし"
+            ]
+          },
+          "reading_hints": {
+            "市": "いち",
+            "市長": "しちょう",
+            "長": "おさ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "市長",
+              "reading": "シチョウ",
+              "used_web_search": false,
+              "comment": "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。"
+            }
+          ],
+          "llm_comments": [
+            "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "市長",
+            "replacement": [
+              {
+                "surface": "市長",
+                "reading": "シチョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+                "surface": "市長",
+                "comment": "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "市長",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000832:u0003:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市",
+          "token_surface": "市",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000832:u0003:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "長",
+          "token_surface": "長",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "市",
+          "reading": "し",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "長",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市長": [
+          "しちょう"
+        ],
+        "長": [
+          "おさ",
+          "おさむ",
+          "ちょう",
+          "つかさ",
+          "なが",
+          "ながし",
+          "はじめ",
+          "ひさし"
+        ]
+      },
+      "reading_hints": {
+        "市": "いち",
+        "市長": "しちょう",
+        "長": "おさ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "used_web_search": false,
+          "comment": "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"シチョウ\",\"used_web_search\":false,\"comment\":\"一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。\"}]",
+      "llm_comments": [
+        "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "市長",
+        "replacement": [
+          {
+            "surface": "市長",
+            "reading": "シチョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000832:u0003::target_group:1",
+            "surface": "市長",
+            "comment": "一般語の肩書きで、まとまりとして「市長」= シチョウ と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000832:u0015::strong_repair",
+      "seq": 9,
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_id": "ja_cc_level2:0000000832:u0015",
+      "unit_seq": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "text": "副市長頑張ってください。",
+      "rendered_yomi_before": "副/フク 市/シ 長/チョウ 頑張っ/ガンバッ て/テ ください/クダサイ 。/。",
+      "rendered_yomi_after": "副/フク 市長/シチョウ 頑張っ/ガンバッ て/テ ください/クダサイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "副",
+          "フク"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          "頑張っ",
+          "ガンバッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "ください",
+          "クダサイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "副",
+          "reading": "フク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "副",
+              "reading": "ふく"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": "頑張っ",
+          "reading": "ガンバッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頑張",
+              "reading": "がんば"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "ください",
+          "reading": "クダサイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ください"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+          "item_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+          "unit_id": "ja_cc_level2:0000000832:u0015",
+          "text": "副市長頑張ってください。",
+          "rendered_yomi_before": "副/フク 市/シ 長/チョウ 頑張っ/ガンバッ て/テ ください/クダサイ 。/。",
+          "rendered_yomi_after": "副/フク 市長/シチョウ 頑張っ/ガンバッ て/テ ください/クダサイ 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 1,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0015:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0015:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0015:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0015:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "市長",
+          "reading_candidates": {
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市長": [
+              "しちょう"
+            ],
+            "長": [
+              "おさ",
+              "おさむ",
+              "ちょう",
+              "つかさ",
+              "なが",
+              "ながし",
+              "はじめ",
+              "ひさし"
+            ]
+          },
+          "reading_hints": {
+            "市": "いち",
+            "市長": "しちょう",
+            "長": "おさ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"しちょう\",\"used_web_search\":false,\"comment\":\"一般語の「市長」で、語として一まとまりの読みは「しちょう」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "市長",
+              "reading": "しちょう",
+              "used_web_search": false,
+              "comment": "一般語の「市長」で、語として一まとまりの読みは「しちょう」。"
+            }
+          ],
+          "llm_comments": [
+            "一般語の「市長」で、語として一まとまりの読みは「しちょう」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+            "status": "applied",
+            "rejected_span": "市長",
+            "replacement": [
+              {
+                "surface": "市長",
+                "reading": "シチョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+                "surface": "市長",
+                "comment": "一般語の「市長」で、語として一まとまりの読みは「しちょう」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "市長",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000832:u0015:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市",
+          "token_surface": "市",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000832:u0015:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "長",
+          "token_surface": "長",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "市",
+          "reading": "し",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "長",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市長": [
+          "しちょう"
+        ],
+        "長": [
+          "おさ",
+          "おさむ",
+          "ちょう",
+          "つかさ",
+          "なが",
+          "ながし",
+          "はじめ",
+          "ひさし"
+        ]
+      },
+      "reading_hints": {
+        "市": "いち",
+        "市長": "しちょう",
+        "長": "おさ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "市長",
+          "reading": "しちょう",
+          "used_web_search": false,
+          "comment": "一般語の「市長」で、語として一まとまりの読みは「しちょう」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"しちょう\",\"used_web_search\":false,\"comment\":\"一般語の「市長」で、語として一まとまりの読みは「しちょう」。\"}]",
+      "llm_comments": [
+        "一般語の「市長」で、語として一まとまりの読みは「しちょう」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+        "status": "applied",
+        "rejected_span": "市長",
+        "replacement": [
+          {
+            "surface": "市長",
+            "reading": "シチョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000832:u0015::target_group:1",
+            "surface": "市長",
+            "comment": "一般語の「市長」で、語として一まとまりの読みは「しちょう」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000832:u0026::strong_repair",
+      "seq": 10,
+      "doc_id": "ja_cc_level2:0000000832",
+      "doc_seq": 9,
+      "track_doc_seq": 832,
+      "unit_id": "ja_cc_level2:0000000832:u0026",
+      "unit_seq": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 832,
+      "text": "あなたは浜田保徳市長 パワハラ報道についての話題についてどう思いましたか？",
+      "rendered_yomi_before": "あなた/アナタ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 話題/ワダイ に/ニ つい/ツイ て/テ どう/ドウ 思い/オモイ まし/マシ た/タ か/カ ？/？",
+      "rendered_yomi_after": "あなた/アナタ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 話題/ワダイ に/ニ つい/ツイ て/テ どう/ドウ 思い/オモイ まし/マシ た/タ か/カ ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "あなた",
+          "アナタ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "浜田",
+          "ハマダ"
+        ],
+        [
+          "保徳",
+          "ヤスノリ"
+        ],
+        [
+          "市長",
+          "シチョウ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "パワハラ",
+          "パワハラ"
+        ],
+        [
+          "報道",
+          "ホウドウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "話題",
+          "ワダイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "どう",
+          "ドウ"
+        ],
+        [
+          "思い",
+          "オモイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "あなた",
+          "reading": "アナタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あなた"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "浜田",
+          "reading": "ハマダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "浜田",
+              "reading": "はまだ"
+            }
+          ]
+        },
+        {
+          "surface": "保徳",
+          "reading": "ヤスノリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保徳",
+              "reading": "やすのり"
+            }
+          ]
+        },
+        {
+          "surface": "市長",
+          "reading": "シチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "市長",
+              "reading": "しちょう"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "パワハラ",
+          "reading": "パワハラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パワハラ"
+            }
+          ]
+        },
+        {
+          "surface": "報道",
+          "reading": "ホウドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "報道",
+              "reading": "ほうどう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "話題",
+          "reading": "ワダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話題",
+              "reading": "わだい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "どう",
+          "reading": "ドウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どう"
+            }
+          ]
+        },
+        {
+          "surface": "思い",
+          "reading": "オモイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+          "item_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+          "unit_id": "ja_cc_level2:0000000832:u0026",
+          "text": "あなたは浜田保徳市長 パワハラ報道についての話題についてどう思いましたか？",
+          "rendered_yomi_before": "あなた/アナタ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市/シ 長/チョウ  /  パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 話題/ワダイ に/ニ つい/ツイ て/テ どう/ドウ 思い/オモイ まし/マシ た/タ か/カ ？/？",
+          "rendered_yomi_after": "あなた/アナタ は/ハ 浜田/ハマダ 保徳/ヤスノリ 市長/シチョウ \\s/ パワハラ/パワハラ 報道/ホウドウ に/ニ つい/ツイ て/テ の/ノ 話題/ワダイ に/ニ つい/ツイ て/テ どう/ドウ 思い/オモイ まし/マシ た/タ か/カ ？/？",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 8,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0026:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0026:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000832:u0026:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "市",
+              "token_surface": "市",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "市",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000832:u0026:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "長",
+              "token_surface": "長",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "長",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "市長",
+          "reading_candidates": {
+            "市": [
+              "いち",
+              "いちの",
+              "し"
+            ],
+            "市長": [
+              "しちょう"
+            ],
+            "長": [
+              "おさ",
+              "おさむ",
+              "ちょう",
+              "つかさ",
+              "なが",
+              "ながし",
+              "はじめ",
+              "ひさし"
+            ]
+          },
+          "reading_hints": {
+            "市": "いち",
+            "市長": "しちょう",
+            "長": "おさ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"しちょう\",\"used_web_search\":false,\"comment\":\"一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "市長",
+              "reading": "しちょう",
+              "used_web_search": false,
+              "comment": "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+            "status": "applied",
+            "rejected_span": "市長",
+            "replacement": [
+              {
+                "surface": "市長",
+                "reading": "シチョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+                "surface": "市長",
+                "comment": "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "市長",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000832:u0026:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "市",
+          "token_surface": "市",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "市",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000832:u0026:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "長",
+          "token_surface": "長",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "長",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "市",
+          "reading": "し",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "長",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "市": [
+          "いち",
+          "いちの",
+          "し"
+        ],
+        "市長": [
+          "しちょう"
+        ],
+        "長": [
+          "おさ",
+          "おさむ",
+          "ちょう",
+          "つかさ",
+          "なが",
+          "ながし",
+          "はじめ",
+          "ひさし"
+        ]
+      },
+      "reading_hints": {
+        "市": "いち",
+        "市長": "しちょう",
+        "長": "おさ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "市長",
+          "reading": "しちょう",
+          "used_web_search": false,
+          "comment": "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"市長\",\"reading\":\"しちょう\",\"used_web_search\":false,\"comment\":\"一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。\"}]",
+      "llm_comments": [
+        "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+        "status": "applied",
+        "rejected_span": "市長",
+        "replacement": [
+          {
+            "surface": "市長",
+            "reading": "シチョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000832:u0026::target_group:1",
+            "surface": "市長",
+            "comment": "一般的な役職名なので一語で読み、「市」+「長」ではなく「しちょう」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
