@@ -393,6 +393,7 @@ async function openPack(stageId, packId) {
   state.currentPackMeta = packMeta;
   state.currentPack = pack;
   state.currentDraft = loadDraft(pack);
+  syncLocalTaskRecordsForCurrentPack();
   updateLocation(stageId, packId);
   render({ scrollToTop: isTaskStarted() });
 }
@@ -420,6 +421,7 @@ async function openUnifiedReview() {
   state.currentPack = unified;
   state.unifiedSources = sources;
   state.currentDraft = loadDraft(unified);
+  syncLocalTaskRecordsForCurrentPack();
   updateLocation("unified_yomi_review", unified.pack_id);
   render({ scrollToTop: isTaskStarted() });
   updateRuntimePollingForInteraction();
@@ -653,9 +655,6 @@ function documentBelongsToQueue(queueStage, doc) {
 }
 
 function render({ scrollToTop = false } = {}) {
-  if (state.currentStageId !== "archive_browser") {
-    syncLocalTaskRecordsForCurrentPack();
-  }
   renderTaskSelector();
   renderRangeSummary();
   renderItems();

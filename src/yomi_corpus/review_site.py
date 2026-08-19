@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+import errno
 import fcntl
 import json
 import re
 import shutil
+import time
 from hashlib import sha256
 from pathlib import Path
 from typing import Any
@@ -1052,14 +1054,25 @@ def versioned_asset_url(path: Path, url: str) -> str:
     return f"{url}?v={digest}"
 
 
-def clear_directory(path: Path) -> None:
+def clear_directory(path: Path, *, max_attempts: int = 5) -> None:
     if not path.exists():
         return
-    for child in path.iterdir():
-        if child.is_dir():
-            shutil.rmtree(child)
-        else:
-            child.unlink()
+    for attempt in range(max_attempts):
+        for child in list(path.iterdir()):
+            try:
+                if child.is_dir():
+                    shutil.rmtree(child)
+                else:
+                    child.unlink()
+            except FileNotFoundError:
+                continue
+            except OSError as exc:
+                if exc.errno != errno.ENOTEMPTY or attempt + 1 == max_attempts:
+                    raise
+        if not any(path.iterdir()):
+            return
+        time.sleep(0.05 * (attempt + 1))
+    raise OSError(errno.ENOTEMPTY, "review output directory remained non-empty", path)
 
 
 def write_root_redirect(path: Path) -> None:

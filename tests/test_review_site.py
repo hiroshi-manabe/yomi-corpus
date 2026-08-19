@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import errno
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from yomi_corpus.review_site import (
+    clear_directory,
     build_review_manifest,
     collect_pending_review_search_records,
     collect_review_pack_entries,
@@ -17,6 +21,28 @@ from yomi_corpus.review_site import (
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_clear_directory_retries_transient_nonempty_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "review"
+            child = root / "packs"
+            child.mkdir(parents=True)
+            (child / "pack.json").write_text("{}", encoding="utf-8")
+            real_rmtree = shutil.rmtree
+            attempts = 0
+
+            def transient_rmtree(path: Path) -> None:
+                nonlocal attempts
+                attempts += 1
+                if attempts == 1:
+                    raise OSError(errno.ENOTEMPTY, "transient PanFS directory state")
+                real_rmtree(path)
+
+            with patch("yomi_corpus.review_site.shutil.rmtree", transient_rmtree):
+                clear_directory(root)
+
+            self.assertEqual(attempts, 2)
+            self.assertEqual(list(root.iterdir()), [])
+
     def test_pending_pack_ownership_uses_canonical_stage_then_repair_history(self) -> None:
         submitted = {
             "workflow_queue_stage": "yomi_strong_repair_review",
@@ -179,6 +205,11 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("scrollToManualCorrection", app)
         self.assertIn("function scrollReviewPageToTop()", app)
         self.assertIn("render({ scrollToTop: true });", app)
+        render_body = app.split("function render({ scrollToTop = false } = {}) {", 1)[1].split(
+            "\n}", 1
+        )[0]
+        self.assertNotIn("syncLocalTaskRecordsForCurrentPack", render_body)
+        self.assertEqual(app.count("syncLocalTaskRecordsForCurrentPack();"), 2)
         self.assertIn("includeFlagAcknowledgements", app)
         self.assertIn("acknowledgement_only", app)
         self.assertIn(
