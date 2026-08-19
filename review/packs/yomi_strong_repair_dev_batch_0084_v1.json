@@ -1,0 +1,4886 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0084_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0084",
+  "created_at_epoch": 1787119076,
+  "created_at": "2026-08-19T05:57:56Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 6,
+    "result_row_count": 6,
+    "reviewable_repair_row_count": 6,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000000804",
+      "doc_seq": 1,
+      "track_doc_seq": 804,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 804,
+      "preview": "税理士の反対で潰されてしまった！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000805",
+      "doc_seq": 2,
+      "track_doc_seq": 805,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 805,
+      "preview": "チケットへのご署名などお車の中で事前にお願いいたします。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T05:59:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 1,
+      "to_seq": 3,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000806",
+      "doc_seq": 3,
+      "track_doc_seq": 806,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 806,
+      "preview": "へい、いらっしゃい、蕎麦屋『浪漫』へようこそ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000807",
+      "doc_seq": 4,
+      "track_doc_seq": 807,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 807,
+      "preview": "アリさんマークの引越社が注目されている、その内容は超過勤務時間の長さなど。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000808",
+      "doc_seq": 5,
+      "track_doc_seq": 808,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 808,
+      "preview": "※返答方法のご希望が「電話」の場合、電話番号は必ずご記入ください。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T05:59:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000809",
+      "doc_seq": 6,
+      "track_doc_seq": 809,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 809,
+      "preview": "場所は 天王寺 Hoop側の道路沿いにあります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000810",
+      "doc_seq": 7,
+      "track_doc_seq": 810,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 810,
+      "preview": "この度1月２１日～２月１３日までのまん延防止等重点措置のため、営業時間の変更を致します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000811",
+      "doc_seq": 8,
+      "track_doc_seq": 811,
+      "unit_count": 43,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 811,
+      "preview": "という悩みを持っています。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T05:59:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 5,
+      "to_seq": 5,
+      "reviewed_unit_count": 43,
+      "skipped_unit_count": 2,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000812",
+      "doc_seq": 9,
+      "track_doc_seq": 812,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 812,
+      "preview": "2011年7月10日、HKT48第1期生オーディションに合格。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-19T05:59:08Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 6,
+      "to_seq": 6,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000000813",
+      "doc_seq": 10,
+      "track_doc_seq": 813,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 813,
+      "preview": "『ホルモン卵かけごはん』を超えた美味しさ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-19T05:56:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000000805:u0011::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000000805",
+      "doc_seq": 2,
+      "track_doc_seq": 805,
+      "unit_id": "ja_cc_level2:0000000805:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 805,
+      "text": "旅行申込時又は宿泊・日帰り旅行受付時に上記書類と身分証を提示可能の方のみ割引適用されます。",
+      "rendered_yomi_before": "旅行/リョコウ 申込/モウシコミ 時又/トキマタ は/ハ 宿泊/シュクハク ・/・ 日帰り/ヒガエリ 旅行/リョコウ 受付/ウケツケ 時/ジ に/ニ 上記/ジョウキ 書類/ショルイ と/ト 身分証/ミブンショウ を/ヲ 提示/テイジ 可能/カノウ の/ノ 方/カタ のみ/ノミ 割引/ワリビキ 適用/テキヨウ さ/サ れ/レ ます/マス 。/。",
+      "rendered_yomi_after": "旅行/リョコウ 申込/モウシコミ 時/ジ 又/マタ は/ハ 宿泊/シュクハク ・/・ 日帰り/ヒガエリ 旅行/リョコウ 受付/ウケツケ 時/ジ に/ニ 上記/ジョウキ 書類/ショルイ と/ト 身分証/ミブンショウ を/ヲ 提示/テイジ 可能/カノウ の/ノ 方/ホウ のみ/ノミ 割引/ワリビキ 適用/テキヨウ さ/サ れ/レ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "旅行",
+          "リョコウ"
+        ],
+        [
+          "申込",
+          "モウシコミ"
+        ],
+        [
+          "時",
+          "ジ"
+        ],
+        [
+          "又",
+          "マタ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "宿泊",
+          "シュクハク"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "日帰り",
+          "ヒガエリ"
+        ],
+        [
+          "旅行",
+          "リョコウ"
+        ],
+        [
+          "受付",
+          "ウケツケ"
+        ],
+        [
+          "時",
+          "ジ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "上記",
+          "ジョウキ"
+        ],
+        [
+          "書類",
+          "ショルイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "身分証",
+          "ミブンショウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "提示",
+          "テイジ"
+        ],
+        [
+          "可能",
+          "カノウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "方",
+          "ホウ"
+        ],
+        [
+          "のみ",
+          "ノミ"
+        ],
+        [
+          "割引",
+          "ワリビキ"
+        ],
+        [
+          "適用",
+          "テキヨウ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "旅行",
+          "reading": "リョコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旅行",
+              "reading": "りょこう"
+            }
+          ]
+        },
+        {
+          "surface": "申込",
+          "reading": "モウシコミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "申込",
+              "reading": "もうしこみ"
+            }
+          ]
+        },
+        {
+          "surface": "時",
+          "reading": "ジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時",
+              "reading": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "又",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "又",
+              "reading": "また"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "宿泊",
+          "reading": "シュクハク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宿泊",
+              "reading": "しゅくはく"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "日帰り",
+          "reading": "ヒガエリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日帰",
+              "reading": "ひがえ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "旅行",
+          "reading": "リョコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旅行",
+              "reading": "りょこう"
+            }
+          ]
+        },
+        {
+          "surface": "受付",
+          "reading": "ウケツケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "受付",
+              "reading": "うけつけ"
+            }
+          ]
+        },
+        {
+          "surface": "時",
+          "reading": "ジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時",
+              "reading": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "上記",
+          "reading": "ジョウキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上記",
+              "reading": "じょうき"
+            }
+          ]
+        },
+        {
+          "surface": "書類",
+          "reading": "ショルイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "書類",
+              "reading": "しょるい"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "身分証",
+          "reading": "ミブンショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "身分証",
+              "reading": "みぶんしょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "提示",
+          "reading": "テイジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "提示",
+              "reading": "ていじ"
+            }
+          ]
+        },
+        {
+          "surface": "可能",
+          "reading": "カノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "可能",
+              "reading": "かのう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "方",
+          "reading": "ホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方",
+              "reading": "ほう"
+            }
+          ]
+        },
+        {
+          "surface": "のみ",
+          "reading": "ノミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "のみ"
+            }
+          ]
+        },
+        {
+          "surface": "割引",
+          "reading": "ワリビキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "割引",
+              "reading": "わりびき"
+            }
+          ]
+        },
+        {
+          "surface": "適用",
+          "reading": "テキヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "適用",
+              "reading": "てきよう"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+          "item_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+          "unit_id": "ja_cc_level2:0000000805:u0011",
+          "text": "旅行申込時又は宿泊・日帰り旅行受付時に上記書類と身分証を提示可能の方のみ割引適用されます。",
+          "rendered_yomi_before": "旅行/リョコウ 申込/モウシコミ 時又/トキマタ は/ハ 宿泊/シュクハク ・/・ 日帰り/ヒガエリ 旅行/リョコウ 受付/ウケツケ 時/ジ に/ニ 上記/ジョウキ 書類/ショルイ と/ト 身分証/ミブンショウ を/ヲ 提示/テイジ 可能/カノウ の/ノ 方/カタ のみ/ノミ 割引/ワリビキ 適用/テキヨウ さ/サ れ/レ ます/マス 。/。",
+          "rendered_yomi_after": "旅行/リョコウ 申込/モウシコミ 時/ジ 又/マタ は/ハ 宿泊/シュクハク ・/・ 日帰り/ヒガエリ 旅行/リョコウ 受付/ウケツケ 時/ジ に/ニ 上記/ジョウキ 書類/ショルイ と/ト 身分証/ミブンショウ を/ヲ 提示/テイジ 可能/カノウ の/ノ 方/ホウ のみ/ノミ 割引/ワリビキ 適用/テキヨウ さ/サ れ/レ ます/マス 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0011:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "時又",
+              "token_surface": "時又",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ときまた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "時又",
+                  "reading": "ときまた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0011:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "時又",
+              "token_surface": "時又",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ときまた",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "時又",
+                  "reading": "ときまた",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "時又",
+          "reading_candidates": {
+            "時": [
+              "じ",
+              "とき",
+              "どき"
+            ],
+            "時又": [
+              "ときまた"
+            ],
+            "又": [
+              "また"
+            ]
+          },
+          "reading_hints": {
+            "時": "じ",
+            "時又": "ときまた",
+            "又": "また"
+          },
+          "rejected_readings": [
+            {
+              "surface": "時又",
+              "reading": "ときまた",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"時\",\"reading\":\"ジ\",\"used_web_search\":false,\"comment\":\"「申込時又は」の「時」は熟語読みで「じ」。\"},{\"surface\":\"又\",\"reading\":\"マタ\",\"used_web_search\":false,\"comment\":\"接続の「又」は「また」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "時",
+              "reading": "ジ",
+              "used_web_search": false,
+              "comment": "「申込時又は」の「時」は熟語読みで「じ」。"
+            },
+            {
+              "surface": "又",
+              "reading": "マタ",
+              "used_web_search": false,
+              "comment": "接続の「又」は「また」。"
+            }
+          ],
+          "llm_comments": [
+            "「申込時又は」の「時」は熟語読みで「じ」。",
+            "接続の「又」は「また」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "時又",
+            "replacement": [
+              {
+                "surface": "時",
+                "reading": "ジ"
+              },
+              {
+                "surface": "又",
+                "reading": "マタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+                "surface": "時又",
+                "comment": "「申込時又は」の「時」は熟語読みで「じ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+                "surface": "時又",
+                "comment": "接続の「又」は「また」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "時又",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000805:u0011:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "時又",
+          "token_surface": "時又",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ときまた",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "時又",
+              "reading": "ときまた",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "時又",
+          "reading": "ときまた",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "時": [
+          "じ",
+          "とき",
+          "どき"
+        ],
+        "時又": [
+          "ときまた"
+        ],
+        "又": [
+          "また"
+        ]
+      },
+      "reading_hints": {
+        "時": "じ",
+        "時又": "ときまた",
+        "又": "また"
+      },
+      "llm_parsed": [
+        {
+          "surface": "時",
+          "reading": "ジ",
+          "used_web_search": false,
+          "comment": "「申込時又は」の「時」は熟語読みで「じ」。"
+        },
+        {
+          "surface": "又",
+          "reading": "マタ",
+          "used_web_search": false,
+          "comment": "接続の「又」は「また」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"時\",\"reading\":\"ジ\",\"used_web_search\":false,\"comment\":\"「申込時又は」の「時」は熟語読みで「じ」。\"},{\"surface\":\"又\",\"reading\":\"マタ\",\"used_web_search\":false,\"comment\":\"接続の「又」は「また」。\"}]",
+      "llm_comments": [
+        "「申込時又は」の「時」は熟語読みで「じ」。",
+        "接続の「又」は「また」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "時又",
+        "replacement": [
+          {
+            "surface": "時",
+            "reading": "ジ"
+          },
+          {
+            "surface": "又",
+            "reading": "マタ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+            "surface": "時又",
+            "comment": "「申込時又は」の「時」は熟語読みで「じ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000805:u0011::target_group:1",
+            "surface": "時又",
+            "comment": "接続の「又」は「また」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000805:u0015::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000000805",
+      "doc_seq": 2,
+      "track_doc_seq": 805,
+      "unit_id": "ja_cc_level2:0000000805:u0015",
+      "unit_seq": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 805,
+      "text": "御宿しんしま★応援お願い致します!温泉宿・総選挙2022 ■投票に参加して素敵な商品をGETしましょう。",
+      "rendered_yomi_before": "御/オ 宿し/ヤドシ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/ヤド ・/・ 総選挙/ソウセンキョ 2022/  /  ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+      "rendered_yomi_after": "御宿/オンヤド し/シ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/シュク ・/・ 総選挙/ソウセンキョ 2022/ \\s/ ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "御宿",
+          "オンヤド"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "しま",
+          "シマ"
+        ],
+        [
+          "★",
+          "★"
+        ],
+        [
+          "応援",
+          "オウエン"
+        ],
+        [
+          "お願い",
+          "オネガイ"
+        ],
+        [
+          "致し",
+          "イタシ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "!",
+          "!"
+        ],
+        [
+          "温泉",
+          "オンセン"
+        ],
+        [
+          "宿",
+          "シュク"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "総選挙",
+          "ソウセンキョ"
+        ],
+        [
+          "2022",
+          ""
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "■",
+          "■"
+        ],
+        [
+          "投票",
+          "トウヒョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "参加",
+          "サンカ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "素敵",
+          "ステキ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "商品",
+          "ショウヒン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "GET",
+          "ゲット"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ましょう",
+          "マショウ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "御宿",
+          "reading": "オンヤド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御宿",
+              "reading": "おんやど"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "しま",
+          "reading": "シマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しま"
+            }
+          ]
+        },
+        {
+          "surface": "★",
+          "reading": "★",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "★"
+            }
+          ]
+        },
+        {
+          "surface": "応援",
+          "reading": "オウエン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "応援",
+              "reading": "おうえん"
+            }
+          ]
+        },
+        {
+          "surface": "お願い",
+          "reading": "オネガイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            },
+            {
+              "type": "ruby",
+              "text": "願",
+              "reading": "ねが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "致し",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "致",
+              "reading": "いた"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "!",
+          "reading": "!",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "!"
+            }
+          ]
+        },
+        {
+          "surface": "温泉",
+          "reading": "オンセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "温泉",
+              "reading": "おんせん"
+            }
+          ]
+        },
+        {
+          "surface": "宿",
+          "reading": "シュク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宿",
+              "reading": "しゅく"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "総選挙",
+          "reading": "ソウセンキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "総選挙",
+              "reading": "そうせんきょ"
+            }
+          ]
+        },
+        {
+          "surface": "2022",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2022"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "■",
+          "reading": "■",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "■"
+            }
+          ]
+        },
+        {
+          "surface": "投票",
+          "reading": "トウヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投票",
+              "reading": "とうひょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "参加",
+          "reading": "サンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参加",
+              "reading": "さんか"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "素敵",
+          "reading": "ステキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "素敵",
+              "reading": "すてき"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "商品",
+          "reading": "ショウヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "商品",
+              "reading": "しょうひん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "GET",
+          "reading": "ゲット",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "GET",
+              "reading": "げっと"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ましょう",
+          "reading": "マショウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ましょう"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+          "item_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+          "unit_id": "ja_cc_level2:0000000805:u0015",
+          "text": "御宿しんしま★応援お願い致します!温泉宿・総選挙2022 ■投票に参加して素敵な商品をGETしましょう。",
+          "rendered_yomi_before": "御/オ 宿し/ヤドシ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/ヤド ・/・ 総選挙/ソウセンキョ 2022/  /  ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+          "rendered_yomi_after": "御宿/オンヤド し/シ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/シュク ・/・ 総選挙/ソウセンキョ 2022/ \\s/ ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0015:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "お",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "お",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000805:u0015:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿し",
+              "token_surface": "宿し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やどし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿し",
+                  "reading": "やどし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0015:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "お",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "お",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000805:u0015:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿し",
+              "token_surface": "宿し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やどし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿し",
+                  "reading": "やどし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "御宿し",
+          "reading_candidates": {
+            "御": [
+              "お",
+              "おおん",
+              "おっ",
+              "おん",
+              "ご",
+              "み"
+            ],
+            "御宿": [
+              "おやど",
+              "おんじゅく",
+              "みしゅく"
+            ],
+            "宿": [
+              "しゅく",
+              "じゅく",
+              "やど"
+            ],
+            "宿し": [
+              "しゅくし",
+              "やどし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "御": "お",
+            "御宿": "おやど",
+            "宿": "しゅく",
+            "宿し": "しゅくし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "御",
+              "reading": "お",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "宿し",
+              "reading": "やどし",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"御宿\",\n    \"reading\": \"おんやど\",\n    \"used_web_search\": true,\n    \"comment\": \"旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"し\",\n    \"reading\": \"し\",\n    \"used_web_search\": true,\n    \"comment\": \"続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "surface": "御宿",
+              "reading": "おんやど",
+              "used_web_search": true,
+              "comment": "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+            },
+            {
+              "surface": "し",
+              "reading": "し",
+              "used_web_search": true,
+              "comment": "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+            "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+            "status": "applied",
+            "rejected_span": "御宿し",
+            "replacement": [
+              {
+                "surface": "御宿",
+                "reading": "オンヤド"
+              },
+              {
+                "surface": "し",
+                "reading": "シ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+                "surface": "御宿し",
+                "comment": "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+                "surface": "御宿し",
+                "comment": "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "御宿し",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000805:u0015:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "御",
+          "token_surface": "御",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "お",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "御",
+              "reading": "お",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000805:u0015:s0002-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宿し",
+          "token_surface": "宿し",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やどし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宿し",
+              "reading": "やどし",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "御",
+          "reading": "お",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "宿し",
+          "reading": "やどし",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "御": [
+          "お",
+          "おおん",
+          "おっ",
+          "おん",
+          "ご",
+          "み"
+        ],
+        "御宿": [
+          "おやど",
+          "おんじゅく",
+          "みしゅく"
+        ],
+        "宿": [
+          "しゅく",
+          "じゅく",
+          "やど"
+        ],
+        "宿し": [
+          "しゅくし",
+          "やどし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "御": "お",
+        "御宿": "おやど",
+        "宿": "しゅく",
+        "宿し": "しゅくし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "surface": "御宿",
+          "reading": "おんやど",
+          "used_web_search": true,
+          "comment": "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+        },
+        {
+          "surface": "し",
+          "reading": "し",
+          "used_web_search": true,
+          "comment": "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"御宿\",\n    \"reading\": \"おんやど\",\n    \"used_web_search\": true,\n    \"comment\": \"旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"し\",\n    \"reading\": \"し\",\n    \"used_web_search\": true,\n    \"comment\": \"続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+        "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+        "status": "applied",
+        "rejected_span": "御宿し",
+        "replacement": [
+          {
+            "surface": "御宿",
+            "reading": "オンヤド"
+          },
+          {
+            "surface": "し",
+            "reading": "シ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+            "surface": "御宿し",
+            "comment": "旅館名「御宿しんしま」は宿泊サイトで「おんやどしんしま」と読まれているため、ここは「御宿」までで「おんやど」と判断。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000805:u0015::target_group:1",
+            "surface": "御宿し",
+            "comment": "続く固有名の先頭なので、そのまま「し」と読むのが自然。([shinshima.com](https://shinshima.com/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000805:u0016::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000000805",
+      "doc_seq": 2,
+      "track_doc_seq": 805,
+      "unit_id": "ja_cc_level2:0000000805:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 805,
+      "text": "御宿しんしま★応援お願い致します!温泉宿・総選挙2022 ■投票に参加して素敵な商品をGETしましょう。",
+      "rendered_yomi_before": "御/オ 宿し/ヤドシ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/ヤド ・/・ 総選挙/ソウセンキョ 2022/  /  ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+      "rendered_yomi_after": "御宿/オンヤド し/シ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/シュク ・/・ 総選挙/ソウセンキョ 2022/ \\s/ ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "御宿",
+          "オンヤド"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "しま",
+          "シマ"
+        ],
+        [
+          "★",
+          "★"
+        ],
+        [
+          "応援",
+          "オウエン"
+        ],
+        [
+          "お願い",
+          "オネガイ"
+        ],
+        [
+          "致し",
+          "イタシ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "!",
+          "!"
+        ],
+        [
+          "温泉",
+          "オンセン"
+        ],
+        [
+          "宿",
+          "シュク"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "総選挙",
+          "ソウセンキョ"
+        ],
+        [
+          "2022",
+          ""
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "■",
+          "■"
+        ],
+        [
+          "投票",
+          "トウヒョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "参加",
+          "サンカ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "素敵",
+          "ステキ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "商品",
+          "ショウヒン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "GET",
+          "ゲット"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ましょう",
+          "マショウ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "御宿",
+          "reading": "オンヤド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御宿",
+              "reading": "おんやど"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "しま",
+          "reading": "シマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しま"
+            }
+          ]
+        },
+        {
+          "surface": "★",
+          "reading": "★",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "★"
+            }
+          ]
+        },
+        {
+          "surface": "応援",
+          "reading": "オウエン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "応援",
+              "reading": "おうえん"
+            }
+          ]
+        },
+        {
+          "surface": "お願い",
+          "reading": "オネガイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            },
+            {
+              "type": "ruby",
+              "text": "願",
+              "reading": "ねが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "致し",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "致",
+              "reading": "いた"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "!",
+          "reading": "!",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "!"
+            }
+          ]
+        },
+        {
+          "surface": "温泉",
+          "reading": "オンセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "温泉",
+              "reading": "おんせん"
+            }
+          ]
+        },
+        {
+          "surface": "宿",
+          "reading": "シュク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宿",
+              "reading": "しゅく"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "総選挙",
+          "reading": "ソウセンキョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "総選挙",
+              "reading": "そうせんきょ"
+            }
+          ]
+        },
+        {
+          "surface": "2022",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2022"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "■",
+          "reading": "■",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "■"
+            }
+          ]
+        },
+        {
+          "surface": "投票",
+          "reading": "トウヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "投票",
+              "reading": "とうひょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "参加",
+          "reading": "サンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参加",
+              "reading": "さんか"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "素敵",
+          "reading": "ステキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "素敵",
+              "reading": "すてき"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "商品",
+          "reading": "ショウヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "商品",
+              "reading": "しょうひん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "GET",
+          "reading": "ゲット",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "GET",
+              "reading": "げっと"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ましょう",
+          "reading": "マショウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ましょう"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+          "item_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+          "unit_id": "ja_cc_level2:0000000805:u0016",
+          "text": "御宿しんしま★応援お願い致します!温泉宿・総選挙2022 ■投票に参加して素敵な商品をGETしましょう。",
+          "rendered_yomi_before": "御/オ 宿し/ヤドシ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/ヤド ・/・ 総選挙/ソウセンキョ 2022/  /  ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+          "rendered_yomi_after": "御宿/オンヤド し/シ ん/ン しま/シマ ★/★ 応援/オウエン お願い/オネガイ 致し/イタシ ます/マス !/! 温泉/オンセン 宿/シュク ・/・ 総選挙/ソウセンキョ 2022/ \\s/ ■/■ 投票/トウヒョウ に/ニ 参加/サンカ し/シ て/テ 素敵/ステキ な/ナ 商品/ショウヒン を/ヲ GET/ゲット し/シ ましょう/マショウ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "お",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "お",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000805:u0016:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿し",
+              "token_surface": "宿し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やどし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿し",
+                  "reading": "やどし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000805:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御",
+              "token_surface": "御",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "お",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御",
+                  "reading": "お",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000805:u0016:s0002-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿し",
+              "token_surface": "宿し",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やどし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿し",
+                  "reading": "やどし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "御宿し",
+          "reading_candidates": {
+            "御": [
+              "お",
+              "おおん",
+              "おっ",
+              "おん",
+              "ご",
+              "み"
+            ],
+            "御宿": [
+              "おやど",
+              "おんじゅく",
+              "みしゅく"
+            ],
+            "宿": [
+              "しゅく",
+              "じゅく",
+              "やど"
+            ],
+            "宿し": [
+              "しゅくし",
+              "やどし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "御": "お",
+            "御宿": "おやど",
+            "宿": "しゅく",
+            "宿し": "しゅくし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "御",
+              "reading": "お",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "宿し",
+              "reading": "やどし",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"御宿\",\n    \"reading\": \"おんやど\",\n    \"used_web_search\": true,\n    \"comment\": \"宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。\"\n  },\n  {\n    \"surface\": \"し\",\n    \"reading\": \"し\",\n    \"used_web_search\": true,\n    \"comment\": \"後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "surface": "御宿",
+              "reading": "おんやど",
+              "used_web_search": true,
+              "comment": "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。"
+            },
+            {
+              "surface": "し",
+              "reading": "し",
+              "used_web_search": true,
+              "comment": "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。",
+            "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "御宿し",
+            "replacement": [
+              {
+                "surface": "御宿",
+                "reading": "オンヤド"
+              },
+              {
+                "surface": "し",
+                "reading": "シ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+                "surface": "御宿し",
+                "comment": "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+                "surface": "御宿し",
+                "comment": "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "御宿し",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000805:u0016:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "御",
+          "token_surface": "御",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "お",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "御",
+              "reading": "お",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000805:u0016:s0002-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宿し",
+          "token_surface": "宿し",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やどし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宿し",
+              "reading": "やどし",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "御",
+          "reading": "お",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "宿し",
+          "reading": "やどし",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "御": [
+          "お",
+          "おおん",
+          "おっ",
+          "おん",
+          "ご",
+          "み"
+        ],
+        "御宿": [
+          "おやど",
+          "おんじゅく",
+          "みしゅく"
+        ],
+        "宿": [
+          "しゅく",
+          "じゅく",
+          "やど"
+        ],
+        "宿し": [
+          "しゅくし",
+          "やどし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "御": "お",
+        "御宿": "おやど",
+        "宿": "しゅく",
+        "宿し": "しゅくし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "surface": "御宿",
+          "reading": "おんやど",
+          "used_web_search": true,
+          "comment": "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。"
+        },
+        {
+          "surface": "し",
+          "reading": "し",
+          "used_web_search": true,
+          "comment": "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。"
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"御宿\",\n    \"reading\": \"おんやど\",\n    \"used_web_search\": true,\n    \"comment\": \"宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。\"\n  },\n  {\n    \"surface\": \"し\",\n    \"reading\": \"し\",\n    \"used_web_search\": true,\n    \"comment\": \"後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。\"\n  }\n]",
+      "llm_comments": [
+        "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。",
+        "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "御宿し",
+        "replacement": [
+          {
+            "surface": "御宿",
+            "reading": "オンヤド"
+          },
+          {
+            "surface": "し",
+            "reading": "シ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+            "surface": "御宿し",
+            "comment": "宿名「御宿しんしま」の表記・案内で「おんやどしんしま」と読まれているため、ここは「御宿」で区切るのが自然。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000000805:u0016::target_group:1",
+            "surface": "御宿し",
+            "comment": "後続の固有名「しんしま」の先頭かななので、そのまま「し」と読む。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000808:u0003::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000000808",
+      "doc_seq": 5,
+      "track_doc_seq": 808,
+      "unit_id": "ja_cc_level2:0000000808:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 808,
+      "text": "当社(株式会社町田絲店)は、個人情報の取扱いに関する重要性を認識し、情報の取得、利用、及び提供に関して適正な取り扱いを実施することを役員、従業者に周知徹底します。",
+      "rendered_yomi_before": "当社/トウシャ (/( 株式/カブシキ 会社/ガイシャ 町田/マチダ 絲/イト 店/テン )/) は/ハ 、/、 個人/コジン 情報/ジョウホウ の/ノ 取扱い/トリアツカイ に/ニ 関する/カンスル 重要性/ジュウヨウセイ を/ヲ 認識/ニンシキ し/シ 、/、 情報/ジョウホウ の/ノ 取得/シュトク 、/、 利用/リヨウ 、/、 及び/オヨビ 提供/テイキョウ に/ニ 関し/カンシ て/テ 適正/テキセイ な/ナ 取り扱い/トリアツカイ を/ヲ 実施/ジッシ する/スル こと/コト を/ヲ 役員/ヤクイン 、/、 従業者/ジュウギョウシャ に/ニ 周知/シュウチ 徹底/テッテイ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "当社/トウシャ (/( 株式/カブシキ 会社/ガイシャ 町田絲店/マチダイトテン )/) は/ハ 、/、 個人/コジン 情報/ジョウホウ の/ノ 取扱い/トリアツカイ に/ニ 関する/カンスル 重要性/ジュウヨウセイ を/ヲ 認識/ニンシキ し/シ 、/、 情報/ジョウホウ の/ノ 取得/シュトク 、/、 利用/リヨウ 、/、 及び/オヨビ 提供/テイキョウ に/ニ 関し/カンシ て/テ 適正/テキセイ な/ナ 取り扱い/トリアツカイ を/ヲ 実施/ジッシ する/スル こと/コト を/ヲ 役員/ヤクイン 、/、 従業者/ジュウギョウシャ に/ニ 周知/シュウチ 徹底/テッテイ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "当社",
+          "トウシャ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "株式",
+          "カブシキ"
+        ],
+        [
+          "会社",
+          "ガイシャ"
+        ],
+        [
+          "町田絲店",
+          "マチダイトテン"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "個人",
+          "コジン"
+        ],
+        [
+          "情報",
+          "ジョウホウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "取扱い",
+          "トリアツカイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "関する",
+          "カンスル"
+        ],
+        [
+          "重要性",
+          "ジュウヨウセイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "認識",
+          "ニンシキ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "情報",
+          "ジョウホウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "取得",
+          "シュトク"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "利用",
+          "リヨウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "及び",
+          "オヨビ"
+        ],
+        [
+          "提供",
+          "テイキョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "関し",
+          "カンシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "適正",
+          "テキセイ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "取り扱い",
+          "トリアツカイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "実施",
+          "ジッシ"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "役員",
+          "ヤクイン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "従業者",
+          "ジュウギョウシャ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "周知",
+          "シュウチ"
+        ],
+        [
+          "徹底",
+          "テッテイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "当社",
+          "reading": "トウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当社",
+              "reading": "とうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "株式",
+          "reading": "カブシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "株式",
+              "reading": "かぶしき"
+            }
+          ]
+        },
+        {
+          "surface": "会社",
+          "reading": "ガイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会社",
+              "reading": "がいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "町田絲店",
+          "reading": "マチダイトテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "町田絲店",
+              "reading": "まちだいとてん"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "個人",
+          "reading": "コジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "個人",
+              "reading": "こじん"
+            }
+          ]
+        },
+        {
+          "surface": "情報",
+          "reading": "ジョウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "情報",
+              "reading": "じょうほう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "取扱い",
+          "reading": "トリアツカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取扱",
+              "reading": "とりあつか"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "関する",
+          "reading": "カンスル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "関",
+              "reading": "かん"
+            },
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "重要性",
+          "reading": "ジュウヨウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "重要性",
+              "reading": "じゅうようせい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "認識",
+          "reading": "ニンシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "認識",
+              "reading": "にんしき"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "情報",
+          "reading": "ジョウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "情報",
+              "reading": "じょうほう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "取得",
+          "reading": "シュトク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取得",
+              "reading": "しゅとく"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "利用",
+          "reading": "リヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "利用",
+              "reading": "りよう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "及び",
+          "reading": "オヨビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "及",
+              "reading": "およ"
+            },
+            {
+              "type": "text",
+              "text": "び"
+            }
+          ]
+        },
+        {
+          "surface": "提供",
+          "reading": "テイキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "提供",
+              "reading": "ていきょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "関し",
+          "reading": "カンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "関",
+              "reading": "かん"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "適正",
+          "reading": "テキセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "適正",
+              "reading": "てきせい"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "取り扱い",
+          "reading": "トリアツカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "扱",
+              "reading": "あつか"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "実施",
+          "reading": "ジッシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "実施",
+              "reading": "じっし"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "役員",
+          "reading": "ヤクイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "役員",
+              "reading": "やくいん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "従業者",
+          "reading": "ジュウギョウシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "従業者",
+              "reading": "じゅうぎょうしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "周知",
+          "reading": "シュウチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "周知",
+              "reading": "しゅうち"
+            }
+          ]
+        },
+        {
+          "surface": "徹底",
+          "reading": "テッテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "徹底",
+              "reading": "てってい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+          "item_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+          "unit_id": "ja_cc_level2:0000000808:u0003",
+          "text": "当社(株式会社町田絲店)は、個人情報の取扱いに関する重要性を認識し、情報の取得、利用、及び提供に関して適正な取り扱いを実施することを役員、従業者に周知徹底します。",
+          "rendered_yomi_before": "当社/トウシャ (/( 株式/カブシキ 会社/ガイシャ 町田/マチダ 絲/イト 店/テン )/) は/ハ 、/、 個人/コジン 情報/ジョウホウ の/ノ 取扱い/トリアツカイ に/ニ 関する/カンスル 重要性/ジュウヨウセイ を/ヲ 認識/ニンシキ し/シ 、/、 情報/ジョウホウ の/ノ 取得/シュトク 、/、 利用/リヨウ 、/、 及び/オヨビ 提供/テイキョウ に/ニ 関し/カンシ て/テ 適正/テキセイ な/ナ 取り扱い/トリアツカイ を/ヲ 実施/ジッシ する/スル こと/コト を/ヲ 役員/ヤクイン 、/、 従業者/ジュウギョウシャ に/ニ 周知/シュウチ 徹底/テッテイ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "当社/トウシャ (/( 株式/カブシキ 会社/ガイシャ 町田絲店/マチダイトテン )/) は/ハ 、/、 個人/コジン 情報/ジョウホウ の/ノ 取扱い/トリアツカイ に/ニ 関する/カンスル 重要性/ジュウヨウセイ を/ヲ 認識/ニンシキ し/シ 、/、 情報/ジョウホウ の/ノ 取得/シュトク 、/、 利用/リヨウ 、/、 及び/オヨビ 提供/テイキョウ に/ニ 関し/カンシ て/テ 適正/テキセイ な/ナ 取り扱い/トリアツカイ を/ヲ 実施/ジッシ する/スル こと/コト を/ヲ 役員/ヤクイン 、/、 従業者/ジュウギョウシャ に/ニ 周知/シュウチ 徹底/テッテイ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 7,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0008-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "町田",
+              "token_surface": "町田",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まちだ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "町田",
+                  "reading": "まちだ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "絲",
+              "token_surface": "絲",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "絲",
+                  "reading": "いと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "店",
+              "token_surface": "店",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "てん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "店",
+                  "reading": "てん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0008-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "町田",
+              "token_surface": "町田",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まちだ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "町田",
+                  "reading": "まちだ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "絲",
+              "token_surface": "絲",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "絲",
+                  "reading": "いと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000808:u0003:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "店",
+              "token_surface": "店",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "てん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "店",
+                  "reading": "てん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "町田絲店",
+          "reading_candidates": {
+            "町": [
+              "ちょう",
+              "まち"
+            ],
+            "町田": [
+              "ちょうだ",
+              "まちだ"
+            ],
+            "田": [
+              "た",
+              "だ",
+              "でん"
+            ],
+            "絲": [
+              "いと"
+            ],
+            "店": [
+              "たな",
+              "だな",
+              "てん",
+              "みせ"
+            ]
+          },
+          "reading_hints": {
+            "町": "ちょう",
+            "町田": "ちょうだ",
+            "田": "た",
+            "絲": "いと",
+            "店": "たな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "町田",
+              "reading": "まちだ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "絲",
+              "reading": "いと",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "店",
+              "reading": "てん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"町田絲店\",\"reading\":\"マチダイトテン\",\"used_web_search\":true,\"comment\":\"法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "町田絲店",
+              "reading": "マチダイトテン",
+              "used_web_search": true,
+              "comment": "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "町田絲店",
+            "replacement": [
+              {
+                "surface": "町田絲店",
+                "reading": "マチダイトテン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+                "surface": "町田絲店",
+                "comment": "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "町田絲店",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000808:u0003:s0008-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "町田",
+          "token_surface": "町田",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まちだ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "町田",
+              "reading": "まちだ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000808:u0003:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "絲",
+          "token_surface": "絲",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "絲",
+              "reading": "いと",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000808:u0003:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "店",
+          "token_surface": "店",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "てん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "店",
+              "reading": "てん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "町田",
+          "reading": "まちだ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "絲",
+          "reading": "いと",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "店",
+          "reading": "てん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "町": [
+          "ちょう",
+          "まち"
+        ],
+        "町田": [
+          "ちょうだ",
+          "まちだ"
+        ],
+        "田": [
+          "た",
+          "だ",
+          "でん"
+        ],
+        "絲": [
+          "いと"
+        ],
+        "店": [
+          "たな",
+          "だな",
+          "てん",
+          "みせ"
+        ]
+      },
+      "reading_hints": {
+        "町": "ちょう",
+        "町田": "ちょうだ",
+        "田": "た",
+        "絲": "いと",
+        "店": "たな"
+      },
+      "llm_parsed": [
+        {
+          "surface": "町田絲店",
+          "reading": "マチダイトテン",
+          "used_web_search": true,
+          "comment": "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"町田絲店\",\"reading\":\"マチダイトテン\",\"used_web_search\":true,\"comment\":\"法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))\"}]",
+      "llm_comments": [
+        "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "町田絲店",
+        "replacement": [
+          {
+            "surface": "町田絲店",
+            "reading": "マチダイトテン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000808:u0003::target_group:1",
+            "surface": "町田絲店",
+            "comment": "法人番号公表サイトと公式サイトで「マチダイトテン」と確認できるため、会社名全体を1項目にまとめました。([info.gbiz.go.jp](https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7010501015720&utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000811:u0027::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000000811",
+      "doc_seq": 8,
+      "track_doc_seq": 811,
+      "unit_id": "ja_cc_level2:0000000811:u0027",
+      "unit_seq": 27,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 811,
+      "text": "ここで良く観ておけば画力は劇的に上がります。",
+      "rendered_yomi_before": "ここ/ココ で/デ 良く/ヨク 観/ミ て/テ おけ/オケ ば/バ 画/ガ 力/リョク は/ハ 劇的/ゲキテキ に/ニ 上がり/アガリ ます/マス 。/。",
+      "rendered_yomi_after": "ここ/ココ で/デ 良く/ヨク 観/ミ て/テ おけ/オケ ば/バ 画力/ガリョク は/ハ 劇的/ゲキテキ に/ニ 上がり/アガリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ここ",
+          "ココ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "良く",
+          "ヨク"
+        ],
+        [
+          "観",
+          "ミ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "おけ",
+          "オケ"
+        ],
+        [
+          "ば",
+          "バ"
+        ],
+        [
+          "画力",
+          "ガリョク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "劇的",
+          "ゲキテキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "上がり",
+          "アガリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ここ",
+          "reading": "ココ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ここ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "良く",
+          "reading": "ヨク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "良",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "観",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "観",
+              "reading": "み"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "おけ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おけ"
+            }
+          ]
+        },
+        {
+          "surface": "ば",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "画力",
+          "reading": "ガリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "画力",
+              "reading": "がりょく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "劇的",
+          "reading": "ゲキテキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "劇的",
+              "reading": "げきてき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "上がり",
+          "reading": "アガリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "がり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+          "item_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+          "unit_id": "ja_cc_level2:0000000811:u0027",
+          "text": "ここで良く観ておけば画力は劇的に上がります。",
+          "rendered_yomi_before": "ここ/ココ で/デ 良く/ヨク 観/ミ て/テ おけ/オケ ば/バ 画/ガ 力/リョク は/ハ 劇的/ゲキテキ に/ニ 上がり/アガリ ます/マス 。/。",
+          "rendered_yomi_after": "ここ/ココ で/デ 良く/ヨク 観/ミ て/テ おけ/オケ ば/バ 画力/ガリョク は/ハ 劇的/ゲキテキ に/ニ 上がり/アガリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 10,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000000811:u0027:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "画",
+              "token_surface": "画",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "が",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "画",
+                  "reading": "が",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000811:u0027:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "力",
+              "token_surface": "力",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りょく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "力",
+                  "reading": "りょく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000000811:u0027:s0011-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "画",
+              "token_surface": "画",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "が",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "画",
+                  "reading": "が",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000000811:u0027:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "力",
+              "token_surface": "力",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "りょく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "力",
+                  "reading": "りょく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "画力",
+          "reading_candidates": {
+            "画": [
+              "え",
+              "かく",
+              "が"
+            ],
+            "力": [
+              "ちから",
+              "ぢから",
+              "つとむ",
+              "りき",
+              "りょく"
+            ]
+          },
+          "reading_hints": {
+            "画": "え",
+            "力": "ちから"
+          },
+          "rejected_readings": [
+            {
+              "surface": "画",
+              "reading": "が",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "力",
+              "reading": "りょく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"画力\",\"reading\":\"ガリョク\",\"used_web_search\":false,\"comment\":\"一般的な語で「がりょく」と読むため、2字をまとめて修正します。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "画力",
+              "reading": "ガリョク",
+              "used_web_search": false,
+              "comment": "一般的な語で「がりょく」と読むため、2字をまとめて修正します。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で「がりょく」と読むため、2字をまとめて修正します。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+            "status": "applied",
+            "rejected_span": "画力",
+            "replacement": [
+              {
+                "surface": "画力",
+                "reading": "ガリョク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+                "surface": "画力",
+                "comment": "一般的な語で「がりょく」と読むため、2字をまとめて修正します。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "画力",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000000811:u0027:s0011-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "画",
+          "token_surface": "画",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "が",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "画",
+              "reading": "が",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000000811:u0027:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "力",
+          "token_surface": "力",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "りょく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "力",
+              "reading": "りょく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "画",
+          "reading": "が",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "力",
+          "reading": "りょく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "画": [
+          "え",
+          "かく",
+          "が"
+        ],
+        "力": [
+          "ちから",
+          "ぢから",
+          "つとむ",
+          "りき",
+          "りょく"
+        ]
+      },
+      "reading_hints": {
+        "画": "え",
+        "力": "ちから"
+      },
+      "llm_parsed": [
+        {
+          "surface": "画力",
+          "reading": "ガリョク",
+          "used_web_search": false,
+          "comment": "一般的な語で「がりょく」と読むため、2字をまとめて修正します。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"画力\",\"reading\":\"ガリョク\",\"used_web_search\":false,\"comment\":\"一般的な語で「がりょく」と読むため、2字をまとめて修正します。\"}]",
+      "llm_comments": [
+        "一般的な語で「がりょく」と読むため、2字をまとめて修正します。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+        "status": "applied",
+        "rejected_span": "画力",
+        "replacement": [
+          {
+            "surface": "画力",
+            "reading": "ガリョク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000811:u0027::target_group:1",
+            "surface": "画力",
+            "comment": "一般的な語で「がりょく」と読むため、2字をまとめて修正します。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000000812:u0003::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000000812",
+      "doc_seq": 9,
+      "track_doc_seq": 812,
+      "unit_id": "ja_cc_level2:0000000812:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 812,
+      "text": "2013年3月20日、1stシングル『スキ!2014年2月24日、AKB48グループ大組閣祭り～時代は変わる。",
+      "rendered_yomi_before": "2013/ 年/ネン 3/ 月/ガツ 20日/ハツカ 、/、 1/ st/エスティー シングル/シングル 『/『 スキ/スキ !/! 2014/ 年/ネン 2/ 月/ガツ 24日/ニジュウヨッカ 、/、 AKB/エーケービー 48/ グループ/グループ 大組閣/ダイソカク 祭り/マツリ ～/～ 時代/ジダイ は/ハ 変わる/カワル 。/。",
+      "rendered_yomi_after": "2013/ 年/ネン 3/ 月/ガツ 20日/ハツカ 、/、 1st/ファースト シングル/シングル 『/『 スキ/スキ !/! 2014/ 年/ネン 2/ 月/ガツ 24日/ニジュウヨッカ 、/、 AKB/エーケービー 48/ グループ/グループ 大組閣/ダイソカク 祭り/マツリ ～/～ 時代/ジダイ は/ハ 変わる/カワル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2013",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "20日",
+          "ハツカ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "1st",
+          "ファースト"
+        ],
+        [
+          "シングル",
+          "シングル"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "スキ",
+          "スキ"
+        ],
+        [
+          "!",
+          "!"
+        ],
+        [
+          "2014",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "2",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "24日",
+          "ニジュウヨッカ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "AKB",
+          "エーケービー"
+        ],
+        [
+          "48",
+          ""
+        ],
+        [
+          "グループ",
+          "グループ"
+        ],
+        [
+          "大組閣",
+          "ダイソカク"
+        ],
+        [
+          "祭り",
+          "マツリ"
+        ],
+        [
+          "～",
+          "～"
+        ],
+        [
+          "時代",
+          "ジダイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "変わる",
+          "カワル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2013",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2013"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "20日",
+          "reading": "ハツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "20日",
+              "reading": "はつか"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "1st",
+          "reading": "ファースト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1st",
+              "reading": "ふぁーすと"
+            }
+          ]
+        },
+        {
+          "surface": "シングル",
+          "reading": "シングル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "シングル"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "スキ",
+          "reading": "スキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "スキ"
+            }
+          ]
+        },
+        {
+          "surface": "!",
+          "reading": "!",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "!"
+            }
+          ]
+        },
+        {
+          "surface": "2014",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2014"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "24日",
+          "reading": "ニジュウヨッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "24日",
+              "reading": "にじゅうよっか"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "AKB",
+          "reading": "エーケービー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "AKB",
+              "reading": "えーけーびー"
+            }
+          ]
+        },
+        {
+          "surface": "48",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "48"
+            }
+          ]
+        },
+        {
+          "surface": "グループ",
+          "reading": "グループ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "グループ"
+            }
+          ]
+        },
+        {
+          "surface": "大組閣",
+          "reading": "ダイソカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大組閣",
+              "reading": "だいそかく"
+            }
+          ]
+        },
+        {
+          "surface": "祭り",
+          "reading": "マツリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祭",
+              "reading": "まつ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "～",
+          "reading": "～",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "～"
+            }
+          ]
+        },
+        {
+          "surface": "時代",
+          "reading": "ジダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時代",
+              "reading": "じだい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "変わる",
+          "reading": "カワル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "変",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "わる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+          "item_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+          "unit_id": "ja_cc_level2:0000000812:u0003",
+          "text": "2013年3月20日、1stシングル『スキ!2014年2月24日、AKB48グループ大組閣祭り～時代は変わる。",
+          "rendered_yomi_before": "2013/ 年/ネン 3/ 月/ガツ 20日/ハツカ 、/、 1/ st/エスティー シングル/シングル 『/『 スキ/スキ !/! 2014/ 年/ネン 2/ 月/ガツ 24日/ニジュウヨッカ 、/、 AKB/エーケービー 48/ グループ/グループ 大組閣/ダイソカク 祭り/マツリ ～/～ 時代/ジダイ は/ハ 変わる/カワル 。/。",
+          "rendered_yomi_after": "2013/ 年/ネン 3/ 月/ガツ 20日/ハツカ 、/、 1st/ファースト シングル/シングル 『/『 スキ/スキ !/! 2014/ 年/ネン 2/ 月/ガツ 24日/ニジュウヨッカ 、/、 AKB/エーケービー 48/ グループ/グループ 大組閣/ダイソカク 祭り/マツリ ～/～ 時代/ジダイ は/ハ 変わる/カワル 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 11,
+            "char_end": 14,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "numeric_merge_no_reading"
+          ],
+          "target_constraints": [
+            {
+              "surface": "1st",
+              "token_surface": "1st",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0084_v1:ja_cc_level2:0000000812:u0003:11-14",
+              "rejected_readings": [
+                {
+                  "surface": "1st",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "surface": "1st",
+              "token_surface": "1st",
+              "choice_source": "none",
+              "selected_reading": null,
+              "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0084_v1:ja_cc_level2:0000000812:u0003:11-14",
+              "rejected_readings": [
+                {
+                  "surface": "1st",
+                  "reading": "",
+                  "source": "numeric_merge_no_reading"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1st",
+          "reading_candidates": {
+            "s": [
+              "えす"
+            ],
+            "st": [
+              "しょーととん"
+            ],
+            "t": [
+              "てぃー",
+              "とん"
+            ]
+          },
+          "reading_hints": {
+            "s": "えす",
+            "st": "しょーととん",
+            "t": "てぃー"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1st",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1st\",\"reading\":\"ファースト\",\"used_web_search\":false,\"comment\":\"文脈は「1stシングル」で、略記の読みは通常「ファースト」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1st",
+              "reading": "ファースト",
+              "used_web_search": false,
+              "comment": "文脈は「1stシングル」で、略記の読みは通常「ファースト」。"
+            }
+          ],
+          "llm_comments": [
+            "文脈は「1stシングル」で、略記の読みは通常「ファースト」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+            "status": "applied",
+            "rejected_span": "1st",
+            "replacement": [
+              {
+                "surface": "1st",
+                "reading": "ファースト"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+                "surface": "1st",
+                "comment": "文脈は「1stシングル」で、略記の読みは通常「ファースト」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1st",
+      "target_escalations": [
+        {
+          "surface": "1st",
+          "token_surface": "1st",
+          "choice_source": "none",
+          "selected_reading": null,
+          "source_span_override_id": "repair-atoms:yomi_final_review:yomi_final_dev_batch_0084_v1:ja_cc_level2:0000000812:u0003:11-14",
+          "rejected_readings": [
+            {
+              "surface": "1st",
+              "reading": "",
+              "source": "numeric_merge_no_reading"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1st",
+          "reading": "",
+          "source": "numeric_merge_no_reading"
+        }
+      ],
+      "reading_candidates": {
+        "s": [
+          "えす"
+        ],
+        "st": [
+          "しょーととん"
+        ],
+        "t": [
+          "てぃー",
+          "とん"
+        ]
+      },
+      "reading_hints": {
+        "s": "えす",
+        "st": "しょーととん",
+        "t": "てぃー"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1st",
+          "reading": "ファースト",
+          "used_web_search": false,
+          "comment": "文脈は「1stシングル」で、略記の読みは通常「ファースト」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1st\",\"reading\":\"ファースト\",\"used_web_search\":false,\"comment\":\"文脈は「1stシングル」で、略記の読みは通常「ファースト」。\"}]",
+      "llm_comments": [
+        "文脈は「1stシングル」で、略記の読みは通常「ファースト」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+        "status": "applied",
+        "rejected_span": "1st",
+        "replacement": [
+          {
+            "surface": "1st",
+            "reading": "ファースト"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000000812:u0003::span_group:1",
+            "surface": "1st",
+            "comment": "文脈は「1stシングル」で、略記の読みは通常「ファースト」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
