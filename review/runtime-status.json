@@ -1,45 +1,45 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 5975,
-  "generated_at": "2026-08-19T00:32:18Z",
-  "generated_at_epoch": 1787099538,
-  "last_successful_sync": "2026-08-19T00:32:18Z",
-  "last_successful_sync_epoch": 1787099538,
+  "state_revision": 5976,
+  "generated_at": "2026-08-19T00:42:06Z",
+  "generated_at_epoch": 1787100126,
+  "last_successful_sync": "2026-08-19T00:42:06Z",
+  "last_successful_sync_epoch": 1787100126,
   "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1787098646,
+    "anchor_epoch": 1787099726,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1787098946
+    "next_expected_epoch": 1787100026
   },
   "state": {
     "current_batch_name": "dev_batch_0081",
-    "current_stage": "prepared",
-    "next_stage": "yomi_generated",
-    "active_queue_count": 92,
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
+    "active_queue_count": 86,
     "queue_counts": {
-      "bulk_review_selectable": 90,
+      "bulk_review_selectable": 80,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 2,
+      "escalated_repair_selectable": 6,
       "escalated_repair_submitted": 0,
-      "resolved": 8
+      "resolved": 14
     },
     "pool_counts": {
-      "bulk-ready": 90,
+      "bulk-ready": 80,
       "bulk-submitted": 0,
-      "escalated-ready": 2,
+      "escalated-ready": 6,
       "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 8,
+      "resolved": 14,
       "unprocessed": 0
     }
   },
   "message": "",
   "observed": {
-    "started_at_epoch": 1787099008,
-    "completed_at_epoch": 1787099538,
-    "drift_seconds": 62
+    "started_at_epoch": 1787099726,
+    "completed_at_epoch": 1787100126,
+    "drift_seconds": 120
   },
   "client_polling": {
     "normal_seconds": 60,
