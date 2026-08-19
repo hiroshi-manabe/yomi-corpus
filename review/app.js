@@ -256,15 +256,16 @@ function bindEvents() {
 
   el.markSubmitted?.addEventListener("click", () => {
     const pendingTaskId = state.pendingIssueTaskId;
-    if (state.pendingArchiveCorrectionKey) {
-      markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
+    const pendingArchiveCorrectionKey = state.pendingArchiveCorrectionKey;
+    state.pendingIssueTaskId = null;
+    state.pendingArchiveCorrectionKey = null;
+    hideIssueReturnModal();
+    clearPendingIssueConfirmation(pendingTaskId);
+    if (pendingArchiveCorrectionKey) {
+      markArchiveCorrectionSubmitted(pendingArchiveCorrectionKey);
     } else if (pendingTaskId) {
       markSavedTaskSubmitted(pendingTaskId);
     }
-    state.pendingIssueTaskId = null;
-    state.pendingArchiveCorrectionKey = null;
-    clearPendingIssueConfirmation(pendingTaskId);
-    hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
@@ -5208,6 +5209,7 @@ function targetsConnectedByMergeOps(targets, mergeOps) {
 
 function findRepeatedCancellationMatches(sourceItem, pattern) {
   const matches = [];
+  const matchedTargetSets = new Set();
   for (const item of state.currentPack?.items || []) {
     if (
       String(item.doc_id || "") !== String(sourceItem.doc_id || "") ||
@@ -5240,7 +5242,65 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
         continue;
       }
       matches.push({ item, targets: windowTargets });
+      matchedTargetSets.add(repeatedCancellationMatchKey(item, windowTargets));
     }
+    // Interaction spans are UI units, not lexical identity. The same text can
+    // therefore be one target in one sentence and several targets in another.
+    // For plain adjacent cancellations, match the textual span as well.
+    if (pattern.mergeOps.length === 0) {
+      for (const windowTargets of cancellationTargetsForText(item, pattern.surface, targets)) {
+        const key = repeatedCancellationMatchKey(item, windowTargets);
+        if (matchedTargetSets.has(key)) {
+          continue;
+        }
+        if (
+          item.item_id === sourceItem.item_id &&
+          windowTargets.every((target) => state.repeatCancellation.targetIds.has(target.item_id))
+        ) {
+          continue;
+        }
+        matches.push({ item, targets: windowTargets });
+        matchedTargetSets.add(key);
+      }
+    }
+  }
+  return matches;
+}
+
+function repeatedCancellationMatchKey(item, targets) {
+  return `${item.item_id}:${targets.map((target) => target.item_id).join(",")}`;
+}
+
+function cancellationTargetsForText(item, surface, targets) {
+  const text = [...String(item.text || "")];
+  const pattern = [...String(surface || "")];
+  if (!pattern.length) {
+    return [];
+  }
+  const matches = [];
+  for (let start = 0; start <= text.length - pattern.length; start += 1) {
+    if (text.slice(start, start + pattern.length).join("") !== surface) {
+      continue;
+    }
+    const end = start + pattern.length;
+    const windowTargets = targets.filter((target) =>
+      Number(target.target_start) >= start && Number(target.target_end) <= end
+    );
+    if (!windowTargets.length || Number(windowTargets[0].target_start) !== start ||
+        Number(windowTargets.at(-1).target_end) !== end) {
+      continue;
+    }
+    if (windowTargets.some((target, index) =>
+      index > 0 && Number(target.target_start) !== Number(windowTargets[index - 1].target_end)
+    )) {
+      continue;
+    }
+    if (!windowTargets.every((target) => targetMatchesCancellationSpec(item, target, {
+      surface: target.surface || "",
+    }))) {
+      continue;
+    }
+    matches.push(windowTargets);
   }
   return matches;
 }
@@ -5491,12 +5551,16 @@ async function openIssueForCurrentTask() {
 
 function restorePendingIssueConfirmation() {
   if (!state.currentDraft) {
+    state.pendingIssueTaskId = null;
+    hideIssueReturnModal();
     return;
   }
   const pending = Object.values(state.currentDraft.saved_tasks || {}).find(
     (record) => record?.awaiting_issue_confirmation,
   );
   if (!pending?.task_id) {
+    state.pendingIssueTaskId = null;
+    hideIssueReturnModal();
     return;
   }
   state.pendingIssueTaskId = pending.task_id;
@@ -6959,11 +7023,13 @@ function resumeTaskDraft(taskId) {
 
 function markSavedTaskSubmitted(taskId) {
   const record = state.currentDraft.saved_tasks?.[taskId] || currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = {
+  const submittedRecord = {
     ...record,
     status: "submitted",
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
+  delete submittedRecord.awaiting_issue_confirmation;
+  state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
   }
