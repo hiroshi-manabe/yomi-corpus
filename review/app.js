@@ -177,12 +177,12 @@ function bindEvents() {
     if (!isEditable()) {
       return;
     }
-    if (!window.confirm("現在のローカル変更をすべてリセットしますか？")) {
+    if (!window.confirm("現在の作業とローカル編集を破棄しますか？")) {
       return;
     }
-    state.currentDraft = createEmptyDraft(state.currentPack);
-    saveDraft();
-    render();
+    clearActiveTaskState();
+    touchDraft();
+    render({ scrollToTop: true });
   });
 
   el.copyJson.addEventListener("click", async () => {
@@ -2441,8 +2441,6 @@ function workflowPreviewDraftForRow(row) {
   return {
     ...state.currentDraft,
     task: saved.task,
-    from_seq: saved.from_seq ?? null,
-    to_seq: saved.to_seq ?? null,
     overrides: cloneJson(saved.overrides || {}),
   };
 }
@@ -2566,11 +2564,11 @@ function renderPreviewItem(item) {
     return node;
   }
   if (itemReviewStage(item) === "yomi_final_review") {
-    renderYomiItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    renderYomiItem({ node, item, override, editable: false });
     return node;
   }
   if (itemReviewStage(item) === "yomi_strong_repair_review") {
-    renderStrongRepairItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    renderStrongRepairItem({ node, item, override, editable: false });
     return node;
   }
   node.querySelector(".item-seq").textContent = `#${item.seq}`;
@@ -2649,8 +2647,6 @@ function startSingleDocumentTask(doc) {
     doc_ids: [taskDocKey(doc)],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   startReviewTask();
 }
 
@@ -2926,12 +2922,6 @@ function workflowQueueDocRank(doc, queueStage) {
     return 2;
   }
   return 3;
-}
-
-function textNodeElement(tagName, text) {
-  const element = document.createElement(tagName);
-  element.textContent = text;
-  return element;
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -5435,8 +5425,7 @@ function renderControlState() {
   const started = isTaskStarted();
   el.backToTaskPicker.disabled = !editable || !started;
   el.completeTask.disabled = !editable || !started;
-  el.clearRange.disabled = !editable;
-  el.resetDraft.disabled = !editable;
+  el.resetDraft.disabled = !editable || !started;
   el.openIssueTitle.disabled = !editable;
   el.openIssueBottom.disabled = !editable;
   el.copyJson.disabled = !editable;
@@ -5953,37 +5942,6 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     );
 }
 
-function getEffectiveRange() {
-  const itemCount = state.currentPack?.item_count || 0;
-  if (itemCount === 0) {
-    return { fromSeq: 0, toSeq: 0, includedCount: 0 };
-  }
-  const base = getTaskRange();
-  let fromSeq = state.currentDraft?.from_seq ?? base.fromSeq;
-  let toSeq = state.currentDraft?.to_seq ?? base.toSeq;
-  fromSeq = clamp(fromSeq, base.fromSeq, base.toSeq);
-  toSeq = clamp(toSeq, base.fromSeq, base.toSeq);
-  if (fromSeq > toSeq) {
-    [fromSeq, toSeq] = [toSeq, fromSeq];
-  }
-  const includedCount = getVisibleItems().filter(
-    (item) => item.seq >= fromSeq && item.seq <= toSeq
-  ).length;
-  return { fromSeq, toSeq, includedCount };
-}
-
-function getTaskRange() {
-  const selected = getVisibleItems();
-  if (selected.length > 0) {
-    return {
-      fromSeq: Math.min(...selected.map((item) => item.seq)),
-      toSeq: Math.max(...selected.map((item) => item.seq)),
-    };
-  }
-  const itemCount = state.currentPack?.item_count || 0;
-  return { fromSeq: itemCount ? 1 : 0, toSeq: itemCount };
-}
-
 function getVisibleItems() {
   const task = normalizeTask(state.currentDraft?.task, state.currentPack);
   return itemsForTask(task);
@@ -6018,12 +5976,7 @@ function originalItemId(item) {
 }
 
 function isItemIncludedInSubmission(item) {
-  const { fromSeq, toSeq } = getEffectiveRange();
-  return (
-    item.seq >= fromSeq &&
-    item.seq <= toSeq &&
-    getVisibleItems().some((row) => row.item_id === item.item_id)
-  );
+  return getVisibleItems().some((row) => row.item_id === item.item_id);
 }
 
 function buildReviewedRanges() {
@@ -6102,8 +6055,7 @@ function buildReviewedDocumentRanges(docs = null) {
 }
 
 function getIncludedItems() {
-  const { fromSeq, toSeq } = getEffectiveRange();
-  return getVisibleItems().filter((item) => item.seq >= fromSeq && item.seq <= toSeq);
+  return getVisibleItems();
 }
 
 function buildDocumentTasks(pack) {
@@ -6221,8 +6173,6 @@ function normalizeTask(task, pack) {
     mode: docIds.length > 0 ? "documents" : "all",
     doc_ids: docIds,
     started: Boolean(task?.started),
-    range_start_doc_id: validDocIds.has(task?.range_start_doc_id) ? task.range_start_doc_id : null,
-    range_end_doc_id: validDocIds.has(task?.range_end_doc_id) ? task.range_end_doc_id : null,
   };
 }
 
@@ -6380,8 +6330,6 @@ function syncLocalTaskRecordsForCurrentPack() {
         parsed.active_task_id = null;
         parsed.active_task_label = null;
         parsed.task = { mode: "documents", doc_ids: [], started: false };
-        parsed.from_seq = null;
-        parsed.to_seq = null;
         parsed.overrides = {};
         sourceChanged = true;
       }
@@ -6411,8 +6359,6 @@ function syncLocalTaskRecordsForCurrentPack() {
       ...normalizeTask(active.task, state.currentPack),
       started: true,
     };
-    state.currentDraft.from_seq = active.from_seq ?? null;
-    state.currentDraft.to_seq = active.to_seq ?? null;
     state.currentDraft.overrides = cloneJson(active.overrides || {});
     delete currentRecords[active.task_id];
   }
@@ -6434,8 +6380,6 @@ function localTaskRecordFromActiveDraft(draft) {
     task_number: taskNumberFromId(taskId),
     status: "deferred",
     task: { ...draft.task, started: false },
-    from_seq: draft.from_seq ?? null,
-    to_seq: draft.to_seq ?? null,
     overrides: cloneJson(draft.overrides || {}),
     updated_at_epoch: draft.updated_at_epoch || null,
   };
@@ -6493,14 +6437,8 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     doc_id: undefined,
     doc_ids: retainedDocIds,
     started: false,
-    range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage, {
-      submitted,
-    }),
-    range_end_doc_id: validLocalTaskBoundary(rawRecord.task?.range_end_doc_id, taskStage, {
-      submitted,
-    }),
   };
-  return {
+  const normalized = {
     ...rawRecord,
     queue_stage: taskStage,
     status: taskRecordStatus(rawRecord),
@@ -6510,6 +6448,9 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
       ? cloneJson(rawRecord.overrides || {})
       : filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
   };
+  delete normalized.from_seq;
+  delete normalized.to_seq;
+  return normalized;
 }
 
 function localTaskDocumentRef(doc) {
@@ -6594,11 +6535,6 @@ function localTaskRecordStage(record, sourceStage = "") {
     return sourceStage;
   }
   return "";
-}
-
-function validLocalTaskBoundary(docId, taskStage, { submitted = false } = {}) {
-  const doc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
-  return doc ? taskDocKey(doc) : null;
 }
 
 function taskDocIdsForStorageTask(task) {
@@ -6765,8 +6701,6 @@ function currentTaskDraftRecord() {
       .map((docId) => docsByKey.get(docId))
       .filter(Boolean)
       .map(localTaskDocumentRef),
-    from_seq: state.currentDraft.from_seq ?? null,
-    to_seq: state.currentDraft.to_seq ?? null,
     overrides: cloneJson(state.currentDraft.overrides || {}),
     updated_at_epoch: Math.floor(Date.now() / 1000),
   };
@@ -6838,8 +6772,6 @@ function toggleDocumentTask(docId, selected) {
     doc_ids: [...docIds],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6854,8 +6786,6 @@ function selectOnlyDocumentTask(docId) {
     doc_ids: [docId],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6868,8 +6798,6 @@ function selectAllDocumentTasks(queueStage = null) {
     doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6886,57 +6814,7 @@ function clearQueueTaskSelection(queueStage) {
     mode: docIds.length > 0 ? "documents" : "all",
     doc_ids: docIds,
     started: false,
-    range_start_doc_id: null,
-    range_end_doc_id: null,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
-  touchDraft();
-  render();
-}
-
-function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected) {
-  const allDocs = buildActionableDocumentTasks(state.currentPack);
-  const docs = allDocs
-    .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
-  const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
-  const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
-  if (fromIndex < 0 || toIndex < 0) {
-    return;
-  }
-  const start = Math.min(fromIndex, toIndex);
-  const end = Math.max(fromIndex, toIndex);
-  const rangeDocIds = docs.slice(start, end + 1).map((doc) => taskDocKey(doc));
-  const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  let nextDocIds = task.doc_ids;
-  if (selected && isUnifiedReviewPack(state.currentPack)) {
-    nextDocIds = nextDocIds.filter((existingId) => {
-      const existingDoc = allDocs.find((row) => taskDocKey(row) === existingId);
-      return existingDoc?.queue_stage === queueStage;
-    });
-  }
-  const docIds = new Set(nextDocIds);
-  for (const docId of rangeDocIds) {
-    if (selected) {
-      docIds.add(docId);
-    } else {
-      docIds.delete(docId);
-    }
-  }
-  state.currentDraft.task = {
-    ...task,
-    mode: "documents",
-    doc_ids: [...docIds],
-    started: false,
-    range_start_doc_id: selected ? taskDocKey(docs[start]) : null,
-    range_end_doc_id: selected ? taskDocKey(docs[end]) : null,
-  };
-  if (docIds.size === 0) {
-    state.currentDraft.task.mode = "all";
-  }
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6953,11 +6831,7 @@ function takeNextQueueDocuments(queueStage, count) {
     mode: "documents",
     doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
-    range_start_doc_id: taskDocKey(docs[0]),
-    range_end_doc_id: taskDocKey(docs[docs.length - 1]),
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6982,58 +6856,6 @@ function saveWorkflowTakeNextCount(queueStage, count) {
   } catch {
     // The selection remains usable for this page even if storage is unavailable.
   }
-}
-
-function setDocumentRangeBoundary(docId, side) {
-  const docs = buildActionableDocumentTasks(state.currentPack);
-  const currentDoc = docs.find((row) => taskDocKey(row) === docId);
-  if (!docIsActionable(currentDoc)) {
-    return;
-  }
-  const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const next = {
-    ...task,
-    mode: "documents",
-    started: false,
-    [side === "start" ? "range_start_doc_id" : "range_end_doc_id"]: docId,
-  };
-  if (isUnifiedReviewPack(state.currentPack)) {
-    const otherSide = side === "start" ? "range_end_doc_id" : "range_start_doc_id";
-    const otherDoc = docs.find((doc) => taskDocKey(doc) === next[otherSide]);
-    if (otherDoc && otherDoc.queue_stage !== currentDoc.queue_stage) {
-      next[otherSide] = null;
-    }
-    next.doc_ids = task.doc_ids.filter((existingId) => {
-      const existingDoc = docs.find((doc) => taskDocKey(doc) === existingId);
-      return existingDoc?.queue_stage === currentDoc.queue_stage;
-    });
-  }
-  const startId = next.range_start_doc_id;
-  const endId = next.range_end_doc_id;
-  if (startId && endId) {
-    const rangeDocs = isUnifiedReviewPack(state.currentPack)
-      ? docs.filter((doc) => doc.queue_stage === currentDoc.queue_stage)
-      : docs;
-    const startIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === startId);
-    const endIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === endId);
-    if (startIndex >= 0 && endIndex >= 0) {
-      const fromIndex = Math.min(startIndex, endIndex);
-      const toIndex = Math.max(startIndex, endIndex);
-      next.doc_ids = rangeDocs
-        .slice(fromIndex, toIndex + 1)
-        .filter((doc) => doc.selectable !== false)
-        .map((doc) => taskDocKey(doc));
-    } else {
-      next.doc_ids = [docId];
-    }
-  } else {
-    next.doc_ids = [docId];
-  }
-  state.currentDraft.task = next;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
-  touchDraft();
-  render();
 }
 
 function startReviewTask() {
@@ -7061,8 +6883,6 @@ function startReviewTask() {
   };
   state.currentDraft.active_task_id = identity.task_id;
   state.currentDraft.active_task_label = identity.task_label;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render({ scrollToTop: true });
 }
@@ -7075,8 +6895,6 @@ function clearTaskSelection() {
   state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
   state.currentDraft.active_task_id = null;
   state.currentDraft.active_task_label = null;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -7133,8 +6951,6 @@ function resumeTaskDraft(taskId) {
     ...normalizeTask(record.task, state.currentPack),
     started: true,
   };
-  state.currentDraft.from_seq = record.from_seq ?? null;
-  state.currentDraft.to_seq = record.to_seq ?? null;
   state.currentDraft.overrides = cloneJson(record.overrides || {});
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
@@ -7160,8 +6976,6 @@ function clearActiveTaskState() {
   state.currentDraft.active_task_id = null;
   state.currentDraft.active_task_label = null;
   state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   state.currentDraft.overrides = {};
 }
 
@@ -7179,8 +6993,6 @@ function createEmptyDraft(pack) {
     next_task_number: 1,
     saved_tasks: {},
     task: { mode: "documents", doc_ids: [], started: false },
-    from_seq: null,
-    to_seq: null,
     overrides: {},
     updated_at_epoch: null,
   };
@@ -7215,6 +7027,8 @@ function normalizeReviewDraft(parsed, pack) {
     saved_tasks: {},
     next_task_number: Math.max(1, Number(parsed?.next_task_number || 1)),
   };
+  delete draft.from_seq;
+  delete draft.to_seq;
 
   const rawSavedTasks = parsed?.saved_tasks || {};
   let maxTaskNumber = 0;
@@ -7231,8 +7045,6 @@ function normalizeReviewDraft(parsed, pack) {
       task_number: taskNumber || null,
       status: rawRecord?.status === "submitted" ? "submitted" : "deferred",
       task: { ...task, started: false },
-      from_seq: rawRecord?.from_seq ?? null,
-      to_seq: rawRecord?.to_seq ?? null,
       overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
@@ -7523,8 +7335,4 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
 }

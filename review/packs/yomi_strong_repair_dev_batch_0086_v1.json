@@ -10,10 +10,10 @@
   "item_count": 10,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 10,
     "queued_repair_row_count": 10,
@@ -83,12 +83,12 @@
       "source_line_no": 826,
       "preview": "そして年齢層が本当に幅広い。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T06:57:39Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T07:08:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -109,12 +109,12 @@
       "source_line_no": 827,
       "preview": "進学先の蕨青南高校で、待望の女子サッカー部へ入部する。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T06:57:39Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T07:08:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -239,12 +239,12 @@
       "source_line_no": 832,
       "preview": "今ネットでは浜田保徳市長 パワハラ報道についてのヤフー記事が話題になっています！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T06:57:39Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T07:08:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -1280,6 +1280,9 @@
           ],
           "rejected_span": "1st",
           "reading_candidates": {
+            "1st": [
+              "ふぁーすと"
+            ],
             "s": [
               "えす"
             ],
@@ -1292,6 +1295,7 @@
             ]
           },
           "reading_hints": {
+            "1st": "ふぁーすと",
             "s": "えす",
             "st": "しょーととん",
             "t": "てぃー"
@@ -1365,6 +1369,9 @@
         }
       ],
       "reading_candidates": {
+        "1st": [
+          "ふぁーすと"
+        ],
         "s": [
           "えす"
         ],
@@ -1377,6 +1384,7 @@
         ]
       },
       "reading_hints": {
+        "1st": "ふぁーすと",
         "s": "えす",
         "st": "しょーととん",
         "t": "てぃー"
@@ -1429,7 +1437,7 @@
       "source_line_no": 827,
       "text": "ちょっと下品な漫画を描いてる漫画家の後藤可久士。",
       "rendered_yomi_before": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後/アト 藤可/フジカ 久士/ヒサオ 。/。",
-      "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤可久士/ゴトウカクシ 。/。",
+      "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤/ゴトウ 可久士/カクシ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "ちょっと",
@@ -1468,8 +1476,12 @@
           "ノ"
         ],
         [
-          "後藤可久士",
-          "ゴトウカクシ"
+          "後藤",
+          "ゴトウ"
+        ],
+        [
+          "可久士",
+          "カクシ"
         ],
         [
           "。",
@@ -1576,13 +1588,24 @@
           ]
         },
         {
-          "surface": "後藤可久士",
-          "reading": "ゴトウカクシ",
+          "surface": "後藤",
+          "reading": "ゴトウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "後藤可久士",
-              "reading": "ごとうかくし"
+              "text": "後藤",
+              "reading": "ごとう"
+            }
+          ]
+        },
+        {
+          "surface": "可久士",
+          "reading": "カクシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "可久士",
+              "reading": "かくし"
             }
           ]
         },
@@ -1610,14 +1633,14 @@
           "unit_id": "ja_cc_level2:0000000827:u0007",
           "text": "ちょっと下品な漫画を描いてる漫画家の後藤可久士。",
           "rendered_yomi_before": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後/アト 藤可/フジカ 久士/ヒサオ 。/。",
-          "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤可久士/ゴトウカクシ 。/。",
+          "rendered_yomi_after": "ちょっと/チョット 下品/ゲヒン な/ナ 漫画/マンガ を/ヲ 描い/エガイ てる/テル 漫画家/マンガカ の/ノ 後藤/ゴトウ 可久士/カクシ 。/。",
           "display_mapping": {
             "start": 9,
-            "end": 10,
+            "end": 11,
             "char_start": 18,
             "char_end": 23,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
