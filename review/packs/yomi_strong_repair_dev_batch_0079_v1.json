@@ -10,10 +10,10 @@
   "item_count": 9,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 9,
     "queued_repair_row_count": 9,
@@ -57,12 +57,12 @@
       "source_line_no": 755,
       "preview": "活動仲間とプロジェクトマネジメントについて会話しているとき、プロジェクトマネジメントで何を身につければ良いのかについてやりとりをした。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:43:51Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:12:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 758,
       "preview": "『卒業バカメンタリー』キャスト、あらすじ、ロケ地&撮影場所！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:43:51Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:12:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -161,12 +161,12 @@
       "source_line_no": 759,
       "preview": "[公式サイト]ルートイン グランティア氷見 和蔵の宿 - 富山県氷見市の観光・ビジネスにご利用いただける多目的ホテル遠くには行けないので、気になっていた県内のお宿に泊まってみよう！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:43:51Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:12:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -187,12 +187,12 @@
       "source_line_no": 760,
       "preview": "急すぎる展開、ラストの突っ走り感など、かなり良いですね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:43:51Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:12:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -4915,7 +4915,7 @@
       "source_line_no": 759,
       "text": "（ネット上の声によると油臭だそうです）鉄分と塩分が多く含まれているそうです。",
       "rendered_yomi_before": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/ユシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
-      "rendered_yomi_after": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/ユシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
+      "rendered_yomi_after": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/アブラシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "（",
@@ -4951,7 +4951,7 @@
         ],
         [
           "油臭",
-          "ユシュウ"
+          "アブラシュウ"
         ],
         [
           "だ",
@@ -5103,12 +5103,12 @@
         },
         {
           "surface": "油臭",
-          "reading": "ユシュウ",
+          "reading": "アブラシュウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "油臭",
-              "reading": "ゆしゅう"
+              "reading": "あぶらしゅう"
             }
           ]
         },
@@ -5298,7 +5298,7 @@
           "unit_id": "ja_cc_level2:0000000759:u0026",
           "text": "（ネット上の声によると油臭だそうです）鉄分と塩分が多く含まれているそうです。",
           "rendered_yomi_before": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/ユシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
-          "rendered_yomi_after": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/ユシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
+          "rendered_yomi_after": "（/（ ネット/ネット 上/ジョウ の/ノ 声/コエ に/ニ よる/ヨル と/ト 油臭/アブラシュウ だ/ダ そう/ソウ です/デス ）/） 鉄分/テツブン と/ト 塩分/エンブン が/ガ 多く/オオク 含ま/フクマ れ/レ て/テ いる/イル そう/ソウ です/デス 。/。",
           "display_mapping": {
             "start": 8,
             "end": 9,

@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 5,
@@ -31,12 +31,12 @@
       "source_line_no": 794,
       "preview": "電話帳に登録されていない電話番号も、データベースをもとに識別。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:55:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:34:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -57,12 +57,12 @@
       "source_line_no": 795,
       "preview": "皆で共有しみんなで決意を固めた大事に一日となりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:55:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:34:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +109,12 @@
       "source_line_no": 797,
       "preview": "ここでは、『脱出ゲーム 猫様のお宿からの脱出』をクリアした感想をつらつら書いていきます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:55:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:34:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +265,12 @@
       "source_line_no": 803,
       "preview": "【一口鑑賞】東陽句会は折句を作り始めて今月で４回目。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T05:55:33Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T06:34:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1194,19 +1194,19 @@
       "source_line_no": 795,
       "text": "その他社内で行っている改善案の表彰やブックカウント表彰などの表彰式も行われました。",
       "rendered_yomi_before": "その/ソノ 他社/タシャ 内/ナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "その/ソノ 他社/タシャ 内/ナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "その/ソノ 他/タ 社内/シャナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "その",
           "ソノ"
         ],
         [
-          "他社",
-          "タシャ"
+          "他",
+          "タ"
         ],
         [
-          "内",
-          "ナイ"
+          "社内",
+          "シャナイ"
         ],
         [
           "で",
@@ -1301,24 +1301,24 @@
           ]
         },
         {
-          "surface": "他社",
-          "reading": "タシャ",
+          "surface": "他",
+          "reading": "タ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "他社",
-              "reading": "たしゃ"
+              "text": "他",
+              "reading": "た"
             }
           ]
         },
         {
-          "surface": "内",
-          "reading": "ナイ",
+          "surface": "社内",
+          "reading": "シャナイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "内",
-              "reading": "ない"
+              "text": "社内",
+              "reading": "しゃない"
             }
           ]
         },
@@ -1550,14 +1550,14 @@
           "unit_id": "ja_cc_level2:0000000795:u0002",
           "text": "その他社内で行っている改善案の表彰やブックカウント表彰などの表彰式も行われました。",
           "rendered_yomi_before": "その/ソノ 他社/タシャ 内/ナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "その/ソノ 他社/タシャ 内/ナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "その/ソノ 他/タ 社内/シャナイ で/デ 行っ/オコナッ て/テ いる/イル 改善案/カイゼンアン の/ノ 表彰/ヒョウショウ や/ヤ ブック/ブック カウント/カウント 表彰/ヒョウショウ など/ナド の/ノ 表彰式/ヒョウショウシキ も/モ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 1,
             "end": 3,
             "char_start": 2,
             "char_end": 5,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2511,7 +2511,7 @@
       "source_line_no": 803,
       "text": "これからの時期にぴったりの「灯火親し」を上五に置いて下五の「虫眼鏡」と取り合わせた。",
       "rendered_yomi_before": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親/オヤ し/シ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼/ムシメ 鏡/キョウ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
-      "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火親し/トウカシタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
+      "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親し/シタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "これ",
@@ -2546,8 +2546,12 @@
           "「"
         ],
         [
-          "灯火親し",
-          "トウカシタシ"
+          "灯火",
+          "トウカ"
+        ],
+        [
+          "親し",
+          "シタシ"
         ],
         [
           "」",
@@ -2693,13 +2697,24 @@
           ]
         },
         {
-          "surface": "灯火親し",
-          "reading": "トウカシタシ",
+          "surface": "灯火",
+          "reading": "トウカ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "灯火親",
-              "reading": "とうかした"
+              "text": "灯火",
+              "reading": "とうか"
+            }
+          ]
+        },
+        {
+          "surface": "親し",
+          "reading": "シタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "親",
+              "reading": "した"
             },
             {
               "type": "text",
@@ -2893,10 +2908,10 @@
           "unit_id": "ja_cc_level2:0000000803:u0003",
           "text": "これからの時期にぴったりの「灯火親し」を上五に置いて下五の「虫眼鏡」と取り合わせた。",
           "rendered_yomi_before": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親/オヤ し/シ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼/ムシメ 鏡/キョウ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
-          "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火親し/トウカシタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
+          "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親し/シタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
           "display_mapping": {
-            "start": 18,
-            "end": 19,
+            "start": 19,
+            "end": 20,
             "char_start": 30,
             "char_end": 33,
             "start_offset": 0,
@@ -3086,14 +3101,14 @@
           "unit_id": "ja_cc_level2:0000000803:u0003",
           "text": "これからの時期にぴったりの「灯火親し」を上五に置いて下五の「虫眼鏡」と取り合わせた。",
           "rendered_yomi_before": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親/オヤ し/シ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼/ムシメ 鏡/キョウ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
-          "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火親し/トウカシタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
+          "rendered_yomi_after": "これ/コレ から/カラ の/ノ 時期/ジキ に/ニ ぴったり/ピッタリ の/ノ 「/「 灯火/トウカ 親し/シタシ 」/」 を/ヲ 上五/カミゴ に/ニ 置い/オイ て/テ 下五/シモゴ の/ノ 「/「 虫眼鏡/ムシメガネ 」/」 と/ト 取り合わせ/トリアワセ た/タ 。/。",
           "display_mapping": {
             "start": 8,
-            "end": 9,
+            "end": 10,
             "char_start": 14,
             "char_end": 18,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
