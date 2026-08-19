@@ -14,7 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "unresolved_item_count": 27,
     "unresolved_target_count": 34,
@@ -212,12 +212,12 @@
       "source_line_no": 741,
       "preview": "韓国のインスタントラーメン「ドシラク」は、すでに四半世紀ロシア市場に出回っている。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T01:44:36Z",
+      "state_updated_at": "2026-08-19T02:06:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 39,
@@ -238,12 +238,12 @@
       "source_line_no": 742,
       "preview": "イタリア語をある程度勉強すると、スラングの単語に出会うことがあるでしょう。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-19T01:44:36Z",
+      "state_updated_at": "2026-08-19T02:06:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 74,
@@ -230831,7 +230831,13 @@
         },
         {
           "type": "text",
-          "text": "にα"
+          "text": "に"
+        },
+        {
+          "type": "ruby",
+          "text": "α",
+          "reading": "あるふぁー",
+          "display_only": true
         },
         {
           "type": "ruby",
@@ -231058,8 +231064,9 @@
           "reading": "アルファー",
           "nodes": [
             {
-              "type": "text",
-              "text": "α"
+              "type": "ruby",
+              "text": "α",
+              "reading": "あるふぁー"
             }
           ]
         },
