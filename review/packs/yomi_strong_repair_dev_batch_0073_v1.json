@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -109,12 +109,12 @@
       "source_line_no": 697,
       "preview": "淡路島内の道の駅では、やや地味は印象があります、他が特徴がありすぎるって事もありますが、メインはバスターミナルの機能のようです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T00:54:37Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T01:03:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -265,12 +265,12 @@
       "source_line_no": 703,
       "preview": "昨日は台風が大接近、嵐の選挙初日となりましたが、選挙戦２日目の今日は秋晴れの晴天スタート！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-19T00:54:37Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-19T01:03:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -976,15 +976,19 @@
       "source_line_no": 697,
       "text": "道の駅伊勢本街道御杖へ行ってきました。",
       "rendered_yomi_before": "道の駅/ミチノエキ 伊勢本/イセモト 街道/カイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "道の駅/ミチノエキ 伊勢本街道/イセホンカイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "道の駅/ミチノエキ 伊勢/イセ 本街道/ホンカイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "道の駅",
           "ミチノエキ"
         ],
         [
-          "伊勢本街道",
-          "イセホンカイドウ"
+          "伊勢",
+          "イセ"
+        ],
+        [
+          "本街道",
+          "ホンカイドウ"
         ],
         [
           "御杖",
@@ -1041,13 +1045,24 @@
           ]
         },
         {
-          "surface": "伊勢本街道",
-          "reading": "イセホンカイドウ",
+          "surface": "伊勢",
+          "reading": "イセ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "伊勢本街道",
-              "reading": "いせほんかいどう"
+              "text": "伊勢",
+              "reading": "いせ"
+            }
+          ]
+        },
+        {
+          "surface": "本街道",
+          "reading": "ホンカイドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本街道",
+              "reading": "ほんかいどう"
             }
           ]
         },
@@ -1151,14 +1166,14 @@
           "unit_id": "ja_cc_level2:0000000697:u0010",
           "text": "道の駅伊勢本街道御杖へ行ってきました。",
           "rendered_yomi_before": "道の駅/ミチノエキ 伊勢本/イセモト 街道/カイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "道の駅/ミチノエキ 伊勢本街道/イセホンカイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "道の駅/ミチノエキ 伊勢/イセ 本街道/ホンカイドウ 御杖/ミツエ へ/ヘ 行っ/イッ て/テ き/キ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 1,
-            "end": 2,
+            "end": 3,
             "char_start": 3,
             "char_end": 8,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
