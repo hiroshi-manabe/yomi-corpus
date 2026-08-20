@@ -989,7 +989,7 @@ function renderArchiveSearchRubySnippet(unit, query) {
   const normalizedQuery = normalizeArchiveSearchText(query);
   const useYomi = normalizedQuery.includes("/");
   let highlighted = false;
-  for (const token of archiveSearchUnitTokens(unit)) {
+  for (const [index, token] of archiveSearchUnitTokens(unit).entries()) {
     const wrapper = document.createElement("span");
     const searchable = useYomi
       ? `${token.surface}/${token.reading}`
@@ -998,7 +998,10 @@ function renderArchiveSearchRubySnippet(unit, query) {
       wrapper.className = "archive-search-token-match";
       highlighted = true;
     }
-    wrapper.append(...renderReadonlyRubyFromTokens([token]));
+    const rubyToken = Array.isArray(unit?.ruby_tokens) ? unit.ruby_tokens[index] : null;
+    wrapper.append(
+      ...renderReadonlyRubyFromTokensWithNodes([token], rubyToken ? [rubyToken] : []),
+    );
     line.append(wrapper);
   }
   if (!highlighted) {
