@@ -2184,7 +2184,7 @@ function isStandaloneLaughterW(surface) {
 
 function archiveCorrectionIssueTitle(doc) {
   const seq = stableDocumentSeq(doc) || doc.doc_id || "unknown";
-  return `[yomi-correction] dev document ${seq}`;
+  return `[Finalized Correction] ${seq}`;
 }
 
 function buildArchiveCorrectionPayload(doc, parsed) {
@@ -5946,21 +5946,17 @@ function hideIssueReturnModal() {
 }
 
 function buildIssueTitle(payload) {
-  if (payload.submission_type === "review_bundle") {
-    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || [])}` : "";
-    return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
+  const stages = new Set(payload.task?.queue_stages || [payload.review_stage]);
+  let stageLabel = "Yomi Review";
+  if (stages.has("yomi_final_review") && stages.has("yomi_strong_repair_review")) {
+    stageLabel = "Bulk + Escalated";
+  } else if (stages.has("yomi_strong_repair_review")) {
+    stageLabel = "Escalated Repair";
+  } else if (stages.has("yomi_final_review")) {
+    stageLabel = "Bulk Review";
   }
-  const packId = payload.pack_id || "review";
-  const ranges = payload.reviewed_ranges || [];
-  const range = ranges.length === 1
-    ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
-    : `${ranges.length} ranges`;
-  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || [])}` : "";
-  return `[yomi-review] ${packId}${task} ${range}`;
-}
-
-function formatSeqRange(fromSeq, toSeq) {
-  return fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
+  const docs = formatDocSeqs(payload.task?.track_doc_seqs || []);
+  return `[${stageLabel}] ${docs || payload.pack_id || "review"}`;
 }
 
 function formatDocSeqs(docSeqs) {

@@ -14,7 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "unresolved_item_count": 24,
     "unresolved_target_count": 28,
@@ -30,12 +30,12 @@
       "source_line_no": 894,
       "preview": "このようなときに本当に飲み会に行っているならいいですが、中には浮気していて飲み会と嘘を吐いている男性も多いです。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-20T06:59:20Z",
+      "state_updated_at": "2026-08-20T07:23:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 82,
@@ -160,12 +160,12 @@
       "source_line_no": 899,
       "preview": "日ノ出町駅前再開発ビル「日ノ出サクアス」と周辺の現状は？",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-20T06:59:20Z",
+      "state_updated_at": "2026-08-20T07:23:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -212,12 +212,12 @@
       "source_line_no": 901,
       "preview": "020年4/20(月)の毎日新聞朝刊２面の「維新結成10年の『検証』と称する記事」が余りにも酷かったので、猛烈な怒りに駆られてこの動画を作った。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-20T06:59:20Z",
+      "state_updated_at": "2026-08-20T07:23:18Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 24,
@@ -276728,7 +276728,7 @@
           "type": "ruby",
           "text": "月",
           "target_item_id": "ja_cc_level2:0000000901:u0001:s0010-0010",
-          "reading": "がつ",
+          "reading": "げつ",
           "is_safe": true,
           "highlight_level": "none"
         },
@@ -276925,7 +276925,7 @@
           "text": "た。"
         }
       ],
-      "rendered_yomi": "020/ 年/ネン 4/ \\//\\/ 20/ (/( 月/ガツ )/) の/ノ 毎日/マイニチ 新聞/シンブン 朝刊/チョウカン ２/ 面/メン の/ノ 「/「 維新/イシン 結成/ケッセイ 10/ 年/ネン の/ノ 『/『 検証/ケンショウ 』/』 と/ト 称する/ショウスル 記事/キジ 」/」 が/ガ 余り/アマリ に/ニ も/モ 酷かっ/ヒドカッ た/タ の/ノ で/デ 、/、 猛烈/モウレツ な/ナ 怒り/イカリ に/ニ 駆ら/カラ れ/レ て/テ この/コノ 動画/ドウガ を/ヲ 作っ/ツクッ た/タ 。/。",
+      "rendered_yomi": "020/ 年/ネン 4/ \\//\\/ 20/ (/( 月/ゲツ )/) の/ノ 毎日/マイニチ 新聞/シンブン 朝刊/チョウカン ２/ 面/メン の/ノ 「/「 維新/イシン 結成/ケッセイ 10/ 年/ネン の/ノ 『/『 検証/ケンショウ 』/』 と/ト 称する/ショウスル 記事/キジ 」/」 が/ガ 余り/アマリ に/ニ も/モ 酷かっ/ヒドカッ た/タ の/ノ で/デ 、/、 猛烈/モウレツ な/ナ 怒り/イカリ に/ニ 駆ら/カラ れ/レ て/テ この/コノ 動画/ドウガ を/ヲ 作っ/ツクッ た/タ 。/。",
       "rendered_yomi_ruby_tokens": [
         {
           "surface": "020",
@@ -276990,12 +276990,12 @@
         },
         {
           "surface": "月",
-          "reading": "ガツ",
+          "reading": "ゲツ",
           "nodes": [
             {
               "type": "ruby",
               "text": "月",
-              "reading": "がつ"
+              "reading": "げつ"
             }
           ]
         },
@@ -277603,8 +277603,8 @@
           "target_end": 10,
           "token_index": 6,
           "chunk_index": 0,
-          "current_reading": "ガツ",
-          "current_reading_hiragana": "がつ",
+          "current_reading": "ゲツ",
+          "current_reading_hiragana": "げつ",
           "token_dictionary_form": "月",
           "token_sudachi_reading": "ガツ",
           "token_pos": "名詞,普通名詞,助数詞可能,*,*,*",
@@ -277619,14 +277619,29 @@
           "allows_intentional_no_ruby": false,
           "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": "がつ",
+          "default_reading": "げつ",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
+              "reading": "げつ",
+              "accepted": true,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "月",
+                  "reading": "げつ"
+                }
+              ]
+            },
+            {
+              "id": "corpus_frequency",
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
               "reading": "がつ",
               "accepted": true,
+              "historical_count": 2106,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -277647,21 +277662,6 @@
                   "type": "ruby",
                   "text": "月",
                   "reading": "つき"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "げつ",
-              "accepted": false,
-              "historical_count": 26,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "月",
-                  "reading": "げつ"
                 }
               ]
             },
@@ -279732,19 +279732,38 @@
           "target_end": 10,
           "token_index": 6,
           "chunk_index": 0,
-          "current_reading": "ガツ",
-          "current_reading_hiragana": "がつ",
+          "current_reading": "ゲツ",
+          "current_reading_hiragana": "げつ",
           "is_safe": true,
           "review_status": "safe",
           "highlight_level": "none",
           "default_candidate_id": "current",
           "default_choice_source": "current",
-          "default_reading": "がつ",
+          "default_reading": "げつ",
           "candidates": [
             {
               "id": "current",
               "source": "current",
               "label": "Current mechanical/hybrid",
+              "reading": "げつ",
+              "tokens": [
+                [
+                  "月",
+                  "ゲツ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "月",
+                  "reading": "げつ"
+                }
+              ]
+            },
+            {
+              "id": "corpus_frequency",
+              "source": "corpus_frequency",
+              "label": "Corpus-frequency dominant",
               "reading": "がつ",
               "tokens": [
                 [
@@ -279758,7 +279777,8 @@
                   "text": "月",
                   "reading": "がつ"
                 }
-              ]
+              ],
+              "historical_count": 2106
             },
             {
               "id": "dictionary:4",
@@ -279779,26 +279799,6 @@
                 }
               ],
               "historical_count": 85
-            },
-            {
-              "id": "dictionary:3",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "げつ",
-              "tokens": [
-                [
-                  "月",
-                  "ゲツ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "月",
-                  "reading": "げつ"
-                }
-              ],
-              "historical_count": 26
             },
             {
               "id": "dictionary:0",
@@ -281939,7 +281939,7 @@
       "interaction_span_count": 19,
       "reading_hints": {
         "年": "ねん",
-        "月": "がつ",
+        "月": "げつ",
         "毎日": "まいにち",
         "新聞": "しんぶん",
         "朝刊": "ちょうかん",
@@ -292338,8 +292338,8 @@
         "動画": "どうが",
         "画像": "がぞう",
         "出": "で",
-        "知事": "ちじ",
-        "知事選": "ちじせん"
+        "知事選": "ちじせん",
+        "知事": "ちじ"
       }
     },
     {
