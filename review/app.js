@@ -4542,7 +4542,7 @@ function renderYomiItem({ node, item, override, editable }) {
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
-  const defaultDisposition = "Keep";
+  const defaultDisposition = yomiItemDefaultDisposition(item);
   const currentDisposition =
     override?.disposition ||
     (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
@@ -4616,6 +4616,12 @@ function renderYomiItem({ node, item, override, editable }) {
   if (!editable) {
     return;
   }
+}
+
+function yomiItemDefaultDisposition(item) {
+  return ["Keep", "Skip", "Exclude"].includes(item?.initial_disposition)
+    ? item.initial_disposition
+    : "Keep";
 }
 
 function setYomiDispositionClasses(node, disposition) {
@@ -5637,7 +5643,6 @@ function applyYomiCandidate(item, target, next) {
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
     state.currentDraft.overrides[itemId] = {
-      skip: false,
       targets: {},
       bridge_atoms: {},
       span_overrides: {},
@@ -5665,7 +5670,7 @@ function cleanupYomiOverride(itemId) {
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
   const hasBridgeAtoms = Object.keys(draft.bridge_atoms || {}).length > 0;
   const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
-  const defaultDisposition = "Keep";
+  const defaultDisposition = yomiItemDefaultDisposition(item);
   const hasDispositionChange =
     typeof draft.disposition === "string" && draft.disposition !== defaultDisposition;
   if (
