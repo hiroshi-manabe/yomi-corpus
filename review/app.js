@@ -4,6 +4,8 @@ const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/
 const yomiLongPressMs = 550;
 const repeatCancellationDelayMs = 700;
 const repeatCancellationLifetimeMs = 12000;
+const archiveSearchHistoryStorageKey = "yomi-review:archive-search-history:v1";
+const archiveSearchHistoryLimit = 12;
 
 const state = {
   manifest: null,
@@ -783,6 +785,10 @@ function renderArchiveSearchPanel(track) {
   heading.append(input);
   panel.append(heading);
 
+  const history = document.createElement("div");
+  history.className = "archive-search-history";
+  panel.append(history);
+
   const status = document.createElement("p");
   status.className = "archive-search-status muted";
   status.textContent = track.search_path
@@ -793,16 +799,108 @@ function renderArchiveSearchPanel(track) {
   const results = document.createElement("div");
   results.className = "archive-search-results";
   panel.append(results);
+  const nodes = { panel, status, results, history, input, track };
+  renderArchiveSearchHistory(track, nodes);
 
   input.addEventListener("input", () => {
     state.archiveSearchQuery = input.value;
     updateRuntimePollingForInteraction();
-    scheduleArchiveSearch(track, { panel, status, results });
+    scheduleArchiveSearch(track, nodes);
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    event.preventDefault();
+    state.archiveSearchQuery = input.value;
+    rememberArchiveSearchQuery(track, input.value);
+    renderArchiveSearchHistory(track, nodes);
+    scheduleArchiveSearch(track, nodes, { immediate: true });
   });
   if (state.archiveSearchQuery.trim()) {
-    scheduleArchiveSearch(track, { panel, status, results }, { immediate: true });
+    scheduleArchiveSearch(track, nodes, { immediate: true });
   }
   return panel;
+}
+
+function archiveSearchHistoryKey(track) {
+  return `${archiveSearchHistoryStorageKey}:${String(track?.track_name || "dev")}`;
+}
+
+function loadArchiveSearchHistory(track) {
+  try {
+    const parsed = JSON.parse(
+      window.localStorage.getItem(archiveSearchHistoryKey(track)) || "[]",
+    );
+    return Array.isArray(parsed)
+      ? parsed.filter((query) => typeof query === "string" && query.trim()).slice(0, archiveSearchHistoryLimit)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function rememberArchiveSearchQuery(track, value) {
+  const query = String(value || "").trim();
+  if (!query) {
+    return;
+  }
+  const normalized = normalizeArchiveSearchText(query);
+  const history = loadArchiveSearchHistory(track)
+    .filter((candidate) => normalizeArchiveSearchText(candidate) !== normalized);
+  history.unshift(query);
+  try {
+    window.localStorage.setItem(
+      archiveSearchHistoryKey(track),
+      JSON.stringify(history.slice(0, archiveSearchHistoryLimit)),
+    );
+  } catch {
+    // Search remains usable when browser storage is unavailable.
+  }
+}
+
+function clearArchiveSearchHistory(track) {
+  try {
+    window.localStorage.removeItem(archiveSearchHistoryKey(track));
+  } catch {
+    // Search remains usable when browser storage is unavailable.
+  }
+}
+
+function renderArchiveSearchHistory(track, nodes) {
+  const history = loadArchiveSearchHistory(track);
+  nodes.history.innerHTML = "";
+  nodes.history.classList.toggle("hidden", history.length === 0);
+  if (!history.length) {
+    return;
+  }
+  const label = document.createElement("span");
+  label.className = "archive-search-history-label";
+  label.textContent = "最近の検索";
+  nodes.history.append(label);
+  for (const query of history) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "archive-search-history-query";
+    button.textContent = query;
+    button.addEventListener("click", () => {
+      nodes.input.value = query;
+      state.archiveSearchQuery = query;
+      rememberArchiveSearchQuery(track, query);
+      renderArchiveSearchHistory(track, nodes);
+      scheduleArchiveSearch(track, nodes, { immediate: true });
+    });
+    nodes.history.append(button);
+  }
+  const clear = document.createElement("button");
+  clear.type = "button";
+  clear.className = "archive-search-history-clear";
+  clear.textContent = "履歴を消去";
+  clear.addEventListener("click", () => {
+    clearArchiveSearchHistory(track);
+    renderArchiveSearchHistory(track, nodes);
+  });
+  nodes.history.append(clear);
 }
 
 function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
@@ -975,6 +1073,8 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
     }
     button.append(snippets);
     button.addEventListener("click", () => {
+      rememberArchiveSearchQuery(nodes.track, query);
+      renderArchiveSearchHistory(nodes.track, nodes);
       openArchiveSearchResult(doc, query).catch((error) => {
         showStatus(`検索結果を開けませんでした: ${error.message}`, true);
       });
