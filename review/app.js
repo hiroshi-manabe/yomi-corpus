@@ -1570,6 +1570,9 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
+  textarea.addEventListener("keydown", (event) => {
+    handleArchiveCorrectionEditorKeydown(event, row, unit, doc);
+  });
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
 
@@ -1598,6 +1601,19 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   }
   updateArchiveDispositionControls(row);
   return row;
+}
+
+function handleArchiveCorrectionEditorKeydown(event, row, unit, doc) {
+  if (
+    event.key !== "Enter" ||
+    event.shiftKey ||
+    event.isComposing ||
+    event.keyCode === 229
+  ) {
+    return;
+  }
+  event.preventDefault();
+  saveArchiveCorrectionRow(row, unit, doc);
 }
 
 function openArchiveCorrectionRowEditor(row, unit) {
