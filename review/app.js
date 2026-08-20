@@ -595,12 +595,21 @@ function taskDocKey(doc) {
   return doc?.task_doc_id || doc?.doc_id || "";
 }
 
+function stableDocumentSeq(value) {
+  const explicit = Number(value?.track_doc_seq || 0);
+  if (Number.isInteger(explicit) && explicit > 0) {
+    return explicit;
+  }
+  const match = String(value?.doc_id || "").match(/:(\d+)$/);
+  return match ? Number(match[1]) : 0;
+}
+
 function documentDisplaySeq(doc) {
-  return Number(doc?.track_doc_seq || doc?.doc_seq || 0);
+  return stableDocumentSeq(doc);
 }
 
 function itemDisplayDocSeq(item) {
-  return Number(item?.track_doc_seq || item?.doc_seq || 0);
+  return stableDocumentSeq(item);
 }
 
 function queueStageSort(stage) {
@@ -1133,7 +1142,7 @@ async function openPendingSearchResult(result, query, packPath) {
   const items = (pack.items || []).filter(
     (item) =>
       String(item.doc_id || "") === String(result.doc_id || "") &&
-      Number(item.track_doc_seq || item.doc_seq || 0) === Number(result.track_doc_seq || 0),
+      itemDisplayDocSeq(item) === Number(result.track_doc_seq || 0),
   );
   if (!items.length) {
     throw new Error("レビュー用データ内に文書が見つかりません。");
@@ -1265,7 +1274,7 @@ function formatArchiveCorrectionSummary(count, sentenceCount) {
 function archiveCorrectionDocKey(doc) {
   return [
     state.archiveCurrentTrack || "dev",
-    String(doc.track_doc_seq || ""),
+    String(stableDocumentSeq(doc) || ""),
     String(doc.doc_id || ""),
   ].join("::");
 }
@@ -1407,7 +1416,7 @@ function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
     submission_id: submissionId,
     track_name: state.archiveCurrentTrack || "dev",
     doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    track_doc_seq: stableDocumentSeq(doc) || null,
     batch_name: doc.batch_name || "",
     archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
     base_archive_revision: doc.archive_revision || "",
@@ -1425,7 +1434,7 @@ function newArchiveCorrectionSubmissionId(doc) {
   const randomPart = globalThis.crypto?.randomUUID?.().replaceAll("-", "") ||
     `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
   const track = String(state.archiveCurrentTrack || "dev").replace(/[^A-Za-z0-9_-]+/g, "_");
-  const seq = Number(doc.track_doc_seq || 0) || "unknown";
+  const seq = stableDocumentSeq(doc) || "unknown";
   return `finalized_correction__client__${track}_${seq}__${randomPart}`;
 }
 
@@ -2174,7 +2183,7 @@ function isStandaloneLaughterW(surface) {
 }
 
 function archiveCorrectionIssueTitle(doc) {
-  const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
+  const seq = stableDocumentSeq(doc) || doc.doc_id || "unknown";
   return `[yomi-correction] dev document ${seq}`;
 }
 
@@ -2187,7 +2196,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
     track_name: state.archiveCurrentTrack || "dev",
     review_stage: "finalized_correction",
     doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    track_doc_seq: stableDocumentSeq(doc) || null,
     batch_name: doc.batch_name || "",
     generated_at_epoch: Math.floor(Date.now() / 1000),
     base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
@@ -2941,7 +2950,7 @@ function withSubmittedProcessingPlaceholders(docs) {
         task_doc_id: taskKey,
         queue_stage: queueStage,
         doc_seq: Number(ref.doc_seq || ref.track_doc_seq || 0),
-        track_doc_seq: Number(ref.track_doc_seq || ref.doc_seq || 0),
+        track_doc_seq: stableDocumentSeq(ref),
         item_count: Number(ref.item_count || 0),
         unresolved_count: Number(ref.unresolved_count || 0),
         state: queueStage === "yomi_strong_repair_review" ? "strong_reviewed" : "final_reviewed",
@@ -3026,7 +3035,7 @@ function workflowDocumentStateForQueueDoc(doc) {
   const processing = docIsProcessingOnServer(doc);
   return {
     doc_seq: doc.doc_seq,
-    track_doc_seq: doc.track_doc_seq || doc.doc_seq,
+    track_doc_seq: stableDocumentSeq(doc),
     display_seq: documentDisplaySeq(doc),
     status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
     preview: doc.preview || "",
@@ -5938,7 +5947,7 @@ function hideIssueReturnModal() {
 
 function buildIssueTitle(payload) {
   if (payload.submission_type === "review_bundle") {
-    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || [])}` : "";
     return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
   }
   const packId = payload.pack_id || "review";
@@ -5946,7 +5955,7 @@ function buildIssueTitle(payload) {
   const range = ranges.length === 1
     ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
     : `${ranges.length} ranges`;
-  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
+  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.track_doc_seqs || [])}` : "";
   return `[yomi-review] ${packId}${task} ${range}`;
 }
 
@@ -6079,9 +6088,9 @@ function buildSubmissionTaskMetadata(reviewStage = null, packId = null) {
     task_label: state.currentDraft.active_task_label || null,
     doc_keys: docs.map((doc) => taskDocKey(doc)),
     doc_ids: docs.map((doc) => doc.doc_id),
-    doc_seqs: docs.map((doc) => doc.doc_seq),
+    track_doc_seqs: docs.map((doc) => documentDisplaySeq(doc)),
     queue_stages: [...new Set(docs.map((doc) => doc.queue_stage).filter(Boolean))],
-    doc_ranges: buildReviewedDocumentRanges(docs),
+    track_doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
   };
 }
@@ -6328,11 +6337,11 @@ function buildReviewedDocumentRanges(docs = null) {
       toDocSeq = seq;
       continue;
     }
-    ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+    ranges.push({ from_track_doc_seq: fromDocSeq, to_track_doc_seq: toDocSeq });
     fromDocSeq = seq;
     toDocSeq = seq;
   }
-  ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+  ranges.push({ from_track_doc_seq: fromDocSeq, to_track_doc_seq: toDocSeq });
   return ranges;
 }
 
@@ -6380,7 +6389,7 @@ function buildDocumentTasks(pack) {
           queue_stage: doc.queue_stage || pack.review_stage || "",
           source_pack_id: doc.source_pack_id || "",
           doc_seq: doc.doc_seq || 0,
-          track_doc_seq: doc.track_doc_seq || doc.doc_seq || 0,
+          track_doc_seq: stableDocumentSeq(doc),
           from_seq: stats.from_seq ?? 0,
           to_seq: stats.to_seq ?? 0,
           item_count: stats.item_count ?? Number(doc.item_count || 0),
@@ -6415,7 +6424,7 @@ function buildDocumentTasks(pack) {
       const doc = {
         doc_id: docId,
         doc_seq: item.doc_seq || docs.length + 1,
-        track_doc_seq: item.track_doc_seq || item.doc_seq || docs.length + 1,
+        track_doc_seq: stableDocumentSeq(item),
         from_seq: item.seq,
         to_seq: item.seq,
         item_count: 0,
@@ -6741,7 +6750,7 @@ function localTaskDocumentRef(doc) {
     doc_id: String(doc.doc_id || ""),
     queue_stage: String(doc.queue_stage || ""),
     doc_seq: Number(doc.doc_seq || 0),
-    track_doc_seq: Number(doc.track_doc_seq || doc.doc_seq || 0),
+    track_doc_seq: stableDocumentSeq(doc),
     item_count: Number(doc.item_count || 0),
     unresolved_count: Number(doc.unresolved_count || 0),
     preview: String(doc.preview || ""),
@@ -6776,7 +6785,7 @@ function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
 }
 
 function finalizedArchiveContainsDocumentRef(ref) {
-  const seq = Number(ref?.track_doc_seq || ref?.doc_seq || 0);
+  const seq = stableDocumentSeq(ref);
   if (!Number.isInteger(seq) || seq <= 0) {
     return false;
   }
@@ -6922,7 +6931,7 @@ function findSavedTaskDraftOverlap(docIds) {
 function formatTaskOverlapMessage(overlap) {
   const docs = buildDocumentTasks(state.currentPack);
   const docSeqs = (overlap?.overlap || [])
-    .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
+    .map((docId) => documentDisplaySeq(docs.find((doc) => taskDocKey(doc) === docId)))
     .filter((seq) => Number.isInteger(seq));
   const label = localizedTaskLabel(
     overlap?.record?.task_label || overlap?.record?.task_id || "別のローカルタスク",
@@ -7001,8 +7010,8 @@ function formatTaskDraftMeta(record, docs) {
     (ref) => docIds.has(String(ref.task_doc_id || "")) && !selectedKeys.has(String(ref.task_doc_id || "")),
   );
   const docSeqs = [
-    ...selectedDocs.map((doc) => doc.doc_seq),
-    ...missingRefs.map((ref) => Number(ref.doc_seq || ref.track_doc_seq || 0)),
+    ...selectedDocs.map((doc) => documentDisplaySeq(doc)),
+    ...missingRefs.map((ref) => stableDocumentSeq(ref)),
   ].filter((seq) => Number.isInteger(seq) && seq > 0);
   const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0) +
     missingRefs.reduce((sum, ref) => sum + Number(ref.item_count || 0), 0);
