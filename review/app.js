@@ -770,13 +770,13 @@ function renderArchiveSearchPanel(track) {
   heading.innerHTML = `
     <div>
       <strong>コーパスを検索</strong>
-      <p class="muted">確定済み文書と処理中の文書の原文を検索します。</p>
+      <p class="muted">表記、または「描く/えがく」のような表記/読みで検索します。</p>
     </div>
   `;
   const input = document.createElement("input");
   input.type = "search";
   input.className = "archive-search-input";
-  input.placeholder = "文書の原文を検索";
+  input.placeholder = "表記、または表記/読みを検索";
   input.autocomplete = "off";
   input.value = state.archiveSearchQuery || "";
   input.disabled = !track.search_path;
@@ -845,20 +845,84 @@ async function performArchiveSearch(track, query, nodes) {
   const matches = [];
   let totalMatches = 0;
   for (const doc of state.archiveSearchIndex.documents || []) {
-    const hitCount = countNormalizedSearchHits(doc.text, normalizedQuery);
+    const matchingUnits = archiveSearchUnits(doc)
+      .map((unit) => ({
+        ...unit,
+        search_hit_count: archiveSearchUnitHitCount(unit, normalizedQuery),
+      }))
+      .filter((unit) => unit.search_hit_count > 0);
+    const hitCount = matchingUnits.reduce(
+      (total, unit) => total + Number(unit.search_hit_count || 0),
+      0,
+    );
     if (!hitCount) {
       continue;
     }
     totalMatches += 1;
     if (matches.length < 100) {
-      matches.push({ ...doc, search_hit_count: hitCount });
+      matches.push({
+        ...doc,
+        search_hit_count: hitCount,
+        search_matching_units: matchingUnits,
+      });
     }
   }
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
 }
 
 function normalizeArchiveSearchText(value) {
-  return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
+  return katakanaToHiragana(
+    String(value || "").normalize("NFKC").toLocaleLowerCase("ja"),
+  );
+}
+
+function archiveSearchUnits(doc) {
+  if (Array.isArray(doc?.units)) {
+    return doc.units;
+  }
+  // Compatibility with schema-v2 indexes during rolling publication.
+  return String(doc?.text || "")
+    .split("\n")
+    .filter(Boolean)
+    .map((text, index) => ({ unit_seq: index + 1, yomi_tokens: [[text, ""]] }));
+}
+
+function archiveSearchUnitTokens(unit) {
+  return (unit?.yomi_tokens || [])
+    .filter((token) => Array.isArray(token) && token.length >= 2)
+    .map(([surface, reading]) => ({
+      surface: String(surface || ""),
+      reading: String(reading || ""),
+    }));
+}
+
+function archiveSearchUnitRawText(unit) {
+  return archiveSearchUnitTokens(unit).map((token) => token.surface).join("");
+}
+
+function archiveSearchUnitYomiText(unit) {
+  return archiveSearchUnitTokens(unit)
+    .map((token) => `${token.surface}/${token.reading}`)
+    .join(" ");
+}
+
+function archiveSearchUnitFromReviewItem(item) {
+  const canonical = normalizeYomiTokenPairs(item?.yomi_tokens);
+  const tokens = canonical.length
+    ? canonical
+    : parseRenderedYomiTokens(item?.rendered_yomi || "")
+      .map((token) => [token.surface, token.reading]);
+  return {
+    unit_seq: Number(item?.unit_seq || item?.seq || 0),
+    yomi_tokens: tokens.length ? tokens : [[String(item?.text || ""), ""]],
+  };
+}
+
+function archiveSearchUnitHitCount(unit, normalizedQuery) {
+  const text = normalizedQuery.includes("/")
+    ? archiveSearchUnitYomiText(unit)
+    : archiveSearchUnitRawText(unit);
+  return countNormalizedSearchHits(text, normalizedQuery);
 }
 
 function countNormalizedSearchHits(text, normalizedQuery) {
@@ -898,8 +962,18 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
         <strong>文書 ${escapeHtml(doc.track_doc_seq)}</strong>
         <span class="archive-search-hit-count">${hitCount}件</span>
       </span>
-      <span class="archive-search-snippet">${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
     `;
+    const snippets = document.createElement("span");
+    snippets.className = "archive-search-ruby-snippets";
+    for (const unit of (doc.search_matching_units || []).slice(0, 3)) {
+      snippets.append(renderArchiveSearchRubySnippet(unit, query));
+    }
+    if ((doc.search_matching_units || []).length > 3) {
+      const remaining = document.createElement("small");
+      remaining.textContent = `ほか${doc.search_matching_units.length - 3}文`;
+      snippets.append(remaining);
+    }
+    button.append(snippets);
     button.addEventListener("click", () => {
       openArchiveSearchResult(doc, query).catch((error) => {
         showStatus(`検索結果を開けませんでした: ${error.message}`, true);
@@ -909,12 +983,28 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
   }
 }
 
-function archiveSearchSnippet(text, query) {
-  const compact = String(text || "").replace(/\s+/gu, " ").trim();
-  const index = normalizeArchiveSearchText(compact).indexOf(normalizeArchiveSearchText(query));
-  const start = Math.max(0, index < 0 ? 0 : index - 36);
-  const end = Math.min(compact.length, (index < 0 ? 0 : index) + String(query).length + 72);
-  return `${start > 0 ? "…" : ""}${compact.slice(start, end)}${end < compact.length ? "…" : ""}`;
+function renderArchiveSearchRubySnippet(unit, query) {
+  const line = document.createElement("span");
+  line.className = "archive-search-ruby-snippet";
+  const normalizedQuery = normalizeArchiveSearchText(query);
+  const useYomi = normalizedQuery.includes("/");
+  let highlighted = false;
+  for (const token of archiveSearchUnitTokens(unit)) {
+    const wrapper = document.createElement("span");
+    const searchable = useYomi
+      ? `${token.surface}/${token.reading}`
+      : token.surface;
+    if (normalizeArchiveSearchText(searchable).includes(normalizedQuery)) {
+      wrapper.className = "archive-search-token-match";
+      highlighted = true;
+    }
+    wrapper.append(...renderReadonlyRubyFromTokens([token]));
+    line.append(wrapper);
+  }
+  if (!highlighted) {
+    line.classList.add("search-match");
+  }
+  return line;
 }
 
 async function openArchiveSearchResult(result, query) {
@@ -960,7 +1050,9 @@ async function openPendingSearchResult(result, query, packPath) {
     );
     for (const item of sortedItems) {
       const node = renderPreviewItem(item);
-      node.dataset.searchText = item.text || "";
+      const searchUnit = archiveSearchUnitFromReviewItem(item);
+      node.dataset.searchText = archiveSearchUnitRawText(searchUnit);
+      node.dataset.searchYomi = archiveSearchUnitYomiText(searchUnit);
       el.workflowPreviewBody.append(node);
     }
   } finally {
@@ -980,7 +1072,9 @@ async function openPendingSearchResult(result, query, packPath) {
 function scrollPendingSearchToFirstMatch(query) {
   const normalizedQuery = normalizeArchiveSearchText(query).trim();
   const target = [...(el.workflowPreviewBody?.querySelectorAll("[data-search-text]") || [])].find(
-    (node) => normalizeArchiveSearchText(node.dataset.searchText).includes(normalizedQuery),
+    (node) => normalizeArchiveSearchText(
+      normalizedQuery.includes("/") ? node.dataset.searchYomi : node.dataset.searchText,
+    ).includes(normalizedQuery),
   );
   if (!target) {
     return;
@@ -996,8 +1090,8 @@ function scrollArchiveCorrectionToFirstMatch(doc, query) {
   if (!normalizedQuery) {
     return;
   }
-  const unitIndex = (doc.units || []).findIndex((unit) =>
-    normalizeArchiveSearchText(unit.text).includes(normalizedQuery),
+  const unitIndex = (doc.units || []).findIndex(
+    (unit) => archiveSearchUnitHitCount(unit, normalizedQuery) > 0,
   );
   if (unitIndex < 0) {
     return;
