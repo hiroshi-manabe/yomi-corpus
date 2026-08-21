@@ -59,10 +59,20 @@ remain separate future work.
 
 ### Entry point
 
-Each Bulk Review row should offer a direct-edit action alongside the existing
-ruby interaction and row controls. It should be visually secondary because
-ordinary acceptance is expected to dominate, but it must not require carrying
-the row through Escalated Repair or Corpus Map.
+Each Bulk Review row should end with a small wrench button. The wrench is the
+advanced direct-edit entry point: it should be low contrast and easy to ignore
+during ordinary review, while remaining visible and reliably tappable on touch
+devices. It must be a real button outside the sentence text so it does not
+interfere with ruby taps or text selection. Its accessible name and tooltip
+should be `Edit yomi data directly` (localized in the Japanese UI).
+
+While the row is normal, the wrench opens the editor directly rather than an
+additional menu. If more advanced row actions are added later, the wrench may
+open a compact advanced-actions popover without changing its meaning. A saved
+direct edit gives the wrench an active color and adds a restrained row tint;
+the entry point may be subtle, but applied human data must not be invisible.
+
+### Editor and row states
 
 Opening direct edit should reuse the established finalized-correction editor
 where practical:
@@ -71,16 +81,47 @@ where practical:
 - use a wrapping textarea rather than horizontal scrolling;
 - normalize hiragana readings to katakana on save;
 - run the same client-side validation used by finalized correction;
-- show the resulting ruby preview after saving;
 - allow the saved edit to be reopened and changed before submission;
 - warn before discarding unsaved edits; and
 - persist drafts in browser storage with the containing Bulk Review task.
 
-The row should visibly distinguish a saved direct edit from both an untouched
-accepted row and an escalated row. Saving a direct edit clears escalation
-targets for that row because the structured replacement supersedes them.
-Conversely, changing the row back to Escalated Repair must discard the saved
-direct replacement only after confirmation.
+The UI has four relevant row states:
+
+1. **Normal.** Interactive ruby cycling remains enabled and the inactive wrench
+   appears after the sentence.
+2. **Editing.** The row expands vertically. Show the original rendered sentence
+   and the canonical-yomi editor below it; temporary typing does not mutate the
+   interactive sentence.
+3. **Direct edit saved.** Show the original rendered sentence and the saved
+   edited yomi as separate static blocks, following the finalized-correction
+   visual model. Do not force the replacement back through the interactive ruby
+   renderer or candidate-cycle state. Disable all click/tap reading changes for
+   that row, because direct editing and ruby cycling must not compete as two
+   simultaneous mutation models.
+4. **Reverted.** Remove the saved replacement and return to the normal state,
+   including ordinary ruby interaction.
+
+It is acceptable for an editing or saved row to be substantially taller than
+ordinary rows. Compactness is more important for the common normal state than
+for this advanced exceptional path.
+
+Editor controls have exact semantics:
+
+- **Save** validates and stores the current canonical yomi. If the saved tokens
+  equal the row's original canonical tokens, clear `direct_edit` automatically
+  and return to the normal state.
+- **Cancel** discards only changes made since the editor was opened. When
+  editing an already saved direct edit, Cancel restores that saved version
+  rather than the original row.
+- **Revert to original** discards the saved direct edit, closes the editor, and
+  restores normal ruby cycling. Require confirmation when it destroys saved
+  work. For a new unsaved edit, Cancel is sufficient; Revert is primarily the
+  explicit way to remove an existing direct-edit route.
+
+Saving a direct edit clears escalation targets for that row because the
+structured replacement supersedes them. Conversely, changing the row back to
+Escalated Repair must discard the saved direct replacement only after
+confirmation.
 
 ### Flags
 
