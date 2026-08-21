@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -213,12 +213,12 @@
       "source_line_no": 1001,
       "preview": "別居中の夫ルークから、今夜会いたいという電話がかかる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T07:16:46Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T07:33:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1002,
       "preview": "若い頃は早起きして気合いを入れてディズニーランドへ行って、ファストパスを取っていかに効率的に回るかを考え、園内は若干小走りで移動し、夜のパレードまで満喫しておりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T07:16:46Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T07:33:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1730,7 +1730,7 @@
       "source_line_no": 1002,
       "text": "実はこのトムソーヤ島は長男が初めてディズニーランドに来た時に、一番長く楽しんだ場所です。",
       "rendered_yomi_before": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/トウ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
-      "rendered_yomi_after": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/シマ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
+      "rendered_yomi_after": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/トウ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "実",
@@ -1754,7 +1754,7 @@
         ],
         [
           "島",
-          "シマ"
+          "トウ"
         ],
         [
           "は",
@@ -1883,12 +1883,12 @@
         },
         {
           "surface": "島",
-          "reading": "シマ",
+          "reading": "トウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "島",
-              "reading": "しま"
+              "reading": "とう"
             }
           ]
         },
@@ -2106,7 +2106,7 @@
           "unit_id": "ja_cc_level2:0000001002:u0032",
           "text": "実はこのトムソーヤ島は長男が初めてディズニーランドに来た時に、一番長く楽しんだ場所です。",
           "rendered_yomi_before": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/トウ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
-          "rendered_yomi_after": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/シマ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
+          "rendered_yomi_after": "実/ジツ は/ハ この/コノ トム/トム ソーヤ/ソーヤ 島/トウ は/ハ 長男/チョウナン が/ガ 初めて/ハジメテ ディズニーランド/ディズニーランド に/ニ 来/キ た/タ 時/トキ に/ニ 、/、 一番/イチバン 長く/ナガク 楽しん/タノシン だ/ダ 場所/バショ です/デス 。/。",
           "display_mapping": {
             "start": 5,
             "end": 6,
