@@ -10,10 +10,10 @@
   "item_count": 1,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 1,
     "queued_repair_row_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 948,
       "preview": "千切りキャベツの横にあるのは、ラディッシュ。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T03:59:17Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T04:09:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 948,
       "text": "お雛祭りにはケーキ型の散し寿司と長女のリクエストでカップケーキを作りました。",
       "rendered_yomi_before": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/サン し/シ 寿司/ズシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/サン し/シ 寿司/スシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/チラ し/シ 寿司/スシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "お",
@@ -328,7 +328,7 @@
         ],
         [
           "散",
-          "サン"
+          "チラ"
         ],
         [
           "し",
@@ -466,12 +466,12 @@
         },
         {
           "surface": "散",
-          "reading": "サン",
+          "reading": "チラ",
           "nodes": [
             {
               "type": "ruby",
               "text": "散",
-              "reading": "さん"
+              "reading": "ちら"
             }
           ]
         },
@@ -636,7 +636,7 @@
           "unit_id": "ja_cc_level2:0000000948:u0045",
           "text": "お雛祭りにはケーキ型の散し寿司と長女のリクエストでカップケーキを作りました。",
           "rendered_yomi_before": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/サン し/シ 寿司/ズシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/サン し/シ 寿司/スシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "お/オ 雛祭り/ヒナマツリ に/ニ は/ハ ケーキ/ケーキ 型/ガタ の/ノ 散/チラ し/シ 寿司/スシ と/ト 長女/チョウジョ の/ノ リクエスト/リクエスト で/デ カップ/カップ ケーキ/ケーキ を/ヲ 作り/ツクリ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 7,
             "end": 8,

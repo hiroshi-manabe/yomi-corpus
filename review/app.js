@@ -4746,6 +4746,14 @@ function saveYomiDirectEdit(node, item) {
     return;
   }
   const draft = ensureYomiOverride(item.item_id);
+  if (
+    yomiOverrideHasInteractiveReadingEdits(draft) &&
+    !window.confirm(
+      "直接編集を保存すると、クリックで選択した読み・区切り・結合の変更は取り消されます。続けますか？",
+    )
+  ) {
+    return;
+  }
   draft.resolution = "direct_edit";
   draft.original_yomi_tokens = baselineTokens;
   draft.direct_yomi_tokens = validation.tokens;
@@ -4789,7 +4797,9 @@ function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {
   if (
     confirmSaved &&
     draft?.resolution === "direct_edit" &&
-    !window.confirm("保存済みの直接編集を破棄して元の読みへ戻しますか？")
+    !window.confirm(
+      "保存済みの直接編集を破棄して元の読みへ戻しますか？直接編集前にクリックで選択していた読みは復元されません。",
+    )
   ) {
     return;
   }
@@ -4805,6 +4815,14 @@ function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {
   }
   touchDraft();
   render();
+}
+
+function yomiOverrideHasInteractiveReadingEdits(override) {
+  return (
+    Object.keys(override?.targets || {}).length > 0 ||
+    Object.keys(override?.span_overrides || {}).length > 0 ||
+    Object.keys(override?.bridge_atoms || {}).length > 0
+  );
 }
 
 function yomiItemDefaultDisposition(item) {
