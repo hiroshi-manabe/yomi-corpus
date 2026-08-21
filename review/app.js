@@ -4479,7 +4479,8 @@ function escapeEditableYomiComponent(value) {
     .replaceAll(" ", "\\s")
     .replaceAll("\t", "\\t")
     .replaceAll("\r", "\\r")
-    .replaceAll("\n", "\\n");
+    .replaceAll("\n", "\\n")
+    .replaceAll("\u3000", "\\u3000");
 }
 
 function splitEditableYomiToken(token) {
@@ -4487,8 +4488,19 @@ function splitEditableYomiToken(token) {
   let partIndex = 0;
   let escaped = false;
   const escapeValues = { s: " ", t: "\t", r: "\r", n: "\n" };
-  for (const char of String(token || "")) {
+  const value = String(token || "");
+  for (let index = 0; index < value.length; index += 1) {
+    const char = value[index];
     if (escaped) {
+      if (char === "u") {
+        const codepoint = value.slice(index + 1, index + 5);
+        if (/^[0-9A-Fa-f]{4}$/.test(codepoint)) {
+          parts[partIndex].push(String.fromCharCode(Number.parseInt(codepoint, 16)));
+          index += 4;
+          escaped = false;
+          continue;
+        }
+      }
       parts[partIndex].push(escapeValues[char] ?? char);
       escaped = false;
       continue;
