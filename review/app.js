@@ -4611,6 +4611,7 @@ function renderYomiItem({ node, item, override, editable }) {
     onChange: (checked) => {
       const draft = ensureYomiOverride(item.item_id);
       draft.manual_correction_required = checked;
+      delete draft.direct_edit_cleared_manual_flag;
       cleanupYomiOverride(item.item_id);
       touchDraft();
       renderSubmissionPreview();
@@ -4741,7 +4742,7 @@ function saveYomiDirectEdit(node, item) {
   }
   const baselineTokens = yomiDirectEditBaselineTokens(item);
   if (yomiTokenPairsEqual(validation.tokens, baselineTokens)) {
-    revertYomiDirectEdit(item);
+    revertYomiDirectEdit(item, { confirmSaved: false });
     return;
   }
   const draft = ensureYomiOverride(item.item_id);
@@ -4751,6 +4752,10 @@ function saveYomiDirectEdit(node, item) {
   draft.targets = {};
   draft.span_overrides = {};
   draft.bridge_atoms = {};
+  if ((draft.manual_correction_required ?? item.manual_correction_required ?? false) === true) {
+    draft.manual_correction_required = false;
+    draft.direct_edit_cleared_manual_flag = true;
+  }
   node.classList.remove("direct-yomi-invalid");
   touchDraft();
   render();
@@ -4779,12 +4784,23 @@ function cancelYomiDirectEdit(node, item) {
   editor.classList.add("hidden");
 }
 
-function revertYomiDirectEdit(item) {
+function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {
   const draft = state.currentDraft.overrides[item.item_id];
+  if (
+    confirmSaved &&
+    draft?.resolution === "direct_edit" &&
+    !window.confirm("保存済みの直接編集を破棄して元の読みへ戻しますか？")
+  ) {
+    return;
+  }
   if (draft) {
     delete draft.resolution;
     delete draft.original_yomi_tokens;
     delete draft.direct_yomi_tokens;
+    if (draft.direct_edit_cleared_manual_flag) {
+      delete draft.manual_correction_required;
+      delete draft.direct_edit_cleared_manual_flag;
+    }
     cleanupYomiOverride(item.item_id);
   }
   touchDraft();
@@ -6291,9 +6307,11 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       ) {
         return null;
       }
+      const resolution = yomiOverrideResolution(override);
       return {
         item_id: originalItemId(item),
-        ...(override.resolution === "direct_edit"
+        ...(resolution ? { resolution } : {}),
+        ...(resolution === "direct_edit"
           ? {
               resolution: "direct_edit",
               original_yomi_tokens: normalizeYomiTokenPairs(override.original_yomi_tokens),
@@ -6339,6 +6357,22 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
         "manual_correction_required" in row ||
         row.note
     );
+}
+
+function yomiOverrideResolution(override) {
+  if (
+    override?.resolution === "direct_edit" &&
+    normalizeYomiTokenPairs(override.direct_yomi_tokens).length > 0
+  ) {
+    return "direct_edit";
+  }
+  const rejectedTarget = Object.values(override?.targets || {}).some(
+    (target) => target?.choice_source === "none" && target?.selected_reading == null,
+  );
+  const rejectedSpan = Object.values(override?.span_overrides || {}).some(
+    (span) => span?.repair_required === true,
+  );
+  return rejectedTarget || rejectedSpan ? "escalate" : null;
 }
 
 function getActiveOverrides() {
