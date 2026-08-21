@@ -10,10 +10,10 @@
   "item_count": 8,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 8,
     "queued_repair_row_count": 8,
@@ -109,12 +109,12 @@
       "source_line_no": 977,
       "preview": "ロス・インカスのホルヘ・ミルチベルグも亡くなってしまった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T05:30:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T06:00:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 979,
       "preview": "宝塚リハビリテーション病院様は、開設以来、市内はもとより、 広く阪神間の急性期病院、患者さまより高い評価を頂き、今に至っております。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T05:30:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T06:00:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 980,
       "preview": "生産緑地という言葉をご存じですか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T05:30:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T06:00:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -239,12 +239,12 @@
       "source_line_no": 982,
       "preview": "校庭の桜の木に肥料をやったり、水をやったり、看板を書いたりして過ごしました｡5月下旬に蒔いた朝顔の種が芽を出し､10センチ近くになっています｡この日の来校者は8人｡遠くはつくば市､山形市からも来てくださいました｡家族4人で来られた方は､「きれいに手入れをされていて､子供たちが登校してくるようですね」と｡しばし校舎を御覧になりながらご主人と会話をされておられました｡まわりの方に「たにしの楽校」のことをお知らせくださるとのことで、ポストカードを4枚お持ちに｡人とのふれあいは、きっとこのようなところから始まるのですね｡校舎を管理する何気ない日常ですが、訪れる方とのふれあいもあり、毎日が素敵な1日です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-21T05:30:03Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-21T06:00:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1358,7 +1358,7 @@
       "source_line_no": 980,
       "text": "〇　山田小学校・山田中学校エリアのリフォーム済戸建です。",
       "rendered_yomi_before": "〇/ 　/　 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田中/ヤマダナカ 学校/ガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
-      "rendered_yomi_after": "〇/ \\u3000/ 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田中学校/ヤマダチュウガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
+      "rendered_yomi_after": "〇/ \\u3000/ 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田/ヤマダ 中学校/チュウガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "〇",
@@ -1381,8 +1381,12 @@
           "・"
         ],
         [
-          "山田中学校",
-          "ヤマダチュウガッコウ"
+          "山田",
+          "ヤマダ"
+        ],
+        [
+          "中学校",
+          "チュウガッコウ"
         ],
         [
           "エリア",
@@ -1467,14 +1471,20 @@
           ]
         },
         {
-          "surface": "山田中学校",
-          "reading": "ヤマダチュウガッコウ",
+          "surface": "山田",
+          "reading": "ヤマダ",
           "nodes": [
             {
               "type": "ruby",
               "text": "山田",
               "reading": "やまだ"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "中学校",
+          "reading": "チュウガッコウ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "中学校",
@@ -1568,14 +1578,14 @@
           "unit_id": "ja_cc_level2:0000000980:u0045",
           "text": "〇　山田小学校・山田中学校エリアのリフォーム済戸建です。",
           "rendered_yomi_before": "〇/ 　/　 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田中/ヤマダナカ 学校/ガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
-          "rendered_yomi_after": "〇/ \\u3000/ 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田中学校/ヤマダチュウガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
+          "rendered_yomi_after": "〇/ \\u3000/ 山田/ヤマダ 小学校/ショウガッコウ ・/・ 山田/ヤマダ 中学校/チュウガッコウ エリア/エリア の/ノ リフォーム/リフォーム 済/ズミ 戸建/コダテ です/デス 。/。",
           "display_mapping": {
             "start": 5,
-            "end": 6,
+            "end": 7,
             "char_start": 8,
             "char_end": 13,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
