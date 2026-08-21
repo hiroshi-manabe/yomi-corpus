@@ -1469,8 +1469,11 @@ button:disabled {
   font-size: 0.78rem;
 }
 
-.yomi-direct-edit-saved .ruby-line {
-  padding-left: 0;
+.yomi-direct-edit-saved code {
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
 }
 
 .yomi-direct-edit-editor {

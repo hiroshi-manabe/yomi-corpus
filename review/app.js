@@ -4672,10 +4672,9 @@ function renderSavedYomiDirectEdit(tokens) {
   saved.className = "yomi-direct-edit-saved";
   const label = document.createElement("strong");
   label.textContent = "編集後";
-  const rubyLine = document.createElement("p");
-  rubyLine.className = "ruby-line resolved-ruby-line";
-  rubyLine.append(...renderReadonlyRubyFromTokens(yomiTokenPairObjects(tokens)));
-  saved.append(label, rubyLine);
+  const renderedYomi = document.createElement("code");
+  renderedYomi.textContent = serializeEditableYomiTokens(tokens);
+  saved.append(label, renderedYomi);
   return saved;
 }
 
