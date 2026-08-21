@@ -1678,6 +1678,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     <div class="archive-correction-editor-actions">
       <button type="button" class="secondary-button compact-button" data-archive-correction-save>保存</button>
       <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>キャンセル</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-revert>元に戻す</button>
     </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
@@ -1687,6 +1688,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   });
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
+  editor.querySelector("[data-archive-correction-revert]")?.addEventListener("click", () => revertArchiveCorrectionRow(row, doc));
 
   row.append(summary);
   appendStrongRepairFootnoteList(row, footnotes);
@@ -1738,6 +1740,7 @@ function openArchiveCorrectionRowEditor(row, unit) {
   if (textarea) {
     textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
   }
+  row.classList.add("editing");
   editor.classList.remove("hidden");
   button.disabled = true;
   updateArchiveCorrectionRowState(row, unit);
@@ -1893,6 +1896,16 @@ function clearArchiveCorrectionRow(row, doc = null) {
   updateArchiveCorrectionSummary();
 }
 
+function revertArchiveCorrectionRow(row, doc) {
+  if (
+    row.dataset.proposedYomi &&
+    !window.confirm("保存済みの読み編集を破棄して元の読みへ戻しますか？")
+  ) {
+    return;
+  }
+  clearArchiveCorrectionRow(row, doc);
+}
+
 function cancelArchiveCorrectionRowEdit(row) {
   const editor = row.querySelector(".archive-correction-editor");
   const textarea = editor?.querySelector(".archive-correction-unit-textarea");
@@ -1915,6 +1928,7 @@ function cancelArchiveCorrectionRowEdit(row) {
 }
 
 function closeArchiveCorrectionRowEditor(row) {
+  row.classList.remove("editing");
   row.querySelector(".archive-correction-editor")?.classList.add("hidden");
   const button = row.querySelector("[data-archive-yomi-edit]");
   if (button) {

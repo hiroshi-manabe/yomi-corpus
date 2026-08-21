@@ -1155,6 +1155,11 @@ button:disabled {
   color: var(--ink);
 }
 
+.archive-correction-row.editing .archive-correction-saved,
+.item-card.yomi-card.direct-yomi-editing .yomi-direct-edit-saved {
+  display: none;
+}
+
 .archive-correction-editor-actions {
   display: flex;
   flex-wrap: wrap;
