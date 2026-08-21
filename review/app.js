@@ -4547,6 +4547,9 @@ function renderYomiItem({ node, item, override, editable }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
+  const directEditTokens = normalizeYomiTokenPairs(override?.direct_yomi_tokens);
+  const hasDirectEdit = override?.resolution === "direct_edit" && directEditTokens.length > 0;
+  node.classList.toggle("direct-yomi-edit", hasDirectEdit);
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
@@ -4619,12 +4622,173 @@ function renderYomiItem({ node, item, override, editable }) {
 
   const rubyLine = document.createElement("p");
   rubyLine.className = "ruby-line";
-  rubyLine.append(...renderRubySegments(item, override, editable));
+  rubyLine.append(...renderRubySegments(item, hasDirectEdit ? null : override, editable && !hasDirectEdit));
+  if (editable) {
+    const directEditButton = document.createElement("button");
+    directEditButton.type = "button";
+    directEditButton.className = "yomi-direct-edit-button";
+    directEditButton.textContent = "🔧";
+    directEditButton.title = hasDirectEdit ? "この文の読みデータを再編集します" : "この文の読みデータを直接編集します";
+    directEditButton.setAttribute("aria-label", directEditButton.title);
+    directEditButton.addEventListener("click", () => {
+      openYomiDirectEditor(node, item);
+    });
+    rubyLine.append(directEditButton);
+  }
   node.append(rubyLine);
+
+  if (hasDirectEdit) {
+    node.append(renderSavedYomiDirectEdit(directEditTokens));
+  }
+
+  if (editable) {
+    node.append(renderYomiDirectEditor(node, item, directEditTokens));
+  }
 
   if (!editable) {
     return;
   }
+}
+
+function yomiDirectEditBaselineTokens(item) {
+  return archiveUnitYomiTokenPairs(item);
+}
+
+function renderSavedYomiDirectEdit(tokens) {
+  const saved = document.createElement("div");
+  saved.className = "yomi-direct-edit-saved";
+  const label = document.createElement("strong");
+  label.textContent = "編集後";
+  const rubyLine = document.createElement("p");
+  rubyLine.className = "ruby-line resolved-ruby-line";
+  rubyLine.append(...renderReadonlyRubyFromTokens(yomiTokenPairObjects(tokens)));
+  saved.append(label, rubyLine);
+  return saved;
+}
+
+function renderYomiDirectEditor(node, item, savedTokens) {
+  const baselineTokens = yomiDirectEditBaselineTokens(item);
+  const initialTokens = savedTokens.length ? savedTokens : baselineTokens;
+  const editor = document.createElement("div");
+  editor.className = "yomi-direct-edit-editor hidden";
+  editor.dataset.originalYomi = serializeEditableYomiTokens(baselineTokens);
+  editor.innerHTML = `
+    <label>
+      <span>読みデータ</span>
+      <textarea class="yomi-direct-edit-textarea" rows="3">${escapeHtml(serializeEditableYomiTokens(initialTokens))}</textarea>
+    </label>
+    <p class="yomi-direct-edit-validation muted">表記/読み 形式で、この文全体の読みを編集します。</p>
+    <div class="yomi-direct-edit-actions">
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-save>保存</button>
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-cancel>キャンセル</button>
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-revert>元に戻す</button>
+    </div>
+  `;
+  const textarea = editor.querySelector(".yomi-direct-edit-textarea");
+  textarea.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    event.preventDefault();
+    saveYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-save]")?.addEventListener("click", () => {
+    saveYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-cancel]")?.addEventListener("click", () => {
+    cancelYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-revert]")?.addEventListener("click", () => {
+    revertYomiDirectEdit(item);
+  });
+  return editor;
+}
+
+function openYomiDirectEditor(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  if (!editor || !textarea) {
+    return;
+  }
+  const override = state.currentDraft.overrides[item.item_id] || {};
+  const saved = normalizeYomiTokenPairs(override.direct_yomi_tokens);
+  textarea.value = serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
+  node.classList.add("direct-yomi-editing");
+  for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
+    if (token instanceof HTMLButtonElement) {
+      token.disabled = true;
+    }
+  }
+  editor.classList.remove("hidden");
+  textarea.focus();
+}
+
+function saveYomiDirectEdit(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  const validationNode = editor?.querySelector(".yomi-direct-edit-validation");
+  if (!editor || !textarea || !validationNode) {
+    return;
+  }
+  const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
+  textarea.value = proposed;
+  const validation = validateRenderedYomiCorrection(item, proposed);
+  if (!validation.ok) {
+    node.classList.add("direct-yomi-invalid");
+    validationNode.classList.add("error");
+    validationNode.textContent = validation.error;
+    return;
+  }
+  const baselineTokens = yomiDirectEditBaselineTokens(item);
+  if (yomiTokenPairsEqual(validation.tokens, baselineTokens)) {
+    revertYomiDirectEdit(item);
+    return;
+  }
+  const draft = ensureYomiOverride(item.item_id);
+  draft.resolution = "direct_edit";
+  draft.original_yomi_tokens = baselineTokens;
+  draft.direct_yomi_tokens = validation.tokens;
+  draft.targets = {};
+  draft.span_overrides = {};
+  draft.bridge_atoms = {};
+  node.classList.remove("direct-yomi-invalid");
+  touchDraft();
+  render();
+}
+
+function cancelYomiDirectEdit(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  if (!editor || !textarea) {
+    return;
+  }
+  const override = state.currentDraft.overrides[item.item_id] || {};
+  const saved = normalizeYomiTokenPairs(override.direct_yomi_tokens);
+  const baseline = serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
+  if (String(textarea.value || "").trim() !== baseline && !window.confirm("未保存の読み編集を破棄しますか？")) {
+    return;
+  }
+  textarea.value = baseline;
+  node.classList.remove("direct-yomi-invalid");
+  node.classList.remove("direct-yomi-editing");
+  for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
+    if (token instanceof HTMLButtonElement) {
+      token.disabled = false;
+    }
+  }
+  editor.classList.add("hidden");
+}
+
+function revertYomiDirectEdit(item) {
+  const draft = state.currentDraft.overrides[item.item_id];
+  if (draft) {
+    delete draft.resolution;
+    delete draft.original_yomi_tokens;
+    delete draft.direct_yomi_tokens;
+    cleanupYomiOverride(item.item_id);
+  }
+  touchDraft();
+  render();
 }
 
 function yomiItemDefaultDisposition(item) {
@@ -5678,6 +5842,8 @@ function cleanupYomiOverride(itemId) {
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
   const hasBridgeAtoms = Object.keys(draft.bridge_atoms || {}).length > 0;
+  const hasDirectEdit =
+    draft.resolution === "direct_edit" && normalizeYomiTokenPairs(draft.direct_yomi_tokens).length > 0;
   const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
   const defaultDisposition = yomiItemDefaultDisposition(item);
   const hasDispositionChange =
@@ -5686,6 +5852,7 @@ function cleanupYomiOverride(itemId) {
     !hasTargets &&
     !hasSpanOverrides &&
     !hasBridgeAtoms &&
+    !hasDirectEdit &&
     !draft.skip &&
     !hasDispositionChange &&
     !draft.note &&
@@ -6126,6 +6293,13 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       }
       return {
         item_id: originalItemId(item),
+        ...(override.resolution === "direct_edit"
+          ? {
+              resolution: "direct_edit",
+              original_yomi_tokens: normalizeYomiTokenPairs(override.original_yomi_tokens),
+              direct_yomi_tokens: normalizeYomiTokenPairs(override.direct_yomi_tokens),
+            }
+          : {}),
         ...(typeof override.disposition === "string"
           ? { disposition: override.disposition }
           : {}),
@@ -6159,6 +6333,7 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       (row) =>
         row.targets.length > 0 ||
         row.span_overrides.length > 0 ||
+        row.resolution === "direct_edit" ||
         "disposition" in row ||
         "skip" in row ||
         "manual_correction_required" in row ||

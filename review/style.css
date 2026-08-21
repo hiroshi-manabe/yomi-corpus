@@ -1427,6 +1427,79 @@ button:disabled {
   background: rgba(255, 253, 249, 0.78);
 }
 
+.item-card.yomi-card.direct-yomi-edit {
+  background: rgba(239, 247, 242, 0.9);
+  box-shadow: inset 3px 0 0 rgba(45, 106, 79, 0.58);
+}
+
+.yomi-direct-edit-button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  padding: 0;
+  border: 1px solid rgba(58, 48, 33, 0.16);
+  border-radius: 6px;
+  background: rgba(255, 253, 249, 0.7);
+  color: rgba(58, 48, 33, 0.58);
+  cursor: pointer;
+  font-size: 0.78rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.yomi-direct-edit-saved,
+.yomi-direct-edit-editor {
+  grid-column: 2;
+  border-top: 1px solid rgba(45, 106, 79, 0.13);
+}
+
+.yomi-direct-edit-saved {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: rgba(45, 106, 79, 0.08);
+}
+
+.yomi-direct-edit-saved > strong {
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+}
+
+.yomi-direct-edit-saved .ruby-line {
+  padding-left: 0;
+}
+
+.yomi-direct-edit-editor {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(255, 253, 249, 0.96);
+}
+
+.yomi-direct-edit-textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 13px/1.55 "Iosevka", "SFMono-Regular", Consolas, monospace;
+}
+
+.yomi-direct-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.direct-yomi-invalid .yomi-direct-edit-textarea {
+  border-color: var(--danger);
+  background: rgba(168, 67, 47, 0.05);
+}
+
 .item-card.yomi-card.has-unresolved {
   border-color: var(--line);
   background: rgba(255, 250, 243, 0.9);
