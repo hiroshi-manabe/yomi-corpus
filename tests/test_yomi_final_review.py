@@ -2480,6 +2480,62 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertTrue(final_signal["accepted"])
         self.assertEqual(final_signal["count"], 30)
 
+    def test_interaction_spans_merge_stale_targets_across_canonical_boundaries(self) -> None:
+        payload = {
+            "doc_id": "doc1",
+            "unit_id": "u1",
+            "unit_seq": 1,
+            "text": "他業界です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {"rendered": "他/タ 業界/ギョウカイ です/デス 。/。"}
+                },
+                "safety": {
+                    "yomi": {
+                        "targets": [
+                            {
+                                "item_id": "u1:r0001c01",
+                                "surface": "他業",
+                                "token_surface": "他業",
+                                "target_start": 0,
+                                "target_end": 2,
+                                "token_index": 0,
+                                "chunk_index": 0,
+                                "current_reading": "タギョウ",
+                                "current_reading_hiragana": "たぎょう",
+                                "is_safe": True,
+                                "signals": [],
+                            },
+                            {
+                                "item_id": "u1:r0002c01",
+                                "surface": "界",
+                                "token_surface": "界",
+                                "target_start": 2,
+                                "target_end": 3,
+                                "token_index": 1,
+                                "chunk_index": 0,
+                                "current_reading": "カイ",
+                                "current_reading_hiragana": "かい",
+                                "is_safe": True,
+                                "signals": [],
+                            },
+                        ]
+                    }
+                },
+            },
+        }
+
+        item = build_review_item(payload, seq=1, doc_seq=1, track_doc_seq=1)
+
+        self.assertEqual(len(item["interaction_spans"]), 1)
+        span = item["interaction_spans"][0]
+        self.assertEqual(span["surface"], "他業界")
+        self.assertEqual(span["current_reading_hiragana"], "たぎょうかい")
+        self.assertEqual(
+            span["legacy_target_item_ids"],
+            ["u1:r0001c01", "u1:r0002c01"],
+        )
+
     def test_interaction_span_includes_okurigana_and_applies_full_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

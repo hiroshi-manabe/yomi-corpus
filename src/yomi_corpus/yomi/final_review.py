@@ -1307,22 +1307,37 @@ def build_interaction_spans(
     targets: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     pairs = parse_rendered_pairs(rendered_yomi) if rendered_yomi else []
-    grouped: dict[tuple[int, int, int, str], list[dict[str, Any]]] = {}
+    resolved_targets: list[tuple[int, int, int, dict[str, Any]]] = []
     for target in targets:
         bounds = interaction_token_bounds(text, target, pairs=pairs)
         if bounds is None:
             continue
         start, end, token_index = bounds
-        key = (
-            start,
-            end,
-            token_index,
-            text[start:end],
-        )
-        grouped.setdefault(key, []).append(target)
+        resolved_targets.append((start, end, token_index, target))
+
+    # Targets originate before final token normalization. If normalization moves
+    # a boundary, old target ranges can partially overlap canonical tokens. Treat
+    # the transitive overlap as one review region rather than emitting invalid,
+    # overlapping controls.
+    grouped: list[tuple[int, int, int, list[dict[str, Any]]]] = []
+    for start, end, token_index, target in sorted(
+        resolved_targets,
+        key=lambda row: (row[0], row[1], row[2]),
+    ):
+        if grouped and start < grouped[-1][1]:
+            group_start, group_end, group_token_index, group_targets = grouped[-1]
+            grouped[-1] = (
+                group_start,
+                max(group_end, end),
+                min(group_token_index, token_index),
+                [*group_targets, target],
+            )
+        else:
+            grouped.append((start, end, token_index, [target]))
 
     spans: list[dict[str, Any]] = []
-    for (start, end, token_index, surface), span_targets in sorted(grouped.items()):
+    for start, end, token_index, span_targets in grouped:
+        surface = text[start:end]
         candidates = interaction_span_candidates(
             surface=surface,
             token_index=token_index,
@@ -1627,6 +1642,10 @@ def interaction_current_reading(
     matches = [reading for pair_surface, reading in pairs if source_surfaces_equal(pair_surface, surface)]
     if len(matches) == 1:
         return normalize_hiragana_reading(matches[0])
+    span = find_unique_rendered_span(pairs, surface)
+    if span is not None:
+        start, end = span
+        return normalize_hiragana_reading("".join(reading for _surface, reading in pairs[start:end]))
     return None
 
 
