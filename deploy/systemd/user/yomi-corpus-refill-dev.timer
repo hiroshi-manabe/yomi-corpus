@@ -3,7 +3,7 @@ Description=Maintain the yomi corpus dev Bulk Review pool
 
 [Timer]
 OnBootSec=3min
-OnUnitActiveSec=5min
+OnUnitInactiveSec=5min
 AccuracySec=30s
 Persistent=true
 Unit=yomi-corpus-refill-dev.service

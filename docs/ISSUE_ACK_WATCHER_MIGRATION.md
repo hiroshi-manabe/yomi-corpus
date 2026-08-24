@@ -265,3 +265,8 @@ or refresh it with `./ensure-issue-watch-timer`; the existing five-minute
 review-sync timer remains enabled as the recovery path. The initial rollout
 uses direct systemd service activation rather than a path unit, reducing moving
 parts while retaining durable ledger state and bounded retries.
+
+The heavy review-sync and refill timers use `OnUnitInactiveSec=5min`, not
+`OnUnitActiveSec`. A pass that itself lasts longer than five minutes therefore
+gets a five-minute idle window after completion instead of being relaunched
+immediately and monopolizing the shared publication lock.
