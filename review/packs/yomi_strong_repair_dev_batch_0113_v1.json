@@ -1,0 +1,1830 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0113_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0113",
+  "created_at_epoch": 1787561798,
+  "created_at": "2026-08-24T08:56:38Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001091",
+      "doc_seq": 1,
+      "track_doc_seq": 1091,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1091,
+      "preview": "私達スタッフもコロナ対策をきっかけに、衛生面、食品の安全面など強化しさらなる向上を目指して頑張っていきたいと思っています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001092",
+      "doc_seq": 2,
+      "track_doc_seq": 1092,
+      "unit_count": 217,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1092,
+      "preview": "このブラックコメディな映画の感想はネタバレ全開になっています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 217,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001093",
+      "doc_seq": 3,
+      "track_doc_seq": 1093,
+      "unit_count": 41,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1093,
+      "preview": "長い間準備を進めていた自分のHPを、10月末にやっと開設。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-24T08:59:42Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 41,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001094",
+      "doc_seq": 4,
+      "track_doc_seq": 1094,
+      "unit_count": 27,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1094,
+      "preview": "ノロウイルスに感染すると、24～48時間ほどの潜伏期間を経て、37～38度の発熱と痛みを伴う下痢(水の様な下痢)や嘔吐を繰り返し、吐き気も続く食中毒に似た症状を発症します症状回復後でも1～2週間、まれに1ヶ月ほど糞便中にウイルスを排出し続けます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 27,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001095",
+      "doc_seq": 5,
+      "track_doc_seq": 1095,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1095,
+      "preview": "ねじや軸などの金属部品のすき間に入り空気がしゃ断されると硬化します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 8,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001096",
+      "doc_seq": 6,
+      "track_doc_seq": 1096,
+      "unit_count": 24,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1096,
+      "preview": "ラーメンを食べたい時に何かしらのラーメンランキングのサイトを見ると思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 24,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001097",
+      "doc_seq": 7,
+      "track_doc_seq": 1097,
+      "unit_count": 86,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1097,
+      "preview": "宿泊施設完備のとても快適な研修施設。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 86,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001098",
+      "doc_seq": 8,
+      "track_doc_seq": 1098,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1098,
+      "preview": "約3年間、浦和中央ボーイズで頑張ってきた第5期生13名の卒団式が行われました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001099",
+      "doc_seq": 9,
+      "track_doc_seq": 1099,
+      "unit_count": 35,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1099,
+      "preview": "寒さが身にしみる今日この頃ですが、体調など壊していないですか？",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-24T08:59:42Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 35,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001100",
+      "doc_seq": 10,
+      "track_doc_seq": 1100,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1100,
+      "preview": "ポイントサイトのすぐたまにて、漫画付きアンケートという「普通のアンケートの前に4コマ漫画が表示される」というちょっと変わったアンケートがリリースされました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T08:55:33Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001093:u0040::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001093",
+      "doc_seq": 3,
+      "track_doc_seq": 1093,
+      "unit_id": "ja_cc_level2:0000001093:u0040",
+      "unit_seq": 40,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1093,
+      "text": "私がかつて作った『幻の全原爆フィルム日本人の手へ　悲劇の瞬間と37年目の対面』を上映し、作品内で証言をして下さった方たちを、観客に紹介している。",
+      "rendered_yomi_before": "私/ワタシ が/ガ かつて/カツテ 作っ/ツクッ た/タ 『/『 幻/マボロシ の/ノ 全原/ゼンハラ 爆/爆 フィルム/フィルム 日本人/ニホンジン の/ノ 手/テ へ/ヘ 　/　 悲劇/ヒゲキ の/ノ 瞬間/シュンカン と/ト 37/ 年/ネン 目/メ の/ノ 対面/タイメン 』/』 を/ヲ 上映/ジョウエイ し/シ 、/、 作品/サクヒン 内/ナイ で/デ 証言/ショウゲン を/ヲ し/シ て/テ 下さっ/クダサッ た/タ 方/カタ たち/タチ を/ヲ 、/、 観客/カンキャク に/ニ 紹介/ショウカイ し/シ て/テ いる/イル 。/。",
+      "rendered_yomi_after": "私/ワタシ が/ガ かつて/カツテ 作っ/ツクッ た/タ 『/『 幻/マボロシ の/ノ 全原爆/ゼンゲンバク フィルム/フィルム 日本人/ニホンジン の/ノ 手/テ へ/ヘ \\u3000/ 悲劇/ヒゲキ の/ノ 瞬間/シュンカン と/ト 37/ 年/ネン 目/メ の/ノ 対面/タイメン 』/』 を/ヲ 上映/ジョウエイ し/シ 、/、 作品/サクヒン 内/ナイ で/デ 証言/ショウゲン を/ヲ し/シ て/テ 下さっ/クダサッ た/タ 方/カタ たち/タチ を/ヲ 、/、 観客/カンキャク に/ニ 紹介/ショウカイ し/シ て/テ いる/イル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "私",
+          "ワタシ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "かつて",
+          "カツテ"
+        ],
+        [
+          "作っ",
+          "ツクッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "幻",
+          "マボロシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "全原爆",
+          "ゼンゲンバク"
+        ],
+        [
+          "フィルム",
+          "フィルム"
+        ],
+        [
+          "日本人",
+          "ニホンジン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "手",
+          "テ"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "悲劇",
+          "ヒゲキ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "瞬間",
+          "シュンカン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "37",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "対面",
+          "タイメン"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "上映",
+          "ジョウエイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "作品",
+          "サクヒン"
+        ],
+        [
+          "内",
+          "ナイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "証言",
+          "ショウゲン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "下さっ",
+          "クダサッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "方",
+          "カタ"
+        ],
+        [
+          "たち",
+          "タチ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "観客",
+          "カンキャク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "紹介",
+          "ショウカイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "私",
+          "reading": "ワタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "私",
+              "reading": "わたし"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "かつて",
+          "reading": "カツテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かつて"
+            }
+          ]
+        },
+        {
+          "surface": "作っ",
+          "reading": "ツクッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作",
+              "reading": "つく"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "幻",
+          "reading": "マボロシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "幻",
+              "reading": "まぼろし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "全原爆",
+          "reading": "ゼンゲンバク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "全原爆",
+              "reading": "ぜんげんばく"
+            }
+          ]
+        },
+        {
+          "surface": "フィルム",
+          "reading": "フィルム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フィルム"
+            }
+          ]
+        },
+        {
+          "surface": "日本人",
+          "reading": "ニホンジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本人",
+              "reading": "にほんじん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "手",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手",
+              "reading": "て"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "悲劇",
+          "reading": "ヒゲキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "悲劇",
+              "reading": "ひげき"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "瞬間",
+          "reading": "シュンカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "瞬間",
+              "reading": "しゅんかん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "37",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "37"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "対面",
+          "reading": "タイメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対面",
+              "reading": "たいめん"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "上映",
+          "reading": "ジョウエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "上映",
+              "reading": "じょうえい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "作品",
+          "reading": "サクヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作品",
+              "reading": "さくひん"
+            }
+          ]
+        },
+        {
+          "surface": "内",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内",
+              "reading": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "証言",
+          "reading": "ショウゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "証言",
+              "reading": "しょうげん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "下さっ",
+          "reading": "クダサッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下",
+              "reading": "くだ"
+            },
+            {
+              "type": "text",
+              "text": "さっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "方",
+          "reading": "カタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方",
+              "reading": "かた"
+            }
+          ]
+        },
+        {
+          "surface": "たち",
+          "reading": "タチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たち"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "観客",
+          "reading": "カンキャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "観客",
+              "reading": "かんきゃく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "紹介",
+          "reading": "ショウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "紹介",
+              "reading": "しょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+          "item_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+          "unit_id": "ja_cc_level2:0000001093:u0040",
+          "text": "私がかつて作った『幻の全原爆フィルム日本人の手へ　悲劇の瞬間と37年目の対面』を上映し、作品内で証言をして下さった方たちを、観客に紹介している。",
+          "rendered_yomi_before": "私/ワタシ が/ガ かつて/カツテ 作っ/ツクッ た/タ 『/『 幻/マボロシ の/ノ 全原/ゼンハラ 爆/爆 フィルム/フィルム 日本人/ニホンジン の/ノ 手/テ へ/ヘ 　/　 悲劇/ヒゲキ の/ノ 瞬間/シュンカン と/ト 37/ 年/ネン 目/メ の/ノ 対面/タイメン 』/』 を/ヲ 上映/ジョウエイ し/シ 、/、 作品/サクヒン 内/ナイ で/デ 証言/ショウゲン を/ヲ し/シ て/テ 下さっ/クダサッ た/タ 方/カタ たち/タチ を/ヲ 、/、 観客/カンキャク に/ニ 紹介/ショウカイ し/シ て/テ いる/イル 。/。",
+          "rendered_yomi_after": "私/ワタシ が/ガ かつて/カツテ 作っ/ツクッ た/タ 『/『 幻/マボロシ の/ノ 全原爆/ゼンゲンバク フィルム/フィルム 日本人/ニホンジン の/ノ 手/テ へ/ヘ \\u3000/ 悲劇/ヒゲキ の/ノ 瞬間/シュンカン と/ト 37/ 年/ネン 目/メ の/ノ 対面/タイメン 』/』 を/ヲ 上映/ジョウエイ し/シ 、/、 作品/サクヒン 内/ナイ で/デ 証言/ショウゲン を/ヲ し/シ て/テ 下さっ/クダサッ た/タ 方/カタ たち/タチ を/ヲ 、/、 観客/カンキャク に/ニ 紹介/ショウカイ し/シ て/テ いる/イル 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 11,
+            "char_end": 14,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001093:u0040:s0012-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "全原",
+              "token_surface": "全原",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぜんはら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "全原",
+                  "reading": "ぜんはら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001093:u0040:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "爆",
+              "token_surface": "爆",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001093:u0040:s0012-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "全原",
+              "token_surface": "全原",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぜんはら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "全原",
+                  "reading": "ぜんはら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001093:u0040:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "爆",
+              "token_surface": "爆",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "全原爆",
+          "reading_candidates": {
+            "全": [
+              "ぜん",
+              "あきら",
+              "たもつ",
+              "まった",
+              "まとし"
+            ],
+            "全原": [
+              "ぜんはら"
+            ],
+            "原": [
+              "げん",
+              "はら",
+              "はる",
+              "ばら"
+            ],
+            "原爆": [
+              "げんばく"
+            ],
+            "爆": [
+              "ばく"
+            ]
+          },
+          "reading_hints": {
+            "全": "ぜん",
+            "全原": "ぜんはら",
+            "原": "げん",
+            "原爆": "げんばく",
+            "爆": "ばく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "全原",
+              "reading": "ぜんはら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"全原爆\",\"reading\":\"ゼンゲンバク\",\"used_web_search\":true,\"comment\":\"番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "全原爆",
+              "reading": "ゼンゲンバク",
+              "used_web_search": true,
+              "comment": "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+            "status": "applied",
+            "rejected_span": "全原爆",
+            "replacement": [
+              {
+                "surface": "全原爆",
+                "reading": "ゼンゲンバク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+                "surface": "全原爆",
+                "comment": "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "全原爆",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001093:u0040:s0012-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "全原",
+          "token_surface": "全原",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぜんはら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "全原",
+              "reading": "ぜんはら",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001093:u0040:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "爆",
+          "token_surface": "爆",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "全原",
+          "reading": "ぜんはら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "全": [
+          "ぜん",
+          "あきら",
+          "たもつ",
+          "まった",
+          "まとし"
+        ],
+        "全原": [
+          "ぜんはら"
+        ],
+        "原": [
+          "げん",
+          "はら",
+          "はる",
+          "ばら"
+        ],
+        "原爆": [
+          "げんばく"
+        ],
+        "爆": [
+          "ばく"
+        ]
+      },
+      "reading_hints": {
+        "全": "ぜん",
+        "全原": "ぜんはら",
+        "原": "げん",
+        "原爆": "げんばく",
+        "爆": "ばく"
+      },
+      "llm_parsed": [
+        {
+          "surface": "全原爆",
+          "reading": "ゼンゲンバク",
+          "used_web_search": true,
+          "comment": "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"全原爆\",\"reading\":\"ゼンゲンバク\",\"used_web_search\":true,\"comment\":\"番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+        "status": "applied",
+        "rejected_span": "全原爆",
+        "replacement": [
+          {
+            "surface": "全原爆",
+            "reading": "ゼンゲンバク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001093:u0040::target_group:1",
+            "surface": "全原爆",
+            "comment": "番組・作品の固定表記「幻の全原爆フィルム」に出る語で、ここは「ぜんげんばく」と読むのが自然。([bpcj.or.jp](https://www.bpcj.or.jp/program/detail/013822/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001099:u0034::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001099",
+      "doc_seq": 9,
+      "track_doc_seq": 1099,
+      "unit_id": "ja_cc_level2:0000001099:u0034",
+      "unit_seq": 34,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1099,
+      "text": "今回は、葬祭場を建設させて頂きました。",
+      "rendered_yomi_before": "今回/コンカイ は/ハ 、/、 葬/ソウ 祭場/サイジョウ を/ヲ 建設/ケンセツ さ/サ せ/セ て/テ 頂き/イタダキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "今回/コンカイ は/ハ 、/、 葬祭場/ソウサイジョウ を/ヲ 建設/ケンセツ さ/サ せ/セ て/テ 頂き/イタダキ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "今回",
+          "コンカイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "葬祭場",
+          "ソウサイジョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "建設",
+          "ケンセツ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "せ",
+          "セ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "頂き",
+          "イタダキ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今回",
+          "reading": "コンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今回",
+              "reading": "こんかい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "葬祭場",
+          "reading": "ソウサイジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "葬祭場",
+              "reading": "そうさいじょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "建設",
+          "reading": "ケンセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "建設",
+              "reading": "けんせつ"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "せ",
+          "reading": "セ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "頂き",
+          "reading": "イタダキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頂",
+              "reading": "いただ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+          "item_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+          "unit_id": "ja_cc_level2:0000001099:u0034",
+          "text": "今回は、葬祭場を建設させて頂きました。",
+          "rendered_yomi_before": "今回/コンカイ は/ハ 、/、 葬/ソウ 祭場/サイジョウ を/ヲ 建設/ケンセツ さ/サ せ/セ て/テ 頂き/イタダキ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "今回/コンカイ は/ハ 、/、 葬祭場/ソウサイジョウ を/ヲ 建設/ケンセツ さ/サ せ/セ て/テ 頂き/イタダキ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001099:u0034:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "葬",
+              "token_surface": "葬",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "葬",
+                  "reading": "そう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001099:u0034:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "祭場",
+              "token_surface": "祭場",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さいじょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "祭場",
+                  "reading": "さいじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001099:u0034:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "葬",
+              "token_surface": "葬",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "そう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "葬",
+                  "reading": "そう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001099:u0034:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "祭場",
+              "token_surface": "祭場",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さいじょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "祭場",
+                  "reading": "さいじょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "葬祭場",
+          "reading_candidates": {
+            "葬": [
+              "そう"
+            ],
+            "葬祭": [
+              "そうさい"
+            ],
+            "祭": [
+              "さい",
+              "はれ",
+              "まつり"
+            ],
+            "祭場": [
+              "さいじょう"
+            ],
+            "場": [
+              "じょう",
+              "ば"
+            ]
+          },
+          "reading_hints": {
+            "葬": "そう",
+            "葬祭": "そうさい",
+            "祭": "さい",
+            "祭場": "さいじょう",
+            "場": "じょう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "葬",
+              "reading": "そう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "祭場",
+              "reading": "さいじょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"葬祭場\",\"reading\":\"そうさいじょう\",\"used_web_search\":false,\"comment\":\"一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "葬祭場",
+              "reading": "そうさいじょう",
+              "used_web_search": false,
+              "comment": "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+            "status": "applied",
+            "rejected_span": "葬祭場",
+            "replacement": [
+              {
+                "surface": "葬祭場",
+                "reading": "ソウサイジョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+                "surface": "葬祭場",
+                "comment": "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "葬祭場",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001099:u0034:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "葬",
+          "token_surface": "葬",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "そう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "葬",
+              "reading": "そう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001099:u0034:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "祭場",
+          "token_surface": "祭場",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さいじょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "祭場",
+              "reading": "さいじょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "葬",
+          "reading": "そう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "祭場",
+          "reading": "さいじょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "葬": [
+          "そう"
+        ],
+        "葬祭": [
+          "そうさい"
+        ],
+        "祭": [
+          "さい",
+          "はれ",
+          "まつり"
+        ],
+        "祭場": [
+          "さいじょう"
+        ],
+        "場": [
+          "じょう",
+          "ば"
+        ]
+      },
+      "reading_hints": {
+        "葬": "そう",
+        "葬祭": "そうさい",
+        "祭": "さい",
+        "祭場": "さいじょう",
+        "場": "じょう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "葬祭場",
+          "reading": "そうさいじょう",
+          "used_web_search": false,
+          "comment": "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"葬祭場\",\"reading\":\"そうさいじょう\",\"used_web_search\":false,\"comment\":\"一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。\"}]",
+      "llm_comments": [
+        "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+        "status": "applied",
+        "rejected_span": "葬祭場",
+        "replacement": [
+          {
+            "surface": "葬祭場",
+            "reading": "ソウサイジョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001099:u0034::target_group:1",
+            "surface": "葬祭場",
+            "comment": "一般的な語で、全体で「そうさいじょう」と読む語。分割せず一語として扱う。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
