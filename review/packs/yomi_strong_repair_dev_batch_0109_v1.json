@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -109,12 +109,12 @@
       "source_line_no": 1054,
       "preview": "長い長い代表ウィークを終えて、今節バルサは今季リーガで無敗を誇るアトレティコとの大一番を迎えます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-24T07:26:36Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-24T07:58:17Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -1925,7 +1925,7 @@
       "source_line_no": 1054,
       "text": "ということで頑張るのは両SHのお二方。",
       "rendered_yomi_before": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/エスエイチ の/ノ お/オ 二方/フタカタ 。/。",
-      "rendered_yomi_after": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/エスエイチ の/ノ お/オ 二方/フタカタ 。/。",
+      "rendered_yomi_after": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/サイドハーフ の/ノ お/オ 二方/フタカタ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "と",
@@ -1961,7 +1961,7 @@
         ],
         [
           "SH",
-          "エスエイチ"
+          "サイドハーフ"
         ],
         [
           "の",
@@ -2069,12 +2069,12 @@
         },
         {
           "surface": "SH",
-          "reading": "エスエイチ",
+          "reading": "サイドハーフ",
           "nodes": [
             {
               "type": "ruby",
               "text": "SH",
-              "reading": "えすえいち"
+              "reading": "さいどはーふ"
             }
           ]
         },
@@ -2133,7 +2133,7 @@
           "unit_id": "ja_cc_level2:0000001054:u0020",
           "text": "ということで頑張るのは両SHのお二方。",
           "rendered_yomi_before": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/エスエイチ の/ノ お/オ 二方/フタカタ 。/。",
-          "rendered_yomi_after": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/エスエイチ の/ノ お/オ 二方/フタカタ 。/。",
+          "rendered_yomi_after": "と/ト いう/イウ こと/コト で/デ 頑張る/ガンバル の/ノ は/ハ 両/リョウ SH/サイドハーフ の/ノ お/オ 二方/フタカタ 。/。",
           "display_mapping": {
             "start": 8,
             "end": 9,

@@ -27,6 +27,8 @@ const state = {
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
   runtimeStatus: null,
+  issueAcknowledgments: null,
+  issueAcknowledgmentSignature: "",
   runtimePollingStarted: false,
   runtimePollTimer: null,
   runtimePollGeneration: 0,
@@ -97,6 +99,7 @@ async function boot() {
   bindEvents();
   const manifest = await fetchJson(manifestUrl);
   state.manifest = manifest;
+  await loadIssueAcknowledgments();
   const stageIds = Object.keys(manifest.stages || {});
   if (stageIds.length === 0) {
     throw new Error("公開されたレビューステージがありません。");
@@ -2459,12 +2462,14 @@ function renderWorkflowTile(row, { compact }) {
   tile.classList.toggle("submitted", Boolean(row.submitted));
   tile.classList.toggle("local-submitted", Boolean(row.local_submitted && !row.processing));
   tile.classList.toggle("processing", Boolean(row.processing));
+  tile.classList.toggle("submission-conflict", Boolean(row.submission_conflict));
   tile.classList.toggle("apply-failed", Boolean(row.apply_failed));
   tile.disabled = compact && (row.status === "not-started" || row.submitted);
   tile.innerHTML = `
     <strong>${escapeHtml(String(row.display_seq))}</strong>
     <span>${escapeHtml(workflowStatusGlyph(row.status))}</span>
     ${row.processing ? '<em class="workflow-processing-badge">サーバー処理中</em>' : ""}
+    ${row.submission_conflict ? '<em class="workflow-conflict-badge">提出競合</em>' : ""}
     ${row.local_submitted && !row.processing ? '<em class="workflow-local-submitted-badge">ローカル提出済み</em>' : ""}
     ${row.apply_failed ? '<em class="workflow-apply-failed-badge">適用失敗</em>' : ""}
   `;
@@ -2903,12 +2908,14 @@ function workflowDocumentStates(docs) {
         submitted: false,
         local_submitted: false,
         processing: false,
+        submission_conflict: false,
         apply_failed: false,
       });
     }
     const row = bySeq.get(seq);
     row.preview = row.preview || doc.preview || "";
     row.apply_failed = row.apply_failed || String(doc.state || "") === "strong_apply_failed";
+    row.submission_conflict = row.submission_conflict || docHasSubmissionConflict(doc);
     if (documentIsResolved(doc)) {
       if (!["final", "strong"].includes(row.status)) {
         row.status = "resolved";
@@ -3056,6 +3063,7 @@ function workflowDocumentStateForQueueDoc(doc) {
     submitted,
     local_submitted: localSubmitted,
     processing,
+    submission_conflict: docHasSubmissionConflict(doc),
     completed_via: submitted ? submittedWorkflowLabel(doc) : "",
     apply_failed: String(doc.state || "") === "strong_apply_failed",
   };
@@ -3255,12 +3263,27 @@ function docIsProcessingOnServer(doc) {
   const stateName = String(doc?.state || "");
   const workflowState = String(doc?.workflow_state || "");
   return (
+    issueAcknowledgmentsForDoc(doc).length > 0 ||
     stateName === "final_reviewed" ||
     stateName === "strong_reviewed" ||
     (Boolean(doc?.awaiting_finalization) && (stateName === "complete" || stateName === "skipped")) ||
     workflowState === "bulk_submitted" ||
     workflowState === "escalated_submitted"
   );
+}
+
+function issueAcknowledgmentsForDoc(doc) {
+  const docId = String(doc?.doc_id || "");
+  if (!docId) {
+    return [];
+  }
+  return (state.issueAcknowledgments?.records || []).filter((row) =>
+    (row.doc_ids || []).map(String).includes(docId),
+  );
+}
+
+function docHasSubmissionConflict(doc) {
+  return issueAcknowledgmentsForDoc(doc).some((row) => row.conflict === true);
 }
 
 function docIsSubmitted(doc) {
@@ -3282,6 +3305,7 @@ function renderTaskDocumentRow(doc, task) {
   row.classList.toggle("empty-task-doc", Number(doc.item_count || 0) === 0);
   row.classList.toggle("unselectable-task-doc", doc.selectable === false || submitted);
   row.classList.toggle("submitted-task-doc", submitted);
+  row.classList.toggle("submission-conflict-task-doc", docHasSubmissionConflict(doc));
 
   const label = document.createElement("label");
   label.className = "task-doc-check";
@@ -7742,6 +7766,49 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function loadIssueAcknowledgments() {
+  const path = state.manifest?.issue_acknowledgments?.path;
+  if (!path) {
+    state.issueAcknowledgments = { records: [] };
+    return;
+  }
+  try {
+    state.issueAcknowledgments = await fetchJson(path);
+    state.issueAcknowledgmentSignature = issueAcknowledgmentSignature(state.issueAcknowledgments);
+  } catch (error) {
+    state.issueAcknowledgments = { records: [] };
+    console.warn("Issue acknowledgment load failed", error);
+  }
+}
+
+function issueAcknowledgmentSignature(payload) {
+  return JSON.stringify(
+    (payload?.records || []).map((row) => [
+      row.submission_id,
+      row.issue_number,
+      row.conflict,
+      row.doc_ids,
+    ]),
+  );
+}
+
+async function pollIssueAcknowledgments() {
+  const path = state.manifest?.issue_acknowledgments?.path;
+  if (!path) {
+    return false;
+  }
+  const separator = path.includes("?") ? "&" : "?";
+  const bucket = Math.floor(Date.now() / 30000);
+  const payload = await fetchJson(`${path}${separator}v=${bucket}`);
+  const signature = issueAcknowledgmentSignature(payload);
+  if (signature === state.issueAcknowledgmentSignature) {
+    return false;
+  }
+  state.issueAcknowledgments = payload;
+  state.issueAcknowledgmentSignature = signature;
+  return true;
+}
+
 function startRuntimeStatusPolling() {
   if (!state.manifest?.runtime_status?.path) {
     return;
@@ -7769,6 +7836,16 @@ async function pollRuntimeStatus() {
     state.runtimeStatus = runtimeStatus;
     state.runtimePollFailures = 0;
     renderRuntimeStatus();
+    const acknowledgmentsChanged = await pollIssueAcknowledgments();
+    if (acknowledgmentsChanged) {
+      if (isTaskStarted()) {
+        el.serverUpdateMessage.textContent = "Issueの受付状態が更新されました。ローカル作業は保存されています。";
+        el.serverUpdateBanner.classList.remove("hidden");
+      } else {
+        window.location.reload();
+        return;
+      }
+    }
     if (previousRevision > 0 && nextRevision > previousRevision) {
       if (isTaskStarted()) {
         el.serverUpdateMessage.textContent = "作業中にサーバー側の状態が更新されました。ローカル作業は保存されています。";
