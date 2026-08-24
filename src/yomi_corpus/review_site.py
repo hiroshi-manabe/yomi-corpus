@@ -314,6 +314,64 @@ def publish_review_site(
         )
 
 
+def publish_issue_acknowledgments(
+    *,
+    docs_dir: str | Path,
+    acknowledgment_path: str | Path,
+) -> dict[str, Any]:
+    """Publish watcher state without regenerating packs or the archive."""
+    docs_root = Path(docs_dir)
+    source = Path(acknowledgment_path)
+    review_dir = docs_root / "review"
+    manifest_path = review_dir / "manifest.json"
+    with review_site_publish_lock(docs_root):
+        if not manifest_path.exists():
+            raise FileNotFoundError(
+                "Review manifest is missing; run ./publish-review before enabling issue-watch."
+            )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        destination = review_dir / "issue-acknowledgments.json"
+        shutil.copy2(source, destination)
+        manifest["issue_acknowledgments"] = {
+            "path": "./issue-acknowledgments.json"
+        }
+        manifest_path.write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    return {
+        "status": "generated",
+        "manifest_json": str(manifest_path),
+        "acknowledgment_json": str(destination),
+    }
+
+
+def issue_acknowledgments_need_publish(
+    *,
+    docs_dir: str | Path,
+    acknowledgment_path: str | Path,
+) -> bool:
+    review_dir = Path(docs_dir) / "review"
+    source = Path(acknowledgment_path)
+    destination = review_dir / "issue-acknowledgments.json"
+    if _file_fingerprint(source) != _file_fingerprint(destination):
+        return True
+    manifest_path = review_dir / "manifest.json"
+    if not manifest_path.exists():
+        return True
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return True
+    return manifest.get("issue_acknowledgments", {}).get("path") != "./issue-acknowledgments.json"
+
+
+def _file_fingerprint(path: Path) -> str | None:
+    if not path.exists() or not path.is_file():
+        return None
+    return sha256(path.read_bytes()).hexdigest()
+
+
 def _publish_review_site_unlocked(
     *,
     web_review_dir: str | Path,

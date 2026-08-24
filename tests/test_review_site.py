@@ -18,10 +18,52 @@ from yomi_corpus.review_site import (
     normalize_archive_yomi_tokens,
     publish_review_archive,
     publish_review_site,
+    publish_issue_acknowledgments,
+    issue_acknowledgments_need_publish,
 )
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_publish_issue_acknowledgments_updates_only_watcher_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            review_dir = root / "docs" / "review"
+            review_dir.mkdir(parents=True)
+            manifest_path = review_dir / "manifest.json"
+            manifest_path.write_text(
+                json.dumps({"schema_version": 1, "stages": {}}),
+                encoding="utf-8",
+            )
+            source = root / "dev.acknowledgments.json"
+            source.write_text(
+                json.dumps({"schema_version": 1, "records": [{"submission_id": "s1"}]}),
+                encoding="utf-8",
+            )
+
+            result = publish_issue_acknowledgments(
+                docs_dir=root / "docs",
+                acknowledgment_path=source,
+            )
+
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            self.assertEqual(result["status"], "generated")
+            self.assertEqual(
+                manifest["issue_acknowledgments"]["path"],
+                "./issue-acknowledgments.json",
+            )
+            self.assertEqual(
+                json.loads(
+                    (review_dir / "issue-acknowledgments.json").read_text(encoding="utf-8")
+                )["records"][0]["submission_id"],
+                "s1",
+            )
+            self.assertFalse(
+                issue_acknowledgments_need_publish(
+                    docs_dir=root / "docs",
+                    acknowledgment_path=source,
+                )
+            )
+
     def test_archive_search_unit_uses_shared_ruby_placement(self) -> None:
         search_unit = archive_search_unit(
             {
