@@ -606,6 +606,14 @@ class ReviewSiteTests(unittest.TestCase):
                 json.dumps({"schema_version": 1, "state_revision": 3}),
                 encoding="utf-8",
             )
+            acknowledgments = (
+                root / "data" / "state" / "issue_watch" / "dev.acknowledgments.json"
+            )
+            acknowledgments.parent.mkdir(parents=True)
+            acknowledgments.write_text(
+                json.dumps({"schema_version": 1, "records": [{"submission_id": "s1"}]}),
+                encoding="utf-8",
+            )
 
             manifest = publish_review_site(
                 web_review_dir=web_review_dir,
@@ -624,6 +632,11 @@ class ReviewSiteTests(unittest.TestCase):
             saved_manifest = json.loads((docs_dir / "review" / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual(saved_manifest["default_stage"], "alphabetic_candidate_review")
             self.assertEqual(saved_manifest["runtime_status"]["path"], "./runtime-status.json")
+            self.assertEqual(
+                saved_manifest["issue_acknowledgments"]["path"],
+                "./issue-acknowledgments.json",
+            )
+            self.assertTrue((docs_dir / "review" / "issue-acknowledgments.json").exists())
             self.assertEqual(
                 json.loads((docs_dir / "review" / "runtime-status.json").read_text(encoding="utf-8"))[
                     "state_revision"

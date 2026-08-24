@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+SYSTEMD_USER_DIR="${HOME}/.config/systemd/user"
+quiet=false
+if [[ "${1:-}" == "--quiet" ]]; then
+  quiet=true
+elif [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  echo "Usage: ./ensure-issue-watch-timer [--quiet]"
+  exit 0
+elif [[ $# -gt 0 ]]; then
+  echo "Usage: ./ensure-issue-watch-timer [--quiet]" >&2
+  exit 2
+fi
+
+if ! command -v systemctl >/dev/null 2>&1 || ! systemctl --user is-active --quiet default.target; then
+  [[ "${quiet}" == true ]] || echo "systemd --user is unavailable; skipping Issue watcher timer."
+  exit 0
+fi
+
+mkdir -p "${SYSTEMD_USER_DIR}"
+sed "s|/panfs/panmt22/users/hmanabe/yomi-corpus|${PROJECT_ROOT}|g" \
+  "${PROJECT_ROOT}/deploy/systemd/user/yomi-corpus-issue-watch-dev.service" \
+  >"${SYSTEMD_USER_DIR}/yomi-corpus-issue-watch-dev.service"
+cp "${PROJECT_ROOT}/deploy/systemd/user/yomi-corpus-issue-watch-dev.timer" \
+  "${SYSTEMD_USER_DIR}/yomi-corpus-issue-watch-dev.timer"
+systemctl --user daemon-reload
+systemctl --user enable --now yomi-corpus-issue-watch-dev.timer
+[[ "${quiet}" == true ]] || echo "Issue watcher timer is active."

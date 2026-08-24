@@ -358,6 +358,21 @@ def _publish_review_site_unlocked(
         if runtime_source.exists():
             shutil.copy2(runtime_source, review_output_dir / "runtime-status.json")
             manifest["runtime_status"] = {"path": "./runtime-status.json"}
+        acknowledgment_source = (
+            Path(project_root)
+            / "data"
+            / "state"
+            / "issue_watch"
+            / "dev.acknowledgments.json"
+        )
+        if acknowledgment_source.exists():
+            shutil.copy2(
+                acknowledgment_source,
+                review_output_dir / "issue-acknowledgments.json",
+            )
+            manifest["issue_acknowledgments"] = {
+                "path": "./issue-acknowledgments.json"
+            }
         archive_manifest = publish_review_archive(
             project_root=project_root,
             review_output_dir=review_output_dir,

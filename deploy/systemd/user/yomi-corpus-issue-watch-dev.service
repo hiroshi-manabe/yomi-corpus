@@ -1,0 +1,9 @@
+[Unit]
+Description=Yomi corpus dev Issue acknowledgment watcher
+Documentation=file:/panfs/panmt22/users/hmanabe/yomi-corpus/docs/ISSUE_ACK_WATCHER_MIGRATION.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=/panfs/panmt22/users/hmanabe/yomi-corpus
+Environment=PATH=%h/.local/bin:%h/.local/share/mise/installs/python/3.12.12/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/bash -lc './issue-watch dev --publish gh-pages'

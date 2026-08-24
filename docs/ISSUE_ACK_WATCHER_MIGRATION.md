@@ -58,9 +58,8 @@ remain the responsibility of `review-sync`.
 Persist acknowledgment state atomically under:
 
 ```text
-data/state/issue_watch/<track>.json
-data/state/issue_watch/<track>.last.json
-data/state/issue_watch/<track>.<timestamp>.json
+data/state/issue_watch/<track>.ledger.json
+data/state/issue_watch/<track>.acknowledgments.json
 ```
 
 Each acknowledged submission records at least:
@@ -245,3 +244,24 @@ Disable the watcher timer and path unit. The five-minute review-sync timer then
 restores the previous behavior without changing submission or pipeline data.
 Acknowledgment artifacts and labels are advisory; canonical document state and
 the existing importer remain authoritative throughout the migration.
+
+## Initial Implementation
+
+`./issue-watch dev --publish gh-pages` performs one bounded poll. It records
+recognized submissions in `data/state/issue_watch/dev.ledger.json`, publishes
+the active subset as `issue-acknowledgments.json`, and starts the existing
+`yomi-corpus-review-sync-dev.service` for a newly seen or retry-eligible
+submission. A five-minute per-submission trigger cooldown prevents a malformed
+or temporarily unprocessable Issue from causing a tight sync loop.
+
+The browser treats an active acknowledgment as server processing before the
+pipeline importer advances the document. Two active submissions naming the
+same document are visibly marked as a conflict. Closing an Issue removes its
+acknowledgment on the next watcher pass; review-sync remains responsible for
+validation, application, and closure.
+
+The deployable `yomi-corpus-issue-watch-dev.timer` runs every 30 seconds. Install
+or refresh it with `./ensure-issue-watch-timer`; the existing five-minute
+review-sync timer remains enabled as the recovery path. The initial rollout
+uses direct systemd service activation rather than a path unit, reducing moving
+parts while retaining durable ledger state and bounded retries.

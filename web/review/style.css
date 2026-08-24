@@ -2152,3 +2152,18 @@ button:disabled {
   font-weight: 700;
   vertical-align: middle;
 }
+.task-doc-row.submission-conflict-task-doc {
+  box-shadow: inset 4px 0 0 var(--danger);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+}
+
+.workflow-doc-tile.submission-conflict {
+  box-shadow: inset 0 0 0 2px var(--danger);
+}
+
+.workflow-conflict-badge {
+  color: var(--danger);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 800;
+}

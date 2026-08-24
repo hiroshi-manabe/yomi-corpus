@@ -1546,6 +1546,12 @@ def review_site_needs_publish(root: Path, track_name: str = "dev") -> bool:
     runtime_destination = docs_review_dir / "runtime-status.json"
     if file_fingerprint(runtime_source) != file_fingerprint(runtime_destination):
         return True
+    acknowledgment_source = (
+        root / "data" / "state" / "issue_watch" / f"{track_name}.acknowledgments.json"
+    )
+    acknowledgment_destination = docs_review_dir / "issue-acknowledgments.json"
+    if file_fingerprint(acknowledgment_source) != file_fingerprint(acknowledgment_destination):
+        return True
     for entry in entries:
         source_path = entry.get("source_path")
         filename = entry.get("site_filename")

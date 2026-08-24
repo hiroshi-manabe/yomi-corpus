@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+
+from yomi_corpus.issue_watch import run_issue_watch_pass, trigger_review_sync_service  # noqa: E402
+from yomi_corpus.review_sync import publish_review_artifacts  # noqa: E402
+from yomi_corpus.review_transport import DEFAULT_REVIEW_TRANSPORT_CONFIG, load_review_transport_config  # noqa: E402
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Acknowledge new review Issues and trigger review-sync.")
+    parser.add_argument("track", choices=["dev", "working"])
+    parser.add_argument("--repo")
+    parser.add_argument("--transport-config", default=DEFAULT_REVIEW_TRANSPORT_CONFIG)
+    parser.add_argument("--publish", choices=["none", "local", "gh-pages"], default="local")
+    parser.add_argument("--no-trigger", action="store_true")
+    args = parser.parse_args()
+    transport = load_review_transport_config(args.track, args.transport_config)
+    result = run_issue_watch_pass(
+        PROJECT_ROOT,
+        track_name=args.track,
+        repo=args.repo or transport.repo,
+    )
+    if result["status"] == "changed" and args.publish != "none":
+        result["publication"] = publish_review_artifacts(
+            PROJECT_ROOT,
+            push_gh_pages=args.publish == "gh-pages",
+        )
+    if result["trigger_required"] and not args.no_trigger:
+        result["trigger"] = trigger_review_sync_service(args.track)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
