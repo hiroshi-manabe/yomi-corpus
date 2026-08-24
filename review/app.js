@@ -7574,7 +7574,10 @@ function normalizeReviewDraft(parsed, pack) {
   const rawSavedTasks = parsed?.saved_tasks || {};
   let maxTaskNumber = 0;
   for (const [taskId, rawRecord] of Object.entries(rawSavedTasks)) {
-    const task = normalizeTask(rawRecord?.task, pack);
+    const submitted = rawRecord?.status === "submitted";
+    const task = submitted
+      ? normalizeStoredSubmittedTask(rawRecord?.task)
+      : normalizeTask(rawRecord?.task, pack);
     if (task.mode !== "documents" || task.doc_ids.length === 0) {
       continue;
     }
@@ -7584,9 +7587,13 @@ function normalizeReviewDraft(parsed, pack) {
       task_id: taskId,
       task_label: rawRecord?.task_label || (taskNumber ? `タスク ${taskNumber}` : taskId),
       task_number: taskNumber || null,
-      status: rawRecord?.status === "submitted" ? "submitted" : "deferred",
+      status: submitted ? "submitted" : "deferred",
+      queue_stage: rawRecord?.queue_stage || null,
       task: { ...task, started: false },
-      overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
+      document_refs: cloneJson(rawRecord?.document_refs || []),
+      overrides: submitted
+        ? cloneJson(rawRecord?.overrides || {})
+        : filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
       awaiting_issue_confirmation: Boolean(rawRecord?.awaiting_issue_confirmation),
@@ -7605,6 +7612,15 @@ function normalizeReviewDraft(parsed, pack) {
   }
   draft.next_task_number = Math.max(draft.next_task_number, maxTaskNumber + 1);
   return draft;
+}
+
+function normalizeStoredSubmittedTask(task) {
+  const docIds = [...new Set(taskDocIdsForStorageTask(task).map(String).filter(Boolean))];
+  return {
+    mode: docIds.length > 0 ? "documents" : "all",
+    doc_ids: docIds,
+    started: false,
+  };
 }
 
 function touchDraft() {
