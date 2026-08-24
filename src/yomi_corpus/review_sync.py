@@ -11,7 +11,7 @@ from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from yomi_corpus.decoder_models import list_finalized_batches
 from yomi_corpus.pipeline import (
@@ -120,6 +120,9 @@ def load_review_sync_config(
         ),
         refill_pass_limit=max(0, int(refill_section.get("pass_limit") or 0)),
         refill_max_stages=max(1, int(refill_worker_section.get("max_stages") or 20)),
+        refill_aligned_batch_size=max(
+            0, int(refill_worker_section.get("aligned_batch_size") or 0)
+        ),
         refill_llm_execution_mode=refill_llm_execution_mode,
         runtime_status_interval_seconds=max(
             1,
@@ -169,6 +172,7 @@ class ReviewSyncOptions:
     max_stages: int = 10
     bulk_review_target_ready_docs: int = 0
     refill_pass_limit: int = 0
+    refill_aligned_batch_size: int = 0
     dry_run: bool = False
     decoder_refresh_mode: str = DECODER_REFRESH_MODE_NEVER
     decoder_refresh_min_new_batches: int = 1
@@ -190,6 +194,7 @@ class ReviewSyncConfig:
     bulk_review_target_ready_docs: int = 0
     refill_pass_limit: int = 0
     refill_max_stages: int = 20
+    refill_aligned_batch_size: int = 0
     refill_llm_execution_mode: str | None = None
     runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
     runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
@@ -338,9 +343,37 @@ def _run_review_sync_pass_unlocked(
     sweep_results: list[dict[str, Any]] = []
     finalized_correction_result: dict[str, Any] | None = None
     decoder_refresh_result: dict[str, Any] | None = None
+    intermediate_publish_results: list[dict[str, Any]] = []
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
     finalized_before = set(list_finalized_batches(workspace, options.track_name))
+
+    def publish_applied_review_state(
+        attempted_stage: str,
+        result: dict[str, Any],
+    ) -> None:
+        if intermediate_publish_results or options.dry_run:
+            return
+        if options.publish_mode == PUBLISH_MODE_NONE:
+            return
+        if not review_submission_was_imported(
+            root=root,
+            attempted_stage=attempted_stage,
+            result=result,
+        ):
+            return
+        publish_result = publish_review_artifacts(
+            root,
+            push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
+        )
+        intermediate_publish_results.append(
+            {
+                "reason": "review_submission_imported",
+                "attempted_stage": attempted_stage,
+                "batch_name": result.get("batch_name"),
+                **publish_result,
+            }
+        )
 
     for _ in range(max(1, options.max_stages)):
         status = workspace.status(options.track_name)
@@ -394,6 +427,7 @@ def _run_review_sync_pass_unlocked(
                     enabled=options.close_issues,
                 )
             )
+        publish_applied_review_state(next_stage, result)
         partial_results = maintain_strong_repair_for_reviewed_documents(
             root=root,
             workspace=workspace,
@@ -416,6 +450,10 @@ def _run_review_sync_pass_unlocked(
                     enabled=options.close_issues,
                 )
             )
+            publish_applied_review_state(
+                str(partial_result.get("attempted_stage") or ""),
+                partial_result,
+            )
         if partial_results:
             after_partial_fingerprint = review_sync_fingerprint(
                 root=root,
@@ -434,6 +472,7 @@ def _run_review_sync_pass_unlocked(
         options=options,
         max_stages=max(1, options.max_stages),
         dry_run=options.dry_run,
+        on_stage_result=publish_applied_review_state,
     )
     for sweep_result in sweep_results:
         stage_results.append(sweep_result)
@@ -461,6 +500,8 @@ def _run_review_sync_pass_unlocked(
         document_queue_summary=document_queue_summary,
         target_ready_docs=options.bulk_review_target_ready_docs,
         pass_limit=options.refill_pass_limit,
+        next_track_doc_seq=workspace.next_track_doc_seq(options.track_name),
+        aligned_batch_size=options.refill_aligned_batch_size,
     )
     if int(refill_plan.get("planned_prepare_documents") or 0) > 0:
         refill_plan["source_selection"] = workspace.preview_next_source_documents(
@@ -542,6 +583,7 @@ def _run_review_sync_pass_unlocked(
         "refill_policy": {
             "bulk_review_target_ready_docs": options.bulk_review_target_ready_docs,
             "refill_pass_limit": options.refill_pass_limit,
+            "refill_aligned_batch_size": options.refill_aligned_batch_size,
         },
         "refill_plan": refill_plan,
         "finalized_correction_result": finalized_correction_result,
@@ -553,6 +595,7 @@ def _run_review_sync_pass_unlocked(
         "refill_results": refill_results,
         "close_results": close_results,
         "publish_result": publish_result,
+        "intermediate_publish_results": intermediate_publish_results,
         "runtime_status_result": runtime_status_result,
         "dry_run_plan": dry_run_plan,
         "final_status": final_status,
@@ -876,6 +919,7 @@ def sweep_actionable_batches(
     options: ReviewSyncOptions,
     max_stages: int,
     dry_run: bool = False,
+    on_stage_result: Callable[[str, dict[str, Any]], None] | None = None,
 ) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     track_state = workspace.load_track_state(options.track_name)
@@ -909,6 +953,11 @@ def sweep_actionable_batches(
                         before_partial_fingerprint != after_partial_fingerprint
                     )
                     results.append(partial_result)
+                    if on_stage_result is not None:
+                        on_stage_result(
+                            str(partial_result.get("attempted_stage") or ""),
+                            partial_result,
+                        )
                 batch_state = workspace.load_batch_state(batch_name)
             next_stage = workspace._next_stage_name(batch_state.current_stage)
             if not next_stage:
@@ -938,6 +987,8 @@ def sweep_actionable_batches(
             result["stage_changed"] = stage_changed
             result["sweep_batch"] = True
             results.append(result)
+            if on_stage_result is not None:
+                on_stage_result(next_stage, result)
             if not result.get("advanced"):
                 break
             if result.get("blocking_reason"):
@@ -1070,6 +1121,8 @@ def build_bulk_review_refill_plan(
     document_queue_summary: dict[str, Any] | None,
     target_ready_docs: int,
     pass_limit: int,
+    next_track_doc_seq: int | None = None,
+    aligned_batch_size: int = 0,
 ) -> dict[str, Any]:
     target = max(0, int(target_ready_docs or 0))
     limit = max(0, int(pass_limit or 0))
@@ -1082,7 +1135,15 @@ def build_bulk_review_refill_plan(
         pool_counts = {}
     ready = int(pool_counts.get(POOL_LABEL_BULK_READY) or 0)
     deficit = max(0, target - ready)
+    alignment = max(0, int(aligned_batch_size or 0))
+    if alignment > 0 and limit > 0 and alignment > limit:
+        raise ValueError("aligned_batch_size must not exceed pass_limit")
     planned = min(deficit, limit) if limit > 0 else 0
+    alignment_bridge = False
+    if planned > 0 and alignment > 0 and next_track_doc_seq is not None:
+        next_seq = max(1, int(next_track_doc_seq))
+        planned = alignment - ((next_seq - 1) % alignment)
+        alignment_bridge = planned < alignment
     return {
         "enabled": target > 0,
         "status": "disabled" if target <= 0 else ("needs_refill" if deficit > 0 else "satisfied"),
@@ -1090,6 +1151,9 @@ def build_bulk_review_refill_plan(
         "target_ready_docs": target,
         "deficit": deficit,
         "pass_limit": limit,
+        "aligned_batch_size": alignment,
+        "next_track_doc_seq": next_track_doc_seq,
+        "alignment_bridge": alignment_bridge,
         "planned_prepare_documents": planned,
         "will_prepare": False,
         "reason": (
@@ -1144,6 +1208,34 @@ def attempted_final_review_changed(
     if not isinstance(artifacts, dict):
         return False
     return bool(artifacts.get("final_review_apply_summary_json"))
+
+
+def review_submission_was_imported(
+    *,
+    root: Path,
+    attempted_stage: str,
+    result: dict[str, Any],
+) -> bool:
+    artifacts = result.get("artifacts")
+    if not isinstance(artifacts, dict):
+        return False
+    summary_key = {
+        STAGE_FINAL_REVIEW_APPLIED: "final_review_issue_import_summary_json",
+        STAGE_YOMI_FINALIZED: "yomi_strong_repair_review_issue_import_summary_json",
+    }.get(attempted_stage)
+    if summary_key is None:
+        return False
+    summary_path_raw = artifacts.get(summary_key)
+    if not summary_path_raw:
+        return False
+    summary_path = Path(str(summary_path_raw))
+    if not summary_path.is_absolute():
+        summary_path = root / summary_path
+    try:
+        summary = read_json(summary_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return False
+    return bool(summary.get("summaries"))
 
 
 def maintain_strong_repair_for_reviewed_documents(
@@ -1603,7 +1695,7 @@ def publish_review_artifacts(root: Path, *, push_gh_pages: bool) -> dict[str, An
     if not push_gh_pages:
         return result
     completed = subprocess.run(
-        [str(root / "publish-review")],
+        [str(root / "publish-review"), "--no-generate"],
         cwd=root,
         text=True,
         capture_output=True,

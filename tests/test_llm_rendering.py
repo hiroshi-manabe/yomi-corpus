@@ -71,6 +71,14 @@ class LLMRenderingTests(unittest.TestCase):
             "OK（オーケー）なAPI（エーピーアイ）です。",
         )
 
+    def test_furigana_no_space_parenthesizes_greek_katakana_readings(self) -> None:
+        self.assertEqual(
+            furigana_no_space_rendered_for_llm(
+                "α/アルファー 波/ハ と/ト β/ベータ カロテン/カロテン"
+            ),
+            "α（アルファー）波（は）とβ（ベータ）カロテン",
+        )
+
     def test_rendered_tokens_split_only_on_ascii_token_separators(self) -> None:
         self.assertEqual(
             rendered_tokens("A/エー \u00a0/\u00a0 \u3000/\u3000 B/ビー"),

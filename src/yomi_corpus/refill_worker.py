@@ -29,6 +29,7 @@ class RefillWorkerOptions:
     track_name: str
     target_ready_docs: int
     pass_limit: int
+    aligned_batch_size: int = 0
     max_stages: int = 20
     llm_execution_mode_override: str | None = None
     dry_run: bool = False
@@ -61,6 +62,8 @@ def _run_refill_worker_pass_unlocked(
         document_queue_summary=queue_summary,
         target_ready_docs=options.target_ready_docs,
         pass_limit=options.pass_limit,
+        next_track_doc_seq=workspace.next_track_doc_seq(options.track_name),
+        aligned_batch_size=options.aligned_batch_size,
     )
     resumable_batch = find_resumable_refill_batch(workspace, options.track_name)
     action: dict[str, Any]
@@ -129,6 +132,7 @@ def _run_refill_worker_pass_unlocked(
         "policy": {
             "target_ready_docs": options.target_ready_docs,
             "pass_limit": options.pass_limit,
+            "aligned_batch_size": options.aligned_batch_size,
             "max_stages": options.max_stages,
             "llm_execution_mode_override": options.llm_execution_mode_override,
         },

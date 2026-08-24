@@ -75,6 +75,7 @@ class StableSurfaceReading:
     surface_total_count: int
     share: float
     source_corpus_version: str
+    segmentation_counts: tuple[tuple[tuple[str, ...], int], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -112,6 +113,13 @@ class StableSurfaceReadingLexicon:
             if missing:
                 raise ValueError(f"Stable-surface TSV missing fields: {sorted(missing)}")
             for row in reader:
+                segmentation_counts: tuple[tuple[tuple[str, ...], int], ...] = ()
+                if row.get("segmentation_counts_json"):
+                    payload = json.loads(row["segmentation_counts_json"])
+                    segmentation_counts = tuple(
+                        (tuple(item["surfaces"]), int(item["count"]))
+                        for item in payload
+                    )
                 entry = StableSurfaceReading(
                     surface=row["surface"],
                     reading=row["reading"],
@@ -119,6 +127,7 @@ class StableSurfaceReadingLexicon:
                     surface_total_count=int(row["surface_total_count"]),
                     share=float(row["share"]),
                     source_corpus_version=row["source_corpus_version"],
+                    segmentation_counts=segmentation_counts,
                 )
                 rows[entry.surface] = entry
         return cls(rows_by_surface=rows, artifact_path=str(artifact_path))
@@ -128,7 +137,13 @@ class StableSurfaceReadingLexicon:
         versions = {row.source_corpus_version for row in self.rows_by_surface.values()}
         return next(iter(versions)) if len(versions) == 1 else None
 
-    def judge(self, surface: str, reading: str) -> StableSurfaceJudgment:
+    def judge(
+        self,
+        surface: str,
+        reading: str,
+        *,
+        segmentation: Sequence[str] | None = None,
+    ) -> StableSurfaceJudgment:
         evidence = self.rows_by_surface.get(surface)
         if evidence is None:
             return StableSurfaceJudgment(False, "missing_stable_surface")
@@ -138,6 +153,16 @@ class StableSurfaceReadingLexicon:
                 f"stable_surface_reading_mismatch:{evidence.reading}",
                 evidence,
             )
+        if segmentation is not None:
+            observed_segmentations = {
+                surfaces for surfaces, _count in evidence.segmentation_counts
+            }
+            if tuple(segmentation) not in observed_segmentations:
+                return StableSurfaceJudgment(
+                    False,
+                    "stable_surface_segmentation_mismatch",
+                    evidence,
+                )
         return StableSurfaceJudgment(
             True,
             "stable_surface_dominant_corpus_reading",

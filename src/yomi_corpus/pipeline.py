@@ -782,6 +782,10 @@ class PipelineWorkspace:
             "selected_document_count": len(documents),
         }
 
+    def next_track_doc_seq(self, track_name: str | None) -> int:
+        normalized = normalize_track_name(track_name)
+        return self._next_track_doc_seq(self._load_document_ledger(normalized))
+
     def advance(
         self,
         track_name: str | None = None,

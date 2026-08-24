@@ -10,7 +10,9 @@ from pathlib import Path
 
 from yomi_corpus.yomi.furigana import (
     FuriganaConverter,
+    has_cjk_radical,
     has_han,
+    is_cjk_radical,
     is_han,
     is_variation_selector,
     parse_annotated_chunks,
@@ -25,6 +27,13 @@ def write_lookup(path: Path, rows: list[tuple[str, str, str]]) -> None:
 
 
 class FuriganaConverterTests(unittest.TestCase):
+    def test_unicode_radical_blocks_are_detected_separately_from_han(self) -> None:
+        for char in ("⻑", "⽇"):
+            self.assertTrue(is_cjk_radical(char))
+            self.assertTrue(has_cjk_radical(f"前{char}後"))
+            self.assertFalse(is_han(char))
+        self.assertFalse(has_cjk_radical("日本選手権大会"))
+
     def test_supplementary_cjk_characters_are_han(self) -> None:
         self.assertTrue(is_han("𠮟"))
         self.assertTrue(is_han("𩸽"))

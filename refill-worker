@@ -32,6 +32,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--target-ready-docs", type=int, default=None)
     parser.add_argument("--pass-limit", type=int, default=None)
+    parser.add_argument("--aligned-batch-size", type=int, default=None)
     parser.add_argument("--max-stages", type=int, default=None)
     parser.add_argument("--llm-mode", choices=sorted(LLM_EXECUTION_MODES))
     parser.add_argument("--dry-run", action="store_true")
@@ -54,6 +55,11 @@ def main() -> None:
                 args.pass_limit
                 if args.pass_limit is not None
                 else config.refill_pass_limit
+            ),
+            aligned_batch_size=(
+                args.aligned_batch_size
+                if args.aligned_batch_size is not None
+                else config.refill_aligned_batch_size
             ),
             max_stages=(
                 args.max_stages

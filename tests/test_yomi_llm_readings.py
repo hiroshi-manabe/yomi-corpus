@@ -1060,6 +1060,68 @@ class YomiLLMReadingsTests(unittest.TestCase):
         )
         self.assertNotIn('"学校"', prompts[0].prompt)
 
+    def test_build_prompt_items_uses_alphabet_template_for_latin_surface(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_reading.toml")
+        rows = [
+            {
+                "item_id": "ascii",
+                "surface": "iMessage",
+                "text": "iMessageです。",
+                "marked_text": "**iMessage**です。",
+                "target_start": 0,
+                "target_end": 8,
+            },
+            {
+                "item_id": "fullwidth",
+                "surface": "ＡＢＣ",
+                "text": "ＡＢＣです。",
+                "marked_text": "**ＡＢＣ**です。",
+                "target_start": 0,
+                "target_end": 3,
+            },
+        ]
+
+        prompts = build_prompt_items(config, rows)
+
+        self.assertIn('この**ID**です。->{"ID":"アイディー"}', prompts[0].prompt)
+        self.assertTrue(
+            prompts[0].prompt.rstrip().endswith(
+                '**iMessage**です。->{"iMessage":（読みを仮名で）}'
+            )
+        )
+        self.assertTrue(
+            prompts[1].prompt.rstrip().endswith(
+                '**ＡＢＣ**です。->{"ＡＢＣ":（読みを仮名で）}'
+            )
+        )
+
+    def test_build_prompt_items_keeps_general_template_for_non_latin_surface(self) -> None:
+        config = load_llm_task_config("config/llm/yomi_reading.toml")
+        rows = [
+            {
+                "item_id": "punctuated",
+                "surface": "KAT-TUN",
+                "text": "KAT-TUNです。",
+                "marked_text": "**KAT-TUN**です。",
+                "target_start": 0,
+                "target_end": 7,
+            },
+            {
+                "item_id": "kanji",
+                "surface": "痛",
+                "text": "痛い。",
+                "marked_text": "**痛**い。",
+                "target_start": 0,
+                "target_end": 1,
+            },
+        ]
+
+        prompts = build_prompt_items(config, rows)
+
+        for prompt in prompts:
+            self.assertIn('目が**痛**い。->{"痛":"いた"}', prompt.prompt)
+            self.assertNotIn('この**ID**です。', prompt.prompt)
+
     def test_build_completion_prompt_prefills_target_key(self) -> None:
         config = load_llm_task_config("config/llm/yomi_reading_completion.toml")
         item = build_yomi_llm_reading_items(unit())[1]

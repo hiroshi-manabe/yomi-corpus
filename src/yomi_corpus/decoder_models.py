@@ -11,6 +11,11 @@ from yomi_corpus.pipeline import PipelineWorkspace, STAGE_YOMI_FINALIZED, normal
 from yomi_corpus.yomi.config import load_yomi_generation_config
 from yomi_corpus.yomi.corpus_frequency import build_surface_reading_stats
 from yomi_corpus.yomi.decoder_corpus import export_decoder_corpus_file
+from yomi_corpus.yomi.ngram_reading_transitions import (
+    MODEL_NGRAM_READING_TRANSITIONS_FILENAME,
+    MODEL_NGRAM_READING_TRANSITIONS_MANIFEST_FILENAME,
+    build_ngram_reading_transition_stats,
+)
 from yomi_corpus.yomi.stable_surface_lexicon import (
     MODEL_STABLE_SURFACE_LEXICON_FILENAME,
     build_stable_surface_lexicon,
@@ -40,6 +45,8 @@ class DecoderModelRefreshSummary:
     stable_surface_lexicon_manifest: str | None = None
     build_stdout: str | None = None
     build_stderr: str | None = None
+    ngram_reading_transitions_artifact: str | None = None
+    ngram_reading_transitions_manifest: str | None = None
 
 
 def refresh_decoder_model(
@@ -126,6 +133,18 @@ def refresh_decoder_model(
         source_corpus_version=f"{normalized_track}:{chosen_model_id}",
         checksum=True,
     )
+    ngram_transitions_path = model_dir / MODEL_NGRAM_READING_TRANSITIONS_FILENAME
+    ngram_transitions_manifest_path = (
+        model_dir / MODEL_NGRAM_READING_TRANSITIONS_MANIFEST_FILENAME
+    )
+    build_ngram_reading_transition_stats(
+        source_corpus=chosen_base_corpus,
+        additional_source_corpora=[Path(path) for path in exported_corpora],
+        output_tsv=ngram_transitions_path,
+        manifest_json=ngram_transitions_manifest_path,
+        source_corpus_version=f"{normalized_track}:{chosen_model_id}",
+        checksum=True,
+    )
 
     track_state = workspace.load_track_state(normalized_track)
     track_state.decoder_model_dir = str(model_dir)
@@ -142,6 +161,8 @@ def refresh_decoder_model(
         corpus_frequency_manifest=str(frequency_manifest_path),
         stable_surface_lexicon_artifact=str(stable_surface_path),
         stable_surface_lexicon_manifest=str(stable_surface_manifest_path),
+        ngram_reading_transitions_artifact=str(ngram_transitions_path),
+        ngram_reading_transitions_manifest=str(ngram_transitions_manifest_path),
         skip_kenlm=skip_kenlm,
         track_state_path=str(workspace.track_state_path(normalized_track)),
         refreshed_at=now_iso(),

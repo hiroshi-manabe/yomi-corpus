@@ -10,6 +10,7 @@ pass_limit = 10
 
 [tracks.dev.refill_worker]
 max_stages = 20
+aligned_batch_size = 10
 llm_execution_mode = "background"
 
 [tracks.dev.runtime_status]

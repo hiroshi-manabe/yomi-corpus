@@ -103,6 +103,81 @@ def test_reading_only_repair_becomes_candidate_not_exact_default() -> None:
     assert [(row["surface"], row["reading"]) for row in readings] == [("一日", "イチニチ")]
 
 
+def test_explicit_final_review_choice_becomes_rank_evidence() -> None:
+    units = [
+        {
+            "unit_id": "u1",
+            "analysis": {
+                "human_review": {
+                    "yomi_final": {
+                        "reviewed": True,
+                        "target_overrides": [
+                            {
+                                "item_id": "u1:span:1",
+                                "surface": "開く",
+                                "selected_reading": "ひらく",
+                                "choice_source": "dictionary",
+                                "automatic_default": False,
+                            },
+                            {
+                                "item_id": "u1:span:2",
+                                "surface": "方",
+                                "selected_reading": "ほう",
+                                "choice_source": "llm",
+                                "automatic_default": True,
+                            },
+                        ],
+                    }
+                }
+            },
+        }
+    ]
+
+    rows = harvest_learned_yomi_readings(
+        units,
+        batch_name="dev_batch_0001",
+        track_name="dev",
+    )
+
+    assert [(row["surface"], row["reading"], row["source_method"]) for row in rows] == [
+        ("開く", "ヒラク", "human_final_review")
+    ]
+
+
+def test_final_review_rank_evidence_uses_final_inflected_span_reading() -> None:
+    units = [
+        {
+            "unit_id": "u1",
+            "text": "良い",
+            "analysis": {
+                "mechanical": {"yomi": {"rendered": "良い/イイ"}},
+                "human_review": {
+                    "yomi_final": {
+                        "reviewed": True,
+                        "target_overrides": [
+                            {
+                                "item_id": "u1:span:1",
+                                "surface": "良い",
+                                "selected_reading": "い",
+                                "choice_source": "dictionary",
+                                "automatic_default": False,
+                            }
+                        ],
+                    }
+                },
+            },
+        }
+    ]
+
+    rows = harvest_learned_yomi_readings(
+        units,
+        batch_name="dev_batch_0001",
+        track_name="dev",
+    )
+
+    assert [(row["surface"], row["reading"]) for row in rows] == [("良い", "イイ")]
+
+
 def test_boundary_change_becomes_exact_default() -> None:
     units = [
         strong_repaired_unit(

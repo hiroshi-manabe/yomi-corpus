@@ -9,6 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from yomi_corpus.review_site import (
+    archive_search_unit,
     clear_directory,
     build_review_manifest,
     collect_pending_review_search_records,
@@ -21,6 +22,58 @@ from yomi_corpus.review_site import (
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_archive_search_unit_uses_shared_ruby_placement(self) -> None:
+        search_unit = archive_search_unit(
+            {
+                "unit_seq": 1,
+                "text": "脱ぐ。",
+                "yomi_tokens": [["脱ぐ", "ヌグ"], ["。", "。"]],
+            }
+        )
+
+        self.assertEqual(
+            search_unit["ruby_tokens"][0]["nodes"],
+            [
+                {"type": "ruby", "text": "脱", "reading": "ぬ"},
+                {"type": "text", "text": "ぐ"},
+            ],
+        )
+
+    def test_review_ui_has_no_obsolete_range_selection_controls(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
+        page_source = (repository_root / "web/review/index.html").read_text(encoding="utf-8")
+
+        for obsolete_text in (
+            "range_start_doc_id",
+            "range_end_doc_id",
+            "setDocumentRangeBoundary",
+            "selectDocumentRangeForQueue",
+            "範囲指定を解除",
+            "範囲を選択解除",
+        ):
+            self.assertNotIn(obsolete_text, app_source + page_source)
+
+        self.assertIn("すべて選択", page_source)
+        self.assertIn("作業を破棄", page_source)
+        self.assertNotIn("編集をリセット", page_source)
+        self.assertIn("takeNextQueueDocuments", app_source)
+
+    def test_review_ui_never_exposes_batch_local_document_numbers(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
+
+        self.assertIn("track_doc_seqs: docs.map((doc) => documentDisplaySeq(doc))", app_source)
+        self.assertIn("track_doc_ranges: buildReviewedDocumentRanges(docs)", app_source)
+        self.assertNotIn("payload.task.doc_seqs", app_source)
+        self.assertNotIn("docs.map((doc) => doc.doc_seq)", app_source)
+        self.assertNotIn("Number(doc?.track_doc_seq || doc?.doc_seq || 0)", app_source)
+        self.assertIn('stageLabel = "Bulk Review"', app_source)
+        self.assertIn('stageLabel = "Escalated Repair"', app_source)
+        self.assertIn('return `[Finalized Correction] ${seq}`', app_source)
+        self.assertNotIn("[yomi-review]", app_source)
+        self.assertNotIn("[yomi-correction]", app_source)
+
     def test_clear_directory_retries_transient_nonempty_directory(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / "review"
@@ -139,12 +192,14 @@ class ReviewSiteTests(unittest.TestCase):
                                 "track_doc_seq": 339,
                                 "unit_seq": 2,
                                 "text": "𠮟られたりする。",
+                                "rendered_yomi": "𠮟ら/シカラ れ/レ たり/タリ する/スル 。/。",
                             },
                             {
                                 "doc_id": "ja_cc_level2:0000000339",
                                 "track_doc_seq": 339,
                                 "unit_seq": 1,
                                 "text": "前の文。",
+                                "rendered_yomi": "前/マエ の/ノ 文/ブン 。/。",
                             },
                         ],
                     },
@@ -168,17 +223,25 @@ class ReviewSiteTests(unittest.TestCase):
                 finalized_documents=[],
             )
 
+            self.assertEqual(len(records), 1)
+            self.assertEqual(records[0]["track_doc_seq"], 339)
+            self.assertEqual(records[0]["doc_id"], "ja_cc_level2:0000000339")
             self.assertEqual(
-                records,
+                records[0]["pack_path"],
+                "./packs/yomi_final_dev_batch_0037_v1.json",
+            )
+            self.assertEqual(
+                records[0]["units"][0]["yomi_tokens"],
+                [["前", "マエ"], ["の", "ノ"], ["文", "ブン"], ["。", "。"]],
+            )
+            self.assertEqual(
+                records[0]["units"][1]["yomi_tokens"],
                 [
-                    {
-                        "track_doc_seq": 339,
-                        "doc_id": "ja_cc_level2:0000000339",
-                        "pack_path": "./packs/yomi_final_dev_batch_0037_v1.json",
-                        "text": "前の文。\n𠮟られたりする。",
-                    }
+                    ["𠮟ら", "シカラ"], ["れ", "レ"], ["たり", "タリ"],
+                    ["する", "スル"], ["。", "。"],
                 ],
             )
+            self.assertTrue(records[0]["units"][0]["ruby_tokens"])
 
     def test_archive_preserves_optional_japanese_numeral_reading(self) -> None:
         self.assertEqual(
@@ -202,6 +265,17 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("<h3>作業中の文書</h3>", app)
         self.assertIn("現在レビュー対象になっている文書と、その処理状況です。", app)
         self.assertIn("corpus-map-manual-correction-badge", app)
+        self.assertIn("archiveSearchUnitYomiText", app)
+        self.assertIn("renderArchiveSearchRubySnippet", app)
+        self.assertIn("renderArchiveSearchHistory", app)
+        self.assertIn("rememberArchiveSearchQuery", app)
+        self.assertIn("archiveSearchHistoryLimit = 12", app)
+        self.assertIn("表記/読みで検索", app)
+        self.assertIn("handleArchiveCorrectionEditorKeydown", app)
+        self.assertIn("data-archive-correction-revert", app)
+        self.assertIn("function revertArchiveCorrectionRow", app)
+        self.assertIn('event.keyCode === 229', app)
+        self.assertIn("event.shiftKey", app)
         self.assertIn("scrollToManualCorrection", app)
         self.assertIn("function scrollReviewPageToTop()", app)
         self.assertIn("render({ scrollToTop: true });", app)
@@ -212,6 +286,14 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertEqual(app.count("syncLocalTaskRecordsForCurrentPack();"), 2)
         self.assertIn("includeFlagAcknowledgements", app)
         self.assertIn("acknowledgement_only", app)
+        self.assertIn("function renderYomiDirectEditor", app)
+        self.assertIn("renderedYomi.textContent = serializeEditableYomiTokens(tokens);", app)
+        self.assertIn('resolution: "direct_edit"', app)
+        self.assertIn("data-yomi-direct-revert", app)
+        self.assertIn("function yomiOverrideHasInteractiveReadingEdits", app)
+        self.assertIn("クリックで選択した読み・区切り・結合の変更は取り消されます", app)
+        self.assertIn('.replaceAll("\\u3000", "\\\\u3000")', app)
+        self.assertIn('if (char === "u")', app)
         self.assertIn(
             "return !current || Boolean(current.manual_correction_required);",
             app,
@@ -219,6 +301,8 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn('id="repeat-cancellation-bar"', html)
         self.assertIn("registerRepeatedCancellation", app)
         self.assertIn("findRepeatedCancellationMatches", app)
+        self.assertIn("cancellationTargetsForText", app)
+        self.assertIn("Interaction spans are UI units, not lexical identity.", app)
         self.assertIn("applyYomiCandidateWithRepeatedCancellation", app)
         self.assertIn(
             "cycleYomiTarget(item, target, candidate, elementAnchorRect(button));",
@@ -246,6 +330,14 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("finalizedArchiveContainsDocumentRef", app)
         self.assertIn("finalized_track_doc_seq_ranges", app)
         self.assertIn("awaiting_finalization: Boolean(doc.awaiting_finalization)", app)
+        submitted_handler = app.split(
+            'el.markSubmitted?.addEventListener("click", () => {', 1
+        )[1].split("\n  });", 1)[0]
+        self.assertLess(
+            submitted_handler.index("hideIssueReturnModal();"),
+            submitted_handler.index("markSavedTaskSubmitted(pendingTaskId);"),
+        )
+        self.assertIn("delete submittedRecord.awaiting_issue_confirmation;", app)
 
     def test_build_review_manifest_marks_latest_pack_active(self) -> None:
         manifest = build_review_manifest(
@@ -713,7 +805,11 @@ class ReviewSiteTests(unittest.TestCase):
             search = json.loads((output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8"))
             self.assertEqual(search["document_count"], 3)
             self.assertEqual(search["documents"][0]["track_doc_seq"], 1)
-            self.assertEqual(search["documents"][0]["text"], "学校です。\n今日です。")
+            self.assertEqual(search["schema_version"], 3)
+            self.assertEqual(
+                search["documents"][0]["units"][0]["yomi_tokens"],
+                [["学校", "ガッコウ"], ["です", "デス"], ["。", "。"]],
+            )
             self.assertEqual(search["documents"][0]["shard_path"], index["tracks"]["dev"]["shards"][0]["path"])
             self.assertEqual(shard["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(shard["documents"][0]["finalized_correction_count"], 2)
@@ -850,7 +946,7 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertTrue(unit["skipped"])
             self.assertTrue(unit["yomi_tokens"])
             self.assertEqual(unit["skip_provenance"]["submission_id"], "review-159")
-            self.assertEqual(search["documents"][0]["text"], "")
+            self.assertEqual(search["documents"][0]["units"], [])
 
     def test_publish_review_archive_exports_content_free_exclusion(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -936,7 +1032,13 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(excluded["tombstone_label"], "Removed")
             self.assertEqual(excluded["text"], "")
             self.assertEqual(excluded["yomi_tokens"], [])
-            self.assertEqual(search["documents"][0]["text"], "前です。\n後です。")
+            self.assertEqual(
+                [unit["yomi_tokens"] for unit in search["documents"][0]["units"]],
+                [
+                    [["前", "マエ"], ["です", "デス"], ["。", "。"]],
+                    [["後", "アト"], ["です", "デス"], ["。", "。"]],
+                ],
+            )
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ from yomi_corpus.document_review_state import (
     STATE_STRONG_PENDING,
 )
 from yomi_corpus.review_sync import (
+    STAGE_FINAL_REVIEW_APPLIED,
     STAGE_FINAL_REVIEW_PREPARED,
     STAGE_SEQUENCE,
     STAGE_YOMI_FINALIZED,
@@ -32,8 +33,10 @@ from yomi_corpus.review_sync import (
     load_review_sync_config,
     list_track_batches,
     maintain_strong_repair_for_reviewed_documents,
+    publish_review_artifacts,
     request_decoder_model_refresh,
     reconcile_applied_final_review_issues,
+    review_submission_was_imported,
     review_sync_lock_stale_reason,
     ReviewSyncLock,
     should_run_stage,
@@ -126,6 +129,63 @@ class FakeSweepWorkspace:
 
 
 class ReviewSyncTests(unittest.TestCase):
+    def test_publish_review_artifacts_does_not_regenerate_during_push(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            with (
+                patch(
+                    "yomi_corpus.review_sync.publish_review_site",
+                    return_value={"current_review_queues": []},
+                ) as publish_site,
+                patch("yomi_corpus.review_sync.subprocess.run") as run,
+            ):
+                run.return_value.returncode = 0
+                run.return_value.stdout = ""
+                run.return_value.stderr = ""
+
+                result = publish_review_artifacts(root, push_gh_pages=True)
+
+            publish_site.assert_called_once()
+            run.assert_called_once_with(
+                [str(root / "publish-review"), "--no-generate"],
+                cwd=root,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(result["status"], "published")
+
+    def test_review_submission_import_detection_uses_persisted_import_summary(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            summary_path = root / "data" / "state" / "yomi_final" / "import.json"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(
+                json.dumps({"summaries": [{"submission_id": "submitted"}]}),
+                encoding="utf-8",
+            )
+            result = {
+                "artifacts": {
+                    "final_review_issue_import_summary_json": str(summary_path),
+                }
+            }
+
+            self.assertTrue(
+                review_submission_was_imported(
+                    root=root,
+                    attempted_stage=STAGE_FINAL_REVIEW_APPLIED,
+                    result=result,
+                )
+            )
+            summary_path.write_text(json.dumps({"summaries": []}), encoding="utf-8")
+            self.assertFalse(
+                review_submission_was_imported(
+                    root=root,
+                    attempted_stage=STAGE_FINAL_REVIEW_APPLIED,
+                    result=result,
+                )
+            )
+
     def test_apply_failed_submission_keeps_issue_open_until_retry_succeeds(self) -> None:
         import_summary = {
             "status": "ok",
@@ -568,6 +628,31 @@ class ReviewSyncTests(unittest.TestCase):
         self.assertEqual(plan["deficit"], 0)
         self.assertEqual(plan["planned_prepare_documents"], 0)
 
+    def test_bulk_review_refill_plan_bridges_to_aligned_document_range(self) -> None:
+        plan = build_bulk_review_refill_plan(
+            document_queue_summary={"pool_counts": {"bulk-ready": 90}},
+            target_ready_docs=100,
+            pass_limit=10,
+            next_track_doc_seq=1024,
+            aligned_batch_size=10,
+        )
+
+        self.assertEqual(plan["planned_prepare_documents"], 7)
+        self.assertTrue(plan["alignment_bridge"])
+
+    def test_bulk_review_refill_plan_uses_full_batches_after_alignment(self) -> None:
+        plan = build_bulk_review_refill_plan(
+            document_queue_summary={"pool_counts": {"bulk-ready": 97}},
+            target_ready_docs=100,
+            pass_limit=10,
+            next_track_doc_seq=1031,
+            aligned_batch_size=10,
+        )
+
+        self.assertEqual(plan["deficit"], 3)
+        self.assertEqual(plan["planned_prepare_documents"], 10)
+        self.assertFalse(plan["alignment_bridge"])
+
     def test_review_sync_config_loads_decoder_refresh_defaults(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             config_path = Path(tmp) / "review_sync.toml"
@@ -584,6 +669,7 @@ class ReviewSyncTests(unittest.TestCase):
                         "pass_limit = 4",
                         "[tracks.dev.refill_worker]",
                         "max_stages = 17",
+                        "aligned_batch_size = 4",
                         'llm_execution_mode = "batch"',
                     ]
                 ),
@@ -599,6 +685,7 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(config.bulk_review_target_ready_docs, 12)
             self.assertEqual(config.refill_pass_limit, 4)
             self.assertEqual(config.refill_max_stages, 17)
+            self.assertEqual(config.refill_aligned_batch_size, 4)
             self.assertEqual(config.refill_llm_execution_mode, "batch")
 
     def test_runtime_status_only_revises_for_meaningful_changes(self) -> None:
@@ -1016,6 +1103,39 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(results[0]["attempted_stage"], STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED)
             self.assertEqual(workspace.calls, [])
             self.assertEqual(workspace.batches["dev_batch_0001"]["current_stage"], STAGE_YOMI_STRONG_REPAIR_QUEUED)
+
+    def test_sweep_reports_each_stage_before_continuing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0002")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+                "dev_batch_0002": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+            }
+            for batch_name, payload in workspace.batches.items():
+                write_batch_state(root, batch_name, current_stage=payload["current_stage"])
+            callbacks: list[tuple[str, str]] = []
+
+            sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=1,
+                on_stage_result=lambda stage, result: callbacks.append(
+                    (stage, str(result.get("batch_name") or ""))
+                ),
+            )
+
+            self.assertEqual(
+                callbacks,
+                [(STAGE_FINAL_REVIEW_APPLIED, "dev_batch_0001")],
+            )
 
     def test_strong_repair_confirmed_summary_allows_llm_completed_stage(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

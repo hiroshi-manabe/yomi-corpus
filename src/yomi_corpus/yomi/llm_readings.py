@@ -24,6 +24,7 @@ from yomi_corpus.yomi.strategies import (
 )
 from yomi_corpus.yomi.furigana import (
     FuriganaConverter,
+    has_greek,
     has_han,
     is_han,
     is_han_run_char,
@@ -413,6 +414,7 @@ def append_yomi_reading_targets(
             "surface": target["surface"],
             "token_surface": token_surface,
             "token_current_reading": hira_to_katakana(current_reading),
+            "token_sudachi_reading": hira_to_katakana(token.reading),
             "current_reading": hira_to_katakana(target["reading"]),
             "current_reading_hiragana": target["reading"],
             "text": text,
@@ -813,7 +815,7 @@ def load_results(path: Path) -> dict[str, dict[str, Any]]:
 
 
 def is_llm_reading_target(surface: str) -> bool:
-    return bool(has_han(surface) or LATIN_RE.search(surface))
+    return bool(has_han(surface) or has_greek(surface) or LATIN_RE.search(surface))
 
 
 def is_standalone_laughter_w(surface: str) -> bool:

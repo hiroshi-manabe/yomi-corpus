@@ -12,7 +12,12 @@ from yomi_corpus.yomi.corpus_frequency import (
     SurfaceReadingStats,
     trailing_kana_stem_pair,
 )
-from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_items, is_standalone_laughter_w
+from yomi_corpus.yomi.furigana import has_greek
+from yomi_corpus.yomi.llm_readings import (
+    build_yomi_llm_reading_items,
+    is_standalone_laughter_w,
+    is_valid_yomi_reading,
+)
 from yomi_corpus.yomi.ngram_diagnostics import (
     DEFAULT_RAW_SUDACHI_DICT_DIR,
     StableTwoKanjiChecker,
@@ -25,10 +30,13 @@ from yomi_corpus.yomi.stable_surface_lexicon import (
     StableSurfaceReadingLexicon,
     resolve_stable_surface_lexicon_artifact,
 )
+from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
-SAFETY_RULE = "per_target_pre_llm_safety_v3"
+SAFETY_RULE = "per_target_pre_llm_safety_v5"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
 MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
+LOCAL_STABLE_SPAN_MIN_TOKENS = 2
+LOCAL_STABLE_SPAN_MAX_TOKENS = 6
 
 
 @dataclass(frozen=True)
@@ -195,6 +203,30 @@ def build_pre_llm_safety_records(
             accepted_signal_names.append("safe_by_no_ruby_laughter_w")
 
         surface = str(item["surface"])
+        if has_greek(surface):
+            current_reading = str(item.get("current_reading") or "")
+            sudachi_reading = str(item.get("token_sudachi_reading") or "")
+            accepted = (
+                bool(sudachi_reading)
+                and current_reading == sudachi_reading
+                and is_valid_yomi_reading(current_reading)
+            )
+            signals.append(
+                {
+                    "name": "safe_by_sudachi_greek",
+                    "accepted": accepted,
+                    "reading": current_reading,
+                    "sudachi_reading": sudachi_reading,
+                    "reason": (
+                        "valid_greek_token_reading_matches_sudachi"
+                        if accepted
+                        else "greek_token_reading_missing_or_differs_from_sudachi"
+                    ),
+                }
+            )
+            if accepted:
+                accepted_signal_names.append("safe_by_sudachi_greek")
+
         numeral_pos = "数詞" in str(item.get("pos") or "")
         if is_numeric_only_surface(surface) and (
             not allows_optional_japanese_numeral_reading(surface) or numeral_pos
@@ -280,6 +312,22 @@ def build_pre_llm_safety_records(
                 evidence_reading = target_reading
                 normalization_rule = None
             accepted = dominant is not None and dominant.reading == evidence_reading
+            pooled_surface_guard = None
+            if (
+                accepted
+                and evidence_scope in {"target", "token"}
+                and isinstance(stable_checker, StableSurfaceReadingLexicon)
+            ):
+                pooled = stable_checker.judge(evidence_surface, evidence_reading)
+                pooled_surface_guard = {
+                    "accepted": pooled.value,
+                    "reason": pooled.reason,
+                    "artifact_path": stable_checker.artifact_path,
+                    "source_corpus_version": stable_checker.source_corpus_version,
+                }
+                # Exact-token counts can hide competing readings recorded under
+                # another segmentation, such as 一日 versus 一|日.
+                accepted = pooled.value
             signals.append(
                 {
                     "name": "safe_by_corpus_frequency",
@@ -299,6 +347,7 @@ def build_pre_llm_safety_records(
                         "share": dominant.share,
                         "source_corpus_version": dominant.source_corpus_version,
                     },
+                    "pooled_surface_guard": pooled_surface_guard,
                     "artifact_path": corpus_stats.artifact_path,
                     "source_corpus_version": corpus_stats.source_corpus_version,
                 }
@@ -328,7 +377,105 @@ def build_pre_llm_safety_records(
                 "status_reason": "accepted_pre_llm_signal" if is_safe else "no_accepted_safety_signal",
             }
         )
+    if isinstance(stable_checker, StableSurfaceReadingLexicon):
+        apply_local_stable_span_safety(unit, records, stable_checker=stable_checker)
     return records
+
+
+def apply_local_stable_span_safety(
+    unit: dict[str, Any],
+    records: list[dict[str, Any]],
+    *,
+    stable_checker: StableSurfaceReadingLexicon,
+) -> None:
+    text = str(unit.get("text") or "")
+    yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+    if not text or not isinstance(yomi, dict):
+        return
+    try:
+        pairs = yomi_tokens_from_mapping(yomi, text=text)
+    except YomiTokenError:
+        return
+    pair_spans: list[tuple[int, int, str, str]] = []
+    cursor = 0
+    for surface, reading in pairs:
+        end = cursor + len(surface)
+        pair_spans.append((cursor, end, surface, reading))
+        cursor = end
+    if cursor != len(text):
+        return
+
+    evidence_by_item: dict[str, list[dict[str, Any]]] = {}
+    for start_index in range(len(pair_spans)):
+        for token_count in range(
+            LOCAL_STABLE_SPAN_MIN_TOKENS,
+            LOCAL_STABLE_SPAN_MAX_TOKENS + 1,
+        ):
+            end_index = start_index + token_count
+            if end_index > len(pair_spans):
+                break
+            window = pair_spans[start_index:end_index]
+            if any(not reading or surface.isspace() for _start, _end, surface, reading in window):
+                continue
+            surface = "".join(row[2] for row in window)
+            reading = "".join(row[3] for row in window)
+            segmentation = tuple(row[2] for row in window)
+            judgment = stable_checker.judge(
+                surface,
+                reading,
+                segmentation=segmentation,
+            )
+            if not judgment.value or judgment.evidence is None:
+                continue
+            span_start = window[0][0]
+            span_end = window[-1][1]
+            evidence = judgment.evidence
+            signal = {
+                "name": "safe_by_local_stable_span",
+                "accepted": True,
+                "reason": judgment.reason,
+                "evidence_scope": "local_token_window",
+                "evidence_surface": surface,
+                "evidence_reading": reading,
+                "evidence_segmentation": list(segmentation),
+                "token_start_index": start_index,
+                "token_end_index": end_index,
+                "token_count": token_count,
+                "target_start": span_start,
+                "target_end": span_end,
+                "count": evidence.count,
+                "surface_total_count": evidence.surface_total_count,
+                "share": evidence.share,
+                "source_corpus_version": evidence.source_corpus_version,
+                "artifact_path": stable_checker.artifact_path,
+            }
+            for record in records:
+                target_start = record.get("target_start")
+                target_end = record.get("target_end")
+                if (
+                    isinstance(target_start, int)
+                    and isinstance(target_end, int)
+                    and span_start <= target_start
+                    and target_end <= span_end
+                ):
+                    evidence_by_item.setdefault(str(record.get("item_id") or ""), []).append(signal)
+
+    for record in records:
+        matches = evidence_by_item.get(str(record.get("item_id") or ""), [])
+        if not matches:
+            continue
+        # Prefer stronger corpus evidence, then the smaller local context.
+        signal = min(
+            matches,
+            key=lambda row: (-int(row["count"]), int(row["token_count"])),
+        )
+        record["signals"].append(signal)
+        if "safe_by_local_stable_span" not in record["accepted_signal_names"]:
+            record["accepted_signal_names"].append("safe_by_local_stable_span")
+        record["is_safe"] = True
+        record["review_status"] = "safe"
+        record["highlight_level"] = "none"
+        record["status_reason"] = "accepted_pre_llm_signal"
 
 
 def yomi_auto_accept_payload(unit: dict[str, Any]) -> dict[str, Any] | None:

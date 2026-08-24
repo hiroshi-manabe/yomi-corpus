@@ -35,6 +35,7 @@ def load_llm_task_config(path: str | Path) -> LLMTaskConfig:
         yomi_reading_context_side_chars=_optional_int(
             payload.get("yomi_reading_context_side_chars")
         ),
+        alphabet_prompt_template=_optional_str(payload.get("alphabet_prompt_template")),
     )
 
 

@@ -38,6 +38,28 @@ PARENTHESIZED_SEMANTIC_TOKENS = {
     "（涙）": (("（", "（"), ("涙", "ナミダ"), ("）", "）")),
 }
 
+PARENTHESIZED_WEEKDAY_READINGS = {
+    "月": "ゲツ",
+    "火": "カ",
+    "水": "スイ",
+    "木": "モク",
+    "金": "キン",
+    "土": "ド",
+    "日": "ニチ",
+}
+
+CANONICAL_COMPOUND_TOKEN_SEQUENCES = {
+    (("皆", "ミナ"), ("様", "サマ")): ("皆様", "ミナサマ"),
+}
+
+for _opening, _closing in (("(", ")"), ("（", "）")):
+    for _weekday, _reading in PARENTHESIZED_WEEKDAY_READINGS.items():
+        PARENTHESIZED_SEMANTIC_TOKENS[f"{_opening}{_weekday}{_closing}"] = (
+            (_opening, _opening),
+            (_weekday, _reading),
+            (_closing, _closing),
+        )
+
 
 def normalize_parenthesized_semantic_tokens(
     tokens: list[list[str]],
@@ -50,7 +72,53 @@ def normalize_parenthesized_semantic_tokens(
             output.append([surface, reading])
             continue
         output.extend([part_surface, part_reading] for part_surface, part_reading in replacement)
+    normalized, _count = normalize_parenthesized_weekday_sequence(output)
+    return normalized
+
+
+def normalize_canonical_compound_tokens(
+    tokens: list[list[str]],
+) -> list[list[str]]:
+    """Join explicitly selected lexical units without general boundary guessing."""
+    output: list[list[str]] = []
+    index = 0
+    while index < len(tokens):
+        matched = False
+        for source, replacement in CANONICAL_COMPOUND_TOKEN_SEQUENCES.items():
+            end = index + len(source)
+            candidate = tuple(
+                (str(surface), str(reading))
+                for surface, reading in tokens[index:end]
+            )
+            if candidate != source:
+                continue
+            output.append([replacement[0], replacement[1]])
+            index = end
+            matched = True
+            break
+        if matched:
+            continue
+        output.append([str(tokens[index][0]), str(tokens[index][1])])
+        index += 1
     return output
+
+
+def normalize_parenthesized_weekday_sequence(
+    tokens: list[list[str]],
+) -> tuple[list[list[str]], int]:
+    output = [list(token) for token in tokens]
+    count = 0
+    for index in range(1, len(output) - 1):
+        opening = output[index - 1][0]
+        surface = output[index][0]
+        closing = output[index + 1][0]
+        reading = PARENTHESIZED_WEEKDAY_READINGS.get(surface)
+        if (opening, closing) not in {("(", ")"), ("（", "）")} or reading is None:
+            continue
+        if output[index][1] != reading:
+            output[index][1] = reading
+            count += 1
+    return output, count
 
 
 def normalize_parenthesized_semantic_tokens_rendered(rendered: str) -> YomiRepairResult:
@@ -70,6 +138,19 @@ def normalize_parenthesized_semantic_tokens_rendered(rendered: str) -> YomiRepai
             continue
         output.extend(f"{part_surface}/{part_reading}" for part_surface, part_reading in replacement)
         count += 1
+    surfaces = [rendered_token_surface(token) for token in output]
+    for index in range(1, len(output) - 1):
+        reading = PARENTHESIZED_WEEKDAY_READINGS.get(surfaces[index])
+        if (
+            (surfaces[index - 1], surfaces[index + 1])
+            not in {("(", ")"), ("（", "）")}
+            or reading is None
+        ):
+            continue
+        replacement = f"{surfaces[index]}/{reading}"
+        if output[index] != replacement:
+            output[index] = replacement
+            count += 1
     normalized = " ".join(output)
     if not count:
         return YomiRepairResult(rendered=normalized, metadata={})
@@ -80,6 +161,11 @@ def normalize_parenthesized_semantic_tokens_rendered(rendered: str) -> YomiRepai
             "count": count,
         },
     )
+
+
+def rendered_token_surface(token: str) -> str:
+    separator = token.rfind("/")
+    return token[:separator] if separator >= 0 else token
 
 
 def apply_post_hybrid_repairs(

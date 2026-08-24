@@ -4,7 +4,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from yomi_corpus.yomi.furigana import has_han, is_han
+from yomi_corpus.yomi.furigana import has_greek, has_han, is_han
 
 
 LATIN_RE = re.compile(r"[A-Za-zＡ-Ｚａ-ｚ]")
@@ -41,7 +41,7 @@ def compact_rendered_token_for_llm(token: str) -> str:
     surface, _reading = token.rsplit("/", 1)
     if not surface:
         return token
-    if has_han(surface) or LATIN_RE.search(surface):
+    if has_han(surface) or has_greek(surface) or LATIN_RE.search(surface):
         return token
     return surface
 
@@ -59,7 +59,9 @@ def furigana_no_space_token_for_llm(token: str) -> str:
     prefix = "|" if is_fused_digit_yomi_token(surface, reading) else ""
     if not reading:
         return escape_source_parentheses(surface)
-    if (has_han(surface) or LATIN_RE.search(surface)) and not is_katakana_reading(reading):
+    if (
+        has_han(surface) or has_greek(surface) or LATIN_RE.search(surface)
+    ) and not is_katakana_reading(reading):
         return escape_source_parentheses(surface)
     if has_han(surface):
         result = _furigana_converter().convert(surface, reading)
@@ -67,7 +69,7 @@ def furigana_no_space_token_for_llm(token: str) -> str:
         if result.annotated_surface and "（" in result.annotated_surface:
             return prefix + escape_source_parentheses_in_annotated(result.annotated_surface)
         return f"{prefix}{escape_source_parentheses(surface)}（{_kata_to_hira(reading)}）"
-    if LATIN_RE.search(surface):
+    if has_greek(surface) or LATIN_RE.search(surface):
         return f"{prefix}{escape_source_parentheses(surface)}（{reading}）"
     return escape_source_parentheses(surface)
 

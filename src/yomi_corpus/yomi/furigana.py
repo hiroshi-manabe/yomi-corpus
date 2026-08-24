@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import json
 import re
+import unicodedata
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -27,6 +28,18 @@ def is_han(char: str) -> bool:
     )
 
 
+def is_cjk_radical(char: str) -> bool:
+    """Return whether a character belongs to either Unicode radical block."""
+    if len(char) != 1:
+        return False
+    code = ord(char)
+    return 0x2E80 <= code <= 0x2EFF or 0x2F00 <= code <= 0x2FD5
+
+
+def has_cjk_radical(text: str) -> bool:
+    return any(is_cjk_radical(char) for char in text)
+
+
 def is_variation_selector(char: str) -> bool:
     if len(char) != 1:
         return False
@@ -41,6 +54,16 @@ def is_han_run_char(char: str) -> bool:
 
 def has_han(text: str) -> bool:
     return any(is_han(char) for char in text)
+
+
+def is_greek_letter(char: str) -> bool:
+    if len(char) != 1 or not unicodedata.category(char).startswith("L"):
+        return False
+    return unicodedata.name(char, "").startswith("GREEK ")
+
+
+def has_greek(text: str) -> bool:
+    return any(is_greek_letter(char) for char in text)
 
 
 def kata_to_hira(text: str) -> str:

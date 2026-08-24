@@ -15,6 +15,7 @@ from yomi_corpus.yomi.llm_readings import build_yomi_llm_reading_queue_file
 from yomi_corpus.yomi.safety import (
     build_pre_llm_safety_records,
     resolve_corpus_frequency_stats_artifact,
+    safe_yomi_item_ids,
     set_yomi_safety_records,
 )
 from yomi_corpus.yomi.stable_surface_lexicon import StableSurfaceReadingLexicon
@@ -73,6 +74,197 @@ def unit() -> dict:
 
 
 class YomiSafetyTests(unittest.TestCase):
+    def test_local_stable_span_prevents_llm_for_ambiguous_component(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "segmentation_counts_json\tsource_corpus_version\n"
+                '数日\tスウジツ\t27\t27\t1\t[{"surfaces":["数","日"],"count":27}]\tfixture\n'
+                '数日後\tスウジツゴ\t6\t6\t1\t[{"surfaces":["数","日","後"],"count":6}]\tfixture\n',
+                encoding="utf-8",
+            )
+            payload = {
+                "unit_id": "u-local-span",
+                "text": "数日後です。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "tokens": [
+                                ["数", "スウ"],
+                                ["日", "ジツ"],
+                                ["後", "ゴ"],
+                                ["です", "デス"],
+                                ["。", "。"],
+                            ],
+                            "sudachi": {
+                                "tokens": [
+                                    token("数", "スウ"),
+                                    token("日", "ジツ"),
+                                    token("後", "ゴ"),
+                                    token("です", "デス"),
+                                    token("。", "。"),
+                                ]
+                            },
+                        }
+                    }
+                },
+            }
+            records = build_pre_llm_safety_records(
+                payload,
+                stable_checker=StableSurfaceReadingLexicon.load_tsv(artifact),
+            )
+            set_yomi_safety_records(payload, records)
+
+        by_surface = {record["surface"]: record for record in records}
+        self.assertTrue(by_surface["数"]["is_safe"])
+        self.assertTrue(by_surface["日"]["is_safe"])
+        self.assertTrue(by_surface["後"]["is_safe"])
+        day_signal = next(
+            signal
+            for signal in by_surface["日"]["signals"]
+            if signal["name"] == "safe_by_local_stable_span"
+        )
+        self.assertEqual(day_signal["evidence_surface"], "数日")
+        self.assertEqual(day_signal["count"], 27)
+        self.assertEqual(safe_yomi_item_ids(payload), {record["item_id"] for record in records})
+
+    def test_local_stable_span_does_not_accept_mismatched_reading(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "segmentation_counts_json\tsource_corpus_version\n"
+                '数日後\tスウジツゴ\t6\t6\t1\t[{"surfaces":["数","日","後"],"count":6}]\tfixture\n',
+                encoding="utf-8",
+            )
+            payload = {
+                "unit_id": "u-local-span-mismatch",
+                "text": "数日後です。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "tokens": [
+                                ["数", "スウ"],
+                                ["日", "ニチ"],
+                                ["後", "ゴ"],
+                                ["です", "デス"],
+                                ["。", "。"],
+                            ],
+                            "sudachi": {
+                                "tokens": [
+                                    token("数", "スウ"),
+                                    token("日", "ニチ"),
+                                    token("後", "ゴ"),
+                                    token("です", "デス"),
+                                    token("。", "。"),
+                                ]
+                            },
+                        }
+                    }
+                },
+            }
+            records = build_pre_llm_safety_records(
+                payload,
+                stable_checker=StableSurfaceReadingLexicon.load_tsv(artifact),
+            )
+
+        self.assertFalse(any(record["is_safe"] for record in records))
+        self.assertFalse(
+            any(
+                signal["name"] == "safe_by_local_stable_span"
+                for record in records
+                for signal in record["signals"]
+            )
+        )
+
+    def test_local_stable_span_requires_matching_observed_segmentation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "segmentation_counts_json\tsource_corpus_version\n"
+                '月末\tガツマツ\t65\t67\t0.970149\t'
+                '[{"surfaces":["月","末"],"count":65}]\tfixture\n',
+                encoding="utf-8",
+            )
+            lexicon = StableSurfaceReadingLexicon.load_tsv(artifact)
+
+        self.assertTrue(
+            lexicon.judge("月末", "ガツマツ", segmentation=("月", "末")).value
+        )
+        rejected = lexicon.judge("月末", "ガツマツ", segmentation=("月末",))
+        self.assertFalse(rejected.value)
+        self.assertEqual(rejected.reason, "stable_surface_segmentation_mismatch")
+    def test_greek_reading_matching_sudachi_is_safe_without_llm(self) -> None:
+        payload = {
+            "unit_id": "u-greek",
+            "text": "α波です。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "α/アルファー 波/ハ です/デス 。/。",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "α",
+                                    "pos": "記号,文字,*,*,*,*",
+                                    "dictionary_form": "α",
+                                    "normalized_form": "α",
+                                    "reading": "アルファー",
+                                },
+                                token("波", "ハ"),
+                                token("です", "デス"),
+                                token("。", "。"),
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        records = build_pre_llm_safety_records(payload)
+
+        alpha = next(record for record in records if record["surface"] == "α")
+        self.assertEqual(alpha["current_reading"], "アルファー")
+        self.assertTrue(alpha["is_safe"])
+        self.assertIn("safe_by_sudachi_greek", alpha["accepted_signal_names"])
+        signal = next(
+            row for row in alpha["signals"] if row["name"] == "safe_by_sudachi_greek"
+        )
+        self.assertEqual(signal["sudachi_reading"], "アルファー")
+
+    def test_greek_reading_differing_from_sudachi_remains_unresolved(self) -> None:
+        payload = {
+            "unit_id": "u-greek-mismatch",
+            "text": "αです。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "rendered": "α/エー です/デス 。/。",
+                        "sudachi": {
+                            "tokens": [
+                                {
+                                    "surface": "α",
+                                    "pos": "記号,文字,*,*,*,*",
+                                    "dictionary_form": "α",
+                                    "normalized_form": "α",
+                                    "reading": "アルファー",
+                                },
+                                token("です", "デス"),
+                                token("。", "。"),
+                            ]
+                        },
+                    }
+                }
+            },
+        }
+
+        alpha = build_pre_llm_safety_records(payload)[0]
+
+        self.assertFalse(alpha["is_safe"])
+        self.assertNotIn("safe_by_sudachi_greek", alpha["accepted_signal_names"])
+
     def test_stable_surface_lexicon_rejects_wrong_mechanical_reading(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact = Path(tmp) / "stable_surface_readings.tsv"
@@ -274,6 +466,105 @@ class YomiSafetyTests(unittest.TestCase):
         self.assertTrue(by_surface["学校"]["is_safe"])
         self.assertIn("safe_by_corpus_frequency", by_surface["学校"]["accepted_signal_names"])
         self.assertFalse(by_surface["上"]["is_safe"])
+
+    def test_exact_frequency_does_not_hide_conflicting_cross_segmentation_reading(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "source_corpus_version\n"
+                "学校\tガッコウ\t20\t20\t1\tfixture\n",
+                encoding="utf-8",
+            )
+            payload = {
+                "unit_id": "u-ichinichi",
+                "text": "一日を過ごします。",
+                "analysis": {
+                    "mechanical": {
+                        "yomi": {
+                            "sudachi": {
+                                "tokens": [
+                                    token("一日", "ツイタチ"),
+                                    token("を", "ヲ"),
+                                    token("過ごし", "スゴシ", dictionary_form="過ごす"),
+                                    token("ます", "マス"),
+                                    token("。", "。"),
+                                ]
+                            }
+                        }
+                    }
+                },
+            }
+            stats = make_stats(
+                [
+                    SurfaceReadingCount(
+                        surface="一日",
+                        reading="ツイタチ",
+                        count=47,
+                        surface_total_count=48,
+                        share=47 / 48,
+                        source_corpus_version="fixture",
+                    )
+                ]
+            )
+
+            records = build_pre_llm_safety_records(
+                payload,
+                stable_checker=StableSurfaceReadingLexicon.load_tsv(artifact),
+                corpus_stats=stats,
+            )
+
+            record = next(row for row in records if row["surface"] == "一日")
+            signal = next(
+                row for row in record["signals"]
+                if row["name"] == "safe_by_corpus_frequency"
+            )
+            self.assertFalse(record["is_safe"])
+            self.assertFalse(signal["accepted"])
+            self.assertEqual(signal["dominant"]["reading"], "ツイタチ")
+            self.assertEqual(
+                signal["pooled_surface_guard"]["reason"],
+                "missing_stable_surface",
+            )
+
+    def test_exact_frequency_remains_safe_when_pooled_surface_agrees(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "stable_surface_readings.tsv"
+            artifact.write_text(
+                "surface\treading\tcount\tsurface_total_count\tshare\t"
+                "source_corpus_version\n"
+                "学校\tガッコウ\t20\t20\t1\tfixture\n",
+                encoding="utf-8",
+            )
+            stats = make_stats(
+                [
+                    SurfaceReadingCount(
+                        surface="学校",
+                        reading="ガッコウ",
+                        count=20,
+                        surface_total_count=20,
+                        share=1.0,
+                        source_corpus_version="fixture",
+                    )
+                ]
+            )
+
+            records = build_pre_llm_safety_records(
+                unit(),
+                stable_checker=StableSurfaceReadingLexicon.load_tsv(artifact),
+                corpus_stats=stats,
+            )
+
+            record = next(row for row in records if row["surface"] == "学校")
+            signal = next(
+                row for row in record["signals"]
+                if row["name"] == "safe_by_corpus_frequency"
+            )
+            self.assertTrue(record["is_safe"])
+            self.assertTrue(signal["accepted"])
+            self.assertTrue(signal["pooled_surface_guard"]["accepted"])
 
     def test_corpus_frequency_marks_inflected_full_token_safe(self) -> None:
         payload = {

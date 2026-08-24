@@ -6,6 +6,7 @@ from pathlib import Path
 from yomi_corpus.decoder_models import refresh_decoder_model
 from yomi_corpus.pipeline import PipelineWorkspace
 from yomi_corpus.yomi.corpus_frequency import SurfaceReadingStats
+from yomi_corpus.yomi.ngram_reading_transitions import NgramReadingTransitionStats
 
 
 def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path: Path) -> None:
@@ -130,5 +131,22 @@ def test_refresh_decoder_model_exports_track_corpora_and_updates_track(tmp_path:
     stable_manifest = json.loads(stable_manifest_path.read_text(encoding="utf-8"))
     assert stable_manifest["source_corpus_paths"] == [str(base_corpus), str(corpus_path)]
     assert stable_manifest["parameters"]["max_span_tokens"] == 4
+    transitions_path = model_dir / "ngram_reading_transitions.tsv"
+    transitions_manifest_path = model_dir / "ngram_reading_transitions.manifest.json"
+    assert summary.ngram_reading_transitions_artifact == str(transitions_path)
+    assert summary.ngram_reading_transitions_manifest == str(
+        transitions_manifest_path
+    )
+    transition_stats = NgramReadingTransitionStats.load_tsv(transitions_path)
+    assert transition_stats.judge("元", "モト", "学校", "ガッコウ").reason == (
+        "missing_surface_transition"
+    )
+    transition_manifest = json.loads(
+        transitions_manifest_path.read_text(encoding="utf-8")
+    )
+    assert transition_manifest["source_corpus_paths"] == [
+        str(base_corpus),
+        str(corpus_path),
+    ]
     assert (model_dir / "build.stdout.log").read_text(encoding="utf-8").strip() == "fake stdout"
     assert (model_dir / "build.stderr.log").read_text(encoding="utf-8").strip() == "fake stderr"

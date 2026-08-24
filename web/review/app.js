@@ -4,6 +4,8 @@ const githubNewIssueUrl = "https://github.com/hiroshi-manabe/yomi-corpus/issues/
 const yomiLongPressMs = 550;
 const repeatCancellationDelayMs = 700;
 const repeatCancellationLifetimeMs = 12000;
+const archiveSearchHistoryStorageKey = "yomi-review:archive-search-history:v1";
+const archiveSearchHistoryLimit = 12;
 
 const state = {
   manifest: null,
@@ -44,7 +46,6 @@ const el = {
   backToTaskPicker: document.querySelector("#back-to-task-picker"),
   completeTask: document.querySelector("#complete-task"),
   taskWorkPanels: document.querySelectorAll(".task-work-panel"),
-  rangeSummary: document.querySelector("#range-summary"),
   itemsContainer: document.querySelector("#items-container"),
   itemsSummary: document.querySelector("#items-summary"),
   statusBanner: document.querySelector("#status-banner"),
@@ -59,7 +60,6 @@ const el = {
   issueNotYet: document.querySelector("#issue-not-yet"),
   submissionPreview: document.querySelector("#submission-preview"),
   issueUrlSummary: document.querySelector("#issue-url-summary"),
-  clearRange: document.querySelector("#clear-range"),
   resetDraft: document.querySelector("#reset-draft"),
   openIssueTitle: document.querySelector("#open-issue-title"),
   openIssueBottom: document.querySelector("#open-issue-bottom"),
@@ -175,26 +175,16 @@ function bindEvents() {
     completeCurrentTask();
   });
 
-  el.clearRange.addEventListener("click", () => {
-    if (!isEditable()) {
-      return;
-    }
-    state.currentDraft.from_seq = null;
-    state.currentDraft.to_seq = null;
-    touchDraft();
-    render();
-  });
-
   el.resetDraft.addEventListener("click", () => {
     if (!isEditable()) {
       return;
     }
-    if (!window.confirm("現在のローカル変更をすべてリセットしますか？")) {
+    if (!window.confirm("現在の作業とローカル編集を破棄しますか？")) {
       return;
     }
-    state.currentDraft = createEmptyDraft(state.currentPack);
-    saveDraft();
-    render();
+    clearActiveTaskState();
+    touchDraft();
+    render({ scrollToTop: true });
   });
 
   el.copyJson.addEventListener("click", async () => {
@@ -268,15 +258,16 @@ function bindEvents() {
 
   el.markSubmitted?.addEventListener("click", () => {
     const pendingTaskId = state.pendingIssueTaskId;
-    if (state.pendingArchiveCorrectionKey) {
-      markArchiveCorrectionSubmitted(state.pendingArchiveCorrectionKey);
+    const pendingArchiveCorrectionKey = state.pendingArchiveCorrectionKey;
+    state.pendingIssueTaskId = null;
+    state.pendingArchiveCorrectionKey = null;
+    hideIssueReturnModal();
+    clearPendingIssueConfirmation(pendingTaskId);
+    if (pendingArchiveCorrectionKey) {
+      markArchiveCorrectionSubmitted(pendingArchiveCorrectionKey);
     } else if (pendingTaskId) {
       markSavedTaskSubmitted(pendingTaskId);
     }
-    state.pendingIssueTaskId = null;
-    state.pendingArchiveCorrectionKey = null;
-    clearPendingIssueConfirmation(pendingTaskId);
-    hideIssueReturnModal();
   });
 
   el.issueNotYet?.addEventListener("click", () => {
@@ -604,12 +595,21 @@ function taskDocKey(doc) {
   return doc?.task_doc_id || doc?.doc_id || "";
 }
 
+function stableDocumentSeq(value) {
+  const explicit = Number(value?.track_doc_seq || 0);
+  if (Number.isInteger(explicit) && explicit > 0) {
+    return explicit;
+  }
+  const match = String(value?.doc_id || "").match(/:(\d+)$/);
+  return match ? Number(match[1]) : 0;
+}
+
 function documentDisplaySeq(doc) {
-  return Number(doc?.track_doc_seq || doc?.doc_seq || 0);
+  return stableDocumentSeq(doc);
 }
 
 function itemDisplayDocSeq(item) {
-  return Number(item?.track_doc_seq || item?.doc_seq || 0);
+  return stableDocumentSeq(item);
 }
 
 function queueStageSort(stage) {
@@ -656,7 +656,6 @@ function documentBelongsToQueue(queueStage, doc) {
 
 function render({ scrollToTop = false } = {}) {
   renderTaskSelector();
-  renderRangeSummary();
   renderItems();
   renderControlState();
   renderSubmissionPreview();
@@ -782,18 +781,22 @@ function renderArchiveSearchPanel(track) {
   heading.innerHTML = `
     <div>
       <strong>コーパスを検索</strong>
-      <p class="muted">確定済み文書と処理中の文書の原文を検索します。</p>
+      <p class="muted">表記、または「描く/えがく」のような表記/読みで検索します。</p>
     </div>
   `;
   const input = document.createElement("input");
   input.type = "search";
   input.className = "archive-search-input";
-  input.placeholder = "文書の原文を検索";
+  input.placeholder = "表記、または表記/読みを検索";
   input.autocomplete = "off";
   input.value = state.archiveSearchQuery || "";
   input.disabled = !track.search_path;
   heading.append(input);
   panel.append(heading);
+
+  const history = document.createElement("div");
+  history.className = "archive-search-history";
+  panel.append(history);
 
   const status = document.createElement("p");
   status.className = "archive-search-status muted";
@@ -805,16 +808,108 @@ function renderArchiveSearchPanel(track) {
   const results = document.createElement("div");
   results.className = "archive-search-results";
   panel.append(results);
+  const nodes = { panel, status, results, history, input, track };
+  renderArchiveSearchHistory(track, nodes);
 
   input.addEventListener("input", () => {
     state.archiveSearchQuery = input.value;
     updateRuntimePollingForInteraction();
-    scheduleArchiveSearch(track, { panel, status, results });
+    scheduleArchiveSearch(track, nodes);
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    event.preventDefault();
+    state.archiveSearchQuery = input.value;
+    rememberArchiveSearchQuery(track, input.value);
+    renderArchiveSearchHistory(track, nodes);
+    scheduleArchiveSearch(track, nodes, { immediate: true });
   });
   if (state.archiveSearchQuery.trim()) {
-    scheduleArchiveSearch(track, { panel, status, results }, { immediate: true });
+    scheduleArchiveSearch(track, nodes, { immediate: true });
   }
   return panel;
+}
+
+function archiveSearchHistoryKey(track) {
+  return `${archiveSearchHistoryStorageKey}:${String(track?.track_name || "dev")}`;
+}
+
+function loadArchiveSearchHistory(track) {
+  try {
+    const parsed = JSON.parse(
+      window.localStorage.getItem(archiveSearchHistoryKey(track)) || "[]",
+    );
+    return Array.isArray(parsed)
+      ? parsed.filter((query) => typeof query === "string" && query.trim()).slice(0, archiveSearchHistoryLimit)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function rememberArchiveSearchQuery(track, value) {
+  const query = String(value || "").trim();
+  if (!query) {
+    return;
+  }
+  const normalized = normalizeArchiveSearchText(query);
+  const history = loadArchiveSearchHistory(track)
+    .filter((candidate) => normalizeArchiveSearchText(candidate) !== normalized);
+  history.unshift(query);
+  try {
+    window.localStorage.setItem(
+      archiveSearchHistoryKey(track),
+      JSON.stringify(history.slice(0, archiveSearchHistoryLimit)),
+    );
+  } catch {
+    // Search remains usable when browser storage is unavailable.
+  }
+}
+
+function clearArchiveSearchHistory(track) {
+  try {
+    window.localStorage.removeItem(archiveSearchHistoryKey(track));
+  } catch {
+    // Search remains usable when browser storage is unavailable.
+  }
+}
+
+function renderArchiveSearchHistory(track, nodes) {
+  const history = loadArchiveSearchHistory(track);
+  nodes.history.innerHTML = "";
+  nodes.history.classList.toggle("hidden", history.length === 0);
+  if (!history.length) {
+    return;
+  }
+  const label = document.createElement("span");
+  label.className = "archive-search-history-label";
+  label.textContent = "最近の検索";
+  nodes.history.append(label);
+  for (const query of history) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "archive-search-history-query";
+    button.textContent = query;
+    button.addEventListener("click", () => {
+      nodes.input.value = query;
+      state.archiveSearchQuery = query;
+      rememberArchiveSearchQuery(track, query);
+      renderArchiveSearchHistory(track, nodes);
+      scheduleArchiveSearch(track, nodes, { immediate: true });
+    });
+    nodes.history.append(button);
+  }
+  const clear = document.createElement("button");
+  clear.type = "button";
+  clear.className = "archive-search-history-clear";
+  clear.textContent = "履歴を消去";
+  clear.addEventListener("click", () => {
+    clearArchiveSearchHistory(track);
+    renderArchiveSearchHistory(track, nodes);
+  });
+  nodes.history.append(clear);
 }
 
 function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
@@ -857,20 +952,84 @@ async function performArchiveSearch(track, query, nodes) {
   const matches = [];
   let totalMatches = 0;
   for (const doc of state.archiveSearchIndex.documents || []) {
-    const hitCount = countNormalizedSearchHits(doc.text, normalizedQuery);
+    const matchingUnits = archiveSearchUnits(doc)
+      .map((unit) => ({
+        ...unit,
+        search_hit_count: archiveSearchUnitHitCount(unit, normalizedQuery),
+      }))
+      .filter((unit) => unit.search_hit_count > 0);
+    const hitCount = matchingUnits.reduce(
+      (total, unit) => total + Number(unit.search_hit_count || 0),
+      0,
+    );
     if (!hitCount) {
       continue;
     }
     totalMatches += 1;
     if (matches.length < 100) {
-      matches.push({ ...doc, search_hit_count: hitCount });
+      matches.push({
+        ...doc,
+        search_hit_count: hitCount,
+        search_matching_units: matchingUnits,
+      });
     }
   }
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
 }
 
 function normalizeArchiveSearchText(value) {
-  return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
+  return katakanaToHiragana(
+    String(value || "").normalize("NFKC").toLocaleLowerCase("ja"),
+  );
+}
+
+function archiveSearchUnits(doc) {
+  if (Array.isArray(doc?.units)) {
+    return doc.units;
+  }
+  // Compatibility with schema-v2 indexes during rolling publication.
+  return String(doc?.text || "")
+    .split("\n")
+    .filter(Boolean)
+    .map((text, index) => ({ unit_seq: index + 1, yomi_tokens: [[text, ""]] }));
+}
+
+function archiveSearchUnitTokens(unit) {
+  return (unit?.yomi_tokens || [])
+    .filter((token) => Array.isArray(token) && token.length >= 2)
+    .map(([surface, reading]) => ({
+      surface: String(surface || ""),
+      reading: String(reading || ""),
+    }));
+}
+
+function archiveSearchUnitRawText(unit) {
+  return archiveSearchUnitTokens(unit).map((token) => token.surface).join("");
+}
+
+function archiveSearchUnitYomiText(unit) {
+  return archiveSearchUnitTokens(unit)
+    .map((token) => `${token.surface}/${token.reading}`)
+    .join(" ");
+}
+
+function archiveSearchUnitFromReviewItem(item) {
+  const canonical = normalizeYomiTokenPairs(item?.yomi_tokens);
+  const tokens = canonical.length
+    ? canonical
+    : parseRenderedYomiTokens(item?.rendered_yomi || "")
+      .map((token) => [token.surface, token.reading]);
+  return {
+    unit_seq: Number(item?.unit_seq || item?.seq || 0),
+    yomi_tokens: tokens.length ? tokens : [[String(item?.text || ""), ""]],
+  };
+}
+
+function archiveSearchUnitHitCount(unit, normalizedQuery) {
+  const text = normalizedQuery.includes("/")
+    ? archiveSearchUnitYomiText(unit)
+    : archiveSearchUnitRawText(unit);
+  return countNormalizedSearchHits(text, normalizedQuery);
 }
 
 function countNormalizedSearchHits(text, normalizedQuery) {
@@ -910,9 +1069,21 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
         <strong>文書 ${escapeHtml(doc.track_doc_seq)}</strong>
         <span class="archive-search-hit-count">${hitCount}件</span>
       </span>
-      <span class="archive-search-snippet">${escapeHtml(archiveSearchSnippet(doc.text, query))}</span>
     `;
+    const snippets = document.createElement("span");
+    snippets.className = "archive-search-ruby-snippets";
+    for (const unit of (doc.search_matching_units || []).slice(0, 3)) {
+      snippets.append(renderArchiveSearchRubySnippet(unit, query));
+    }
+    if ((doc.search_matching_units || []).length > 3) {
+      const remaining = document.createElement("small");
+      remaining.textContent = `ほか${doc.search_matching_units.length - 3}文`;
+      snippets.append(remaining);
+    }
+    button.append(snippets);
     button.addEventListener("click", () => {
+      rememberArchiveSearchQuery(nodes.track, query);
+      renderArchiveSearchHistory(nodes.track, nodes);
       openArchiveSearchResult(doc, query).catch((error) => {
         showStatus(`検索結果を開けませんでした: ${error.message}`, true);
       });
@@ -921,12 +1092,31 @@ function renderArchiveSearchResults(matches, totalMatches, query, nodes) {
   }
 }
 
-function archiveSearchSnippet(text, query) {
-  const compact = String(text || "").replace(/\s+/gu, " ").trim();
-  const index = normalizeArchiveSearchText(compact).indexOf(normalizeArchiveSearchText(query));
-  const start = Math.max(0, index < 0 ? 0 : index - 36);
-  const end = Math.min(compact.length, (index < 0 ? 0 : index) + String(query).length + 72);
-  return `${start > 0 ? "…" : ""}${compact.slice(start, end)}${end < compact.length ? "…" : ""}`;
+function renderArchiveSearchRubySnippet(unit, query) {
+  const line = document.createElement("span");
+  line.className = "archive-search-ruby-snippet";
+  const normalizedQuery = normalizeArchiveSearchText(query);
+  const useYomi = normalizedQuery.includes("/");
+  let highlighted = false;
+  for (const [index, token] of archiveSearchUnitTokens(unit).entries()) {
+    const wrapper = document.createElement("span");
+    const searchable = useYomi
+      ? `${token.surface}/${token.reading}`
+      : token.surface;
+    if (normalizeArchiveSearchText(searchable).includes(normalizedQuery)) {
+      wrapper.className = "archive-search-token-match";
+      highlighted = true;
+    }
+    const rubyToken = Array.isArray(unit?.ruby_tokens) ? unit.ruby_tokens[index] : null;
+    wrapper.append(
+      ...renderReadonlyRubyFromTokensWithNodes([token], rubyToken ? [rubyToken] : []),
+    );
+    line.append(wrapper);
+  }
+  if (!highlighted) {
+    line.classList.add("search-match");
+  }
+  return line;
 }
 
 async function openArchiveSearchResult(result, query) {
@@ -952,7 +1142,7 @@ async function openPendingSearchResult(result, query, packPath) {
   const items = (pack.items || []).filter(
     (item) =>
       String(item.doc_id || "") === String(result.doc_id || "") &&
-      Number(item.track_doc_seq || item.doc_seq || 0) === Number(result.track_doc_seq || 0),
+      itemDisplayDocSeq(item) === Number(result.track_doc_seq || 0),
   );
   if (!items.length) {
     throw new Error("レビュー用データ内に文書が見つかりません。");
@@ -972,7 +1162,9 @@ async function openPendingSearchResult(result, query, packPath) {
     );
     for (const item of sortedItems) {
       const node = renderPreviewItem(item);
-      node.dataset.searchText = item.text || "";
+      const searchUnit = archiveSearchUnitFromReviewItem(item);
+      node.dataset.searchText = archiveSearchUnitRawText(searchUnit);
+      node.dataset.searchYomi = archiveSearchUnitYomiText(searchUnit);
       el.workflowPreviewBody.append(node);
     }
   } finally {
@@ -992,7 +1184,9 @@ async function openPendingSearchResult(result, query, packPath) {
 function scrollPendingSearchToFirstMatch(query) {
   const normalizedQuery = normalizeArchiveSearchText(query).trim();
   const target = [...(el.workflowPreviewBody?.querySelectorAll("[data-search-text]") || [])].find(
-    (node) => normalizeArchiveSearchText(node.dataset.searchText).includes(normalizedQuery),
+    (node) => normalizeArchiveSearchText(
+      normalizedQuery.includes("/") ? node.dataset.searchYomi : node.dataset.searchText,
+    ).includes(normalizedQuery),
   );
   if (!target) {
     return;
@@ -1008,8 +1202,8 @@ function scrollArchiveCorrectionToFirstMatch(doc, query) {
   if (!normalizedQuery) {
     return;
   }
-  const unitIndex = (doc.units || []).findIndex((unit) =>
-    normalizeArchiveSearchText(unit.text).includes(normalizedQuery),
+  const unitIndex = (doc.units || []).findIndex(
+    (unit) => archiveSearchUnitHitCount(unit, normalizedQuery) > 0,
   );
   if (unitIndex < 0) {
     return;
@@ -1080,7 +1274,7 @@ function formatArchiveCorrectionSummary(count, sentenceCount) {
 function archiveCorrectionDocKey(doc) {
   return [
     state.archiveCurrentTrack || "dev",
-    String(doc.track_doc_seq || ""),
+    String(stableDocumentSeq(doc) || ""),
     String(doc.doc_id || ""),
   ].join("::");
 }
@@ -1222,7 +1416,7 @@ function persistArchiveCorrectionDraft(doc, parsedChanges = null) {
     submission_id: submissionId,
     track_name: state.archiveCurrentTrack || "dev",
     doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    track_doc_seq: stableDocumentSeq(doc) || null,
     batch_name: doc.batch_name || "",
     archive_shard: doc.archive_shard || doc.shard_path || state.archiveCurrentShardPath || "",
     base_archive_revision: doc.archive_revision || "",
@@ -1240,7 +1434,7 @@ function newArchiveCorrectionSubmissionId(doc) {
   const randomPart = globalThis.crypto?.randomUUID?.().replaceAll("-", "") ||
     `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`;
   const track = String(state.archiveCurrentTrack || "dev").replace(/[^A-Za-z0-9_-]+/g, "_");
-  const seq = Number(doc.track_doc_seq || 0) || "unknown";
+  const seq = stableDocumentSeq(doc) || "unknown";
   return `finalized_correction__client__${track}_${seq}__${randomPart}`;
 }
 
@@ -1484,12 +1678,17 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     <div class="archive-correction-editor-actions">
       <button type="button" class="secondary-button compact-button" data-archive-correction-save>保存</button>
       <button type="button" class="secondary-button compact-button" data-archive-correction-cancel>キャンセル</button>
+      <button type="button" class="secondary-button compact-button" data-archive-correction-revert>元に戻す</button>
     </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
+  textarea.addEventListener("keydown", (event) => {
+    handleArchiveCorrectionEditorKeydown(event, row, unit, doc);
+  });
   editor.querySelector("[data-archive-correction-save]")?.addEventListener("click", () => saveArchiveCorrectionRow(row, unit, doc));
   editor.querySelector("[data-archive-correction-cancel]")?.addEventListener("click", () => cancelArchiveCorrectionRowEdit(row));
+  editor.querySelector("[data-archive-correction-revert]")?.addEventListener("click", () => revertArchiveCorrectionRow(row, doc));
 
   row.append(summary);
   appendStrongRepairFootnoteList(row, footnotes);
@@ -1518,6 +1717,19 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   return row;
 }
 
+function handleArchiveCorrectionEditorKeydown(event, row, unit, doc) {
+  if (
+    event.key !== "Enter" ||
+    event.shiftKey ||
+    event.isComposing ||
+    event.keyCode === 229
+  ) {
+    return;
+  }
+  event.preventDefault();
+  saveArchiveCorrectionRow(row, unit, doc);
+}
+
 function openArchiveCorrectionRowEditor(row, unit) {
   const editor = row.querySelector(".archive-correction-editor");
   const button = row.querySelector("[data-archive-yomi-edit]");
@@ -1528,6 +1740,7 @@ function openArchiveCorrectionRowEditor(row, unit) {
   if (textarea) {
     textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
   }
+  row.classList.add("editing");
   editor.classList.remove("hidden");
   button.disabled = true;
   updateArchiveCorrectionRowState(row, unit);
@@ -1683,6 +1896,16 @@ function clearArchiveCorrectionRow(row, doc = null) {
   updateArchiveCorrectionSummary();
 }
 
+function revertArchiveCorrectionRow(row, doc) {
+  if (
+    row.dataset.proposedYomi &&
+    !window.confirm("保存済みの読み編集を破棄して元の読みへ戻しますか？")
+  ) {
+    return;
+  }
+  clearArchiveCorrectionRow(row, doc);
+}
+
 function cancelArchiveCorrectionRowEdit(row) {
   const editor = row.querySelector(".archive-correction-editor");
   const textarea = editor?.querySelector(".archive-correction-unit-textarea");
@@ -1705,6 +1928,7 @@ function cancelArchiveCorrectionRowEdit(row) {
 }
 
 function closeArchiveCorrectionRowEditor(row) {
+  row.classList.remove("editing");
   row.querySelector(".archive-correction-editor")?.classList.add("hidden");
   const button = row.querySelector("[data-archive-yomi-edit]");
   if (button) {
@@ -1973,8 +2197,8 @@ function isStandaloneLaughterW(surface) {
 }
 
 function archiveCorrectionIssueTitle(doc) {
-  const seq = doc.track_doc_seq || doc.doc_seq || doc.doc_id || "unknown";
-  return `[yomi-correction] dev document ${seq}`;
+  const seq = stableDocumentSeq(doc) || doc.doc_id || "unknown";
+  return `[Finalized Correction] ${seq}`;
 }
 
 function buildArchiveCorrectionPayload(doc, parsed) {
@@ -1986,7 +2210,7 @@ function buildArchiveCorrectionPayload(doc, parsed) {
     track_name: state.archiveCurrentTrack || "dev",
     review_stage: "finalized_correction",
     doc_id: doc.doc_id || "",
-    track_doc_seq: Number(doc.track_doc_seq || 0) || null,
+    track_doc_seq: stableDocumentSeq(doc) || null,
     batch_name: doc.batch_name || "",
     generated_at_epoch: Math.floor(Date.now() / 1000),
     base_archive_revision: localRecord?.base_archive_revision || doc.archive_revision || "",
@@ -2167,37 +2391,6 @@ function renderWorkflowQueue({
     tiles.append(empty);
   }
   section.append(tiles);
-
-  const controls = document.createElement("div");
-  controls.className = "workflow-range-controls";
-  const fromSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[0] || actionableDocs[0] || null);
-  const toSelect = buildWorkflowDocSelect(actionableDocs, selectedDocs[selectedDocs.length - 1] || actionableDocs[actionableDocs.length - 1] || null);
-  const selectRangeButton = document.createElement("button");
-  selectRangeButton.type = "button";
-  selectRangeButton.className = "secondary-button";
-  selectRangeButton.textContent = "範囲を選択";
-  selectRangeButton.disabled = actionableDocs.length === 0;
-  selectRangeButton.addEventListener("click", () => {
-    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, true);
-  });
-  const deselectRangeButton = document.createElement("button");
-  deselectRangeButton.type = "button";
-  deselectRangeButton.className = "secondary-button";
-  deselectRangeButton.textContent = "範囲を選択解除";
-  deselectRangeButton.disabled = actionableDocs.length === 0;
-  deselectRangeButton.addEventListener("click", () => {
-    selectDocumentRangeForQueue(queueStage, fromSelect.value, toSelect.value, false);
-  });
-  controls.append(
-    textNodeElement("span", "範囲:"),
-    textNodeElement("span", "開始"),
-    fromSelect,
-    textNodeElement("span", "終了"),
-    toSelect,
-    selectRangeButton,
-    deselectRangeButton,
-  );
-  section.append(controls);
 
   const actions = document.createElement("div");
   actions.className = "button-row workflow-actions";
@@ -2485,8 +2678,6 @@ function workflowPreviewDraftForRow(row) {
   return {
     ...state.currentDraft,
     task: saved.task,
-    from_seq: saved.from_seq ?? null,
-    to_seq: saved.to_seq ?? null,
     overrides: cloneJson(saved.overrides || {}),
   };
 }
@@ -2610,11 +2801,11 @@ function renderPreviewItem(item) {
     return node;
   }
   if (itemReviewStage(item) === "yomi_final_review") {
-    renderYomiItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    renderYomiItem({ node, item, override, editable: false });
     return node;
   }
   if (itemReviewStage(item) === "yomi_strong_repair_review") {
-    renderStrongRepairItem({ node, item, override, editable: false, isFrom: false, isTo: false });
+    renderStrongRepairItem({ node, item, override, editable: false });
     return node;
   }
   node.querySelector(".item-seq").textContent = `#${item.seq}`;
@@ -2693,8 +2884,6 @@ function startSingleDocumentTask(doc) {
     doc_ids: [taskDocKey(doc)],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   startReviewTask();
 }
 
@@ -2775,7 +2964,7 @@ function withSubmittedProcessingPlaceholders(docs) {
         task_doc_id: taskKey,
         queue_stage: queueStage,
         doc_seq: Number(ref.doc_seq || ref.track_doc_seq || 0),
-        track_doc_seq: Number(ref.track_doc_seq || ref.doc_seq || 0),
+        track_doc_seq: stableDocumentSeq(ref),
         item_count: Number(ref.item_count || 0),
         unresolved_count: Number(ref.unresolved_count || 0),
         state: queueStage === "yomi_strong_repair_review" ? "strong_reviewed" : "final_reviewed",
@@ -2860,7 +3049,7 @@ function workflowDocumentStateForQueueDoc(doc) {
   const processing = docIsProcessingOnServer(doc);
   return {
     doc_seq: doc.doc_seq,
-    track_doc_seq: doc.track_doc_seq || doc.doc_seq,
+    track_doc_seq: stableDocumentSeq(doc),
     display_seq: documentDisplaySeq(doc),
     status: queueStatusFromDocumentState(doc) || (doc.queue_stage === "yomi_strong_repair_review" ? "strong" : "final"),
     preview: doc.preview || "",
@@ -2970,25 +3159,6 @@ function workflowQueueDocRank(doc, queueStage) {
     return 2;
   }
   return 3;
-}
-
-function buildWorkflowDocSelect(docs, selectedDoc) {
-  const select = document.createElement("select");
-  select.disabled = docs.length === 0;
-  for (const doc of docs) {
-    const option = document.createElement("option");
-    option.value = taskDocKey(doc);
-    option.textContent = String(documentDisplaySeq(doc));
-    option.selected = selectedDoc && taskDocKey(selectedDoc) === taskDocKey(doc);
-    select.append(option);
-  }
-  return select;
-}
-
-function textNodeElement(tagName, text) {
-  const element = document.createElement(tagName);
-  element.textContent = text;
-  return element;
 }
 
 function renderSavedTaskDrafts(docs) {
@@ -3149,8 +3319,6 @@ function renderTaskDocumentRow(doc, task) {
   const actions = document.createElement("div");
   actions.className = "task-doc-actions";
   for (const [labelText, handler] of [
-    ["ここから", () => setDocumentRangeBoundary(docKey, "start")],
-    ["ここまで", () => setDocumentRangeBoundary(docKey, "end")],
     ["これだけ", () => selectOnlyDocumentTask(docKey)],
   ]) {
     const button = document.createElement("button");
@@ -3166,20 +3334,6 @@ function renderTaskDocumentRow(doc, task) {
   return row;
 }
 
-function renderRangeSummary() {
-  const { fromSeq, toSeq, includedCount } = getEffectiveRange();
-  const overrides = getSubmissionOverridesForCurrentStage();
-  const defaultAcceptCount = Math.max(includedCount - overrides.length, 0);
-  const summaryCards = [
-    makeSummaryCard("開始", String(fromSeq)),
-    makeSummaryCard("終了", String(toSeq)),
-    makeSummaryCard("対象", String(includedCount)),
-    makeSummaryCard("既定値を採用", String(defaultAcceptCount)),
-    makeSummaryCard("変更", String(overrides.length)),
-  ];
-  el.rangeSummary.innerHTML = summaryCards.join("");
-}
-
 function makeSummaryCard(label, value) {
   return `
     <div class="meta-card">
@@ -3191,7 +3345,6 @@ function makeSummaryCard(label, value) {
 
 function renderItems() {
   const pack = state.currentPack;
-  const { fromSeq, toSeq } = getEffectiveRange();
   const editable = isEditable();
   const visibleItems = getVisibleItems();
   el.itemsSummary.textContent = `${pack.items.length}項目中 ${visibleItems.length}項目を表示`;
@@ -3204,24 +3357,18 @@ function renderItems() {
       lastDocId = item.doc_id;
     }
     const node = el.itemTemplate.content.firstElementChild.cloneNode(true);
-    const inRange = item.seq >= fromSeq && item.seq <= toSeq;
     const override = state.currentDraft.overrides[item.item_id] || null;
-    const isFrom = state.currentDraft.from_seq === item.seq;
-    const isTo = state.currentDraft.to_seq === item.seq;
 
-    node.classList.toggle("out-of-range", !inRange);
     node.classList.toggle("has-override", Boolean(override));
-    node.classList.toggle("marker-start", isFrom);
-    node.classList.toggle("marker-end", isTo);
 
     node.querySelector(".item-seq").textContent = `#${item.seq}`;
     if (itemReviewStage(item) === "yomi_final_review") {
-      renderYomiItem({ node, item, override, editable, isFrom, isTo });
+      renderYomiItem({ node, item, override, editable });
       el.itemsContainer.append(node);
       continue;
     }
     if (itemReviewStage(item) === "yomi_strong_repair_review") {
-      renderStrongRepairItem({ node, item, override, editable, isFrom, isTo });
+      renderStrongRepairItem({ node, item, override, editable });
       el.itemsContainer.append(node);
       continue;
     }
@@ -3230,20 +3377,6 @@ function renderItems() {
     const proposedBadge = node.querySelector(".proposed-badge");
     proposedBadge.textContent = localizedDecisionLabel(item.proposed_action);
     proposedBadge.classList.add(item.proposed_action);
-
-    const markerBadge = node.querySelector(".marker-badge");
-    if (isFrom && isTo) {
-      markerBadge.textContent = "開始・終了";
-      markerBadge.classList.remove("hidden");
-    } else if (isFrom) {
-      markerBadge.textContent = "開始";
-      markerBadge.classList.remove("hidden");
-    } else if (isTo) {
-      markerBadge.textContent = "終了";
-      markerBadge.classList.remove("hidden");
-    } else {
-      markerBadge.classList.add("hidden");
-    }
 
     const overrideBadge = node.querySelector(".override-badge");
     if (override) {
@@ -3300,17 +3433,6 @@ function renderItems() {
     readonlySections.forEach((section) => section.classList.toggle("hidden", editable));
 
     if (editable) {
-      node.querySelector(".set-from").addEventListener("click", () => {
-        state.currentDraft.from_seq = item.seq;
-        touchDraft();
-        render();
-      });
-      node.querySelector(".set-to").addEventListener("click", () => {
-        state.currentDraft.to_seq = item.seq;
-        touchDraft();
-        render();
-      });
-
       node.querySelector(".accept-default").addEventListener("click", () => {
         delete state.currentDraft.overrides[item.item_id];
         touchDraft();
@@ -3352,12 +3474,10 @@ function renderDocumentSeparator(item) {
   return separator;
 }
 
-function renderStrongRepairItem({ node, item, override, editable, isFrom, isTo }) {
+function renderStrongRepairItem({ node, item, override, editable }) {
   node.innerHTML = "";
   node.classList.add("strong-repair-card");
   node.classList.toggle("has-override", Boolean(override));
-  node.classList.toggle("marker-start", isFrom);
-  node.classList.toggle("marker-end", isTo);
 
   const header = document.createElement("header");
   header.className = "item-header";
@@ -4373,7 +4493,8 @@ function escapeEditableYomiComponent(value) {
     .replaceAll(" ", "\\s")
     .replaceAll("\t", "\\t")
     .replaceAll("\r", "\\r")
-    .replaceAll("\n", "\\n");
+    .replaceAll("\n", "\\n")
+    .replaceAll("\u3000", "\\u3000");
 }
 
 function splitEditableYomiToken(token) {
@@ -4381,8 +4502,19 @@ function splitEditableYomiToken(token) {
   let partIndex = 0;
   let escaped = false;
   const escapeValues = { s: " ", t: "\t", r: "\r", n: "\n" };
-  for (const char of String(token || "")) {
+  const value = String(token || "");
+  for (let index = 0; index < value.length; index += 1) {
+    const char = value[index];
     if (escaped) {
+      if (char === "u") {
+        const codepoint = value.slice(index + 1, index + 5);
+        if (/^[0-9A-Fa-f]{4}$/.test(codepoint)) {
+          parts[partIndex].push(String.fromCharCode(Number.parseInt(codepoint, 16)));
+          index += 4;
+          escaped = false;
+          continue;
+        }
+      }
       parts[partIndex].push(escapeValues[char] ?? char);
       escaped = false;
       continue;
@@ -4430,7 +4562,7 @@ function setOverride(itemId, decision) {
   render();
 }
 
-function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
+function renderYomiItem({ node, item, override, editable }) {
   if (override) {
     override.targets ||= {};
     override.bridge_atoms ||= {};
@@ -4441,11 +4573,14 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
   node.classList.add("yomi-card");
   node.classList.toggle("all-safe", item.unresolved_target_count === 0);
   node.classList.toggle("has-unresolved", item.unresolved_target_count > 0);
+  const directEditTokens = normalizeYomiTokenPairs(override?.direct_yomi_tokens);
+  const hasDirectEdit = override?.resolution === "direct_edit" && directEditTokens.length > 0;
+  node.classList.toggle("direct-yomi-edit", hasDirectEdit);
 
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
-  const defaultDisposition = "Keep";
+  const defaultDisposition = yomiItemDefaultDisposition(item);
   const currentDisposition =
     override?.disposition ||
     (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
@@ -4502,6 +4637,7 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
     onChange: (checked) => {
       const draft = ensureYomiOverride(item.item_id);
       draft.manual_correction_required = checked;
+      delete draft.direct_edit_cleared_manual_flag;
       cleanupYomiOverride(item.item_id);
       touchDraft();
       renderSubmissionPreview();
@@ -4513,12 +4649,211 @@ function renderYomiItem({ node, item, override, editable, isFrom, isTo }) {
 
   const rubyLine = document.createElement("p");
   rubyLine.className = "ruby-line";
-  rubyLine.append(...renderRubySegments(item, override, editable));
+  rubyLine.append(...renderRubySegments(item, hasDirectEdit ? null : override, editable && !hasDirectEdit));
+  if (editable) {
+    const directEditButton = document.createElement("button");
+    directEditButton.type = "button";
+    directEditButton.className = "yomi-direct-edit-button";
+    directEditButton.textContent = "🔧";
+    directEditButton.title = hasDirectEdit ? "この文の読みデータを再編集します" : "この文の読みデータを直接編集します";
+    directEditButton.setAttribute("aria-label", directEditButton.title);
+    directEditButton.addEventListener("click", () => {
+      openYomiDirectEditor(node, item);
+    });
+    rubyLine.append(directEditButton);
+  }
   node.append(rubyLine);
+
+  if (hasDirectEdit) {
+    node.append(renderSavedYomiDirectEdit(directEditTokens));
+  }
+
+  if (editable) {
+    node.append(renderYomiDirectEditor(node, item, directEditTokens));
+  }
 
   if (!editable) {
     return;
   }
+}
+
+function yomiDirectEditBaselineTokens(item) {
+  return archiveUnitYomiTokenPairs(item);
+}
+
+function renderSavedYomiDirectEdit(tokens) {
+  const saved = document.createElement("div");
+  saved.className = "yomi-direct-edit-saved";
+  const label = document.createElement("strong");
+  label.textContent = "編集後";
+  const renderedYomi = document.createElement("code");
+  renderedYomi.textContent = serializeEditableYomiTokens(tokens);
+  saved.append(label, renderedYomi);
+  return saved;
+}
+
+function renderYomiDirectEditor(node, item, savedTokens) {
+  const baselineTokens = yomiDirectEditBaselineTokens(item);
+  const initialTokens = savedTokens.length ? savedTokens : baselineTokens;
+  const editor = document.createElement("div");
+  editor.className = "yomi-direct-edit-editor hidden";
+  editor.dataset.originalYomi = serializeEditableYomiTokens(baselineTokens);
+  editor.innerHTML = `
+    <label>
+      <span>読みデータ</span>
+      <textarea class="yomi-direct-edit-textarea" rows="3">${escapeHtml(serializeEditableYomiTokens(initialTokens))}</textarea>
+    </label>
+    <p class="yomi-direct-edit-validation muted">表記/読み 形式で、この文全体の読みを編集します。</p>
+    <div class="yomi-direct-edit-actions">
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-save>保存</button>
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-cancel>キャンセル</button>
+      <button type="button" class="secondary-button compact-button" data-yomi-direct-revert>元に戻す</button>
+    </div>
+  `;
+  const textarea = editor.querySelector(".yomi-direct-edit-textarea");
+  textarea.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    event.preventDefault();
+    saveYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-save]")?.addEventListener("click", () => {
+    saveYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-cancel]")?.addEventListener("click", () => {
+    cancelYomiDirectEdit(node, item);
+  });
+  editor.querySelector("[data-yomi-direct-revert]")?.addEventListener("click", () => {
+    revertYomiDirectEdit(item);
+  });
+  return editor;
+}
+
+function openYomiDirectEditor(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  if (!editor || !textarea) {
+    return;
+  }
+  const override = state.currentDraft.overrides[item.item_id] || {};
+  const saved = normalizeYomiTokenPairs(override.direct_yomi_tokens);
+  textarea.value = serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
+  node.classList.add("direct-yomi-editing");
+  for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
+    if (token instanceof HTMLButtonElement) {
+      token.disabled = true;
+    }
+  }
+  editor.classList.remove("hidden");
+  textarea.focus();
+}
+
+function saveYomiDirectEdit(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  const validationNode = editor?.querySelector(".yomi-direct-edit-validation");
+  if (!editor || !textarea || !validationNode) {
+    return;
+  }
+  const proposed = normalizeRenderedYomiCorrectionReadings(String(textarea.value || "").trim());
+  textarea.value = proposed;
+  const validation = validateRenderedYomiCorrection(item, proposed);
+  if (!validation.ok) {
+    node.classList.add("direct-yomi-invalid");
+    validationNode.classList.add("error");
+    validationNode.textContent = validation.error;
+    return;
+  }
+  const baselineTokens = yomiDirectEditBaselineTokens(item);
+  if (yomiTokenPairsEqual(validation.tokens, baselineTokens)) {
+    revertYomiDirectEdit(item, { confirmSaved: false });
+    return;
+  }
+  const draft = ensureYomiOverride(item.item_id);
+  if (
+    yomiOverrideHasInteractiveReadingEdits(draft) &&
+    !window.confirm(
+      "直接編集を保存すると、クリックで選択した読み・区切り・結合の変更は取り消されます。続けますか？",
+    )
+  ) {
+    return;
+  }
+  draft.resolution = "direct_edit";
+  draft.original_yomi_tokens = baselineTokens;
+  draft.direct_yomi_tokens = validation.tokens;
+  draft.targets = {};
+  draft.span_overrides = {};
+  draft.bridge_atoms = {};
+  if ((draft.manual_correction_required ?? item.manual_correction_required ?? false) === true) {
+    draft.manual_correction_required = false;
+    draft.direct_edit_cleared_manual_flag = true;
+  }
+  node.classList.remove("direct-yomi-invalid");
+  touchDraft();
+  render();
+}
+
+function cancelYomiDirectEdit(node, item) {
+  const editor = node.querySelector(".yomi-direct-edit-editor");
+  const textarea = editor?.querySelector(".yomi-direct-edit-textarea");
+  if (!editor || !textarea) {
+    return;
+  }
+  const override = state.currentDraft.overrides[item.item_id] || {};
+  const saved = normalizeYomiTokenPairs(override.direct_yomi_tokens);
+  const baseline = serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
+  if (String(textarea.value || "").trim() !== baseline && !window.confirm("未保存の読み編集を破棄しますか？")) {
+    return;
+  }
+  textarea.value = baseline;
+  node.classList.remove("direct-yomi-invalid");
+  node.classList.remove("direct-yomi-editing");
+  for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
+    if (token instanceof HTMLButtonElement) {
+      token.disabled = false;
+    }
+  }
+  editor.classList.add("hidden");
+}
+
+function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {
+  const draft = state.currentDraft.overrides[item.item_id];
+  if (
+    confirmSaved &&
+    draft?.resolution === "direct_edit" &&
+    !window.confirm(
+      "保存済みの直接編集を破棄して元の読みへ戻しますか？直接編集前にクリックで選択していた読みは復元されません。",
+    )
+  ) {
+    return;
+  }
+  if (draft) {
+    delete draft.resolution;
+    delete draft.original_yomi_tokens;
+    delete draft.direct_yomi_tokens;
+    if (draft.direct_edit_cleared_manual_flag) {
+      delete draft.manual_correction_required;
+      delete draft.direct_edit_cleared_manual_flag;
+    }
+    cleanupYomiOverride(item.item_id);
+  }
+  touchDraft();
+  render();
+}
+
+function yomiOverrideHasInteractiveReadingEdits(override) {
+  return (
+    Object.keys(override?.targets || {}).length > 0 ||
+    Object.keys(override?.span_overrides || {}).length > 0 ||
+    Object.keys(override?.bridge_atoms || {}).length > 0
+  );
+}
+
+function yomiItemDefaultDisposition(item) {
+  return ["Keep", "Skip", "Exclude"].includes(item?.initial_disposition)
+    ? item.initial_disposition
+    : "Keep";
 }
 
 function setYomiDispositionClasses(node, disposition) {
@@ -5325,6 +5660,7 @@ function targetsConnectedByMergeOps(targets, mergeOps) {
 
 function findRepeatedCancellationMatches(sourceItem, pattern) {
   const matches = [];
+  const matchedTargetSets = new Set();
   for (const item of state.currentPack?.items || []) {
     if (
       String(item.doc_id || "") !== String(sourceItem.doc_id || "") ||
@@ -5357,7 +5693,65 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
         continue;
       }
       matches.push({ item, targets: windowTargets });
+      matchedTargetSets.add(repeatedCancellationMatchKey(item, windowTargets));
     }
+    // Interaction spans are UI units, not lexical identity. The same text can
+    // therefore be one target in one sentence and several targets in another.
+    // For plain adjacent cancellations, match the textual span as well.
+    if (pattern.mergeOps.length === 0) {
+      for (const windowTargets of cancellationTargetsForText(item, pattern.surface, targets)) {
+        const key = repeatedCancellationMatchKey(item, windowTargets);
+        if (matchedTargetSets.has(key)) {
+          continue;
+        }
+        if (
+          item.item_id === sourceItem.item_id &&
+          windowTargets.every((target) => state.repeatCancellation.targetIds.has(target.item_id))
+        ) {
+          continue;
+        }
+        matches.push({ item, targets: windowTargets });
+        matchedTargetSets.add(key);
+      }
+    }
+  }
+  return matches;
+}
+
+function repeatedCancellationMatchKey(item, targets) {
+  return `${item.item_id}:${targets.map((target) => target.item_id).join(",")}`;
+}
+
+function cancellationTargetsForText(item, surface, targets) {
+  const text = [...String(item.text || "")];
+  const pattern = [...String(surface || "")];
+  if (!pattern.length) {
+    return [];
+  }
+  const matches = [];
+  for (let start = 0; start <= text.length - pattern.length; start += 1) {
+    if (text.slice(start, start + pattern.length).join("") !== surface) {
+      continue;
+    }
+    const end = start + pattern.length;
+    const windowTargets = targets.filter((target) =>
+      Number(target.target_start) >= start && Number(target.target_end) <= end
+    );
+    if (!windowTargets.length || Number(windowTargets[0].target_start) !== start ||
+        Number(windowTargets.at(-1).target_end) !== end) {
+      continue;
+    }
+    if (windowTargets.some((target, index) =>
+      index > 0 && Number(target.target_start) !== Number(windowTargets[index - 1].target_end)
+    )) {
+      continue;
+    }
+    if (!windowTargets.every((target) => targetMatchesCancellationSpec(item, target, {
+      surface: target.surface || "",
+    }))) {
+      continue;
+    }
+    matches.push(windowTargets);
   }
   return matches;
 }
@@ -5481,7 +5875,6 @@ function applyYomiCandidate(item, target, next) {
 function ensureYomiOverride(itemId) {
   if (!state.currentDraft.overrides[itemId]) {
     state.currentDraft.overrides[itemId] = {
-      skip: false,
       targets: {},
       bridge_atoms: {},
       span_overrides: {},
@@ -5508,14 +5901,17 @@ function cleanupYomiOverride(itemId) {
   const hasTargets = Object.keys(draft.targets || {}).length > 0;
   const hasSpanOverrides = Object.keys(draft.span_overrides || {}).length > 0;
   const hasBridgeAtoms = Object.keys(draft.bridge_atoms || {}).length > 0;
+  const hasDirectEdit =
+    draft.resolution === "direct_edit" && normalizeYomiTokenPairs(draft.direct_yomi_tokens).length > 0;
   const item = state.currentPack?.items?.find((row) => row.item_id === itemId);
-  const defaultDisposition = "Keep";
+  const defaultDisposition = yomiItemDefaultDisposition(item);
   const hasDispositionChange =
     typeof draft.disposition === "string" && draft.disposition !== defaultDisposition;
   if (
     !hasTargets &&
     !hasSpanOverrides &&
     !hasBridgeAtoms &&
+    !hasDirectEdit &&
     !draft.skip &&
     !hasDispositionChange &&
     !draft.note &&
@@ -5542,8 +5938,7 @@ function renderControlState() {
   const started = isTaskStarted();
   el.backToTaskPicker.disabled = !editable || !started;
   el.completeTask.disabled = !editable || !started;
-  el.clearRange.disabled = !editable;
-  el.resetDraft.disabled = !editable;
+  el.resetDraft.disabled = !editable || !started;
   el.openIssueTitle.disabled = !editable;
   el.openIssueBottom.disabled = !editable;
   el.copyJson.disabled = !editable;
@@ -5609,12 +6004,16 @@ async function openIssueForCurrentTask() {
 
 function restorePendingIssueConfirmation() {
   if (!state.currentDraft) {
+    state.pendingIssueTaskId = null;
+    hideIssueReturnModal();
     return;
   }
   const pending = Object.values(state.currentDraft.saved_tasks || {}).find(
     (record) => record?.awaiting_issue_confirmation,
   );
   if (!pending?.task_id) {
+    state.pendingIssueTaskId = null;
+    hideIssueReturnModal();
     return;
   }
   state.pendingIssueTaskId = pending.task_id;
@@ -5773,21 +6172,17 @@ function hideIssueReturnModal() {
 }
 
 function buildIssueTitle(payload) {
-  if (payload.submission_type === "review_bundle") {
-    const docs = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
-    return `[yomi-review] ${payload.pack_id || "unified_yomi_review"}${docs} bundle`;
+  const stages = new Set(payload.task?.queue_stages || [payload.review_stage]);
+  let stageLabel = "Yomi Review";
+  if (stages.has("yomi_final_review") && stages.has("yomi_strong_repair_review")) {
+    stageLabel = "Bulk + Escalated";
+  } else if (stages.has("yomi_strong_repair_review")) {
+    stageLabel = "Escalated Repair";
+  } else if (stages.has("yomi_final_review")) {
+    stageLabel = "Bulk Review";
   }
-  const packId = payload.pack_id || "review";
-  const ranges = payload.reviewed_ranges || [];
-  const range = ranges.length === 1
-    ? formatSeqRange(ranges[0].from_seq, ranges[0].to_seq)
-    : `${ranges.length} ranges`;
-  const task = payload.task?.mode === "documents" ? ` docs ${formatDocSeqs(payload.task.doc_seqs || [])}` : "";
-  return `[yomi-review] ${packId}${task} ${range}`;
-}
-
-function formatSeqRange(fromSeq, toSeq) {
-  return fromSeq === toSeq ? `seq ${fromSeq}` : `seq ${fromSeq}-${toSeq}`;
+  const docs = formatDocSeqs(payload.task?.track_doc_seqs || []);
+  return `[${stageLabel}] ${docs || payload.pack_id || "review"}`;
 }
 
 function formatDocSeqs(docSeqs) {
@@ -5915,9 +6310,9 @@ function buildSubmissionTaskMetadata(reviewStage = null, packId = null) {
     task_label: state.currentDraft.active_task_label || null,
     doc_keys: docs.map((doc) => taskDocKey(doc)),
     doc_ids: docs.map((doc) => doc.doc_id),
-    doc_seqs: docs.map((doc) => doc.doc_seq),
+    track_doc_seqs: docs.map((doc) => documentDisplaySeq(doc)),
     queue_stages: [...new Set(docs.map((doc) => doc.queue_stage).filter(Boolean))],
-    doc_ranges: buildReviewedDocumentRanges(docs),
+    track_doc_ranges: buildReviewedDocumentRanges(docs),
     item_count: itemsForTask(task).length,
   };
 }
@@ -5955,8 +6350,17 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       ) {
         return null;
       }
+      const resolution = yomiOverrideResolution(override);
       return {
         item_id: originalItemId(item),
+        ...(resolution ? { resolution } : {}),
+        ...(resolution === "direct_edit"
+          ? {
+              resolution: "direct_edit",
+              original_yomi_tokens: normalizeYomiTokenPairs(override.original_yomi_tokens),
+              direct_yomi_tokens: normalizeYomiTokenPairs(override.direct_yomi_tokens),
+            }
+          : {}),
         ...(typeof override.disposition === "string"
           ? { disposition: override.disposition }
           : {}),
@@ -5990,11 +6394,28 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       (row) =>
         row.targets.length > 0 ||
         row.span_overrides.length > 0 ||
+        row.resolution === "direct_edit" ||
         "disposition" in row ||
         "skip" in row ||
         "manual_correction_required" in row ||
         row.note
     );
+}
+
+function yomiOverrideResolution(override) {
+  if (
+    override?.resolution === "direct_edit" &&
+    normalizeYomiTokenPairs(override.direct_yomi_tokens).length > 0
+  ) {
+    return "direct_edit";
+  }
+  const rejectedTarget = Object.values(override?.targets || {}).some(
+    (target) => target?.choice_source === "none" && target?.selected_reading == null,
+  );
+  const rejectedSpan = Object.values(override?.span_overrides || {}).some(
+    (span) => span?.repair_required === true,
+  );
+  return rejectedTarget || rejectedSpan ? "escalate" : null;
 }
 
 function getActiveOverrides() {
@@ -6060,37 +6481,6 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     );
 }
 
-function getEffectiveRange() {
-  const itemCount = state.currentPack?.item_count || 0;
-  if (itemCount === 0) {
-    return { fromSeq: 0, toSeq: 0, includedCount: 0 };
-  }
-  const base = getTaskRange();
-  let fromSeq = state.currentDraft?.from_seq ?? base.fromSeq;
-  let toSeq = state.currentDraft?.to_seq ?? base.toSeq;
-  fromSeq = clamp(fromSeq, base.fromSeq, base.toSeq);
-  toSeq = clamp(toSeq, base.fromSeq, base.toSeq);
-  if (fromSeq > toSeq) {
-    [fromSeq, toSeq] = [toSeq, fromSeq];
-  }
-  const includedCount = getVisibleItems().filter(
-    (item) => item.seq >= fromSeq && item.seq <= toSeq
-  ).length;
-  return { fromSeq, toSeq, includedCount };
-}
-
-function getTaskRange() {
-  const selected = getVisibleItems();
-  if (selected.length > 0) {
-    return {
-      fromSeq: Math.min(...selected.map((item) => item.seq)),
-      toSeq: Math.max(...selected.map((item) => item.seq)),
-    };
-  }
-  const itemCount = state.currentPack?.item_count || 0;
-  return { fromSeq: itemCount ? 1 : 0, toSeq: itemCount };
-}
-
 function getVisibleItems() {
   const task = normalizeTask(state.currentDraft?.task, state.currentPack);
   return itemsForTask(task);
@@ -6125,12 +6515,7 @@ function originalItemId(item) {
 }
 
 function isItemIncludedInSubmission(item) {
-  const { fromSeq, toSeq } = getEffectiveRange();
-  return (
-    item.seq >= fromSeq &&
-    item.seq <= toSeq &&
-    getVisibleItems().some((row) => row.item_id === item.item_id)
-  );
+  return getVisibleItems().some((row) => row.item_id === item.item_id);
 }
 
 function buildReviewedRanges() {
@@ -6200,17 +6585,16 @@ function buildReviewedDocumentRanges(docs = null) {
       toDocSeq = seq;
       continue;
     }
-    ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+    ranges.push({ from_track_doc_seq: fromDocSeq, to_track_doc_seq: toDocSeq });
     fromDocSeq = seq;
     toDocSeq = seq;
   }
-  ranges.push({ from_doc_seq: fromDocSeq, to_doc_seq: toDocSeq });
+  ranges.push({ from_track_doc_seq: fromDocSeq, to_track_doc_seq: toDocSeq });
   return ranges;
 }
 
 function getIncludedItems() {
-  const { fromSeq, toSeq } = getEffectiveRange();
-  return getVisibleItems().filter((item) => item.seq >= fromSeq && item.seq <= toSeq);
+  return getVisibleItems();
 }
 
 function buildDocumentTasks(pack) {
@@ -6253,7 +6637,7 @@ function buildDocumentTasks(pack) {
           queue_stage: doc.queue_stage || pack.review_stage || "",
           source_pack_id: doc.source_pack_id || "",
           doc_seq: doc.doc_seq || 0,
-          track_doc_seq: doc.track_doc_seq || doc.doc_seq || 0,
+          track_doc_seq: stableDocumentSeq(doc),
           from_seq: stats.from_seq ?? 0,
           to_seq: stats.to_seq ?? 0,
           item_count: stats.item_count ?? Number(doc.item_count || 0),
@@ -6288,7 +6672,7 @@ function buildDocumentTasks(pack) {
       const doc = {
         doc_id: docId,
         doc_seq: item.doc_seq || docs.length + 1,
-        track_doc_seq: item.track_doc_seq || item.doc_seq || docs.length + 1,
+        track_doc_seq: stableDocumentSeq(item),
         from_seq: item.seq,
         to_seq: item.seq,
         item_count: 0,
@@ -6328,8 +6712,6 @@ function normalizeTask(task, pack) {
     mode: docIds.length > 0 ? "documents" : "all",
     doc_ids: docIds,
     started: Boolean(task?.started),
-    range_start_doc_id: validDocIds.has(task?.range_start_doc_id) ? task.range_start_doc_id : null,
-    range_end_doc_id: validDocIds.has(task?.range_end_doc_id) ? task.range_end_doc_id : null,
   };
 }
 
@@ -6487,8 +6869,6 @@ function syncLocalTaskRecordsForCurrentPack() {
         parsed.active_task_id = null;
         parsed.active_task_label = null;
         parsed.task = { mode: "documents", doc_ids: [], started: false };
-        parsed.from_seq = null;
-        parsed.to_seq = null;
         parsed.overrides = {};
         sourceChanged = true;
       }
@@ -6518,8 +6898,6 @@ function syncLocalTaskRecordsForCurrentPack() {
       ...normalizeTask(active.task, state.currentPack),
       started: true,
     };
-    state.currentDraft.from_seq = active.from_seq ?? null;
-    state.currentDraft.to_seq = active.to_seq ?? null;
     state.currentDraft.overrides = cloneJson(active.overrides || {});
     delete currentRecords[active.task_id];
   }
@@ -6541,8 +6919,6 @@ function localTaskRecordFromActiveDraft(draft) {
     task_number: taskNumberFromId(taskId),
     status: "deferred",
     task: { ...draft.task, started: false },
-    from_seq: draft.from_seq ?? null,
-    to_seq: draft.to_seq ?? null,
     overrides: cloneJson(draft.overrides || {}),
     updated_at_epoch: draft.updated_at_epoch || null,
   };
@@ -6600,14 +6976,8 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     doc_id: undefined,
     doc_ids: retainedDocIds,
     started: false,
-    range_start_doc_id: validLocalTaskBoundary(rawRecord.task?.range_start_doc_id, taskStage, {
-      submitted,
-    }),
-    range_end_doc_id: validLocalTaskBoundary(rawRecord.task?.range_end_doc_id, taskStage, {
-      submitted,
-    }),
   };
-  return {
+  const normalized = {
     ...rawRecord,
     queue_stage: taskStage,
     status: taskRecordStatus(rawRecord),
@@ -6617,6 +6987,9 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
       ? cloneJson(rawRecord.overrides || {})
       : filterOverridesForTask(state.currentPack, task, rawRecord.overrides || {}),
   };
+  delete normalized.from_seq;
+  delete normalized.to_seq;
+  return normalized;
 }
 
 function localTaskDocumentRef(doc) {
@@ -6625,7 +6998,7 @@ function localTaskDocumentRef(doc) {
     doc_id: String(doc.doc_id || ""),
     queue_stage: String(doc.queue_stage || ""),
     doc_seq: Number(doc.doc_seq || 0),
-    track_doc_seq: Number(doc.track_doc_seq || doc.doc_seq || 0),
+    track_doc_seq: stableDocumentSeq(doc),
     item_count: Number(doc.item_count || 0),
     unresolved_count: Number(doc.unresolved_count || 0),
     preview: String(doc.preview || ""),
@@ -6660,7 +7033,7 @@ function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
 }
 
 function finalizedArchiveContainsDocumentRef(ref) {
-  const seq = Number(ref?.track_doc_seq || ref?.doc_seq || 0);
+  const seq = stableDocumentSeq(ref);
   if (!Number.isInteger(seq) || seq <= 0) {
     return false;
   }
@@ -6701,11 +7074,6 @@ function localTaskRecordStage(record, sourceStage = "") {
     return sourceStage;
   }
   return "";
-}
-
-function validLocalTaskBoundary(docId, taskStage, { submitted = false } = {}) {
-  const doc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
-  return doc ? taskDocKey(doc) : null;
 }
 
 function taskDocIdsForStorageTask(task) {
@@ -6811,7 +7179,7 @@ function findSavedTaskDraftOverlap(docIds) {
 function formatTaskOverlapMessage(overlap) {
   const docs = buildDocumentTasks(state.currentPack);
   const docSeqs = (overlap?.overlap || [])
-    .map((docId) => docs.find((doc) => taskDocKey(doc) === docId)?.doc_seq)
+    .map((docId) => documentDisplaySeq(docs.find((doc) => taskDocKey(doc) === docId)))
     .filter((seq) => Number.isInteger(seq));
   const label = localizedTaskLabel(
     overlap?.record?.task_label || overlap?.record?.task_id || "別のローカルタスク",
@@ -6872,8 +7240,6 @@ function currentTaskDraftRecord() {
       .map((docId) => docsByKey.get(docId))
       .filter(Boolean)
       .map(localTaskDocumentRef),
-    from_seq: state.currentDraft.from_seq ?? null,
-    to_seq: state.currentDraft.to_seq ?? null,
     overrides: cloneJson(state.currentDraft.overrides || {}),
     updated_at_epoch: Math.floor(Date.now() / 1000),
   };
@@ -6892,8 +7258,8 @@ function formatTaskDraftMeta(record, docs) {
     (ref) => docIds.has(String(ref.task_doc_id || "")) && !selectedKeys.has(String(ref.task_doc_id || "")),
   );
   const docSeqs = [
-    ...selectedDocs.map((doc) => doc.doc_seq),
-    ...missingRefs.map((ref) => Number(ref.doc_seq || ref.track_doc_seq || 0)),
+    ...selectedDocs.map((doc) => documentDisplaySeq(doc)),
+    ...missingRefs.map((ref) => stableDocumentSeq(ref)),
   ].filter((seq) => Number.isInteger(seq) && seq > 0);
   const itemCount = selectedDocs.reduce((sum, doc) => sum + Number(doc.item_count || 0), 0) +
     missingRefs.reduce((sum, ref) => sum + Number(ref.item_count || 0), 0);
@@ -6945,8 +7311,6 @@ function toggleDocumentTask(docId, selected) {
     doc_ids: [...docIds],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6961,8 +7325,6 @@ function selectOnlyDocumentTask(docId) {
     doc_ids: [docId],
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6975,8 +7337,6 @@ function selectAllDocumentTasks(queueStage = null) {
     doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -6993,57 +7353,7 @@ function clearQueueTaskSelection(queueStage) {
     mode: docIds.length > 0 ? "documents" : "all",
     doc_ids: docIds,
     started: false,
-    range_start_doc_id: null,
-    range_end_doc_id: null,
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
-  touchDraft();
-  render();
-}
-
-function selectDocumentRangeForQueue(queueStage, fromDocKey, toDocKey, selected) {
-  const allDocs = buildActionableDocumentTasks(state.currentPack);
-  const docs = allDocs
-    .filter((doc) => doc.queue_stage === queueStage && docIsActionable(doc))
-    .sort((left, right) => documentDisplaySeq(left) - documentDisplaySeq(right));
-  const fromIndex = docs.findIndex((doc) => taskDocKey(doc) === fromDocKey);
-  const toIndex = docs.findIndex((doc) => taskDocKey(doc) === toDocKey);
-  if (fromIndex < 0 || toIndex < 0) {
-    return;
-  }
-  const start = Math.min(fromIndex, toIndex);
-  const end = Math.max(fromIndex, toIndex);
-  const rangeDocIds = docs.slice(start, end + 1).map((doc) => taskDocKey(doc));
-  const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  let nextDocIds = task.doc_ids;
-  if (selected && isUnifiedReviewPack(state.currentPack)) {
-    nextDocIds = nextDocIds.filter((existingId) => {
-      const existingDoc = allDocs.find((row) => taskDocKey(row) === existingId);
-      return existingDoc?.queue_stage === queueStage;
-    });
-  }
-  const docIds = new Set(nextDocIds);
-  for (const docId of rangeDocIds) {
-    if (selected) {
-      docIds.add(docId);
-    } else {
-      docIds.delete(docId);
-    }
-  }
-  state.currentDraft.task = {
-    ...task,
-    mode: "documents",
-    doc_ids: [...docIds],
-    started: false,
-    range_start_doc_id: selected ? taskDocKey(docs[start]) : null,
-    range_end_doc_id: selected ? taskDocKey(docs[end]) : null,
-  };
-  if (docIds.size === 0) {
-    state.currentDraft.task.mode = "all";
-  }
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -7060,11 +7370,7 @@ function takeNextQueueDocuments(queueStage, count) {
     mode: "documents",
     doc_ids: docs.map((doc) => taskDocKey(doc)),
     started: false,
-    range_start_doc_id: taskDocKey(docs[0]),
-    range_end_doc_id: taskDocKey(docs[docs.length - 1]),
   };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -7089,58 +7395,6 @@ function saveWorkflowTakeNextCount(queueStage, count) {
   } catch {
     // The selection remains usable for this page even if storage is unavailable.
   }
-}
-
-function setDocumentRangeBoundary(docId, side) {
-  const docs = buildActionableDocumentTasks(state.currentPack);
-  const currentDoc = docs.find((row) => taskDocKey(row) === docId);
-  if (!docIsActionable(currentDoc)) {
-    return;
-  }
-  const task = normalizeTask(state.currentDraft.task, state.currentPack);
-  const next = {
-    ...task,
-    mode: "documents",
-    started: false,
-    [side === "start" ? "range_start_doc_id" : "range_end_doc_id"]: docId,
-  };
-  if (isUnifiedReviewPack(state.currentPack)) {
-    const otherSide = side === "start" ? "range_end_doc_id" : "range_start_doc_id";
-    const otherDoc = docs.find((doc) => taskDocKey(doc) === next[otherSide]);
-    if (otherDoc && otherDoc.queue_stage !== currentDoc.queue_stage) {
-      next[otherSide] = null;
-    }
-    next.doc_ids = task.doc_ids.filter((existingId) => {
-      const existingDoc = docs.find((doc) => taskDocKey(doc) === existingId);
-      return existingDoc?.queue_stage === currentDoc.queue_stage;
-    });
-  }
-  const startId = next.range_start_doc_id;
-  const endId = next.range_end_doc_id;
-  if (startId && endId) {
-    const rangeDocs = isUnifiedReviewPack(state.currentPack)
-      ? docs.filter((doc) => doc.queue_stage === currentDoc.queue_stage)
-      : docs;
-    const startIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === startId);
-    const endIndex = rangeDocs.findIndex((doc) => taskDocKey(doc) === endId);
-    if (startIndex >= 0 && endIndex >= 0) {
-      const fromIndex = Math.min(startIndex, endIndex);
-      const toIndex = Math.max(startIndex, endIndex);
-      next.doc_ids = rangeDocs
-        .slice(fromIndex, toIndex + 1)
-        .filter((doc) => doc.selectable !== false)
-        .map((doc) => taskDocKey(doc));
-    } else {
-      next.doc_ids = [docId];
-    }
-  } else {
-    next.doc_ids = [docId];
-  }
-  state.currentDraft.task = next;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
-  touchDraft();
-  render();
 }
 
 function startReviewTask() {
@@ -7168,8 +7422,6 @@ function startReviewTask() {
   };
   state.currentDraft.active_task_id = identity.task_id;
   state.currentDraft.active_task_label = identity.task_label;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render({ scrollToTop: true });
 }
@@ -7182,8 +7434,6 @@ function clearTaskSelection() {
   state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
   state.currentDraft.active_task_id = null;
   state.currentDraft.active_task_label = null;
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   touchDraft();
   render();
 }
@@ -7240,8 +7490,6 @@ function resumeTaskDraft(taskId) {
     ...normalizeTask(record.task, state.currentPack),
     started: true,
   };
-  state.currentDraft.from_seq = record.from_seq ?? null;
-  state.currentDraft.to_seq = record.to_seq ?? null;
   state.currentDraft.overrides = cloneJson(record.overrides || {});
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
@@ -7250,11 +7498,13 @@ function resumeTaskDraft(taskId) {
 
 function markSavedTaskSubmitted(taskId) {
   const record = state.currentDraft.saved_tasks?.[taskId] || currentTaskDraftRecord();
-  state.currentDraft.saved_tasks[record.task_id] = {
+  const submittedRecord = {
     ...record,
     status: "submitted",
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
+  delete submittedRecord.awaiting_issue_confirmation;
+  state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
   }
@@ -7267,8 +7517,6 @@ function clearActiveTaskState() {
   state.currentDraft.active_task_id = null;
   state.currentDraft.active_task_label = null;
   state.currentDraft.task = { mode: "documents", doc_ids: [], started: false };
-  state.currentDraft.from_seq = null;
-  state.currentDraft.to_seq = null;
   state.currentDraft.overrides = {};
 }
 
@@ -7286,8 +7534,6 @@ function createEmptyDraft(pack) {
     next_task_number: 1,
     saved_tasks: {},
     task: { mode: "documents", doc_ids: [], started: false },
-    from_seq: null,
-    to_seq: null,
     overrides: {},
     updated_at_epoch: null,
   };
@@ -7322,6 +7568,8 @@ function normalizeReviewDraft(parsed, pack) {
     saved_tasks: {},
     next_task_number: Math.max(1, Number(parsed?.next_task_number || 1)),
   };
+  delete draft.from_seq;
+  delete draft.to_seq;
 
   const rawSavedTasks = parsed?.saved_tasks || {};
   let maxTaskNumber = 0;
@@ -7338,8 +7586,6 @@ function normalizeReviewDraft(parsed, pack) {
       task_number: taskNumber || null,
       status: rawRecord?.status === "submitted" ? "submitted" : "deferred",
       task: { ...task, started: false },
-      from_seq: rawRecord?.from_seq ?? null,
-      to_seq: rawRecord?.to_seq ?? null,
       overrides: filterOverridesForTask(pack, task, rawRecord?.overrides || {}),
       updated_at_epoch: rawRecord?.updated_at_epoch || null,
       submitted_at_epoch: rawRecord?.submitted_at_epoch || null,
@@ -7630,8 +7876,4 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
 }

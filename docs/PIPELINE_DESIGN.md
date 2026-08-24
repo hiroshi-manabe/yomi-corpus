@@ -254,8 +254,16 @@ available through Git history, not as active prompts or implementation targets.
 
 Every prepared unit follows the same reading path, including units containing
 alphabetic or mixed-script material. Machine analysis may improve readings and
-highlight uncertainty, but it does not choose `Skip` or `Exclude`. Bulk Review
-starts from implicit `Keep` and records explicit human disposition changes.
+highlight uncertainty, but it does not classify semantic scope as `Skip` or
+`Exclude`. Bulk Review normally starts from implicit `Keep` and records explicit
+human disposition changes.
+
+One deterministic encoding-anomaly exception exists. A unit containing a
+character from CJK Radicals Supplement (`U+2E80-U+2EFF`) or Kangxi Radicals
+(`U+2F00-U+2FD5`) starts at recoverable `Skip`. These compatibility forms can
+break tokenization while visually resembling ordinary kanji. The pipeline still
+retains its source and generated yomi, and a reviewer may explicitly return it
+to `Keep`; it is never promoted to terminal `Exclude` automatically.
 
 ### 3.5 Use Python for the main pipeline, not shell wrappers
 
@@ -277,7 +285,10 @@ names such as `ラ・カンパネラ`. Preserve the separator as punctuation and
 up each lexical component independently with Sudachi. Parentheses follow the
 same structural rule;
 known abbreviations such as `（株）`, `（有）`, `（社）`, and `（財）` use their
-short spoken readings. If independently looked-up component readings conflict
+short spoken readings. A single weekday character in parentheses is likewise
+contextual: normalize it to `月/ゲツ`, `火/カ`, `水/スイ`, `木/モク`,
+`金/キン`, `土/ド`, or `日/ニチ` before frequency safety is evaluated. If
+independently looked-up component readings conflict
 with the full token reading, leave the affected lexical components unresolved
 for the normal LLM-reading and review path rather than inventing a reading.
 Other punctuation inside proper-name tokens remains untouched because it can be
@@ -401,9 +412,9 @@ Responsibilities:
 
 - generate mechanical yomi
 - add a conservative yomi auto-accept flag for units that do not need review
-- keep numeric values separate and readingless before `kg` and `km`; default
-  those unit tokens to `キロ`, while retaining their formal expansions as
-  review alternatives
+- keep numeric values separate and readingless before `kg`, `km`, and `mm`;
+  default those unit tokens to `キロ`, `キロ`, and `ミリ`, respectively, while
+  retaining their formal expansions as review alternatives
 - attach a `certain` flag for sentence-level tasks
 
 Example signals:
@@ -485,6 +496,12 @@ Candidate safety signals:
 - stable surface-reading evidence: the model-pinned corpus artifact has a
   dominant reading for the exact target surface, and the current reading
   matches it
+- local stable-span evidence: an adjacent window of two through six final
+  canonical tokens concatenates to a surface/reading pair in the same pinned
+  stable-surface artifact, and its token-surface segmentation was observed for
+  that dominant reading; every target fully covered by that window is safe
+  before LLM queueing, even when unrelated parts of the sentence prevent
+  whole-unit auto-acceptance
 - corpus-frequency evidence: a trusted decoder/training-corpus stats artifact
   shows that one reading dominates the exact full token surface, or the target
   surface as a fallback, with >=95% share and a minimum count threshold
@@ -571,6 +588,62 @@ It replaces raw Sudachi dictionary uniqueness in auto-acceptance and pre-LLM
 safety. The current mechanical surface and reading must exactly match an emitted
 lexicon row. A pinned model without the artifact disables this relaxation rather
 than falling back to the unsafe dictionary-only rule.
+
+Decoder refreshes also build `ngram_reading_transitions.tsv` from the identical
+ordered corpus set. It groups adjacent source tokens first by the surface pair
+and then by the corresponding reading pair. Surface pairs with fewer than five
+observations are omitted; the query API reports the dominant reading pair, its
+count, its share, and whether a proposed transition reaches the default five
+observations and 95% share. This makes transition strength auditable separately
+from the decoder's path score. For example, a decoder path containing
+`一/イチ 周/シュウ` is not strong evidence for that reading when the model-local
+corpus records only `一/イッ 周/シュウ` for that surface transition.
+
+This transition artifact is initially diagnostic. It must not independently
+mark a target safe until evaluation defines how incoming and outgoing
+transitions around that target are combined. In particular, checking only the
+incoming transition can miss a weak outgoing transition such as the one above.
+Missing artifacts or missing surface transitions fail closed rather than
+falling back to the decoder's N-gram order alone.
+
+Pre-LLM safety also applies this lexicon to local windows of two through six
+final canonical tokens. This consumes the lexicon's segmentation-pooled rows
+without trusting a single decoder path directly. For example,
+`数/スウ 日/ジツ 後/ゴ` is protected by `数日/スウジツ` or
+`数日後/スウジツゴ` evidence even if a different token elsewhere prevents
+whole-unit auto-acceptance. The strongest accepted window is retained on each
+covered target as `safe_by_local_stable_span` evidence.
+
+Local windows preserve segmentation identity when consuming pooled evidence.
+For example, corpus evidence for `月/ガツ 末/マツ` may protect that split form,
+but it does not justify exact-token `月末/ガツマツ`; the observed exact-token
+reading `月末/ゲツマツ` remains a separate case. Pooling is still used to detect
+surface-level reading conflicts, but a local window must match a segmentation
+recorded for the dominant reading.
+
+Morphological boundaries are not automatically the canonical corpus
+boundaries. Selected modern lexical units may be joined by an explicit
+post-hybrid rule when the corpus representation should differ from Sudachi's
+productive morphology. `皆様` is canonicalized as `皆様/ミナサマ`, even though
+Sudachi mode B analyzes it as `皆/ミナ 様/サマ`. The decoder base corpus uses the
+same joined token so future model evidence reinforces the canonical boundary.
+These rules must name exact surface/reading sequences; they are not a general
+compound-merging heuristic.
+
+Historical finalized and skipped rows can be updated with
+`scripts/migrate_canonical_compound_tokens.py`. The migration is idempotent,
+backs up changed authoritative files, records hashes and counts, and blocks all
+replacement if any row is malformed. Active legacy rows receive the same
+normalization during finalization, avoiding unsafe rewrites of stored review
+target indices.
+
+Exact-token corpus-frequency evidence is also subordinate to this pooled
+lexicon. A reading that appears dominant only under one tokenization must not be
+accepted when the same concatenated surface has a competing reading under
+another tokenization. For example, `一日/ツイタチ` competes with
+`一/イチ 日/ニチ`; token-only frequency must not hide that ambiguity. Such a
+target proceeds to LLM or human review unless another independent contextual
+signal establishes safety.
 
 When a batch is prepared, it pins a decoder model directory. Mechanical yomi
 generation and pre-LLM corpus-frequency safety must both use artifacts from that
@@ -1190,7 +1263,9 @@ Output:
 
 Responsibilities:
 
-- start every unit at implicit `Keep`
+- start ordinary units at implicit `Keep`
+- start units containing Unicode radical-block characters at recoverable
+  `Skip`, while allowing an explicit human `Keep` override
 - let the human select recoverable `Skip` or terminal `Exclude`
 - require explicit confirmation before submission accepts terminal exclusion
 - retain generated yomi for human-confirmed skips so later restoration remains
@@ -1414,6 +1489,10 @@ For classification:
   full-width forms first, extract them for auditability, and do not send them to
   the alphabetic LLM judge. Normal reading assignment and review still apply.
   Mixed forms such as `GI9`, `ZE:A`, and `2nd` do not receive this exemption.
+- default every standalone uppercase Latin letter, including its full-width
+  form, to its Japanese letter name. This prevents Sudachi's lowercase-unit
+  interpretations such as `A/アール`, `M/メートル`, or `T/トン`. Do not force
+  this spelling rule onto multi-letter forms with established readings.
 - judge those entities primarily at the entity-type level, not the sentence
   level
 - remain cautious about rule harvesting for non-target status
@@ -2255,8 +2334,14 @@ it is not the reviewer-facing identifier. Rules:
 - published packs may include batch-local sequence numbers for debugging, but
   browser queues, Pack Map tiles, and Issue payloads should include both
   `track_doc_seq` and `doc_id`
+- review task metadata names stable-number collections explicitly as
+  `track_doc_seqs` and `track_doc_ranges`; batch-local `doc_seq` must not appear
+  in reviewer-facing labels, titles, warnings, or JSON
 - cross-track numbering is intentionally separate; `dev` and `working` may have
   different `track_doc_seq` values for the same source document
+- optional refill `aligned_batch_size` shapes only future allocations. For size
+  10, one short bridge ends at the next `...0`, after which batches use stable
+  ranges `...1-...0`; existing ledger assignments remain immutable
 
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus
@@ -2332,6 +2417,9 @@ Review sync command:
   open GitHub Issues/comments, runs the local apply stages that are currently
   reachable, regenerates local review artifacts if state changed, and writes a
   JSON summary
+- after the first newly imported review submission in a pass, publish one
+  intermediate server-processing state before unrelated LLM or batch work; a
+  later end-of-pass publication carries the final applied state
 - Issues are closed only after their matching submissions were imported and the
   corresponding local apply step succeeded
 - invalid or not-yet-applicable Issues stay open; a later sync may apply them
@@ -2555,6 +2643,17 @@ data/decoder_corpora/working/<batch>.txt
 data/decoder_models/dev/<model-id>/
 data/decoder_models/working/<model-id>/
 ```
+
+Each model directory also contains model-local evidence sidecars:
+
+```text
+surface_reading_stats.tsv
+stable_surface_readings.tsv
+ngram_reading_transitions.tsv
+```
+
+Their manifests record the exact ordered corpus inputs, thresholds, checksums,
+and source model version used by that decoder refresh.
 
 The low-level shape is:
 

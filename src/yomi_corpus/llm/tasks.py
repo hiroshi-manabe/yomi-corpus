@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import unicodedata
 from typing import Any
 
 from yomi_corpus.llm.prompts import load_prompt_template, render_prompt
@@ -25,17 +26,37 @@ def load_jsonl_rows(path: str) -> list[dict[str, Any]]:
 
 def build_prompt_items(task_config: LLMTaskConfig, rows: list[dict[str, Any]]) -> list[PromptItem]:
     template = load_prompt_template(task_config.prompt_template)
+    alphabet_template = (
+        load_prompt_template(task_config.alphabet_prompt_template)
+        if task_config.alphabet_prompt_template
+        else None
+    )
     items: list[PromptItem] = []
     for index, row in enumerate(rows, start=1):
         item_id, variables, metadata = build_task_variables(task_config, row, index=index)
+        item_template = template
+        if (
+            task_config.input_builder == "yomi_reading"
+            and alphabet_template is not None
+            and _is_latin_letter_surface(str(row.get("surface") or ""))
+        ):
+            item_template = alphabet_template
         items.append(
             PromptItem(
                 item_id=item_id,
-                prompt=render_prompt(template, variables),
+                prompt=render_prompt(item_template, variables),
                 metadata=metadata,
             )
         )
     return items
+
+
+def _is_latin_letter_surface(surface: str) -> bool:
+    return bool(surface) and all(
+        unicodedata.category(char).startswith("L")
+        and "LATIN" in unicodedata.name(char, "")
+        for char in surface
+    )
 
 
 def build_task_variables(

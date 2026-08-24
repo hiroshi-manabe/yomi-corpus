@@ -17,10 +17,14 @@ def test_root_prompt_directory_contains_only_operational_prompts() -> None:
     for config_path in OPERATIONAL_TASK_CONFIGS:
         with config_path.open("rb") as handle:
             config = tomllib.load(handle)
-        prompt_path = ROOT / str(config["prompt_template"])
-        assert prompt_path.parent == PROMPT_ROOT
-        assert prompt_path.is_file()
-        referenced.add(prompt_path.resolve())
+        for key in ("prompt_template", "alphabet_prompt_template"):
+            value = config.get(key)
+            if value is None:
+                continue
+            prompt_path = ROOT / str(value)
+            assert prompt_path.parent == PROMPT_ROOT
+            assert prompt_path.is_file()
+            referenced.add(prompt_path.resolve())
 
     root_prompts = {path.resolve() for path in PROMPT_ROOT.glob("*.txt")}
     assert root_prompts == referenced

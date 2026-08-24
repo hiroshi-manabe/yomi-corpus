@@ -1,6 +1,7 @@
 # Bulk Review Row-Level Direct-Edit Migration
 
-Status: proposed; implementation has not started.
+Status: core implementation complete in dev; operational publication and one
+mixed-document exercise remain.
 
 ## Motivation
 
@@ -119,9 +120,12 @@ Editor controls have exact semantics:
   explicit way to remove an existing direct-edit route.
 
 Saving a direct edit clears escalation targets for that row because the
-structured replacement supersedes them. Conversely, changing the row back to
-Escalated Repair must discard the saved direct replacement only after
-confirmation.
+structured replacement supersedes them. If the row contains tap-selected
+readings, span edits, or merge state, Save must warn before discarding those
+interactive changes. Reverting a saved direct edit must likewise state that it
+returns to the original row and does not restore tap selections that preceded
+the direct edit. Conversely, changing the row back to Escalated Repair must
+discard the saved direct replacement only after confirmation.
 
 ### Flags
 
@@ -145,15 +149,19 @@ because one row needs Escalated Repair.
 
 ## Submission Schema
 
-Introduce an explicit row-resolution representation in the next Bulk Review
-submission schema. One possible shape is:
+Bulk Review submissions use an explicit row-resolution representation:
 
 ```json
 {
   "item_id": "ja_cc_level2:0000000861:u0004",
   "resolution": "direct_edit",
-  "base_unit_revision": "...",
-  "canonical_yomi_tokens": [
+  "original_yomi_tokens": [
+    ["今日", "キョウ"],
+    ["は", "ハ"],
+    ["晴れ", "ハレ"],
+    ["。", "。"]
+  ],
+  "direct_yomi_tokens": [
     ["今日", "キョウ"],
     ["は", "ハ"],
     ["晴れ", "ハレ"],
@@ -176,9 +184,10 @@ Requirements:
   `track_doc_seq` provenance; and
 - keep the top-level Issue category as Bulk Review.
 
-The exact field names may change during implementation, but the three routes
-must be explicit after migration. Inferring `direct_edit` from incidental token
-differences would make replay and auditing fragile.
+`original_yomi_tokens` is the optimistic-concurrency baseline: the importer
+requires it to match the authoritative review-pack representation before it
+accepts `direct_yomi_tokens`. The explicit `resolution` remains necessary;
+token differences alone never imply a direct-edit route.
 
 ## Server-Side Application
 

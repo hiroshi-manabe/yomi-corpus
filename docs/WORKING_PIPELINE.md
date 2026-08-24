@@ -222,6 +222,10 @@ decision. Its signals include:
   such as `ラ・カンパネラ`. Split at the separator and look up each
   non-separator component independently. Known abbreviations
   such as `（株）`, `（有）`, `（社）`, and `（財）` use short readings. If the
+  parenthesized content is a one-character weekday abbreviation, normalize it
+  contextually to `月/ゲツ`, `火/カ`, `水/スイ`, `木/モク`, `金/キン`,
+  `土/ド`, or `日/ニチ`; standalone occurrences retain their ordinary
+  context-dependent readings. If the
   component readings conflict with the full token reading, leave the affected
   lexical components unresolved for LLM reading generation instead of guessing.
   Other punctuation in proper-name tokens remains intact because it can be part
@@ -471,8 +475,17 @@ agreement and disagreement as review-routing signals.
 
 The remainder of this subsection records the former classifier semantics only
 for migration context. It is not active pipeline behavior. New batches perform
-no machine `Keep`/`Skip`/`Exclude` classification; all prepared units proceed
-through reading generation and start Bulk Review at implicit `Keep`.
+no semantic machine `Keep`/`Skip`/`Exclude` classification; all prepared units
+proceed through reading generation and ordinarily start Bulk Review at implicit
+`Keep`.
+
+There is one deterministic encoding-anomaly exception. Text containing CJK
+Radicals Supplement (`U+2E80-U+2EFF`) or Kangxi Radicals
+(`U+2F00-U+2FD5`) starts Bulk Review at recoverable `Skip`. Such characters can
+look like ordinary kanji while preventing reliable tokenization, as in `⻑` or
+`⽇`. The original text and mechanical yomi remain available, and the reviewer
+can explicitly toggle the unit back to `Keep`; this rule never produces
+terminal `Exclude`.
 
 Scope triage is a compact three-way task over raw text. The model returns
 exactly one token:
@@ -657,11 +670,25 @@ Candidate per-target signals:
 - `safe_by_stable_surface_lexicon`: the model-pinned corpus artifact contains
   the exact target surface with a dominant reading at the configured count and
   share thresholds, and the mechanical reading matches it.
+- `safe_by_local_stable_span`: a contiguous window of two through six final
+  canonical tokens matches a segmentation-pooled stable surface/reading row,
+  and that exact token-surface segmentation was observed for the dominant
+  reading; all targets fully contained in the window skip the LLM. Thus
+  `月/ガツ 末/マツ` evidence is not reused for exact-token `月末`.
+- Canonical token boundaries may intentionally override Sudachi morphology for
+  an explicit exact sequence. For example, `皆/ミナ 様/サマ` is normalized to
+  `皆様/ミナサマ` after hybrid generation and again as a finalization backstop.
+  This is a selected corpus convention, not an automatic compound joiner.
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
   same exact full-token `(surface, reading)` pair, or target-level pair as a
   fallback, dominates with at least 95% share and a minimum count threshold.
 - `safe_by_ngram`: the target's local reading is supported by repeated N-gram
-  evidence, not just by a one-off transition.
+  evidence, not just by a one-off transition. Decoder refreshes now emit a
+  diagnostic `ngram_reading_transitions.tsv` sidecar that measures each adjacent
+  surface pair's competing reading pairs. Its default strong-transition gate is
+  at least five observations and 95% share. This signal is not yet active for
+  auto-acceptance: the evaluation must first specify how both incoming and
+  outgoing transitions around a target are combined.
 - `safe_by_llm_agreement`: an independent LLM reading query returns the same
   reading as the mechanical reading.
 - `unresolved`: no safety signal applies, the LLM disagrees, or the LLM result
@@ -842,12 +869,31 @@ Implementation status:
      artifact is the runtime stable-surface signal. New processing resolves it
      from the batch's pinned decoder model and does not fall back to raw Sudachi
      uniqueness when an older model lacks the artifact.
+   - Decoder refreshes additionally generate
+     `ngram_reading_transitions.tsv` and its manifest from the same ordered
+     corpus inputs. The sidecar retains every observed reading variant for
+     surface bigrams occurring at least five times, allowing candidate readings
+     to be rejected as unseen, non-dominant, below count, or below 95% share.
+     It is diagnostic until an evaluated target-level transition policy is
+     enabled.
+   - Exact-token corpus-frequency acceptance requires confirmation from that
+     segmentation-pooled artifact. This prevents a token-local majority such as
+     `一日/ツイタチ` from suppressing competing `一/イチ 日/ニチ` evidence.
 2. `src/yomi_corpus/yomi/safety.py` now implements pre-LLM deterministic
    per-target safety.
+   - Before safety evaluation, standalone uppercase Latin letters use their
+     Japanese letter names for all A-Z, including full-width forms. Lowercase
+     unit symbols and multi-letter established forms retain their own readings.
    - Reuse the same target extraction logic as `llm_readings.py` so safety
      records and LLM queue items share stable target IDs.
    - Build deterministic per-target records with stable dictionary and
      corpus-frequency signals first.
+   - Scan adjacent windows of two through six final canonical tokens against
+     the pinned stable-surface lexicon. An accepted window marks every covered
+     target safe with auditable surface, reading, count, share, token bounds,
+     and artifact version. This handles locally conclusive phrases such as
+     `数/スウ 日/ジツ 後/ゴ` even when an unrelated token blocks whole-unit
+     auto-acceptance.
    - Standalone lower-case `w`/`ｗ` runs, for example `ｗ` or `ww`, are treated
      as internet laughter markers. They are marked safe with `No ruby` as the
      preferred candidate and skipped by the LLM reading queue.
@@ -875,8 +921,9 @@ Implementation status:
    - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
      `yomi_safety_pre_llm_summary.json`, then queues only targets not already
      marked safe.
-   - N-gram safety is still pending until the mapping from decoder entries to
-     targets is clean enough to audit.
+   - Direct safety from raw decoder `piece_orders` remains pending. Local span
+     safety instead uses the segmentation-pooled stable-surface artifact, which
+     supplies explicit frequency and ambiguity thresholds.
 3. Apply LLM reading results back into safety.
    - The LLM target's `current_reading` is the current hybrid rendered reading
      when the rendered token stream aligns one-to-one with Sudachi tokens; raw
@@ -1363,12 +1410,13 @@ three-digit comma grouping and digits on both sides of a decimal point. Keep
 currency marks, percent signs, and measurement units as adjacent separate
 tokens; for example, `-2.4/ kg/キロ`.
 
-For a numeric value followed by `kg` or `km`, keep the number as a separate
-no-reading token and use the ordinary shortened Japanese reading as the
-mechanical default: `5/ kg/キロ` and `5/ km/キロ`. Retain `キログラム` and
-`キロメートル` as review candidates for formal or technical contexts. Apply
-this as a narrow table-driven rule with NFKC/case normalization, not as a
-general policy for abbreviating measurement-unit readings.
+For a numeric value followed by `kg`, `km`, or `mm`, keep the number as a
+separate no-reading token and use the ordinary shortened Japanese reading as
+the mechanical default: `5/ kg/キロ`, `5/ km/キロ`, and `5/ mm/ミリ`. Retain
+`キログラム`, `キロメートル`, and `ミリメートル` as review candidates for
+formal or technical contexts. Apply this as a narrow table-driven rule with
+NFKC/case normalization, not as a general policy for abbreviating
+measurement-unit readings.
 
 The deterministic table covers both ASCII and full-width digits:
 
@@ -2238,6 +2286,13 @@ Durable document ledger:
   Issues, and correction payloads. Batch-local `doc_seq` can remain inside
   artifacts but must not be the public identifier once documents from multiple
   backend batches are mixed in one workspace.
+- review Issue task metadata uses `track_doc_seqs` and `track_doc_ranges`.
+  Messages, saved-task summaries, and overlap warnings derive their labels from
+  the same stable value and never fall back to batch-local `doc_seq`.
+- Issue titles put the workflow first: `[Bulk Review] 861-870`,
+  `[Escalated Repair] 861-870`, or `[Finalized Correction] 861`. Finalized
+  corrections currently target one document, while queue tasks compact
+  consecutive stable document numbers into ranges.
 - never renumber existing ledger rows. If a batch is regenerated or resumed,
   reuse the existing `track_doc_seq` for matching `doc_id`.
 
@@ -2343,6 +2398,14 @@ Responsibilities:
 - regenerate and publish review artifacts when queue state changes
 - write a machine-readable summary under `data/state/review_sync/`
 
+When a pass imports a new Bulk Review or Escalated Repair submission, it
+publishes the durable server-side state once before continuing into slower
+pipeline work. This lets the browser move from `locally submitted` to `server
+processing` without waiting for unrelated Strong Repair LLM jobs. The normal
+end-of-pass publication still publishes applied, escalated, or finalized state.
+Both publications run under the same per-track lock; the intermediate publish
+never claims that downstream repair or finalization has completed.
+
 Long refill work must not remain a permanent responsibility of this command.
 The current implementation can prepare and advance a refill batch, but doing so
 holds the per-track sync lock through decoder and LLM work and can prevent Issue
@@ -2411,6 +2474,8 @@ event-driven from a durable request emitted by review sync.
 - atomically queue decoder refresh demand according to finalization policy and
   notify the independent decoder worker
 - regenerate and publish changed review artifacts and runtime status
+- publish newly imported submission state before slower batch advancement, then
+  publish the final state again when the pass changes it further
 - calculate refill demand, but only enqueue or reserve work rather than running
   long decoder or LLM stages
 
@@ -2497,11 +2562,19 @@ and throughput:
 - when Batch is used, submit durable remote batches and let later worker runs
   poll them; the five-minute review synchronizer must not wait for them
 
-The steady-state dev policy is approximately five 10-document batches, expressed
-as `target_ready_docs = 50` and `pass_limit = 10`. Refill reacts to aggregate
+The steady-state dev policy keeps roughly 100 ready documents in 10-document
+batches, expressed as `target_ready_docs = 100` and `pass_limit = 10`. Refill reacts to aggregate
 canonical document state rather than batch creation order. A newer batch may
 reach review or finish before an older one without changing Issue application,
 finalization, archive publication, or decoder refresh semantics.
+
+With `refill_worker.aligned_batch_size = 10`, the next stable document number
+also shapes future batch boundaries. If it is not congruent to `1` modulo 10,
+the worker emits one short bridge batch ending in `0`; it then emits full
+ten-document batches with ranges such as `1031-1040`. A positive deficit
+triggers a full aligned batch even when that temporarily exceeds
+`target_ready_docs`, preventing a follow-up partial batch from breaking the
+alignment. Existing document numbers and prepared batches never change.
 
 #### 11.2.2 Static runtime status and client polling
 

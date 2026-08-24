@@ -159,6 +159,7 @@ def main() -> None:
             if args.refill_pass_limit is not None
             else sync_config.refill_pass_limit
         ),
+        refill_aligned_batch_size=sync_config.refill_aligned_batch_size,
         dry_run=args.dry_run,
         decoder_refresh_mode=args.decoder_refresh or sync_config.mode,
         decoder_refresh_min_new_batches=(

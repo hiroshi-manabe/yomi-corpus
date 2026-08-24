@@ -18,6 +18,8 @@ from yomi_corpus.yomi.llm_readings import (
 )
 from yomi_corpus.yomi.furigana import (
     FuriganaConverter,
+    has_cjk_radical,
+    has_greek,
     has_han,
     is_han_run_char,
     is_variation_selector,
@@ -37,7 +39,12 @@ from yomi_corpus.yomi.numeric_surfaces import (
 from yomi_corpus.yomi.repairs import (
     PARENTHESIZED_SEMANTIC_TOKENS,
     normalize_parenthesized_semantic_tokens,
+    normalize_canonical_compound_tokens,
     normalize_parenthesized_semantic_tokens_rendered,
+)
+from yomi_corpus.yomi.stable_surface_lexicon import (
+    MODEL_STABLE_SURFACE_LEXICON_FILENAME,
+    StableSurfaceReadingLexicon,
 )
 from yomi_corpus.yomi.token_codec import (
     YomiTokenError,
@@ -81,6 +88,7 @@ SUPPLEMENTAL_FURIGANA_PATH = Path("data/lexicon/supplemental_furigana.tsv")
 LEARNED_YOMI_READINGS_PATH = Path("data/lexicon/learned_yomi_readings.tsv")
 READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
+TAP_ORDER_MIN_HISTORICAL_COUNT = 2
 MAX_READING_HINT_SURFACE_LENGTH = 12
 
 
@@ -98,6 +106,13 @@ def normalize_scope_disposition(value: Any, *, skip: Any = None) -> str:
     if disposition in SCOPE_DISPOSITIONS:
         return disposition
     return SCOPE_SKIP if bool(skip) else SCOPE_KEEP
+
+
+def review_item_default_disposition(item: dict[str, Any]) -> str:
+    return normalize_scope_disposition(
+        item.get("initial_disposition") or item.get("scope_default"),
+        skip=item.get("skip_default", False),
+    )
 
 
 def manual_correction_required(unit: dict[str, Any]) -> bool:
@@ -869,9 +884,16 @@ def build_review_item(
         rendered_yomi=rendered_yomi,
         targets=review_targets,
     )
-    unresolved_count = sum(1 for target in review_targets if not target["is_safe"])
+    unresolved_count = sum(1 for span in interaction_spans if not span["is_safe"])
     rendered_yomi = rendered_yomi_with_review_defaults(rendered_yomi, interaction_spans)
-    return {
+    try:
+        review_yomi_tokens = editable_rendered_to_yomi_tokens(
+            rendered_yomi,
+            text=text,
+        )
+    except YomiTokenError:
+        review_yomi_tokens = []
+    item = {
         "item_id": str(unit.get("unit_id", "")),
         "seq": seq,
         "doc_id": str(unit.get("doc_id") or ""),
@@ -882,6 +904,7 @@ def build_review_item(
         "source_file": unit.get("source_file"),
         "source_line_no": unit.get("source_line_no"),
         "text": text,
+        "yomi_tokens": review_yomi_tokens,
         "ruby_segments": build_ruby_segments(
             text,
             interaction_spans,
@@ -891,15 +914,19 @@ def build_review_item(
         "rendered_yomi_ruby_tokens": rendered_yomi_ruby_tokens(rendered_yomi),
         "manual_correction_required": manual_correction_required(unit),
         "manual_correction": manual_correction_state(unit),
-        "target_count": len(review_targets),
-        "safe_target_count": len(review_targets) - unresolved_count,
+        "target_count": len(interaction_spans),
+        "safe_target_count": len(interaction_spans) - unresolved_count,
         "unresolved_target_count": unresolved_count,
-        "all_targets_safe": bool(review_targets) and unresolved_count == 0,
+        "all_targets_safe": bool(interaction_spans) and unresolved_count == 0,
         "targets": review_targets,
         "interaction_spans": interaction_spans,
         "interaction_span_count": len(interaction_spans),
         "reading_hints": build_reading_hints(review_targets),
     }
+    if has_cjk_radical(text):
+        item["initial_disposition"] = SCOPE_SKIP
+        item["initial_disposition_reason"] = "contains_cjk_radical"
+    return item
 
 
 def with_sudachi_token_metadata(
@@ -1305,6 +1332,19 @@ def build_interaction_spans(
         if not candidates:
             continue
         default_candidate = interaction_span_default_candidate(candidates, span_targets)
+        component_signals = [
+            signal
+            for target in span_targets
+            for signal in target.get("signals", [])
+            if isinstance(signal, dict)
+        ]
+        component_safe = all(bool(target.get("is_safe")) for target in span_targets)
+        final_span_signal = final_interaction_span_stable_surface_signal(
+            surface=surface,
+            candidates=candidates,
+            component_signals=component_signals,
+        )
+        span_safe = component_safe or bool(final_span_signal and final_span_signal["accepted"])
         spans.append(
             {
                 "item_id": f"{unit_id}:s{start + 1:04d}-{end:04d}",
@@ -1322,32 +1362,88 @@ def build_interaction_spans(
                     (row["reading"] for row in candidates if row["source"] == "current"),
                     None,
                 ),
-                "is_safe": all(bool(target.get("is_safe")) for target in span_targets),
-                "review_status": (
-                    "safe"
-                    if all(bool(target.get("is_safe")) for target in span_targets)
-                    else "unresolved"
-                ),
-                "highlight_level": (
-                    "none"
-                    if all(bool(target.get("is_safe")) for target in span_targets)
-                    else "target"
-                ),
+                "is_safe": span_safe,
+                "review_status": "safe" if span_safe else "unresolved",
+                "highlight_level": "none" if span_safe else "target",
                 "default_candidate_id": default_candidate.get("id"),
                 "default_choice_source": default_candidate.get("source"),
                 "default_reading": default_candidate.get("reading"),
                 "candidates": candidates,
                 "legacy_target_item_ids": [str(target.get("item_id") or "") for target in span_targets],
-                "signals": [
-                    signal
-                    for target in span_targets
-                    for signal in target.get("signals", [])
-                    if isinstance(signal, dict)
-                ],
+                "signals": component_signals + ([final_span_signal] if final_span_signal else []),
             }
         )
     validate_interaction_spans(text, spans)
     return spans
+
+
+def final_interaction_span_stable_surface_signal(
+    *,
+    surface: str,
+    candidates: list[dict[str, Any]],
+    component_signals: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    current = next(
+        (
+            candidate
+            for candidate in candidates
+            if candidate.get("source") == "current" and candidate.get("reading")
+        ),
+        None,
+    )
+    if current is None:
+        return None
+    artifact = interaction_span_stable_surface_artifact(component_signals)
+    if artifact is None:
+        return None
+    lexicon = load_interaction_span_stable_surface_lexicon(str(artifact))
+    if lexicon is None:
+        return None
+    judgment = lexicon.judge(surface, hira_to_kata(str(current["reading"])))
+    evidence = judgment.evidence
+    return {
+        "name": "safe_by_final_interaction_span_stable_surface_lexicon",
+        "accepted": judgment.value,
+        "reason": judgment.reason,
+        "evidence_scope": "interaction_span",
+        "artifact_path": str(artifact),
+        **(
+            {}
+            if evidence is None
+            else {
+                "count": evidence.count,
+                "surface_total_count": evidence.surface_total_count,
+                "share": evidence.share,
+                "source_corpus_version": evidence.source_corpus_version,
+            }
+        ),
+    }
+
+
+def interaction_span_stable_surface_artifact(
+    component_signals: list[dict[str, Any]],
+) -> Path | None:
+    for signal in component_signals:
+        artifact = str(signal.get("artifact_path") or "")
+        if not artifact:
+            continue
+        path = Path(artifact)
+        if path.name == MODEL_STABLE_SURFACE_LEXICON_FILENAME and path.exists():
+            return path
+        sibling = path.with_name(MODEL_STABLE_SURFACE_LEXICON_FILENAME)
+        if sibling.exists():
+            return sibling
+    return None
+
+
+@lru_cache(maxsize=16)
+def load_interaction_span_stable_surface_lexicon(
+    artifact_path: str,
+) -> StableSurfaceReadingLexicon | None:
+    try:
+        return StableSurfaceReadingLexicon.load_tsv(artifact_path)
+    except (OSError, ValueError):
+        return None
 
 
 def validate_interaction_spans(text: str, spans: list[dict[str, Any]]) -> None:
@@ -1467,8 +1563,6 @@ def interaction_span_candidates(
     current = interaction_current_reading(surface, token_index, pairs)
     add("current", "current", "Current mechanical/hybrid", current)
     full_dictionary_readings = final_review_surface_readings(surface)
-    for index, reading in enumerate(learned_yomi_surface_readings(surface)):
-        add(f"learned_repair:{index}", "learned_repair", "Accepted repair", reading)
     for target in targets:
         for candidate in target.get("candidates", []):
             if not isinstance(candidate, dict) or candidate.get("source") == "none":
@@ -1486,8 +1580,11 @@ def interaction_span_candidates(
                 str(candidate.get("label") or "Reading candidate"),
                 completed,
             )
+    for index, reading in enumerate(learned_yomi_surface_readings(surface)):
+        add(f"learned_repair:{index}", "learned_repair", "Accepted repair", reading)
     for index, reading in enumerate(full_dictionary_readings):
         add(f"dictionary:{index}", "dictionary", "Dictionary", reading)
+    candidates = rank_reading_candidates(surface, candidates)
     candidates.append(
         {
             "id": "none",
@@ -1746,6 +1843,7 @@ def reading_candidates(target: dict[str, Any]) -> list[dict[str, Any]]:
             reading,
             candidate_id=f"learned_repair:{index}",
         )
+    candidates = rank_reading_candidates(surface, candidates)
     candidates.append(
         {
             "id": "none",
@@ -1985,6 +2083,83 @@ def learned_yomi_surface_readings(surface: str) -> tuple[str, ...]:
     return load_learned_yomi_surface_readings().get(surface, ())
 
 
+def rank_reading_candidates(
+    surface: str,
+    candidates: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Rank tap alternatives without changing the selected default or safety."""
+    counts = historical_reading_counts(surface)
+    ranked: list[tuple[int, dict[str, Any]]] = []
+    current: list[dict[str, Any]] = []
+    for index, candidate in enumerate(candidates):
+        if candidate.get("source") == "current":
+            current.append(candidate)
+            continue
+        reading = str(candidate.get("reading") or "")
+        candidate["historical_count"] = counts.get(reading, 0)
+        ranked.append((index, candidate))
+    ranked.sort(
+        key=lambda row: (
+            -(
+                int(row[1].get("historical_count") or 0)
+                if int(row[1].get("historical_count") or 0) >= TAP_ORDER_MIN_HISTORICAL_COUNT
+                else 0
+            ),
+            row[0],
+        )
+    )
+    return [*current, *(candidate for _index, candidate in ranked)]
+
+
+@lru_cache(maxsize=4096)
+def historical_reading_counts(surface: str) -> dict[str, int]:
+    counts = Counter(load_corpus_surface_reading_counts().get(surface, {}))
+    counts.update(load_learned_surface_reading_counts().get(surface, {}))
+    return dict(counts)
+
+
+@lru_cache(maxsize=1)
+def load_corpus_surface_reading_counts() -> dict[str, Counter[str]]:
+    if not SURFACE_READING_STATS_PATH.exists():
+        return {}
+    counts: dict[str, Counter[str]] = {}
+    with SURFACE_READING_STATS_PATH.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        required = {"surface", "reading", "count"}
+        if not required.issubset(reader.fieldnames or set()):
+            return {}
+        has_scope = "evidence_scope" in (reader.fieldnames or [])
+        for row in reader:
+            if has_scope and str(row.get("evidence_scope") or "exact") != "exact":
+                continue
+            surface = str(row.get("surface") or "")
+            reading = normalize_hiragana_reading(str(row.get("reading") or ""))
+            try:
+                count = int(row.get("count") or 0)
+            except ValueError:
+                continue
+            if surface and reading and count > 0 and is_valid_yomi_reading(reading):
+                counts.setdefault(surface, Counter())[reading] += count
+    return counts
+
+
+@lru_cache(maxsize=1)
+def load_learned_surface_reading_counts() -> dict[str, Counter[str]]:
+    counts: dict[str, Counter[str]] = {}
+    if not LEARNED_YOMI_READINGS_PATH.exists():
+        return counts
+    with LEARNED_YOMI_READINGS_PATH.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter="\t")
+        if not {"surface", "reading"}.issubset(reader.fieldnames or set()):
+            return counts
+        for row in reader:
+            surface = str(row.get("surface") or "")
+            reading = normalize_hiragana_reading(str(row.get("reading") or ""))
+            if surface and reading and is_valid_yomi_reading(reading):
+                counts.setdefault(surface, Counter())[reading] += 1
+    return counts
+
+
 @lru_cache(maxsize=1)
 def load_strong_repair_surface_readings() -> dict[str, tuple[str, ...]]:
     return load_surface_readings_from_tsv_paths(
@@ -2207,7 +2382,7 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface) and re.search(r"[0-9０-９]", surface):
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
-    if has_han(surface) and has_latin(surface):
+    if has_han(surface) and (has_latin(surface) or has_greek(surface)):
         return [{"type": "ruby", "text": surface, "reading": reading_hira}]
     if has_han(surface):
         result = furigana_converter().convert(surface, reading)
@@ -2223,11 +2398,16 @@ def ruby_nodes_for_surface_reading(surface: str, reading: str) -> list[dict[str,
 def should_display_ruby(surface: str, reading: str) -> bool:
     if not surface or not reading or surface == reading:
         return False
-    return has_han(surface) or has_latin(surface) or any(char in "ヵヶ" for char in surface)
+    return (
+        has_han(surface)
+        or has_latin(surface)
+        or has_greek(surface)
+        or any(char in "ヵヶ" for char in surface)
+    )
 
 
 def mixed_latin_kana_ruby_nodes(surface: str, reading_hira: str) -> list[dict[str, str]] | None:
-    if not has_latin(surface) or not has_kana(surface):
+    if not (has_latin(surface) or has_greek(surface)) or not has_kana(surface):
         return None
     elements = surface_reading_elements(surface)
     if not any(kind == "latin" for kind, _ in elements):
@@ -2283,7 +2463,7 @@ def surface_reading_elements(surface: str) -> list[tuple[str, str]]:
 
 
 def surface_reading_kind(char: str) -> str:
-    if is_latin(char):
+    if is_latin(char) or has_greek(char):
         return "latin"
     if is_kana(char):
         return "kana"
@@ -3064,7 +3244,7 @@ def normalize_correction_yomi_tokens(value: Any) -> list[list[str]]:
             normalized_reading = ""
         elif normalized_reading == "カオモジ" and is_symbolic_kaomoji_correction_surface(surface):
             pass
-        elif not has_han(surface) and not has_latin(surface):
+        elif not has_han(surface) and not has_latin(surface) and not has_greek(surface):
             normalized_reading = hiragana_to_katakana_for_finalized_correction(surface)
         normalized.append([surface, normalized_reading])
     return normalized
@@ -3173,7 +3353,7 @@ def validate_finalized_correction_reading(surface: str, reading: str) -> dict[st
         return {"ok": False, "error": "カオモジ is reserved for symbolic kaomoji surfaces"}
     if is_standalone_laughter_w(surface) and not reading:
         return {"ok": True}
-    if has_han(surface) or has_latin(surface):
+    if has_han(surface) or has_latin(surface) or has_greek(surface):
         if not reading:
             return {"ok": False, "error": "kanji or alphabetic surfaces need a kana reading"}
         if not re.fullmatch(r"[ァ-ヺー]+", reading):
@@ -3247,11 +3427,8 @@ def replay_review_submissions(
                 effective[item_id] = {
                     "item_id": item_id,
                     "reviewed": True,
-                    "disposition": normalize_scope_disposition(
-                        item.get("scope_default"),
-                        skip=item.get("skip_default", False),
-                    ),
-                    "skip": bool(item.get("skip_default", False)),
+                    "disposition": review_item_default_disposition(item),
+                    "skip": review_item_default_disposition(item) != SCOPE_KEEP,
                     "terminal_exclusion_confirmed": item_id in confirmed_terminal_exclusion_ids,
                     "manual_correction_required": bool(
                         item.get("manual_correction_required", False)
@@ -3272,11 +3449,8 @@ def replay_review_submissions(
                     {
                         "item_id": item_id,
                         "reviewed": True,
-                        "disposition": normalize_scope_disposition(
-                            item.get("scope_default"),
-                            skip=item.get("skip_default", False),
-                        ),
-                        "skip": bool(item.get("skip_default", False)),
+                        "disposition": review_item_default_disposition(item),
+                        "skip": review_item_default_disposition(item) != SCOPE_KEEP,
                         "terminal_exclusion_confirmed": item_id in confirmed_terminal_exclusion_ids,
                         "manual_correction_required": bool(
                             item.get("manual_correction_required", False)
@@ -3302,6 +3476,21 @@ def replay_review_submissions(
                     current["manual_correction_required"] = bool(
                         override["manual_correction_required"]
                     )
+                if override.get("resolution") == "direct_edit":
+                    current["resolution"] = "direct_edit"
+                    current["original_yomi_tokens"] = normalize_correction_yomi_tokens(
+                        override.get("original_yomi_tokens")
+                    )
+                    current["direct_yomi_tokens"] = normalize_correction_yomi_tokens(
+                        override.get("direct_yomi_tokens")
+                    )
+                else:
+                    if override.get("resolution") == "escalate":
+                        current["resolution"] = "escalate"
+                    else:
+                        current.pop("resolution", None)
+                    current.pop("original_yomi_tokens", None)
+                    current.pop("direct_yomi_tokens", None)
                 current["targets"] = merge_default_and_explicit_target_rows(
                     item,
                     [row for row in override.get("targets", []) if isinstance(row, dict)],
@@ -3937,7 +4126,13 @@ def apply_final_review_file(
     span_override_count = 0
     exact_rendered_updates = 0
     exact_rendered_span_updates = 0
+    direct_yomi_edit_count = 0
     no_ruby_target_count = 0
+    validate_direct_yomi_edits_file(
+        units_jsonl=units_jsonl,
+        items_by_id=items_by_id,
+        effective=effective,
+    )
     output_jsonl.parent.mkdir(parents=True, exist_ok=True)
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     with units_jsonl.open(encoding="utf-8") as src, output_jsonl.open("w", encoding="utf-8") as dst:
@@ -3961,11 +4156,6 @@ def apply_final_review_file(
                     item,
                     normalize_span_overrides(item_state.get("span_overrides", [])),
                 )
-                target_override_count += len(target_overrides)
-                span_override_count += len(span_overrides)
-                no_ruby_target_count += sum(
-                    1 for row in target_overrides if row.get("choice_source") == "none"
-                )
                 disposition = normalize_scope_disposition(
                     item_state.get("disposition"),
                     skip=item_state.get("skip"),
@@ -3978,6 +4168,27 @@ def apply_final_review_file(
                     dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
                     written_units += 1
                     continue
+                direct_yomi_tokens = normalize_correction_yomi_tokens(
+                    item_state.get("direct_yomi_tokens")
+                ) if item_state.get("resolution") == "direct_edit" else []
+                if direct_yomi_tokens:
+                    validate_direct_yomi_edit(
+                        unit=unit,
+                        item=item,
+                        original_tokens=normalize_correction_yomi_tokens(
+                            item_state.get("original_yomi_tokens")
+                        ),
+                        proposed_tokens=direct_yomi_tokens,
+                    )
+                    set_current_yomi_tokens_for_correction(unit, direct_yomi_tokens)
+                    target_overrides = []
+                    span_overrides = []
+                    direct_yomi_edit_count += 1
+                target_override_count += len(target_overrides)
+                span_override_count += len(span_overrides)
+                no_ruby_target_count += sum(
+                    1 for row in target_overrides if row.get("choice_source") == "none"
+                )
                 if disposition == SCOPE_SKIP:
                     skipped_units += 1
                 elif disposition == SCOPE_EXCLUDE:
@@ -4000,6 +4211,7 @@ def apply_final_review_file(
                     span_overrides=span_overrides,
                     exact_rendered_updates=exact_updates,
                     exact_rendered_span_updates=exact_span_updates,
+                    direct_yomi_tokens=direct_yomi_tokens,
                 )
             dst.write(json.dumps(unit, ensure_ascii=False) + "\n")
             written_units += 1
@@ -4023,6 +4235,7 @@ def apply_final_review_file(
         "no_ruby_target_count": no_ruby_target_count,
         "exact_rendered_updates": exact_rendered_updates,
         "exact_rendered_span_updates": exact_rendered_span_updates,
+        "direct_yomi_edit_count": direct_yomi_edit_count,
         "output_jsonl": str(output_jsonl),
         "summary_json": str(summary_json),
     }
@@ -4041,6 +4254,60 @@ def apply_final_review_file(
         encoding="utf-8",
     )
     return {"stage_complete": stage_complete, **summary}
+
+
+def validate_direct_yomi_edit(
+    *,
+    unit: dict[str, Any],
+    item: dict[str, Any],
+    original_tokens: list[list[str]],
+    proposed_tokens: list[list[str]],
+) -> None:
+    if not original_tokens or not proposed_tokens:
+        raise ValueError("direct yomi edits require nonempty original and proposed token arrays")
+    item_tokens = normalize_correction_yomi_tokens(
+        [[surface, reading] for surface, reading in parse_rendered_pairs(str(item.get("rendered_yomi") or ""))]
+    )
+    if item_tokens and original_tokens != item_tokens:
+        raise ValueError("direct yomi edit original tokens do not match the review pack")
+    expected_text = str(unit.get("text") or item.get("text") or "")
+    validate_yomi_token_surfaces(original_tokens, text=expected_text)
+    validate_yomi_token_surfaces(proposed_tokens, text=expected_text)
+    baseline_counts = Counter((surface, reading) for surface, reading in original_tokens)
+    for surface, reading in proposed_tokens:
+        if baseline_counts[(surface, reading)]:
+            baseline_counts[(surface, reading)] -= 1
+            continue
+        validation = validate_finalized_correction_reading(surface, reading)
+        if not validation["ok"]:
+            raise ValueError(f"invalid direct yomi token {surface}/{reading}: {validation['error']}")
+
+
+def validate_direct_yomi_edits_file(
+    *,
+    units_jsonl: Path,
+    items_by_id: dict[str, dict[str, Any]],
+    effective: dict[str, dict[str, Any]],
+) -> None:
+    with units_jsonl.open(encoding="utf-8") as src:
+        for line in src:
+            if not line.strip():
+                continue
+            unit = json.loads(line)
+            item_id = str(unit.get("unit_id") or "")
+            item_state = effective.get(item_id)
+            if not item_state or item_state.get("resolution") != "direct_edit":
+                continue
+            validate_direct_yomi_edit(
+                unit=unit,
+                item=items_by_id.get(item_id, {}),
+                original_tokens=normalize_correction_yomi_tokens(
+                    item_state.get("original_yomi_tokens")
+                ),
+                proposed_tokens=normalize_correction_yomi_tokens(
+                    item_state.get("direct_yomi_tokens")
+                ),
+            )
 
 
 def build_target_override(
@@ -4203,7 +4470,7 @@ def apply_exact_rendered_target_overrides(
             updated += 1
     if updated:
         yomi["rendered_before_final_review"] = rendered
-        yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+        set_reviewed_yomi_pairs(unit, yomi, pairs)
     return updated
 
 
@@ -4234,8 +4501,20 @@ def apply_exact_rendered_span_overrides(
         updated += 1
     if updated:
         yomi.setdefault("rendered_before_final_review", rendered)
-        yomi["rendered"] = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+        set_reviewed_yomi_pairs(unit, yomi, pairs)
     return updated
+
+
+def set_reviewed_yomi_pairs(
+    unit: dict[str, Any],
+    yomi: dict[str, Any],
+    pairs: list[tuple[str, str]],
+) -> None:
+    rendered = " ".join(f"{surface}/{reading}" for surface, reading in pairs)
+    text = str(unit.get("text") or "") or None
+    canonical = yomi_tokens_from_mapping({"rendered": rendered}, text=text)
+    set_canonical_yomi_tokens(yomi, canonical)
+    yomi["rendered"] = rendered
 
 
 def replacement_pairs_from_span_override(
@@ -4249,11 +4528,21 @@ def replacement_pairs_from_span_override(
         reading = str(segment.get("reading") or "")
         if not surface:
             return []
-        if reading == "/" and not has_han(surface) and not has_latin(surface):
+        if (
+            reading == "/"
+            and not has_han(surface)
+            and not has_latin(surface)
+            and not has_greek(surface)
+        ):
             reading = ""
         if is_numeric_only_finalized_correction_surface(surface):
             normalized = ""
-        elif not has_han(surface) and not has_latin(surface) and not reading:
+        elif (
+            not has_han(surface)
+            and not has_latin(surface)
+            and not has_greek(surface)
+            and not reading
+        ):
             normalized = hiragana_to_katakana_for_finalized_correction(surface)
         else:
             normalized = hira_to_kata(normalize_hiragana_reading(reading))
@@ -4273,6 +4562,7 @@ def set_final_review_payload(
     span_overrides: list[dict[str, Any]],
     exact_rendered_updates: int,
     exact_rendered_span_updates: int,
+    direct_yomi_tokens: list[list[str]] | None = None,
 ) -> None:
     human_review = unit.setdefault("analysis", {}).setdefault("human_review", {})
     disposition = normalize_scope_disposition(
@@ -4294,6 +4584,17 @@ def set_final_review_payload(
         "generated_at_epoch": int(item_state.get("generated_at_epoch", 0)),
         "exact_rendered_updates": exact_rendered_updates,
         "exact_rendered_span_updates": exact_rendered_span_updates,
+        "resolution": (
+            "direct_edit"
+            if direct_yomi_tokens
+            else "escalate"
+            if any(
+                row.get("choice_source") == "none" and not row.get("accepted_no_ruby")
+                for row in target_overrides
+            ) or any(row.get("repair_required") for row in span_overrides)
+            else "accept"
+        ),
+        "direct_yomi_tokens": direct_yomi_tokens or [],
     }
     set_manual_correction_required(
         unit,
@@ -5151,10 +5452,12 @@ def canonicalize_finalized_unit_yomi(
         .setdefault("yomi", {})
     )
     restore_legacy_whitespace_kaomoji_rendered(yomi)
-    tokens = canonicalize_final_numeric_compounds(
-        normalize_parenthesized_semantic_tokens(
-            normalize_correction_yomi_tokens(
-                yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+    tokens = normalize_canonical_compound_tokens(
+        canonicalize_final_numeric_compounds(
+            normalize_parenthesized_semantic_tokens(
+                normalize_correction_yomi_tokens(
+                    yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+                )
             )
         )
     )
@@ -5516,6 +5819,59 @@ def harvest_learned_yomi_readings(
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     seen: set[tuple[str, str, str, str]] = set()
+    for unit in units:
+        unit_id = str(unit.get("unit_id") or "")
+        yomi = unit.get("analysis", {}).get("mechanical", {}).get("yomi", {})
+        finalized_pairs = (
+            yomi_tokens_from_mapping(yomi, text=str(unit.get("text") or ""))
+            if isinstance(yomi, dict)
+            else []
+        )
+        review = (
+            unit.get("analysis", {})
+            .get("human_review", {})
+            .get("yomi_final", {})
+        )
+        if not isinstance(review, dict) or not review.get("reviewed"):
+            continue
+        for override in review.get("target_overrides", []):
+            if (
+                not isinstance(override, dict)
+                or override.get("automatic_default")
+                or override.get("choice_source") == "none"
+            ):
+                continue
+            surface = str(override.get("surface") or "")
+            exact_readings = [reading for pair_surface, reading in finalized_pairs if pair_surface == surface]
+            selected_reading = (
+                exact_readings[0]
+                if len(exact_readings) == 1
+                else str(override.get("selected_reading") or "")
+            )
+            reading = hira_to_kata(selected_reading)
+            item_id = str(override.get("item_id") or "")
+            if (
+                not surface.strip()
+                or not reading.strip()
+                or any(char.isspace() for char in surface)
+                or not is_valid_yomi_reading(reading)
+            ):
+                continue
+            key = (unit_id, item_id, surface, reading)
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(
+                {
+                    "surface": surface,
+                    "reading": reading,
+                    "source_batch": batch_name,
+                    "source_track": track_name,
+                    "source_unit_id": unit_id,
+                    "source_item_id": item_id,
+                    "source_method": "human_final_review",
+                }
+            )
     for repair in accepted_strong_repairs(units, batch_name=batch_name, track_name=track_name):
         for segment in repair.get("replacement", []):
             if not isinstance(segment, dict):

@@ -22,6 +22,8 @@ from yomi_corpus.yomi.numeric_surfaces import (
     is_numeric_only_surface,
 )
 from yomi_corpus.yomi.token_codec import (
+    YomiTokenError,
+    editable_rendered_to_yomi_tokens,
     legacy_rendered_to_yomi_tokens,
     yomi_tokens_from_mapping,
     yomi_tokens_to_editable_rendered,
@@ -923,18 +925,18 @@ def write_archive_search_index(
                 "track_doc_seq": track_doc_seq,
                 "doc_id": str(doc.get("doc_id") or ""),
                 "shard_path": shard_path,
-                "text": "\n".join(
-                    str(unit.get("text") or "")
+                "units": [
+                    archive_search_unit(unit)
                     for unit in doc.get("units", [])
                     if not unit.get("skipped") and not unit.get("excluded")
-                ),
+                ],
             }
         )
     records.extend(supplemental_records or [])
     records.sort(key=lambda row: (int(row["track_doc_seq"]), str(row.get("doc_id") or "")))
     filename = "search.json"
     payload = {
-        "schema_version": 2,
+        "schema_version": 3,
         "document_count": len(records),
         "documents": records,
     }
@@ -943,6 +945,18 @@ def write_archive_search_index(
         encoding="utf-8",
     )
     return f"{url_prefix}/{filename}"
+
+
+def archive_search_unit(unit: dict) -> dict:
+    text = str(unit.get("text") or "")
+    tokens = normalize_archive_yomi_tokens(list(unit.get("yomi_tokens") or []))
+    if not tokens and text:
+        tokens = [[text, ""]]
+    return {
+        "unit_seq": int(unit.get("unit_seq") or 0),
+        "yomi_tokens": tokens,
+        "ruby_tokens": yomi_tokens_ruby_tokens(tokens) if tokens else [],
+    }
 
 
 def collect_pending_review_search_records(
@@ -976,16 +990,31 @@ def collect_pending_review_search_records(
     records: dict[tuple[int, str], dict] = {}
     for entry in latest_by_batch.values():
         payload = load_review_pack(entry["source_path"])
-        text_by_doc: dict[str, list[tuple[int, str]]] = {}
+        units_by_doc: dict[str, list[dict]] = {}
         for item in payload.get("items", []):
             doc_id = str(item.get("doc_id") or "")
             if not doc_id:
                 continue
-            text_by_doc.setdefault(doc_id, []).append(
-                (
-                    int(item.get("unit_seq") or item.get("seq") or 0),
-                    str(item.get("text") or ""),
+            text = str(item.get("text") or "")
+            rendered_yomi = str(item.get("rendered_yomi") or "")
+            try:
+                tokens = (
+                    normalize_archive_yomi_tokens(
+                        editable_rendered_to_yomi_tokens(rendered_yomi, text=text)
+                    )
+                    if rendered_yomi
+                    else []
                 )
+            except YomiTokenError:
+                tokens = []
+            if not tokens and text:
+                tokens = [[text, ""]]
+            units_by_doc.setdefault(doc_id, []).append(
+                {
+                    "unit_seq": int(item.get("unit_seq") or item.get("seq") or 0),
+                    "yomi_tokens": tokens,
+                    "ruby_tokens": yomi_tokens_ruby_tokens(tokens) if tokens else [],
+                }
             )
         for doc in payload.get("documents", []):
             doc_id = str(doc.get("doc_id") or "")
@@ -996,12 +1025,12 @@ def collect_pending_review_search_records(
             key = (track_doc_seq, doc_id)
             if not doc_id or track_doc_seq <= 0 or key in finalized_keys:
                 continue
-            unit_texts = text_by_doc.get(doc_id, [])
+            units = units_by_doc.get(doc_id, [])
             records[key] = {
                 "track_doc_seq": track_doc_seq,
                 "doc_id": doc_id,
                 "pack_path": f"./packs/{entry['site_filename']}",
-                "text": "\n".join(text for _, text in sorted(unit_texts)),
+                "units": sorted(units, key=lambda unit: int(unit["unit_seq"])),
             }
     return [records[key] for key in sorted(records)]
 

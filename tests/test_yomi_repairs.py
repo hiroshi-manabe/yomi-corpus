@@ -7,6 +7,8 @@ from pathlib import Path
 from yomi_corpus.yomi.config import load_yomi_generation_config
 from yomi_corpus.yomi.repairs import (
     apply_post_hybrid_repairs,
+    normalize_canonical_compound_tokens,
+    normalize_parenthesized_semantic_tokens,
     normalize_parenthesized_semantic_tokens_rendered,
 )
 
@@ -38,6 +40,28 @@ class YomiRepairTests(unittest.TestCase):
 
         self.assertEqual(result.rendered, rendered)
         self.assertEqual(result.metadata, {})
+
+    def test_parenthesized_weekday_abbreviations_override_standalone_readings(self) -> None:
+        result = normalize_parenthesized_semantic_tokens_rendered(
+            "4/ 20/ (/( 月/ガツ )/) と/ト （火）/カヨウビ 月/ガツ"
+        )
+
+        self.assertEqual(
+            result.rendered,
+            "4/ 20/ (/( 月/ゲツ )/) と/ト （/（ 火/カ ）/） 月/ガツ",
+        )
+        self.assertEqual(result.metadata["count"], 2)
+
+    def test_canonical_parenthesized_weekday_normalization_is_idempotent(self) -> None:
+        tokens = [["(", "("], ["月", "ガツ"], [")", ")"], ["月", "ガツ"]]
+
+        normalized = normalize_parenthesized_semantic_tokens(tokens)
+
+        self.assertEqual(
+            normalized,
+            [["(", "("], ["月", "ゲツ"], [")", ")"], ["月", "ガツ"]],
+        )
+        self.assertEqual(normalize_parenthesized_semantic_tokens(normalized), normalized)
 
     def test_splits_known_semantic_parentheticals(self) -> None:
         result = normalize_parenthesized_semantic_tokens_rendered(
@@ -129,6 +153,25 @@ class YomiRepairTests(unittest.TestCase):
             "日本/ニホン と/ト 日本/ニホン 日本橋/ニホンバシ",
         )
         self.assertIn("yomi_repair_0004", result.metadata["applied_rule_ids"])
+
+    def test_default_rules_join_minasama_as_one_lexical_unit(self) -> None:
+        config = load_yomi_generation_config("config/yomi/default.toml")
+
+        result = apply_post_hybrid_repairs(
+            "皆/ミナ 様/サマ 皆/ミン 様/サマ",
+            rules_path=config.post_hybrid_repair_rules,
+        )
+
+        self.assertEqual(result.rendered, "皆様/ミナサマ 皆/ミン 様/サマ")
+        self.assertIn("yomi_repair_0005", result.metadata["applied_rule_ids"])
+
+    def test_canonical_compound_token_normalization_is_idempotent(self) -> None:
+        tokens = [["皆", "ミナ"], ["様", "サマ"], ["です", "デス"]]
+
+        normalized = normalize_canonical_compound_tokens(tokens)
+
+        self.assertEqual(normalized, [["皆様", "ミナサマ"], ["です", "デス"]])
+        self.assertEqual(normalize_canonical_compound_tokens(normalized), normalized)
 
 
 if __name__ == "__main__":
