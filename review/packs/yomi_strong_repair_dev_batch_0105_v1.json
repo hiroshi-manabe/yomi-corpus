@@ -10,11 +10,11 @@
   "item_count": 14,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 5,
       "skipped": 1,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 14,
     "queued_repair_row_count": 15,
@@ -32,12 +32,12 @@
       "source_line_no": 1014,
       "preview": "新潟県村上市山北地区で毎年４月に開催する、笹川流れマラソン大会の公式ブログです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-24T02:52:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-24T03:03:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -58,12 +58,12 @@
       "source_line_no": 1015,
       "preview": "隅田川を眺めるリバーサイドサイドが一つの売りになっています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-24T02:52:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-24T03:03:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -84,12 +84,12 @@
       "source_line_no": 1016,
       "preview": "また、竹達彩奈さんといえば様々な魅力ポイントを持っていて、中でもそのかわいらしい顔立ちはアイドル・モデル級の高レベルなのです！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-24T02:52:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-24T03:03:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -266,12 +266,12 @@
       "source_line_no": 1023,
       "preview": "中津川駅前に2021年10月4日OPENした『Panel Cafe 中津川店(パネルカフェ)』が前から気になっていたので行ってきました！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-24T02:52:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-24T03:03:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -297,7 +297,7 @@
       "source_line_no": 1014,
       "text": "新潟県村上市山北地区で毎年４月に開催する、笹川流れマラソン大会の公式ブログです。",
       "rendered_yomi_before": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹/ササ 川流れ/カワナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
-      "rendered_yomi_after": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹川流れ/ササガワナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
+      "rendered_yomi_after": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹川/ササガワ 流れ/ナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "新潟県",
@@ -348,8 +348,12 @@
           "、"
         ],
         [
-          "笹川流れ",
-          "ササガワナガレ"
+          "笹川",
+          "ササガワ"
+        ],
+        [
+          "流れ",
+          "ナガレ"
         ],
         [
           "マラソン",
@@ -509,13 +513,24 @@
           ]
         },
         {
-          "surface": "笹川流れ",
-          "reading": "ササガワナガレ",
+          "surface": "笹川",
+          "reading": "ササガワ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "笹川流",
-              "reading": "ささがわなが"
+              "text": "笹川",
+              "reading": "ささがわ"
+            }
+          ]
+        },
+        {
+          "surface": "流れ",
+          "reading": "ナガレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "流",
+              "reading": "なが"
             },
             {
               "type": "text",
@@ -609,14 +624,14 @@
           "unit_id": "ja_cc_level2:0000001014:u0001",
           "text": "新潟県村上市山北地区で毎年４月に開催する、笹川流れマラソン大会の公式ブログです。",
           "rendered_yomi_before": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹/ササ 川流れ/カワナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
-          "rendered_yomi_after": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹川流れ/ササガワナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
+          "rendered_yomi_after": "新潟県/ニイガタケン 村上市/ムラカミシ 山北/サンポク 地区/チク で/デ 毎年/マイトシ ４/ 月/ガツ に/ニ 開催/カイサイ する/スル 、/、 笹川/ササガワ 流れ/ナガレ マラソン/マラソン 大会/タイカイ の/ノ 公式/コウシキ ブログ/ブログ です/デス 。/。",
           "display_mapping": {
             "start": 12,
-            "end": 13,
+            "end": 14,
             "char_start": 21,
             "char_end": 25,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -8915,7 +8930,7 @@
       "source_line_no": 1015,
       "text": "前回の東京オリンピックの翌年1965年に建設された3万5千平米の大規模団地でしたが法整備が整ったことを受けて、25年の論議の末、ようやく建て替えの決定がなされました。",
       "rendered_yomi_before": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千平/センダイラ 米/マイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千平米/センヘイベイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千/セン 平米/ヘイベイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "前回",
@@ -8982,8 +8997,12 @@
           ""
         ],
         [
-          "千平米",
-          "センヘイベイ"
+          "千",
+          "セン"
+        ],
+        [
+          "平米",
+          "ヘイベイ"
         ],
         [
           "の",
@@ -9282,13 +9301,24 @@
           ]
         },
         {
-          "surface": "千平米",
-          "reading": "センヘイベイ",
+          "surface": "千",
+          "reading": "セン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "千平米",
-              "reading": "せんへいべい"
+              "text": "千",
+              "reading": "せん"
+            }
+          ]
+        },
+        {
+          "surface": "平米",
+          "reading": "ヘイベイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "平米",
+              "reading": "へいべい"
             }
           ]
         },
@@ -9657,14 +9687,14 @@
           "unit_id": "ja_cc_level2:0000001015:u0005",
           "text": "前回の東京オリンピックの翌年1965年に建設された3万5千平米の大規模団地でしたが法整備が整ったことを受けて、25年の論議の末、ようやく建て替えの決定がなされました。",
           "rendered_yomi_before": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千平/センダイラ 米/マイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千平米/センヘイベイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "前回/ゼンカイ の/ノ 東京/トウキョウ オリンピック/オリンピック の/ノ 翌年/ヨクネン 1965/ 年/ネン に/ニ 建設/ケンセツ さ/サ れ/レ た/タ 3/ 万/マン 5/ 千/セン 平米/ヘイベイ の/ノ 大規模/ダイキボ 団地/ダンチ でし/デシ た/タ が/ガ 法整備/ホウセイビ が/ガ 整っ/トトノッ た/タ こと/コト を/ヲ 受け/ウケ て/テ 、/、 25/ 年/ネン の/ノ 論議/ロンギ の/ノ 末/スエ 、/、 ようやく/ヨウヤク 建て替え/タテカエ の/ノ 決定/ケッテイ が/ガ なさ/ナサ れ/レ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 16,
-            "end": 17,
+            "end": 18,
             "char_start": 28,
             "char_end": 31,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -10002,7 +10032,7 @@
       "source_line_no": 1016,
       "text": "しかし、上記した作中に登場するキャラクターを通し徐々に声優という職業を意識するようになる。",
       "rendered_yomi_before": "しかし/シカシ 、/、 上/ウエ 記し/シルシ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
-      "rendered_yomi_after": "しかし/シカシ 、/、 上記し/ジョウキシ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
+      "rendered_yomi_after": "しかし/シカシ 、/、 上記/ジョウキ し/シ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "しかし",
@@ -10013,8 +10043,12 @@
           "、"
         ],
         [
-          "上記し",
-          "ジョウキシ"
+          "上記",
+          "ジョウキ"
+        ],
+        [
+          "し",
+          "シ"
         ],
         [
           "た",
@@ -10123,14 +10157,20 @@
           ]
         },
         {
-          "surface": "上記し",
-          "reading": "ジョウキシ",
+          "surface": "上記",
+          "reading": "ジョウキ",
           "nodes": [
             {
               "type": "ruby",
               "text": "上記",
               "reading": "じょうき"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
             {
               "type": "text",
               "text": "し"
@@ -10372,14 +10412,14 @@
           "unit_id": "ja_cc_level2:0000001016:u0004",
           "text": "しかし、上記した作中に登場するキャラクターを通し徐々に声優という職業を意識するようになる。",
           "rendered_yomi_before": "しかし/シカシ 、/、 上/ウエ 記し/シルシ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
-          "rendered_yomi_after": "しかし/シカシ 、/、 上記し/ジョウキシ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
+          "rendered_yomi_after": "しかし/シカシ 、/、 上記/ジョウキ し/シ た/タ 作中/サクチュウ に/ニ 登場/トウジョウ する/スル キャラクター/キャラクター を/ヲ 通し/トオシ 徐々/ジョジョ に/ニ 声優/セイユウ と/ト いう/イウ 職業/ショクギョウ を/ヲ 意識/イシキ する/スル よう/ヨウ に/ニ なる/ナル 。/。",
           "display_mapping": {
             "start": 2,
-            "end": 3,
+            "end": 4,
             "char_start": 4,
             "char_end": 7,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
