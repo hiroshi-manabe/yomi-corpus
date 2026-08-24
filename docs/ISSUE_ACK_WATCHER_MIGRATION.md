@@ -250,9 +250,9 @@ the existing importer remain authoritative throughout the migration.
 `./issue-watch dev --publish gh-pages` performs one bounded poll. It records
 recognized submissions in `data/state/issue_watch/dev.ledger.json`, publishes
 the active subset as `issue-acknowledgments.json`, and starts the existing
-`yomi-corpus-review-sync-dev.service` for a newly seen or retry-eligible
-submission. A five-minute per-submission trigger cooldown prevents a malformed
-or temporarily unprocessable Issue from causing a tight sync loop.
+`yomi-corpus-review-sync-dev.service` once for each newly seen payload hash.
+An open but temporarily unprocessable Issue does not create a tight sync loop;
+the independent five-minute review-sync timer owns all retries.
 
 The browser treats an active acknowledgment as server processing before the
 pipeline importer advances the document. Two active submissions naming the

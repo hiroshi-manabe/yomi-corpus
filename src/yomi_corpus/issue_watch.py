@@ -18,9 +18,6 @@ from yomi_corpus.yomi.final_review_issue_import import (
 )
 
 
-WATCH_RETRY_SECONDS = 300
-
-
 def run_issue_watch_pass(
     root: Path,
     *,
@@ -80,8 +77,7 @@ def run_issue_watch_pass(
             del records[record_id]
             continue
         active.append(row)
-        last_triggered = row.get("last_triggered_epoch")
-        if last_triggered is None or now - int(last_triggered) >= WATCH_RETRY_SECONDS:
+        if row.get("last_triggered_epoch") is None:
             trigger_candidates.append(row)
 
     conflicts = _conflicting_doc_ids(active)

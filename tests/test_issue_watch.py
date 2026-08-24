@@ -112,7 +112,7 @@ class IssueWatchTests(unittest.TestCase):
             payload = json.loads(Path(result["acknowledgment_path"]).read_text(encoding="utf-8"))
             self.assertEqual(payload["records"], [])
 
-    def test_no_trigger_probe_does_not_start_retry_cooldown(self) -> None:
+    def test_no_trigger_probe_does_not_consume_event_trigger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_pack(root, "doc-1")
@@ -135,6 +135,30 @@ class IssueWatchTests(unittest.TestCase):
                 fetch_comments=lambda *_args: [],
             )
             self.assertTrue(result["trigger_required"])
+
+    def test_triggered_payload_is_not_retriggered(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_pack(root, "doc-1")
+            issues = [issue(10, [submission("s1", "doc-1")])]
+            first = run_issue_watch_pass(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                now_epoch=100,
+                fetch_issues=lambda *_args, **_kwargs: issues,
+                fetch_comments=lambda *_args: [],
+            )
+            second = run_issue_watch_pass(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                now_epoch=10000,
+                fetch_issues=lambda *_args, **_kwargs: issues,
+                fetch_comments=lambda *_args: [],
+            )
+            self.assertTrue(first["trigger_required"])
+            self.assertFalse(second["trigger_required"])
 
 
 if __name__ == "__main__":
