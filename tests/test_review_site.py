@@ -20,10 +20,26 @@ from yomi_corpus.review_site import (
     publish_review_site,
     publish_issue_acknowledgments,
     issue_acknowledgments_need_publish,
+    ReviewSitePublishBusy,
 )
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_publish_issue_acknowledgments_defers_when_site_is_busy(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "ack.json"
+            source.write_text("{}", encoding="utf-8")
+            with patch(
+                "yomi_corpus.review_site.review_site_publish_lock",
+                side_effect=ReviewSitePublishBusy("busy"),
+            ):
+                result = publish_issue_acknowledgments(
+                    docs_dir=root / "docs",
+                    acknowledgment_path=source,
+                )
+            self.assertEqual(result["status"], "deferred")
+
     def test_publish_issue_acknowledgments_updates_only_watcher_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

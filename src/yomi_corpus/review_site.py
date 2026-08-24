@@ -35,8 +35,12 @@ ARCHIVE_SHARD_SIZE = 1
 _ACTIVE_REVIEW_PUBLISH_LOCKS: set[Path] = set()
 
 
+class ReviewSitePublishBusy(RuntimeError):
+    pass
+
+
 @contextmanager
-def review_site_publish_lock(docs_dir: str | Path):
+def review_site_publish_lock(docs_dir: str | Path, *, blocking: bool = True):
     """Serialize generation and publication of the shared review tree."""
     docs_root = Path(docs_dir).resolve()
     lock_path = docs_root.parent / "data" / "state" / "review_site" / "publish.lock"
@@ -45,7 +49,11 @@ def review_site_publish_lock(docs_dir: str | Path):
         return
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     with lock_path.open("a+", encoding="utf-8") as handle:
-        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        flags = fcntl.LOCK_EX if blocking else fcntl.LOCK_EX | fcntl.LOCK_NB
+        try:
+            fcntl.flock(handle.fileno(), flags)
+        except BlockingIOError as exc:
+            raise ReviewSitePublishBusy(str(lock_path)) from exc
         _ACTIVE_REVIEW_PUBLISH_LOCKS.add(lock_path)
         try:
             yield
@@ -324,21 +332,27 @@ def publish_issue_acknowledgments(
     source = Path(acknowledgment_path)
     review_dir = docs_root / "review"
     manifest_path = review_dir / "manifest.json"
-    with review_site_publish_lock(docs_root):
-        if not manifest_path.exists():
-            raise FileNotFoundError(
-                "Review manifest is missing; run ./publish-review before enabling issue-watch."
+    try:
+        with review_site_publish_lock(docs_root, blocking=False):
+            if not manifest_path.exists():
+                raise FileNotFoundError(
+                    "Review manifest is missing; run ./publish-review before enabling issue-watch."
+                )
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            destination = review_dir / "issue-acknowledgments.json"
+            shutil.copy2(source, destination)
+            manifest["issue_acknowledgments"] = {
+                "path": "./issue-acknowledgments.json"
+            }
+            manifest_path.write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
             )
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        destination = review_dir / "issue-acknowledgments.json"
-        shutil.copy2(source, destination)
-        manifest["issue_acknowledgments"] = {
-            "path": "./issue-acknowledgments.json"
+    except ReviewSitePublishBusy:
+        return {
+            "status": "deferred",
+            "reason": "review_site_publish_busy",
         }
-        manifest_path.write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
     return {
         "status": "generated",
         "manifest_json": str(manifest_path),

@@ -43,7 +43,7 @@ def main() -> None:
             docs_dir=PROJECT_ROOT / "docs",
             acknowledgment_path=result["acknowledgment_path"],
         )
-        if args.publish == "gh-pages":
+        if args.publish == "gh-pages" and result["publication"]["status"] == "generated":
             completed = subprocess.run(
                 [str(PROJECT_ROOT / "publish-review"), "--no-generate"],
                 cwd=PROJECT_ROOT,
