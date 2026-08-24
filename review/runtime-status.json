@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 6302,
-  "generated_at": "2026-08-24T04:01:08Z",
-  "generated_at_epoch": 1787544068,
-  "last_successful_sync": "2026-08-24T02:55:29Z",
-  "last_successful_sync_epoch": 1787540129,
-  "status": "error",
+  "state_revision": 6303,
+  "generated_at": "2026-08-24T04:33:30Z",
+  "generated_at_epoch": 1787546010,
+  "last_successful_sync": "2026-08-24T04:33:30Z",
+  "last_successful_sync_epoch": 1787546010,
+  "status": "waiting_for_review",
   "schedule": {
     "anchor_epoch": 1787539815,
     "interval_seconds": 300,
@@ -17,29 +17,29 @@
     "current_batch_name": "dev_batch_0111",
     "current_stage": "yomi_reading_llm_completed",
     "next_stage": "final_review_prepared",
-    "active_queue_count": 57,
+    "active_queue_count": 49,
     "queue_counts": {
-      "bulk_review_selectable": 57,
-      "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 0,
-      "escalated_repair_submitted": 4,
-      "resolved": 6
+      "bulk_review_selectable": 47,
+      "bulk_review_submitted": 3,
+      "escalated_repair_selectable": 2,
+      "escalated_repair_submitted": 0,
+      "resolved": 5
     },
     "pool_counts": {
-      "bulk-ready": 57,
-      "bulk-submitted": 0,
-      "escalated-ready": 0,
-      "escalated-submitted": 4,
+      "bulk-ready": 47,
+      "bulk-submitted": 3,
+      "escalated-ready": 2,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 6,
+      "resolved": 5,
       "unprocessed": 0
     }
   },
-  "message": "YomiTokenError: finalized unit ja_cc_level2:0000001016:u0002 token 37 'ww'/'ww' is structurally invalid: reading for kanji or alphabetic surfaces must be katakana",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1787544068,
-    "completed_at_epoch": 1787544068,
-    "drift_seconds": 53
+    "started_at_epoch": 1787545176,
+    "completed_at_epoch": 1787546010,
+    "drift_seconds": 39
   },
   "client_polling": {
     "normal_seconds": 60,
