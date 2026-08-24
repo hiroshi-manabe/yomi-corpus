@@ -56,6 +56,8 @@ PARENTHESIZED_WEEKDAY_READINGS = {
 
 CANONICAL_COMPOUND_TOKEN_SEQUENCES = {
     (("皆", "ミナ"), ("様", "サマ")): ("皆様", "ミナサマ"),
+    (("皆", "ミナ"), ("さま", "サマ")): ("皆さま", "ミナサマ"),
+    (("みな", "ミナ"), ("さま", "サマ")): ("みなさま", "ミナサマ"),
 }
 
 for _opening, _closing in (("(", ")"), ("（", "）")):

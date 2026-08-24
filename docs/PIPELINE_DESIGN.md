@@ -624,8 +624,9 @@ recorded for the dominant reading.
 Morphological boundaries are not automatically the canonical corpus
 boundaries. Selected modern lexical units may be joined by an explicit
 post-hybrid rule when the corpus representation should differ from Sudachi's
-productive morphology. `皆様` is canonicalized as `皆様/ミナサマ`, even though
-Sudachi mode B analyzes it as `皆/ミナ 様/サマ`. The decoder base corpus uses the
+productive morphology. `皆様`, `皆さま`, and `みなさま` are canonicalized as
+single tokens with reading `ミナサマ`; for example, Sudachi mode B analyzes
+`皆様` as `皆/ミナ 様/サマ`. The decoder base corpus uses the
 same joined token so future model evidence reinforces the canonical boundary.
 These rules must name exact surface/reading sequences; they are not a general
 compound-merging heuristic.

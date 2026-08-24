@@ -9,7 +9,7 @@ from yomi_corpus.yomi.canonical_compound_migration import (
 from yomi_corpus.yomi.final_review import canonicalize_finalized_unit_yomi
 
 
-def test_migration_joins_minasama_and_is_idempotent(tmp_path: Path) -> None:
+def test_migration_joins_minasama_variants_and_is_idempotent(tmp_path: Path) -> None:
     path = (
         tmp_path
         / "data"
@@ -20,13 +20,19 @@ def test_migration_joins_minasama_and_is_idempotent(tmp_path: Path) -> None:
     path.parent.mkdir(parents=True)
     row = {
         "unit_id": "u1",
-        "text": "皆様です。",
+        "text": "皆様、皆さま、みなさまです。",
         "analysis": {
             "mechanical": {
                 "yomi": {
                     "tokens": [
                         ["皆", "ミナ"],
                         ["様", "サマ"],
+                        ["、", "、"],
+                        ["皆", "ミナ"],
+                        ["さま", "サマ"],
+                        ["、", "、"],
+                        ["みな", "ミナ"],
+                        ["さま", "サマ"],
                         ["です", "デス"],
                         ["。", "。"],
                     ]
@@ -51,27 +57,37 @@ def test_migration_joins_minasama_and_is_idempotent(tmp_path: Path) -> None:
 
     assert first["applied"] is True
     assert first["changed_unit_count"] == 1
-    assert first["merged_occurrence_count"] == 1
+    assert first["merged_occurrence_count"] == 3
     assert second["changed_unit_count"] == 0
     migrated = json.loads(path.read_text(encoding="utf-8"))
     assert migrated["analysis"]["mechanical"]["yomi"]["tokens"] == [
         ["皆様", "ミナサマ"],
+        ["、", "、"],
+        ["皆さま", "ミナサマ"],
+        ["、", "、"],
+        ["みなさま", "ミナサマ"],
         ["です", "デス"],
         ["。", "。"],
     ]
     assert "rendered" not in migrated["analysis"]["mechanical"]["yomi"]
 
 
-def test_finalization_joins_minasama_in_an_active_legacy_row() -> None:
+def test_finalization_joins_minasama_variants_in_an_active_legacy_row() -> None:
     row = {
         "unit_id": "u1",
-        "text": "皆様です。",
+        "text": "皆様、皆さま、みなさまです。",
         "analysis": {
             "mechanical": {
                 "yomi": {
                     "tokens": [
                         ["皆", "ミナ"],
                         ["様", "サマ"],
+                        ["、", "、"],
+                        ["皆", "ミナ"],
+                        ["さま", "サマ"],
+                        ["、", "、"],
+                        ["みな", "ミナ"],
+                        ["さま", "サマ"],
                         ["です", "デス"],
                         ["。", "。"],
                     ]
@@ -84,6 +100,10 @@ def test_finalization_joins_minasama_in_an_active_legacy_row() -> None:
 
     assert row["analysis"]["mechanical"]["yomi"]["tokens"] == [
         ["皆様", "ミナサマ"],
+        ["、", "、"],
+        ["皆さま", "ミナサマ"],
+        ["、", "、"],
+        ["みなさま", "ミナサマ"],
         ["です", "デス"],
         ["。", "。"],
     ]

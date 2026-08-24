@@ -176,19 +176,39 @@ class YomiRepairTests(unittest.TestCase):
         config = load_yomi_generation_config("config/yomi/default.toml")
 
         result = apply_post_hybrid_repairs(
-            "皆/ミナ 様/サマ 皆/ミン 様/サマ",
+            "皆/ミナ 様/サマ 皆/ミナ さま/サマ みな/ミナ さま/サマ "
+            "皆/ミン 様/サマ",
             rules_path=config.post_hybrid_repair_rules,
         )
 
-        self.assertEqual(result.rendered, "皆様/ミナサマ 皆/ミン 様/サマ")
-        self.assertIn("yomi_repair_0005", result.metadata["applied_rule_ids"])
+        self.assertEqual(
+            result.rendered,
+            "皆様/ミナサマ 皆さま/ミナサマ みなさま/ミナサマ 皆/ミン 様/サマ",
+        )
+        self.assertEqual(
+            result.metadata["applied_rule_ids"],
+            ["yomi_repair_0005", "yomi_repair_0006", "yomi_repair_0007"],
+        )
 
     def test_canonical_compound_token_normalization_is_idempotent(self) -> None:
-        tokens = [["皆", "ミナ"], ["様", "サマ"], ["です", "デス"]]
+        tokens = [
+            ["皆", "ミナ"], ["様", "サマ"],
+            ["皆", "ミナ"], ["さま", "サマ"],
+            ["みな", "ミナ"], ["さま", "サマ"],
+            ["です", "デス"],
+        ]
 
         normalized = normalize_canonical_compound_tokens(tokens)
 
-        self.assertEqual(normalized, [["皆様", "ミナサマ"], ["です", "デス"]])
+        self.assertEqual(
+            normalized,
+            [
+                ["皆様", "ミナサマ"],
+                ["皆さま", "ミナサマ"],
+                ["みなさま", "ミナサマ"],
+                ["です", "デス"],
+            ],
+        )
         self.assertEqual(normalize_canonical_compound_tokens(normalized), normalized)
 
 

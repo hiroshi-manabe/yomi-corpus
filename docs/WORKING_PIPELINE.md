@@ -676,9 +676,11 @@ Candidate per-target signals:
   reading; all targets fully contained in the window skip the LLM. Thus
   `月/ガツ 末/マツ` evidence is not reused for exact-token `月末`.
 - Canonical token boundaries may intentionally override Sudachi morphology for
-  an explicit exact sequence. For example, `皆/ミナ 様/サマ` is normalized to
-  `皆様/ミナサマ` after hybrid generation and again as a finalization backstop.
-  This is a selected corpus convention, not an automatic compound joiner.
+  an explicit exact sequence. `皆/ミナ 様/サマ`, `皆/ミナ さま/サマ`, and
+  `みな/ミナ さま/サマ` are normalized respectively to `皆様/ミナサマ`,
+  `皆さま/ミナサマ`, and `みなさま/ミナサマ` after hybrid generation and
+  again as a finalization backstop. This is a selected corpus convention, not
+  an automatic compound joiner.
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
   same exact full-token `(surface, reading)` pair, or target-level pair as a
   fallback, dominates with at least 95% share and a minimum count threshold.
