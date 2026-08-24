@@ -9,6 +9,10 @@ from yomi_corpus.yomi.repairs import (
 )
 from yomi_corpus.yomi.numeric_compounds import normalize_numeric_compounds
 from yomi_corpus.yomi.learned_lexicon import apply_exact_yomi_rewrites
+from yomi_corpus.yomi.post_sudachi import (
+    normalize_sudachi_tokens,
+    serialize_sudachi_token,
+)
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
     normalize_ascii_spaces_for_yomi,
@@ -28,7 +32,9 @@ def generate_mechanical_yomi(
     strategy_name: str | None = None,
 ) -> MechanicalYomi:
     normalized_text = normalize_ascii_spaces_for_yomi(text)
-    sudachi_tokens = run_sudachi(normalized_text, config, source_text=text)
+    raw_sudachi_tokens = run_sudachi(normalized_text, config, source_text=text)
+    normalized_sudachi = normalize_sudachi_tokens(raw_sudachi_tokens, text=text)
+    sudachi_tokens = list(normalized_sudachi.tokens)
     decoder_candidates = run_decoder(normalized_text, config, source_text=text)
     resolved_strategy = strategy_name or config.default_strategy
     strategy_result = apply_strategy(
@@ -50,6 +56,9 @@ def generate_mechanical_yomi(
     )
     numeric_result = normalize_numeric_compounds(parenthetical_result.rendered)
     signals = list(strategy_result.signals)
+    signals.extend(
+        application.rule_id for application in normalized_sudachi.applications
+    )
     if learned_result.applications:
         signals.append("apply_learned_exact_yomi_rewrites")
     if repair_result.metadata:
@@ -73,16 +82,20 @@ def generate_mechanical_yomi(
         certain=strategy_result.certain,
         tokens=canonical_tokens,
         sudachi={
-            "tokens": [
-                {
-                    "surface": token.surface,
-                    "pos": token.pos,
-                    "dictionary_form": token.dictionary_form,
-                    "normalized_form": token.normalized_form,
-                    "reading": token.reading,
-                }
-                for token in sudachi_tokens
-            ],
+            "raw": {
+                "tokens": [
+                    serialize_sudachi_token(token) for token in raw_sudachi_tokens
+                ],
+            },
+            "normalized": {
+                **normalized_sudachi.metadata(),
+                "tokens": [
+                    serialize_sudachi_token(token) for token in sudachi_tokens
+                ],
+                "rendered": render_pairs_from_sudachi(sudachi_tokens),
+            },
+            # Compatibility aliases for readers of pre-normalizer artifacts.
+            "tokens": [serialize_sudachi_token(token) for token in sudachi_tokens],
             "rendered": render_pairs_from_sudachi(sudachi_tokens),
         },
         ngram_decoder={

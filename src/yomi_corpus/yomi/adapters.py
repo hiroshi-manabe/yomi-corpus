@@ -121,6 +121,7 @@ def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[Su
                 dictionary_form=previous.dictionary_form,
                 normalized_form=previous.normalized_form,
                 reading=previous.reading,
+                normalization_locked=previous.normalization_locked,
             )
             continue
         if token.surface:
@@ -144,6 +145,7 @@ def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[Su
             dictionary_form=token.dictionary_form,
             normalized_form=token.normalized_form,
             reading=token.reading,
+            normalization_locked=previous.normalization_locked,
         )
     return collapsed
 
@@ -168,6 +170,7 @@ def restore_sudachi_source_surfaces(
             dictionary_form=token.dictionary_form,
             normalized_form=token.normalized_form,
             reading=token.reading,
+            normalization_locked=token.normalization_locked,
         )
         for token, surface in zip(tokens, restored, strict=True)
     ]

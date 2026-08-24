@@ -217,3 +217,26 @@ The migration is complete when:
 - existing authoritative data has been migrated or explicitly declared
   unaffected; and
 - duplicate compatibility paths have been removed.
+
+## Implementation Status
+
+The initial behavior-preserving rollout is implemented with normalizer schema
+version 1:
+
+- parsing and source restoration retain the adapted raw Sudachi readings;
+- `generate_mechanical_yomi()` runs the typed normalizer before every strategy;
+- new artifacts store explicit `sudachi.raw` and `sudachi.normalized` blocks;
+- `sudachi.tokens` and `sudachi.rendered` temporarily alias the normalized
+  representation for compatibility with historical artifact readers;
+- normalized output records raw-token provenance and versioned applications;
+- plaintext Sudachi-only export now uses the same normalized runtime path; and
+- structural parity, source reconstruction, idempotence, provenance, raw versus
+  normalized separation, and historical-schema fallback have regression tests.
+
+The duplicated structural checks in the strategy renderer remain intentionally
+during the compatibility cycle. They are no-ops for already normalized tokens
+and continue to protect direct callers that have not yet moved to the runtime
+entry point. Remove them only after historical comparison and one stable dev
+cycle. Existing authoritative finalized artifacts need no blanket rewrite:
+their canonical token arrays remain authoritative, and only independently
+identified canonical boundary changes require a versioned migration.

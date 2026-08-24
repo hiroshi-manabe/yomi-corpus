@@ -247,6 +247,7 @@ def sudachi_token_from_mapping(value: Any) -> SudachiToken:
         dictionary_form=str(value.get("dictionary_form") or ""),
         normalized_form=str(value.get("normalized_form") or ""),
         reading=str(value.get("reading") or ""),
+        normalization_locked=bool(value.get("normalization_locked", False)),
     )
 
 

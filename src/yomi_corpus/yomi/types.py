@@ -10,6 +10,7 @@ class SudachiToken:
     dictionary_form: str
     normalized_form: str
     reading: str
+    normalization_locked: bool = False
 
 
 @dataclass(frozen=True)

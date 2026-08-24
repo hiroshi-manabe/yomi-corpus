@@ -450,7 +450,8 @@ def can_prefer_supported_decoder_partition(
 
 def is_boundary_special_token(token: SudachiToken) -> bool:
     return (
-        is_whitespace_token(token)
+        token.normalization_locked
+        or is_whitespace_token(token)
         or token_contains_space(token)
         or (is_numeric_token(token) and is_numeric_only_surface(token.surface))
         or (is_punctuation_token(token) and HAN_RE.search(token.surface) is None)
@@ -541,7 +542,7 @@ def can_refine_single_sudachi_token(
     token: SudachiToken,
     decoder_entries: list[SpannedDecoderEntry],
 ) -> bool:
-    if len(decoder_entries) <= 1:
+    if len(decoder_entries) <= 1 or token.normalization_locked:
         return False
     if not token.pos.startswith(("名詞,", "接頭辞,")):
         return False
@@ -586,6 +587,9 @@ def render_exact_aligned_token(
     exact_entry: DecoderEntry,
 ) -> tuple[RenderedPair, list[str]]:
     signals: list[str] = []
+    if token.normalization_locked:
+        signals.append("preserve_post_sudachi_normalization")
+        return render_sudachi_token(token), signals
     if is_punctuation_token(token):
         signals.append("normalize_punctuation_surface")
         return RenderedPair(surface=token.surface, reading=token.surface), signals

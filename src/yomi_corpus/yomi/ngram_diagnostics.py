@@ -14,6 +14,7 @@ from yomi_corpus.yomi.strategies import (
     span_decoder_entries,
     span_sudachi_tokens,
 )
+from yomi_corpus.yomi.post_sudachi import normalized_sudachi_token_rows
 from yomi_corpus.yomi.types import (
     DecoderCandidate,
     DecoderEntry,
@@ -319,7 +320,7 @@ def override_candidates_for_row(row: dict[str, Any]) -> list[dict[str, Any]]:
     yomi = row.get("analysis", {}).get("mechanical", {}).get("yomi", {})
     sudachi_tokens = [
         sudachi_token_from_dict(token)
-        for token in yomi.get("sudachi", {}).get("tokens", [])
+        for token in normalized_sudachi_token_rows(yomi)
     ]
     decoder_candidates = [
         decoder_candidate_from_dict(candidate)
@@ -580,6 +581,7 @@ def sudachi_token_from_dict(token: dict[str, Any]) -> SudachiToken:
         dictionary_form=str(token.get("dictionary_form", "")),
         normalized_form=str(token.get("normalized_form", "")),
         reading=str(token.get("reading", "")),
+        normalization_locked=bool(token.get("normalization_locked", False)),
     )
 
 
@@ -727,7 +729,7 @@ def collect_observed_two_kanji_readings(rows: list[dict[str, Any]]) -> dict[str,
     readings: dict[str, set[str]] = {}
     for row in rows:
         yomi = row.get("analysis", {}).get("mechanical", {}).get("yomi", {})
-        for token in yomi.get("sudachi", {}).get("tokens", []):
+        for token in normalized_sudachi_token_rows(yomi):
             add_two_kanji_reading(
                 readings,
                 surface=str(token.get("surface", "")),

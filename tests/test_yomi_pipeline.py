@@ -14,6 +14,10 @@ from yomi_corpus.yomi.adapters import (
     run_decoder,
     run_sudachi,
 )
+from yomi_corpus.yomi.post_sudachi import (
+    UPPERCASE_LATIN_LETTER_READINGS,
+    normalize_sudachi_token_reading,
+)
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.experiments import compare_yomi_experiments
 from yomi_corpus.yomi.strategies import (
@@ -48,6 +52,61 @@ class YomiPipelineTests(unittest.TestCase):
             [[token.surface for token in row] for row in documents],
             [["BGM"], ["ZE:A"]],
         )
+
+    def test_parse_sudachi_preserves_raw_uppercase_unit_collisions(self) -> None:
+        documents = parse_sudachi_documents(
+            "A\t名詞,普通名詞,助数詞可能,*,*,*\ta\ta\tアール\n"
+            "EOS\n"
+            "Ａ\t名詞,普通名詞,助数詞可能,*,*,*\ta\ta\tアール\n"
+            "EOS\n"
+            "a\t名詞,普通名詞,助数詞可能,*,*,*\ta\ta\tアール\n"
+            "EOS\n"
+            "ａ\t名詞,普通名詞,助数詞可能,*,*,*\ta\ta\tアール\n"
+            "EOS\n"
+            "M\t名詞,普通名詞,助数詞可能,*,*,*\tm\tm\tメートル\n"
+            "EOS\n"
+            "Ｍ\t名詞,普通名詞,助数詞可能,*,*,*\tm\tm\tメートル\n"
+            "EOS\n"
+            "m\t名詞,普通名詞,助数詞可能,*,*,*\tm\tm\tメートル\n"
+            "EOS\n"
+            "ｍ\t名詞,普通名詞,助数詞可能,*,*,*\tm\tm\tメートル\n"
+            "EOS\n"
+        )
+
+        self.assertEqual(
+            [[(token.surface, token.reading) for token in row] for row in documents],
+            [
+                [("A", "アール")],
+                [("Ａ", "アール")],
+                [("a", "アール")],
+                [("ａ", "アール")],
+                [("M", "メートル")],
+                [("Ｍ", "メートル")],
+                [("m", "メートル")],
+                [("ｍ", "メートル")],
+            ],
+        )
+
+    def test_all_standalone_uppercase_letters_default_to_letter_names(self) -> None:
+        self.assertEqual(set(UPPERCASE_LATIN_LETTER_READINGS), set("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+        for surface, expected in UPPERCASE_LATIN_LETTER_READINGS.items():
+            for variant in (surface, chr(ord(surface) + 0xFEE0)):
+                with self.subTest(surface=variant):
+                    token = normalize_sudachi_token_reading(
+                        SudachiToken(
+                            variant,
+                            "名詞,普通名詞,助数詞可能,*,*,*",
+                            surface.lower(),
+                            surface.lower(),
+                            "トン",
+                        )
+                    )
+                    self.assertEqual(token.reading, expected)
+
+    def test_uppercase_letter_rule_does_not_override_lowercase_or_runs(self) -> None:
+        for surface, reading in (("t", "トン"), ("ＴＶ", "テレビ"), ("JR", "ジェイアール")):
+            token = SudachiToken(surface, "名詞,普通名詞,一般,*,*,*", surface, surface, reading)
+            self.assertEqual(normalize_sudachi_token_reading(token), token)
 
     def test_parse_sudachi_documents_collapses_empty_compatibility_expansion(self) -> None:
         documents = parse_sudachi_documents(
@@ -1206,6 +1265,64 @@ class YomiPipelineTests(unittest.TestCase):
             [pair for pair in result.tokens if pair[0].isspace()],
             [[" ", ""], ["\u00a0", ""], ["\u3000", ""]],
         )
+        self.assertEqual(
+            [token["surface"] for token in result.sudachi["raw"]["tokens"]],
+            ["A", " ", "B", "\u00a0", "C", "\u3000", "D"],
+        )
+        self.assertEqual(
+            result.sudachi["normalized"]["normalizer_version"],
+            1,
+        )
+        self.assertEqual(
+            result.sudachi["tokens"],
+            result.sudachi["normalized"]["tokens"],
+        )
+
+    @patch("yomi_corpus.yomi.runtime.run_decoder")
+    @patch("yomi_corpus.yomi.runtime.run_sudachi")
+    def test_generate_mechanical_yomi_keeps_raw_and_normalized_sudachi_separate(
+        self,
+        mocked_sudachi,
+        mocked_decoder,
+    ) -> None:
+        mocked_sudachi.return_value = [
+            SudachiToken("A", "名詞", "a", "a", "アール"),
+            SudachiToken("皆", "名詞", "皆", "皆", "ミナ"),
+            SudachiToken("様", "名詞", "様", "様", "サマ"),
+        ]
+        mocked_decoder.return_value = []
+
+        result = generate_mechanical_yomi(
+            "A皆様",
+            config=YomiGenerationConfig(
+                sudachi_command="sudachi",
+                sudachi_args=(),
+                decoder_python="python",
+                decoder_script="decode.py",
+                decoder_config="config.toml",
+                decoder_beam=10,
+                decoder_nbest=5,
+                default_strategy="sudachi_only_v1",
+            ),
+        )
+
+        self.assertEqual(
+            [(row["surface"], row["reading"]) for row in result.sudachi["raw"]["tokens"]],
+            [("A", "アール"), ("皆", "ミナ"), ("様", "サマ")],
+        )
+        self.assertEqual(
+            [
+                (row["surface"], row["reading"])
+                for row in result.sudachi["normalized"]["tokens"]
+            ],
+            [("A", "エー"), ("皆様", "ミナサマ")],
+        )
+        self.assertEqual(
+            [row["rule_id"] for row in result.sudachi["normalized"]["applications"]],
+            ["normalize_uppercase_latin_letter_reading", "canonicalize_minasama_boundary"],
+        )
+        self.assertIn("normalize_uppercase_latin_letter_reading", result.signals)
+        self.assertIn("canonicalize_minasama_boundary", result.signals)
 
     def test_render_pairs_from_sudachi_groups_numeric_runs_without_reading(self) -> None:
         rendered = render_pairs_from_sudachi(
