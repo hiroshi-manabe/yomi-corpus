@@ -10,6 +10,7 @@ from yomi_corpus.yomi.corpus_frequency import (
     SurfaceReadingStats,
     build_surface_reading_stats,
     iter_source_corpus_tokens,
+    readings_are_rendaku_counterparts,
     trailing_kana_stem_pair,
 )
 
@@ -179,6 +180,13 @@ class YomiCorpusFrequencyTests(unittest.TestCase):
         self.assertEqual(trailing_kana_stem_pair("赤かぶ", "アカカブ"), ("赤", "アカ"))
         self.assertIsNone(trailing_kana_stem_pair("思", "オモ"))
         self.assertIsNone(trailing_kana_stem_pair("これは", "コレワ"))
+
+    def test_rendaku_counterparts_only_differ_at_the_initial(self) -> None:
+        self.assertTrue(readings_are_rendaku_counterparts("ツク", "ヅク"))
+        self.assertTrue(readings_are_rendaku_counterparts("ガキ", "カキ"))
+        self.assertTrue(readings_are_rendaku_counterparts("ハナ", "バナ"))
+        self.assertFalse(readings_are_rendaku_counterparts("ツク", "ツクリ"))
+        self.assertFalse(readings_are_rendaku_counterparts("オモ", "オモイ"))
 
 
 if __name__ == "__main__":

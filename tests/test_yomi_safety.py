@@ -661,6 +661,64 @@ class YomiSafetyTests(unittest.TestCase):
         self.assertEqual(signal["normalization_rule"], "strip_matching_trailing_hiragana_v1")
         self.assertEqual(signal["dominant"]["count"], 20)
 
+    def test_trailing_kana_stem_does_not_hide_rendaku_competition(self) -> None:
+        payload = {
+            "unit_id": "u_rendaku",
+            "text": "映画作りです。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "sudachi": {
+                            "tokens": [
+                                token("映画", "エイガ"),
+                                token("作り", "ツクリ", dictionary_form="作る"),
+                                token("です", "デス"),
+                                token("。", "。"),
+                            ]
+                        }
+                    }
+                }
+            },
+        }
+        stats = make_stats(
+            [
+                SurfaceReadingCount(
+                    surface="作",
+                    reading="ツク",
+                    count=98,
+                    surface_total_count=100,
+                    share=0.98,
+                    source_corpus_version="fixture",
+                    evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+                ),
+                SurfaceReadingCount(
+                    surface="作",
+                    reading="ヅク",
+                    count=2,
+                    surface_total_count=100,
+                    share=0.02,
+                    source_corpus_version="fixture",
+                    evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+                ),
+            ]
+        )
+
+        records = build_pre_llm_safety_records(payload, corpus_stats=stats)
+
+        record = next(row for row in records if row["surface"] == "作")
+        signal = next(row for row in record["signals"] if row["name"] == "safe_by_corpus_frequency")
+        self.assertFalse(record["is_safe"])
+        self.assertIsNone(signal["dominant"])
+        self.assertEqual(
+            signal["blocked_trailing_kana_stem"],
+            {
+                "surface": "作",
+                "dominant_reading": "ツク",
+                "competing_reading": "ヅク",
+                "reason": "rendaku_counterpart_observed",
+            },
+        )
+
     def test_corpus_frequency_accepts_95_percent_share_at_default_threshold(self) -> None:
         stats = make_stats(
             [

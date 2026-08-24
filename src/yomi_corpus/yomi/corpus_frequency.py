@@ -19,6 +19,29 @@ EVIDENCE_SCOPE_TRAILING_KANA_STEM = "trailing_kana_stem"
 TRAILING_KANA_NORMALIZATION_RULE = "strip_matching_trailing_hiragana_v1"
 SCRIPT_VERSION = "surface_reading_stats_v2"
 
+RENDAKU_INITIALS = {
+    "カ": frozenset({"ガ"}),
+    "キ": frozenset({"ギ"}),
+    "ク": frozenset({"グ"}),
+    "ケ": frozenset({"ゲ"}),
+    "コ": frozenset({"ゴ"}),
+    "サ": frozenset({"ザ"}),
+    "シ": frozenset({"ジ"}),
+    "ス": frozenset({"ズ"}),
+    "セ": frozenset({"ゼ"}),
+    "ソ": frozenset({"ゾ"}),
+    "タ": frozenset({"ダ"}),
+    "チ": frozenset({"ヂ"}),
+    "ツ": frozenset({"ヅ"}),
+    "テ": frozenset({"デ"}),
+    "ト": frozenset({"ド"}),
+    "ハ": frozenset({"バ", "パ"}),
+    "ヒ": frozenset({"ビ", "ピ"}),
+    "フ": frozenset({"ブ", "プ"}),
+    "ヘ": frozenset({"ベ", "ペ"}),
+    "ホ": frozenset({"ボ", "ポ"}),
+}
+
 
 @dataclass(frozen=True)
 class SourceToken:
@@ -172,6 +195,19 @@ class SurfaceReadingStats:
             evidence_scope=evidence_scope,
         )
         return dominant is not None and dominant.reading == reading
+
+    def rendaku_competing_reading(
+        self,
+        surface: str,
+        reading: str,
+        *,
+        evidence_scope: str = EVIDENCE_SCOPE_EXACT,
+    ) -> str | None:
+        rows = self.rows_by_scope_surface.get(evidence_scope, {}).get(surface, ())
+        for row in rows:
+            if readings_are_rendaku_counterparts(reading, row.reading):
+                return row.reading
+        return None
 
 
 def build_surface_reading_stats(
@@ -379,6 +415,15 @@ def trailing_kana_stem_pair(surface: str, reading: str) -> tuple[str, str] | Non
     if not reading.endswith(reading_suffix) or len(reading) <= len(reading_suffix):
         return None
     return surface_stem, reading[: -len(reading_suffix)]
+
+
+def readings_are_rendaku_counterparts(left: str, right: str) -> bool:
+    if not left or not right or len(left) != len(right) or left[1:] != right[1:]:
+        return False
+    return (
+        right[0] in RENDAKU_INITIALS.get(left[0], ())
+        or left[0] in RENDAKU_INITIALS.get(right[0], ())
+    )
 
 
 def hiragana_to_katakana(text: str) -> str:

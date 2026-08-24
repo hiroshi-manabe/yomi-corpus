@@ -684,6 +684,9 @@ Candidate per-target signals:
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
   same exact full-token `(surface, reading)` pair, or target-level pair as a
   fallback, dominates with at least 95% share and a minimum count threshold.
+  Trailing-kana stem pooling is not accepted when the pooled stem contains an
+  observed voiced/unvoiced rendaku counterpart, such as `作/ツク` and
+  `作/ヅク`; exact-surface evidence may still establish safety independently.
 - `safe_by_ngram`: the target's local reading is supported by repeated N-gram
   evidence, not just by a one-off transition. Decoder refreshes now emit a
   diagnostic `ngram_reading_transitions.tsv` sidecar that measures each adjacent

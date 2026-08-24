@@ -279,6 +279,7 @@ def build_pre_llm_safety_records(
             evidence_surface = target_surface
             evidence_reading = target_reading
             normalization_rule = None
+            blocked_trailing_kana_stem = None
             dominant = None
             if token_surface != target_surface:
                 dominant = corpus_stats.dominant_reading(
@@ -301,6 +302,20 @@ def build_pre_llm_safety_records(
                     )
                     evidence_scope = EVIDENCE_SCOPE_TRAILING_KANA_STEM
                     normalization_rule = TRAILING_KANA_NORMALIZATION_RULE
+                    if dominant is not None:
+                        competing = corpus_stats.rendaku_competing_reading(
+                            evidence_surface,
+                            dominant.reading,
+                            evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
+                        )
+                        if competing is not None:
+                            blocked_trailing_kana_stem = {
+                                "surface": evidence_surface,
+                                "dominant_reading": dominant.reading,
+                                "competing_reading": competing,
+                                "reason": "rendaku_counterpart_observed",
+                            }
+                            dominant = None
             if dominant is None:
                 dominant = corpus_stats.dominant_reading(
                     target_surface,
@@ -336,6 +351,7 @@ def build_pre_llm_safety_records(
                     "evidence_surface": evidence_surface,
                     "evidence_reading": evidence_reading,
                     "normalization_rule": normalization_rule,
+                    "blocked_trailing_kana_stem": blocked_trailing_kana_stem,
                     "min_count": corpus_frequency_min_count,
                     "min_share": corpus_frequency_min_share,
                     "dominant": None
