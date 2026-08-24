@@ -66,15 +66,33 @@ class YomiRepairTests(unittest.TestCase):
     def test_splits_known_semantic_parentheticals(self) -> None:
         result = normalize_parenthesized_semantic_tokens_rendered(
             "（株）/カブシキガイシャ （有）/キゴウ （社）/シャダンホウジン "
-            "（財）/ザイダンホウジン （涙）/（涙）"
+            "（財）/ザイダンホウジン （涙）/（涙） （汗）/キゴウ "
+            "(泣)/キゴウ （苦笑）/キゴウ"
         )
 
         self.assertEqual(
             result.rendered,
             "（/（ 株/カブ ）/） （/（ 有/ユウ ）/） （/（ 社/シャ ）/） "
-            "（/（ 財/ザイ ）/） （/（ 涙/ナミダ ）/）",
+            "（/（ 財/ザイ ）/） （/（ 涙/ナミダ ）/） （/（ 汗/アセ ）/） "
+            "(/( 泣/ナキ )/) （/（ 苦笑/ニガワライ ）/）",
         )
-        self.assertEqual(result.metadata["count"], 5)
+        self.assertEqual(result.metadata["count"], 8)
+
+    def test_canonical_semantic_parentheticals_replace_symbol_readings(self) -> None:
+        tokens = [
+            ["（汗）", "キゴウ"],
+            ["(泣)", "キゴウ"],
+            ["（苦笑）", "キゴウ"],
+        ]
+
+        self.assertEqual(
+            normalize_parenthesized_semantic_tokens(tokens),
+            [
+                ["（", "（"], ["汗", "アセ"], ["）", "）"],
+                ["(", "("], ["泣", "ナキ"], [")", ")"],
+                ["（", "（"], ["苦笑", "ニガワライ"], ["）", "）"],
+            ],
+        )
 
     def test_applies_active_regex_rules_and_records_log(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -913,11 +913,13 @@ Implementation status:
    - Known one-character semantic parentheticals are split after hybrid
      rendering so punctuation never receives ruby. The current deterministic
      forms are `（/（ 株/カブ ）/）`, `（/（ 有/ユウ ）/）`,
-     `（/（ 笑/ワライ ）/）`, and `（/（ 涙/ナミダ ）/）`, with equivalent
-     handling for ASCII parentheses. `株` and `有` intentionally use the short
-     readings `カブ` and `ユウ`, not `カブシキガイシャ` and
-     `ユウゲンガイシャ`. Review-pack and finalization normalization also
-     repair older artifacts that stored the entire parenthetical as one token.
+     `（/（ 笑/ワライ ）/）`, `（/（ 涙/ナミダ ）/）`,
+     `（/（ 汗/アセ ）/）`, `（/（ 泣/ナキ ）/）`, and
+     `（/（ 苦笑/ニガワライ ）/）`, with equivalent handling for ASCII
+     parentheses. `株` and `有` intentionally use the short readings `カブ` and
+     `ユウ`, not `カブシキガイシャ` and `ユウゲンガイシャ`. Review-pack
+     and finalization normalization also repair older artifacts that stored the
+     entire parenthetical as one token.
    - The yomi-reading queue stage writes `units.yomi.safety_pre_llm.jsonl` and
      `yomi_safety_pre_llm_summary.json`, then queues only targets not already
      marked safe.

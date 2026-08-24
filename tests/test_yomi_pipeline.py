@@ -1083,6 +1083,25 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(rendered, "（/（ 笑/ワライ ）/）")
 
+    def test_sudachi_render_normalizes_semantic_emotion_parentheticals(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    surface,
+                    "補助記号,ＡＡ,顔文字,*,*,*",
+                    surface,
+                    surface,
+                    "キゴウ",
+                )
+                for surface in ("（汗）", "(泣)", "（苦笑）")
+            ]
+        )
+
+        self.assertEqual(
+            rendered,
+            "（/（ 汗/アセ ）/） (/( 泣/ナキ )/) （/（ 苦笑/ニガワライ ）/）",
+        )
+
     def test_sudachi_render_accepts_japanese_character_inside_symbolic_kaomoji(self) -> None:
         rendered = render_pairs_from_sudachi(
             [
