@@ -1,0 +1,2471 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0107_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0107",
+  "created_at_epoch": 1787547085,
+  "created_at": "2026-08-24T04:51:25Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 9,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001031",
+      "doc_seq": 1,
+      "track_doc_seq": 1031,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1031,
+      "preview": "【家族紹介】【本日の記事⬇︎】皆さんは、どうやってお子さんにおうちのお手伝いをさせていますか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001032",
+      "doc_seq": 2,
+      "track_doc_seq": 1032,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1032,
+      "preview": "こんにちは、アートあそびラボの苅部洋子（かるべようこ）です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001033",
+      "doc_seq": 3,
+      "track_doc_seq": 1033,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1033,
+      "preview": "社会の中で自分らしく生きる。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001034",
+      "doc_seq": 4,
+      "track_doc_seq": 1034,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1034,
+      "preview": "株式会社スクエアシステムズその他エンジニア東京都 新宿区300万円 〜 450万円以下の業務を行っていただきます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001035",
+      "doc_seq": 5,
+      "track_doc_seq": 1035,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1035,
+      "preview": "4月3日の午前まで、予約が埋まりました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-24T04:53:31Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 1,
+      "to_seq": 3,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001036",
+      "doc_seq": 6,
+      "track_doc_seq": 1036,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1036,
+      "preview": "当法人では、多様な角度からアスリートをサポートするために必要な知識や技術を学ぶセミナーを開催しています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001037",
+      "doc_seq": 7,
+      "track_doc_seq": 1037,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1037,
+      "preview": "「ベビースターポテト丸」が全国で新発売！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001038",
+      "doc_seq": 8,
+      "track_doc_seq": 1038,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1038,
+      "preview": "今シーズンのいちご狩りは11日土曜日、12日日曜日の営業で終了です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001039",
+      "doc_seq": 9,
+      "track_doc_seq": 1039,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1039,
+      "preview": "友達作りトーク・無料チャットトーク出会系アプリの『うきうきメール』の評価レビューを掲載しております。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001040",
+      "doc_seq": 10,
+      "track_doc_seq": 1040,
+      "unit_count": 64,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1040,
+      "preview": "あなたはインドと日本の時差や日本からインドへのフライト時間をご存知ですか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-24T04:50:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 64,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001035:u0003::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001035",
+      "doc_seq": 5,
+      "track_doc_seq": 1035,
+      "unit_id": "ja_cc_level2:0000001035:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1035,
+      "text": "八王子市の久保山にある整骨院、宇津木台たにあい整骨院は、お陰様で予約がどんどん埋まり出しております。",
+      "rendered_yomi_before": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン は/ハ 、/、 お陰様/オカゲサマ で/デ 予約/ヨヤク が/ガ どんどん/ドンドン 埋まり/ウマリ 出し/ダシ て/テ おり/オリ ます/マス 。/。",
+      "rendered_yomi_after": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 宇津木台/ウツキダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン は/ハ 、/、 お陰様/オカゲサマ で/デ 予約/ヨヤク が/ガ どんどん/ドンドン 埋まり/ウマリ 出し/ダシ て/テ おり/オリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "八王子市",
+          "ハチオウジシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "久保山",
+          "クボヤマ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "整骨院",
+          "セイコツイン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "宇津木台",
+          "ウツキダイ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あい",
+          "アイ"
+        ],
+        [
+          "整骨院",
+          "セイコツイン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お陰様",
+          "オカゲサマ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "予約",
+          "ヨヤク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "どんどん",
+          "ドンドン"
+        ],
+        [
+          "埋まり",
+          "ウマリ"
+        ],
+        [
+          "出し",
+          "ダシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "おり",
+          "オリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "八王子市",
+          "reading": "ハチオウジシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八王子市",
+              "reading": "はちおうじし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "久保山",
+          "reading": "クボヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "久保山",
+              "reading": "くぼやま"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "整骨院",
+          "reading": "セイコツイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整骨院",
+              "reading": "せいこついん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "宇津木台",
+          "reading": "ウツキダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇津木台",
+              "reading": "うつきだい"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あい",
+          "reading": "アイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あい"
+            }
+          ]
+        },
+        {
+          "surface": "整骨院",
+          "reading": "セイコツイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整骨院",
+              "reading": "せいこついん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お陰様",
+          "reading": "オカゲサマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            },
+            {
+              "type": "ruby",
+              "text": "陰様",
+              "reading": "かげさま"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "予約",
+          "reading": "ヨヤク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予約",
+              "reading": "よやく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "どんどん",
+          "reading": "ドンドン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どんどん"
+            }
+          ]
+        },
+        {
+          "surface": "埋まり",
+          "reading": "ウマリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "埋",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "まり"
+            }
+          ]
+        },
+        {
+          "surface": "出し",
+          "reading": "ダシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "だ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "おり",
+          "reading": "オリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+          "item_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+          "unit_id": "ja_cc_level2:0000001035:u0003",
+          "text": "八王子市の久保山にある整骨院、宇津木台たにあい整骨院は、お陰様で予約がどんどん埋まり出しております。",
+          "rendered_yomi_before": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン は/ハ 、/、 お陰様/オカゲサマ で/デ 予約/ヨヤク が/ガ どんどん/ドンドン 埋まり/ウマリ 出し/ダシ て/テ おり/オリ ます/マス 。/。",
+          "rendered_yomi_after": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 宇津木台/ウツキダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン は/ハ 、/、 お陰様/オカゲサマ で/デ 予約/ヨヤク が/ガ どんどん/ドンドン 埋まり/ウマリ 出し/ダシ て/テ おり/オリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 15,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0003:s0016-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津木",
+              "token_surface": "宇津木",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津木",
+                  "reading": "うつき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0003:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "台",
+              "token_surface": "台",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "台",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0003:s0016-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津木",
+              "token_surface": "宇津木",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津木",
+                  "reading": "うつき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0003:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "台",
+              "token_surface": "台",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "台",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "宇津木台",
+          "reading_candidates": {
+            "宇": [
+              "う",
+              "さかい",
+              "ひさし",
+              "ひろ"
+            ],
+            "宇津": [
+              "うつ",
+              "うづ"
+            ],
+            "宇津木": [
+              "うつき",
+              "うつぎ"
+            ],
+            "津": [
+              "しん",
+              "つ",
+              "わたる"
+            ],
+            "津木": [
+              "つき",
+              "つぎ"
+            ],
+            "木": [
+              "もく",
+              "き",
+              "ぎ",
+              "ぼく"
+            ],
+            "木台": [
+              "もくだい"
+            ],
+            "台": [
+              "うてな",
+              "たい",
+              "だい"
+            ]
+          },
+          "reading_hints": {
+            "宇": "う",
+            "宇津": "うつ",
+            "宇津木": "うつき",
+            "津": "しん",
+            "津木": "つき",
+            "木": "もく",
+            "木台": "もくだい",
+            "台": "うてな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "宇津木",
+              "reading": "うつき",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "台",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"ウツキダイ\",\"used_web_search\":false,\"comment\":\"地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "宇津木台",
+              "reading": "ウツキダイ",
+              "used_web_search": false,
+              "comment": "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "宇津木台",
+            "replacement": [
+              {
+                "surface": "宇津木台",
+                "reading": "ウツキダイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+                "surface": "宇津木台",
+                "comment": "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "宇津木台",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001035:u0003:s0016-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宇津木",
+          "token_surface": "宇津木",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うつき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宇津木",
+              "reading": "うつき",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001035:u0003:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "台",
+          "token_surface": "台",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "台",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "宇津木",
+          "reading": "うつき",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "台",
+          "reading": "だい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "宇": [
+          "う",
+          "さかい",
+          "ひさし",
+          "ひろ"
+        ],
+        "宇津": [
+          "うつ",
+          "うづ"
+        ],
+        "宇津木": [
+          "うつき",
+          "うつぎ"
+        ],
+        "津": [
+          "しん",
+          "つ",
+          "わたる"
+        ],
+        "津木": [
+          "つき",
+          "つぎ"
+        ],
+        "木": [
+          "もく",
+          "き",
+          "ぎ",
+          "ぼく"
+        ],
+        "木台": [
+          "もくだい"
+        ],
+        "台": [
+          "うてな",
+          "たい",
+          "だい"
+        ]
+      },
+      "reading_hints": {
+        "宇": "う",
+        "宇津": "うつ",
+        "宇津木": "うつき",
+        "津": "しん",
+        "津木": "つき",
+        "木": "もく",
+        "木台": "もくだい",
+        "台": "うてな"
+      },
+      "llm_parsed": [
+        {
+          "surface": "宇津木台",
+          "reading": "ウツキダイ",
+          "used_web_search": false,
+          "comment": "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"ウツキダイ\",\"used_web_search\":false,\"comment\":\"地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。\"}]",
+      "llm_comments": [
+        "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "宇津木台",
+        "replacement": [
+          {
+            "surface": "宇津木台",
+            "reading": "ウツキダイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001035:u0003::target_group:1",
+            "surface": "宇津木台",
+            "comment": "地名・施設名の一部として一体の固有名詞「宇津木台」とみて、分割せず『うつきだい』と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001035:u0007::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001035",
+      "doc_seq": 5,
+      "track_doc_seq": 1035,
+      "unit_id": "ja_cc_level2:0000001035:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1035,
+      "text": "八王子市の久保山にある整骨院、たにあいメソッドの宇津木台たにあい整骨院では、そんな皆様の健康をサポート致します。",
+      "rendered_yomi_before": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 たに/タニ あい/アイ メソッド/メソッド の/ノ 宇津/ウツ 木台/モクダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン で/デ は/ハ 、/、 そんな/ソンナ 皆/ミナ 様/サマ の/ノ 健康/ケンコウ を/ヲ サポート/サポート 致し/イタシ ます/マス 。/。",
+      "rendered_yomi_after": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 たに/タニ あい/アイ メソッド/メソッド の/ノ 宇津木台/ウツキダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン で/デ は/ハ 、/、 そんな/ソンナ 皆/ミナ 様/サマ の/ノ 健康/ケンコウ を/ヲ サポート/サポート 致し/イタシ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "八王子市",
+          "ハチオウジシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "久保山",
+          "クボヤマ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "整骨院",
+          "セイコツイン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "たに",
+          "タニ"
+        ],
+        [
+          "あい",
+          "アイ"
+        ],
+        [
+          "メソッド",
+          "メソッド"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "宇津木台",
+          "ウツキダイ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あい",
+          "アイ"
+        ],
+        [
+          "整骨院",
+          "セイコツイン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "そんな",
+          "ソンナ"
+        ],
+        [
+          "皆",
+          "ミナ"
+        ],
+        [
+          "様",
+          "サマ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "健康",
+          "ケンコウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "サポート",
+          "サポート"
+        ],
+        [
+          "致し",
+          "イタシ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "八王子市",
+          "reading": "ハチオウジシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八王子市",
+              "reading": "はちおうじし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "久保山",
+          "reading": "クボヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "久保山",
+              "reading": "くぼやま"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "整骨院",
+          "reading": "セイコツイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整骨院",
+              "reading": "せいこついん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "たに",
+          "reading": "タニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たに"
+            }
+          ]
+        },
+        {
+          "surface": "あい",
+          "reading": "アイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あい"
+            }
+          ]
+        },
+        {
+          "surface": "メソッド",
+          "reading": "メソッド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メソッド"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "宇津木台",
+          "reading": "ウツキダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇津木台",
+              "reading": "うつきだい"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あい",
+          "reading": "アイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あい"
+            }
+          ]
+        },
+        {
+          "surface": "整骨院",
+          "reading": "セイコツイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整骨院",
+              "reading": "せいこついん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "そんな",
+          "reading": "ソンナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そんな"
+            }
+          ]
+        },
+        {
+          "surface": "皆",
+          "reading": "ミナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "皆",
+              "reading": "みな"
+            }
+          ]
+        },
+        {
+          "surface": "様",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "様",
+              "reading": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "健康",
+          "reading": "ケンコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "健康",
+              "reading": "けんこう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "サポート",
+          "reading": "サポート",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "サポート"
+            }
+          ]
+        },
+        {
+          "surface": "致し",
+          "reading": "イタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "致",
+              "reading": "いた"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000001035:u0007",
+          "text": "八王子市の久保山にある整骨院、たにあいメソッドの宇津木台たにあい整骨院では、そんな皆様の健康をサポート致します。",
+          "rendered_yomi_before": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 たに/タニ あい/アイ メソッド/メソッド の/ノ 宇津/ウツ 木台/モクダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン で/デ は/ハ 、/、 そんな/ソンナ 皆/ミナ 様/サマ の/ノ 健康/ケンコウ を/ヲ サポート/サポート 致し/イタシ ます/マス 。/。",
+          "rendered_yomi_after": "八王子市/ハチオウジシ の/ノ 久保山/クボヤマ に/ニ ある/アル 整骨院/セイコツイン 、/、 たに/タニ あい/アイ メソッド/メソッド の/ノ 宇津木台/ウツキダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン で/デ は/ハ 、/、 そんな/ソンナ 皆/ミナ 様/サマ の/ノ 健康/ケンコウ を/ヲ サポート/サポート 致し/イタシ ます/マス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 24,
+            "char_end": 28,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0007:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津",
+              "token_surface": "宇津",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津",
+                  "reading": "うつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0007:s0027-0028",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "木台",
+              "token_surface": "木台",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もくだい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "木台",
+                  "reading": "もくだい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0007:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津",
+              "token_surface": "宇津",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津",
+                  "reading": "うつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0007:s0027-0028",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "木台",
+              "token_surface": "木台",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もくだい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "木台",
+                  "reading": "もくだい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "宇津木台",
+          "reading_candidates": {
+            "宇": [
+              "う",
+              "さかい",
+              "ひさし",
+              "ひろ"
+            ],
+            "宇津": [
+              "うつ",
+              "うづ"
+            ],
+            "宇津木": [
+              "うつき",
+              "うつぎ"
+            ],
+            "津": [
+              "しん",
+              "つ",
+              "わたる"
+            ],
+            "津木": [
+              "つき",
+              "つぎ"
+            ],
+            "木": [
+              "もく",
+              "き",
+              "ぎ",
+              "ぼく"
+            ],
+            "木台": [
+              "もくだい"
+            ],
+            "台": [
+              "うてな",
+              "たい",
+              "だい"
+            ]
+          },
+          "reading_hints": {
+            "宇": "う",
+            "宇津": "うつ",
+            "宇津木": "うつき",
+            "津": "しん",
+            "津木": "つき",
+            "木": "もく",
+            "木台": "もくだい",
+            "台": "うてな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "宇津",
+              "reading": "うつ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "木台",
+              "reading": "もくだい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"うつきだい\",\"used_web_search\":false,\"comment\":\"地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "宇津木台",
+              "reading": "うつきだい",
+              "used_web_search": false,
+              "comment": "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。"
+            }
+          ],
+          "llm_comments": [
+            "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "宇津木台",
+            "replacement": [
+              {
+                "surface": "宇津木台",
+                "reading": "ウツキダイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+                "surface": "宇津木台",
+                "comment": "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "宇津木台",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001035:u0007:s0025-0026",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宇津",
+          "token_surface": "宇津",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宇津",
+              "reading": "うつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001035:u0007:s0027-0028",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "木台",
+          "token_surface": "木台",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もくだい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "木台",
+              "reading": "もくだい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "宇津",
+          "reading": "うつ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "木台",
+          "reading": "もくだい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "宇": [
+          "う",
+          "さかい",
+          "ひさし",
+          "ひろ"
+        ],
+        "宇津": [
+          "うつ",
+          "うづ"
+        ],
+        "宇津木": [
+          "うつき",
+          "うつぎ"
+        ],
+        "津": [
+          "しん",
+          "つ",
+          "わたる"
+        ],
+        "津木": [
+          "つき",
+          "つぎ"
+        ],
+        "木": [
+          "もく",
+          "き",
+          "ぎ",
+          "ぼく"
+        ],
+        "木台": [
+          "もくだい"
+        ],
+        "台": [
+          "うてな",
+          "たい",
+          "だい"
+        ]
+      },
+      "reading_hints": {
+        "宇": "う",
+        "宇津": "うつ",
+        "宇津木": "うつき",
+        "津": "しん",
+        "津木": "つき",
+        "木": "もく",
+        "木台": "もくだい",
+        "台": "うてな"
+      },
+      "llm_parsed": [
+        {
+          "surface": "宇津木台",
+          "reading": "うつきだい",
+          "used_web_search": false,
+          "comment": "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"うつきだい\",\"used_web_search\":false,\"comment\":\"地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。\"}]",
+      "llm_comments": [
+        "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "宇津木台",
+        "replacement": [
+          {
+            "surface": "宇津木台",
+            "reading": "ウツキダイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001035:u0007::target_group:1",
+            "surface": "宇津木台",
+            "comment": "地名・施設名として一続きで読むのが自然なので、分割せず『うつきだい』に修正。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001035:u0009::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001035",
+      "doc_seq": 5,
+      "track_doc_seq": 1035,
+      "unit_id": "ja_cc_level2:0000001035:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1035,
+      "text": "八王子市宇津木台で腰の痛みでお困りなら宇津木台たにあい整骨院へ！",
+      "rendered_yomi_before": "八王子市/ハチオウジシ 宇津/ウツ 木台/モクダイ で/デ 腰/コシ の/ノ 痛み/イタミ で/デ お/オ 困り/コマリ なら/ナラ 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン へ/ヘ ！/！",
+      "rendered_yomi_after": "八王子市/ハチオウジシ 宇津木台/ウツキダイ で/デ 腰/コシ の/ノ 痛み/イタミ で/デ お/オ 困り/コマリ なら/ナラ 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン へ/ヘ ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "八王子市",
+          "ハチオウジシ"
+        ],
+        [
+          "宇津木台",
+          "ウツキダイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "腰",
+          "コシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "痛み",
+          "イタミ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "困り",
+          "コマリ"
+        ],
+        [
+          "なら",
+          "ナラ"
+        ],
+        [
+          "宇津木",
+          "ウツキ"
+        ],
+        [
+          "台",
+          "ダイ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あい",
+          "アイ"
+        ],
+        [
+          "整骨院",
+          "セイコツイン"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "八王子市",
+          "reading": "ハチオウジシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八王子市",
+              "reading": "はちおうじし"
+            }
+          ]
+        },
+        {
+          "surface": "宇津木台",
+          "reading": "ウツキダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇津木台",
+              "reading": "うつきだい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "腰",
+          "reading": "コシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "腰",
+              "reading": "こし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "痛み",
+          "reading": "イタミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "痛",
+              "reading": "いた"
+            },
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "困り",
+          "reading": "コマリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "困",
+              "reading": "こま"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "なら",
+          "reading": "ナラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なら"
+            }
+          ]
+        },
+        {
+          "surface": "宇津木",
+          "reading": "ウツキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇津木",
+              "reading": "うつき"
+            }
+          ]
+        },
+        {
+          "surface": "台",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "台",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あい",
+          "reading": "アイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あい"
+            }
+          ]
+        },
+        {
+          "surface": "整骨院",
+          "reading": "セイコツイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整骨院",
+              "reading": "せいこついん"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+          "item_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+          "unit_id": "ja_cc_level2:0000001035:u0009",
+          "text": "八王子市宇津木台で腰の痛みでお困りなら宇津木台たにあい整骨院へ！",
+          "rendered_yomi_before": "八王子市/ハチオウジシ 宇津/ウツ 木台/モクダイ で/デ 腰/コシ の/ノ 痛み/イタミ で/デ お/オ 困り/コマリ なら/ナラ 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン へ/ヘ ！/！",
+          "rendered_yomi_after": "八王子市/ハチオウジシ 宇津木台/ウツキダイ で/デ 腰/コシ の/ノ 痛み/イタミ で/デ お/オ 困り/コマリ なら/ナラ 宇津木/ウツキ 台/ダイ た/タ に/ニ あい/アイ 整骨院/セイコツイン へ/ヘ ！/！",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 4,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0009:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津",
+              "token_surface": "宇津",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津",
+                  "reading": "うつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "木台",
+              "token_surface": "木台",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もくだい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "木台",
+                  "reading": "もくだい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001035:u0009:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宇津",
+              "token_surface": "宇津",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宇津",
+                  "reading": "うつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001035:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "木台",
+              "token_surface": "木台",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "もくだい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "木台",
+                  "reading": "もくだい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "宇津木台",
+          "reading_candidates": {
+            "宇": [
+              "う",
+              "さかい",
+              "ひさし",
+              "ひろ"
+            ],
+            "宇津": [
+              "うつ",
+              "うづ"
+            ],
+            "宇津木": [
+              "うつき",
+              "うつぎ"
+            ],
+            "津": [
+              "しん",
+              "つ",
+              "わたる"
+            ],
+            "津木": [
+              "つき",
+              "つぎ"
+            ],
+            "木": [
+              "もく",
+              "き",
+              "ぎ",
+              "ぼく"
+            ],
+            "木台": [
+              "もくだい"
+            ],
+            "台": [
+              "うてな",
+              "たい",
+              "だい"
+            ]
+          },
+          "reading_hints": {
+            "宇": "う",
+            "宇津": "うつ",
+            "宇津木": "うつき",
+            "津": "しん",
+            "津木": "つき",
+            "木": "もく",
+            "木台": "もくだい",
+            "台": "うてな"
+          },
+          "rejected_readings": [
+            {
+              "surface": "宇津",
+              "reading": "うつ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "木台",
+              "reading": "もくだい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"ウツキダイ\",\"used_web_search\":false,\"comment\":\"八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "宇津木台",
+              "reading": "ウツキダイ",
+              "used_web_search": false,
+              "comment": "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。"
+            }
+          ],
+          "llm_comments": [
+            "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "宇津木台",
+            "replacement": [
+              {
+                "surface": "宇津木台",
+                "reading": "ウツキダイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+                "surface": "宇津木台",
+                "comment": "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "宇津木台",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001035:u0009:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宇津",
+          "token_surface": "宇津",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宇津",
+              "reading": "うつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001035:u0009:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "木台",
+          "token_surface": "木台",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "もくだい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "木台",
+              "reading": "もくだい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "宇津",
+          "reading": "うつ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "木台",
+          "reading": "もくだい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "宇": [
+          "う",
+          "さかい",
+          "ひさし",
+          "ひろ"
+        ],
+        "宇津": [
+          "うつ",
+          "うづ"
+        ],
+        "宇津木": [
+          "うつき",
+          "うつぎ"
+        ],
+        "津": [
+          "しん",
+          "つ",
+          "わたる"
+        ],
+        "津木": [
+          "つき",
+          "つぎ"
+        ],
+        "木": [
+          "もく",
+          "き",
+          "ぎ",
+          "ぼく"
+        ],
+        "木台": [
+          "もくだい"
+        ],
+        "台": [
+          "うてな",
+          "たい",
+          "だい"
+        ]
+      },
+      "reading_hints": {
+        "宇": "う",
+        "宇津": "うつ",
+        "宇津木": "うつき",
+        "津": "しん",
+        "津木": "つき",
+        "木": "もく",
+        "木台": "もくだい",
+        "台": "うてな"
+      },
+      "llm_parsed": [
+        {
+          "surface": "宇津木台",
+          "reading": "ウツキダイ",
+          "used_web_search": false,
+          "comment": "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"宇津木台\",\"reading\":\"ウツキダイ\",\"used_web_search\":false,\"comment\":\"八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。\"}]",
+      "llm_comments": [
+        "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "宇津木台",
+        "replacement": [
+          {
+            "surface": "宇津木台",
+            "reading": "ウツキダイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001035:u0009::target_group:1",
+            "surface": "宇津木台",
+            "comment": "八王子市内の地名・施設名としては「うつきだい」と読むのが自然なので、分割せず1項目にした。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
