@@ -32,6 +32,7 @@ def main() -> None:
         PROJECT_ROOT,
         track_name=args.track,
         repo=args.repo or transport.repo,
+        mark_triggered=not args.no_trigger,
     )
     publication_required = issue_acknowledgments_need_publish(
         docs_dir=PROJECT_ROOT / "docs",

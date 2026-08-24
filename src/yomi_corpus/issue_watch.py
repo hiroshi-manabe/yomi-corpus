@@ -27,6 +27,7 @@ def run_issue_watch_pass(
     track_name: str,
     repo: str,
     now_epoch: int | None = None,
+    mark_triggered: bool = True,
     fetch_issues: Callable[..., list[dict]] = fetch_open_issues,
     fetch_comments: Callable[[str, int], list[dict]] = fetch_issue_comments,
     download: Callable[[str], dict] = download_submission,
@@ -106,7 +107,7 @@ def run_issue_watch_pass(
         acknowledgments,
         volatile={"generated_at_epoch", "state_revision"},
     )
-    if trigger_candidates:
+    if trigger_candidates and mark_triggered:
         for row in trigger_candidates:
             row["last_triggered_epoch"] = now
     ledger = {
