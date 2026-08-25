@@ -298,7 +298,7 @@ def strategy_aligned_hybrid(
             continue
 
         if is_symbolic_sudachi_kaomoji(token):
-            rendered_pairs.append(RenderedPair(surface=token.surface, reading="カオモジ"))
+            rendered_pairs.append(render_sudachi_token(token))
             signals.append("normalize_symbolic_sudachi_kaomoji")
             index += 1
             continue
@@ -639,7 +639,10 @@ def render_sudachi_token(token: SudachiToken) -> RenderedPair:
         surface = canonical_whitespace_surface(token.surface)
         return RenderedPair(surface=surface, reading=surface)
     if is_symbolic_sudachi_kaomoji(token):
-        return RenderedPair(surface=token.surface, reading="カオモジ")
+        return RenderedPair(
+            surface=canonical_whitespace_surface(token.surface),
+            reading="カオモジ",
+        )
     if is_punctuation_token(token):
         return RenderedPair(surface=token.surface, reading=token.surface)
     if is_numeric_token(token) and is_numeric_only_surface(token.surface):

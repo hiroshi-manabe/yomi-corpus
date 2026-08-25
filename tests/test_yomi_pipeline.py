@@ -1069,6 +1069,44 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(result.rendered, "（●＾o＾●）/カオモジ")
         self.assertIn("normalize_symbolic_sudachi_kaomoji", result.signals)
 
+    def test_sudachi_render_preserves_space_inside_symbolic_kaomoji(self) -> None:
+        rendered = render_pairs_from_sudachi(
+            [
+                SudachiToken(
+                    "^ ^",
+                    "補助記号,ＡＡ,顔文字,*,*,*",
+                    "^ ^",
+                    "^ ^",
+                    "キゴウ",
+                ),
+            ]
+        )
+
+        self.assertEqual(rendered, "^\u00a0^/カオモジ")
+
+    def test_aligned_hybrid_preserves_space_inside_symbolic_kaomoji(self) -> None:
+        token = SudachiToken(
+            "^ ^",
+            "補助記号,ＡＡ,顔文字,*,*,*",
+            "^ ^",
+            "^ ^",
+            "キゴウ",
+        )
+        result = apply_strategy(
+            "aligned_hybrid_v1",
+            text="^ ^",
+            sudachi_tokens=[token],
+            decoder_candidates=[
+                DecoderCandidate(
+                    rank=1,
+                    score=-1.0,
+                    entries=[DecoderEntry("^ ^", "キゴウ", 1, [1])],
+                )
+            ],
+        )
+
+        self.assertEqual(result.rendered, "^\u00a0^/カオモジ")
+
     def test_sudachi_render_does_not_treat_parenthesized_japanese_as_kaomoji(self) -> None:
         rendered = render_pairs_from_sudachi(
             [

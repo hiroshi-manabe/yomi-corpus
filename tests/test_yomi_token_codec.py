@@ -47,6 +47,12 @@ class YomiTokenCodecTests(unittest.TestCase):
             [["A", "エー"], [" ", "\u00a0"], ["B", "ビー"]],
         )
 
+    def test_legacy_alignment_preserves_internal_kaomoji_space(self) -> None:
+        self.assertEqual(
+            legacy_rendered_to_yomi_tokens("^\u00a0^/カオモジ", text="^ ^"),
+            [["^ ^", "カオモジ"]],
+        )
+
     def test_legacy_bare_slash_recovers_collapsed_ascii_space_token(self) -> None:
         self.assertEqual(
             legacy_rendered_to_yomi_tokens("A/エー / B/ビー", text="A B"),
