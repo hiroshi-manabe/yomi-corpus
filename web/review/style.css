@@ -2083,6 +2083,27 @@ button:disabled {
   color: var(--muted);
 }
 
+.reading-contrast-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.15em;
+  height: 1.15em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font: 800 0.62rem/1 "Iosevka", "SFMono-Regular", Consolas, monospace;
+  vertical-align: 0.08em;
+}
+
+.reading-contrast-p {
+  color: #9a4d13;
+  background: rgba(196, 105, 33, 0.12);
+}
+
+.reading-contrast-b {
+  color: #286489;
+  background: rgba(40, 100, 137, 0.12);
+}
+
 .readonly-only.hidden,
 .editable-only.hidden {
   display: none !important;

@@ -313,6 +313,7 @@ class ReviewSiteTests(unittest.TestCase):
         asset_root = Path(__file__).resolve().parents[1] / "web" / "review"
         html = (asset_root / "index.html").read_text(encoding="utf-8")
         app = (asset_root / "app.js").read_text(encoding="utf-8")
+        css = (asset_root / "style.css").read_text(encoding="utf-8")
 
         self.assertIn('<html lang="ja">', html)
         self.assertIn("<h1>レビュー画面</h1>", html)
@@ -376,6 +377,12 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn('rt.textContent = isIntentionalNoRubyCandidate(candidate) ? "−" : "?";', app)
         self.assertIn("function noRubyState(candidate)", app)
         self.assertIn("numericKanaSuffixRubyNodes", app)
+        self.assertIn("decorateReadingContrastBadge", app)
+        self.assertIn("function readingContrastBadge", app)
+        self.assertIn('return currentHasP ? "P" : "B";', app)
+        self.assertIn(".reading-contrast-badge", css)
+        self.assertIn(".reading-contrast-p", css)
+        self.assertIn(".reading-contrast-b", css)
         self.assertIn("Script=Han", app)
         self.assertIn("function reviewSurfaceGraphemes", app)
         self.assertIn("codePoint >= 0xe0100", app)
