@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -31,12 +31,12 @@
       "source_line_no": 1201,
       "preview": "2014年3月に開設して以来、試行錯誤しながらその時々の悩みや関心事を書き溜めてきました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T05:55:52Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T06:43:09Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -57,12 +57,12 @@
       "source_line_no": 1202,
       "preview": "「アンパンマン」の怖い画像を集めてみました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T05:55:52Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T06:43:09Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1206,
       "preview": "アウトドアや登山用品などを取り扱う「パタゴニア」が3月26日、3種類のサバ缶を発売した。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T05:55:52Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T06:43:09Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 1208,
       "preview": "呑み処オープンしました！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T05:55:52Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T06:43:09Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1457,7 +1457,7 @@
       "source_line_no": 1206,
       "text": "それに対して伝統的な釣り漁法の場合、混獲はほとんど起こらない。",
       "rendered_yomi_before": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り漁/ツリリョウ 法/ホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
-      "rendered_yomi_after": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り漁法/ツリギョホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
+      "rendered_yomi_after": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り/ツリ 漁法/ギョホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "それ",
@@ -1484,8 +1484,12 @@
           "ナ"
         ],
         [
-          "釣り漁法",
-          "ツリギョホウ"
+          "釣り",
+          "ツリ"
+        ],
+        [
+          "漁法",
+          "ギョホウ"
         ],
         [
           "の",
@@ -1592,8 +1596,8 @@
           ]
         },
         {
-          "surface": "釣り漁法",
-          "reading": "ツリギョホウ",
+          "surface": "釣り",
+          "reading": "ツリ",
           "nodes": [
             {
               "type": "ruby",
@@ -1603,7 +1607,13 @@
             {
               "type": "text",
               "text": "り"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "漁法",
+          "reading": "ギョホウ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "漁法",
@@ -1722,14 +1732,14 @@
           "unit_id": "ja_cc_level2:0000001206:u0015",
           "text": "それに対して伝統的な釣り漁法の場合、混獲はほとんど起こらない。",
           "rendered_yomi_before": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り漁/ツリリョウ 法/ホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
-          "rendered_yomi_after": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り漁法/ツリギョホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
+          "rendered_yomi_after": "それ/ソレ に/ニ 対し/タイシ て/テ 伝統的/デントウテキ な/ナ 釣り/ツリ 漁法/ギョホウ の/ノ 場合/バアイ 、/、 混獲/コンカク は/ハ ほとんど/ホトンド 起こら/オコラ ない/ナイ 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 10,
             "char_end": 14,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
