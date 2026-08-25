@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+SRC_ROOT = PROJECT_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from yomi_corpus.mechanical_preflight import (  # noqa: E402
+    MechanicalPreflightOptions,
+    run_mechanical_preflight,
+)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Run future documents through deterministic yomi stages in an isolated "
+            "workspace, stopping before any LLM API call."
+        )
+    )
+    parser.add_argument("track", choices=["dev", "working"])
+    parser.add_argument("--documents", type=int, default=100)
+    parser.add_argument(
+        "--dataset-config",
+        default="config/datasets/ja_cc_level2.toml",
+    )
+    parser.add_argument("--keep-workspace", action="store_true")
+    args = parser.parse_args()
+
+    result = run_mechanical_preflight(
+        PROJECT_ROOT,
+        MechanicalPreflightOptions(
+            track_name=args.track,
+            target_documents=args.documents,
+            dataset_config_path=args.dataset_config,
+            keep_workspace=args.keep_workspace,
+        ),
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    raise SystemExit(0 if result.get("status") == "passed" else 1)
+
+
+if __name__ == "__main__":
+    main()

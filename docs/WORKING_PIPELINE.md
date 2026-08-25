@@ -1890,6 +1890,21 @@ the stage being run. It should be accepted only when that stage calls the LLM;
 on deterministic stages it should fail explicitly rather than being silently
 ignored. The saved track policy remains unchanged.
 
+For proactive deterministic validation, run:
+
+```bash
+./mechanical-preflight dev --documents 100
+```
+
+This reads documents after the live track's current source cursor into an
+isolated temporary workspace and advances them only through
+`yomi_reading_queued`. It therefore exercises extraction, sentence splitting,
+Sudachi and decoder integration, normalization, safety analysis, and LLM queue
+construction without making an API request or changing the live track. The
+temporary artifacts are deleted by default; a compact pass/failure report is
+kept under `data/preflight/reports/`. Use `--keep-workspace` only when detailed
+failure artifacts are needed.
+
 `./set-stage <track> <stage>` is an explicit pointer-only rewind tool. It should
 change only the saved `current_stage` for the current batch and must not delete
 or rewrite artifacts. It refuses forward moves; use `./next` to advance. On the
