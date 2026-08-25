@@ -89,9 +89,13 @@ document state in this order:
 3. local submitted state;
 4. ordinary actionable state.
 
-An acknowledgment must remain published until the same submission ID is
-represented by canonical applied state. Closing an Issue, changing an archive
-revision, or observing a different submission must not clear it by itself.
+An acknowledgment must remain published until the same submission is
+represented by a replacement state in the successfully pushed
+`origin/gh-pages` pack. Local pipeline advancement is not sufficient evidence:
+generation or push may still fail, leaving browsers on the previous pack.
+Closing an Issue, changing an archive revision, or observing a different
+submission must not clear the acknowledgment by itself. If the remote-tracking
+pack cannot be read, retain the acknowledgment conservatively.
 
 If two active acknowledgments include the same document, publish all matching
 submission and Issue IDs and mark the document `submission conflict`. The UI
@@ -256,9 +260,11 @@ the independent five-minute review-sync timer owns all retries.
 
 The browser treats an active acknowledgment as server processing before the
 pipeline importer advances the document. Two active submissions naming the
-same document are visibly marked as a conflict. Closing an Issue removes its
-acknowledgment on the next watcher pass; review-sync remains responsible for
-validation, application, and closure.
+same document are visibly marked as a conflict. After an Issue closes, an
+imported-but-unapplied submission remains acknowledged. Even after local
+application, the watcher retains the acknowledgment until `origin/gh-pages`
+contains the advanced or failed document state; review-sync remains responsible
+for validation, application, and closure.
 
 The deployable `yomi-corpus-issue-watch-dev.timer` runs every 30 seconds. Install
 or refresh it with `./ensure-issue-watch-timer`; the existing five-minute

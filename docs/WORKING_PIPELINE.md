@@ -2693,6 +2693,10 @@ Browser-local task state is separate from imported pipeline state:
 - imported Issue state remains authoritative. Once the importer applies the
   submission, regenerated packs should move those documents to the next queue
   or to resolved state
+- removing the server-processing acknowledgment requires the replacement state
+  to exist in the successfully pushed `origin/gh-pages` pack. Local document
+  state or locally generated review artifacts alone are insufficient; an
+  unreadable published snapshot retains the acknowledgment conservatively
 
 ### 11.3 Bounded LLM polling
 

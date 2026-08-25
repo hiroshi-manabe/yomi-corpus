@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from yomi_corpus.issue_watch import run_issue_watch_pass
 
@@ -166,33 +167,87 @@ class IssueWatchTests(unittest.TestCase):
             )
             self.write_imported_submission(root, payload)
 
-            pending = run_issue_watch_pass(
-                root,
-                track_name="dev",
-                repo="owner/repo",
-                now_epoch=101,
-                fetch_issues=lambda *_args, **_kwargs: [],
-                fetch_comments=lambda *_args: [],
-            )
-            pending_payload = json.loads(
-                Path(pending["acknowledgment_path"]).read_text(encoding="utf-8")
-            )
-            self.assertEqual(pending_payload["records"][0]["submission_id"], "s1")
-            self.assertEqual(pending_payload["records"][0]["doc_ids"], ["doc-1"])
+            published_states = {"doc-1": "final_pending"}
+            with patch(
+                "yomi_corpus.issue_watch._published_document_states",
+                side_effect=lambda *_args: dict(published_states),
+            ):
+                pending = run_issue_watch_pass(
+                    root,
+                    track_name="dev",
+                    repo="owner/repo",
+                    now_epoch=101,
+                    fetch_issues=lambda *_args, **_kwargs: [],
+                    fetch_comments=lambda *_args: [],
+                )
+                pending_payload = json.loads(
+                    Path(pending["acknowledgment_path"]).read_text(encoding="utf-8")
+                )
+                self.assertEqual(pending_payload["records"][0]["submission_id"], "s1")
+                self.assertEqual(pending_payload["records"][0]["doc_ids"], ["doc-1"])
 
-            self.write_document_state(root, "doc-1", "final_reviewed")
-            applied = run_issue_watch_pass(
+                # Local application alone cannot remove globally visible status.
+                self.write_document_state(root, "doc-1", "final_reviewed")
+                local_only = run_issue_watch_pass(
+                    root,
+                    track_name="dev",
+                    repo="owner/repo",
+                    now_epoch=102,
+                    fetch_issues=lambda *_args, **_kwargs: [],
+                    fetch_comments=lambda *_args: [],
+                )
+                local_only_payload = json.loads(
+                    Path(local_only["acknowledgment_path"]).read_text(encoding="utf-8")
+                )
+                self.assertEqual(local_only_payload["records"][0]["submission_id"], "s1")
+
+                published_states["doc-1"] = "final_reviewed"
+                published = run_issue_watch_pass(
+                    root,
+                    track_name="dev",
+                    repo="owner/repo",
+                    now_epoch=103,
+                    fetch_issues=lambda *_args, **_kwargs: [],
+                    fetch_comments=lambda *_args: [],
+                )
+                published_payload = json.loads(
+                    Path(published["acknowledgment_path"]).read_text(encoding="utf-8")
+                )
+                self.assertEqual(published_payload["records"], [])
+
+    def test_unreadable_published_state_keeps_imported_acknowledgment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload = submission("s1", "doc-1")
+            self.write_pack(root, "doc-1")
+            self.write_document_state(root, "doc-1", "final_pending")
+            run_issue_watch_pass(
                 root,
                 track_name="dev",
                 repo="owner/repo",
-                now_epoch=102,
-                fetch_issues=lambda *_args, **_kwargs: [],
+                now_epoch=100,
+                fetch_issues=lambda *_args, **_kwargs: [issue(10, [payload])],
                 fetch_comments=lambda *_args: [],
             )
-            applied_payload = json.loads(
-                Path(applied["acknowledgment_path"]).read_text(encoding="utf-8")
+            self.write_imported_submission(root, payload)
+            self.write_document_state(root, "doc-1", "final_reviewed")
+
+            with patch(
+                "yomi_corpus.issue_watch._published_document_states",
+                return_value=None,
+            ):
+                result = run_issue_watch_pass(
+                    root,
+                    track_name="dev",
+                    repo="owner/repo",
+                    now_epoch=101,
+                    fetch_issues=lambda *_args, **_kwargs: [],
+                    fetch_comments=lambda *_args: [],
+                )
+            acknowledgment = json.loads(
+                Path(result["acknowledgment_path"]).read_text(encoding="utf-8")
             )
-            self.assertEqual(applied_payload["records"], [])
+            self.assertEqual(acknowledgment["records"][0]["submission_id"], "s1")
 
     def test_no_trigger_probe_does_not_consume_event_trigger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

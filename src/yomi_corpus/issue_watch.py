@@ -71,9 +71,15 @@ def run_issue_watch_pass(
 
     active: list[dict] = []
     trigger_candidates: list[dict] = []
+    published_state_cache: dict[str, dict[str, str] | None] = {}
     for record_id, row in list(records.items()):
         if record_id not in seen_ids:
-            pending = _pending_imported_submission(root, row, track_name=track_name)
+            pending = _pending_imported_submission(
+                root,
+                row,
+                track_name=track_name,
+                published_state_cache=published_state_cache,
+            )
             if pending is None:
                 del records[record_id]
                 continue
@@ -222,6 +228,7 @@ def _pending_imported_submission(
     record: dict[str, Any],
     *,
     track_name: str,
+    published_state_cache: dict[str, dict[str, str] | None],
 ) -> dict[str, Any] | None:
     stage = str(record.get("review_stage") or "")
     pending_by_stage = {
@@ -266,14 +273,58 @@ def _pending_imported_submission(
         for row in state_payload.get("documents", [])
         if isinstance(row, dict) and row.get("doc_id")
     }
-    pending_doc_ids = [
+    submission_doc_ids = _submission_doc_ids(submission)
+    pending_states = pending_by_stage[stage]
+    local_pending = {
         doc_id
-        for doc_id in _submission_doc_ids(submission)
-        if states.get(doc_id) in pending_by_stage[stage]
-    ]
+        for doc_id in submission_doc_ids
+        if states.get(doc_id) in pending_states or doc_id not in states
+    }
+    pack_id = str(submission.get("pack_id") or "")
+    if pack_id not in published_state_cache:
+        published_state_cache[pack_id] = _published_document_states(root, pack_id)
+    published_states = published_state_cache[pack_id]
+    if published_states is None:
+        # A missing/unreadable remote snapshot is uncertainty, not evidence that
+        # a globally visible processing marker may be removed.
+        published_pending = set(submission_doc_ids)
+    else:
+        published_pending = {
+            doc_id
+            for doc_id in submission_doc_ids
+            if published_states.get(doc_id) in pending_states or doc_id not in published_states
+        }
+    pending_doc_ids = sorted(local_pending | published_pending)
     if not pending_doc_ids:
         return None
     return {"doc_ids": pending_doc_ids}
+
+
+def _published_document_states(root: Path, pack_id: str) -> dict[str, str] | None:
+    if not pack_id:
+        return None
+    try:
+        completed = subprocess.run(
+            ["git", "show", f"origin/gh-pages:review/packs/{pack_id}.json"],
+            cwd=root,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=15,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if completed.returncode != 0:
+        return None
+    try:
+        payload = json.loads(completed.stdout)
+    except json.JSONDecodeError:
+        return None
+    return {
+        str(row.get("doc_id")): str(row.get("state") or "")
+        for row in payload.get("documents", [])
+        if isinstance(row, dict) and row.get("doc_id")
+    }
 
 
 def _conflicting_doc_ids(records: list[dict]) -> set[str]:
