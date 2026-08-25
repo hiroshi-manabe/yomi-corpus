@@ -10,10 +10,10 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 5,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 5,
-      "strong_pending": 5
+      "strong_reviewed": 5
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -31,12 +31,12 @@
       "source_line_no": 1191,
       "preview": "１　通塾無制限とはどういう意味でしょうか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T04:35:42Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T05:16:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -83,12 +83,12 @@
       "source_line_no": 1193,
       "preview": "2021年2月末時点での我が輩の資産総額をお知らせしちゃうぞ〜。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T04:35:42Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T05:16:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 1195,
       "preview": "ステーキでも食べてみたい。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T04:35:42Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T05:16:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 1197,
       "preview": "3分切りを達成した Vol.8 機をそのままスケールアップしようとした試験機です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T04:35:42Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T05:16:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -239,12 +239,12 @@
       "source_line_no": 1199,
       "preview": "「江戸しぐさ：すぐに役立つ日本の思草（しぐさ）」講座のお知らせです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-25T04:35:42Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-25T05:16:32Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1070,7 +1070,7 @@
       "source_line_no": 1193,
       "text": "リスク資産がかろうじて前月末比プラスとなり資産総額は一応最高値を更新。",
       "rendered_yomi_before": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前/マエ 月末/ゲツマツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
-      "rendered_yomi_after": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前月末/ゼンゲツマツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
+      "rendered_yomi_after": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前月/ゼンゲツ 末/マツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
       "rendered_yomi_after_tokens": [
         [
           "リスク",
@@ -1089,8 +1089,12 @@
           "カロウジテ"
         ],
         [
-          "前月末",
-          "ゼンゲツマツ"
+          "前月",
+          "ゼンゲツ"
+        ],
+        [
+          "末",
+          "マツ"
         ],
         [
           "比",
@@ -1188,13 +1192,24 @@
           ]
         },
         {
-          "surface": "前月末",
-          "reading": "ゼンゲツマツ",
+          "surface": "前月",
+          "reading": "ゼンゲツ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "前月末",
-              "reading": "ぜんげつまつ"
+              "text": "前月",
+              "reading": "ぜんげつ"
+            }
+          ]
+        },
+        {
+          "surface": "末",
+          "reading": "マツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "末",
+              "reading": "まつ"
             }
           ]
         },
@@ -1349,14 +1364,14 @@
           "unit_id": "ja_cc_level2:0000001193:u0014",
           "text": "リスク資産がかろうじて前月末比プラスとなり資産総額は一応最高値を更新。",
           "rendered_yomi_before": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前/マエ 月末/ゲツマツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
-          "rendered_yomi_after": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前月末/ゼンゲツマツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
+          "rendered_yomi_after": "リスク/リスク 資産/シサン が/ガ かろうじて/カロウジテ 前月/ゼンゲツ 末/マツ 比/ヒ プラス/プラス と/ト なり/ナリ 資産/シサン 総額/ソウガク は/ハ 一応/イチオウ 最/サイ 高値/タカネ を/ヲ 更新/コウシン 。/。",
           "display_mapping": {
             "start": 4,
-            "end": 5,
+            "end": 6,
             "char_start": 11,
             "char_end": 14,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },

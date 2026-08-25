@@ -14,7 +14,7 @@
     "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "unresolved_item_count": 17,
     "unresolved_target_count": 18,
@@ -264,12 +264,12 @@
       "source_line_no": 1180,
       "preview": "いやあ、面白いとは思っていたんだけどやっぱりね、映画化されたよ、みたいな。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-08-25T04:23:36Z",
+      "state_updated_at": "2026-08-25T04:54:04Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 53,
@@ -106985,6 +106985,21 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "いけ",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "活",
+                  "reading": "いけ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "かっ",
               "accepted": false,
               "historical_count": 0,
@@ -106997,7 +107012,7 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "かつ",
@@ -107374,6 +107389,30 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "いけかし",
+              "tokens": [
+                [
+                  "活かし",
+                  "イケカシ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "活",
+                  "reading": "いけ"
+                },
+                {
+                  "type": "text",
+                  "text": "かし"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "かっかし",
               "tokens": [
                 [
@@ -107395,7 +107434,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "かつかし",
@@ -257743,6 +257782,21 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "いけ",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "活",
+                  "reading": "いけ"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "かっ",
               "accepted": false,
               "historical_count": 0,
@@ -257755,7 +257809,7 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "かつ",
@@ -258447,6 +258501,30 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
+              "reading": "いけかす",
+              "tokens": [
+                [
+                  "活かす",
+                  "イケカス"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "活",
+                  "reading": "いけ"
+                },
+                {
+                  "type": "text",
+                  "text": "かす"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
               "reading": "かっかす",
               "tokens": [
                 [
@@ -258468,7 +258546,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "かつかす",
@@ -312701,7 +312779,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 613,
+              "historical_count": 614,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -313838,7 +313916,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 613
+              "historical_count": 614
             },
             {
               "id": "dictionary:5",
