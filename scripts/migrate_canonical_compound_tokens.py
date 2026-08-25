@@ -19,6 +19,11 @@ def main() -> None:
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--backup-root", type=Path)
+    parser.add_argument(
+        "--decoder-base-corpus",
+        type=Path,
+        help="Also canonicalize the raw SUW decoder base corpus.",
+    )
     args = parser.parse_args()
 
     root = args.root.resolve()
@@ -40,6 +45,7 @@ def main() -> None:
         apply=args.apply,
         report_json=report,
         backup_root=backup_root,
+        decoder_base_corpus=args.decoder_base_corpus,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if result["anomaly_count"]:

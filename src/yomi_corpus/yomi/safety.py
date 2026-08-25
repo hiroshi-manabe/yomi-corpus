@@ -32,7 +32,7 @@ from yomi_corpus.yomi.stable_surface_lexicon import (
 )
 from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
-SAFETY_RULE = "per_target_pre_llm_safety_v5"
+SAFETY_RULE = "per_target_pre_llm_safety_v6"
 DEFAULT_YOMI_CONFIG_PATH = "config/yomi/default.toml"
 MODEL_FREQUENCY_STATS_FILENAME = "surface_reading_stats.tsv"
 LOCAL_STABLE_SPAN_MIN_TOKENS = 2
@@ -172,7 +172,7 @@ def build_pre_llm_safety_records(
     stable_checker: StableTwoKanjiChecker | StableSurfaceReadingLexicon | None = None,
     corpus_stats: SurfaceReadingStats | None = None,
     corpus_frequency_min_count: int = 5,
-    corpus_frequency_min_share: float = 0.95,
+    corpus_frequency_min_share: float = 0.98,
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     unit_auto_accept = yomi_auto_accept_payload(unit)
@@ -279,7 +279,7 @@ def build_pre_llm_safety_records(
             evidence_surface = target_surface
             evidence_reading = target_reading
             normalization_rule = None
-            blocked_trailing_kana_stem = None
+            blocked_rendaku_competition = None
             dominant = None
             if token_surface != target_surface:
                 dominant = corpus_stats.dominant_reading(
@@ -290,7 +290,24 @@ def build_pre_llm_safety_records(
                 evidence_scope = "token"
                 evidence_surface = token_surface
                 evidence_reading = token_reading
-            if dominant is None:
+                if dominant is not None and trailing_kana_stem_pair(
+                    token_surface,
+                    token_reading,
+                ) is not None:
+                    competing = corpus_stats.rendaku_competing_reading(
+                        token_surface,
+                        dominant.reading,
+                    )
+                    if competing is not None:
+                        blocked_rendaku_competition = {
+                            "surface": token_surface,
+                            "dominant_reading": dominant.reading,
+                            "competing_reading": competing,
+                            "evidence_scope": "token",
+                            "reason": "rendaku_counterpart_observed",
+                        }
+                        dominant = None
+            if dominant is None and blocked_rendaku_competition is None:
                 normalized = trailing_kana_stem_pair(token_surface, token_reading)
                 if normalized is not None:
                     evidence_surface, evidence_reading = normalized
@@ -309,14 +326,15 @@ def build_pre_llm_safety_records(
                             evidence_scope=EVIDENCE_SCOPE_TRAILING_KANA_STEM,
                         )
                         if competing is not None:
-                            blocked_trailing_kana_stem = {
+                            blocked_rendaku_competition = {
                                 "surface": evidence_surface,
                                 "dominant_reading": dominant.reading,
                                 "competing_reading": competing,
+                                "evidence_scope": EVIDENCE_SCOPE_TRAILING_KANA_STEM,
                                 "reason": "rendaku_counterpart_observed",
                             }
                             dominant = None
-            if dominant is None:
+            if dominant is None and blocked_rendaku_competition is None:
                 dominant = corpus_stats.dominant_reading(
                     target_surface,
                     min_count=corpus_frequency_min_count,
@@ -351,7 +369,7 @@ def build_pre_llm_safety_records(
                     "evidence_surface": evidence_surface,
                     "evidence_reading": evidence_reading,
                     "normalization_rule": normalization_rule,
-                    "blocked_trailing_kana_stem": blocked_trailing_kana_stem,
+                    "blocked_rendaku_competition": blocked_rendaku_competition,
                     "min_count": corpus_frequency_min_count,
                     "min_share": corpus_frequency_min_share,
                     "dominant": None

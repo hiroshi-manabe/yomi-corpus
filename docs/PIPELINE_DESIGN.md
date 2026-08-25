@@ -434,7 +434,7 @@ candidate has full repeated N-gram support. The optional `stable_two_kanji`
 profile name is retained for configuration compatibility, but its production
 relaxation now uses the stable surface-reading lexicon pinned inside the
 batch's decoder model. A surface is eligible when its dominant corpus reading
-has at least 95% share and five observations, and the current reading must
+has at least 98% share and five observations, and the current reading must
 match that dominant reading. There is no raw-Sudachi fallback when a pinned
 model lacks the artifact. Sudachi/decoder agreement remains mandatory. Grouped
 numeric runs such as `2021/` are allowed because number pronunciation is
@@ -504,7 +504,7 @@ Candidate safety signals:
   whole-unit auto-acceptance
 - corpus-frequency evidence: a trusted decoder/training-corpus stats artifact
   shows that one reading dominates the exact full token surface, or the target
-  surface as a fallback, with >=95% share and a minimum count threshold
+  surface as a fallback, with >=98% share and a minimum count threshold
 - repeated N-gram evidence: the local reading is supported by repeated N-gram
   support, not a one-off transition
 - LLM agreement: an independent per-target reading query returns the same
@@ -575,7 +575,7 @@ The refresh also builds `stable_surface_readings.tsv` from that identical
 ordered corpus set. This artifact pools observations by concatenated surface,
 not by the corpus token boundary: contiguous spans of one through four source
 morphemes compete in the same surface bucket. A surface is emitted only when
-its dominant reading has at least five observations and at least 95% of all
+its dominant reading has at least five observations and at least 98% of all
 observations for that surface. The artifact retains counts and observed
 segmentation signatures so
 decisions remain auditable. For example, `皆|様/ミナ|サマ` and
@@ -624,19 +624,24 @@ recorded for the dominant reading.
 Morphological boundaries are not automatically the canonical corpus
 boundaries. Selected modern lexical units may be joined by an explicit
 post-hybrid rule when the corpus representation should differ from Sudachi's
-productive morphology. `皆様`, `皆さま`, and `みなさま` are canonicalized as
-single tokens with reading `ミナサマ`; for example, Sudachi mode B analyzes
-`皆様` as `皆/ミナ 様/サマ`. The decoder base corpus uses the
-same joined token so future model evidence reinforces the canonical boundary.
+productive morphology. `皆様`, `皆さま`, `みな様`, and `みなさま` are
+canonicalized as single tokens with reading `ミナサマ`; `皆さん` and
+`みなさん` are likewise canonicalized with reading `ミナサン`. For example,
+Sudachi mode B analyzes `皆様` as `皆/ミナ 様/サマ`. Post-Sudachi
+normalization, post-hybrid repair, finalization, reviewed-corpus migration, and
+the decoder base corpus all consume the same boundary convention so future
+model evidence reinforces the canonical units.
 These rules must name exact surface/reading sequences; they are not a general
 compound-merging heuristic.
 
 Historical finalized and skipped rows can be updated with
-`scripts/migrate_canonical_compound_tokens.py`. The migration is idempotent,
-backs up changed authoritative files, records hashes and counts, and blocks all
-replacement if any row is malformed. Active legacy rows receive the same
+`scripts/migrate_canonical_compound_tokens.py`. Its optional
+`--decoder-base-corpus` input applies the same exact sequence rules to the raw
+SUW corpus. The migration is idempotent, backs up changed authoritative and
+base-corpus files, records hashes and counts, and blocks all replacement if an
+authoritative row is malformed. Active legacy rows receive the same
 normalization during finalization, avoiding unsafe rewrites of stored review
-target indices.
+target indices. Historical submissions remain immutable audit records.
 
 Exact-token corpus-frequency evidence is also subordinate to this pooled
 lexicon. A reading that appears dominant only under one tokenization must not be
@@ -811,11 +816,11 @@ share threshold and a minimum count, because `1/1 = 100%` is weak evidence. The
 normalization policy must also be explicit: old/new forms, Latin width, kana,
 symbols, and `々` handling need to match or be recorded.
 
-The initial default is `min_count = 5` and `min_share = 0.95`. At counts below
-20 the share threshold still requires unanimity; at larger counts it permits a
-small observed minority reading. Count-5 boundary
-samples looked acceptable for this signal's intended role: de-emphasizing
-low-risk targets while preserving auditability and bulk review visibility.
+The current default is `min_count = 5` and `min_share = 0.98`. At counts below
+50 the share threshold requires unanimity; at larger counts it permits a small
+observed minority reading. The share was raised from the initial 95% default
+after queued examples showed that legitimate alternate readings could otherwise
+be suppressed, including `方/ホウ` in common local contexts.
 
 An experiment over 1,303,044 human-read source tokens produced 3,791
 trailing-kana stem keys; 1,542 combined multiple surface forms. Of 1,297 keys

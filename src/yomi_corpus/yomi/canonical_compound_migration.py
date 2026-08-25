@@ -8,13 +8,14 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.repairs import normalize_canonical_compound_tokens
+from yomi_corpus.yomi.repairs import CANONICAL_COMPOUND_TOKEN_SEQUENCES
 from yomi_corpus.yomi.token_codec import (
     set_canonical_yomi_tokens,
     yomi_tokens_from_mapping,
 )
 
 
-MIGRATION_ID = "canonical_compound_tokens_v1"
+MIGRATION_ID = "canonical_compound_tokens_v2"
 AUTHORITATIVE_FILENAMES = (
     "units.yomi.final.jsonl",
     "units.yomi.skipped.jsonl",
@@ -27,6 +28,7 @@ def migrate_canonical_compound_tokens(
     apply: bool,
     report_json: Path,
     backup_root: Path | None = None,
+    decoder_base_corpus: Path | None = None,
 ) -> dict[str, Any]:
     paths = sorted(
         path
@@ -48,6 +50,16 @@ def migrate_canonical_compound_tokens(
         if temp_path is not None:
             staged.append((path, temp_path))
 
+    if decoder_base_corpus is not None:
+        base_report, temp_path = prepare_decoder_base_corpus(
+            decoder_base_corpus.resolve(),
+            apply=apply,
+        )
+        report["decoder_base_corpus"] = base_report
+        report["anomalies"].extend(base_report["anomalies"])
+        if temp_path is not None:
+            staged.append((decoder_base_corpus.resolve(), temp_path))
+
     report["file_count"] = len(paths)
     report["changed_file_count"] = sum(
         1 for row in report["files"] if int(row["changed_unit_count"]) > 0
@@ -68,7 +80,12 @@ def migrate_canonical_compound_tokens(
         if backup_root is None:
             raise ValueError("backup_root is required in apply mode")
         for path, _temp_path in staged:
-            backup_path = backup_root / path.relative_to(root)
+            backup_path = migration_backup_path(
+                path,
+                root=root,
+                backup_root=backup_root,
+                decoder_base_corpus=decoder_base_corpus,
+            )
             backup_path.parent.mkdir(parents=True, exist_ok=True)
             if not backup_path.exists():
                 shutil.copy2(path, backup_path)
@@ -86,6 +103,96 @@ def migrate_canonical_compound_tokens(
         encoding="utf-8",
     )
     return report
+
+
+def prepare_decoder_base_corpus(
+    path: Path,
+    *,
+    apply: bool,
+) -> tuple[dict[str, Any], Path | None]:
+    source_hash = hashlib.sha256()
+    output_hash = hashlib.sha256()
+    token_count = 0
+    sentence_count = 0
+    merged_occurrence_count = 0
+    anomalies: list[dict[str, Any]] = []
+    temp_path = path.with_suffix(path.suffix + f".{MIGRATION_ID}.tmp") if apply else None
+    output = temp_path.open("w", encoding="utf-8") if temp_path is not None else None
+    pending: tuple[str, tuple[str, str]] | None = None
+
+    def emit(line: str) -> None:
+        output_hash.update(line.encode("utf-8"))
+        if output is not None:
+            output.write(line)
+
+    try:
+        with path.open(encoding="utf-8") as source:
+            for line_number, line in enumerate(source, start=1):
+                source_hash.update(line.encode("utf-8"))
+                stripped = line.rstrip("\n")
+                if not stripped or stripped == "EOS":
+                    if pending is not None:
+                        emit(pending[0])
+                        pending = None
+                    emit(line)
+                    sentence_count += int(stripped == "EOS")
+                    continue
+                fields = stripped.split("\t")
+                token_count += 1
+                current = (fields[0], fields[4] if len(fields) > 4 else "")
+                replacement = (
+                    CANONICAL_COMPOUND_TOKEN_SEQUENCES.get((pending[1], current))
+                    if pending is not None
+                    else None
+                )
+                if replacement is not None:
+                    surface, reading = replacement
+                    emit(
+                        f"{surface}\t名詞-普通名詞-一般\t\t\t{reading}\t{surface}\n"
+                    )
+                    pending = None
+                    merged_occurrence_count += 1
+                    continue
+                if pending is not None:
+                    emit(pending[0])
+                pending = (line, current)
+        if pending is not None:
+            emit(pending[0])
+    finally:
+        if output is not None:
+            output.close()
+
+    if anomalies or not merged_occurrence_count:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+        temp_path = None
+    return (
+        {
+            "path": str(path),
+            "token_count": token_count,
+            "sentence_count": sentence_count,
+            "merged_occurrence_count": merged_occurrence_count,
+            "source_sha256": source_hash.hexdigest(),
+            "output_sha256": output_hash.hexdigest(),
+            "anomalies": anomalies,
+        },
+        temp_path,
+    )
+
+
+def migration_backup_path(
+    path: Path,
+    *,
+    root: Path,
+    backup_root: Path,
+    decoder_base_corpus: Path | None,
+) -> Path:
+    try:
+        return backup_root / path.relative_to(root)
+    except ValueError:
+        if decoder_base_corpus is not None and path == decoder_base_corpus.resolve():
+            return backup_root / "decoder_base_corpus" / path.name
+        raise
 
 
 def prepare_file(path: Path, *, apply: bool) -> tuple[dict[str, Any], Path | None]:

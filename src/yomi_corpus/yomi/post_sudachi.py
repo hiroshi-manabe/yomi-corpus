@@ -16,10 +16,11 @@ from yomi_corpus.yomi.strategies import (
     token_contains_space,
 )
 from yomi_corpus.yomi.numeric_surfaces import is_numeric_digit_surface
+from yomi_corpus.yomi.repairs import CANONICAL_COMPOUND_TOKEN_SEQUENCES
 from yomi_corpus.yomi.types import SudachiToken
 
 
-NORMALIZER_VERSION = 1
+NORMALIZER_VERSION = 2
 
 UPPERCASE_LATIN_LETTER_READINGS = {
     "A": "エー",
@@ -285,22 +286,34 @@ def _normalize_lexical_boundaries(
     raw_offsets = _raw_token_offsets(raw_tokens)
     index = 0
     while index < len(tokens):
-        if (
-            index + 1 < len(tokens)
-            and tokens[index].surface == "皆"
-            and tokens[index].reading == "ミナ"
-            and tokens[index + 1].surface == "様"
-            and tokens[index + 1].reading == "サマ"
-        ):
+        matched = next(
+            (
+                (source, replacement)
+                for source, replacement in CANONICAL_COMPOUND_TOKEN_SEQUENCES.items()
+                if tuple(
+                    (token.surface, token.reading)
+                    for token in tokens[index : index + len(source)]
+                )
+                == source
+            ),
+            None,
+        )
+        if matched is not None:
+            source, (surface, reading) = matched
+            end = index + len(source)
             sources = tuple(
-                dict.fromkeys(token_sources[index] + token_sources[index + 1])
+                dict.fromkeys(
+                    raw_index
+                    for indexes in token_sources[index:end]
+                    for raw_index in indexes
+                )
             )
             merged = SudachiToken(
-                surface="皆様",
+                surface=surface,
                 pos=tokens[index].pos,
-                dictionary_form="皆様",
-                normalized_form="皆様",
-                reading="ミナサマ",
+                dictionary_form=surface,
+                normalized_form=surface,
+                reading=reading,
                 normalization_locked=True,
             )
             output.append(merged)
@@ -311,11 +324,11 @@ def _normalize_lexical_boundaries(
                     raw_token_indexes=sources,
                     source_start=raw_offsets[sources[0]][0],
                     source_end=raw_offsets[sources[-1]][1],
-                    before=tokens[index : index + 2],
+                    before=tokens[index:end],
                     after=[merged],
                 )
             )
-            index += 2
+            index = end
             continue
         output.append(tokens[index])
         output_sources.append(token_sources[index])

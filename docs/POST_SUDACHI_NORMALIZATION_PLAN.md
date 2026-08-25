@@ -65,8 +65,9 @@ Initial rule families should cover:
 - **Deterministic script defaults:** replace misleading unit readings of
   standalone uppercase Latin letters with Japanese letter names.
 - **Selected lexical boundaries:** apply narrowly reviewed canonical boundary
-  rules such as `皆/ミナ 様/サマ -> 皆様/ミナサマ` when the corpus convention is
-  intentionally different from Sudachi morphology.
+  rules such as all six `皆|みな` plus `様|さま|さん` combinations when the
+  corpus convention is intentionally different from Sudachi morphology. The
+  output preserves the written surface and uses `ミナサマ` or `ミナサン`.
 
 The normalizer must be pure and idempotent. Every output token records the raw
 input token indexes from which it was derived, and every applied rule records a
@@ -151,7 +152,7 @@ is accepted.
    evidence-based hybrid logic, or final canonicalization.
 3. Build a fixture set from observed cases, including whitespace-spanning
    names, middle dots, parentheticals, mixed alphanumerics, kaomoji, variation
-   selectors, and `皆様`.
+   selectors, and the `みなさま`/`みなさん` surface families.
 
 ### Phase 2: implementation without behavior change
 

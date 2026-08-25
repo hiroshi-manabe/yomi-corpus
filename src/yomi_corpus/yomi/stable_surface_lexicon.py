@@ -24,7 +24,7 @@ SCRIPT_VERSION = "stable_surface_reading_lexicon_v2"
 DEFAULT_MAX_SPAN_TOKENS = 4
 DEFAULT_MAX_SURFACE_CHARS = 16
 DEFAULT_MIN_COUNT = 5
-DEFAULT_MIN_SHARE = 0.95
+DEFAULT_MIN_SHARE = 0.98
 DEFAULT_SHARD_COUNT = 64
 MODEL_STABLE_SURFACE_LEXICON_FILENAME = "stable_surface_readings.tsv"
 READING_RE = re.compile(r"^[ぁ-ゖァ-ヺーゝゞヽヾ]+$")
@@ -91,12 +91,19 @@ class StableSurfaceReadingLexicon:
         *,
         rows_by_surface: dict[str, StableSurfaceReading],
         artifact_path: str | None = None,
+        min_share: float = DEFAULT_MIN_SHARE,
     ) -> None:
         self.rows_by_surface = rows_by_surface
         self.artifact_path = artifact_path
+        self.min_share = min_share
 
     @classmethod
-    def load_tsv(cls, path: str | Path) -> StableSurfaceReadingLexicon:
+    def load_tsv(
+        cls,
+        path: str | Path,
+        *,
+        min_share: float = DEFAULT_MIN_SHARE,
+    ) -> StableSurfaceReadingLexicon:
         artifact_path = Path(path)
         rows: dict[str, StableSurfaceReading] = {}
         with artifact_path.open(encoding="utf-8", newline="") as handle:
@@ -130,7 +137,11 @@ class StableSurfaceReadingLexicon:
                     segmentation_counts=segmentation_counts,
                 )
                 rows[entry.surface] = entry
-        return cls(rows_by_surface=rows, artifact_path=str(artifact_path))
+        return cls(
+            rows_by_surface=rows,
+            artifact_path=str(artifact_path),
+            min_share=min_share,
+        )
 
     @property
     def source_corpus_version(self) -> str | None:
@@ -147,6 +158,12 @@ class StableSurfaceReadingLexicon:
         evidence = self.rows_by_surface.get(surface)
         if evidence is None:
             return StableSurfaceJudgment(False, "missing_stable_surface")
+        if evidence.share < self.min_share:
+            return StableSurfaceJudgment(
+                False,
+                f"stable_surface_share_below_threshold:{self.min_share}",
+                evidence,
+            )
         if evidence.reading != reading:
             return StableSurfaceJudgment(
                 False,

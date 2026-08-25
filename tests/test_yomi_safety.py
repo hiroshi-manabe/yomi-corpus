@@ -184,8 +184,8 @@ class YomiSafetyTests(unittest.TestCase):
             artifact.write_text(
                 "surface\treading\tcount\tsurface_total_count\tshare\t"
                 "segmentation_counts_json\tsource_corpus_version\n"
-                '月末\tガツマツ\t65\t67\t0.970149\t'
-                '[{"surfaces":["月","末"],"count":65}]\tfixture\n',
+                '月末\tガツマツ\t98\t100\t0.98\t'
+                '[{"surfaces":["月","末"],"count":98}]\tfixture\n',
                 encoding="utf-8",
             )
             lexicon = StableSurfaceReadingLexicon.load_tsv(artifact)
@@ -502,9 +502,9 @@ class YomiSafetyTests(unittest.TestCase):
                     SurfaceReadingCount(
                         surface="一日",
                         reading="ツイタチ",
-                        count=47,
-                        surface_total_count=48,
-                        share=47 / 48,
+                        count=49,
+                        surface_total_count=50,
+                        share=49 / 50,
                         source_corpus_version="fixture",
                     )
                 ]
@@ -710,16 +710,78 @@ class YomiSafetyTests(unittest.TestCase):
         self.assertFalse(record["is_safe"])
         self.assertIsNone(signal["dominant"])
         self.assertEqual(
-            signal["blocked_trailing_kana_stem"],
+            signal["blocked_rendaku_competition"],
             {
                 "surface": "作",
                 "dominant_reading": "ツク",
                 "competing_reading": "ヅク",
+                "evidence_scope": EVIDENCE_SCOPE_TRAILING_KANA_STEM,
                 "reason": "rendaku_counterpart_observed",
             },
         )
 
-    def test_corpus_frequency_accepts_95_percent_share_at_default_threshold(self) -> None:
+    def test_exact_okurigana_token_does_not_hide_rendaku_competition(self) -> None:
+        payload = {
+            "unit_id": "u_zoi",
+            "text": "テーマに沿います。",
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "sudachi": {
+                            "tokens": [
+                                token("テーマ", "テーマ"),
+                                token("に", "ニ"),
+                                token("沿い", "ゾイ", dictionary_form="沿う"),
+                                token("ます", "マス"),
+                                token("。", "。"),
+                            ]
+                        }
+                    }
+                }
+            },
+        }
+        stats = make_stats(
+            [
+                SurfaceReadingCount(
+                    surface="沿い",
+                    reading="ゾイ",
+                    count=33,
+                    surface_total_count=34,
+                    share=33 / 34,
+                    source_corpus_version="fixture",
+                ),
+                SurfaceReadingCount(
+                    surface="沿い",
+                    reading="ソイ",
+                    count=1,
+                    surface_total_count=34,
+                    share=1 / 34,
+                    source_corpus_version="fixture",
+                ),
+            ]
+        )
+
+        records = build_pre_llm_safety_records(
+            payload,
+            corpus_stats=stats,
+            corpus_frequency_min_share=0.95,
+        )
+
+        record = next(row for row in records if row["surface"] == "沿")
+        signal = next(row for row in record["signals"] if row["name"] == "safe_by_corpus_frequency")
+        self.assertFalse(record["is_safe"])
+        self.assertEqual(
+            signal["blocked_rendaku_competition"],
+            {
+                "surface": "沿い",
+                "dominant_reading": "ゾイ",
+                "competing_reading": "ソイ",
+                "evidence_scope": "token",
+                "reason": "rendaku_counterpart_observed",
+            },
+        )
+
+    def test_corpus_frequency_rejects_95_percent_share_at_default_threshold(self) -> None:
         stats = make_stats(
             [
                 SurfaceReadingCount(
@@ -736,7 +798,7 @@ class YomiSafetyTests(unittest.TestCase):
         records = build_pre_llm_safety_records(unit(), corpus_stats=stats)
 
         by_surface = {record["surface"]: record for record in records}
-        self.assertTrue(by_surface["学校"]["is_safe"])
+        self.assertFalse(by_surface["学校"]["is_safe"])
 
     def test_whole_unit_auto_accept_marks_all_targets_safe(self) -> None:
         payload = unit()

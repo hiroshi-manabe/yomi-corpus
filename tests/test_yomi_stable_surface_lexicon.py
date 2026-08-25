@@ -65,7 +65,7 @@ def test_builds_boundary_insensitive_unique_readings(tmp_path: Path) -> None:
     assert summary.ambiguous_surface_count >= 1
     payload = json.loads(manifest.read_text(encoding="utf-8"))
     assert payload["source_corpus_version"] == "test:v1"
-    assert payload["parameters"]["min_share"] == 0.95
+    assert payload["parameters"]["min_share"] == 0.98
     assert payload["parameters"]["require_unique_reading"] is False
 
 
@@ -167,3 +167,19 @@ def test_loaded_lexicon_requires_the_dominant_reading(tmp_path: Path) -> None:
     assert accepted.evidence.count == 5
     assert rejected.value is False
     assert rejected.reason == "stable_surface_reading_mismatch:イッカイ"
+
+
+def test_loaded_lexicon_rejects_rows_below_runtime_share_threshold(tmp_path: Path) -> None:
+    output = tmp_path / "stable.tsv"
+    output.write_text(
+        "surface\treading\tcount\tsurface_total_count\tshare\t"
+        "source_corpus_version\n"
+        "方へ\tカタヘ\t57\t60\t0.95\tfixture\n",
+        encoding="utf-8",
+    )
+
+    lexicon = StableSurfaceReadingLexicon.load_tsv(output)
+
+    judgment = lexicon.judge("方へ", "カタヘ")
+    assert judgment.value is False
+    assert judgment.reason == "stable_surface_share_below_threshold:0.98"

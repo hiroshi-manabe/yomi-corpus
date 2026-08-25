@@ -66,6 +66,49 @@ class PostSudachiNormalizationTests(unittest.TestCase):
             ],
         )
 
+    def test_joins_all_minasa_surface_variants(self) -> None:
+        text = "皆様、皆さま、みな様、みなさま、皆さん、みなさん"
+        raw = []
+        for prefix, suffix in (
+            ("皆", "様"),
+            ("皆", "さま"),
+            ("みな", "様"),
+            ("みな", "さま"),
+            ("皆", "さん"),
+            ("みな", "さん"),
+        ):
+            if raw:
+                raw.append(token("、", ""))
+            raw.extend(
+                [
+                    token(prefix, "ミナ"),
+                    token(suffix, "サマ" if suffix in {"様", "さま"} else "サン"),
+                ]
+            )
+
+        result = normalize_sudachi_tokens(raw, text=text)
+
+        self.assertEqual(
+            [(row.surface, row.reading) for row in result.tokens],
+            [
+                ("皆様", "ミナサマ"),
+                ("、", ""),
+                ("皆さま", "ミナサマ"),
+                ("、", ""),
+                ("みな様", "ミナサマ"),
+                ("、", ""),
+                ("みなさま", "ミナサマ"),
+                ("、", ""),
+                ("皆さん", "ミナサン"),
+                ("、", ""),
+                ("みなさん", "ミナサン"),
+            ],
+        )
+        self.assertEqual(
+            [row.rule_id for row in result.applications],
+            ["canonicalize_minasama_boundary"] * 6,
+        )
+
     def test_is_idempotent_at_the_token_stream_level(self) -> None:
         text = "A ラ・カンパネラ 皆様"
         first = normalize_sudachi_tokens(

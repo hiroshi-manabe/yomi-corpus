@@ -1290,7 +1290,7 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(
             result.sudachi["normalized"]["normalizer_version"],
-            1,
+            2,
         )
         self.assertEqual(
             result.sudachi["tokens"],

@@ -145,7 +145,7 @@ class YomiRepairTests(unittest.TestCase):
         assert config.post_hybrid_repair_rules is not None
         self.assertTrue(config.post_hybrid_repair_rules.endswith("config/yomi/post_hybrid_repairs.tsv"))
         self.assertEqual(config.corpus_frequency_min_count, 5)
-        self.assertEqual(config.corpus_frequency_min_share, 0.95)
+        self.assertEqual(config.corpus_frequency_min_share, 0.98)
 
     def test_default_rules_prefer_watashi_without_rewriting_other_readings(self) -> None:
         config = load_yomi_generation_config("config/yomi/default.toml")

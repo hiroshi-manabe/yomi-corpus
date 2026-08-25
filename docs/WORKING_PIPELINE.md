@@ -676,17 +676,18 @@ Candidate per-target signals:
   reading; all targets fully contained in the window skip the LLM. Thus
   `月/ガツ 末/マツ` evidence is not reused for exact-token `月末`.
 - Canonical token boundaries may intentionally override Sudachi morphology for
-  an explicit exact sequence. `皆/ミナ 様/サマ`, `皆/ミナ さま/サマ`, and
-  `みな/ミナ さま/サマ` are normalized respectively to `皆様/ミナサマ`,
-  `皆さま/ミナサマ`, and `みなさま/ミナサマ` after hybrid generation and
+  an explicit exact sequence. The six `皆|みな` plus `様|さま|さん`
+  combinations are normalized to one token (`ミナサマ` or `ミナサン`) in the
+  post-Sudachi layer, after hybrid generation for legacy compatibility, and
   again as a finalization backstop. This is a selected corpus convention, not
-  an automatic compound joiner.
+  an automatic compound joiner. Historical authoritative data and the decoder
+  base corpus use the same exact-sequence migration.
 - `safe_by_corpus_frequency`: a trusted training/evidence corpus shows the
   same exact full-token `(surface, reading)` pair, or target-level pair as a
-  fallback, dominates with at least 95% share and a minimum count threshold.
-  Trailing-kana stem pooling is not accepted when the pooled stem contains an
-  observed voiced/unvoiced rendaku counterpart, such as `作/ツク` and
-  `作/ヅク`; exact-surface evidence may still establish safety independently.
+  fallback, dominates with at least 98% share and a minimum count threshold.
+  Corpus-frequency safety is blocked when an okurigana-bearing exact token or
+  its pooled stem contains an observed voiced/unvoiced rendaku counterpart,
+  such as `沿い/ソイ` versus `沿い/ゾイ` or `作/ツク` versus `作/ヅク`.
 - `safe_by_ngram`: the target's local reading is supported by repeated N-gram
   evidence, not just by a one-off transition. Decoder refreshes now emit a
   diagnostic `ngram_reading_transitions.tsv` sidecar that measures each adjacent
@@ -870,7 +871,7 @@ Implementation status:
      manifest. Its builder enumerates contiguous one-to-four-token spans,
      groups all tokenizations under the concatenated surface, and emits only
      surfaces whose dominant concatenated reading has at least five observations
-     and at least 95% share. Segmentation counts are retained for audit. This
+     and at least 98% share. Segmentation counts are retained for audit. This
      artifact is the runtime stable-surface signal. New processing resolves it
      from the batch's pinned decoder model and does not fall back to raw Sudachi
      uniqueness when an older model lacks the artifact.
@@ -1038,13 +1039,13 @@ corpus is unnecessary.
 Initial corpus-frequency safety defaults:
 
 - `min_count = 5`
-- `min_share = 0.95`
+- `min_share = 0.98`
 
-Below 20 observations, the share threshold still requires every observed
-reading to agree; at larger counts it permits a small minority. These defaults
-came from inspecting exact-boundary samples with count 5. They
-are intentionally "low-risk enough for de-emphasis" thresholds, not proof that
-no alternate reading exists.
+Below 50 observations, the share threshold requires every observed reading to
+agree; at larger counts it permits a small minority. This remains a
+"low-risk enough for de-emphasis" threshold, not proof that no alternate
+reading exists. The stricter share avoids suppressing review for legitimate
+minority readings such as `方/ホウ` in otherwise common local contexts.
 
 Important cautions:
 

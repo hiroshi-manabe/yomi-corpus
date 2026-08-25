@@ -25,7 +25,7 @@ class YomiGenerationConfig:
     corpus_frequency_manifest: str | None = None
     corpus_frequency_surface_filter: str = "target"
     corpus_frequency_min_count: int = 5
-    corpus_frequency_min_share: float = 0.95
+    corpus_frequency_min_share: float = 0.98
     learned_exact_rewrites: str | None = None
 
 
@@ -61,7 +61,7 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         corpus_frequency_manifest=_optional_path(config_path, corpus_frequency.get("manifest")),
         corpus_frequency_surface_filter=str(corpus_frequency.get("surface_filter", "target")),
         corpus_frequency_min_count=int(corpus_frequency_safety.get("min_count", 5)),
-        corpus_frequency_min_share=float(corpus_frequency_safety.get("min_share", 0.95)),
+        corpus_frequency_min_share=float(corpus_frequency_safety.get("min_share", 0.98)),
         learned_exact_rewrites=_optional_path(config_path, learned_yomi.get("exact_rewrites")),
     )
 
