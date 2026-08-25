@@ -1,7 +1,7 @@
 [tracks.dev.decoder_refresh]
 mode = "on-finalize"
-min_new_batches = 1
-min_interval_minutes = 0
+min_new_batches = 20
+min_interval_minutes = 1440
 skip_kenlm = false
 
 [tracks.dev.bulk_review_refill]

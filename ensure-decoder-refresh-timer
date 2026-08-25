@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+SYSTEMD_USER_DIR="${HOME}/.config/systemd/user"
+SERVICE_NAME="yomi-corpus-decoder-refresh-dev.service"
+TIMER_NAME="yomi-corpus-decoder-refresh-dev.timer"
+LEGACY_PATH_NAME="yomi-corpus-decoder-refresh-dev.path"
+
+usage() {
+  cat <<'EOF'
+Usage: ./ensure-decoder-refresh-timer [--quiet]
+
+Install/update the daily user-level decoder refresh eligibility timer for dev.
+This also disables the legacy request-triggered path unit.
+EOF
+}
+
+quiet=false
+if [[ "${1:-}" == "--quiet" ]]; then
+  quiet=true
+elif [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+elif [[ $# -gt 0 ]]; then
+  usage >&2
+  exit 2
+fi
+
+log() {
+  if [[ "${quiet}" != true ]]; then
+    printf '%s\n' "$*"
+  fi
+}
+
+if ! command -v systemctl >/dev/null 2>&1; then
+  log "systemctl not found; skipping decoder refresh timer."
+  exit 0
+fi
+
+if ! systemctl --user is-active --quiet default.target >/dev/null 2>&1; then
+  log "systemd --user is not active; skipping decoder refresh timer."
+  exit 0
+fi
+
+mkdir -p "${SYSTEMD_USER_DIR}"
+install -m 0644 \
+  "${PROJECT_ROOT}/deploy/systemd/user/${SERVICE_NAME}" \
+  "${SYSTEMD_USER_DIR}/${SERVICE_NAME}"
+install -m 0644 \
+  "${PROJECT_ROOT}/deploy/systemd/user/${TIMER_NAME}" \
+  "${SYSTEMD_USER_DIR}/${TIMER_NAME}"
+
+systemctl --user disable --now "${LEGACY_PATH_NAME}" >/dev/null 2>&1 || true
+rm -f "${SYSTEMD_USER_DIR}/${LEGACY_PATH_NAME}"
+systemctl --user daemon-reload >/dev/null
+systemctl --user enable --now "${TIMER_NAME}" >/dev/null
+
+if systemctl --user is-active --quiet "${TIMER_NAME}"; then
+  log "Decoder refresh timer is active: ${TIMER_NAME}"
+else
+  log "Decoder refresh timer was installed but is not active."
+  exit 1
+fi

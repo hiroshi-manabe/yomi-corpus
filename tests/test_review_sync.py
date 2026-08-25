@@ -24,7 +24,6 @@ from yomi_corpus.review_sync import (
     STAGE_YOMI_STRONG_REPAIR_QUEUED,
     ReviewSyncOptions,
     aggregate_document_queue_summary,
-    build_decoder_refresh_plan,
     build_bulk_review_refill_plan,
     close_finalized_correction_issues,
     closable_issue_numbers,
@@ -34,7 +33,6 @@ from yomi_corpus.review_sync import (
     list_track_batches,
     maintain_strong_repair_for_reviewed_documents,
     publish_review_artifacts,
-    request_decoder_model_refresh,
     reconcile_applied_final_review_issues,
     review_submission_was_imported,
     review_sync_lock_stale_reason,
@@ -780,155 +778,6 @@ class ReviewSyncTests(unittest.TestCase):
 
             self.assertTrue(result["publish_required"])
             self.assertEqual(result["drift_seconds"], 40)
-
-    def test_decoder_refresh_plan_skips_never_mode(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="never")
-
-            plan = build_decoder_refresh_plan(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=["dev_batch_0001"],
-            )
-
-            self.assertFalse(plan["will_refresh"])
-            self.assertEqual(plan["reason"], "mode_never")
-
-    def test_decoder_refresh_plan_refreshes_on_finalize_with_new_batch(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
-
-            plan = build_decoder_refresh_plan(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=["dev_batch_0001"],
-            )
-
-            self.assertTrue(plan["will_refresh"])
-            self.assertEqual(plan["new_since_refresh"], ["dev_batch_0001"])
-
-    def test_decoder_refresh_plan_retries_unrefreshed_finalized_batch(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
-
-            plan = build_decoder_refresh_plan(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=[],
-            )
-
-            self.assertTrue(plan["will_refresh"])
-            self.assertEqual(plan["new_since_refresh"], ["dev_batch_0001"])
-
-    def test_decoder_refresh_plan_respects_min_new_batches(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(
-                track_name="dev",
-                decoder_refresh_mode="on-finalize",
-                decoder_refresh_min_new_batches=2,
-            )
-
-            plan = build_decoder_refresh_plan(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=["dev_batch_0001"],
-            )
-
-            self.assertFalse(plan["will_refresh"])
-            self.assertEqual(plan["reason"], "min_new_batches_not_met")
-
-    def test_decoder_refresh_plan_respects_min_interval(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            model_dir = root / "models" / "dev" / "previous"
-            model_dir.mkdir(parents=True)
-            (model_dir / "yomi_corpus_refresh.json").write_text(
-                json.dumps(
-                    {
-                        "track_name": "dev",
-                        "finalized_batches": [],
-                        "refreshed_at": "2999-01-01T00:00:00Z",
-                    }
-                ),
-                encoding="utf-8",
-            )
-            track_state = workspace.load_track_state("dev")
-            track_state.decoder_model_dir = str(model_dir)
-            workspace.save_track_state(track_state)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(
-                track_name="dev",
-                decoder_refresh_mode="on-finalize",
-                decoder_refresh_min_interval_minutes=60,
-            )
-
-            plan = build_decoder_refresh_plan(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=["dev_batch_0001"],
-            )
-
-            self.assertFalse(plan["will_refresh"])
-            self.assertEqual(plan["reason"], "min_interval_not_met")
-
-    def test_review_sync_queues_decoder_refresh_without_building(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = PipelineWorkspace(root)
-            write_finalized_batch(root, "dev_batch_0001")
-            options = ReviewSyncOptions(track_name="dev", decoder_refresh_mode="on-finalize")
-
-            result = request_decoder_model_refresh(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=["dev_batch_0001"],
-            )
-
-            self.assertEqual(result["status"], "queued")
-            self.assertTrue(result["request_created"])
-            request_path = Path(result["request_path"])
-            self.assertTrue(request_path.exists())
-            trigger_path = Path(result["trigger_path"])
-            self.assertTrue(trigger_path.exists())
-            first_trigger = json.loads(trigger_path.read_text(encoding="utf-8"))
-            self.assertEqual(first_trigger["request_id"], result["request_id"])
-            request = json.loads(request_path.read_text(encoding="utf-8"))
-            self.assertEqual(request["plan"]["new_since_refresh"], ["dev_batch_0001"])
-
-            duplicate = request_decoder_model_refresh(
-                root=root,
-                workspace=workspace,
-                options=options,
-                newly_finalized_batches=[],
-            )
-            self.assertEqual(duplicate["status"], "queued")
-            self.assertFalse(duplicate["request_created"])
-            self.assertEqual(duplicate["request_id"], result["request_id"])
-            second_trigger = json.loads(trigger_path.read_text(encoding="utf-8"))
-            self.assertEqual(second_trigger["request_id"], result["request_id"])
-            self.assertNotEqual(
-                second_trigger["notification_nonce"],
-                first_trigger["notification_nonce"],
-            )
 
     def test_list_track_batches_returns_only_requested_track(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -8,16 +8,13 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.decoder_models import refresh_decoder_model
-from yomi_corpus.pipeline import PipelineWorkspace
-from yomi_corpus.review_sync import (
+from yomi_corpus.decoder_refresh_policy import (
     DECODER_REFRESH_MODE_NEVER,
-    ReviewSyncLock,
-    ReviewSyncOptions,
+    DecoderRefreshPolicy,
     build_decoder_refresh_plan,
-    decoder_refresh_request_path,
-    read_json_object,
-    write_json_atomic,
 )
+from yomi_corpus.pipeline import PipelineWorkspace
+from yomi_corpus.review_sync import ReviewSyncLock
 
 
 DECODER_REFRESH_WORKER_SCHEMA_VERSION = 1
@@ -59,29 +56,16 @@ def _run_decoder_refresh_worker_pass_unlocked(
     started_at_epoch = int(time.time())
     request_path = decoder_refresh_request_path(root, options.track_name)
     request = read_json_object(request_path)
-    if request is None:
-        return worker_summary(
-            options=options,
-            started_at_epoch=started_at_epoch,
-            status="idle",
-            request_path=request_path,
-            request=None,
-            plan=None,
-        )
-
     workspace = PipelineWorkspace(root)
-    plan_options = ReviewSyncOptions(
-        track_name=options.track_name,
-        decoder_refresh_mode=options.mode,
-        decoder_refresh_min_new_batches=options.min_new_batches,
-        decoder_refresh_min_interval_minutes=options.min_interval_minutes,
-        decoder_refresh_skip_kenlm=options.skip_kenlm,
-    )
     plan = build_decoder_refresh_plan(
-        root=root,
         workspace=workspace,
-        options=plan_options,
-        newly_finalized_batches=[],
+        track_name=options.track_name,
+        policy=DecoderRefreshPolicy(
+            mode=options.mode,
+            min_new_batches=options.min_new_batches,
+            min_interval_minutes=options.min_interval_minutes,
+            skip_kenlm=options.skip_kenlm,
+        ),
     )
     if not plan["will_refresh"]:
         terminal = plan.get("reason") in {
@@ -90,13 +74,17 @@ def _run_decoder_refresh_worker_pass_unlocked(
         }
         cleared = (
             clear_matching_decoder_refresh_request(request_path, request)
-            if terminal and not options.dry_run
+            if request is not None and terminal and not options.dry_run
             else False
         )
         return worker_summary(
             options=options,
             started_at_epoch=started_at_epoch,
-            status="cancelled" if terminal else "waiting",
+            status=(
+                "disabled"
+                if plan.get("reason") == "mode_never"
+                else ("idle" if terminal else "waiting")
+            ),
             request_path=request_path,
             request=request,
             plan=plan,
@@ -132,7 +120,11 @@ def _run_decoder_refresh_worker_pass_unlocked(
             error_type=type(exc).__name__,
         )
 
-    cleared = clear_matching_decoder_refresh_request(request_path, request)
+    cleared = (
+        clear_matching_decoder_refresh_request(request_path, request)
+        if request is not None
+        else False
+    )
     return worker_summary(
         options=options,
         started_at_epoch=started_at_epoch,
@@ -159,6 +151,28 @@ def clear_matching_decoder_refresh_request(
     except FileNotFoundError:
         return False
     return True
+
+
+def decoder_refresh_request_path(root: Path, track_name: str) -> Path:
+    return root / "data" / "state" / "decoder_refresh" / f"{track_name}.request.json"
+
+
+def read_json_object(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def worker_summary(

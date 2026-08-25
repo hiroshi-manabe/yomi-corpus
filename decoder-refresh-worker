@@ -16,8 +16,8 @@ from yomi_corpus.decoder_refresh_worker import (  # noqa: E402
     DecoderRefreshWorkerOptions,
     run_decoder_refresh_worker_pass,
 )
+from yomi_corpus.decoder_refresh_policy import DECODER_REFRESH_MODES  # noqa: E402
 from yomi_corpus.review_sync import (  # noqa: E402
-    DECODER_REFRESH_MODES,
     DEFAULT_REVIEW_SYNC_CONFIG,
     load_review_sync_config,
 )
@@ -25,7 +25,7 @@ from yomi_corpus.review_sync import (  # noqa: E402
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build a requested track-scoped decoder model outside review sync."
+        description="Periodically evaluate and refresh a track-scoped decoder model."
     )
     parser.add_argument("track", choices=["dev", "working"])
     parser.add_argument(

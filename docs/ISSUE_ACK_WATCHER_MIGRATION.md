@@ -28,7 +28,7 @@ Introduce a lightweight `issue-watch` worker alongside the existing workers:
 | `issue-watch` | approximately every 30 seconds | discover and acknowledge new review submissions |
 | `review-sync` | watcher demand plus five-minute recovery timer | import, apply, advance, close Issues, and publish canonical state |
 | `refill-worker` | independent timer | prepare new Bulk Review material |
-| `decoder-refresh-worker` | durable refresh request | rebuild decoder artifacts |
+| `decoder-refresh-worker` | independent maintenance timer | evaluate accumulated finalized batches and rebuild decoder artifacts |
 
 `issue-watch` must not apply review data, run pipeline stages, call reading
 LLMs, rebuild indexes, or finalize batches. Its normal pass should perform only

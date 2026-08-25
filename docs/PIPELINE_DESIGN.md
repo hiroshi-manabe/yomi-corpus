@@ -2692,12 +2692,14 @@ It exports finalized corpora for that track, builds a new decoder model, and
 updates that track's latest decoder model pointer. New batches copy that
 pointer into their batch manifest/state for reproducibility.
 
-Automated refreshes use a separate maintenance worker. `review-sync` only
-writes a durable request after the configured finalization thresholds are met;
-`./decoder-refresh-worker <track>` performs the expensive export and KenLM
-build under an independent lock. Failed requests remain pending for retry, and
-successful workers clear only the request ID they consumed. This keeps Issue
-application and review publication responsive while model construction runs.
+Automated refreshes use a separately scheduled maintenance worker.
+`review-sync` has no decoder-maintenance responsibility.
+`./decoder-refresh-worker <track>` compares canonical finalized batches with
+the latest successful model manifest and performs the expensive export and
+KenLM build under an independent lock only when its accumulated-batch and time
+thresholds are met. Failed builds are retried by a later scheduled pass. This
+keeps Issue application and review publication independent from model
+construction.
 
 Model retention should favor reproducibility without retaining every heavy
 artifact forever:

@@ -1,0 +1,11 @@
+[Unit]
+Description=Check dev decoder model refresh eligibility daily
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+RandomizedDelaySec=15min
+Persistent=true
+Unit=yomi-corpus-decoder-refresh-dev.service
+
+[Install]
+WantedBy=timers.target

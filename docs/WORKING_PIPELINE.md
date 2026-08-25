@@ -2449,12 +2449,10 @@ Default behavior should be conservative:
   `--publish {none,local,gh-pages}`. The default `local` regenerates
   `docs/review` after a state-changing pass without pushing. `none` applies
   pipeline state only. `gh-pages` regenerates and then runs `./publish-review`.
-- decoder model refresh requests are controlled separately in
-  `config/review_sync/default.toml` and can be overridden with
-  `--decoder-refresh {never,on-finalize,always}`,
-  `--decoder-refresh-min-new-batches`, and
-  `--decoder-refresh-min-interval-minutes`. It is not a transport setting, and
-  `review-sync` never performs the model build itself.
+- decoder model refresh is not part of review-sync. The independent
+  `decoder-refresh-worker` reads its policy from
+  `config/review_sync/default.toml`; manual worker invocations may override its
+  mode, batch threshold, and minimum interval.
 
 This avoids daemon-specific failure modes while preserving the path to later
 automation. Once the command is stable, periodic execution can be done outside
@@ -2490,16 +2488,14 @@ maintenance is specified in
 
 Review synchronization is latency-sensitive; refill and decoder rebuilding are
 throughput-sensitive. They must be separate processes with separate execution
-policies and locks. Refill remains scheduled, while decoder rebuilding is
-event-driven from a durable request emitted by review sync.
+policies and locks. Refill and decoder eligibility checks run on independent
+schedules.
 
 `review-sync` should remain a short five-minute operation:
 
 - import and apply Bulk Review and Escalated Repair Issue submissions
 - close successfully consumed Issues
 - transition reviewed documents and finalize eligible batches
-- atomically queue decoder refresh demand according to finalization policy and
-  notify the independent decoder worker
 - regenerate and publish changed review artifacts and runtime status
 - publish newly imported submission state before slower batch advancement, then
   publish the final state again when the pass changes it further
@@ -2561,7 +2557,7 @@ For dev, install the version-controlled user units from
 systemctl --user daemon-reload
 systemctl --user enable --now yomi-corpus-review-sync-dev.timer
 systemctl --user enable --now yomi-corpus-refill-dev.timer
-systemctl --user enable --now yomi-corpus-decoder-refresh-dev.path
+systemctl --user enable --now yomi-corpus-decoder-refresh-dev.timer
 ```
 
 Useful diagnostics:
@@ -2652,23 +2648,18 @@ rather than promising that the cluster will run at that exact moment.
 
 Decoder refresh policy:
 
-- dev defaults to `on-finalize`, `min_new_batches = 1`, and
-  `min_interval_minutes = 0`
+- dev checks eligibility daily and defaults to `on-finalize`,
+  `min_new_batches = 20`, and `min_interval_minutes = 1440`
 - working defaults to `never`, with stricter thresholds already documented in
   config for later use
-- `on-finalize` queues a durable request when at least one finalized batch is
-  not yet represented in the last successful decoder refresh and the
-  since-last-refresh thresholds are satisfied.
-- `./decoder-refresh-worker <track>` consumes that request under its own lock,
-  recomputes eligibility, and performs the export and KenLM build. Review sync
-  rewrites `data/state/decoder_refresh/<track>.trigger.json` whenever it creates
-  or reasserts pending demand; a systemd path unit starts the worker when that
-  trigger changes. There is no independent decoder polling timer.
-- requests live at `data/state/decoder_refresh/<track>.request.json`. A failed
-  build leaves the request in place. The next review-sync pass re-notifies the
-  worker, providing bounded retries without idle polling. A successful build
-  clears only the request ID it started with, so a newer request written during
-  the build cannot be lost.
+- `./decoder-refresh-worker <track>` derives eligibility directly from all
+  finalized batches and the latest successful model manifest, then performs
+  export and KenLM construction under its own lock when thresholds are met.
+- legacy requests under `data/state/decoder_refresh/<track>.request.json` are
+  still consumed during migration, but review-sync no longer creates them.
+- a failed scheduled build leaves the previous model active. The next timer
+  invocation retries from canonical finalized state without requiring a
+  request file.
 - worker summaries are written to
   `data/state/decoder_refresh/<track>.last.json` with timestamped history.
 - refresh uses the existing `refresh_decoder_model()` path, exports all

@@ -13,7 +13,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from yomi_corpus.decoder_models import list_finalized_batches
+from yomi_corpus.decoder_refresh_policy import (
+    DECODER_REFRESH_MODES,
+    DECODER_REFRESH_MODE_NEVER,
+)
 from yomi_corpus.pipeline import (
     LLM_EXECUTION_MODES,
     STAGE_FINAL_REVIEW_APPLIED,
@@ -43,14 +46,6 @@ from yomi_corpus.yomi.final_review import (
 from yomi_corpus.yomi.final_review_issue_import import import_open_issue_inbox
 
 DEFAULT_REVIEW_SYNC_CONFIG = "config/review_sync/default.toml"
-DECODER_REFRESH_MODE_NEVER = "never"
-DECODER_REFRESH_MODE_ON_FINALIZE = "on-finalize"
-DECODER_REFRESH_MODE_ALWAYS = "always"
-DECODER_REFRESH_MODES = {
-    DECODER_REFRESH_MODE_NEVER,
-    DECODER_REFRESH_MODE_ON_FINALIZE,
-    DECODER_REFRESH_MODE_ALWAYS,
-}
 RUNTIME_STATUS_SCHEMA_VERSION = 1
 DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS = 300
 DEFAULT_RUNTIME_STATUS_GRACE_SECONDS = 90
@@ -174,10 +169,6 @@ class ReviewSyncOptions:
     refill_pass_limit: int = 0
     refill_aligned_batch_size: int = 0
     dry_run: bool = False
-    decoder_refresh_mode: str = DECODER_REFRESH_MODE_NEVER
-    decoder_refresh_min_new_batches: int = 1
-    decoder_refresh_min_interval_minutes: float = 0.0
-    decoder_refresh_skip_kenlm: bool = False
     runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
     runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
     runtime_status_normal_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
@@ -342,11 +333,9 @@ def _run_review_sync_pass_unlocked(
     refill_results: list[dict[str, Any]] = []
     sweep_results: list[dict[str, Any]] = []
     finalized_correction_result: dict[str, Any] | None = None
-    decoder_refresh_result: dict[str, Any] | None = None
     intermediate_publish_results: list[dict[str, Any]] = []
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
-    finalized_before = set(list_finalized_batches(workspace, options.track_name))
 
     def publish_applied_review_state(
         attempted_stage: str,
@@ -494,8 +483,6 @@ def _run_review_sync_pass_unlocked(
         workspace=workspace,
         track_name=options.track_name,
     )
-    finalized_after = set(list_finalized_batches(workspace, options.track_name))
-    newly_finalized_batches = sorted(finalized_after - finalized_before)
     refill_plan = build_bulk_review_refill_plan(
         document_queue_summary=document_queue_summary,
         target_ready_docs=options.bulk_review_target_ready_docs,
@@ -533,14 +520,6 @@ def _run_review_sync_pass_unlocked(
                 enabled=options.close_issues,
                 exclude_issue_numbers=already_closed,
             )
-        )
-
-    if not options.dry_run:
-        decoder_refresh_result = request_decoder_model_refresh(
-            root=root,
-            workspace=workspace,
-            options=options,
-            newly_finalized_batches=newly_finalized_batches,
         )
 
     completed_at = now_iso()
@@ -587,7 +566,6 @@ def _run_review_sync_pass_unlocked(
         },
         "refill_plan": refill_plan,
         "finalized_correction_result": finalized_correction_result,
-        "decoder_refresh_result": decoder_refresh_result,
         "changed": changed,
         "site_stale": site_stale,
         "stage_results": stage_results,
@@ -768,150 +746,6 @@ def finalized_correction_problematic_submission_ids(apply_summary: dict[str, Any
     return ids
 
 
-def request_decoder_model_refresh(
-    *,
-    root: Path,
-    workspace: PipelineWorkspace,
-    options: ReviewSyncOptions,
-    newly_finalized_batches: list[str],
-) -> dict[str, Any]:
-    plan = build_decoder_refresh_plan(
-        root=root,
-        workspace=workspace,
-        options=options,
-        newly_finalized_batches=newly_finalized_batches,
-    )
-    if not plan["will_refresh"]:
-        return plan
-
-    request_path = decoder_refresh_request_path(root, options.track_name)
-    existing = read_json_object(request_path)
-    policy = decoder_refresh_policy_from_options(options)
-    if existing and decoder_refresh_request_covers_plan(existing, plan=plan, policy=policy):
-        trigger_path = notify_decoder_refresh_worker(
-            root=root,
-            track_name=options.track_name,
-            request_id=str(existing.get("request_id") or ""),
-        )
-        return {
-            **plan,
-            "status": "queued",
-            "request_path": str(request_path),
-            "trigger_path": str(trigger_path),
-            "request_id": str(existing.get("request_id") or ""),
-            "request_created": False,
-        }
-
-    requested_at = now_iso()
-    request_seed = json.dumps(
-        {
-            "track_name": options.track_name,
-            "requested_at": requested_at,
-            "time_ns": time.time_ns(),
-            "policy": policy,
-            "new_since_refresh": plan["new_since_refresh"],
-        },
-        ensure_ascii=False,
-        sort_keys=True,
-    )
-    request_id = sha256(request_seed.encode("utf-8")).hexdigest()[:20]
-    request = {
-        "schema_version": 1,
-        "request_id": request_id,
-        "track_name": options.track_name,
-        "requested_at": requested_at,
-        "policy": policy,
-        "plan": plan,
-    }
-    write_json_atomic(request_path, request)
-    trigger_path = notify_decoder_refresh_worker(
-        root=root,
-        track_name=options.track_name,
-        request_id=request_id,
-    )
-    return {
-        **plan,
-        "status": "queued",
-        "request_path": str(request_path),
-        "trigger_path": str(trigger_path),
-        "request_id": request_id,
-        "request_created": True,
-    }
-
-
-def decoder_refresh_request_path(root: Path, track_name: str) -> Path:
-    return root / "data" / "state" / "decoder_refresh" / f"{track_name}.request.json"
-
-
-def decoder_refresh_trigger_path(root: Path, track_name: str) -> Path:
-    return root / "data" / "state" / "decoder_refresh" / f"{track_name}.trigger.json"
-
-
-def notify_decoder_refresh_worker(
-    *,
-    root: Path,
-    track_name: str,
-    request_id: str,
-) -> Path:
-    trigger_path = decoder_refresh_trigger_path(root, track_name)
-    write_json_atomic(
-        trigger_path,
-        {
-            "schema_version": 1,
-            "track_name": track_name,
-            "request_id": request_id,
-            "notified_at": now_iso(),
-            "notification_nonce": time.time_ns(),
-        },
-    )
-    return trigger_path
-
-
-def decoder_refresh_policy_from_options(options: ReviewSyncOptions) -> dict[str, Any]:
-    return {
-        "mode": options.decoder_refresh_mode.replace("_", "-"),
-        "min_new_batches": max(1, int(options.decoder_refresh_min_new_batches or 1)),
-        "min_interval_minutes": max(0.0, options.decoder_refresh_min_interval_minutes),
-        "skip_kenlm": bool(options.decoder_refresh_skip_kenlm),
-    }
-
-
-def decoder_refresh_request_covers_plan(
-    request: dict[str, Any],
-    *,
-    plan: dict[str, Any],
-    policy: dict[str, Any],
-) -> bool:
-    if request.get("track_name") != plan.get("track_name"):
-        return False
-    if request.get("policy") != policy:
-        return False
-    request_plan = request.get("plan")
-    if not isinstance(request_plan, dict):
-        return False
-    requested_batches = {str(value) for value in request_plan.get("new_since_refresh") or []}
-    needed_batches = {str(value) for value in plan.get("new_since_refresh") or []}
-    return needed_batches.issubset(requested_batches)
-
-
-def read_json_object(path: Path) -> dict[str, Any] | None:
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, OSError, json.JSONDecodeError):
-        return None
-    return payload if isinstance(payload, dict) else None
-
-
-def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    temporary.replace(path)
-
-
 def sweep_actionable_batches(
     *,
     root: Path,
@@ -1012,108 +846,6 @@ def list_track_batches(workspace: PipelineWorkspace, track_name: str) -> list[st
         updated_at = str(payload.get("updated_at") or "")
         rows.append((batch_name, updated_at))
     return [batch_name for batch_name, _ in sorted(rows)]
-
-
-def build_decoder_refresh_plan(
-    *,
-    root: Path,
-    workspace: PipelineWorkspace,
-    options: ReviewSyncOptions,
-    newly_finalized_batches: list[str],
-) -> dict[str, Any]:
-    mode = options.decoder_refresh_mode.replace("_", "-")
-    if mode not in DECODER_REFRESH_MODES:
-        raise ValueError(f"Unsupported decoder refresh mode: {options.decoder_refresh_mode}")
-    finalized_batches = list_finalized_batches(workspace, options.track_name)
-    previous_batches = previous_decoder_refresh_batches(workspace, options.track_name)
-    new_since_refresh = sorted(set(finalized_batches) - set(previous_batches))
-    previous_refreshed_at = previous_decoder_refresh_time(workspace, options.track_name)
-    min_interval_seconds = max(0.0, options.decoder_refresh_min_interval_minutes) * 60.0
-    interval_elapsed = (
-        None
-        if previous_refreshed_at is None
-        else max(0.0, datetime.now(timezone.utc).timestamp() - previous_refreshed_at.timestamp())
-    )
-    interval_satisfied = interval_elapsed is None or interval_elapsed >= min_interval_seconds
-    min_new = max(1, int(options.decoder_refresh_min_new_batches or 1))
-    enough_new_batches = len(new_since_refresh) >= min_new
-    mode_allows = mode == DECODER_REFRESH_MODE_ALWAYS or (
-        mode == DECODER_REFRESH_MODE_ON_FINALIZE and bool(new_since_refresh)
-    )
-    will_refresh = (
-        mode != DECODER_REFRESH_MODE_NEVER
-        and mode_allows
-        and enough_new_batches
-        and interval_satisfied
-    )
-    reason = None
-    if mode == DECODER_REFRESH_MODE_NEVER:
-        reason = "mode_never"
-    elif not mode_allows:
-        reason = "no_unrefreshed_finalized_batches"
-    elif not enough_new_batches:
-        reason = "min_new_batches_not_met"
-    elif not interval_satisfied:
-        reason = "min_interval_not_met"
-    return {
-        "status": "planned" if will_refresh else "skipped",
-        "will_refresh": will_refresh,
-        "reason": reason,
-        "mode": mode,
-        "track_name": options.track_name,
-        "finalized_batches": finalized_batches,
-        "previous_refreshed_batches": previous_batches,
-        "new_since_refresh": new_since_refresh,
-        "newly_finalized_batches": newly_finalized_batches,
-        "min_new_batches": min_new,
-        "min_interval_minutes": max(0.0, options.decoder_refresh_min_interval_minutes),
-        "interval_elapsed_seconds": interval_elapsed,
-        "skip_kenlm": options.decoder_refresh_skip_kenlm,
-    }
-
-
-def previous_decoder_refresh_batches(workspace: PipelineWorkspace, track_name: str) -> list[str]:
-    manifest = previous_decoder_refresh_manifest(workspace, track_name)
-    if not manifest:
-        return []
-    batches = manifest.get("finalized_batches")
-    if not isinstance(batches, list):
-        return []
-    return [str(batch) for batch in batches]
-
-
-def previous_decoder_refresh_time(
-    workspace: PipelineWorkspace,
-    track_name: str,
-) -> datetime | None:
-    manifest = previous_decoder_refresh_manifest(workspace, track_name)
-    if not manifest:
-        return None
-    raw = str(manifest.get("refreshed_at") or manifest.get("created_at") or "")
-    if not raw:
-        return None
-    try:
-        return datetime.fromisoformat(raw.replace("Z", "+00:00"))
-    except ValueError:
-        return None
-
-
-def previous_decoder_refresh_manifest(
-    workspace: PipelineWorkspace,
-    track_name: str,
-) -> dict[str, Any] | None:
-    track_state = workspace.load_track_state(track_name)
-    model_dir = getattr(track_state, "decoder_model_dir", None)
-    if not model_dir:
-        return None
-    manifest_path = Path(str(model_dir)) / "yomi_corpus_refresh.json"
-    if not manifest_path.exists():
-        return None
-    try:
-        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-    return payload if isinstance(payload, dict) else None
 
 
 def build_bulk_review_refill_plan(
@@ -1766,11 +1498,6 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         else {}
     )
     refill_plan = summary.get("refill_plan") if isinstance(summary.get("refill_plan"), dict) else {}
-    decoder_refresh = (
-        summary.get("decoder_refresh_result")
-        if isinstance(summary.get("decoder_refresh_result"), dict)
-        else None
-    )
     return {
         "track_name": summary.get("track_name"),
         "changed": summary.get("changed"),
@@ -1778,7 +1505,6 @@ def compact_console_summary(summary: dict[str, Any]) -> dict[str, Any]:
         "document_queue_counts": document_queue_summary.get("queue_counts"),
         "document_pool_counts": document_queue_summary.get("pool_counts"),
         "refill_plan": refill_plan or None,
-        "decoder_refresh": decoder_refresh,
         "stages": [
             {
                 "attempted_stage": row.get("attempted_stage"),
