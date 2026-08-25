@@ -2484,6 +2484,10 @@ journalctl --user -u yomi-corpus-review-sync-dev.service -n 80 --no-pager
 
 #### 11.2.1 Review sync, refill, and decoder-refresh worker separation
 
+The migration from per-finalization decoder requests to accumulated scheduled
+maintenance is specified in
+[`DECODER_REFRESH_SCHEDULING_MIGRATION.md`](DECODER_REFRESH_SCHEDULING_MIGRATION.md).
+
 Review synchronization is latency-sensitive; refill and decoder rebuilding are
 throughput-sensitive. They must be separate processes with separate execution
 policies and locks. Refill remains scheduled, while decoder rebuilding is
