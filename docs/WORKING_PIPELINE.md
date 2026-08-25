@@ -2648,8 +2648,9 @@ rather than promising that the cluster will run at that exact moment.
 
 Decoder refresh policy:
 
-- dev checks eligibility daily and defaults to `on-finalize`,
-  `min_new_batches = 20`, and `min_interval_minutes = 1440`
+- dev checks eligibility every ten minutes and defaults to `on-finalize`,
+  `min_new_batches = 1`, and `min_interval_minutes = 60`; the worker defers
+  while review-sync or refill is active and runs at low CPU/I/O priority
 - working defaults to `never`, with stricter thresholds already documented in
   config for later use
 - `./decoder-refresh-worker <track>` derives eligibility directly from all

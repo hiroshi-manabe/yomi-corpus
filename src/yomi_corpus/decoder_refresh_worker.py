@@ -14,7 +14,7 @@ from yomi_corpus.decoder_refresh_policy import (
     build_decoder_refresh_plan,
 )
 from yomi_corpus.pipeline import PipelineWorkspace
-from yomi_corpus.review_sync import ReviewSyncLock
+from yomi_corpus.review_sync import ReviewSyncLock, review_sync_lock_stale_reason
 
 
 DECODER_REFRESH_WORKER_SCHEMA_VERSION = 1
@@ -56,6 +56,17 @@ def _run_decoder_refresh_worker_pass_unlocked(
     started_at_epoch = int(time.time())
     request_path = decoder_refresh_request_path(root, options.track_name)
     request = read_json_object(request_path)
+    deferred_reasons = active_latency_sensitive_locks(root, options.track_name)
+    if deferred_reasons:
+        return worker_summary(
+            options=options,
+            started_at_epoch=started_at_epoch,
+            status="deferred",
+            request_path=request_path,
+            request=request,
+            plan=None,
+            deferred_reasons=deferred_reasons,
+        )
     workspace = PipelineWorkspace(root)
     plan = build_decoder_refresh_plan(
         workspace=workspace,
@@ -157,6 +168,18 @@ def decoder_refresh_request_path(root: Path, track_name: str) -> Path:
     return root / "data" / "state" / "decoder_refresh" / f"{track_name}.request.json"
 
 
+def active_latency_sensitive_locks(root: Path, track_name: str) -> list[str]:
+    candidates = {
+        "review_sync": root / "data" / "state" / "review_sync" / f"{track_name}.lock",
+        "refill": root / "data" / "state" / "refill" / f"{track_name}.lock",
+    }
+    return [
+        label
+        for label, path in candidates.items()
+        if path.exists() and review_sync_lock_stale_reason(path) is None
+    ]
+
+
 def read_json_object(path: Path) -> dict[str, Any] | None:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -187,6 +210,7 @@ def worker_summary(
     refresh: dict[str, Any] | None = None,
     error: str | None = None,
     error_type: str | None = None,
+    deferred_reasons: list[str] | None = None,
 ) -> dict[str, Any]:
     completed_at_epoch = int(time.time())
     return {
@@ -208,6 +232,7 @@ def worker_summary(
         },
         "plan": plan,
         "refresh": refresh,
+        "deferred_reasons": deferred_reasons or [],
         "error": error,
         "error_type": error_type,
     }

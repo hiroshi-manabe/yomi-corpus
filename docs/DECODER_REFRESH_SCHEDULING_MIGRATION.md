@@ -21,17 +21,19 @@ No model-build request or model-maintenance policy should be part of a normal
 
 ## Target Policy
 
-For dev, run a cheap decoder-refresh eligibility check periodically and rebuild
-only when both conditions hold:
+For dev, run a cheap decoder-refresh eligibility check every ten minutes and
+rebuild only when both conditions hold:
 
-- at least 20 finalized batches are not represented in the latest successful
+- at least one finalized batch is not represented in the latest successful
   model;
-- at least 24 hours have elapsed since the latest successful refresh.
+- at least one hour has elapsed since the latest successful refresh.
 
-This is intentionally conservative. A manual worker invocation may override
-the thresholds when an experiment needs a fresh model immediately. Working
-remains disabled until its independent repository and operating policy are
-ready.
+The worker defers while review-sync or refill is active and runs at low CPU and
+idle I/O priority. This makes frequent eligibility checks safe without coupling
+review finalization to model construction. A manual worker invocation may
+override the thresholds when an experiment needs a fresh model immediately.
+Working remains disabled until its independent repository and operating policy
+are ready.
 
 Eligibility is derived from canonical finalized-batch state and the manifest of
 the latest successful decoder model. It must not depend on a mutable current
@@ -85,8 +87,8 @@ batch pointer or on which batch happened to finish most recently.
 1. Add a version-controlled user-level systemd timer for dev decoder refresh.
 2. Run the eligibility check periodically; the check is cheap when thresholds
    are not met.
-3. Configure dev with `min_new_batches = 20` and
-   `min_interval_minutes = 1440`.
+3. Configure dev with `min_new_batches = 1` and
+   `min_interval_minutes = 60`.
 4. Disable the old decoder-refresh path unit after the timer is installed.
 5. Leave working disabled.
 
@@ -96,8 +98,8 @@ The migration is complete when:
 
 - applying/finalizing a batch does not create a decoder request or trigger;
 - review-sync completes without waiting for decoder maintenance;
-- a scheduled worker with fewer than 20 new batches exits as `waiting` without
-  changing the model pointer;
+- a scheduled worker with no new batches exits as `idle` without changing the
+  model pointer;
 - an eligible worker builds one model containing all finalized batches, not
   only the threshold-crossing batches;
 - a failed build leaves the prior model active and is retried by a later timer;

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from unittest.mock import patch
 
@@ -43,6 +44,28 @@ def test_scheduled_worker_waits_without_request_below_threshold(tmp_path: Path) 
     assert result["status"] == "waiting"
     assert result["request_id"] is None
     assert result["plan"]["reason"] == "min_new_batches_not_met"
+
+
+def test_scheduled_worker_defers_while_review_sync_is_active(tmp_path: Path) -> None:
+    lock_path = tmp_path / "data" / "state" / "review_sync" / "dev.lock"
+    lock_path.parent.mkdir(parents=True)
+    lock_path.write_text(json.dumps({"pid": os.getpid()}), encoding="utf-8")
+    write_finalized_batch(tmp_path, "dev_batch_0001")
+
+    with patch("yomi_corpus.decoder_refresh_worker.refresh_decoder_model") as refresh:
+        result = run_decoder_refresh_worker_pass(
+            tmp_path,
+            DecoderRefreshWorkerOptions(
+                track_name="dev",
+                mode="on-finalize",
+                min_new_batches=1,
+            ),
+        )
+
+    assert result["status"] == "deferred"
+    assert result["deferred_reasons"] == ["review_sync"]
+    assert result["plan"] is None
+    refresh.assert_not_called()
 
 
 def test_scheduled_worker_refreshes_without_request_at_threshold(tmp_path: Path) -> None:
