@@ -3969,6 +3969,11 @@ function renderStrongRepairSegmentRuby(item, region, segments, editable) {
     } else {
       button.append(document.createTextNode(segment.surface || ""));
     }
+    decorateReadingContrastBadge(
+      button,
+      strongRepairReadingCycleCandidates(region, segment.surface || ""),
+      segment.reading,
+    );
     if (editable) {
       button.addEventListener("click", () => cycleStrongRepairSegmentReading(item, region, index));
     }
@@ -5342,6 +5347,14 @@ function renderRubySpan(item, target, override, editable) {
     button.textContent = target.surface;
   }
 
+  decorateReadingContrastBadge(
+    button,
+    (target.candidates || [])
+      .filter((row) => row.source !== "none")
+      .map((row) => row.reading),
+    candidate?.reading,
+  );
+
   if (editable) {
     let longPressTimer = null;
     let suppressNextClick = false;
@@ -5374,6 +5387,34 @@ function renderRubySpan(item, target, override, editable) {
     });
   }
   return button;
+}
+
+function decorateReadingContrastBadge(container, candidateReadings, currentReading) {
+  const label = readingContrastBadge(candidateReadings, currentReading);
+  const annotation = container.querySelector("rt");
+  if (!label || !annotation) {
+    return;
+  }
+  const badge = document.createElement("span");
+  badge.className = `reading-contrast-badge reading-contrast-${label.toLowerCase()}`;
+  badge.textContent = label;
+  badge.title = label === "P" ? "半濁音" : "濁音";
+  annotation.prepend(badge, document.createTextNode(" "));
+}
+
+function readingContrastBadge(candidateReadings, currentReading) {
+  const readings = candidateReadings.filter((reading) => typeof reading === "string");
+  const hasBReading = readings.some((reading) => /[ばびぶべぼバビブベボ]/u.test(reading));
+  const hasPReading = readings.some((reading) => /[ぱぴぷぺぽパピプペポ]/u.test(reading));
+  if (!hasBReading || !hasPReading || typeof currentReading !== "string") {
+    return null;
+  }
+  const currentHasB = /[ばびぶべぼバビブベボ]/u.test(currentReading);
+  const currentHasP = /[ぱぴぷぺぽパピプペポ]/u.test(currentReading);
+  if (currentHasB === currentHasP) {
+    return null;
+  }
+  return currentHasP ? "P" : "B";
 }
 
 function selectedCandidate(target, targetDraft) {
