@@ -36,7 +36,45 @@ class IssueWatchTests(unittest.TestCase):
                 {
                     "review_stage": "yomi_final_review",
                     "pack_id": "pack-1",
+                    "track_name": "dev",
+                    "batch_name": "batch-1",
                     "documents": [{"doc_id": doc_id} for doc_id in doc_ids],
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    def write_document_state(self, root: Path, doc_id: str, state: str) -> None:
+        path = root / "data" / "pipeline" / "document_states" / "batch-1.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "documents": [
+                        {
+                            "doc_id": doc_id,
+                            "state": state,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    def write_imported_submission(self, root: Path, payload: dict) -> None:
+        path = (
+            root
+            / "data"
+            / "review_submissions"
+            / "yomi_final"
+            / f"{payload['submission_id']}.json"
+        )
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    **payload,
+                    "_source_issue": {"issue_number": 10, "comment_id": None},
                 }
             ),
             encoding="utf-8",
@@ -111,6 +149,50 @@ class IssueWatchTests(unittest.TestCase):
             )
             payload = json.loads(Path(result["acknowledgment_path"]).read_text(encoding="utf-8"))
             self.assertEqual(payload["records"], [])
+
+    def test_closed_issue_keeps_acknowledgment_until_imported_submission_is_applied(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload = submission("s1", "doc-1")
+            self.write_pack(root, "doc-1")
+            self.write_document_state(root, "doc-1", "final_pending")
+            run_issue_watch_pass(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                now_epoch=100,
+                fetch_issues=lambda *_args, **_kwargs: [issue(10, [payload])],
+                fetch_comments=lambda *_args: [],
+            )
+            self.write_imported_submission(root, payload)
+
+            pending = run_issue_watch_pass(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                now_epoch=101,
+                fetch_issues=lambda *_args, **_kwargs: [],
+                fetch_comments=lambda *_args: [],
+            )
+            pending_payload = json.loads(
+                Path(pending["acknowledgment_path"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(pending_payload["records"][0]["submission_id"], "s1")
+            self.assertEqual(pending_payload["records"][0]["doc_ids"], ["doc-1"])
+
+            self.write_document_state(root, "doc-1", "final_reviewed")
+            applied = run_issue_watch_pass(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                now_epoch=102,
+                fetch_issues=lambda *_args, **_kwargs: [],
+                fetch_comments=lambda *_args: [],
+            )
+            applied_payload = json.loads(
+                Path(applied["acknowledgment_path"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual(applied_payload["records"], [])
 
     def test_no_trigger_probe_does_not_consume_event_trigger(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

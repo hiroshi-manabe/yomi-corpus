@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 from typing import Any, Callable
 
+from yomi_corpus.yomi.final_review import sanitize_submission_id
 from yomi_corpus.yomi.final_review_issue_import import (
     download_submission,
     extract_attachment_records,
@@ -72,10 +73,12 @@ def run_issue_watch_pass(
     trigger_candidates: list[dict] = []
     for record_id, row in list(records.items()):
         if record_id not in seen_ids:
-            # Closed or deleted issues stop being advertised; the importer remains
-            # authoritative for any submission already stored locally.
-            del records[record_id]
-            continue
+            pending = _pending_imported_submission(root, row, track_name=track_name)
+            if pending is None:
+                del records[record_id]
+                continue
+            row = {**row, **pending, "record_id": record_id}
+            records[record_id] = row
         active.append(row)
         if row.get("last_triggered_epoch") is None:
             trigger_candidates.append(row)
@@ -212,6 +215,65 @@ def _submission_doc_ids(submission: dict) -> list[str]:
             if isinstance(row, dict):
                 values.append(row.get("doc_id"))
     return sorted({str(value) for value in values if value})
+
+
+def _pending_imported_submission(
+    root: Path,
+    record: dict[str, Any],
+    *,
+    track_name: str,
+) -> dict[str, Any] | None:
+    stage = str(record.get("review_stage") or "")
+    pending_by_stage = {
+        "yomi_final_review": {"final_pending", "final_in_review"},
+        "yomi_strong_repair_review": {"strong_pending", "strong_in_review"},
+    }
+    stage_dirs = {
+        "yomi_final_review": "yomi_final",
+        "yomi_strong_repair_review": "yomi_strong_repair",
+    }
+    dirname = stage_dirs.get(stage)
+    submission_id = str(record.get("submission_id") or "")
+    if dirname is None or not submission_id:
+        return None
+    submission_path = (
+        root
+        / "data"
+        / "review_submissions"
+        / dirname
+        / f"{sanitize_submission_id(submission_id)}.json"
+    )
+    submission = _read_object(submission_path)
+    if str(submission.get("submission_id") or "") != submission_id:
+        return None
+    pack_path = resolve_review_pack_path(
+        root / "data" / "review_packs",
+        str(submission.get("pack_id") or ""),
+        review_stage=stage,
+    )
+    if pack_path is None:
+        return None
+    pack = _read_object(pack_path)
+    if str(pack.get("track_name") or track_name) != track_name:
+        return None
+    batch_name = str(pack.get("batch_name") or "")
+    if not batch_name:
+        return None
+    state_path = root / "data" / "pipeline" / "document_states" / f"{batch_name}.json"
+    state_payload = _read_object(state_path)
+    states = {
+        str(row.get("doc_id")): str(row.get("state") or "")
+        for row in state_payload.get("documents", [])
+        if isinstance(row, dict) and row.get("doc_id")
+    }
+    pending_doc_ids = [
+        doc_id
+        for doc_id in _submission_doc_ids(submission)
+        if states.get(doc_id) in pending_by_stage[stage]
+    ]
+    if not pending_doc_ids:
+        return None
+    return {"doc_ids": pending_doc_ids}
 
 
 def _conflicting_doc_ids(records: list[dict]) -> set[str]:
