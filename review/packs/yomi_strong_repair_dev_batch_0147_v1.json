@@ -10,10 +10,10 @@
   "item_count": 15,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 15,
     "queued_repair_row_count": 15,
@@ -31,12 +31,12 @@
       "source_line_no": 1431,
       "preview": "みなさまこんにちは🌸細川佳世です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T07:49:00Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T08:00:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -135,12 +135,12 @@
       "source_line_no": 1435,
       "preview": "写真＝新型コロナウイルス感染防止のため臨時休館している木村栄記念館（水沢星ガ丘町）新型コロナウイルスの感染拡大防止を目的とした中国、韓国からの入国制限が９日から始まった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T07:49:00Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T08:00:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 9,
@@ -213,12 +213,12 @@
       "source_line_no": 1438,
       "preview": "弊社の家づくりへの取り組みについて、工務店の経営者の方々にお話させていただきました！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T07:49:00Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T08:00:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -4730,7 +4730,7 @@
       "source_line_no": 1435,
       "text": "屋外にある電波望遠鏡のほか、奥州市所有でＮＰＯ法人奥州宇宙遊学館が管理する奥州宇宙遊学館（中東重雄館長）は見学できる。",
       "rendered_yomi_before": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東/チュウトウ 重/ジュウ 雄/ユウ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
-      "rendered_yomi_after": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東重雄/ナカヒガシシゲオ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
+      "rendered_yomi_after": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東/ナカヒガシ 重雄/シゲオ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "屋外",
@@ -4825,8 +4825,12 @@
           "（"
         ],
         [
-          "中東重雄",
-          "ナカヒガシシゲオ"
+          "中東",
+          "ナカヒガシ"
+        ],
+        [
+          "重雄",
+          "シゲオ"
         ],
         [
           "館",
@@ -5103,13 +5107,24 @@
           ]
         },
         {
-          "surface": "中東重雄",
-          "reading": "ナカヒガシシゲオ",
+          "surface": "中東",
+          "reading": "ナカヒガシ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "中東重雄",
-              "reading": "なかひがししげお"
+              "text": "中東",
+              "reading": "なかひがし"
+            }
+          ]
+        },
+        {
+          "surface": "重雄",
+          "reading": "シゲオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "重雄",
+              "reading": "しげお"
             }
           ]
         },
@@ -5200,14 +5215,14 @@
           "unit_id": "ja_cc_level2:0000001435:u0015",
           "text": "屋外にある電波望遠鏡のほか、奥州市所有でＮＰＯ法人奥州宇宙遊学館が管理する奥州宇宙遊学館（中東重雄館長）は見学できる。",
           "rendered_yomi_before": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東/チュウトウ 重/ジュウ 雄/ユウ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
-          "rendered_yomi_after": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東重雄/ナカヒガシシゲオ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
+          "rendered_yomi_after": "屋外/オクガイ に/ニ ある/アル 電波/デンパ 望遠鏡/ボウエンキョウ の/ノ ほか/ホカ 、/、 奥州市/オウシュウシ 所有/ショユウ で/デ ＮＰＯ/エヌピーオー 法人/ホウジン 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン が/ガ 管理/カンリ する/スル 奥州/オウシュウ 宇宙/ウチュウ 遊学館/ユウガクカン （/（ 中東/ナカヒガシ 重雄/シゲオ 館/カン 長/チョウ ）/） は/ハ 見学/ケンガク できる/デキル 。/。",
           "display_mapping": {
             "start": 23,
-            "end": 24,
+            "end": 25,
             "char_start": 45,
             "char_end": 49,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -11302,8 +11317,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_0147_v1__2026-08-26T07:51:12.764Z",
+            "generated_at_epoch": 1787730672
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_0147_v1__2026-08-26T07:51:12.764Z",
+        "generated_at_epoch": 1787730672
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
