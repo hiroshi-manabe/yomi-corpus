@@ -10,10 +10,10 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -187,12 +187,12 @@
       "source_line_no": 1337,
       "preview": "ドクターxの城之内さんですがクールでとてもかっこいいですよね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T04:02:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T04:12:41Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1339,
       "preview": "2012年に新卒でタクシードライバーとして入社。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T04:02:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T04:12:41Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -296,7 +296,7 @@
       "source_line_no": 1337,
       "text": "城之内先生の元旦那様は、岸田卓也先生となっています。",
       "rendered_yomi_before": "城之内/ジョウノウチ 先生/センセイ の/ノ 元旦/ガンタン 那/那 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "城之内/ジョウノウチ 先生/センセイ の/ノ 元旦那/モトダンナ 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "城之内/ジョウノウチ 先生/センセイ の/ノ 元/モト 旦那/ダンナ 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "城之内",
@@ -311,8 +311,12 @@
           "ノ"
         ],
         [
-          "元旦那",
-          "モトダンナ"
+          "元",
+          "モト"
+        ],
+        [
+          "旦那",
+          "ダンナ"
         ],
         [
           "様",
@@ -397,13 +401,24 @@
           ]
         },
         {
-          "surface": "元旦那",
-          "reading": "モトダンナ",
+          "surface": "元",
+          "reading": "モト",
           "nodes": [
             {
               "type": "ruby",
-              "text": "元旦那",
-              "reading": "もとだんな"
+              "text": "元",
+              "reading": "もと"
+            }
+          ]
+        },
+        {
+          "surface": "旦那",
+          "reading": "ダンナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旦那",
+              "reading": "だんな"
             }
           ]
         },
@@ -545,14 +560,14 @@
           "unit_id": "ja_cc_level2:0000001337:u0044",
           "text": "城之内先生の元旦那様は、岸田卓也先生となっています。",
           "rendered_yomi_before": "城之内/ジョウノウチ 先生/センセイ の/ノ 元旦/ガンタン 那/那 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "城之内/ジョウノウチ 先生/センセイ の/ノ 元旦那/モトダンナ 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "城之内/ジョウノウチ 先生/センセイ の/ノ 元/モト 旦那/ダンナ 様/サマ は/ハ 、/、 岸田/キシダ 卓也/タクヤ 先生/センセイ と/ト なっ/ナッ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 6,
             "char_end": 9,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
