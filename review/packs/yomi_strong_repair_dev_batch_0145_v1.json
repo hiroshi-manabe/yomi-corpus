@@ -10,10 +10,10 @@
   "item_count": 8,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 8,
     "queued_repair_row_count": 9,
@@ -31,12 +31,12 @@
       "source_line_no": 1411,
       "preview": "住居での快適な生活を脅かすもののひとつに“シックハウス症候群”というものがあります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T05:08:55Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T07:23:21Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -213,12 +213,12 @@
       "source_line_no": 1418,
       "preview": "６月１８日水曜日午後２時から、避難者訴訟（第１陣第1次、同第２次、第３次）の口頭弁論が行われます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T05:08:55Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T07:23:21Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1419,
       "preview": "およそ130年前になります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T05:08:55Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T07:23:21Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -5063,7 +5063,7 @@
       "source_line_no": 1419,
       "text": "この『日本の鳥目録』は、飯島さん30才のときのお仕事です。",
       "rendered_yomi_before": "この/コノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
-      "rendered_yomi_after": "この/コノ 『/『 日本/ニホン の/ノ 鳥目録/チョウモクロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
+      "rendered_yomi_after": "この/コノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "この",
@@ -5082,8 +5082,12 @@
           "ノ"
         ],
         [
-          "鳥目録",
-          "チョウモクロク"
+          "鳥",
+          "トリ"
+        ],
+        [
+          "目録",
+          "モクロク"
         ],
         [
           "』",
@@ -5185,13 +5189,24 @@
           ]
         },
         {
-          "surface": "鳥目録",
-          "reading": "チョウモクロク",
+          "surface": "鳥",
+          "reading": "トリ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "鳥目録",
-              "reading": "ちょうもくろく"
+              "text": "鳥",
+              "reading": "とり"
+            }
+          ]
+        },
+        {
+          "surface": "目録",
+          "reading": "モクロク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目録",
+              "reading": "もくろく"
             }
           ]
         },
@@ -5352,14 +5367,14 @@
           "unit_id": "ja_cc_level2:0000001419:u0018",
           "text": "この『日本の鳥目録』は、飯島さん30才のときのお仕事です。",
           "rendered_yomi_before": "この/コノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
-          "rendered_yomi_after": "この/コノ 『/『 日本/ニホン の/ノ 鳥目録/チョウモクロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
+          "rendered_yomi_after": "この/コノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 は/ハ 、/、 飯島/イイジマ さん/サン 30/ 才/サイ の/ノ とき/トキ の/ノ お/オ 仕事/シゴト です/デス 。/。",
           "display_mapping": {
             "start": 4,
-            "end": 5,
+            "end": 6,
             "char_start": 6,
             "char_end": 9,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -5671,7 +5686,7 @@
       "source_line_no": 1419,
       "text": "コウグイスは、シーボルトの『日本動物誌』から飯島さんの『日本の鳥目録』まで、およそ40年間存在したことになります。",
       "rendered_yomi_before": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
-      "rendered_yomi_after": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目録/チョウモクロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
+      "rendered_yomi_after": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "コ",
@@ -5742,8 +5757,12 @@
           "ノ"
         ],
         [
-          "鳥目録",
-          "チョウモクロク"
+          "鳥",
+          "トリ"
+        ],
+        [
+          "目録",
+          "モクロク"
         ],
         [
           "』",
@@ -5978,13 +5997,24 @@
           ]
         },
         {
-          "surface": "鳥目録",
-          "reading": "チョウモクロク",
+          "surface": "鳥",
+          "reading": "トリ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "鳥目録",
-              "reading": "ちょうもくろく"
+              "text": "鳥",
+              "reading": "とり"
+            }
+          ]
+        },
+        {
+          "surface": "目録",
+          "reading": "モクロク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目録",
+              "reading": "もくろく"
             }
           ]
         },
@@ -6144,14 +6174,14 @@
           "unit_id": "ja_cc_level2:0000001419:u0022",
           "text": "コウグイスは、シーボルトの『日本動物誌』から飯島さんの『日本の鳥目録』まで、およそ40年間存在したことになります。",
           "rendered_yomi_before": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
-          "rendered_yomi_after": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目録/チョウモクロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
+          "rendered_yomi_after": "コ/コ ウグイス/ウグイス は/ハ 、/、 シーボルト/シーボルト の/ノ 『/『 日本/ニホン 動物誌/ドウブツシ 』/』 から/カラ 飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 まで/マデ 、/、 およそ/オヨソ 40/ 年間/ネンカン 存在/ソンザイ し/シ た/タ こと/コト に/ニ なり/ナリ ます/マス 。/。",
           "display_mapping": {
             "start": 17,
-            "end": 18,
+            "end": 19,
             "char_start": 31,
             "char_end": 34,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -6463,7 +6493,7 @@
       "source_line_no": 1419,
       "text": "飯島さんの『日本の鳥目録』は、当該号の”OTHERS”という項目に入っています。",
       "rendered_yomi_before": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目録/トリモクロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "飯島",
@@ -6490,8 +6520,12 @@
           "ノ"
         ],
         [
-          "鳥目録",
-          "トリモクロク"
+          "鳥",
+          "トリ"
+        ],
+        [
+          "目録",
+          "モクロク"
         ],
         [
           "』",
@@ -6630,13 +6664,24 @@
           ]
         },
         {
-          "surface": "鳥目録",
-          "reading": "トリモクロク",
+          "surface": "鳥",
+          "reading": "トリ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "鳥目録",
-              "reading": "とりもくろく"
+              "text": "鳥",
+              "reading": "とり"
+            }
+          ]
+        },
+        {
+          "surface": "目録",
+          "reading": "モクロク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目録",
+              "reading": "もくろく"
             }
           ]
         },
@@ -6843,14 +6888,14 @@
           "unit_id": "ja_cc_level2:0000001419:u0025",
           "text": "飯島さんの『日本の鳥目録』は、当該号の”OTHERS”という項目に入っています。",
           "rendered_yomi_before": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目/チョウモク 録/ロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥目録/トリモクロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "飯島/イイジマ さん/サン の/ノ 『/『 日本/ニホン の/ノ 鳥/トリ 目録/モクロク 』/』 は/ハ 、/、 当該/トウガイ 号/ゴウ の/ノ ”/” OTHERS/アザーズ ”/” と/ト いう/イウ 項目/コウモク に/ニ 入っ/ハイッ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 9,
             "char_end": 12,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
