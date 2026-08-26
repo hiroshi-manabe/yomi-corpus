@@ -105,9 +105,13 @@ resolves the conflict.
 
 Publication is event-driven. A no-change 30-second poll writes no repository
 files and performs no Pages deployment. New, changed, consumed, failed, or
-conflicting acknowledgment state requests one publication. A shared publication
-lock serializes this small update with normal `review-sync` gh-pages output so
-one publisher cannot overwrite the other's newer state.
+conflicting acknowledgment state updates only
+`review/issue-acknowledgments.json` through the GitHub Contents API. A local
+content-hash marker records successful publication, while each poll verifies
+the remote blob so a concurrent full-site push cannot silently restore stale
+state. Optimistic `sha` updates retry when `review-sync` advances `gh-pages`
+concurrently, so acknowledgment latency does not depend on the full review-site
+generation lock.
 
 Adding a GitHub `server-processing` label is useful but secondary. The label
 improves visibility on GitHub and across devices, while the acknowledgment
@@ -253,7 +257,8 @@ the existing importer remain authoritative throughout the migration.
 
 `./issue-watch dev --publish gh-pages` performs one bounded poll. It records
 recognized submissions in `data/state/issue_watch/dev.ledger.json`, publishes
-the active subset as `issue-acknowledgments.json`, and starts the existing
+the active subset directly as `issue-acknowledgments.json` without regenerating
+or checking out the full Pages tree, and starts the existing
 `yomi-corpus-review-sync-dev.service` once for each newly seen payload hash.
 An open but temporarily unprocessable Issue does not create a tight sync loop;
 the independent five-minute review-sync timer owns all retries.

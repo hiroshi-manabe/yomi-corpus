@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 import subprocess
@@ -146,6 +147,142 @@ def trigger_review_sync_service(track_name: str) -> dict[str, Any]:
         "returncode": completed.returncode,
         "stderr": completed.stderr.strip(),
     }
+
+
+def publish_acknowledgments_to_github_pages(
+    root: Path,
+    *,
+    track_name: str,
+    repo: str,
+    acknowledgment_path: str | Path,
+    branch: str = "gh-pages",
+    run: Callable[..., subprocess.CompletedProcess[str]] = subprocess.run,
+) -> dict[str, Any]:
+    source = Path(acknowledgment_path)
+    content = source.read_bytes()
+    content_hash = hashlib.sha256(content).hexdigest()
+    state_path = (
+        root
+        / "data"
+        / "state"
+        / "issue_watch"
+        / f"{track_name}.gh-pages-publication.json"
+    )
+
+    remote_path = "review/issue-acknowledgments.json"
+    encoded = base64.b64encode(content).decode("ascii")
+    last_error = ""
+    for _attempt in range(3):
+        current = run(
+            [
+                "gh",
+                "api",
+                "--method",
+                "GET",
+                f"repos/{repo}/contents/{remote_path}",
+                "-f",
+                f"ref={branch}",
+            ],
+            cwd=root,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=30,
+        )
+        remote_sha = ""
+        if current.returncode == 0:
+            try:
+                remote = json.loads(current.stdout)
+                remote_sha = str(remote.get("sha") or "")
+                remote_content = base64.b64decode(
+                    str(remote.get("content") or "").replace("\n", "")
+                )
+            except (json.JSONDecodeError, ValueError):
+                remote_content = b""
+            if remote_content == content:
+                _write_github_publication_state(
+                    state_path,
+                    repo=repo,
+                    branch=branch,
+                    content_hash=content_hash,
+                )
+                return {
+                    "status": "unchanged",
+                    "content_sha256": content_hash,
+                    "path": remote_path,
+                }
+        elif current.returncode != 1 or "404" not in current.stderr:
+            last_error = current.stderr.strip() or current.stdout.strip()
+            continue
+
+        command = [
+            "gh",
+            "api",
+            "--method",
+            "PUT",
+            f"repos/{repo}/contents/{remote_path}",
+            "-f",
+            f"branch={branch}",
+            "-f",
+            "message=Publish review Issue acknowledgments",
+            "-f",
+            f"content={encoded}",
+        ]
+        if remote_sha:
+            command.extend(["-f", f"sha={remote_sha}"])
+        published = run(
+            command,
+            cwd=root,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=30,
+        )
+        if published.returncode == 0:
+            _write_github_publication_state(
+                state_path,
+                repo=repo,
+                branch=branch,
+                content_hash=content_hash,
+            )
+            return {
+                "status": "published",
+                "content_sha256": content_hash,
+                "path": remote_path,
+            }
+        last_error = published.stderr.strip() or published.stdout.strip()
+
+    return {
+        "status": "publish_failed",
+        "content_sha256": content_hash,
+        "path": remote_path,
+        "error": last_error,
+    }
+
+
+def _write_github_publication_state(
+    path: Path,
+    *,
+    repo: str,
+    branch: str,
+    content_hash: str,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "repo": repo,
+                "branch": branch,
+                "content_sha256": content_hash,
+                "published_at_epoch": int(time.time()),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _flatten_submissions(submission: dict) -> list[dict]:

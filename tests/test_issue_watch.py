@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import base64
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from yomi_corpus.issue_watch import run_issue_watch_pass
+from yomi_corpus.issue_watch import (
+    publish_acknowledgments_to_github_pages,
+    run_issue_watch_pass,
+)
 
 
 def submission(submission_id: str, doc_id: str) -> dict:
@@ -29,6 +34,54 @@ def issue(number: int, payloads: list[dict]) -> dict:
 
 
 class IssueWatchTests(unittest.TestCase):
+    def test_publishes_acknowledgments_directly_and_skips_known_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "dev.acknowledgments.json"
+            source.write_text('{"records":[{"submission_id":"s1"}]}\n', encoding="utf-8")
+            calls = []
+            published = False
+
+            def fake_run(command, **_kwargs):
+                nonlocal published
+                calls.append(command)
+                if "GET" in command:
+                    return subprocess.CompletedProcess(
+                        command,
+                        0,
+                        stdout=json.dumps(
+                            {
+                                "sha": "new" if published else "old",
+                                "content": base64.b64encode(
+                                    source.read_bytes() if published else b"{}\n"
+                                ).decode("ascii"),
+                            }
+                        ),
+                        stderr="",
+                    )
+                published = True
+                return subprocess.CompletedProcess(command, 0, stdout="{}", stderr="")
+
+            first = publish_acknowledgments_to_github_pages(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                acknowledgment_path=source,
+                run=fake_run,
+            )
+            second = publish_acknowledgments_to_github_pages(
+                root,
+                track_name="dev",
+                repo="owner/repo",
+                acknowledgment_path=source,
+                run=fake_run,
+            )
+
+            self.assertEqual(first["status"], "published")
+            self.assertEqual(second["status"], "unchanged")
+            self.assertEqual(len(calls), 3)
+            self.assertIn("sha=old", calls[1])
+
     def write_pack(self, root: Path, *doc_ids: str) -> None:
         path = root / "data" / "review_packs" / "yomi_final" / "pack-1.json"
         path.parent.mkdir(parents=True, exist_ok=True)
