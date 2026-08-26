@@ -10,10 +10,10 @@
   "item_count": 2,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -187,12 +187,12 @@
       "source_line_no": 1397,
       "preview": "​自分史上最高の自分になりませんか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T06:38:02Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T06:47:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1399,
       "preview": "≪1日目≫　自己紹介､JALの概要を説明後、エンジン整備センター（工場）で実際のエンジンを見学、エンジンがPowerを出す仕組みを学びます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T06:38:02Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T06:47:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,15 +296,19 @@
       "source_line_no": 1397,
       "text": "​自分史上最高の自分になりませんか？",
       "rendered_yomi_before": "​/​ 自分史/ジブンシ 上/ジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
-      "rendered_yomi_after": "​/​ 自分史上/ジブンシジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
+      "rendered_yomi_after": "​/​ 自分/ジブン 史上/シジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
       "rendered_yomi_after_tokens": [
         [
           "​",
           "​"
         ],
         [
-          "自分史上",
-          "ジブンシジョウ"
+          "自分",
+          "ジブン"
+        ],
+        [
+          "史上",
+          "シジョウ"
         ],
         [
           "最高",
@@ -355,13 +359,24 @@
           ]
         },
         {
-          "surface": "自分史上",
-          "reading": "ジブンシジョウ",
+          "surface": "自分",
+          "reading": "ジブン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "自分史上",
-              "reading": "じぶんしじょう"
+              "text": "自分",
+              "reading": "じぶん"
+            }
+          ]
+        },
+        {
+          "surface": "史上",
+          "reading": "シジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "史上",
+              "reading": "しじょう"
             }
           ]
         },
@@ -471,14 +486,14 @@
           "unit_id": "ja_cc_level2:0000001397:u0001",
           "text": "​自分史上最高の自分になりませんか？",
           "rendered_yomi_before": "​/​ 自分史/ジブンシ 上/ジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
-          "rendered_yomi_after": "​/​ 自分史上/ジブンシジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
+          "rendered_yomi_after": "​/​ 自分/ジブン 史上/シジョウ 最高/サイコウ の/ノ 自分/ジブン に/ニ なり/ナリ ませ/マセ ん/ン か/カ ？/？",
           "display_mapping": {
             "start": 1,
-            "end": 2,
+            "end": 3,
             "char_start": 1,
             "char_end": 5,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
