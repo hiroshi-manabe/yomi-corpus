@@ -10,10 +10,10 @@
   "item_count": 10,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 5,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 5,
-      "strong_pending": 5
+      "strong_reviewed": 5
     },
     "repaired_item_count": 10,
     "queued_repair_row_count": 11,
@@ -57,12 +57,12 @@
       "source_line_no": 1322,
       "preview": "公演中の瞬間最大風速は『岸くんによるリコーダー演奏』を含む「てぃーてぃーてぃーてれっててれてぃてぃてぃ~だれのケツ~」でした…。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T00:51:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:30:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +109,12 @@
       "source_line_no": 1324,
       "preview": "出会ったのは中学一年の時、豊橋から来た転校生の家にい遊びに行った時の話をしますね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T00:51:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:30:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -161,12 +161,12 @@
       "source_line_no": 1326,
       "preview": "いつも株式会社ジョイライフのブログを見ていただきありがとうございます！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T00:51:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:30:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +187,12 @@
       "source_line_no": 1327,
       "preview": "２０２０年４月１４日に、北朝鮮が日本海に向けて、短距離の巡航ミサイルを、数発、発射しました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T00:51:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:30:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -213,12 +213,12 @@
       "source_line_no": 1328,
       "preview": "ドレスアップといえば、通常はベース車にエアロパーツやワイドボディキット、オーバーフェンダーなどを装着あるいは加工するものですが、それだけでは足らずに、車そのものの姿カタチを変えてしまうことも多々あります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T00:51:38Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:30:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1509,7 +1509,7 @@
       "source_line_no": 1324,
       "text": "ダンディーなツーブロックで、大人感をアップ！",
       "rendered_yomi_before": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大/ダイ 人感/ジンカン を/ヲ アップ/アップ ！/！",
-      "rendered_yomi_after": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大人感/オトナカン を/ヲ アップ/アップ ！/！",
+      "rendered_yomi_after": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大人/オトナ 感/カン を/ヲ アップ/アップ ！/！",
       "rendered_yomi_after_tokens": [
         [
           "ダンディー",
@@ -1536,8 +1536,12 @@
           "、"
         ],
         [
-          "大人感",
-          "オトナカン"
+          "大人",
+          "オトナ"
+        ],
+        [
+          "感",
+          "カン"
         ],
         [
           "を",
@@ -1614,13 +1618,24 @@
           ]
         },
         {
-          "surface": "大人感",
-          "reading": "オトナカン",
+          "surface": "大人",
+          "reading": "オトナ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "大人感",
-              "reading": "おとなかん"
+              "text": "大人",
+              "reading": "おとな"
+            }
+          ]
+        },
+        {
+          "surface": "感",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "感",
+              "reading": "かん"
             }
           ]
         },
@@ -1668,14 +1683,14 @@
           "unit_id": "ja_cc_level2:0000001324:u0027",
           "text": "ダンディーなツーブロックで、大人感をアップ！",
           "rendered_yomi_before": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大/ダイ 人感/ジンカン を/ヲ アップ/アップ ！/！",
-          "rendered_yomi_after": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大人感/オトナカン を/ヲ アップ/アップ ！/！",
+          "rendered_yomi_after": "ダンディー/ダンディー な/ナ ツー/ツー ブロック/ブロック で/デ 、/、 大人/オトナ 感/カン を/ヲ アップ/アップ ！/！",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 14,
             "char_end": 17,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -3103,7 +3118,7 @@
       "source_line_no": 1327,
       "text": "４月１５日は、故金日成主席の誕生日であることから、北朝鮮にとって「最大の祝日」とされています。",
       "rendered_yomi_before": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故金/カルガネ 日成/ニッセイ 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故金/カルガネ 日成/ニッセイ 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故/コ 金日成/キムイルソン 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "４",
@@ -3130,12 +3145,12 @@
           "、"
         ],
         [
-          "故金",
-          "カルガネ"
+          "故",
+          "コ"
         ],
         [
-          "日成",
-          "ニッセイ"
+          "金日成",
+          "キムイルソン"
         ],
         [
           "主席",
@@ -3298,24 +3313,24 @@
           ]
         },
         {
-          "surface": "故金",
-          "reading": "カルガネ",
+          "surface": "故",
+          "reading": "コ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "故金",
-              "reading": "かるがね"
+              "text": "故",
+              "reading": "こ"
             }
           ]
         },
         {
-          "surface": "日成",
-          "reading": "ニッセイ",
+          "surface": "金日成",
+          "reading": "キムイルソン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "日成",
-              "reading": "にっせい"
+              "text": "金日成",
+              "reading": "きむいるそん"
             }
           ]
         },
@@ -3578,14 +3593,14 @@
           "unit_id": "ja_cc_level2:0000001327:u0002",
           "text": "４月１５日は、故金日成主席の誕生日であることから、北朝鮮にとって「最大の祝日」とされています。",
           "rendered_yomi_before": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故金/カルガネ 日成/ニッセイ 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故金/カルガネ 日成/ニッセイ 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "４/ 月/ガツ １５/ 日/ニチ は/ハ 、/、 故/コ 金日成/キムイルソン 主席/シュセキ の/ノ 誕生日/タンジョウビ で/デ ある/アル こと/コト から/カラ 、/、 北朝鮮/キタチョウセン に/ニ とっ/トッ て/テ 「/「 最大/サイダイ の/ノ 祝日/シュクジツ 」/」 と/ト さ/サ れ/レ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 6,
             "end": 8,
             "char_start": 7,
             "char_end": 11,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -3963,7 +3978,7 @@
       "source_line_no": 1327,
       "text": "しかし、アメリカも２０１９年の２月に、核爆発を伴わない臨界前核実験を実施し、低出力核と呼ばれる威力を抑えた核弾頭の配備を進めています。",
       "rendered_yomi_before": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界/リンカイ 前核/ゼンカク 実験/ジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出/テイシュツ 力/リョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
-      "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前核実験/リンカイゼンカクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前/リンカイゼン 核実験/カクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "しかし",
@@ -4026,8 +4041,12 @@
           "ナイ"
         ],
         [
-          "臨界前核実験",
-          "リンカイゼンカクジッケン"
+          "臨界前",
+          "リンカイゼン"
+        ],
+        [
+          "核実験",
+          "カクジッケン"
         ],
         [
           "を",
@@ -4278,13 +4297,24 @@
           ]
         },
         {
-          "surface": "臨界前核実験",
-          "reading": "リンカイゼンカクジッケン",
+          "surface": "臨界前",
+          "reading": "リンカイゼン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "臨界前核実験",
-              "reading": "りんかいぜんかくじっけん"
+              "text": "臨界前",
+              "reading": "りんかいぜん"
+            }
+          ]
+        },
+        {
+          "surface": "核実験",
+          "reading": "カクジッケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "核実験",
+              "reading": "かくじっけん"
             }
           ]
         },
@@ -4543,14 +4573,14 @@
           "unit_id": "ja_cc_level2:0000001327:u0011",
           "text": "しかし、アメリカも２０１９年の２月に、核爆発を伴わない臨界前核実験を実施し、低出力核と呼ばれる威力を抑えた核弾頭の配備を進めています。",
           "rendered_yomi_before": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界/リンカイ 前核/ゼンカク 実験/ジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出/テイシュツ 力/リョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前核実験/リンカイゼンカクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前/リンカイゼン 核実験/カクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
             "start": 15,
-            "end": 16,
+            "end": 17,
             "char_start": 27,
             "char_end": 33,
             "start_offset": 0,
-            "end_offset": 6,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
@@ -4806,10 +4836,10 @@
           "unit_id": "ja_cc_level2:0000001327:u0011",
           "text": "しかし、アメリカも２０１９年の２月に、核爆発を伴わない臨界前核実験を実施し、低出力核と呼ばれる威力を抑えた核弾頭の配備を進めています。",
           "rendered_yomi_before": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界/リンカイ 前核/ゼンカク 実験/ジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出/テイシュツ 力/リョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
-          "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前核実験/リンカイゼンカクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "しかし/シカシ 、/、 アメリカ/アメリカ も/モ ２０１９/ 年/ネン の/ノ ２/ 月/ガツ に/ニ 、/、 核爆発/カクバクハツ を/ヲ 伴わ/トモナワ ない/ナイ 臨界前/リンカイゼン 核実験/カクジッケン を/ヲ 実施/ジッシ し/シ 、/、 低出力/テイシュツリョク 核/カク と/ト 呼ば/ヨバ れる/レル 威力/イリョク を/ヲ 抑え/オサエ た/タ 核弾頭/カクダントウ の/ノ 配備/ハイビ を/ヲ 進め/ススメ て/テ い/イ ます/マス 。/。",
           "display_mapping": {
-            "start": 20,
-            "end": 21,
+            "start": 21,
+            "end": 22,
             "char_start": 38,
             "char_end": 41,
             "start_offset": 0,

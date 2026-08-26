@@ -1,0 +1,3067 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0139_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0139",
+  "created_at_epoch": 1787712808,
+  "created_at": "2026-08-26T02:53:28Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 3,
+    "document_state_counts": {
+      "complete": 7,
+      "strong_pending": 3
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001351",
+      "doc_seq": 1,
+      "track_doc_seq": 1351,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1351,
+      "preview": "リアクションはぜひコメントに書いていただけると励みになります！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001352",
+      "doc_seq": 2,
+      "track_doc_seq": 1352,
+      "unit_count": 103,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1352,
+      "preview": "戦略実行読本』～「実行の4つの規律」実践ワークブック 著者 クリスマチュズニー、ショーン・コヴィー、ジム・ヒューリンク 編者 フランクリン・コヴィー・ジャパン『社長学マップでわかる！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 103,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001353",
+      "doc_seq": 3,
+      "track_doc_seq": 1353,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1353,
+      "preview": "一般的な家の玄関の鍵の種類は2つです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001354",
+      "doc_seq": 4,
+      "track_doc_seq": 1354,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1354,
+      "preview": "色々な悩みにもカウンセリングをいたします。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001355",
+      "doc_seq": 5,
+      "track_doc_seq": 1355,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1355,
+      "preview": "※販売店と異なる場合があります。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-26T02:56:15Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001356",
+      "doc_seq": 6,
+      "track_doc_seq": 1356,
+      "unit_count": 40,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1356,
+      "preview": "相続税の調査はあまりなじみのないものである。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 40,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001357",
+      "doc_seq": 7,
+      "track_doc_seq": 1357,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1357,
+      "preview": "kindleで読みました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001358",
+      "doc_seq": 8,
+      "track_doc_seq": 1358,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1358,
+      "preview": "１８１７年江戸の亀戸天神のお太鼓橋再建にちなんで、それまでしていた、帯結び（帯締めを使ってない）はほどけやすかった。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-26T02:56:15Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001359",
+      "doc_seq": 9,
+      "track_doc_seq": 1359,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1359,
+      "preview": "今から始めるのがラストチャンスです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-26T02:56:15Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001360",
+      "doc_seq": 10,
+      "track_doc_seq": 1360,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1360,
+      "preview": "なんとか皆様のおかげでこの一年を終えることができます！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-26T02:52:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001355:u0003::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001355",
+      "doc_seq": 5,
+      "track_doc_seq": 1355,
+      "unit_id": "ja_cc_level2:0000001355:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1355,
+      "text": "しかし、待ち受ける神々はあまりにも強大で、さらに予想外の事態も続発しまくってー異世界で“女神さま”になっちゃった女子高生、アキラと桜羅子の旅路も佳境に。",
+      "rendered_yomi_before": "しかし/シカシ 、/、 待ち受ける/マチウケル 神々/カミガミ は/ハ あまり/アマリ に/ニ も/モ 強大/キョウダイ で/デ 、/、 さらに/サラニ 予想外/ヨソウガイ の/ノ 事態/ジタイ も/モ 続発/ゾクハツ し/シ まくっ/マクッ てー/テー 異世界/イセカイ で/デ “/“ 女神/メガミ さま/サマ ”/” に/ニ なっ/ナッ ちゃっ/チャッ た/タ 女子高生/ジョシコウセイ 、/、 アキラ/アキラ と/ト 桜/サクラ 羅子/ラコ の/ノ 旅路/タビジ も/モ 佳境/カキョウ に/ニ 。/。",
+      "rendered_yomi_after": "しかし/シカシ 、/、 待ち受ける/マチウケル 神々/カミガミ は/ハ あまり/アマリ に/ニ も/モ 強大/キョウダイ で/デ 、/、 さらに/サラニ 予想外/ヨソウガイ の/ノ 事態/ジタイ も/モ 続発/ゾクハツ し/シ まくっ/マクッ てー/テー 異世界/イセカイ で/デ “/“ 女神/メガミ さま/サマ ”/” に/ニ なっ/ナッ ちゃっ/チャッ た/タ 女子高生/ジョシコウセイ 、/、 アキラ/アキラ と/ト 桜羅子/サクラコ の/ノ 旅路/タビジ も/モ 佳境/カキョウ に/ニ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "しかし",
+          "シカシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "待ち受ける",
+          "マチウケル"
+        ],
+        [
+          "神々",
+          "カミガミ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "あまり",
+          "アマリ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "強大",
+          "キョウダイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "さらに",
+          "サラニ"
+        ],
+        [
+          "予想外",
+          "ヨソウガイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "事態",
+          "ジタイ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "続発",
+          "ゾクハツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "まくっ",
+          "マクッ"
+        ],
+        [
+          "てー",
+          "テー"
+        ],
+        [
+          "異世界",
+          "イセカイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "“",
+          "“"
+        ],
+        [
+          "女神",
+          "メガミ"
+        ],
+        [
+          "さま",
+          "サマ"
+        ],
+        [
+          "”",
+          "”"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "ちゃっ",
+          "チャッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "女子高生",
+          "ジョシコウセイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "アキラ",
+          "アキラ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "桜羅子",
+          "サクラコ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "旅路",
+          "タビジ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "佳境",
+          "カキョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "しかし",
+          "reading": "シカシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しかし"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "待ち受ける",
+          "reading": "マチウケル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "待",
+              "reading": "ま"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            },
+            {
+              "type": "ruby",
+              "text": "受",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "ける"
+            }
+          ]
+        },
+        {
+          "surface": "神々",
+          "reading": "カミガミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神々",
+              "reading": "かみがみ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "あまり",
+          "reading": "アマリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あまり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "強大",
+          "reading": "キョウダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "強大",
+              "reading": "きょうだい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "さらに",
+          "reading": "サラニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さらに"
+            }
+          ]
+        },
+        {
+          "surface": "予想外",
+          "reading": "ヨソウガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予想外",
+              "reading": "よそうがい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "事態",
+          "reading": "ジタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事態",
+              "reading": "じたい"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "続発",
+          "reading": "ゾクハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "続発",
+              "reading": "ぞくはつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "まくっ",
+          "reading": "マクッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まくっ"
+            }
+          ]
+        },
+        {
+          "surface": "てー",
+          "reading": "テー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "てー"
+            }
+          ]
+        },
+        {
+          "surface": "異世界",
+          "reading": "イセカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "異世界",
+              "reading": "いせかい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "“",
+          "reading": "“",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "“"
+            }
+          ]
+        },
+        {
+          "surface": "女神",
+          "reading": "メガミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女神",
+              "reading": "めがみ"
+            }
+          ]
+        },
+        {
+          "surface": "さま",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "”",
+          "reading": "”",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "”"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "ちゃっ",
+          "reading": "チャッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ちゃっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "女子高生",
+          "reading": "ジョシコウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女子高生",
+              "reading": "じょしこうせい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "アキラ",
+          "reading": "アキラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アキラ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "桜羅子",
+          "reading": "サクラコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "桜羅子",
+              "reading": "さくらこ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "旅路",
+          "reading": "タビジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旅路",
+              "reading": "たびじ"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "佳境",
+          "reading": "カキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "佳境",
+              "reading": "かきょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+          "item_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+          "unit_id": "ja_cc_level2:0000001355:u0003",
+          "text": "しかし、待ち受ける神々はあまりにも強大で、さらに予想外の事態も続発しまくってー異世界で“女神さま”になっちゃった女子高生、アキラと桜羅子の旅路も佳境に。",
+          "rendered_yomi_before": "しかし/シカシ 、/、 待ち受ける/マチウケル 神々/カミガミ は/ハ あまり/アマリ に/ニ も/モ 強大/キョウダイ で/デ 、/、 さらに/サラニ 予想外/ヨソウガイ の/ノ 事態/ジタイ も/モ 続発/ゾクハツ し/シ まくっ/マクッ てー/テー 異世界/イセカイ で/デ “/“ 女神/メガミ さま/サマ ”/” に/ニ なっ/ナッ ちゃっ/チャッ た/タ 女子高生/ジョシコウセイ 、/、 アキラ/アキラ と/ト 桜/サクラ 羅子/ラコ の/ノ 旅路/タビジ も/モ 佳境/カキョウ に/ニ 。/。",
+          "rendered_yomi_after": "しかし/シカシ 、/、 待ち受ける/マチウケル 神々/カミガミ は/ハ あまり/アマリ に/ニ も/モ 強大/キョウダイ で/デ 、/、 さらに/サラニ 予想外/ヨソウガイ の/ノ 事態/ジタイ も/モ 続発/ゾクハツ し/シ まくっ/マクッ てー/テー 異世界/イセカイ で/デ “/“ 女神/メガミ さま/サマ ”/” に/ニ なっ/ナッ ちゃっ/チャッ た/タ 女子高生/ジョシコウセイ 、/、 アキラ/アキラ と/ト 桜羅子/サクラコ の/ノ 旅路/タビジ も/モ 佳境/カキョウ に/ニ 。/。",
+          "display_mapping": {
+            "start": 34,
+            "end": 35,
+            "char_start": 65,
+            "char_end": 68,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001355:u0003:s0066-0066",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "桜",
+              "token_surface": "桜",
+              "token_index": 34,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "桜",
+                  "reading": "さくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001355:u0003:s0067-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "羅子",
+              "token_surface": "羅子",
+              "token_index": 35,
+              "chunk_index": 0,
+              "current_reading_hiragana": "らこ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "羅子",
+                  "reading": "らこ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001355:u0003:s0066-0066",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "桜",
+              "token_surface": "桜",
+              "token_index": 34,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さくら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "桜",
+                  "reading": "さくら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001355:u0003:s0067-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "羅子",
+              "token_surface": "羅子",
+              "token_index": 35,
+              "chunk_index": 0,
+              "current_reading_hiragana": "らこ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "羅子",
+                  "reading": "らこ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "桜羅子",
+          "reading_candidates": {
+            "桜": [
+              "おう",
+              "さくら",
+              "ざくら"
+            ],
+            "羅": [
+              "ら"
+            ],
+            "羅子": [
+              "らこ"
+            ],
+            "子": [
+              "こ",
+              "ご",
+              "し",
+              "じ",
+              "ね"
+            ]
+          },
+          "reading_hints": {
+            "桜": "おう",
+            "羅": "ら",
+            "羅子": "らこ",
+            "子": "こ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "桜",
+              "reading": "さくら",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "羅子",
+              "reading": "らこ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"桜羅子\",\"reading\":\"さくらこ\",\"used_web_search\":true,\"comment\":\"人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "桜羅子",
+              "reading": "さくらこ",
+              "used_web_search": true,
+              "comment": "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "桜羅子",
+            "replacement": [
+              {
+                "surface": "桜羅子",
+                "reading": "サクラコ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+                "surface": "桜羅子",
+                "comment": "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "桜羅子",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001355:u0003:s0066-0066",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "桜",
+          "token_surface": "桜",
+          "token_index": 34,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さくら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "桜",
+              "reading": "さくら",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001355:u0003:s0067-0068",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "羅子",
+          "token_surface": "羅子",
+          "token_index": 35,
+          "chunk_index": 0,
+          "current_reading_hiragana": "らこ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "羅子",
+              "reading": "らこ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "桜",
+          "reading": "さくら",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "羅子",
+          "reading": "らこ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "桜": [
+          "おう",
+          "さくら",
+          "ざくら"
+        ],
+        "羅": [
+          "ら"
+        ],
+        "羅子": [
+          "らこ"
+        ],
+        "子": [
+          "こ",
+          "ご",
+          "し",
+          "じ",
+          "ね"
+        ]
+      },
+      "reading_hints": {
+        "桜": "おう",
+        "羅": "ら",
+        "羅子": "らこ",
+        "子": "こ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "桜羅子",
+          "reading": "さくらこ",
+          "used_web_search": true,
+          "comment": "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"桜羅子\",\"reading\":\"さくらこ\",\"used_web_search\":true,\"comment\":\"人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))\"}]",
+      "llm_comments": [
+        "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "桜羅子",
+        "replacement": [
+          {
+            "surface": "桜羅子",
+            "reading": "サクラコ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001355:u0003::target_group:1",
+            "surface": "桜羅子",
+            "comment": "人物名として『姫野桜羅子』が確認でき、別資料でも「桜羅子（さくらこ）」の表記が見つかったため、全体を1項目で扱いました。 ([nvl.yominoma.jp](https://nvl.yominoma.jp/details/510?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001358:u0005::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001358",
+      "doc_seq": 8,
+      "track_doc_seq": 1358,
+      "unit_id": "ja_cc_level2:0000001358:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1358,
+      "text": "色無地の共八掛を使わずに、辛子色の八掛を付けました。",
+      "rendered_yomi_before": "色無地/イロムジ の/ノ 共/キョウ 八掛/ヤツガケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ヤツガケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "色無地/イロムジ の/ノ 共八掛/トモハッカケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ハッカケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "色無地",
+          "イロムジ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "共八掛",
+          "トモハッカケ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "使わ",
+          "ツカワ"
+        ],
+        [
+          "ず",
+          "ズ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "辛子色",
+          "カラシイロ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "八掛",
+          "ハッカケ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "付け",
+          "ツケ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "色無地",
+          "reading": "イロムジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "色無地",
+              "reading": "いろむじ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "共八掛",
+          "reading": "トモハッカケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共八掛",
+              "reading": "ともはっかけ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "使わ",
+          "reading": "ツカワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "使",
+              "reading": "つか"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "ず",
+          "reading": "ズ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ず"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "辛子色",
+          "reading": "カラシイロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "辛子色",
+              "reading": "からしいろ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "八掛",
+          "reading": "ハッカケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "八掛",
+              "reading": "はっかけ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "付け",
+          "reading": "ツケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "付",
+              "reading": "つ"
+            },
+            {
+              "type": "text",
+              "text": "け"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000001358:u0005",
+          "text": "色無地の共八掛を使わずに、辛子色の八掛を付けました。",
+          "rendered_yomi_before": "色無地/イロムジ の/ノ 共/キョウ 八掛/ヤツガケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ヤツガケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "色無地/イロムジ の/ノ 共八掛/トモハッカケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ハッカケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 4,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "共",
+              "token_surface": "共",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "共",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八掛",
+              "token_surface": "八掛",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やつがけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八掛",
+                  "reading": "やつがけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "共",
+              "token_surface": "共",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "共",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八掛",
+              "token_surface": "八掛",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やつがけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八掛",
+                  "reading": "やつがけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "共八掛",
+          "reading_candidates": {
+            "共": [
+              "きょう",
+              "とも",
+              "ども"
+            ],
+            "八": [
+              "はち",
+              "はっ",
+              "ぱち",
+              "ぱっ",
+              "や",
+              "やあ",
+              "やっ",
+              "よう"
+            ],
+            "八掛": [
+              "やつがけ"
+            ],
+            "掛": [
+              "かい",
+              "かかり",
+              "かけ",
+              "がかり",
+              "がけ"
+            ]
+          },
+          "reading_hints": {
+            "共": "きょう",
+            "八": "はち",
+            "八掛": "やつがけ",
+            "掛": "かい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "共",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "八掛",
+              "reading": "やつがけ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"共八掛\",\"reading\":\"トモハッカケ\",\"used_web_search\":false,\"comment\":\"着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "共八掛",
+              "reading": "トモハッカケ",
+              "used_web_search": false,
+              "comment": "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。"
+            }
+          ],
+          "llm_comments": [
+            "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "共八掛",
+            "replacement": [
+              {
+                "surface": "共八掛",
+                "reading": "トモハッカケ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+                "surface": "共八掛",
+                "comment": "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2:0000001358:u0005::target_group:2",
+          "item_id": "ja_cc_level2:0000001358:u0005::target_group:2",
+          "unit_id": "ja_cc_level2:0000001358:u0005",
+          "text": "色無地の共八掛を使わずに、辛子色の八掛を付けました。",
+          "rendered_yomi_before": "色無地/イロムジ の/ノ 共/キョウ 八掛/ヤツガケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ヤツガケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "色無地/イロムジ の/ノ 共八掛/トモハッカケ を/ヲ 使わ/ツカワ ず/ズ に/ニ 、/、 辛子色/カラシイロ の/ノ 八掛/ハッカケ を/ヲ 付け/ツケ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 17,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八掛",
+              "token_surface": "八掛",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やつがけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八掛",
+                  "reading": "やつがけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001358:u0005:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "八掛",
+              "token_surface": "八掛",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やつがけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "八掛",
+                  "reading": "やつがけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "八掛",
+          "reading_candidates": {
+            "八": [
+              "はち",
+              "はっ",
+              "ぱち",
+              "ぱっ",
+              "や",
+              "やあ",
+              "やっ",
+              "よう"
+            ],
+            "八掛": [
+              "やつがけ"
+            ],
+            "掛": [
+              "かい",
+              "かかり",
+              "かけ",
+              "がかり",
+              "がけ"
+            ]
+          },
+          "reading_hints": {
+            "八": "はち",
+            "八掛": "やつがけ",
+            "掛": "かい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "八掛",
+              "reading": "やつがけ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"八掛\",\"reading\":\"ハッカケ\",\"used_web_search\":false,\"comment\":\"着物用語では「八掛」は「はっかけ」と読む。文脈の「共八掛」「辛子色の八掛」にも合う。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "八掛",
+              "reading": "ハッカケ",
+              "used_web_search": false,
+              "comment": "着物用語では「八掛」は「はっかけ」と読む。文脈の「共八掛」「辛子色の八掛」にも合う。"
+            }
+          ],
+          "llm_comments": [
+            "着物用語では「八掛」は「はっかけ」と読む。文脈の「共八掛」「辛子色の八掛」にも合う。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001358:u0005::target_group:2",
+            "status": "applied",
+            "rejected_span": "八掛",
+            "replacement": [
+              {
+                "surface": "八掛",
+                "reading": "ハッカケ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001358:u0005::target_group:2",
+                "surface": "八掛",
+                "comment": "着物用語では「八掛」は「はっかけ」と読む。文脈の「共八掛」「辛子色の八掛」にも合う。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "共八掛",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001358:u0005:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "共",
+          "token_surface": "共",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "共",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001358:u0005:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "八掛",
+          "token_surface": "八掛",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やつがけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "八掛",
+              "reading": "やつがけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "共",
+          "reading": "きょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "八掛",
+          "reading": "やつがけ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "共": [
+          "きょう",
+          "とも",
+          "ども"
+        ],
+        "八": [
+          "はち",
+          "はっ",
+          "ぱち",
+          "ぱっ",
+          "や",
+          "やあ",
+          "やっ",
+          "よう"
+        ],
+        "八掛": [
+          "やつがけ"
+        ],
+        "掛": [
+          "かい",
+          "かかり",
+          "かけ",
+          "がかり",
+          "がけ"
+        ]
+      },
+      "reading_hints": {
+        "共": "きょう",
+        "八": "はち",
+        "八掛": "やつがけ",
+        "掛": "かい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "共八掛",
+          "reading": "トモハッカケ",
+          "used_web_search": false,
+          "comment": "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"共八掛\",\"reading\":\"トモハッカケ\",\"used_web_search\":false,\"comment\":\"着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。\"}]",
+      "llm_comments": [
+        "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "共八掛",
+        "replacement": [
+          {
+            "surface": "共八掛",
+            "reading": "トモハッカケ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001358:u0005::target_group:1",
+            "surface": "共八掛",
+            "comment": "着物用語の一語として扱い、「共（同じ布の）」＋「八掛」だが読みはまとめて「ともはっかけ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001359:u0003::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001359",
+      "doc_seq": 9,
+      "track_doc_seq": 1359,
+      "unit_id": "ja_cc_level2:0000001359:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1359,
+      "text": "これまでほとんど勉強してこなかった人は人一倍の努力が必要ですが、彩北進学塾の「受験対策講座」は、公立高校の入試で点数を取るための講座です。",
+      "rendered_yomi_before": "これ/コレ まで/マデ ほとんど/ホトンド 勉強/ベンキョウ し/シ て/テ こ/コ なかっ/ナカッ た/タ 人/ヒト は/ハ 人/ヒト 一/イチ 倍/バイ の/ノ 努力/ドリョク が/ガ 必要/ヒツヨウ です/デス が/ガ 、/、 彩/アヤ 北進/ホクシン 学/ガク 塾/ジュク の/ノ 「/「 受験/ジュケン 対策/タイサク 講座/コウザ 」/」 は/ハ 、/、 公立/コウリツ 高校/コウコウ の/ノ 入試/ニュウシ で/デ 点数/テンスウ を/ヲ 取る/トル ため/タメ の/ノ 講座/コウザ です/デス 。/。",
+      "rendered_yomi_after": "これ/コレ まで/マデ ほとんど/ホトンド 勉強/ベンキョウ し/シ て/テ こ/コ なかっ/ナカッ た/タ 人/ヒト は/ハ 人/ヒト 一/イチ 倍/バイ の/ノ 努力/ドリョク が/ガ 必要/ヒツヨウ です/デス が/ガ 、/、 彩北/サイホク 進学/シンガク 塾/ジュク の/ノ 「/「 受験/ジュケン 対策/タイサク 講座/コウザ 」/」 は/ハ 、/、 公立/コウリツ 高校/コウコウ の/ノ 入試/ニュウシ で/デ 点数/テンスウ を/ヲ 取る/トル ため/タメ の/ノ 講座/コウザ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "これ",
+          "コレ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "ほとんど",
+          "ホトンド"
+        ],
+        [
+          "勉強",
+          "ベンキョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "こ",
+          "コ"
+        ],
+        [
+          "なかっ",
+          "ナカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "一",
+          "イチ"
+        ],
+        [
+          "倍",
+          "バイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "努力",
+          "ドリョク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "必要",
+          "ヒツヨウ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "彩北",
+          "サイホク"
+        ],
+        [
+          "進学",
+          "シンガク"
+        ],
+        [
+          "塾",
+          "ジュク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "受験",
+          "ジュケン"
+        ],
+        [
+          "対策",
+          "タイサク"
+        ],
+        [
+          "講座",
+          "コウザ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "公立",
+          "コウリツ"
+        ],
+        [
+          "高校",
+          "コウコウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "入試",
+          "ニュウシ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "点数",
+          "テンスウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "取る",
+          "トル"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "講座",
+          "コウザ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "これ",
+          "reading": "コレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "これ"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "ほとんど",
+          "reading": "ホトンド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ほとんど"
+            }
+          ]
+        },
+        {
+          "surface": "勉強",
+          "reading": "ベンキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勉強",
+              "reading": "べんきょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "こ",
+          "reading": "コ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こ"
+            }
+          ]
+        },
+        {
+          "surface": "なかっ",
+          "reading": "ナカッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なかっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "一",
+          "reading": "イチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一",
+              "reading": "いち"
+            }
+          ]
+        },
+        {
+          "surface": "倍",
+          "reading": "バイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "倍",
+              "reading": "ばい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "努力",
+          "reading": "ドリョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "努力",
+              "reading": "どりょく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "必要",
+          "reading": "ヒツヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "必要",
+              "reading": "ひつよう"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "彩北",
+          "reading": "サイホク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "彩北",
+              "reading": "さいほく"
+            }
+          ]
+        },
+        {
+          "surface": "進学",
+          "reading": "シンガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進学",
+              "reading": "しんがく"
+            }
+          ]
+        },
+        {
+          "surface": "塾",
+          "reading": "ジュク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "塾",
+              "reading": "じゅく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "受験",
+          "reading": "ジュケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "受験",
+              "reading": "じゅけん"
+            }
+          ]
+        },
+        {
+          "surface": "対策",
+          "reading": "タイサク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対策",
+              "reading": "たいさく"
+            }
+          ]
+        },
+        {
+          "surface": "講座",
+          "reading": "コウザ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "講座",
+              "reading": "こうざ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "公立",
+          "reading": "コウリツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "公立",
+              "reading": "こうりつ"
+            }
+          ]
+        },
+        {
+          "surface": "高校",
+          "reading": "コウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高校",
+              "reading": "こうこう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "入試",
+          "reading": "ニュウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "入試",
+              "reading": "にゅうし"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "点数",
+          "reading": "テンスウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "点数",
+              "reading": "てんすう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "取る",
+          "reading": "トル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "講座",
+          "reading": "コウザ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "講座",
+              "reading": "こうざ"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+          "item_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+          "unit_id": "ja_cc_level2:0000001359:u0003",
+          "text": "これまでほとんど勉強してこなかった人は人一倍の努力が必要ですが、彩北進学塾の「受験対策講座」は、公立高校の入試で点数を取るための講座です。",
+          "rendered_yomi_before": "これ/コレ まで/マデ ほとんど/ホトンド 勉強/ベンキョウ し/シ て/テ こ/コ なかっ/ナカッ た/タ 人/ヒト は/ハ 人/ヒト 一/イチ 倍/バイ の/ノ 努力/ドリョク が/ガ 必要/ヒツヨウ です/デス が/ガ 、/、 彩/アヤ 北進/ホクシン 学/ガク 塾/ジュク の/ノ 「/「 受験/ジュケン 対策/タイサク 講座/コウザ 」/」 は/ハ 、/、 公立/コウリツ 高校/コウコウ の/ノ 入試/ニュウシ で/デ 点数/テンスウ を/ヲ 取る/トル ため/タメ の/ノ 講座/コウザ です/デス 。/。",
+          "rendered_yomi_after": "これ/コレ まで/マデ ほとんど/ホトンド 勉強/ベンキョウ し/シ て/テ こ/コ なかっ/ナカッ た/タ 人/ヒト は/ハ 人/ヒト 一/イチ 倍/バイ の/ノ 努力/ドリョク が/ガ 必要/ヒツヨウ です/デス が/ガ 、/、 彩北/サイホク 進学/シンガク 塾/ジュク の/ノ 「/「 受験/ジュケン 対策/タイサク 講座/コウザ 」/」 は/ハ 、/、 公立/コウリツ 高校/コウコウ の/ノ 入試/ニュウシ で/デ 点数/テンスウ を/ヲ 取る/トル ため/タメ の/ノ 講座/コウザ です/デス 。/。",
+          "display_mapping": {
+            "start": 21,
+            "end": 23,
+            "char_start": 32,
+            "char_end": 36,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0033-0033",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "彩",
+              "token_surface": "彩",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "彩",
+                  "reading": "あや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0034-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北進",
+              "token_surface": "北進",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほくしん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "北進",
+                  "reading": "ほくしん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0036-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0033-0033",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "彩",
+              "token_surface": "彩",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あや",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "彩",
+                  "reading": "あや",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0034-0035",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北進",
+              "token_surface": "北進",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほくしん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "北進",
+                  "reading": "ほくしん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001359:u0003:s0036-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "学",
+              "token_surface": "学",
+              "token_index": 23,
+              "chunk_index": 0,
+              "current_reading_hiragana": "がく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "学",
+                  "reading": "がく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "彩北進学",
+          "reading_candidates": {
+            "彩": [
+              "あや",
+              "あやめ",
+              "いろどり",
+              "さい",
+              "さやか",
+              "ひかり"
+            ],
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "北進": [
+              "ほくしん"
+            ],
+            "進": [
+              "しん",
+              "すすむ"
+            ],
+            "進学": [
+              "しんがく"
+            ],
+            "学": [
+              "あきら",
+              "おさむ",
+              "がく",
+              "がっ",
+              "さとる",
+              "まこと",
+              "まなび",
+              "まなぶ"
+            ]
+          },
+          "reading_hints": {
+            "彩": "あや",
+            "北": "きた",
+            "北進": "ほくしん",
+            "進": "しん",
+            "進学": "しんがく",
+            "学": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "彩",
+              "reading": "あや",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "北進",
+              "reading": "ほくしん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"彩北\",\"reading\":\"サイホク\",\"used_web_search\":true,\"comment\":\"塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。\"},{\"surface\":\"進学\",\"reading\":\"シンガク\",\"used_web_search\":true,\"comment\":\"一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "彩北",
+              "reading": "サイホク",
+              "used_web_search": true,
+              "comment": "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。"
+            },
+            {
+              "surface": "進学",
+              "reading": "シンガク",
+              "used_web_search": true,
+              "comment": "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。"
+            }
+          ],
+          "llm_comments": [
+            "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。",
+            "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "彩北進学",
+            "replacement": [
+              {
+                "surface": "彩北",
+                "reading": "サイホク"
+              },
+              {
+                "surface": "進学",
+                "reading": "シンガク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+                "surface": "彩北進学",
+                "comment": "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+                "surface": "彩北進学",
+                "comment": "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "彩北進学",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001359:u0003:s0033-0033",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "彩",
+          "token_surface": "彩",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あや",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "彩",
+              "reading": "あや",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001359:u0003:s0034-0035",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "北進",
+          "token_surface": "北進",
+          "token_index": 22,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほくしん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "北進",
+              "reading": "ほくしん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001359:u0003:s0036-0036",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "学",
+          "token_surface": "学",
+          "token_index": 23,
+          "chunk_index": 0,
+          "current_reading_hiragana": "がく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "学",
+              "reading": "がく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "彩",
+          "reading": "あや",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "北進",
+          "reading": "ほくしん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "学",
+          "reading": "がく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "彩": [
+          "あや",
+          "あやめ",
+          "いろどり",
+          "さい",
+          "さやか",
+          "ひかり"
+        ],
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "北進": [
+          "ほくしん"
+        ],
+        "進": [
+          "しん",
+          "すすむ"
+        ],
+        "進学": [
+          "しんがく"
+        ],
+        "学": [
+          "あきら",
+          "おさむ",
+          "がく",
+          "がっ",
+          "さとる",
+          "まこと",
+          "まなび",
+          "まなぶ"
+        ]
+      },
+      "reading_hints": {
+        "彩": "あや",
+        "北": "きた",
+        "北進": "ほくしん",
+        "進": "しん",
+        "進学": "しんがく",
+        "学": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "surface": "彩北",
+          "reading": "サイホク",
+          "used_web_search": true,
+          "comment": "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。"
+        },
+        {
+          "surface": "進学",
+          "reading": "シンガク",
+          "used_web_search": true,
+          "comment": "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"彩北\",\"reading\":\"サイホク\",\"used_web_search\":true,\"comment\":\"塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。\"},{\"surface\":\"進学\",\"reading\":\"シンガク\",\"used_web_search\":true,\"comment\":\"一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。\"}]",
+      "llm_comments": [
+        "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。",
+        "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "彩北進学",
+        "replacement": [
+          {
+            "surface": "彩北",
+            "reading": "サイホク"
+          },
+          {
+            "surface": "進学",
+            "reading": "シンガク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+            "surface": "彩北進学",
+            "comment": "塾名の頭部で、公式表記やドメイン名から「さいほく」と読むのが自然です。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001359:u0003::target_group:1",
+            "surface": "彩北進学",
+            "comment": "一般語の「進学」で、後続の「塾」と合わせて「進学塾」と読むためです。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
