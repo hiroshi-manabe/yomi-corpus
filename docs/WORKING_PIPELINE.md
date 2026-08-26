@@ -2511,7 +2511,10 @@ Review/refill separation is implemented by `./review-sync` and
 advances a refill batch. `refill-worker` reads the same configuration, resumes
 the oldest batch that has not reached `final_review_prepared`, and otherwise
 reserves at most `pass_limit` new documents when the aggregate pool is below
-`target_ready_docs`.
+`target_ready_docs`. One worker invocation keeps its per-track lock and repeats
+that single-batch operation until the aggregate `bulk-ready` count reaches the
+target. It recomputes canonical queue counts after every completed batch and
+stops defensively if the ready count does not increase.
 
 `refill-worker` should own preparation of new review material:
 
@@ -2554,7 +2557,11 @@ The implemented lock files are deliberately independent:
 Refill summaries are written to `data/state/refill/<track>.last.json` with
 timestamped history beside them. The worker always advances the captured batch
 with `PipelineWorkspace.advance_batch()`; it does not rely on the track's
-mutable `current_batch_name` after reservation.
+mutable `current_batch_name` after reservation. The summary records every
+iteration and completed batch in the invocation. A durable remote job that is
+still incomplete, an error, source exhaustion, interruption, lack of progress,
+or the configured safety iteration limit ends the invocation without losing
+the resumable batch state. The next timer activation continues from that state.
 
 For dev, install the version-controlled user units from
 `deploy/systemd/user/`, then run:
@@ -2592,7 +2599,10 @@ and throughput:
   poll them; the five-minute review synchronizer must not wait for them
 
 The steady-state dev policy keeps roughly 100 ready documents in 10-document
-batches, expressed as `target_ready_docs = 100` and `pass_limit = 10`. Refill reacts to aggregate
+batches, expressed as `target_ready_docs = 100` and `pass_limit = 10`. A worker
+that starts below 100 prepares consecutive batches without an intentional
+five-minute gap until that target is restored. The systemd timer is a recovery
+and future-demand trigger, not inter-batch pacing. Refill reacts to aggregate
 canonical document state rather than batch creation order. A newer batch may
 reach review or finish before an older one without changing Issue application,
 finalization, archive publication, or decoder refresh semantics.

@@ -2267,10 +2267,11 @@ Implementation requirements:
 Rolling Bulk Review refill should be implemented as a queue-maintenance policy
 over the document-state ledger, not as a new kind of batch:
 
-- keep a configured target number of actionable Bulk Review documents, for
-  example `bulk_review_target_ready_docs = 50`
-- each `./review-sync <track>` pass should count documents whose canonical
-  state makes them selectable in Bulk Review
+- keep a configured target number of actionable Bulk Review documents; dev
+  currently uses `target_ready_docs = 100`
+- `review-sync` reports demand but does not run expensive refill stages; the
+  independent `refill-worker` counts documents whose canonical state makes
+  them selectable in Bulk Review
 - for refill accounting and corpus-map display, derive coarse pool labels from
   canonical document state:
   - `unprocessed`: source document has not entered the track
@@ -2290,22 +2291,22 @@ over the document-state ledger, not as a new kind of batch:
   `strong_*`, `complete`, and `skipped` values remain authoritative.
 - the initial implementation exposes those counts as `queue_counts` in the
   document-state summary and the review-sync summary.
-- the implemented refill primitive is:
-  `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
-  reports current `bulk-ready` count, target, deficit, and capped planned
-  prepare count. `--dry-run` additionally reports the exact source documents
-  that would be selected and deliberately keeps `will_prepare: false`.
-- if the count is below target and the pass is not a dry run, the runner
-  prepares more source documents, runs the automatic/LLM stages needed to make
-  them reviewable, appends their document states to the ledger, and republishes
-  review artifacts according to `--publish`
+- `review-sync` reports current `bulk-ready` count, target, deficit, and capped
+  planned prepare count. `refill-worker` owns actual preparation and automatic
+  or LLM advancement.
+- if the count is below target, one refill-worker invocation prepares one
+  bounded batch at a time and recomputes canonical queue counts after each
+  completion. It continues without a timer gap until the target is reached,
+  but stops on no progress, incomplete durable remote work, source exhaustion,
+  error, interruption, or its safety iteration limit.
 - if any prepared/refill batch is already before `final_review_prepared`,
   refill should resume that batch rather than preparing another duplicate
   source slice. The current implementation approximates this with
   `track.current_batch_name`, but the target scheduler should discover such
   batches from batch/document state.
-- refill should be bounded by a per-pass limit so a sync does not unexpectedly
-  launch an unbounded amount of LLM work
+- each prepared batch is bounded by `pass_limit`, and the worker also has a
+  maximum iteration guard so broken ready-count accounting cannot launch
+  unbounded LLM work
 - the UI may show documents from multiple backend preparation batches in one
   Bulk Review queue; batch IDs remain provenance, not user-facing queue
   boundaries

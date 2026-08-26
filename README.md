@@ -121,13 +121,12 @@ Review transport policy:
   of actionable Bulk Review documents available by preparing more source
   documents when the queue gets low, using a durable per-document ledger rather
   than batch-level stage membership
-- current queue summaries expose the refill-relevant counts, and `review-sync`
-  can now use those counts to maintain a bounded Bulk Review buffer
-- `./review-sync <track> --bulk-review-target-ready-docs N --refill-pass-limit M`
-  reports a refill plan from current document pool counts; without `--dry-run`,
-  it prepares up to `M` new source documents when the actionable Bulk Review
-  count is below `N`, then advances the new/current batch through automated
-  stages until `final_review_prepared`
+- current queue summaries expose refill-relevant counts. `review-sync` reports
+  demand, while the independent `refill-worker` prepares bounded batches and
+  advances them through automated stages until `final_review_prepared`
+- one refill invocation recomputes canonical queue counts after each batch and
+  continues until `target_ready_docs` is restored. The timer recovers interrupted
+  work and reacts to later demand rather than imposing a delay between batches
 - background and batch LLM calls are resumable but bounded: a single invocation
   stops after the configured maximum wait or after too long without completed
   result progress, and the next `./next` or `./review-sync` resumes/polls the

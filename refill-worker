@@ -13,7 +13,10 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from yomi_corpus.pipeline import LLM_EXECUTION_MODES  # noqa: E402
-from yomi_corpus.refill_worker import RefillWorkerOptions, run_refill_worker_pass  # noqa: E402
+from yomi_corpus.refill_worker import (  # noqa: E402
+    RefillWorkerOptions,
+    run_refill_worker_until_target,
+)
 from yomi_corpus.review_sync import (  # noqa: E402
     DEFAULT_REVIEW_SYNC_CONFIG,
     load_review_sync_config,
@@ -42,7 +45,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     config = load_review_sync_config(args.track, args.sync_config)
-    summary = run_refill_worker_pass(
+    summary = run_refill_worker_until_target(
         PROJECT_ROOT,
         RefillWorkerOptions(
             track_name=args.track,

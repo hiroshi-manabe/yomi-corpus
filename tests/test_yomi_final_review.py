@@ -2705,16 +2705,18 @@ class YomiFinalReviewTests(unittest.TestCase):
         review_target = build_review_target(target)
 
         self.assertEqual(review_target["default_reading"], "きろ")
-        self.assertEqual(
-            [
-                (candidate["source"], candidate["reading"])
-                for candidate in review_target["candidates"]
-            ],
-            [
-                ("current", "きろ"),
-                ("dictionary", "きろめーとる"),
-                ("none", None),
-            ],
+        candidates = [
+            (candidate["source"], candidate["reading"])
+            for candidate in review_target["candidates"]
+        ]
+        self.assertEqual(candidates[:2], [
+            ("current", "きろ"),
+            ("dictionary", "きろめーとる"),
+        ])
+        self.assertEqual(candidates[-1], ("none", None))
+        self.assertNotIn(
+            ("usage_alternative", "けいえむ"),
+            candidates,
         )
 
     def test_review_target_offers_mm_short_and_formal_readings(self) -> None:

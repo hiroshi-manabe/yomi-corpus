@@ -22,6 +22,7 @@ from yomi_corpus.review_sync import (
 
 
 REFILL_STATE_SCHEMA_VERSION = 1
+DEFAULT_MAX_REFILL_ITERATIONS = 100
 
 
 @dataclass(frozen=True)
@@ -44,6 +45,93 @@ def run_refill_worker_pass(root: Path, options: RefillWorkerOptions) -> dict[str
         summary_path = write_refill_summary(root, options.track_name, summary)
         summary["summary_json"] = str(summary_path)
     return summary
+
+
+def run_refill_worker_until_target(
+    root: Path,
+    options: RefillWorkerOptions,
+    *,
+    max_iterations: int = DEFAULT_MAX_REFILL_ITERATIONS,
+) -> dict[str, Any]:
+    """Run durable single-batch passes back-to-back until refill should pause."""
+    state_dir = root / "data" / "state" / "refill"
+    lock_path = state_dir / f"{options.track_name}.lock"
+    started_at_epoch = int(time.time())
+    iterations: list[dict[str, Any]] = []
+    stop_reason: str | None = None
+    with ReviewSyncLock(lock_path, label="Refill worker"):
+        for _ in range(max(1, int(max_iterations))):
+            iteration = _run_refill_worker_pass_unlocked(root=root, options=options)
+            iterations.append(iteration)
+            stop_reason = refill_iteration_stop_reason(iteration)
+            if stop_reason is not None:
+                break
+        else:
+            stop_reason = "iteration_limit"
+
+    completed_at_epoch = int(time.time())
+    last = iterations[-1]
+    summary = {
+        "schema_version": REFILL_STATE_SCHEMA_VERSION,
+        "track_name": options.track_name,
+        "started_at": epoch_iso(started_at_epoch),
+        "completed_at": epoch_iso(completed_at_epoch),
+        "duration_seconds": completed_at_epoch - started_at_epoch,
+        "dry_run": options.dry_run,
+        "policy": last["policy"],
+        "refill_plan": last["refill_plan"],
+        "action": last["action"],
+        "iteration_count": len(iterations),
+        "iterations": iterations,
+        "changed": any(bool(row["action"].get("changed")) for row in iterations),
+        "completed_batches": [
+            str(row["action"].get("batch_name"))
+            for row in iterations
+            if row["action"].get("advance_result", {}).get("status")
+            == "bulk_review_ready"
+        ],
+        "stop_reason": stop_reason,
+    }
+    if not options.dry_run:
+        summary_path = write_refill_summary(root, options.track_name, summary)
+        summary["summary_json"] = str(summary_path)
+    return summary
+
+
+def refill_iteration_stop_reason(summary: dict[str, Any]) -> str | None:
+    if summary.get("dry_run"):
+        return "dry_run"
+    action = summary.get("action")
+    if not isinstance(action, dict):
+        return "invalid_action"
+    action_name = str(action.get("action") or "")
+    if action_name == "none":
+        return str(action.get("reason") or "no_refill_work")
+    advance = action.get("advance_result")
+    if not isinstance(advance, dict):
+        return "missing_advance_result"
+    status = str(advance.get("status") or "")
+    if status == "bulk_review_ready":
+        plan = summary.get("refill_plan")
+        post_summary = summary.get("post_refill_queue_summary")
+        if not isinstance(plan, dict) or not isinstance(post_summary, dict):
+            return "missing_post_refill_queue_summary"
+        pool_counts = post_summary.get("pool_counts")
+        if not isinstance(pool_counts, dict):
+            return "missing_post_refill_queue_summary"
+        target = int(plan.get("target_ready_docs") or 0)
+        ready_before = int(plan.get("bulk_review_ready_docs") or 0)
+        ready_after = int(pool_counts.get("bulk-ready") or 0)
+        if ready_after >= target:
+            return "bulk_review_target_satisfied"
+        if ready_after <= ready_before:
+            return "ready_count_not_increasing"
+        return None
+    if status == "incomplete" and action.get("changed"):
+        return None
+    if status == "incomplete":
+        return "no_progress"
+    return str(advance.get("reason") or status or "advance_stopped")
 
 
 def _run_refill_worker_pass_unlocked(
@@ -121,6 +209,12 @@ def _run_refill_worker_pass_unlocked(
             advance_result.get("status") == "bulk_review_ready"
         )
 
+    post_queue_summary = aggregate_document_queue_summary(
+        root=root,
+        workspace=workspace,
+        track_name=options.track_name,
+    )
+
     completed_at_epoch = int(time.time())
     return {
         "schema_version": REFILL_STATE_SCHEMA_VERSION,
@@ -137,6 +231,7 @@ def _run_refill_worker_pass_unlocked(
             "llm_execution_mode_override": options.llm_execution_mode_override,
         },
         "refill_plan": plan,
+        "post_refill_queue_summary": post_queue_summary,
         "action": action,
     }
 

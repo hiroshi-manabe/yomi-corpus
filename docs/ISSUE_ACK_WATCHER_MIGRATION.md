@@ -280,7 +280,10 @@ parts while retaining durable ledger state and bounded retries.
 The heavy review-sync and refill timers use `OnUnitInactiveSec=5min`, not
 `OnUnitActiveSec`. A pass that itself lasts longer than five minutes therefore
 gets a five-minute idle window after completion instead of being relaunched
-immediately and monopolizing the shared publication lock.
+immediately. Review-sync remains bounded to protect publication latency. A
+refill invocation, however, processes consecutive bounded batches under its
+independent lock until the ready pool reaches its configured target; its timer
+is for recovery and later demand rather than intentional inter-batch delay.
 
 Review-pack preparation is deliberately publication-free. The refill worker
 may create a Bulk Review pack but never generates the complete Pages tree.
