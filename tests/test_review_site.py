@@ -11,6 +11,7 @@ from unittest.mock import patch
 from yomi_corpus.review_site import (
     archive_search_unit,
     clear_directory,
+    build_current_review_summary,
     build_review_manifest,
     collect_pending_review_search_records,
     collect_review_pack_entries,
@@ -231,6 +232,34 @@ class ReviewSiteTests(unittest.TestCase):
             manifest["current_review_queues"][0]["selectable_document_count"],
             0,
         )
+
+    def test_current_review_summary_contains_documents_without_items(self) -> None:
+        entry = {
+            "pack_id": "yomi_final_dev_batch_0001_v1",
+            "queue_documents": [
+                {
+                    "doc_id": "doc1",
+                    "track_doc_seq": 1,
+                    "preview": "preview",
+                    "item_count": 3,
+                },
+                {"doc_id": "doc2", "track_doc_seq": 2, "item_count": 4},
+            ],
+        }
+        queue = {
+            "pack_id": entry["pack_id"],
+            "review_stage": "yomi_final_review",
+            "queue_id": "final_review",
+            "title": "Final",
+            "track_name": "dev",
+            "item_count": 7,
+            "pending_doc_ids": ["doc2"],
+        }
+
+        summary = build_current_review_summary([entry], [queue])
+
+        self.assertEqual(summary["packs"][0]["documents"], [entry["queue_documents"][1]])
+        self.assertNotIn("items", summary["packs"][0])
 
     def test_pending_review_search_includes_nonfinalized_document_text(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -702,6 +731,11 @@ class ReviewSiteTests(unittest.TestCase):
                 "./issue-acknowledgments.json",
             )
             self.assertTrue((docs_dir / "review" / "issue-acknowledgments.json").exists())
+            self.assertTrue((docs_dir / "review" / "current-review-summary.json").exists())
+            self.assertEqual(
+                saved_manifest["current_review_summary"]["path"],
+                "./current-review-summary.json",
+            )
             self.assertEqual(
                 json.loads((docs_dir / "review" / "runtime-status.json").read_text(encoding="utf-8"))[
                     "state_revision"

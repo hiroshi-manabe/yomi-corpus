@@ -14,6 +14,9 @@ const state = {
   currentPack: null,
   currentDraft: null,
   unifiedSources: [],
+  unifiedSourceMetas: [],
+  unifiedDashboardPack: null,
+  reviewPackCache: new Map(),
   archiveIndex: null,
   archiveCurrentTrack: "dev",
   archiveCurrentShard: null,
@@ -187,6 +190,7 @@ function bindEvents() {
     }
     clearActiveTaskState();
     touchDraft();
+    restoreUnifiedDashboardPack();
     render({ scrollToTop: true });
   });
 
@@ -400,10 +404,23 @@ async function openUnifiedReview() {
     return;
   }
   state.currentStageId = "unified_yomi_review";
-  const sources = [];
-  for (const source of reviewSources) {
-    const pack = await fetchJson(source.path);
-    sources.push({ meta: source, pack });
+  state.unifiedSourceMetas = reviewSources;
+  let sources = [];
+  let usingSummary = false;
+  const summaryPath = state.manifest?.current_review_summary?.path;
+  if (summaryPath) {
+    const summary = await fetchJson(summaryPath);
+    const packsById = new Map((summary.packs || []).map((pack) => [pack.pack_id, pack]));
+    sources = reviewSources
+      .map((source) => ({ meta: source, pack: packsById.get(source.pack_id) }))
+      .filter(({ pack }) => Boolean(pack));
+    usingSummary = sources.length === reviewSources.length;
+  }
+  if (sources.length !== reviewSources.length) {
+    usingSummary = false;
+    sources = await Promise.all(
+      reviewSources.map(async (source) => ({ meta: source, pack: await loadReviewPack(source) })),
+    );
   }
   const unified = buildUnifiedReviewPack(sources);
   state.currentPackMeta = {
@@ -413,9 +430,14 @@ async function openUnifiedReview() {
     status: "active-dev",
   };
   state.currentPack = unified;
-  state.unifiedSources = sources;
+  state.unifiedSources = usingSummary ? [] : sources;
+  state.unifiedDashboardPack = unified;
   state.currentDraft = loadDraft(unified);
   syncLocalTaskRecordsForCurrentPack();
+  const restoredTask = normalizeTask(state.currentDraft.task, state.currentPack);
+  if (restoredTask.started && restoredTask.doc_ids.length > 0) {
+    await hydrateUnifiedTask(restoredTask.doc_ids);
+  }
   updateLocation("unified_yomi_review", unified.pack_id);
   render({ scrollToTop: isTaskStarted() });
   updateRuntimePollingForInteraction();
@@ -549,12 +571,16 @@ function buildUnifiedReviewPack(sources) {
       const stats = statsByDoc.get(key) || {};
       return {
         ...doc,
-        from_seq: stats.from_seq ?? 0,
-        to_seq: stats.to_seq ?? 0,
-        item_count: stats.item_count ?? 0,
-        unresolved_count: stats.unresolved_count ?? Number(doc.region_count || 0),
-        final_item_count: stats.final_item_count ?? 0,
-        strong_repair_item_count: stats.strong_repair_item_count ?? 0,
+        from_seq: stats.from_seq ?? Number(doc.from_seq || 0),
+        to_seq: stats.to_seq ?? Number(doc.to_seq || 0),
+        item_count: stats.item_count ?? Number(doc.item_count || 0),
+        unresolved_count:
+          stats.unresolved_count ?? Number(doc.unresolved_count ?? doc.region_count ?? 0),
+        final_item_count:
+          stats.final_item_count ??
+          (doc.queue_stage === "yomi_final_review" ? Number(doc.item_count || 0) : 0),
+        strong_repair_item_count:
+          stats.strong_repair_item_count ?? Number(doc.strong_repair_item_count || 0),
         queue_member: documentBelongsToQueue(doc.queue_stage, doc),
         selectable: unifiedDocumentIsSelectable(doc, stats),
       };
@@ -588,6 +614,52 @@ function buildUnifiedReviewPack(sources) {
     actionable_documents: actionableDocumentRows,
     items,
   };
+}
+
+async function loadReviewPack(meta) {
+  const key = String(meta?.pack_id || meta?.path || "");
+  if (state.reviewPackCache.has(key)) {
+    return state.reviewPackCache.get(key);
+  }
+  const pack = await fetchJson(meta.path);
+  state.reviewPackCache.set(key, pack);
+  return pack;
+}
+
+async function buildHydratedUnifiedPack(docIds) {
+  const dashboardPack = state.unifiedDashboardPack || state.currentPack;
+  const docsByKey = new Map(
+    buildDocumentTasks(dashboardPack).map((doc) => [taskDocKey(doc), doc]),
+  );
+  const sourcePackIds = new Set(
+    docIds.map((docId) => docsByKey.get(docId)?.source_pack_id).filter(Boolean),
+  );
+  const metas = state.unifiedSourceMetas.filter((meta) => sourcePackIds.has(meta.pack_id));
+  const sources = await Promise.all(
+    metas.map(async (meta) => ({ meta, pack: await loadReviewPack(meta) })),
+  );
+  const hydrated = buildUnifiedReviewPack(sources);
+  hydrated.pack_id = dashboardPack.pack_id;
+  hydrated.title = dashboardPack.title;
+  return { pack: hydrated, sources };
+}
+
+async function hydrateUnifiedTask(docIds) {
+  if (!state.unifiedDashboardPack || (state.currentPack?.items || []).length > 0) {
+    return;
+  }
+  showStatus("レビュー用データを読み込んでいます。");
+  const hydrated = await buildHydratedUnifiedPack(docIds);
+  state.currentPack = hydrated.pack;
+  state.unifiedSources = hydrated.sources;
+}
+
+function restoreUnifiedDashboardPack() {
+  if (!state.unifiedDashboardPack) {
+    return;
+  }
+  state.currentPack = state.unifiedDashboardPack;
+  state.unifiedSources = [];
 }
 
 function queueDocKey(queueStage, docId) {
@@ -627,7 +699,7 @@ function queueStageSort(stage) {
 
 function unifiedDocumentIsSelectable(doc, stats) {
   const stateName = String(doc.state || "");
-  const itemCount = Number(stats?.item_count || 0);
+  const itemCount = Number(stats?.item_count ?? doc.item_count ?? 0);
   if (itemCount <= 0) {
     return false;
   }
@@ -2359,6 +2431,10 @@ function renderWorkflowQueue({
   const actionableDocs = queueDocs.filter((doc) => docIsActionable(doc));
   const selectedDocs = actionableDocs.filter((doc) => task.doc_ids.includes(taskDocKey(doc)));
   const selectedItems = itemsForTask(task).filter((item) => itemReviewStage(item) === queueStage);
+  const selectedItemCount = selectedItems.length || selectedDocs.reduce(
+    (total, doc) => total + Number(doc.item_count || 0),
+    0,
+  );
   const localSubmittedCount = queueDocs.filter((doc) => docIsSubmittedLocally(doc) && !docIsProcessingOnServer(doc)).length;
   const processingCount = queueDocs.filter((doc) => docIsProcessingOnServer(doc)).length;
   const heading = document.createElement("div");
@@ -2369,7 +2445,7 @@ function renderWorkflowQueue({
       <p class="muted">作業可能: ${actionableDocs.length}文書${localSubmittedCount ? ` · ローカル提出済み: ${localSubmittedCount}` : ""}${processingCount ? ` · サーバー処理中: ${processingCount}` : ""}</p>
     </div>
     <strong class="workflow-selected-count">${selectedDocs.length
-      ? `選択中: ${selectedDocs.length}文書、${selectedItems.length}項目`
+      ? `選択中: ${selectedDocs.length}文書、${selectedItemCount}項目`
       : "未選択"}</strong>
   `;
   section.append(heading);
@@ -2501,12 +2577,22 @@ async function openWorkflowDocumentPreview(displaySeq) {
   if (!row) {
     return;
   }
-  const previewItems = workflowPreviewItemsForDocument(row);
+  const actionDoc = workflowPreviewActionDocument(docs, row);
+  const previewDraft = workflowPreviewDraftForRow(row);
+  let previewItems = workflowPreviewItemsForDocument(row);
+  if (row.status !== "resolved" && previewItems.length === 0 && actionDoc?.source_pack_id) {
+    const originalPack = state.currentPack;
+    const hydrated = await buildHydratedUnifiedPack([taskDocKey(actionDoc)]);
+    state.currentPack = hydrated.pack;
+    try {
+      previewItems = workflowPreviewItemsForDocument(row);
+    } finally {
+      state.currentPack = originalPack;
+    }
+  }
   const archivedDocument = row.status === "resolved"
     ? await loadArchivedWorkflowDocument(row)
     : null;
-  const actionDoc = workflowPreviewActionDocument(docs, row);
-  const previewDraft = workflowPreviewDraftForRow(row);
   el.workflowPreviewTitle.textContent = `文書 ${row.display_seq}`;
   el.workflowPreviewMeta.textContent = workflowPreviewMetaText(
     row,
@@ -7462,7 +7548,7 @@ function saveWorkflowTakeNextCount(queueStage, count) {
   }
 }
 
-function startReviewTask() {
+async function startReviewTask() {
   const task = normalizeTask(state.currentDraft.task, state.currentPack);
   if (task.doc_ids.length === 0) {
     showStatus("タスクを開始する前に一つ以上の文書を選択してください。", true);
@@ -7470,13 +7556,19 @@ function startReviewTask() {
   }
   const matchingDraft = findSavedTaskDraftByDocIds(task.doc_ids);
   if (matchingDraft) {
-    resumeTaskDraft(matchingDraft.task_id);
+    await resumeTaskDraft(matchingDraft.task_id);
     showStatus(`${localizedTaskLabel(matchingDraft.task_label || "保留中のタスク")}に戻りました。`);
     return;
   }
   const overlap = findSavedTaskDraftOverlap(task.doc_ids);
   if (overlap) {
     showStatus(formatTaskOverlapMessage(overlap), true);
+    return;
+  }
+  try {
+    await hydrateUnifiedTask(task.doc_ids);
+  } catch (error) {
+    showStatus(`レビュー用データを読み込めませんでした: ${error.message}`, true);
     return;
   }
   const identity = allocateTaskIdentity();
@@ -7500,6 +7592,7 @@ function clearTaskSelection() {
   state.currentDraft.active_task_id = null;
   state.currentDraft.active_task_label = null;
   touchDraft();
+  restoreUnifiedDashboardPack();
   render();
 }
 
@@ -7512,6 +7605,7 @@ function deferCurrentTask() {
   state.currentDraft.saved_tasks[record.task_id] = { ...record, status: "deferred" };
   clearActiveTaskState();
   touchDraft();
+  restoreUnifiedDashboardPack();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで保留しました。`);
   render({ scrollToTop: true });
 }
@@ -7536,12 +7630,20 @@ function completeCurrentTask() {
   };
   clearActiveTaskState();
   touchDraft();
+  restoreUnifiedDashboardPack();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render({ scrollToTop: true });
 }
 
-function resumeTaskDraft(taskId) {
-  const record = normalizeLocalTaskRecordForCurrentPack(state.currentDraft.saved_tasks?.[taskId], "");
+async function resumeTaskDraft(taskId) {
+  const rawRecord = state.currentDraft.saved_tasks?.[taskId];
+  try {
+    await hydrateUnifiedTask(taskDocIdsForStorageTask(rawRecord?.task));
+  } catch (error) {
+    showStatus(`レビュー用データを読み込めませんでした: ${error.message}`, true);
+    return;
+  }
+  const record = normalizeLocalTaskRecordForCurrentPack(rawRecord, "");
   if (!record) {
     delete state.currentDraft.saved_tasks?.[taskId];
     touchDraft();
@@ -7574,6 +7676,7 @@ function markSavedTaskSubmitted(taskId) {
     clearActiveTaskState();
   }
   touchDraft();
+  restoreUnifiedDashboardPack();
   showStatus(`${localizedTaskLabel(record.task_label || "タスク")}をローカルで提出済みにしました。サーバーによるIssueの取り込みを待っています。`);
   render();
 }

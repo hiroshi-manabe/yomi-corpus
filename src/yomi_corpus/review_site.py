@@ -105,6 +105,13 @@ def collect_review_pack_entries(
             ),
             "source_path": path,
             "site_filename": f"{pack_id}.json",
+            "queue_documents": [
+                review_queue_document_summary(doc)
+                for doc in payload.get("documents", [])
+                if document_belongs_to_pending_pack(
+                    doc, str(payload["review_stage"])
+                )
+            ],
         }
         if finalized_document_keys is not None:
             pending_doc_ids = []
@@ -124,6 +131,33 @@ def collect_review_pack_entries(
             entry["pending_document_count"] = len(pending_doc_ids)
         entries.append(entry)
     return entries
+
+
+def review_queue_document_summary(doc: dict) -> dict:
+    """Keep only the fields needed to render and select current work."""
+    keys = (
+        "doc_id",
+        "doc_seq",
+        "track_doc_seq",
+        "unit_count",
+        "preview",
+        "queue_id",
+        "state",
+        "workflow_state",
+        "workflow_queue_stage",
+        "queue_member",
+        "selectable",
+        "state_updated_at",
+        "item_count",
+        "region_count",
+        "unresolved_count",
+        "from_seq",
+        "to_seq",
+        "reviewed_unit_count",
+        "skipped_unit_count",
+        "strong_repair_item_count",
+    )
+    return {key: doc.get(key) for key in keys if key in doc}
 
 
 def document_belongs_to_pending_pack(doc: dict, review_stage: str) -> bool:
@@ -293,6 +327,43 @@ def build_current_review_queues(stages: dict[str, dict]) -> list[dict]:
     return queues
 
 
+def build_current_review_summary(entries: list[dict], queues: list[dict]) -> dict:
+    entries_by_pack = {str(entry["pack_id"]): entry for entry in entries}
+    packs = []
+    for queue in queues:
+        entry = entries_by_pack.get(str(queue["pack_id"]))
+        if entry is None:
+            continue
+        pending_doc_ids = queue.get("pending_doc_ids")
+        pending = (
+            {str(doc_id) for doc_id in pending_doc_ids}
+            if isinstance(pending_doc_ids, list)
+            else None
+        )
+        documents = [
+            doc
+            for doc in entry.get("queue_documents", [])
+            if pending is None or str(doc.get("doc_id") or "") in pending
+        ]
+        packs.append(
+            {
+                "schema_version": 1,
+                "review_stage": queue["review_stage"],
+                "queue_id": queue.get("queue_id", queue["review_stage"]),
+                "pack_id": queue["pack_id"],
+                "title": queue["title"],
+                "track_name": queue.get("track_name", DEV_TRACK),
+                "item_count": queue.get("item_count", 0),
+                "documents": documents,
+            }
+        )
+    return {
+        "schema_version": 1,
+        "description": "Compact metadata for the active review dashboard.",
+        "packs": packs,
+    }
+
+
 def latest_current_track(current_tracks: dict[str, dict]) -> dict | None:
     if not current_tracks:
         return None
@@ -419,6 +490,15 @@ def _publish_review_site_unlocked(
         finalized_document_keys=finalized_document_keys,
     )
     manifest = build_review_manifest(entries)
+    current_review_summary = build_current_review_summary(
+        entries,
+        manifest.get("current_review_queues", []),
+    )
+    (review_output_dir / "current-review-summary.json").write_text(
+        json.dumps(current_review_summary, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    manifest["current_review_summary"] = {"path": "./current-review-summary.json"}
     if project_root is not None:
         runtime_source = (
             Path(project_root)

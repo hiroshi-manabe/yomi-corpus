@@ -32,9 +32,13 @@ class PublishReviewTests(unittest.TestCase):
             (review_root / "style.css").write_text("/* publish artifact */\n", encoding="utf-8")
             (review_root / "index.html").write_text("<!doctype html>\n", encoding="utf-8")
             (review_root / "README.md").write_text("publish artifact\n", encoding="utf-8")
+            (review_root / "current-review-summary.json").write_text("{}", encoding="utf-8")
             (review_root / "manifest.json").write_text(
                 json.dumps(
                     {
+                        "current_review_summary": {
+                            "path": "./current-review-summary.json",
+                        },
                         "current_tracks": {
                             "dev": {"path": "./packs/current.json"},
                         },
@@ -61,6 +65,7 @@ class PublishReviewTests(unittest.TestCase):
             [
                 "docs/review/README.md",
                 "docs/review/app.js",
+                "docs/review/current-review-summary.json",
                 "docs/review/index.html",
                 "docs/review/manifest.json",
                 "docs/review/packs/archived.json",

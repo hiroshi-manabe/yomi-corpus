@@ -33,6 +33,11 @@ STATIC_REVIEW_ARTIFACTS = (
     "style.css",
     "README.md",
 )
+ROOT_REVIEW_JSON_ARTIFACTS = {
+    "current-review-summary.json",
+    "issue-acknowledgments.json",
+    "runtime-status.json",
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -245,6 +250,8 @@ def resolve_manifest_path(review_root: Path, raw_path: str) -> Path:
 
 
 def is_publishable_review_json_path(review_root: Path, path: Path) -> bool:
+    if path.parent == review_root.resolve() and path.name in ROOT_REVIEW_JSON_ARTIFACTS:
+        return True
     for child_dir in ["packs", "archive"]:
         child_root = (review_root / child_dir).resolve()
         try:
