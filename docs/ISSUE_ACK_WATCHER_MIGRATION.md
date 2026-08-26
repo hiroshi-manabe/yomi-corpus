@@ -281,3 +281,10 @@ The heavy review-sync and refill timers use `OnUnitInactiveSec=5min`, not
 `OnUnitActiveSec`. A pass that itself lasts longer than five minutes therefore
 gets a five-minute idle window after completion instead of being relaunched
 immediately and monopolizing the shared publication lock.
+
+Review-pack preparation is deliberately publication-free. The refill worker
+may create a Bulk Review pack but never generates the complete Pages tree.
+`review-sync` applies at most one global action budget, observes a soft runtime
+deadline before starting each action, and performs at most one coalesced
+full-site publication after the pass. The 30-second watcher remains the only
+fast-path publisher, and it updates only `issue-acknowledgments.json`.

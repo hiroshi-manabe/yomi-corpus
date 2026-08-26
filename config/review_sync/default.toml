@@ -4,6 +4,10 @@ min_new_batches = 1
 min_interval_minutes = 60
 skip_kenlm = false
 
+[tracks.dev.review_sync]
+max_stages = 10
+max_runtime_seconds = 240
+
 [tracks.dev.bulk_review_refill]
 target_ready_docs = 100
 pass_limit = 10
@@ -25,6 +29,10 @@ mode = "never"
 min_new_batches = 5
 min_interval_minutes = 60
 skip_kenlm = false
+
+[tracks.working.review_sync]
+max_stages = 10
+max_runtime_seconds = 240
 
 [tracks.working.bulk_review_refill]
 target_ready_docs = 0

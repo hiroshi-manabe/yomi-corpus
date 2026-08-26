@@ -1311,9 +1311,7 @@ class PipelineWorkspace:
                 / "yomi_final"
                 / f"yomi_final_{batch_name}_v1.json"
             )
-            artifacts["review_site_manifest_json"] = str(
-                self.root / "docs" / "review" / "manifest.json"
-            )
+            artifacts["review_publish_required"] = "true"
         raw_yomi_policy = manifest.get("yomi_policy")
         state = BatchState(
             batch_name=batch_name,
@@ -1912,8 +1910,6 @@ class PipelineWorkspace:
         }
 
     def _prepare_final_review(self, batch_name: str) -> dict[str, object]:
-        from yomi_corpus.review_site import publish_review_site
-
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         source_path, _ = self._materialize_yomi_review_units(batch_name)
@@ -1929,13 +1925,6 @@ class PipelineWorkspace:
             batch_name=batch_name,
             pack_id=pack_id,
         )
-        manifest = publish_review_site(
-            web_review_dir=self.root / "web" / "review",
-            docs_dir=self.root / "docs",
-            review_pack_root=self.root / "data" / "review_packs",
-            project_root=self.root,
-        )
-        manifest_path = self.root / "docs" / "review" / "manifest.json"
         return {
             "artifacts": {
                 "document_review_state_json": str(document_state_path),
@@ -1947,14 +1936,13 @@ class PipelineWorkspace:
                 ),
                 "units_yomi_review_input_jsonl": str(source_path),
                 **pack_artifacts,
-                "review_site_manifest_json": str(manifest_path),
+                "review_publish_required": "true",
                 "review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
                 "final_review_stage": summary.review_stage,
                 "final_review_pack_id": summary.pack_id,
                 "final_review_items": str(summary.item_count),
                 "final_review_unresolved_items": str(summary.unresolved_item_count),
                 "final_review_unresolved_targets": str(summary.unresolved_target_count),
-                "review_site_default_stage": str(manifest.get("default_stage") or ""),
             }
         }
 
@@ -2413,8 +2401,6 @@ class PipelineWorkspace:
         results_jsonl: Path,
         units_jsonl: Path,
     ) -> dict[str, str]:
-        from yomi_corpus.review_site import publish_review_site
-
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
         pack_id = f"yomi_strong_repair_{batch_name}_v1"
@@ -2436,22 +2422,13 @@ class PipelineWorkspace:
             created_at_epoch=existing_pack_created_at_epoch(review_pack_path),
         )
         write_yomi_final_review_summary(summary, summary_path)
-        manifest = publish_review_site(
-            web_review_dir=self.root / "web" / "review",
-            docs_dir=self.root / "docs",
-            review_pack_root=self.root / "data" / "review_packs",
-            project_root=self.root,
-        )
         return {
             "yomi_strong_repair_review_pack_json": str(batch_pack_path),
             "yomi_strong_repair_review_pack_summary_json": str(summary_path),
             "yomi_strong_repair_review_pack_id": summary.pack_id,
             "yomi_strong_repair_review_items": str(summary.item_count),
-            "yomi_strong_repair_review_site_manifest_json": str(
-                self.root / "docs" / "review" / "manifest.json"
-            ),
+            "review_publish_required": "true",
             "yomi_strong_repair_review_site_url": "https://hiroshi-manabe.github.io/yomi-corpus/",
-            "review_site_default_stage": str(manifest.get("default_stage") or ""),
         }
 
     def _apply_strong_repair_review(self, batch_name: str) -> dict[str, object]:

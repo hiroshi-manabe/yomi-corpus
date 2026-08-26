@@ -69,8 +69,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--max-stages",
         type=int,
-        default=10,
-        help="Maximum pipeline stages to advance in one pass. Default: 10.",
+        default=None,
+        help="Global maximum pipeline actions in one pass. Defaults to sync config.",
+    )
+    parser.add_argument(
+        "--max-seconds",
+        type=float,
+        default=None,
+        help=(
+            "Soft runtime limit for starting new pipeline actions. "
+            "An action already in progress may finish. Defaults to sync config."
+        ),
     )
     parser.add_argument(
         "--bulk-review-target-ready-docs",
@@ -124,7 +133,16 @@ def main() -> None:
         pages_url=transport.pages_url,
         close_issues=not args.no_close_issues,
         publish_mode=args.publish or transport.publish_mode,
-        max_stages=args.max_stages,
+        max_stages=(
+            args.max_stages
+            if args.max_stages is not None
+            else sync_config.review_sync_max_stages
+        ),
+        max_runtime_seconds=(
+            args.max_seconds
+            if args.max_seconds is not None
+            else sync_config.review_sync_max_runtime_seconds
+        ),
         bulk_review_target_ready_docs=(
             args.bulk_review_target_ready_docs
             if args.bulk_review_target_ready_docs is not None

@@ -11,7 +11,7 @@ from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from yomi_corpus.decoder_refresh_policy import (
     DECODER_REFRESH_MODES,
@@ -91,6 +91,9 @@ def load_review_sync_config(
     runtime_section = track.get("runtime_status", {})
     if not isinstance(runtime_section, dict):
         runtime_section = {}
+    review_sync_section = track.get("review_sync", {})
+    if not isinstance(review_sync_section, dict):
+        review_sync_section = {}
     refill_worker_section = track.get("refill_worker", {})
     if not isinstance(refill_worker_section, dict):
         refill_worker_section = {}
@@ -119,6 +122,12 @@ def load_review_sync_config(
             0, int(refill_worker_section.get("aligned_batch_size") or 0)
         ),
         refill_llm_execution_mode=refill_llm_execution_mode,
+        review_sync_max_stages=max(
+            1, int(review_sync_section.get("max_stages") or 10)
+        ),
+        review_sync_max_runtime_seconds=max(
+            0.0, float(review_sync_section.get("max_runtime_seconds") or 240.0)
+        ),
         runtime_status_interval_seconds=max(
             1,
             int(
@@ -165,6 +174,7 @@ class ReviewSyncOptions:
     close_issues: bool = True
     publish_mode: str = PUBLISH_MODE_LOCAL
     max_stages: int = 10
+    max_runtime_seconds: float = 240.0
     bulk_review_target_ready_docs: int = 0
     refill_pass_limit: int = 0
     refill_aligned_batch_size: int = 0
@@ -187,6 +197,8 @@ class ReviewSyncConfig:
     refill_max_stages: int = 20
     refill_aligned_batch_size: int = 0
     refill_llm_execution_mode: str | None = None
+    review_sync_max_stages: int = 10
+    review_sync_max_runtime_seconds: float = 240.0
     runtime_status_interval_seconds: int = DEFAULT_RUNTIME_STATUS_INTERVAL_SECONDS
     runtime_status_grace_seconds: int = DEFAULT_RUNTIME_STATUS_GRACE_SECONDS
     runtime_status_normal_poll_seconds: int = DEFAULT_RUNTIME_STATUS_NORMAL_POLL_SECONDS
@@ -275,6 +287,10 @@ def process_is_alive(pid: int) -> bool:
     return True
 
 
+def before_deadline(deadline: float | None) -> bool:
+    return deadline is None or time.monotonic() < deadline
+
+
 def run_review_sync_pass(root: Path, options: ReviewSyncOptions) -> dict[str, Any]:
     workspace = PipelineWorkspace(root)
     lock_path = root / "data" / "state" / "review_sync" / f"{options.track_name}.lock"
@@ -333,38 +349,16 @@ def _run_review_sync_pass_unlocked(
     refill_results: list[dict[str, Any]] = []
     sweep_results: list[dict[str, Any]] = []
     finalized_correction_result: dict[str, Any] | None = None
-    intermediate_publish_results: list[dict[str, Any]] = []
     changed = False
     dry_run_plan: list[dict[str, Any]] = []
+    remaining_actions = max(1, options.max_stages)
+    deadline = (
+        time.monotonic() + options.max_runtime_seconds
+        if options.max_runtime_seconds > 0
+        else None
+    )
 
-    def publish_applied_review_state(
-        attempted_stage: str,
-        result: dict[str, Any],
-    ) -> None:
-        if intermediate_publish_results or options.dry_run:
-            return
-        if options.publish_mode == PUBLISH_MODE_NONE:
-            return
-        if not review_submission_was_imported(
-            root=root,
-            attempted_stage=attempted_stage,
-            result=result,
-        ):
-            return
-        publish_result = publish_review_artifacts(
-            root,
-            push_gh_pages=options.publish_mode == PUBLISH_MODE_GH_PAGES,
-        )
-        intermediate_publish_results.append(
-            {
-                "reason": "review_submission_imported",
-                "attempted_stage": attempted_stage,
-                "batch_name": result.get("batch_name"),
-                **publish_result,
-            }
-        )
-
-    for _ in range(max(1, options.max_stages)):
+    while remaining_actions > 0 and before_deadline(deadline):
         status = workspace.status(options.track_name)
         batch_name = str(status.get("current_batch_name") or status.get("batch_name") or "")
         next_stage = str(status.get("next_stage") or "")
@@ -394,6 +388,7 @@ def _run_review_sync_pass_unlocked(
 
         before_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
         result = workspace.advance(track_name=options.track_name)
+        remaining_actions -= 1
         after_status = workspace.status(options.track_name)
         after_batch_name = str(
             after_status.get("current_batch_name")
@@ -416,17 +411,21 @@ def _run_review_sync_pass_unlocked(
                     enabled=options.close_issues,
                 )
             )
-        publish_applied_review_state(next_stage, result)
-        partial_results = maintain_strong_repair_for_reviewed_documents(
-            root=root,
-            workspace=workspace,
-            batch_name=batch_name,
-            allow_queue=attempted_final_review_changed(
-                next_stage=next_stage,
-                result=result,
-                stage_changed=stage_changed,
-            ),
-        )
+        partial_results = []
+        if remaining_actions > 0 and before_deadline(deadline):
+            partial_results = maintain_strong_repair_for_reviewed_documents(
+                root=root,
+                workspace=workspace,
+                batch_name=batch_name,
+                allow_queue=attempted_final_review_changed(
+                    next_stage=next_stage,
+                    result=result,
+                    stage_changed=stage_changed,
+                ),
+                max_actions=remaining_actions,
+                deadline=deadline,
+            )
+            remaining_actions -= len(partial_results)
         for partial_result in partial_results:
             partial_result["partial_document_workflow"] = True
             stage_results.append(partial_result)
@@ -438,10 +437,6 @@ def _run_review_sync_pass_unlocked(
                     result=partial_result,
                     enabled=options.close_issues,
                 )
-            )
-            publish_applied_review_state(
-                str(partial_result.get("attempted_stage") or ""),
-                partial_result,
             )
         if partial_results:
             after_partial_fingerprint = review_sync_fingerprint(
@@ -459,10 +454,12 @@ def _run_review_sync_pass_unlocked(
         root=root,
         workspace=workspace,
         options=options,
-        max_stages=max(1, options.max_stages),
+        max_stages=remaining_actions,
         dry_run=options.dry_run,
-        on_stage_result=publish_applied_review_state,
+        deadline=deadline,
     )
+    remaining_actions -= len(sweep_results)
+    action_deadline_reached = not before_deadline(deadline)
     for sweep_result in sweep_results:
         stage_results.append(sweep_result)
         if sweep_result.get("advanced") or sweep_result.get("stage_changed"):
@@ -573,7 +570,22 @@ def _run_review_sync_pass_unlocked(
         "refill_results": refill_results,
         "close_results": close_results,
         "publish_result": publish_result,
-        "intermediate_publish_results": intermediate_publish_results,
+        "work_budget": {
+            "max_actions": max(1, options.max_stages),
+            "completed_actions": (
+                0
+                if options.dry_run
+                else max(1, options.max_stages) - remaining_actions
+            ),
+            "planned_actions": (
+                max(1, options.max_stages) - remaining_actions
+                if options.dry_run
+                else 0
+            ),
+            "remaining_actions": remaining_actions,
+            "max_runtime_seconds": options.max_runtime_seconds,
+            "deadline_reached": action_deadline_reached,
+        },
         "runtime_status_result": runtime_status_result,
         "dry_run_plan": dry_run_plan,
         "final_status": final_status,
@@ -753,15 +765,20 @@ def sweep_actionable_batches(
     options: ReviewSyncOptions,
     max_stages: int,
     dry_run: bool = False,
-    on_stage_result: Callable[[str, dict[str, Any]], None] | None = None,
+    deadline: float | None = None,
 ) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
+    remaining_actions = max(0, int(max_stages))
+    if remaining_actions == 0:
+        return results
     track_state = workspace.load_track_state(options.track_name)
     current_batch_name = track_state.current_batch_name
     for batch_name in list_track_batches(workspace, options.track_name):
+        if remaining_actions == 0 or not before_deadline(deadline):
+            break
         if batch_name == current_batch_name:
             continue
-        for _ in range(max_stages):
+        while remaining_actions > 0 and before_deadline(deadline):
             batch_state = workspace.load_batch_state(batch_name)
             if batch_state.current_stage == STAGE_YOMI_FINALIZED:
                 break
@@ -775,7 +792,10 @@ def sweep_actionable_batches(
                     workspace=workspace,
                     batch_name=batch_name,
                     allow_queue=False,
+                    max_actions=remaining_actions,
+                    deadline=deadline,
                 )
+                remaining_actions -= len(partial_results)
                 after_partial_fingerprint = review_sync_fingerprint(
                     root=root,
                     batch_name=batch_name,
@@ -787,12 +807,9 @@ def sweep_actionable_batches(
                         before_partial_fingerprint != after_partial_fingerprint
                     )
                     results.append(partial_result)
-                    if on_stage_result is not None:
-                        on_stage_result(
-                            str(partial_result.get("attempted_stage") or ""),
-                            partial_result,
-                        )
                 batch_state = workspace.load_batch_state(batch_name)
+                if remaining_actions == 0 or not before_deadline(deadline):
+                    break
             next_stage = workspace._next_stage_name(batch_state.current_stage)
             if not next_stage:
                 break
@@ -815,14 +832,13 @@ def sweep_actionable_batches(
                 break
             before_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
             result = workspace.advance_batch(batch_name)
+            remaining_actions -= 1
             after_fingerprint = review_sync_fingerprint(root=root, batch_name=batch_name)
             stage_changed = before_fingerprint != after_fingerprint
             result["attempted_stage"] = next_stage
             result["stage_changed"] = stage_changed
             result["sweep_batch"] = True
             results.append(result)
-            if on_stage_result is not None:
-                on_stage_result(next_stage, result)
             if not result.get("advanced"):
                 break
             if result.get("blocking_reason"):
@@ -942,59 +958,40 @@ def attempted_final_review_changed(
     return bool(artifacts.get("final_review_apply_summary_json"))
 
 
-def review_submission_was_imported(
-    *,
-    root: Path,
-    attempted_stage: str,
-    result: dict[str, Any],
-) -> bool:
-    artifacts = result.get("artifacts")
-    if not isinstance(artifacts, dict):
-        return False
-    summary_key = {
-        STAGE_FINAL_REVIEW_APPLIED: "final_review_issue_import_summary_json",
-        STAGE_YOMI_FINALIZED: "yomi_strong_repair_review_issue_import_summary_json",
-    }.get(attempted_stage)
-    if summary_key is None:
-        return False
-    summary_path_raw = artifacts.get(summary_key)
-    if not summary_path_raw:
-        return False
-    summary_path = Path(str(summary_path_raw))
-    if not summary_path.is_absolute():
-        summary_path = root / summary_path
-    try:
-        summary = read_json(summary_path)
-    except (OSError, ValueError, json.JSONDecodeError):
-        return False
-    return bool(summary.get("summaries"))
-
-
 def maintain_strong_repair_for_reviewed_documents(
     *,
     root: Path,
     workspace: PipelineWorkspace,
     batch_name: str,
     allow_queue: bool,
+    max_actions: int | None = None,
+    deadline: float | None = None,
 ) -> list[dict[str, Any]]:
     reviewed_units = root / "data" / "units" / batch_name / "units.yomi.reviewed.jsonl"
     if not reviewed_units.exists():
         return []
     results: list[dict[str, Any]] = []
-    if allow_queue or has_strong_pending_documents(root=root, batch_name=batch_name):
+    action_limit = max_actions if max_actions is not None else 3
+
+    def can_run() -> bool:
+        return len(results) < action_limit and before_deadline(deadline)
+
+    if can_run() and (
+        allow_queue or has_strong_pending_documents(root=root, batch_name=batch_name)
+    ):
         queue_result = workspace._queue_yomi_strong_repair(batch_name)
         queue_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_QUEUED
         results.append(queue_result)
         queued = int(
             queue_result.get("artifacts", {}).get("yomi_strong_repair_queued") or 0
         )
-        if queued > 0:
+        if queued > 0 and can_run():
             repair_result = workspace._run_yomi_strong_repair(batch_name)
             repair_result["attempted_stage"] = STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED
             results.append(repair_result)
 
     strong_review_pack = root / "data" / "units" / batch_name / "yomi_strong_repair_review_pack.json"
-    if strong_review_pack.exists():
+    if strong_review_pack.exists() and can_run():
         review_result = workspace._apply_strong_repair_review(batch_name)
         review_result["attempted_stage"] = STAGE_YOMI_FINALIZED
         results.append(review_result)

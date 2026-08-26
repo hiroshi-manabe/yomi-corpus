@@ -2421,13 +2421,12 @@ Responsibilities:
 - regenerate and publish review artifacts when queue state changes
 - write a machine-readable summary under `data/state/review_sync/`
 
-When a pass imports a new Bulk Review or Escalated Repair submission, it
-publishes the durable server-side state once before continuing into slower
-pipeline work. This lets the browser move from `locally submitted` to `server
-processing` without waiting for unrelated Strong Repair LLM jobs. The normal
-end-of-pass publication still publishes applied, escalated, or finalized state.
-Both publications run under the same per-track lock; the intermediate publish
-never claims that downstream repair or finalization has completed.
+The lightweight Issue watcher publishes `server processing` acknowledgments
+without rebuilding the review site. `review-sync` therefore performs no
+intermediate full-site publication: it applies a globally bounded amount of
+pipeline work and coalesces all resulting queue changes into one end-of-pass
+publication. Pipeline stages write review packs and mark publication as needed;
+they never regenerate `docs/review` themselves.
 
 Long refill work must not remain a permanent responsibility of this command.
 The current implementation can prepare and advance a refill batch, but doing so
@@ -2439,6 +2438,9 @@ service.
 Default behavior should be conservative:
 
 - one invocation performs one bounded poll/apply/publish pass
+- `max_stages` is a global action budget for the whole pass, not a per-batch
+  allowance; the default soft runtime deadline is four minutes, and an action
+  already in progress may finish after that deadline
 - a `--loop` option may repeat that pass with a sleep interval, making it
   suitable for `cron`, `systemd --user`, or a terminal left open
 - closing Issues requires an explicit GitHub-authenticated environment; if the
@@ -2497,8 +2499,9 @@ schedules.
 - close successfully consumed Issues
 - transition reviewed documents and finalize eligible batches
 - regenerate and publish changed review artifacts and runtime status
-- publish newly imported submission state before slower batch advancement, then
-  publish the final state again when the pass changes it further
+- rely on the lightweight acknowledgment artifact for immediate submitted
+  state, then publish canonical review state exactly once at the end of a
+  changed pass
 - calculate refill demand, but only enqueue or reserve work rather than running
   long decoder or LLM stages
 
@@ -2535,6 +2538,9 @@ The two processes need explicit lock scopes:
   completed refill batch into the review pool
 - never hold a shared lock while waiting for an LLM response, running the
   decoder, or building review-page artifacts
+- review-pack preparation must not call `publish_review_site`; only the
+  coalesced review-sync publisher or an explicit `publish-review` invocation
+  may acquire the review-site publication lock
 - start with one refill worker per track; add bounded per-batch concurrency only
   after source reservation and API-capacity behavior are proven safe
 

@@ -34,7 +34,6 @@ from yomi_corpus.review_sync import (
     maintain_strong_repair_for_reviewed_documents,
     publish_review_artifacts,
     reconcile_applied_final_review_issues,
-    review_submission_was_imported,
     review_sync_lock_stale_reason,
     ReviewSyncLock,
     should_run_stage,
@@ -152,37 +151,6 @@ class ReviewSyncTests(unittest.TestCase):
                 check=False,
             )
             self.assertEqual(result["status"], "published")
-
-    def test_review_submission_import_detection_uses_persisted_import_summary(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            summary_path = root / "data" / "state" / "yomi_final" / "import.json"
-            summary_path.parent.mkdir(parents=True)
-            summary_path.write_text(
-                json.dumps({"summaries": [{"submission_id": "submitted"}]}),
-                encoding="utf-8",
-            )
-            result = {
-                "artifacts": {
-                    "final_review_issue_import_summary_json": str(summary_path),
-                }
-            }
-
-            self.assertTrue(
-                review_submission_was_imported(
-                    root=root,
-                    attempted_stage=STAGE_FINAL_REVIEW_APPLIED,
-                    result=result,
-                )
-            )
-            summary_path.write_text(json.dumps({"summaries": []}), encoding="utf-8")
-            self.assertFalse(
-                review_submission_was_imported(
-                    root=root,
-                    attempted_stage=STAGE_FINAL_REVIEW_APPLIED,
-                    result=result,
-                )
-            )
 
     def test_apply_failed_submission_keeps_issue_open_until_retry_succeeds(self) -> None:
         import_summary = {
@@ -662,6 +630,9 @@ class ReviewSyncTests(unittest.TestCase):
                         "min_new_batches = 3",
                         "min_interval_minutes = 15",
                         "skip_kenlm = true",
+                        "[tracks.dev.review_sync]",
+                        "max_stages = 6",
+                        "max_runtime_seconds = 180",
                         "[tracks.dev.bulk_review_refill]",
                         "target_ready_docs = 12",
                         "pass_limit = 4",
@@ -680,6 +651,8 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(config.min_new_batches, 3)
             self.assertEqual(config.min_interval_minutes, 15)
             self.assertTrue(config.skip_kenlm)
+            self.assertEqual(config.review_sync_max_stages, 6)
+            self.assertEqual(config.review_sync_max_runtime_seconds, 180)
             self.assertEqual(config.bulk_review_target_ready_docs, 12)
             self.assertEqual(config.refill_pass_limit, 4)
             self.assertEqual(config.refill_max_stages, 17)
@@ -916,9 +889,78 @@ class ReviewSyncTests(unittest.TestCase):
                 workspace=workspace,
                 batch_name="dev_batch_0001",
                 allow_queue=False,
+                max_actions=1,
+                deadline=None,
             )
             self.assertTrue(results[0]["partial_document_workflow"])
             self.assertTrue(results[0]["sweep_batch"])
+
+    def test_sweep_stage_budget_is_global_across_batches(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0003")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_batch_0002": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_batch_0003": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+            }
+            for batch_name, payload in workspace.batches.items():
+                write_batch_state(root, batch_name, current_stage=payload["current_stage"])
+            for batch_name in ("dev_batch_0001", "dev_batch_0002"):
+                write_strong_repair_queue(root, batch_name, item_count=0)
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=2,
+            )
+
+            self.assertEqual(len(results), 2)
+            self.assertEqual(
+                workspace.calls,
+                [
+                    f"dev_batch_0001:{STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED}",
+                    f"dev_batch_0001:{STAGE_YOMI_FINALIZED}",
+                ],
+            )
+
+    def test_sweep_does_not_start_work_after_deadline(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0002")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_batch_0002": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+            }
+            for batch_name, payload in workspace.batches.items():
+                write_batch_state(root, batch_name, current_stage=payload["current_stage"])
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=10,
+                deadline=0.0,
+            )
+
+            self.assertEqual(results, [])
+            self.assertEqual(workspace.calls, [])
 
     def test_sweep_actionable_batches_dry_run_does_not_advance(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -952,39 +994,6 @@ class ReviewSyncTests(unittest.TestCase):
             self.assertEqual(results[0]["attempted_stage"], STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED)
             self.assertEqual(workspace.calls, [])
             self.assertEqual(workspace.batches["dev_batch_0001"]["current_stage"], STAGE_YOMI_STRONG_REPAIR_QUEUED)
-
-    def test_sweep_reports_each_stage_before_continuing(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_0002")
-            workspace.batches = {
-                "dev_batch_0001": {
-                    "track_name": "dev",
-                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
-                },
-                "dev_batch_0002": {
-                    "track_name": "dev",
-                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
-                },
-            }
-            for batch_name, payload in workspace.batches.items():
-                write_batch_state(root, batch_name, current_stage=payload["current_stage"])
-            callbacks: list[tuple[str, str]] = []
-
-            sweep_actionable_batches(
-                root=root,
-                workspace=workspace,  # type: ignore[arg-type]
-                options=ReviewSyncOptions(track_name="dev"),
-                max_stages=1,
-                on_stage_result=lambda stage, result: callbacks.append(
-                    (stage, str(result.get("batch_name") or ""))
-                ),
-            )
-
-            self.assertEqual(
-                callbacks,
-                [(STAGE_FINAL_REVIEW_APPLIED, "dev_batch_0001")],
-            )
 
     def test_strong_repair_confirmed_summary_allows_llm_completed_stage(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

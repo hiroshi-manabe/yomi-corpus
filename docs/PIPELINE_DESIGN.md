@@ -2423,9 +2423,13 @@ Review sync command:
   open GitHub Issues/comments, runs the local apply stages that are currently
   reachable, regenerates local review artifacts if state changed, and writes a
   JSON summary
-- after the first newly imported review submission in a pass, publish one
-  intermediate server-processing state before unrelated LLM or batch work; a
-  later end-of-pass publication carries the final applied state
+- publish immediate server-processing state through the compact Issue
+  acknowledgment artifact; do not rebuild the complete site between pipeline
+  actions
+- treat `--max-stages` as one global pass budget across all batches and stop
+  starting actions after the configured soft runtime deadline
+- coalesce all canonical queue changes into at most one full-site publication
+  at the end of a changed pass
 - Issues are closed only after their matching submissions were imported and the
   corresponding local apply step succeeded
 - invalid or not-yet-applicable Issues stay open; a later sync may apply them
@@ -2435,6 +2439,8 @@ Review sync command:
   `--publish none` applies state only, `--publish local` regenerates local
   `docs/review`, and `--publish gh-pages` regenerates and runs
   `./publish-review`. The default is `local`.
+- stage methods create or refresh review packs only. They report that
+  publication is required but never invoke the site generator directly.
 - non-transport automation belongs in `config/review_sync/default.toml`. The
   current decoder-refresh policy is configurable per track:
   `never`, `on-finalize`, or `always`, plus minimum new finalized batches and

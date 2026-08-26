@@ -1065,6 +1065,9 @@ class PipelineTrackTests(unittest.TestCase):
                 state_path.resolve(),
             )
             self.assertEqual(summary["artifacts"]["document_review_state_final_pending"], "1")
+            self.assertEqual(summary["artifacts"]["review_publish_required"], "true")
+            self.assertNotIn("review_site_manifest_json", summary["artifacts"])
+            mocked_publish.assert_not_called()
 
     def test_final_review_no_escalation_path_finalizes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
