@@ -172,7 +172,11 @@ class NumericCompoundTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            [candidate["reading"] for candidate in candidates if candidate["reading"]],
+            [
+                candidate["reading"]
+                for candidate in candidates
+                if candidate["reading"] and candidate["source"] != "learned_repair"
+            ],
             ["いちにち", "ついたち", "いっぴ"],
         )
 
@@ -193,11 +197,19 @@ class NumericCompoundTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            [candidate["reading"] for candidate in three if candidate["reading"]],
+            [
+                candidate["reading"]
+                for candidate in three
+                if candidate["reading"] and candidate["source"] != "learned_repair"
+            ],
             ["みっつ", "みつ"],
         )
         self.assertEqual(
-            [candidate["reading"] for candidate in four if candidate["reading"]],
+            [
+                candidate["reading"]
+                for candidate in four
+                if candidate["reading"] and candidate["source"] != "learned_repair"
+            ],
             ["よっつ", "よつ"],
         )
 

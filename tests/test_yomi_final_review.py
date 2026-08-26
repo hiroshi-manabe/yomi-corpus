@@ -45,6 +45,17 @@ from yomi_corpus.yomi.final_review import (
 )
 
 
+def without_learned_candidates(
+    candidates: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    """Keep fixed candidate-policy assertions independent of the growing lexicon."""
+    return [
+        candidate
+        for candidate in candidates
+        if candidate.get("source") != "learned_repair"
+    ]
+
+
 class YomiFinalReviewTests(unittest.TestCase):
     def test_tap_candidates_rank_exact_surface_history_after_current(self) -> None:
         candidates = [
@@ -265,11 +276,12 @@ class YomiFinalReviewTests(unittest.TestCase):
 
         span = item["interaction_spans"][0]
         self.assertEqual(span["surface"], "描い")
+        candidates = without_learned_candidates(span["candidates"])
         self.assertEqual(
-            [candidate["reading"] for candidate in span["candidates"]],
+            [candidate["reading"] for candidate in candidates],
             ["えがい", "かい", None],
         )
-        alternate = span["candidates"][1]
+        alternate = candidates[1]
         self.assertEqual(
             alternate["ruby_nodes"],
             [
@@ -331,8 +343,9 @@ class YomiFinalReviewTests(unittest.TestCase):
             item = build_review_item(payload, seq=1, doc_seq=1, track_doc_seq=1)
 
         span = item["interaction_spans"][0]
+        candidates = without_learned_candidates(span["candidates"])
         self.assertEqual(
-            [(candidate["reading"], candidate["tokens"]) for candidate in span["candidates"]],
+            [(candidate["reading"], candidate["tokens"]) for candidate in candidates],
             [
                 ("よい", [["良い", "ヨイ"]]),
                 ("いい", [["良い", "イイ"]]),
@@ -340,7 +353,7 @@ class YomiFinalReviewTests(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            span["candidates"][1]["ruby_nodes"],
+            candidates[1]["ruby_nodes"],
             [
                 {"type": "ruby", "text": "良", "reading": "い"},
                 {"type": "text", "text": "い"},
@@ -817,7 +830,10 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertEqual(span["surface"], "七五三")
         self.assertEqual(span["default_candidate_id"], "accepted_none")
         self.assertEqual(
-            [(candidate["id"], candidate["reading"]) for candidate in span["candidates"]],
+            [
+                (candidate["id"], candidate["reading"])
+                for candidate in without_learned_candidates(span["candidates"])
+            ],
             [
                 ("dictionary:0", "しちごさん"),
                 ("dictionary:1", "しめ"),
@@ -2306,7 +2322,10 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertTrue(target["is_safe"])
         self.assertEqual(target["default_reading"], "むいか")
         self.assertEqual(
-            [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
+            [
+                (candidate["source"], candidate["reading"])
+                for candidate in without_learned_candidates(target["candidates"])
+            ],
             [("current", "むいか"), ("none", None)],
         )
         self.assertEqual(
@@ -2595,7 +2614,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(span["surface"], "後払い")
             self.assertEqual(span["legacy_target_item_ids"], ["u1:r0001c01"])
             self.assertEqual(
-                [(row["source"], row["reading"]) for row in span["candidates"]],
+                [
+                    (row["source"], row["reading"])
+                    for row in without_learned_candidates(span["candidates"])
+                ],
                 [("current", "ごばらい"), ("dictionary", "あとばらい"), ("none", None)],
             )
             self.assertEqual(
@@ -2661,7 +2683,10 @@ class YomiFinalReviewTests(unittest.TestCase):
 
         self.assertEqual(review_target["default_reading"], "きろぐらむ")
         self.assertEqual(
-            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                (candidate["source"], candidate["reading"])
+                for candidate in without_learned_candidates(review_target["candidates"])
+            ],
             [
                 ("current", "きろぐらむ"),
                 ("usage_alternative", "きろ"),
@@ -2683,7 +2708,10 @@ class YomiFinalReviewTests(unittest.TestCase):
         review_target = build_review_target(target)
 
         self.assertEqual(
-            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                (candidate["source"], candidate["reading"])
+                for candidate in without_learned_candidates(review_target["candidates"])
+            ],
             [
                 ("current", "きろ"),
                 ("usage_alternative", "きろぐらむ"),
@@ -2707,7 +2735,7 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertEqual(review_target["default_reading"], "きろ")
         candidates = [
             (candidate["source"], candidate["reading"])
-            for candidate in review_target["candidates"]
+            for candidate in without_learned_candidates(review_target["candidates"])
         ]
         self.assertEqual(candidates[:2], [
             ("current", "きろ"),
@@ -2736,7 +2764,7 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertEqual(
             [
                 (candidate["source"], candidate["reading"])
-                for candidate in review_target["candidates"]
+                for candidate in without_learned_candidates(review_target["candidates"])
             ],
             [
                 ("current", "みり"),
@@ -2771,7 +2799,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             review_target = build_review_target(target)
 
         self.assertEqual(
-            [(candidate["source"], candidate["reading"]) for candidate in review_target["candidates"]],
+            [
+                (candidate["source"], candidate["reading"])
+                for candidate in without_learned_candidates(review_target["candidates"])
+            ],
             [
                 ("current", "えが"),
                 ("dictionary", "か"),
@@ -2919,7 +2950,7 @@ class YomiFinalReviewTests(unittest.TestCase):
         self.assertEqual(
             [
                 (candidate["id"], candidate["source"], candidate["reading"])
-                for candidate in review_target["candidates"]
+                for candidate in without_learned_candidates(review_target["candidates"])
             ],
             [
                 ("current", "current", "うちこわす"),
@@ -2990,7 +3021,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(target["default_choice_source"], "llm")
             self.assertEqual(target["default_reading"], "ちかぢか")
             self.assertEqual(
-                [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
+                [
+                    (candidate["source"], candidate["reading"])
+                    for candidate in without_learned_candidates(target["candidates"])
+                ],
                 [
                     ("current", "きんきん"),
                     ("llm", "ちかぢか"),
@@ -3227,7 +3261,10 @@ class YomiFinalReviewTests(unittest.TestCase):
             self.assertEqual(target["default_choice_source"], "llm")
             self.assertEqual(target["default_reading"], "みる")
             self.assertEqual(
-                [(candidate["source"], candidate["reading"]) for candidate in target["candidates"]],
+                [
+                    (candidate["source"], candidate["reading"])
+                    for candidate in without_learned_candidates(target["candidates"])
+                ],
                 [("llm", "みる"), ("none", None)],
             )
             self.assertEqual(pack["items"][0]["ruby_segments"][1]["reading"], "みる")
@@ -3307,7 +3344,7 @@ class YomiFinalReviewTests(unittest.TestCase):
                         candidate["reading"],
                         candidate["accepted"],
                     )
-                    for candidate in target["candidates"]
+                    for candidate in without_learned_candidates(target["candidates"])
                 ],
                 [
                     ("current", "current", "わっと", False),
