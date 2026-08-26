@@ -10,10 +10,10 @@
   "item_count": 1,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 1,
     "queued_repair_row_count": 1,
@@ -57,12 +57,12 @@
       "source_line_no": 1342,
       "preview": "司法書士の勉強を始めるのですが、仕事もしながらという事で15ヶ月のスケジュールを自分で作りました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-26T03:52:01Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-26T04:03:02Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 1342,
       "text": "一気にお金も使うのもどうかと思い、取り急ぎ民法（3冊あるうちの１冊）と小六法を購入しました。",
       "rendered_yomi_before": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小六/ショウロク 法/ホウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小六法/ショウロッポウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小/ショウ 六法/ロッポウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "一気",
@@ -395,8 +395,12 @@
           "ト"
         ],
         [
-          "小六法",
-          "ショウロッポウ"
+          "小",
+          "ショウ"
+        ],
+        [
+          "六法",
+          "ロッポウ"
         ],
         [
           "を",
@@ -698,13 +702,24 @@
           ]
         },
         {
-          "surface": "小六法",
-          "reading": "ショウロッポウ",
+          "surface": "小",
+          "reading": "ショウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "小六法",
-              "reading": "しょうろっぽう"
+              "text": "小",
+              "reading": "しょう"
+            }
+          ]
+        },
+        {
+          "surface": "六法",
+          "reading": "ロッポウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "六法",
+              "reading": "ろっぽう"
             }
           ]
         },
@@ -783,14 +798,14 @@
           "unit_id": "ja_cc_level2:0000001342:u0005",
           "text": "一気にお金も使うのもどうかと思い、取り急ぎ民法（3冊あるうちの１冊）と小六法を購入しました。",
           "rendered_yomi_before": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小六/ショウロク 法/ホウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小六法/ショウロッポウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "一気/イッキ に/ニ お金/オカネ も/モ 使う/ツカウ の/ノ も/モ どう/ドウ か/カ と/ト 思い/オモイ 、/、 取り急ぎ/トリイソギ 民法/ミンポウ （/（ 3/ 冊/サツ ある/アル うち/ウチ の/ノ １/ 冊/サツ ）/） と/ト 小/ショウ 六法/ロッポウ を/ヲ 購入/コウニュウ し/シ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 24,
-            "end": 25,
+            "end": 26,
             "char_start": 35,
             "char_end": 38,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
