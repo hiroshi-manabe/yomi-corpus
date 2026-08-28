@@ -10,10 +10,10 @@
   "item_count": 1,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 1,
     "queued_repair_row_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1459,
       "preview": "ヤーコンはフラクトオリゴ糖を多く含んでいて、究極のダイエット野菜と言われるほどヘルシーな野菜です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-28T00:24:30Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-28T00:47:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 1459,
       "text": "①ヤーコンは皮を剥き5mm厚さの輪切りにし、数分水にさらす。",
       "rendered_yomi_before": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数/スウ 分水/ブンスイ に/ニ さらす/サラス 。/。",
-      "rendered_yomi_after": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数分/スウフン 水/ミズ に/ニ さらす/サラス 。/。",
+      "rendered_yomi_after": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数/スウ 分/フン 水/ミズ に/ニ さらす/サラス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "①",
@@ -359,8 +359,12 @@
           "、"
         ],
         [
-          "数分",
-          "スウフン"
+          "数",
+          "スウ"
+        ],
+        [
+          "分",
+          "フン"
         ],
         [
           "水",
@@ -544,13 +548,24 @@
           ]
         },
         {
-          "surface": "数分",
-          "reading": "スウフン",
+          "surface": "数",
+          "reading": "スウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "数分",
-              "reading": "すうふん"
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "分",
+          "reading": "フン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "ふん"
             }
           ]
         },
@@ -609,10 +624,10 @@
           "unit_id": "ja_cc_level2:0000001459:u0009",
           "text": "①ヤーコンは皮を剥き5mm厚さの輪切りにし、数分水にさらす。",
           "rendered_yomi_before": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数/スウ 分水/ブンスイ に/ニ さらす/サラス 。/。",
-          "rendered_yomi_after": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数分/スウフン 水/ミズ に/ニ さらす/サラス 。/。",
+          "rendered_yomi_after": "①/イチ ヤーコン/ヤーコン は/ハ 皮/カワ を/ヲ 剥き/ムキ 5/ mm/ミリ 厚/アツ さ/サ の/ノ 輪切り/ワギリ に/ニ し/シ 、/、 数/スウ 分/フン 水/ミズ に/ニ さらす/サラス 。/。",
           "display_mapping": {
             "start": 15,
-            "end": 17,
+            "end": 18,
             "char_start": 22,
             "char_end": 25,
             "start_offset": 0,

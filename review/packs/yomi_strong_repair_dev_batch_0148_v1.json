@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 7,
@@ -57,12 +57,12 @@
       "source_line_no": 1442,
       "preview": "西アフリカを舞台とした映画にレオナルド・ディカプリオ主演の「ブラッド・ダイヤモンド」がある。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-28T00:24:07Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-28T00:46:29Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -265,12 +265,12 @@
       "source_line_no": 1450,
       "preview": "プレス加工は、日本のモノづくりを支える根幹となる生産技術のかたまりです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-28T00:24:07Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-28T00:46:29Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -296,7 +296,7 @@
       "source_line_no": 1442,
       "text": "グリーンビル市街から車で十分ほどのところにある港には、港湾施設といっても数棟の倉庫と小さな平屋建ての事務所が一棟あるだけ。",
       "rendered_yomi_before": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十分/ジュウブン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
-      "rendered_yomi_after": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十分/ジュップン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
+      "rendered_yomi_after": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十/ジュッ 分/プン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "グリーン",
@@ -323,8 +323,12 @@
           "デ"
         ],
         [
-          "十分",
-          "ジュップン"
+          "十",
+          "ジュッ"
+        ],
+        [
+          "分",
+          "プン"
         ],
         [
           "ほど",
@@ -515,13 +519,24 @@
           ]
         },
         {
-          "surface": "十分",
-          "reading": "ジュップン",
+          "surface": "十",
+          "reading": "ジュッ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "十分",
-              "reading": "じゅっぷん"
+              "text": "十",
+              "reading": "じゅっ"
+            }
+          ]
+        },
+        {
+          "surface": "分",
+          "reading": "プン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分",
+              "reading": "ぷん"
             }
           ]
         },
@@ -869,14 +884,14 @@
           "unit_id": "ja_cc_level2:0000001442:u0004",
           "text": "グリーンビル市街から車で十分ほどのところにある港には、港湾施設といっても数棟の倉庫と小さな平屋建ての事務所が一棟あるだけ。",
           "rendered_yomi_before": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十分/ジュウブン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
-          "rendered_yomi_after": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十分/ジュップン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
+          "rendered_yomi_after": "グリーン/グリーン ビル/ビル 市街/シガイ から/カラ 車/クルマ で/デ 十/ジュッ 分/プン ほど/ホド の/ノ ところ/トコロ に/ニ ある/アル 港/ミナト に/ニ は/ハ 、/、 港湾/コウワン 施設/シセツ と/ト いっ/イッ て/テ も/モ 数/スウ 棟/トウ の/ノ 倉庫/ソウコ と/ト 小さな/チイサナ 平屋/ヒラヤ 建て/ダテ の/ノ 事務所/ジムショ が/ガ 一/イッ 棟/トウ ある/アル だけ/ダケ 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 12,
             "char_end": 14,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
