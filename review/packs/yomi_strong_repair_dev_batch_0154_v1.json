@@ -1,0 +1,2670 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0154_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0154",
+  "created_at_epoch": 1787891719,
+  "created_at": "2026-08-28T04:35:19Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001501",
+      "doc_seq": 1,
+      "track_doc_seq": 1501,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1501,
+      "preview": "現在、13時　風は強いですが天気が回復して晴れています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001502",
+      "doc_seq": 2,
+      "track_doc_seq": 1502,
+      "unit_count": 51,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1502,
+      "preview": "この場を与えてくれた関係者の方々にも心から感謝致します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 51,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001503",
+      "doc_seq": 3,
+      "track_doc_seq": 1503,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1503,
+      "preview": "友達もいない、このコロナ禍で出かけることもなく、これといった楽しみも趣味もない無芸大食オババは体調が良くなったら、あらー、休日初日の今夜はまた、食べ過ぎちゃいましたよ、もちろん呑むことだって忘れちゃおりませんですよ。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001504",
+      "doc_seq": 4,
+      "track_doc_seq": 1504,
+      "unit_count": 58,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1504,
+      "preview": "フジテレビのバラエティ番組「逃走中」にゴミ拾いを組み合わせた新感覚ゴミ拾いイベント「清走中〜Run for trash 〜」を主催するGomitomo代表の北村 優斗さん（長野高校 3年）へのインタビュー。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 58,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001505",
+      "doc_seq": 5,
+      "track_doc_seq": 1505,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1505,
+      "preview": "空室募集業務は管理会社としての腕の見せ所です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 2,
+      "to_seq": 3,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001506",
+      "doc_seq": 6,
+      "track_doc_seq": 1506,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1506,
+      "preview": "最近、感情のコントロールができない悩みが多く聞かれるようになりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001507",
+      "doc_seq": 7,
+      "track_doc_seq": 1507,
+      "unit_count": 41,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1507,
+      "preview": "身長160センチ、体重は36キロという超ガリガリ体型でした。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 41,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001508",
+      "doc_seq": 8,
+      "track_doc_seq": 1508,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1508,
+      "preview": "でも次に入った4374ロボペイが思った以上の強烈な売りに見舞われ500株持ち、41000円の含み損で綺麗に張り付けられた。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001509",
+      "doc_seq": 9,
+      "track_doc_seq": 1509,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1509,
+      "preview": "メロディアの神気解放も！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001510",
+      "doc_seq": 10,
+      "track_doc_seq": 1510,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1510,
+      "preview": "ほとんど大人の方のご参加でしたので、海苔をつなぐ作業もとっても丁寧♪綺麗にまっすぐ海苔が敷かれていました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T04:34:13Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001503:u0006::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001503",
+      "doc_seq": 3,
+      "track_doc_seq": 1503,
+      "unit_id": "ja_cc_level2:0000001503:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1503,
+      "text": "「６０歳を過ぎたら友人はいらない」「老人に親し気に近づいてくるのは詐欺師くらいのものだ」弘兼憲史詐欺師も近づいてこないオババは、そうだ、そうだ、それでいいのだ、深く納得。",
+      "rendered_yomi_before": "「/「 ６０/ 歳/サイ を/ヲ 過ぎ/スギ たら/タラ 友人/ユウジン は/ハ いら/イラ ない/ナイ 」/」 「/「 老人/ロウジン に/ニ 親し/シタシ 気/ゲ に/ニ 近づい/チカヅイ て/テ くる/クル の/ノ は/ハ 詐欺師/サギシ くらい/クライ の/ノ もの/モノ だ/ダ 」/」 弘兼/ヒロカネ 憲史/ケンジ 詐欺師/サギシ も/モ 近づい/チカヅイ て/テ こ/コ ない/ナイ オ/オ ババ/ババ は/ハ 、/、 そう/ソウ だ/ダ 、/、 そう/ソウ だ/ダ 、/、 それ/ソレ で/デ いい/イイ の/ノ だ/ダ 、/、 深く/フカク 納得/ナットク 。/。",
+      "rendered_yomi_after": "「/「 ６０/ 歳/サイ を/ヲ 過ぎ/スギ たら/タラ 友人/ユウジン は/ハ いら/イラ ない/ナイ 」/」 「/「 老人/ロウジン に/ニ 親し/シタシ 気/ゲ に/ニ 近づい/チカヅイ て/テ くる/クル の/ノ は/ハ 詐欺師/サギシ くらい/クライ の/ノ もの/モノ だ/ダ 」/」 弘兼/ヒロカネ 憲史/ケンジ 詐欺師/サギシ も/モ 近づい/チカヅイ て/テ こ/コ ない/ナイ オ/オ ババ/ババ は/ハ 、/、 そう/ソウ だ/ダ 、/、 そう/ソウ だ/ダ 、/、 それ/ソレ で/デ いい/イイ の/ノ だ/ダ 、/、 深く/フカク 納得/ナットク 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "「",
+          "「"
+        ],
+        [
+          "６０",
+          ""
+        ],
+        [
+          "歳",
+          "サイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "過ぎ",
+          "スギ"
+        ],
+        [
+          "たら",
+          "タラ"
+        ],
+        [
+          "友人",
+          "ユウジン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "いら",
+          "イラ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "老人",
+          "ロウジン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "親し",
+          "シタシ"
+        ],
+        [
+          "気",
+          "ゲ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "近づい",
+          "チカヅイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "くる",
+          "クル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "詐欺師",
+          "サギシ"
+        ],
+        [
+          "くらい",
+          "クライ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "弘兼",
+          "ヒロカネ"
+        ],
+        [
+          "憲史",
+          "ケンジ"
+        ],
+        [
+          "詐欺師",
+          "サギシ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "近づい",
+          "チカヅイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "こ",
+          "コ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "オ",
+          "オ"
+        ],
+        [
+          "ババ",
+          "ババ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "そう",
+          "ソウ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "そう",
+          "ソウ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "いい",
+          "イイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "深く",
+          "フカク"
+        ],
+        [
+          "納得",
+          "ナットク"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "６０",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "６０"
+            }
+          ]
+        },
+        {
+          "surface": "歳",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歳",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "過ぎ",
+          "reading": "スギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "過",
+              "reading": "す"
+            },
+            {
+              "type": "text",
+              "text": "ぎ"
+            }
+          ]
+        },
+        {
+          "surface": "たら",
+          "reading": "タラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たら"
+            }
+          ]
+        },
+        {
+          "surface": "友人",
+          "reading": "ユウジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "友人",
+              "reading": "ゆうじん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "いら",
+          "reading": "イラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いら"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "老人",
+          "reading": "ロウジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "老人",
+              "reading": "ろうじん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "親し",
+          "reading": "シタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "親",
+              "reading": "した"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "気",
+          "reading": "ゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気",
+              "reading": "げ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "近づい",
+          "reading": "チカヅイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近",
+              "reading": "ちか"
+            },
+            {
+              "type": "text",
+              "text": "づい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "くる",
+          "reading": "クル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くる"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "詐欺師",
+          "reading": "サギシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "詐欺師",
+              "reading": "さぎし"
+            }
+          ]
+        },
+        {
+          "surface": "くらい",
+          "reading": "クライ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くらい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "弘兼",
+          "reading": "ヒロカネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "弘兼",
+              "reading": "ひろかね"
+            }
+          ]
+        },
+        {
+          "surface": "憲史",
+          "reading": "ケンジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "憲史",
+              "reading": "けんじ"
+            }
+          ]
+        },
+        {
+          "surface": "詐欺師",
+          "reading": "サギシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "詐欺師",
+              "reading": "さぎし"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "近づい",
+          "reading": "チカヅイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "近",
+              "reading": "ちか"
+            },
+            {
+              "type": "text",
+              "text": "づい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "こ",
+          "reading": "コ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "オ",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オ"
+            }
+          ]
+        },
+        {
+          "surface": "ババ",
+          "reading": "ババ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ババ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "そう",
+          "reading": "ソウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そう"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "そう",
+          "reading": "ソウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そう"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "いい",
+          "reading": "イイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "深く",
+          "reading": "フカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "深",
+              "reading": "ふか"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "納得",
+          "reading": "ナットク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "納得",
+              "reading": "なっとく"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+          "item_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+          "unit_id": "ja_cc_level2:0000001503:u0006",
+          "text": "「６０歳を過ぎたら友人はいらない」「老人に親し気に近づいてくるのは詐欺師くらいのものだ」弘兼憲史詐欺師も近づいてこないオババは、そうだ、そうだ、それでいいのだ、深く納得。",
+          "rendered_yomi_before": "「/「 ６０/ 歳/サイ を/ヲ 過ぎ/スギ たら/タラ 友人/ユウジン は/ハ いら/イラ ない/ナイ 」/」 「/「 老人/ロウジン に/ニ 親し/シタシ 気/ゲ に/ニ 近づい/チカヅイ て/テ くる/クル の/ノ は/ハ 詐欺師/サギシ くらい/クライ の/ノ もの/モノ だ/ダ 」/」 弘兼/ヒロカネ 憲史/ケンジ 詐欺師/サギシ も/モ 近づい/チカヅイ て/テ こ/コ ない/ナイ オ/オ ババ/ババ は/ハ 、/、 そう/ソウ だ/ダ 、/、 そう/ソウ だ/ダ 、/、 それ/ソレ で/デ いい/イイ の/ノ だ/ダ 、/、 深く/フカク 納得/ナットク 。/。",
+          "rendered_yomi_after": "「/「 ６０/ 歳/サイ を/ヲ 過ぎ/スギ たら/タラ 友人/ユウジン は/ハ いら/イラ ない/ナイ 」/」 「/「 老人/ロウジン に/ニ 親し/シタシ 気/ゲ に/ニ 近づい/チカヅイ て/テ くる/クル の/ノ は/ハ 詐欺師/サギシ くらい/クライ の/ノ もの/モノ だ/ダ 」/」 弘兼/ヒロカネ 憲史/ケンジ 詐欺師/サギシ も/モ 近づい/チカヅイ て/テ こ/コ ない/ナイ オ/オ ババ/ババ は/ハ 、/、 そう/ソウ だ/ダ 、/、 そう/ソウ だ/ダ 、/、 それ/ソレ で/デ いい/イイ の/ノ だ/ダ 、/、 深く/フカク 納得/ナットク 。/。",
+          "display_mapping": {
+            "start": 29,
+            "end": 30,
+            "char_start": 46,
+            "char_end": 48,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001503:u0006:s0047-0048",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "憲史",
+              "token_surface": "憲史",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "憲史",
+                  "reading": "けんじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001503:u0006:s0047-0048",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "憲史",
+              "token_surface": "憲史",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けんじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "憲史",
+                  "reading": "けんじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "憲史",
+          "reading_candidates": {
+            "憲": [
+              "あきら",
+              "けん",
+              "ただし",
+              "のりお"
+            ],
+            "憲史": [
+              "けいし",
+              "けんし",
+              "けんじ",
+              "のりちか",
+              "のりひと",
+              "のりふみ"
+            ],
+            "史": [
+              "あや",
+              "し",
+              "ちかし",
+              "ひさし",
+              "ふひと",
+              "ふびと",
+              "ふみ",
+              "ふみと",
+              "ふみひと"
+            ]
+          },
+          "reading_hints": {
+            "憲": "あきら",
+            "憲史": "けいし",
+            "史": "あや"
+          },
+          "rejected_readings": [
+            {
+              "surface": "憲史",
+              "reading": "けんじ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"憲史\",\"reading\":\"ケンジ\",\"used_web_search\":false,\"comment\":\"人名「弘兼憲史」の名の部分で、読みは「けんじ」です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "憲史",
+              "reading": "ケンジ",
+              "used_web_search": false,
+              "comment": "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。"
+            }
+          ],
+          "llm_comments": [
+            "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "憲史",
+            "reading": "ケンジ",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+                "surface": "憲史",
+                "comment": "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "憲史",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001503:u0006:s0047-0048",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "憲史",
+          "token_surface": "憲史",
+          "token_index": 29,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けんじ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "憲史",
+              "reading": "けんじ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "憲史",
+          "reading": "けんじ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "憲": [
+          "あきら",
+          "けん",
+          "ただし",
+          "のりお"
+        ],
+        "憲史": [
+          "けいし",
+          "けんし",
+          "けんじ",
+          "のりちか",
+          "のりひと",
+          "のりふみ"
+        ],
+        "史": [
+          "あや",
+          "し",
+          "ちかし",
+          "ひさし",
+          "ふひと",
+          "ふびと",
+          "ふみ",
+          "ふみと",
+          "ふみひと"
+        ]
+      },
+      "reading_hints": {
+        "憲": "あきら",
+        "憲史": "けいし",
+        "史": "あや"
+      },
+      "llm_parsed": [
+        {
+          "surface": "憲史",
+          "reading": "ケンジ",
+          "used_web_search": false,
+          "comment": "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"憲史\",\"reading\":\"ケンジ\",\"used_web_search\":false,\"comment\":\"人名「弘兼憲史」の名の部分で、読みは「けんじ」です。\"}]",
+      "llm_comments": [
+        "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "reused_rejected_reading",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+        "status": "reused_rejected_reading",
+        "reason": "replacement reused rejected reading",
+        "surface": "憲史",
+        "reading": "ケンジ",
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001503:u0006::target_group:1",
+            "surface": "憲史",
+            "comment": "人名「弘兼憲史」の名の部分で、読みは「けんじ」です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001505:u0032::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001505",
+      "doc_seq": 5,
+      "track_doc_seq": 1505,
+      "unit_id": "ja_cc_level2:0000001505:u0032",
+      "unit_seq": 32,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1505,
+      "text": "また別角度のアプローチ方法として、客付会社にADと呼ばれる広告料を払う方法があります。",
+      "rendered_yomi_before": "また/マタ 別/ベツ 角度/カクド の/ノ アプローチ/アプローチ 方法/ホウホウ と/ト し/シ て/テ 、/、 客/キャク 付/ツケ 会社/ガイシャ に/ニ AD/エーディー と/ト 呼ば/ヨバ れる/レル 広告/コウコク 料/リョウ を/ヲ 払う/ハラウ 方法/ホウホウ が/ガ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "また/マタ 別/ベツ 角度/カクド の/ノ アプローチ/アプローチ 方法/ホウホウ と/ト し/シ て/テ 、/、 客付/キャクヅケ 会社/ガイシャ に/ニ AD/エーディー と/ト 呼ば/ヨバ れる/レル 広告/コウコク 料/リョウ を/ヲ 払う/ハラウ 方法/ホウホウ が/ガ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "また",
+          "マタ"
+        ],
+        [
+          "別",
+          "ベツ"
+        ],
+        [
+          "角度",
+          "カクド"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "アプローチ",
+          "アプローチ"
+        ],
+        [
+          "方法",
+          "ホウホウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "客付",
+          "キャクヅケ"
+        ],
+        [
+          "会社",
+          "ガイシャ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "AD",
+          "エーディー"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "呼ば",
+          "ヨバ"
+        ],
+        [
+          "れる",
+          "レル"
+        ],
+        [
+          "広告",
+          "コウコク"
+        ],
+        [
+          "料",
+          "リョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "払う",
+          "ハラウ"
+        ],
+        [
+          "方法",
+          "ホウホウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "また",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "また"
+            }
+          ]
+        },
+        {
+          "surface": "別",
+          "reading": "ベツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "別",
+              "reading": "べつ"
+            }
+          ]
+        },
+        {
+          "surface": "角度",
+          "reading": "カクド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "角度",
+              "reading": "かくど"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "アプローチ",
+          "reading": "アプローチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アプローチ"
+            }
+          ]
+        },
+        {
+          "surface": "方法",
+          "reading": "ホウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方法",
+              "reading": "ほうほう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "客付",
+          "reading": "キャクヅケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "客付",
+              "reading": "きゃくづけ"
+            }
+          ]
+        },
+        {
+          "surface": "会社",
+          "reading": "ガイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会社",
+              "reading": "がいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "AD",
+          "reading": "エーディー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "AD",
+              "reading": "えーでぃー"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "呼ば",
+          "reading": "ヨバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "呼",
+              "reading": "よ"
+            },
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "れる",
+          "reading": "レル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れる"
+            }
+          ]
+        },
+        {
+          "surface": "広告",
+          "reading": "コウコク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広告",
+              "reading": "こうこく"
+            }
+          ]
+        },
+        {
+          "surface": "料",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "料",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "払う",
+          "reading": "ハラウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "払",
+              "reading": "はら"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "方法",
+          "reading": "ホウホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方法",
+              "reading": "ほうほう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+          "item_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+          "unit_id": "ja_cc_level2:0000001505:u0032",
+          "text": "また別角度のアプローチ方法として、客付会社にADと呼ばれる広告料を払う方法があります。",
+          "rendered_yomi_before": "また/マタ 別/ベツ 角度/カクド の/ノ アプローチ/アプローチ 方法/ホウホウ と/ト し/シ て/テ 、/、 客/キャク 付/ツケ 会社/ガイシャ に/ニ AD/エーディー と/ト 呼ば/ヨバ れる/レル 広告/コウコク 料/リョウ を/ヲ 払う/ハラウ 方法/ホウホウ が/ガ あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "また/マタ 別/ベツ 角度/カクド の/ノ アプローチ/アプローチ 方法/ホウホウ と/ト し/シ て/テ 、/、 客付/キャクヅケ 会社/ガイシャ に/ニ AD/エーディー と/ト 呼ば/ヨバ れる/レル 広告/コウコク 料/リョウ を/ヲ 払う/ハラウ 方法/ホウホウ が/ガ あり/アリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 17,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001505:u0032:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "客",
+              "token_surface": "客",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゃく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "客",
+                  "reading": "きゃく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001505:u0032:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "付",
+              "token_surface": "付",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "付",
+                  "reading": "つけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001505:u0032:s0018-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "客",
+              "token_surface": "客",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゃく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "客",
+                  "reading": "きゃく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001505:u0032:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "付",
+              "token_surface": "付",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "付",
+                  "reading": "つけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "客付",
+          "reading_candidates": {
+            "客": [
+              "きゃく"
+            ],
+            "付": [
+              "づ",
+              "つき",
+              "つけ",
+              "つけたり",
+              "づき",
+              "づけ",
+              "ふ"
+            ]
+          },
+          "reading_hints": {
+            "客": "きゃく",
+            "付": "づ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "客",
+              "reading": "きゃく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "付",
+              "reading": "つけ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"客付\",\"reading\":\"きゃくづけ\",\"used_web_search\":false,\"comment\":\"不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "客付",
+              "reading": "きゃくづけ",
+              "used_web_search": false,
+              "comment": "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。"
+            }
+          ],
+          "llm_comments": [
+            "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+            "status": "applied",
+            "rejected_span": "客付",
+            "replacement": [
+              {
+                "surface": "客付",
+                "reading": "キャクヅケ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+                "surface": "客付",
+                "comment": "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "客付",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001505:u0032:s0018-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "客",
+          "token_surface": "客",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きゃく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "客",
+              "reading": "きゃく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001505:u0032:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "付",
+          "token_surface": "付",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "付",
+              "reading": "つけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "客",
+          "reading": "きゃく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "付",
+          "reading": "つけ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "客": [
+          "きゃく"
+        ],
+        "付": [
+          "づ",
+          "つき",
+          "つけ",
+          "つけたり",
+          "づき",
+          "づけ",
+          "ふ"
+        ]
+      },
+      "reading_hints": {
+        "客": "きゃく",
+        "付": "づ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "客付",
+          "reading": "きゃくづけ",
+          "used_web_search": false,
+          "comment": "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"客付\",\"reading\":\"きゃくづけ\",\"used_web_search\":false,\"comment\":\"不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。\"}]",
+      "llm_comments": [
+        "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+        "status": "applied",
+        "rejected_span": "客付",
+        "replacement": [
+          {
+            "surface": "客付",
+            "reading": "キャクヅケ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001505:u0032::target_group:1",
+            "surface": "客付",
+            "comment": "不動産用語の「客付け」で一語扱い。文脈上は「客付会社」= きゃくづけがいしゃ。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001505:u0035::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001505",
+      "doc_seq": 5,
+      "track_doc_seq": 1505,
+      "unit_id": "ja_cc_level2:0000001505:u0035",
+      "unit_seq": 35,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1505,
+      "text": "客付会社に頑張ってもらうことも、空室を埋めるための重要な手段といえます。",
+      "rendered_yomi_before": "客/キャク 付/ツケ 会社/ガイシャ に/ニ 頑張っ/ガンバッ て/テ もらう/モラウ こと/コト も/モ 、/、 空室/クウシツ を/ヲ 埋める/ウメル ため/タメ の/ノ 重要/ジュウヨウ な/ナ 手段/シュダン と/ト いえ/イエ ます/マス 。/。",
+      "rendered_yomi_after": "客付/キャクヅケ 会社/ガイシャ に/ニ 頑張っ/ガンバッ て/テ もらう/モラウ こと/コト も/モ 、/、 空室/クウシツ を/ヲ 埋める/ウメル ため/タメ の/ノ 重要/ジュウヨウ な/ナ 手段/シュダン と/ト いえ/イエ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "客付",
+          "キャクヅケ"
+        ],
+        [
+          "会社",
+          "ガイシャ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "頑張っ",
+          "ガンバッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "もらう",
+          "モラウ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "空室",
+          "クウシツ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "埋める",
+          "ウメル"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "重要",
+          "ジュウヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "手段",
+          "シュダン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いえ",
+          "イエ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "客付",
+          "reading": "キャクヅケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "客付",
+              "reading": "きゃくづけ"
+            }
+          ]
+        },
+        {
+          "surface": "会社",
+          "reading": "ガイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会社",
+              "reading": "がいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "頑張っ",
+          "reading": "ガンバッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頑張",
+              "reading": "がんば"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "もらう",
+          "reading": "モラウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もらう"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "空室",
+          "reading": "クウシツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "空室",
+              "reading": "くうしつ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "埋める",
+          "reading": "ウメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "埋",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "重要",
+          "reading": "ジュウヨウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "重要",
+              "reading": "じゅうよう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "手段",
+          "reading": "シュダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手段",
+              "reading": "しゅだん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いえ",
+          "reading": "イエ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いえ"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+          "item_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+          "unit_id": "ja_cc_level2:0000001505:u0035",
+          "text": "客付会社に頑張ってもらうことも、空室を埋めるための重要な手段といえます。",
+          "rendered_yomi_before": "客/キャク 付/ツケ 会社/ガイシャ に/ニ 頑張っ/ガンバッ て/テ もらう/モラウ こと/コト も/モ 、/、 空室/クウシツ を/ヲ 埋める/ウメル ため/タメ の/ノ 重要/ジュウヨウ な/ナ 手段/シュダン と/ト いえ/イエ ます/マス 。/。",
+          "rendered_yomi_after": "客付/キャクヅケ 会社/ガイシャ に/ニ 頑張っ/ガンバッ て/テ もらう/モラウ こと/コト も/モ 、/、 空室/クウシツ を/ヲ 埋める/ウメル ため/タメ の/ノ 重要/ジュウヨウ な/ナ 手段/シュダン と/ト いえ/イエ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001505:u0035:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "客",
+              "token_surface": "客",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゃく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "客",
+                  "reading": "きゃく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001505:u0035:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "付",
+              "token_surface": "付",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "付",
+                  "reading": "つけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001505:u0035:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "客",
+              "token_surface": "客",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゃく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "客",
+                  "reading": "きゃく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001505:u0035:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "付",
+              "token_surface": "付",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "付",
+                  "reading": "つけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "客付",
+          "reading_candidates": {
+            "客": [
+              "きゃく"
+            ],
+            "付": [
+              "づ",
+              "つき",
+              "つけ",
+              "つけたり",
+              "づき",
+              "づけ",
+              "ふ"
+            ]
+          },
+          "reading_hints": {
+            "客": "きゃく",
+            "付": "づ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "客",
+              "reading": "きゃく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "付",
+              "reading": "つけ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"客付\",\"reading\":\"きゃくづけ\",\"used_web_search\":false,\"comment\":\"不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "客付",
+              "reading": "きゃくづけ",
+              "used_web_search": false,
+              "comment": "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+            "status": "applied",
+            "rejected_span": "客付",
+            "replacement": [
+              {
+                "surface": "客付",
+                "reading": "キャクヅケ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+                "surface": "客付",
+                "comment": "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "客付",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001505:u0035:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "客",
+          "token_surface": "客",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きゃく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "客",
+              "reading": "きゃく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001505:u0035:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "付",
+          "token_surface": "付",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "付",
+              "reading": "つけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "客",
+          "reading": "きゃく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "付",
+          "reading": "つけ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "客": [
+          "きゃく"
+        ],
+        "付": [
+          "づ",
+          "つき",
+          "つけ",
+          "つけたり",
+          "づき",
+          "づけ",
+          "ふ"
+        ]
+      },
+      "reading_hints": {
+        "客": "きゃく",
+        "付": "づ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "客付",
+          "reading": "きゃくづけ",
+          "used_web_search": false,
+          "comment": "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"客付\",\"reading\":\"きゃくづけ\",\"used_web_search\":false,\"comment\":\"不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。\"}]",
+      "llm_comments": [
+        "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+        "status": "applied",
+        "rejected_span": "客付",
+        "replacement": [
+          {
+            "surface": "客付",
+            "reading": "キャクヅケ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001505:u0035::target_group:1",
+            "surface": "客付",
+            "comment": "不動産業界で「客付け」は一語の慣用語として使われるため、まとめて「きゃくづけ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
