@@ -1,0 +1,2122 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0151_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0151",
+  "created_at_epoch": 1787881042,
+  "created_at": "2026-08-28T01:37:22Z",
+  "item_count": 4,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 4,
+    "queued_repair_row_count": 4,
+    "result_row_count": 4,
+    "reviewable_repair_row_count": 4,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001471",
+      "doc_seq": 1,
+      "track_doc_seq": 1471,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1471,
+      "preview": "0歳の息子のお母さんをしています、わぐりです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001472",
+      "doc_seq": 2,
+      "track_doc_seq": 1472,
+      "unit_count": 182,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1472,
+      "preview": "ニュージーランドと聞いてまず最初に思い浮かぶのは、大自然、羊、キウイでしょうか。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T01:37:40Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 182,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001473",
+      "doc_seq": 3,
+      "track_doc_seq": 1473,
+      "unit_count": 66,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1473,
+      "preview": "入線から1年以上たってしまいましたが、やっとのこと車両の整備（アンテナ類の取り付けと幕シールの貼り付け）が終わりました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T01:37:40Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 66,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001474",
+      "doc_seq": 4,
+      "track_doc_seq": 1474,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1474,
+      "preview": "42歳から不妊治療を始めました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001475",
+      "doc_seq": 5,
+      "track_doc_seq": 1475,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1475,
+      "preview": "どうやら単に攻略するのではなく、コンプリートを目指したい、ため、みたいです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001476",
+      "doc_seq": 6,
+      "track_doc_seq": 1476,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1476,
+      "preview": "私も含めほとんどの方が出来ていない事です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T01:37:40Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001477",
+      "doc_seq": 7,
+      "track_doc_seq": 1477,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1477,
+      "preview": "今日から何回か、米トランプ大統領について、最新情報をフォローしながら書いていこうと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001478",
+      "doc_seq": 8,
+      "track_doc_seq": 1478,
+      "unit_count": 39,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1478,
+      "preview": "背景と文章が同化してしまいとても読みにくい状態になっています。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-28T01:37:40Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 4,
+      "to_seq": 4,
+      "reviewed_unit_count": 39,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001479",
+      "doc_seq": 9,
+      "track_doc_seq": 1479,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1479,
+      "preview": "在庫のある商品は受注日より、3営業日以内に出荷致します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001480",
+      "doc_seq": 10,
+      "track_doc_seq": 1480,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1480,
+      "preview": "国産車や輸入車、中古車の購入や各メーカーのサービス、車検の手続きまで、車やバイクの疑問はここで解決！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-28T01:35:14Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001472:u0130::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001472",
+      "doc_seq": 2,
+      "track_doc_seq": 1472,
+      "unit_id": "ja_cc_level2:0000001472:u0130",
+      "unit_seq": 130,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1472,
+      "text": "そしてこちらは中国のお友達から頂いた中国結です。",
+      "rendered_yomi_before": "そして/ソシテ こちら/コチラ は/ハ 中国/チュウゴク の/ノ お/オ 友達/トモダチ から/カラ 頂い/イタダイ た/タ 中国/チュウゴク 結/ケツ です/デス 。/。",
+      "rendered_yomi_after": "そして/ソシテ こちら/コチラ は/ハ 中国/チュウゴク の/ノ お/オ 友達/トモダチ から/カラ 頂い/イタダイ た/タ 中国/チュウゴク 結/ムスビ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "そして",
+          "ソシテ"
+        ],
+        [
+          "こちら",
+          "コチラ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "中国",
+          "チュウゴク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "友達",
+          "トモダチ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "頂い",
+          "イタダイ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "中国",
+          "チュウゴク"
+        ],
+        [
+          "結",
+          "ムスビ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "そして",
+          "reading": "ソシテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そして"
+            }
+          ]
+        },
+        {
+          "surface": "こちら",
+          "reading": "コチラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こちら"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "中国",
+          "reading": "チュウゴク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中国",
+              "reading": "ちゅうごく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "友達",
+          "reading": "トモダチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "友達",
+              "reading": "ともだち"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "頂い",
+          "reading": "イタダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頂",
+              "reading": "いただ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "中国",
+          "reading": "チュウゴク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中国",
+              "reading": "ちゅうごく"
+            }
+          ]
+        },
+        {
+          "surface": "結",
+          "reading": "ムスビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "結",
+              "reading": "むすび"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+          "item_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+          "unit_id": "ja_cc_level2:0000001472:u0130",
+          "text": "そしてこちらは中国のお友達から頂いた中国結です。",
+          "rendered_yomi_before": "そして/ソシテ こちら/コチラ は/ハ 中国/チュウゴク の/ノ お/オ 友達/トモダチ から/カラ 頂い/イタダイ た/タ 中国/チュウゴク 結/ケツ です/デス 。/。",
+          "rendered_yomi_after": "そして/ソシテ こちら/コチラ は/ハ 中国/チュウゴク の/ノ お/オ 友達/トモダチ から/カラ 頂い/イタダイ た/タ 中国/チュウゴク 結/ムスビ です/デス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 20,
+            "char_end": 21,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001472:u0130:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "結",
+              "token_surface": "結",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "結",
+                  "reading": "けつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001472:u0130:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "結",
+              "token_surface": "結",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けつ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "結",
+                  "reading": "けつ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "結",
+          "reading_candidates": {
+            "結": [
+              "けつ",
+              "ひとし",
+              "むすび",
+              "むすぶ",
+              "ゆい",
+              "ゆう"
+            ]
+          },
+          "reading_hints": {
+            "結": "けつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "結",
+              "reading": "けつ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"結\",\"reading\":\"ムスビ\",\"used_web_search\":true,\"comment\":\"『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "結",
+              "reading": "ムスビ",
+              "used_web_search": true,
+              "comment": "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+            "status": "applied",
+            "rejected_span": "結",
+            "replacement": [
+              {
+                "surface": "結",
+                "reading": "ムスビ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+                "surface": "結",
+                "comment": "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "結",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001472:u0130:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "結",
+          "token_surface": "結",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けつ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "結",
+              "reading": "けつ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "結",
+          "reading": "けつ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "結": [
+          "けつ",
+          "ひとし",
+          "むすび",
+          "むすぶ",
+          "ゆい",
+          "ゆう"
+        ]
+      },
+      "reading_hints": {
+        "結": "けつ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "結",
+          "reading": "ムスビ",
+          "used_web_search": true,
+          "comment": "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"結\",\"reading\":\"ムスビ\",\"used_web_search\":true,\"comment\":\"『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+        "status": "applied",
+        "rejected_span": "結",
+        "replacement": [
+          {
+            "surface": "結",
+            "reading": "ムスビ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001472:u0130::target_group:1",
+            "surface": "結",
+            "comment": "『中国結び』の略記として使われる文脈なので、音読みの「ケツ」ではなく「むすび」と読むのが自然です。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001473:u0005::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001473",
+      "doc_seq": 3,
+      "track_doc_seq": 1473,
+      "unit_id": "ja_cc_level2:0000001473:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1473,
+      "text": "京急1500形(1700番台)更新車 です。",
+      "rendered_yomi_before": "京急/ケイキュウ 1500/ 形/ケイ (/( 1700/ 番/バン 台/ダイ )/) 更新/コウシン 車/シャ  /  です/デス 。/。",
+      "rendered_yomi_after": "京急/ケイキュウ 1500/ 形/ガタ (/( 1700/ 番/バン 台/ダイ )/) 更新/コウシン 車/シャ \\s/ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "京急",
+          "ケイキュウ"
+        ],
+        [
+          "1500",
+          ""
+        ],
+        [
+          "形",
+          "ガタ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "1700",
+          ""
+        ],
+        [
+          "番",
+          "バン"
+        ],
+        [
+          "台",
+          "ダイ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "更新",
+          "コウシン"
+        ],
+        [
+          "車",
+          "シャ"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "京急",
+          "reading": "ケイキュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "京急",
+              "reading": "けいきゅう"
+            }
+          ]
+        },
+        {
+          "surface": "1500",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1500"
+            }
+          ]
+        },
+        {
+          "surface": "形",
+          "reading": "ガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "形",
+              "reading": "がた"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "1700",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1700"
+            }
+          ]
+        },
+        {
+          "surface": "番",
+          "reading": "バン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "番",
+              "reading": "ばん"
+            }
+          ]
+        },
+        {
+          "surface": "台",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "台",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "更新",
+          "reading": "コウシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "更新",
+              "reading": "こうしん"
+            }
+          ]
+        },
+        {
+          "surface": "車",
+          "reading": "シャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "車",
+              "reading": "しゃ"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000001473:u0005",
+          "text": "京急1500形(1700番台)更新車 です。",
+          "rendered_yomi_before": "京急/ケイキュウ 1500/ 形/ケイ (/( 1700/ 番/バン 台/ダイ )/) 更新/コウシン 車/シャ  /  です/デス 。/。",
+          "rendered_yomi_after": "京急/ケイキュウ 1500/ 形/ガタ (/( 1700/ 番/バン 台/ダイ )/) 更新/コウシン 車/シャ \\s/ です/デス 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 6,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001473:u0005:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001473:u0005:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "形",
+              "token_surface": "形",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "形",
+                  "reading": "けい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "形",
+          "reading_candidates": {
+            "形": [
+              "かた",
+              "かたち",
+              "がた",
+              "けい",
+              "なり"
+            ]
+          },
+          "reading_hints": {
+            "形": "かた"
+          },
+          "rejected_readings": [
+            {
+              "surface": "形",
+              "reading": "けい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"形\",\"reading\":\"ガタ\",\"used_web_search\":false,\"comment\":\"鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "形",
+              "reading": "ガタ",
+              "used_web_search": false,
+              "comment": "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。"
+            }
+          ],
+          "llm_comments": [
+            "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "形",
+            "replacement": [
+              {
+                "surface": "形",
+                "reading": "ガタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+                "surface": "形",
+                "comment": "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "形",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001473:u0005:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "形",
+          "token_surface": "形",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "形",
+              "reading": "けい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "形",
+          "reading": "けい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "形": [
+          "かた",
+          "かたち",
+          "がた",
+          "けい",
+          "なり"
+        ]
+      },
+      "reading_hints": {
+        "形": "かた"
+      },
+      "llm_parsed": [
+        {
+          "surface": "形",
+          "reading": "ガタ",
+          "used_web_search": false,
+          "comment": "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"形\",\"reading\":\"ガタ\",\"used_web_search\":false,\"comment\":\"鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。\"}]",
+      "llm_comments": [
+        "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "形",
+        "replacement": [
+          {
+            "surface": "形",
+            "reading": "ガタ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001473:u0005::target_group:1",
+            "surface": "形",
+            "comment": "鉄道車両の形式名では「〜形」は通常「〜がた」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001476:u0007::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001476",
+      "doc_seq": 6,
+      "track_doc_seq": 1476,
+      "unit_id": "ja_cc_level2:0000001476:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1476,
+      "text": "２ヶ月で２キロ減に成功ーーー！",
+      "rendered_yomi_before": "２/ ヶ月/カゲツ で/デ ２/ キロ/キロ 減/ゲン に/ニ 成/セイ 功ーーー/功ーーー ！/！",
+      "rendered_yomi_after": "２/ ヶ月/カゲツ で/デ ２/ キロ/キロ 減/ゲン に/ニ 成功ーーー/セイコウーーー ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "２",
+          ""
+        ],
+        [
+          "ヶ月",
+          "カゲツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "２",
+          ""
+        ],
+        [
+          "キロ",
+          "キロ"
+        ],
+        [
+          "減",
+          "ゲン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "成功ーーー",
+          "セイコウーーー"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "ヶ月",
+          "reading": "カゲツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ヶ月",
+              "reading": "かげつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "キロ",
+          "reading": "キロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "キロ"
+            }
+          ]
+        },
+        {
+          "surface": "減",
+          "reading": "ゲン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "減",
+              "reading": "げん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "成功ーーー",
+          "reading": "セイコウーーー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "成功",
+              "reading": "せいこう"
+            },
+            {
+              "type": "text",
+              "text": "ーーー"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000001476:u0007",
+          "text": "２ヶ月で２キロ減に成功ーーー！",
+          "rendered_yomi_before": "２/ ヶ月/カゲツ で/デ ２/ キロ/キロ 減/ゲン に/ニ 成/セイ 功ーーー/功ーーー ！/！",
+          "rendered_yomi_after": "２/ ヶ月/カゲツ で/デ ２/ キロ/キロ 減/ゲン に/ニ 成功ーーー/セイコウーーー ！/！",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 9,
+            "char_end": 14,
+            "start_offset": 0,
+            "end_offset": 5,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001476:u0007:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "成",
+              "token_surface": "成",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "成",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001476:u0007:s0011-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "功ーーー",
+              "token_surface": "功ーーー",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001476:u0007:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "成",
+              "token_surface": "成",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "成",
+                  "reading": "せい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001476:u0007:s0011-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "功ーーー",
+              "token_surface": "功ーーー",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "成功ーーー",
+          "reading_candidates": {
+            "成": [
+              "おさむ",
+              "しげる",
+              "じょう",
+              "せい",
+              "なり",
+              "なりと",
+              "なる"
+            ],
+            "成功": [
+              "じょうごう",
+              "せいこう"
+            ],
+            "功": [
+              "いさお",
+              "いさおし",
+              "いそし",
+              "おさむ",
+              "こう",
+              "こお",
+              "つとむ"
+            ],
+            "ー": [
+              "ー"
+            ]
+          },
+          "reading_hints": {
+            "成": "おさむ",
+            "成功": "じょうごう",
+            "功": "いさお",
+            "ー": "ー"
+          },
+          "rejected_readings": [
+            {
+              "surface": "成",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"成功ーーー\",\"reading\":\"セイコウーーー\",\"used_web_search\":false,\"comment\":\"「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "成功ーーー",
+              "reading": "セイコウーーー",
+              "used_web_search": false,
+              "comment": "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。"
+            }
+          ],
+          "llm_comments": [
+            "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "成功ーーー",
+            "replacement": [
+              {
+                "surface": "成功ーーー",
+                "reading": "セイコウーーー"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+                "surface": "成功ーーー",
+                "comment": "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "成功ーーー",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001476:u0007:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "成",
+          "token_surface": "成",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "成",
+              "reading": "せい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001476:u0007:s0011-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "功ーーー",
+          "token_surface": "功ーーー",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "成",
+          "reading": "せい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "成": [
+          "おさむ",
+          "しげる",
+          "じょう",
+          "せい",
+          "なり",
+          "なりと",
+          "なる"
+        ],
+        "成功": [
+          "じょうごう",
+          "せいこう"
+        ],
+        "功": [
+          "いさお",
+          "いさおし",
+          "いそし",
+          "おさむ",
+          "こう",
+          "こお",
+          "つとむ"
+        ],
+        "ー": [
+          "ー"
+        ]
+      },
+      "reading_hints": {
+        "成": "おさむ",
+        "成功": "じょうごう",
+        "功": "いさお",
+        "ー": "ー"
+      },
+      "llm_parsed": [
+        {
+          "surface": "成功ーーー",
+          "reading": "セイコウーーー",
+          "used_web_search": false,
+          "comment": "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"成功ーーー\",\"reading\":\"セイコウーーー\",\"used_web_search\":false,\"comment\":\"「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。\"}]",
+      "llm_comments": [
+        "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "成功ーーー",
+        "replacement": [
+          {
+            "surface": "成功ーーー",
+            "reading": "セイコウーーー"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001476:u0007::target_group:1",
+            "surface": "成功ーーー",
+            "comment": "「成功」は「セイコウ」。末尾の「ーーー」は強調の表記として原文どおり残しました。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001478:u0034::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000001478",
+      "doc_seq": 8,
+      "track_doc_seq": 1478,
+      "unit_id": "ja_cc_level2:0000001478:u0034",
+      "unit_seq": 34,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1478,
+      "text": "本日のお客様は「恋chat恋人探し」ですよぉ！",
+      "rendered_yomi_before": "本日/ホンジツ の/ノ お客様/オキャクサマ は/ハ 「/「 恋/コイ chat/チャット 恋/コイ 人探し/ヒトサガシ 」/」 です/デス よぉ/ヨォ ！/！",
+      "rendered_yomi_after": "本日/ホンジツ の/ノ お客様/オキャクサマ は/ハ 「/「 恋/コイ chat/チャット 恋人探し/コイビトサガシ 」/」 です/デス よぉ/ヨォ ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "本日",
+          "ホンジツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "お客様",
+          "オキャクサマ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "恋",
+          "コイ"
+        ],
+        [
+          "chat",
+          "チャット"
+        ],
+        [
+          "恋人探し",
+          "コイビトサガシ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "よぉ",
+          "ヨォ"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "本日",
+          "reading": "ホンジツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本日",
+              "reading": "ほんじつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "お客様",
+          "reading": "オキャクサマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            },
+            {
+              "type": "ruby",
+              "text": "客様",
+              "reading": "きゃくさま"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "恋",
+          "reading": "コイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "恋",
+              "reading": "こい"
+            }
+          ]
+        },
+        {
+          "surface": "chat",
+          "reading": "チャット",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "chat",
+              "reading": "ちゃっと"
+            }
+          ]
+        },
+        {
+          "surface": "恋人探し",
+          "reading": "コイビトサガシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "恋人探",
+              "reading": "こいびとさが"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "よぉ",
+          "reading": "ヨォ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よぉ"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+          "item_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+          "unit_id": "ja_cc_level2:0000001478:u0034",
+          "text": "本日のお客様は「恋chat恋人探し」ですよぉ！",
+          "rendered_yomi_before": "本日/ホンジツ の/ノ お客様/オキャクサマ は/ハ 「/「 恋/コイ chat/チャット 恋/コイ 人探し/ヒトサガシ 」/」 です/デス よぉ/ヨォ ！/！",
+          "rendered_yomi_after": "本日/ホンジツ の/ノ お客様/オキャクサマ は/ハ 「/「 恋/コイ chat/チャット 恋人探し/コイビトサガシ 」/」 です/デス よぉ/ヨォ ！/！",
+          "display_mapping": {
+            "start": 7,
+            "end": 8,
+            "char_start": 13,
+            "char_end": 17,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001478:u0034:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "恋",
+              "token_surface": "恋",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "恋",
+                  "reading": "こい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001478:u0034:s0015-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人探し",
+              "token_surface": "人探し",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとさがし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人探し",
+                  "reading": "ひとさがし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001478:u0034:s0014-0014",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "恋",
+              "token_surface": "恋",
+              "token_index": 7,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "恋",
+                  "reading": "こい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001478:u0034:s0015-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人探し",
+              "token_surface": "人探し",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとさがし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人探し",
+                  "reading": "ひとさがし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "恋人探し",
+          "reading_candidates": {
+            "恋": [
+              "こい",
+              "ここ",
+              "れん"
+            ],
+            "恋人": [
+              "こいびと"
+            ],
+            "人": [
+              "じん",
+              "ひと",
+              "り",
+              "にん",
+              "びと"
+            ],
+            "人探し": [
+              "ひとさがし"
+            ],
+            "探": [
+              "さぐる",
+              "たん",
+              "もとむ"
+            ],
+            "探し": [
+              "さがし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "恋": "こい",
+            "恋人": "こいびと",
+            "人": "じん",
+            "人探し": "ひとさがし",
+            "探": "さぐる",
+            "探し": "さがし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "恋",
+              "reading": "こい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "人探し",
+              "reading": "ひとさがし",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"恋人探し\",\"reading\":\"コイビトサガシ\",\"used_web_search\":false,\"comment\":\"一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "恋人探し",
+              "reading": "コイビトサガシ",
+              "used_web_search": false,
+              "comment": "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+            "status": "applied",
+            "rejected_span": "恋人探し",
+            "replacement": [
+              {
+                "surface": "恋人探し",
+                "reading": "コイビトサガシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+                "surface": "恋人探し",
+                "comment": "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "恋人探し",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001478:u0034:s0014-0014",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "恋",
+          "token_surface": "恋",
+          "token_index": 7,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "恋",
+              "reading": "こい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001478:u0034:s0015-0017",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "人探し",
+          "token_surface": "人探し",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひとさがし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "人探し",
+              "reading": "ひとさがし",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "恋",
+          "reading": "こい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "人探し",
+          "reading": "ひとさがし",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "恋": [
+          "こい",
+          "ここ",
+          "れん"
+        ],
+        "恋人": [
+          "こいびと"
+        ],
+        "人": [
+          "じん",
+          "ひと",
+          "り",
+          "にん",
+          "びと"
+        ],
+        "人探し": [
+          "ひとさがし"
+        ],
+        "探": [
+          "さぐる",
+          "たん",
+          "もとむ"
+        ],
+        "探し": [
+          "さがし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "恋": "こい",
+        "恋人": "こいびと",
+        "人": "じん",
+        "人探し": "ひとさがし",
+        "探": "さぐる",
+        "探し": "さがし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "surface": "恋人探し",
+          "reading": "コイビトサガシ",
+          "used_web_search": false,
+          "comment": "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"恋人探し\",\"reading\":\"コイビトサガシ\",\"used_web_search\":false,\"comment\":\"一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。\"}]",
+      "llm_comments": [
+        "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+        "status": "applied",
+        "rejected_span": "恋人探し",
+        "replacement": [
+          {
+            "surface": "恋人探し",
+            "reading": "コイビトサガシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001478:u0034::target_group:1",
+            "surface": "恋人探し",
+            "comment": "一般的な語で、全体で「こいびとさがし」と読むため1項目にまとめる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
