@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import unicodedata
 
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.furigana import is_variation_selector
@@ -131,9 +132,28 @@ def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[Su
             raise SourceSurfaceMappingError(
                 "Sudachi returned an empty surface before any source-bearing token"
             )
+        previous = collapsed[-1]
+        if is_compatibility_expansion_continuation(previous, token):
+            meaningful_reading = token.reading not in {"", "キゴウ"}
+            if meaningful_reading:
+                reading = (
+                    token.reading
+                    if previous.reading in {"", "キゴウ"}
+                    else previous.reading + token.reading
+                )
+            else:
+                reading = previous.reading
+            collapsed[-1] = SudachiToken(
+                surface=previous.surface,
+                pos=token.pos if meaningful_reading else previous.pos,
+                dictionary_form=previous.dictionary_form + token.dictionary_form,
+                normalized_form=previous.normalized_form + token.normalized_form,
+                reading=reading,
+                normalization_locked=previous.normalization_locked,
+            )
+            continue
         if token.reading in {"", "キゴウ"}:
             continue
-        previous = collapsed[-1]
         if not previous.pos.startswith("補助記号,"):
             raise SourceSurfaceMappingError(
                 "Sudachi returned an unsupported meaningful empty-surface morpheme "
@@ -148,6 +168,20 @@ def collapse_empty_surface_sudachi_tokens(tokens: list[SudachiToken]) -> list[Su
             normalization_locked=previous.normalization_locked,
         )
     return collapsed
+
+
+def is_compatibility_expansion_continuation(
+    previous: SudachiToken,
+    continuation: SudachiToken,
+) -> bool:
+    """Recognize source-less pieces emitted from one compatibility character."""
+    if not continuation.normalized_form:
+        return False
+    expanded_surface = unicodedata.normalize("NFKC", previous.surface)
+    combined = previous.normalized_form + continuation.normalized_form
+    return len(combined) > len(previous.normalized_form) and expanded_surface.startswith(
+        combined
+    )
 
 
 def restore_sudachi_source_surfaces(

@@ -14,6 +14,12 @@ def test_formatted_arabic_number_surface_is_numeric() -> None:
         assert not is_formatted_arabic_number_surface(surface)
 
 
+def test_circled_number_surface_is_numeric() -> None:
+    for surface in ("①", "⑩", "⑳", "㉑", "㊿", "⑩⑪"):
+        assert is_numeric_digit_surface(surface)
+        assert is_numeric_only_surface(surface)
+
+
 def test_japanese_numeral_surface_is_numeric() -> None:
     assert is_numeric_only_surface("二〇〇二")
     assert is_numeric_only_surface("二九三")

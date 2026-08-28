@@ -9,7 +9,7 @@ import re
 # can also be words or names.
 NUMERIC_DIGIT_SURFACE_RE = re.compile(
     r"[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ"
-    r"〇○零一二三四五六七八九]+"
+    r"①-⑳㉑-㉟㊱-㊿〇○零一二三四五六七八九]+"
 )
 JAPANESE_NUMERAL_DIGIT_RE = re.compile(r"[〇○零一二三四五六七八九]+")
 FORMATTED_ARABIC_NUMBER_RE = re.compile(

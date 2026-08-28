@@ -121,6 +121,19 @@ class YomiPipelineTests(unittest.TestCase):
         self.assertEqual(documents[0][0].reading, "イチ")
         self.assertTrue(documents[0][0].pos.startswith("名詞,数詞,"))
 
+    def test_parse_sudachi_documents_collapses_circled_number_expansion(self) -> None:
+        documents = parse_sudachi_documents(
+            "⑩\t名詞,数詞,*,*,*,*\t1\t1\tイチ\n"
+            "\t名詞,数詞,*,*,*,*\t0\t0\tレイ\n"
+            "EOS\n"
+        )
+
+        self.assertEqual(len(documents[0]), 1)
+        self.assertEqual(documents[0][0].surface, "⑩")
+        self.assertEqual(documents[0][0].dictionary_form, "10")
+        self.assertEqual(documents[0][0].normalized_form, "10")
+        self.assertEqual(documents[0][0].reading, "イチレイ")
+
     def test_parse_sudachi_documents_attaches_variation_selector_to_previous_token(self) -> None:
         documents = parse_sudachi_documents(
             "禰\t名詞,固有名詞,人名,名,*,*\t禰\t禰\tネ\n"
