@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -57,12 +57,12 @@
       "source_line_no": 1572,
       "preview": "農家直営、自家製果実を使ったソフトクリームは、他にない美味しさで、ぜひ味わって欲しいソフトクリームです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T06:53:34Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T07:11:05Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 1575,
       "preview": "立憲民主党が先ごろ、共産、れいわ、社民各党の代表に対し、今夏の参院選1人区での候補者調整について申し入れをした。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T06:53:34Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T07:11:05Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -296,7 +296,7 @@
       "source_line_no": 1572,
       "text": "北九州市と関門海峡を挟んで対岸にあたる下関市。",
       "rendered_yomi_before": "北九州市/キタキュウシュウシ と/ト 関門海/カンモンカイ 峡/キョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
-      "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門海峡/カンモンカイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+      "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門/カンモン 海峡/カイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "北九州市",
@@ -307,8 +307,12 @@
           "ト"
         ],
         [
-          "関門海峡",
-          "カンモンカイキョウ"
+          "関門",
+          "カンモン"
+        ],
+        [
+          "海峡",
+          "カイキョウ"
         ],
         [
           "を",
@@ -366,13 +370,24 @@
           ]
         },
         {
-          "surface": "関門海峡",
-          "reading": "カンモンカイキョウ",
+          "surface": "関門",
+          "reading": "カンモン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "関門海峡",
-              "reading": "かんもんかいきょう"
+              "text": "関門",
+              "reading": "かんもん"
+            }
+          ]
+        },
+        {
+          "surface": "海峡",
+          "reading": "カイキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "海峡",
+              "reading": "かいきょう"
             }
           ]
         },
@@ -477,14 +492,14 @@
           "unit_id": "ja_cc_level2:0000001572:u0014",
           "text": "北九州市と関門海峡を挟んで対岸にあたる下関市。",
           "rendered_yomi_before": "北九州市/キタキュウシュウシ と/ト 関門海/カンモンカイ 峡/キョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
-          "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門海峡/カンモンカイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+          "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門/カンモン 海峡/カイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
           "display_mapping": {
             "start": 2,
-            "end": 3,
+            "end": 4,
             "char_start": 5,
             "char_end": 9,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
