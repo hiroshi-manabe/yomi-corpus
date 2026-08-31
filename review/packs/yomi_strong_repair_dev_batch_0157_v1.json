@@ -10,10 +10,10 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 5,
@@ -83,12 +83,12 @@
       "source_line_no": 1533,
       "preview": "仕事の基本は、目の前の相手を一瞬で好きになって相手の自己重要感を上げることだよ。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:15:45Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:33:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1536,
       "preview": "ようになったエッセイ漫画。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:15:45Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:33:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -2191,7 +2191,7 @@
       "source_line_no": 1536,
       "text": "絵本の紹介2作目の今日は、 市原淳 作、開一夫 監修 『もいもい』です。",
       "rendered_yomi_before": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、  /  市/シ 原淳/ハラジュン  /  作/サク 、/、 開/ヒラキ 一夫/カズオ  /  監修/カンシュウ  /  『/『 もいもい/モイモイ 』/』 です/デス 。/。",
-      "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原淳/イチハラジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
+      "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原/イチハラ 淳/ジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "絵本",
@@ -2238,8 +2238,12 @@
           ""
         ],
         [
-          "市原淳",
-          "イチハラジュン"
+          "市原",
+          "イチハラ"
+        ],
+        [
+          "淳",
+          "ジュン"
         ],
         [
           " ",
@@ -2411,14 +2415,20 @@
           ]
         },
         {
-          "surface": "市原淳",
-          "reading": "イチハラジュン",
+          "surface": "市原",
+          "reading": "イチハラ",
           "nodes": [
             {
               "type": "ruby",
               "text": "市原",
               "reading": "いちはら"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "淳",
+          "reading": "ジュン",
+          "nodes": [
             {
               "type": "ruby",
               "text": "淳",
@@ -2574,14 +2584,14 @@
           "unit_id": "ja_cc_level2:0000001536:u0023",
           "text": "絵本の紹介2作目の今日は、 市原淳 作、開一夫 監修 『もいもい』です。",
           "rendered_yomi_before": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、  /  市/シ 原淳/ハラジュン  /  作/サク 、/、 開/ヒラキ 一夫/カズオ  /  監修/カンシュウ  /  『/『 もいもい/モイモイ 』/』 です/デス 。/。",
-          "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原淳/イチハラジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
+          "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原/イチハラ 淳/ジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
           "display_mapping": {
             "start": 11,
-            "end": 12,
+            "end": 13,
             "char_start": 14,
             "char_end": 17,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -2773,10 +2783,10 @@
           "unit_id": "ja_cc_level2:0000001536:u0023",
           "text": "絵本の紹介2作目の今日は、 市原淳 作、開一夫 監修 『もいもい』です。",
           "rendered_yomi_before": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、  /  市/シ 原淳/ハラジュン  /  作/サク 、/、 開/ヒラキ 一夫/カズオ  /  監修/カンシュウ  /  『/『 もいもい/モイモイ 』/』 です/デス 。/。",
-          "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原淳/イチハラジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
+          "rendered_yomi_after": "絵本/エホン の/ノ 紹介/ショウカイ 2/ 作/サク 目/メ の/ノ 今日/キョウ は/ハ 、/、 \\s/ 市原/イチハラ 淳/ジュン \\s/ 作/サク 、/、 開/ヒラキ 一夫/カズオ \\s/ 監修/カンシュウ \\s/ 『/『 もいもい/モイモイ 』/』 です/デス 。/。",
           "display_mapping": {
-            "start": 15,
-            "end": 16,
+            "start": 16,
+            "end": 17,
             "char_start": 20,
             "char_end": 21,
             "start_offset": 0,

@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -31,12 +31,12 @@
       "source_line_no": 1511,
       "preview": "人間臭いキャラクター達が互いに関わり合い成長していく様は胸熱！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:22:36Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:32:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -57,12 +57,12 @@
       "source_line_no": 1512,
       "preview": "開会式で座り込み、岩田に注意を受けた凛は、もう帰れと怒られた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:22:36Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:32:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 1518,
       "preview": "4/26のクイズ番組Qさまを見ていると、「おいでやすこが」の「こがけん」が元サピックスの国語講師であることが判明、そのことが話題となっています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:22:36Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:32:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1315,7 +1315,7 @@
       "source_line_no": 1518,
       "text": "こがけんの出身高校は福岡県立明善高校、公立進学校のようです。",
       "rendered_yomi_before": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進/シン 学校/ガッコウ の/ノ よう/ヨウ です/デス 。/。",
-      "rendered_yomi_after": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進/シン 学校/ガッコウ の/ノ よう/ヨウ です/デス 。/。",
+      "rendered_yomi_after": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進学校/シンガッコウ の/ノ よう/ヨウ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "こがけん",
@@ -1362,12 +1362,8 @@
           "コウリツ"
         ],
         [
-          "進",
-          "シン"
-        ],
-        [
-          "学校",
-          "ガッコウ"
+          "進学校",
+          "シンガッコウ"
         ],
         [
           "の",
@@ -1505,24 +1501,13 @@
           ]
         },
         {
-          "surface": "進",
-          "reading": "シン",
+          "surface": "進学校",
+          "reading": "シンガッコウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "進",
-              "reading": "しん"
-            }
-          ]
-        },
-        {
-          "surface": "学校",
-          "reading": "ガッコウ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "学校",
-              "reading": "がっこう"
+              "text": "進学校",
+              "reading": "しんがっこう"
             }
           ]
         },
@@ -1580,14 +1565,14 @@
           "unit_id": "ja_cc_level2:0000001518:u0011",
           "text": "こがけんの出身高校は福岡県立明善高校、公立進学校のようです。",
           "rendered_yomi_before": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進/シン 学校/ガッコウ の/ノ よう/ヨウ です/デス 。/。",
-          "rendered_yomi_after": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進/シン 学校/ガッコウ の/ノ よう/ヨウ です/デス 。/。",
+          "rendered_yomi_after": "こがけん/コガケン の/ノ 出身/シュッシン 高校/コウコウ は/ハ 福岡県/フクオカケン 立/リツ 明善/メイゼン 高校/コウコウ 、/、 公立/コウリツ 進学校/シンガッコウ の/ノ よう/ヨウ です/デス 。/。",
           "display_mapping": {
             "start": 11,
-            "end": 13,
+            "end": 12,
             "char_start": 21,
             "char_end": 24,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
