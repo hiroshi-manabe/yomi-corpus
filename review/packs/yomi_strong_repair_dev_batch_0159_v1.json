@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -161,12 +161,12 @@
       "source_line_no": 1556,
       "preview": "2019年2月4日に始めた当ブログ、まもなく1年が経過しようとしております。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T06:53:09Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T07:02:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -265,12 +265,12 @@
       "source_line_no": 1560,
       "preview": "理系の大学を卒業後、外資系メーカーにて開発、営業職を経、人事へ異動となって以来、人事畑で経験を積む。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T06:53:09Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T07:02:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 1556,
       "text": "ブログカードは既に上で貼ったので、文字リンクのみ再掲載。",
       "rendered_yomi_before": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再掲/サイケイ 載/載 。/。",
-      "rendered_yomi_after": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再掲載/サイケイサイ 。/。",
+      "rendered_yomi_after": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再/サイ 掲載/ケイサイ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "ブログ",
@@ -355,8 +355,12 @@
           "ノミ"
         ],
         [
-          "再掲載",
-          "サイケイサイ"
+          "再",
+          "サイ"
+        ],
+        [
+          "掲載",
+          "ケイサイ"
         ],
         [
           "。",
@@ -517,13 +521,24 @@
           ]
         },
         {
-          "surface": "再掲載",
-          "reading": "サイケイサイ",
+          "surface": "再",
+          "reading": "サイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "再掲載",
-              "reading": "さいけいさい"
+              "text": "再",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "掲載",
+          "reading": "ケイサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "掲載",
+              "reading": "けいさい"
             }
           ]
         },
@@ -551,14 +566,14 @@
           "unit_id": "ja_cc_level2:0000001556:u0022",
           "text": "ブログカードは既に上で貼ったので、文字リンクのみ再掲載。",
           "rendered_yomi_before": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再掲/サイケイ 載/載 。/。",
-          "rendered_yomi_after": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再掲載/サイケイサイ 。/。",
+          "rendered_yomi_after": "ブログ/ブログ カード/カード は/ハ 既に/スデニ 上/ウエ で/デ 貼っ/ハッ た/タ の/ノ で/デ 、/、 文字/モジ リンク/リンク のみ/ノミ 再/サイ 掲載/ケイサイ 。/。",
           "display_mapping": {
             "start": 14,
-            "end": 15,
+            "end": 16,
             "char_start": 24,
             "char_end": 27,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
