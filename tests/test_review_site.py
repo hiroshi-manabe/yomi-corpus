@@ -201,6 +201,13 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertNotIn("編集をリセット", page_source)
         self.assertIn("takeNextQueueDocuments", app_source)
 
+    def test_review_ui_polling_cache_key_is_independent_of_page_cache_buster(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
+
+        self.assertEqual(app_source.count("${path}${separator}poll=${bucket}"), 2)
+        self.assertNotIn("${path}${separator}v=${bucket}", app_source)
+
     def test_review_ui_never_exposes_batch_local_document_numbers(self) -> None:
         repository_root = Path(__file__).resolve().parents[1]
         app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
