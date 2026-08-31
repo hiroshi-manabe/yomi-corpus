@@ -1,0 +1,4258 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0156_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0156",
+  "created_at_epoch": 1788141475,
+  "created_at": "2026-08-31T01:57:55Z",
+  "item_count": 5,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 5,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001521",
+      "doc_seq": 1,
+      "track_doc_seq": 1521,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1521,
+      "preview": "素晴らしいのは分かってる。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001522",
+      "doc_seq": 2,
+      "track_doc_seq": 1522,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1522,
+      "preview": "激レア☆古い物に目がない方におすすめの、チョコラブのティン缶です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001523",
+      "doc_seq": 3,
+      "track_doc_seq": 1523,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1523,
+      "preview": "今日は4485Jタワーの決算勝負しました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-31T01:57:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001524",
+      "doc_seq": 4,
+      "track_doc_seq": 1524,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1524,
+      "preview": "行政・企業・子育て支援団体が参加します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001525",
+      "doc_seq": 5,
+      "track_doc_seq": 1525,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1525,
+      "preview": "富士宮ライオンズクラブの環境保全事業についての情報です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-31T01:57:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 2,
+      "to_seq": 5,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001526",
+      "doc_seq": 6,
+      "track_doc_seq": 1526,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1526,
+      "preview": "白いサラサラの粉が入ったこちらの商品。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001527",
+      "doc_seq": 7,
+      "track_doc_seq": 1527,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1527,
+      "preview": "スカーフのようなものがいいと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001528",
+      "doc_seq": 8,
+      "track_doc_seq": 1528,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1528,
+      "preview": "ある男性が、「酔っ払って気を失っているうちに、地元の祭りの生贄にされた」と主張している。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001529",
+      "doc_seq": 9,
+      "track_doc_seq": 1529,
+      "unit_count": 46,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1529,
+      "preview": "とにかく、終活中の皆さん、 こんなことはありませんか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 46,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001530",
+      "doc_seq": 10,
+      "track_doc_seq": 1530,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1530,
+      "preview": "※区内の新規感染者が多数発生しているため、令和4年１月27日以降、当面の間、感染者の概要は、区分（職員、児童・園児など）と人数に要約して公表します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T01:56:46Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001523:u0016::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001523",
+      "doc_seq": 3,
+      "track_doc_seq": 1523,
+      "unit_id": "ja_cc_level2:0000001523:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1523,
+      "text": "私史上最高数のRT数でした。",
+      "rendered_yomi_before": "私史/シシ 上/ジョウ 最高/サイコウ 数/スウ の/ノ RT/リツイート 数/スウ でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "私/ワタシ 史上/シジョウ 最高/サイコウ 数/スウ の/ノ RT/リツイート 数/スウ でし/デシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "私",
+          "ワタシ"
+        ],
+        [
+          "史上",
+          "シジョウ"
+        ],
+        [
+          "最高",
+          "サイコウ"
+        ],
+        [
+          "数",
+          "スウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "RT",
+          "リツイート"
+        ],
+        [
+          "数",
+          "スウ"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "私",
+          "reading": "ワタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "私",
+              "reading": "わたし"
+            }
+          ]
+        },
+        {
+          "surface": "史上",
+          "reading": "シジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "史上",
+              "reading": "しじょう"
+            }
+          ]
+        },
+        {
+          "surface": "最高",
+          "reading": "サイコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最高",
+              "reading": "さいこう"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "スウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "RT",
+          "reading": "リツイート",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "RT",
+              "reading": "りついーと"
+            }
+          ]
+        },
+        {
+          "surface": "数",
+          "reading": "スウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "数",
+              "reading": "すう"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+          "item_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+          "unit_id": "ja_cc_level2:0000001523:u0016",
+          "text": "私史上最高数のRT数でした。",
+          "rendered_yomi_before": "私史/シシ 上/ジョウ 最高/サイコウ 数/スウ の/ノ RT/リツイート 数/スウ でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "私/ワタシ 史上/シジョウ 最高/サイコウ 数/スウ の/ノ RT/リツイート 数/スウ でし/デシ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001523:u0016:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "私史",
+              "token_surface": "私史",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "私史",
+                  "reading": "しし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001523:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001523:u0016:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "私史",
+              "token_surface": "私史",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "私史",
+                  "reading": "しし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001523:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "上",
+              "token_surface": "上",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "上",
+                  "reading": "じょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "私史上",
+          "reading_candidates": {
+            "私": [
+              "わたし",
+              "わたくし",
+              "あたし",
+              "し"
+            ],
+            "私史": [
+              "しし"
+            ],
+            "史": [
+              "あや",
+              "し",
+              "ちかし",
+              "ひさし",
+              "ふひと",
+              "ふびと",
+              "ふみ",
+              "ふみと",
+              "ふみひと"
+            ],
+            "史上": [
+              "しじょう"
+            ],
+            "上": [
+              "じょう",
+              "うえ",
+              "あげ",
+              "うわ",
+              "かみ",
+              "かみの",
+              "かむら",
+              "たかし",
+              "のぼる"
+            ]
+          },
+          "reading_hints": {
+            "私": "わたし",
+            "私史": "しし",
+            "史": "あや",
+            "史上": "しじょう",
+            "上": "じょう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "私史",
+              "reading": "しし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"私\",\"reading\":\"わたし\",\"used_web_search\":false,\"comment\":\"文脈上の代名詞なので「わたし」と読むのが自然です。\"},{\"surface\":\"史上\",\"reading\":\"しじょう\",\"used_web_search\":false,\"comment\":\"「史上最高」で使う語で、一般的な読みは「しじょう」です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "私",
+              "reading": "わたし",
+              "used_web_search": false,
+              "comment": "文脈上の代名詞なので「わたし」と読むのが自然です。"
+            },
+            {
+              "surface": "史上",
+              "reading": "しじょう",
+              "used_web_search": false,
+              "comment": "「史上最高」で使う語で、一般的な読みは「しじょう」です。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上の代名詞なので「わたし」と読むのが自然です。",
+            "「史上最高」で使う語で、一般的な読みは「しじょう」です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "私史上",
+            "replacement": [
+              {
+                "surface": "私",
+                "reading": "ワタシ"
+              },
+              {
+                "surface": "史上",
+                "reading": "シジョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+                "surface": "私史上",
+                "comment": "文脈上の代名詞なので「わたし」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+                "surface": "私史上",
+                "comment": "「史上最高」で使う語で、一般的な読みは「しじょう」です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "私史上",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001523:u0016:s0001-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "私史",
+          "token_surface": "私史",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "私史",
+              "reading": "しし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001523:u0016:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "上",
+          "token_surface": "上",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "上",
+              "reading": "じょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "私史",
+          "reading": "しし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "上",
+          "reading": "じょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "私": [
+          "わたし",
+          "わたくし",
+          "あたし",
+          "し"
+        ],
+        "私史": [
+          "しし"
+        ],
+        "史": [
+          "あや",
+          "し",
+          "ちかし",
+          "ひさし",
+          "ふひと",
+          "ふびと",
+          "ふみ",
+          "ふみと",
+          "ふみひと"
+        ],
+        "史上": [
+          "しじょう"
+        ],
+        "上": [
+          "じょう",
+          "うえ",
+          "あげ",
+          "うわ",
+          "かみ",
+          "かみの",
+          "かむら",
+          "たかし",
+          "のぼる"
+        ]
+      },
+      "reading_hints": {
+        "私": "わたし",
+        "私史": "しし",
+        "史": "あや",
+        "史上": "しじょう",
+        "上": "じょう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "私",
+          "reading": "わたし",
+          "used_web_search": false,
+          "comment": "文脈上の代名詞なので「わたし」と読むのが自然です。"
+        },
+        {
+          "surface": "史上",
+          "reading": "しじょう",
+          "used_web_search": false,
+          "comment": "「史上最高」で使う語で、一般的な読みは「しじょう」です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"私\",\"reading\":\"わたし\",\"used_web_search\":false,\"comment\":\"文脈上の代名詞なので「わたし」と読むのが自然です。\"},{\"surface\":\"史上\",\"reading\":\"しじょう\",\"used_web_search\":false,\"comment\":\"「史上最高」で使う語で、一般的な読みは「しじょう」です。\"}]",
+      "llm_comments": [
+        "文脈上の代名詞なので「わたし」と読むのが自然です。",
+        "「史上最高」で使う語で、一般的な読みは「しじょう」です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "私史上",
+        "replacement": [
+          {
+            "surface": "私",
+            "reading": "ワタシ"
+          },
+          {
+            "surface": "史上",
+            "reading": "シジョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+            "surface": "私史上",
+            "comment": "文脈上の代名詞なので「わたし」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001523:u0016::target_group:1",
+            "surface": "私史上",
+            "comment": "「史上最高」で使う語で、一般的な読みは「しじょう」です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001525:u0005::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001525",
+      "doc_seq": 5,
+      "track_doc_seq": 1525,
+      "unit_id": "ja_cc_level2:0000001525:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1525,
+      "text": "３月１３日（土） 富士山の登山道沿いにある「かえでの里」の整備事業を行いました。",
+      "rendered_yomi_before": "３/ 月/ガツ １３/ 日/ニチ （/（ 土/ド ）/）  /  富士山/フジサン の/ノ 登山/トザン 道沿い/ミチゾイ に/ニ ある/アル 「/「 かえで/カエデ の/ノ 里/サト 」/」 の/ノ 整備/セイビ 事業/ジギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "３/ 月/ガツ １３/ 日/ニチ （/（ 土/ド ）/） \\s/ 富士山/フジサン の/ノ 登山道/トザンドウ 沿い/ゾイ に/ニ ある/アル 「/「 かえで/カエデ の/ノ 里/サト 」/」 の/ノ 整備/セイビ 事業/ジギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "３",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "１３",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "土",
+          "ド"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "富士山",
+          "フジサン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "登山道",
+          "トザンドウ"
+        ],
+        [
+          "沿い",
+          "ゾイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "かえで",
+          "カエデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "里",
+          "サト"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "整備",
+          "セイビ"
+        ],
+        [
+          "事業",
+          "ジギョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行い",
+          "オコナイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "１３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１３"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "土",
+          "reading": "ド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "土",
+              "reading": "ど"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "富士山",
+          "reading": "フジサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富士山",
+              "reading": "ふじさん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "登山道",
+          "reading": "トザンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登山道",
+              "reading": "とざんどう"
+            }
+          ]
+        },
+        {
+          "surface": "沿い",
+          "reading": "ゾイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "沿",
+              "reading": "ぞ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "かえで",
+          "reading": "カエデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かえで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "里",
+          "reading": "サト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "里",
+              "reading": "さと"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "整備",
+          "reading": "セイビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "整備",
+              "reading": "せいび"
+            }
+          ]
+        },
+        {
+          "surface": "事業",
+          "reading": "ジギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事業",
+              "reading": "じぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行い",
+          "reading": "オコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000001525:u0005",
+          "text": "３月１３日（土） 富士山の登山道沿いにある「かえでの里」の整備事業を行いました。",
+          "rendered_yomi_before": "３/ 月/ガツ １３/ 日/ニチ （/（ 土/ド ）/）  /  富士山/フジサン の/ノ 登山/トザン 道沿い/ミチゾイ に/ニ ある/アル 「/「 かえで/カエデ の/ノ 里/サト 」/」 の/ノ 整備/セイビ 事業/ジギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "３/ 月/ガツ １３/ 日/ニチ （/（ 土/ド ）/） \\s/ 富士山/フジサン の/ノ 登山道/トザンドウ 沿い/ゾイ に/ニ ある/アル 「/「 かえで/カエデ の/ノ 里/サト 」/」 の/ノ 整備/セイビ 事業/ジギョウ を/ヲ 行い/オコナイ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 12,
+            "char_start": 13,
+            "char_end": 18,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0005:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山",
+              "token_surface": "登山",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山",
+                  "reading": "とざん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0005:s0016-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "道沿い",
+              "token_surface": "道沿い",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みちぞい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "道沿い",
+                  "reading": "みちぞい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0005:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山",
+              "token_surface": "登山",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山",
+                  "reading": "とざん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0005:s0016-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "道沿い",
+              "token_surface": "道沿い",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みちぞい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "道沿い",
+                  "reading": "みちぞい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "登山道沿い",
+          "reading_candidates": {
+            "登": [
+              "とう",
+              "のぼり",
+              "のぼる",
+              "みのる"
+            ],
+            "登山": [
+              "とざん"
+            ],
+            "登山道": [
+              "とざんどう"
+            ],
+            "山": [
+              "さん",
+              "ざん",
+              "せん",
+              "やま"
+            ],
+            "山道": [
+              "やまみち",
+              "さんどう"
+            ],
+            "道": [
+              "どう",
+              "みち",
+              "おさむ",
+              "とおる",
+              "みちの"
+            ],
+            "道沿い": [
+              "みちぞい"
+            ],
+            "沿": [
+              "そい",
+              "ぞい"
+            ],
+            "沿い": [
+              "そい",
+              "ぞい"
+            ]
+          },
+          "reading_hints": {
+            "登": "とう",
+            "登山": "とざん",
+            "登山道": "とざんどう",
+            "山": "さん",
+            "山道": "やまみち",
+            "道": "どう",
+            "道沿い": "みちぞい",
+            "沿": "そい",
+            "沿い": "そい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "登山",
+              "reading": "とざん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "道沿い",
+              "reading": "みちぞい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"「登山道」は一語で「とざんどう」と読むのが自然です。\"},{\"surface\":\"沿い\",\"reading\":\"ぞい\",\"used_web_search\":false,\"comment\":\"「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "登山道",
+              "reading": "とざんどう",
+              "used_web_search": false,
+              "comment": "「登山道」は一語で「とざんどう」と読むのが自然です。"
+            },
+            {
+              "surface": "沿い",
+              "reading": "ぞい",
+              "used_web_search": false,
+              "comment": "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。"
+            }
+          ],
+          "llm_comments": [
+            "「登山道」は一語で「とざんどう」と読むのが自然です。",
+            "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "登山道沿い",
+            "replacement": [
+              {
+                "surface": "登山道",
+                "reading": "トザンドウ"
+              },
+              {
+                "surface": "沿い",
+                "reading": "ゾイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+                "surface": "登山道沿い",
+                "comment": "「登山道」は一語で「とざんどう」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+                "surface": "登山道沿い",
+                "comment": "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "登山道沿い",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001525:u0005:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "登山",
+          "token_surface": "登山",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とざん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "登山",
+              "reading": "とざん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001525:u0005:s0016-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "道沿い",
+          "token_surface": "道沿い",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みちぞい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "道沿い",
+              "reading": "みちぞい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "登山",
+          "reading": "とざん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "道沿い",
+          "reading": "みちぞい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "登": [
+          "とう",
+          "のぼり",
+          "のぼる",
+          "みのる"
+        ],
+        "登山": [
+          "とざん"
+        ],
+        "登山道": [
+          "とざんどう"
+        ],
+        "山": [
+          "さん",
+          "ざん",
+          "せん",
+          "やま"
+        ],
+        "山道": [
+          "やまみち",
+          "さんどう"
+        ],
+        "道": [
+          "どう",
+          "みち",
+          "おさむ",
+          "とおる",
+          "みちの"
+        ],
+        "道沿い": [
+          "みちぞい"
+        ],
+        "沿": [
+          "そい",
+          "ぞい"
+        ],
+        "沿い": [
+          "そい",
+          "ぞい"
+        ]
+      },
+      "reading_hints": {
+        "登": "とう",
+        "登山": "とざん",
+        "登山道": "とざんどう",
+        "山": "さん",
+        "山道": "やまみち",
+        "道": "どう",
+        "道沿い": "みちぞい",
+        "沿": "そい",
+        "沿い": "そい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "登山道",
+          "reading": "とざんどう",
+          "used_web_search": false,
+          "comment": "「登山道」は一語で「とざんどう」と読むのが自然です。"
+        },
+        {
+          "surface": "沿い",
+          "reading": "ぞい",
+          "used_web_search": false,
+          "comment": "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"「登山道」は一語で「とざんどう」と読むのが自然です。\"},{\"surface\":\"沿い\",\"reading\":\"ぞい\",\"used_web_search\":false,\"comment\":\"「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。\"}]",
+      "llm_comments": [
+        "「登山道」は一語で「とざんどう」と読むのが自然です。",
+        "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "登山道沿い",
+        "replacement": [
+          {
+            "surface": "登山道",
+            "reading": "トザンドウ"
+          },
+          {
+            "surface": "沿い",
+            "reading": "ゾイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+            "surface": "登山道沿い",
+            "comment": "「登山道」は一語で「とざんどう」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001525:u0005::target_group:1",
+            "surface": "登山道沿い",
+            "comment": "「〜沿い」は接尾的に「ぞい」と読むため、ここは「ぞい」です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001525:u0007::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001525",
+      "doc_seq": 5,
+      "track_doc_seq": 1525,
+      "unit_id": "ja_cc_level2:0000001525:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1525,
+      "text": "１１月２３日（月）『彩りある街道づくり』事業が登山道沿いで行われました。",
+      "rendered_yomi_before": "１１/ 月/ガツ ２３/ 日/ニチ （/（ 月/ゲツ ）/） 『/『 彩り/イロドリ ある/アル 街道/カイドウ づくり/ヅクリ 』/』 事業/ジギョウ が/ガ 登山/トザン 道沿い/ミチゾイ で/デ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "１１/ 月/ガツ ２３/ 日/ニチ （/（ 月/ゲツ ）/） 『/『 彩り/イロドリ ある/アル 街道/カイドウ づくり/ヅクリ 』/』 事業/ジギョウ が/ガ 登山道/トザンドウ 沿い/ゾイ で/デ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "１１",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "２３",
+          ""
+        ],
+        [
+          "日",
+          "ニチ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "月",
+          "ゲツ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "彩り",
+          "イロドリ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "街道",
+          "カイドウ"
+        ],
+        [
+          "づくり",
+          "ヅクリ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "事業",
+          "ジギョウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "登山道",
+          "トザンドウ"
+        ],
+        [
+          "沿い",
+          "ゾイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "行わ",
+          "オコナワ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "１１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１１"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "２３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２３"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ニチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "にち"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ゲツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "げつ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "彩り",
+          "reading": "イロドリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "彩",
+              "reading": "いろど"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "街道",
+          "reading": "カイドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "街道",
+              "reading": "かいどう"
+            }
+          ]
+        },
+        {
+          "surface": "づくり",
+          "reading": "ヅクリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "づくり"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "事業",
+          "reading": "ジギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事業",
+              "reading": "じぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "登山道",
+          "reading": "トザンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登山道",
+              "reading": "とざんどう"
+            }
+          ]
+        },
+        {
+          "surface": "沿い",
+          "reading": "ゾイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "沿",
+              "reading": "ぞ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "行わ",
+          "reading": "オコナワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+          "item_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+          "unit_id": "ja_cc_level2:0000001525:u0007",
+          "text": "１１月２３日（月）『彩りある街道づくり』事業が登山道沿いで行われました。",
+          "rendered_yomi_before": "１１/ 月/ガツ ２３/ 日/ニチ （/（ 月/ゲツ ）/） 『/『 彩り/イロドリ ある/アル 街道/カイドウ づくり/ヅクリ 』/』 事業/ジギョウ が/ガ 登山/トザン 道沿い/ミチゾイ で/デ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "１１/ 月/ガツ ２３/ 日/ニチ （/（ 月/ゲツ ）/） 『/『 彩り/イロドリ ある/アル 街道/カイドウ づくり/ヅクリ 』/』 事業/ジギョウ が/ガ 登山道/トザンドウ 沿い/ゾイ で/デ 行わ/オコナワ れ/レ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 17,
+            "char_start": 23,
+            "char_end": 28,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0007:s0024-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山",
+              "token_surface": "登山",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山",
+                  "reading": "とざん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0007:s0026-0028",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "道沿い",
+              "token_surface": "道沿い",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みちぞい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "道沿い",
+                  "reading": "みちぞい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0007:s0024-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山",
+              "token_surface": "登山",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山",
+                  "reading": "とざん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0007:s0026-0028",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "道沿い",
+              "token_surface": "道沿い",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "みちぞい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "道沿い",
+                  "reading": "みちぞい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "登山道沿い",
+          "reading_candidates": {
+            "登": [
+              "とう",
+              "のぼり",
+              "のぼる",
+              "みのる"
+            ],
+            "登山": [
+              "とざん"
+            ],
+            "登山道": [
+              "とざんどう"
+            ],
+            "山": [
+              "さん",
+              "ざん",
+              "せん",
+              "やま"
+            ],
+            "山道": [
+              "やまみち",
+              "さんどう"
+            ],
+            "道": [
+              "どう",
+              "みち",
+              "おさむ",
+              "とおる",
+              "みちの"
+            ],
+            "道沿い": [
+              "みちぞい"
+            ],
+            "沿": [
+              "そい",
+              "ぞい"
+            ],
+            "沿い": [
+              "そい",
+              "ぞい"
+            ]
+          },
+          "reading_hints": {
+            "登": "とう",
+            "登山": "とざん",
+            "登山道": "とざんどう",
+            "山": "さん",
+            "山道": "やまみち",
+            "道": "どう",
+            "道沿い": "みちぞい",
+            "沿": "そい",
+            "沿い": "そい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "登山",
+              "reading": "とざん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "道沿い",
+              "reading": "みちぞい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"「登山道」は一語で「とざんどう」と読むため。\"},{\"surface\":\"沿い\",\"reading\":\"ぞい\",\"used_web_search\":false,\"comment\":\"後ろに付く「沿い」は「ぞい」と読むのが自然なため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "登山道",
+              "reading": "とざんどう",
+              "used_web_search": false,
+              "comment": "「登山道」は一語で「とざんどう」と読むため。"
+            },
+            {
+              "surface": "沿い",
+              "reading": "ぞい",
+              "used_web_search": false,
+              "comment": "後ろに付く「沿い」は「ぞい」と読むのが自然なため。"
+            }
+          ],
+          "llm_comments": [
+            "「登山道」は一語で「とざんどう」と読むため。",
+            "後ろに付く「沿い」は「ぞい」と読むのが自然なため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "登山道沿い",
+            "replacement": [
+              {
+                "surface": "登山道",
+                "reading": "トザンドウ"
+              },
+              {
+                "surface": "沿い",
+                "reading": "ゾイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+                "surface": "登山道沿い",
+                "comment": "「登山道」は一語で「とざんどう」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+                "surface": "登山道沿い",
+                "comment": "後ろに付く「沿い」は「ぞい」と読むのが自然なため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "登山道沿い",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001525:u0007:s0024-0025",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "登山",
+          "token_surface": "登山",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とざん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "登山",
+              "reading": "とざん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001525:u0007:s0026-0028",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "道沿い",
+          "token_surface": "道沿い",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "みちぞい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "道沿い",
+              "reading": "みちぞい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "登山",
+          "reading": "とざん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "道沿い",
+          "reading": "みちぞい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "登": [
+          "とう",
+          "のぼり",
+          "のぼる",
+          "みのる"
+        ],
+        "登山": [
+          "とざん"
+        ],
+        "登山道": [
+          "とざんどう"
+        ],
+        "山": [
+          "さん",
+          "ざん",
+          "せん",
+          "やま"
+        ],
+        "山道": [
+          "やまみち",
+          "さんどう"
+        ],
+        "道": [
+          "どう",
+          "みち",
+          "おさむ",
+          "とおる",
+          "みちの"
+        ],
+        "道沿い": [
+          "みちぞい"
+        ],
+        "沿": [
+          "そい",
+          "ぞい"
+        ],
+        "沿い": [
+          "そい",
+          "ぞい"
+        ]
+      },
+      "reading_hints": {
+        "登": "とう",
+        "登山": "とざん",
+        "登山道": "とざんどう",
+        "山": "さん",
+        "山道": "やまみち",
+        "道": "どう",
+        "道沿い": "みちぞい",
+        "沿": "そい",
+        "沿い": "そい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "登山道",
+          "reading": "とざんどう",
+          "used_web_search": false,
+          "comment": "「登山道」は一語で「とざんどう」と読むため。"
+        },
+        {
+          "surface": "沿い",
+          "reading": "ぞい",
+          "used_web_search": false,
+          "comment": "後ろに付く「沿い」は「ぞい」と読むのが自然なため。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"「登山道」は一語で「とざんどう」と読むため。\"},{\"surface\":\"沿い\",\"reading\":\"ぞい\",\"used_web_search\":false,\"comment\":\"後ろに付く「沿い」は「ぞい」と読むのが自然なため。\"}]",
+      "llm_comments": [
+        "「登山道」は一語で「とざんどう」と読むため。",
+        "後ろに付く「沿い」は「ぞい」と読むのが自然なため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "登山道沿い",
+        "replacement": [
+          {
+            "surface": "登山道",
+            "reading": "トザンドウ"
+          },
+          {
+            "surface": "沿い",
+            "reading": "ゾイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+            "surface": "登山道沿い",
+            "comment": "「登山道」は一語で「とざんどう」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001525:u0007::target_group:1",
+            "surface": "登山道沿い",
+            "comment": "後ろに付く「沿い」は「ぞい」と読むのが自然なため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001525:u0012::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000001525",
+      "doc_seq": 5,
+      "track_doc_seq": 1525,
+      "unit_id": "ja_cc_level2:0000001525:u0012",
+      "unit_seq": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1525,
+      "text": "３月２４日に当クラブ主催で富士山登山道清掃奉仕作業が「かえでの里」をベースに登り３キロ区間内で展開されました。",
+      "rendered_yomi_before": "３/ 月/ガツ ２４日/ニジュウヨッカ に/ニ 当/トウ クラブ/クラブ 主催/シュサイ で/デ 富士/フジ 山登/ヤマトウ 山道/サンドウ 清掃/セイソウ 奉仕/ホウシ 作業/サギョウ が/ガ 「/「 かえで/カエデ の/ノ 里/サト 」/」 を/ヲ ベース/ベース に/ニ 登り/ノボリ ３/ キロ/キロ 区間/クカン 内/ナイ で/デ 展開/テンカイ さ/サ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "３/ 月/ガツ ２４日/ニジュウヨッカ に/ニ 当/トウ クラブ/クラブ 主催/シュサイ で/デ 富士山/フジサン 登山道/トザンドウ 清掃/セイソウ 奉仕/ホウシ 作業/サギョウ が/ガ 「/「 かえで/カエデ の/ノ 里/サト 」/」 を/ヲ ベース/ベース に/ニ 登り/ノボリ ３/ キロ/キロ 区間/クカン 内/ナイ で/デ 展開/テンカイ さ/サ れ/レ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "３",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "２４日",
+          "ニジュウヨッカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "当",
+          "トウ"
+        ],
+        [
+          "クラブ",
+          "クラブ"
+        ],
+        [
+          "主催",
+          "シュサイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "富士山",
+          "フジサン"
+        ],
+        [
+          "登山道",
+          "トザンドウ"
+        ],
+        [
+          "清掃",
+          "セイソウ"
+        ],
+        [
+          "奉仕",
+          "ホウシ"
+        ],
+        [
+          "作業",
+          "サギョウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "かえで",
+          "カエデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "里",
+          "サト"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ベース",
+          "ベース"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "登り",
+          "ノボリ"
+        ],
+        [
+          "３",
+          ""
+        ],
+        [
+          "キロ",
+          "キロ"
+        ],
+        [
+          "区間",
+          "クカン"
+        ],
+        [
+          "内",
+          "ナイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "展開",
+          "テンカイ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "２４日",
+          "reading": "ニジュウヨッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "２４日",
+              "reading": "にじゅうよっか"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "当",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "当",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "クラブ",
+          "reading": "クラブ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "クラブ"
+            }
+          ]
+        },
+        {
+          "surface": "主催",
+          "reading": "シュサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主催",
+              "reading": "しゅさい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "富士山",
+          "reading": "フジサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富士山",
+              "reading": "ふじさん"
+            }
+          ]
+        },
+        {
+          "surface": "登山道",
+          "reading": "トザンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登山道",
+              "reading": "とざんどう"
+            }
+          ]
+        },
+        {
+          "surface": "清掃",
+          "reading": "セイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "清掃",
+              "reading": "せいそう"
+            }
+          ]
+        },
+        {
+          "surface": "奉仕",
+          "reading": "ホウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "奉仕",
+              "reading": "ほうし"
+            }
+          ]
+        },
+        {
+          "surface": "作業",
+          "reading": "サギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作業",
+              "reading": "さぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "かえで",
+          "reading": "カエデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かえで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "里",
+          "reading": "サト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "里",
+              "reading": "さと"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ベース",
+          "reading": "ベース",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ベース"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "登り",
+          "reading": "ノボリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登",
+              "reading": "のぼ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "３"
+            }
+          ]
+        },
+        {
+          "surface": "キロ",
+          "reading": "キロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "キロ"
+            }
+          ]
+        },
+        {
+          "surface": "区間",
+          "reading": "クカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区間",
+              "reading": "くかん"
+            }
+          ]
+        },
+        {
+          "surface": "内",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内",
+              "reading": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "展開",
+          "reading": "テンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "展開",
+              "reading": "てんかい"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+          "item_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+          "unit_id": "ja_cc_level2:0000001525:u0012",
+          "text": "３月２４日に当クラブ主催で富士山登山道清掃奉仕作業が「かえでの里」をベースに登り３キロ区間内で展開されました。",
+          "rendered_yomi_before": "３/ 月/ガツ ２４日/ニジュウヨッカ に/ニ 当/トウ クラブ/クラブ 主催/シュサイ で/デ 富士/フジ 山登/ヤマトウ 山道/サンドウ 清掃/セイソウ 奉仕/ホウシ 作業/サギョウ が/ガ 「/「 かえで/カエデ の/ノ 里/サト 」/」 を/ヲ ベース/ベース に/ニ 登り/ノボリ ３/ キロ/キロ 区間/クカン 内/ナイ で/デ 展開/テンカイ さ/サ れ/レ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "３/ 月/ガツ ２４日/ニジュウヨッカ に/ニ 当/トウ クラブ/クラブ 主催/シュサイ で/デ 富士山/フジサン 登山道/トザンドウ 清掃/セイソウ 奉仕/ホウシ 作業/サギョウ が/ガ 「/「 かえで/カエデ の/ノ 里/サト 」/」 を/ヲ ベース/ベース に/ニ 登り/ノボリ ３/ キロ/キロ 区間/クカン 内/ナイ で/デ 展開/テンカイ さ/サ れ/レ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 10,
+            "char_start": 13,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富士",
+              "token_surface": "富士",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富士",
+                  "reading": "ふじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山登",
+              "token_surface": "山登",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やまとう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "山登",
+                  "reading": "やまとう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山道",
+              "token_surface": "山道",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さんどう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "山道",
+                  "reading": "さんどう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富士",
+              "token_surface": "富士",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富士",
+                  "reading": "ふじ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0016-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山登",
+              "token_surface": "山登",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やまとう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "山登",
+                  "reading": "やまとう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0012:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "山道",
+              "token_surface": "山道",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さんどう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "山道",
+                  "reading": "さんどう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "富士山登山道",
+          "reading_candidates": {
+            "富": [
+              "あつし",
+              "とま",
+              "とみ",
+              "とむ",
+              "とめり",
+              "ひさし",
+              "ふ"
+            ],
+            "富士": [
+              "ふじ"
+            ],
+            "富士山": [
+              "ふじさん",
+              "ふじやま"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ],
+            "山": [
+              "さん",
+              "ざん",
+              "せん",
+              "やま"
+            ],
+            "山登": [
+              "やまと",
+              "やまとう"
+            ],
+            "登": [
+              "とう",
+              "のぼり",
+              "のぼる",
+              "みのる"
+            ],
+            "登山": [
+              "とざん"
+            ],
+            "登山道": [
+              "とざんどう"
+            ],
+            "山道": [
+              "やまみち",
+              "さんどう"
+            ],
+            "道": [
+              "どう",
+              "みち",
+              "おさむ",
+              "とおる",
+              "みちの"
+            ]
+          },
+          "reading_hints": {
+            "富": "あつし",
+            "富士": "ふじ",
+            "富士山": "ふじさん",
+            "士": "あきら",
+            "山": "さん",
+            "山登": "やまと",
+            "登": "とう",
+            "登山": "とざん",
+            "登山道": "とざんどう",
+            "山道": "やまみち",
+            "道": "どう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "富士",
+              "reading": "ふじ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "山登",
+              "reading": "やまとう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "山道",
+              "reading": "さんどう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"富士山\",\"reading\":\"ふじさん\",\"used_web_search\":false,\"comment\":\"固有名詞として「ふじさん」と読むのが自然。\"},{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"一般語で「登山道」は「とざんどう」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "富士山",
+              "reading": "ふじさん",
+              "used_web_search": false,
+              "comment": "固有名詞として「ふじさん」と読むのが自然。"
+            },
+            {
+              "surface": "登山道",
+              "reading": "とざんどう",
+              "used_web_search": false,
+              "comment": "一般語で「登山道」は「とざんどう」。"
+            }
+          ],
+          "llm_comments": [
+            "固有名詞として「ふじさん」と読むのが自然。",
+            "一般語で「登山道」は「とざんどう」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+            "status": "applied",
+            "rejected_span": "富士山登山道",
+            "replacement": [
+              {
+                "surface": "富士山",
+                "reading": "フジサン"
+              },
+              {
+                "surface": "登山道",
+                "reading": "トザンドウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+                "surface": "富士山登山道",
+                "comment": "固有名詞として「ふじさん」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+                "surface": "富士山登山道",
+                "comment": "一般語で「登山道」は「とざんどう」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "富士山登山道",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001525:u0012:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "富士",
+          "token_surface": "富士",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ふじ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "富士",
+              "reading": "ふじ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001525:u0012:s0016-0017",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "山登",
+          "token_surface": "山登",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やまとう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "山登",
+              "reading": "やまとう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001525:u0012:s0018-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "山道",
+          "token_surface": "山道",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さんどう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "山道",
+              "reading": "さんどう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "富士",
+          "reading": "ふじ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "山登",
+          "reading": "やまとう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "山道",
+          "reading": "さんどう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "富": [
+          "あつし",
+          "とま",
+          "とみ",
+          "とむ",
+          "とめり",
+          "ひさし",
+          "ふ"
+        ],
+        "富士": [
+          "ふじ"
+        ],
+        "富士山": [
+          "ふじさん",
+          "ふじやま"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ],
+        "山": [
+          "さん",
+          "ざん",
+          "せん",
+          "やま"
+        ],
+        "山登": [
+          "やまと",
+          "やまとう"
+        ],
+        "登": [
+          "とう",
+          "のぼり",
+          "のぼる",
+          "みのる"
+        ],
+        "登山": [
+          "とざん"
+        ],
+        "登山道": [
+          "とざんどう"
+        ],
+        "山道": [
+          "やまみち",
+          "さんどう"
+        ],
+        "道": [
+          "どう",
+          "みち",
+          "おさむ",
+          "とおる",
+          "みちの"
+        ]
+      },
+      "reading_hints": {
+        "富": "あつし",
+        "富士": "ふじ",
+        "富士山": "ふじさん",
+        "士": "あきら",
+        "山": "さん",
+        "山登": "やまと",
+        "登": "とう",
+        "登山": "とざん",
+        "登山道": "とざんどう",
+        "山道": "やまみち",
+        "道": "どう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "富士山",
+          "reading": "ふじさん",
+          "used_web_search": false,
+          "comment": "固有名詞として「ふじさん」と読むのが自然。"
+        },
+        {
+          "surface": "登山道",
+          "reading": "とざんどう",
+          "used_web_search": false,
+          "comment": "一般語で「登山道」は「とざんどう」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"富士山\",\"reading\":\"ふじさん\",\"used_web_search\":false,\"comment\":\"固有名詞として「ふじさん」と読むのが自然。\"},{\"surface\":\"登山道\",\"reading\":\"とざんどう\",\"used_web_search\":false,\"comment\":\"一般語で「登山道」は「とざんどう」。\"}]",
+      "llm_comments": [
+        "固有名詞として「ふじさん」と読むのが自然。",
+        "一般語で「登山道」は「とざんどう」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+        "status": "applied",
+        "rejected_span": "富士山登山道",
+        "replacement": [
+          {
+            "surface": "富士山",
+            "reading": "フジサン"
+          },
+          {
+            "surface": "登山道",
+            "reading": "トザンドウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+            "surface": "富士山登山道",
+            "comment": "固有名詞として「ふじさん」と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001525:u0012::target_group:1",
+            "surface": "富士山登山道",
+            "comment": "一般語で「登山道」は「とざんどう」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001525:u0013::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000001525",
+      "doc_seq": 5,
+      "track_doc_seq": 1525,
+      "unit_id": "ja_cc_level2:0000001525:u0013",
+      "unit_seq": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1525,
+      "text": "今事業は富士宮市区長会の役員有志の参加も得られ、世界遺産富士山登山道の清掃を　好天の中行いました。",
+      "rendered_yomi_before": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ 　/　 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山登山道/フジサントザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "今",
+          "コン"
+        ],
+        [
+          "事業",
+          "ジギョウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "富士宮市",
+          "フジノミヤシ"
+        ],
+        [
+          "区長会",
+          "クチョウカイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "役員",
+          "ヤクイン"
+        ],
+        [
+          "有志",
+          "ユウシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "参加",
+          "サンカ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "得",
+          "エ"
+        ],
+        [
+          "られ",
+          "ラレ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "世界",
+          "セカイ"
+        ],
+        [
+          "遺産",
+          "イサン"
+        ],
+        [
+          "富士山登山道",
+          "フジサントザンドウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "清掃",
+          "セイソウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "好天",
+          "コウテン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "中",
+          "ナカ"
+        ],
+        [
+          "行い",
+          "オコナイ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今",
+          "reading": "コン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今",
+              "reading": "こん"
+            }
+          ]
+        },
+        {
+          "surface": "事業",
+          "reading": "ジギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事業",
+              "reading": "じぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "富士宮市",
+          "reading": "フジノミヤシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富士宮市",
+              "reading": "ふじのみやし"
+            }
+          ]
+        },
+        {
+          "surface": "区長会",
+          "reading": "クチョウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区長会",
+              "reading": "くちょうかい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "役員",
+          "reading": "ヤクイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "役員",
+              "reading": "やくいん"
+            }
+          ]
+        },
+        {
+          "surface": "有志",
+          "reading": "ユウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "有志",
+              "reading": "ゆうし"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "参加",
+          "reading": "サンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参加",
+              "reading": "さんか"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "得",
+          "reading": "エ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "得",
+              "reading": "え"
+            }
+          ]
+        },
+        {
+          "surface": "られ",
+          "reading": "ラレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "られ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "世界",
+          "reading": "セカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "世界",
+              "reading": "せかい"
+            }
+          ]
+        },
+        {
+          "surface": "遺産",
+          "reading": "イサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺産",
+              "reading": "いさん"
+            }
+          ]
+        },
+        {
+          "surface": "富士山登山道",
+          "reading": "フジサントザンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富士山登山道",
+              "reading": "ふじさんとざんどう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "清掃",
+          "reading": "セイソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "清掃",
+              "reading": "せいそう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "好天",
+          "reading": "コウテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "好天",
+              "reading": "こうてん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "ナカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "なか"
+            }
+          ]
+        },
+        {
+          "surface": "行い",
+          "reading": "オコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+          "item_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+          "unit_id": "ja_cc_level2:0000001525:u0013",
+          "text": "今事業は富士宮市区長会の役員有志の参加も得られ、世界遺産富士山登山道の清掃を　好天の中行いました。",
+          "rendered_yomi_before": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ 　/　 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山登山道/フジサントザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 16,
+            "end": 17,
+            "char_start": 28,
+            "char_end": 34,
+            "start_offset": 0,
+            "end_offset": 6,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0013:s0029-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富士山",
+              "token_surface": "富士山",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじさん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富士山",
+                  "reading": "ふじさん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0013:s0032-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山道",
+              "token_surface": "登山道",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざんどう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山道",
+                  "reading": "とざんどう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001525:u0013:s0029-0031",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富士山",
+              "token_surface": "富士山",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ふじさん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富士山",
+                  "reading": "ふじさん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001525:u0013:s0032-0034",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "登山道",
+              "token_surface": "登山道",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とざんどう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "登山道",
+                  "reading": "とざんどう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "富士山登山道",
+          "reading_candidates": {
+            "富": [
+              "あつし",
+              "とま",
+              "とみ",
+              "とむ",
+              "とめり",
+              "ひさし",
+              "ふ"
+            ],
+            "富士": [
+              "ふじ"
+            ],
+            "富士山": [
+              "ふじさん",
+              "ふじやま"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ],
+            "山": [
+              "さん",
+              "ざん",
+              "せん",
+              "やま"
+            ],
+            "山登": [
+              "やまと",
+              "やまとう"
+            ],
+            "登": [
+              "とう",
+              "のぼり",
+              "のぼる",
+              "みのる"
+            ],
+            "登山": [
+              "とざん"
+            ],
+            "登山道": [
+              "とざんどう"
+            ],
+            "山道": [
+              "やまみち",
+              "さんどう"
+            ],
+            "道": [
+              "どう",
+              "みち",
+              "おさむ",
+              "とおる",
+              "みちの"
+            ]
+          },
+          "reading_hints": {
+            "富": "あつし",
+            "富士": "ふじ",
+            "富士山": "ふじさん",
+            "士": "あきら",
+            "山": "さん",
+            "山登": "やまと",
+            "登": "とう",
+            "登山": "とざん",
+            "登山道": "とざんどう",
+            "山道": "やまみち",
+            "道": "どう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "富士山",
+              "reading": "ふじさん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "登山道",
+              "reading": "とざんどう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"富士山登山道\",\"reading\":\"ふじさんとざんどう\",\"used_web_search\":false,\"comment\":\"「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "富士山登山道",
+              "reading": "ふじさんとざんどう",
+              "used_web_search": false,
+              "comment": "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。"
+            }
+          ],
+          "llm_comments": [
+            "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+            "status": "applied",
+            "rejected_span": "富士山登山道",
+            "replacement": [
+              {
+                "surface": "富士山登山道",
+                "reading": "フジサントザンドウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+                "surface": "富士山登山道",
+                "comment": "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "富士山登山道",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001525:u0013:s0029-0031",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "富士山",
+          "token_surface": "富士山",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ふじさん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "富士山",
+              "reading": "ふじさん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001525:u0013:s0032-0034",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "登山道",
+          "token_surface": "登山道",
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とざんどう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "登山道",
+              "reading": "とざんどう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "富士山",
+          "reading": "ふじさん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "登山道",
+          "reading": "とざんどう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "富": [
+          "あつし",
+          "とま",
+          "とみ",
+          "とむ",
+          "とめり",
+          "ひさし",
+          "ふ"
+        ],
+        "富士": [
+          "ふじ"
+        ],
+        "富士山": [
+          "ふじさん",
+          "ふじやま"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ],
+        "山": [
+          "さん",
+          "ざん",
+          "せん",
+          "やま"
+        ],
+        "山登": [
+          "やまと",
+          "やまとう"
+        ],
+        "登": [
+          "とう",
+          "のぼり",
+          "のぼる",
+          "みのる"
+        ],
+        "登山": [
+          "とざん"
+        ],
+        "登山道": [
+          "とざんどう"
+        ],
+        "山道": [
+          "やまみち",
+          "さんどう"
+        ],
+        "道": [
+          "どう",
+          "みち",
+          "おさむ",
+          "とおる",
+          "みちの"
+        ]
+      },
+      "reading_hints": {
+        "富": "あつし",
+        "富士": "ふじ",
+        "富士山": "ふじさん",
+        "士": "あきら",
+        "山": "さん",
+        "山登": "やまと",
+        "登": "とう",
+        "登山": "とざん",
+        "登山道": "とざんどう",
+        "山道": "やまみち",
+        "道": "どう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "富士山登山道",
+          "reading": "ふじさんとざんどう",
+          "used_web_search": false,
+          "comment": "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"富士山登山道\",\"reading\":\"ふじさんとざんどう\",\"used_web_search\":false,\"comment\":\"「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。\"}]",
+      "llm_comments": [
+        "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+        "status": "applied",
+        "rejected_span": "富士山登山道",
+        "replacement": [
+          {
+            "surface": "富士山登山道",
+            "reading": "フジサントザンドウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001525:u0013::target_group:1",
+            "surface": "富士山登山道",
+            "comment": "「富士山登山道」は一続きの語として自然で、文脈上も富士山の登山道を指すため全体で読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
