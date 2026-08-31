@@ -9,7 +9,6 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Any
 from urllib.error import URLError
 from urllib.parse import quote
@@ -27,6 +26,9 @@ REVIEW_ROOT = PROJECT_ROOT / "docs" / "review"
 REVIEW_MANIFEST = REVIEW_ROOT / "manifest.json"
 DEFAULT_MESSAGE = "Publish review page artifacts"
 GIT_REMOTE_TIMEOUT_SECONDS = 30
+GH_PAGES_WORKTREE = (
+    PROJECT_ROOT / "data" / "state" / "review_site" / "gh-pages-worktree"
+)
 STATIC_REVIEW_ARTIFACTS = (
     "index.html",
     "app.js",
@@ -296,50 +298,142 @@ def publish_to_gh_pages(*, message: str, push: bool) -> str:
         raise SystemExit("docs/index.html is missing; regenerate review artifacts first.")
     if not REVIEW_ROOT.exists():
         raise SystemExit("docs/review is missing; regenerate review artifacts first.")
-    with TemporaryDirectory(prefix="yomi-corpus-gh-pages-") as tmp:
-        worktree = Path(tmp) / "worktree"
-        branch_exists = remote_branch_exists("gh-pages")
-        if branch_exists:
-            run_git_remote(["fetch", "origin", "gh-pages"])
-            run_git(["worktree", "add", "-B", "gh-pages", str(worktree), "origin/gh-pages"])
-        else:
-            run_git(["worktree", "add", "--detach", str(worktree), "HEAD"])
+    branch_exists = remote_branch_exists("gh-pages")
+    worktree = prepare_gh_pages_worktree(
+        GH_PAGES_WORKTREE,
+        branch_exists=branch_exists,
+    )
+    stats = sync_pages_snapshot(
+        worktree=worktree,
+        docs_index=docs_index,
+        review_root=REVIEW_ROOT,
+    )
+    print(
+        "Managed gh-pages worktree sync: "
+        f"{stats['copied']} copied, {stats['unchanged']} unchanged, "
+        f"{stats['removed']} removed."
+    )
+    run_git_in(worktree, ["add", "--all"])
+    if not has_staged_changes_in(worktree):
+        sha = git_output_in(worktree, ["rev-parse", "HEAD"])
+        print(f"No gh-pages artifact changes to publish ({sha[:12]}).")
+        return sha
+    run_git_in(worktree, ["commit", "-m", message])
+    sha = git_output_in(worktree, ["rev-parse", "HEAD"])
+    if push:
+        run_git_remote(["push", "origin", "HEAD:gh-pages"], cwd=worktree)
+    else:
+        print(f"Created local gh-pages commit {sha[:12]}; push skipped.")
+    return sha
+
+
+def prepare_gh_pages_worktree(worktree: Path, *, branch_exists: bool) -> Path:
+    if branch_exists:
+        run_git_remote(["fetch", "origin", "gh-pages"])
+    if not valid_git_worktree(worktree):
+        if worktree.exists():
+            remove_path(worktree)
+        run_git(["worktree", "prune"])
+        worktree.parent.mkdir(parents=True, exist_ok=True)
+        start_point = "origin/gh-pages" if branch_exists else "HEAD"
+        run_git(["worktree", "add", "--detach", str(worktree), start_point])
+        if not branch_exists:
             run_git_in(worktree, ["checkout", "--orphan", "gh-pages"])
-        try:
-            clear_pages_worktree(worktree)
-            shutil.copy2(docs_index, worktree / "index.html")
-            shutil.copytree(REVIEW_ROOT, worktree / "review")
-            (worktree / ".nojekyll").write_text("", encoding="utf-8")
-            run_git_in(worktree, ["add", "--all"])
-            if not has_staged_changes_in(worktree):
-                sha = git_output_in(worktree, ["rev-parse", "HEAD"])
-                print(f"No gh-pages artifact changes to publish ({sha[:12]}).")
-                return sha
-            run_git_in(worktree, ["commit", "-m", message])
-            sha = git_output_in(worktree, ["rev-parse", "HEAD"])
-            if push:
-                run_git_remote(["push", "-u", "origin", "gh-pages"], cwd=worktree)
-            else:
-                print(f"Created local gh-pages commit {sha[:12]}; push skipped.")
-            return sha
-        finally:
-            subprocess.run(
-                ["git", "worktree", "remove", "--force", str(worktree)],
-                cwd=PROJECT_ROOT,
-                check=False,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
+    if branch_exists:
+        run_git_in(worktree, ["reset", "--hard", "origin/gh-pages"])
+        run_git_in(worktree, ["clean", "-fdx"])
+    return worktree
 
 
-def clear_pages_worktree(worktree: Path) -> None:
-    for child in worktree.iterdir():
-        if child.name == ".git":
-            continue
-        if child.is_dir() and not child.is_symlink():
-            shutil.rmtree(child)
+def valid_git_worktree(path: Path) -> bool:
+    if not path.is_dir() or not (path / ".git").exists():
+        return False
+    result = subprocess.run(
+        ["git", "rev-parse", "--is-inside-work-tree"],
+        cwd=path,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return result.returncode == 0 and result.stdout.strip() == "true"
+
+
+def sync_pages_snapshot(
+    *,
+    worktree: Path,
+    docs_index: Path,
+    review_root: Path,
+) -> dict[str, int]:
+    stats = {"copied": 0, "unchanged": 0, "removed": 0}
+    expected_root_names = {".git", ".nojekyll", "index.html", "review"}
+    for child in list(worktree.iterdir()):
+        if child.name not in expected_root_names:
+            remove_path(child)
+            stats["removed"] += 1
+    sync_file(docs_index, worktree / "index.html", stats=stats)
+    sync_directory_snapshot(review_root, worktree / "review", stats=stats)
+    nojekyll = worktree / ".nojekyll"
+    if nojekyll.exists() and nojekyll.is_file() and nojekyll.stat().st_size == 0:
+        stats["unchanged"] += 1
+    else:
+        remove_path(nojekyll)
+        nojekyll.write_text("", encoding="utf-8")
+        stats["copied"] += 1
+    return stats
+
+
+def sync_directory_snapshot(
+    source: Path,
+    destination: Path,
+    *,
+    stats: dict[str, int],
+) -> None:
+    if destination.exists() and not destination.is_dir():
+        remove_path(destination)
+        stats["removed"] += 1
+    destination.mkdir(parents=True, exist_ok=True)
+    source_names = {child.name for child in source.iterdir()}
+    for child in list(destination.iterdir()):
+        if child.name not in source_names:
+            remove_path(child)
+            stats["removed"] += 1
+    for source_child in source.iterdir():
+        destination_child = destination / source_child.name
+        if source_child.is_dir():
+            sync_directory_snapshot(source_child, destination_child, stats=stats)
         else:
-            child.unlink()
+            sync_file(source_child, destination_child, stats=stats)
+
+
+def sync_file(source: Path, destination: Path, *, stats: dict[str, int]) -> None:
+    if files_have_same_content(source, destination):
+        stats["unchanged"] += 1
+        return
+    if destination.exists() or destination.is_symlink():
+        remove_path(destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, destination)
+    stats["copied"] += 1
+
+
+def files_have_same_content(left: Path, right: Path) -> bool:
+    if not right.is_file() or left.stat().st_size != right.stat().st_size:
+        return False
+    with left.open("rb") as left_handle, right.open("rb") as right_handle:
+        while True:
+            left_chunk = left_handle.read(1024 * 1024)
+            right_chunk = right_handle.read(1024 * 1024)
+            if left_chunk != right_chunk:
+                return False
+            if not left_chunk:
+                return True
+
+
+def remove_path(path: Path) -> None:
+    if path.is_dir() and not path.is_symlink():
+        shutil.rmtree(path)
+    elif path.exists() or path.is_symlink():
+        path.unlink()
 
 
 def remote_branch_exists(branch_name: str) -> bool:

@@ -471,7 +471,7 @@ def _publish_review_site_unlocked(
     review_output_dir = docs_root / "review"
     pack_output_dir = review_output_dir / "packs"
 
-    clear_directory(review_output_dir)
+    clear_directory_except(review_output_dir, preserved_names={"archive"})
     review_output_dir.mkdir(parents=True, exist_ok=True)
     pack_output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -479,11 +479,15 @@ def _publish_review_site_unlocked(
     rewrite_index_asset_versions(review_output_dir)
     write_root_redirect(docs_root / "index.html")
 
+    finalized_documents = None
     finalized_document_keys = None
     if project_root is not None:
+        finalized_documents = collect_finalized_archive_documents(
+            Path(project_root), DEV_TRACK
+        )
         finalized_document_keys = {
             (int(doc["track_doc_seq"]), str(doc.get("doc_id") or ""))
-            for doc in collect_finalized_archive_documents(Path(project_root), DEV_TRACK)
+            for doc in finalized_documents
         }
     entries = collect_review_pack_entries(
         review_root,
@@ -529,6 +533,7 @@ def _publish_review_site_unlocked(
             project_root=project_root,
             review_output_dir=review_output_dir,
             review_pack_entries=entries,
+            finalized_documents_by_track={DEV_TRACK: finalized_documents or []},
         )
         manifest["archive"] = archive_manifest
 
@@ -548,15 +553,21 @@ def publish_review_archive(
     review_output_dir: str | Path,
     shard_size: int = ARCHIVE_SHARD_SIZE,
     review_pack_entries: list[dict] | None = None,
+    finalized_documents_by_track: dict[str, list[dict]] | None = None,
 ) -> dict:
     root = Path(project_root)
     output_root = Path(review_output_dir) / "archive"
-    clear_directory(output_root)
     output_root.mkdir(parents=True, exist_ok=True)
 
     tracks: dict[str, dict[str, Any]] = {}
+    expected_paths: set[Path] = {output_root / "index.json"}
+    generation_stats = {"reused": 0, "written": 0, "removed": 0}
     for track_name in [DEV_TRACK]:
-        documents = collect_finalized_archive_documents(root, track_name)
+        documents = (
+            finalized_documents_by_track.get(track_name, [])
+            if finalized_documents_by_track is not None
+            else collect_finalized_archive_documents(root, track_name)
+        )
         track_dir = output_root / track_name
         track_dir.mkdir(parents=True, exist_ok=True)
         shards = write_archive_shards(
@@ -564,6 +575,10 @@ def publish_review_archive(
             output_root=track_dir,
             url_prefix=f"./archive/{track_name}",
             shard_size=shard_size,
+            generation_stats=generation_stats,
+        )
+        expected_paths.update(
+            track_dir / Path(str(shard["path"])).name for shard in shards
         )
         search_path = write_archive_search_index(
             documents,
@@ -576,6 +591,7 @@ def publish_review_archive(
                 finalized_documents=documents,
             ),
         )
+        expected_paths.add(track_dir / Path(search_path).name)
         document_summaries = [
             archive_document_summary(doc, shards=shards) for doc in documents
         ]
@@ -603,6 +619,15 @@ def publish_review_archive(
     (output_root / "index.json").write_text(
         json.dumps(index, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
+    )
+    generation_stats["removed"] = remove_stale_archive_paths(
+        output_root, expected_paths=expected_paths
+    )
+    print(
+        "Review archive shards: "
+        f"{generation_stats['reused']} reused, "
+        f"{generation_stats['written']} written, "
+        f"{generation_stats['removed']} stale paths removed."
     )
     return {
         "index_path": "./archive/index.json",
@@ -1033,6 +1058,7 @@ def write_archive_shards(
     output_root: Path,
     url_prefix: str,
     shard_size: int,
+    generation_stats: dict[str, int] | None = None,
 ) -> list[dict]:
     shards: list[dict] = []
     if shard_size <= 0:
@@ -1052,10 +1078,14 @@ def write_archive_shards(
             "document_count": len(shard_docs),
             "documents": shard_docs,
         }
-        (output_root / filename).write_text(
-            json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
-            encoding="utf-8",
-        )
+        shard_path = output_root / filename
+        if archive_shard_is_current(shard_path, payload):
+            if generation_stats is not None:
+                generation_stats["reused"] = generation_stats.get("reused", 0) + 1
+        else:
+            write_json_atomically(shard_path, payload, compact=True)
+            if generation_stats is not None:
+                generation_stats["written"] = generation_stats.get("written", 0) + 1
         shards.append(
             {
                 "path": f"{url_prefix}/{filename}",
@@ -1066,6 +1096,74 @@ def write_archive_shards(
             }
         )
     return shards
+
+
+def archive_shard_is_current(path: Path, expected: dict) -> bool:
+    if not path.is_file():
+        return False
+    try:
+        existing = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    scalar_keys = (
+        "schema_version",
+        "shard_index",
+        "start_track_doc_seq",
+        "end_track_doc_seq",
+        "document_count",
+    )
+    if any(existing.get(key) != expected.get(key) for key in scalar_keys):
+        return False
+    existing_documents = existing.get("documents")
+    expected_documents = expected.get("documents")
+    if not isinstance(existing_documents, list) or not isinstance(expected_documents, list):
+        return False
+    if len(existing_documents) != len(expected_documents):
+        return False
+    identity_keys = ("track_doc_seq", "doc_id", "archive_revision")
+    return all(
+        all(existing_doc.get(key) == expected_doc.get(key) for key in identity_keys)
+        for existing_doc, expected_doc in zip(existing_documents, expected_documents)
+    )
+
+
+def write_json_atomically(path: Path, payload: dict, *, compact: bool) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = path.with_name(f".{path.name}.tmp")
+    rendered = json.dumps(
+        payload,
+        ensure_ascii=False,
+        separators=(",", ":") if compact else None,
+        indent=None if compact else 2,
+    ) + "\n"
+    try:
+        temporary_path.write_text(rendered, encoding="utf-8")
+        temporary_path.replace(path)
+    finally:
+        temporary_path.unlink(missing_ok=True)
+
+
+def remove_stale_archive_paths(
+    output_root: Path,
+    *,
+    expected_paths: set[Path],
+) -> int:
+    expected = {path.resolve() for path in expected_paths}
+    removed = 0
+    paths = list(output_root.rglob("*"))
+    for path in paths:
+        if path.is_file() and path.resolve() not in expected:
+            path.unlink()
+            removed += 1
+    for path in sorted(
+        (candidate for candidate in paths if candidate.is_dir()),
+        key=lambda candidate: len(candidate.parts),
+        reverse=True,
+    ):
+        if not any(path.iterdir()):
+            path.rmdir()
+            removed += 1
+    return removed
 
 
 def write_archive_search_index(
@@ -1269,6 +1367,18 @@ def clear_directory(path: Path, *, max_attempts: int = 5) -> None:
             return
         time.sleep(0.05 * (attempt + 1))
     raise OSError(errno.ENOTEMPTY, "review output directory remained non-empty", path)
+
+
+def clear_directory_except(path: Path, *, preserved_names: set[str]) -> None:
+    if not path.exists():
+        return
+    for child in list(path.iterdir()):
+        if child.name in preserved_names:
+            continue
+        if child.is_dir() and not child.is_symlink():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
 
 
 def write_root_redirect(path: Path) -> None:

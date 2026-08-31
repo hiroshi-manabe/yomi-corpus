@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import errno
 import json
+import os
 import shutil
 import tempfile
 import unittest
@@ -17,15 +18,97 @@ from yomi_corpus.review_site import (
     collect_review_pack_entries,
     document_belongs_to_pending_pack,
     normalize_archive_yomi_tokens,
+    remove_stale_archive_paths,
     publish_review_archive,
     publish_review_site,
     publish_issue_acknowledgments,
     issue_acknowledgments_need_publish,
     ReviewSitePublishBusy,
+    write_archive_shards,
 )
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_archive_shards_reuse_matching_revisions_and_replace_invalid_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            documents = [
+                {
+                    "track_doc_seq": 1,
+                    "doc_id": "doc-1",
+                    "archive_revision": "revision-1",
+                    "text": "first",
+                }
+            ]
+            stats = {"reused": 0, "written": 0}
+            write_archive_shards(
+                documents,
+                output_root=output_root,
+                url_prefix="./archive/dev",
+                shard_size=1,
+                generation_stats=stats,
+            )
+            shard_path = output_root / "docs_000001_000001.json"
+            fixed_mtime = 1_600_000_000_000_000_000
+            os.utime(shard_path, ns=(fixed_mtime, fixed_mtime))
+
+            write_archive_shards(
+                documents,
+                output_root=output_root,
+                url_prefix="./archive/dev",
+                shard_size=1,
+                generation_stats=stats,
+            )
+
+            self.assertEqual(shard_path.stat().st_mtime_ns, fixed_mtime)
+            self.assertEqual(stats, {"reused": 1, "written": 1})
+
+            changed_documents = [{**documents[0], "archive_revision": "revision-2"}]
+            write_archive_shards(
+                changed_documents,
+                output_root=output_root,
+                url_prefix="./archive/dev",
+                shard_size=1,
+                generation_stats=stats,
+            )
+            changed_payload = json.loads(shard_path.read_text(encoding="utf-8"))
+            self.assertEqual(
+                changed_payload["documents"][0]["archive_revision"], "revision-2"
+            )
+            self.assertEqual(stats, {"reused": 1, "written": 2})
+
+            shard_path.write_text("not json\n", encoding="utf-8")
+            write_archive_shards(
+                changed_documents,
+                output_root=output_root,
+                url_prefix="./archive/dev",
+                shard_size=1,
+                generation_stats=stats,
+            )
+            self.assertEqual(
+                json.loads(shard_path.read_text(encoding="utf-8"))["schema_version"], 1
+            )
+            self.assertEqual(stats, {"reused": 1, "written": 3})
+
+    def test_remove_stale_archive_paths_preserves_expected_files(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            output_root = Path(tmp)
+            expected = output_root / "dev" / "docs_000001_000001.json"
+            stale = output_root / "old" / "docs_999999_999999.json"
+            expected.parent.mkdir(parents=True)
+            stale.parent.mkdir(parents=True)
+            expected.write_text("{}\n", encoding="utf-8")
+            stale.write_text("{}\n", encoding="utf-8")
+
+            removed = remove_stale_archive_paths(
+                output_root, expected_paths={expected}
+            )
+
+            self.assertTrue(expected.exists())
+            self.assertFalse(stale.exists())
+            self.assertFalse(stale.parent.exists())
+            self.assertEqual(removed, 2)
+
     def test_publish_issue_acknowledgments_defers_when_site_is_busy(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

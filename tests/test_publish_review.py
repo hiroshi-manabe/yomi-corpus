@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import runpy
 import subprocess
 import unittest
@@ -16,9 +17,51 @@ parse_github_owner_repo = PUBLISH_REVIEW["parse_github_owner_repo"]
 regenerate_review_artifacts = PUBLISH_REVIEW["regenerate_review_artifacts"]
 remote_branch_exists = PUBLISH_REVIEW["remote_branch_exists"]
 run_git_remote = PUBLISH_REVIEW["run_git_remote"]
+sync_pages_snapshot = PUBLISH_REVIEW["sync_pages_snapshot"]
 
 
 class PublishReviewTests(unittest.TestCase):
+    def test_sync_pages_snapshot_reuses_unchanged_files_and_removes_stale_files(self) -> None:
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs_index = root / "docs" / "index.html"
+            review_root = root / "docs" / "review"
+            worktree = root / "worktree"
+            docs_index.parent.mkdir(parents=True)
+            review_root.mkdir(parents=True)
+            worktree.joinpath("review").mkdir(parents=True)
+            docs_index.write_text("new index\n", encoding="utf-8")
+            review_root.joinpath("same.json").write_text("same\n", encoding="utf-8")
+            review_root.joinpath("changed.json").write_text("new\n", encoding="utf-8")
+            worktree.joinpath("index.html").write_text("old index\n", encoding="utf-8")
+            same_destination = worktree / "review" / "same.json"
+            same_destination.write_text("same\n", encoding="utf-8")
+            worktree.joinpath("review", "changed.json").write_text(
+                "old\n", encoding="utf-8"
+            )
+            worktree.joinpath("review", "stale.json").write_text(
+                "stale\n", encoding="utf-8"
+            )
+            same_mtime = 1_600_000_000_000_000_000
+            same_destination.touch()
+            same_destination.chmod(0o644)
+            os.utime(same_destination, ns=(same_mtime, same_mtime))
+
+            stats = sync_pages_snapshot(
+                worktree=worktree,
+                docs_index=docs_index,
+                review_root=review_root,
+            )
+
+            self.assertEqual(same_destination.stat().st_mtime_ns, same_mtime)
+            self.assertEqual(
+                worktree.joinpath("review", "changed.json").read_text(encoding="utf-8"),
+                "new\n",
+            )
+            self.assertFalse(worktree.joinpath("review", "stale.json").exists())
+            self.assertEqual(worktree.joinpath("index.html").read_text(encoding="utf-8"), "new index\n")
+            self.assertEqual(stats, {"copied": 3, "unchanged": 1, "removed": 1})
+
     def test_collect_review_artifacts_uses_manifest_referenced_packs_only(self) -> None:
         with TemporaryDirectory() as tmp:
             root = Path(tmp).resolve()
