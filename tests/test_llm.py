@@ -944,6 +944,26 @@ class LLMScaffoldingTests(unittest.TestCase):
             self.assertEqual(load_result_item_count(path), 4)
             self.assertEqual(count_result_parse_errors(path), 1)
 
+    def test_result_loaders_preserve_unicode_line_separators_in_json_strings(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "results.jsonl"
+            path.write_text(
+                json.dumps(
+                    {
+                        "item_id": "u1",
+                        "raw_text": "before\u2028middle\u2029after",
+                        "parse_error": None,
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(load_result_item_ids(path), {"u1"})
+            self.assertEqual(load_result_item_count(path), 1)
+            self.assertEqual(count_result_parse_errors(path), 0)
+
     def test_background_records_ignore_truncated_tail_and_write_atomically(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

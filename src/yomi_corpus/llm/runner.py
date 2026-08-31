@@ -695,7 +695,11 @@ def atomic_write_text(path: Path, text: str) -> None:
 def iter_jsonl_rows_tolerating_truncated_tail(path: Path):
     if not path.exists():
         return
-    lines = path.read_text(encoding="utf-8").splitlines()
+    # JSONL records are delimited by LF. str.splitlines() also splits valid JSON
+    # strings containing Unicode line/paragraph separators (U+2028/U+2029).
+    lines = path.read_text(encoding="utf-8").split("\n")
+    if lines and not lines[-1]:
+        lines.pop()
     for index, line in enumerate(lines):
         if not line.strip():
             continue
