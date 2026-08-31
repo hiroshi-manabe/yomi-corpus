@@ -7943,7 +7943,7 @@ async function pollIssueAcknowledgments() {
   }
   const separator = path.includes("?") ? "&" : "?";
   const bucket = Math.floor(Date.now() / 30000);
-  const payload = await fetchJson(`${path}${separator}v=${bucket}`);
+  const payload = await fetchJson(`${path}${separator}poll=${bucket}`);
   const signature = issueAcknowledgmentSignature(payload);
   if (signature === state.issueAcknowledgmentSignature) {
     return false;
@@ -7971,7 +7971,7 @@ async function pollRuntimeStatus() {
   try {
     const separator = path.includes("?") ? "&" : "?";
     const bucket = Math.floor(Date.now() / 30000);
-    const runtimeStatus = await fetchJson(`${path}${separator}v=${bucket}`);
+    const runtimeStatus = await fetchJson(`${path}${separator}poll=${bucket}`);
     if (generation !== state.runtimePollGeneration || automaticRuntimeRefreshIsPaused()) {
       return;
     }
