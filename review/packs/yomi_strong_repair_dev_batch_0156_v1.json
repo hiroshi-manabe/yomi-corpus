@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -83,12 +83,12 @@
       "source_line_no": 1523,
       "preview": "今日は4485Jタワーの決算勝負しました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:15:41Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:22:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +135,12 @@
       "source_line_no": 1525,
       "preview": "富士宮ライオンズクラブの環境保全事業についての情報です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T04:15:41Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T04:22:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -3438,7 +3438,7 @@
       "source_line_no": 1525,
       "text": "今事業は富士宮市区長会の役員有志の参加も得られ、世界遺産富士山登山道の清掃を　好天の中行いました。",
       "rendered_yomi_before": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ 　/　 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山登山道/フジサントザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "今",
@@ -3505,8 +3505,12 @@
           "イサン"
         ],
         [
-          "富士山登山道",
-          "フジサントザンドウ"
+          "富士山",
+          "フジサン"
+        ],
+        [
+          "登山道",
+          "トザンドウ"
         ],
         [
           "の",
@@ -3725,13 +3729,24 @@
           ]
         },
         {
-          "surface": "富士山登山道",
-          "reading": "フジサントザンドウ",
+          "surface": "富士山",
+          "reading": "フジサン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "富士山登山道",
-              "reading": "ふじさんとざんどう"
+              "text": "富士山",
+              "reading": "ふじさん"
+            }
+          ]
+        },
+        {
+          "surface": "登山道",
+          "reading": "トザンドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登山道",
+              "reading": "とざんどう"
             }
           ]
         },
@@ -3867,14 +3882,14 @@
           "unit_id": "ja_cc_level2:0000001525:u0013",
           "text": "今事業は富士宮市区長会の役員有志の参加も得られ、世界遺産富士山登山道の清掃を　好天の中行いました。",
           "rendered_yomi_before": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ 　/　 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山登山道/フジサントザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "今/コン 事業/ジギョウ は/ハ 富士宮市/フジノミヤシ 区長会/クチョウカイ の/ノ 役員/ヤクイン 有志/ユウシ の/ノ 参加/サンカ も/モ 得/エ られ/ラレ 、/、 世界/セカイ 遺産/イサン 富士山/フジサン 登山道/トザンドウ の/ノ 清掃/セイソウ を/ヲ \\u3000/ 好天/コウテン の/ノ 中/ナカ 行い/オコナイ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 16,
-            "end": 17,
+            "end": 18,
             "char_start": 28,
             "char_end": 34,
             "start_offset": 0,
-            "end_offset": 6,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },
