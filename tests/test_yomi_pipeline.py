@@ -23,7 +23,7 @@ from yomi_corpus.yomi.experiments import compare_yomi_experiments
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
     available_strategy_names,
-    normalize_ascii_spaces_for_yomi,
+    normalize_analysis_text_for_yomi,
     render_pairs_from_decoder,
     render_pairs_from_sudachi,
 )
@@ -52,6 +52,31 @@ class YomiPipelineTests(unittest.TestCase):
             [[token.surface for token in row] for row in documents],
             [["BGM"], ["ZE:A"]],
         )
+
+    def test_parse_sudachi_documents_preserves_unicode_line_separators(self) -> None:
+        separators = (
+            "\x0b",
+            "\x0c",
+            "\x1c",
+            "\x1d",
+            "\x1e",
+            "\x85",
+            "\u2028",
+            "\u2029",
+        )
+        for separator in separators:
+            with self.subTest(codepoint=f"U+{ord(separator):04X}"):
+                documents = parse_sudachi_documents(
+                    "前\t名詞\t前\t前\tマエ\n"
+                    f"{separator}\t補助記号\t{separator}\t{separator}\tキゴウ\n"
+                    "後\t名詞\t後\t後\tアト\n"
+                    "EOS\n"
+                )
+
+                self.assertEqual(
+                    [token.surface for token in documents[0]],
+                    ["前", separator, "後"],
+                )
 
     def test_parse_sudachi_preserves_raw_uppercase_unit_collisions(self) -> None:
         documents = parse_sudachi_documents(
@@ -157,16 +182,16 @@ class YomiPipelineTests(unittest.TestCase):
 
     def test_source_text_mapping_restores_original_whitespace(self) -> None:
         mapping = SourceTextMapping(
-            source_text="A B\u3000C\u00a0D",
-            analysis_text="A\u00a0B\u3000C\u00a0D",
+            source_text="A B\tC\u3000D\u00a0E",
+            analysis_text="A\u00a0B\u00a0C\u3000D\u00a0E",
         )
 
         self.assertEqual(
             mapping.restore_partition(
-                ["A", "\u00a0", "B", "\u3000", "C", "\u00a0", "D"],
+                ["A", "\u00a0", "B", "\u00a0", "C", "\u3000", "D", "\u00a0", "E"],
                 stage="test",
             ),
-            ["A", " ", "B", "\u3000", "C", "\u00a0", "D"],
+            ["A", " ", "B", "\t", "C", "\u3000", "D", "\u00a0", "E"],
         )
 
     def test_source_text_mapping_rejects_non_space_normalization(self) -> None:
@@ -1294,8 +1319,11 @@ class YomiPipelineTests(unittest.TestCase):
         )
         self.assertEqual(rendered, "不要/フヨウ \u00a0/\u00a0 \u3000/\u3000 時/トキ")
 
-    def test_normalize_ascii_spaces_for_yomi(self) -> None:
-        self.assertEqual(normalize_ascii_spaces_for_yomi("A B　C"), "A\u00a0B　C")
+    def test_normalize_analysis_text_for_yomi(self) -> None:
+        self.assertEqual(
+            normalize_analysis_text_for_yomi("A B\tC　D"),
+            "A\u00a0B\u00a0C　D",
+        )
 
     @patch("yomi_corpus.yomi.runtime.run_decoder")
     @patch("yomi_corpus.yomi.runtime.run_sudachi")

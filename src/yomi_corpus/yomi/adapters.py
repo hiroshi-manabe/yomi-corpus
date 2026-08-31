@@ -81,8 +81,9 @@ def parse_sudachi_output(stdout: str) -> list[SudachiToken]:
 def parse_sudachi_documents(stdout: str) -> list[list[SudachiToken]]:
     documents: list[list[SudachiToken]] = []
     tokens: list[SudachiToken] = []
-    for raw_line in stdout.splitlines():
-        line = raw_line.rstrip("\n")
+    # Sudachi records are LF-delimited. str.splitlines() also splits on source
+    # characters such as U+0085, U+2028, and U+2029, corrupting their tokens.
+    for line in stdout.split("\n"):
         if not line:
             continue
         if line == "EOS":

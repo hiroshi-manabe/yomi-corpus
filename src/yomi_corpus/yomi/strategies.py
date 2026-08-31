@@ -53,8 +53,8 @@ ARABIC_DIGIT_RUN_RE = re.compile(r"[0-9０-９]+")
 MIXED_ARABIC_NUMERIC_PART_RE = re.compile(r"[0-9０-９]+|[^0-9０-９]+")
 
 
-def normalize_ascii_spaces_for_yomi(text: str) -> str:
-    return text.replace(ASCII_SPACE, NBSP)
+def normalize_analysis_text_for_yomi(text: str) -> str:
+    return text.replace(ASCII_SPACE, NBSP).replace("\t", NBSP)
 
 
 def available_strategy_names() -> list[str]:

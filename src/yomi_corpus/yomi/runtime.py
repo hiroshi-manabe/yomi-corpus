@@ -15,7 +15,7 @@ from yomi_corpus.yomi.post_sudachi import (
 )
 from yomi_corpus.yomi.strategies import (
     apply_strategy,
-    normalize_ascii_spaces_for_yomi,
+    normalize_analysis_text_for_yomi,
     render_pairs_from_decoder,
     render_pairs_from_sudachi,
 )
@@ -31,7 +31,7 @@ def generate_mechanical_yomi(
     config: YomiGenerationConfig,
     strategy_name: str | None = None,
 ) -> MechanicalYomi:
-    normalized_text = normalize_ascii_spaces_for_yomi(text)
+    normalized_text = normalize_analysis_text_for_yomi(text)
     raw_sudachi_tokens = run_sudachi(normalized_text, config, source_text=text)
     normalized_sudachi = normalize_sudachi_tokens(raw_sudachi_tokens, text=text)
     sudachi_tokens = list(normalized_sudachi.tokens)

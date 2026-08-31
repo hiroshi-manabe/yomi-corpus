@@ -42,6 +42,15 @@ compatibility punctuation, `℃`, and parenthesized digits. These morphemes may
 inform a reading, but they must be collapsed into the one original source
 surface before leaving the adapter. Empty canonical surfaces are forbidden.
 
+Sudachi's CLI output uses LF as its record delimiter. Parse it with a literal
+LF split, not Python `str.splitlines()`: `splitlines()` also treats vertical
+tab, form feed, U+001C through U+001E, U+0085, U+2028, and U+2029 as line
+boundaries even though Sudachi preserves those characters as token surfaces.
+TAB is the one separator/control character that cannot be represented
+unambiguously as a surface in Sudachi's tab-separated CLI output. Replace TAB,
+like ASCII space, with NBSP only in the private analysis representation and
+restore the original character immediately after tokenization.
+
 Exact validation is required after:
 
 1. Sudachi and decoder adaptation.
@@ -86,8 +95,8 @@ regenerated instead of being migrated in place.
 1. Add strict validators and the source-boundary mapping abstraction.
 2. Switch new mechanical processing to source-restored surfaces.
 3. Add regression coverage for ASCII space, NBSP, full-width space, tabs,
-   slashes, backslashes, compatibility punctuation, `℃`, parenthesized digits,
-   and supplementary-plane kanji.
+   Unicode line separators, slashes, backslashes, compatibility punctuation,
+   `℃`, parenthesized digits, and supplementary-plane kanji.
 4. Compare old and new processing on representative batches, separating source
    preservation differences from reading or segmentation differences.
 5. Run the migration tool in report-only mode, migrate dev artifacts, and

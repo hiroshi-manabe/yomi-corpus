@@ -4,7 +4,9 @@ from dataclasses import dataclass
 
 
 ASCII_SPACE = " "
+TAB = "\t"
 NBSP = "\u00a0"
+ANALYSIS_NBSP_SOURCE_CHARS = frozenset((ASCII_SPACE, TAB))
 
 
 class SourceSurfaceMappingError(ValueError):
@@ -27,10 +29,10 @@ class SourceTextMapping:
         ):
             if source_char == analysis_char:
                 continue
-            if source_char == ASCII_SPACE and analysis_char == NBSP:
+            if source_char in ANALYSIS_NBSP_SOURCE_CHARS and analysis_char == NBSP:
                 continue
             raise SourceSurfaceMappingError(
-                "analysis normalization changed a non-space source character "
+                "analysis normalization changed a non-placeholder source character "
                 f"at offset {offset}: source={source_char!r}, analysis={analysis_char!r}"
             )
 
