@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -161,12 +161,12 @@
       "source_line_no": 1496,
       "preview": "ハモは大きな口と鋭い歯を持っています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T00:45:02Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T00:57:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -265,12 +265,12 @@
       "source_line_no": 1500,
       "preview": "賀来賢人の新しいCMがちょっとした話題になっています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-08-31T00:45:02Z",
+      "selectable": false,
+      "state_updated_at": "2026-08-31T00:57:10Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1262,7 +1262,7 @@
       "source_line_no": 1500,
       "text": "今日、朝の番組スッキリに長渕剛が生出演して、2曲も歌を披露してくれました。",
       "rendered_yomi_before": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生出/オイデ 演/ヒロシ し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
-      "rendered_yomi_after": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生出演/ナマシュツエン し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生/ナマ 出演/シュツエン し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "今日",
@@ -1305,8 +1305,12 @@
           "ガ"
         ],
         [
-          "生出演",
-          "ナマシュツエン"
+          "生",
+          "ナマ"
+        ],
+        [
+          "出演",
+          "シュツエン"
         ],
         [
           "し",
@@ -1476,13 +1480,24 @@
           ]
         },
         {
-          "surface": "生出演",
-          "reading": "ナマシュツエン",
+          "surface": "生",
+          "reading": "ナマ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "生出演",
-              "reading": "なましゅつえん"
+              "text": "生",
+              "reading": "なま"
+            }
+          ]
+        },
+        {
+          "surface": "出演",
+          "reading": "シュツエン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出演",
+              "reading": "しゅつえん"
             }
           ]
         },
@@ -1653,14 +1668,14 @@
           "unit_id": "ja_cc_level2:0000001500:u0009",
           "text": "今日、朝の番組スッキリに長渕剛が生出演して、2曲も歌を披露してくれました。",
           "rendered_yomi_before": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生出/オイデ 演/ヒロシ し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
-          "rendered_yomi_after": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生出演/ナマシュツエン し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "今日/キョウ 、/、 朝/アサ の/ノ 番組/バングミ スッキリ/スッキリ に/ニ 長渕/ナガブチ 剛/ツヨシ が/ガ 生/ナマ 出演/シュツエン し/シ て/テ 、/、 2/ 曲/キョク も/モ 歌/ウタ を/ヲ 披露/ヒロウ し/シ て/テ くれ/クレ まし/マシ た/タ 。/。",
           "display_mapping": {
             "start": 10,
-            "end": 11,
+            "end": 12,
             "char_start": 16,
             "char_end": 19,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
