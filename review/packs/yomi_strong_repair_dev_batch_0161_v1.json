@@ -1,0 +1,3371 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0161_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0161",
+  "created_at_epoch": 1788157442,
+  "created_at": "2026-08-31T06:24:02Z",
+  "item_count": 5,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 5,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001571",
+      "doc_seq": 1,
+      "track_doc_seq": 1571,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1571,
+      "preview": "ワンルームのインテリア、みなさんどんなインテリアにしていますか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001572",
+      "doc_seq": 2,
+      "track_doc_seq": 1572,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1572,
+      "preview": "農家直営、自家製果実を使ったソフトクリームは、他にない美味しさで、ぜひ味わって欲しいソフトクリームです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-31T06:24:04Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001573",
+      "doc_seq": 3,
+      "track_doc_seq": 1573,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1573,
+      "preview": "お隣の国、韓国にも焼酎があります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001574",
+      "doc_seq": 4,
+      "track_doc_seq": 1574,
+      "unit_count": 48,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1574,
+      "preview": "それこそ、解放軍を敵に回してもかまわないくらい。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 48,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001575",
+      "doc_seq": 5,
+      "track_doc_seq": 1575,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1575,
+      "preview": "立憲民主党が先ごろ、共産、れいわ、社民各党の代表に対し、今夏の参院選1人区での候補者調整について申し入れをした。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-08-31T06:24:04Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 2,
+      "to_seq": 5,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001576",
+      "doc_seq": 6,
+      "track_doc_seq": 1576,
+      "unit_count": 59,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1576,
+      "preview": "SNSで集客するには、とにかくフォロワーが命。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 59,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001577",
+      "doc_seq": 7,
+      "track_doc_seq": 1577,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1577,
+      "preview": "ビジネスにおいてデータ分析を行うことは非常に重要です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001578",
+      "doc_seq": 8,
+      "track_doc_seq": 1578,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1578,
+      "preview": "名古屋大学がアジア各国に設立した「日本法教育研究センター」では、その国で法学を専攻する学生に対して、日本語による日本法教育を行っています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001579",
+      "doc_seq": 9,
+      "track_doc_seq": 1579,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1579,
+      "preview": "ＧＲＯＯＶＥＲ が ２０１６年自社工場 Ｇ　ＹＡＲＤ を開設し、その工場生産で初の作品となったモデル ＫＥＮＳＩＮＧＴＯＮ 。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001580",
+      "doc_seq": 10,
+      "track_doc_seq": 1580,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1580,
+      "preview": "東京外国為替市場で、１ドル＝１０５円台前半と、円安・ドル高が進行していることから、自動車、電機、精密機器、機械など輸出関連の主力銘柄に買いが入った。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-08-31T06:22:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001572:u0014::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001572",
+      "doc_seq": 2,
+      "track_doc_seq": 1572,
+      "unit_id": "ja_cc_level2:0000001572:u0014",
+      "unit_seq": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1572,
+      "text": "北九州市と関門海峡を挟んで対岸にあたる下関市。",
+      "rendered_yomi_before": "北九州市/キタキュウシュウシ と/ト 関門海/カンモンカイ 峡/キョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+      "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門海峡/カンモンカイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "北九州市",
+          "キタキュウシュウシ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "関門海峡",
+          "カンモンカイキョウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "挟ん",
+          "ハサン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "対岸",
+          "タイガン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あたる",
+          "アタル"
+        ],
+        [
+          "下関市",
+          "シモノセキシ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "北九州市",
+          "reading": "キタキュウシュウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "北九州市",
+              "reading": "きたきゅうしゅうし"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "関門海峡",
+          "reading": "カンモンカイキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "関門海峡",
+              "reading": "かんもんかいきょう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "挟ん",
+          "reading": "ハサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "挟",
+              "reading": "はさ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "対岸",
+          "reading": "タイガン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対岸",
+              "reading": "たいがん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あたる",
+          "reading": "アタル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あたる"
+            }
+          ]
+        },
+        {
+          "surface": "下関市",
+          "reading": "シモノセキシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下関市",
+              "reading": "しものせきし"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+          "item_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+          "unit_id": "ja_cc_level2:0000001572:u0014",
+          "text": "北九州市と関門海峡を挟んで対岸にあたる下関市。",
+          "rendered_yomi_before": "北九州市/キタキュウシュウシ と/ト 関門海/カンモンカイ 峡/キョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+          "rendered_yomi_after": "北九州市/キタキュウシュウシ と/ト 関門海峡/カンモンカイキョウ を/ヲ 挟ん/ハサン で/デ 対岸/タイガン に/ニ あたる/アタル 下関市/シモノセキシ 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 5,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001572:u0014:s0006-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "関門海",
+              "token_surface": "関門海",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かんもんかい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "関門海",
+                  "reading": "かんもんかい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001572:u0014:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "峡",
+              "token_surface": "峡",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "峡",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001572:u0014:s0006-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "関門海",
+              "token_surface": "関門海",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かんもんかい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "関門海",
+                  "reading": "かんもんかい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001572:u0014:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "峡",
+              "token_surface": "峡",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "峡",
+                  "reading": "きょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "関門海峡",
+          "reading_candidates": {
+            "関": [
+              "せき",
+              "かん",
+              "ぜき"
+            ],
+            "関門": [
+              "かんもん"
+            ],
+            "関門海": [
+              "かんもんかい"
+            ],
+            "関門海峡": [
+              "かんもんかいきょう"
+            ],
+            "門": [
+              "かど",
+              "もん"
+            ],
+            "海": [
+              "うみ",
+              "かい"
+            ],
+            "海峡": [
+              "かいきょう"
+            ],
+            "峡": [
+              "かい",
+              "きょう"
+            ]
+          },
+          "reading_hints": {
+            "関": "せき",
+            "関門": "かんもん",
+            "関門海": "かんもんかい",
+            "関門海峡": "かんもんかいきょう",
+            "門": "かど",
+            "海": "うみ",
+            "海峡": "かいきょう",
+            "峡": "かい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "関門海",
+              "reading": "かんもんかい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "峡",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"関門海峡\",\"reading\":\"かんもんかいきょう\",\"used_web_search\":false,\"comment\":\"地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "関門海峡",
+              "reading": "かんもんかいきょう",
+              "used_web_search": false,
+              "comment": "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+            "status": "applied",
+            "rejected_span": "関門海峡",
+            "replacement": [
+              {
+                "surface": "関門海峡",
+                "reading": "カンモンカイキョウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+                "surface": "関門海峡",
+                "comment": "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "関門海峡",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001572:u0014:s0006-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "関門海",
+          "token_surface": "関門海",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かんもんかい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "関門海",
+              "reading": "かんもんかい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001572:u0014:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "峡",
+          "token_surface": "峡",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "峡",
+              "reading": "きょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "関門海",
+          "reading": "かんもんかい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "峡",
+          "reading": "きょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "関": [
+          "せき",
+          "かん",
+          "ぜき"
+        ],
+        "関門": [
+          "かんもん"
+        ],
+        "関門海": [
+          "かんもんかい"
+        ],
+        "関門海峡": [
+          "かんもんかいきょう"
+        ],
+        "門": [
+          "かど",
+          "もん"
+        ],
+        "海": [
+          "うみ",
+          "かい"
+        ],
+        "海峡": [
+          "かいきょう"
+        ],
+        "峡": [
+          "かい",
+          "きょう"
+        ]
+      },
+      "reading_hints": {
+        "関": "せき",
+        "関門": "かんもん",
+        "関門海": "かんもんかい",
+        "関門海峡": "かんもんかいきょう",
+        "門": "かど",
+        "海": "うみ",
+        "海峡": "かいきょう",
+        "峡": "かい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "関門海峡",
+          "reading": "かんもんかいきょう",
+          "used_web_search": false,
+          "comment": "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"関門海峡\",\"reading\":\"かんもんかいきょう\",\"used_web_search\":false,\"comment\":\"地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。\"}]",
+      "llm_comments": [
+        "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+        "status": "applied",
+        "rejected_span": "関門海峡",
+        "replacement": [
+          {
+            "surface": "関門海峡",
+            "reading": "カンモンカイキョウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001572:u0014::target_group:1",
+            "surface": "関門海峡",
+            "comment": "地名・海峡名として定着した固有名詞なので、全体を1語で「かんもんかいきょう」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001575:u0001::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001575",
+      "doc_seq": 5,
+      "track_doc_seq": 1575,
+      "unit_id": "ja_cc_level2:0000001575:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1575,
+      "text": "立憲民主党が先ごろ、共産、れいわ、社民各党の代表に対し、今夏の参院選1人区での候補者調整について申し入れをした。",
+      "rendered_yomi_before": "立憲/リッケン 民主/ミンシュ 党/トウ が/ガ 先ごろ/サキゴロ 、/、 共産/キョウサン 、/、 れい/レイ わ/ワ 、/、 社民/シャミン 各党/カクトウ の/ノ 代表/ダイヒョウ に/ニ 対し/タイシ 、/、 今夏/コンカ の/ノ 参院選/サンインセン 1人/ヒトリ 区/ク で/デ の/ノ 候補者/コウホシャ 調整/チョウセイ に/ニ つい/ツイ て/テ 申し入れ/モウシイレ を/ヲ し/シ た/タ 。/。",
+      "rendered_yomi_after": "立憲/リッケン 民主/ミンシュ 党/トウ が/ガ 先ごろ/サキゴロ 、/、 共産/キョウサン 、/、 れい/レイ わ/ワ 、/、 社民/シャミン 各党/カクトウ の/ノ 代表/ダイヒョウ に/ニ 対し/タイシ 、/、 今夏/コンカ の/ノ 参院選/サンインセン 1人/イチニン 区/ク で/デ の/ノ 候補者/コウホシャ 調整/チョウセイ に/ニ つい/ツイ て/テ 申し入れ/モウシイレ を/ヲ し/シ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "立憲",
+          "リッケン"
+        ],
+        [
+          "民主",
+          "ミンシュ"
+        ],
+        [
+          "党",
+          "トウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "先ごろ",
+          "サキゴロ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "共産",
+          "キョウサン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "れい",
+          "レイ"
+        ],
+        [
+          "わ",
+          "ワ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "社民",
+          "シャミン"
+        ],
+        [
+          "各党",
+          "カクトウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "代表",
+          "ダイヒョウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "対し",
+          "タイシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "今夏",
+          "コンカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "参院選",
+          "サンインセン"
+        ],
+        [
+          "1人",
+          "イチニン"
+        ],
+        [
+          "区",
+          "ク"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "候補者",
+          "コウホシャ"
+        ],
+        [
+          "調整",
+          "チョウセイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "つい",
+          "ツイ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "申し入れ",
+          "モウシイレ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "立憲",
+          "reading": "リッケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "立憲",
+              "reading": "りっけん"
+            }
+          ]
+        },
+        {
+          "surface": "民主",
+          "reading": "ミンシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "民主",
+              "reading": "みんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "党",
+          "reading": "トウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "党",
+              "reading": "とう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "先ごろ",
+          "reading": "サキゴロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先",
+              "reading": "さき"
+            },
+            {
+              "type": "text",
+              "text": "ごろ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "共産",
+          "reading": "キョウサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共産",
+              "reading": "きょうさん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "れい",
+          "reading": "レイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れい"
+            }
+          ]
+        },
+        {
+          "surface": "わ",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "社民",
+          "reading": "シャミン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "社民",
+              "reading": "しゃみん"
+            }
+          ]
+        },
+        {
+          "surface": "各党",
+          "reading": "カクトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "各党",
+              "reading": "かくとう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "代表",
+          "reading": "ダイヒョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代表",
+              "reading": "だいひょう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "対し",
+          "reading": "タイシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対",
+              "reading": "たい"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "今夏",
+          "reading": "コンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今夏",
+              "reading": "こんか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "参院選",
+          "reading": "サンインセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参院選",
+              "reading": "さんいんせん"
+            }
+          ]
+        },
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1人",
+              "reading": "いちにん"
+            }
+          ]
+        },
+        {
+          "surface": "区",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "候補者",
+          "reading": "コウホシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "候補者",
+              "reading": "こうほしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "調整",
+          "reading": "チョウセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "調整",
+              "reading": "ちょうせい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "つい",
+          "reading": "ツイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "つい"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "申し入れ",
+          "reading": "モウシイレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "申",
+              "reading": "もう"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            },
+            {
+              "type": "ruby",
+              "text": "入",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+          "item_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+          "unit_id": "ja_cc_level2:0000001575:u0001",
+          "text": "立憲民主党が先ごろ、共産、れいわ、社民各党の代表に対し、今夏の参院選1人区での候補者調整について申し入れをした。",
+          "rendered_yomi_before": "立憲/リッケン 民主/ミンシュ 党/トウ が/ガ 先ごろ/サキゴロ 、/、 共産/キョウサン 、/、 れい/レイ わ/ワ 、/、 社民/シャミン 各党/カクトウ の/ノ 代表/ダイヒョウ に/ニ 対し/タイシ 、/、 今夏/コンカ の/ノ 参院選/サンインセン 1人/ヒトリ 区/ク で/デ の/ノ 候補者/コウホシャ 調整/チョウセイ に/ニ つい/ツイ て/テ 申し入れ/モウシイレ を/ヲ し/シ た/タ 。/。",
+          "rendered_yomi_after": "立憲/リッケン 民主/ミンシュ 党/トウ が/ガ 先ごろ/サキゴロ 、/、 共産/キョウサン 、/、 れい/レイ わ/ワ 、/、 社民/シャミン 各党/カクトウ の/ノ 代表/ダイヒョウ に/ニ 対し/タイシ 、/、 今夏/コンカ の/ノ 参院選/サンインセン 1人/イチニン 区/ク で/デ の/ノ 候補者/コウホシャ 調整/チョウセイ に/ニ つい/ツイ て/テ 申し入れ/モウシイレ を/ヲ し/シ た/タ 。/。",
+          "display_mapping": {
+            "start": 21,
+            "end": 22,
+            "char_start": 34,
+            "char_end": 36,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0001:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0001:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1人",
+          "reading_candidates": {
+            "1人": [
+              "ひとり"
+            ],
+            "人": [
+              "じん",
+              "ひと",
+              "り",
+              "にん",
+              "びと"
+            ]
+          },
+          "reading_hints": {
+            "1人": "ひとり",
+            "人": "じん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"いちにん\",\"used_web_search\":false,\"comment\":\"選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1人",
+              "reading": "いちにん",
+              "used_web_search": false,
+              "comment": "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。"
+            }
+          ],
+          "llm_comments": [
+            "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "1人",
+            "replacement": [
+              {
+                "surface": "1人",
+                "reading": "イチニン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+                "surface": "1人",
+                "comment": "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1人",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001575:u0001:s0035-0036",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "1人",
+          "token_surface": "1人",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひとり",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1人",
+          "reading": "ひとり",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "1人": [
+          "ひとり"
+        ],
+        "人": [
+          "じん",
+          "ひと",
+          "り",
+          "にん",
+          "びと"
+        ]
+      },
+      "reading_hints": {
+        "1人": "ひとり",
+        "人": "じん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1人",
+          "reading": "いちにん",
+          "used_web_search": false,
+          "comment": "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"いちにん\",\"used_web_search\":false,\"comment\":\"選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。\"}]",
+      "llm_comments": [
+        "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "1人",
+        "replacement": [
+          {
+            "surface": "1人",
+            "reading": "イチニン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001575:u0001::target_group:1",
+            "surface": "1人",
+            "comment": "選挙用語の「1人区」は「いちにんく」と読むため、ここは「1人」を「いちにん」とした。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001575:u0004::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001575",
+      "doc_seq": 5,
+      "track_doc_seq": 1575,
+      "unit_id": "ja_cc_level2:0000001575:u0004",
+      "unit_seq": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1575,
+      "text": "夏の参院選は、青森、徳島・高知、鹿児島など32の1人区がある。",
+      "rendered_yomi_before": "夏/ナツ の/ノ 参院選/サンインセン は/ハ 、/、 青森/アオモリ 、/、 徳島/トクシマ ・/・ 高知/コウチ 、/、 鹿児島/カゴシマ など/ナド 32/ の/ノ 1人/ヒトリ 区/ク が/ガ ある/アル 。/。",
+      "rendered_yomi_after": "夏/ナツ の/ノ 参院選/サンインセン は/ハ 、/、 青森/アオモリ 、/、 徳島/トクシマ ・/・ 高知/コウチ 、/、 鹿児島/カゴシマ など/ナド 32/ の/ノ 1人/イチニン 区/ク が/ガ ある/アル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "夏",
+          "ナツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "参院選",
+          "サンインセン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "青森",
+          "アオモリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "徳島",
+          "トクシマ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "高知",
+          "コウチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "鹿児島",
+          "カゴシマ"
+        ],
+        [
+          "など",
+          "ナド"
+        ],
+        [
+          "32",
+          ""
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "1人",
+          "イチニン"
+        ],
+        [
+          "区",
+          "ク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "夏",
+          "reading": "ナツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夏",
+              "reading": "なつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "参院選",
+          "reading": "サンインセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参院選",
+              "reading": "さんいんせん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "青森",
+          "reading": "アオモリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "青森",
+              "reading": "あおもり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "徳島",
+          "reading": "トクシマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "徳島",
+              "reading": "とくしま"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "高知",
+          "reading": "コウチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高知",
+              "reading": "こうち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "鹿児島",
+          "reading": "カゴシマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鹿児島",
+              "reading": "かごしま"
+            }
+          ]
+        },
+        {
+          "surface": "など",
+          "reading": "ナド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "など"
+            }
+          ]
+        },
+        {
+          "surface": "32",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "32"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1人",
+              "reading": "いちにん"
+            }
+          ]
+        },
+        {
+          "surface": "区",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+          "item_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+          "unit_id": "ja_cc_level2:0000001575:u0004",
+          "text": "夏の参院選は、青森、徳島・高知、鹿児島など32の1人区がある。",
+          "rendered_yomi_before": "夏/ナツ の/ノ 参院選/サンインセン は/ハ 、/、 青森/アオモリ 、/、 徳島/トクシマ ・/・ 高知/コウチ 、/、 鹿児島/カゴシマ など/ナド 32/ の/ノ 1人/ヒトリ 区/ク が/ガ ある/アル 。/。",
+          "rendered_yomi_after": "夏/ナツ の/ノ 参院選/サンインセン は/ハ 、/、 青森/アオモリ 、/、 徳島/トクシマ ・/・ 高知/コウチ 、/、 鹿児島/カゴシマ など/ナド 32/ の/ノ 1人/イチニン 区/ク が/ガ ある/アル 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 16,
+            "char_start": 24,
+            "char_end": 26,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0004:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0004:s0025-0026",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1人",
+          "reading_candidates": {
+            "1人": [
+              "ひとり"
+            ],
+            "人": [
+              "じん",
+              "ひと",
+              "り",
+              "にん",
+              "びと"
+            ]
+          },
+          "reading_hints": {
+            "1人": "ひとり",
+            "人": "じん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"イチニン\",\"used_web_search\":false,\"comment\":\"「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1人",
+              "reading": "イチニン",
+              "used_web_search": false,
+              "comment": "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+            "status": "applied",
+            "rejected_span": "1人",
+            "replacement": [
+              {
+                "surface": "1人",
+                "reading": "イチニン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+                "surface": "1人",
+                "comment": "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1人",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001575:u0004:s0025-0026",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "1人",
+          "token_surface": "1人",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひとり",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1人",
+          "reading": "ひとり",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "1人": [
+          "ひとり"
+        ],
+        "人": [
+          "じん",
+          "ひと",
+          "り",
+          "にん",
+          "びと"
+        ]
+      },
+      "reading_hints": {
+        "1人": "ひとり",
+        "人": "じん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "used_web_search": false,
+          "comment": "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"イチニン\",\"used_web_search\":false,\"comment\":\"「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+        "status": "applied",
+        "rejected_span": "1人",
+        "replacement": [
+          {
+            "surface": "1人",
+            "reading": "イチニン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001575:u0004::target_group:1",
+            "surface": "1人",
+            "comment": "「1人区」の一部で、人数の「ひとり」ではなく「いちにん」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001575:u0005::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000001575",
+      "doc_seq": 5,
+      "track_doc_seq": 1575,
+      "unit_id": "ja_cc_level2:0000001575:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1575,
+      "text": "野党はこれまでの参院選で、1人区の候補者一本化を進め、2016年は11勝、2019年は10勝と一定の成果を挙げていた。",
+      "rendered_yomi_before": "野党/ヤトウ は/ハ これ/コレ まで/マデ の/ノ 参院選/サンインセン で/デ 、/、 1人/ヒトリ 区/ク の/ノ 候補者/コウホシャ 一本化/イッポンカ を/ヲ 進め/ススメ 、/、 2016/ 年/ネン は/ハ 11/ 勝/ショウ 、/、 2019/ 年/ネン は/ハ 10/ 勝/ショウ と/ト 一定/イッテイ の/ノ 成果/セイカ を/ヲ 挙げ/アゲ て/テ い/イ た/タ 。/。",
+      "rendered_yomi_after": "野党/ヤトウ は/ハ これ/コレ まで/マデ の/ノ 参院選/サンインセン で/デ 、/、 1人/イチニン 区/ク の/ノ 候補者/コウホシャ 一本化/イッポンカ を/ヲ 進め/ススメ 、/、 2016/ 年/ネン は/ハ 11/ 勝/ショウ 、/、 2019/ 年/ネン は/ハ 10/ 勝/ショウ と/ト 一定/イッテイ の/ノ 成果/セイカ を/ヲ 挙げ/アゲ て/テ い/イ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "野党",
+          "ヤトウ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "これ",
+          "コレ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "参院選",
+          "サンインセン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "1人",
+          "イチニン"
+        ],
+        [
+          "区",
+          "ク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "候補者",
+          "コウホシャ"
+        ],
+        [
+          "一本化",
+          "イッポンカ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "進め",
+          "ススメ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "2016",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "11",
+          ""
+        ],
+        [
+          "勝",
+          "ショウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "2019",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "勝",
+          "ショウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "一定",
+          "イッテイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "成果",
+          "セイカ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "挙げ",
+          "アゲ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "野党",
+          "reading": "ヤトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "野党",
+              "reading": "やとう"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "これ",
+          "reading": "コレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "これ"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "参院選",
+          "reading": "サンインセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "参院選",
+              "reading": "さんいんせん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1人",
+              "reading": "いちにん"
+            }
+          ]
+        },
+        {
+          "surface": "区",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "候補者",
+          "reading": "コウホシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "候補者",
+              "reading": "こうほしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "一本化",
+          "reading": "イッポンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一本化",
+              "reading": "いっぽんか"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "進め",
+          "reading": "ススメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進",
+              "reading": "すす"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "2016",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2016"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "11",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "11"
+            }
+          ]
+        },
+        {
+          "surface": "勝",
+          "reading": "ショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勝",
+              "reading": "しょう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "2019",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2019"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "勝",
+          "reading": "ショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勝",
+              "reading": "しょう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "一定",
+          "reading": "イッテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一定",
+              "reading": "いってい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "成果",
+          "reading": "セイカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "成果",
+              "reading": "せいか"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "挙げ",
+          "reading": "アゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "挙",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "げ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000001575:u0005",
+          "text": "野党はこれまでの参院選で、1人区の候補者一本化を進め、2016年は11勝、2019年は10勝と一定の成果を挙げていた。",
+          "rendered_yomi_before": "野党/ヤトウ は/ハ これ/コレ まで/マデ の/ノ 参院選/サンインセン で/デ 、/、 1人/ヒトリ 区/ク の/ノ 候補者/コウホシャ 一本化/イッポンカ を/ヲ 進め/ススメ 、/、 2016/ 年/ネン は/ハ 11/ 勝/ショウ 、/、 2019/ 年/ネン は/ハ 10/ 勝/ショウ と/ト 一定/イッテイ の/ノ 成果/セイカ を/ヲ 挙げ/アゲ て/テ い/イ た/タ 。/。",
+          "rendered_yomi_after": "野党/ヤトウ は/ハ これ/コレ まで/マデ の/ノ 参院選/サンインセン で/デ 、/、 1人/イチニン 区/ク の/ノ 候補者/コウホシャ 一本化/イッポンカ を/ヲ 進め/ススメ 、/、 2016/ 年/ネン は/ハ 11/ 勝/ショウ 、/、 2019/ 年/ネン は/ハ 10/ 勝/ショウ と/ト 一定/イッテイ の/ノ 成果/セイカ を/ヲ 挙げ/アゲ て/テ い/イ た/タ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 13,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0005:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0005:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1人",
+          "reading_candidates": {
+            "1人": [
+              "ひとり"
+            ],
+            "人": [
+              "じん",
+              "ひと",
+              "り",
+              "にん",
+              "びと"
+            ]
+          },
+          "reading_hints": {
+            "1人": "ひとり",
+            "人": "じん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"いちにん\",\"used_web_search\":false,\"comment\":\"「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1人",
+              "reading": "いちにん",
+              "used_web_search": false,
+              "comment": "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。"
+            }
+          ],
+          "llm_comments": [
+            "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "1人",
+            "replacement": [
+              {
+                "surface": "1人",
+                "reading": "イチニン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+                "surface": "1人",
+                "comment": "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1人",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001575:u0005:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "1人",
+          "token_surface": "1人",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひとり",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1人",
+          "reading": "ひとり",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "1人": [
+          "ひとり"
+        ],
+        "人": [
+          "じん",
+          "ひと",
+          "り",
+          "にん",
+          "びと"
+        ]
+      },
+      "reading_hints": {
+        "1人": "ひとり",
+        "人": "じん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1人",
+          "reading": "いちにん",
+          "used_web_search": false,
+          "comment": "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"いちにん\",\"used_web_search\":false,\"comment\":\"「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。\"}]",
+      "llm_comments": [
+        "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "1人",
+        "replacement": [
+          {
+            "surface": "1人",
+            "reading": "イチニン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001575:u0005::target_group:1",
+            "surface": "1人",
+            "comment": "「1人区」は選挙用語で「いちにんく」と読むため、この「1人」も「いちにん」が自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001575:u0013::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000001575",
+      "doc_seq": 5,
+      "track_doc_seq": 1575,
+      "unit_id": "ja_cc_level2:0000001575:u0013",
+      "unit_seq": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1575,
+      "text": "ではなぜ、立憲は1人区での野党共闘を進めるのだろうか。",
+      "rendered_yomi_before": "で/デ は/ハ なぜ/ナゼ 、/、 立憲/リッケン は/ハ 1人/ヒトリ 区/ク で/デ の/ノ 野党/ヤトウ 共闘/キョウトウ を/ヲ 進める/ススメル の/ノ だろう/ダロウ か/カ 。/。",
+      "rendered_yomi_after": "で/デ は/ハ なぜ/ナゼ 、/、 立憲/リッケン は/ハ 1人/イチニン 区/ク で/デ の/ノ 野党/ヤトウ 共闘/キョウトウ を/ヲ 進める/ススメル の/ノ だろう/ダロウ か/カ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "なぜ",
+          "ナゼ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "立憲",
+          "リッケン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "1人",
+          "イチニン"
+        ],
+        [
+          "区",
+          "ク"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "野党",
+          "ヤトウ"
+        ],
+        [
+          "共闘",
+          "キョウトウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "進める",
+          "ススメル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "だろう",
+          "ダロウ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "なぜ",
+          "reading": "ナゼ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なぜ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "立憲",
+          "reading": "リッケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "立憲",
+              "reading": "りっけん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "1人",
+              "reading": "いちにん"
+            }
+          ]
+        },
+        {
+          "surface": "区",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "区",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "野党",
+          "reading": "ヤトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "野党",
+              "reading": "やとう"
+            }
+          ]
+        },
+        {
+          "surface": "共闘",
+          "reading": "キョウトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共闘",
+              "reading": "きょうとう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "進める",
+          "reading": "ススメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "進",
+              "reading": "すす"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "だろう",
+          "reading": "ダロウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だろう"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+          "item_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+          "unit_id": "ja_cc_level2:0000001575:u0013",
+          "text": "ではなぜ、立憲は1人区での野党共闘を進めるのだろうか。",
+          "rendered_yomi_before": "で/デ は/ハ なぜ/ナゼ 、/、 立憲/リッケン は/ハ 1人/ヒトリ 区/ク で/デ の/ノ 野党/ヤトウ 共闘/キョウトウ を/ヲ 進める/ススメル の/ノ だろう/ダロウ か/カ 。/。",
+          "rendered_yomi_after": "で/デ は/ハ なぜ/ナゼ 、/、 立憲/リッケン は/ハ 1人/イチニン 区/ク で/デ の/ノ 野党/ヤトウ 共闘/キョウトウ を/ヲ 進める/ススメル の/ノ だろう/ダロウ か/カ 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 8,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0013:s0009-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001575:u0013:s0009-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "1人",
+              "token_surface": "1人",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひとり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "1人",
+                  "reading": "ひとり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "1人",
+          "reading_candidates": {
+            "1人": [
+              "ひとり"
+            ],
+            "人": [
+              "じん",
+              "ひと",
+              "り",
+              "にん",
+              "びと"
+            ]
+          },
+          "reading_hints": {
+            "1人": "ひとり",
+            "人": "じん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"イチニン\",\"used_web_search\":false,\"comment\":\"「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "1人",
+              "reading": "イチニン",
+              "used_web_search": false,
+              "comment": "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。"
+            }
+          ],
+          "llm_comments": [
+            "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+            "status": "applied",
+            "rejected_span": "1人",
+            "replacement": [
+              {
+                "surface": "1人",
+                "reading": "イチニン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+                "surface": "1人",
+                "comment": "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "1人",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001575:u0013:s0009-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "1人",
+          "token_surface": "1人",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひとり",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "1人",
+              "reading": "ひとり",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "1人",
+          "reading": "ひとり",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "1人": [
+          "ひとり"
+        ],
+        "人": [
+          "じん",
+          "ひと",
+          "り",
+          "にん",
+          "びと"
+        ]
+      },
+      "reading_hints": {
+        "1人": "ひとり",
+        "人": "じん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "1人",
+          "reading": "イチニン",
+          "used_web_search": false,
+          "comment": "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"1人\",\"reading\":\"イチニン\",\"used_web_search\":false,\"comment\":\"「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。\"}]",
+      "llm_comments": [
+        "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+        "status": "applied",
+        "rejected_span": "1人",
+        "replacement": [
+          {
+            "surface": "1人",
+            "reading": "イチニン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001575:u0013::target_group:1",
+            "surface": "1人",
+            "comment": "「1人区」での「1人」は「いちにん」と読むのが自然。文脈は選挙区の用語。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
