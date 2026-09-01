@@ -17,6 +17,7 @@ from yomi_corpus.review_site import (
     collect_pending_review_search_records,
     collect_review_pack_entries,
     document_belongs_to_pending_pack,
+    finalized_batch_names,
     normalize_archive_yomi_tokens,
     remove_stale_archive_paths,
     publish_review_archive,
@@ -29,6 +30,29 @@ from yomi_corpus.review_site import (
 
 
 class ReviewSiteTests(unittest.TestCase):
+    def test_finalized_archive_excludes_recovery_batches(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            state_dir = root / "data/pipeline/batches"
+            state_dir.mkdir(parents=True)
+            for batch_name, batch_kind in (
+                ("dev_batch_0001", "dev"),
+                ("dev_recovery_cleaner_v1", "recovery"),
+            ):
+                (state_dir / f"{batch_name}.json").write_text(
+                    json.dumps(
+                        {
+                            "batch_name": batch_name,
+                            "track_name": "dev",
+                            "batch_kind": batch_kind,
+                            "current_stage": "yomi_finalized",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+
+            self.assertEqual(finalized_batch_names(root, "dev"), ["dev_batch_0001"])
+
     def test_archive_shards_reuse_matching_revisions_and_replace_invalid_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             output_root = Path(tmp)
