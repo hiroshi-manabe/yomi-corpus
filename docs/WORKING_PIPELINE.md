@@ -2345,6 +2345,18 @@ The first implementation changes representation only. Until an explicit reorder
 tool is used, refill must select exactly the same documents as the previous
 monotonic source-line cursor.
 
+Operator commands:
+
+```bash
+python scripts/manage_processing_order.py dev status
+python scripts/manage_processing_order.py dev init
+python scripts/manage_processing_order.py dev swap 1771 25011
+```
+
+`swap` rejects frozen slots and active refill reservations. Specific production
+reordering should be planned separately; initialization alone does not alter the
+future source sequence.
+
 Corpus Map target:
 
 - add a read-mostly map view over resolved/finalized documents, separate from

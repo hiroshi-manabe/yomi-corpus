@@ -33,7 +33,7 @@ class MechanicalPreflightTests(unittest.TestCase):
             with patch(
                 "yomi_corpus.mechanical_preflight.PipelineWorkspace",
                 side_effect=[live, isolated],
-            ):
+            ), patch("yomi_corpus.mechanical_preflight.copy_processing_order_state"):
                 result = run_mechanical_preflight(
                     root,
                     MechanicalPreflightOptions(track_name="dev", target_documents=2),
@@ -59,7 +59,7 @@ class MechanicalPreflightTests(unittest.TestCase):
             with patch(
                 "yomi_corpus.mechanical_preflight.PipelineWorkspace",
                 side_effect=[live, isolated],
-            ):
+            ), patch("yomi_corpus.mechanical_preflight.copy_processing_order_state"):
                 result = run_mechanical_preflight(
                     root,
                     MechanicalPreflightOptions(track_name="dev", target_documents=2),
@@ -79,7 +79,7 @@ def configure_live_workspace(workspace: MagicMock) -> None:
         "dataset_name": "dataset",
         "dataset_config_path": "config/datasets/ja_cc_level2.toml",
         "dataset_source_path": "/tmp/source.jsonl.gz",
-        "skip_source_line_no": 100,
+        "processing_order_cursor": 101,
         "selected_document_count": 2,
         "selected_documents": [],
     }

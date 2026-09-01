@@ -148,6 +148,7 @@ class PipelineTrackTests(unittest.TestCase):
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
             (root / "data" / "units" / "batch_0001").mkdir(parents=True)
+            write_source_documents(root / "source.jsonl.gz", 5)
 
             with patch.object(workspace, "_load_dataset_config") as mocked_load:
                 mocked_load.return_value = {
@@ -175,12 +176,19 @@ class PipelineTrackTests(unittest.TestCase):
             self.assertEqual(summary["llm_execution_policy"]["yomi_reading"], "background")
             track_state = workspace.load_track_state("working")
             self.assertEqual(track_state.current_batch_name, "batch_0002")
-            self.assertEqual(mocked_extract.call_args.kwargs["skip_source_line_no"], 0)
+            self.assertEqual(
+                mocked_extract.call_args.kwargs["assignments"],
+                [
+                    {"processing_slot": index, "source_line_no": index}
+                    for index in range(1, 6)
+                ],
+            )
 
     def test_prepare_next_batch_pins_track_decoder_model(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
+            write_source_documents(root / "source.jsonl.gz", 2)
             workspace.save_track_state(
                 TrackState(
                     track_name="dev",
@@ -218,6 +226,7 @@ class PipelineTrackTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             workspace = PipelineWorkspace(root)
+            write_source_documents(root / "source.jsonl.gz", 3)
 
             with patch.object(workspace, "_load_dataset_config") as mocked_load:
                 mocked_load.return_value = {
@@ -358,7 +367,6 @@ class PipelineTrackTests(unittest.TestCase):
                     ("demo:0000000004", 4),
                 ],
             )
-
     def test_advance_runs_one_stage_and_persists_state(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1517,6 +1525,18 @@ def make_final_review_batch(root: Path) -> Path:
         encoding="utf-8",
     )
     return batch_dir
+
+
+def write_source_documents(path: Path, count: int) -> None:
+    with gzip.open(path, "wt", encoding="utf-8") as handle:
+        for index in range(1, count + 1):
+            handle.write(
+                json.dumps(
+                    {"text": f"文書{index}です。", "source_file": path.name},
+                    ensure_ascii=False,
+                )
+                + "\n"
+            )
 
 
 if __name__ == "__main__":

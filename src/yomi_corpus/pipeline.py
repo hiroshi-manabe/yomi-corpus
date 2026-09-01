@@ -24,6 +24,7 @@ from yomi_corpus.llm.pricing import DEFAULT_PRICING_CONFIG_PATH
 from yomi_corpus.llm.runner import run_llm_task
 from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.models import UnitRecord, empty_analysis
+from yomi_corpus.processing_order import ProcessingOrderStore
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.adapters import run_sudachi_many
@@ -443,6 +444,9 @@ class PipelineWorkspace:
     def document_ledger_path(self, track_name: str) -> Path:
         return self.document_ledger_root() / f"{normalize_track_name(track_name)}.json"
 
+    def processing_order_store(self, track_name: str) -> ProcessingOrderStore:
+        return ProcessingOrderStore(self.root, normalize_track_name(track_name))
+
     def batch_dir(self, batch_name: str) -> Path:
         return self.units_root() / batch_name
 
@@ -642,16 +646,27 @@ class PipelineWorkspace:
             llm_execution_policy,
             track_name=normalized,
         )
-        batch_name = self._allocate_next_batch_name(normalized)
         dataset = self._load_dataset_config(dataset_config_path)
         track_state = self.load_track_state(normalized)
         decoder_model_dir = track_state.decoder_model_dir
-
-        skip_source_line_no = self._latest_source_line_no_for_track(
-            track_name=normalized,
+        ledger = self._load_document_ledger(normalized)
+        order_store = self.processing_order_store(normalized)
+        order_manifest = order_store.ensure(
+            source_path=Path(dataset["source_path"]),
             dataset_name=str(dataset["name"]),
-            dataset_source_path=Path(dataset["source_path"]),
+            ledger_rows=ledger.get("documents", []),
         )
+        active_reservation = order_manifest.get("reservation")
+        if isinstance(active_reservation, dict):
+            batch_name = str(active_reservation["batch_name"])
+            reservation = active_reservation
+        else:
+            batch_name = self._allocate_next_batch_name(normalized)
+            reservation = order_store.reserve(
+                batch_name=batch_name,
+                count=target_documents,
+            )
+        assignments = ProcessingOrderStore.reservation_assignments(reservation)
 
         (
             docs_written,
@@ -661,10 +676,9 @@ class PipelineWorkspace:
         ) = self._extract_batch_documents(
             source_path=dataset["source_path"],
             dataset_name=dataset["name"],
-            target_documents=target_documents,
             batch_name=batch_name,
             track_name=normalized,
-            skip_source_line_no=skip_source_line_no,
+            assignments=assignments,
         )
 
         manifest_payload = {
@@ -680,6 +694,10 @@ class PipelineWorkspace:
             "units_written": units_written,
             "source_start_line_no": source_start_line_no,
             "source_end_line_no": source_end_line_no,
+            "processing_order_generation": order_manifest["order_generation"],
+            "processing_slot_start": assignments[0]["processing_slot"] if assignments else None,
+            "processing_slot_end": assignments[-1]["processing_slot"] if assignments else None,
+            "processing_order_assignments": assignments,
             "unit_schema_version": 1,
             "mechanical_analysis_initialized": True,
             "yomi_policy": normalized_yomi_policy,
@@ -726,6 +744,7 @@ class PipelineWorkspace:
                 updated_at=now_iso(),
             )
         )
+        order_store.commit_reservation(batch_name)
         return {
             "track_name": normalized,
             "batch_name": batch_name,
@@ -749,34 +768,36 @@ class PipelineWorkspace:
         normalized = normalize_track_name(track_name)
         target = max(0, int(target_documents or 0))
         dataset = self._load_dataset_config(dataset_config_path)
-        skip_source_line_no = self._latest_source_line_no_for_track(
-            track_name=normalized,
-            dataset_name=str(dataset["name"]),
-            dataset_source_path=Path(dataset["source_path"]),
-        )
         ledger = self._load_document_ledger(normalized)
-        next_track_doc_seq = self._next_track_doc_seq(ledger)
+        order_store = self.processing_order_store(normalized)
+        order_manifest = order_store.ensure(
+            source_path=Path(dataset["source_path"]),
+            dataset_name=str(dataset["name"]),
+            ledger_rows=ledger.get("documents", []),
+        )
         assigned_doc_ids = {
             str(row.get("doc_id") or "")
             for row in ledger.get("documents", [])
             if isinstance(row, dict) and str(row.get("doc_id") or "")
         }
         documents: list[dict[str, object]] = []
+        assignments: list[dict[str, int]] = []
         if target > 0:
+            assignments = order_store.peek(target)
             documents = self._select_source_documents(
                 source_path=Path(dataset["source_path"]),
                 dataset_name=str(dataset["name"]),
-                target_documents=target,
-                skip_source_line_no=skip_source_line_no,
-                next_track_doc_seq=next_track_doc_seq,
                 excluded_doc_ids=assigned_doc_ids,
+                assignments=assignments,
             )
         return {
             "track_name": normalized,
             "dataset_name": dataset["name"],
             "dataset_config_path": dataset_config_path,
             "dataset_source_path": str(dataset["source_path"]),
-            "skip_source_line_no": skip_source_line_no,
+            "processing_order_cursor": order_manifest["cursor"],
+            "processing_order_generation": order_manifest["order_generation"],
+            "processing_order_assignments": assignments,
             "requested_documents": target,
             "selected_documents": documents,
             "selected_document_count": len(documents),
@@ -1378,37 +1399,35 @@ class PipelineWorkspace:
         *,
         source_path: Path,
         dataset_name: str,
-        target_documents: int,
-        skip_source_line_no: int = 0,
-        next_track_doc_seq: int = 1,
-        excluded_doc_ids: set[str] | None = None,
+        excluded_doc_ids: set[str] | None,
+        assignments: list[dict[str, int]],
     ) -> list[dict[str, object]]:
         excluded = excluded_doc_ids or set()
+        payloads = self._load_source_payloads(
+            source_path=source_path,
+            source_line_nos=[int(row["source_line_no"]) for row in assignments],
+        )
         documents: list[dict[str, object]] = []
-        with gzip.open(source_path, "rt", encoding="utf-8") as handle:
-            for source_line_no, line in enumerate(handle, start=1):
-                if source_line_no <= skip_source_line_no:
-                    continue
-                payload = json.loads(line)
-                text = payload.get("text")
-                if not isinstance(text, str) or not text.strip():
-                    continue
-                doc_id = f"{dataset_name}:{source_line_no:010d}"
-                if doc_id in excluded:
-                    continue
-                documents.append(
-                    {
-                        "doc_id": doc_id,
-                        "track_doc_seq": next_track_doc_seq + len(documents),
-                        "dataset_name": dataset_name,
-                        "dataset_source_path": str(source_path),
-                        "source_line_no": source_line_no,
-                        "source_file": str(payload.get("source_file", "")),
-                        "text_preview": text[:120],
-                    }
+        for assignment in assignments:
+            source_line_no = int(assignment["source_line_no"])
+            doc_id = f"{dataset_name}:{source_line_no:010d}"
+            if doc_id in excluded:
+                raise ValueError(
+                    f"Processing order selected already assigned document {doc_id}."
                 )
-                if len(documents) >= target_documents:
-                    break
+            payload = payloads[source_line_no]
+            text = str(payload["text"])
+            documents.append(
+                {
+                    "doc_id": doc_id,
+                    "track_doc_seq": int(assignment["processing_slot"]),
+                    "dataset_name": dataset_name,
+                    "dataset_source_path": str(source_path),
+                    "source_line_no": source_line_no,
+                    "source_file": str(payload.get("source_file", "")),
+                    "text_preview": text[:120],
+                }
+            )
         return documents
 
     def _extract_batch_documents(
@@ -1416,10 +1435,9 @@ class PipelineWorkspace:
         *,
         source_path: Path,
         dataset_name: str,
-        target_documents: int,
         batch_name: str,
         track_name: str,
-        skip_source_line_no: int = 0,
+        assignments: list[dict[str, int]],
     ) -> tuple[int, int, int | None, int | None]:
         output_dir = self.batch_dir(batch_name)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -1429,20 +1447,28 @@ class PipelineWorkspace:
         docs_written = 0
         source_start_line_no: int | None = None
         source_end_line_no: int | None = None
-        with gzip.open(source_path, "rt", encoding="utf-8") as handle, units_path.open(
-            "w", encoding="utf-8"
-        ) as out:
-            for source_line_no, line in enumerate(handle, start=1):
-                if source_line_no <= skip_source_line_no:
-                    continue
-                payload = json.loads(line)
-                text = payload.get("text")
-                if not isinstance(text, str) or not text.strip():
-                    continue
+        payloads = self._load_source_payloads(
+            source_path=source_path,
+            source_line_nos=[int(row["source_line_no"]) for row in assignments],
+        )
+        selected = [
+            (
+                int(row["processing_slot"]),
+                int(row["source_line_no"]),
+                payloads[int(row["source_line_no"])],
+            )
+            for row in assignments
+        ]
+
+        with units_path.open("w", encoding="utf-8") as out:
+            for track_doc_seq, source_line_no, payload in selected:
+                text = str(payload["text"])
                 docs_written += 1
                 if source_start_line_no is None:
                     source_start_line_no = source_line_no
-                source_end_line_no = source_line_no
+                else:
+                    source_start_line_no = min(source_start_line_no, source_line_no)
+                source_end_line_no = max(source_end_line_no or source_line_no, source_line_no)
                 doc_id = f"{dataset_name}:{source_line_no:010d}"
                 track_doc_seq = self._assign_track_doc_seq(
                     track_name=track_name,
@@ -1451,6 +1477,7 @@ class PipelineWorkspace:
                     source_path=Path(source_path),
                     source_line_no=source_line_no,
                     batch_name=batch_name,
+                    track_doc_seq=track_doc_seq,
                 )
                 source_file = str(payload.get("source_file", ""))
                 spans = split_text_into_units(text)
@@ -1469,9 +1496,38 @@ class PipelineWorkspace:
                         analysis=empty_analysis(),
                     )
                     out.write(json.dumps(unit.to_dict(), ensure_ascii=False) + "\n")
-                if docs_written >= target_documents:
-                    break
         return docs_written, units_written, source_start_line_no, source_end_line_no
+
+    @staticmethod
+    def _load_source_payloads(
+        *,
+        source_path: Path,
+        source_line_nos: list[int],
+    ) -> dict[int, dict[str, object]]:
+        wanted = set(source_line_nos)
+        payloads: dict[int, dict[str, object]] = {}
+        if not wanted:
+            return payloads
+        last_wanted = max(wanted)
+        with gzip.open(source_path, "rt", encoding="utf-8") as handle:
+            for source_line_no, line in enumerate(handle, start=1):
+                if source_line_no not in wanted:
+                    if source_line_no > last_wanted:
+                        break
+                    continue
+                payload = json.loads(line)
+                text = payload.get("text")
+                if not isinstance(text, str) or not text.strip():
+                    raise ValueError(
+                        f"Processing order selected blank source document {source_line_no}."
+                    )
+                payloads[source_line_no] = payload
+                if len(payloads) == len(wanted):
+                    break
+        missing = sorted(wanted - payloads.keys())
+        if missing:
+            raise EOFError(f"Source documents not found for lines: {missing}")
+        return payloads
 
     def _assign_track_doc_seq(
         self,
@@ -1482,6 +1538,7 @@ class PipelineWorkspace:
         source_path: Path,
         source_line_no: int,
         batch_name: str,
+        track_doc_seq: int | None = None,
     ) -> int:
         ledger = self._load_document_ledger(track_name)
         by_doc = {
@@ -1491,14 +1548,24 @@ class PipelineWorkspace:
         }
         existing = by_doc.get(doc_id)
         if existing is not None:
-            track_doc_seq = int(existing.get("track_doc_seq") or 0)
-            if track_doc_seq > 0:
-                return track_doc_seq
+            existing_seq = int(existing.get("track_doc_seq") or 0)
+            if existing_seq > 0:
+                if track_doc_seq is not None and existing_seq != track_doc_seq:
+                    raise ValueError(
+                        f"Document {doc_id} is already assigned to slot {existing_seq}, "
+                        f"not {track_doc_seq}."
+                    )
+                return existing_seq
 
-        track_doc_seq = self._next_track_doc_seq(ledger)
+        assigned_seq = track_doc_seq or self._next_track_doc_seq(ledger)
+        for row in ledger.get("documents", []):
+            if int(row.get("track_doc_seq") or 0) == assigned_seq:
+                raise ValueError(
+                    f"Processing slot {assigned_seq} is already assigned to {row.get('doc_id')}."
+                )
         row = {
             "doc_id": doc_id,
-            "track_doc_seq": track_doc_seq,
+            "track_doc_seq": assigned_seq,
             "dataset_name": dataset_name,
             "dataset_source_path": str(source_path),
             "source_line_no": source_line_no,
@@ -1508,7 +1575,7 @@ class PipelineWorkspace:
         ledger.setdefault("documents", []).append(row)
         ledger["updated_at"] = now_iso()
         self._write_document_ledger(track_name, ledger)
-        return track_doc_seq
+        return assigned_seq
 
     def _load_document_ledger(self, track_name: str) -> dict[str, object]:
         normalized = normalize_track_name(track_name)
@@ -1550,52 +1617,6 @@ class PipelineWorkspace:
             except (TypeError, ValueError):
                 continue
         return max_seq + 1
-
-    def _latest_source_line_no_for_track(
-        self,
-        *,
-        track_name: str,
-        dataset_name: str,
-        dataset_source_path: Path,
-    ) -> int:
-        latest = 0
-        expected_source = str(dataset_source_path)
-        for manifest_path in self.units_root().glob("*/manifest.json"):
-            try:
-                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                continue
-            if manifest.get("track_name") != track_name:
-                continue
-            if manifest.get("dataset_name") != dataset_name:
-                continue
-            if str(manifest.get("dataset_source_path", "")) != expected_source:
-                continue
-            line_no = manifest.get("source_end_line_no")
-            if isinstance(line_no, int):
-                latest = max(latest, line_no)
-                continue
-            units_path = manifest_path.parent / "units.jsonl"
-            latest = max(latest, self._max_source_line_no_from_units(units_path))
-        return latest
-
-    @staticmethod
-    def _max_source_line_no_from_units(units_path: Path) -> int:
-        if not units_path.exists():
-            return 0
-        latest = 0
-        with units_path.open(encoding="utf-8") as handle:
-            for line in handle:
-                if not line.strip():
-                    continue
-                try:
-                    row = json.loads(line)
-                except json.JSONDecodeError:
-                    continue
-                source_line_no = row.get("source_line_no")
-                if isinstance(source_line_no, int):
-                    latest = max(latest, source_line_no)
-        return latest
 
     def _generate_mechanical_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)

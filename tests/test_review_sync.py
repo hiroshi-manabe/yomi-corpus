@@ -1043,7 +1043,7 @@ class ReviewSyncTests(unittest.TestCase):
                 dataset_config_path="config/datasets/demo.toml",
             )
 
-            self.assertEqual(preview["skip_source_line_no"], 2)
+            self.assertEqual(preview["processing_order_cursor"], 4)
             self.assertEqual(
                 [
                     (row["doc_id"], row["track_doc_seq"], row["source_line_no"])

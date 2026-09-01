@@ -91,9 +91,9 @@ def run_mechanical_preflight(
                 updated_at=now_iso(),
             )
         )
-        write_source_cursor_anchor(
-            workspace=workspace,
-            preview=preview,
+        copy_processing_order_state(
+            live_workspace=live_workspace,
+            temporary_workspace=workspace,
             track_name=options.track_name,
         )
         prepared = workspace.prepare_next_batch(
@@ -174,25 +174,23 @@ def run_mechanical_preflight(
     return report
 
 
-def write_source_cursor_anchor(
+def copy_processing_order_state(
     *,
-    workspace: PipelineWorkspace,
-    preview: dict[str, Any],
+    live_workspace: PipelineWorkspace,
+    temporary_workspace: PipelineWorkspace,
     track_name: str,
 ) -> None:
-    anchor_dir = workspace.units_root() / "preflight_source_cursor"
-    anchor_dir.mkdir(parents=True, exist_ok=True)
-    payload = {
-        "batch_name": "preflight_source_cursor",
-        "track_name": track_name,
-        "dataset_name": str(preview["dataset_name"]),
-        "dataset_source_path": str(preview["dataset_source_path"]),
-        "source_end_line_no": int(preview.get("skip_source_line_no") or 0),
-    }
-    (anchor_dir / "manifest.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    source_store = live_workspace.processing_order_store(track_name)
+    destination_store = temporary_workspace.processing_order_store(track_name)
+    destination_store.state_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source_store.order_path, destination_store.order_path)
+    shutil.copy2(source_store.manifest_path, destination_store.manifest_path)
+
+    source_ledger = live_workspace.document_ledger_path(track_name)
+    destination_ledger = temporary_workspace.document_ledger_path(track_name)
+    destination_ledger.parent.mkdir(parents=True, exist_ok=True)
+    if source_ledger.exists():
+        shutil.copy2(source_ledger, destination_ledger)
 
 
 def write_temporary_dataset_config(
