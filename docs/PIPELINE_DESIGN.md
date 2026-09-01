@@ -2360,6 +2360,49 @@ it is not the reviewer-facing identifier. Rules:
   10, one short bridge ends at the next `...0`, after which batches use stable
   ranges `...1-...0`; existing ledger assignments remain immutable
 
+#### Processing order independent of source order
+
+`track_doc_seq` is also the document's position in a track-specific processing
+order. Source identity and processing order must not be conflated merely because
+the initial sequential import assigned both the same number.
+
+Maintain a complete permutation of selectable source document line numbers for
+each track. The order has a cursor pointing at the next unassigned processing
+slot:
+
+- slots before the cursor are frozen and must agree with the durable document
+  ledger
+- slots at or after the cursor may be reordered freely
+- every selectable source document occurs exactly once in the order
+- refill consumes the entries at the cursor and assigns their slot numbers as
+  `track_doc_seq`
+- `doc_id` and `source_line_no` continue to identify the original source
+  document and remain available for provenance, deduplication, and replay
+- reviewers see only `track_doc_seq`; prioritized source documents require no
+  special UI treatment
+
+The initial migration creates an identity permutation, so slot `N` refers to
+source line `N`. Existing ledger assignments form the frozen prefix. This means
+refill continues exactly as before until an explicit reorder operation modifies
+the unprocessed suffix. A later swap such as slots 1771 and 25011 brings source
+document 25011 forward while moving source document 1771 to slot 25011, without
+dropping or duplicating either document.
+
+Store the complete permutation as little-endian unsigned 32-bit integers in a
+per-track binary file. For 2.6 million documents this is approximately 10.4 MB.
+A small JSON manifest stores the schema version, source path and fingerprint,
+document count, cursor, and order generation. Changes are written to a temporary
+file, validated, and atomically installed while holding the refill lock. An
+append-only JSONL event log records future reorder operations. This avoids
+SQLite locking assumptions on PanFS while keeping lookup and complete validation
+cheap.
+
+Preparation must reserve processing slots durably. A partially prepared batch
+resumes its existing reservation instead of consuming new slots. Advancing the
+cursor must be recoverable and idempotent so interruption cannot duplicate or
+lose a source document. The source fingerprint prevents reusing line-number
+identities with a changed source file.
+
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus
 source/final data:

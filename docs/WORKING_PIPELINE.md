@@ -2319,6 +2319,32 @@ Durable document ledger:
 - never renumber existing ledger rows. If a batch is regenerated or resumed,
   reuse the existing `track_doc_seq` for matching `doc_id`.
 
+Processing-order state:
+
+- treat `track_doc_seq` as a position in a complete per-track processing order,
+  independent of the source document's line number
+- store every selectable source line exactly once; the default order is the
+  identity mapping from processing slot `N` to source line `N`
+- maintain a cursor at the next unassigned slot. The prefix before the cursor is
+  immutable, while the unprocessed suffix may be reordered
+- refill consumes processing slots, assigns the slot number as `track_doc_seq`,
+  and retains source identity in `doc_id` and `source_line_no`
+- do not expose source-order changes in the review UI. A source document moved
+  into slot 1771 is simply document 1771 to the reviewer
+- use `data/pipeline/processing_order/<track>.u32` for the complete little-endian
+  unsigned 32-bit permutation and `<track>.json` for source identity, count,
+  cursor, generation, and validation metadata
+- write replacements atomically under the refill lock and retain reorder events
+  in `<track>.events.jsonl`
+- initialize current tracks with an identity order and verify the frozen prefix
+  against the existing document ledger before enabling order-based refill
+- reserve consumed slots durably so an interrupted preparation resumes rather
+  than advancing to different source documents
+
+The first implementation changes representation only. Until an explicit reorder
+tool is used, refill must select exactly the same documents as the previous
+monotonic source-line cursor.
+
 Corpus Map target:
 
 - add a read-mostly map view over resolved/finalized documents, separate from
