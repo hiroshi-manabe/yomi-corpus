@@ -6,11 +6,11 @@
       "track_name": "dev",
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "pack_id": "yomi_final_dev_batch_0180_v1",
-      "title": "一括レビュー / dev_batch_0180 / v1",
-      "path": "./packs/yomi_final_dev_batch_0180_v1.json",
-      "created_at_epoch": 1788229058,
-      "item_count": 449
+      "pack_id": "yomi_final_dev_recovery_home_tag_v1_v1",
+      "title": "yomi_final_dev_recovery_home_tag_v1_v1",
+      "path": "./packs/yomi_final_dev_recovery_home_tag_v1_v1.json",
+      "created_at_epoch": 1788251651,
+      "item_count": 343
     }
   },
   "current_review_queues": [
@@ -323,15 +323,52 @@
       "pending_document_count": 10,
       "queue_id": "final_review",
       "status": "active-dev"
+    },
+    {
+      "track_name": "dev",
+      "batch_name": "dev_recovery_home_tag_v1",
+      "review_stage": "yomi_final_review",
+      "label": "一括レビュー",
+      "pack_id": "yomi_final_dev_recovery_home_tag_v1_v1",
+      "title": "yomi_final_dev_recovery_home_tag_v1_v1",
+      "path": "./packs/yomi_final_dev_recovery_home_tag_v1_v1.json",
+      "created_at_epoch": 1788251651,
+      "item_count": 343,
+      "document_count": 16,
+      "selectable_document_count": 16,
+      "document_state_counts": {
+        "final_pending": 16
+      },
+      "pending_doc_ids": [
+        "recovery:home_tag_v1:d000001",
+        "recovery:home_tag_v1:d000002",
+        "recovery:home_tag_v1:d000003",
+        "recovery:home_tag_v1:d000004",
+        "recovery:home_tag_v1:d000005",
+        "recovery:home_tag_v1:d000006",
+        "recovery:home_tag_v1:d000007",
+        "recovery:home_tag_v1:d000008",
+        "recovery:home_tag_v1:d000009",
+        "recovery:home_tag_v1:d000010",
+        "recovery:home_tag_v1:d000011",
+        "recovery:home_tag_v1:d000012",
+        "recovery:home_tag_v1:d000013",
+        "recovery:home_tag_v1:d000014",
+        "recovery:home_tag_v1:d000015",
+        "recovery:home_tag_v1:d000016"
+      ],
+      "pending_document_count": 16,
+      "queue_id": "final_review",
+      "status": "active-dev"
     }
   ],
   "stages": {
     "yomi_final_review": {
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
-      "latest_pack_id": "yomi_final_dev_batch_0180_v1",
+      "latest_pack_id": "yomi_final_dev_recovery_home_tag_v1_v1",
       "latest_pack_ids_by_track": {
-        "dev": "yomi_final_dev_batch_0180_v1"
+        "dev": "yomi_final_dev_recovery_home_tag_v1_v1"
       },
       "packs": [
         {
@@ -3829,6 +3866,41 @@
             "ja_cc_level2:0000001770"
           ],
           "pending_document_count": 10,
+          "queue_id": "final_review",
+          "status": "archived"
+        },
+        {
+          "pack_id": "yomi_final_dev_recovery_home_tag_v1_v1",
+          "title": "yomi_final_dev_recovery_home_tag_v1_v1",
+          "path": "./packs/yomi_final_dev_recovery_home_tag_v1_v1.json",
+          "track_name": "dev",
+          "batch_name": "dev_recovery_home_tag_v1",
+          "created_at_epoch": 1788251651,
+          "item_count": 343,
+          "document_count": 16,
+          "selectable_document_count": 16,
+          "document_state_counts": {
+            "final_pending": 16
+          },
+          "pending_doc_ids": [
+            "recovery:home_tag_v1:d000001",
+            "recovery:home_tag_v1:d000002",
+            "recovery:home_tag_v1:d000003",
+            "recovery:home_tag_v1:d000004",
+            "recovery:home_tag_v1:d000005",
+            "recovery:home_tag_v1:d000006",
+            "recovery:home_tag_v1:d000007",
+            "recovery:home_tag_v1:d000008",
+            "recovery:home_tag_v1:d000009",
+            "recovery:home_tag_v1:d000010",
+            "recovery:home_tag_v1:d000011",
+            "recovery:home_tag_v1:d000012",
+            "recovery:home_tag_v1:d000013",
+            "recovery:home_tag_v1:d000014",
+            "recovery:home_tag_v1:d000015",
+            "recovery:home_tag_v1:d000016"
+          ],
+          "pending_document_count": 16,
           "queue_id": "final_review",
           "status": "active-dev"
         }
