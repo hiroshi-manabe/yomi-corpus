@@ -90,10 +90,28 @@ pending, under review, applied, skipped, excluded, conflicted, or archived.
 ## Virtual Document Construction
 
 Bundle recovery units into bounded virtual documents to reuse the existing
-review workflow efficiently. A practical initial bound is 10-30 restored units
-or the existing review-pack size limit, whichever is smaller. A virtual
-document may contain units from several originals because it has no semantic or
-export meaning.
+review workflow efficiently. Size them from observed ordinary dev documents,
+not from an arbitrary recovery-only batch size. Across the first 1,770 dev
+documents, the baseline is approximately:
+
+- 905 source characters and 24 review units per document on average;
+- 605 source characters and 17 review units at the median;
+- 1,120 source characters and 32 review units at the 75th percentile;
+- 1,981 source characters and 53 review units at the 90th percentile.
+
+The initial deterministic packer therefore targets 900 restored characters per
+virtual document. It closes a document before adding the next unit when the
+current document has at least 600 characters and the addition would cross 900.
+It also closes at 32 units, whichever happens first. A single source unit is
+never split merely to satisfy these targets; a unit that is itself longer than
+the target occupies one virtual document. The packer must report the resulting
+character and unit distributions so a campaign can detect an unexpectedly
+different review workload.
+
+Process recovery units in deterministic source order before packing. Given the
+same diff and campaign configuration, document boundaries and identities must
+be byte-for-byte reproducible. A virtual document may contain units from
+several originals because it has no semantic or export meaning.
 
 Each row must still display enough original context to review the restored
 segment. Keep the previous and following source segments as read-only context
@@ -213,6 +231,43 @@ cleaner migration, but no permanent parallel review workflow is required.
 9. Rebuild the unprocessed processing-order suffix against the regenerated
    source and resume refill.
 10. Archive the campaign after all terminal states are reconciled.
+
+## Operator Procedure
+
+For the `home_tag_v1` campaign, use versioned side outputs. Do not overwrite the
+filtered corpus configured in `config/datasets/ja_cc_level2.toml` until recovery
+review and the future-order migration have both been validated.
+
+1. Commit the narrowed cleaner and its regression tests in
+   `llm-jp-corpus-v4`.
+2. Derive the stable `meta.docId` values for finalized dev documents by joining
+   the dev document ledger to the old filtered source by `source_line_no`.
+3. Re-clean those UUIDs from the immutable merged source with the cleaner's
+   `--doc-id-file` mode. This is sufficient for the processed-prefix recovery
+   diff and stops after all requested UUIDs have been found.
+4. Build the report-first campaign with
+   `scripts/build_cleaner_recovery_campaign.py`. Resolve every row in
+   `conflicts.jsonl` before application; do not make the generator guess.
+5. Inspect `campaign.json`, especially the recovery-document size distribution.
+   Materialize the campaign only after the counts and samples are accepted.
+6. Run `./prepare-recovery data/recovery/home_tag_v1`. This creates an explicit
+   noncanonical batch without changing the dev track's current batch or the
+   processing-order cursor.
+7. Advance it explicitly with `./next --batch dev_recovery_home_tag_v1 --auto`
+   or let the non-current-batch sweep process it. Recovery finalization writes
+   `recovery_application_ledger.jsonl`; it does not archive the virtual
+   documents, export them, or harvest them into global learned lexicons.
+8. Apply `ready_to_apply` rows atomically to original finalized documents after
+   implementing and validating the insertion stage described above.
+9. Run a full corrected clean/score/filter build in versioned side paths, then
+   migrate only the unprocessed processing-order suffix before switching refill.
+
+The first report generated on 2026-09-01 considered 1,670 finalized documents.
+After four ambiguous anchors were resolved through validated campaign-specific
+overrides, it found 343 restored units in 135 destination documents and packed
+them into 16 virtual documents averaging 867 characters and 21 units, with no
+unresolved conflicts. These figures are campaign diagnostics, not hard-coded
+expectations.
 
 ## Required Validation
 

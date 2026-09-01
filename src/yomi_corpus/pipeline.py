@@ -25,6 +25,7 @@ from yomi_corpus.llm.runner import run_llm_task
 from yomi_corpus.llm.usage_report import summarize_results_jsonl
 from yomi_corpus.models import UnitRecord, empty_analysis
 from yomi_corpus.processing_order import ProcessingOrderStore
+from yomi_corpus.recovery_documents import build_application_ledger, iter_jsonl, write_jsonl
 from yomi_corpus.splitter import split_text_into_units
 from yomi_corpus.yomi.acceptance import apply_yomi_auto_acceptance_file
 from yomi_corpus.yomi.adapters import run_sudachi_many
@@ -552,6 +553,30 @@ class PipelineWorkspace:
             "updated_at": batch_state.updated_at,
         }
 
+    def batch_status(self, batch_name: str) -> dict[str, object]:
+        batch_state = self.load_batch_state(batch_name)
+        normalized = normalize_track_name(batch_state.track_name)
+        return {
+            "track_name": normalized,
+            "track_policy": track_policy_name(normalized),
+            "requires_strict_human_review_gates": requires_strict_human_review_gates(normalized),
+            "current_batch_name": batch_state.batch_name,
+            "batch_name": batch_state.batch_name,
+            "current_stage": batch_state.current_stage,
+            "blocking_reason": batch_state.blocking_reason,
+            "skipped_review_gates": batch_state.skipped_review_gates,
+            "yomi_policy": batch_state.yomi_policy,
+            "llm_policy": batch_state.llm_policy,
+            "llm_execution_policy": batch_state.llm_execution_policy,
+            "decoder_model_dir": batch_state.decoder_model_dir,
+            "artifacts": batch_state.artifacts,
+            "target_documents": batch_state.target_documents,
+            "docs_written": batch_state.docs_written,
+            "units_written": batch_state.units_written,
+            "next_stage": self._next_stage_name(batch_state.current_stage),
+            "updated_at": batch_state.updated_at,
+        }
+
     def set_stage(
         self,
         track_name: str | None,
@@ -756,6 +781,156 @@ class PipelineWorkspace:
             "llm_policy": normalized_llm_policy,
             "llm_execution_policy": normalized_llm_execution_policy,
             "decoder_model_dir": decoder_model_dir,
+        }
+
+    def prepare_recovery_batch(
+        self,
+        *,
+        campaign_dir: Path,
+        track_name: str = DEV_TRACK,
+        batch_name: str | None = None,
+        yomi_policy: dict[str, object] | None = None,
+        llm_policy: dict[str, object] | None = None,
+        llm_execution_policy: dict[str, object] | None = None,
+    ) -> dict[str, object]:
+        normalized = normalize_track_name(track_name)
+        campaign_manifest = json.loads(
+            (campaign_dir / "campaign.json").read_text(encoding="utf-8")
+        )
+        campaign_id = str(campaign_manifest.get("campaign_id") or "").strip()
+        if not campaign_id:
+            raise ValueError("Recovery campaign manifest does not define campaign_id.")
+        recovery_units = list(iter_jsonl(campaign_dir / "recovery_units.jsonl"))
+        recovery_documents = list(iter_jsonl(campaign_dir / "recovery_documents.jsonl"))
+        units_by_id = {
+            str(row["recovery_unit_id"]): row
+            for row in recovery_units
+        }
+        if len(units_by_id) != len(recovery_units):
+            raise ValueError("Recovery campaign contains duplicate recovery unit IDs.")
+        safe_campaign = re.sub(r"[^a-zA-Z0-9_]+", "_", campaign_id).strip("_")
+        resolved_batch_name = batch_name or f"{normalized}_recovery_{safe_campaign}"
+        state_path = self.batch_state_path(resolved_batch_name)
+        if state_path.exists() or self.batch_dir(resolved_batch_name).exists():
+            raise FileExistsError(f"Recovery batch already exists: {resolved_batch_name}")
+
+        normalized_yomi_policy = normalize_yomi_policy(yomi_policy, track_name=normalized)
+        normalized_llm_policy = normalize_llm_policy(llm_policy, track_name=normalized)
+        normalized_llm_execution_policy = normalize_llm_execution_policy(
+            llm_execution_policy,
+            track_name=normalized,
+        )
+        track_state = self.load_track_state(normalized)
+        output_dir = self.batch_dir(resolved_batch_name)
+        output_dir.mkdir(parents=True, exist_ok=False)
+        units_path = output_dir / "units.jsonl"
+        written_unit_ids: set[str] = set()
+        with units_path.open("w", encoding="utf-8") as handle:
+            for document in recovery_documents:
+                recovery_document_id = str(document["recovery_document_id"])
+                recovery_document_seq = int(document["recovery_document_seq"])
+                review_doc_seq = 900_000_000 + recovery_document_seq
+                char_offset = 0
+                for unit_seq, recovery_unit_id in enumerate(
+                    document.get("recovery_unit_ids", []),
+                    start=1,
+                ):
+                    recovery_unit_id = str(recovery_unit_id)
+                    if recovery_unit_id in written_unit_ids:
+                        raise ValueError(f"Recovery unit occurs more than once: {recovery_unit_id}")
+                    try:
+                        recovery_unit = units_by_id[recovery_unit_id]
+                    except KeyError as exc:
+                        raise ValueError(
+                            f"Recovery document references unknown unit: {recovery_unit_id}"
+                        ) from exc
+                    text = str(recovery_unit["text"])
+                    record = UnitRecord(
+                        doc_id=recovery_document_id,
+                        unit_id=recovery_unit_id,
+                        unit_seq=unit_seq,
+                        track_doc_seq=review_doc_seq,
+                        char_start=char_offset,
+                        char_end=char_offset + len(text),
+                        text=text,
+                        source_file=f"recovery:{campaign_id}",
+                        source_line_no=int(recovery_unit["destination_source_line_no"]),
+                        analysis=empty_analysis(),
+                    ).to_dict()
+                    record["recovery"] = recovery_unit
+                    handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+                    written_unit_ids.add(recovery_unit_id)
+                    char_offset += len(text)
+        missing = sorted(units_by_id.keys() - written_unit_ids)
+        if missing:
+            raise ValueError(f"Recovery units were not assigned to documents: {missing[:10]}")
+
+        manifest_payload = {
+            "batch_name": resolved_batch_name,
+            "track_name": normalized,
+            "batch_kind": "recovery",
+            "pipeline_profile": TRACKS[normalized]["pipeline_profile"],
+            "dataset_name": f"recovery:{campaign_id}",
+            "dataset_config_path": "",
+            "dataset_source_path": str(campaign_dir.resolve()),
+            "target_documents": len(recovery_documents),
+            "docs_written": len(recovery_documents),
+            "units_written": len(written_unit_ids),
+            "unit_schema_version": 1,
+            "mechanical_analysis_initialized": True,
+            "recovery_campaign_id": campaign_id,
+            "recovery_campaign_manifest": str((campaign_dir / "campaign.json").resolve()),
+            "canonical_export": False,
+            "yomi_policy": normalized_yomi_policy,
+            "llm_policy": normalized_llm_policy,
+            "llm_execution_policy": normalized_llm_execution_policy,
+            "decoder_model_dir": track_state.decoder_model_dir,
+        }
+        self.manifest_path(resolved_batch_name).write_text(
+            json.dumps(manifest_payload, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        artifacts = {
+            "units_jsonl": str(units_path),
+            "manifest": str(self.manifest_path(resolved_batch_name)),
+            "recovery_campaign_manifest_json": str(campaign_dir / "campaign.json"),
+            "recovery_campaign_units_jsonl": str(campaign_dir / "recovery_units.jsonl"),
+            "recovery_campaign_documents_jsonl": str(
+                campaign_dir / "recovery_documents.jsonl"
+            ),
+        }
+        self.save_batch_state(
+            BatchState(
+                batch_name=resolved_batch_name,
+                track_name=normalized,
+                batch_kind="recovery",
+                pipeline_profile=TRACKS[normalized]["pipeline_profile"],
+                dataset_name=f"recovery:{campaign_id}",
+                dataset_config_path="",
+                dataset_source_path=str(campaign_dir.resolve()),
+                target_documents=len(recovery_documents),
+                docs_written=len(recovery_documents),
+                units_written=len(written_unit_ids),
+                current_stage=STAGE_PREPARED,
+                yomi_policy=normalized_yomi_policy,
+                llm_policy=normalized_llm_policy,
+                llm_execution_policy=normalized_llm_execution_policy,
+                decoder_model_dir=track_state.decoder_model_dir,
+                blocking_reason=None,
+                skipped_review_gates=[],
+                artifacts=artifacts,
+                updated_at=now_iso(),
+            )
+        )
+        return {
+            "track_name": normalized,
+            "batch_name": resolved_batch_name,
+            "batch_kind": "recovery",
+            "recovery_campaign_id": campaign_id,
+            "docs_written": len(recovery_documents),
+            "units_written": len(written_unit_ids),
+            "current_stage": STAGE_PREPARED,
+            "artifacts": artifacts,
         }
 
     def preview_next_source_documents(
@@ -2657,6 +2832,48 @@ class PipelineWorkspace:
                     "document_review_state_skipped": str(state_counts.get("skipped", 0)),
                 }
             )
+        if batch_state.batch_kind == "recovery":
+            application_ledger_path = batch_dir / "recovery_application_ledger.jsonl"
+            application_rows = build_application_ledger(iter_jsonl(output_path))
+            write_jsonl(application_ledger_path, application_rows)
+            ready = sum(row["state"] == "ready_to_apply" for row in application_rows)
+            skipped = sum(row["state"] == "skipped" for row in application_rows)
+            excluded = sum(row["state"] == "excluded" for row in application_rows)
+            recovery_summary_path = batch_dir / "recovery_finalization_summary.json"
+            recovery_summary_path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "batch_name": batch_name,
+                        "campaign_id": batch_state.dataset_name.removeprefix("recovery:"),
+                        "ready_to_apply": ready,
+                        "skipped": skipped,
+                        "excluded": excluded,
+                        "canonical_export": False,
+                        "global_lexicon_harvest": False,
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            return {
+                "artifacts": {
+                    **artifacts,
+                    **document_state_artifacts,
+                    "recovery_application_ledger_jsonl": str(application_ledger_path),
+                    "recovery_finalization_summary_json": str(recovery_summary_path),
+                    "recovery_ready_to_apply": str(ready),
+                    "recovery_skipped": str(skipped),
+                    "recovery_excluded": str(excluded),
+                    "canonical_export": "false",
+                    "global_lexicon_harvest": "false",
+                    "human_review_required": "false",
+                    "human_review_gate": "",
+                    "human_review_item_count": "",
+                }
+            }
         harvest_summary_path = batch_dir / "yomi_finalization_harvest_summary.json"
         harvest_summary = harvest_yomi_finalization_artifacts_file(
             final_units_jsonl=output_path,

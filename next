@@ -40,6 +40,13 @@ def parse_args() -> argparse.Namespace:
         help="Rerun the current completed stage instead of advancing to the next one.",
     )
     parser.add_argument(
+        "--batch",
+        help=(
+            "Advance or inspect this explicit batch instead of the track's current batch. "
+            "This is intended for temporary recovery campaigns."
+        ),
+    )
+    parser.add_argument(
         "--yes",
         action="store_true",
         help="Allow overwriting protected-track artifacts without an interactive prompt.",
@@ -101,7 +108,11 @@ def main() -> None:
             conflicting.append("--llm-mode")
         if conflicting:
             raise SystemExit("--status cannot be combined with " + ", ".join(conflicting))
-        summary = workspace.status(args.track)
+        summary = (
+            workspace.batch_status(args.batch)
+            if args.batch
+            else workspace.status(args.track)
+        )
         log_path = write_pipeline_log(summary)
         summary["log_path"] = str(log_path)
         if args.stages:
@@ -116,13 +127,7 @@ def main() -> None:
     summary = (
         advance_auto(workspace, args)
         if args.auto
-        else workspace.advance(
-            track_name=args.track,
-            force_stage=args.force_stage,
-            allow_overwrite=args.yes,
-            skip_review_gates=args.skip_review_gates,
-            llm_execution_mode_override=args.llm_mode,
-        )
+        else advance_once(workspace, args, allow_overwrite=args.yes)
     )
     if summary.get("requires_confirmation") and not args.yes:
         if not sys.stdin.isatty():
@@ -142,13 +147,7 @@ def main() -> None:
                 summary = (
                     advance_auto(workspace, args, allow_overwrite=True)
                     if args.auto
-                    else workspace.advance(
-                        track_name=args.track,
-                        force_stage=args.force_stage,
-                        allow_overwrite=True,
-                        skip_review_gates=args.skip_review_gates,
-                        llm_execution_mode_override=args.llm_mode,
-                    )
+                    else advance_once(workspace, args, allow_overwrite=True)
                 )
             else:
                 summary["message"] = "Cancelled."
@@ -171,15 +170,14 @@ def advance_auto(
     final_summary: dict[str, object] | None = None
     overwrite = args.yes if allow_overwrite is None else allow_overwrite
     for _ in range(100):
-        status_before = workspace.status(args.track)
+        status_before = (
+            workspace.batch_status(args.batch)
+            if args.batch
+            else workspace.status(args.track)
+        )
         if progress_stream is not None:
             print(format_auto_progress_start(status_before), file=progress_stream, flush=True)
-        summary = workspace.advance(
-            track_name=args.track,
-            allow_overwrite=overwrite,
-            skip_review_gates=args.skip_review_gates,
-            llm_execution_mode_override=args.llm_mode,
-        )
+        summary = advance_once(workspace, args, allow_overwrite=overwrite)
         if progress_stream is not None:
             print(format_auto_progress_done(summary), file=progress_stream, flush=True)
         steps.append(
@@ -200,10 +198,31 @@ def advance_auto(
         if not summary.get("next_stage"):
             break
     if final_summary is None:
-        final_summary = workspace.status(args.track)
+        final_summary = (
+            workspace.batch_status(args.batch)
+            if args.batch
+            else workspace.status(args.track)
+        )
     final_summary["auto"] = True
     final_summary["auto_steps"] = steps
     return final_summary
+
+
+def advance_once(
+    workspace: PipelineWorkspace,
+    args: argparse.Namespace,
+    *,
+    allow_overwrite: bool,
+) -> dict[str, object]:
+    kwargs = {
+        "force_stage": args.force_stage,
+        "allow_overwrite": allow_overwrite,
+        "skip_review_gates": args.skip_review_gates,
+        "llm_execution_mode_override": args.llm_mode,
+    }
+    if args.batch:
+        return workspace.advance_batch(args.batch, **kwargs)
+    return workspace.advance(track_name=args.track, **kwargs)
 
 
 def format_auto_progress_start(status: dict[str, object]) -> str:

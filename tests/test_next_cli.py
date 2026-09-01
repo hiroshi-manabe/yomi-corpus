@@ -5,6 +5,8 @@ import sys
 import runpy
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -12,10 +14,34 @@ NEXT_MODULE = runpy.run_path(str(PROJECT_ROOT / "next"), run_name="next_cli_test
 format_next_summary = NEXT_MODULE["format_next_summary"]
 format_auto_progress_start = NEXT_MODULE["format_auto_progress_start"]
 format_auto_progress_done = NEXT_MODULE["format_auto_progress_done"]
+advance_once = NEXT_MODULE["advance_once"]
 from yomi_corpus.cli_format import format_stage_summary
 
 
 class NextCliTests(unittest.TestCase):
+    def test_explicit_batch_advances_without_using_current_track(self) -> None:
+        workspace = Mock()
+        workspace.advance_batch.return_value = {"advanced": True}
+        args = SimpleNamespace(
+            batch="dev_recovery_cleaner_v1",
+            track="dev",
+            force_stage=None,
+            skip_review_gates=False,
+            llm_mode=None,
+        )
+
+        result = advance_once(workspace, args, allow_overwrite=False)
+
+        self.assertEqual(result, {"advanced": True})
+        workspace.advance_batch.assert_called_once_with(
+            "dev_recovery_cleaner_v1",
+            force_stage=None,
+            allow_overwrite=False,
+            skip_review_gates=False,
+            llm_execution_mode_override=None,
+        )
+        workspace.advance.assert_not_called()
+
     def test_format_stage_summary_only_shows_current_and_next_stage(self) -> None:
         rendered = format_stage_summary(
             {

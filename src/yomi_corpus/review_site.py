@@ -841,6 +841,8 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
             continue
         if payload.get("current_stage") != "yomi_finalized":
             continue
+        if payload.get("batch_kind") == "recovery":
+            continue
         names.append(str(payload.get("batch_name") or path.stem))
     return sorted(names)
 
