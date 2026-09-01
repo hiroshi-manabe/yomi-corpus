@@ -3325,6 +3325,14 @@ the full candidate list is preserved in JSON for later richer controls.
 Skipped units are excluded from `units.yomi.final.jsonl`. Reviewed, non-skipped
 units are retained.
 
+Bulk Review pack construction deterministically starts malformed
+sentence-boundary units as `Skip`. This applies when a halfwidth ideographic
+stop `｡` occurs outside a Sudachi-recognized face emoticon, or when a halfwidth
+or fullwidth period (`.` or `．`) follows Japanese script and behaves like a
+sentence terminator. Numbered-list punctuation and repeated-dot ellipses are
+not skipped by this rule. The initial decision remains reversible in Bulk
+Review.
+
 At batch finalization, the pipeline also harvests three conservative reusable
 artifacts:
 

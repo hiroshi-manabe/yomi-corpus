@@ -90,6 +90,10 @@ READING_HINT_MIN_COUNT = 2
 READING_HINT_MIN_SHARE = 0.995
 TAP_ORDER_MIN_HISTORICAL_COUNT = 2
 MAX_READING_HINT_SURFACE_LENGTH = 12
+IRREGULAR_SENTENCE_PERIODS = frozenset({".", "．"})
+SENTENCE_BOUNDARY_ADJACENT_PUNCTUATION = frozenset(
+    "「」『』（）【】〈〉《》〔〕［］｛｝“”‘’"
+)
 
 
 def manual_correction_state(unit: dict[str, Any]) -> dict[str, Any]:
@@ -99,6 +103,80 @@ def manual_correction_state(unit: dict[str, Any]) -> dict[str, Any]:
         .get("manual_correction", {})
     )
     return state if isinstance(state, dict) else {}
+
+
+def irregular_sentence_boundary_skip_reason(
+    text: str,
+    *,
+    sudachi_tokens: list[dict[str, Any]] | None = None,
+) -> str:
+    if "｡" in text and halfwidth_stops_outside_emoticons(
+        text,
+        sudachi_tokens or [],
+    ):
+        return "halfwidth_stop_outside_emoticon"
+    if has_japanese_sentence_terminating_period(text):
+        return "japanese_text_terminated_by_period"
+    return ""
+
+
+def halfwidth_stops_outside_emoticons(
+    text: str,
+    sudachi_tokens: list[dict[str, Any]],
+) -> bool:
+    protected_positions: set[int] = set()
+    cursor = 0
+    for token in sudachi_tokens:
+        if not isinstance(token, dict):
+            continue
+        surface = str(token.get("surface") or "")
+        if not surface:
+            continue
+        start = text.find(surface, cursor)
+        if start < 0:
+            continue
+        if str(token.get("pos") or "").split(",")[:3] == ["補助記号", "ＡＡ", "顔文字"]:
+            protected_positions.update(
+                start + offset
+                for offset, char in enumerate(surface)
+                if char == "｡"
+            )
+        cursor = start + len(surface)
+    return any(
+        char == "｡" and index not in protected_positions
+        for index, char in enumerate(text)
+    )
+
+
+def has_japanese_sentence_terminating_period(text: str) -> bool:
+    for index, char in enumerate(text):
+        if char not in IRREGULAR_SENTENCE_PERIODS or index == 0:
+            continue
+        if not is_japanese_script_character(text[index - 1]):
+            continue
+        if index + 1 == len(text):
+            return True
+        following = text[index + 1]
+        if (
+            following.isspace()
+            or is_japanese_script_character(following)
+            or following in SENTENCE_BOUNDARY_ADJACENT_PUNCTUATION
+        ):
+            return True
+    return False
+
+
+def is_japanese_script_character(char: str) -> bool:
+    if not char:
+        return False
+    code = ord(char)
+    return (
+        has_han(char)
+        or 0x3040 <= code <= 0x309F
+        or 0x30A0 <= code <= 0x30FF
+        or 0x31F0 <= code <= 0x31FF
+        or 0xFF66 <= code <= 0xFF9F
+    )
 
 
 def normalize_scope_disposition(value: Any, *, skip: Any = None) -> str:
@@ -923,9 +1001,18 @@ def build_review_item(
         "interaction_span_count": len(interaction_spans),
         "reading_hints": build_reading_hints(review_targets),
     }
+    sudachi = yomi.get("sudachi") if isinstance(yomi, dict) else None
+    sudachi_tokens = sudachi.get("tokens", []) if isinstance(sudachi, dict) else []
+    boundary_skip_reason = irregular_sentence_boundary_skip_reason(
+        text,
+        sudachi_tokens=sudachi_tokens if isinstance(sudachi_tokens, list) else [],
+    )
     if has_cjk_radical(text):
         item["initial_disposition"] = SCOPE_SKIP
         item["initial_disposition_reason"] = "contains_cjk_radical"
+    elif boundary_skip_reason:
+        item["initial_disposition"] = SCOPE_SKIP
+        item["initial_disposition_reason"] = boundary_skip_reason
     return item
 
 

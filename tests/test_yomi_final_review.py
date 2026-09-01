@@ -124,6 +124,71 @@ class YomiFinalReviewTests(unittest.TestCase):
         )
         self.assertNotIn("initial_disposition", ordinary)
 
+    def test_review_item_initially_skips_irregular_sentence_boundaries(self) -> None:
+        for text, reason in (
+            ("あります｡次です。", "halfwidth_stop_outside_emoticon"),
+            ("前の文です. 次の文です。", "japanese_text_terminated_by_period"),
+            ("前の文です．次の文です。", "japanese_text_terminated_by_period"),
+        ):
+            with self.subTest(text=text):
+                item = build_review_item(
+                    {
+                        "unit_id": "u-irregular-boundary",
+                        "doc_id": "d-irregular-boundary",
+                        "text": text,
+                        "analysis": {
+                            "mechanical": {"yomi": {"rendered": ""}},
+                            "safety": {"yomi": {"targets": []}},
+                        },
+                    },
+                    seq=1,
+                    doc_seq=1,
+                    track_doc_seq=1,
+                )
+
+                self.assertEqual(item["initial_disposition"], "Skip")
+                self.assertEqual(item["initial_disposition_reason"], reason)
+
+    def test_review_item_keeps_non_boundary_periods_and_emoticon_stops(self) -> None:
+        for text, sudachi_tokens in (
+            ("１．項目です。", []),
+            ("今ボロボロなの．．．。", []),
+            (
+                "前です。(｡・ω・｡)後です。",
+                [
+                    {"surface": "前", "pos": "名詞,普通名詞,一般,*,*,*"},
+                    {"surface": "です", "pos": "助動詞,*,*,*,助動詞-デス,終止形-一般"},
+                    {"surface": "。", "pos": "補助記号,句点,*,*,*,*"},
+                    {"surface": "(｡・ω・｡)", "pos": "補助記号,ＡＡ,顔文字,*,*,*"},
+                    {"surface": "後", "pos": "名詞,普通名詞,副詞可能,*,*,*"},
+                    {"surface": "です", "pos": "助動詞,*,*,*,助動詞-デス,終止形-一般"},
+                    {"surface": "。", "pos": "補助記号,句点,*,*,*,*"},
+                ],
+            ),
+        ):
+            with self.subTest(text=text):
+                item = build_review_item(
+                    {
+                        "unit_id": "u-ordinary-boundary",
+                        "doc_id": "d-ordinary-boundary",
+                        "text": text,
+                        "analysis": {
+                            "mechanical": {
+                                "yomi": {
+                                    "rendered": "",
+                                    "sudachi": {"tokens": sudachi_tokens},
+                                }
+                            },
+                            "safety": {"yomi": {"targets": []}},
+                        },
+                    },
+                    seq=1,
+                    doc_seq=1,
+                    track_doc_seq=1,
+                )
+
+                self.assertNotIn("initial_disposition", item)
+
     def test_review_item_overrides_safe_standalone_month_inside_weekday_parentheses(self) -> None:
         unit = {
             "unit_id": "u-weekday",
