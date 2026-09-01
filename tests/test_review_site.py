@@ -210,6 +210,14 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("isItemIncludedInSubmission(candidate)", app_source)
         self.assertNotIn("document_disposition", app_source)
 
+    def test_review_ui_does_not_render_internal_document_ids(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
+
+        self.assertNotIn('right.textContent = item.doc_id || ""', app_source)
+        self.assertNotIn('tile.title = `${doc.doc_id || ""}', app_source)
+        self.assertNotIn('workflowPreviewMeta.textContent = `${doc.doc_id || ""}', app_source)
+
     def test_review_ui_polling_cache_key_is_independent_of_page_cache_buster(self) -> None:
         repository_root = Path(__file__).resolve().parents[1]
         app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")

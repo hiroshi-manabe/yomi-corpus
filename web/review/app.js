@@ -1317,7 +1317,7 @@ function renderCorpusMapTileGrid(docs) {
       ${manualCorrectionCount ? `<em class="manual-correction-count-badge">${escapeHtml(manualCorrectionCount)}</em>` : ""}
       ${localCorrection ? `<em class="local-correction-badge ${escapeHtml(localCorrection.status)}">${localCorrection.status === "submitted" ? "提出済" : "編集中"}</em>` : ""}
     `;
-    tile.title = `${doc.doc_id || ""}\n${doc.text_preview || ""}${
+    tile.title = `${doc.text_preview || ""}${
       correctionCount ? `\n${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
     }${manualCorrectionCount ? `\n要手動修正: ${manualCorrectionCount}件` : ""}${localCorrection ? `\n${localCorrection.status === "submitted" ? "サーバー処理待ちの提出済み修正" : "ローカル修正案"}` : ""}`;
     tile.addEventListener("click", () => {
@@ -1564,7 +1564,7 @@ function openArchiveCorrectionEditor(doc, { scrollToManualCorrection = false } =
   el.workflowPreviewTitle.textContent = `文書 ${doc.track_doc_seq} を修正`;
   const correctionCount = Number(doc.finalized_correction_count || 0);
   const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-  el.workflowPreviewMeta.textContent = `${doc.doc_id || ""} · ${doc.batch_name || ""} · 確定済みデータの修正${
+  el.workflowPreviewMeta.textContent = `${doc.batch_name || ""} · 確定済みデータの修正${
     correctionCount ? ` · ${formatArchiveCorrectionSummary(correctionCount, correctionSentenceCount)}` : ""
   }${doc.manual_correction_required_count ? ` · 要手動修正: ${doc.manual_correction_required_count}件` : ""}`;
   el.workflowPreviewBody.innerHTML = "";
@@ -3576,14 +3576,9 @@ function renderItems() {
 function renderDocumentSeparator(item) {
   const separator = document.createElement("div");
   separator.className = "document-separator";
-  const identity = document.createElement("div");
-  identity.className = "document-separator-identity";
   const left = document.createElement("strong");
   left.textContent = `文書 ${itemDisplayDocSeq(item) || ""}`;
-  const right = document.createElement("span");
-  right.textContent = item.doc_id || "";
-  identity.append(left, right);
-  separator.append(identity);
+  separator.append(left);
 
   if (itemReviewStage(item) === "yomi_final_review" && isEditable()) {
     const items = yomiItemsForDocumentDisposition(item);
