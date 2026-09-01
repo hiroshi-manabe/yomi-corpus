@@ -201,6 +201,15 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertNotIn("編集をリセット", page_source)
         self.assertIn("takeNextQueueDocuments", app_source)
 
+    def test_review_ui_expands_document_dispositions_to_unit_overrides(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")
+
+        self.assertIn("function setDocumentYomiDisposition", app_source)
+        self.assertIn('aria-label", "文書全体の扱い', app_source)
+        self.assertIn("isItemIncludedInSubmission(candidate)", app_source)
+        self.assertNotIn("document_disposition", app_source)
+
     def test_review_ui_polling_cache_key_is_independent_of_page_cache_buster(self) -> None:
         repository_root = Path(__file__).resolve().parents[1]
         app_source = (repository_root / "web/review/app.js").read_text(encoding="utf-8")

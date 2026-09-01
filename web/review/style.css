@@ -1408,6 +1408,74 @@ button:disabled {
   color: var(--text);
 }
 
+.document-separator-identity {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.document-separator-identity span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.document-disposition-controls {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.document-disposition-button {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  margin: 0 0 0 -1px;
+  padding: 0;
+  border: 1px solid rgba(58, 48, 33, 0.25);
+  border-radius: 0;
+  background: rgba(255, 253, 249, 0.74);
+  color: rgba(58, 48, 33, 0.48);
+  cursor: pointer;
+  font: 700 0.9rem/1 "Iosevka", "SFMono-Regular", Consolas, monospace;
+}
+
+.document-disposition-button:first-child {
+  margin-left: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+.document-disposition-button:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.document-disposition-button.disposition-skip[aria-pressed="true"] {
+  border-color: rgba(31, 28, 23, 0.72);
+  background: rgba(31, 28, 23, 0.82);
+  color: #fffdf9;
+}
+
+.document-disposition-button.disposition-exclude[aria-pressed="true"] {
+  border-color: rgba(145, 48, 42, 0.9);
+  background: rgba(145, 48, 42, 0.9);
+  color: #fffdf9;
+}
+
+.document-disposition-button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .document-separator-identity span {
+    display: none;
+  }
+}
+
 .item-card {
   border: 1px solid var(--line);
   background: #fffdf9;

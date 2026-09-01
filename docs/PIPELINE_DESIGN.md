@@ -1286,6 +1286,16 @@ red styling so the reviewer sees the draft disposition before submission.
 This replaces both the unused range-selection control and the visually heavier
 three-segment selector.
 
+The Bulk Review document header exposes the same two controls as document-wide
+actions. They are UI conveniences rather than a new persisted document
+disposition: one action atomically writes the selected disposition to every
+unit from that document in the current Bulk Review task. Pressing an active
+document action again restores each unit's original disposition. Existing
+reading edits remain intact, and the submitted patch continues to contain
+ordinary per-unit overrides so the applicator and archive formats do not need a
+second state model. The issue submission still requires the normal explicit
+confirmation for every terminal exclusion.
+
 Disposition rule:
 
 - human selects `Keep`: include the reviewed unit normally
