@@ -2403,6 +2403,23 @@ cursor must be recoverable and idempotent so interruption cannot duplicate or
 lose a source document. The source fingerprint prevents reusing line-number
 identities with a changed source file.
 
+#### Cleaner-regeneration recovery documents
+
+If an upstream cleaner correction restores text to documents that have already
+completed review, do not silently regenerate those finalized documents. Group
+the restored segments into temporary recovery documents and pass them through
+the ordinary Bulk Review and Escalated Repair workflow. Recovery documents are
+review containers only: accepted units are inserted into versioned original
+documents at validated anchors, while the virtual containers never enter corpus
+exports, Corpus Map identity, N-gram adjacency, or the ordinary processing
+order.
+
+Regenerated source also requires a new source fingerprint. Preserve historical
+source-line provenance for the frozen prefix and rebuild only the unprocessed
+processing-order suffix by stable source identity. The full migration design,
+data model, idempotency rules, application semantics, and retirement procedure
+are specified in `docs/CLEANER_RECOVERY_DOCUMENT_MIGRATION.md`.
+
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus
 source/final data:
