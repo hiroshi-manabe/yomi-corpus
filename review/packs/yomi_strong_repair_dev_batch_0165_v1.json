@@ -10,10 +10,10 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -57,12 +57,12 @@
       "source_line_no": 1612,
       "preview": "先日ちょっとびっくりというか面白い出来事があったので、是非お伝えしたいです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-01T00:39:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:46:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1616,
       "preview": "今日は、俺、カイトの、ケニア音楽のイメージの線と、定置網に引っかかったシャチが、一生懸命、必死に、網から抜け出そうと、力一杯、泳いでるイメージの絵を、海渡ギャラリーに載せてみたよー。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-01T00:39:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:46:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 1618,
       "preview": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-01T00:39:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:46:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1619,
       "preview": "小野競書会の学校代表の子どもたちは、家で毎日のように練習を続けているそうです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-01T00:39:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:46:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -1375,7 +1375,7 @@
       "source_line_no": 1618,
       "text": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
       "rendered_yomi_before": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名/メイ 北支/ホクシ 部/ブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
-      "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北支部/メイホクシブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北/メイホク 支部/シブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "3日",
@@ -1414,8 +1414,12 @@
           "タ"
         ],
         [
-          "名北支部",
-          "メイホクシブ"
+          "名北",
+          "メイホク"
+        ],
+        [
+          "支部",
+          "シブ"
         ],
         [
           "予選",
@@ -1547,13 +1551,24 @@
           ]
         },
         {
-          "surface": "名北支部",
-          "reading": "メイホクシブ",
+          "surface": "名北",
+          "reading": "メイホク",
           "nodes": [
             {
               "type": "ruby",
-              "text": "名北支部",
-              "reading": "めいほくしぶ"
+              "text": "名北",
+              "reading": "めいほく"
+            }
+          ]
+        },
+        {
+          "surface": "支部",
+          "reading": "シブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "支部",
+              "reading": "しぶ"
             }
           ]
         },
@@ -1644,14 +1659,14 @@
           "unit_id": "ja_cc_level2:0000001618:u0001",
           "text": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
           "rendered_yomi_before": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名/メイ 北支/ホクシ 部/ブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
-          "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北支部/メイホクシブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北/メイホク 支部/シブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
           "display_mapping": {
             "start": 9,
-            "end": 10,
+            "end": 11,
             "char_start": 15,
             "char_end": 19,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },

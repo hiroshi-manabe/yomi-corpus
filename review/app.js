@@ -3576,12 +3576,99 @@ function renderItems() {
 function renderDocumentSeparator(item) {
   const separator = document.createElement("div");
   separator.className = "document-separator";
+  const identity = document.createElement("div");
+  identity.className = "document-separator-identity";
   const left = document.createElement("strong");
   left.textContent = `文書 ${itemDisplayDocSeq(item) || ""}`;
   const right = document.createElement("span");
   right.textContent = item.doc_id || "";
-  separator.append(left, right);
+  identity.append(left, right);
+  separator.append(identity);
+
+  if (itemReviewStage(item) === "yomi_final_review" && isEditable()) {
+    const items = yomiItemsForDocumentDisposition(item);
+    if (items.length) {
+      const controls = document.createElement("div");
+      controls.className = "document-disposition-controls";
+      controls.setAttribute("role", "group");
+      controls.setAttribute("aria-label", "文書全体の扱い");
+      for (const option of [
+        {
+          value: "Skip",
+          glyph: "▣",
+          title: "文書全体を後から復帰可能な状態でスキップします",
+        },
+        {
+          value: "Exclude",
+          glyph: "⛨",
+          title: "文書全体を恒久的に除外します",
+        },
+      ]) {
+        const active = items.every(
+          (candidate) => yomiItemEffectiveDisposition(candidate) === option.value,
+        );
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `document-disposition-button disposition-${option.value.toLowerCase()}`;
+        button.dataset.disposition = option.value;
+        button.title = active
+          ? `${option.title}。もう一度押すと各文を元の状態に戻します`
+          : option.title;
+        button.setAttribute("aria-label", button.title);
+        button.setAttribute("aria-pressed", String(active));
+        button.textContent = option.glyph;
+        button.addEventListener("click", () => {
+          setDocumentYomiDisposition(item, active ? null : option.value);
+        });
+        controls.append(button);
+      }
+      separator.append(controls);
+    }
+  }
   return separator;
+}
+
+function yomiItemsForDocumentDisposition(item) {
+  return (state.currentPack?.items || []).filter(
+    (candidate) =>
+      candidate.doc_id === item.doc_id &&
+      itemReviewStage(candidate) === "yomi_final_review" &&
+      isItemIncludedInSubmission(candidate),
+  );
+}
+
+function yomiItemEffectiveDisposition(item) {
+  const override = state.currentDraft?.overrides?.[item.item_id];
+  return (
+    override?.disposition ||
+    (typeof override?.skip === "boolean"
+      ? override.skip
+        ? "Skip"
+        : "Keep"
+      : yomiItemDefaultDisposition(item))
+  );
+}
+
+function setDocumentYomiDisposition(item, disposition) {
+  const items = yomiItemsForDocumentDisposition(item);
+  if (!items.length || (disposition !== null && !["Skip", "Exclude"].includes(disposition))) {
+    return;
+  }
+
+  // Build the complete update set before mutating the draft so the bulk action
+  // cannot leave a partially changed document.
+  const updates = items.map((candidate) => ({
+    item: candidate,
+    disposition: disposition ?? yomiItemDefaultDisposition(candidate),
+  }));
+  for (const update of updates) {
+    const draft = ensureYomiOverride(update.item.item_id);
+    draft.disposition = update.disposition;
+    draft.skip = update.disposition !== "Keep";
+    cleanupYomiOverride(update.item.item_id);
+  }
+  touchDraft();
+  render();
 }
 
 function renderStrongRepairItem({ node, item, override, editable }) {
@@ -4695,10 +4782,7 @@ function renderYomiItem({ node, item, override, editable }) {
   const controls = document.createElement("div");
   controls.className = "yomi-controls";
 
-  const defaultDisposition = yomiItemDefaultDisposition(item);
-  const currentDisposition =
-    override?.disposition ||
-    (typeof override?.skip === "boolean" ? (override.skip ? "Skip" : "Keep") : defaultDisposition);
+  const currentDisposition = yomiItemEffectiveDisposition(item);
   setYomiDispositionClasses(node, currentDisposition);
   const scopeSelector = document.createElement("div");
   scopeSelector.className = "yomi-scope-selector";
