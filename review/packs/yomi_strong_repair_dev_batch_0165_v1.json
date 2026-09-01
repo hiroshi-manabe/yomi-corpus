@@ -1,0 +1,3900 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_0165_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_0165",
+  "created_at_epoch": 1788222575,
+  "created_at": "2026-09-01T00:29:35Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 6,
+    "result_row_count": 6,
+    "reviewable_repair_row_count": 6,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2:0000001611",
+      "doc_seq": 1,
+      "track_doc_seq": 1611,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1611,
+      "preview": "あ、いきなり始まってしまいましたが、先日Tくんとのデートで訪れた横浜のことを、お姉さまはしっかり覚えていました（笑）。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001612",
+      "doc_seq": 2,
+      "track_doc_seq": 1612,
+      "unit_count": 57,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1612,
+      "preview": "先日ちょっとびっくりというか面白い出来事があったので、是非お伝えしたいです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-01T00:29:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 57,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001613",
+      "doc_seq": 3,
+      "track_doc_seq": 1613,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1613,
+      "preview": "ファーウェイ・ジャパンさんのメディア向けセミナー「TWS市場の最新トレンド – 市場拡大とユーザーニーズの二極化」のレポート記事を、マイナビニュースさんに掲載して頂きました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001614",
+      "doc_seq": 4,
+      "track_doc_seq": 1614,
+      "unit_count": 76,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1614,
+      "preview": "1.1 彼らはなぜ職場で男性として認識されるの？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 76,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001615",
+      "doc_seq": 5,
+      "track_doc_seq": 1615,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1615,
+      "preview": "とりあえずは社会一般の真実を知ってください。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001616",
+      "doc_seq": 6,
+      "track_doc_seq": 1616,
+      "unit_count": 46,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1616,
+      "preview": "今日は、俺、カイトの、ケニア音楽のイメージの線と、定置網に引っかかったシャチが、一生懸命、必死に、網から抜け出そうと、力一杯、泳いでるイメージの絵を、海渡ギャラリーに載せてみたよー。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-01T00:29:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 46,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001617",
+      "doc_seq": 7,
+      "track_doc_seq": 1617,
+      "unit_count": 31,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1617,
+      "preview": "前回上京してから2か月が経ちました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 31,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001618",
+      "doc_seq": 8,
+      "track_doc_seq": 1618,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1618,
+      "preview": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-01T00:29:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001619",
+      "doc_seq": 9,
+      "track_doc_seq": 1619,
+      "unit_count": 79,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1619,
+      "preview": "小野競書会の学校代表の子どもたちは、家で毎日のように練習を続けているそうです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-01T00:29:52Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 4,
+      "to_seq": 6,
+      "reviewed_unit_count": 79,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2:0000001620",
+      "doc_seq": 10,
+      "track_doc_seq": 1620,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1620,
+      "preview": "普段の生活のなかで、猫が鼻を使ってることが多くあります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-01T00:28:23Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2:0000001612:u0049::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2:0000001612",
+      "doc_seq": 2,
+      "track_doc_seq": 1612,
+      "unit_id": "ja_cc_level2:0000001612:u0049",
+      "unit_seq": 49,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1612,
+      "text": "｢俺にしかできない最後の大締めの仕事をやってるんだ｣と思って下さい。",
+      "rendered_yomi_before": "｢/｢ 俺/オレ に/ニ しか/シカ でき/デキ ない/ナイ 最後/サイゴ の/ノ 大/ダイ 締め/シメ の/ノ 仕事/シゴト を/ヲ やっ/ヤッ てる/テル ん/ン だ/ダ ｣/｣ と/ト 思っ/オモッ て/テ 下さい/クダサイ 。/。",
+      "rendered_yomi_after": "｢/｢ 俺/オレ に/ニ しか/シカ でき/デキ ない/ナイ 最後/サイゴ の/ノ 大締め/オオジメ の/ノ 仕事/シゴト を/ヲ やっ/ヤッ てる/テル ん/ン だ/ダ ｣/｣ と/ト 思っ/オモッ て/テ 下さい/クダサイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "｢",
+          "｢"
+        ],
+        [
+          "俺",
+          "オレ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "しか",
+          "シカ"
+        ],
+        [
+          "でき",
+          "デキ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "最後",
+          "サイゴ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "大締め",
+          "オオジメ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "仕事",
+          "シゴト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "やっ",
+          "ヤッ"
+        ],
+        [
+          "てる",
+          "テル"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "｣",
+          "｣"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "思っ",
+          "オモッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "下さい",
+          "クダサイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "｢",
+          "reading": "｢",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "｢"
+            }
+          ]
+        },
+        {
+          "surface": "俺",
+          "reading": "オレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "俺",
+              "reading": "おれ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "しか",
+          "reading": "シカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しか"
+            }
+          ]
+        },
+        {
+          "surface": "でき",
+          "reading": "デキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でき"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "最後",
+          "reading": "サイゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "最後",
+              "reading": "さいご"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "大締め",
+          "reading": "オオジメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大締",
+              "reading": "おおじ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "仕事",
+          "reading": "シゴト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "仕事",
+              "reading": "しごと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "やっ",
+          "reading": "ヤッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やっ"
+            }
+          ]
+        },
+        {
+          "surface": "てる",
+          "reading": "テル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "てる"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "｣",
+          "reading": "｣",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "｣"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "思っ",
+          "reading": "オモッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "下さい",
+          "reading": "クダサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下",
+              "reading": "くだ"
+            },
+            {
+              "type": "text",
+              "text": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+          "item_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+          "unit_id": "ja_cc_level2:0000001612:u0049",
+          "text": "｢俺にしかできない最後の大締めの仕事をやってるんだ｣と思って下さい。",
+          "rendered_yomi_before": "｢/｢ 俺/オレ に/ニ しか/シカ でき/デキ ない/ナイ 最後/サイゴ の/ノ 大/ダイ 締め/シメ の/ノ 仕事/シゴト を/ヲ やっ/ヤッ てる/テル ん/ン だ/ダ ｣/｣ と/ト 思っ/オモッ て/テ 下さい/クダサイ 。/。",
+          "rendered_yomi_after": "｢/｢ 俺/オレ に/ニ しか/シカ でき/デキ ない/ナイ 最後/サイゴ の/ノ 大締め/オオジメ の/ノ 仕事/シゴト を/ヲ やっ/ヤッ てる/テル ん/ン だ/ダ ｣/｣ と/ト 思っ/オモッ て/テ 下さい/クダサイ 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 12,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001612:u0049:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大",
+              "token_surface": "大",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001612:u0049:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "締め",
+              "token_surface": "締め",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "締め",
+                  "reading": "しめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001612:u0049:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大",
+              "token_surface": "大",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001612:u0049:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "締め",
+              "token_surface": "締め",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しめ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "締め",
+                  "reading": "しめ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "大締め",
+          "reading_candidates": {
+            "大": [
+              "おお",
+              "おおき",
+              "しん",
+              "たい",
+              "たけし",
+              "だ",
+              "だい",
+              "とも",
+              "はじめ",
+              "ひろ",
+              "ひろし",
+              "ふとし",
+              "まさる",
+              "ゆたか"
+            ],
+            "締": [
+              "しめ",
+              "じ",
+              "じめ"
+            ],
+            "締め": [
+              "しめ",
+              "じめ"
+            ]
+          },
+          "reading_hints": {
+            "大": "おお",
+            "締": "しめ",
+            "締め": "しめ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "大",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "締め",
+              "reading": "しめ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"大締め\",\"reading\":\"オオジメ\",\"used_web_search\":false,\"comment\":\"複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "大締め",
+              "reading": "オオジメ",
+              "used_web_search": false,
+              "comment": "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。"
+            }
+          ],
+          "llm_comments": [
+            "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+            "status": "applied",
+            "rejected_span": "大締め",
+            "replacement": [
+              {
+                "surface": "大締め",
+                "reading": "オオジメ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+                "surface": "大締め",
+                "comment": "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "大締め",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001612:u0049:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "大",
+          "token_surface": "大",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "大",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001612:u0049:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "締め",
+          "token_surface": "締め",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しめ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "締め",
+              "reading": "しめ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "大",
+          "reading": "だい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "締め",
+          "reading": "しめ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "大": [
+          "おお",
+          "おおき",
+          "しん",
+          "たい",
+          "たけし",
+          "だ",
+          "だい",
+          "とも",
+          "はじめ",
+          "ひろ",
+          "ひろし",
+          "ふとし",
+          "まさる",
+          "ゆたか"
+        ],
+        "締": [
+          "しめ",
+          "じ",
+          "じめ"
+        ],
+        "締め": [
+          "しめ",
+          "じめ"
+        ]
+      },
+      "reading_hints": {
+        "大": "おお",
+        "締": "しめ",
+        "締め": "しめ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "大締め",
+          "reading": "オオジメ",
+          "used_web_search": false,
+          "comment": "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"大締め\",\"reading\":\"オオジメ\",\"used_web_search\":false,\"comment\":\"複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。\"}]",
+      "llm_comments": [
+        "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+        "status": "applied",
+        "rejected_span": "大締め",
+        "replacement": [
+          {
+            "surface": "大締め",
+            "reading": "オオジメ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001612:u0049::target_group:1",
+            "surface": "大締め",
+            "comment": "複合語として読むのが自然で、ここでは「大＋締め」ではなく一まとまりの名詞「おおじめ」と判断しました。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001616:u0016::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2:0000001616",
+      "doc_seq": 6,
+      "track_doc_seq": 1616,
+      "unit_id": "ja_cc_level2:0000001616:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1616,
+      "text": "滝に佇む狼犬、ロンリー。",
+      "rendered_yomi_before": "滝/タキ に/ニ 佇む/タタズム 狼/オオカミ 犬/ケン 、/、 ロンリー/ロンリー 。/。",
+      "rendered_yomi_after": "滝/タキ に/ニ 佇む/タタズム 狼犬/オオカミイヌ 、/、 ロンリー/ロンリー 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "滝",
+          "タキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "佇む",
+          "タタズム"
+        ],
+        [
+          "狼犬",
+          "オオカミイヌ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ロンリー",
+          "ロンリー"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "滝",
+          "reading": "タキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "滝",
+              "reading": "たき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "佇む",
+          "reading": "タタズム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "佇",
+              "reading": "たたず"
+            },
+            {
+              "type": "text",
+              "text": "む"
+            }
+          ]
+        },
+        {
+          "surface": "狼犬",
+          "reading": "オオカミイヌ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "狼犬",
+              "reading": "おおかみいぬ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ロンリー",
+          "reading": "ロンリー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ロンリー"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+          "item_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+          "unit_id": "ja_cc_level2:0000001616:u0016",
+          "text": "滝に佇む狼犬、ロンリー。",
+          "rendered_yomi_before": "滝/タキ に/ニ 佇む/タタズム 狼/オオカミ 犬/ケン 、/、 ロンリー/ロンリー 。/。",
+          "rendered_yomi_after": "滝/タキ に/ニ 佇む/タタズム 狼犬/オオカミイヌ 、/、 ロンリー/ロンリー 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001616:u0016:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狼",
+              "token_surface": "狼",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおかみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "狼",
+                  "reading": "おおかみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001616:u0016:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "犬",
+              "token_surface": "犬",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "犬",
+                  "reading": "けん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001616:u0016:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "狼",
+              "token_surface": "狼",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおかみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "狼",
+                  "reading": "おおかみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001616:u0016:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "犬",
+              "token_surface": "犬",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "けん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "犬",
+                  "reading": "けん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "狼犬",
+          "reading_candidates": {
+            "狼": [
+              "おいの",
+              "おおかみ",
+              "ろう"
+            ],
+            "犬": [
+              "いぬ",
+              "けん"
+            ]
+          },
+          "reading_hints": {
+            "狼": "おいの",
+            "犬": "いぬ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "狼",
+              "reading": "おおかみ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "犬",
+              "reading": "けん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"狼犬\",\"reading\":\"おおかみいぬ\",\"used_web_search\":false,\"comment\":\"一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "狼犬",
+              "reading": "おおかみいぬ",
+              "used_web_search": false,
+              "comment": "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "狼犬",
+            "replacement": [
+              {
+                "surface": "狼犬",
+                "reading": "オオカミイヌ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+                "surface": "狼犬",
+                "comment": "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "狼犬",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001616:u0016:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "狼",
+          "token_surface": "狼",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "おおかみ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "狼",
+              "reading": "おおかみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001616:u0016:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "犬",
+          "token_surface": "犬",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "けん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "犬",
+              "reading": "けん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "狼",
+          "reading": "おおかみ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "犬",
+          "reading": "けん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "狼": [
+          "おいの",
+          "おおかみ",
+          "ろう"
+        ],
+        "犬": [
+          "いぬ",
+          "けん"
+        ]
+      },
+      "reading_hints": {
+        "狼": "おいの",
+        "犬": "いぬ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "狼犬",
+          "reading": "おおかみいぬ",
+          "used_web_search": false,
+          "comment": "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"狼犬\",\"reading\":\"おおかみいぬ\",\"used_web_search\":false,\"comment\":\"一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。\"}]",
+      "llm_comments": [
+        "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "狼犬",
+        "replacement": [
+          {
+            "surface": "狼犬",
+            "reading": "オオカミイヌ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001616:u0016::target_group:1",
+            "surface": "狼犬",
+            "comment": "一般的な語で「狼＋犬」の複合語なので、2語に分けず1項目で読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001618:u0001::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2:0000001618",
+      "doc_seq": 8,
+      "track_doc_seq": 1618,
+      "unit_id": "ja_cc_level2:0000001618:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1618,
+      "text": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
+      "rendered_yomi_before": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名/メイ 北支/ホクシ 部/ブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北支部/メイホクシブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "3日",
+          "ミッカ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "名古屋",
+          "ナゴヤ"
+        ],
+        [
+          "経済",
+          "ケイザイ"
+        ],
+        [
+          "大",
+          "ダイ"
+        ],
+        [
+          "にて",
+          "ニテ"
+        ],
+        [
+          "行わ",
+          "オコナワ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "名北支部",
+          "メイホクシブ"
+        ],
+        [
+          "予選",
+          "ヨセン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "3日",
+          "ミッカ"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "3日",
+          "reading": "ミッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "3日",
+              "reading": "みっか"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "名古屋",
+          "reading": "ナゴヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名古屋",
+              "reading": "なごや"
+            }
+          ]
+        },
+        {
+          "surface": "経済",
+          "reading": "ケイザイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "経済",
+              "reading": "けいざい"
+            }
+          ]
+        },
+        {
+          "surface": "大",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "にて",
+          "reading": "ニテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "にて"
+            }
+          ]
+        },
+        {
+          "surface": "行わ",
+          "reading": "オコナワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "名北支部",
+          "reading": "メイホクシブ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名北支部",
+              "reading": "めいほくしぶ"
+            }
+          ]
+        },
+        {
+          "surface": "予選",
+          "reading": "ヨセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予選",
+              "reading": "よせん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "3日",
+          "reading": "ミッカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "3日",
+              "reading": "みっか"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+          "item_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+          "unit_id": "ja_cc_level2:0000001618:u0001",
+          "text": "3日は名古屋経済大にて行われた名北支部予選の3日目でした。",
+          "rendered_yomi_before": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名/メイ 北支/ホクシ 部/ブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "3日/ミッカ は/ハ 名古屋/ナゴヤ 経済/ケイザイ 大/ダイ にて/ニテ 行わ/オコナワ れ/レ た/タ 名北支部/メイホクシブ 予選/ヨセン の/ノ 3日/ミッカ 目/メ でし/デシ た/タ 。/。",
+          "display_mapping": {
+            "start": 9,
+            "end": 10,
+            "char_start": 15,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 4,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "名",
+              "token_surface": "名",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "めい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "名",
+                  "reading": "めい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北支",
+              "token_surface": "北支",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほくし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "北支",
+                  "reading": "ほくし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "部",
+              "token_surface": "部",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "部",
+                  "reading": "ぶ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "名",
+              "token_surface": "名",
+              "token_index": 9,
+              "chunk_index": 0,
+              "current_reading_hiragana": "めい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "名",
+                  "reading": "めい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "北支",
+              "token_surface": "北支",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ほくし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "北支",
+                  "reading": "ほくし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001618:u0001:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "部",
+              "token_surface": "部",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ぶ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "部",
+                  "reading": "ぶ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "名北支部",
+          "reading_candidates": {
+            "名": [
+              "めい",
+              "な",
+              "みょう"
+            ],
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "北支": [
+              "ほくし"
+            ],
+            "支": [
+              "し"
+            ],
+            "支部": [
+              "しぶ"
+            ],
+            "部": [
+              "ぶ",
+              "べ"
+            ]
+          },
+          "reading_hints": {
+            "名": "めい",
+            "北": "きた",
+            "北支": "ほくし",
+            "支": "し",
+            "支部": "しぶ",
+            "部": "ぶ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "名",
+              "reading": "めい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "北支",
+              "reading": "ほくし",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "部",
+              "reading": "ぶ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"名北支部\",\"reading\":\"メイホクシブ\",\"used_web_search\":false,\"comment\":\"文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "名北支部",
+              "reading": "メイホクシブ",
+              "used_web_search": false,
+              "comment": "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "名北支部",
+            "replacement": [
+              {
+                "surface": "名北支部",
+                "reading": "メイホクシブ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+                "surface": "名北支部",
+                "comment": "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "名北支部",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001618:u0001:s0016-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "名",
+          "token_surface": "名",
+          "token_index": 9,
+          "chunk_index": 0,
+          "current_reading_hiragana": "めい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "名",
+              "reading": "めい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001618:u0001:s0017-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "北支",
+          "token_surface": "北支",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ほくし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "北支",
+              "reading": "ほくし",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001618:u0001:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "部",
+          "token_surface": "部",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ぶ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "部",
+              "reading": "ぶ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "名",
+          "reading": "めい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "北支",
+          "reading": "ほくし",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "部",
+          "reading": "ぶ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "名": [
+          "めい",
+          "な",
+          "みょう"
+        ],
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "北支": [
+          "ほくし"
+        ],
+        "支": [
+          "し"
+        ],
+        "支部": [
+          "しぶ"
+        ],
+        "部": [
+          "ぶ",
+          "べ"
+        ]
+      },
+      "reading_hints": {
+        "名": "めい",
+        "北": "きた",
+        "北支": "ほくし",
+        "支": "し",
+        "支部": "しぶ",
+        "部": "ぶ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "名北支部",
+          "reading": "メイホクシブ",
+          "used_web_search": false,
+          "comment": "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"名北支部\",\"reading\":\"メイホクシブ\",\"used_web_search\":false,\"comment\":\"文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。\"}]",
+      "llm_comments": [
+        "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "名北支部",
+        "replacement": [
+          {
+            "surface": "名北支部",
+            "reading": "メイホクシブ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001618:u0001::target_group:1",
+            "surface": "名北支部",
+            "comment": "文脈上、支部名として一まとまりの固有表現と判断できるため、分割せず「名北支部」で読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001619:u0002::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2:0000001619",
+      "doc_seq": 9,
+      "track_doc_seq": 1619,
+      "unit_id": "ja_cc_level2:0000001619:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1619,
+      "text": "１階の図工室前廊下には、毎週学校に提出した練習作品が掲示してあります。",
+      "rendered_yomi_before": "１/ 階/カイ の/ノ 図工/ズコウ 室前/ムロマエ 廊下/ロウカ に/ニ は/ハ 、/、 毎週/マイシュウ 学校/ガッコウ に/ニ 提出/テイシュツ し/シ た/タ 練習/レンシュウ 作品/サクヒン が/ガ 掲示/ケイジ し/シ て/テ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "１/ 階/カイ の/ノ 図工室/ズコウシツ 前/マエ 廊下/ロウカ に/ニ は/ハ 、/、 毎週/マイシュウ 学校/ガッコウ に/ニ 提出/テイシュツ し/シ た/タ 練習/レンシュウ 作品/サクヒン が/ガ 掲示/ケイジ し/シ て/テ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "１",
+          ""
+        ],
+        [
+          "階",
+          "カイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "図工室",
+          "ズコウシツ"
+        ],
+        [
+          "前",
+          "マエ"
+        ],
+        [
+          "廊下",
+          "ロウカ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "毎週",
+          "マイシュウ"
+        ],
+        [
+          "学校",
+          "ガッコウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "提出",
+          "テイシュツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "練習",
+          "レンシュウ"
+        ],
+        [
+          "作品",
+          "サクヒン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "掲示",
+          "ケイジ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "１",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "１"
+            }
+          ]
+        },
+        {
+          "surface": "階",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "階",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "図工室",
+          "reading": "ズコウシツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "図工室",
+              "reading": "ずこうしつ"
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "廊下",
+          "reading": "ロウカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "廊下",
+              "reading": "ろうか"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "毎週",
+          "reading": "マイシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "毎週",
+              "reading": "まいしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "学校",
+          "reading": "ガッコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "学校",
+              "reading": "がっこう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "提出",
+          "reading": "テイシュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "提出",
+              "reading": "ていしゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "練習",
+          "reading": "レンシュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "練習",
+              "reading": "れんしゅう"
+            }
+          ]
+        },
+        {
+          "surface": "作品",
+          "reading": "サクヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作品",
+              "reading": "さくひん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "掲示",
+          "reading": "ケイジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "掲示",
+              "reading": "けいじ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+          "item_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+          "unit_id": "ja_cc_level2:0000001619:u0002",
+          "text": "１階の図工室前廊下には、毎週学校に提出した練習作品が掲示してあります。",
+          "rendered_yomi_before": "１/ 階/カイ の/ノ 図工/ズコウ 室前/ムロマエ 廊下/ロウカ に/ニ は/ハ 、/、 毎週/マイシュウ 学校/ガッコウ に/ニ 提出/テイシュツ し/シ た/タ 練習/レンシュウ 作品/サクヒン が/ガ 掲示/ケイジ し/シ て/テ あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "１/ 階/カイ の/ノ 図工室/ズコウシツ 前/マエ 廊下/ロウカ に/ニ は/ハ 、/、 毎週/マイシュウ 学校/ガッコウ に/ニ 提出/テイシュツ し/シ た/タ 練習/レンシュウ 作品/サクヒン が/ガ 掲示/ケイジ し/シ て/テ あり/アリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 5,
+            "char_start": 3,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0002:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "図工",
+              "token_surface": "図工",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ずこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "図工",
+                  "reading": "ずこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0002:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "室前",
+              "token_surface": "室前",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むろまえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "室前",
+                  "reading": "むろまえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0002:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "図工",
+              "token_surface": "図工",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ずこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "図工",
+                  "reading": "ずこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0002:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "室前",
+              "token_surface": "室前",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "むろまえ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "室前",
+                  "reading": "むろまえ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "図工室前",
+          "reading_candidates": {
+            "図": [
+              "ず"
+            ],
+            "図工": [
+              "ずこう"
+            ],
+            "工": [
+              "こう",
+              "たくみ",
+              "つかさ",
+              "つとむ"
+            ],
+            "室": [
+              "しつ",
+              "へや",
+              "べや",
+              "むろ",
+              "むろの"
+            ],
+            "室前": [
+              "むろまえ"
+            ],
+            "前": [
+              "まえ",
+              "ぜん"
+            ]
+          },
+          "reading_hints": {
+            "図": "ず",
+            "図工": "ずこう",
+            "工": "こう",
+            "室": "しつ",
+            "室前": "むろまえ",
+            "前": "まえ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "図工",
+              "reading": "ずこう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "室前",
+              "reading": "むろまえ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"図工室\",\"reading\":\"ずこうしつ\",\"used_web_search\":false,\"comment\":\"『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。\"},{\"surface\":\"前\",\"reading\":\"まえ\",\"used_web_search\":false,\"comment\":\"場所を表す接尾的な『前』として読むのが文脈に合います。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "図工室",
+              "reading": "ずこうしつ",
+              "used_web_search": false,
+              "comment": "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。"
+            },
+            {
+              "surface": "前",
+              "reading": "まえ",
+              "used_web_search": false,
+              "comment": "場所を表す接尾的な『前』として読むのが文脈に合います。"
+            }
+          ],
+          "llm_comments": [
+            "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。",
+            "場所を表す接尾的な『前』として読むのが文脈に合います。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+            "status": "applied",
+            "rejected_span": "図工室前",
+            "replacement": [
+              {
+                "surface": "図工室",
+                "reading": "ズコウシツ"
+              },
+              {
+                "surface": "前",
+                "reading": "マエ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+                "surface": "図工室前",
+                "comment": "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+                "surface": "図工室前",
+                "comment": "場所を表す接尾的な『前』として読むのが文脈に合います。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "図工室前",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001619:u0002:s0004-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "図工",
+          "token_surface": "図工",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ずこう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "図工",
+              "reading": "ずこう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001619:u0002:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "室前",
+          "token_surface": "室前",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "むろまえ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "室前",
+              "reading": "むろまえ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "図工",
+          "reading": "ずこう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "室前",
+          "reading": "むろまえ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "図": [
+          "ず"
+        ],
+        "図工": [
+          "ずこう"
+        ],
+        "工": [
+          "こう",
+          "たくみ",
+          "つかさ",
+          "つとむ"
+        ],
+        "室": [
+          "しつ",
+          "へや",
+          "べや",
+          "むろ",
+          "むろの"
+        ],
+        "室前": [
+          "むろまえ"
+        ],
+        "前": [
+          "まえ",
+          "ぜん"
+        ]
+      },
+      "reading_hints": {
+        "図": "ず",
+        "図工": "ずこう",
+        "工": "こう",
+        "室": "しつ",
+        "室前": "むろまえ",
+        "前": "まえ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "図工室",
+          "reading": "ずこうしつ",
+          "used_web_search": false,
+          "comment": "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。"
+        },
+        {
+          "surface": "前",
+          "reading": "まえ",
+          "used_web_search": false,
+          "comment": "場所を表す接尾的な『前』として読むのが文脈に合います。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"図工室\",\"reading\":\"ずこうしつ\",\"used_web_search\":false,\"comment\":\"『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。\"},{\"surface\":\"前\",\"reading\":\"まえ\",\"used_web_search\":false,\"comment\":\"場所を表す接尾的な『前』として読むのが文脈に合います。\"}]",
+      "llm_comments": [
+        "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。",
+        "場所を表す接尾的な『前』として読むのが文脈に合います。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+        "status": "applied",
+        "rejected_span": "図工室前",
+        "replacement": [
+          {
+            "surface": "図工室",
+            "reading": "ズコウシツ"
+          },
+          {
+            "surface": "前",
+            "reading": "マエ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+            "surface": "図工室前",
+            "comment": "『図工室』は学校の部屋名として自然な語で、ここは「前」と分けるのが適切です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2:0000001619:u0002::target_group:1",
+            "surface": "図工室前",
+            "comment": "場所を表す接尾的な『前』として読むのが文脈に合います。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001619:u0005::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2:0000001619",
+      "doc_seq": 9,
+      "track_doc_seq": 1619,
+      "unit_id": "ja_cc_level2:0000001619:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1619,
+      "text": "陶小での大会は10月20日です。",
+      "rendered_yomi_before": "陶/トウ 小/ショウ で/デ の/ノ 大会/タイカイ は/ハ 10/ 月/ガツ 20日/ハツカ です/デス 。/。",
+      "rendered_yomi_after": "陶小/スエショウ で/デ の/ノ 大会/タイカイ は/ハ 10/ 月/ガツ 20日/ハツカ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "陶小",
+          "スエショウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "大会",
+          "タイカイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "10",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "20日",
+          "ハツカ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "陶小",
+          "reading": "スエショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陶小",
+              "reading": "すえしょう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "大会",
+          "reading": "タイカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大会",
+              "reading": "たいかい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "10",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "10"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "20日",
+          "reading": "ハツカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "20日",
+              "reading": "はつか"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+          "item_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+          "unit_id": "ja_cc_level2:0000001619:u0005",
+          "text": "陶小での大会は10月20日です。",
+          "rendered_yomi_before": "陶/トウ 小/ショウ で/デ の/ノ 大会/タイカイ は/ハ 10/ 月/ガツ 20日/ハツカ です/デス 。/。",
+          "rendered_yomi_after": "陶小/スエショウ で/デ の/ノ 大会/タイカイ は/ハ 10/ 月/ガツ 20日/ハツカ です/デス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0005:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "陶",
+              "token_surface": "陶",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "陶",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0005:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小",
+              "token_surface": "小",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小",
+                  "reading": "しょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0005:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "陶",
+              "token_surface": "陶",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "陶",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0005:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小",
+              "token_surface": "小",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小",
+                  "reading": "しょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "陶小",
+          "reading_candidates": {
+            "陶": [
+              "すえ",
+              "とう"
+            ],
+            "小": [
+              "しょう",
+              "おむら",
+              "こ",
+              "さ",
+              "ちいさ"
+            ]
+          },
+          "reading_hints": {
+            "陶": "すえ",
+            "小": "しょう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "陶",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "小",
+              "reading": "しょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"陶小\",\"reading\":\"スエショウ\",\"used_web_search\":true,\"comment\":\"山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "陶小",
+              "reading": "スエショウ",
+              "used_web_search": true,
+              "comment": "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "陶小",
+            "replacement": [
+              {
+                "surface": "陶小",
+                "reading": "スエショウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+                "surface": "陶小",
+                "comment": "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "陶小",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001619:u0005:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "陶",
+          "token_surface": "陶",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "陶",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001619:u0005:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "小",
+          "token_surface": "小",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "小",
+              "reading": "しょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "陶",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "小",
+          "reading": "しょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "陶": [
+          "すえ",
+          "とう"
+        ],
+        "小": [
+          "しょう",
+          "おむら",
+          "こ",
+          "さ",
+          "ちいさ"
+        ]
+      },
+      "reading_hints": {
+        "陶": "すえ",
+        "小": "しょう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "陶小",
+          "reading": "スエショウ",
+          "used_web_search": true,
+          "comment": "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"陶小\",\"reading\":\"スエショウ\",\"used_web_search\":true,\"comment\":\"山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "陶小",
+        "replacement": [
+          {
+            "surface": "陶小",
+            "reading": "スエショウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001619:u0005::target_group:1",
+            "surface": "陶小",
+            "comment": "山口市立陶小学校の公式URLが sue-e で、資料でも「陶（すえ）小学校」と確認できるため、全体を「すえしょう」と読む。([fa.fureai-cloud.jp](https://fa.fureai-cloud.jp/sue-e/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2:0000001619:u0016::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2:0000001619",
+      "doc_seq": 9,
+      "track_doc_seq": 1619,
+      "unit_id": "ja_cc_level2:0000001619:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1619,
+      "text": "陶小校区には、車の通行量の多い道や見通しの悪い細い道、坂道がたくさんあります。",
+      "rendered_yomi_before": "陶/トウ 小/ショウ 校区/コウク に/ニ は/ハ 、/、 車/クルマ の/ノ 通行量/ツウコウリョウ の/ノ 多い/オオイ 道/ミチ や/ヤ 見通し/ミトオシ の/ノ 悪い/ワルイ 細い/ホソイ 道/ミチ 、/、 坂道/サカミチ が/ガ たくさん/タクサン あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "陶小/スエショウ 校区/コウク に/ニ は/ハ 、/、 車/クルマ の/ノ 通行量/ツウコウリョウ の/ノ 多い/オオイ 道/ミチ や/ヤ 見通し/ミトオシ の/ノ 悪い/ワルイ 細い/ホソイ 道/ミチ 、/、 坂道/サカミチ が/ガ たくさん/タクサン あり/アリ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "陶小",
+          "スエショウ"
+        ],
+        [
+          "校区",
+          "コウク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "車",
+          "クルマ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "通行量",
+          "ツウコウリョウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "多い",
+          "オオイ"
+        ],
+        [
+          "道",
+          "ミチ"
+        ],
+        [
+          "や",
+          "ヤ"
+        ],
+        [
+          "見通し",
+          "ミトオシ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "悪い",
+          "ワルイ"
+        ],
+        [
+          "細い",
+          "ホソイ"
+        ],
+        [
+          "道",
+          "ミチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "坂道",
+          "サカミチ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "たくさん",
+          "タクサン"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "陶小",
+          "reading": "スエショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陶小",
+              "reading": "すえしょう"
+            }
+          ]
+        },
+        {
+          "surface": "校区",
+          "reading": "コウク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "校区",
+              "reading": "こうく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "車",
+          "reading": "クルマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "車",
+              "reading": "くるま"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "通行量",
+          "reading": "ツウコウリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "通行量",
+              "reading": "つうこうりょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "多い",
+          "reading": "オオイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多",
+              "reading": "おお"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "道",
+          "reading": "ミチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "道",
+              "reading": "みち"
+            }
+          ]
+        },
+        {
+          "surface": "や",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "や"
+            }
+          ]
+        },
+        {
+          "surface": "見通し",
+          "reading": "ミトオシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "見通",
+              "reading": "みとお"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "悪い",
+          "reading": "ワルイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "悪",
+              "reading": "わる"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "細い",
+          "reading": "ホソイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "細",
+              "reading": "ほそ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "道",
+          "reading": "ミチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "道",
+              "reading": "みち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "坂道",
+          "reading": "サカミチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "坂道",
+              "reading": "さかみち"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "たくさん",
+          "reading": "タクサン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たくさん"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+          "item_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+          "unit_id": "ja_cc_level2:0000001619:u0016",
+          "text": "陶小校区には、車の通行量の多い道や見通しの悪い細い道、坂道がたくさんあります。",
+          "rendered_yomi_before": "陶/トウ 小/ショウ 校区/コウク に/ニ は/ハ 、/、 車/クルマ の/ノ 通行量/ツウコウリョウ の/ノ 多い/オオイ 道/ミチ や/ヤ 見通し/ミトオシ の/ノ 悪い/ワルイ 細い/ホソイ 道/ミチ 、/、 坂道/サカミチ が/ガ たくさん/タクサン あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "陶小/スエショウ 校区/コウク に/ニ は/ハ 、/、 車/クルマ の/ノ 通行量/ツウコウリョウ の/ノ 多い/オオイ 道/ミチ や/ヤ 見通し/ミトオシ の/ノ 悪い/ワルイ 細い/ホソイ 道/ミチ 、/、 坂道/サカミチ が/ガ たくさん/タクサン あり/アリ ます/マス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "陶",
+              "token_surface": "陶",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "陶",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小",
+              "token_surface": "小",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小",
+                  "reading": "しょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2:0000001619:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "陶",
+              "token_surface": "陶",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "陶",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2:0000001619:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小",
+              "token_surface": "小",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小",
+                  "reading": "しょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "陶小",
+          "reading_candidates": {
+            "陶": [
+              "すえ",
+              "とう"
+            ],
+            "小": [
+              "しょう",
+              "おむら",
+              "こ",
+              "さ",
+              "ちいさ"
+            ]
+          },
+          "reading_hints": {
+            "陶": "すえ",
+            "小": "しょう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "陶",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "小",
+              "reading": "しょう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"陶小\",\"reading\":\"スエショウ\",\"used_web_search\":true,\"comment\":\"瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "陶小",
+              "reading": "スエショウ",
+              "used_web_search": true,
+              "comment": "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。"
+            }
+          ],
+          "llm_comments": [
+            "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "陶小",
+            "replacement": [
+              {
+                "surface": "陶小",
+                "reading": "スエショウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+                "surface": "陶小",
+                "comment": "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "陶小",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2:0000001619:u0016:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "陶",
+          "token_surface": "陶",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "陶",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2:0000001619:u0016:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "小",
+          "token_surface": "小",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "小",
+              "reading": "しょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "陶",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "小",
+          "reading": "しょう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "陶": [
+          "すえ",
+          "とう"
+        ],
+        "小": [
+          "しょう",
+          "おむら",
+          "こ",
+          "さ",
+          "ちいさ"
+        ]
+      },
+      "reading_hints": {
+        "陶": "すえ",
+        "小": "しょう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "陶小",
+          "reading": "スエショウ",
+          "used_web_search": true,
+          "comment": "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"陶小\",\"reading\":\"スエショウ\",\"used_web_search\":true,\"comment\":\"瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。\"}]",
+      "llm_comments": [
+        "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "陶小",
+        "replacement": [
+          {
+            "surface": "陶小",
+            "reading": "スエショウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2:0000001619:u0016::target_group:1",
+            "surface": "陶小",
+            "comment": "瑞浪市立陶小学校の公式表記・校名ローマ字が「suesho」で、校歌でも「すえしょうがっこう」と読まれているため、このまとまりは「スエショウ」と判断しました。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
