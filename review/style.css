@@ -1408,19 +1408,6 @@ button:disabled {
   color: var(--text);
 }
 
-.document-separator-identity {
-  display: flex;
-  min-width: 0;
-  align-items: baseline;
-  gap: 12px;
-}
-
-.document-separator-identity span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .document-disposition-controls {
   display: inline-flex;
   flex: 0 0 auto;
@@ -1468,12 +1455,6 @@ button:disabled {
   z-index: 1;
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-
-@media (max-width: 640px) {
-  .document-separator-identity span {
-    display: none;
-  }
 }
 
 .item-card {
