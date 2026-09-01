@@ -3657,14 +3657,16 @@ function setDocumentYomiDisposition(item, disposition) {
 
   // Build the complete update set before mutating the draft so the bulk action
   // cannot leave a partially changed document.
-  const updates = items.map((candidate) => ({
-    item: candidate,
-    disposition: disposition ?? yomiItemDefaultDisposition(candidate),
-  }));
+  const updates = items.map((candidate) => ({ item: candidate, disposition }));
   for (const update of updates) {
     const draft = ensureYomiOverride(update.item.item_id);
-    draft.disposition = update.disposition;
-    draft.skip = update.disposition !== "Keep";
+    if (update.disposition === null) {
+      delete draft.disposition;
+      delete draft.skip;
+    } else {
+      draft.disposition = update.disposition;
+      draft.skip = update.disposition !== "Keep";
+    }
     cleanupYomiOverride(update.item.item_id);
   }
   touchDraft();
