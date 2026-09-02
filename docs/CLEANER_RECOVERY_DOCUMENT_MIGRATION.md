@@ -257,8 +257,21 @@ review and the future-order migration have both been validated.
    or let the non-current-batch sweep process it. Recovery finalization writes
    `recovery_application_ledger.jsonl`; it does not archive the virtual
    documents, export them, or harvest them into global learned lexicons.
-8. Apply `ready_to_apply` rows atomically to original finalized documents after
-   implementing and validating the insertion stage described above.
+8. Validate the scatter-back without writes, then apply the same validated
+   plan:
+
+   ```bash
+   python scripts/apply_recovery_campaign.py data/recovery/home_tag_v1 \
+     --batch dev_recovery_home_tag_v1
+   python scripts/apply_recovery_campaign.py data/recovery/home_tag_v1 \
+     --batch dev_recovery_home_tag_v1 --apply
+   ```
+
+   The command resolves anchors against immutable original `units.jsonl`,
+   verifies finalized token surfaces, safely splits legacy units only at
+   canonical token boundaries, rewrites destination outcome files atomically,
+   and records destination revision hashes in the application ledger. A
+   repeated application must report `already_applied`.
 9. Run a full corrected clean/score/filter build in versioned side paths, then
    migrate only the unprocessed processing-order suffix before switching refill.
 

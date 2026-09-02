@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator
 
 from yomi_corpus.splitter import split_text_into_units
+from yomi_corpus.yomi.token_codec import YomiTokenError, yomi_tokens_from_mapping
 
 
 DEFAULT_TARGET_CHARS = 900
@@ -251,6 +252,24 @@ def build_application_ledger(rows: Iterable[dict[str, Any]]) -> list[dict[str, A
         excluded = bool(row.get("excluded"))
         skipped = bool(isinstance(review, dict) and review.get("skip"))
         state = "excluded" if excluded else "skipped" if skipped else "ready_to_apply"
+        final_yomi_tokens: list[list[str]] = []
+        if state == "ready_to_apply":
+            yomi = (
+                row.get("analysis", {})
+                .get("mechanical", {})
+                .get("yomi", {})
+            )
+            if not isinstance(yomi, dict):
+                raise ValueError(f"Final recovery row lacks canonical yomi: {row.get('unit_id')}")
+            try:
+                final_yomi_tokens = yomi_tokens_from_mapping(
+                    yomi,
+                    text=str(row.get("text") or ""),
+                )
+            except YomiTokenError as exc:
+                raise ValueError(
+                    f"Final recovery row has invalid canonical yomi: {row.get('unit_id')}"
+                ) from exc
         ledger.append(
             {
                 "schema_version": 1,
@@ -267,7 +286,7 @@ def build_application_ledger(rows: Iterable[dict[str, Any]]) -> list[dict[str, A
                 "following_anchor": recovery.get("following_anchor"),
                 "state": state,
                 "final_unit_id": row.get("unit_id"),
-                "final_yomi_tokens": row.get("final_yomi_tokens", []),
+                "final_yomi_tokens": final_yomi_tokens,
             }
         )
     return ledger

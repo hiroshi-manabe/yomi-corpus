@@ -149,9 +149,16 @@ class RecoveryDocumentTests(unittest.TestCase):
         }
         base = {
             "unit_id": "review-unit",
+            "text": "復元文。",
             "recovery": provenance,
-            "analysis": {"human_review": {"yomi_final": {"skip": False}}},
-            "final_yomi_tokens": [["復元", "フクゲン"], ["文", "ブン"], ["。", "。"]],
+            "analysis": {
+                "mechanical": {
+                    "yomi": {
+                        "tokens": [["復元", "フクゲン"], ["文", "ブン"], ["。", "。"]]
+                    }
+                },
+                "human_review": {"yomi_final": {"skip": False}},
+            },
         }
 
         accepted = build_application_ledger([base])[0]
@@ -161,6 +168,10 @@ class RecoveryDocumentTests(unittest.TestCase):
         excluded = build_application_ledger([{**base, "excluded": True}])[0]
 
         self.assertEqual(accepted["state"], "ready_to_apply")
+        self.assertEqual(
+            accepted["final_yomi_tokens"],
+            [["復元", "フクゲン"], ["文", "ブン"], ["。", "。"]],
+        )
         self.assertEqual(skipped["state"], "skipped")
         self.assertEqual(excluded["state"], "excluded")
 

@@ -2834,7 +2834,22 @@ class PipelineWorkspace:
             )
         if batch_state.batch_kind == "recovery":
             application_ledger_path = batch_dir / "recovery_application_ledger.jsonl"
-            application_rows = build_application_ledger(iter_jsonl(output_path))
+            application_rows = build_application_ledger(
+                row
+                for source_path in (
+                    output_path,
+                    skipped_output_path,
+                    excluded_output_path,
+                )
+                for row in iter_jsonl(source_path)
+            )
+            application_rows.sort(
+                key=lambda row: (
+                    int(row["destination_track_doc_seq"]),
+                    int(row["new_char_start"]),
+                    str(row["recovery_unit_id"]),
+                )
+            )
             write_jsonl(application_ledger_path, application_rows)
             ready = sum(row["state"] == "ready_to_apply" for row in application_rows)
             skipped = sum(row["state"] == "skipped" for row in application_rows)
