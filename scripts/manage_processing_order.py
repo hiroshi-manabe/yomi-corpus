@@ -18,7 +18,9 @@ from yomi_corpus.processing_order import ProcessingOrderStore
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Manage a track's document processing order.")
     parser.add_argument("track", choices=["dev", "working"])
-    parser.add_argument("action", choices=["init", "status", "swap", "migrate-suffix"])
+    parser.add_argument(
+        "action", choices=["init", "status", "swap", "rewind", "migrate-suffix"]
+    )
     parser.add_argument("slots", nargs="*", type=int)
     parser.add_argument("--dataset-config", default="config/datasets/ja_cc_level2.toml")
     parser.add_argument("--new-source", type=Path)
@@ -40,6 +42,15 @@ def main() -> None:
         manifest = store.migrate_unprocessed_suffix(
             source_path=args.new_source,
             dataset_name=str(dataset["name"]),
+            ledger_rows=ledger.get("documents", []),
+            frozen_through_slot=args.frozen_through,
+        )
+    elif args.action == "rewind":
+        if args.slots:
+            raise SystemExit("rewind does not accept processing slots")
+        if args.frozen_through is None:
+            raise SystemExit("rewind requires --frozen-through")
+        manifest = store.rewind_to_frozen_prefix(
             ledger_rows=ledger.get("documents", []),
             frozen_through_slot=args.frozen_through,
         )

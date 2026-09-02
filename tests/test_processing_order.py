@@ -155,6 +155,28 @@ class ProcessingOrderTests(unittest.TestCase):
             self.assertEqual(manifest["order_generation"], 3)
             self.assertEqual(manifest["source_path"], str(new_source.resolve()))
 
+    def test_rewind_to_frozen_prefix_after_suffix_retirement(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "source.jsonl.gz"
+            write_source(source, 5)
+            store = ProcessingOrderStore(root, "dev")
+            store.ensure(source_path=source, dataset_name="demo", ledger_rows=[])
+            store.reserve(batch_name="dev_batch_0001", count=4)
+            store.commit_reservation("dev_batch_0001")
+            retained = [
+                {"track_doc_seq": 1, "source_line_no": 1},
+                {"track_doc_seq": 2, "source_line_no": 2},
+            ]
+
+            manifest = store.rewind_to_frozen_prefix(
+                ledger_rows=retained,
+                frozen_through_slot=2,
+            )
+
+            self.assertEqual(manifest["cursor"], 3)
+            self.assertEqual(store.read_slots(1, 5), [1, 2, 3, 4, 5])
+
 
 def write_source(path: Path, count: int) -> None:
     with gzip.open(path, "wt", encoding="utf-8") as output:

@@ -274,6 +274,46 @@ class ProcessingOrderStore:
             )
         return manifest
 
+    def rewind_to_frozen_prefix(
+        self,
+        *,
+        ledger_rows: Iterable[dict[str, Any]],
+        frozen_through_slot: int,
+    ) -> dict[str, Any]:
+        """Rewind a retired materialized suffix to a complete ledger prefix."""
+        manifest = self.load_manifest()
+        if isinstance(manifest.get("reservation"), dict):
+            raise ValueError("Cannot rewind processing order with an active reservation.")
+        by_slot = self._ledger_by_slot(ledger_rows)
+        if set(by_slot) != set(range(1, frozen_through_slot + 1)):
+            raise ValueError("Document ledger does not contain the requested frozen prefix.")
+        for slot, source_line in enumerate(
+            self.read_slots(1, frozen_through_slot), start=1
+        ):
+            if by_slot[slot] != source_line:
+                raise ValueError(f"Frozen processing slot {slot} does not match the ledger.")
+        cursor = frozen_through_slot + 1
+        previous_cursor = int(manifest["cursor"])
+        if cursor > previous_cursor:
+            raise ValueError(
+                f"Cannot advance cursor from {previous_cursor} to {cursor} during rewind."
+            )
+        if cursor == previous_cursor:
+            return manifest
+        manifest["cursor"] = cursor
+        manifest["updated_at"] = now_iso()
+        self._write_manifest(manifest)
+        self._append_event(
+            {
+                "event": "cursor_rewound",
+                "at": now_iso(),
+                "previous_cursor": previous_cursor,
+                "cursor": cursor,
+                "frozen_through_slot": frozen_through_slot,
+            }
+        )
+        return manifest
+
     def validate_frozen_prefix(
         self,
         ledger_rows: Iterable[dict[str, Any]],

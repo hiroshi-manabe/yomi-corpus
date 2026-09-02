@@ -18,6 +18,8 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from yomi_corpus.processing_order import ProcessingOrderStore
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("track", choices=["dev", "working"])
@@ -85,6 +87,10 @@ def main() -> None:
         ledger["documents"] = retained
         ledger["updated_at"] = now_iso()
         write_json(ledger_path, ledger)
+        ProcessingOrderStore(ROOT, args.track).rewind_to_frozen_prefix(
+            ledger_rows=retained,
+            frozen_through_slot=boundary - 1,
+        )
         track_state_path = ROOT / "data" / "pipeline" / "tracks" / f"{args.track}.json"
         track_state = json.loads(track_state_path.read_text(encoding="utf-8"))
         track_state["current_batch_name"] = latest_batch(retained)

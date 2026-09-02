@@ -201,6 +201,13 @@ Recovery review and future-order migration are related by the same regeneration
 but remain separate operations. Recovery patches processed documents; the new
 permutation controls documents not yet admitted to the track.
 
+For the `home_tag_v1` cutover, preserve the exact stable-ID membership of the
+established filtered corpus rather than rerunning its undocumented historical
+filter. Replace retained records with corrected cleaner output where available.
+If a retained ID is absent from the corrected cleaner output, retain its old
+filtered record and list it in the refresh manifest. This keeps filtering-policy
+changes separate from cleaner corrections and makes every fallback auditable.
+
 ## Lifecycle
 
 A campaign can be retired when every generated recovery unit is applied,
