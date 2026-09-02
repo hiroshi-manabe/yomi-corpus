@@ -127,6 +127,34 @@ class ProcessingOrderTests(unittest.TestCase):
             self.assertEqual(manifest["cursor"], 3)
             self.assertIsNone(manifest["reservation"])
 
+    def test_migrate_unprocessed_suffix_preserves_identity_order(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            old_source = root / "old.jsonl.gz"
+            new_source = root / "new.jsonl.gz"
+            write_identified_source(old_source, ["a", "b", "c", "d", "e"])
+            write_identified_source(new_source, ["b", "a", "d", "f", "e"])
+            ledger = [
+                {"track_doc_seq": 1, "source_line_no": 1},
+                {"track_doc_seq": 2, "source_line_no": 2},
+            ]
+            store = ProcessingOrderStore(root, "dev")
+            store.ensure(source_path=old_source, dataset_name="demo", ledger_rows=ledger)
+            store.swap_slots(3, 5)
+
+            manifest = store.migrate_unprocessed_suffix(
+                source_path=new_source,
+                dataset_name="demo",
+                ledger_rows=ledger,
+                frozen_through_slot=2,
+            )
+
+            self.assertEqual(store.read_slots(1, 5), [1, 2, 5, 3, 4])
+            self.assertEqual(manifest["cursor"], 3)
+            self.assertEqual(manifest["document_count"], 5)
+            self.assertEqual(manifest["order_generation"], 3)
+            self.assertEqual(manifest["source_path"], str(new_source.resolve()))
+
 
 def write_source(path: Path, count: int) -> None:
     with gzip.open(path, "wt", encoding="utf-8") as output:
@@ -134,6 +162,22 @@ def write_source(path: Path, count: int) -> None:
             output.write(
                 json.dumps(
                     {"text": f"文書{number}です。", "source_file": path.name},
+                    ensure_ascii=False,
+                )
+                + "\n"
+            )
+
+
+def write_identified_source(path: Path, ids: list[str]) -> None:
+    with gzip.open(path, "wt", encoding="utf-8") as output:
+        for source_id in ids:
+            output.write(
+                json.dumps(
+                    {
+                        "text": f"文書{source_id}です。",
+                        "meta": {"docId": source_id},
+                        "source_file": path.name,
+                    },
                     ensure_ascii=False,
                 )
                 + "\n"

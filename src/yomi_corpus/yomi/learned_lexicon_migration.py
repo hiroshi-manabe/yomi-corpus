@@ -12,6 +12,7 @@ from typing import Any
 from yomi_corpus.yomi.final_review import (
     harvest_learned_yomi_readings,
     harvest_manual_yomi_rewrites,
+    harvest_supplemental_furigana,
     learned_yomi_reading_fields,
     load_jsonl,
     load_strong_repair_queue_by_item_id,
@@ -19,6 +20,15 @@ from yomi_corpus.yomi.final_review import (
 
 
 MIGRATION_ID = "learned_yomi_lexicon_v1"
+SUPPLEMENTAL_FURIGANA_FIELDS = [
+    "surface",
+    "reading",
+    "annotated_surface",
+    "source_batch",
+    "source_track",
+    "source_unit_id",
+    "source_method",
+]
 
 
 def rebuild_learned_yomi_lexicons(
@@ -31,6 +41,7 @@ def rebuild_learned_yomi_lexicons(
     batch_reports: list[dict[str, Any]] = []
     all_rewrites: list[dict[str, Any]] = []
     all_readings: list[dict[str, str]] = []
+    all_supplemental_furigana: list[dict[str, str]] = []
     writes: dict[Path, str] = {}
     for final_path in sorted((root / "data" / "units").glob("*/units.yomi.final.jsonl")):
         batch_dir = final_path.parent
@@ -51,13 +62,23 @@ def rebuild_learned_yomi_lexicons(
             batch_name=batch_name,
             track_name=track_name,
         )
+        supplemental_furigana = harvest_supplemental_furigana(
+            units,
+            batch_name=batch_name,
+            track_name=track_name,
+        )
         writes[batch_dir / "manual_yomi_rewrites.jsonl"] = render_jsonl(rewrites)
         writes[batch_dir / "learned_yomi_readings.tsv"] = render_tsv(
             readings,
             learned_yomi_reading_fields(),
         )
+        writes[batch_dir / "supplemental_furigana.tsv"] = render_tsv(
+            supplemental_furigana,
+            SUPPLEMENTAL_FURIGANA_FIELDS,
+        )
         all_rewrites.extend(rewrites)
         all_readings.extend(readings)
+        all_supplemental_furigana.extend(supplemental_furigana)
         batch_reports.append(
             {
                 "batch_name": batch_name,
@@ -65,6 +86,7 @@ def rebuild_learned_yomi_lexicons(
                 "queue_item_count": len(queue_by_item_id),
                 "exact_rewrite_evidence_count": len(rewrites),
                 "learned_reading_evidence_count": len(readings),
+                "supplemental_furigana_evidence_count": len(supplemental_furigana),
             }
         )
 
@@ -86,6 +108,14 @@ def rebuild_learned_yomi_lexicons(
         canonical_readings,
         learned_yomi_reading_fields(),
     )
+    canonical_supplemental_furigana = unique_rows(
+        all_supplemental_furigana,
+        key_fields=("surface", "reading", "annotated_surface"),
+    )
+    writes[root / "data" / "lexicon" / "supplemental_furigana.tsv"] = render_tsv(
+        canonical_supplemental_furigana,
+        SUPPLEMENTAL_FURIGANA_FIELDS,
+    )
 
     report: dict[str, Any] = {
         "migration_id": MIGRATION_ID,
@@ -104,6 +134,8 @@ def rebuild_learned_yomi_lexicons(
         "learned_surface_reading_count": len(
             {(row["surface"], row["reading"]) for row in canonical_readings}
         ),
+        "supplemental_furigana_evidence_count": len(all_supplemental_furigana),
+        "supplemental_furigana_count": len(canonical_supplemental_furigana),
         "applied": False,
     }
     if apply:
@@ -125,6 +157,20 @@ def rebuild_learned_yomi_lexicons(
     report_json.parent.mkdir(parents=True, exist_ok=True)
     report_json.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
+
+
+def unique_rows(
+    rows: list[dict[str, str]], *, key_fields: tuple[str, ...]
+) -> list[dict[str, str]]:
+    seen: set[tuple[str, ...]] = set()
+    result: list[dict[str, str]] = []
+    for row in rows:
+        key = tuple(str(row.get(field, "")) for field in key_fields)
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(row)
+    return result
 
 
 def consolidate_exact_rewrites(

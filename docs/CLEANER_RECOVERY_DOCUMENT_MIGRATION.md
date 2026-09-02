@@ -282,6 +282,32 @@ them into 16 virtual documents averaging 867 characters and 21 units, with no
 unresolved conflicts. These figures are campaign diagnostics, not hard-coded
 expectations.
 
+### Post-Recovery Source Cutover
+
+Documents first materialized after the recovery cutoff must not continue from
+the old filtered source. If that happens, retire the entire materialized suffix
+rather than creating a second overlapping recovery campaign:
+
+1. stop issue watching, review sync, refill, and decoder refresh;
+2. retain closed Issues as provenance but move their imported submissions out
+   of the active submission stores;
+3. retire every batch and archive shard whose `track_doc_seq` is at or after the
+   cutoff, and truncate the document ledger to the frozen prefix;
+4. rebuild global learned readings, exact rewrites, and supplemental furigana
+   exclusively from retained finalized batches;
+5. regenerate the complete clean/score/filter source in versioned side paths;
+6. run `manage_processing_order.py migrate-suffix` to preserve stable-identity
+   ordering choices while replacing only the unprocessed suffix;
+7. point the dataset configuration at the validated source and create fresh
+   batches with new pack identities; and
+8. republish and verify the browser DOM before restarting automation.
+
+For the 2026-09-02 dev cutover, slots 1 through 1,670 are the frozen prefix.
+Materialized slots 1,671 through 1,780 were retired to a timestamped local
+backup. Their old pack IDs remain obsolete permanently; replacement work uses
+new monotonic batch names so GitHub acknowledgments cannot be replayed against
+different documents.
+
 ## Required Validation
 
 - recovery generation is deterministic across repeated runs;

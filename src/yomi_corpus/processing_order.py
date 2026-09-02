@@ -4,6 +4,7 @@ import gzip
 import hashlib
 import json
 import os
+import sqlite3
 import struct
 import tempfile
 from array import array
@@ -353,6 +354,191 @@ class ProcessingOrderStore:
         )
         return manifest
 
+    def migrate_unprocessed_suffix(
+        self,
+        *,
+        source_path: Path,
+        dataset_name: str,
+        ledger_rows: Iterable[dict[str, Any]],
+        frozen_through_slot: int,
+    ) -> dict[str, Any]:
+        """Move an order to a regenerated source without changing its frozen prefix."""
+        old_manifest = self.load_manifest()
+        if isinstance(old_manifest.get("reservation"), dict):
+            raise ValueError("Cannot migrate processing order with an active reservation.")
+        rows = list(ledger_rows)
+        if any(int(row.get("track_doc_seq") or 0) > frozen_through_slot for row in rows):
+            raise ValueError("Document ledger extends beyond the requested frozen prefix.")
+        frozen_by_slot = self._ledger_by_slot(rows)
+        if set(frozen_by_slot) != set(range(1, frozen_through_slot + 1)):
+            raise ValueError("Document ledger does not contain the requested frozen prefix.")
+        for slot, source_line in enumerate(
+            self.read_slots(1, frozen_through_slot), start=1
+        ):
+            if frozen_by_slot[slot] != source_line:
+                raise ValueError(f"Frozen processing slot {slot} does not match the ledger.")
+
+        source_path = Path(source_path).resolve()
+        old_source_path = Path(str(old_manifest["source_path"]))
+        frozen_source_lines = {
+            int(row["source_line_no"])
+            for row in rows
+            if int(row.get("track_doc_seq") or 0) <= frozen_through_slot
+        }
+        old_order = array("I")
+        with self.order_path.open("rb") as handle:
+            old_order.fromfile(handle, int(old_manifest["document_count"]))
+        if os.sys.byteorder != "little":
+            old_order.byteswap()
+        max_source_line = max(old_order, default=0)
+        rank_by_source_line = array("I", [0]) * (max_source_line + 1)
+        for rank, source_line in enumerate(old_order, start=1):
+            if rank > frozen_through_slot:
+                rank_by_source_line[source_line] = rank
+
+        self.state_dir.mkdir(parents=True, exist_ok=True)
+        database_fd, database_name = tempfile.mkstemp(
+            prefix=f".{self.track_name}.source-migration.",
+            suffix=".sqlite3",
+            dir=self.state_dir,
+        )
+        os.close(database_fd)
+        suffix_fd, suffix_name = tempfile.mkstemp(
+            prefix=f".{self.track_name}.new-only.", suffix=".u32.tmp", dir=self.state_dir
+        )
+        os.close(suffix_fd)
+        order_fd, order_name = tempfile.mkstemp(
+            prefix=f".{self.track_name}.", suffix=".u32.tmp", dir=self.state_dir
+        )
+        os.close(order_fd)
+        connection: sqlite3.Connection | None = None
+        try:
+            connection = sqlite3.connect(database_name)
+            connection.execute(
+                "CREATE TABLE old_suffix (source_id TEXT PRIMARY KEY, old_rank INTEGER NOT NULL, "
+                "new_line INTEGER)"
+            )
+            frozen_source_ids: set[str] = set()
+            pending: list[tuple[str, int]] = []
+            with gzip.open(old_source_path, "rt", encoding="utf-8") as source:
+                for source_line_no, line in enumerate(source, start=1):
+                    if source_line_no in frozen_source_lines:
+                        frozen_source_ids.add(_source_record_id(json.loads(line)))
+                    if source_line_no >= len(rank_by_source_line):
+                        continue
+                    old_rank = int(rank_by_source_line[source_line_no])
+                    if not old_rank:
+                        continue
+                    pending.append((_source_record_id(json.loads(line)), old_rank))
+                    if len(pending) >= 10000:
+                        connection.executemany("INSERT INTO old_suffix VALUES (?, ?, NULL)", pending)
+                        pending.clear()
+                if pending:
+                    connection.executemany("INSERT INTO old_suffix VALUES (?, ?, NULL)", pending)
+            connection.commit()
+            if len(frozen_source_ids) != len(frozen_source_lines):
+                raise ValueError("Could not resolve every frozen document identity in the old source.")
+
+            digest = hashlib.sha256()
+            new_only_count = 0
+            matched_count = 0
+            physical_line_count = 0
+            pending_matches: list[tuple[int, str]] = []
+            with gzip.open(source_path, "rt", encoding="utf-8") as source, open(
+                suffix_name, "wb"
+            ) as new_only:
+                for source_line_no, line in enumerate(source, start=1):
+                    physical_line_count = source_line_no
+                    digest.update(line.encode("utf-8"))
+                    payload = json.loads(line)
+                    text = payload.get("text")
+                    if not isinstance(text, str) or not text.strip():
+                        continue
+                    source_id = _source_record_id(payload)
+                    if source_id in frozen_source_ids:
+                        continue
+                    row = connection.execute(
+                        "SELECT old_rank FROM old_suffix WHERE source_id = ?", (source_id,)
+                    ).fetchone()
+                    if row is None:
+                        new_only.write(struct.pack("<I", source_line_no))
+                        new_only_count += 1
+                        continue
+                    pending_matches.append((source_line_no, source_id))
+                    matched_count += 1
+                    if len(pending_matches) >= 10000:
+                        connection.executemany(
+                            "UPDATE old_suffix SET new_line = ? WHERE source_id = ?",
+                            pending_matches,
+                        )
+                        pending_matches.clear()
+                if pending_matches:
+                    connection.executemany(
+                        "UPDATE old_suffix SET new_line = ? WHERE source_id = ?", pending_matches
+                    )
+                new_only.flush()
+                os.fsync(new_only.fileno())
+            connection.commit()
+
+            with open(order_name, "wb") as output:
+                self._write_uint32_chunk(output, old_order[:frozen_through_slot])
+                chunk = array("I")
+                for (new_line,) in connection.execute(
+                    "SELECT new_line FROM old_suffix WHERE new_line IS NOT NULL ORDER BY old_rank"
+                ):
+                    chunk.append(int(new_line))
+                    if len(chunk) >= 65536:
+                        self._write_uint32_chunk(output, chunk)
+                        chunk = array("I")
+                if chunk:
+                    self._write_uint32_chunk(output, chunk)
+                with open(suffix_name, "rb") as new_only:
+                    while data := new_only.read(1024 * 1024):
+                        output.write(data)
+                output.flush()
+                os.fsync(output.fileno())
+
+            os.replace(order_name, self.order_path)
+            stat = source_path.stat()
+            migrated_at = now_iso()
+            document_count = frozen_through_slot + matched_count + new_only_count
+            manifest = {
+                **old_manifest,
+                "dataset_name": dataset_name,
+                "source_path": str(source_path),
+                "source_size": stat.st_size,
+                "source_mtime_ns": stat.st_mtime_ns,
+                "source_content_sha256": digest.hexdigest(),
+                "document_count": document_count,
+                "cursor": frozen_through_slot + 1,
+                "order_generation": int(old_manifest["order_generation"]) + 1,
+                "reservation": None,
+                "updated_at": migrated_at,
+            }
+            self._write_manifest(manifest)
+            self._append_event(
+                {
+                    "event": "source_suffix_migrated",
+                    "at": migrated_at,
+                    "old_source_path": str(old_source_path),
+                    "new_source_path": str(source_path),
+                    "frozen_through_slot": frozen_through_slot,
+                    "matched_suffix_documents": matched_count,
+                    "new_suffix_documents": new_only_count,
+                    "physical_source_lines": physical_line_count,
+                    "document_count": document_count,
+                    "cursor": manifest["cursor"],
+                    "order_generation": manifest["order_generation"],
+                }
+            )
+            return manifest
+        finally:
+            if connection is not None:
+                connection.close()
+            for temporary in (database_name, suffix_name, order_name):
+                if os.path.exists(temporary):
+                    os.unlink(temporary)
+
     def _validate_source_identity(
         self,
         manifest: dict[str, Any],
@@ -421,3 +607,17 @@ class ProcessingOrderStore:
             {"processing_slot": start_slot + offset, "source_line_no": int(source_line)}
             for offset, source_line in enumerate(reservation.get("source_line_nos", []))
         ]
+
+
+def _source_record_id(payload: dict[str, Any]) -> str:
+    meta = payload.get("meta")
+    if isinstance(meta, dict):
+        for key in ("docId", "doc_id", "id"):
+            value = meta.get(key)
+            if isinstance(value, str) and value:
+                return value
+    for key in ("doc_id", "id"):
+        value = payload.get(key)
+        if isinstance(value, str) and value:
+            return value
+    raise ValueError("Source record does not contain a stable document identity.")
