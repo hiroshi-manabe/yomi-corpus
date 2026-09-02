@@ -2360,6 +2360,12 @@ it is not the reviewer-facing identifier. Rules:
   10, one short bridge ends at the next `...0`, after which batches use stable
   ranges `...1-...0`; existing ledger assignments remain immutable
 
+The corrected-cleaner dev cutover is one documented exception. It replaces the
+entire historical prefix under a new source sequence epoch so corrected source
+positions become contiguous reviewer-facing numbers. Old-epoch artifacts are
+sealed and cannot be replayed; normal immutability resumes after the cutover.
+See `docs/CORRECTED_SOURCE_SEQUENCE_EPOCH_MIGRATION.md`.
+
 #### Processing order independent of source order
 
 `track_doc_seq` is also the document's position in a track-specific processing
@@ -2423,6 +2429,8 @@ forward, removed identities are archived, and newly selected identities enter
 review. The full migration design, exact counts, reproducible upstream build
 command, manifest requirements, application semantics, and retirement
 procedure are specified in `docs/CLEANER_RECOVERY_DOCUMENT_MIGRATION.md`.
+The contiguous-prefix renumbering and stale-replay protections are specified in
+`docs/CORRECTED_SOURCE_SEQUENCE_EPOCH_MIGRATION.md`.
 
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus

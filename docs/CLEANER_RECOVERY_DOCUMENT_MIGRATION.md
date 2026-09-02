@@ -230,6 +230,12 @@ normally. The 11 archived records must not remain in canonical exports or be
 kept through cleaner fallbacks. This is an explicit one-time prefix migration;
 after it, the ordinary frozen-prefix invariant applies again at 1,681.
 
+Because corpus `doc_id` values are source-line-derived, contiguous historical
+renumbering is performed as a guarded source sequence-epoch migration rather
+than an ordinary refill or suffix migration. The full rewrite inventory,
+replay-safety requirements, validation, and rollback plan are specified in
+`docs/CORRECTED_SOURCE_SEQUENCE_EPOCH_MIGRATION.md`.
+
 The prior membership-preserving refresh artifact is useful as migration
 evidence but is not the cutover source. It must not be configured as the active
 dataset.
@@ -323,8 +329,8 @@ review and the future-order migration have both been validated.
    terminal status. Never reuse a build ID or promote a build whose manifest is
    not `complete`.
 10. Validate the corrected first-1,681 membership and stable-identity mapping,
-    then migrate the canonical prefix and unprocessed processing-order suffix
-    before switching refill.
+    then execute the reviewed source sequence-epoch migration before switching
+    refill. Do not use `migrate-suffix` for the rewritten prefix.
 
 The first report generated on 2026-09-01 considered 1,670 finalized documents.
 After four ambiguous anchors were resolved through validated campaign-specific
