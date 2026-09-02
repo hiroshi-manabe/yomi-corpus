@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 7189,
-  "generated_at": "2026-09-02T03:07:25Z",
-  "generated_at_epoch": 1788318445,
+  "state_revision": 7190,
+  "generated_at": "2026-09-02T03:15:45Z",
+  "generated_at_epoch": 1788318945,
   "last_successful_sync": "2026-09-02T02:04:15Z",
   "last_successful_sync_epoch": 1788314655,
   "status": "error",
   "schedule": {
-    "anchor_epoch": 1788317925,
+    "anchor_epoch": 1788318945,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1788318225
+    "next_expected_epoch": 1788319245
   },
   "state": {
     "current_batch_name": "dev_batch_0170",
@@ -23,9 +23,9 @@
   },
   "message": "ValueError: Document ledger does not contain the complete frozen order prefix.",
   "observed": {
-    "started_at_epoch": 1788318445,
-    "completed_at_epoch": 1788318445,
-    "drift_seconds": 80
+    "started_at_epoch": 1788318945,
+    "completed_at_epoch": 1788318945,
+    "drift_seconds": 120
   },
   "client_polling": {
     "normal_seconds": 60,
