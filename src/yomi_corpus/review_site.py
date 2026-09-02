@@ -32,6 +32,7 @@ from yomi_corpus.yomi.token_codec import (
 
 # Corpus Map loads summaries from the index and fetches one document on demand.
 ARCHIVE_SHARD_SIZE = 1
+ARCHIVE_SEARCH_SHARD_SIZE = 100
 _ACTIVE_REVIEW_PUBLISH_LOCKS: set[Path] = set()
 
 
@@ -580,7 +581,7 @@ def publish_review_archive(
         expected_paths.update(
             track_dir / Path(str(shard["path"])).name for shard in shards
         )
-        search_path = write_archive_search_index(
+        search_path, search_files = write_archive_search_index(
             documents,
             shards=shards,
             output_root=track_dir,
@@ -591,7 +592,7 @@ def publish_review_archive(
                 finalized_documents=documents,
             ),
         )
-        expected_paths.add(track_dir / Path(search_path).name)
+        expected_paths.update(track_dir / Path(path).name for path in search_files)
         document_summaries = [
             archive_document_summary(doc, shards=shards) for doc in documents
         ]
@@ -1175,7 +1176,7 @@ def write_archive_search_index(
     output_root: Path,
     url_prefix: str,
     supplemental_records: list[dict] | None = None,
-) -> str:
+) -> tuple[str, list[str]]:
     records = []
     for doc in documents:
         track_doc_seq = int(doc["track_doc_seq"])
@@ -1201,17 +1202,42 @@ def write_archive_search_index(
         )
     records.extend(supplemental_records or [])
     records.sort(key=lambda row: (int(row["track_doc_seq"]), str(row.get("doc_id") or "")))
-    filename = "search.json"
-    payload = {
-        "schema_version": 3,
+    shard_entries = []
+    generated_files = ["search.json"]
+    for start in range(0, len(records), ARCHIVE_SEARCH_SHARD_SIZE):
+        chunk = records[start : start + ARCHIVE_SEARCH_SHARD_SIZE]
+        first = int(chunk[0]["track_doc_seq"])
+        last = int(chunk[-1]["track_doc_seq"])
+        filename = f"search_{first:06d}_{last:06d}.json"
+        payload = {
+            "schema_version": 3,
+            "document_count": len(chunk),
+            "documents": chunk,
+        }
+        (output_root / filename).write_text(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+        generated_files.append(filename)
+        shard_entries.append(
+            {
+                "path": f"{url_prefix}/{filename}",
+                "document_count": len(chunk),
+                "start_track_doc_seq": first,
+                "end_track_doc_seq": last,
+            }
+        )
+    manifest = {
+        "schema_version": 4,
         "document_count": len(records),
-        "documents": records,
+        "shard_size": ARCHIVE_SEARCH_SHARD_SIZE,
+        "shards": shard_entries,
     }
-    (output_root / filename).write_text(
-        json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
+    (output_root / "search.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8",
     )
-    return f"{url_prefix}/{filename}"
+    return f"{url_prefix}/search.json", generated_files
 
 
 def archive_search_unit(unit: dict) -> dict:

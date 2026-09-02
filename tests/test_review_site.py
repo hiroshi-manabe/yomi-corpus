@@ -1048,7 +1048,14 @@ class ReviewSiteTests(unittest.TestCase):
             self.assertEqual(summaries[0]["shard_path"], index["tracks"]["dev"]["shards"][0]["path"])
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))
-            search = json.loads((output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8"))
+            search_manifest = json.loads((output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8"))
+            search = json.loads(
+                (output_root / search_manifest["shards"][0]["path"].removeprefix("./")).read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(search_manifest["schema_version"], 4)
+            self.assertEqual(search_manifest["document_count"], 3)
             self.assertEqual(search["document_count"], 3)
             self.assertEqual(search["documents"][0]["track_doc_seq"], 1)
             self.assertEqual(search["schema_version"], 3)
@@ -1183,8 +1190,13 @@ class ReviewSiteTests(unittest.TestCase):
                 "社会/シャカイ 実験/ジッケン 『/『 MeguruQuruwa/メグルクルワ 』/』 で/デ 検証/ケンショウ さ/サ れ/レ まし/マシ た/タ 。/。",
             )
             self.assertTrue(unit["ruby_tokens"])
-            search = json.loads(
+            search_manifest = json.loads(
                 (output_root / "archive" / "dev" / "search.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            search = json.loads(
+                (output_root / search_manifest["shards"][0]["path"].removeprefix("./")).read_text(
                     encoding="utf-8"
                 )
             )
@@ -1263,8 +1275,13 @@ class ReviewSiteTests(unittest.TestCase):
             index = json.loads((output_root / "archive" / "index.json").read_text(encoding="utf-8"))
             shard_path = output_root / index["tracks"]["dev"]["shards"][0]["path"].removeprefix("./")
             shard = json.loads(shard_path.read_text(encoding="utf-8"))
-            search = json.loads(
+            search_manifest = json.loads(
                 (output_root / "archive" / "dev" / "search.json").read_text(encoding="utf-8")
+            )
+            search = json.loads(
+                (output_root / search_manifest["shards"][0]["path"].removeprefix("./")).read_text(
+                    encoding="utf-8"
+                )
             )
             doc = shard["documents"][0]
             unit = doc["units"][0]

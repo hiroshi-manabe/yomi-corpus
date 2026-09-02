@@ -1017,7 +1017,7 @@ async function performArchiveSearch(track, query, nodes) {
   nodes.status.classList.remove("error");
   if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
     nodes.status.textContent = "検索用インデックスを読み込んでいます…";
-    state.archiveSearchIndex = await fetchJson(searchPath);
+    state.archiveSearchIndex = await loadArchiveSearchIndex(searchPath, nodes);
     state.archiveSearchIndexPath = searchPath;
   }
   if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
@@ -1050,6 +1050,24 @@ async function performArchiveSearch(track, query, nodes) {
     }
   }
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
+}
+
+async function loadArchiveSearchIndex(searchPath, nodes) {
+  const index = await fetchJson(searchPath);
+  if (Array.isArray(index.documents)) {
+    return index;
+  }
+  const shards = Array.isArray(index.shards) ? index.shards : [];
+  const documents = [];
+  for (const [position, shard] of shards.entries()) {
+    nodes.status.textContent = `検索用インデックスを読み込んでいます… ${position + 1}/${shards.length}`;
+    const payload = await fetchJson(String(shard.path || ""));
+    documents.push(...(payload.documents || []));
+  }
+  return {
+    ...index,
+    documents,
+  };
 }
 
 function normalizeArchiveSearchText(value) {
