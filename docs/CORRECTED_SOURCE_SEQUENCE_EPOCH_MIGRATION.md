@@ -20,6 +20,13 @@ The 1,659 carried documents take their corrected-source positions. The 22 new
 documents occupy their natural positions among them and pass through the normal
 Bulk Review and Escalated Repair workflow. Refill resumes at document 1,682.
 
+Final staging found one shared identity whose corrected text contains restored
+boilerplate-like segments not reviewed by the earlier recovery campaign. Treat
+that identity as a full ordinary reprocessing case rather than weakening text
+validation or extending the special recovery mechanism. The operational action
+counts are therefore 1,658 carried, one reprocessed, 22 incoming, and 11
+archived; 23 documents enter ordinary review.
+
 This is a one-time dev migration. It is an explicit exception to the normal
 rule that `track_doc_seq` and `doc_id` never change after assignment.
 
@@ -236,3 +243,19 @@ unit. Do not attempt a partial reverse renumbering.
    watching, review sync, and refill.
 9. Review the 22 incoming documents normally and retire the active
    `home_tag_v1` recovery campaign.
+
+## Execution Record
+
+The migration was applied on 2026-09-02 as source sequence epoch
+`home_tag_v1_corrected_20260902`. Pre-install validation confirmed 1,681 unique,
+contiguous ledger documents, 1,658 carried finalized documents, and 23 ordinary
+review documents across batches `dev_batch_1018` through `dev_batch_1020`.
+
+The previous active epoch is sealed locally under
+`data/migrations/source_epoch/home_tag_v1_corrected_20260902/legacy_epoch`.
+The corrected source has SHA-256
+`95c3b3d248f87932c700f0e56917ee5f6aacfe8f3902633a1131d8be7429bd77`,
+contains 2,593,288 selectable documents, and resumes refill at slot 1,682.
+All three migration batches reached Bulk Review through the ordinary mechanical
+and LLM stages; one stale background response was superseded and retried without
+discarding the other completed responses.
