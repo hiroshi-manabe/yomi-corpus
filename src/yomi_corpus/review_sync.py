@@ -773,7 +773,10 @@ def sweep_actionable_batches(
         return results
     track_state = workspace.load_track_state(options.track_name)
     current_batch_name = track_state.current_batch_name
-    pending_pack_ids = stored_review_submission_pack_ids(root)
+    pending_pack_ids = stored_review_submission_pack_ids(
+        root,
+        track_name=options.track_name,
+    )
     batch_names = list_track_batches(workspace, options.track_name)
     batch_stages = {
         batch_name: workspace.load_batch_state(batch_name).current_stage
@@ -862,7 +865,11 @@ def sweep_actionable_batches(
     return results
 
 
-def stored_review_submission_pack_ids(root: Path) -> set[str]:
+def stored_review_submission_pack_ids(
+    root: Path,
+    *,
+    track_name: str | None = None,
+) -> set[str]:
     pack_ids: set[str] = set()
     submissions_root = root / "data" / "review_submissions"
     for stage_name in ("yomi_final", "yomi_strong_repair"):
@@ -875,6 +882,26 @@ def stored_review_submission_pack_ids(root: Path) -> set[str]:
             except (OSError, json.JSONDecodeError):
                 continue
             pack_id = payload.get("pack_id")
+            if pack_id:
+                pack_ids.add(str(pack_id))
+    if track_name:
+        acknowledgment_path = (
+            root
+            / "data"
+            / "state"
+            / "issue_watch"
+            / f"{track_name}.acknowledgments.json"
+        )
+        try:
+            acknowledgment_payload = json.loads(
+                acknowledgment_path.read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError):
+            acknowledgment_payload = {}
+        for record in acknowledgment_payload.get("records") or []:
+            if not isinstance(record, dict):
+                continue
+            pack_id = record.get("pack_id")
             if pack_id:
                 pack_ids.add(str(pack_id))
     return pack_ids

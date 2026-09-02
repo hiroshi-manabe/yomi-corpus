@@ -854,6 +854,58 @@ class ReviewSyncTests(unittest.TestCase):
                 {"yomi_final_dev_recovery_cleaner_v1_v1"},
             )
 
+    def test_sweep_prioritizes_batch_with_watcher_acknowledgment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_9999")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+                "dev_recovery_cleaner_v1": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_YOMI_STRONG_REPAIR_QUEUED,
+                },
+            }
+            for batch_name, payload in workspace.batches.items():
+                write_batch_state(
+                    root,
+                    batch_name,
+                    current_stage=payload["current_stage"],
+                )
+            acknowledgment_path = (
+                root / "data" / "state" / "issue_watch" / "dev.acknowledgments.json"
+            )
+            acknowledgment_path.parent.mkdir(parents=True)
+            acknowledgment_path.write_text(
+                json.dumps(
+                    {
+                        "records": [
+                            {
+                                "pack_id": (
+                                    "yomi_strong_repair_dev_recovery_cleaner_v1_v1"
+                                )
+                            }
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=1,
+            )
+
+            self.assertEqual(results[0]["batch_name"], "dev_recovery_cleaner_v1")
+            self.assertEqual(
+                stored_review_submission_pack_ids(root, track_name="dev"),
+                {"yomi_strong_repair_dev_recovery_cleaner_v1_v1"},
+            )
+
     def test_sweep_allows_newer_batch_to_finish_while_older_batch_is_blocked(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
