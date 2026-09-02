@@ -773,7 +773,23 @@ def sweep_actionable_batches(
         return results
     track_state = workspace.load_track_state(options.track_name)
     current_batch_name = track_state.current_batch_name
-    for batch_name in list_track_batches(workspace, options.track_name):
+    pending_pack_ids = stored_review_submission_pack_ids(root)
+    batch_names = list_track_batches(workspace, options.track_name)
+    batch_stages = {
+        batch_name: workspace.load_batch_state(batch_name).current_stage
+        for batch_name in batch_names
+    }
+    batch_names.sort(
+        key=lambda batch_name: (
+            not batch_has_stored_review_submission(
+                batch_name=batch_name,
+                current_stage=batch_stages[batch_name],
+                pending_pack_ids=pending_pack_ids,
+            ),
+            batch_name,
+        )
+    )
+    for batch_name in batch_names:
         if remaining_actions == 0 or not before_deadline(deadline):
             break
         if batch_name == current_batch_name:
@@ -844,6 +860,41 @@ def sweep_actionable_batches(
             if result.get("blocking_reason"):
                 break
     return results
+
+
+def stored_review_submission_pack_ids(root: Path) -> set[str]:
+    pack_ids: set[str] = set()
+    submissions_root = root / "data" / "review_submissions"
+    for stage_name in ("yomi_final", "yomi_strong_repair"):
+        stage_root = submissions_root / stage_name
+        if not stage_root.exists():
+            continue
+        for path in stage_root.glob("*.json"):
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            pack_id = payload.get("pack_id")
+            if pack_id:
+                pack_ids.add(str(pack_id))
+    return pack_ids
+
+
+def batch_has_stored_review_submission(
+    *,
+    batch_name: str,
+    current_stage: str,
+    pending_pack_ids: set[str],
+) -> bool:
+    if current_stage == STAGE_FINAL_REVIEW_PREPARED:
+        return f"yomi_final_{batch_name}_v1" in pending_pack_ids
+    if current_stage in {
+        STAGE_FINAL_REVIEW_APPLIED,
+        STAGE_YOMI_STRONG_REPAIR_QUEUED,
+        STAGE_YOMI_STRONG_REPAIR_LLM_COMPLETED,
+    }:
+        return f"yomi_strong_repair_{batch_name}_v1" in pending_pack_ids
+    return False
 
 
 def list_track_batches(workspace: PipelineWorkspace, track_name: str) -> list[str]:

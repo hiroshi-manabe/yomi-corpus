@@ -37,6 +37,7 @@ from yomi_corpus.review_sync import (
     review_sync_lock_stale_reason,
     ReviewSyncLock,
     should_run_stage,
+    stored_review_submission_pack_ids,
     strong_repair_apply_confirmed,
     sync_finalized_corrections,
     sweep_actionable_batches,
@@ -803,6 +804,55 @@ class ReviewSyncTests(unittest.TestCase):
             ])
             self.assertEqual(workspace.batches["dev_batch_0001"]["current_stage"], STAGE_YOMI_FINALIZED)
             self.assertEqual(workspace.batches["dev_batch_0002"]["current_stage"], STAGE_YOMI_STRONG_REPAIR_QUEUED)
+
+    def test_sweep_prioritizes_batch_with_stored_submission(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = FakeSweepWorkspace(root=root, current_batch_name="dev_batch_9999")
+            workspace.batches = {
+                "dev_batch_0001": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+                "dev_recovery_cleaner_v1": {
+                    "track_name": "dev",
+                    "current_stage": STAGE_FINAL_REVIEW_PREPARED,
+                },
+            }
+            for batch_name, payload in workspace.batches.items():
+                write_batch_state(
+                    root,
+                    batch_name,
+                    current_stage=payload["current_stage"],
+                )
+            submission_dir = root / "data" / "review_submissions" / "yomi_final"
+            submission_dir.mkdir(parents=True)
+            (submission_dir / "recovery.json").write_text(
+                json.dumps(
+                    {
+                        "pack_id": "yomi_final_dev_recovery_cleaner_v1_v1",
+                        "submission_id": "recovery-submission",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            results = sweep_actionable_batches(
+                root=root,
+                workspace=workspace,  # type: ignore[arg-type]
+                options=ReviewSyncOptions(track_name="dev"),
+                max_stages=1,
+            )
+
+            self.assertEqual(results[0]["batch_name"], "dev_recovery_cleaner_v1")
+            self.assertEqual(
+                workspace.calls,
+                [f"dev_recovery_cleaner_v1:{STAGE_FINAL_REVIEW_APPLIED}"],
+            )
+            self.assertEqual(
+                stored_review_submission_pack_ids(root),
+                {"yomi_final_dev_recovery_cleaner_v1_v1"},
+            )
 
     def test_sweep_allows_newer_batch_to_finish_while_older_batch_is_blocked(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
