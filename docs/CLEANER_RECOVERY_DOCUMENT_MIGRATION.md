@@ -181,14 +181,14 @@ destination revision.
 ## Processing-Order Migration
 
 Regenerating the filtered source invalidates the current processing-order
-source fingerprint. Preserve the frozen prefix as historical provenance; do not
-reinterpret old source line numbers against regenerated JSONL.
+source fingerprint. Stable source identity, not an old filtered-file line
+number, is the join key during migration.
 
 Before switching refill to the regenerated source:
 
 1. stop refill and require no active processing-order reservation;
 2. map old and new records by stable source identity;
-3. retain all existing ledger assignments and frozen `track_doc_seq` values;
+3. retain assignments only for stable identities accepted by the cutover;
 4. rebuild only the unprocessed permutation suffix from regenerated selectable
    records;
 5. carry forward explicit future reordering choices where their source records
@@ -201,12 +201,38 @@ Recovery review and future-order migration are related by the same regeneration
 but remain separate operations. Recovery patches processed documents; the new
 permutation controls documents not yet admitted to the track.
 
-For the `home_tag_v1` cutover, preserve the exact stable-ID membership of the
-established filtered corpus rather than rerunning its undocumented historical
-filter. Replace retained records with corrected cleaner output where available.
-If a retained ID is absent from the corrected cleaner output, retain its old
-filtered record and list it in the refresh manifest. This keeps filtering-policy
-changes separate from cleaner corrections and makes every fallback auditable.
+### Corrected-policy cutover decision (2026-09-02)
+
+The historical production filter invocation was recovered and verified by
+reproducing the first 100,000 retained stable IDs exactly:
+
+```bash
+python3 scripts/filter_docs_by_score.py \
+  --sigma-threshold 0.0 \
+  --min-distinct-hits 2 \
+  --max-latin-ratio 0.01 \
+  --max-jp-inner-space-ratio 0.01 \
+  --combine-mode any
+```
+
+Apply this same policy to the corrected cleaner output. Do not preserve an old
+record merely because it was historically selected. Comparing the old first
+1,670 records with the corrected first 1,681 records produced:
+
+- 1,659 shared stable identities, in the same relative order;
+- 11 old identities no longer selected; and
+- 22 corrected-source identities newly selected.
+
+The corrected first 1,681 records are the canonical prefix. Reuse completed
+review data for the 1,659 shared identities, archive the 11 removed identities
+with their review and source provenance, and process the 22 incoming identities
+normally. The 11 archived records must not remain in canonical exports or be
+kept through cleaner fallbacks. This is an explicit one-time prefix migration;
+after it, the ordinary frozen-prefix invariant applies again at 1,681.
+
+The prior membership-preserving refresh artifact is useful as migration
+evidence but is not the cutover source. It must not be configured as the active
+dataset.
 
 ## Lifecycle
 
@@ -279,8 +305,26 @@ review and the future-order migration have both been validated.
    canonical token boundaries, rewrites destination outcome files atomically,
    and records destination revision hashes in the application ledger. A
    repeated application must report `already_applied`.
-9. Run a full corrected clean/score/filter build in versioned side paths, then
-   migrate only the unprocessed processing-order suffix before switching refill.
+9. Ask the operator to run the reproducible full build from the upstream
+   repository. The build is intentionally long-running and is not embedded in
+   review synchronization:
+
+   ```bash
+   cd /panfs/panmt22/users/hmanabe/llm-jp-corpus-v4
+   python3 scripts/regenerate_ja_cc_level2.py \
+     --build-id home-tag-v1-corrected-20260902 \
+     --workers 24
+   ```
+
+   The command writes only to
+   `data/builds/home-tag-v1-corrected-20260902/`. Its `manifest.json` records
+   the exact command, effective cleaner and filter parameters, repository
+   revision and dirty state, runtime, file fingerprints, per-stage logs, and
+   terminal status. Never reuse a build ID or promote a build whose manifest is
+   not `complete`.
+10. Validate the corrected first-1,681 membership and stable-identity mapping,
+    then migrate the canonical prefix and unprocessed processing-order suffix
+    before switching refill.
 
 The first report generated on 2026-09-01 considered 1,670 finalized documents.
 After four ambiguous anchors were resolved through validated campaign-specific
@@ -309,8 +353,11 @@ rather than creating a second overlapping recovery campaign:
    batches with new pack identities; and
 8. republish and verify the browser DOM before restarting automation.
 
-For the 2026-09-02 dev cutover, slots 1 through 1,670 are the frozen prefix.
-Materialized slots 1,671 through 1,780 were retired to a timestamped local
+For the 2026-09-02 dev cutover, the old slots 1 through 1,670 are migration
+inputs, not an immutable final prefix. Rebuild them as the corrected canonical
+slots 1 through 1,681 using stable identity: carry review data for 1,659 shared
+documents, archive 11 removed documents, and review 22 incoming documents.
+Materialized old slots 1,671 through 1,780 remain retired in a timestamped local
 backup. Their old pack IDs remain obsolete permanently; replacement work uses
 new monotonic batch names so GitHub acknowledgments cannot be replayed against
 different documents.
@@ -327,4 +374,8 @@ different documents.
 - revised original documents pass exact surface reconstruction;
 - virtual adjacency never enters N-gram or decoder training;
 - a regenerated source cannot be used with the old line-number fingerprint;
+- the full-build manifest records the exact historical filter policy and ends
+  in `complete` before promotion;
+- the corrected prefix contains exactly 1,681 unique stable identities: 1,659
+  carried forward and 22 newly reviewed, with 11 old identities archived;
 - campaign retirement removes active tasks without deleting audit provenance.

@@ -2414,11 +2414,15 @@ documents at validated anchors, while the virtual containers never enter corpus
 exports, Corpus Map identity, N-gram adjacency, or the ordinary processing
 order.
 
-Regenerated source also requires a new source fingerprint. Preserve historical
-source-line provenance for the frozen prefix and rebuild only the unprocessed
-processing-order suffix by stable source identity. The full migration design,
-data model, idempotency rules, application semantics, and retirement procedure
-are specified in `docs/CLEANER_RECOVERY_DOCUMENT_MIGRATION.md`.
+Regenerated source also requires a new source fingerprint. Stable source
+identity is the migration join key; old source-line provenance remains audit
+history and must not be interpreted against the new file. The 2026-09-02
+`home_tag_v1` cutover deliberately adopts corrected-cleaner membership under
+the recovered historical filter policy: shared reviewed identities carry
+forward, removed identities are archived, and newly selected identities enter
+review. The full migration design, exact counts, reproducible upstream build
+command, manifest requirements, application semantics, and retirement
+procedure are specified in `docs/CLEANER_RECOVERY_DOCUMENT_MIGRATION.md`.
 
 Corpus-wide map viewing should be a separate read-mostly artifact family, not a
 large editable review pack. The map should be generated from the ledger plus
