@@ -7208,6 +7208,9 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     );
     const ref = storedRefs.get(String(docId)) ||
       (sameStageDoc ? localTaskDocumentRef(sameStageDoc) : minimalLocalTaskDocumentRef(docId, taskStage));
+    if (retiredVirtualRecoveryDocument(ref)) {
+      continue;
+    }
     if (finalizedArchiveContainsDocumentRef(ref)) {
       continue;
     }
@@ -7266,6 +7269,11 @@ function minimalLocalTaskDocumentRef(taskDocId, queueStage) {
     unresolved_count: 0,
     preview: "",
   };
+}
+
+function retiredVirtualRecoveryDocument(ref) {
+  const docId = String(ref?.doc_id || baseDocIdFromTaskDocId(ref?.task_doc_id || ""));
+  return docId.startsWith("recovery:home_tag_v1:");
 }
 
 function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
