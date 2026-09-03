@@ -1,0 +1,1789 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1020_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1020",
+  "created_at_epoch": 1788396482,
+  "created_at": "2026-09-03T00:48:02Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 3,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 2,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001679",
+      "doc_seq": 1,
+      "track_doc_seq": 1679,
+      "unit_count": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1679,
+      "preview": "そこを狐推しできるくらいの論を組み立てるべきだったかもしれない。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-03T00:48:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 3,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 1,
+      "to_seq": 3,
+      "reviewed_unit_count": 38,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001680",
+      "doc_seq": 2,
+      "track_doc_seq": 1680,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1680,
+      "preview": "ならばその価値とは誰が決めたの？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-03T00:46:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001681",
+      "doc_seq": 3,
+      "track_doc_seq": 1681,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1681,
+      "preview": "こちらはいただき物でして、和菓子の餡が苦手な方でも食べられるように買ってきてくださったものなのですけど。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-03T00:46:57Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001679",
+      "doc_seq": 1,
+      "track_doc_seq": 1679,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1679,
+      "text": "共霊ギドラ1回やってみたかったCO。",
+      "rendered_yomi_before": "共/トモ 霊/レイ ギドラ/ギドラ 1/ 回/カイ やっ/ヤッ て/テ み/ミ たかっ/タカッ た/タ CO/シーオー 。/。",
+      "rendered_yomi_after": "共霊/キョウレイ ギドラ/ギドラ 1/ 回/カイ やっ/ヤッ て/テ み/ミ たかっ/タカッ た/タ CO/シーオー 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "共霊",
+          "キョウレイ"
+        ],
+        [
+          "ギドラ",
+          "ギドラ"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "回",
+          "カイ"
+        ],
+        [
+          "やっ",
+          "ヤッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "み",
+          "ミ"
+        ],
+        [
+          "たかっ",
+          "タカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "CO",
+          "シーオー"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "共霊",
+          "reading": "キョウレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共霊",
+              "reading": "きょうれい"
+            }
+          ]
+        },
+        {
+          "surface": "ギドラ",
+          "reading": "ギドラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ギドラ"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "回",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "やっ",
+          "reading": "ヤッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "み",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "たかっ",
+          "reading": "タカッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たかっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "CO",
+          "reading": "シーオー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "CO",
+              "reading": "しーおー"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0019",
+          "text": "共霊ギドラ1回やってみたかったCO。",
+          "rendered_yomi_before": "共/トモ 霊/レイ ギドラ/ギドラ 1/ 回/カイ やっ/ヤッ て/テ み/ミ たかっ/タカッ た/タ CO/シーオー 。/。",
+          "rendered_yomi_after": "共霊/キョウレイ ギドラ/ギドラ 1/ 回/カイ やっ/ヤッ て/テ み/ミ たかっ/タカッ た/タ CO/シーオー 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "共",
+              "token_surface": "共",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とも",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "共",
+                  "reading": "とも",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "共",
+              "token_surface": "共",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とも",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "共",
+                  "reading": "とも",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "共霊",
+          "reading_candidates": {
+            "共": [
+              "きょう",
+              "とも",
+              "ども"
+            ],
+            "霊": [
+              "たま",
+              "たましい",
+              "よん",
+              "りょう",
+              "れい"
+            ]
+          },
+          "reading_hints": {
+            "共": "きょう",
+            "霊": "たま"
+          },
+          "rejected_readings": [
+            {
+              "surface": "共",
+              "reading": "とも",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"共霊\",\"reading\":\"きょうれい\",\"used_web_search\":true,\"comment\":\"人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "共霊",
+              "reading": "きょうれい",
+              "used_web_search": true,
+              "comment": "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "共霊",
+            "replacement": [
+              {
+                "surface": "共霊",
+                "reading": "キョウレイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+                "surface": "共霊",
+                "comment": "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "共霊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "共",
+          "token_surface": "共",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とも",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "共",
+              "reading": "とも",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "霊",
+          "token_surface": "霊",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "共",
+          "reading": "とも",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "霊",
+          "reading": "れい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "共": [
+          "きょう",
+          "とも",
+          "ども"
+        ],
+        "霊": [
+          "たま",
+          "たましい",
+          "よん",
+          "りょう",
+          "れい"
+        ]
+      },
+      "reading_hints": {
+        "共": "きょう",
+        "霊": "たま"
+      },
+      "llm_parsed": [
+        {
+          "surface": "共霊",
+          "reading": "きょうれい",
+          "used_web_search": true,
+          "comment": "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"共霊\",\"reading\":\"きょうれい\",\"used_web_search\":true,\"comment\":\"人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))\"}]",
+      "llm_comments": [
+        "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "共霊",
+        "replacement": [
+          {
+            "surface": "共霊",
+            "reading": "キョウレイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001679:u0019::target_group:1",
+            "surface": "共霊",
+            "comment": "人狼用語の「共霊ギドラ」で使われる語で、共霊は「きょうれい」と読む用例が確認できるため、語全体を1項目で扱う。 ([w.atwiki.jp](https://w.atwiki.jp/wakametetactics/pages/267.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001679",
+      "doc_seq": 1,
+      "track_doc_seq": 1679,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0037",
+      "unit_seq": 37,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1679,
+      "text": "占霊どっちか潜伏してれば村も吊り回避で狩騙りとかやりやすいなー、なーんて。",
+      "rendered_yomi_before": "占/ウラナイ 霊/レイ どっち/ドッチ か/カ 潜伏/センプク し/シ てれ/テレ ば/バ 村/ムラ も/モ 吊り/ツリ 回避/カイヒ で/デ 狩/カリ 騙り/カタリ と/ト か/カ やり/ヤリ やすい/ヤスイ なー/ナー 、/、 なーん/ナーン て/テ 。/。",
+      "rendered_yomi_after": "占霊/センレイ どっち/ドッチ か/カ 潜伏/センプク し/シ てれ/テレ ば/バ 村/ムラ も/モ 吊り/ツリ 回避/カイヒ で/デ 狩/カリ 騙り/カタリ と/ト か/カ やり/ヤリ やすい/ヤスイ なー/ナー 、/、 なーん/ナーン て/テ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "占霊",
+          "センレイ"
+        ],
+        [
+          "どっち",
+          "ドッチ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "潜伏",
+          "センプク"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "てれ",
+          "テレ"
+        ],
+        [
+          "ば",
+          "バ"
+        ],
+        [
+          "村",
+          "ムラ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "吊り",
+          "ツリ"
+        ],
+        [
+          "回避",
+          "カイヒ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "狩",
+          "カリ"
+        ],
+        [
+          "騙り",
+          "カタリ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "やり",
+          "ヤリ"
+        ],
+        [
+          "やすい",
+          "ヤスイ"
+        ],
+        [
+          "なー",
+          "ナー"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "なーん",
+          "ナーン"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "占霊",
+          "reading": "センレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "占霊",
+              "reading": "せんれい"
+            }
+          ]
+        },
+        {
+          "surface": "どっち",
+          "reading": "ドッチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どっち"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "潜伏",
+          "reading": "センプク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "潜伏",
+              "reading": "せんぷく"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "てれ",
+          "reading": "テレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "てれ"
+            }
+          ]
+        },
+        {
+          "surface": "ば",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "村",
+          "reading": "ムラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "村",
+              "reading": "むら"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "吊り",
+          "reading": "ツリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "吊",
+              "reading": "つ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "回避",
+          "reading": "カイヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回避",
+              "reading": "かいひ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "狩",
+          "reading": "カリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "狩",
+              "reading": "かり"
+            }
+          ]
+        },
+        {
+          "surface": "騙り",
+          "reading": "カタリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "騙",
+              "reading": "かた"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "やり",
+          "reading": "ヤリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やり"
+            }
+          ]
+        },
+        {
+          "surface": "やすい",
+          "reading": "ヤスイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やすい"
+            }
+          ]
+        },
+        {
+          "surface": "なー",
+          "reading": "ナー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なー"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "なーん",
+          "reading": "ナーン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なーん"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0037",
+          "text": "占霊どっちか潜伏してれば村も吊り回避で狩騙りとかやりやすいなー、なーんて。",
+          "rendered_yomi_before": "占/ウラナイ 霊/レイ どっち/ドッチ か/カ 潜伏/センプク し/シ てれ/テレ ば/バ 村/ムラ も/モ 吊り/ツリ 回避/カイヒ で/デ 狩/カリ 騙り/カタリ と/ト か/カ やり/ヤリ やすい/ヤスイ なー/ナー 、/、 なーん/ナーン て/テ 。/。",
+          "rendered_yomi_after": "占霊/センレイ どっち/ドッチ か/カ 潜伏/センプク し/シ てれ/テレ ば/バ 村/ムラ も/モ 吊り/ツリ 回避/カイヒ で/デ 狩/カリ 騙り/カタリ と/ト か/カ やり/ヤリ やすい/ヤスイ なー/ナー 、/、 なーん/ナーン て/テ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 2,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "占",
+              "token_surface": "占",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うらない",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "占",
+                  "reading": "うらない",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "占",
+              "token_surface": "占",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うらない",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "占",
+                  "reading": "うらない",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "占霊",
+          "reading_candidates": {
+            "占": [
+              "うらない"
+            ],
+            "霊": [
+              "たま",
+              "たましい",
+              "よん",
+              "りょう",
+              "れい"
+            ]
+          },
+          "reading_hints": {
+            "占": "うらない",
+            "霊": "たま"
+          },
+          "rejected_readings": [
+            {
+              "surface": "占",
+              "reading": "うらない",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"占霊\",\"reading\":\"センレイ\",\"used_web_search\":true,\"comment\":\"人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "占霊",
+              "reading": "センレイ",
+              "used_web_search": true,
+              "comment": "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+            "status": "applied",
+            "rejected_span": "占霊",
+            "replacement": [
+              {
+                "surface": "占霊",
+                "reading": "センレイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+                "surface": "占霊",
+                "comment": "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "占霊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "占",
+          "token_surface": "占",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うらない",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "占",
+              "reading": "うらない",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "霊",
+          "token_surface": "霊",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "占",
+          "reading": "うらない",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "霊",
+          "reading": "れい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "占": [
+          "うらない"
+        ],
+        "霊": [
+          "たま",
+          "たましい",
+          "よん",
+          "りょう",
+          "れい"
+        ]
+      },
+      "reading_hints": {
+        "占": "うらない",
+        "霊": "たま"
+      },
+      "llm_parsed": [
+        {
+          "surface": "占霊",
+          "reading": "センレイ",
+          "used_web_search": true,
+          "comment": "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"占霊\",\"reading\":\"センレイ\",\"used_web_search\":true,\"comment\":\"人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))\"}]",
+      "llm_comments": [
+        "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+        "status": "applied",
+        "rejected_span": "占霊",
+        "replacement": [
+          {
+            "surface": "占霊",
+            "reading": "センレイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001679:u0037::target_group:1",
+            "surface": "占霊",
+            "comment": "人狼文脈の「占霊構成」という定着した複合語としてまとめるのが自然で、複合語の読みは「センレイ」と確認できる。([w.atwiki.jp](https://w.atwiki.jp/nanji_jinro/pages/79.html?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001679",
+      "doc_seq": 1,
+      "track_doc_seq": 1679,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0038",
+      "unit_seq": 38,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1679,
+      "text": "ありょがしれっと非霊してたら、それはそれで面白かったかも？",
+      "rendered_yomi_before": "あり/アリ ょ/ョ が/ガ しれっと/シレット 非/ヒ 霊/レイ し/シ て/テ たら/タラ 、/、 それ/ソレ は/ハ それ/ソレ で/デ 面白かっ/オモシロカッ た/タ か/カ も/モ ？/？",
+      "rendered_yomi_after": "あり/アリ ょ/ョ が/ガ しれっと/シレット 非霊/ヒレイ し/シ て/テ たら/タラ 、/、 それ/ソレ は/ハ それ/ソレ で/デ 面白かっ/オモシロカッ た/タ か/カ も/モ ？/？",
+      "rendered_yomi_after_tokens": [
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ょ",
+          "ョ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "しれっと",
+          "シレット"
+        ],
+        [
+          "非霊",
+          "ヒレイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "たら",
+          "タラ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "それ",
+          "ソレ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "面白かっ",
+          "オモシロカッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "？",
+          "？"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ょ",
+          "reading": "ョ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ょ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "しれっと",
+          "reading": "シレット",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しれっと"
+            }
+          ]
+        },
+        {
+          "surface": "非霊",
+          "reading": "ヒレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "非霊",
+              "reading": "ひれい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "たら",
+          "reading": "タラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たら"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "それ",
+          "reading": "ソレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "それ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "面白かっ",
+          "reading": "オモシロカッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "面白",
+              "reading": "おもしろ"
+            },
+            {
+              "type": "text",
+              "text": "かっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "？",
+          "reading": "？",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "？"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001679:u0038",
+          "text": "ありょがしれっと非霊してたら、それはそれで面白かったかも？",
+          "rendered_yomi_before": "あり/アリ ょ/ョ が/ガ しれっと/シレット 非/ヒ 霊/レイ し/シ て/テ たら/タラ 、/、 それ/ソレ は/ハ それ/ソレ で/デ 面白かっ/オモシロカッ た/タ か/カ も/モ ？/？",
+          "rendered_yomi_after": "あり/アリ ょ/ョ が/ガ しれっと/シレット 非霊/ヒレイ し/シ て/テ たら/タラ 、/、 それ/ソレ は/ハ それ/ソレ で/デ 面白かっ/オモシロカッ た/タ か/カ も/モ ？/？",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 8,
+            "char_end": 10,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "非",
+              "token_surface": "非",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "非",
+                  "reading": "ひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "非",
+              "token_surface": "非",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ひ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "非",
+                  "reading": "ひ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0010-0010",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "霊",
+              "token_surface": "霊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "れい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "霊",
+                  "reading": "れい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "非霊",
+          "reading_candidates": {
+            "非": [
+              "ひ"
+            ],
+            "霊": [
+              "たま",
+              "たましい",
+              "よん",
+              "りょう",
+              "れい"
+            ]
+          },
+          "reading_hints": {
+            "非": "ひ",
+            "霊": "たま"
+          },
+          "rejected_readings": [
+            {
+              "surface": "非",
+              "reading": "ひ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"非霊\",\"reading\":\"ひれい\",\"used_web_search\":true,\"comment\":\"一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "非霊",
+              "reading": "ひれい",
+              "used_web_search": true,
+              "comment": "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+            "status": "applied",
+            "rejected_span": "非霊",
+            "replacement": [
+              {
+                "surface": "非霊",
+                "reading": "ヒレイ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+                "surface": "非霊",
+                "comment": "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "非霊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "非",
+          "token_surface": "非",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ひ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "非",
+              "reading": "ひ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038:s0010-0010",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "霊",
+          "token_surface": "霊",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "れい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "霊",
+              "reading": "れい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "非",
+          "reading": "ひ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "霊",
+          "reading": "れい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "非": [
+          "ひ"
+        ],
+        "霊": [
+          "たま",
+          "たましい",
+          "よん",
+          "りょう",
+          "れい"
+        ]
+      },
+      "reading_hints": {
+        "非": "ひ",
+        "霊": "たま"
+      },
+      "llm_parsed": [
+        {
+          "surface": "非霊",
+          "reading": "ひれい",
+          "used_web_search": true,
+          "comment": "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"非霊\",\"reading\":\"ひれい\",\"used_web_search\":true,\"comment\":\"一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。\"}]",
+      "llm_comments": [
+        "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+        "status": "applied",
+        "rejected_span": "非霊",
+        "replacement": [
+          {
+            "surface": "非霊",
+            "reading": "ヒレイ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001679:u0038::target_group:1",
+            "surface": "非霊",
+            "comment": "一般的な二字熟語としては珍しい表記ですが、文脈上は「ひれい」とまとめて読むのが自然です。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}

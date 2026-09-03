@@ -11,9 +11,10 @@
   "item_count": 50,
   "summary": {
     "document_count": 3,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "final_pending": 3
+      "complete": 2,
+      "strong_pending": 1
     },
     "unresolved_item_count": 5,
     "unresolved_target_count": 5,
@@ -29,12 +30,12 @@
       "source_line_no": 1679,
       "preview": "そこを狐推しできるくらいの論を組み立てるべきだったかもしれない。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T09:31:06Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-03T00:48:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 38,
@@ -42,9 +43,9 @@
       "unresolved_count": 5,
       "from_seq": 1,
       "to_seq": 38,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 38,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 3
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0000001680",
@@ -55,12 +56,12 @@
       "source_line_no": 1680,
       "preview": "ならばその価値とは誰が決めたの？",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T09:31:06Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-03T00:46:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -68,7 +69,7 @@
       "unresolved_count": 0,
       "from_seq": 39,
       "to_seq": 42,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 4,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -81,12 +82,12 @@
       "source_line_no": 1681,
       "preview": "こちらはいただき物でして、和菓子の餡が苦手な方でも食べられるように買ってきてくださったものなのですけど。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T09:31:06Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-03T00:46:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 8,
@@ -94,7 +95,7 @@
       "unresolved_count": 0,
       "from_seq": 43,
       "to_seq": 50,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 8,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     }
@@ -16416,7 +16417,7 @@
               "label": "Dictionary",
               "reading": "じつ",
               "accepted": false,
-              "historical_count": 29,
+              "historical_count": 30,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -17272,7 +17273,7 @@
                   "reading": "じつ"
                 }
               ],
-              "historical_count": 29
+              "historical_count": 30
             },
             {
               "id": "dictionary:4",
