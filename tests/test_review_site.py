@@ -554,6 +554,8 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("withSubmittedProcessingPlaceholders", app)
         self.assertIn("finalizedArchiveContainsDocumentRef", app)
         self.assertIn("finalized_track_doc_seq_ranges", app)
+        self.assertIn("retiredVirtualRecoveryDocument", app)
+        self.assertIn('docId.startsWith("recovery:home_tag_v1:")', app)
         self.assertIn("normalizeStoredSubmittedTask", app)
         self.assertIn('? normalizeStoredSubmittedTask(rawRecord?.task)', app)
         self.assertIn("document_refs: cloneJson(rawRecord?.document_refs || [])", app)
