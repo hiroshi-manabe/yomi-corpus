@@ -7208,7 +7208,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     );
     const ref = storedRefs.get(String(docId)) ||
       (sameStageDoc ? localTaskDocumentRef(sameStageDoc) : minimalLocalTaskDocumentRef(docId, taskStage));
-    if (retiredVirtualRecoveryDocument(ref)) {
+    if (!documentRefMatchesCurrentSource(ref, currentDocs)) {
       continue;
     }
     if (finalizedArchiveContainsDocumentRef(ref)) {
@@ -7271,9 +7271,19 @@ function minimalLocalTaskDocumentRef(taskDocId, queueStage) {
   };
 }
 
-function retiredVirtualRecoveryDocument(ref) {
+function documentIdNamespace(docId) {
+  const value = String(docId || "");
+  const separator = value.lastIndexOf(":");
+  return separator > 0 ? value.slice(0, separator) : "";
+}
+
+function documentRefMatchesCurrentSource(ref, docs) {
   const docId = String(ref?.doc_id || baseDocIdFromTaskDocId(ref?.task_doc_id || ""));
-  return docId.startsWith("recovery:home_tag_v1:");
+  const namespace = documentIdNamespace(docId);
+  const activeNamespaces = new Set(
+    docs.map((doc) => documentIdNamespace(doc.doc_id)).filter(Boolean),
+  );
+  return !namespace || !activeNamespaces.size || activeNamespaces.has(namespace);
 }
 
 function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {
