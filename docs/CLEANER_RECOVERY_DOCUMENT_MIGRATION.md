@@ -1,5 +1,10 @@
 # Cleaner-Regeneration Recovery Document Migration
 
+> Historical record: this migration has completed. The temporary recovery
+> commands and runtime branches described below were removed after the
+> corrected source epoch was installed. Use Git history for forensic replay;
+> do not treat this document as an active operator runbook.
+
 ## Problem
 
 The upstream `llm-jp-corpus-v4` cleaner currently treats unrestricted
@@ -251,8 +256,9 @@ skipped, excluded, or explicitly archived as a conflict. Then:
 - delete reproducible intermediate packs if storage is unnecessary;
 - remove campaign-specific UI labels after confirming no active tasks remain.
 
-The generic recovery document format may remain available for another bounded
-cleaner migration, but no permanent parallel review workflow is required.
+No recovery-document implementation remains in the active source tree. A future
+bounded cleaner migration should be designed from its current requirements
+rather than reactivating this temporary parallel workflow by default.
 
 ## Rollout
 

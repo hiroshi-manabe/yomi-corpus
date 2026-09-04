@@ -193,8 +193,9 @@ After cutover validation:
   application ledger, and Issue provenance in the sealed legacy archive;
 - remove campaign-specific operational configuration and temporary source
   pointers; and
-- retain generic recovery code only as dormant migration tooling, not as a
-  normal stage for the corrected source.
+- remove the temporary recovery implementation after its sealed artifacts have
+  been validated; Git history preserves the implementation if forensic replay
+  is ever required.
 
 This retires the special per-sentence repair used for text formerly dropped by
 the cleaner. The corrected full source becomes authoritative instead.
@@ -259,3 +260,9 @@ contains 2,593,288 selectable documents, and resumes refill at slot 1,682.
 All three migration batches reached Bulk Review through the ordinary mechanical
 and LLM stages; one stale background response was superseded and retried without
 discarding the other completed responses.
+
+After the corrected epoch was validated, the temporary recovery preparation,
+review-finalization, scatter-back, campaign-building, and one-time epoch
+migration code was removed from the active tree. Only this execution record,
+the current dataset configuration, Git history, and the sealed local migration
+artifacts remain.
