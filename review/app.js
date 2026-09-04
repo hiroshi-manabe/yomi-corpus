@@ -2468,9 +2468,11 @@ async function openVocabularyCampaignPreview() {
   const historical = document.createElement("p");
   historical.className = "vocabulary-campaign-gate-note";
   historical.textContent =
-    `古文等の分類により ${preview.historical_gate?.excluded_document_count || 0}文書を候補から除外 ` +
+    `古文等の分類により ${preview.historical_gate?.excluded_document_count || 0}文書、` +
+    `括弧内の読み注記過多により ${preview.parenthetical_reading_gate?.excluded_document_count || 0}文書を候補から除外 ` +
     `（文の${Math.round((preview.historical_gate?.min_flagged_sentence_ratio || 0) * 100)}%以上、` +
-    `文字の${Math.round((preview.historical_gate?.min_flagged_character_ratio || 0) * 100)}%以上）。`;
+    `文字の${Math.round((preview.historical_gate?.min_flagged_character_ratio || 0) * 100)}%以上、または1文に` +
+    `${Number(preview.parenthetical_reading_gate?.max_glosses_per_sentence || 0) + 1}件以上の読み注記）。`;
   el.workflowPreviewBody.append(historical);
 
   const switcher = document.createElement("div");
