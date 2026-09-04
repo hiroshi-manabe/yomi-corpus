@@ -1009,6 +1009,66 @@ button:disabled {
   box-shadow: none;
 }
 
+.vocabulary-campaign-intro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid rgba(156, 79, 30, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 244, 214, 0.72);
+}
+
+.vocabulary-campaign-intro p {
+  margin: 0;
+}
+
+.vocabulary-campaign-readonly-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #9c4f1e;
+  color: #fff;
+  font-size: 0.76rem;
+}
+
+.vocabulary-campaign-document {
+  display: grid;
+  gap: 10px;
+  padding: 15px 16px;
+  border: 1px solid rgba(31, 28, 23, 0.12);
+  border-radius: 16px;
+  background: #fffdf9;
+}
+
+.vocabulary-campaign-document header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.vocabulary-campaign-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.vocabulary-campaign-targets span {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(34, 106, 214, 0.09);
+  color: #225fae;
+  font-size: 0.74rem;
+}
+
+.vocabulary-campaign-text {
+  margin: 0;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 .archive-correction-help {
   margin: 0;
 }

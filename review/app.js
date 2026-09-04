@@ -26,6 +26,7 @@ const state = {
   archiveSearchIndexPath: "",
   archiveSearchQuery: "",
   archiveSearchTimer: null,
+  vocabularyCampaignPreview: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
@@ -2408,6 +2409,7 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
+        ${state.manifest?.vocabulary_campaign_preview?.path ? '<button class="secondary-button compact-button vocabulary-campaign-preview-link" type="button" title="インストール前の候補文書を確認する">語彙キャンペーン候補</button>' : ''}
         ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button" title="コーパスマップを開く">確定済みコーパス${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
@@ -2417,6 +2419,11 @@ function renderWorkflowPackMap(docs) {
       showStatus(`コーパスマップを開けませんでした: ${error.message}`, true);
     });
   });
+  section.querySelector(".vocabulary-campaign-preview-link")?.addEventListener("click", () => {
+    openVocabularyCampaignPreview().catch((error) => {
+      showStatus(`語彙キャンペーン候補を開けませんでした: ${error.message}`, true);
+    });
+  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
@@ -2424,6 +2431,77 @@ function renderWorkflowPackMap(docs) {
   }
   section.append(tileGrid);
   return section;
+}
+
+async function openVocabularyCampaignPreview() {
+  const path = state.manifest?.vocabulary_campaign_preview?.path;
+  if (!path) {
+    throw new Error("公開された候補がありません。");
+  }
+  if (!state.vocabularyCampaignPreview) {
+    state.vocabularyCampaignPreview = await fetchJson(path);
+  }
+  const preview = state.vocabularyCampaignPreview;
+  if (preview.read_only !== true || preview.installation_status !== "not_installed") {
+    throw new Error("候補データの閲覧専用状態を確認できません。");
+  }
+  el.workflowPreviewTitle.textContent = "語彙キャンペーン候補";
+  el.workflowPreviewMeta.textContent =
+    `${preview.slot_start}–${preview.slot_end}の提案 · ${preview.planned_document_count}文書から${preview.sample_document_count}文書を抽出 · 未適用`;
+  el.workflowPreviewBody.innerHTML = "";
+
+  const intro = document.createElement("section");
+  intro.className = "vocabulary-campaign-intro";
+  const badge = document.createElement("strong");
+  badge.className = "vocabulary-campaign-readonly-badge";
+  badge.textContent = "閲覧専用";
+  const description = document.createElement("p");
+  description.textContent =
+    "処理順へ登録する前の品質確認用サンプルです。この画面から編集、レビュー開始、提出はできません。";
+  intro.append(badge, description);
+  el.workflowPreviewBody.append(intro);
+
+  for (const [index, doc] of (preview.documents || []).entries()) {
+    const article = document.createElement("article");
+    article.className = "vocabulary-campaign-document";
+    const header = document.createElement("header");
+    const title = document.createElement("strong");
+    title.textContent = `候補 ${index + 1} · 予定番号 ${doc.proposed_slot}`;
+    const meta = document.createElement("span");
+    meta.className = "muted";
+    meta.textContent = `${campaignSampleStratumLabel(doc.sample_stratum)} · ${doc.text_length}文字 · 対象語 ${doc.matched_targets?.length || 0}件`;
+    header.append(title, meta);
+    const targets = document.createElement("div");
+    targets.className = "vocabulary-campaign-targets";
+    for (const target of doc.matched_targets || []) {
+      const chip = document.createElement("span");
+      chip.textContent = target;
+      targets.append(chip);
+    }
+    const text = document.createElement("p");
+    text.className = "vocabulary-campaign-text";
+    text.textContent = doc.text || "";
+    article.append(header, targets, text);
+    el.workflowPreviewBody.append(article);
+  }
+  el.workflowPreviewActions.innerHTML = "";
+  const footer = document.createElement("span");
+  footer.className = "muted";
+  footer.textContent = `計画 ${preview.plan_id} · このプレビューは処理順を変更しません。`;
+  el.workflowPreviewActions.append(footer);
+  el.workflowPreviewBody.scrollTop = 0;
+  el.workflowPreviewModal.classList.remove("hidden");
+  updateRuntimePollingForInteraction();
+}
+
+function campaignSampleStratumLabel(value) {
+  if (value === "high_score") {
+    return "高スコア";
+  }
+  if (value === "rare_target") {
+    return "希少語を確認";
+  }
+  return "無作為抽出";
 }
 
 function archiveManualCorrectionCount() {
