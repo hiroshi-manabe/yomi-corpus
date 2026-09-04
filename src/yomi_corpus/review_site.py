@@ -530,6 +530,21 @@ def _publish_review_site_unlocked(
             manifest["issue_acknowledgments"] = {
                 "path": "./issue-acknowledgments.json"
             }
+        campaign_preview_source = (
+            Path(project_root)
+            / "data"
+            / "analysis"
+            / "vocabulary_balance"
+            / "active_campaign_preview.json"
+        )
+        if campaign_preview_source.exists():
+            campaign_preview_destination = (
+                review_output_dir / "vocabulary-campaign-preview.json"
+            )
+            shutil.copy2(campaign_preview_source, campaign_preview_destination)
+            manifest["vocabulary_campaign_preview"] = {
+                "path": "./vocabulary-campaign-preview.json"
+            }
         archive_manifest = publish_review_archive(
             project_root=project_root,
             review_output_dir=review_output_dir,
@@ -841,8 +856,6 @@ def finalized_batch_names(root: Path, track_name: str) -> list[str]:
         if payload.get("track_name") != track_name:
             continue
         if payload.get("current_stage") != "yomi_finalized":
-            continue
-        if payload.get("batch_kind") == "recovery":
             continue
         names.append(str(payload.get("batch_name") or path.stem))
     return sorted(names)

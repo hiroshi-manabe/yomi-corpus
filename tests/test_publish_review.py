@@ -76,11 +76,17 @@ class PublishReviewTests(unittest.TestCase):
             (review_root / "index.html").write_text("<!doctype html>\n", encoding="utf-8")
             (review_root / "README.md").write_text("publish artifact\n", encoding="utf-8")
             (review_root / "current-review-summary.json").write_text("{}", encoding="utf-8")
+            (review_root / "vocabulary-campaign-preview.json").write_text(
+                "{}", encoding="utf-8"
+            )
             (review_root / "manifest.json").write_text(
                 json.dumps(
                     {
                         "current_review_summary": {
                             "path": "./current-review-summary.json",
+                        },
+                        "vocabulary_campaign_preview": {
+                            "path": "./vocabulary-campaign-preview.json",
                         },
                         "current_tracks": {
                             "dev": {"path": "./packs/current.json"},
@@ -114,6 +120,7 @@ class PublishReviewTests(unittest.TestCase):
                 "docs/review/packs/archived.json",
                 "docs/review/packs/current.json",
                 "docs/review/style.css",
+                "docs/review/vocabulary-campaign-preview.json",
             ],
         )
 

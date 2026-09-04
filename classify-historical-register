@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from yomi_corpus.historical_register import (  # noqa: E402
+    DEFAULT_MIN_CHARACTER_RATIO,
+    DEFAULT_MIN_FLAGGED_SENTENCES,
+    DEFAULT_MIN_SENTENCE_RATIO,
+    classify_document,
+    summarize_documents,
+)
+
+
+DEFAULT_INPUT = ROOT / "data" / "analysis" / "vocabulary_balance" / "active_campaign_preview.json"
+DEFAULT_OUTPUT = ROOT / "data" / "analysis" / "vocabulary_balance" / "historical_register_report.json"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Classify historical kana, old-kanji, and kanbun evidence by sentence."
+    )
+    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    payload = json.loads(args.input.read_text(encoding="utf-8"))
+    rows = []
+    classifications = []
+    for item in payload["documents"]:
+        classification = classify_document(item["text"])
+        classifications.append(classification)
+        rows.append(
+            {
+                "source_record_id": item.get("source_record_id"),
+                "source_line_no": item.get("source_line_no"),
+                "proposed_slot": item.get("proposed_slot"),
+                "sample_stratum": item.get("sample_stratum"),
+                "score": item.get("score"),
+                "classification": classification.to_dict(),
+            }
+        )
+    report = {
+        "schema_version": 1,
+        "classifier": "historical-register-v1",
+        "advisory_only": True,
+        "source_plan_id": payload.get("plan_id"),
+        "document_policy": {
+            "min_flagged_sentences": DEFAULT_MIN_FLAGGED_SENTENCES,
+            "min_flagged_sentence_ratio": DEFAULT_MIN_SENTENCE_RATIO,
+            "min_flagged_character_ratio": DEFAULT_MIN_CHARACTER_RATIO,
+            "requires_both_ratios": True,
+        },
+        "summary": summarize_documents(classifications),
+        "documents": rows,
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report["summary"], ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

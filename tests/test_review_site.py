@@ -30,29 +30,6 @@ from yomi_corpus.review_site import (
 
 
 class ReviewSiteTests(unittest.TestCase):
-    def test_finalized_archive_excludes_recovery_batches(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            state_dir = root / "data/pipeline/batches"
-            state_dir.mkdir(parents=True)
-            for batch_name, batch_kind in (
-                ("dev_batch_0001", "dev"),
-                ("dev_recovery_cleaner_v1", "recovery"),
-            ):
-                (state_dir / f"{batch_name}.json").write_text(
-                    json.dumps(
-                        {
-                            "batch_name": batch_name,
-                            "track_name": "dev",
-                            "batch_kind": batch_kind,
-                            "current_stage": "yomi_finalized",
-                        }
-                    ),
-                    encoding="utf-8",
-                )
-
-            self.assertEqual(finalized_batch_names(root, "dev"), ["dev_batch_0001"])
-
     def test_archive_shards_reuse_matching_revisions_and_replace_invalid_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             output_root = Path(tmp)
@@ -554,8 +531,10 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("withSubmittedProcessingPlaceholders", app)
         self.assertIn("finalizedArchiveContainsDocumentRef", app)
         self.assertIn("finalized_track_doc_seq_ranges", app)
-        self.assertIn("retiredVirtualRecoveryDocument", app)
-        self.assertIn('docId.startsWith("recovery:home_tag_v1:")', app)
+        self.assertIn("documentRefMatchesCurrentSource", app)
+        self.assertIn("documentIdNamespace", app)
+        self.assertIn("renderVocabularyStrategyMetrics", app)
+        self.assertIn('preview.artifact_type !== "vocabulary-selection-experiment"', app)
         self.assertIn("normalizeStoredSubmittedTask", app)
         self.assertIn('? normalizeStoredSubmittedTask(rawRecord?.task)', app)
         self.assertIn("document_refs: cloneJson(rawRecord?.document_refs || [])", app)
@@ -841,6 +820,26 @@ class ReviewSiteTests(unittest.TestCase):
                 json.dumps({"schema_version": 1, "records": [{"submission_id": "s1"}]}),
                 encoding="utf-8",
             )
+            campaign_preview = (
+                root
+                / "data"
+                / "analysis"
+                / "vocabulary_balance"
+                / "active_campaign_preview.json"
+            )
+            campaign_preview.parent.mkdir(parents=True)
+            campaign_preview.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "plan_id": "plan1",
+                        "read_only": True,
+                        "installation_status": "not_installed",
+                        "documents": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             manifest = publish_review_site(
                 web_review_dir=web_review_dir,
@@ -864,6 +863,11 @@ class ReviewSiteTests(unittest.TestCase):
                 "./issue-acknowledgments.json",
             )
             self.assertTrue((docs_dir / "review" / "issue-acknowledgments.json").exists())
+            self.assertTrue((docs_dir / "review" / "vocabulary-campaign-preview.json").exists())
+            self.assertEqual(
+                saved_manifest["vocabulary_campaign_preview"]["path"],
+                "./vocabulary-campaign-preview.json",
+            )
             self.assertTrue((docs_dir / "review" / "current-review-summary.json").exists())
             self.assertEqual(
                 saved_manifest["current_review_summary"]["path"],

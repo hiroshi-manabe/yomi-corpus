@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from yomi_corpus.vocabulary_campaign import (  # noqa: E402
+    build_coverage_index,
+    build_selection_plan,
+)
+from yomi_corpus.selection_experiments import build_selection_experiment  # noqa: E402
+
+
+ANALYSIS = ROOT / "data" / "analysis" / "vocabulary_balance"
+DEFAULT_INDEX = ANALYSIS / "coverage.sqlite3"
+DEFAULT_PLAN = ANALYSIS / "campaigns" / "slots_2001_4000" / "selection_plan.json"
+DEFAULT_PREVIEW = ANALYSIS / "active_campaign_preview.json"
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Plan a read-only vocabulary-coverage campaign.")
+    parser.add_argument("command", choices=("index", "plan", "preview", "experiment", "all"))
+    parser.add_argument("--track", default="dev")
+    parser.add_argument("--targets", type=Path, default=ANALYSIS / "missing_kanji_common_nouns.tsv")
+    parser.add_argument("--index", type=Path, default=DEFAULT_INDEX)
+    parser.add_argument("--plan", type=Path, default=DEFAULT_PLAN)
+    parser.add_argument("--preview", type=Path, default=DEFAULT_PREVIEW)
+    parser.add_argument("--slot-start", type=int, default=2001)
+    parser.add_argument("--documents", type=int, default=2000)
+    parser.add_argument("--target-examples", type=int, default=3)
+    parser.add_argument("--reserved-source-documents", type=int, default=50_000)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    order_dir = ROOT / "data" / "pipeline" / "processing_order"
+    order_path = order_dir / f"{args.track}.u32"
+    manifest_path = order_dir / f"{args.track}.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    result = None
+    if args.command in {"index", "all"}:
+        result = build_coverage_index(
+            source_path=Path(manifest["source_path"]),
+            order_path=order_path,
+            order_manifest=manifest,
+            targets_path=args.targets,
+            output_path=args.index,
+            reserved_source_documents=args.reserved_source_documents,
+        )
+    if args.command in {"plan", "all"}:
+        result = build_selection_plan(
+            index_path=args.index,
+            output_path=args.plan,
+            slot_start=args.slot_start,
+            document_count=args.documents,
+            target_examples=args.target_examples,
+            order_manifest=manifest,
+        )
+    if args.command in {"preview", "experiment", "all"}:
+        result = build_selection_experiment(
+            plan_path=args.plan,
+            index_path=args.index,
+            output_path=args.preview,
+        )
+    if isinstance(result, dict):
+        summary_keys = (
+            "schema_version",
+            "plan_id",
+            "status",
+            "installed",
+            "read_only",
+            "installation_status",
+            "target_count",
+            "searchable_target_count",
+            "matched_document_count",
+            "hit_row_count",
+            "targets_with_candidates",
+            "targets_meeting_goal",
+            "document_count",
+            "planned_document_count",
+            "sample_document_count",
+            "slot_start",
+            "slot_end",
+            "sampling",
+            "experiment_id",
+            "candidate_document_count",
+            "character_budgets",
+            "preview_character_budget",
+        )
+        summary = {key: result[key] for key in summary_keys if key in result}
+        historical_gate = result.get("historical_gate")
+        if isinstance(historical_gate, dict):
+            summary["historical_excluded_document_count"] = historical_gate.get(
+                "excluded_document_count", 0
+            )
+        annotation_gate = result.get("parenthetical_reading_gate")
+        if isinstance(annotation_gate, dict):
+            summary["annotation_excluded_document_count"] = annotation_gate.get(
+                "excluded_document_count", 0
+            )
+        if "total_excluded_document_count" in result:
+            summary["total_excluded_document_count"] = result["total_excluded_document_count"]
+        result = summary
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

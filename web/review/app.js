@@ -26,6 +26,7 @@ const state = {
   archiveSearchIndexPath: "",
   archiveSearchQuery: "",
   archiveSearchTimer: null,
+  vocabularyCampaignPreview: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
@@ -2408,6 +2409,7 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
+        ${state.manifest?.vocabulary_campaign_preview?.path ? '<button class="secondary-button compact-button vocabulary-campaign-preview-link" type="button" title="インストール前の候補文書を確認する">語彙キャンペーン候補</button>' : ''}
         ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button" title="コーパスマップを開く">確定済みコーパス${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
@@ -2417,6 +2419,11 @@ function renderWorkflowPackMap(docs) {
       showStatus(`コーパスマップを開けませんでした: ${error.message}`, true);
     });
   });
+  section.querySelector(".vocabulary-campaign-preview-link")?.addEventListener("click", () => {
+    openVocabularyCampaignPreview().catch((error) => {
+      showStatus(`語彙キャンペーン候補を開けませんでした: ${error.message}`, true);
+    });
+  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
@@ -2424,6 +2431,149 @@ function renderWorkflowPackMap(docs) {
   }
   section.append(tileGrid);
   return section;
+}
+
+async function openVocabularyCampaignPreview() {
+  const path = state.manifest?.vocabulary_campaign_preview?.path;
+  if (!path) {
+    throw new Error("公開された候補がありません。");
+  }
+  if (!state.vocabularyCampaignPreview) {
+    state.vocabularyCampaignPreview = await fetchJson(path);
+  }
+  const preview = state.vocabularyCampaignPreview;
+  if (
+    preview.read_only !== true ||
+    preview.installation_status !== "not_installed" ||
+    preview.artifact_type !== "vocabulary-selection-experiment"
+  ) {
+    throw new Error("候補データの閲覧専用状態を確認できません。");
+  }
+  el.workflowPreviewTitle.textContent = "文書選定メトリクス比較";
+  el.workflowPreviewMeta.textContent =
+    `${preview.candidate_document_count}文書を比較 · ${preview.preview_character_budget.toLocaleString()}文字プレビュー · 未適用`;
+  el.workflowPreviewBody.innerHTML = "";
+
+  const intro = document.createElement("section");
+  intro.className = "vocabulary-campaign-intro";
+  const badge = document.createElement("strong");
+  badge.className = "vocabulary-campaign-readonly-badge";
+  badge.textContent = "閲覧専用";
+  const description = document.createElement("p");
+  description.textContent =
+    "同じ候補集合を複数の選定メトリクスで比較します。この画面から処理順は変更されません。";
+  intro.append(badge, description);
+  el.workflowPreviewBody.append(intro);
+
+  const historical = document.createElement("p");
+  historical.className = "vocabulary-campaign-gate-note";
+  historical.textContent =
+    `古文等の分類により ${preview.historical_gate?.excluded_document_count || 0}文書、` +
+    `括弧内の読み注記過多により ${preview.parenthetical_reading_gate?.excluded_document_count || 0}文書を候補から除外 ` +
+    `（文の${Math.round((preview.historical_gate?.min_flagged_sentence_ratio || 0) * 100)}%以上、` +
+    `文字の${Math.round((preview.historical_gate?.min_flagged_character_ratio || 0) * 100)}%以上、または1文に` +
+    `${Number(preview.parenthetical_reading_gate?.max_glosses_per_sentence || 0) + 1}件以上の読み注記）。`;
+  el.workflowPreviewBody.append(historical);
+
+  const switcher = document.createElement("div");
+  switcher.className = "vocabulary-strategy-switcher";
+  const content = document.createElement("section");
+  content.className = "vocabulary-strategy-content";
+  const documentsByLine = new Map(
+    (preview.documents || []).map((doc) => [Number(doc.source_line_no), doc]),
+  );
+
+  const renderStrategy = (strategy) => {
+    for (const button of switcher.querySelectorAll("button")) {
+      button.classList.toggle("active", button.dataset.strategyId === strategy.strategy_id);
+    }
+    content.innerHTML = "";
+    const heading = document.createElement("div");
+    heading.className = "vocabulary-strategy-heading";
+    heading.innerHTML = `<strong>${escapeHtml(strategy.label)}</strong><p>${escapeHtml(strategy.description)}</p>`;
+    content.append(heading, renderVocabularyStrategyMetrics(strategy.runs || []));
+    const previewHeading = document.createElement("h3");
+    previewHeading.textContent = `${Number(preview.preview_character_budget).toLocaleString()}文字枠の選定文書`;
+    content.append(previewHeading);
+    for (const [index, sourceLineNo] of (strategy.preview_source_line_nos || []).entries()) {
+      const doc = documentsByLine.get(Number(sourceLineNo));
+      if (doc) {
+        content.append(renderVocabularyCampaignDocument(doc, index));
+      }
+    }
+  };
+
+  for (const [index, strategy] of (preview.strategies || []).entries()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary-button compact-button";
+    button.dataset.strategyId = strategy.strategy_id;
+    button.textContent = strategy.label;
+    button.addEventListener("click", () => renderStrategy(strategy));
+    switcher.append(button);
+    if (index === 0) {
+      renderStrategy(strategy);
+    }
+  }
+  el.workflowPreviewBody.append(switcher, content);
+  el.workflowPreviewActions.innerHTML = "";
+  const footer = document.createElement("span");
+  footer.className = "muted";
+  footer.textContent = `実験 ${preview.experiment_id} · 結果は処理順へ未適用です。`;
+  el.workflowPreviewActions.append(footer);
+  el.workflowPreviewBody.scrollTop = 0;
+  el.workflowPreviewModal.classList.remove("hidden");
+  updateRuntimePollingForInteraction();
+}
+
+function renderVocabularyStrategyMetrics(runs) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "vocabulary-strategy-metrics";
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead><tr><th>文字枠</th><th>文書</th><th>異語</th><th>2例</th><th>3例</th><th>異語/1万字</th><th>重複率</th></tr></thead>
+  `;
+  const body = document.createElement("tbody");
+  for (const run of runs) {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${Number(run.character_budget).toLocaleString()}</td>
+      <td>${Number(run.selected_document_count).toLocaleString()}</td>
+      <td>${Number(run.distinct_target_count).toLocaleString()}</td>
+      <td>${Number(run.targets_with_two_examples).toLocaleString()}</td>
+      <td>${Number(run.targets_with_three_examples).toLocaleString()}</td>
+      <td>${Number(run.distinct_targets_per_10000_characters).toFixed(1)}</td>
+      <td>${Math.round(Number(run.duplicate_hit_share) * 100)}%</td>
+    `;
+    body.append(row);
+  }
+  table.append(body);
+  wrapper.append(table);
+  return wrapper;
+}
+
+function renderVocabularyCampaignDocument(doc, index) {
+    const article = document.createElement("article");
+    article.className = "vocabulary-campaign-document";
+    const header = document.createElement("header");
+    const title = document.createElement("strong");
+    title.textContent = `候補 ${index + 1}`;
+    const meta = document.createElement("span");
+    meta.className = "muted";
+    meta.textContent = `${Number(doc.text_length).toLocaleString()}文字 · 対象語 ${doc.matched_targets?.length || 0}件`;
+    header.append(title, meta);
+    const targets = document.createElement("div");
+    targets.className = "vocabulary-campaign-targets";
+    for (const target of doc.matched_targets || []) {
+      const chip = document.createElement("span");
+      chip.textContent = target;
+      targets.append(chip);
+    }
+    const text = document.createElement("p");
+    text.className = "vocabulary-campaign-text";
+    text.textContent = doc.text || "";
+    article.append(header, targets, text);
+    return article;
 }
 
 function archiveManualCorrectionCount() {
@@ -7208,7 +7358,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
     );
     const ref = storedRefs.get(String(docId)) ||
       (sameStageDoc ? localTaskDocumentRef(sameStageDoc) : minimalLocalTaskDocumentRef(docId, taskStage));
-    if (retiredVirtualRecoveryDocument(ref)) {
+    if (!documentRefMatchesCurrentSource(ref, currentDocs)) {
       continue;
     }
     if (finalizedArchiveContainsDocumentRef(ref)) {
@@ -7271,9 +7421,19 @@ function minimalLocalTaskDocumentRef(taskDocId, queueStage) {
   };
 }
 
-function retiredVirtualRecoveryDocument(ref) {
+function documentIdNamespace(docId) {
+  const value = String(docId || "");
+  const separator = value.lastIndexOf(":");
+  return separator > 0 ? value.slice(0, separator) : "";
+}
+
+function documentRefMatchesCurrentSource(ref, docs) {
   const docId = String(ref?.doc_id || baseDocIdFromTaskDocId(ref?.task_doc_id || ""));
-  return docId.startsWith("recovery:home_tag_v1:");
+  const namespace = documentIdNamespace(docId);
+  const activeNamespaces = new Set(
+    docs.map((doc) => documentIdNamespace(doc.doc_id)).filter(Boolean),
+  );
+  return !namespace || !activeNamespaces.size || activeNamespaces.has(namespace);
 }
 
 function documentHasAdvancedBeyondTaskStage(docId, taskStage, docs) {

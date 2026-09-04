@@ -141,3 +141,164 @@ plan artifact. At minimum, validate source-identity uniqueness, absence of
 overlap with frozen or reserved assignments, deterministic replay of the plan,
 and preservation of the canonical slot sequence. This keeps experimental
 selection logic subordinate to the small, stable processing-order interface.
+
+## Campaign planning and preview
+
+The first campaign uses the complete generated
+`missing_kanji_common_nouns.tsv` inventory as its input. It does not depend on
+the earlier manually filtered Core-derived headword lists. Campaign targets
+must be kanji-bearing forms of at least two Unicode characters. One-character
+forms remain eligible for ordinary sequential processing, but they do not enter
+the campaign target index or contribute to campaign selection scores. They are
+too ambiguous and too easily reward very short noisy documents. Selection is
+best effort: the planner may leave unavailable or low-value targets uncovered.
+
+Run the planning phases independently:
+
+```bash
+./plan-vocabulary-campaign index
+./plan-vocabulary-campaign plan
+./plan-vocabulary-campaign preview
+```
+
+Install the optional `planning` dependency for the accelerated matcher used by
+the multi-million-document index scan. The command retains a pure-Python
+fallback for small fixtures and constrained environments.
+
+`preview` replaces the earlier single-strategy sample with a read-only
+selection experiment over the proposed 2,000-document candidate set. It
+compares the current score, a novelty-first score, a strict gain-per-character
+score, and a balanced score at 50,000, 100,000, and 250,000 reviewed-character
+budgets. The UI previews the 100,000-character selections and reports distinct
+target coverage, repeated coverage, density, and duplicate share. The
+`experiment` command is an explicit alias for this phase.
+
+`all` runs the same three phases in order. The default plan proposes processing
+slots 2,001 through 4,000, aims for three documents per target, and writes an
+ignored SQLite index and JSON plan under
+`data/analysis/vocabulary_balance/`. None of these commands reserves a batch,
+advances the processing-order cursor, or modifies the order binary.
+
+Before installation, publish the deterministic metric experiment in the review
+site. The review UI labels this artifact as uninstalled and read-only and
+exposes no editing, task, submission, or browser-persistence action. Publishing
+merely copies `active_campaign_preview.json`; accepting and installing a plan
+remains a separate future operation.
+
+## Historical-register classification
+
+Vocabulary-focused selection can overrepresent archival material. Detect this
+with an advisory sentence classifier rather than a destructive source filter.
+The classifier reports independent evidence for historical kana orthography,
+old character forms, and kanbun-style syntax. Every result retains its matched
+text, offset, evidence type, and score so sampling decisions can be audited.
+An isolated name-prone old form such as `澤` is weak evidence and must not by
+itself classify an otherwise modern sentence.
+
+Aggregate sentence results at document level only after classification. Report
+both the share of flagged sentences and the share of visible characters they
+contain. The reusable classifier's conservative drop recommendation requires
+at least two flagged sentences and requires both shares to cross its configured
+thresholds. Campaign experiments use a separate recorded gate: at least three
+flagged sentences, 10% of sentences, and 15% of visible characters. Thus a
+short historical quotation in modern prose remains eligible, while a document
+with a material historical-review burden is omitted from that campaign
+proposal. These recommendations do not change processing order or canonical
+source data.
+
+Apply a separate annotation-density gate to source prose containing many
+author-supplied parenthetical readings. A candidate is omitted when one
+sentence contains four or more `表記（かな）` glosses. Counts reset at sentence
+boundaries, so ordinary name readings in separate sentences do not accumulate.
+This is a review-cost and corpus-style signal, not evidence of historical
+orthography; report it separately from the historical-register categories.
+
+## Campaign-specific quality gates
+
+Optimizing rare-target coverage per reviewed character creates selection
+pressure toward pathological documents. Indexes, catalogues, concatenated
+headlines, scraped product listings, and machine-corrupted text can contain many
+rare forms with little ordinary prose. These records may have survived the
+general source cleaner and may be uncommon under sequential sampling, but they
+become prominent when ranked by character efficiency. Treat quality filtering
+as a constraint applied before campaign scoring, not as another reward term.
+
+The campaign selector may intentionally apply a stricter whitespace rule than
+the upstream cleaner. The corrected source epoch used the cleaner rule
+`Japanese-inner-spaces / characters > 0.01`. Two undesirable preview documents
+fell just below that boundary at 0.963% and 0.841%, while their total half-width
+space shares were 2.58% and 1.33%. As an initial campaign-only safeguard,
+evaluate documents of at least 1,000 characters with total half-width-space
+density of at least 1% as exclusion candidates. This apparent duplication is a
+deliberate consequence of different responsibilities: the upstream threshold
+defines a stable general corpus, while the campaign gate protects an optimizer
+that amplifies borderline records. Promote a proven rule upstream only through
+a future explicit source-epoch migration.
+
+Also reject a campaign candidate when any resulting review unit exceeds 800
+characters. Use review-unit length rather than total document length: a long
+document made of ordinary sentences remains manageable, whereas a 2,029-
+character concatenated legal-title unit does not. In the current 51-document
+character-efficiency preview, this limit rejects only that outlier; the next
+largest units contain 668 and 581 characters.
+
+High densities of book-title brackets, bullets, and exclamation marks are useful
+diagnostic evidence for an index page, but no individual punctuation count is a
+general hard rejection rule. For example, the observed index page contained 104
+`『...』` pairs, 148 bullet marks, and 149 exclamation marks in 5,502 characters,
+while legitimate bibliographic prose can also contain many title brackets.
+Retain these measurements in evaluation output and prefer a small validated
+combination over accumulating unrelated ad hoc filters.
+
+## Minimal semantic quality check
+
+After deterministic campaign gates, use one narrow Sol classification to catch
+semantic substitution text and similarly unusable scraped text that surface
+rules miss. Use `gpt-5.6-sol` with no reasoning, low verbosity, no tools, and the
+following prompt:
+
+```text
+Is the following text incoherent word salad rather than meaningful Japanese?
+Answer only "y" or "n".
+
+{text}
+```
+
+For documents longer than 500 characters, `{text}` is the first three
+punctuation-delimited sentences. For documents of at most 500 characters, use
+the complete document; otherwise a plausible opening can hide corruption later
+in a short record. Parse only a trimmed, case-insensitive exact `y` or `n`.
+Anything else is malformed and follows the ordinary retry policy. Do not use a
+substring test, because explanatory output can contain both letters.
+
+The initial Sol experiment made 67 standard API calls. Five known substitution-
+salad documents returned `y` in all 15 repeated trials, 15 varied coherent
+controls returned `n`, and the remaining 37 preview documents produced 36 `n`
+responses and one useful `y` for duplicated e-commerce/path garbage. Every
+response had the requested one-character form. A 149-character corrupt record
+whose first three sentences appeared superficially coherent initially returned
+`n`; using its complete text returned `y` in three of three trials. Across the
+57 unique preview documents, requests averaged approximately 195 input tokens
+and five billed output tokens. At the recorded Sol standard rates, 2,000 checks
+cost approximately USD 2.25, or roughly USD 2.50 with 10% replacement work;
+batch execution approximately halves that estimate. These observations justify
+a campaign experiment, not a claim of production-level classifier accuracy.
+
+Do not impose a minimum document length merely to prevent budget-tail filling.
+The 149-character corrupt record covered only the one-character target `屯` and
+was selected when 158 characters remained in a 100,000-character budget. The
+two-character target minimum removes this particular incentive without losing
+useful short prose. More generally, do not require exact budget exhaustion, and
+continue to preview a random sample before installing a campaign.
+
+Run the classifier against the current read-only campaign preview with:
+
+```bash
+./classify-historical-register
+```
+
+The ignored report under `data/analysis/vocabulary_balance/` is an evaluation
+artifact. Review false positives and false negatives before adding this signal
+to campaign selection. Future campaign scoring should charge selected text by
+character count, not document count, because reviewer effort follows text
+volume much more closely than the number of source records.
