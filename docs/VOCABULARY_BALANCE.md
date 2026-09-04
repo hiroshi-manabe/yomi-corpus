@@ -92,6 +92,50 @@ it was already consumed through another explicitly approved policy. Planning
 must stop at existing processing-order reservations and may modify only the
 unfrozen suffix.
 
+## Sparse coverage index
+
+Build a reusable sparse index before implementing a particular 2,000-document
+selection algorithm. The index records which approved target lemmas occur in
+each eligible source document and how many times they occur. Keep the actual
+count even if a later scoring policy caps one document's contribution to one
+example per lemma.
+
+Use an ignored SQLite database rather than canonical JSON artifacts. A minimal
+schema is:
+
+```text
+documents(source_line_no, source_record_id, text_length, quality_signals)
+targets(target_id, lemma, approved_forms)
+hits(source_line_no, target_id, occurrence_count)
+metadata(key, value)
+```
+
+Enforce uniqueness on stable source identity and on target identity. Index
+`hits(target_id, source_line_no)` for finding documents that cover a target and
+`hits(source_line_no, target_id)` for scoring all targets in one document.
+Selection plans should refer to stable source identities; source line numbers
+are efficient locators within one validated source build, not durable identity.
+
+The initial index may cover only campaign-eligible source documents after the
+reserved first 50,000 records. Build it in two passes:
+
+1. scan source text with fast literal matching over every approved written
+   form; and
+2. tokenize only matched documents with Sudachi A when exact short-unit
+   validation is needed to reject substring collisions.
+
+Store enough metadata to reject stale reuse: source path and fingerprint,
+source sequence epoch, target-list hash, matching-policy version, Sudachi
+dictionary and version, split mode, eligibility boundary, and creation time.
+Changing any semantic input requires rebuilding the index or producing a new
+version. Interrupted builds must not be mistaken for complete indexes.
+
+This database is a reproducible planning cache. It must not become an input to
+review, finalization, corpus export, or decoder training, and it may be deleted
+and rebuilt without changing canonical state. Different scoring experiments
+should reuse the same validated index and write separate plan artifacts rather
+than rescanning the multi-million-document source.
+
 Installation should be a separate command with validation and an explicit
 plan artifact. At minimum, validate source-identity uniqueness, absence of
 overlap with frozen or reserved assignments, deterministic replay of the plan,
