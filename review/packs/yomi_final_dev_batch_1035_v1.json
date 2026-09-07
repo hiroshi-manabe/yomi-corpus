@@ -11,9 +11,10 @@
   "item_count": 165,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 10,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "final_pending": 10
+      "complete": 9,
+      "strong_pending": 1
     },
     "unresolved_item_count": 25,
     "unresolved_target_count": 35,
@@ -29,12 +30,12 @@
       "source_line_no": 1821,
       "preview": "「けちょんけちょん」という日本語がありますよね。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 50,
@@ -42,7 +43,7 @@
       "unresolved_count": 3,
       "from_seq": 1,
       "to_seq": 50,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 50,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -55,12 +56,12 @@
       "source_line_no": 1822,
       "preview": "現場・内容のヒアリングを行い飛行計画をご提案致します。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 15,
@@ -68,7 +69,7 @@
       "unresolved_count": 4,
       "from_seq": 51,
       "to_seq": 65,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 15,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -81,12 +82,12 @@
       "source_line_no": 1823,
       "preview": "立石家が実に雰囲気の好いあたたかなご実家だった。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -94,7 +95,7 @@
       "unresolved_count": 5,
       "from_seq": 66,
       "to_seq": 76,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 11,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -107,12 +108,12 @@
       "source_line_no": 1824,
       "preview": "昨日受講したスポーツインテリジェンス講習会2017の様子を、ダイジェストで動画に編集してみました。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 7,
@@ -120,7 +121,7 @@
       "unresolved_count": 2,
       "from_seq": 77,
       "to_seq": 83,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 7,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -133,12 +134,12 @@
       "source_line_no": 1825,
       "preview": "大切な家具をより永くお使いいただけるよう、お手伝いさせていただきます。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:26:01Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 17,
@@ -146,9 +147,9 @@
       "unresolved_count": 3,
       "from_seq": 84,
       "to_seq": 100,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 17,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 1
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0000001826",
@@ -159,12 +160,12 @@
       "source_line_no": 1826,
       "preview": "だだっ広い空に、数え切れないくらいの満点のお星様。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -172,7 +173,7 @@
       "unresolved_count": 3,
       "from_seq": 101,
       "to_seq": 111,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 11,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -185,12 +186,12 @@
       "source_line_no": 1827,
       "preview": "まず弊社は4つのモールでECショップを運営しているのですが、今回は助ネコ受注管理システムを導入しました。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -198,7 +199,7 @@
       "unresolved_count": 6,
       "from_seq": 112,
       "to_seq": 117,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 6,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -211,12 +212,12 @@
       "source_line_no": 1828,
       "preview": "ひと口飲んだら、麦の風味がフワッと広がった。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 12,
@@ -224,7 +225,7 @@
       "unresolved_count": 0,
       "from_seq": 118,
       "to_seq": 129,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 12,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -237,12 +238,12 @@
       "source_line_no": 1829,
       "preview": "どんな気持ちで伝えますか？",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -250,7 +251,7 @@
       "unresolved_count": 0,
       "from_seq": 130,
       "to_seq": 142,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 13,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -263,12 +264,12 @@
       "source_line_no": 1830,
       "preview": "楽天カードユーザーは大体の場合は頻繁に楽天市場で買い物をすることにより、楽天スーパーポイントを貯めているケースが多い。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:23:03Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 23,
@@ -276,7 +277,7 @@
       "unresolved_count": 9,
       "from_seq": 143,
       "to_seq": 165,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 23,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     }
@@ -23249,7 +23250,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -26461,7 +26462,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -29971,7 +29972,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -30574,7 +30575,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -34364,7 +34365,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -35275,7 +35276,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -43223,7 +43224,7 @@
               "label": "Dictionary",
               "reading": "にち",
               "accepted": false,
-              "historical_count": 1487,
+              "historical_count": 1488,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -44591,7 +44592,7 @@
                   "reading": "にち"
                 }
               ],
-              "historical_count": 1487
+              "historical_count": 1488
             },
             {
               "id": "dictionary:0",
@@ -45375,7 +45376,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 482,
+              "historical_count": 483,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -46188,7 +46189,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 482
+              "historical_count": 483
             },
             {
               "id": "dictionary:2",
@@ -49229,7 +49230,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 482,
+              "historical_count": 483,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -49664,7 +49665,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 482
+              "historical_count": 483
             },
             {
               "id": "dictionary:10",
@@ -59821,7 +59822,7 @@
               "label": "Dictionary",
               "reading": "もく",
               "accepted": false,
-              "historical_count": 13,
+              "historical_count": 15,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -60340,7 +60341,7 @@
                   "reading": "もく"
                 }
               ],
-              "historical_count": 13
+              "historical_count": 15
             },
             {
               "id": "dictionary:0",
@@ -69184,7 +69185,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -77143,7 +77144,7 @@
               "label": "Dictionary",
               "reading": "さん",
               "accepted": false,
-              "historical_count": 6,
+              "historical_count": 11,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -77366,7 +77367,7 @@
               "label": "Dictionary",
               "reading": "さん",
               "accepted": false,
-              "historical_count": 6,
+              "historical_count": 11,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -77743,7 +77744,7 @@
                   "reading": "さん"
                 }
               ],
-              "historical_count": 6
+              "historical_count": 11
             },
             {
               "id": "dictionary:1",
@@ -137797,7 +137798,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -138849,7 +138850,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -149307,7 +149308,7 @@
               "label": "Dictionary",
               "reading": "もく",
               "accepted": false,
-              "historical_count": 13,
+              "historical_count": 15,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -150174,7 +150175,7 @@
                   "reading": "もく"
                 }
               ],
-              "historical_count": 13
+              "historical_count": 15
             },
             {
               "id": "dictionary:0",
@@ -151733,7 +151734,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -167555,7 +167556,7 @@
               "label": "Dictionary",
               "reading": "ほか",
               "accepted": false,
-              "historical_count": 71,
+              "historical_count": 72,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -168171,7 +168172,7 @@
                   "reading": "ほか"
                 }
               ],
-              "historical_count": 71
+              "historical_count": 72
             },
             {
               "id": "dictionary:0",
@@ -189220,7 +189221,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -190033,7 +190034,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -216993,7 +216994,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -220166,7 +220167,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -220352,7 +220353,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -226472,7 +226473,7 @@
               "label": "Dictionary",
               "reading": "ぐち",
               "accepted": false,
-              "historical_count": 11,
+              "historical_count": 12,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -241062,7 +241063,7 @@
               "label": "Dictionary",
               "reading": "じ",
               "accepted": false,
-              "historical_count": 569,
+              "historical_count": 570,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -241706,7 +241707,7 @@
                   "reading": "じ"
                 }
               ],
-              "historical_count": 569
+              "historical_count": 570
             },
             {
               "id": "dictionary:2",
@@ -243142,7 +243143,7 @@
               "label": "Dictionary",
               "reading": "じ",
               "accepted": false,
-              "historical_count": 569,
+              "historical_count": 570,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -244083,7 +244084,7 @@
               "label": "Dictionary",
               "reading": "じ",
               "accepted": false,
-              "historical_count": 569,
+              "historical_count": 570,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -244869,7 +244870,7 @@
                   "reading": "じ"
                 }
               ],
-              "historical_count": 569
+              "historical_count": 570
             },
             {
               "id": "dictionary:2",
@@ -245732,7 +245733,7 @@
                   "reading": "じ"
                 }
               ],
-              "historical_count": 569
+              "historical_count": 570
             },
             {
               "id": "dictionary:2",
@@ -273669,7 +273670,7 @@
               "label": "Japanese numeric compound",
               "reading": "いちにち",
               "accepted": false,
-              "historical_count": 5,
+              "historical_count": 8,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -275371,7 +275372,7 @@
                   "reading": "いちにち"
                 }
               ],
-              "historical_count": 5
+              "historical_count": 8
             },
             {
               "id": "numeric_compound:2",
@@ -285312,7 +285313,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 269,
+              "historical_count": 271,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -287331,7 +287332,7 @@
                   "reading": "ぷん"
                 }
               ],
-              "historical_count": 269
+              "historical_count": 271
             },
             {
               "id": "dictionary:0",
@@ -291550,7 +291551,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -293948,7 +293949,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -345392,7 +345393,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -346216,7 +346217,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",
@@ -348768,7 +348769,7 @@
               "label": "Dictionary",
               "reading": "がた",
               "accepted": false,
-              "historical_count": 24,
+              "historical_count": 25,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -350959,7 +350960,7 @@
                   "reading": "がた"
                 }
               ],
-              "historical_count": 24
+              "historical_count": 25
             },
             {
               "id": "dictionary:3",

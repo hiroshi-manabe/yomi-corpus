@@ -1,0 +1,974 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1035_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1035",
+  "created_at_epoch": 1788755143,
+  "created_at": "2026-09-07T04:25:43Z",
+  "item_count": 1,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 9,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 1,
+    "queued_repair_row_count": 1,
+    "result_row_count": 1,
+    "reviewable_repair_row_count": 1,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001821",
+      "doc_seq": 1,
+      "track_doc_seq": 1821,
+      "unit_count": 50,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1821,
+      "preview": "「けちょんけちょん」という日本語がありますよね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 50,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001822",
+      "doc_seq": 2,
+      "track_doc_seq": 1822,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1822,
+      "preview": "現場・内容のヒアリングを行い飛行計画をご提案致します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001823",
+      "doc_seq": 3,
+      "track_doc_seq": 1823,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1823,
+      "preview": "立石家が実に雰囲気の好いあたたかなご実家だった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001824",
+      "doc_seq": 4,
+      "track_doc_seq": 1824,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1824,
+      "preview": "昨日受講したスポーツインテリジェンス講習会2017の様子を、ダイジェストで動画に編集してみました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001825",
+      "doc_seq": 5,
+      "track_doc_seq": 1825,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1825,
+      "preview": "大切な家具をより永くお使いいただけるよう、お手伝いさせていただきます。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T04:26:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001826",
+      "doc_seq": 6,
+      "track_doc_seq": 1826,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1826,
+      "preview": "だだっ広い空に、数え切れないくらいの満点のお星様。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001827",
+      "doc_seq": 7,
+      "track_doc_seq": 1827,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1827,
+      "preview": "まず弊社は4つのモールでECショップを運営しているのですが、今回は助ネコ受注管理システムを導入しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001828",
+      "doc_seq": 8,
+      "track_doc_seq": 1828,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1828,
+      "preview": "ひと口飲んだら、麦の風味がフワッと広がった。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001829",
+      "doc_seq": 9,
+      "track_doc_seq": 1829,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1829,
+      "preview": "どんな気持ちで伝えますか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001830",
+      "doc_seq": 10,
+      "track_doc_seq": 1830,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1830,
+      "preview": "楽天カードユーザーは大体の場合は頻繁に楽天市場で買い物をすることにより、楽天スーパーポイントを貯めているケースが多い。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:24:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001825",
+      "doc_seq": 5,
+      "track_doc_seq": 1825,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001825:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1825,
+      "text": "・第三京浜をご利用の場合は、都筑インターで降り、港北ニュータウン方面（左）へ出て下さい。",
+      "rendered_yomi_before": "・/・ 第/ダイ 三/サン 京浜/ケイヒン を/ヲ ご利用/ゴリヨウ の/ノ 場合/バアイ は/ハ 、/、 都/ト 筑/筑 インター/インター で/デ 降り/オリ 、/、 港北/コウホク ニュー/ニュー タウン/タウン 方面/ホウメン （/（ 左/ヒダリ ）/） へ/ヘ 出/デ て/テ 下さい/クダサイ 。/。",
+      "rendered_yomi_after": "・/・ 第/ダイ 三/サン 京浜/ケイヒン を/ヲ ご利用/ゴリヨウ の/ノ 場合/バアイ は/ハ 、/、 都筑/ツヅキ インター/インター で/デ 降り/オリ 、/、 港北/コウホク ニュー/ニュー タウン/タウン 方面/ホウメン （/（ 左/ヒダリ ）/） へ/ヘ 出/デ て/テ 下さい/クダサイ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "・",
+          "・"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "三",
+          "サン"
+        ],
+        [
+          "京浜",
+          "ケイヒン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ご利用",
+          "ゴリヨウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "場合",
+          "バアイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "都筑",
+          "ツヅキ"
+        ],
+        [
+          "インター",
+          "インター"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "降り",
+          "オリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "港北",
+          "コウホク"
+        ],
+        [
+          "ニュー",
+          "ニュー"
+        ],
+        [
+          "タウン",
+          "タウン"
+        ],
+        [
+          "方面",
+          "ホウメン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "左",
+          "ヒダリ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "出",
+          "デ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "下さい",
+          "クダサイ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "三",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三",
+              "reading": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "京浜",
+          "reading": "ケイヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "京浜",
+              "reading": "けいひん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ご利用",
+          "reading": "ゴリヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            },
+            {
+              "type": "ruby",
+              "text": "利用",
+              "reading": "りよう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "場合",
+          "reading": "バアイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場合",
+              "reading": "ばあい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "都筑",
+          "reading": "ツヅキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "都筑",
+              "reading": "つづき"
+            }
+          ]
+        },
+        {
+          "surface": "インター",
+          "reading": "インター",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "インター"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "降り",
+          "reading": "オリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "降",
+              "reading": "お"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "港北",
+          "reading": "コウホク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "港北",
+              "reading": "こうほく"
+            }
+          ]
+        },
+        {
+          "surface": "ニュー",
+          "reading": "ニュー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ニュー"
+            }
+          ]
+        },
+        {
+          "surface": "タウン",
+          "reading": "タウン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "タウン"
+            }
+          ]
+        },
+        {
+          "surface": "方面",
+          "reading": "ホウメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "方面",
+              "reading": "ほうめん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "左",
+          "reading": "ヒダリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "左",
+              "reading": "ひだり"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "出",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "で"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "下さい",
+          "reading": "クダサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "下",
+              "reading": "くだ"
+            },
+            {
+              "type": "text",
+              "text": "さい"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001825:u0003",
+          "text": "・第三京浜をご利用の場合は、都筑インターで降り、港北ニュータウン方面（左）へ出て下さい。",
+          "rendered_yomi_before": "・/・ 第/ダイ 三/サン 京浜/ケイヒン を/ヲ ご利用/ゴリヨウ の/ノ 場合/バアイ は/ハ 、/、 都/ト 筑/筑 インター/インター で/デ 降り/オリ 、/、 港北/コウホク ニュー/ニュー タウン/タウン 方面/ホウメン （/（ 左/ヒダリ ）/） へ/ヘ 出/デ て/テ 下さい/クダサイ 。/。",
+          "rendered_yomi_after": "・/・ 第/ダイ 三/サン 京浜/ケイヒン を/ヲ ご利用/ゴリヨウ の/ノ 場合/バアイ は/ハ 、/、 都筑/ツヅキ インター/インター で/デ 降り/オリ 、/、 港北/コウホク ニュー/ニュー タウン/タウン 方面/ホウメン （/（ 左/ヒダリ ）/） へ/ヘ 出/デ て/テ 下さい/クダサイ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 14,
+            "char_end": 16,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "都",
+              "token_surface": "都",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "と",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "都",
+                  "reading": "と",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "筑",
+              "token_surface": "筑",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0015-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "都",
+              "token_surface": "都",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "と",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "都",
+                  "reading": "と",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "筑",
+              "token_surface": "筑",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "都筑",
+          "reading_candidates": {
+            "都": [
+              "と",
+              "みやこ",
+              "みやこの"
+            ],
+            "都筑": [
+              "つずき",
+              "つづき"
+            ],
+            "筑": [
+              "ちく"
+            ]
+          },
+          "reading_hints": {
+            "都": "と",
+            "都筑": "つずき",
+            "筑": "ちく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "都",
+              "reading": "と",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"都筑\",\"reading\":\"ツヅキ\",\"used_web_search\":false,\"comment\":\"地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "都筑",
+              "reading": "ツヅキ",
+              "used_web_search": false,
+              "comment": "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "都筑",
+            "replacement": [
+              {
+                "surface": "都筑",
+                "reading": "ツヅキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+                "surface": "都筑",
+                "comment": "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "都筑",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0015-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "都",
+          "token_surface": "都",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "と",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "都",
+              "reading": "と",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003:s0016-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "筑",
+          "token_surface": "筑",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "都",
+          "reading": "と",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "都": [
+          "と",
+          "みやこ",
+          "みやこの"
+        ],
+        "都筑": [
+          "つずき",
+          "つづき"
+        ],
+        "筑": [
+          "ちく"
+        ]
+      },
+      "reading_hints": {
+        "都": "と",
+        "都筑": "つずき",
+        "筑": "ちく"
+      },
+      "llm_parsed": [
+        {
+          "surface": "都筑",
+          "reading": "ツヅキ",
+          "used_web_search": false,
+          "comment": "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"都筑\",\"reading\":\"ツヅキ\",\"used_web_search\":false,\"comment\":\"地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。\"}]",
+      "llm_comments": [
+        "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "都筑",
+        "replacement": [
+          {
+            "surface": "都筑",
+            "reading": "ツヅキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001825:u0003::target_group:1",
+            "surface": "都筑",
+            "comment": "地名・駅名などで使う固有名詞の読みで、1語として「ツヅキ」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
