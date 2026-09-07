@@ -10,10 +10,10 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 8,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 3,
@@ -109,12 +109,12 @@
       "source_line_no": 1894,
       "preview": "今年1年のしあわせを祈願しませんか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T06:36:59Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:55:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -239,12 +239,12 @@
       "source_line_no": 1899,
       "preview": "お客様や同業者様からご相談を頂く度に、あらゆる材質・形状に挑戦しし、乗り越えてまいりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T06:36:59Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:55:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 1894,
       "text": "新年初めのご祈願は、お神さまに旧年中お護り頂いた感謝を申し上げるとともに、新年の安全・繁栄を祈念するものです。",
       "rendered_yomi_before": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧/キュウ 年中/ネンジュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
-      "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年中/キュウネンチュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+      "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年/キュウネン 中/チュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "新年",
@@ -343,8 +343,12 @@
           "ニ"
         ],
         [
-          "旧年中",
-          "キュウネンチュウ"
+          "旧年",
+          "キュウネン"
+        ],
+        [
+          "中",
+          "チュウ"
         ],
         [
           "お",
@@ -555,13 +559,24 @@
           ]
         },
         {
-          "surface": "旧年中",
-          "reading": "キュウネンチュウ",
+          "surface": "旧年",
+          "reading": "キュウネン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "旧年中",
-              "reading": "きゅうねんちゅう"
+              "text": "旧年",
+              "reading": "きゅうねん"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "チュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "ちゅう"
             }
           ]
         },
@@ -828,14 +843,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001894:u0006",
           "text": "新年初めのご祈願は、お神さまに旧年中お護り頂いた感謝を申し上げるとともに、新年の安全・繁栄を祈念するものです。",
           "rendered_yomi_before": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧/キュウ 年中/ネンジュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
-          "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年中/キュウネンチュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+          "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年/キュウネン 中/チュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
           "display_mapping": {
             "start": 11,
-            "end": 12,
+            "end": 13,
             "char_start": 15,
             "char_end": 18,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
