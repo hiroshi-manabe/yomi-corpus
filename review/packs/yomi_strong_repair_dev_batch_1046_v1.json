@@ -10,10 +10,10 @@
   "item_count": 1,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 9,
-      "strong_pending": 1
+      "strong_reviewed": 1
     },
     "repaired_item_count": 1,
     "queued_repair_row_count": 1,
@@ -57,12 +57,12 @@
       "source_line_no": 1932,
       "preview": "リピーターの多い、人気のパウンドケーキ。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T07:37:50Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:46:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -296,7 +296,7 @@
       "source_line_no": 1932,
       "text": "そして、竹籐にあった昔風のデザイン。",
       "rendered_yomi_before": "そして/ソシテ 、/、 竹/タケ 籐/トウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
-      "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/ラタン に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+      "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/タケトウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
       "rendered_yomi_after_tokens": [
         [
           "そして",
@@ -308,7 +308,7 @@
         ],
         [
           "竹籐",
-          "ラタン"
+          "タケトウ"
         ],
         [
           "に",
@@ -366,12 +366,12 @@
         },
         {
           "surface": "竹籐",
-          "reading": "ラタン",
+          "reading": "タケトウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "竹籐",
-              "reading": "らたん"
+              "reading": "たけとう"
             }
           ]
         },
@@ -471,7 +471,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001932:u0007",
           "text": "そして、竹籐にあった昔風のデザイン。",
           "rendered_yomi_before": "そして/ソシテ 、/、 竹/タケ 籐/トウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
-          "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/ラタン に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+          "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/タケトウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
           "display_mapping": {
             "start": 2,
             "end": 3,
