@@ -1,45 +1,45 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 8166,
-  "generated_at": "2026-09-07T01:57:58Z",
-  "generated_at_epoch": 1788746278,
-  "last_successful_sync": "2026-09-07T01:57:58Z",
-  "last_successful_sync_epoch": 1788746278,
+  "state_revision": 8167,
+  "generated_at": "2026-09-07T02:07:14Z",
+  "generated_at_epoch": 1788746834,
+  "last_successful_sync": "2026-09-07T02:07:14Z",
+  "last_successful_sync_epoch": 1788746834,
   "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1788745636,
+    "anchor_epoch": 1788746672,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1788745936
+    "next_expected_epoch": 1788746972
   },
   "state": {
-    "current_batch_name": "dev_batch_1038",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
-    "active_queue_count": 71,
+    "current_batch_name": "dev_batch_1039",
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
+    "active_queue_count": 62,
     "queue_counts": {
-      "bulk_review_selectable": 70,
+      "bulk_review_selectable": 60,
       "bulk_review_submitted": 0,
-      "escalated_repair_selectable": 1,
-      "escalated_repair_submitted": 3,
-      "resolved": 16
+      "escalated_repair_selectable": 2,
+      "escalated_repair_submitted": 0,
+      "resolved": 18
     },
     "pool_counts": {
-      "bulk-ready": 70,
+      "bulk-ready": 60,
       "bulk-submitted": 0,
-      "escalated-ready": 1,
-      "escalated-submitted": 3,
+      "escalated-ready": 2,
+      "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 16,
+      "resolved": 18,
       "unprocessed": 0
     }
   },
   "message": "",
   "observed": {
-    "started_at_epoch": 1788746175,
-    "completed_at_epoch": 1788746278,
-    "drift_seconds": 61
+    "started_at_epoch": 1788746672,
+    "completed_at_epoch": 1788746834,
+    "drift_seconds": 136
   },
   "client_polling": {
     "normal_seconds": 60,
