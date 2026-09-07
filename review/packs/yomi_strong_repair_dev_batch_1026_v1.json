@@ -10,11 +10,11 @@
   "item_count": 3,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
       "skipped": 1,
-      "strong_pending": 2
+      "strong_reviewed": 2
     },
     "repaired_item_count": 3,
     "queued_repair_row_count": 5,
@@ -136,12 +136,12 @@
       "source_line_no": 1735,
       "preview": "初診の方は、受付で保険証、紹介状をお持ちの方は提出し、番号札を受け取ってください。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:07:20Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:35:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -266,12 +266,12 @@
       "source_line_no": 1740,
       "preview": "本日は、遺伝子分析科学認定士の試験日です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T01:07:20Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:35:58Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -943,7 +943,7 @@
       "source_line_no": 1740,
       "text": "本日は、遺伝子分析科学認定士の試験日です。",
       "rendered_yomi_before": "本日/ホンジツ は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
-      "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子分析/イデンシブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+      "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "本日",
@@ -958,8 +958,12 @@
           "、"
         ],
         [
-          "遺伝子分析",
-          "イデンシブンセキ"
+          "遺伝子",
+          "イデンシ"
+        ],
+        [
+          "分析",
+          "ブンセキ"
         ],
         [
           "科学",
@@ -1027,13 +1031,24 @@
           ]
         },
         {
-          "surface": "遺伝子分析",
-          "reading": "イデンシブンセキ",
+          "surface": "遺伝子",
+          "reading": "イデンシ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "遺伝子分析",
-              "reading": "いでんしぶんせき"
+              "text": "遺伝子",
+              "reading": "いでんし"
+            }
+          ]
+        },
+        {
+          "surface": "分析",
+          "reading": "ブンセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分析",
+              "reading": "ぶんせき"
             }
           ]
         },
@@ -1136,14 +1151,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0001",
           "text": "本日は、遺伝子分析科学認定士の試験日です。",
           "rendered_yomi_before": "本日/ホンジツ は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
-          "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子分析/イデンシブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+          "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
           "display_mapping": {
             "start": 3,
-            "end": 4,
+            "end": 5,
             "char_start": 4,
             "char_end": 9,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
