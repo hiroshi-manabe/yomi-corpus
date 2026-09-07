@@ -3510,7 +3510,55 @@ function submittedTaskDocIds() {
 }
 
 function docIsSubmittedLocally(doc) {
+  const receipt = readSubmissionReceipt(doc.doc_id, doc.queue_stage);
+  if (receipt) return receipt.local_status === "submitted";
   return submittedTaskDocIds().has(taskDocKey(doc));
+}
+
+const submissionReceiptPrefix = "yomi-corpus:submission-receipt:v1:";
+
+function submissionReceiptKey(docId, stage) {
+  return submissionReceiptPrefix + JSON.stringify([String(docId), String(stage)]);
+}
+
+function readSubmissionReceipt(docId, stage) {
+  const raw = window.localStorage.getItem(submissionReceiptKey(docId, stage));
+  return raw ? JSON.parse(raw) : null;
+}
+
+function saveTaskSubmissionReceipts(record, { reopen = false, migrate = false } = {}) {
+  const stage = localTaskRecordStage(record);
+  const recordKey = submissionReceiptPrefix + "task:" + JSON.stringify([
+    stage, record.task_id, taskDocIdsForStorageTask(record.task),
+  ]);
+  // Store edits once per task, not once per document in a potentially large task.
+  if (!migrate || !window.localStorage.getItem(recordKey)) {
+    window.localStorage.setItem(recordKey, JSON.stringify(record));
+  }
+  for (const taskDocId of taskDocIdsForStorageTask(record.task)) {
+    const docId = baseDocIdFromTaskDocId(taskDocId);
+    const previous = readSubmissionReceipt(docId, stage) || {};
+    if (migrate && previous.local_status) continue;
+    const receipt = {
+      ...previous, doc_id: docId, review_stage: stage,
+      local_status: reopen ? "reopened" : "submitted",
+      submitted_at_epoch: record.submitted_at_epoch || Math.floor(Date.now() / 1000),
+      record_key: recordKey,
+    };
+    window.localStorage.setItem(submissionReceiptKey(docId, stage), JSON.stringify(receipt));
+  }
+}
+
+function rememberServerSubmissionReceipts(payload) {
+  for (const row of [...(payload?.receipt_history || []), ...(payload?.records || [])]) {
+    for (const docId of row.doc_ids || []) {
+      const previous = readSubmissionReceipt(docId, row.review_stage) || {};
+      window.localStorage.setItem(submissionReceiptKey(docId, row.review_stage), JSON.stringify({
+        ...previous, doc_id: docId, review_stage: row.review_stage,
+        server_acknowledgment: row,
+      }));
+    }
+  }
 }
 
 function docIsProcessingOnServer(doc) {
@@ -3531,9 +3579,11 @@ function issueAcknowledgmentsForDoc(doc) {
   if (!docId) {
     return [];
   }
-  return (state.issueAcknowledgments?.records || []).filter((row) =>
-    (row.doc_ids || []).map(String).includes(docId),
+  const current = (state.issueAcknowledgments?.records || []).filter((row) =>
+    (row.doc_ids || []).map(String).includes(docId) && row.review_stage === doc.queue_stage,
   );
+  const saved = readSubmissionReceipt(docId, doc.queue_stage)?.server_acknowledgment;
+  return current.length ? current : saved ? [saved] : [];
 }
 
 function docHasSubmissionConflict(doc) {
@@ -7214,6 +7264,26 @@ function syncLocalTaskRecordsForCurrentPack() {
   if (!state.currentPack || !state.currentDraft) {
     return;
   }
+  // Recover submission records independently of pack-specific draft migration.
+  const existingDocs = new Set(Object.values(state.currentDraft.saved_tasks || {})
+    .flatMap((record) => taskDocIdsForStorageTask(record.task)));
+  for (let i = 0; i < window.localStorage.length; i += 1) {
+    const key = window.localStorage.key(i);
+    if (!key?.startsWith(submissionReceiptPrefix)) continue;
+    const receipt = JSON.parse(window.localStorage.getItem(key));
+    if (receipt?.local_status !== "submitted" || !receipt.record_key) continue;
+    const record = JSON.parse(window.localStorage.getItem(receipt.record_key));
+    if (!record) continue;
+    const docIds = taskDocIdsForStorageTask(record.task).filter((id) =>
+      baseDocIdFromTaskDocId(id) === receipt.doc_id && !existingDocs.has(id));
+    if (!docIds.length) continue;
+    const id = uniqueTaskIdForRecords(record.task_id, state.currentDraft.saved_tasks || {});
+    state.currentDraft.saved_tasks ||= {};
+    state.currentDraft.saved_tasks[id] = {
+      ...record, task_id: id, status: "submitted", task: { ...record.task, doc_ids: docIds },
+    };
+    docIds.forEach((docId) => existingDocs.add(docId));
+  }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
   const migratedActiveRecords = [];
@@ -7240,6 +7310,9 @@ function syncLocalTaskRecordsForCurrentPack() {
     const nextSavedTasks = {};
     let sourceChanged = false;
     for (const [taskId, rawRecord] of Object.entries(parsed?.saved_tasks || {})) {
+      if (taskRecordStatus(rawRecord) === "submitted") {
+        saveTaskSubmissionReceipts({ ...rawRecord, queue_stage: localTaskRecordStage(rawRecord, sourceStage) }, { migrate: true });
+      }
       const normalized = normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage);
       if (!normalized) {
         sourceChanged = true;
@@ -7895,6 +7968,7 @@ function completeCurrentTask() {
     status: "submitted",
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
+  saveTaskSubmissionReceipts(state.currentDraft.saved_tasks[record.task_id]);
   clearActiveTaskState();
   touchDraft();
   restoreUnifiedDashboardPack();
@@ -7925,6 +7999,7 @@ async function resumeTaskDraft(taskId) {
     started: true,
   };
   state.currentDraft.overrides = cloneJson(record.overrides || {});
+  if (taskRecordStatus(record) === "submitted") saveTaskSubmissionReceipts(record, { reopen: true });
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
   render({ scrollToTop: true });
@@ -7938,6 +8013,7 @@ function markSavedTaskSubmitted(taskId) {
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
   delete submittedRecord.awaiting_issue_confirmation;
+  saveTaskSubmissionReceipts(submittedRecord);
   state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
@@ -8185,6 +8261,7 @@ async function loadIssueAcknowledgments() {
   }
   try {
     state.issueAcknowledgments = await fetchJson(path);
+    rememberServerSubmissionReceipts(state.issueAcknowledgments);
     state.issueAcknowledgmentSignature = issueAcknowledgmentSignature(state.issueAcknowledgments);
   } catch (error) {
     state.issueAcknowledgments = { records: [] };
@@ -8194,7 +8271,7 @@ async function loadIssueAcknowledgments() {
 
 function issueAcknowledgmentSignature(payload) {
   return JSON.stringify(
-    (payload?.records || []).map((row) => [
+    [...(payload?.records || []), ...(payload?.receipt_history || [])].map((row) => [
       row.submission_id,
       row.issue_number,
       row.conflict,
@@ -8211,6 +8288,7 @@ async function pollIssueAcknowledgments() {
   const separator = path.includes("?") ? "&" : "?";
   const bucket = Math.floor(Date.now() / 30000);
   const payload = await fetchJson(`${path}${separator}poll=${bucket}`);
+  rememberServerSubmissionReceipts(payload);
   const signature = issueAcknowledgmentSignature(payload);
   if (signature === state.issueAcknowledgmentSignature) {
     return false;
