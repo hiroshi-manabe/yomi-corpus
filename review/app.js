@@ -2451,7 +2451,7 @@ async function openVocabularyCampaignPreview() {
   }
   el.workflowPreviewTitle.textContent = "文書選定メトリクス比較";
   el.workflowPreviewMeta.textContent =
-    `${preview.candidate_document_count}文書を比較 · ${preview.preview_character_budget.toLocaleString()}文字プレビュー · 未適用`;
+    preview.preview_description || `${preview.candidate_document_count}文書を比較 · ${preview.preview_character_budget.toLocaleString()}文字プレビュー · 未適用`;
   el.workflowPreviewBody.innerHTML = "";
 
   const intro = document.createElement("section");
@@ -2467,7 +2467,7 @@ async function openVocabularyCampaignPreview() {
 
   const historical = document.createElement("p");
   historical.className = "vocabulary-campaign-gate-note";
-  historical.textContent =
+  historical.textContent = preview.quality_description ||
     `古文等の分類により ${preview.historical_gate?.excluded_document_count || 0}文書、` +
     `括弧内の読み注記過多により ${preview.parenthetical_reading_gate?.excluded_document_count || 0}文書を候補から除外 ` +
     `（文の${Math.round((preview.historical_gate?.min_flagged_sentence_ratio || 0) * 100)}%以上、` +
@@ -2493,7 +2493,7 @@ async function openVocabularyCampaignPreview() {
     heading.innerHTML = `<strong>${escapeHtml(strategy.label)}</strong><p>${escapeHtml(strategy.description)}</p>`;
     content.append(heading, renderVocabularyStrategyMetrics(strategy.runs || []));
     const previewHeading = document.createElement("h3");
-    previewHeading.textContent = `${Number(preview.preview_character_budget).toLocaleString()}文字枠の選定文書`;
+    previewHeading.textContent = preview.sample_heading || `${Number(preview.preview_character_budget).toLocaleString()}文字枠の選定文書`;
     content.append(previewHeading);
     for (const [index, sourceLineNo] of (strategy.preview_source_line_nos || []).entries()) {
       const doc = documentsByLine.get(Number(sourceLineNo));
