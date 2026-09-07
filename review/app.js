@@ -7264,26 +7264,6 @@ function syncLocalTaskRecordsForCurrentPack() {
   if (!state.currentPack || !state.currentDraft) {
     return;
   }
-  // Recover submission records independently of pack-specific draft migration.
-  const existingDocs = new Set(Object.values(state.currentDraft.saved_tasks || {})
-    .flatMap((record) => taskDocIdsForStorageTask(record.task)));
-  for (let i = 0; i < window.localStorage.length; i += 1) {
-    const key = window.localStorage.key(i);
-    if (!key?.startsWith(submissionReceiptPrefix)) continue;
-    const receipt = JSON.parse(window.localStorage.getItem(key));
-    if (receipt?.local_status !== "submitted" || !receipt.record_key) continue;
-    const record = JSON.parse(window.localStorage.getItem(receipt.record_key));
-    if (!record) continue;
-    const docIds = taskDocIdsForStorageTask(record.task).filter((id) =>
-      baseDocIdFromTaskDocId(id) === receipt.doc_id && !existingDocs.has(id));
-    if (!docIds.length) continue;
-    const id = uniqueTaskIdForRecords(record.task_id, state.currentDraft.saved_tasks || {});
-    state.currentDraft.saved_tasks ||= {};
-    state.currentDraft.saved_tasks[id] = {
-      ...record, task_id: id, status: "submitted", task: { ...record.task, doc_ids: docIds },
-    };
-    docIds.forEach((docId) => existingDocs.add(docId));
-  }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
   const migratedActiveRecords = [];
@@ -7360,6 +7340,29 @@ function syncLocalTaskRecordsForCurrentPack() {
     }
   }
 
+  // Recover once per submission after collecting drafts from every pack.
+  const receiptGroups = new Map();
+  for (let i = 0; i < window.localStorage.length; i += 1) {
+    const key = window.localStorage.key(i);
+    if (!key?.startsWith(submissionReceiptPrefix)) continue;
+    const receipt = JSON.parse(window.localStorage.getItem(key));
+    if (receipt?.local_status !== "submitted" || !receipt.record_key) continue;
+    if (!receiptGroups.has(receipt.record_key)) receiptGroups.set(receipt.record_key, new Set());
+    receiptGroups.get(receipt.record_key).add(receipt.doc_id);
+  }
+  for (const [key, docIds] of receiptGroups) {
+    const record = JSON.parse(window.localStorage.getItem(key));
+    if (!record) continue;
+    const normalized = normalizeLocalTaskRecordForCurrentPack({
+      ...record, status: "submitted", task: { ...record.task,
+        doc_ids: taskDocIdsForStorageTask(record.task).filter((id) => docIds.has(baseDocIdFromTaskDocId(id))),
+      },
+    });
+    if (!normalized) continue;
+    const id = uniqueTaskIdForRecords(normalized.task_id, currentRecords);
+    currentRecords[id] = { ...normalized, task_id: id };
+  }
+  consolidateSubmittedTaskRecords(currentRecords);
   const before = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (!isTaskStarted() && migratedActiveRecords.length > 0) {
     const active = [...migratedActiveRecords].sort(
@@ -7378,6 +7381,28 @@ function syncLocalTaskRecordsForCurrentPack() {
   const after = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (before !== after || changedKeys.size > 0) {
     saveDraft();
+  }
+}
+
+function consolidateSubmittedTaskRecords(records) {
+  const groups = new Map();
+  for (const [id, record] of Object.entries(records)) {
+    if (taskRecordStatus(record) !== "submitted" || !record.submitted_at_epoch) continue;
+    const key = JSON.stringify([record.queue_stage, record.submitted_at_epoch,
+      record.task_label || record.task_number || record.task_id]);
+    const previous = groups.get(key);
+    if (!previous) {
+      groups.set(key, record);
+      continue;
+    }
+    previous.task = { ...previous.task, doc_ids: [...new Set([
+      ...taskDocIdsForStorageTask(previous.task), ...taskDocIdsForStorageTask(record.task),
+    ])] };
+    previous.document_refs = [...new Map([
+      ...(record.document_refs || []), ...(previous.document_refs || []),
+    ].map((ref) => [ref.task_doc_id, ref])).values()];
+    previous.overrides = { ...(record.overrides || {}), ...(previous.overrides || {}) };
+    delete records[id];
   }
 }
 
@@ -7414,6 +7439,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   const retainedDocIds = [];
   const documentRefs = [];
   for (const docId of docIds) {
+    if (submitted && readSubmissionReceipt(baseDocIdFromTaskDocId(docId), taskStage)?.local_status === "reopened") continue;
     const currentDoc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
     if (currentDoc) {
       retainedDocIds.push(taskDocKey(currentDoc));
