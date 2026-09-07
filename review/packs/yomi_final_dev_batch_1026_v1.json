@@ -11,9 +11,11 @@
   "item_count": 172,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 10,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "final_pending": 10
+      "complete": 7,
+      "skipped": 1,
+      "strong_pending": 2
     },
     "unresolved_item_count": 32,
     "unresolved_target_count": 50,
@@ -29,12 +31,12 @@
       "source_line_no": 1731,
       "preview": "京都市は、全国で初めて市内で新設されるホテルまたは旅館業等の宿泊施設に対して、原則バリアフリー化を義務付ける方針を明らかにした。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 12,
@@ -42,7 +44,7 @@
       "unresolved_count": 5,
       "from_seq": 1,
       "to_seq": 12,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 12,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -55,12 +57,12 @@
       "source_line_no": 1732,
       "preview": "久しぶりの三重県への出張買取。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 23,
@@ -68,7 +70,7 @@
       "unresolved_count": 2,
       "from_seq": 13,
       "to_seq": 35,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 23,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -81,12 +83,12 @@
       "source_line_no": 1733,
       "preview": "スーツの着こなしに欠かせないワイシャツ。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 50,
@@ -94,7 +96,7 @@
       "unresolved_count": 2,
       "from_seq": 36,
       "to_seq": 85,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 50,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -107,12 +109,12 @@
       "source_line_no": 1734,
       "preview": "ステータスマッチでヒルトンのゴールド会員にもなった話は以前しました。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -120,7 +122,7 @@
       "unresolved_count": 5,
       "from_seq": 86,
       "to_seq": 98,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 13,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -133,12 +135,12 @@
       "source_line_no": 1735,
       "preview": "初診の方は、受付で保険証、紹介状をお持ちの方は提出し、番号札を受け取ってください。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:07:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 19,
@@ -146,9 +148,9 @@
       "unresolved_count": 4,
       "from_seq": 99,
       "to_seq": 117,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 19,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 1
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0000001736",
@@ -159,12 +161,12 @@
       "source_line_no": 1736,
       "preview": "microPIANOはグランド・ピアノのように反響板がついたデザインのかわいいデジタル・ピアノ。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -172,7 +174,7 @@
       "unresolved_count": 6,
       "from_seq": 118,
       "to_seq": 133,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 16,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -185,12 +187,12 @@
       "source_line_no": 1737,
       "preview": "南アフリカのハイウェイは、一部を除いて制限速度は時速120キロである。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 15,
@@ -198,7 +200,7 @@
       "unresolved_count": 1,
       "from_seq": 134,
       "to_seq": 148,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 15,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -211,12 +213,12 @@
       "source_line_no": 1738,
       "preview": "〈1〉「長田」「西代」駅から徒歩6分と通勤便利!時間も固定なので無理なく働けます!〈2〉弊社スタッフ活躍中の働きやすい職場です!☆0才児を担当していただいて担当制保育をして頂きます。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -224,7 +226,7 @@
       "unresolved_count": 5,
       "from_seq": 149,
       "to_seq": 154,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 6,
       "skipped_unit_count": 0,
       "strong_repair_item_count": 0
     },
@@ -237,12 +239,12 @@
       "source_line_no": 1739,
       "preview": "ゲーテの『ファウスト』を初めてしつかりと読み終へました。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "skipped",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:16Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 9,
@@ -250,8 +252,8 @@
       "unresolved_count": 15,
       "from_seq": 155,
       "to_seq": 163,
-      "reviewed_unit_count": 0,
-      "skipped_unit_count": 0,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 9,
       "strong_repair_item_count": 0
     },
     {
@@ -263,12 +265,12 @@
       "source_line_no": 1740,
       "preview": "本日は、遺伝子分析科学認定士の試験日です。",
       "queue_id": "final_review",
-      "state": "final_pending",
-      "workflow_state": "bulk_review",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-02T10:44:49Z",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:07:20Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 9,
@@ -276,9 +278,9 @@
       "unresolved_count": 5,
       "from_seq": 164,
       "to_seq": 172,
-      "reviewed_unit_count": 0,
+      "reviewed_unit_count": 9,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 4
     }
   ],
   "items": [
@@ -50898,7 +50900,7 @@
               "label": "LLM reading",
               "reading": "うちがわ",
               "accepted": false,
-              "historical_count": 26,
+              "historical_count": 27,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -56379,7 +56381,7 @@
                   "reading": "うちがわ"
                 }
               ],
-              "historical_count": 26
+              "historical_count": 27
             },
             {
               "id": "none",
@@ -65417,7 +65419,7 @@
               "label": "Dictionary",
               "reading": "じつ",
               "accepted": false,
-              "historical_count": 29,
+              "historical_count": 30,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -68852,7 +68854,7 @@
                   "reading": "じつ"
                 }
               ],
-              "historical_count": 29
+              "historical_count": 30
             },
             {
               "id": "dictionary:4",
@@ -364033,7 +364035,7 @@
               "label": "Dictionary",
               "reading": "ぼん",
               "accepted": false,
-              "historical_count": 48,
+              "historical_count": 53,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -365010,7 +365012,7 @@
                   "reading": "ぼん"
                 }
               ],
-              "historical_count": 48
+              "historical_count": 53
             },
             {
               "id": "dictionary:3",
@@ -394515,6 +394517,21 @@
               ]
             },
             {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "こ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "娘",
+                  "reading": "こ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -394526,21 +394543,6 @@
                   "type": "ruby",
                   "text": "娘",
                   "reading": "いらつめ"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "こ",
-              "accepted": false,
-              "historical_count": 1,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "娘",
-                  "reading": "こ"
                 }
               ]
             },
@@ -395430,6 +395432,26 @@
               ]
             },
             {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "こ",
+              "tokens": [
+                [
+                  "娘",
+                  "コ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "娘",
+                  "reading": "こ"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "label": "Dictionary",
@@ -395448,26 +395470,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "label": "Dictionary",
-              "reading": "こ",
-              "tokens": [
-                [
-                  "娘",
-                  "コ"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "娘",
-                  "reading": "こ"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "dictionary:2",
@@ -402720,7 +402722,7 @@
               "label": "Dictionary",
               "reading": "じつ",
               "accepted": false,
-              "historical_count": 29,
+              "historical_count": 30,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -405338,7 +405340,7 @@
                   "reading": "じつ"
                 }
               ],
-              "historical_count": 29
+              "historical_count": 30
             },
             {
               "id": "dictionary:4",
@@ -454323,7 +454325,7 @@
               "label": "Dictionary",
               "reading": "じつ",
               "accepted": false,
-              "historical_count": 29,
+              "historical_count": 30,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -455499,7 +455501,7 @@
                   "reading": "じつ"
                 }
               ],
-              "historical_count": 29
+              "historical_count": 30
             },
             {
               "id": "llm",

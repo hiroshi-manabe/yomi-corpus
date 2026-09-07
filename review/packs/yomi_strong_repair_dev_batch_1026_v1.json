@@ -1,0 +1,3320 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1026_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1026",
+  "created_at_epoch": 1788743222,
+  "created_at": "2026-09-07T01:07:02Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 7,
+      "skipped": 1,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001731",
+      "doc_seq": 1,
+      "track_doc_seq": 1731,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1731,
+      "preview": "京都市は、全国で初めて市内で新設されるホテルまたは旅館業等の宿泊施設に対して、原則バリアフリー化を義務付ける方針を明らかにした。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001732",
+      "doc_seq": 2,
+      "track_doc_seq": 1732,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1732,
+      "preview": "久しぶりの三重県への出張買取。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001733",
+      "doc_seq": 3,
+      "track_doc_seq": 1733,
+      "unit_count": 50,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1733,
+      "preview": "スーツの着こなしに欠かせないワイシャツ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 50,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001734",
+      "doc_seq": 4,
+      "track_doc_seq": 1734,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1734,
+      "preview": "ステータスマッチでヒルトンのゴールド会員にもなった話は以前しました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001735",
+      "doc_seq": 5,
+      "track_doc_seq": 1735,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1735,
+      "preview": "初診の方は、受付で保険証、紹介状をお持ちの方は提出し、番号札を受け取ってください。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T01:07:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001736",
+      "doc_seq": 6,
+      "track_doc_seq": 1736,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1736,
+      "preview": "microPIANOはグランド・ピアノのように反響板がついたデザインのかわいいデジタル・ピアノ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001737",
+      "doc_seq": 7,
+      "track_doc_seq": 1737,
+      "unit_count": 15,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1737,
+      "preview": "南アフリカのハイウェイは、一部を除いて制限速度は時速120キロである。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 15,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001738",
+      "doc_seq": 8,
+      "track_doc_seq": 1738,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1738,
+      "preview": "〈1〉「長田」「西代」駅から徒歩6分と通勤便利!時間も固定なので無理なく働けます!〈2〉弊社スタッフ活躍中の働きやすい職場です!☆0才児を担当していただいて担当制保育をして頂きます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001739",
+      "doc_seq": 9,
+      "track_doc_seq": 1739,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1739,
+      "preview": "ゲーテの『ファウスト』を初めてしつかりと読み終へました。",
+      "queue_id": "strong_repair",
+      "state": "skipped",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T01:05:16Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 9,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001740",
+      "doc_seq": 10,
+      "track_doc_seq": 1740,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1740,
+      "preview": "本日は、遺伝子分析科学認定士の試験日です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T01:07:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 2,
+      "to_seq": 3,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001735",
+      "doc_seq": 5,
+      "track_doc_seq": 1735,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001735:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1735,
+      "text": "咽の写真、鼻咽喉のファイバースコピーを行い、その場で所見をご覧いただきます。",
+      "rendered_yomi_before": "咽/ノド の/ノ 写真/シャシン 、/、 鼻/ハナ 咽喉/ノド の/ノ ファイ/ファイ バース/バース コピー/コピー を/ヲ 行い/オコナイ 、/、 その/ソノ 場/バ で/デ 所見/ショケン を/ヲ ご覧/ゴラン いただき/イタダキ ます/マス 。/。",
+      "rendered_yomi_after": "咽/ノド の/ノ 写真/シャシン 、/、 鼻咽喉/ビインコウ の/ノ ファイ/ファイ バース/バース コピー/コピー を/ヲ 行い/オコナイ 、/、 その/ソノ 場/バ で/デ 所見/ショケン を/ヲ ご覧/ゴラン いただき/イタダキ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "咽",
+          "ノド"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "写真",
+          "シャシン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "鼻咽喉",
+          "ビインコウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ファイ",
+          "ファイ"
+        ],
+        [
+          "バース",
+          "バース"
+        ],
+        [
+          "コピー",
+          "コピー"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "行い",
+          "オコナイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "場",
+          "バ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "所見",
+          "ショケン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "ご覧",
+          "ゴラン"
+        ],
+        [
+          "いただき",
+          "イタダキ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "咽",
+          "reading": "ノド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "咽",
+              "reading": "のど"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "写真",
+          "reading": "シャシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "写真",
+              "reading": "しゃしん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "鼻咽喉",
+          "reading": "ビインコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "鼻咽喉",
+              "reading": "びいんこう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ファイ",
+          "reading": "ファイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ファイ"
+            }
+          ]
+        },
+        {
+          "surface": "バース",
+          "reading": "バース",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "バース"
+            }
+          ]
+        },
+        {
+          "surface": "コピー",
+          "reading": "コピー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "コピー"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "行い",
+          "reading": "オコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "場",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場",
+              "reading": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "所見",
+          "reading": "ショケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "所見",
+              "reading": "しょけん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "ご覧",
+          "reading": "ゴラン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            },
+            {
+              "type": "ruby",
+              "text": "覧",
+              "reading": "らん"
+            }
+          ]
+        },
+        {
+          "surface": "いただき",
+          "reading": "イタダキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いただき"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001735:u0009",
+          "text": "咽の写真、鼻咽喉のファイバースコピーを行い、その場で所見をご覧いただきます。",
+          "rendered_yomi_before": "咽/ノド の/ノ 写真/シャシン 、/、 鼻/ハナ 咽喉/ノド の/ノ ファイ/ファイ バース/バース コピー/コピー を/ヲ 行い/オコナイ 、/、 その/ソノ 場/バ で/デ 所見/ショケン を/ヲ ご覧/ゴラン いただき/イタダキ ます/マス 。/。",
+          "rendered_yomi_after": "咽/ノド の/ノ 写真/シャシン 、/、 鼻咽喉/ビインコウ の/ノ ファイ/ファイ バース/バース コピー/コピー を/ヲ 行い/オコナイ 、/、 その/ソノ 場/バ で/デ 所見/ショケン を/ヲ ご覧/ゴラン いただき/イタダキ ます/マス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 5,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "鼻",
+              "token_surface": "鼻",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "鼻",
+                  "reading": "はな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "咽喉",
+              "token_surface": "咽喉",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "のど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "咽喉",
+                  "reading": "のど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "鼻",
+              "token_surface": "鼻",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "鼻",
+                  "reading": "はな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "咽喉",
+              "token_surface": "咽喉",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "のど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "咽喉",
+                  "reading": "のど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "鼻咽喉",
+          "reading_candidates": {
+            "鼻": [
+              "はな",
+              "ばな",
+              "び"
+            ],
+            "鼻咽": [
+              "びいん"
+            ],
+            "咽": [
+              "のど",
+              "のんど",
+              "むせ"
+            ],
+            "咽喉": [
+              "いんこう",
+              "のど"
+            ],
+            "喉": [
+              "のど",
+              "のんど"
+            ]
+          },
+          "reading_hints": {
+            "鼻": "はな",
+            "鼻咽": "びいん",
+            "咽": "のど",
+            "咽喉": "いんこう",
+            "喉": "のど"
+          },
+          "rejected_readings": [
+            {
+              "surface": "鼻",
+              "reading": "はな",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "咽喉",
+              "reading": "のど",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"鼻咽喉\",\"reading\":\"びいんこう\",\"used_web_search\":true,\"comment\":\"医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "鼻咽喉",
+              "reading": "びいんこう",
+              "used_web_search": true,
+              "comment": "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "鼻咽喉",
+            "replacement": [
+              {
+                "surface": "鼻咽喉",
+                "reading": "ビインコウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+                "surface": "鼻咽喉",
+                "comment": "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "鼻咽喉",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "鼻",
+          "token_surface": "鼻",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "鼻",
+              "reading": "はな",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "咽喉",
+          "token_surface": "咽喉",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "のど",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "咽喉",
+              "reading": "のど",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "鼻",
+          "reading": "はな",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "咽喉",
+          "reading": "のど",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "鼻": [
+          "はな",
+          "ばな",
+          "び"
+        ],
+        "鼻咽": [
+          "びいん"
+        ],
+        "咽": [
+          "のど",
+          "のんど",
+          "むせ"
+        ],
+        "咽喉": [
+          "いんこう",
+          "のど"
+        ],
+        "喉": [
+          "のど",
+          "のんど"
+        ]
+      },
+      "reading_hints": {
+        "鼻": "はな",
+        "鼻咽": "びいん",
+        "咽": "のど",
+        "咽喉": "いんこう",
+        "喉": "のど"
+      },
+      "llm_parsed": [
+        {
+          "surface": "鼻咽喉",
+          "reading": "びいんこう",
+          "used_web_search": true,
+          "comment": "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"鼻咽喉\",\"reading\":\"びいんこう\",\"used_web_search\":true,\"comment\":\"医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))\"}]",
+      "llm_comments": [
+        "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "鼻咽喉",
+        "replacement": [
+          {
+            "surface": "鼻咽喉",
+            "reading": "ビインコウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001735:u0009::target_group:1",
+            "surface": "鼻咽喉",
+            "comment": "医療用語としての固定表現（鼻咽喉ファイバースコープ等）に沿う一語扱いと判断し、咽喉は「いんこう」系の読みを採るのが自然なので「びいんこう」とした。これは文脈からの推定です。([olympus-medical.jp](https://www.olympus-medical.jp/product/flexible/enf_xp?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001740",
+      "doc_seq": 10,
+      "track_doc_seq": 1740,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1740,
+      "text": "本日は、遺伝子分析科学認定士の試験日です。",
+      "rendered_yomi_before": "本日/ホンジツ は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+      "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子分析/イデンシブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "本日",
+          "ホンジツ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "遺伝子分析",
+          "イデンシブンセキ"
+        ],
+        [
+          "科学",
+          "カガク"
+        ],
+        [
+          "認定",
+          "ニンテイ"
+        ],
+        [
+          "士",
+          "シ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "試験",
+          "シケン"
+        ],
+        [
+          "日",
+          "ビ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "本日",
+          "reading": "ホンジツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本日",
+              "reading": "ほんじつ"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "遺伝子分析",
+          "reading": "イデンシブンセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺伝子分析",
+              "reading": "いでんしぶんせき"
+            }
+          ]
+        },
+        {
+          "surface": "科学",
+          "reading": "カガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "科学",
+              "reading": "かがく"
+            }
+          ]
+        },
+        {
+          "surface": "認定",
+          "reading": "ニンテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "認定",
+              "reading": "にんてい"
+            }
+          ]
+        },
+        {
+          "surface": "士",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "士",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "試験",
+          "reading": "シケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "試験",
+              "reading": "しけん"
+            }
+          ]
+        },
+        {
+          "surface": "日",
+          "reading": "ビ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日",
+              "reading": "び"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0001",
+          "text": "本日は、遺伝子分析科学認定士の試験日です。",
+          "rendered_yomi_before": "本日/ホンジツ は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+          "rendered_yomi_after": "本日/ホンジツ は/ハ 、/、 遺伝子分析/イデンシブンセキ 科学/カガク 認定/ニンテイ 士/シ の/ノ 試験/シケン 日/ビ です/デス 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 5,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "遺伝子分析",
+          "reading_candidates": {
+            "遺": [
+              "い"
+            ],
+            "遺伝": [
+              "いでん"
+            ],
+            "遺伝子": [
+              "いでんし"
+            ],
+            "伝": [
+              "つたい",
+              "つたう",
+              "つて",
+              "つとう",
+              "でん"
+            ],
+            "子": [
+              "こ",
+              "ご",
+              "し",
+              "じ",
+              "ね"
+            ],
+            "子分": [
+              "こぶん"
+            ],
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分析": [
+              "ぶんせき"
+            ]
+          },
+          "reading_hints": {
+            "遺": "い",
+            "遺伝": "いでん",
+            "遺伝子": "いでんし",
+            "伝": "つたい",
+            "子": "こ",
+            "子分": "こぶん",
+            "分": "ぷん",
+            "分析": "ぶんせき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"遺伝子分析\",\"reading\":\"いでんしぶんせき\",\"used_web_search\":false,\"comment\":\"資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "遺伝子分析",
+              "reading": "いでんしぶんせき",
+              "used_web_search": false,
+              "comment": "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。"
+            }
+          ],
+          "llm_comments": [
+            "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "遺伝子分析",
+            "replacement": [
+              {
+                "surface": "遺伝子分析",
+                "reading": "イデンシブンセキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+                "surface": "遺伝子分析",
+                "comment": "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "遺伝子分析",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "遺伝",
+          "token_surface": "遺伝",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いでん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "子分",
+          "token_surface": "子分",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こぶん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "析",
+          "token_surface": "析",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "遺伝",
+          "reading": "いでん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "子分",
+          "reading": "こぶん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "遺": [
+          "い"
+        ],
+        "遺伝": [
+          "いでん"
+        ],
+        "遺伝子": [
+          "いでんし"
+        ],
+        "伝": [
+          "つたい",
+          "つたう",
+          "つて",
+          "つとう",
+          "でん"
+        ],
+        "子": [
+          "こ",
+          "ご",
+          "し",
+          "じ",
+          "ね"
+        ],
+        "子分": [
+          "こぶん"
+        ],
+        "分": [
+          "ぷん",
+          "ふん",
+          "ぶ",
+          "ぶん",
+          "わけ"
+        ],
+        "分析": [
+          "ぶんせき"
+        ]
+      },
+      "reading_hints": {
+        "遺": "い",
+        "遺伝": "いでん",
+        "遺伝子": "いでんし",
+        "伝": "つたい",
+        "子": "こ",
+        "子分": "こぶん",
+        "分": "ぷん",
+        "分析": "ぶんせき"
+      },
+      "llm_parsed": [
+        {
+          "surface": "遺伝子分析",
+          "reading": "いでんしぶんせき",
+          "used_web_search": false,
+          "comment": "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"遺伝子分析\",\"reading\":\"いでんしぶんせき\",\"used_web_search\":false,\"comment\":\"資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。\"}]",
+      "llm_comments": [
+        "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "遺伝子分析",
+        "replacement": [
+          {
+            "surface": "遺伝子分析",
+            "reading": "イデンシブンセキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001740:u0001::target_group:1",
+            "surface": "遺伝子分析",
+            "comment": "資格名「遺伝子分析科学認定士」の前半に当たる専門用語なので、4字をまとめて一語として読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001740",
+      "doc_seq": 10,
+      "track_doc_seq": 1740,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1740,
+      "text": "※『遺伝子分析科学認定士』制度は、遺伝子分析科学分野における専門知識を有し、高度技術に対応できる技術者の育成にを図り、遺伝子分析および遺伝子検査技術の発展・普及を促進することを目的とした資格です。",
+      "rendered_yomi_before": "※/※ 『/『 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝/イデン 子分/コブン 析/析 および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+      "rendered_yomi_after": "※/※ 『/『 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝子/イデンシ 分析/ブンセキ および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "※",
+          "※"
+        ],
+        [
+          "『",
+          "『"
+        ],
+        [
+          "遺伝子",
+          "イデンシ"
+        ],
+        [
+          "分析",
+          "ブンセキ"
+        ],
+        [
+          "科学",
+          "カガク"
+        ],
+        [
+          "認定",
+          "ニンテイ"
+        ],
+        [
+          "士",
+          "シ"
+        ],
+        [
+          "』",
+          "』"
+        ],
+        [
+          "制度",
+          "セイド"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "遺伝子",
+          "イデンシ"
+        ],
+        [
+          "分析",
+          "ブンセキ"
+        ],
+        [
+          "科学",
+          "カガク"
+        ],
+        [
+          "分野",
+          "ブンヤ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "おけ",
+          "オケ"
+        ],
+        [
+          "る",
+          "ル"
+        ],
+        [
+          "専門",
+          "センモン"
+        ],
+        [
+          "知識",
+          "チシキ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "有し",
+          "ユウシ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "高度",
+          "コウド"
+        ],
+        [
+          "技術",
+          "ギジュツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "対応",
+          "タイオウ"
+        ],
+        [
+          "できる",
+          "デキル"
+        ],
+        [
+          "技術者",
+          "ギジュツシャ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "育成",
+          "イクセイ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "図り",
+          "ハカリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "遺伝子",
+          "イデンシ"
+        ],
+        [
+          "分析",
+          "ブンセキ"
+        ],
+        [
+          "および",
+          "オヨビ"
+        ],
+        [
+          "遺伝子",
+          "イデンシ"
+        ],
+        [
+          "検査",
+          "ケンサ"
+        ],
+        [
+          "技術",
+          "ギジュツ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "発展",
+          "ハッテン"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "普及",
+          "フキュウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "促進",
+          "ソクシン"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "目的",
+          "モクテキ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "資格",
+          "シカク"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "※",
+          "reading": "※",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "※"
+            }
+          ]
+        },
+        {
+          "surface": "『",
+          "reading": "『",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "『"
+            }
+          ]
+        },
+        {
+          "surface": "遺伝子",
+          "reading": "イデンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺伝子",
+              "reading": "いでんし"
+            }
+          ]
+        },
+        {
+          "surface": "分析",
+          "reading": "ブンセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分析",
+              "reading": "ぶんせき"
+            }
+          ]
+        },
+        {
+          "surface": "科学",
+          "reading": "カガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "科学",
+              "reading": "かがく"
+            }
+          ]
+        },
+        {
+          "surface": "認定",
+          "reading": "ニンテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "認定",
+              "reading": "にんてい"
+            }
+          ]
+        },
+        {
+          "surface": "士",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "士",
+              "reading": "し"
+            }
+          ]
+        },
+        {
+          "surface": "』",
+          "reading": "』",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "』"
+            }
+          ]
+        },
+        {
+          "surface": "制度",
+          "reading": "セイド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "制度",
+              "reading": "せいど"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "遺伝子",
+          "reading": "イデンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺伝子",
+              "reading": "いでんし"
+            }
+          ]
+        },
+        {
+          "surface": "分析",
+          "reading": "ブンセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分析",
+              "reading": "ぶんせき"
+            }
+          ]
+        },
+        {
+          "surface": "科学",
+          "reading": "カガク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "科学",
+              "reading": "かがく"
+            }
+          ]
+        },
+        {
+          "surface": "分野",
+          "reading": "ブンヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分野",
+              "reading": "ぶんや"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "おけ",
+          "reading": "オケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おけ"
+            }
+          ]
+        },
+        {
+          "surface": "る",
+          "reading": "ル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "専門",
+          "reading": "センモン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "専門",
+              "reading": "せんもん"
+            }
+          ]
+        },
+        {
+          "surface": "知識",
+          "reading": "チシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "知識",
+              "reading": "ちしき"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "有し",
+          "reading": "ユウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "有",
+              "reading": "ゆう"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "高度",
+          "reading": "コウド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高度",
+              "reading": "こうど"
+            }
+          ]
+        },
+        {
+          "surface": "技術",
+          "reading": "ギジュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "技術",
+              "reading": "ぎじゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "対応",
+          "reading": "タイオウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "対応",
+              "reading": "たいおう"
+            }
+          ]
+        },
+        {
+          "surface": "できる",
+          "reading": "デキル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "できる"
+            }
+          ]
+        },
+        {
+          "surface": "技術者",
+          "reading": "ギジュツシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "技術者",
+              "reading": "ぎじゅつしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "育成",
+          "reading": "イクセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "育成",
+              "reading": "いくせい"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "図り",
+          "reading": "ハカリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "図",
+              "reading": "はか"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "遺伝子",
+          "reading": "イデンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺伝子",
+              "reading": "いでんし"
+            }
+          ]
+        },
+        {
+          "surface": "分析",
+          "reading": "ブンセキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "分析",
+              "reading": "ぶんせき"
+            }
+          ]
+        },
+        {
+          "surface": "および",
+          "reading": "オヨビ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "および"
+            }
+          ]
+        },
+        {
+          "surface": "遺伝子",
+          "reading": "イデンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遺伝子",
+              "reading": "いでんし"
+            }
+          ]
+        },
+        {
+          "surface": "検査",
+          "reading": "ケンサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "検査",
+              "reading": "けんさ"
+            }
+          ]
+        },
+        {
+          "surface": "技術",
+          "reading": "ギジュツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "技術",
+              "reading": "ぎじゅつ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "発展",
+          "reading": "ハッテン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "発展",
+              "reading": "はってん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "普及",
+          "reading": "フキュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "普及",
+              "reading": "ふきゅう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "促進",
+          "reading": "ソクシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "促進",
+              "reading": "そくしん"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "目的",
+          "reading": "モクテキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目的",
+              "reading": "もくてき"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "資格",
+          "reading": "シカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "資格",
+              "reading": "しかく"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 3,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0006",
+          "text": "※『遺伝子分析科学認定士』制度は、遺伝子分析科学分野における専門知識を有し、高度技術に対応できる技術者の育成にを図り、遺伝子分析および遺伝子検査技術の発展・普及を促進することを目的とした資格です。",
+          "rendered_yomi_before": "※/※ 『/『 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝/イデン 子分/コブン 析/析 および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "rendered_yomi_after": "※/※ 『/『 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝子/イデンシ 分析/ブンセキ および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 4,
+            "char_start": 2,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "遺伝子分析",
+          "reading_candidates": {
+            "遺": [
+              "い"
+            ],
+            "遺伝": [
+              "いでん"
+            ],
+            "遺伝子": [
+              "いでんし"
+            ],
+            "伝": [
+              "つたい",
+              "つたう",
+              "つて",
+              "つとう",
+              "でん"
+            ],
+            "子": [
+              "こ",
+              "ご",
+              "し",
+              "じ",
+              "ね"
+            ],
+            "子分": [
+              "こぶん"
+            ],
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分析": [
+              "ぶんせき"
+            ]
+          },
+          "reading_hints": {
+            "遺": "い",
+            "遺伝": "いでん",
+            "遺伝子": "いでんし",
+            "伝": "つたい",
+            "子": "こ",
+            "子分": "こぶん",
+            "分": "ぷん",
+            "分析": "ぶんせき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"遺伝子\",\"reading\":\"イデンシ\",\"used_web_search\":false,\"comment\":\"一般名詞なので語単位に分け、標準的な読みを採用しました。\"},{\"surface\":\"分析\",\"reading\":\"ブンセキ\",\"used_web_search\":false,\"comment\":\"後続の一般名詞として自然な分かち書きに直しました。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "遺伝子",
+              "reading": "イデンシ",
+              "used_web_search": false,
+              "comment": "一般名詞なので語単位に分け、標準的な読みを採用しました。"
+            },
+            {
+              "surface": "分析",
+              "reading": "ブンセキ",
+              "used_web_search": false,
+              "comment": "後続の一般名詞として自然な分かち書きに直しました。"
+            }
+          ],
+          "llm_comments": [
+            "一般名詞なので語単位に分け、標準的な読みを採用しました。",
+            "後続の一般名詞として自然な分かち書きに直しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "遺伝子分析",
+            "replacement": [
+              {
+                "surface": "遺伝子",
+                "reading": "イデンシ"
+              },
+              {
+                "surface": "分析",
+                "reading": "ブンセキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+                "surface": "遺伝子分析",
+                "comment": "一般名詞なので語単位に分け、標準的な読みを採用しました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+                "surface": "遺伝子分析",
+                "comment": "後続の一般名詞として自然な分かち書きに直しました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 0
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0006",
+          "text": "※『遺伝子分析科学認定士』制度は、遺伝子分析科学分野における専門知識を有し、高度技術に対応できる技術者の育成にを図り、遺伝子分析および遺伝子検査技術の発展・普及を促進することを目的とした資格です。",
+          "rendered_yomi_before": "※/※ 『/『 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝/イデン 子分/コブン 析/析 および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "rendered_yomi_after": "※/※ 『/『 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝子/イデンシ 分析/ブンセキ および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 13,
+            "char_start": 17,
+            "char_end": 22,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0018-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "遺伝子分析",
+          "reading_candidates": {
+            "遺": [
+              "い"
+            ],
+            "遺伝": [
+              "いでん"
+            ],
+            "遺伝子": [
+              "いでんし"
+            ],
+            "伝": [
+              "つたい",
+              "つたう",
+              "つて",
+              "つとう",
+              "でん"
+            ],
+            "子": [
+              "こ",
+              "ご",
+              "し",
+              "じ",
+              "ね"
+            ],
+            "子分": [
+              "こぶん"
+            ],
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分析": [
+              "ぶんせき"
+            ]
+          },
+          "reading_hints": {
+            "遺": "い",
+            "遺伝": "いでん",
+            "遺伝子": "いでんし",
+            "伝": "つたい",
+            "子": "こ",
+            "子分": "こぶん",
+            "分": "ぷん",
+            "分析": "ぶんせき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"遺伝子\",\"reading\":\"イデンシ\",\"used_web_search\":false,\"comment\":\"一般的な語で、「遺伝」「子分」ではなく「遺伝子」と読む。\"},{\"surface\":\"分析\",\"reading\":\"ブンセキ\",\"used_web_search\":false,\"comment\":\"語としては「分析」で一まとまりに読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "遺伝子",
+              "reading": "イデンシ",
+              "used_web_search": false,
+              "comment": "一般的な語で、「遺伝」「子分」ではなく「遺伝子」と読む。"
+            },
+            {
+              "surface": "分析",
+              "reading": "ブンセキ",
+              "used_web_search": false,
+              "comment": "語としては「分析」で一まとまりに読む。"
+            }
+          ],
+          "llm_comments": [
+            "一般的な語で、「遺伝」「子分」ではなく「遺伝子」と読む。",
+            "語としては「分析」で一まとまりに読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:2",
+            "status": "applied",
+            "rejected_span": "遺伝子分析",
+            "replacement": [
+              {
+                "surface": "遺伝子",
+                "reading": "イデンシ"
+              },
+              {
+                "surface": "分析",
+                "reading": "ブンセキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:2",
+                "surface": "遺伝子分析",
+                "comment": "一般的な語で、「遺伝」「子分」ではなく「遺伝子」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:2",
+                "surface": "遺伝子分析",
+                "comment": "語としては「分析」で一まとまりに読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 1
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:3",
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:3",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001740:u0006",
+          "text": "※『遺伝子分析科学認定士』制度は、遺伝子分析科学分野における専門知識を有し、高度技術に対応できる技術者の育成にを図り、遺伝子分析および遺伝子検査技術の発展・普及を促進することを目的とした資格です。",
+          "rendered_yomi_before": "※/※ 『/『 遺伝/イデン 子分/コブン 析/析 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝/イデン 子分/コブン 析/析 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝/イデン 子分/コブン 析/析 および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "rendered_yomi_after": "※/※ 『/『 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 認定/ニンテイ 士/シ 』/』 制度/セイド は/ハ 、/、 遺伝子/イデンシ 分析/ブンセキ 科学/カガク 分野/ブンヤ に/ニ おけ/オケ る/ル 専門/センモン 知識/チシキ を/ヲ 有し/ユウシ 、/、 高度/コウド 技術/ギジュツ に/ニ 対応/タイオウ できる/デキル 技術者/ギジュツシャ の/ノ 育成/イクセイ に/ニ を/ヲ 図り/ハカリ 、/、 遺伝子/イデンシ 分析/ブンセキ および/オヨビ 遺伝子/イデンシ 検査/ケンサ 技術/ギジュツ の/ノ 発展/ハッテン ・/・ 普及/フキュウ を/ヲ 促進/ソクシン する/スル こと/コト を/ヲ 目的/モクテキ と/ト し/シ た/タ 資格/シカク です/デス 。/。",
+          "display_mapping": {
+            "start": 35,
+            "end": 37,
+            "char_start": 59,
+            "char_end": 64,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0060-0061",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 37,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0062-0063",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0064-0064",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 39,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0060-0061",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "遺伝",
+              "token_surface": "遺伝",
+              "token_index": 37,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いでん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "遺伝",
+                  "reading": "いでん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0062-0063",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子分",
+              "token_surface": "子分",
+              "token_index": 38,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こぶん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子分",
+                  "reading": "こぶん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0064-0064",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "析",
+              "token_surface": "析",
+              "token_index": 39,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "遺伝子分析",
+          "reading_candidates": {
+            "遺": [
+              "い"
+            ],
+            "遺伝": [
+              "いでん"
+            ],
+            "遺伝子": [
+              "いでんし"
+            ],
+            "伝": [
+              "つたい",
+              "つたう",
+              "つて",
+              "つとう",
+              "でん"
+            ],
+            "子": [
+              "こ",
+              "ご",
+              "し",
+              "じ",
+              "ね"
+            ],
+            "子分": [
+              "こぶん"
+            ],
+            "分": [
+              "ぷん",
+              "ふん",
+              "ぶ",
+              "ぶん",
+              "わけ"
+            ],
+            "分析": [
+              "ぶんせき"
+            ]
+          },
+          "reading_hints": {
+            "遺": "い",
+            "遺伝": "いでん",
+            "遺伝子": "いでんし",
+            "伝": "つたい",
+            "子": "こ",
+            "子分": "こぶん",
+            "分": "ぷん",
+            "分析": "ぶんせき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"遺伝子\",\"reading\":\"イデンシ\",\"used_web_search\":false,\"comment\":\"「遺伝子」は通常この読み。既存の「遺伝/子分」分割は不自然なので修正。\"},{\"surface\":\"分析\",\"reading\":\"ブンセキ\",\"used_web_search\":false,\"comment\":\"一般語として「分析」は「ブンセキ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "遺伝子",
+              "reading": "イデンシ",
+              "used_web_search": false,
+              "comment": "「遺伝子」は通常この読み。既存の「遺伝/子分」分割は不自然なので修正。"
+            },
+            {
+              "surface": "分析",
+              "reading": "ブンセキ",
+              "used_web_search": false,
+              "comment": "一般語として「分析」は「ブンセキ」。"
+            }
+          ],
+          "llm_comments": [
+            "「遺伝子」は通常この読み。既存の「遺伝/子分」分割は不自然なので修正。",
+            "一般語として「分析」は「ブンセキ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:3",
+            "status": "applied",
+            "rejected_span": "遺伝子分析",
+            "replacement": [
+              {
+                "surface": "遺伝子",
+                "reading": "イデンシ"
+              },
+              {
+                "surface": "分析",
+                "reading": "ブンセキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:3",
+                "surface": "遺伝子分析",
+                "comment": "「遺伝子」は通常この読み。既存の「遺伝/子分」分割は不自然なので修正。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:3",
+                "surface": "遺伝子分析",
+                "comment": "一般語として「分析」は「ブンセキ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          },
+          "surface_occurrence_index": 2
+        }
+      ],
+      "rejected_span": "遺伝子分析",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0003-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "遺伝",
+          "token_surface": "遺伝",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いでん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "遺伝",
+              "reading": "いでん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "子分",
+          "token_surface": "子分",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こぶん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "子分",
+              "reading": "こぶん",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "析",
+          "token_surface": "析",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "遺伝",
+          "reading": "いでん",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "子分",
+          "reading": "こぶん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "遺": [
+          "い"
+        ],
+        "遺伝": [
+          "いでん"
+        ],
+        "遺伝子": [
+          "いでんし"
+        ],
+        "伝": [
+          "つたい",
+          "つたう",
+          "つて",
+          "つとう",
+          "でん"
+        ],
+        "子": [
+          "こ",
+          "ご",
+          "し",
+          "じ",
+          "ね"
+        ],
+        "子分": [
+          "こぶん"
+        ],
+        "分": [
+          "ぷん",
+          "ふん",
+          "ぶ",
+          "ぶん",
+          "わけ"
+        ],
+        "分析": [
+          "ぶんせき"
+        ]
+      },
+      "reading_hints": {
+        "遺": "い",
+        "遺伝": "いでん",
+        "遺伝子": "いでんし",
+        "伝": "つたい",
+        "子": "こ",
+        "子分": "こぶん",
+        "分": "ぷん",
+        "分析": "ぶんせき"
+      },
+      "llm_parsed": [
+        {
+          "surface": "遺伝子",
+          "reading": "イデンシ",
+          "used_web_search": false,
+          "comment": "一般名詞なので語単位に分け、標準的な読みを採用しました。"
+        },
+        {
+          "surface": "分析",
+          "reading": "ブンセキ",
+          "used_web_search": false,
+          "comment": "後続の一般名詞として自然な分かち書きに直しました。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"遺伝子\",\"reading\":\"イデンシ\",\"used_web_search\":false,\"comment\":\"一般名詞なので語単位に分け、標準的な読みを採用しました。\"},{\"surface\":\"分析\",\"reading\":\"ブンセキ\",\"used_web_search\":false,\"comment\":\"後続の一般名詞として自然な分かち書きに直しました。\"}]",
+      "llm_comments": [
+        "一般名詞なので語単位に分け、標準的な読みを採用しました。",
+        "後続の一般名詞として自然な分かち書きに直しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "遺伝子分析",
+        "replacement": [
+          {
+            "surface": "遺伝子",
+            "reading": "イデンシ"
+          },
+          {
+            "surface": "分析",
+            "reading": "ブンセキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+            "surface": "遺伝子分析",
+            "comment": "一般名詞なので語単位に分け、標準的な読みを採用しました。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001740:u0006::target_group:1",
+            "surface": "遺伝子分析",
+            "comment": "後続の一般名詞として自然な分かち書きに直しました。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
