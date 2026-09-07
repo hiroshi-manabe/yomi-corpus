@@ -139,7 +139,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-07T04:43:28Z",
+      "state_updated_at": "2026-09-07T04:51:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -191,7 +191,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-07T04:43:28Z",
+      "state_updated_at": "2026-09-07T04:51:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 12,
@@ -254590,6 +254590,21 @@
               ]
             },
             {
+              "id": "usage_alternative:0",
+              "source": "usage_alternative",
+              "label": "Common usage alternative",
+              "reading": "ぜん",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "千",
+                  "reading": "ぜん"
+                }
+              ]
+            },
+            {
               "id": "none",
               "source": "none",
               "label": "Unresolved; escalate",
@@ -256008,6 +256023,26 @@
                   "type": "ruby",
                   "text": "千",
                   "reading": "ゆき"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "usage_alternative:0",
+              "source": "usage_alternative",
+              "label": "Common usage alternative",
+              "reading": "ぜん",
+              "tokens": [
+                [
+                  "千",
+                  "ゼン"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "千",
+                  "reading": "ぜん"
                 }
               ],
               "historical_count": 0
