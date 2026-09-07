@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1046_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1046",
+  "created_at_epoch": 1788766150,
+  "created_at": "2026-09-07T07:29:10Z",
+  "item_count": 1,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 9,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 1,
+    "queued_repair_row_count": 1,
+    "result_row_count": 1,
+    "reviewable_repair_row_count": 1,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001931",
+      "doc_seq": 1,
+      "track_doc_seq": 1931,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1931,
+      "preview": "日曜日、初めてのおつかいお茶会を開催しました〜〜〜！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001932",
+      "doc_seq": 2,
+      "track_doc_seq": 1932,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1932,
+      "preview": "リピーターの多い、人気のパウンドケーキ。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T07:29:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001933",
+      "doc_seq": 3,
+      "track_doc_seq": 1933,
+      "unit_count": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1933,
+      "preview": "多いのではないでしょうか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 25,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001934",
+      "doc_seq": 4,
+      "track_doc_seq": 1934,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1934,
+      "preview": "８月は、変則営業となります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001935",
+      "doc_seq": 5,
+      "track_doc_seq": 1935,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1935,
+      "preview": "今日で２日目、色々覚える事あるので大変ですが、慣れですよ慣れ～！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 4,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001936",
+      "doc_seq": 6,
+      "track_doc_seq": 1936,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1936,
+      "preview": "株式会社ベストステージ（以下当社）では、個人情報情報の重要性に鑑み、業務に従事するすべての者がその責任を認識し、個人情報の保護に関する法律（個人情報保護法）その他関係法令・ガイドラインを遵守して、個人情報を適正に取り扱うとともに、安全管理について適切な措置を個人情報の収集について講じます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001937",
+      "doc_seq": 7,
+      "track_doc_seq": 1937,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1937,
+      "preview": "茅野市豊平の住宅団地「グリーンヒルズヴィレッジ226区画」が2021年9月15日までに13区画を販売し、商談中が10区画あり、まだ半年も時間があり、昨年度の17区画を上回るのは確実。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001938",
+      "doc_seq": 8,
+      "track_doc_seq": 1938,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1938,
+      "preview": "内装の設備関係を決めるために、パナソニックのショウルームに行ってきました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001939",
+      "doc_seq": 9,
+      "track_doc_seq": 1939,
+      "unit_count": 5,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1939,
+      "preview": "新年始まり、お仕事疲れが出てきているころなのかなと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 5,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001940",
+      "doc_seq": 10,
+      "track_doc_seq": 1940,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1940,
+      "preview": "・先日、子供が日曜日の夜に熱を出してしまい苦しそうなので、夜間救急病院に連れて行こうと思いました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T07:00:11Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001932",
+      "doc_seq": 2,
+      "track_doc_seq": 1932,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001932:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1932,
+      "text": "そして、竹籐にあった昔風のデザイン。",
+      "rendered_yomi_before": "そして/ソシテ 、/、 竹/タケ 籐/トウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+      "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/ラタン に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "そして",
+          "ソシテ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "竹籐",
+          "ラタン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "あっ",
+          "アッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "昔",
+          "ムカシ"
+        ],
+        [
+          "風",
+          "フウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "デザイン",
+          "デザイン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "そして",
+          "reading": "ソシテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "そして"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "竹籐",
+          "reading": "ラタン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "竹籐",
+              "reading": "らたん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "あっ",
+          "reading": "アッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "昔",
+          "reading": "ムカシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昔",
+              "reading": "むかし"
+            }
+          ]
+        },
+        {
+          "surface": "風",
+          "reading": "フウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "風",
+              "reading": "ふう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "デザイン",
+          "reading": "デザイン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "デザイン"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001932:u0007",
+          "text": "そして、竹籐にあった昔風のデザイン。",
+          "rendered_yomi_before": "そして/ソシテ 、/、 竹/タケ 籐/トウ に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+          "rendered_yomi_after": "そして/ソシテ 、/、 竹籐/ラタン に/ニ あっ/アッ た/タ 昔/ムカシ 風/フウ の/ノ デザイン/デザイン 。/。",
+          "display_mapping": {
+            "start": 2,
+            "end": 3,
+            "char_start": 4,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "竹",
+              "token_surface": "竹",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "竹",
+                  "reading": "たけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "籐",
+              "token_surface": "籐",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "籐",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "竹",
+              "token_surface": "竹",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "竹",
+                  "reading": "たけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "籐",
+              "token_surface": "籐",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "籐",
+                  "reading": "とう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "竹籐",
+          "reading_candidates": {
+            "竹": [
+              "たけ",
+              "だけ",
+              "ちく"
+            ],
+            "籐": [
+              "とう",
+              "どう"
+            ]
+          },
+          "reading_hints": {
+            "竹": "たけ",
+            "籐": "とう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "竹",
+              "reading": "たけ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "籐",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"竹籐\",\"reading\":\"ラタン\",\"used_web_search\":true,\"comment\":\"作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "竹籐",
+              "reading": "ラタン",
+              "used_web_search": true,
+              "comment": "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))"
+            }
+          ],
+          "llm_comments": [
+            "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "竹籐",
+            "replacement": [
+              {
+                "surface": "竹籐",
+                "reading": "ラタン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+                "surface": "竹籐",
+                "comment": "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "竹籐",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "竹",
+          "token_surface": "竹",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "たけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "竹",
+              "reading": "たけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "籐",
+          "token_surface": "籐",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "籐",
+              "reading": "とう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "竹",
+          "reading": "たけ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "籐",
+          "reading": "とう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "竹": [
+          "たけ",
+          "だけ",
+          "ちく"
+        ],
+        "籐": [
+          "とう",
+          "どう"
+        ]
+      },
+      "reading_hints": {
+        "竹": "たけ",
+        "籐": "とう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "竹籐",
+          "reading": "ラタン",
+          "used_web_search": true,
+          "comment": "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"竹籐\",\"reading\":\"ラタン\",\"used_web_search\":true,\"comment\":\"作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))\"}]",
+      "llm_comments": [
+        "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "竹籐",
+        "replacement": [
+          {
+            "surface": "竹籐",
+            "reading": "ラタン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001932:u0007::target_group:1",
+            "surface": "竹籐",
+            "comment": "作品中の用例では「竹籐」に「ラタン」と振られており、rattanを指す一語として扱うのが自然です。([furigana.info](https://furigana.info/w/%E7%AB%B9%E7%B1%90))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
