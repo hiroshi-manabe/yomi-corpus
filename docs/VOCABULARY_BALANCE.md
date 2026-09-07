@@ -292,6 +292,15 @@ slots 1-2000 byte-for-byte, validate against the document ledger, and record the
 generation change, affected slots, hashes and rollback backup. Resume the timer
 after verification. Existing work and finalized documents are unaffected.
 
+Installed on 2026-09-07: order generation 1 -> 2, cursor unchanged at 1821.
+Verified all 2,593,288 source identities remain a permutation and slots 1-2000
+are unchanged. Exactly 4,000 slots changed: 2,000 campaign destinations and
+the original positions receiving displaced documents. Backup and installation
+record: `data/state/migrations/vocabulary_slots_2001_4000_20260907/`.
+Experiment SHA-256:
+`5a683b18608013b6b181d6c4a3e7547f3f64d1687ca94fcfe24a04ed5d3f281d`.
+The refill timer and service were resumed after verification.
+
 ## Earlier semantic quality check experiment (not adopted)
 
 An earlier experiment used one narrow Sol classification after deterministic gates to catch
