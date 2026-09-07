@@ -394,6 +394,61 @@ class ProcessingOrderStore:
         )
         return manifest
 
+    def install_selection(self, start_slot: int, source_lines: list[int], *,
+                          expected_source_sha256: str, backup_dir: Path) -> dict[str, Any]:
+        """Install a selection by permutation-preserving swaps under the caller's refill lock."""
+        manifest = self.load_manifest()
+        if manifest.get("reservation") is not None:
+            raise ValueError("Cannot reorder with an active reservation.")
+        if not expected_source_sha256 or manifest.get("source_content_sha256") != expected_source_sha256:
+            raise ValueError("Selection source identity does not match processing order.")
+        count = int(manifest["document_count"])
+        if start_slot < int(manifest["cursor"]):
+            raise ValueError("Selection would modify frozen processing slots.")
+        if not source_lines or start_slot + len(source_lines) - 1 > count:
+            raise ValueError("Selection is empty or exceeds the processing order.")
+        if len(set(source_lines)) != len(source_lines):
+            raise ValueError("Selection contains duplicate source documents.")
+        original = self.order_path.read_bytes()
+        values = list(struct.unpack(f"<{count}I", original))
+        positions = {line: i for i, line in enumerate(values)}
+        if len(positions) != count:
+            raise ValueError("Processing order contains duplicate source documents.")
+        if any(line not in positions or positions[line] < start_slot - 1 for line in source_lines):
+            raise ValueError("Selected document is absent or precedes the installation range.")
+        for destination, line in enumerate(source_lines, start_slot - 1):
+            origin = positions[line]
+            displaced = values[destination]
+            values[destination], values[origin] = line, displaced
+            positions[line], positions[displaced] = destination, origin
+        replacement = struct.pack(f"<{count}I", *values)
+        if replacement == original:
+            return manifest
+        backup_dir.mkdir(parents=True, exist_ok=False)
+        (backup_dir / "order.u32").write_bytes(original)
+        (backup_dir / "manifest.json").write_bytes(self.manifest_path.read_bytes())
+        record = {"event": "selection_installed", "at": now_iso(), "start_slot": start_slot,
+                  "source_lines": source_lines, "backup_dir": str(backup_dir),
+                  "before_sha256": hashlib.sha256(original).hexdigest(),
+                  "after_sha256": hashlib.sha256(replacement).hexdigest(),
+                  "order_generation": int(manifest["order_generation"]) + 1}
+        (backup_dir / "installation.json").write_text(json.dumps(record, indent=2) + "\n")
+        fd, temp_name = tempfile.mkstemp(dir=self.state_dir, suffix=".u32.tmp")
+        try:
+            with os.fdopen(fd, "wb") as handle:
+                handle.write(replacement)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temp_name, self.order_path)
+        finally:
+            if os.path.exists(temp_name):
+                os.unlink(temp_name)
+        manifest["order_generation"] = record["order_generation"]
+        manifest["updated_at"] = now_iso()
+        self._write_manifest(manifest)
+        self._append_event(record)
+        return manifest
+
     def migrate_unprocessed_suffix(
         self,
         *,

@@ -11,6 +11,29 @@ from yomi_corpus.processing_order import ProcessingOrderStore
 
 
 class ProcessingOrderTests(unittest.TestCase):
+    def test_install_selection_preserves_permutation_and_prefix(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "source.jsonl.gz"
+            write_source(source, 8)
+            store = ProcessingOrderStore(root, "dev")
+            manifest = store.ensure(source_path=source, dataset_name="demo", ledger_rows=[])
+            digest = manifest["source_content_sha256"]
+            for selection in ([6, 6], [1, 6], [99, 6]):
+                with self.assertRaises(ValueError):
+                    store.install_selection(3, selection, expected_source_sha256=digest,
+                                            backup_dir=root / "backup")
+                self.assertEqual(store.read_slots(1, 8), list(range(1, 9)))
+            with self.assertRaises(ValueError):
+                store.install_selection(3, [6, 7], expected_source_sha256="wrong",
+                                        backup_dir=root / "backup")
+            store.install_selection(3, [6, 7], expected_source_sha256=digest,
+                                    backup_dir=root / "backup")
+            result = store.read_slots(1, 8)
+            self.assertEqual(result[:4], [1, 2, 6, 7])
+            self.assertEqual(sorted(result), list(range(1, 9)))
+            self.assertTrue((root / "backup/order.u32").exists())
+
     def test_identity_order_swap_and_reservation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
