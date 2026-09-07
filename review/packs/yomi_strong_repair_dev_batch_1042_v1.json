@@ -1,0 +1,2357 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1042_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1042",
+  "created_at_epoch": 1788763002,
+  "created_at": "2026-09-07T06:36:42Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001891",
+      "doc_seq": 1,
+      "track_doc_seq": 1891,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1891,
+      "preview": "本日は一関市Ｍ様邸現場で打設を行いました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001892",
+      "doc_seq": 2,
+      "track_doc_seq": 1892,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1892,
+      "preview": "とてもキレイな朝焼けの夢を見ました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001893",
+      "doc_seq": 3,
+      "track_doc_seq": 1893,
+      "unit_count": 28,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1893,
+      "preview": "『薬剤師のための医学論文の読み方・使い方』という本が出版されます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 28,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001894",
+      "doc_seq": 4,
+      "track_doc_seq": 1894,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1894,
+      "preview": "今年1年のしあわせを祈願しませんか？",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T06:36:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001895",
+      "doc_seq": 5,
+      "track_doc_seq": 1895,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1895,
+      "preview": "不思議ですが、そうです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001896",
+      "doc_seq": 6,
+      "track_doc_seq": 1896,
+      "unit_count": 27,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1896,
+      "preview": "10月にトルコへ行くためにモスクワで乗り換えしたとき、現地の友人と話したことを時々思い出す。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 27,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001897",
+      "doc_seq": 7,
+      "track_doc_seq": 1897,
+      "unit_count": 95,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1897,
+      "preview": "第54回文藝賞と第158回芥川賞をダブル受賞した、若竹千佐子による小説『おらおらでひとりいぐも』。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 95,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001898",
+      "doc_seq": 8,
+      "track_doc_seq": 1898,
+      "unit_count": 78,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1898,
+      "preview": "2022/09/21 自己流な勉強法？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 78,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001899",
+      "doc_seq": 9,
+      "track_doc_seq": 1899,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1899,
+      "preview": "お客様や同業者様からご相談を頂く度に、あらゆる材質・形状に挑戦しし、乗り越えてまいりました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T06:36:59Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001900",
+      "doc_seq": 10,
+      "track_doc_seq": 1900,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1900,
+      "preview": "皆様体調など崩しておられませんか。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T06:34:32Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001894",
+      "doc_seq": 4,
+      "track_doc_seq": 1894,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001894:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1894,
+      "text": "新年初めのご祈願は、お神さまに旧年中お護り頂いた感謝を申し上げるとともに、新年の安全・繁栄を祈念するものです。",
+      "rendered_yomi_before": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧/キュウ 年中/ネンジュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+      "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年中/キュウネンチュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "新年",
+          "シンネン"
+        ],
+        [
+          "初め",
+          "ハジメ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "祈願",
+          "キガン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "神",
+          "カミ"
+        ],
+        [
+          "さま",
+          "サマ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "旧年中",
+          "キュウネンチュウ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "護り",
+          "マモリ"
+        ],
+        [
+          "頂い",
+          "イタダイ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "感謝",
+          "カンシャ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "申し上げる",
+          "モウシアゲル"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "とも",
+          "トモ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "新年",
+          "シンネン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "安全",
+          "アンゼン"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "繁栄",
+          "ハンエイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "祈念",
+          "キネン"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "新年",
+          "reading": "シンネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新年",
+              "reading": "しんねん"
+            }
+          ]
+        },
+        {
+          "surface": "初め",
+          "reading": "ハジメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "初",
+              "reading": "はじ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "祈願",
+          "reading": "キガン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祈願",
+              "reading": "きがん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "神",
+          "reading": "カミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神",
+              "reading": "かみ"
+            }
+          ]
+        },
+        {
+          "surface": "さま",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "旧年中",
+          "reading": "キュウネンチュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "旧年中",
+              "reading": "きゅうねんちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "護り",
+          "reading": "マモリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "護",
+              "reading": "まも"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "頂い",
+          "reading": "イタダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "頂",
+              "reading": "いただ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "感謝",
+          "reading": "カンシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "感謝",
+              "reading": "かんしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "申し上げる",
+          "reading": "モウシアゲル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "申",
+              "reading": "もう"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            },
+            {
+              "type": "ruby",
+              "text": "上",
+              "reading": "あ"
+            },
+            {
+              "type": "text",
+              "text": "げる"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "とも",
+          "reading": "トモ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とも"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "新年",
+          "reading": "シンネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新年",
+              "reading": "しんねん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "安全",
+          "reading": "アンゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "安全",
+              "reading": "あんぜん"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "繁栄",
+          "reading": "ハンエイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "繁栄",
+              "reading": "はんえい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "祈念",
+          "reading": "キネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祈念",
+              "reading": "きねん"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001894:u0006",
+          "text": "新年初めのご祈願は、お神さまに旧年中お護り頂いた感謝を申し上げるとともに、新年の安全・繁栄を祈念するものです。",
+          "rendered_yomi_before": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧/キュウ 年中/ネンジュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+          "rendered_yomi_after": "新年/シンネン 初め/ハジメ の/ノ ご/ゴ 祈願/キガン は/ハ 、/、 お/オ 神/カミ さま/サマ に/ニ 旧年中/キュウネンチュウ お/オ 護り/マモリ 頂い/イタダイ た/タ 感謝/カンシャ を/ヲ 申し上げる/モウシアゲル と/ト とも/トモ に/ニ 、/、 新年/シンネン の/ノ 安全/アンゼン ・/・ 繁栄/ハンエイ を/ヲ 祈念/キネン する/スル もの/モノ です/デス 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 15,
+            "char_end": 18,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "旧",
+              "token_surface": "旧",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "旧",
+                  "reading": "きゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "年中",
+              "token_surface": "年中",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ねんじゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "年中",
+                  "reading": "ねんじゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "旧",
+              "token_surface": "旧",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "旧",
+                  "reading": "きゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "年中",
+              "token_surface": "年中",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ねんじゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "年中",
+                  "reading": "ねんじゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "旧年中",
+          "reading_candidates": {
+            "旧": [
+              "きゅう",
+              "ふる"
+            ],
+            "旧年": [
+              "きゅうねん"
+            ],
+            "年": [
+              "ねん",
+              "とし",
+              "どし"
+            ],
+            "年中": [
+              "ねんちゅう",
+              "ねんじゅう"
+            ],
+            "中": [
+              "ちゅう",
+              "なか",
+              "じゅう",
+              "あたり",
+              "あたる",
+              "うち",
+              "ただし",
+              "ぢゅう",
+              "なかば"
+            ]
+          },
+          "reading_hints": {
+            "旧": "きゅう",
+            "旧年": "きゅうねん",
+            "年": "ねん",
+            "年中": "ねんちゅう",
+            "中": "ちゅう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "旧",
+              "reading": "きゅう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "年中",
+              "reading": "ねんじゅう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"旧年中\",\"reading\":\"キュウネンチュウ\",\"used_web_search\":false,\"comment\":\"「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "旧年中",
+              "reading": "キュウネンチュウ",
+              "used_web_search": false,
+              "comment": "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。"
+            }
+          ],
+          "llm_comments": [
+            "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "旧年中",
+            "replacement": [
+              {
+                "surface": "旧年中",
+                "reading": "キュウネンチュウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+                "surface": "旧年中",
+                "comment": "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "旧年中",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0016-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "旧",
+          "token_surface": "旧",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "旧",
+              "reading": "きゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006:s0017-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "年中",
+          "token_surface": "年中",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ねんじゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "年中",
+              "reading": "ねんじゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "旧",
+          "reading": "きゅう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "年中",
+          "reading": "ねんじゅう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "旧": [
+          "きゅう",
+          "ふる"
+        ],
+        "旧年": [
+          "きゅうねん"
+        ],
+        "年": [
+          "ねん",
+          "とし",
+          "どし"
+        ],
+        "年中": [
+          "ねんちゅう",
+          "ねんじゅう"
+        ],
+        "中": [
+          "ちゅう",
+          "なか",
+          "じゅう",
+          "あたり",
+          "あたる",
+          "うち",
+          "ただし",
+          "ぢゅう",
+          "なかば"
+        ]
+      },
+      "reading_hints": {
+        "旧": "きゅう",
+        "旧年": "きゅうねん",
+        "年": "ねん",
+        "年中": "ねんちゅう",
+        "中": "ちゅう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "旧年中",
+          "reading": "キュウネンチュウ",
+          "used_web_search": false,
+          "comment": "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"旧年中\",\"reading\":\"キュウネンチュウ\",\"used_web_search\":false,\"comment\":\"「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。\"}]",
+      "llm_comments": [
+        "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "旧年中",
+        "replacement": [
+          {
+            "surface": "旧年中",
+            "reading": "キュウネンチュウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001894:u0006::target_group:1",
+            "surface": "旧年中",
+            "comment": "「昨年中・過ぎた一年間」の意味の慣用的な語で、この文脈では一語として読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001894",
+      "doc_seq": 4,
+      "track_doc_seq": 1894,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001894:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1894,
+      "text": "ご祈願は社殿内の奥にて執り行います。",
+      "rendered_yomi_before": "ご/ゴ 祈願/キガン は/ハ 社殿/シャデン 内/ナイ の/ノ 奥/オク にて/ニテ 執り行い/トリオコナイ ます/マス 。/。",
+      "rendered_yomi_after": "ご/ゴ 祈願/キガン は/ハ 社殿/シャデン 内/ナイ の/ノ 奥/オク にて/ニテ 執り行い/トリオコナイ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "ご",
+          "ゴ"
+        ],
+        [
+          "祈願",
+          "キガン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "社殿",
+          "シャデン"
+        ],
+        [
+          "内",
+          "ナイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "奥",
+          "オク"
+        ],
+        [
+          "にて",
+          "ニテ"
+        ],
+        [
+          "執り行い",
+          "トリオコナイ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "ご",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "祈願",
+          "reading": "キガン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祈願",
+              "reading": "きがん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "社殿",
+          "reading": "シャデン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "社殿",
+              "reading": "しゃでん"
+            }
+          ]
+        },
+        {
+          "surface": "内",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内",
+              "reading": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "奥",
+          "reading": "オク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "奥",
+              "reading": "おく"
+            }
+          ]
+        },
+        {
+          "surface": "にて",
+          "reading": "ニテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "にて"
+            }
+          ]
+        },
+        {
+          "surface": "執り行い",
+          "reading": "トリオコナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "執",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "おこな"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001894:u0007",
+          "text": "ご祈願は社殿内の奥にて執り行います。",
+          "rendered_yomi_before": "ご/ゴ 祈願/キガン は/ハ 社殿/シャデン 内/ナイ の/ノ 奥/オク にて/ニテ 執り行い/トリオコナイ ます/マス 。/。",
+          "rendered_yomi_after": "ご/ゴ 祈願/キガン は/ハ 社殿/シャデン 内/ナイ の/ノ 奥/オク にて/ニテ 執り行い/トリオコナイ ます/マス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内",
+              "token_surface": "内",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ない",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内",
+                  "reading": "ない",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007:s0007-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内",
+              "token_surface": "内",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ない",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内",
+                  "reading": "ない",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "内",
+          "reading_candidates": {
+            "内": [
+              "ない",
+              "うち"
+            ]
+          },
+          "reading_hints": {
+            "内": "ない"
+          },
+          "rejected_readings": [
+            {
+              "surface": "内",
+              "reading": "ない",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"内\",\"reading\":\"ナイ\",\"used_web_search\":false,\"comment\":\"「社殿内」で一語の複合語として読むため、ここでは「ナイ」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "内",
+              "reading": "ナイ",
+              "used_web_search": false,
+              "comment": "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。"
+            }
+          ],
+          "llm_comments": [
+            "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "内",
+            "reading": "ナイ",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+                "surface": "内",
+                "comment": "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "内",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007:s0007-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "内",
+          "token_surface": "内",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ない",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "内",
+              "reading": "ない",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "内",
+          "reading": "ない",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "内": [
+          "ない",
+          "うち"
+        ]
+      },
+      "reading_hints": {
+        "内": "ない"
+      },
+      "llm_parsed": [
+        {
+          "surface": "内",
+          "reading": "ナイ",
+          "used_web_search": false,
+          "comment": "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"内\",\"reading\":\"ナイ\",\"used_web_search\":false,\"comment\":\"「社殿内」で一語の複合語として読むため、ここでは「ナイ」。\"}]",
+      "llm_comments": [
+        "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "reused_rejected_reading",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+        "status": "reused_rejected_reading",
+        "reason": "replacement reused rejected reading",
+        "surface": "内",
+        "reading": "ナイ",
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001894:u0007::target_group:1",
+            "surface": "内",
+            "comment": "「社殿内」で一語の複合語として読むため、ここでは「ナイ」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001899",
+      "doc_seq": 9,
+      "track_doc_seq": 1899,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001899:u0012",
+      "unit_seq": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1899,
+      "text": "溶接から加工までの場合は、今までの経験から溶接でどれだけ歪むのか、予め機械加工時の引き代までを考慮して材料取りをしています。",
+      "rendered_yomi_before": "溶接/ヨウセツ から/カラ 加工/カコウ まで/マデ の/ノ 場合/バアイ は/ハ 、/、 今まで/イママデ の/ノ 経験/ケイケン から/カラ 溶接/ヨウセツ で/デ どれ/ドレ だけ/ダケ 歪む/ユガム の/ノ か/カ 、/、 予め/アラカジメ 機械/キカイ 加工/カコウ 時/ジ の/ノ 引き/ヒキ 代/ダイ まで/マデ を/ヲ 考慮/コウリョ し/シ て/テ 材料/ザイリョウ 取り/トリ を/ヲ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "溶接/ヨウセツ から/カラ 加工/カコウ まで/マデ の/ノ 場合/バアイ は/ハ 、/、 今まで/イママデ の/ノ 経験/ケイケン から/カラ 溶接/ヨウセツ で/デ どれ/ドレ だけ/ダケ 歪む/ユガム の/ノ か/カ 、/、 予め/アラカジメ 機械/キカイ 加工/カコウ 時/ジ の/ノ 引き/ヒキ 代/シロ まで/マデ を/ヲ 考慮/コウリョ し/シ て/テ 材料/ザイリョウ 取り/トリ を/ヲ し/シ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "溶接",
+          "ヨウセツ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "加工",
+          "カコウ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "場合",
+          "バアイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "今まで",
+          "イママデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "経験",
+          "ケイケン"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "溶接",
+          "ヨウセツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "どれ",
+          "ドレ"
+        ],
+        [
+          "だけ",
+          "ダケ"
+        ],
+        [
+          "歪む",
+          "ユガム"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "予め",
+          "アラカジメ"
+        ],
+        [
+          "機械",
+          "キカイ"
+        ],
+        [
+          "加工",
+          "カコウ"
+        ],
+        [
+          "時",
+          "ジ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "引き",
+          "ヒキ"
+        ],
+        [
+          "代",
+          "シロ"
+        ],
+        [
+          "まで",
+          "マデ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "考慮",
+          "コウリョ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "材料",
+          "ザイリョウ"
+        ],
+        [
+          "取り",
+          "トリ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "溶接",
+          "reading": "ヨウセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "溶接",
+              "reading": "ようせつ"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "加工",
+          "reading": "カコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "加工",
+              "reading": "かこう"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "場合",
+          "reading": "バアイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場合",
+              "reading": "ばあい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "今まで",
+          "reading": "イママデ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今",
+              "reading": "いま"
+            },
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "経験",
+          "reading": "ケイケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "経験",
+              "reading": "けいけん"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "溶接",
+          "reading": "ヨウセツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "溶接",
+              "reading": "ようせつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "どれ",
+          "reading": "ドレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どれ"
+            }
+          ]
+        },
+        {
+          "surface": "だけ",
+          "reading": "ダケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だけ"
+            }
+          ]
+        },
+        {
+          "surface": "歪む",
+          "reading": "ユガム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "歪",
+              "reading": "ゆが"
+            },
+            {
+              "type": "text",
+              "text": "む"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "予め",
+          "reading": "アラカジメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予",
+              "reading": "あらかじ"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "機械",
+          "reading": "キカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "機械",
+              "reading": "きかい"
+            }
+          ]
+        },
+        {
+          "surface": "加工",
+          "reading": "カコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "加工",
+              "reading": "かこう"
+            }
+          ]
+        },
+        {
+          "surface": "時",
+          "reading": "ジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時",
+              "reading": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "引き",
+          "reading": "ヒキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "引",
+              "reading": "ひ"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "代",
+          "reading": "シロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "代",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "まで",
+          "reading": "マデ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まで"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "考慮",
+          "reading": "コウリョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "考慮",
+              "reading": "こうりょ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "材料",
+          "reading": "ザイリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "材料",
+              "reading": "ざいりょう"
+            }
+          ]
+        },
+        {
+          "surface": "取り",
+          "reading": "トリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001899:u0012",
+          "text": "溶接から加工までの場合は、今までの経験から溶接でどれだけ歪むのか、予め機械加工時の引き代までを考慮して材料取りをしています。",
+          "rendered_yomi_before": "溶接/ヨウセツ から/カラ 加工/カコウ まで/マデ の/ノ 場合/バアイ は/ハ 、/、 今まで/イママデ の/ノ 経験/ケイケン から/カラ 溶接/ヨウセツ で/デ どれ/ドレ だけ/ダケ 歪む/ユガム の/ノ か/カ 、/、 予め/アラカジメ 機械/キカイ 加工/カコウ 時/ジ の/ノ 引き/ヒキ 代/ダイ まで/マデ を/ヲ 考慮/コウリョ し/シ て/テ 材料/ザイリョウ 取り/トリ を/ヲ し/シ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "溶接/ヨウセツ から/カラ 加工/カコウ まで/マデ の/ノ 場合/バアイ は/ハ 、/、 今まで/イママデ の/ノ 経験/ケイケン から/カラ 溶接/ヨウセツ で/デ どれ/ドレ だけ/ダケ 歪む/ユガム の/ノ か/カ 、/、 予め/アラカジメ 機械/キカイ 加工/カコウ 時/ジ の/ノ 引き/ヒキ 代/シロ まで/マデ を/ヲ 考慮/コウリョ し/シ て/テ 材料/ザイリョウ 取り/トリ を/ヲ し/シ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 26,
+            "end": 27,
+            "char_start": 43,
+            "char_end": 44,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012:s0044-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "代",
+              "token_surface": "代",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "代",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012:s0044-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "代",
+              "token_surface": "代",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "代",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "代",
+          "reading_candidates": {
+            "代": [
+              "だい",
+              "しろ",
+              "よ"
+            ]
+          },
+          "reading_hints": {
+            "代": "だい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "代",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"代\",\"reading\":\"シロ\",\"used_web_search\":false,\"comment\":\"「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "代",
+              "reading": "シロ",
+              "used_web_search": false,
+              "comment": "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。"
+            }
+          ],
+          "llm_comments": [
+            "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+            "status": "applied",
+            "rejected_span": "代",
+            "replacement": [
+              {
+                "surface": "代",
+                "reading": "シロ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+                "surface": "代",
+                "comment": "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "代",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012:s0044-0044",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "代",
+          "token_surface": "代",
+          "token_index": 26,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "代",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "代",
+          "reading": "だい",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "代": [
+          "だい",
+          "しろ",
+          "よ"
+        ]
+      },
+      "reading_hints": {
+        "代": "だい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "代",
+          "reading": "シロ",
+          "used_web_search": false,
+          "comment": "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"代\",\"reading\":\"シロ\",\"used_web_search\":false,\"comment\":\"「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。\"}]",
+      "llm_comments": [
+        "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+        "status": "applied",
+        "rejected_span": "代",
+        "replacement": [
+          {
+            "surface": "代",
+            "reading": "シロ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001899:u0012::target_group:1",
+            "surface": "代",
+            "comment": "「引き代」は機械加工の用語で、この「代」は「しろ」と読むため。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
