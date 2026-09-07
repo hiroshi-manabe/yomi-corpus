@@ -250,9 +250,51 @@ while legitimate bibliographic prose can also contain many title brackets.
 Retain these measurements in evaluation output and prefer a small validated
 combination over accumulating unrelated ad hoc filters.
 
-## Minimal semantic quality check
+## Agreed campaign for slots 2001-4000 (2026-09-07)
 
-After deterministic campaign gates, use one narrow Sol classification to catch
+Install the saved length-matched group-20 selection into dev processing slots
+2001-4000. This is a one-time campaign installation, not an automatic policy
+for later campaigns. Keep the first 50,000 source documents reserved for
+sequential selection. Source identities and processing slots are distinct.
+
+Use the 11,408 familiarity-approved targets from the full BCCWJ vocabulary,
+with at least ten BCCWJ documents and at least two characters per lemma.
+Require at least five distinct target words per 1,000 source characters.
+Retain the existing historical-register and parenthetical-reading gates.
+Do not run an LLM word-salad or general corpus-suitability classifier for this
+campaign; human review can skip unsuitable documents.
+
+From the eligible population, use random reference documents and alternatives
+within +/-20% of each reference's length. Choose among 20 candidates according
+to the number of targets not yet present in the growing selection. Count each
+target once per document. Break ties by candidate order. Prevent duplicate
+documents and reserve reference documents for their own rounds. The experiment
+uses seed 20260907 and a random prefix of 40,000 quality-approved candidates
+from the full density-eligible population. All 2,000 rounds had 20 candidates.
+
+The selected 2,000 documents contain 1,621,942 characters and cover 8,320 of
+11,408 targets; 1,881 targets occur in at least three selected documents.
+The random baseline contains 1,601,537 characters and covers 5,357 targets.
+These are selection-only counts, not cumulative corpus counts. The selected
+documents have been previewed with 50 reproducibly sampled documents per group.
+
+Authoritative experiment artifact:
+`data/analysis/vocabulary_balance/density5_length_matched_2000.json`,
+`selections["20"].source_lines`. Preserve its hash and a copy in the installation
+record. Install that exact selection; do not regenerate it during installation.
+
+Before installation, pause refill scheduling and hold its shared state lock.
+Reject installation if the cursor has passed slot 2001, a reservation exists,
+or the source identity differs from the experiment index. Back up the order
+and manifest. Place selected source documents at slots 2001-4000 by swapping
+with their current positions, keeping the entire order a permutation. Preserve
+slots 1-2000 byte-for-byte, validate against the document ledger, and record the
+generation change, affected slots, hashes and rollback backup. Resume the timer
+after verification. Existing work and finalized documents are unaffected.
+
+## Earlier semantic quality check experiment (not adopted)
+
+An earlier experiment used one narrow Sol classification after deterministic gates to catch
 semantic substitution text and similarly unusable scraped text that surface
 rules miss. Use `gpt-5.6-sol` with no reasoning, low verbosity, no tools, and the
 following prompt:
