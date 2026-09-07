@@ -10,10 +10,10 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 7,
@@ -57,12 +57,12 @@
       "source_line_no": 1812,
       "preview": "女優・芦田愛菜（16）、俳優・永瀬正敏（54）が9日、東京・TOHOシネマズ六本木ヒルズで映画『星の子』（監督：大森立嗣／配給：東京テアトル、ヨアケ）初日舞台あいさつを大森監督（49）、タイトルアートを担当したアーティストの清川あさみ氏とともに開いた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T04:17:29Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:34:53Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -109,12 +109,12 @@
       "source_line_no": 1814,
       "preview": "岐阜聖徳学園大学・短期大学部の学生は、どのように大学を選び、どんな進路を見つけ、夢を実現させたのでしょうか。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T04:17:29Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:34:53Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1816,
       "preview": "今回の東京出張の目的はいつもお世話になっているACTUSさんの新宿店のショールームが13年ぶりに大規模リニューアルされたとの事で、お披露目パーティーに京都から新幹線に飛び乗って駆け付けてきました～。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T04:17:29Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:34:53Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -213,12 +213,12 @@
       "source_line_no": 1818,
       "preview": "1400年前の古代の音色が現代によみがえる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-07T04:17:29Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:34:53Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1095,7 +1095,7 @@
       "source_line_no": 1812,
       "text": "加州清光役の佐藤流司、大和守安定役の鳥越裕貴らキャストも発表となった。",
       "rendered_yomi_before": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流/リュウ 司/シ 、/、 大和/ヤマト 守/マモル 安定/アンテイ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
-      "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守安定/ヤマトノカミヤスダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
+      "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守/ヤマトノカミ 安定/ヤスサダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "加州",
@@ -1126,8 +1126,12 @@
           "、"
         ],
         [
-          "大和守安定",
-          "ヤマトノカミヤスダ"
+          "大和守",
+          "ヤマトノカミ"
+        ],
+        [
+          "安定",
+          "ヤスサダ"
         ],
         [
           "役",
@@ -1255,13 +1259,24 @@
           ]
         },
         {
-          "surface": "大和守安定",
-          "reading": "ヤマトノカミヤスダ",
+          "surface": "大和守",
+          "reading": "ヤマトノカミ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "大和守安定",
-              "reading": "やまとのかみやすだ"
+              "text": "大和守",
+              "reading": "やまとのかみ"
+            }
+          ]
+        },
+        {
+          "surface": "安定",
+          "reading": "ヤスサダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "安定",
+              "reading": "やすさだ"
             }
           ]
         },
@@ -1403,7 +1418,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001812:u0023",
           "text": "加州清光役の佐藤流司、大和守安定役の鳥越裕貴らキャストも発表となった。",
           "rendered_yomi_before": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流/リュウ 司/シ 、/、 大和/ヤマト 守/マモル 安定/アンテイ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
-          "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守安定/ヤマトノカミヤスダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
+          "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守/ヤマトノカミ 安定/ヤスサダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
           "display_mapping": {
             "start": 5,
             "end": 6,
@@ -1580,14 +1595,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001812:u0023",
           "text": "加州清光役の佐藤流司、大和守安定役の鳥越裕貴らキャストも発表となった。",
           "rendered_yomi_before": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流/リュウ 司/シ 、/、 大和/ヤマト 守/マモル 安定/アンテイ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
-          "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守安定/ヤマトノカミヤスダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
+          "rendered_yomi_after": "加州/カシュウ 清光/キヨミツ 役/ヤク の/ノ 佐藤/サトウ 流司/リュウジ 、/、 大和守/ヤマトノカミ 安定/ヤスサダ 役/ヤク の/ノ 鳥越/トリゴエ 裕貴/ユウキ ら/ラ キャスト/キャスト も/モ 発表/ハッピョウ と/ト なっ/ナッ た/タ 。/。",
           "display_mapping": {
             "start": 7,
-            "end": 8,
+            "end": 9,
             "char_start": 11,
             "char_end": 16,
             "start_offset": 0,
-            "end_offset": 5,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -3651,7 +3666,7 @@
       "source_line_no": 1816,
       "text": "ここは二条城前駅から徒歩1分ほどにある駐車場の奥なんですが、実はコーヒースタンドなんです。",
       "rendered_yomi_before": "ここ/ココ は/ハ 二/ニ 条/ジョウ 城前/シロマエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
-      "rendered_yomi_after": "ここ/ココ は/ハ 二条城前/ニジョウジョウマエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
+      "rendered_yomi_after": "ここ/ココ は/ハ 二条城/ニジョウジョウ 前/マエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "ここ",
@@ -3662,8 +3677,12 @@
           "ハ"
         ],
         [
-          "二条城前",
-          "ニジョウジョウマエ"
+          "二条城",
+          "ニジョウジョウ"
+        ],
+        [
+          "前",
+          "マエ"
         ],
         [
           "駅",
@@ -3784,14 +3803,20 @@
           ]
         },
         {
-          "surface": "二条城前",
-          "reading": "ニジョウジョウマエ",
+          "surface": "二条城",
+          "reading": "ニジョウジョウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "二条城",
               "reading": "にじょうじょう"
-            },
+            }
+          ]
+        },
+        {
+          "surface": "前",
+          "reading": "マエ",
+          "nodes": [
             {
               "type": "ruby",
               "text": "前",
@@ -4059,14 +4084,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000001816:u0039",
           "text": "ここは二条城前駅から徒歩1分ほどにある駐車場の奥なんですが、実はコーヒースタンドなんです。",
           "rendered_yomi_before": "ここ/ココ は/ハ 二/ニ 条/ジョウ 城前/シロマエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
-          "rendered_yomi_after": "ここ/ココ は/ハ 二条城前/ニジョウジョウマエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
+          "rendered_yomi_after": "ここ/ココ は/ハ 二条城/ニジョウジョウ 前/マエ 駅/エキ から/カラ 徒歩/トホ 1/ 分/プン ほど/ホド に/ニ ある/アル 駐車場/チュウシャジョウ の/ノ 奥/オク な/ナ ん/ン です/デス が/ガ 、/、 実/ジツ は/ハ コーヒー/コーヒー スタンド/スタンド な/ナ ん/ン です/デス 。/。",
           "display_mapping": {
             "start": 2,
-            "end": 3,
+            "end": 4,
             "char_start": 3,
             "char_end": 7,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
