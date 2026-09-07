@@ -7264,6 +7264,12 @@ function syncLocalTaskRecordsForCurrentPack() {
   if (!state.currentPack || !state.currentDraft) {
     return;
   }
+  const activeRecord = localTaskRecordFromActiveDraft(state.currentDraft);
+  if (activeRecord) {
+    const identity = persistentTaskIdentity(activeRecord, taskQueueStage(state.currentDraft.task));
+    state.currentDraft.active_task_id = identity.task_id;
+    state.currentDraft.active_task_label = identity.task_label;
+  }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
   const migratedActiveRecords = [];
@@ -7299,6 +7305,7 @@ function syncLocalTaskRecordsForCurrentPack() {
         continue;
       }
       const currentTaskId = uniqueTaskIdForRecords(normalized.task_id || taskId, currentRecords);
+      if (state.pendingIssueTaskId === taskId) state.pendingIssueTaskId = currentTaskId;
       currentRecords[currentTaskId] = { ...normalized, task_id: currentTaskId };
       if (key === currentKey) {
         nextSavedTasks[currentTaskId] = { ...normalized, task_id: currentTaskId };
@@ -7388,7 +7395,7 @@ function consolidateSubmittedTaskRecords(records) {
   const groups = new Map();
   for (const [id, record] of Object.entries(records)) {
     if (taskRecordStatus(record) !== "submitted" || !record.submitted_at_epoch) continue;
-    const key = JSON.stringify([record.queue_stage, record.submitted_at_epoch,
+    const key = JSON.stringify([record.task_uid || record.queue_stage, record.submitted_at_epoch,
       record.task_label || record.task_number || record.task_id]);
     const previous = groups.get(key);
     if (!previous) {
@@ -7413,6 +7420,7 @@ function localTaskRecordFromActiveDraft(draft) {
   const taskId = draft.active_task_id || "migrated_active_task";
   return {
     task_id: taskId,
+    task_uid: window.localStorage.getItem(`yomi-corpus:task-identity:v1:id:${taskId}`) ? taskId : null,
     task_label: draft.active_task_label || taskId,
     task_number: taskNumberFromId(taskId),
     status: "deferred",
@@ -7430,6 +7438,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   if (!taskStage) {
     return null;
   }
+  rawRecord = { ...rawRecord, ...persistentTaskIdentity(rawRecord, taskStage) };
   const submitted = taskRecordStatus(rawRecord) === "submitted";
   const docIds = taskDocIdsForStorageTask(rawRecord.task);
   const storedRefs = new Map(
@@ -7714,13 +7723,28 @@ function canonicalDocIdKey(docIds) {
 }
 
 function allocateTaskIdentity() {
-  const number = Math.max(1, Number(state.currentDraft.next_task_number || 1));
-  state.currentDraft.next_task_number = number + 1;
-  return {
-    task_id: `task_${number}`,
-    task_label: `タスク ${number}`,
-    task_number: number,
-  };
+  return persistentTaskIdentity({ task_uid: `task_${crypto.randomUUID()}` });
+}
+
+function persistentTaskIdentity(record, stage = "") {
+  const prefix = "yomi-corpus:task-identity:v1:";
+  const legacyKey = JSON.stringify(record.submitted_at_epoch
+    ? [stage || record.queue_stage, record.submitted_at_epoch, record.task_label || record.task_number || record.task_id]
+    : [stage || record.queue_stage, record.task_id, [...taskDocIdsForStorageTask(record.task || {})].sort()]);
+  const aliasKey = prefix + "legacy:" + legacyKey;
+  const uid = record.task_uid || window.localStorage.getItem(aliasKey) || `task_${crypto.randomUUID()}`;
+  const identityKey = prefix + "id:" + uid;
+  const saved = window.localStorage.getItem(identityKey);
+  let identity = saved ? JSON.parse(saved) : null;
+  if (!identity) {
+    const counterKey = prefix + "next";
+    const number = Math.max(1, Number(window.localStorage.getItem(counterKey) || 1));
+    identity = { task_id: uid, task_uid: uid, task_label: `タスク ${number}`, task_number: number };
+    window.localStorage.setItem(identityKey, JSON.stringify(identity));
+    window.localStorage.setItem(counterKey, String(number + 1));
+  }
+  if (!record.task_uid) window.localStorage.setItem(aliasKey, uid);
+  return identity;
 }
 
 function currentTaskDraftRecord() {
@@ -7729,12 +7753,14 @@ function currentTaskDraftRecord() {
   const identity = existing
     ? {
         task_id: existing.task_id,
+        task_uid: existing.task_uid || existing.task_id,
         task_label: existing.task_label,
         task_number: existing.task_number,
       }
     : existingId
       ? {
           task_id: existingId,
+          task_uid: existingId,
           task_label: state.currentDraft.active_task_label || existingId,
           task_number: taskNumberFromId(existingId),
         }
@@ -7763,6 +7789,8 @@ function currentTaskDraftRecord() {
 }
 
 function taskNumberFromId(taskId) {
+  const saved = window.localStorage.getItem(`yomi-corpus:task-identity:v1:id:${taskId}`);
+  if (saved) return JSON.parse(saved).task_number;
   const match = String(taskId || "").match(/^task_(\d+)$/);
   return match ? Number(match[1]) : null;
 }
@@ -8122,6 +8150,7 @@ function normalizeReviewDraft(parsed, pack) {
     maxTaskNumber = Math.max(maxTaskNumber, taskNumber);
     draft.saved_tasks[taskId] = {
       task_id: taskId,
+      task_uid: rawRecord?.task_uid || null,
       task_label: rawRecord?.task_label || (taskNumber ? `タスク ${taskNumber}` : taskId),
       task_number: taskNumber || null,
       status: submitted ? "submitted" : "deferred",
