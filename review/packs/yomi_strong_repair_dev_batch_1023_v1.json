@@ -1,0 +1,4937 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1023_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1023",
+  "created_at_epoch": 1788741831,
+  "created_at": "2026-09-07T00:43:51Z",
+  "item_count": 6,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 1,
+    "document_state_counts": {
+      "complete": 9,
+      "strong_pending": 1
+    },
+    "repaired_item_count": 6,
+    "queued_repair_row_count": 6,
+    "result_row_count": 6,
+    "reviewable_repair_row_count": 6,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001701",
+      "doc_seq": 1,
+      "track_doc_seq": 1701,
+      "unit_count": 34,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1701,
+      "preview": "おはようございます、あきです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 34,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001702",
+      "doc_seq": 2,
+      "track_doc_seq": 1702,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1702,
+      "preview": "横浜市内最大級の「大宴会場」をはじめ、日本で一番高い場所にある「スカイバンケットルーム」など、さまざまなご要望にお応えできる大小12の宴会場がございます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001703",
+      "doc_seq": 3,
+      "track_doc_seq": 1703,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1703,
+      "preview": "文筆家の岡田育さんがTBSラジオ『アフター6ジャンクション』で「ととのう映画」について話していた。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001704",
+      "doc_seq": 4,
+      "track_doc_seq": 1704,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1704,
+      "preview": "ピラフにチキンナゲット、ポテト！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "preview": "2021年 10月開始アニメ『プラチナエンド』の6話の感想になります。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T00:44:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 6,
+      "region_count": 6,
+      "unresolved_count": 6,
+      "from_seq": 1,
+      "to_seq": 6,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 6
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001706",
+      "doc_seq": 6,
+      "track_doc_seq": 1706,
+      "unit_count": 33,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1706,
+      "preview": "「ココ塾」は児童福祉法に基づく児童発達支援・放課後等デイサービスです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 33,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001707",
+      "doc_seq": 7,
+      "track_doc_seq": 1707,
+      "unit_count": 4,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1707,
+      "preview": "このような無料サービスを実施させて頂いております。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 4,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001708",
+      "doc_seq": 8,
+      "track_doc_seq": 1708,
+      "unit_count": 17,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1708,
+      "preview": "現場施工は、一級塗装技能士、一級防水技能士が責任を持って施工します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 17,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001709",
+      "doc_seq": 9,
+      "track_doc_seq": 1709,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1709,
+      "preview": "そのままの状態でおいてあったそうです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001710",
+      "doc_seq": 10,
+      "track_doc_seq": 1710,
+      "unit_count": 47,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1710,
+      "preview": "アベマやニコニコ動画で、将棋のプロ棋戦が生中継されることも増えてきていますね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T00:42:39Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 47,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0008",
+      "unit_seq": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "メトロポリマンが他の神候補を誘い出すため、翼と矢を与えて脱走させたのだと、明日(ミライ)たちは推測する。",
+      "rendered_yomi_before": "メトロ/メトロ ポリ/ポリ マン/マン が/ガ 他/ホカ の/ノ 神/カミ 候補/コウホ を/ヲ 誘い出す/サソイダス ため/タメ 、/、 翼/ツバサ と/ト 矢/ヤ を/ヲ 与え/アタエ て/テ 脱走/ダッソウ さ/サ せ/セ た/タ の/ノ だ/ダ と/ト 、/、 明日/アス (/( ミライ/ミライ )/) たち/タチ は/ハ 推測/スイソク する/スル 。/。",
+      "rendered_yomi_after": "メトロ/メトロ ポリ/ポリ マン/マン が/ガ 他/ホカ の/ノ 神/カミ 候補/コウホ を/ヲ 誘い出す/サソイダス ため/タメ 、/、 翼/ツバサ と/ト 矢/ヤ を/ヲ 与え/アタエ て/テ 脱走/ダッソウ さ/サ せ/セ た/タ の/ノ だ/ダ と/ト 、/、 明日/ミライ (/( ミライ/ミライ )/) たち/タチ は/ハ 推測/スイソク する/スル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "メトロ",
+          "メトロ"
+        ],
+        [
+          "ポリ",
+          "ポリ"
+        ],
+        [
+          "マン",
+          "マン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "他",
+          "ホカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "神",
+          "カミ"
+        ],
+        [
+          "候補",
+          "コウホ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "誘い出す",
+          "サソイダス"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "翼",
+          "ツバサ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "矢",
+          "ヤ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "与え",
+          "アタエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "脱走",
+          "ダッソウ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "せ",
+          "セ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "明日",
+          "ミライ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "ミライ",
+          "ミライ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "たち",
+          "タチ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "推測",
+          "スイソク"
+        ],
+        [
+          "する",
+          "スル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "メトロ",
+          "reading": "メトロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メトロ"
+            }
+          ]
+        },
+        {
+          "surface": "ポリ",
+          "reading": "ポリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ポリ"
+            }
+          ]
+        },
+        {
+          "surface": "マン",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マン"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "他",
+          "reading": "ホカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "他",
+              "reading": "ほか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "神",
+          "reading": "カミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神",
+              "reading": "かみ"
+            }
+          ]
+        },
+        {
+          "surface": "候補",
+          "reading": "コウホ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "候補",
+              "reading": "こうほ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "誘い出す",
+          "reading": "サソイダス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "誘",
+              "reading": "さそ"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            },
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "だ"
+            },
+            {
+              "type": "text",
+              "text": "す"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "翼",
+          "reading": "ツバサ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "翼",
+              "reading": "つばさ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "矢",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "矢",
+              "reading": "や"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "与え",
+          "reading": "アタエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "与",
+              "reading": "あた"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "脱走",
+          "reading": "ダッソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "脱走",
+              "reading": "だっそう"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "せ",
+          "reading": "セ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "せ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "明日",
+          "reading": "ミライ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明日",
+              "reading": "みらい"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "ミライ",
+          "reading": "ミライ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ミライ"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "たち",
+          "reading": "タチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たち"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "推測",
+          "reading": "スイソク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "推測",
+              "reading": "すいそく"
+            }
+          ]
+        },
+        {
+          "surface": "する",
+          "reading": "スル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0008",
+          "text": "メトロポリマンが他の神候補を誘い出すため、翼と矢を与えて脱走させたのだと、明日(ミライ)たちは推測する。",
+          "rendered_yomi_before": "メトロ/メトロ ポリ/ポリ マン/マン が/ガ 他/ホカ の/ノ 神/カミ 候補/コウホ を/ヲ 誘い出す/サソイダス ため/タメ 、/、 翼/ツバサ と/ト 矢/ヤ を/ヲ 与え/アタエ て/テ 脱走/ダッソウ さ/サ せ/セ た/タ の/ノ だ/ダ と/ト 、/、 明日/アス (/( ミライ/ミライ )/) たち/タチ は/ハ 推測/スイソク する/スル 。/。",
+          "rendered_yomi_after": "メトロ/メトロ ポリ/ポリ マン/マン が/ガ 他/ホカ の/ノ 神/カミ 候補/コウホ を/ヲ 誘い出す/サソイダス ため/タメ 、/、 翼/ツバサ と/ト 矢/ヤ を/ヲ 与え/アタエ て/テ 脱走/ダッソウ さ/サ せ/セ た/タ の/ノ だ/ダ と/ト 、/、 明日/ミライ (/( ミライ/ミライ )/) たち/タチ は/ハ 推測/スイソク する/スル 。/。",
+          "display_mapping": {
+            "start": 26,
+            "end": 27,
+            "char_start": 37,
+            "char_end": 39,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008:s0038-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008:s0038-0039",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 26,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "明日",
+          "reading_candidates": {
+            "明": [
+              "あ",
+              "あかし",
+              "あかり",
+              "あきら",
+              "あけ",
+              "あける",
+              "みょう",
+              "みん",
+              "めい"
+            ],
+            "明日": [
+              "あけび",
+              "あした",
+              "あす",
+              "みょうにち",
+              "めいび"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ]
+          },
+          "reading_hints": {
+            "明": "あ",
+            "明日": "あけび",
+            "日": "にち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"ミライ\",\"used_web_search\":false,\"comment\":\"人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "明日",
+              "reading": "ミライ",
+              "used_web_search": false,
+              "comment": "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。"
+            }
+          ],
+          "llm_comments": [
+            "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+            "status": "applied",
+            "rejected_span": "明日",
+            "replacement": [
+              {
+                "surface": "明日",
+                "reading": "ミライ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+                "surface": "明日",
+                "comment": "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "明日",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008:s0038-0039",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "明日",
+          "token_surface": "明日",
+          "token_index": 26,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あす",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "明日",
+          "reading": "あす",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "明": [
+          "あ",
+          "あかし",
+          "あかり",
+          "あきら",
+          "あけ",
+          "あける",
+          "みょう",
+          "みん",
+          "めい"
+        ],
+        "明日": [
+          "あけび",
+          "あした",
+          "あす",
+          "みょうにち",
+          "めいび"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ]
+      },
+      "reading_hints": {
+        "明": "あ",
+        "明日": "あけび",
+        "日": "にち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "明日",
+          "reading": "ミライ",
+          "used_web_search": false,
+          "comment": "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"ミライ\",\"used_web_search\":false,\"comment\":\"人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。\"}]",
+      "llm_comments": [
+        "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+        "status": "applied",
+        "rejected_span": "明日",
+        "replacement": [
+          {
+            "surface": "明日",
+            "reading": "ミライ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0008::target_group:1",
+            "surface": "明日",
+            "comment": "人名としての「明日（ミライ）」なので、一般語の「あす」ではなく固有名の読みを採用します。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "次の神となるために手段を選ばぬメトロポリマンの卑劣さを、嫌う明日。",
+      "rendered_yomi_before": "次/ツギ の/ノ 神/カミ と/ト なる/ナル ため/タメ に/ニ 手段/シュダン を/ヲ 選ば/エラバ ぬ/ヌ メトロ/メトロ ポリ/ポリ マン/マン の/ノ 卑劣/ヒレツ さ/サ を/ヲ 、/、 嫌う/キラウ 明日/アス 。/。",
+      "rendered_yomi_after": "次/ツギ の/ノ 神/カミ と/ト なる/ナル ため/タメ に/ニ 手段/シュダン を/ヲ 選ば/エラバ ぬ/ヌ メトロ/メトロ ポリ/ポリ マン/マン の/ノ 卑劣/ヒレツ さ/サ を/ヲ 、/、 嫌う/キラウ 明日/アス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "次",
+          "ツギ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "神",
+          "カミ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なる",
+          "ナル"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "手段",
+          "シュダン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "選ば",
+          "エラバ"
+        ],
+        [
+          "ぬ",
+          "ヌ"
+        ],
+        [
+          "メトロ",
+          "メトロ"
+        ],
+        [
+          "ポリ",
+          "ポリ"
+        ],
+        [
+          "マン",
+          "マン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "卑劣",
+          "ヒレツ"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "嫌う",
+          "キラウ"
+        ],
+        [
+          "明日",
+          "アス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "次",
+          "reading": "ツギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "次",
+              "reading": "つぎ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "神",
+          "reading": "カミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "神",
+              "reading": "かみ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なる",
+          "reading": "ナル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なる"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "手段",
+          "reading": "シュダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手段",
+              "reading": "しゅだん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "選ば",
+          "reading": "エラバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選",
+              "reading": "えら"
+            },
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "ぬ",
+          "reading": "ヌ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ぬ"
+            }
+          ]
+        },
+        {
+          "surface": "メトロ",
+          "reading": "メトロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メトロ"
+            }
+          ]
+        },
+        {
+          "surface": "ポリ",
+          "reading": "ポリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ポリ"
+            }
+          ]
+        },
+        {
+          "surface": "マン",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マン"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "卑劣",
+          "reading": "ヒレツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "卑劣",
+              "reading": "ひれつ"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "嫌う",
+          "reading": "キラウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嫌",
+              "reading": "きら"
+            },
+            {
+              "type": "text",
+              "text": "う"
+            }
+          ]
+        },
+        {
+          "surface": "明日",
+          "reading": "アス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明日",
+              "reading": "あす"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0009",
+          "text": "次の神となるために手段を選ばぬメトロポリマンの卑劣さを、嫌う明日。",
+          "rendered_yomi_before": "次/ツギ の/ノ 神/カミ と/ト なる/ナル ため/タメ に/ニ 手段/シュダン を/ヲ 選ば/エラバ ぬ/ヌ メトロ/メトロ ポリ/ポリ マン/マン の/ノ 卑劣/ヒレツ さ/サ を/ヲ 、/、 嫌う/キラウ 明日/アス 。/。",
+          "rendered_yomi_after": "次/ツギ の/ノ 神/カミ と/ト なる/ナル ため/タメ に/ニ 手段/シュダン を/ヲ 選ば/エラバ ぬ/ヌ メトロ/メトロ ポリ/ポリ マン/マン の/ノ 卑劣/ヒレツ さ/サ を/ヲ 、/、 嫌う/キラウ 明日/アス 。/。",
+          "display_mapping": {
+            "start": 20,
+            "end": 21,
+            "char_start": 30,
+            "char_end": 32,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009:s0031-0032",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 20,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "明日",
+          "reading_candidates": {
+            "明": [
+              "あ",
+              "あかし",
+              "あかり",
+              "あきら",
+              "あけ",
+              "あける",
+              "みょう",
+              "みん",
+              "めい"
+            ],
+            "明日": [
+              "あけび",
+              "あした",
+              "あす",
+              "みょうにち",
+              "めいび"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ]
+          },
+          "reading_hints": {
+            "明": "あ",
+            "明日": "あけび",
+            "日": "にち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"アス\",\"used_web_search\":false,\"comment\":\"文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "明日",
+              "reading": "アス",
+              "used_web_search": false,
+              "comment": "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。"
+            }
+          ],
+          "llm_comments": [
+            "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "reused_rejected_reading",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+            "status": "reused_rejected_reading",
+            "reason": "replacement reused rejected reading",
+            "surface": "明日",
+            "reading": "アス",
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+                "surface": "明日",
+                "comment": "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "明日",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009:s0031-0032",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "明日",
+          "token_surface": "明日",
+          "token_index": 20,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あす",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "明日",
+          "reading": "あす",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "明": [
+          "あ",
+          "あかし",
+          "あかり",
+          "あきら",
+          "あけ",
+          "あける",
+          "みょう",
+          "みん",
+          "めい"
+        ],
+        "明日": [
+          "あけび",
+          "あした",
+          "あす",
+          "みょうにち",
+          "めいび"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ]
+      },
+      "reading_hints": {
+        "明": "あ",
+        "明日": "あけび",
+        "日": "にち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "明日",
+          "reading": "アス",
+          "used_web_search": false,
+          "comment": "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"アス\",\"used_web_search\":false,\"comment\":\"文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。\"}]",
+      "llm_comments": [
+        "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "reused_rejected_reading",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+        "status": "reused_rejected_reading",
+        "reason": "replacement reused rejected reading",
+        "surface": "明日",
+        "reading": "アス",
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0009::target_group:1",
+            "surface": "明日",
+            "comment": "文語的で硬い文脈なので、「明日」は「あす」と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011::strong_repair",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0011",
+      "unit_seq": 11,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "少女Ａの凶行を止めるため、明日たちはある手段に出る。",
+      "rendered_yomi_before": "少女/ショウジョ Ａ/エー の/ノ 凶行/キョウコウ を/ヲ 止める/トメル ため/タメ 、/、 明日/アス たち/タチ は/ハ ある/アル 手段/シュダン に/ニ 出る/デル 。/。",
+      "rendered_yomi_after": "少女/ショウジョ Ａ/エー の/ノ 凶行/キョウコウ を/ヲ 止める/トメル ため/タメ 、/、 明日/アシタ たち/タチ は/ハ ある/アル 手段/シュダン に/ニ 出る/デル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "少女",
+          "ショウジョ"
+        ],
+        [
+          "Ａ",
+          "エー"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "凶行",
+          "キョウコウ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "止める",
+          "トメル"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "明日",
+          "アシタ"
+        ],
+        [
+          "たち",
+          "タチ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "手段",
+          "シュダン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "出る",
+          "デル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "少女",
+          "reading": "ショウジョ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "少女",
+              "reading": "しょうじょ"
+            }
+          ]
+        },
+        {
+          "surface": "Ａ",
+          "reading": "エー",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "Ａ",
+              "reading": "えー"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "凶行",
+          "reading": "キョウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "凶行",
+              "reading": "きょうこう"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "止める",
+          "reading": "トメル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "止",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "める"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "明日",
+          "reading": "アシタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明日",
+              "reading": "あした"
+            }
+          ]
+        },
+        {
+          "surface": "たち",
+          "reading": "タチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "たち"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "手段",
+          "reading": "シュダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手段",
+              "reading": "しゅだん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "出る",
+          "reading": "デル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "で"
+            },
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0011",
+          "text": "少女Ａの凶行を止めるため、明日たちはある手段に出る。",
+          "rendered_yomi_before": "少女/ショウジョ Ａ/エー の/ノ 凶行/キョウコウ を/ヲ 止める/トメル ため/タメ 、/、 明日/アス たち/タチ は/ハ ある/アル 手段/シュダン に/ニ 出る/デル 。/。",
+          "rendered_yomi_after": "少女/ショウジョ Ａ/エー の/ノ 凶行/キョウコウ を/ヲ 止める/トメル ため/タメ 、/、 明日/アシタ たち/タチ は/ハ ある/アル 手段/シュダン に/ニ 出る/デル 。/。",
+          "display_mapping": {
+            "start": 8,
+            "end": 9,
+            "char_start": 13,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 8,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "明日",
+          "reading_candidates": {
+            "明": [
+              "あ",
+              "あかし",
+              "あかり",
+              "あきら",
+              "あけ",
+              "あける",
+              "みょう",
+              "みん",
+              "めい"
+            ],
+            "明日": [
+              "あけび",
+              "あした",
+              "あす",
+              "みょうにち",
+              "めいび"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ]
+          },
+          "reading_hints": {
+            "明": "あ",
+            "明日": "あけび",
+            "日": "にち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"あした\",\"used_web_search\":false,\"comment\":\"文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "明日",
+              "reading": "あした",
+              "used_web_search": false,
+              "comment": "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。"
+            }
+          ],
+          "llm_comments": [
+            "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+            "status": "applied",
+            "rejected_span": "明日",
+            "replacement": [
+              {
+                "surface": "明日",
+                "reading": "アシタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+                "surface": "明日",
+                "comment": "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "明日",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "明日",
+          "token_surface": "明日",
+          "token_index": 8,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あす",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "明日",
+          "reading": "あす",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "明": [
+          "あ",
+          "あかし",
+          "あかり",
+          "あきら",
+          "あけ",
+          "あける",
+          "みょう",
+          "みん",
+          "めい"
+        ],
+        "明日": [
+          "あけび",
+          "あした",
+          "あす",
+          "みょうにち",
+          "めいび"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ]
+      },
+      "reading_hints": {
+        "明": "あ",
+        "明日": "あけび",
+        "日": "にち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "明日",
+          "reading": "あした",
+          "used_web_search": false,
+          "comment": "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"あした\",\"used_web_search\":false,\"comment\":\"文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。\"}]",
+      "llm_comments": [
+        "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+        "status": "applied",
+        "rejected_span": "明日",
+        "replacement": [
+          {
+            "surface": "明日",
+            "reading": "アシタ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0011::target_group:1",
+            "surface": "明日",
+            "comment": "文脈上は人名・固有名詞の一部に見えるため、一般語の「あす」より「あした」を採用。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016::strong_repair",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0016",
+      "unit_seq": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "六階堂さんは死亡フラグが立ちっぱなしなので、どこかしらは怪我をしてこの戦いで出血多量もあり得るかもしれませんが(´・ω・｀)まさかの5話で登場したクラスメイトの何気ない願いを叶えるためでした。",
+      "rendered_yomi_before": "六/ロッ 階/カイ 堂/ドウ さん/サン は/ハ 死亡/シボウ フラグ/フラグ が/ガ 立ち/タチ っぱなし/ッパナシ な/ナ の/ノ で/デ 、/、 どこ/ドコ かしら/カシラ は/ハ 怪我/ケガ を/ヲ し/シ て/テ この/コノ 戦い/タタカイ で/デ 出血/シュッケツ 多量/タリョウ も/モ あり/アリ 得る/ウル か/カ も/モ しれ/シレ ませ/マセ ん/ン が/ガ (´・ω・｀)/カオモジ まさか/マサカ の/ノ 5/ 話/ワ で/デ 登場/トウジョウ し/シ た/タ クラスメイト/クラスメイト の/ノ 何気/ナニゲ ない/ナイ 願い/ネガイ を/ヲ 叶える/カナエル ため/タメ でし/デシ た/タ 。/。",
+      "rendered_yomi_after": "六階堂/ムカイドウ さん/サン は/ハ 死亡/シボウ フラグ/フラグ が/ガ 立ち/タチ っぱなし/ッパナシ な/ナ の/ノ で/デ 、/、 どこ/ドコ かしら/カシラ は/ハ 怪我/ケガ を/ヲ し/シ て/テ この/コノ 戦い/タタカイ で/デ 出血/シュッケツ 多量/タリョウ も/モ あり/アリ 得る/ウル か/カ も/モ しれ/シレ ませ/マセ ん/ン が/ガ (´・ω・｀)/カオモジ まさか/マサカ の/ノ 5/ 話/ワ で/デ 登場/トウジョウ し/シ た/タ クラスメイト/クラスメイト の/ノ 何気/ナニゲ ない/ナイ 願い/ネガイ を/ヲ 叶える/カナエル ため/タメ でし/デシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "六階堂",
+          "ムカイドウ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "死亡",
+          "シボウ"
+        ],
+        [
+          "フラグ",
+          "フラグ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "立ち",
+          "タチ"
+        ],
+        [
+          "っぱなし",
+          "ッパナシ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "どこ",
+          "ドコ"
+        ],
+        [
+          "かしら",
+          "カシラ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "怪我",
+          "ケガ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "戦い",
+          "タタカイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "出血",
+          "シュッケツ"
+        ],
+        [
+          "多量",
+          "タリョウ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "得る",
+          "ウル"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "しれ",
+          "シレ"
+        ],
+        [
+          "ませ",
+          "マセ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "(´・ω・｀)",
+          "カオモジ"
+        ],
+        [
+          "まさか",
+          "マサカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "5",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "登場",
+          "トウジョウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "クラスメイト",
+          "クラスメイト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "何気",
+          "ナニゲ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "願い",
+          "ネガイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "叶える",
+          "カナエル"
+        ],
+        [
+          "ため",
+          "タメ"
+        ],
+        [
+          "でし",
+          "デシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "六階堂",
+          "reading": "ムカイドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "六階堂",
+              "reading": "むかいどう"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "死亡",
+          "reading": "シボウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "死亡",
+              "reading": "しぼう"
+            }
+          ]
+        },
+        {
+          "surface": "フラグ",
+          "reading": "フラグ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "フラグ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "立ち",
+          "reading": "タチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "立",
+              "reading": "た"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            }
+          ]
+        },
+        {
+          "surface": "っぱなし",
+          "reading": "ッパナシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "っぱなし"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "どこ",
+          "reading": "ドコ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "どこ"
+            }
+          ]
+        },
+        {
+          "surface": "かしら",
+          "reading": "カシラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かしら"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "怪我",
+          "reading": "ケガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "怪我",
+              "reading": "けが"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "戦い",
+          "reading": "タタカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "戦",
+              "reading": "たたか"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "出血",
+          "reading": "シュッケツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出血",
+              "reading": "しゅっけつ"
+            }
+          ]
+        },
+        {
+          "surface": "多量",
+          "reading": "タリョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多量",
+              "reading": "たりょう"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "得る",
+          "reading": "ウル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "得",
+              "reading": "う"
+            },
+            {
+              "type": "text",
+              "text": "る"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "しれ",
+          "reading": "シレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しれ"
+            }
+          ]
+        },
+        {
+          "surface": "ませ",
+          "reading": "マセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ませ"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "(´・ω・｀)",
+          "reading": "カオモジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "(´・ω・｀)",
+              "reading": "かおもじ"
+            }
+          ]
+        },
+        {
+          "surface": "まさか",
+          "reading": "マサカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まさか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "5",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "登場",
+          "reading": "トウジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "登場",
+              "reading": "とうじょう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "クラスメイト",
+          "reading": "クラスメイト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "クラスメイト"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "何気",
+          "reading": "ナニゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "何気",
+              "reading": "なにげ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "願い",
+          "reading": "ネガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "願",
+              "reading": "ねが"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "叶える",
+          "reading": "カナエル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "叶",
+              "reading": "かな"
+            },
+            {
+              "type": "text",
+              "text": "える"
+            }
+          ]
+        },
+        {
+          "surface": "ため",
+          "reading": "タメ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ため"
+            }
+          ]
+        },
+        {
+          "surface": "でし",
+          "reading": "デシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0016",
+          "text": "六階堂さんは死亡フラグが立ちっぱなしなので、どこかしらは怪我をしてこの戦いで出血多量もあり得るかもしれませんが(´・ω・｀)まさかの5話で登場したクラスメイトの何気ない願いを叶えるためでした。",
+          "rendered_yomi_before": "六/ロッ 階/カイ 堂/ドウ さん/サン は/ハ 死亡/シボウ フラグ/フラグ が/ガ 立ち/タチ っぱなし/ッパナシ な/ナ の/ノ で/デ 、/、 どこ/ドコ かしら/カシラ は/ハ 怪我/ケガ を/ヲ し/シ て/テ この/コノ 戦い/タタカイ で/デ 出血/シュッケツ 多量/タリョウ も/モ あり/アリ 得る/ウル か/カ も/モ しれ/シレ ませ/マセ ん/ン が/ガ (´・ω・｀)/カオモジ まさか/マサカ の/ノ 5/ 話/ワ で/デ 登場/トウジョウ し/シ た/タ クラスメイト/クラスメイト の/ノ 何気/ナニゲ ない/ナイ 願い/ネガイ を/ヲ 叶える/カナエル ため/タメ でし/デシ た/タ 。/。",
+          "rendered_yomi_after": "六階堂/ムカイドウ さん/サン は/ハ 死亡/シボウ フラグ/フラグ が/ガ 立ち/タチ っぱなし/ッパナシ な/ナ の/ノ で/デ 、/、 どこ/ドコ かしら/カシラ は/ハ 怪我/ケガ を/ヲ し/シ て/テ この/コノ 戦い/タタカイ で/デ 出血/シュッケツ 多量/タリョウ も/モ あり/アリ 得る/ウル か/カ も/モ しれ/シレ ませ/マセ ん/ン が/ガ (´・ω・｀)/カオモジ まさか/マサカ の/ノ 5/ 話/ワ で/デ 登場/トウジョウ し/シ た/タ クラスメイト/クラスメイト の/ノ 何気/ナニゲ ない/ナイ 願い/ネガイ を/ヲ 叶える/カナエル ため/タメ でし/デシ た/タ 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 1,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "六",
+              "token_surface": "六",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ろっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "六",
+                  "reading": "ろっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "階",
+              "token_surface": "階",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "階",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "堂",
+              "token_surface": "堂",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "どう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "堂",
+                  "reading": "どう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0001-0001",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "六",
+              "token_surface": "六",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ろっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "六",
+                  "reading": "ろっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "階",
+              "token_surface": "階",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "階",
+                  "reading": "かい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "堂",
+              "token_surface": "堂",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "どう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "堂",
+                  "reading": "どう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "六階堂",
+          "reading_candidates": {
+            "六": [
+              "む",
+              "むい",
+              "むう",
+              "むっ",
+              "むゆ",
+              "りく",
+              "ろく",
+              "ろっ"
+            ],
+            "階": [
+              "かい",
+              "がい",
+              "きざはし"
+            ],
+            "階堂": [
+              "かいどう"
+            ],
+            "堂": [
+              "どう"
+            ]
+          },
+          "reading_hints": {
+            "六": "む",
+            "階": "かい",
+            "階堂": "かいどう",
+            "堂": "どう"
+          },
+          "rejected_readings": [
+            {
+              "surface": "六",
+              "reading": "ろっ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "階",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "堂",
+              "reading": "どう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"六階堂\",\"reading\":\"ムカイドウ\",\"used_web_search\":true,\"comment\":\"作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "六階堂",
+              "reading": "ムカイドウ",
+              "used_web_search": true,
+              "comment": "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+            "status": "applied",
+            "rejected_span": "六階堂",
+            "replacement": [
+              {
+                "surface": "六階堂",
+                "reading": "ムカイドウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+                "surface": "六階堂",
+                "comment": "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "六階堂",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0001-0001",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "六",
+          "token_surface": "六",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ろっ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "六",
+              "reading": "ろっ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "階",
+          "token_surface": "階",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "階",
+              "reading": "かい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "堂",
+          "token_surface": "堂",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "どう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "堂",
+              "reading": "どう",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "六",
+          "reading": "ろっ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "階",
+          "reading": "かい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "堂",
+          "reading": "どう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "六": [
+          "む",
+          "むい",
+          "むう",
+          "むっ",
+          "むゆ",
+          "りく",
+          "ろく",
+          "ろっ"
+        ],
+        "階": [
+          "かい",
+          "がい",
+          "きざはし"
+        ],
+        "階堂": [
+          "かいどう"
+        ],
+        "堂": [
+          "どう"
+        ]
+      },
+      "reading_hints": {
+        "六": "む",
+        "階": "かい",
+        "階堂": "かいどう",
+        "堂": "どう"
+      },
+      "llm_parsed": [
+        {
+          "surface": "六階堂",
+          "reading": "ムカイドウ",
+          "used_web_search": true,
+          "comment": "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"六階堂\",\"reading\":\"ムカイドウ\",\"used_web_search\":true,\"comment\":\"作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))\"}]",
+      "llm_comments": [
+        "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+        "status": "applied",
+        "rejected_span": "六階堂",
+        "replacement": [
+          {
+            "surface": "六階堂",
+            "reading": "ムカイドウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0016::target_group:1",
+            "surface": "六階堂",
+            "comment": "作品情報で『六階堂七斗（むかいどう ななと）』と読まれているため、姓全体を1語としてまとめた。 ([anibase.net](https://anibase.net/ja/character/4Wk5J/%E5%85%AD%E9%9A%8E%E5%A0%82-%E4%B8%83%E6%96%97%28%E3%82%80%E3%81%8B%E3%81%84%E3%81%A9%E3%81%86-%E3%81%AA%E3%81%AA%E3%81%A8%29?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023::strong_repair",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0023",
+      "unit_seq": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "DEATH NOTEの月君のような性格が私は好きですね！",
+      "rendered_yomi_before": "DEATH/デス  /  NOTE/ノート の/ノ 月/ツキ 君/クン の/ノ よう/ヨウ な/ナ 性格/セイカク が/ガ 私/ワタシ は/ハ 好き/スキ です/デス ね/ネ ！/！",
+      "rendered_yomi_after": "DEATH/デス \\s/ NOTE/ノート の/ノ 月/ライト 君/クン の/ノ よう/ヨウ な/ナ 性格/セイカク が/ガ 私/ワタシ は/ハ 好き/スキ です/デス ね/ネ ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "DEATH",
+          "デス"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "NOTE",
+          "ノート"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "月",
+          "ライト"
+        ],
+        [
+          "君",
+          "クン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "よう",
+          "ヨウ"
+        ],
+        [
+          "な",
+          "ナ"
+        ],
+        [
+          "性格",
+          "セイカク"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "私",
+          "ワタシ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "好き",
+          "スキ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "ね",
+          "ネ"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "DEATH",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "DEATH",
+              "reading": "です"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "NOTE",
+          "reading": "ノート",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "NOTE",
+              "reading": "のーと"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ライト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "らいと"
+            }
+          ]
+        },
+        {
+          "surface": "君",
+          "reading": "クン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "君",
+              "reading": "くん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "よう",
+          "reading": "ヨウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "よう"
+            }
+          ]
+        },
+        {
+          "surface": "な",
+          "reading": "ナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "な"
+            }
+          ]
+        },
+        {
+          "surface": "性格",
+          "reading": "セイカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "性格",
+              "reading": "せいかく"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "私",
+          "reading": "ワタシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "私",
+              "reading": "わたし"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "好き",
+          "reading": "スキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "好",
+              "reading": "す"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "ね",
+          "reading": "ネ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ね"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0023",
+          "text": "DEATH NOTEの月君のような性格が私は好きですね！",
+          "rendered_yomi_before": "DEATH/デス  /  NOTE/ノート の/ノ 月/ツキ 君/クン の/ノ よう/ヨウ な/ナ 性格/セイカク が/ガ 私/ワタシ は/ハ 好き/スキ です/デス ね/ネ ！/！",
+          "rendered_yomi_after": "DEATH/デス \\s/ NOTE/ノート の/ノ 月/ライト 君/クン の/ノ よう/ヨウ な/ナ 性格/セイカク が/ガ 私/ワタシ は/ハ 好き/スキ です/デス ね/ネ ！/！",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 11,
+            "char_end": 12,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "月",
+              "token_surface": "月",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "つき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "月",
+                  "reading": "つき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "月",
+          "reading_candidates": {
+            "月": [
+              "げつ",
+              "がつ",
+              "づき",
+              "つき",
+              "がっ",
+              "げっ",
+              "ゆえ",
+              "らいと",
+              "るな"
+            ]
+          },
+          "reading_hints": {
+            "月": "げつ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"月\",\"reading\":\"ライト\",\"used_web_search\":false,\"comment\":\"『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "月",
+              "reading": "ライト",
+              "used_web_search": false,
+              "comment": "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。"
+            }
+          ],
+          "llm_comments": [
+            "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+            "status": "applied",
+            "rejected_span": "月",
+            "replacement": [
+              {
+                "surface": "月",
+                "reading": "ライト"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+                "surface": "月",
+                "comment": "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "月",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "月",
+          "token_surface": "月",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "つき",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "月",
+              "reading": "つき",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "月",
+          "reading": "つき",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "月": [
+          "げつ",
+          "がつ",
+          "づき",
+          "つき",
+          "がっ",
+          "げっ",
+          "ゆえ",
+          "らいと",
+          "るな"
+        ]
+      },
+      "reading_hints": {
+        "月": "げつ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "月",
+          "reading": "ライト",
+          "used_web_search": false,
+          "comment": "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"月\",\"reading\":\"ライト\",\"used_web_search\":false,\"comment\":\"『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。\"}]",
+      "llm_comments": [
+        "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+        "status": "applied",
+        "rejected_span": "月",
+        "replacement": [
+          {
+            "surface": "月",
+            "reading": "ライト"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0023::target_group:1",
+            "surface": "月",
+            "comment": "『DEATH NOTE』の人物名「夜神月」の「月」で、この文脈では固有名詞として「ライト」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025::strong_repair",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001705",
+      "doc_seq": 5,
+      "track_doc_seq": 1705,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0025",
+      "unit_seq": 25,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1705,
+      "text": "メトロポリマンは赤の矢を刺さることはないと決めつけているので、赤の矢を自らに刺しており、明日君が赤の矢を刺しても効かないという展開があるんじゃないかと勝手に予想します。",
+      "rendered_yomi_before": "メトロ/メトロ ポリ/ポリ マン/マン は/ハ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺さる/ササル こと/コト は/ハ ない/ナイ と/ト 決めつけ/キメツケ て/テ いる/イル の/ノ で/デ 、/、 赤/アカ の/ノ 矢/ヤ を/ヲ 自ら/ミズカラ に/ニ 刺し/サシ て/テ おり/オリ 、/、 明日/アス 君/クン が/ガ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺し/サシ て/テ も/モ 効か/キカ ない/ナイ と/ト いう/イウ 展開/テンカイ が/ガ ある/アル ん/ン じゃ/ジャ ない/ナイ か/カ と/ト 勝手に/カッテニ 予想/ヨソウ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "メトロ/メトロ ポリ/ポリ マン/マン は/ハ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺さる/ササル こと/コト は/ハ ない/ナイ と/ト 決めつけ/キメツケ て/テ いる/イル の/ノ で/デ 、/、 赤/アカ の/ノ 矢/ヤ を/ヲ 自ら/ミズカラ に/ニ 刺し/サシ て/テ おり/オリ 、/、 明日/アシタ 君/クン が/ガ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺し/サシ て/テ も/モ 効か/キカ ない/ナイ と/ト いう/イウ 展開/テンカイ が/ガ ある/アル ん/ン じゃ/ジャ ない/ナイ か/カ と/ト 勝手に/カッテニ 予想/ヨソウ し/シ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "メトロ",
+          "メトロ"
+        ],
+        [
+          "ポリ",
+          "ポリ"
+        ],
+        [
+          "マン",
+          "マン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "赤",
+          "アカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "矢",
+          "ヤ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "刺さる",
+          "ササル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "決めつけ",
+          "キメツケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "いる",
+          "イル"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "赤",
+          "アカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "矢",
+          "ヤ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "自ら",
+          "ミズカラ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "刺し",
+          "サシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "おり",
+          "オリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "明日",
+          "アシタ"
+        ],
+        [
+          "君",
+          "クン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "赤",
+          "アカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "矢",
+          "ヤ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "刺し",
+          "サシ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "効か",
+          "キカ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "展開",
+          "テンカイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "じゃ",
+          "ジャ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "勝手に",
+          "カッテニ"
+        ],
+        [
+          "予想",
+          "ヨソウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "メトロ",
+          "reading": "メトロ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "メトロ"
+            }
+          ]
+        },
+        {
+          "surface": "ポリ",
+          "reading": "ポリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ポリ"
+            }
+          ]
+        },
+        {
+          "surface": "マン",
+          "reading": "マン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "マン"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "赤",
+          "reading": "アカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "赤",
+              "reading": "あか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "矢",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "矢",
+              "reading": "や"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "刺さる",
+          "reading": "ササル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "刺",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "さる"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "決めつけ",
+          "reading": "キメツケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "めつけ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "いる",
+          "reading": "イル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いる"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "赤",
+          "reading": "アカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "赤",
+              "reading": "あか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "矢",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "矢",
+              "reading": "や"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "自ら",
+          "reading": "ミズカラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自",
+              "reading": "みずか"
+            },
+            {
+              "type": "text",
+              "text": "ら"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "刺し",
+          "reading": "サシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "刺",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "おり",
+          "reading": "オリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "明日",
+          "reading": "アシタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "明日",
+              "reading": "あした"
+            }
+          ]
+        },
+        {
+          "surface": "君",
+          "reading": "クン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "君",
+              "reading": "くん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "赤",
+          "reading": "アカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "赤",
+              "reading": "あか"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "矢",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "矢",
+              "reading": "や"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "刺し",
+          "reading": "サシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "刺",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "効か",
+          "reading": "キカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "効",
+              "reading": "き"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "展開",
+          "reading": "テンカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "展開",
+              "reading": "てんかい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "じゃ",
+          "reading": "ジャ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "じゃ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "勝手に",
+          "reading": "カッテニ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勝手",
+              "reading": "かって"
+            },
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "予想",
+          "reading": "ヨソウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予想",
+              "reading": "よそう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001705:u0025",
+          "text": "メトロポリマンは赤の矢を刺さることはないと決めつけているので、赤の矢を自らに刺しており、明日君が赤の矢を刺しても効かないという展開があるんじゃないかと勝手に予想します。",
+          "rendered_yomi_before": "メトロ/メトロ ポリ/ポリ マン/マン は/ハ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺さる/ササル こと/コト は/ハ ない/ナイ と/ト 決めつけ/キメツケ て/テ いる/イル の/ノ で/デ 、/、 赤/アカ の/ノ 矢/ヤ を/ヲ 自ら/ミズカラ に/ニ 刺し/サシ て/テ おり/オリ 、/、 明日/アス 君/クン が/ガ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺し/サシ て/テ も/モ 効か/キカ ない/ナイ と/ト いう/イウ 展開/テンカイ が/ガ ある/アル ん/ン じゃ/ジャ ない/ナイ か/カ と/ト 勝手に/カッテニ 予想/ヨソウ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "メトロ/メトロ ポリ/ポリ マン/マン は/ハ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺さる/ササル こと/コト は/ハ ない/ナイ と/ト 決めつけ/キメツケ て/テ いる/イル の/ノ で/デ 、/、 赤/アカ の/ノ 矢/ヤ を/ヲ 自ら/ミズカラ に/ニ 刺し/サシ て/テ おり/オリ 、/、 明日/アシタ 君/クン が/ガ 赤/アカ の/ノ 矢/ヤ を/ヲ 刺し/サシ て/テ も/モ 効か/キカ ない/ナイ と/ト いう/イウ 展開/テンカイ が/ガ ある/アル ん/ン じゃ/ジャ ない/ナイ か/カ と/ト 勝手に/カッテニ 予想/ヨソウ し/シ ます/マス 。/。",
+          "display_mapping": {
+            "start": 29,
+            "end": 30,
+            "char_start": 44,
+            "char_end": 46,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025:s0045-0046",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025:s0045-0046",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "明日",
+              "token_surface": "明日",
+              "token_index": 29,
+              "chunk_index": 0,
+              "current_reading_hiragana": "あす",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "明日",
+                  "reading": "あす",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "明日",
+          "reading_candidates": {
+            "明": [
+              "あ",
+              "あかし",
+              "あかり",
+              "あきら",
+              "あけ",
+              "あける",
+              "みょう",
+              "みん",
+              "めい"
+            ],
+            "明日": [
+              "あけび",
+              "あした",
+              "あす",
+              "みょうにち",
+              "めいび"
+            ],
+            "日": [
+              "にち",
+              "か",
+              "じつ",
+              "び",
+              "ひ",
+              "ぴ"
+            ]
+          },
+          "reading_hints": {
+            "明": "あ",
+            "明日": "あけび",
+            "日": "にち"
+          },
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"あした\",\"used_web_search\":false,\"comment\":\"時間を表す一般語で、この文脈では「明日（あした）」が自然です。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "明日",
+              "reading": "あした",
+              "used_web_search": false,
+              "comment": "時間を表す一般語で、この文脈では「明日（あした）」が自然です。"
+            }
+          ],
+          "llm_comments": [
+            "時間を表す一般語で、この文脈では「明日（あした）」が自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+            "status": "applied",
+            "rejected_span": "明日",
+            "replacement": [
+              {
+                "surface": "明日",
+                "reading": "アシタ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+                "surface": "明日",
+                "comment": "時間を表す一般語で、この文脈では「明日（あした）」が自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "明日",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025:s0045-0046",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "明日",
+          "token_surface": "明日",
+          "token_index": 29,
+          "chunk_index": 0,
+          "current_reading_hiragana": "あす",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "明日",
+              "reading": "あす",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "明日",
+          "reading": "あす",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "明": [
+          "あ",
+          "あかし",
+          "あかり",
+          "あきら",
+          "あけ",
+          "あける",
+          "みょう",
+          "みん",
+          "めい"
+        ],
+        "明日": [
+          "あけび",
+          "あした",
+          "あす",
+          "みょうにち",
+          "めいび"
+        ],
+        "日": [
+          "にち",
+          "か",
+          "じつ",
+          "び",
+          "ひ",
+          "ぴ"
+        ]
+      },
+      "reading_hints": {
+        "明": "あ",
+        "明日": "あけび",
+        "日": "にち"
+      },
+      "llm_parsed": [
+        {
+          "surface": "明日",
+          "reading": "あした",
+          "used_web_search": false,
+          "comment": "時間を表す一般語で、この文脈では「明日（あした）」が自然です。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"明日\",\"reading\":\"あした\",\"used_web_search\":false,\"comment\":\"時間を表す一般語で、この文脈では「明日（あした）」が自然です。\"}]",
+      "llm_comments": [
+        "時間を表す一般語で、この文脈では「明日（あした）」が自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+        "status": "applied",
+        "rejected_span": "明日",
+        "replacement": [
+          {
+            "surface": "明日",
+            "reading": "アシタ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001705:u0025::target_group:1",
+            "surface": "明日",
+            "comment": "時間を表す一般語で、この文脈では「明日（あした）」が自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
