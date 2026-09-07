@@ -1,0 +1,1467 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1038_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1038",
+  "created_at_epoch": 1788756190,
+  "created_at": "2026-09-07T04:43:10Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001851",
+      "doc_seq": 1,
+      "track_doc_seq": 1851,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1851,
+      "preview": "プロポーズは、相手に結婚してほしいという思いを言葉や行動として伝えるという面が強く、それだけにプロポーズを受ける側からすれば、一生の記念ともなる特別な瞬間ともいえます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001852",
+      "doc_seq": 2,
+      "track_doc_seq": 1852,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1852,
+      "preview": "久しぶりの更新になりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001853",
+      "doc_seq": 3,
+      "track_doc_seq": 1853,
+      "unit_count": 23,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1853,
+      "preview": "夫との性生活がうまくいかない…。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 23,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001854",
+      "doc_seq": 4,
+      "track_doc_seq": 1854,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1854,
+      "preview": "「議論などでのするどい弁舌」とありますね。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001855",
+      "doc_seq": 5,
+      "track_doc_seq": 1855,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1855,
+      "preview": "頑張って沢山の山々を登ってきました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T04:43:28Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001856",
+      "doc_seq": 6,
+      "track_doc_seq": 1856,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1856,
+      "preview": "毎日をお楽しみくださいませ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001857",
+      "doc_seq": 7,
+      "track_doc_seq": 1857,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1857,
+      "preview": "喫茶ここから でチキンカレーライス。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-07T04:43:28Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001858",
+      "doc_seq": 8,
+      "track_doc_seq": 1858,
+      "unit_count": 91,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1858,
+      "preview": "留学の理由はシンプルで良い。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 91,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001859",
+      "doc_seq": 9,
+      "track_doc_seq": 1859,
+      "unit_count": 36,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1859,
+      "preview": "長女は外野アタッカー、三女はベンチでスタート。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 36,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000001860",
+      "doc_seq": 10,
+      "track_doc_seq": 1860,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1860,
+      "preview": "こともあると思うんです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-07T04:42:05Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010::strong_repair",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001855",
+      "doc_seq": 5,
+      "track_doc_seq": 1855,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001855:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1855,
+      "text": "暫く行くと、おじさまと出逢った思い出の一丁平へ。",
+      "rendered_yomi_before": "暫く/シバラク 行く/イク と/ト 、/、 おじ/オジ さま/サマ と/ト 出逢っ/デアッ た/タ 思い出/オモイデ の/ノ 一/イッ 丁/チョウ 平/タイラ へ/ヘ 。/。",
+      "rendered_yomi_after": "暫く/シバラク 行く/イク と/ト 、/、 おじ/オジ さま/サマ と/ト 出逢っ/デアッ た/タ 思い出/オモイデ の/ノ 一丁平/イッチョウダイラ へ/ヘ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "暫く",
+          "シバラク"
+        ],
+        [
+          "行く",
+          "イク"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "おじ",
+          "オジ"
+        ],
+        [
+          "さま",
+          "サマ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "出逢っ",
+          "デアッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "思い出",
+          "オモイデ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "一丁平",
+          "イッチョウダイラ"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "暫く",
+          "reading": "シバラク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "暫",
+              "reading": "しばら"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "行く",
+          "reading": "イク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "行",
+              "reading": "い"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "おじ",
+          "reading": "オジ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "おじ"
+            }
+          ]
+        },
+        {
+          "surface": "さま",
+          "reading": "サマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さま"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "出逢っ",
+          "reading": "デアッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出逢",
+              "reading": "であ"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "思い出",
+          "reading": "オモイデ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "思",
+              "reading": "おも"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            },
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "一丁平",
+          "reading": "イッチョウダイラ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "一丁平",
+              "reading": "いっちょうだいら"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001855:u0010",
+          "text": "暫く行くと、おじさまと出逢った思い出の一丁平へ。",
+          "rendered_yomi_before": "暫く/シバラク 行く/イク と/ト 、/、 おじ/オジ さま/サマ と/ト 出逢っ/デアッ た/タ 思い出/オモイデ の/ノ 一/イッ 丁/チョウ 平/タイラ へ/ヘ 。/。",
+          "rendered_yomi_after": "暫く/シバラク 行く/イク と/ト 、/、 おじ/オジ さま/サマ と/ト 出逢っ/デアッ た/タ 思い出/オモイデ の/ノ 一丁平/イッチョウダイラ へ/ヘ 。/。",
+          "display_mapping": {
+            "start": 11,
+            "end": 12,
+            "char_start": 19,
+            "char_end": 22,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一",
+              "token_surface": "一",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "一",
+                  "reading": "いっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "丁",
+              "token_surface": "丁",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "丁",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "平",
+              "token_surface": "平",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "平",
+                  "reading": "たいら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0020-0020",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "一",
+              "token_surface": "一",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "いっ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "一",
+                  "reading": "いっ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0021-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "丁",
+              "token_surface": "丁",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "丁",
+                  "reading": "ちょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "平",
+              "token_surface": "平",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "平",
+                  "reading": "たいら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "一丁平",
+          "reading_candidates": {
+            "一": [
+              "いっ",
+              "いち",
+              "ひと",
+              "はじめ",
+              "いつ",
+              "かず",
+              "しん",
+              "にのまえ",
+              "はじむ",
+              "ひ",
+              "ひい",
+              "ひとし",
+              "ひとつ",
+              "びと",
+              "まこと"
+            ],
+            "一丁": [
+              "いっちょう"
+            ],
+            "丁": [
+              "ちょう",
+              "てい",
+              "とう",
+              "ひのと",
+              "よろ"
+            ],
+            "平": [
+              "おさむ",
+              "たいら",
+              "たいらの",
+              "だいら",
+              "つね",
+              "はかる",
+              "ひとし",
+              "ひょう",
+              "ひら",
+              "ひらた",
+              "へい"
+            ]
+          },
+          "reading_hints": {
+            "一": "いっ",
+            "一丁": "いっちょう",
+            "丁": "ちょう",
+            "平": "おさむ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "一",
+              "reading": "いっ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "丁",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "平",
+              "reading": "たいら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"一丁平\",\"reading\":\"いっちょうだいら\",\"used_web_search\":true,\"comment\":\"高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "一丁平",
+              "reading": "いっちょうだいら",
+              "used_web_search": true,
+              "comment": "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "一丁平",
+            "replacement": [
+              {
+                "surface": "一丁平",
+                "reading": "イッチョウダイラ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+                "surface": "一丁平",
+                "comment": "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "一丁平",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0020-0020",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "一",
+          "token_surface": "一",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "いっ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "一",
+              "reading": "いっ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0021-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "丁",
+          "token_surface": "丁",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "丁",
+              "reading": "ちょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010:s0022-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "平",
+          "token_surface": "平",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "たいら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "平",
+              "reading": "たいら",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "一",
+          "reading": "いっ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "丁",
+          "reading": "ちょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "平",
+          "reading": "たいら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "一": [
+          "いっ",
+          "いち",
+          "ひと",
+          "はじめ",
+          "いつ",
+          "かず",
+          "しん",
+          "にのまえ",
+          "はじむ",
+          "ひ",
+          "ひい",
+          "ひとし",
+          "ひとつ",
+          "びと",
+          "まこと"
+        ],
+        "一丁": [
+          "いっちょう"
+        ],
+        "丁": [
+          "ちょう",
+          "てい",
+          "とう",
+          "ひのと",
+          "よろ"
+        ],
+        "平": [
+          "おさむ",
+          "たいら",
+          "たいらの",
+          "だいら",
+          "つね",
+          "はかる",
+          "ひとし",
+          "ひょう",
+          "ひら",
+          "ひらた",
+          "へい"
+        ]
+      },
+      "reading_hints": {
+        "一": "いっ",
+        "一丁": "いっちょう",
+        "丁": "ちょう",
+        "平": "おさむ"
+      },
+      "llm_parsed": [
+        {
+          "surface": "一丁平",
+          "reading": "いっちょうだいら",
+          "used_web_search": true,
+          "comment": "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"一丁平\",\"reading\":\"いっちょうだいら\",\"used_web_search\":true,\"comment\":\"高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "一丁平",
+        "replacement": [
+          {
+            "surface": "一丁平",
+            "reading": "イッチョウダイラ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001855:u0010::target_group:1",
+            "surface": "一丁平",
+            "comment": "高尾山周辺の公式案内や観光案内で「一丁平（いっちょうだいら）」と確認できるため、地名として一語で扱う。 ([hachiojimeizan.jp](https://hachiojimeizan.jp/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009::strong_repair",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000001857",
+      "doc_seq": 7,
+      "track_doc_seq": 1857,
+      "unit_id": "ja_cc_level2_corrected_v1:0000001857:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0000.jsonl.gz",
+      "source_line_no": 1857,
+      "text": "お値段三千円超えだけど、量と質で考えれば安いかも。",
+      "rendered_yomi_before": "お/オ 値段/ネダン 三/サン 千/セン 円/エン 超え/ゴエ だ/ダ けど/ケド 、/、 量/リョウ と/ト 質/シツ で/デ 考えれ/カンガエレ ば/バ 安い/ヤスイ か/カ も/モ 。/。",
+      "rendered_yomi_after": "お/オ 値段/ネダン 三/サン 千/ゼン 円/エン 超え/ゴエ だ/ダ けど/ケド 、/、 量/リョウ と/ト 質/シツ で/デ 考えれ/カンガエレ ば/バ 安い/ヤスイ か/カ も/モ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "値段",
+          "ネダン"
+        ],
+        [
+          "三",
+          "サン"
+        ],
+        [
+          "千",
+          "ゼン"
+        ],
+        [
+          "円",
+          "エン"
+        ],
+        [
+          "超え",
+          "ゴエ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "けど",
+          "ケド"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "量",
+          "リョウ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "質",
+          "シツ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "考えれ",
+          "カンガエレ"
+        ],
+        [
+          "ば",
+          "バ"
+        ],
+        [
+          "安い",
+          "ヤスイ"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "値段",
+          "reading": "ネダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "値段",
+              "reading": "ねだん"
+            }
+          ]
+        },
+        {
+          "surface": "三",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "三",
+              "reading": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "千",
+          "reading": "ゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "千",
+              "reading": "ぜん"
+            }
+          ]
+        },
+        {
+          "surface": "円",
+          "reading": "エン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "円",
+              "reading": "えん"
+            }
+          ]
+        },
+        {
+          "surface": "超え",
+          "reading": "ゴエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "超",
+              "reading": "ご"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "けど",
+          "reading": "ケド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "けど"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "量",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "量",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "質",
+          "reading": "シツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "質",
+              "reading": "しつ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "考えれ",
+          "reading": "カンガエレ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "考",
+              "reading": "かんが"
+            },
+            {
+              "type": "text",
+              "text": "えれ"
+            }
+          ]
+        },
+        {
+          "surface": "ば",
+          "reading": "バ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ば"
+            }
+          ]
+        },
+        {
+          "surface": "安い",
+          "reading": "ヤスイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "安",
+              "reading": "やす"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000001857:u0009",
+          "text": "お値段三千円超えだけど、量と質で考えれば安いかも。",
+          "rendered_yomi_before": "お/オ 値段/ネダン 三/サン 千/セン 円/エン 超え/ゴエ だ/ダ けど/ケド 、/、 量/リョウ と/ト 質/シツ で/デ 考えれ/カンガエレ ば/バ 安い/ヤスイ か/カ も/モ 。/。",
+          "rendered_yomi_after": "お/オ 値段/ネダン 三/サン 千/ゼン 円/エン 超え/ゴエ だ/ダ けど/ケド 、/、 量/リョウ と/ト 質/シツ で/デ 考えれ/カンガエレ ば/バ 安い/ヤスイ か/カ も/モ 。/。",
+          "display_mapping": {
+            "start": 3,
+            "end": 4,
+            "char_start": 4,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "千",
+              "token_surface": "千",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "千",
+                  "reading": "せん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "千",
+              "token_surface": "千",
+              "token_index": 3,
+              "chunk_index": 0,
+              "current_reading_hiragana": "せん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "千",
+                  "reading": "せん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "千",
+          "reading_candidates": {
+            "千": [
+              "せん",
+              "せんの",
+              "ゆき"
+            ]
+          },
+          "reading_hints": {
+            "千": "せん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "千",
+              "reading": "せん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"千\",\"reading\":\"ゼン\",\"used_web_search\":false,\"comment\":\"「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "千",
+              "reading": "ゼン",
+              "used_web_search": false,
+              "comment": "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。"
+            }
+          ],
+          "llm_comments": [
+            "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "千",
+            "replacement": [
+              {
+                "surface": "千",
+                "reading": "ゼン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+                "surface": "千",
+                "comment": "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "千",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "千",
+          "token_surface": "千",
+          "token_index": 3,
+          "chunk_index": 0,
+          "current_reading_hiragana": "せん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "千",
+              "reading": "せん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "千",
+          "reading": "せん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "千": [
+          "せん",
+          "せんの",
+          "ゆき"
+        ]
+      },
+      "reading_hints": {
+        "千": "せん"
+      },
+      "llm_parsed": [
+        {
+          "surface": "千",
+          "reading": "ゼン",
+          "used_web_search": false,
+          "comment": "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"千\",\"reading\":\"ゼン\",\"used_web_search\":false,\"comment\":\"「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。\"}]",
+      "llm_comments": [
+        "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "千",
+        "replacement": [
+          {
+            "surface": "千",
+            "reading": "ゼン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000001857:u0009::target_group:1",
+            "surface": "千",
+            "comment": "「三千円」では「三＋千」が連声して「さんぜんえん」になるため、この「千」は「ゼン」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
