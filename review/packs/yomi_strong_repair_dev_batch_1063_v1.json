@@ -10,10 +10,10 @@
   "item_count": 10,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 10,
     "queued_repair_row_count": 12,
@@ -109,12 +109,12 @@
       "source_line_no": 2124556,
       "preview": "【ヒューマンエラー】　：　下記は典型的事例です。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:09:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:20:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -135,12 +135,12 @@
       "source_line_no": 2514921,
       "preview": "○ 古守神札やしめ縄をお焚き上げします。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:09:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:20:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1624497,
       "preview": "新しいアウトドアリビング。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:09:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:20:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -187,12 +187,12 @@
       "source_line_no": 2385891,
       "preview": "いつの頃からか、若者たちが「自分らしく」ありたいと主張し始めるようになりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:09:43Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:20:06Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -5527,7 +5527,7 @@
       "source_line_no": 2514921,
       "text": "○ 古守神札やしめ縄をお焚き上げします。",
       "rendered_yomi_before": "○/○  /  古守/コモリ 神札/シンサツ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
-      "rendered_yomi_after": "○/○ \\s/ 古守/フルマモリ 神札/フダ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
+      "rendered_yomi_after": "○/○ \\s/ 古守/フルマモリ 神札/シンサツ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "○",
@@ -5543,7 +5543,7 @@
         ],
         [
           "神札",
-          "フダ"
+          "シンサツ"
         ],
         [
           "や",
@@ -5608,12 +5608,12 @@
         },
         {
           "surface": "神札",
-          "reading": "フダ",
+          "reading": "シンサツ",
           "nodes": [
             {
               "type": "ruby",
               "text": "神札",
-              "reading": "ふだ"
+              "reading": "しんさつ"
             }
           ]
         },
@@ -5724,7 +5724,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002514921:u0001",
           "text": "○ 古守神札やしめ縄をお焚き上げします。",
           "rendered_yomi_before": "○/○  /  古守/コモリ 神札/シンサツ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
-          "rendered_yomi_after": "○/○ \\s/ 古守/フルマモリ 神札/フダ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
+          "rendered_yomi_after": "○/○ \\s/ 古守/フルマモリ 神札/シンサツ や/ヤ しめ縄/シメナワ を/ヲ お焚き上げ/オタキアゲ し/シ ます/マス 。/。",
           "display_mapping": {
             "start": 2,
             "end": 4,
