@@ -10,10 +10,10 @@
   "item_count": 16,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 6,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 4,
-      "strong_pending": 6
+      "strong_reviewed": 6
     },
     "repaired_item_count": 16,
     "queued_repair_row_count": 18,
@@ -31,12 +31,12 @@
       "source_line_no": 393769,
       "preview": "クレスメント家　マグナの娘の話。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -83,12 +83,12 @@
       "source_line_no": 2481426,
       "preview": "卒業試験や入学試験、国家試験など、受験生の皆様にはカゼ・インフルエンザなどに注意し、体調管理をすることが最も重要な時期になりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -109,12 +109,12 @@
       "source_line_no": 1764295,
       "preview": "6月18日、都議会で塩村都議会議員が、妊娠や出産に関する都の支援政策について一般質問を行っている最中に、議場から｢自分が早く結婚すればいいんじゃないか｣「まずは、自分が産めよ」｢子どもを産めないのか｣｢子どももいないのに｣（塩村都議の処分要求書より）などというやじが相次いで発せられました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -161,12 +161,12 @@
       "source_line_no": 1256784,
       "preview": "東京・横浜エリアの、輸出入海運貨物指定業者54社との提携取引が、当社のコアビジネスフィールドとなります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,12 +213,12 @@
       "source_line_no": 1401203,
       "preview": "勝利の栄冠は入船小５年ペアの猫本大智・原一惺組に輝いた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -265,12 +265,12 @@
       "source_line_no": 607224,
       "preview": "訳あって屋久島に行ってまいりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:56Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:59:13Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -286,6 +286,7 @@
   "items": [
     {
       "item_id": "ja_cc_level2_corrected_v1:0000393769:u0006::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 1,
       "doc_id": "ja_cc_level2_corrected_v1:0000393769",
       "doc_seq": 1,
@@ -296,7 +297,7 @@
       "source_line_no": 393769,
       "text": "アーノのように、天然ー思考能力を単純化ーに変える。",
       "rendered_yomi_before": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天/テン 然ー/然ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/化ー に/ニ 変える/カエル 。/。",
-      "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/カ に/ニ 変える/カエル 。/。",
+      "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化/カ ー/ー に/ニ 変える/カエル 。/。",
       "rendered_yomi_after_tokens": [
         [
           "アーノ",
@@ -343,8 +344,12 @@
           "タンジュン"
         ],
         [
-          "化ー",
+          "化",
           "カ"
+        ],
+        [
+          "ー",
+          "ー"
         ],
         [
           "に",
@@ -475,13 +480,23 @@
           ]
         },
         {
-          "surface": "化ー",
+          "surface": "化",
           "reading": "カ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "化ー",
+              "text": "化",
               "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "ー",
+          "reading": "ー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ー"
             }
           ]
         },
@@ -534,7 +549,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000393769:u0006",
           "text": "アーノのように、天然ー思考能力を単純化ーに変える。",
           "rendered_yomi_before": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天/テン 然ー/然ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/化ー に/ニ 変える/カエル 。/。",
-          "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/カ に/ニ 変える/カエル 。/。",
+          "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化/カ ー/ー に/ニ 変える/カエル 。/。",
           "display_mapping": {
             "start": 5,
             "end": 7,
@@ -722,14 +737,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000393769:u0006",
           "text": "アーノのように、天然ー思考能力を単純化ーに変える。",
           "rendered_yomi_before": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天/テン 然ー/然ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/化ー に/ニ 変える/カエル 。/。",
-          "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化ー/カ に/ニ 変える/カエル 。/。",
+          "rendered_yomi_after": "アーノ/アーノ の/ノ よう/ヨウ に/ニ 、/、 天然/テンネン ー/ー 思考/シコウ 能力/ノウリョク を/ヲ 単純/タンジュン 化/カ ー/ー に/ニ 変える/カエル 。/。",
           "display_mapping": {
             "start": 11,
-            "end": 12,
+            "end": 13,
             "char_start": 18,
             "char_end": 20,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -953,6 +968,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000393769:u0007::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 2,
       "doc_id": "ja_cc_level2_corrected_v1:0000393769",
       "doc_seq": 1,
@@ -1657,6 +1673,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000393769:u0022::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 3,
       "doc_id": "ja_cc_level2_corrected_v1:0000393769",
       "doc_seq": 1,
@@ -2021,8 +2038,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1058_v1__2026-09-08T04:50:55.953Z",
+            "generated_at_epoch": 1788843055
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1058_v1__2026-09-08T04:50:55.953Z",
+        "generated_at_epoch": 1788843055
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -2424,6 +2454,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000393769:u0059::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 4,
       "doc_id": "ja_cc_level2_corrected_v1:0000393769",
       "doc_seq": 1,
@@ -3190,6 +3221,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000393769:u0062::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 5,
       "doc_id": "ja_cc_level2_corrected_v1:0000393769",
       "doc_seq": 1,
@@ -3793,6 +3825,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0002481426:u0002::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 6,
       "doc_id": "ja_cc_level2_corrected_v1:0002481426",
       "doc_seq": 3,
@@ -4472,6 +4505,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0002481426:u0011::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 7,
       "doc_id": "ja_cc_level2_corrected_v1:0002481426",
       "doc_seq": 3,
@@ -5144,6 +5178,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001764295:u0008::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 8,
       "doc_id": "ja_cc_level2_corrected_v1:0001764295",
       "doc_seq": 4,
@@ -5970,6 +6005,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001256784:u0003::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 9,
       "doc_id": "ja_cc_level2_corrected_v1:0001256784",
       "doc_seq": 6,
@@ -6974,6 +7010,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001401203:u0001::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 10,
       "doc_id": "ja_cc_level2_corrected_v1:0001401203",
       "doc_seq": 8,
@@ -7662,6 +7699,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001401203:u0009::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 11,
       "doc_id": "ja_cc_level2_corrected_v1:0001401203",
       "doc_seq": 8,
@@ -8843,6 +8881,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001401203:u0023::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 12,
       "doc_id": "ja_cc_level2_corrected_v1:0001401203",
       "doc_seq": 8,
@@ -9898,6 +9937,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000607224:u0005::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 13,
       "doc_id": "ja_cc_level2_corrected_v1:0000607224",
       "doc_seq": 10,
@@ -10988,6 +11028,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000607224:u0006::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 14,
       "doc_id": "ja_cc_level2_corrected_v1:0000607224",
       "doc_seq": 10,
@@ -11627,6 +11668,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000607224:u0008::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 15,
       "doc_id": "ja_cc_level2_corrected_v1:0000607224",
       "doc_seq": 10,
@@ -12154,6 +12196,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000607224:u0035::strong_repair",
+      "initial_disposition": "Keep",
       "seq": 16,
       "doc_id": "ja_cc_level2_corrected_v1:0000607224",
       "doc_seq": 10,

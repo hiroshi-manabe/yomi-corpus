@@ -3936,7 +3936,36 @@ function renderStrongRepairItem({ node, item, override, editable }) {
       renderSubmissionPreview();
     },
   });
-  header.append(titleWrap, manualCorrectionControl);
+  const scopeControls = document.createElement("div");
+  scopeControls.className = "yomi-scope-selector";
+  scopeControls.setAttribute("role", "group");
+  scopeControls.setAttribute("aria-label", "コーパスでの扱い");
+  let disposition = override?.disposition || item.initial_disposition || "Keep";
+  setYomiDispositionClasses(node, disposition);
+  for (const [value, glyph, label] of [["Skip", "▣", "スキップ"], ["Exclude", "⛨", "排除"]]) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `yomi-scope-option scope-${value.toLowerCase()}`;
+    button.textContent = glyph;
+    button.title = label;
+    button.setAttribute("aria-label", label);
+    button.setAttribute("aria-pressed", String(disposition === value));
+    button.dataset.disposition = value;
+    button.disabled = !editable;
+    button.addEventListener("click", () => {
+      disposition = disposition === value ? "Keep" : value;
+      ensureStrongRepairOverride(item.item_id).disposition = disposition;
+      cleanupStrongRepairOverride(item.item_id);
+      touchDraft();
+      for (const option of scopeControls.querySelectorAll("button")) {
+        option.setAttribute("aria-pressed", String(option.dataset.disposition === disposition));
+      }
+      setYomiDispositionClasses(node, disposition);
+      renderSubmissionPreview();
+    });
+    scopeControls.append(button);
+  }
+  header.append(titleWrap, scopeControls, manualCorrectionControl);
   node.append(header);
 
   const afterLine = document.createElement("p");
@@ -4536,6 +4565,7 @@ function ensureStrongRepairOverride(itemId) {
     decision: "accept",
     note: current.note || "",
     regions: current.regions || {},
+    ...(current.disposition ? { disposition: current.disposition } : {}),
     ...(typeof current.manual_correction_required === "boolean"
       ? { manual_correction_required: current.manual_correction_required }
       : {}),
@@ -4577,6 +4607,7 @@ function cleanupStrongRepairOverride(itemId) {
   if (!current) {
     return;
   }
+  if (current.disposition) return;
   const note = String(current.note || "").trim();
   if (note) {
     current.note = note;
@@ -6954,6 +6985,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
       const row = {
         item_id: originalItemId(item),
         decision: override.decision || "accept",
+        ...(override.disposition ? { disposition: override.disposition } : {}),
         ...(typeof override.manual_correction_required === "boolean"
           ? { manual_correction_required: override.manual_correction_required }
           : {}),
@@ -6977,6 +7009,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     .filter(
       (row) =>
         row.decision === "reject" ||
+        "disposition" in row ||
         "manual_correction_required" in row ||
         row.note ||
         (row.regions && row.regions.length > 0)
@@ -7273,7 +7306,7 @@ function normalizeStoredOverrideForItem(pack, item, override) {
   }
   const note = String(override?.note || "").trim();
   const hasManualCorrectionOverride = typeof override?.manual_correction_required === "boolean";
-  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride) {
+  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride && !override?.disposition) {
     return null;
   }
   return { ...override, note, regions };

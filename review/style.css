@@ -1685,6 +1685,7 @@ button:disabled {
 }
 
 /* Disposition colors must win over unresolved/safe card backgrounds. */
+.item-card.strong-repair-card.machine-skip,
 .item-card.yomi-card.machine-skip {
   border-bottom-color: rgba(68, 82, 91, 0.34);
   background: rgba(101, 119, 130, 0.16);
@@ -1692,6 +1693,7 @@ button:disabled {
   box-shadow: inset 3px 0 0 rgba(68, 82, 91, 0.56);
 }
 
+.item-card.strong-repair-card.machine-exclude,
 .item-card.yomi-card.machine-exclude {
   border-bottom-color: rgba(145, 48, 42, 0.5);
   background: rgba(168, 67, 59, 0.19);
