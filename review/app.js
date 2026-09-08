@@ -4594,16 +4594,19 @@ function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegmen
     }
     return values;
   });
-  for (const wholeReading of knownWholeReadings) {
+  const currentWholeReading = (previousSegments || []).length > 0
+    && previousSegments.every((segment) => segment.reading)
+    && previousSegments.map((segment) => segment.surface).join("") === surfaces.join("")
+    ? katakanaToHiragana(previousSegments.map((segment) => segment.reading).join("")) : null;
+  const wholeReadings = currentWholeReading ? [currentWholeReading] : knownWholeReadings;
+  for (const wholeReading of wholeReadings) {
     const matched = matchStrongRepairSegmentReadings(candidates, wholeReading);
     if (matched) {
       return matched;
     }
   }
-  const currentWholeReading = (previousSegments || []).every((segment) => segment.reading)
-    && (previousSegments || []).map((segment) => segment.surface).join("") === surfaces.join("")
-    ? previousSegments.map((segment) => segment.reading).join("") : null;
-  const inferred = inferStrongRepairRemainder(candidates, currentWholeReading ? [currentWholeReading] : knownWholeReadings);
+  const inferred = inferStrongRepairRemainder(candidates, wholeReadings,
+    previousAtPosition.map((segment) => Boolean(segment?.edited)));
   if (inferred) {
     return inferred;
   }
@@ -4629,29 +4632,40 @@ function strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments) 
   });
 }
 
-function inferStrongRepairRemainder(candidates, wholeReadings) {
-  if (candidates.filter((values) => !values.length).length !== 1) return null;
+function inferStrongRepairRemainder(candidates, wholeReadings, protectedSegments = []) {
+  if (candidates.length < 2 || candidates.filter((values) => !values.length).length > 1) return null;
   if (candidates.some((values) => values.includes(""))) return null;
-  const solutions = new Map();
   let budget = 10000;
-  const visit = (whole, index, offset, readings) => {
-    if (--budget < 0 || solutions.size > 1) return;
-    if (index === candidates.length) {
-      if (offset === whole.length) solutions.set(JSON.stringify(readings), readings);
-      return;
-    }
-    const values = candidates[index].length
-      ? candidates[index].map((reading) => katakanaToHiragana(String(reading)))
-      : Array.from({ length: whole.length - offset }, (_, i) => whole.slice(offset, offset + i + 1));
-    for (const reading of new Set(values)) {
-      if (whole.startsWith(reading, offset)) visit(whole, index + 1, offset + reading.length, [...readings, reading]);
-    }
-  };
   for (const value of wholeReadings) {
     const whole = katakanaToHiragana(String(value || ""));
-    if (/^[ぁ-ゖーゝゞ]+$/u.test(whole)) visit(whole, 0, 0, []);
+    if (!/^[ぁ-ゖーゝゞ]+$/u.test(whole)) continue;
+    let best = null;
+    let bestRank = Infinity;
+    // Infer one automatic segment, ranking the remaining candidates in their
+    // existing order. Equal ranks prefer a matching prefix over a suffix.
+    for (let inferredIndex = candidates.length - 1; inferredIndex >= 0; inferredIndex -= 1) {
+      if (protectedSegments[inferredIndex]) continue;
+      const visit = (index, offset, readings, rank) => {
+        if (--budget < 0 || rank >= bestRank) return;
+        if (index === candidates.length) {
+          if (offset === whole.length) { best = readings; bestRank = rank; }
+          return;
+        }
+        const values = index === inferredIndex
+          ? Array.from({ length: whole.length - offset }, (_, i) => whole.slice(offset, offset + i + 1))
+          : candidates[index].map((reading) => katakanaToHiragana(String(reading)));
+        for (const [candidateIndex, reading] of values.entries()) {
+          if (reading && whole.startsWith(reading, offset)) {
+            visit(index + 1, offset + reading.length, [...readings, reading],
+              rank + (index === inferredIndex ? 0 : candidateIndex));
+          }
+        }
+      };
+      visit(0, 0, [], 0);
+    }
+    if (best) return best;
   }
-  return budget >= 0 && solutions.size === 1 ? [...solutions.values()][0] : null;
+  return null;
 }
 
 function strongRepairKnownWholeReadings(region) {
