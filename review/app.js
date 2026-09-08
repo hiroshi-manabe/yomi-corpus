@@ -4519,10 +4519,11 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
     surfaces,
     previousSegments,
   );
+  const previousAtPosition = strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments);
   const nextSegments = surfaces.map((surface, index) => ({
     surface,
     reading: readings[index] || "",
-    edited: false,
+    edited: Boolean(previousAtPosition[index]?.edited),
   }));
   setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
@@ -4674,11 +4675,13 @@ function defaultStrongRepairReadingForSegment(region, surface, previousSegments)
 
 function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegments) {
   const knownWholeReadings = strongRepairKnownWholeReadings(region);
-  const candidates = surfaces.map((surface) => {
+  const previousAtPosition = strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments);
+  const candidates = surfaces.map((surface, index) => {
     const values = [];
-    const previous = (previousSegments || []).find(
-      (segment) => segment.surface === surface && segment.reading,
-    );
+    const previous = previousAtPosition[index];
+    if (previous?.edited) {
+      return [katakanaToHiragana(String(previous.reading || ""))];
+    }
     if (previous?.reading) {
       values.push(previous.reading);
     }
@@ -4695,9 +4698,58 @@ function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegmen
       return matched;
     }
   }
-  return surfaces.map((surface) =>
-    defaultStrongRepairReadingForSegment(region, surface, previousSegments),
+  const currentWholeReading = (previousSegments || []).every((segment) => segment.reading)
+    && (previousSegments || []).map((segment) => segment.surface).join("") === surfaces.join("")
+    ? previousSegments.map((segment) => segment.reading).join("") : null;
+  const inferred = inferStrongRepairRemainder(candidates, currentWholeReading ? [currentWholeReading] : knownWholeReadings);
+  if (inferred) {
+    return inferred;
+  }
+  return surfaces.map((surface, index) =>
+    previousAtPosition[index]?.edited
+      ? previousAtPosition[index].reading
+      : defaultStrongRepairReadingForSegment(region, surface, previousSegments),
   );
+}
+
+function strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments) {
+  const byStart = new Map();
+  let offset = 0;
+  for (const segment of previousSegments || []) {
+    byStart.set(offset, segment);
+    offset += segment.surface.length;
+  }
+  offset = 0;
+  return surfaces.map((surface) => {
+    const previous = byStart.get(offset);
+    offset += surface.length;
+    return previous?.surface === surface ? previous : null;
+  });
+}
+
+function inferStrongRepairRemainder(candidates, wholeReadings) {
+  if (candidates.filter((values) => !values.length).length !== 1) return null;
+  if (candidates.some((values) => values.includes(""))) return null;
+  const solutions = new Map();
+  let budget = 10000;
+  const visit = (whole, index, offset, readings) => {
+    if (--budget < 0 || solutions.size > 1) return;
+    if (index === candidates.length) {
+      if (offset === whole.length) solutions.set(JSON.stringify(readings), readings);
+      return;
+    }
+    const values = candidates[index].length
+      ? candidates[index].map((reading) => katakanaToHiragana(String(reading)))
+      : Array.from({ length: whole.length - offset }, (_, i) => whole.slice(offset, offset + i + 1));
+    for (const reading of new Set(values)) {
+      if (whole.startsWith(reading, offset)) visit(whole, index + 1, offset + reading.length, [...readings, reading]);
+    }
+  };
+  for (const value of wholeReadings) {
+    const whole = katakanaToHiragana(String(value || ""));
+    if (/^[ぁ-ゖーゝゞ]+$/u.test(whole)) visit(whole, 0, 0, []);
+  }
+  return budget >= 0 && solutions.size === 1 ? [...solutions.values()][0] : null;
 }
 
 function strongRepairKnownWholeReadings(region) {
