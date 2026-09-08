@@ -24,6 +24,7 @@ const state = {
   archiveShardCache: new Map(),
   archiveSearchIndex: null,
   archiveSearchIndexPath: "",
+  archiveSearchLoads: new Map(),
   archiveSearchQuery: "",
   archiveSearchTimer: null,
   vocabularyCampaignPreview: null,
@@ -877,7 +878,7 @@ function renderArchiveSearchPanel(track) {
   const status = document.createElement("p");
   status.className = "archive-search-status muted";
   status.textContent = track.search_path
-    ? "検索語を入力すると検索用インデックスを読み込みます。"
+    ? "検索語を入力してください。"
     : "このトラックには検索用インデックスがありません。";
   panel.append(status);
 
@@ -905,6 +906,12 @@ function renderArchiveSearchPanel(track) {
   if (state.archiveSearchQuery.trim()) {
     scheduleArchiveSearch(track, nodes, { immediate: true });
   }
+  // Give the document map a chance to paint before loading the search data.
+  window.requestAnimationFrame(() => window.setTimeout(() => {
+    if (panel.isConnected && track.search_path) {
+      ensureArchiveSearchIndex(String(track.search_path)).catch(() => {});
+    }
+  }, 0));
   return panel;
 }
 
@@ -994,13 +1001,14 @@ function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
   }
   const query = state.archiveSearchQuery.trim();
   if (!query) {
-    nodes.status.textContent = "検索語を入力すると検索用インデックスを読み込みます。";
+    nodes.status.textContent = "検索語を入力してください。";
+    nodes.status.classList.remove("error");
     nodes.results.innerHTML = "";
     return;
   }
   const run = () => {
     performArchiveSearch(track, query, nodes).catch((error) => {
-      if (!nodes.panel.isConnected) {
+      if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
         return;
       }
       nodes.status.textContent = `検索に失敗しました: ${error.message}`;
@@ -1018,16 +1026,15 @@ async function performArchiveSearch(track, query, nodes) {
   nodes.status.classList.remove("error");
   if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
     nodes.status.textContent = "検索用インデックスを読み込んでいます…";
-    state.archiveSearchIndex = await loadArchiveSearchIndex(searchPath, nodes);
-    state.archiveSearchIndexPath = searchPath;
   }
+  const index = await ensureArchiveSearchIndex(searchPath);
   if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
     return;
   }
   const normalizedQuery = normalizeArchiveSearchText(query);
   const matches = [];
   let totalMatches = 0;
-  for (const doc of state.archiveSearchIndex.documents || []) {
+  for (const doc of index.documents || []) {
     const matchingUnits = archiveSearchUnits(doc)
       .map((unit) => ({
         ...unit,
@@ -1053,15 +1060,29 @@ async function performArchiveSearch(track, query, nodes) {
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
 }
 
-async function loadArchiveSearchIndex(searchPath, nodes) {
+function ensureArchiveSearchIndex(searchPath) {
+  if (state.archiveSearchIndex && state.archiveSearchIndexPath === searchPath) {
+    return Promise.resolve(state.archiveSearchIndex);
+  }
+  if (!state.archiveSearchLoads.has(searchPath)) {
+    const loading = loadArchiveSearchIndex(searchPath).then((index) => {
+      state.archiveSearchIndex = index;
+      state.archiveSearchIndexPath = searchPath;
+      return index;
+    }).finally(() => state.archiveSearchLoads.delete(searchPath));
+    state.archiveSearchLoads.set(searchPath, loading);
+  }
+  return state.archiveSearchLoads.get(searchPath);
+}
+
+async function loadArchiveSearchIndex(searchPath) {
   const index = await fetchJson(searchPath);
   if (Array.isArray(index.documents)) {
     return index;
   }
   const shards = Array.isArray(index.shards) ? index.shards : [];
   const documents = [];
-  for (const [position, shard] of shards.entries()) {
-    nodes.status.textContent = `検索用インデックスを読み込んでいます… ${position + 1}/${shards.length}`;
+  for (const shard of shards) {
     const payload = await fetchJson(String(shard.path || ""));
     documents.push(...(payload.documents || []));
   }
