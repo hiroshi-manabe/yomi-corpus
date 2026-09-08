@@ -10,10 +10,10 @@
   "item_count": 10,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 6,
-      "strong_pending": 4
+      "strong_reviewed": 4
     },
     "repaired_item_count": 10,
     "queued_repair_row_count": 12,
@@ -57,12 +57,12 @@
       "source_line_no": 1829927,
       "preview": "しかし、梅雨独特の湿気は気が滅入りますね。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:55:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:11:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +109,12 @@
       "source_line_no": 1598168,
       "preview": "< 【国会】立民・白眞勲、新型イージス艦が今回の弾道ミサイルに対応できるのか聞き出そうとするも失敗野田聖子「私が総裁選で推薦人を２０人集めて全力で演説すれば最短で今年の可能性はある」でなにか実績あるの？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:55:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:11:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -161,12 +161,12 @@
       "source_line_no": 384362,
       "preview": "アイルランドをはじめ世界各国の名曲やHaRuRuオリジナル曲など、ハープの音色に心を浸されてみませんか？",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:55:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:11:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -213,12 +213,12 @@
       "source_line_no": 1195299,
       "preview": "ショパンの練習曲第３番ホ長調「別れの曲」。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T06:55:25Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T07:11:07Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -9978,7 +9978,7 @@
       "source_line_no": 1195299,
       "text": "この悪循環が始まったのは２００７年６月の１ドル＝１２２円の円安時から。",
       "rendered_yomi_before": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円/マドカ 安時/ヤストキ から/カラ 。/。",
-      "rendered_yomi_after": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円安/エンヤス 時/トキ から/カラ 。/。",
+      "rendered_yomi_after": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円安/エンヤス 時/ジ から/カラ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "この",
@@ -10058,7 +10058,7 @@
         ],
         [
           "時",
-          "トキ"
+          "ジ"
         ],
         [
           "から",
@@ -10272,12 +10272,12 @@
         },
         {
           "surface": "時",
-          "reading": "トキ",
+          "reading": "ジ",
           "nodes": [
             {
               "type": "ruby",
               "text": "時",
-              "reading": "とき"
+              "reading": "じ"
             }
           ]
         },
@@ -10315,7 +10315,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001195299:u0012",
           "text": "この悪循環が始まったのは２００７年６月の１ドル＝１２２円の円安時から。",
           "rendered_yomi_before": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円/マドカ 安時/ヤストキ から/カラ 。/。",
-          "rendered_yomi_after": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円安/エンヤス 時/トキ から/カラ 。/。",
+          "rendered_yomi_after": "この/コノ 悪循環/アクジュンカン が/ガ 始まっ/ハジマッ た/タ の/ノ は/ハ ２００７/ 年/ネン ６/ 月/ガツ の/ノ １/ ドル/ドル ＝/＝ １２２/ 円/エン の/ノ 円安/エンヤス 時/ジ から/カラ 。/。",
           "display_mapping": {
             "start": 18,
             "end": 20,
