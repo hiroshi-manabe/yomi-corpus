@@ -10,10 +10,10 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
       "complete": 7,
-      "strong_pending": 3
+      "strong_reviewed": 3
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -31,12 +31,12 @@
       "source_line_no": 634315,
       "preview": "ローソンにて缶コーヒー２本に１個、宇宙戦艦ヤマト TVシリーズ35周年を記念してメカニックコレクションが付いていました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:26Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:48:28Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -83,12 +83,12 @@
       "source_line_no": 1860872,
       "preview": "野菜作りを楽しまれている会員さんからの依頼で測定。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:26Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:48:28Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -239,12 +239,12 @@
       "source_line_no": 1282369,
       "preview": "徳富 蘇峰はいうまでもなく日本近代、最大のジャーナリストである。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
+      "state": "strong_reviewed",
+      "workflow_state": "escalated_submitted",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-08T04:41:26Z",
+      "selectable": false,
+      "state_updated_at": "2026-09-08T04:48:28Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -839,7 +839,7 @@
       "source_line_no": 1860872,
       "text": "血抜きが完璧で臭みなしの上品です。",
       "rendered_yomi_before": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上品/ジョウヒン です/デス 。/。",
-      "rendered_yomi_after": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上品/ジョウヒン です/デス 。/。",
+      "rendered_yomi_after": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上/ジョウ 品/シナ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "血抜き",
@@ -870,8 +870,12 @@
           "ノ"
         ],
         [
-          "上品",
-          "ジョウヒン"
+          "上",
+          "ジョウ"
+        ],
+        [
+          "品",
+          "シナ"
         ],
         [
           "です",
@@ -965,13 +969,24 @@
           ]
         },
         {
-          "surface": "上品",
-          "reading": "ジョウヒン",
+          "surface": "上",
+          "reading": "ジョウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "上品",
-              "reading": "じょうひん"
+              "text": "上",
+              "reading": "じょう"
+            }
+          ]
+        },
+        {
+          "surface": "品",
+          "reading": "シナ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "品",
+              "reading": "しな"
             }
           ]
         },
@@ -1009,14 +1024,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001860872:u0006",
           "text": "血抜きが完璧で臭みなしの上品です。",
           "rendered_yomi_before": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上品/ジョウヒン です/デス 。/。",
-          "rendered_yomi_after": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上品/ジョウヒン です/デス 。/。",
+          "rendered_yomi_after": "血抜き/チヌキ が/ガ 完璧/カンペキ で/デ 臭み/クサミ なし/ナシ の/ノ 上/ジョウ 品/シナ です/デス 。/。",
           "display_mapping": {
             "start": 7,
-            "end": 8,
+            "end": 9,
             "char_start": 12,
             "char_end": 14,
             "start_offset": 0,
-            "end_offset": 2,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -2237,8 +2252,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1056_v1__2026-09-08T04:47:01.257Z",
+            "generated_at_epoch": 1788842821
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1056_v1__2026-09-08T04:47:01.257Z",
+        "generated_at_epoch": 1788842821
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
