@@ -32,6 +32,8 @@ class OpenAIResponsesBackend:
         self._client = OpenAI(api_key=resolved_api_key) if resolved_api_key else OpenAI()
 
     def run_item(self, task_config: LLMTaskConfig, item: PromptItem) -> LLMResult:
+        from yomi_corpus.llm.response_cache import request_identity
+
         response = self._client.responses.create(**build_response_create_kwargs(task_config, item.prompt))
         raw_text = _extract_output_text(response)
         parsed = None
@@ -40,6 +42,9 @@ class OpenAIResponsesBackend:
             parsed = parse_output(raw_text, task_config.parser, metadata=item.metadata)
         except Exception as exc:  # noqa: BLE001
             parse_error = str(exc)
+        response_status = getattr(response, "status", None)
+        if response_status and response_status != "completed":
+            parse_error = f"Response ended with status {response_status}"
         return LLMResult(
             item_id=item.item_id,
             raw_text=raw_text,
@@ -47,7 +52,10 @@ class OpenAIResponsesBackend:
             parse_error=parse_error,
             usage=usage_from_response(response),
             tool_calls=tool_calls_from_response(response),
-            metadata=item.metadata,
+            metadata={**item.metadata, "api_response": {
+                "response_id": getattr(response, "id", None), "status": response_status,
+                "request_key": request_identity(task_config, item)[0],
+            }},
         )
 
     def run_sync(self, task_config: LLMTaskConfig, items: list[PromptItem]) -> list[LLMResult]:

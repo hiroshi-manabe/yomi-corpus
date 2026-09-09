@@ -1,0 +1,13 @@
+[Unit]
+Description=Yomi corpus dev speculative reading preparation
+
+[Service]
+Type=oneshot
+WorkingDirectory=/panfs/panmt22/users/hmanabe/yomi-corpus
+Environment=PATH=/home/hmanabe/.local/bin:/home/hmanabe/.local/share/mise/installs/python/3.12.12/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/bash -lc './speculative-worker dev'
+Nice=15
+IOSchedulingClass=idle
+TimeoutStartSec=3h
+TimeoutStopSec=15s
+KillMode=control-group

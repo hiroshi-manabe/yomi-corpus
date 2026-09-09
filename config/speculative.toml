@@ -1,0 +1,23 @@
+[tracks.dev]
+consume_enabled = true
+submit_enabled = true
+database = "data/llm/cache/dev.sqlite3"
+horizon = 500
+chunk_size = 10
+max_chunks_per_pass = 5
+max_pending_jobs = 50
+max_requests_per_job = 5000
+preparation_timeout_seconds = 1800
+retention_days = 90
+
+[tracks.working]
+consume_enabled = false
+submit_enabled = false
+database = "data/llm/cache/working.sqlite3"
+horizon = 500
+chunk_size = 10
+max_chunks_per_pass = 5
+max_pending_jobs = 50
+max_requests_per_job = 5000
+preparation_timeout_seconds = 1800
+retention_days = 90

@@ -1,6 +1,6 @@
 # Speculative Reading Request Cache
 
-Status: implementation plan, agreed 2026-09-09. This does not enable a worker.
+Status: implementation and dev rollout, 2026-09-09.
 
 ## Objective
 
@@ -141,3 +141,64 @@ Acceptance: ordinary refill succeeds unchanged with the worker stopped or cache
 missing; successful exact hits avoid a call; pending work never delays a miss;
 no speculative artifacts enter human review; restarts do not lose tracked jobs;
 usage is not double-counted; issue-processing latency does not regress.
+
+## Operation
+
+`config/speculative.toml` separates consumption and new-submission switches per
+track. The initial consumer covers ordinary reading sync/background execution;
+foreground Batch mode and reading retries retain their existing execution path.
+Escalated Repair is unchanged. An unavailable cache fails open for foreground
+work but fails closed for speculative submission, whose job ledger is required.
+
+Run `./speculative-worker dev --status` for configuration, response/document
+counts, events, jobs, and Batch token usage. `./speculative-worker dev` performs
+a bounded preparation pass; `--collect-only` imports available results without
+waiting for completion. `--chunks 1` limits a manual preparation pass.
+
+The two user-level systemd units in `deploy/systemd/user/` separate preparation
+from collection. Preparation is retriggered two minutes after exit and yields
+to refill between chunks. Collection is retriggered one minute after exit,
+including while preparation is paused or submission is disabled. These are
+poll intervals, not promises about remote completion. See the
+[official Batch API guide](https://developers.openai.com/api/docs/guides/batch)
+for remote lifecycle semantics.
+
+Inspect logs with:
+
+```bash
+journalctl --user -u yomi-corpus-speculative-dev.service -n 50
+journalctl --user -u yomi-corpus-speculative-collect-dev.service -n 50
+```
+
+Stop new preparation with `systemctl --user stop
+yomi-corpus-speculative-dev.timer yomi-corpus-speculative-dev.service`; leave
+collection enabled to retrieve already paid work. Disabling `consume_enabled`
+restores ordinary foreground requests immediately for subsequent invocations.
+No corpus rebuild or publication is needed for these backend-only changes.
+
+The persistent database lives under `data/llm/cache/`, with DELETE journaling,
+short transactions, and a 150ms SQLite lock timeout. Cross-process exclusive
+locking must pass on the deployed filesystem. The services run on one host;
+do not run them on multiple hosts without revalidating storage guarantees.
+Preparation/collector locks are separate and never acquire production locks.
+
+Successful temporary preflight workspaces and queue files are removed; compact
+preflight reports remain for diagnosis. Jobs retain exact prompts and provenance.
+The initial speculative failure policy makes one paid attempt per prepared
+request: malformed/failed items fall back to ordinary refill rather than causing
+an automatic retry storm. Network collection retries on later timer passes.
+Ambiguous submissions remain visible in the job ledger and are searched by
+remote metadata; they are never blindly resubmitted. Ordinary refill still
+proceeds immediately if such a request is needed.
+
+Mechanical preparation errors are checkpointed separately, retried after an
+hour at most three times, then left visible for diagnosis. They do not prevent
+other horizon documents from being attempted. The regular refill remains the
+fallback for unsuccessful speculation.
+
+Batch usage is recorded once per remote job/item in the attempt ledger, separate
+from ordinary batch usage summaries. Cache-hit results carry zero new usage
+and retain the original usage and origin in `metadata.response_cache`.
+Foreground capture requires a matching request fingerprint recorded at actual
+submission. Legacy in-flight jobs without that fingerprint finish normally but
+are not imported into the cache; changed settings cannot relabel their answers.

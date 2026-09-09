@@ -90,6 +90,40 @@ def run_llm_task(
     input_jsonl_path: str,
     output_jsonl_path: str,
     *,
+    response_cache_path: str | Path | None = None,
+    **kwargs,
+) -> ResumableLLMJobSummary:
+    from yomi_corpus.llm.response_cache import (
+        LOG, ResponseCache, capture_results, seed_results,
+    )
+    cache = None
+    # Foreground Batch jobs keep their existing resume/result semantics.
+    if response_cache_path and kwargs.get("execution_mode") in {"sync", "background"}:
+        try:
+            task = kwargs.get("task_config_override") or load_llm_task_config(task_config_path)
+            items = build_prompt_items(task, load_jsonl_rows(input_jsonl_path))
+            cache = ResponseCache(response_cache_path)
+            job = kwargs.get("job_dir")
+            pending = load_background_records(resolve_repo_path(job) / BACKGROUND_RESPONSES_FILENAME) if job else {}
+            seed_results(cache, task, items, resolve_repo_path(output_jsonl_path), pending)
+        except Exception as exc:
+            LOG.warning("Reading cache unavailable; using ordinary requests: %s", exc)
+            cache = None
+    try:
+        return _run_llm_task_uncached(task_config_path, input_jsonl_path, output_jsonl_path, **kwargs)
+    finally:
+        if cache is not None:
+            try:
+                capture_results(cache, task, items, resolve_repo_path(output_jsonl_path))
+            except Exception as exc:
+                LOG.warning("Could not capture reading responses: %s", exc)
+
+
+def _run_llm_task_uncached(
+    task_config_path: str,
+    input_jsonl_path: str,
+    output_jsonl_path: str,
+    *,
     execution_mode: str,
     api_key_file: str | None = None,
     task_config_override: LLMTaskConfig | None = None,
@@ -229,6 +263,8 @@ def run_background_task(
     max_wait_seconds: float | None = None,
     stale_progress_timeout_seconds: float | None = DEFAULT_LLM_STALE_PROGRESS_TIMEOUT_SECONDS,
 ) -> ResumableLLMJobSummary:
+    from yomi_corpus.llm.response_cache import request_identity
+
     task_config = task_config_override or load_llm_task_config(task_config_path)
     rows = load_jsonl_rows(input_jsonl_path)
     items = build_prompt_items(task_config, rows)
@@ -264,6 +300,7 @@ def run_background_task(
             raise ValueError(f"Background response for item {item.item_id} did not include an id.")
         records[item.item_id] = {
             "item_id": item.item_id,
+            "request_key": request_identity(task_config, item)[0],
             "response_id": str(response_id),
             "status": snapshot.get("status"),
             "submitted_at_epoch": int(time()),
@@ -558,7 +595,9 @@ def poll_background_records_once(
                     }
                 )
                 if status == "completed":
-                    result = background_completed_result(task_config, item, snapshot)
+                    result = background_completed_result(
+                        task_config, item, snapshot, request_key=record.get("request_key"),
+                    )
                 elif status in {"failed", "cancelled", "incomplete"}:
                     result = retry_or_finish_background_failure(
                         task_config=task_config,
@@ -771,6 +810,8 @@ def background_completed_result(
     task_config: LLMTaskConfig,
     item: object,
     snapshot: dict[str, object],
+    *,
+    request_key: str | None = None,
 ) -> LLMResult:
     raw_text = str(snapshot.get("raw_text") or "")
     parsed = None
@@ -791,7 +832,10 @@ def background_completed_result(
         parse_error=parse_error,
         usage=snapshot.get("usage"),
         tool_calls=snapshot.get("tool_calls"),
-        metadata=item.metadata,
+        metadata={**item.metadata, "api_response": {
+            "response_id": snapshot.get("response_id"), "status": "completed",
+            "request_key": request_key,
+        }},
     )
 
 
@@ -815,6 +859,8 @@ def retry_or_finish_background_failure(
     record: dict[str, object],
     backend: OpenAIResponsesBackend,
 ) -> LLMResult | None:
+    from yomi_corpus.llm.response_cache import request_identity
+
     attempts = list(record.get("previous_attempts") or [])
     error = record.get("error") or record.get("incomplete_details")
     rate_limited = rate_limited_background_error(error)
@@ -850,6 +896,7 @@ def retry_or_finish_background_failure(
         record.update(
             {
                 "item_id": item.item_id,
+                "request_key": request_identity(task_config, item)[0],
                 "response_id": str(response_id),
                 "status": snapshot.get("status"),
                 "submitted_at_epoch": int(time()),

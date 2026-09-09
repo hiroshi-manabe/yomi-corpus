@@ -1770,6 +1770,8 @@ class PipelineWorkspace:
         queued_count = count_nonempty_lines(input_path)
         job_summary = None
         if queued_count:
+            from yomi_corpus.llm.response_cache import configured_cache_path
+
             job_summary = run_llm_task(
                 task_config_path,
                 str(input_path),
@@ -1778,6 +1780,7 @@ class PipelineWorkspace:
                 task_config_override=task_config,
                 job_dir=str(job_dir),
                 show_progress=True,
+                response_cache_path=configured_cache_path(self.root, batch_state.track_name),
             )
             if job_summary.status != "completed":
                 return {

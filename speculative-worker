@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Prepare speculative reading requests or collect results without waiting."""
+
+import argparse
+import json
+from pathlib import Path
+import sys
+import signal
+
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / "src"))
+
+from yomi_corpus.llm.response_cache import ResponseCache, load_cache_config
+from yomi_corpus.speculative_worker import prepare_child, run_pass
+
+
+def main():
+    def stop(_signum, _frame):
+        raise KeyboardInterrupt("Speculative worker stopped")
+
+    signal.signal(signal.SIGTERM, stop)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("track", choices=["dev", "working"])
+    parser.add_argument("--collect-only", action="store_true")
+    parser.add_argument("--status", action="store_true")
+    parser.add_argument("--chunks", type=int)
+    parser.add_argument("--prepare-lines", help=argparse.SUPPRESS)
+    parser.add_argument("--output", type=Path, help=argparse.SUPPRESS)
+    args = parser.parse_args()
+    if args.chunks is not None and args.chunks <= 0:
+        parser.error("--chunks must be positive")
+    if args.prepare_lines:
+        if not args.output:
+            parser.error("--output is required for the preparation child")
+        prepare_child(
+            ROOT,
+            args.track,
+            [int(v) for v in args.prepare_lines.split(",")],
+            args.output,
+        )
+        return
+    if args.status:
+        config = load_cache_config(ROOT, args.track)
+        result = {
+            "config": config,
+            **ResponseCache(ROOT / config["database"]).summary(),
+        }
+    else:
+        result = run_pass(
+            ROOT, args.track, collect_only=args.collect_only, chunks=args.chunks
+        )
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == "__main__":
+    main()

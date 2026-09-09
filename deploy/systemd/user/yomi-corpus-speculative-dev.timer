@@ -1,0 +1,11 @@
+[Unit]
+Description=Maintain a best-effort speculative reading horizon
+
+[Timer]
+OnBootSec=5min
+OnUnitInactiveSec=2min
+AccuracySec=15s
+Unit=yomi-corpus-speculative-dev.service
+
+[Install]
+WantedBy=timers.target

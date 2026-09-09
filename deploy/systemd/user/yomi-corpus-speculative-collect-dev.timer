@@ -1,0 +1,11 @@
+[Unit]
+Description=Poll speculative reading Batch results
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=1min
+AccuracySec=10s
+Unit=yomi-corpus-speculative-collect-dev.service
+
+[Install]
+WantedBy=timers.target

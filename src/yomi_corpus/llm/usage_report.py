@@ -17,6 +17,7 @@ def summarize_results_jsonl(
 ) -> dict[str, Any]:
     totals = _empty_usage_totals()
     item_count = 0
+    response_cache_hits = 0
     priced_item_count = 0
     total_token_cost_usd = 0.0
     total_tool_cost_usd = 0.0
@@ -29,6 +30,8 @@ def summarize_results_jsonl(
                 continue
             row = json.loads(line)
             item_count += 1
+            if row.get("metadata", {}).get("response_cache"):
+                response_cache_hits += 1
             usage = row.get("usage")
             _accumulate_usage(totals, usage)
             row_tool_calls = row.get("tool_calls")
@@ -57,6 +60,8 @@ def summarize_results_jsonl(
         "model": model,
         "processing_tier": processing_tier,
         "item_count": item_count,
+        "response_cache_hits": response_cache_hits,
+        "new_api_items": item_count - response_cache_hits,
         "priced_item_count": priced_item_count,
         "usage": totals,
         "tool_calls": tool_calls,
