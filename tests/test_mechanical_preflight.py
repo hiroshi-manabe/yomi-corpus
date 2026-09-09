@@ -21,6 +21,25 @@ from yomi_corpus.pipeline import (
 
 
 class MechanicalPreflightTests(unittest.TestCase):
+    def test_explicit_queue_documents_use_isolated_source(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            live, isolated = MagicMock(), MagicMock()
+            configure_live_workspace(live)
+            configure_isolated_workspace(isolated, root)
+            live._load_source_payloads.return_value = {900: {"text": "九。"}, 200: {"text": "二。"}}
+            with patch("yomi_corpus.mechanical_preflight.PipelineWorkspace", side_effect=[live, isolated]), patch(
+                "yomi_corpus.mechanical_preflight.copy_processing_order_state"
+            ) as copy_order:
+                result = run_mechanical_preflight(root, MechanicalPreflightOptions(
+                    track_name="dev", target_documents=2, source_line_nos=(900, 200), keep_workspace=True,
+                ))
+            import gzip
+            with gzip.open(Path(result["workspace_path"]) / "selected.jsonl.gz", "rt") as stream:
+                self.assertEqual([json.loads(line)["text"] for line in stream], ["九。", "二。"])
+            copy_order.assert_not_called()
+            self.assertEqual(result["status"], "passed")
+
     def test_runs_to_queue_boundary_without_llm_and_removes_workspace(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

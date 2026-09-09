@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import gzip
 import shutil
 import tempfile
 import time
@@ -28,6 +29,9 @@ class MechanicalPreflightOptions:
     target_documents: int
     dataset_config_path: str = "config/datasets/ja_cc_level2.toml"
     keep_workspace: bool = False
+    source_line_nos: tuple[int, ...] = ()
+    queue_output_path: str | None = None
+    workspace_parent_path: str | None = None
 
 
 def run_mechanical_preflight(
@@ -41,15 +45,26 @@ def run_mechanical_preflight(
     live_workspace = PipelineWorkspace(root)
     preview = live_workspace.preview_next_source_documents(
         track_name=options.track_name,
-        target_documents=options.target_documents,
+        target_documents=0 if options.source_line_nos else options.target_documents,
         dataset_config_path=options.dataset_config_path,
     )
+    payloads = None
+    if options.source_line_nos:
+        payloads = live_workspace._load_source_payloads(
+            source_path=Path(preview["dataset_source_path"]),
+            source_line_nos=list(options.source_line_nos),
+        )
+        preview["selected_document_count"] = len(options.source_line_nos)
+        preview["replay_source_line_nos"] = list(options.source_line_nos)
     if int(preview.get("selected_document_count") or 0) == 0:
         raise ValueError("No future source documents are available for preflight")
 
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     preflight_root = root / "data" / "preflight"
-    workspace_parent = preflight_root / "workspaces"
+    workspace_parent = (
+        Path(options.workspace_parent_path)
+        if options.workspace_parent_path else preflight_root / "workspaces"
+    )
     report_dir = preflight_root / "reports"
     workspace_parent.mkdir(parents=True, exist_ok=True)
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -81,6 +96,18 @@ def run_mechanical_preflight(
             dataset_config_path=options.dataset_config_path,
             preview=preview,
         )
+        if payloads is not None:
+            # Keep original identities in the report; synthetic local numbering
+            # is confined to this disposable, LLM-free workspace.
+            selected_source = temporary_root / "selected.jsonl.gz"
+            with gzip.open(selected_source, "wt", encoding="utf-8") as output:
+                for source_line in options.source_line_nos:
+                    output.write(json.dumps(payloads[source_line], ensure_ascii=False) + "\n")
+            write_temporary_dataset_config(
+                temporary_root=temporary_root,
+                dataset_config_path=options.dataset_config_path,
+                preview={**preview, "dataset_source_path": str(selected_source)},
+            )
         workspace = PipelineWorkspace(temporary_root)
         live_track_state = live_workspace.load_track_state(options.track_name)
         workspace.save_track_state(
@@ -91,11 +118,12 @@ def run_mechanical_preflight(
                 updated_at=now_iso(),
             )
         )
-        copy_processing_order_state(
-            live_workspace=live_workspace,
-            temporary_workspace=workspace,
-            track_name=options.track_name,
-        )
+        if payloads is None:
+            copy_processing_order_state(
+                live_workspace=live_workspace,
+                temporary_workspace=workspace,
+                track_name=options.track_name,
+            )
         prepared = workspace.prepare_next_batch(
             track_name=options.track_name,
             target_documents=options.target_documents,
@@ -134,6 +162,10 @@ def run_mechanical_preflight(
                 )
 
         final_state = workspace.load_batch_state(batch_name)
+        if options.queue_output_path is not None:
+            queue_output = Path(options.queue_output_path)
+            queue_output.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(workspace.batch_dir(batch_name) / "yomi_reading_input.jsonl", queue_output)
         queue_summary_path = workspace.batch_dir(batch_name) / "yomi_reading_queue_summary.json"
         report.update(
             {
