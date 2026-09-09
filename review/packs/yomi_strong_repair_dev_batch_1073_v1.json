@@ -1,0 +1,1711 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1073_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1073",
+  "created_at_epoch": 1788938513,
+  "created_at": "2026-09-09T07:21:53Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002007347",
+      "doc_seq": 1,
+      "track_doc_seq": 2201,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0261.jsonl.gz",
+      "source_line_no": 2007347,
+      "preview": "私の好きなキャンピングカーの１台です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001575550",
+      "doc_seq": 2,
+      "track_doc_seq": 2202,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0195.jsonl.gz",
+      "source_line_no": 1575550,
+      "preview": "鍛造コースは直接プラチナや18金など地金の棒を叩いて丸め、Cの字を作ってからバーナーでくっつける、「鍛造技法」という作り方です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000901057",
+      "doc_seq": 3,
+      "track_doc_seq": 2203,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0091.jsonl.gz",
+      "source_line_no": 901057,
+      "preview": "こんばんは、岩井茂樹です。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-09T07:32:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002327231",
+      "doc_seq": 4,
+      "track_doc_seq": 2204,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0339.jsonl.gz",
+      "source_line_no": 2327231,
+      "preview": "ですが、指導者としては「総合競技で入賞をさせてあげられなかったこと」そして「全体のレベルが毎年、すごい勢いで上がって来ていること」にとても考えさせられる大会になりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002118376",
+      "doc_seq": 5,
+      "track_doc_seq": 2205,
+      "unit_count": 35,
+      "source_file": "ja/ja_cc/level2/0285.jsonl.gz",
+      "source_line_no": 2118376,
+      "preview": "じゃあ、歩いてみるかとグーグル先生でルートを調べる。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-09T07:32:09Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 35,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000419740",
+      "doc_seq": 6,
+      "track_doc_seq": 2206,
+      "unit_count": 25,
+      "source_file": "ja/ja_cc/level2/0046.jsonl.gz",
+      "source_line_no": 419740,
+      "preview": "ランキングに参加しています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 25,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001568461",
+      "doc_seq": 7,
+      "track_doc_seq": 2207,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0194.jsonl.gz",
+      "source_line_no": 1568461,
+      "preview": "名古屋瑞穂区にある『日本さくら名所100選』にも選ばれている『山崎川四季の道の桜』へ行ってきました♪“石川橋”から”落合橋”までの2.5kmの両岸には約600本のソメイヨシノの並木が続いていて、特に木造で風情のある”鼎小橋（かなえこはし）”付近には、美しい花をいっぱい咲かせる老木が数多く残されていて、川面と相まって見所のひとつになっています(*´-`)昼は桜吹雪を浴びながら長い桜並木を散策して、美しく咲く桜を存分に堪能しながら良い運動にもなりました(*^-^*)本来、”鼎小橋”付近では18時半から21時まで夜のライトアップが行われ、距離は短いですが水面に写る桜も楽しめて、明るく輝く月光を浴びながら幻想的なお花見を楽しめるのですが、今年はコロナウイルスのせいで実施されず、残念ではありますが来年を楽しみにしたいと思います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000219581",
+      "doc_seq": 8,
+      "track_doc_seq": 2208,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0022.jsonl.gz",
+      "source_line_no": 219581,
+      "preview": "かたかなの「モヤモヤ」はいつごろから市民権を得たのでしょうか？",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000524564",
+      "doc_seq": 9,
+      "track_doc_seq": 2209,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0058.jsonl.gz",
+      "source_line_no": 524564,
+      "preview": "真っ青な顔を覆い、恐怖し絶望するアズリーサ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002510786",
+      "doc_seq": 10,
+      "track_doc_seq": 2210,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0383.jsonl.gz",
+      "source_line_no": 2510786,
+      "preview": "こしあん入りミルク寒天。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-09T07:20:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000901057",
+      "doc_seq": 3,
+      "track_doc_seq": 2203,
+      "unit_id": "ja_cc_level2_corrected_v1:0000901057:u0004",
+      "unit_seq": 4,
+      "source_file": "ja/ja_cc/level2/0091.jsonl.gz",
+      "source_line_no": 901057,
+      "text": "滞在中、天皇皇后両陛下は、同国王王妃両陛下を御夕餐にお招きになり、また、安倍晋三内閣総理大臣夫妻は、同国王王妃両陛下と懇談され夕食会を催す予定です。",
+      "rendered_yomi_before": "滞在/タイザイ 中/チュウ 、/、 天皇/テンノウ 皇后/コウゴウ 両/リョウ 陛下/ヘイカ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ を/ヲ 御/ゴ 夕/ユウ 餐/餐 に/ニ お/オ 招き/マネキ に/ニ なり/ナリ 、/、 また/マタ 、/、 安倍/アベ 晋三/シンゾウ 内閣/ナイカク 総理/ソウリ 大臣/ダイジン 夫妻/フサイ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ と/ト 懇談/コンダン さ/サ れ/レ 夕食会/ユウショクカイ を/ヲ 催す/モヨオス 予定/ヨテイ です/デス 。/。",
+      "rendered_yomi_after": "滞在/タイザイ 中/チュウ 、/、 天皇/テンノウ 皇后/コウゴウ 両/リョウ 陛下/ヘイカ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ を/ヲ 御/ゴ 夕餐/ユウサン に/ニ お/オ 招き/マネキ に/ニ なり/ナリ 、/、 また/マタ 、/、 安倍/アベ 晋三/シンゾウ 内閣/ナイカク 総理/ソウリ 大臣/ダイジン 夫妻/フサイ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ と/ト 懇談/コンダン さ/サ れ/レ 夕食会/ユウショクカイ を/ヲ 催す/モヨオス 予定/ヨテイ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "滞在",
+          "タイザイ"
+        ],
+        [
+          "中",
+          "チュウ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "天皇",
+          "テンノウ"
+        ],
+        [
+          "皇后",
+          "コウゴウ"
+        ],
+        [
+          "両",
+          "リョウ"
+        ],
+        [
+          "陛下",
+          "ヘイカ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "同",
+          "ドウ"
+        ],
+        [
+          "国王",
+          "コクオウ"
+        ],
+        [
+          "王妃",
+          "オウヒ"
+        ],
+        [
+          "両",
+          "リョウ"
+        ],
+        [
+          "陛下",
+          "ヘイカ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "御",
+          "ゴ"
+        ],
+        [
+          "夕餐",
+          "ユウサン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "招き",
+          "マネキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なり",
+          "ナリ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "また",
+          "マタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "安倍",
+          "アベ"
+        ],
+        [
+          "晋三",
+          "シンゾウ"
+        ],
+        [
+          "内閣",
+          "ナイカク"
+        ],
+        [
+          "総理",
+          "ソウリ"
+        ],
+        [
+          "大臣",
+          "ダイジン"
+        ],
+        [
+          "夫妻",
+          "フサイ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "同",
+          "ドウ"
+        ],
+        [
+          "国王",
+          "コクオウ"
+        ],
+        [
+          "王妃",
+          "オウヒ"
+        ],
+        [
+          "両",
+          "リョウ"
+        ],
+        [
+          "陛下",
+          "ヘイカ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "懇談",
+          "コンダン"
+        ],
+        [
+          "さ",
+          "サ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "夕食会",
+          "ユウショクカイ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "催す",
+          "モヨオス"
+        ],
+        [
+          "予定",
+          "ヨテイ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "滞在",
+          "reading": "タイザイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "滞在",
+              "reading": "たいざい"
+            }
+          ]
+        },
+        {
+          "surface": "中",
+          "reading": "チュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中",
+              "reading": "ちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "天皇",
+          "reading": "テンノウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "天皇",
+              "reading": "てんのう"
+            }
+          ]
+        },
+        {
+          "surface": "皇后",
+          "reading": "コウゴウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "皇后",
+              "reading": "こうごう"
+            }
+          ]
+        },
+        {
+          "surface": "両",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "両",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "陛下",
+          "reading": "ヘイカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陛下",
+              "reading": "へいか"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "同",
+          "reading": "ドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同",
+              "reading": "どう"
+            }
+          ]
+        },
+        {
+          "surface": "国王",
+          "reading": "コクオウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国王",
+              "reading": "こくおう"
+            }
+          ]
+        },
+        {
+          "surface": "王妃",
+          "reading": "オウヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "王妃",
+              "reading": "おうひ"
+            }
+          ]
+        },
+        {
+          "surface": "両",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "両",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "陛下",
+          "reading": "ヘイカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陛下",
+              "reading": "へいか"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "御",
+          "reading": "ゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御",
+              "reading": "ご"
+            }
+          ]
+        },
+        {
+          "surface": "夕餐",
+          "reading": "ユウサン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夕餐",
+              "reading": "ゆうさん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "招き",
+          "reading": "マネキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "招",
+              "reading": "まね"
+            },
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "また",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "また"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "安倍",
+          "reading": "アベ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "安倍",
+              "reading": "あべ"
+            }
+          ]
+        },
+        {
+          "surface": "晋三",
+          "reading": "シンゾウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "晋三",
+              "reading": "しんぞう"
+            }
+          ]
+        },
+        {
+          "surface": "内閣",
+          "reading": "ナイカク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内閣",
+              "reading": "ないかく"
+            }
+          ]
+        },
+        {
+          "surface": "総理",
+          "reading": "ソウリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "総理",
+              "reading": "そうり"
+            }
+          ]
+        },
+        {
+          "surface": "大臣",
+          "reading": "ダイジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大臣",
+              "reading": "だいじん"
+            }
+          ]
+        },
+        {
+          "surface": "夫妻",
+          "reading": "フサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夫妻",
+              "reading": "ふさい"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "同",
+          "reading": "ドウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同",
+              "reading": "どう"
+            }
+          ]
+        },
+        {
+          "surface": "国王",
+          "reading": "コクオウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "国王",
+              "reading": "こくおう"
+            }
+          ]
+        },
+        {
+          "surface": "王妃",
+          "reading": "オウヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "王妃",
+              "reading": "おうひ"
+            }
+          ]
+        },
+        {
+          "surface": "両",
+          "reading": "リョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "両",
+              "reading": "りょう"
+            }
+          ]
+        },
+        {
+          "surface": "陛下",
+          "reading": "ヘイカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "陛下",
+              "reading": "へいか"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "懇談",
+          "reading": "コンダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "懇談",
+              "reading": "こんだん"
+            }
+          ]
+        },
+        {
+          "surface": "さ",
+          "reading": "サ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さ"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "夕食会",
+          "reading": "ユウショクカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "夕食会",
+              "reading": "ゆうしょくかい"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "催す",
+          "reading": "モヨオス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "催",
+              "reading": "もよお"
+            },
+            {
+              "type": "text",
+              "text": "す"
+            }
+          ]
+        },
+        {
+          "surface": "予定",
+          "reading": "ヨテイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "予定",
+              "reading": "よてい"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000901057:u0004",
+          "text": "滞在中、天皇皇后両陛下は、同国王王妃両陛下を御夕餐にお招きになり、また、安倍晋三内閣総理大臣夫妻は、同国王王妃両陛下と懇談され夕食会を催す予定です。",
+          "rendered_yomi_before": "滞在/タイザイ 中/チュウ 、/、 天皇/テンノウ 皇后/コウゴウ 両/リョウ 陛下/ヘイカ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ を/ヲ 御/ゴ 夕/ユウ 餐/餐 に/ニ お/オ 招き/マネキ に/ニ なり/ナリ 、/、 また/マタ 、/、 安倍/アベ 晋三/シンゾウ 内閣/ナイカク 総理/ソウリ 大臣/ダイジン 夫妻/フサイ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ と/ト 懇談/コンダン さ/サ れ/レ 夕食会/ユウショクカイ を/ヲ 催す/モヨオス 予定/ヨテイ です/デス 。/。",
+          "rendered_yomi_after": "滞在/タイザイ 中/チュウ 、/、 天皇/テンノウ 皇后/コウゴウ 両/リョウ 陛下/ヘイカ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ を/ヲ 御/ゴ 夕餐/ユウサン に/ニ お/オ 招き/マネキ に/ニ なり/ナリ 、/、 また/マタ 、/、 安倍/アベ 晋三/シンゾウ 内閣/ナイカク 総理/ソウリ 大臣/ダイジン 夫妻/フサイ は/ハ 、/、 同/ドウ 国王/コクオウ 王妃/オウヒ 両/リョウ 陛下/ヘイカ と/ト 懇談/コンダン さ/サ れ/レ 夕食会/ユウショクカイ を/ヲ 催す/モヨオス 予定/ヨテイ です/デス 。/。",
+          "display_mapping": {
+            "start": 16,
+            "end": 17,
+            "char_start": 23,
+            "char_end": 25,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "夕",
+              "token_surface": "夕",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ゆう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "夕",
+                  "reading": "ゆう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0025-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "餐",
+              "token_surface": "餐",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0024-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "夕",
+              "token_surface": "夕",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ゆう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "夕",
+                  "reading": "ゆう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0025-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "餐",
+              "token_surface": "餐",
+              "token_index": 17,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "夕餐",
+          "reading_candidates": {
+            "夕": [
+              "せき",
+              "ゆう",
+              "ゆうべ"
+            ]
+          },
+          "reading_hints": {
+            "夕": "せき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "夕",
+              "reading": "ゆう",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"夕餐\",\"reading\":\"ゆうさん\",\"used_web_search\":false,\"comment\":\"「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。\"}]",
+          "llm_parsed": [
+            {
+              "surface": "夕餐",
+              "reading": "ゆうさん",
+              "used_web_search": false,
+              "comment": "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。"
+            }
+          ],
+          "llm_comments": [
+            "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+            "status": "applied",
+            "rejected_span": "夕餐",
+            "replacement": [
+              {
+                "surface": "夕餐",
+                "reading": "ユウサン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+                "surface": "夕餐",
+                "comment": "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "夕餐",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0024-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "夕",
+          "token_surface": "夕",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ゆう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "夕",
+              "reading": "ゆう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004:s0025-0025",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "餐",
+          "token_surface": "餐",
+          "token_index": 17,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "夕",
+          "reading": "ゆう",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "夕": [
+          "せき",
+          "ゆう",
+          "ゆうべ"
+        ]
+      },
+      "reading_hints": {
+        "夕": "せき"
+      },
+      "llm_parsed": [
+        {
+          "surface": "夕餐",
+          "reading": "ゆうさん",
+          "used_web_search": false,
+          "comment": "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"夕餐\",\"reading\":\"ゆうさん\",\"used_web_search\":false,\"comment\":\"「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。\"}]",
+      "llm_comments": [
+        "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+        "status": "applied",
+        "rejected_span": "夕餐",
+        "replacement": [
+          {
+            "surface": "夕餐",
+            "reading": "ユウサン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000901057:u0004::target_group:1",
+            "surface": "夕餐",
+            "comment": "「御夕餐」で「ごゆうさん」と読むため、語としては二字まとめて「夕餐」=「ゆうさん」と判断。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0002118376",
+      "doc_seq": 5,
+      "track_doc_seq": 2205,
+      "unit_id": "ja_cc_level2_corrected_v1:0002118376:u0033",
+      "unit_seq": 33,
+      "source_file": "ja/ja_cc/level2/0285.jsonl.gz",
+      "source_line_no": 2118376,
+      "text": "昔から気になっていた焼肉屋さん璃衛。",
+      "rendered_yomi_before": "昔/ムカシ から/カラ 気/キ に/ニ なっ/ナッ て/テ い/イ た/タ 焼肉屋/ヤキニクヤ さん/サン 璃/璃 衛/マモル 。/。",
+      "rendered_yomi_after": "昔/ムカシ から/カラ 気/キ に/ニ なっ/ナッ て/テ い/イ た/タ 焼肉屋/ヤキニクヤ さん/サン 璃衛/リエ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "昔",
+          "ムカシ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "気",
+          "キ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "焼肉屋",
+          "ヤキニクヤ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "璃衛",
+          "リエ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "昔",
+          "reading": "ムカシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "昔",
+              "reading": "むかし"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "気",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "気",
+              "reading": "き"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "焼肉屋",
+          "reading": "ヤキニクヤ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "焼肉屋",
+              "reading": "やきにくや"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "璃衛",
+          "reading": "リエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "璃衛",
+              "reading": "りえ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002118376:u0033",
+          "text": "昔から気になっていた焼肉屋さん璃衛。",
+          "rendered_yomi_before": "昔/ムカシ から/カラ 気/キ に/ニ なっ/ナッ て/テ い/イ た/タ 焼肉屋/ヤキニクヤ さん/サン 璃/璃 衛/マモル 。/。",
+          "rendered_yomi_after": "昔/ムカシ から/カラ 気/キ に/ニ なっ/ナッ て/テ い/イ た/タ 焼肉屋/ヤキニクヤ さん/サン 璃衛/リエ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 15,
+            "char_end": 17,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "璃",
+              "token_surface": "璃",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0017-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "衛",
+              "token_surface": "衛",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まもる",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "衛",
+                  "reading": "まもる",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0016-0016",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "璃",
+              "token_surface": "璃",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0017-0017",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "衛",
+              "token_surface": "衛",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まもる",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "衛",
+                  "reading": "まもる",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "璃衛",
+          "reading_candidates": {
+            "璃": [
+              "あき",
+              "るり"
+            ],
+            "衛": [
+              "えい",
+              "まもる"
+            ]
+          },
+          "reading_hints": {
+            "璃": "あき",
+            "衛": "えい"
+          },
+          "rejected_readings": [
+            {
+              "surface": "衛",
+              "reading": "まもる",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"璃衛\",\"reading\":\"リエ\",\"used_web_search\":true,\"comment\":\"店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "surface": "璃衛",
+              "reading": "リエ",
+              "used_web_search": true,
+              "comment": "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))"
+            }
+          ],
+          "llm_comments": [
+            "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+            "status": "applied",
+            "rejected_span": "璃衛",
+            "replacement": [
+              {
+                "surface": "璃衛",
+                "reading": "リエ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+                "surface": "璃衛",
+                "comment": "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "璃衛",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0016-0016",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "璃",
+          "token_surface": "璃",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033:s0017-0017",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "衛",
+          "token_surface": "衛",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "まもる",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "衛",
+              "reading": "まもる",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "衛",
+          "reading": "まもる",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "璃": [
+          "あき",
+          "るり"
+        ],
+        "衛": [
+          "えい",
+          "まもる"
+        ]
+      },
+      "reading_hints": {
+        "璃": "あき",
+        "衛": "えい"
+      },
+      "llm_parsed": [
+        {
+          "surface": "璃衛",
+          "reading": "リエ",
+          "used_web_search": true,
+          "comment": "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))"
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"璃衛\",\"reading\":\"リエ\",\"used_web_search\":true,\"comment\":\"店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+        "status": "applied",
+        "rejected_span": "璃衛",
+        "replacement": [
+          {
+            "surface": "璃衛",
+            "reading": "リエ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002118376:u0033::target_group:1",
+            "surface": "璃衛",
+            "comment": "店名は「璃衛(りえ)」として案内されており、この表記全体で一語の店名なので「リエ」と読む。 ([kspkk.co.jp](https://www.kspkk.co.jp/gourmet/80385/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
