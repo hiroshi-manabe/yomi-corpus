@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 8672,
-  "generated_at": "2026-09-10T00:03:38Z",
-  "generated_at_epoch": 1788998618,
-  "last_successful_sync": "2026-09-09T23:55:39Z",
-  "last_successful_sync_epoch": 1788998139,
-  "status": "error",
+  "state_revision": 8673,
+  "generated_at": "2026-09-10T00:12:39Z",
+  "generated_at_epoch": 1788999159,
+  "last_successful_sync": "2026-09-10T00:12:39Z",
+  "last_successful_sync_epoch": 1788999159,
+  "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1788998064,
+    "anchor_epoch": 1788999084,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1788998364
+    "next_expected_epoch": 1788999384
   },
   "state": {
     "current_batch_name": "dev_batch_1084",
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "AttributeError: 'PipelineWorkspace' object has no attribute '_finalize_ready_documents'",
+  "message": "",
   "observed": {
-    "started_at_epoch": 1788998618,
-    "completed_at_epoch": 1788998618,
-    "drift_seconds": 46
+    "started_at_epoch": 1788999084,
+    "completed_at_epoch": 1788999159,
+    "drift_seconds": 120
   },
   "client_polling": {
     "normal_seconds": 60,

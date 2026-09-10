@@ -16,36 +16,6 @@
   "current_review_queues": [
     {
       "track_name": "dev",
-      "batch_name": "dev_batch_1074",
-      "review_stage": "yomi_final_review",
-      "label": "一括レビュー",
-      "pack_id": "yomi_final_dev_batch_1074_v1",
-      "title": "一括レビュー / dev_batch_1074 / v1",
-      "path": "./packs/yomi_final_dev_batch_1074_v1.json",
-      "created_at_epoch": 1788848966,
-      "item_count": 102,
-      "document_count": 10,
-      "selectable_document_count": 0,
-      "document_state_counts": {
-        "complete": 8,
-        "strong_pending": 2
-      },
-      "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0000530549",
-        "ja_cc_level2_corrected_v1:0001983451",
-        "ja_cc_level2_corrected_v1:0002055095",
-        "ja_cc_level2_corrected_v1:0000303744",
-        "ja_cc_level2_corrected_v1:0002272318",
-        "ja_cc_level2_corrected_v1:0001476345",
-        "ja_cc_level2_corrected_v1:0001828014",
-        "ja_cc_level2_corrected_v1:0000251953"
-      ],
-      "pending_document_count": 8,
-      "queue_id": "final_review",
-      "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
       "batch_name": "dev_batch_1075",
       "review_stage": "yomi_final_review",
       "label": "一括レビュー",
@@ -1462,17 +1432,8 @@
             "complete": 8,
             "strong_pending": 2
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0000530549",
-            "ja_cc_level2_corrected_v1:0001983451",
-            "ja_cc_level2_corrected_v1:0002055095",
-            "ja_cc_level2_corrected_v1:0000303744",
-            "ja_cc_level2_corrected_v1:0002272318",
-            "ja_cc_level2_corrected_v1:0001476345",
-            "ja_cc_level2_corrected_v1:0001828014",
-            "ja_cc_level2_corrected_v1:0000251953"
-          ],
-          "pending_document_count": 8,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "final_review",
           "status": "archived"
         },
@@ -2733,15 +2694,23 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 2210,
+        "document_count": 2218,
         "manual_correction_required_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
             1,
             2210
+          ],
+          [
+            2212,
+            2216
+          ],
+          [
+            2218,
+            2220
           ]
         ],
-        "shard_count": 2210
+        "shard_count": 2218
       }
     }
   }
