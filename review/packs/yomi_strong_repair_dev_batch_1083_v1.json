@@ -10,11 +10,10 @@
   "item_count": 13,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "skipped": 1,
-      "strong_pending": 3
+      "complete": 9,
+      "skipped": 1
     },
     "repaired_item_count": 13,
     "queued_repair_row_count": 14,
@@ -84,12 +83,12 @@
       "source_line_no": 189024,
       "preview": "ソロクッカーに生米と缶詰を放り込んでの「炊込み炊飯」は、なおも続いている。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T07:05:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T07:10:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -110,12 +109,12 @@
       "source_line_no": 815266,
       "preview": "本日の新刊は非常に充実したタイトル数となっています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T07:05:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T07:10:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -136,12 +135,12 @@
       "source_line_no": 1483749,
       "preview": "「ひとかど」が「一廉」だったとは、発見でした。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T07:05:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T07:10:55Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -1681,7 +1680,7 @@
       "source_line_no": 189024,
       "text": "ソロハイクを想定して1合炊きとし、ナベもPRIMUSのAluTechポット0.6Lとした。",
       "rendered_yomi_before": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/タキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
-      "rendered_yomi_after": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/タキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
+      "rendered_yomi_after": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/ダキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "ソロ",
@@ -1717,7 +1716,7 @@
         ],
         [
           "炊き",
-          "タキ"
+          "ダキ"
         ],
         [
           "と",
@@ -1865,12 +1864,12 @@
         },
         {
           "surface": "炊き",
-          "reading": "タキ",
+          "reading": "ダキ",
           "nodes": [
             {
               "type": "ruby",
               "text": "炊",
-              "reading": "た"
+              "reading": "だ"
             },
             {
               "type": "text",
@@ -2045,7 +2044,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000189024:u0036",
           "text": "ソロハイクを想定して1合炊きとし、ナベもPRIMUSのAluTechポット0.6Lとした。",
           "rendered_yomi_before": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/タキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
-          "rendered_yomi_after": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/タキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
+          "rendered_yomi_after": "ソロ/ソロ ハイク/ハイク を/ヲ 想定/ソウテイ し/シ て/テ 1/ 合/ゴウ 炊き/ダキ と/ト し/シ 、/、 ナベ/ナベ も/モ PRIMUS/プリムス の/ノ AluTech/アルテック ポット/ポット 0.6/ L/リットル と/ト し/シ た/タ 。/。",
           "display_mapping": {
             "start": 8,
             "end": 9,
@@ -2250,7 +2249,7 @@
       "source_line_no": 189024,
       "text": "もっとも、ソロハイクでは1合炊きが多いだろう。",
       "rendered_yomi_before": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/タキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
-      "rendered_yomi_after": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/タキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
+      "rendered_yomi_after": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/ダキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "もっとも",
@@ -2286,7 +2285,7 @@
         ],
         [
           "炊き",
-          "タキ"
+          "ダキ"
         ],
         [
           "が",
@@ -2389,12 +2388,12 @@
         },
         {
           "surface": "炊き",
-          "reading": "タキ",
+          "reading": "ダキ",
           "nodes": [
             {
               "type": "ruby",
               "text": "炊",
-              "reading": "た"
+              "reading": "だ"
             },
             {
               "type": "text",
@@ -2461,7 +2460,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000189024:u0065",
           "text": "もっとも、ソロハイクでは1合炊きが多いだろう。",
           "rendered_yomi_before": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/タキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
-          "rendered_yomi_after": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/タキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
+          "rendered_yomi_after": "もっとも/モットモ 、/、 ソロ/ソロ ハイク/ハイク で/デ は/ハ 1/ 合/ゴウ 炊き/ダキ が/ガ 多い/オオイ だろう/ダロウ 。/。",
           "display_mapping": {
             "start": 8,
             "end": 9,
@@ -3105,7 +3104,7 @@
       "source_line_no": 189024,
       "text": "北九州出身者が3人居るので、高菜飯を炊こうと思ったのだ。",
       "rendered_yomi_before": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高/コウ 菜飯/ナメシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
-      "rendered_yomi_after": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高菜飯/タカナメシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
+      "rendered_yomi_after": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高菜/タカナ 飯/メシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "北九州",
@@ -3144,8 +3143,12 @@
           "、"
         ],
         [
-          "高菜飯",
-          "タカナメシ"
+          "高菜",
+          "タカナ"
+        ],
+        [
+          "飯",
+          "メシ"
         ],
         [
           "を",
@@ -3280,13 +3283,24 @@
           ]
         },
         {
-          "surface": "高菜飯",
-          "reading": "タカナメシ",
+          "surface": "高菜",
+          "reading": "タカナ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "高菜飯",
-              "reading": "たかなめし"
+              "text": "高菜",
+              "reading": "たかな"
+            }
+          ]
+        },
+        {
+          "surface": "飯",
+          "reading": "メシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "飯",
+              "reading": "めし"
             }
           ]
         },
@@ -3394,14 +3408,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000189024:u0147",
           "text": "北九州出身者が3人居るので、高菜飯を炊こうと思ったのだ。",
           "rendered_yomi_before": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高/コウ 菜飯/ナメシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
-          "rendered_yomi_after": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高菜飯/タカナメシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
+          "rendered_yomi_after": "北九州/キタキュウシュウ 出身者/シュッシンシャ が/ガ 3/ 人/ニン 居る/イル の/ノ で/デ 、/、 高菜/タカナ 飯/メシ を/ヲ 炊こう/タコウ と/ト 思っ/オモッ た/タ の/ノ だ/ダ 。/。",
           "display_mapping": {
             "start": 9,
-            "end": 10,
+            "end": 11,
             "char_start": 14,
             "char_end": 17,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -8571,7 +8585,7 @@
       "source_line_no": 1483749,
       "text": "品物を出す行為が「売」というわけです。",
       "rendered_yomi_before": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/ウリ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
-      "rendered_yomi_after": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/ウリ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
+      "rendered_yomi_after": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/バイ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "品物",
@@ -8599,7 +8613,7 @@
         ],
         [
           "売",
-          "ウリ"
+          "バイ"
         ],
         [
           "」",
@@ -8696,12 +8710,12 @@
         },
         {
           "surface": "売",
-          "reading": "ウリ",
+          "reading": "バイ",
           "nodes": [
             {
               "type": "ruby",
               "text": "売",
-              "reading": "うり"
+              "reading": "ばい"
             }
           ]
         },
@@ -8779,7 +8793,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001483749:u0028",
           "text": "品物を出す行為が「売」というわけです。",
           "rendered_yomi_before": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/ウリ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
-          "rendered_yomi_after": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/ウリ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
+          "rendered_yomi_after": "品物/シナモノ を/ヲ 出す/ダス 行為/コウイ が/ガ 「/「 売/バイ 」/」 と/ト いう/イウ わけ/ワケ です/デス 。/。",
           "display_mapping": {
             "start": 6,
             "end": 7,
@@ -8974,7 +8988,7 @@
       "source_line_no": 1483749,
       "text": "商売では「売」目線になるため「売」の語が多いですね。",
       "rendered_yomi_before": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
-      "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
+      "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/バイ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/バイ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "商売",
@@ -8994,7 +9008,7 @@
         ],
         [
           "売",
-          "ウリ"
+          "バイ"
         ],
         [
           "」",
@@ -9022,7 +9036,7 @@
         ],
         [
           "売",
-          "ウリ"
+          "バイ"
         ],
         [
           "」",
@@ -9101,12 +9115,12 @@
         },
         {
           "surface": "売",
-          "reading": "ウリ",
+          "reading": "バイ",
           "nodes": [
             {
               "type": "ruby",
               "text": "売",
-              "reading": "うり"
+              "reading": "ばい"
             }
           ]
         },
@@ -9173,12 +9187,12 @@
         },
         {
           "surface": "売",
-          "reading": "ウリ",
+          "reading": "バイ",
           "nodes": [
             {
               "type": "ruby",
               "text": "売",
-              "reading": "うり"
+              "reading": "ばい"
             }
           ]
         },
@@ -9282,7 +9296,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001483749:u0032",
           "text": "商売では「売」目線になるため「売」の語が多いですね。",
           "rendered_yomi_before": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
-          "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
+          "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/バイ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/バイ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
           "display_mapping": {
             "start": 4,
             "end": 5,
@@ -9398,7 +9412,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001483749:u0032",
           "text": "商売では「売」目線になるため「売」の語が多いですね。",
           "rendered_yomi_before": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
-          "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/ウリ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/ウリ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
+          "rendered_yomi_after": "商売/ショウバイ で/デ は/ハ 「/「 売/バイ 」/」 目線/メセン に/ニ なる/ナル ため/タメ 「/「 売/バイ 」/」 の/ノ 語/ゴ が/ガ 多い/オオイ です/デス ね/ネ 。/。",
           "display_mapping": {
             "start": 11,
             "end": 12,
