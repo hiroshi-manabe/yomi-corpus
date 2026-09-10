@@ -147,6 +147,8 @@ Review transport policy:
   batch: documents without escalation need not wait for Escalated Repair in
   other documents. Batch closing and harvesting remain grouped; see
   [Document-Level Finalization](docs/DOCUMENT_FINALIZATION.md).
+- new dev Escalated Repair work uses nonblocking API Batch cohorts with web
+  search retained; see [Escalated Repair Batch Execution](docs/ESCALATED_BATCH_EXECUTION.md).
 
 Pipeline orchestration policy:
 

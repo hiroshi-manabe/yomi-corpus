@@ -16,8 +16,9 @@ before appearing in the finalized corpus.
 - Publication moves finalized documents from active review to Corpus Map in the
   same generated snapshot. Other documents in the batch remain active.
 
-Escalated Repair LLM requests continue using their existing execution mode.
-Switching them to API Batch is a separate future change, not part of this work.
+Escalated Repair LLM execution is independent of document finalization. Dev now
+uses nonblocking API Batch cohorts for new repair work; see
+[Escalated Repair Batch Execution](ESCALATED_BATCH_EXECUTION.md).
 
 ## Storage And Recovery
 

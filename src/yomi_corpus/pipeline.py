@@ -5,6 +5,7 @@ import json
 import re
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from hashlib import sha256
 from pathlib import Path
 import tomllib
 
@@ -2264,12 +2265,43 @@ class PipelineWorkspace:
         output_path = batch_dir / "units.yomi.strong_repaired.jsonl"
         apply_summary_path = batch_dir / "yomi_strong_repair_apply_summary.json"
         job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_yomi_strong_repair"
+        if execution_mode == "batch":
+            job_dir = job_dir / "batch_cohorts"
+
+        def execute_repair_task(source: Path, destination: Path, directory: Path):
+            if execution_mode == "batch":
+                from yomi_corpus.llm.repair_batches import run_repair_batch_task
+
+                return run_repair_batch_task(
+                    source,
+                    destination,
+                    task_config=task_config,
+                    job_dir=directory,
+                )
+            return run_llm_task(
+                task_config_path,
+                str(source),
+                str(destination),
+                execution_mode=execution_mode,
+                task_config_override=task_config,
+                job_dir=str(directory),
+                show_progress=True,
+            )
+
+        queue_fingerprint = sha256(input_path.read_bytes()).hexdigest()
 
         queued_count = count_nonempty_lines(input_path)
         if apply_summary_path.exists():
             existing_apply_summary = json.loads(apply_summary_path.read_text(encoding="utf-8"))
             existing_queued_count = int(existing_apply_summary.get("queued_items") or 0)
-            if existing_apply_summary.get("confirmed") and existing_queued_count == queued_count:
+            if (
+                existing_apply_summary.get("confirmed")
+                and existing_queued_count == queued_count
+                and (
+                    execution_mode != "batch"
+                    or existing_apply_summary.get("queue_fingerprint") == queue_fingerprint
+                )
+            ):
                 return {
                     "artifacts": {
                         "units_yomi_strong_repaired_jsonl": str(output_path),
@@ -2295,15 +2327,7 @@ class PipelineWorkspace:
                 }
         job_summary = None
         if queued_count:
-            job_summary = run_llm_task(
-                task_config_path,
-                str(input_path),
-                str(results_path),
-                execution_mode=execution_mode,
-                task_config_override=task_config,
-                job_dir=str(job_dir),
-                show_progress=True,
-            )
+            job_summary = execute_repair_task(input_path, results_path, job_dir)
             if job_summary.status != "completed":
                 return {
                     "stage_complete": False,
@@ -2341,15 +2365,11 @@ class PipelineWorkspace:
             retry_input_path = batch_dir / f"{retry_prefix}_input.jsonl"
             retry_results_path = batch_dir / f"{retry_prefix}_results.jsonl"
             retry_job_dir = self.root / "data" / "llm" / "jobs" / f"{batch_name}_{retry_prefix}"
+            if execution_mode == "batch":
+                retry_job_dir = retry_job_dir / "batch_cohorts"
             write_jsonl_rows(retry_input_path, retry_rows)
-            retry_summary = run_llm_task(
-                task_config_path,
-                str(retry_input_path),
-                str(retry_results_path),
-                execution_mode=execution_mode,
-                task_config_override=task_config,
-                job_dir=str(retry_job_dir),
-                show_progress=True,
+            retry_summary = execute_repair_task(
+                retry_input_path, retry_results_path, retry_job_dir
             )
             retry_artifacts[f"{retry_prefix}_input_jsonl"] = str(retry_input_path)
             retry_artifacts[f"{retry_prefix}_results_jsonl"] = str(retry_results_path)
@@ -2384,7 +2404,7 @@ class PipelineWorkspace:
         usage_summary = summarize_results_jsonl(
             str(effective_results_path),
             model=task_config.model,
-            processing_tier="standard",
+            processing_tier="batch" if execution_mode == "batch" else "standard",
             pricing_config_path=str(DEFAULT_PRICING_CONFIG_PATH),
         )
         usage_summary_path.write_text(
@@ -2397,6 +2417,10 @@ class PipelineWorkspace:
             results_jsonl=effective_results_path,
             output_jsonl=output_path,
             summary_json=apply_summary_path,
+        )
+        apply_summary["queue_fingerprint"] = queue_fingerprint
+        apply_summary_path.write_text(
+            json.dumps(apply_summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
         review_pack_artifacts: dict[str, str] = {}
         if queued_count:
