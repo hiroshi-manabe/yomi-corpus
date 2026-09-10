@@ -649,10 +649,15 @@ async function hydrateUnifiedTask(docIds) {
   if (!state.unifiedDashboardPack || (state.currentPack?.items || []).length > 0) {
     return;
   }
-  showStatus("レビュー用データを読み込んでいます。");
+  const loadingMessage = "レビュー用データを読み込んでいます。";
+  showStatus(loadingMessage);
   const hydrated = await buildHydratedUnifiedPack(docIds);
   state.currentPack = hydrated.pack;
   state.unifiedSources = hydrated.sources;
+  if (el.statusBanner.textContent === loadingMessage) {
+    el.statusBanner.textContent = "";
+    el.statusBanner.classList.add("hidden");
+  }
 }
 
 function restoreUnifiedDashboardPack() {
