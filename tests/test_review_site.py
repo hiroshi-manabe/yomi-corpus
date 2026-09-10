@@ -453,6 +453,9 @@ class ReviewSiteTests(unittest.TestCase):
         css = (asset_root / "style.css").read_text(encoding="utf-8")
 
         self.assertIn('<html lang="ja">', html)
+        self.assertNotIn("vocabulary-campaign-preview-link", app)
+        self.assertNotIn("openVocabularyCampaignPreview", app)
+        self.assertNotIn(".vocabulary-campaign-", css)
         self.assertIn("<h1>レビュー画面</h1>", html)
         self.assertIn("JSONをコピーしてIssueを開く", html)
         self.assertIn('title: "一括レビュー"', app)
@@ -497,8 +500,7 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn('id="repeat-cancellation-bar"', html)
         self.assertIn("registerRepeatedCancellation", app)
         self.assertIn("findRepeatedCancellationMatches", app)
-        self.assertIn("cancellationTargetsForText", app)
-        self.assertIn("Interaction spans are UI units, not lexical identity.", app)
+        self.assertNotIn("cancellationTargetsForText", app)
         self.assertIn("applyYomiCandidateWithRepeatedCancellation", app)
         self.assertIn(
             "cycleYomiTarget(item, target, candidate, elementAnchorRect(button));",
@@ -533,8 +535,6 @@ class ReviewSiteTests(unittest.TestCase):
         self.assertIn("finalized_track_doc_seq_ranges", app)
         self.assertIn("documentRefMatchesCurrentSource", app)
         self.assertIn("documentIdNamespace", app)
-        self.assertIn("renderVocabularyStrategyMetrics", app)
-        self.assertIn('preview.artifact_type !== "vocabulary-selection-experiment"', app)
         self.assertIn("normalizeStoredSubmittedTask", app)
         self.assertIn('? normalizeStoredSubmittedTask(rawRecord?.task)', app)
         self.assertIn("document_refs: cloneJson(rawRecord?.document_refs || [])", app)

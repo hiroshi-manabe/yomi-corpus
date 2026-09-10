@@ -80,6 +80,7 @@ COMMON_MEASUREMENT_UNIT_READINGS: dict[str, tuple[str, ...]] = {
     "kg": ("キロ", "キログラム"),
     "km": ("キロ", "キロメートル"),
     "mm": ("ミリ", "ミリメートル"),
+    "cm": ("センチ", "センチメートル"),
 }
 
 

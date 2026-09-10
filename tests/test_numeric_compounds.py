@@ -59,6 +59,20 @@ class NumericCompoundTests(unittest.TestCase):
         self.assertEqual(result.rendered, "km/キロメートル 表示/ヒョウジ")
         self.assertEqual(result.measurement_unit_surfaces, ())
 
+    def test_centimeter_default_and_review_alternatives(self) -> None:
+        for surface in ("cm", "ｃｍ"):
+            with self.subTest(surface=surface):
+                result = normalize_numeric_compounds(f"5/ {surface}/センチメートル")
+                self.assertEqual(result.rendered, f"5/ {surface}/センチ")
+                candidates = reading_candidates({
+                    "surface": surface,
+                    "current_reading": "センチメートル",
+                })
+                readings = [candidate["reading"] for candidate in candidates]
+                self.assertIn("せんち", readings)
+                self.assertIn("せんちめーとる", readings)
+                self.assertLess(readings.index("せんち"), readings.index(None))
+
     def test_normalizes_deterministic_forms_and_fullwidth_digits(self) -> None:
         result = normalize_numeric_compounds(
             "2/ 日/ニチ 14/ 日/ニチ ２０/ 日/ニチ 1/ 人/ニン 9/ つ/ツ"

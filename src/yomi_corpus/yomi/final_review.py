@@ -723,6 +723,9 @@ def build_strong_repair_review_sentence_item(
         mapping_errors.insert(0, {"region_id": "", "error": tokenization_error})
     return {
         "item_id": f"{unit.get('unit_id')}::strong_repair",
+        "initial_disposition": normalize_scope_disposition(
+            unit.get("analysis", {}).get("human_review", {}).get("yomi_final", {}).get("disposition")
+        ),
         "seq": seq,
         "doc_id": str(unit.get("doc_id") or ""),
         "doc_seq": doc_seq,
@@ -2091,6 +2094,9 @@ def project_token_reading_to_target(target: dict[str, Any], reading: object) -> 
 
 def final_review_reading_alternatives(target: dict[str, Any]) -> tuple[str, ...]:
     surface = str(target.get("surface") or "")
+    if surface == "千":
+        # Sudachi lacks the voiced reading used in compounds such as 三千.
+        return ("ぜん",)
     return common_measurement_unit_readings(surface)
 
 
@@ -3669,6 +3675,7 @@ def apply_strong_repair_review_file(
         units_jsonl=units_jsonl,
         source_stage=STRONG_REPAIR_REVIEW_STAGE,
     )
+    apply_strong_repair_dispositions_file(pack, effective, units_jsonl)
     invalid_manual_items = manual_summary["invalid_items"]
     stage_complete = unreviewed_count == 0 and not rejected_items and invalid_manual_items == 0
     strong_summary = load_json(strong_apply_summary_json)
@@ -4035,6 +4042,39 @@ def load_review_submissions_for_stage(
     return rows
 
 
+def apply_strong_repair_dispositions_file(
+    pack: dict[str, Any],
+    effective: dict[str, dict[str, Any]],
+    units_jsonl: Path | None,
+) -> None:
+    states = {
+        str(item.get("unit_id") or ""): effective[str(item["item_id"])]
+        for item in pack.get("items", [])
+        if str(item.get("item_id") or "") in effective
+        and "disposition" in effective[str(item["item_id"])]
+        and effective[str(item["item_id"])].get("decision") != "reject"
+    }
+    if not states or units_jsonl is None:
+        return
+    rows = load_jsonl(units_jsonl)
+    for unit in rows:
+        state = states.get(str(unit.get("unit_id") or ""))
+        if state is None:
+            continue
+        review = unit.setdefault("analysis", {}).setdefault("human_review", {}).setdefault("yomi_final", {})
+        review.update({
+            "reviewed": True,
+            "disposition": state["disposition"],
+            "skip": state["disposition"] != SCOPE_KEEP,
+            "submission_id": state["submission_id"],
+            "generated_at_epoch": state["generated_at_epoch"],
+            "disposition_source_stage": STRONG_REPAIR_REVIEW_STAGE,
+        })
+    temporary = units_jsonl.with_suffix(units_jsonl.suffix + ".tmp")
+    write_jsonl(temporary, rows)
+    temporary.replace(units_jsonl)
+
+
 def replay_simple_accept_reject_submissions(
     pack: dict[str, Any],
     submissions: list[dict[str, Any]],
@@ -4059,8 +4099,11 @@ def replay_simple_accept_reject_submissions(
                     continue
                 item_id = str(item["item_id"])
                 override = overrides.get(item_id, {})
+                if "disposition" in override and override["disposition"] not in SCOPE_DISPOSITIONS:
+                    raise ValueError(f"Invalid strong repair disposition: {override['disposition']!r}")
                 effective[item_id] = {
                     "item_id": item_id,
+                    **({"disposition": override["disposition"]} if "disposition" in override else {}),
                     "decision": str(override.get("decision") or "accept"),
                     "manual_correction_required": bool(
                         override.get(

@@ -2733,6 +2733,24 @@ class YomiFinalReviewTests(unittest.TestCase):
                 "後払い/アトバライ です/デス 。/。",
             )
 
+    def test_review_target_offers_voiced_sen_without_changing_default(self) -> None:
+        target = {
+            "item_id": "u1:r0001c01",
+            "surface": "千",
+            "token_surface": "千",
+            "current_reading": "セン",
+            "current_reading_hiragana": "せん",
+            "is_safe": True,
+            "signals": [],
+        }
+        review_target = build_review_target(target)
+        self.assertEqual(review_target["default_reading"], "せん")
+        readings = [candidate["reading"] for candidate in review_target["candidates"]]
+        self.assertIn("ぜん", readings)
+        self.assertEqual(readings.count("ぜん"), 1)
+        self.assertLess(readings.index("ぜん"), readings.index(None))
+        self.assertTrue(target["is_safe"])
+
     def test_review_target_always_offers_common_kg_readings(self) -> None:
         target = {
             "item_id": "u1:r0001c01",

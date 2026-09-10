@@ -92,6 +92,15 @@ def run_issue_watch_pass(
 
     conflicts = _conflicting_doc_ids(active)
     previous_acknowledgments = _read_object(acknowledgment_path)
+    # Acknowledgment is durable evidence even after an Issue leaves the active set.
+    receipt_history = {
+        (row.get("submission_id"), row.get("review_stage"), row.get("pack_id")): row
+        for row in [*previous_acknowledgments.get("receipt_history", []),
+                    *previous_acknowledgments.get("records", [])]
+    }
+    for row in active:
+        public = _public_record(row)
+        receipt_history[(public.get("submission_id"), public.get("review_stage"), public.get("pack_id"))] = public
     acknowledgments = {
         "schema_version": 1,
         "state_revision": int(previous_acknowledgments.get("state_revision") or 0) + 1,
@@ -105,6 +114,7 @@ def run_issue_watch_pass(
             for row in sorted(active, key=lambda value: (value["issue_number"], value["record_id"]))
         ],
         "conflicting_doc_ids": sorted(conflicts),
+        "receipt_history": list(receipt_history.values()),
     }
 
     state_dir.mkdir(parents=True, exist_ok=True)

@@ -34,6 +34,20 @@ def issue(number: int, payloads: list[dict]) -> dict:
 
 
 class IssueWatchTests(unittest.TestCase):
+    def test_receipt_survives_issue_disappearing_from_active_response(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_pack(root, "doc-1")
+            options = dict(track_name="dev", repo="owner/repo", fetch_comments=lambda *_: [])
+            first = run_issue_watch_pass(root, now_epoch=100,
+                fetch_issues=lambda *a, **k: [issue(10, [submission("s1", "doc-1")])], **options)
+            run_issue_watch_pass(root, now_epoch=200,
+                fetch_issues=lambda *a, **k: [], **options)
+            payload = json.loads(Path(first["acknowledgment_path"]).read_text())
+            self.assertEqual(payload["records"], [])
+            self.assertEqual(payload["receipt_history"][0]["submission_id"], "s1")
+            self.assertEqual(payload["receipt_history"][0]["doc_ids"], ["doc-1"])
+
     def test_publishes_acknowledgments_directly_and_skips_known_content(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

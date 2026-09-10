@@ -24,9 +24,9 @@ const state = {
   archiveShardCache: new Map(),
   archiveSearchIndex: null,
   archiveSearchIndexPath: "",
+  archiveSearchLoads: new Map(),
   archiveSearchQuery: "",
   archiveSearchTimer: null,
-  vocabularyCampaignPreview: null,
   uiMode: "workflow",
   pendingIssueTaskId: null,
   pendingArchiveCorrectionKey: null,
@@ -877,7 +877,7 @@ function renderArchiveSearchPanel(track) {
   const status = document.createElement("p");
   status.className = "archive-search-status muted";
   status.textContent = track.search_path
-    ? "検索語を入力すると検索用インデックスを読み込みます。"
+    ? "検索語を入力してください。"
     : "このトラックには検索用インデックスがありません。";
   panel.append(status);
 
@@ -905,6 +905,12 @@ function renderArchiveSearchPanel(track) {
   if (state.archiveSearchQuery.trim()) {
     scheduleArchiveSearch(track, nodes, { immediate: true });
   }
+  // Give the document map a chance to paint before loading the search data.
+  window.requestAnimationFrame(() => window.setTimeout(() => {
+    if (panel.isConnected && track.search_path) {
+      ensureArchiveSearchIndex(String(track.search_path)).catch(() => {});
+    }
+  }, 0));
   return panel;
 }
 
@@ -994,13 +1000,14 @@ function scheduleArchiveSearch(track, nodes, { immediate = false } = {}) {
   }
   const query = state.archiveSearchQuery.trim();
   if (!query) {
-    nodes.status.textContent = "検索語を入力すると検索用インデックスを読み込みます。";
+    nodes.status.textContent = "検索語を入力してください。";
+    nodes.status.classList.remove("error");
     nodes.results.innerHTML = "";
     return;
   }
   const run = () => {
     performArchiveSearch(track, query, nodes).catch((error) => {
-      if (!nodes.panel.isConnected) {
+      if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
         return;
       }
       nodes.status.textContent = `検索に失敗しました: ${error.message}`;
@@ -1018,16 +1025,15 @@ async function performArchiveSearch(track, query, nodes) {
   nodes.status.classList.remove("error");
   if (!state.archiveSearchIndex || state.archiveSearchIndexPath !== searchPath) {
     nodes.status.textContent = "検索用インデックスを読み込んでいます…";
-    state.archiveSearchIndex = await loadArchiveSearchIndex(searchPath, nodes);
-    state.archiveSearchIndexPath = searchPath;
   }
+  const index = await ensureArchiveSearchIndex(searchPath);
   if (!nodes.panel.isConnected || query !== state.archiveSearchQuery.trim()) {
     return;
   }
   const normalizedQuery = normalizeArchiveSearchText(query);
   const matches = [];
   let totalMatches = 0;
-  for (const doc of state.archiveSearchIndex.documents || []) {
+  for (const doc of index.documents || []) {
     const matchingUnits = archiveSearchUnits(doc)
       .map((unit) => ({
         ...unit,
@@ -1053,15 +1059,29 @@ async function performArchiveSearch(track, query, nodes) {
   renderArchiveSearchResults(matches, totalMatches, query, nodes);
 }
 
-async function loadArchiveSearchIndex(searchPath, nodes) {
+function ensureArchiveSearchIndex(searchPath) {
+  if (state.archiveSearchIndex && state.archiveSearchIndexPath === searchPath) {
+    return Promise.resolve(state.archiveSearchIndex);
+  }
+  if (!state.archiveSearchLoads.has(searchPath)) {
+    const loading = loadArchiveSearchIndex(searchPath).then((index) => {
+      state.archiveSearchIndex = index;
+      state.archiveSearchIndexPath = searchPath;
+      return index;
+    }).finally(() => state.archiveSearchLoads.delete(searchPath));
+    state.archiveSearchLoads.set(searchPath, loading);
+  }
+  return state.archiveSearchLoads.get(searchPath);
+}
+
+async function loadArchiveSearchIndex(searchPath) {
   const index = await fetchJson(searchPath);
   if (Array.isArray(index.documents)) {
     return index;
   }
   const shards = Array.isArray(index.shards) ? index.shards : [];
   const documents = [];
-  for (const [position, shard] of shards.entries()) {
-    nodes.status.textContent = `検索用インデックスを読み込んでいます… ${position + 1}/${shards.length}`;
+  for (const shard of shards) {
     const payload = await fetchJson(String(shard.path || ""));
     documents.push(...(payload.documents || []));
   }
@@ -2409,7 +2429,6 @@ function renderWorkflowPackMap(docs) {
           <span><span class="workflow-dot strong"></span>詳細修正</span>
           <span><span class="workflow-dot final"></span>一括レビュー待ち</span>
         </div>
-        ${state.manifest?.vocabulary_campaign_preview?.path ? '<button class="secondary-button compact-button vocabulary-campaign-preview-link" type="button" title="インストール前の候補文書を確認する">語彙キャンペーン候補</button>' : ''}
         ${hasReviewArchive() ? `<button class="secondary-button compact-button corpus-map-link" type="button" title="コーパスマップを開く">確定済みコーパス${manualCorrectionCount ? `<em class="corpus-map-manual-correction-badge" title="要手動修正 ${manualCorrectionCount}件">! ${manualCorrectionCount}</em>` : ""}</button>` : ''}
       </div>
     </div>
@@ -2419,11 +2438,6 @@ function renderWorkflowPackMap(docs) {
       showStatus(`コーパスマップを開けませんでした: ${error.message}`, true);
     });
   });
-  section.querySelector(".vocabulary-campaign-preview-link")?.addEventListener("click", () => {
-    openVocabularyCampaignPreview().catch((error) => {
-      showStatus(`語彙キャンペーン候補を開けませんでした: ${error.message}`, true);
-    });
-  });
   const tileGrid = document.createElement("div");
   tileGrid.className = "workflow-tile-grid";
   for (const row of rows) {
@@ -2431,149 +2445,6 @@ function renderWorkflowPackMap(docs) {
   }
   section.append(tileGrid);
   return section;
-}
-
-async function openVocabularyCampaignPreview() {
-  const path = state.manifest?.vocabulary_campaign_preview?.path;
-  if (!path) {
-    throw new Error("公開された候補がありません。");
-  }
-  if (!state.vocabularyCampaignPreview) {
-    state.vocabularyCampaignPreview = await fetchJson(path);
-  }
-  const preview = state.vocabularyCampaignPreview;
-  if (
-    preview.read_only !== true ||
-    preview.installation_status !== "not_installed" ||
-    preview.artifact_type !== "vocabulary-selection-experiment"
-  ) {
-    throw new Error("候補データの閲覧専用状態を確認できません。");
-  }
-  el.workflowPreviewTitle.textContent = "文書選定メトリクス比較";
-  el.workflowPreviewMeta.textContent =
-    `${preview.candidate_document_count}文書を比較 · ${preview.preview_character_budget.toLocaleString()}文字プレビュー · 未適用`;
-  el.workflowPreviewBody.innerHTML = "";
-
-  const intro = document.createElement("section");
-  intro.className = "vocabulary-campaign-intro";
-  const badge = document.createElement("strong");
-  badge.className = "vocabulary-campaign-readonly-badge";
-  badge.textContent = "閲覧専用";
-  const description = document.createElement("p");
-  description.textContent =
-    "同じ候補集合を複数の選定メトリクスで比較します。この画面から処理順は変更されません。";
-  intro.append(badge, description);
-  el.workflowPreviewBody.append(intro);
-
-  const historical = document.createElement("p");
-  historical.className = "vocabulary-campaign-gate-note";
-  historical.textContent =
-    `古文等の分類により ${preview.historical_gate?.excluded_document_count || 0}文書、` +
-    `括弧内の読み注記過多により ${preview.parenthetical_reading_gate?.excluded_document_count || 0}文書を候補から除外 ` +
-    `（文の${Math.round((preview.historical_gate?.min_flagged_sentence_ratio || 0) * 100)}%以上、` +
-    `文字の${Math.round((preview.historical_gate?.min_flagged_character_ratio || 0) * 100)}%以上、または1文に` +
-    `${Number(preview.parenthetical_reading_gate?.max_glosses_per_sentence || 0) + 1}件以上の読み注記）。`;
-  el.workflowPreviewBody.append(historical);
-
-  const switcher = document.createElement("div");
-  switcher.className = "vocabulary-strategy-switcher";
-  const content = document.createElement("section");
-  content.className = "vocabulary-strategy-content";
-  const documentsByLine = new Map(
-    (preview.documents || []).map((doc) => [Number(doc.source_line_no), doc]),
-  );
-
-  const renderStrategy = (strategy) => {
-    for (const button of switcher.querySelectorAll("button")) {
-      button.classList.toggle("active", button.dataset.strategyId === strategy.strategy_id);
-    }
-    content.innerHTML = "";
-    const heading = document.createElement("div");
-    heading.className = "vocabulary-strategy-heading";
-    heading.innerHTML = `<strong>${escapeHtml(strategy.label)}</strong><p>${escapeHtml(strategy.description)}</p>`;
-    content.append(heading, renderVocabularyStrategyMetrics(strategy.runs || []));
-    const previewHeading = document.createElement("h3");
-    previewHeading.textContent = `${Number(preview.preview_character_budget).toLocaleString()}文字枠の選定文書`;
-    content.append(previewHeading);
-    for (const [index, sourceLineNo] of (strategy.preview_source_line_nos || []).entries()) {
-      const doc = documentsByLine.get(Number(sourceLineNo));
-      if (doc) {
-        content.append(renderVocabularyCampaignDocument(doc, index));
-      }
-    }
-  };
-
-  for (const [index, strategy] of (preview.strategies || []).entries()) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "secondary-button compact-button";
-    button.dataset.strategyId = strategy.strategy_id;
-    button.textContent = strategy.label;
-    button.addEventListener("click", () => renderStrategy(strategy));
-    switcher.append(button);
-    if (index === 0) {
-      renderStrategy(strategy);
-    }
-  }
-  el.workflowPreviewBody.append(switcher, content);
-  el.workflowPreviewActions.innerHTML = "";
-  const footer = document.createElement("span");
-  footer.className = "muted";
-  footer.textContent = `実験 ${preview.experiment_id} · 結果は処理順へ未適用です。`;
-  el.workflowPreviewActions.append(footer);
-  el.workflowPreviewBody.scrollTop = 0;
-  el.workflowPreviewModal.classList.remove("hidden");
-  updateRuntimePollingForInteraction();
-}
-
-function renderVocabularyStrategyMetrics(runs) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "vocabulary-strategy-metrics";
-  const table = document.createElement("table");
-  table.innerHTML = `
-    <thead><tr><th>文字枠</th><th>文書</th><th>異語</th><th>2例</th><th>3例</th><th>異語/1万字</th><th>重複率</th></tr></thead>
-  `;
-  const body = document.createElement("tbody");
-  for (const run of runs) {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${Number(run.character_budget).toLocaleString()}</td>
-      <td>${Number(run.selected_document_count).toLocaleString()}</td>
-      <td>${Number(run.distinct_target_count).toLocaleString()}</td>
-      <td>${Number(run.targets_with_two_examples).toLocaleString()}</td>
-      <td>${Number(run.targets_with_three_examples).toLocaleString()}</td>
-      <td>${Number(run.distinct_targets_per_10000_characters).toFixed(1)}</td>
-      <td>${Math.round(Number(run.duplicate_hit_share) * 100)}%</td>
-    `;
-    body.append(row);
-  }
-  table.append(body);
-  wrapper.append(table);
-  return wrapper;
-}
-
-function renderVocabularyCampaignDocument(doc, index) {
-    const article = document.createElement("article");
-    article.className = "vocabulary-campaign-document";
-    const header = document.createElement("header");
-    const title = document.createElement("strong");
-    title.textContent = `候補 ${index + 1}`;
-    const meta = document.createElement("span");
-    meta.className = "muted";
-    meta.textContent = `${Number(doc.text_length).toLocaleString()}文字 · 対象語 ${doc.matched_targets?.length || 0}件`;
-    header.append(title, meta);
-    const targets = document.createElement("div");
-    targets.className = "vocabulary-campaign-targets";
-    for (const target of doc.matched_targets || []) {
-      const chip = document.createElement("span");
-      chip.textContent = target;
-      targets.append(chip);
-    }
-    const text = document.createElement("p");
-    text.className = "vocabulary-campaign-text";
-    text.textContent = doc.text || "";
-    article.append(header, targets, text);
-    return article;
 }
 
 function archiveManualCorrectionCount() {
@@ -3510,7 +3381,55 @@ function submittedTaskDocIds() {
 }
 
 function docIsSubmittedLocally(doc) {
+  const receipt = readSubmissionReceipt(doc.doc_id, doc.queue_stage);
+  if (receipt) return receipt.local_status === "submitted";
   return submittedTaskDocIds().has(taskDocKey(doc));
+}
+
+const submissionReceiptPrefix = "yomi-corpus:submission-receipt:v1:";
+
+function submissionReceiptKey(docId, stage) {
+  return submissionReceiptPrefix + JSON.stringify([String(docId), String(stage)]);
+}
+
+function readSubmissionReceipt(docId, stage) {
+  const raw = window.localStorage.getItem(submissionReceiptKey(docId, stage));
+  return raw ? JSON.parse(raw) : null;
+}
+
+function saveTaskSubmissionReceipts(record, { reopen = false, migrate = false } = {}) {
+  const stage = localTaskRecordStage(record);
+  const recordKey = submissionReceiptPrefix + "task:" + JSON.stringify([
+    stage, record.task_id, taskDocIdsForStorageTask(record.task),
+  ]);
+  // Store edits once per task, not once per document in a potentially large task.
+  if (!migrate || !window.localStorage.getItem(recordKey)) {
+    window.localStorage.setItem(recordKey, JSON.stringify(record));
+  }
+  for (const taskDocId of taskDocIdsForStorageTask(record.task)) {
+    const docId = baseDocIdFromTaskDocId(taskDocId);
+    const previous = readSubmissionReceipt(docId, stage) || {};
+    if (migrate && previous.local_status) continue;
+    const receipt = {
+      ...previous, doc_id: docId, review_stage: stage,
+      local_status: reopen ? "reopened" : "submitted",
+      submitted_at_epoch: record.submitted_at_epoch || Math.floor(Date.now() / 1000),
+      record_key: recordKey,
+    };
+    window.localStorage.setItem(submissionReceiptKey(docId, stage), JSON.stringify(receipt));
+  }
+}
+
+function rememberServerSubmissionReceipts(payload) {
+  for (const row of [...(payload?.receipt_history || []), ...(payload?.records || [])]) {
+    for (const docId of row.doc_ids || []) {
+      const previous = readSubmissionReceipt(docId, row.review_stage) || {};
+      window.localStorage.setItem(submissionReceiptKey(docId, row.review_stage), JSON.stringify({
+        ...previous, doc_id: docId, review_stage: row.review_stage,
+        server_acknowledgment: row,
+      }));
+    }
+  }
 }
 
 function docIsProcessingOnServer(doc) {
@@ -3531,9 +3450,11 @@ function issueAcknowledgmentsForDoc(doc) {
   if (!docId) {
     return [];
   }
-  return (state.issueAcknowledgments?.records || []).filter((row) =>
-    (row.doc_ids || []).map(String).includes(docId),
+  const current = (state.issueAcknowledgments?.records || []).filter((row) =>
+    (row.doc_ids || []).map(String).includes(docId) && row.review_stage === doc.queue_stage,
   );
+  const saved = readSubmissionReceipt(docId, doc.queue_stage)?.server_acknowledgment;
+  return current.length ? current : saved ? [saved] : [];
 }
 
 function docHasSubmissionConflict(doc) {
@@ -3886,7 +3807,36 @@ function renderStrongRepairItem({ node, item, override, editable }) {
       renderSubmissionPreview();
     },
   });
-  header.append(titleWrap, manualCorrectionControl);
+  const scopeControls = document.createElement("div");
+  scopeControls.className = "yomi-scope-selector";
+  scopeControls.setAttribute("role", "group");
+  scopeControls.setAttribute("aria-label", "コーパスでの扱い");
+  let disposition = override?.disposition || item.initial_disposition || "Keep";
+  setYomiDispositionClasses(node, disposition);
+  for (const [value, glyph, label] of [["Skip", "▣", "スキップ"], ["Exclude", "⛨", "排除"]]) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `yomi-scope-option scope-${value.toLowerCase()}`;
+    button.textContent = glyph;
+    button.title = label;
+    button.setAttribute("aria-label", label);
+    button.setAttribute("aria-pressed", String(disposition === value));
+    button.dataset.disposition = value;
+    button.disabled = !editable;
+    button.addEventListener("click", () => {
+      disposition = disposition === value ? "Keep" : value;
+      ensureStrongRepairOverride(item.item_id).disposition = disposition;
+      cleanupStrongRepairOverride(item.item_id);
+      touchDraft();
+      for (const option of scopeControls.querySelectorAll("button")) {
+        option.setAttribute("aria-pressed", String(option.dataset.disposition === disposition));
+      }
+      setYomiDispositionClasses(node, disposition);
+      renderSubmissionPreview();
+    });
+    scopeControls.append(button);
+  }
+  header.append(titleWrap, scopeControls, manualCorrectionControl);
   node.append(header);
 
   const afterLine = document.createElement("p");
@@ -4469,10 +4419,11 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
     surfaces,
     previousSegments,
   );
+  const previousAtPosition = strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments);
   const nextSegments = surfaces.map((surface, index) => ({
     surface,
     reading: readings[index] || "",
-    edited: false,
+    edited: Boolean(previousAtPosition[index]?.edited),
   }));
   setStrongRepairManualSegments(item, region, nextSegments);
   touchDraft();
@@ -4485,6 +4436,7 @@ function ensureStrongRepairOverride(itemId) {
     decision: "accept",
     note: current.note || "",
     regions: current.regions || {},
+    ...(current.disposition ? { disposition: current.disposition } : {}),
     ...(typeof current.manual_correction_required === "boolean"
       ? { manual_correction_required: current.manual_correction_required }
       : {}),
@@ -4526,6 +4478,7 @@ function cleanupStrongRepairOverride(itemId) {
   if (!current) {
     return;
   }
+  if (current.disposition) return;
   const note = String(current.note || "").trim();
   if (note) {
     current.note = note;
@@ -4624,11 +4577,13 @@ function defaultStrongRepairReadingForSegment(region, surface, previousSegments)
 
 function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegments) {
   const knownWholeReadings = strongRepairKnownWholeReadings(region);
-  const candidates = surfaces.map((surface) => {
+  const previousAtPosition = strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments);
+  const candidates = surfaces.map((surface, index) => {
     const values = [];
-    const previous = (previousSegments || []).find(
-      (segment) => segment.surface === surface && segment.reading,
-    );
+    const previous = previousAtPosition[index];
+    if (previous?.edited) {
+      return [katakanaToHiragana(String(previous.reading || ""))];
+    }
     if (previous?.reading) {
       values.push(previous.reading);
     }
@@ -4639,15 +4594,78 @@ function defaultStrongRepairReadingsForSegments(region, surfaces, previousSegmen
     }
     return values;
   });
-  for (const wholeReading of knownWholeReadings) {
+  const currentWholeReading = (previousSegments || []).length > 0
+    && previousSegments.every((segment) => segment.reading)
+    && previousSegments.map((segment) => segment.surface).join("") === surfaces.join("")
+    ? katakanaToHiragana(previousSegments.map((segment) => segment.reading).join("")) : null;
+  const wholeReadings = currentWholeReading ? [currentWholeReading] : knownWholeReadings;
+  for (const wholeReading of wholeReadings) {
     const matched = matchStrongRepairSegmentReadings(candidates, wholeReading);
     if (matched) {
       return matched;
     }
   }
-  return surfaces.map((surface) =>
-    defaultStrongRepairReadingForSegment(region, surface, previousSegments),
+  const inferred = inferStrongRepairRemainder(candidates, wholeReadings,
+    previousAtPosition.map((segment) => Boolean(segment?.edited)));
+  if (inferred) {
+    return inferred;
+  }
+  return surfaces.map((surface, index) =>
+    previousAtPosition[index]?.edited
+      ? previousAtPosition[index].reading
+      : defaultStrongRepairReadingForSegment(region, surface, previousSegments),
   );
+}
+
+function strongRepairPreviousSegmentsAtSamePosition(surfaces, previousSegments) {
+  const byStart = new Map();
+  let offset = 0;
+  for (const segment of previousSegments || []) {
+    byStart.set(offset, segment);
+    offset += segment.surface.length;
+  }
+  offset = 0;
+  return surfaces.map((surface) => {
+    const previous = byStart.get(offset);
+    offset += surface.length;
+    return previous?.surface === surface ? previous : null;
+  });
+}
+
+function inferStrongRepairRemainder(candidates, wholeReadings, protectedSegments = []) {
+  if (candidates.length < 2 || candidates.filter((values) => !values.length).length > 1) return null;
+  if (candidates.some((values) => values.includes(""))) return null;
+  let budget = 10000;
+  for (const value of wholeReadings) {
+    const whole = katakanaToHiragana(String(value || ""));
+    if (!/^[ぁ-ゖーゝゞ]+$/u.test(whole)) continue;
+    let best = null;
+    let bestRank = Infinity;
+    // Infer one automatic segment, ranking the remaining candidates in their
+    // existing order. Equal ranks prefer a matching prefix over a suffix.
+    for (let inferredIndex = candidates.length - 1; inferredIndex >= 0; inferredIndex -= 1) {
+      if (protectedSegments[inferredIndex]) continue;
+      const visit = (index, offset, readings, rank) => {
+        if (--budget < 0 || rank >= bestRank) return;
+        if (index === candidates.length) {
+          if (offset === whole.length) { best = readings; bestRank = rank; }
+          return;
+        }
+        const values = index === inferredIndex
+          ? Array.from({ length: whole.length - offset }, (_, i) => whole.slice(offset, offset + i + 1))
+          : candidates[index].map((reading) => katakanaToHiragana(String(reading)));
+        for (const [candidateIndex, reading] of values.entries()) {
+          if (reading && whole.startsWith(reading, offset)) {
+            visit(index + 1, offset + reading.length, [...readings, reading],
+              rank + (index === inferredIndex ? 0 : candidateIndex));
+          }
+        }
+      };
+      visit(0, 0, [], 0);
+    }
+    if (best) return best;
+  }
+  return null;
 }
 
 function strongRepairKnownWholeReadings(region) {
@@ -6060,7 +6078,6 @@ function targetsConnectedByMergeOps(targets, mergeOps) {
 
 function findRepeatedCancellationMatches(sourceItem, pattern) {
   const matches = [];
-  const matchedTargetSets = new Set();
   for (const item of state.currentPack?.items || []) {
     if (
       String(item.doc_id || "") !== String(sourceItem.doc_id || "") ||
@@ -6093,65 +6110,7 @@ function findRepeatedCancellationMatches(sourceItem, pattern) {
         continue;
       }
       matches.push({ item, targets: windowTargets });
-      matchedTargetSets.add(repeatedCancellationMatchKey(item, windowTargets));
     }
-    // Interaction spans are UI units, not lexical identity. The same text can
-    // therefore be one target in one sentence and several targets in another.
-    // For plain adjacent cancellations, match the textual span as well.
-    if (pattern.mergeOps.length === 0) {
-      for (const windowTargets of cancellationTargetsForText(item, pattern.surface, targets)) {
-        const key = repeatedCancellationMatchKey(item, windowTargets);
-        if (matchedTargetSets.has(key)) {
-          continue;
-        }
-        if (
-          item.item_id === sourceItem.item_id &&
-          windowTargets.every((target) => state.repeatCancellation.targetIds.has(target.item_id))
-        ) {
-          continue;
-        }
-        matches.push({ item, targets: windowTargets });
-        matchedTargetSets.add(key);
-      }
-    }
-  }
-  return matches;
-}
-
-function repeatedCancellationMatchKey(item, targets) {
-  return `${item.item_id}:${targets.map((target) => target.item_id).join(",")}`;
-}
-
-function cancellationTargetsForText(item, surface, targets) {
-  const text = [...String(item.text || "")];
-  const pattern = [...String(surface || "")];
-  if (!pattern.length) {
-    return [];
-  }
-  const matches = [];
-  for (let start = 0; start <= text.length - pattern.length; start += 1) {
-    if (text.slice(start, start + pattern.length).join("") !== surface) {
-      continue;
-    }
-    const end = start + pattern.length;
-    const windowTargets = targets.filter((target) =>
-      Number(target.target_start) >= start && Number(target.target_end) <= end
-    );
-    if (!windowTargets.length || Number(windowTargets[0].target_start) !== start ||
-        Number(windowTargets.at(-1).target_end) !== end) {
-      continue;
-    }
-    if (windowTargets.some((target, index) =>
-      index > 0 && Number(target.target_start) !== Number(windowTargets[index - 1].target_end)
-    )) {
-      continue;
-    }
-    if (!windowTargets.every((target) => targetMatchesCancellationSpec(item, target, {
-      surface: target.surface || "",
-    }))) {
-      continue;
-    }
-    matches.push(windowTargets);
   }
   return matches;
 }
@@ -6852,6 +6811,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
       const row = {
         item_id: originalItemId(item),
         decision: override.decision || "accept",
+        ...(override.disposition ? { disposition: override.disposition } : {}),
         ...(typeof override.manual_correction_required === "boolean"
           ? { manual_correction_required: override.manual_correction_required }
           : {}),
@@ -6875,6 +6835,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     .filter(
       (row) =>
         row.decision === "reject" ||
+        "disposition" in row ||
         "manual_correction_required" in row ||
         row.note ||
         (row.regions && row.regions.length > 0)
@@ -7171,7 +7132,7 @@ function normalizeStoredOverrideForItem(pack, item, override) {
   }
   const note = String(override?.note || "").trim();
   const hasManualCorrectionOverride = typeof override?.manual_correction_required === "boolean";
-  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride) {
+  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride && !override?.disposition) {
     return null;
   }
   return { ...override, note, regions };
@@ -7214,6 +7175,12 @@ function syncLocalTaskRecordsForCurrentPack() {
   if (!state.currentPack || !state.currentDraft) {
     return;
   }
+  const activeRecord = localTaskRecordFromActiveDraft(state.currentDraft);
+  if (activeRecord) {
+    const identity = persistentTaskIdentity(activeRecord, taskQueueStage(state.currentDraft.task));
+    state.currentDraft.active_task_id = identity.task_id;
+    state.currentDraft.active_task_label = identity.task_label;
+  }
   const currentKey = currentDraftStorageKey();
   const currentRecords = {};
   const migratedActiveRecords = [];
@@ -7240,12 +7207,16 @@ function syncLocalTaskRecordsForCurrentPack() {
     const nextSavedTasks = {};
     let sourceChanged = false;
     for (const [taskId, rawRecord] of Object.entries(parsed?.saved_tasks || {})) {
+      if (taskRecordStatus(rawRecord) === "submitted") {
+        saveTaskSubmissionReceipts({ ...rawRecord, queue_stage: localTaskRecordStage(rawRecord, sourceStage) }, { migrate: true });
+      }
       const normalized = normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage);
       if (!normalized) {
         sourceChanged = true;
         continue;
       }
       const currentTaskId = uniqueTaskIdForRecords(normalized.task_id || taskId, currentRecords);
+      if (state.pendingIssueTaskId === taskId) state.pendingIssueTaskId = currentTaskId;
       currentRecords[currentTaskId] = { ...normalized, task_id: currentTaskId };
       if (key === currentKey) {
         nextSavedTasks[currentTaskId] = { ...normalized, task_id: currentTaskId };
@@ -7287,6 +7258,29 @@ function syncLocalTaskRecordsForCurrentPack() {
     }
   }
 
+  // Recover once per submission after collecting drafts from every pack.
+  const receiptGroups = new Map();
+  for (let i = 0; i < window.localStorage.length; i += 1) {
+    const key = window.localStorage.key(i);
+    if (!key?.startsWith(submissionReceiptPrefix)) continue;
+    const receipt = JSON.parse(window.localStorage.getItem(key));
+    if (receipt?.local_status !== "submitted" || !receipt.record_key) continue;
+    if (!receiptGroups.has(receipt.record_key)) receiptGroups.set(receipt.record_key, new Set());
+    receiptGroups.get(receipt.record_key).add(receipt.doc_id);
+  }
+  for (const [key, docIds] of receiptGroups) {
+    const record = JSON.parse(window.localStorage.getItem(key));
+    if (!record) continue;
+    const normalized = normalizeLocalTaskRecordForCurrentPack({
+      ...record, status: "submitted", task: { ...record.task,
+        doc_ids: taskDocIdsForStorageTask(record.task).filter((id) => docIds.has(baseDocIdFromTaskDocId(id))),
+      },
+    });
+    if (!normalized) continue;
+    const id = uniqueTaskIdForRecords(normalized.task_id, currentRecords);
+    currentRecords[id] = { ...normalized, task_id: id };
+  }
+  consolidateSubmittedTaskRecords(currentRecords);
   const before = JSON.stringify(state.currentDraft.saved_tasks || {});
   if (!isTaskStarted() && migratedActiveRecords.length > 0) {
     const active = [...migratedActiveRecords].sort(
@@ -7308,6 +7302,28 @@ function syncLocalTaskRecordsForCurrentPack() {
   }
 }
 
+function consolidateSubmittedTaskRecords(records) {
+  const groups = new Map();
+  for (const [id, record] of Object.entries(records)) {
+    if (taskRecordStatus(record) !== "submitted" || !record.submitted_at_epoch) continue;
+    const key = JSON.stringify([record.task_uid || record.queue_stage, record.submitted_at_epoch,
+      record.task_label || record.task_number || record.task_id]);
+    const previous = groups.get(key);
+    if (!previous) {
+      groups.set(key, record);
+      continue;
+    }
+    previous.task = { ...previous.task, doc_ids: [...new Set([
+      ...taskDocIdsForStorageTask(previous.task), ...taskDocIdsForStorageTask(record.task),
+    ])] };
+    previous.document_refs = [...new Map([
+      ...(record.document_refs || []), ...(previous.document_refs || []),
+    ].map((ref) => [ref.task_doc_id, ref])).values()];
+    previous.overrides = { ...(record.overrides || {}), ...(previous.overrides || {}) };
+    delete records[id];
+  }
+}
+
 function localTaskRecordFromActiveDraft(draft) {
   if (!draft?.task?.started || !taskDocIdsForStorageTask(draft.task).length) {
     return null;
@@ -7315,6 +7331,7 @@ function localTaskRecordFromActiveDraft(draft) {
   const taskId = draft.active_task_id || "migrated_active_task";
   return {
     task_id: taskId,
+    task_uid: window.localStorage.getItem(`yomi-corpus:task-identity:v1:id:${taskId}`) ? taskId : null,
     task_label: draft.active_task_label || taskId,
     task_number: taskNumberFromId(taskId),
     status: "deferred",
@@ -7332,6 +7349,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   if (!taskStage) {
     return null;
   }
+  rawRecord = { ...rawRecord, ...persistentTaskIdentity(rawRecord, taskStage) };
   const submitted = taskRecordStatus(rawRecord) === "submitted";
   const docIds = taskDocIdsForStorageTask(rawRecord.task);
   const storedRefs = new Map(
@@ -7341,6 +7359,7 @@ function normalizeLocalTaskRecordForCurrentPack(rawRecord, sourceStage = "") {
   const retainedDocIds = [];
   const documentRefs = [];
   for (const docId of docIds) {
+    if (submitted && readSubmissionReceipt(baseDocIdFromTaskDocId(docId), taskStage)?.local_status === "reopened") continue;
     const currentDoc = currentQueueDocForTaskDocId(docId, taskStage, { submitted });
     if (currentDoc) {
       retainedDocIds.push(taskDocKey(currentDoc));
@@ -7615,13 +7634,28 @@ function canonicalDocIdKey(docIds) {
 }
 
 function allocateTaskIdentity() {
-  const number = Math.max(1, Number(state.currentDraft.next_task_number || 1));
-  state.currentDraft.next_task_number = number + 1;
-  return {
-    task_id: `task_${number}`,
-    task_label: `タスク ${number}`,
-    task_number: number,
-  };
+  return persistentTaskIdentity({ task_uid: `task_${crypto.randomUUID()}` });
+}
+
+function persistentTaskIdentity(record, stage = "") {
+  const prefix = "yomi-corpus:task-identity:v1:";
+  const legacyKey = JSON.stringify(record.submitted_at_epoch
+    ? [stage || record.queue_stage, record.submitted_at_epoch, record.task_label || record.task_number || record.task_id]
+    : [stage || record.queue_stage, record.task_id, [...taskDocIdsForStorageTask(record.task || {})].sort()]);
+  const aliasKey = prefix + "legacy:" + legacyKey;
+  const uid = record.task_uid || window.localStorage.getItem(aliasKey) || `task_${crypto.randomUUID()}`;
+  const identityKey = prefix + "id:" + uid;
+  const saved = window.localStorage.getItem(identityKey);
+  let identity = saved ? JSON.parse(saved) : null;
+  if (!identity) {
+    const counterKey = prefix + "next";
+    const number = Math.max(1, Number(window.localStorage.getItem(counterKey) || 1));
+    identity = { task_id: uid, task_uid: uid, task_label: `タスク ${number}`, task_number: number };
+    window.localStorage.setItem(identityKey, JSON.stringify(identity));
+    window.localStorage.setItem(counterKey, String(number + 1));
+  }
+  if (!record.task_uid) window.localStorage.setItem(aliasKey, uid);
+  return identity;
 }
 
 function currentTaskDraftRecord() {
@@ -7630,12 +7664,14 @@ function currentTaskDraftRecord() {
   const identity = existing
     ? {
         task_id: existing.task_id,
+        task_uid: existing.task_uid || existing.task_id,
         task_label: existing.task_label,
         task_number: existing.task_number,
       }
     : existingId
       ? {
           task_id: existingId,
+          task_uid: existingId,
           task_label: state.currentDraft.active_task_label || existingId,
           task_number: taskNumberFromId(existingId),
         }
@@ -7664,6 +7700,8 @@ function currentTaskDraftRecord() {
 }
 
 function taskNumberFromId(taskId) {
+  const saved = window.localStorage.getItem(`yomi-corpus:task-identity:v1:id:${taskId}`);
+  if (saved) return JSON.parse(saved).task_number;
   const match = String(taskId || "").match(/^task_(\d+)$/);
   return match ? Number(match[1]) : null;
 }
@@ -7895,6 +7933,7 @@ function completeCurrentTask() {
     status: "submitted",
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
+  saveTaskSubmissionReceipts(state.currentDraft.saved_tasks[record.task_id]);
   clearActiveTaskState();
   touchDraft();
   restoreUnifiedDashboardPack();
@@ -7925,6 +7964,7 @@ async function resumeTaskDraft(taskId) {
     started: true,
   };
   state.currentDraft.overrides = cloneJson(record.overrides || {});
+  if (taskRecordStatus(record) === "submitted") saveTaskSubmissionReceipts(record, { reopen: true });
   delete state.currentDraft.saved_tasks[taskId];
   touchDraft();
   render({ scrollToTop: true });
@@ -7938,6 +7978,7 @@ function markSavedTaskSubmitted(taskId) {
     submitted_at_epoch: Math.floor(Date.now() / 1000),
   };
   delete submittedRecord.awaiting_issue_confirmation;
+  saveTaskSubmissionReceipts(submittedRecord);
   state.currentDraft.saved_tasks[record.task_id] = submittedRecord;
   if (state.currentDraft.active_task_id === record.task_id) {
     clearActiveTaskState();
@@ -8020,6 +8061,7 @@ function normalizeReviewDraft(parsed, pack) {
     maxTaskNumber = Math.max(maxTaskNumber, taskNumber);
     draft.saved_tasks[taskId] = {
       task_id: taskId,
+      task_uid: rawRecord?.task_uid || null,
       task_label: rawRecord?.task_label || (taskNumber ? `タスク ${taskNumber}` : taskId),
       task_number: taskNumber || null,
       status: submitted ? "submitted" : "deferred",
@@ -8185,6 +8227,7 @@ async function loadIssueAcknowledgments() {
   }
   try {
     state.issueAcknowledgments = await fetchJson(path);
+    rememberServerSubmissionReceipts(state.issueAcknowledgments);
     state.issueAcknowledgmentSignature = issueAcknowledgmentSignature(state.issueAcknowledgments);
   } catch (error) {
     state.issueAcknowledgments = { records: [] };
@@ -8194,7 +8237,7 @@ async function loadIssueAcknowledgments() {
 
 function issueAcknowledgmentSignature(payload) {
   return JSON.stringify(
-    (payload?.records || []).map((row) => [
+    [...(payload?.records || []), ...(payload?.receipt_history || [])].map((row) => [
       row.submission_id,
       row.issue_number,
       row.conflict,
@@ -8211,6 +8254,7 @@ async function pollIssueAcknowledgments() {
   const separator = path.includes("?") ? "&" : "?";
   const bucket = Math.floor(Date.now() / 30000);
   const payload = await fetchJson(`${path}${separator}poll=${bucket}`);
+  rememberServerSubmissionReceipts(payload);
   const signature = issueAcknowledgmentSignature(payload);
   if (signature === state.issueAcknowledgmentSignature) {
     return false;
