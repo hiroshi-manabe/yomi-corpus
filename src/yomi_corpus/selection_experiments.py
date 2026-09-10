@@ -6,8 +6,10 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import math
+import random
 from pathlib import Path
 import sqlite3
+import statistics
 
 from yomi_corpus.historical_register import classify_document
 from yomi_corpus.selection_quality import (
@@ -71,6 +73,8 @@ def build_selection_experiment(
     output_path: Path,
     character_budgets: tuple[int, ...] = (50_000, 100_000, 250_000),
     preview_budget: int = 100_000,
+    density_thresholds: tuple[float, ...] | None = None,
+    random_seed: int = 20260907,
 ) -> dict:
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     selection = list(plan.get("selection") or [])
@@ -153,10 +157,19 @@ def build_selection_experiment(
 
     strategy_rows = []
     preview_lines: set[int] = set()
-    for strategy in STRATEGIES:
+    strategies = STRATEGIES if density_thresholds is None else tuple(
+        Strategy(f"random_{threshold:g}", f"無作為・{threshold:g}語/千字以上",
+                 "対象語の異なり数による最低密度を満たす文書から、共通の乱数順で抽出します。",
+                 (), str(threshold))
+        for threshold in density_thresholds
+    )
+    for strategy in strategies:
         runs = []
         for budget in budgets:
-            chosen = _select_documents(
+            chosen = _select_random_documents(
+                docs, excluded=excluded, character_budget=budget,
+                threshold=float(strategy.length_mode), seed=random_seed,
+            ) if density_thresholds is not None else _select_documents(
                 docs,
                 excluded=excluded,
                 target_weights=target_weights,
@@ -196,7 +209,8 @@ def build_selection_experiment(
         "plan_id": plan["plan_id"],
         "budgets": budgets,
         "preview_budget": preview_budget,
-        "strategies": [strategy.strategy_id for strategy in STRATEGIES],
+        "strategies": [strategy.strategy_id for strategy in strategies],
+        "random_seed": random_seed if density_thresholds is not None else None,
         "historical_gate": _historical_policy(),
         "parenthetical_reading_gate": {
             "max_glosses_per_sentence": DEFAULT_MAX_GLOSSES_PER_SENTENCE,
@@ -239,6 +253,23 @@ def build_selection_experiment(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(artifact, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return artifact
+
+
+def _select_random_documents(docs, *, excluded, character_budget, threshold, seed):
+    ordered = sorted(docs)
+    random.Random(seed).shuffle(ordered)
+    selected = []
+    remaining = character_budget
+    for line in ordered:
+        row = docs[line]
+        length = int(row["text_length"])
+        if line in excluded or length <= 0 or length > remaining:
+            continue
+        if len(row["target_ids"]) * 1000 / length < threshold:
+            continue
+        selected.append(line)
+        remaining -= length
+    return selected
 
 
 def _historical_gate_matches(result) -> bool:
@@ -325,6 +356,7 @@ def _selection_metrics(
         total_characters += int(row["text_length"])
         coverage.update(row["target_ids"])
     distinct = len(coverage)
+    lengths = [int(docs[line]["text_length"]) for line in selected]
     return {
         "character_budget": budget,
         "selected_document_count": len(selected),
@@ -334,6 +366,11 @@ def _selection_metrics(
         "targets_with_two_examples": sum(count >= 2 for count in coverage.values()),
         "targets_with_three_examples": sum(count >= 3 for count in coverage.values()),
         "target_document_hits": sum(coverage.values()),
+        "median_document_characters": statistics.median(lengths) if lengths else 0,
+        "maximum_document_characters": max(lengths, default=0),
+        "target_document_hits_per_1000_characters": round(
+            sum(coverage.values()) * 1000 / max(1, total_characters), 6
+        ),
         "distinct_targets_per_10000_characters": round(
             distinct * 10_000 / max(1, total_characters), 6
         ),

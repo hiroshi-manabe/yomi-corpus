@@ -4,8 +4,23 @@ from yomi_corpus.selection_experiments import (
     STRATEGIES,
     _historical_gate_matches,
     _select_documents,
+    _select_random_documents,
 )
 from yomi_corpus.historical_register import classify_document
+
+
+def test_random_density_gate_keeps_zero_hit_baseline_and_budget():
+    docs = {1: {"text_length": 1000, "target_ids": ()},
+            2: {"text_length": 1000, "target_ids": (1,)},
+            3: {"text_length": 1000, "target_ids": (1, 2)}}
+    kwargs = dict(excluded=set(), character_budget=3000, seed=7)
+    baseline = _select_random_documents(docs, threshold=0, **kwargs)
+    filtered = _select_random_documents(docs, threshold=2, **kwargs)
+    assert set(baseline) == {1, 2, 3}
+    assert filtered == [3]
+    assert baseline == _select_random_documents(docs, threshold=0, **kwargs)
+    assert _select_random_documents(docs, excluded={3}, character_budget=999,
+                                    threshold=0, seed=7) == []
 
 
 def test_novelty_strategy_prefers_a_document_with_a_new_target() -> None:
