@@ -11,6 +11,12 @@ from yomi_corpus.yomi.token_codec import (
 
 
 class YomiTokenCodecTests(unittest.TestCase):
+    def test_internal_slashes_and_backslashes_without_source_hint(self) -> None:
+        self.assertEqual(
+            legacy_rendered_to_yomi_tokens(r"10/ /// 09/ \/\ 798/"),
+            [["10", ""], ["/", "/"], ["09", ""], ["\\", "\\"], ["798", ""]],
+        )
+
     def test_legacy_alignment_recovers_literal_slash(self) -> None:
         self.assertEqual(
             legacy_rendered_to_yomi_tokens("3/ /// 22/", text="3/22"),
@@ -25,6 +31,12 @@ class YomiTokenCodecTests(unittest.TestCase):
         self.assertEqual(
             editable_rendered_to_yomi_tokens(rendered, text="3/22"),
             tokens,
+        )
+
+    def test_legacy_alignment_preserves_consecutive_slash_tokens(self) -> None:
+        self.assertEqual(
+            legacy_rendered_to_yomi_tokens("hrrps/ :/: /// /// )/)", text="hrrps://)"),
+            [["hrrps", ""], [":", ":"], ["/", "/"], ["/", "/"], [")", ")"]],
         )
 
     def test_editable_format_escapes_ascii_space_tokens(self) -> None:

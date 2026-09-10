@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from yomi_corpus.yomi.token_codec import (
-    editable_rendered_to_yomi_tokens,
+    legacy_rendered_to_yomi_tokens,
     yomi_tokens_to_legacy_rendered,
 )
 
@@ -74,7 +74,9 @@ def apply_exact_yomi_rewrites(
     rewrites = load_exact_yomi_rewrites(rewrites_path)
     if not rewrites:
         return LearnedRewriteResult(rendered=rendered, applications=())
-    tokens = editable_rendered_to_yomi_tokens(rendered)
+    # Strategy output is legacy serialization; backslashes are source text,
+    # not the escapes used by the human-facing editor.
+    tokens = legacy_rendered_to_yomi_tokens(rendered)
     ordered_surfaces = sorted(rewrites, key=lambda value: (-len(value), value))
     output: list[list[str]] = []
     applications: list[dict[str, Any]] = []

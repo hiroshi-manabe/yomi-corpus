@@ -42,6 +42,12 @@ def test_exact_rewrite_replaces_matching_token_span(tmp_path: Path) -> None:
     assert result.rendered == "旧/キュウ 池尻/イケジリ 中学校/チュウガッコウ で/デ"
     assert len(result.applications) == 1
 
+    punctuation = apply_exact_yomi_rewrites(
+        r"/// \\/\\ 池尻中/イケジリナカ 学校/ガッコウ",
+        rewrites_path=path,
+    )
+    assert punctuation.rendered == r"/// \\/\\ 池尻/イケジリ 中学校/チュウガッコウ"
+
 
 def test_segmentation_only_rewrite_preserves_current_reading(tmp_path: Path) -> None:
     path = tmp_path / "rewrites.jsonl"

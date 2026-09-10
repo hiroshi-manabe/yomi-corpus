@@ -148,12 +148,24 @@ def split_legacy_rendered_token(token: str, *, remaining_text: str | None = None
         if len(matches) == 1:
             return matches[0]
         if len(matches) > 1:
+            # Literal punctuation uses itself as its reading. In ``/// ///``
+            # each token is one slash, not two slashes with an empty reading.
+            self_readings = [pair for pair in matches if pair[0] == pair[1]]
+            if len(self_readings) == 1:
+                return self_readings[0]
             longest = max(matches, key=lambda pair: len(pair[0]))
             if sum(len(surface) == len(longest[0]) for surface, _reading in matches) == 1:
                 return longest
             raise YomiTokenError(f"ambiguous legacy token {token!r}")
     if not separators:
         return token, ""
+    self_readings = [
+        (token[:index], token[index + 1 :])
+        for index in separators
+        if token[:index] == token[index + 1 :]
+    ]
+    if len(self_readings) == 1:
+        return self_readings[0]
     separator = separators[-1]
     return token[:separator], token[separator + 1 :]
 
