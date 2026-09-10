@@ -1,0 +1,12 @@
+task_name = "vocabulary_familiarity"
+input_builder = "generic_text"
+parser = "yes_no"
+mode = "batch"
+model = "gpt-5.6-sol"
+prompt_template = "config/prompts/vocabulary_familiarity.txt"
+reasoning_effort = "none"
+verbosity = "low"
+max_output_tokens = 16
+batch_endpoint = "/v1/responses"
+batch_completion_window = "24h"
+

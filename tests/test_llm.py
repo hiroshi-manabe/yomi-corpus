@@ -114,7 +114,10 @@ class LLMScaffoldingTests(unittest.TestCase):
         self.assertEqual(items[0].item_id, "u1::target_group:1")
         self.assertIn("Rejected span: 池尻中学校", items[0].prompt)
         self.assertIn("Rejected readings: 池尻中=いけじりなか; 学校=がっこう", items[0].prompt)
-        self.assertIn("First check whether the entire rejected span", items[0].prompt)
+        self.assertIn("return natural word-level segments", items[0].prompt)
+        self.assertIn("separate items for the family name and given name", items[0].prompt)
+        self.assertIn("Do not maximize splitting", items[0].prompt)
+        self.assertNotIn("If yes and it contains no whitespace, return one item", items[0].prompt)
         self.assertIn("The rejection may concern segmentation only", items[0].prompt)
         self.assertIn("Preserve correct readings", items[0].prompt)
         self.assertIn("human reviewer could not confidently determine", items[0].prompt)
@@ -151,6 +154,12 @@ class LLMScaffoldingTests(unittest.TestCase):
     def test_parse_json_output(self) -> None:
         parsed = parse_output('{"status":"in_scope","confidence":"high","note":"ok"}', "json_object")
         self.assertEqual(parsed["status"], "in_scope")
+
+    def test_parse_yes_no_output(self) -> None:
+        self.assertTrue(parse_output(" y\n", "yes_no"))
+        self.assertFalse(parse_output("N", "yes_no"))
+        with self.assertRaisesRegex(ValueError, "exactly 'y' or 'n'"):
+            parse_output("yes", "yes_no")
 
     def test_parse_json_array_output(self) -> None:
         parsed = parse_output(

@@ -10,6 +10,8 @@ ARRAY_CODE_BLOCK_RE = re.compile(r"```(?:json)?\s*(\[.*\])\s*```", re.DOTALL)
 
 
 def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None = None) -> Any:
+    if parser_name == "yes_no":
+        return parse_yes_no(text)
     if parser_name == "json_object":
         return parse_json_object(text)
     if parser_name == "json_array":
@@ -19,6 +21,15 @@ def parse_output(text: str, parser_name: str, *, metadata: dict[str, Any] | None
     if parser_name == "yomi_reading_completion_json":
         return parse_yomi_reading_completion_json(text, metadata=metadata)
     raise ValueError(f"Unsupported parser: {parser_name}")
+
+
+def parse_yes_no(text: str) -> bool:
+    normalized = text.strip().casefold()
+    if normalized == "y":
+        return True
+    if normalized == "n":
+        return False
+    raise ValueError("Expected exactly 'y' or 'n' in model output.")
 
 
 def parse_json_object(text: str) -> dict[str, Any]:
