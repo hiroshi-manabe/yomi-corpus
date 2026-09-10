@@ -2292,7 +2292,7 @@ function isNumericOnlySurface(surface) {
   // they are ambiguous. Single Japanese numeral kanji stay lexical, while
   // multi-character digit runs and circle zero belong to the numeric layer.
   const value = String(surface || "");
-  if (!/^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ〇○零一二三四五六七八九]+$/u.test(value)) {
+  if (!/^[0-9０-９ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅺⅻⅼⅽⅾⅿ①-⑳㉑-㉟㊱-㊿〇○零一二三四五六七八九]+$/u.test(value)) {
     return false;
   }
   if (!/^[〇○零一二三四五六七八九]+$/u.test(value)) {
