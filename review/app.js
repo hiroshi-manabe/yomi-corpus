@@ -424,6 +424,7 @@ async function openUnifiedReview() {
     );
   }
   const unified = buildUnifiedReviewPack(sources);
+  unified.summary_only = usingSummary;
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -438,6 +439,10 @@ async function openUnifiedReview() {
   const restoredTask = normalizeTask(state.currentDraft.task, state.currentPack);
   if (restoredTask.started && restoredTask.doc_ids.length > 0) {
     await hydrateUnifiedTask(restoredTask.doc_ids);
+    state.currentDraft.overrides = filterOverridesForTask(
+      state.currentPack, restoredTask, state.currentDraft.overrides,
+    );
+    saveDraft();
   }
   updateLocation("unified_yomi_review", unified.pack_id);
   render({ scrollToTop: isTaskStarted() });
@@ -1801,6 +1806,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     </div>
   `;
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
+  bindUnfinishedEditor(textarea, "archive", unit);
   textarea.addEventListener("input", () => updateArchiveCorrectionRowState(row, unit));
   textarea.addEventListener("keydown", (event) => {
     handleArchiveCorrectionEditorKeydown(event, row, unit, doc);
@@ -1857,7 +1863,7 @@ function openArchiveCorrectionRowEditor(row, unit) {
   }
   const textarea = editor.querySelector(".archive-correction-unit-textarea");
   if (textarea) {
-    textarea.value = row.dataset.proposedYomi || editor.dataset.originalYomi || "";
+    textarea.value = readUnfinishedEditor(textarea) ?? (row.dataset.proposedYomi || editor.dataset.originalYomi || "");
   }
   row.classList.add("editing");
   editor.classList.remove("hidden");
@@ -2047,6 +2053,7 @@ function cancelArchiveCorrectionRowEdit(row) {
 }
 
 function closeArchiveCorrectionRowEditor(row) {
+  clearUnfinishedEditor(row.querySelector(".archive-correction-unit-textarea"));
   row.classList.remove("editing");
   row.querySelector(".archive-correction-editor")?.classList.add("hidden");
   const button = row.querySelector("[data-archive-yomi-edit]");
@@ -5098,6 +5105,7 @@ function renderYomiDirectEditor(node, item, savedTokens) {
     </div>
   `;
   const textarea = editor.querySelector(".yomi-direct-edit-textarea");
+  bindUnfinishedEditor(textarea, "bulk", item);
   textarea.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.keyCode === 229) {
       return;
@@ -5125,7 +5133,7 @@ function openYomiDirectEditor(node, item) {
   }
   const override = state.currentDraft.overrides[item.item_id] || {};
   const saved = normalizeYomiTokenPairs(override.direct_yomi_tokens);
-  textarea.value = serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
+  textarea.value = readUnfinishedEditor(textarea) ?? serializeEditableYomiTokens(saved.length ? saved : yomiDirectEditBaselineTokens(item));
   node.classList.add("direct-yomi-editing");
   for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
     if (token instanceof HTMLButtonElement) {
@@ -5177,6 +5185,7 @@ function saveYomiDirectEdit(node, item) {
     draft.direct_edit_cleared_manual_flag = true;
   }
   node.classList.remove("direct-yomi-invalid");
+  clearUnfinishedEditor(textarea);
   touchDraft();
   render();
 }
@@ -5194,6 +5203,7 @@ function cancelYomiDirectEdit(node, item) {
     return;
   }
   textarea.value = baseline;
+  clearUnfinishedEditor(textarea);
   node.classList.remove("direct-yomi-invalid");
   node.classList.remove("direct-yomi-editing");
   for (const token of node.querySelectorAll(".ruby-line > .ruby-token")) {
@@ -5215,6 +5225,7 @@ function revertYomiDirectEdit(item, { confirmSaved = true } = {}) {
   ) {
     return;
   }
+  window.localStorage.removeItem(unfinishedEditorKey("bulk", item));
   if (draft) {
     delete draft.resolution;
     delete draft.original_yomi_tokens;
@@ -7102,6 +7113,10 @@ function filterOverridesForTask(pack, task, overrides) {
   if (!overrides || task.mode !== "documents" || task.doc_ids.length === 0) {
     return {};
   }
+  // Summary dashboards cannot validate sentence-level edits yet.
+  if (pack.summary_only) {
+    return cloneJson(overrides);
+  }
   const itemIds = itemIdsForTaskDocIds(pack, task.doc_ids);
   const itemsById = new Map((pack.items || []).map((item) => [item.item_id, item]));
   const filtered = {};
@@ -8113,6 +8128,34 @@ function touchDraft() {
 function saveDraft() {
   const key = draftStorageKey(state.currentPack.review_stage, state.currentPack.pack_id);
   window.localStorage.setItem(key, JSON.stringify(state.currentDraft));
+}
+
+function unfinishedEditorKey(stage, item) {
+  // Tie raw input to the exact source and baseline, independently of changing pack IDs.
+  return `yomi-corpus:unfinished-editor:v1:${JSON.stringify([
+    stage, item.unit_id || item.item_id, item.text, archiveUnitYomiTokenPairs(item),
+  ])}`;
+}
+
+function bindUnfinishedEditor(textarea, stage, item) {
+  textarea.dataset.unfinishedKey = unfinishedEditorKey(stage, item);
+  textarea.addEventListener("input", () => {
+    try {
+      window.localStorage.setItem(textarea.dataset.unfinishedKey, textarea.value);
+    } catch {
+      showStatus("編集中の内容をブラウザに保存できません。再読み込み前に内容を控えてください。", true);
+    }
+  });
+}
+
+function readUnfinishedEditor(textarea) {
+  return window.localStorage.getItem(textarea.dataset.unfinishedKey);
+}
+
+function clearUnfinishedEditor(textarea) {
+  if (textarea?.dataset.unfinishedKey) {
+    window.localStorage.removeItem(textarea.dataset.unfinishedKey);
+  }
 }
 
 function draftStorageKey(reviewStage, packId) {
