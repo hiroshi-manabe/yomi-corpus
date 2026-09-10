@@ -10,10 +10,9 @@
   "item_count": 8,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 8,
     "queued_repair_row_count": 10,
@@ -109,12 +108,12 @@
       "source_line_no": 678142,
       "preview": "「諸病源候論」を引用して、病気を分類し、唐代や宋代の醫學、自己の治療体験などを参考にして執筆された。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:40Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:23:40Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 7,
@@ -265,12 +264,12 @@
       "source_line_no": 1064709,
       "preview": "開成町でのあじさいの里を会場にした「開成町あじさい祭り」では、田植え直後の緑一面の田園と虹色に咲き誇るあじさいの色合いがなんとも癒される風景が楽しめます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:40Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:23:40Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1283,7 +1282,7 @@
       "source_line_no": 678142,
       "text": "この「諸病源候論」は、中国古代医学の唯一の病理専門書で、著者は隋の太医博士巣元方。",
       "rendered_yomi_before": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太/フト 医/イ 博士/ハカセ 巣元/スモト 方/カタ 。/。",
-      "rendered_yomi_after": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
+      "rendered_yomi_after": "この/コノ 「/「 諸病源候論/ショビョウゲンコウロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "この",
@@ -1294,20 +1293,8 @@
           "「"
         ],
         [
-          "諸病",
-          "ショビョウ"
-        ],
-        [
-          "源",
-          "ゲン"
-        ],
-        [
-          "候",
-          "コウ"
-        ],
-        [
-          "論",
-          "ロン"
+          "諸病源候論",
+          "ショビョウゲンコウロン"
         ],
         [
           "」",
@@ -1424,46 +1411,13 @@
           ]
         },
         {
-          "surface": "諸病",
-          "reading": "ショビョウ",
+          "surface": "諸病源候論",
+          "reading": "ショビョウゲンコウロン",
           "nodes": [
             {
               "type": "ruby",
-              "text": "諸病",
-              "reading": "しょびょう"
-            }
-          ]
-        },
-        {
-          "surface": "源",
-          "reading": "ゲン",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "源",
-              "reading": "げん"
-            }
-          ]
-        },
-        {
-          "surface": "候",
-          "reading": "コウ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "候",
-              "reading": "こう"
-            }
-          ]
-        },
-        {
-          "surface": "論",
-          "reading": "ロン",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "論",
-              "reading": "ろん"
+              "text": "諸病源候論",
+              "reading": "しょびょうげんこうろん"
             }
           ]
         },
@@ -1724,14 +1678,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000678142:u0002",
           "text": "この「諸病源候論」は、中国古代医学の唯一の病理専門書で、著者は隋の太医博士巣元方。",
           "rendered_yomi_before": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太/フト 医/イ 博士/ハカセ 巣元/スモト 方/カタ 。/。",
-          "rendered_yomi_after": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
+          "rendered_yomi_after": "この/コノ 「/「 諸病源候論/ショビョウゲンコウロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
           "display_mapping": {
             "start": 2,
-            "end": 6,
+            "end": 3,
             "char_start": 3,
             "char_end": 8,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 5,
             "prefix": "",
             "suffix": ""
           },
@@ -2024,10 +1978,10 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000678142:u0002",
           "text": "この「諸病源候論」は、中国古代医学の唯一の病理専門書で、著者は隋の太医博士巣元方。",
           "rendered_yomi_before": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太/フト 医/イ 博士/ハカセ 巣元/スモト 方/カタ 。/。",
-          "rendered_yomi_after": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
+          "rendered_yomi_after": "この/コノ 「/「 諸病源候論/ショビョウゲンコウロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
           "display_mapping": {
-            "start": 24,
-            "end": 25,
+            "start": 21,
+            "end": 22,
             "char_start": 33,
             "char_end": 35,
             "start_offset": 0,
@@ -2202,10 +2156,10 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000678142:u0002",
           "text": "この「諸病源候論」は、中国古代医学の唯一の病理専門書で、著者は隋の太医博士巣元方。",
           "rendered_yomi_before": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太/フト 医/イ 博士/ハカセ 巣元/スモト 方/カタ 。/。",
-          "rendered_yomi_after": "この/コノ 「/「 諸病/ショビョウ 源/ゲン 候/コウ 論/ロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
+          "rendered_yomi_after": "この/コノ 「/「 諸病源候論/ショビョウゲンコウロン 」/」 は/ハ 、/、 中国/チュウゴク 古代/コダイ 医学/イガク の/ノ 唯一/ユイイツ の/ノ 病理/ビョウリ 専門/センモン 書/ショ で/デ 、/、 著者/チョシャ は/ハ 隋/ズイ の/ノ 太医/タイイ 博士/ハカセ 巣/ソウ 元方/ゲンホウ 。/。",
           "display_mapping": {
-            "start": 26,
-            "end": 28,
+            "start": 23,
+            "end": 25,
             "char_start": 37,
             "char_end": 40,
             "start_offset": 0,

@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "unresolved_item_count": 27,
     "unresolved_target_count": 41,
@@ -108,12 +107,12 @@
       "source_line_no": 678142,
       "preview": "「諸病源候論」を引用して、病気を分類し、唐代や宋代の醫學、自己の治療体験などを参考にして執筆された。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-10T04:06:40Z",
+      "state_updated_at": "2026-09-10T04:23:40Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -264,12 +263,12 @@
       "source_line_no": 1064709,
       "preview": "開成町でのあじさいの里を会場にした「開成町あじさい祭り」では、田植え直後の緑一面の田園と虹色に咲き誇るあじさいの色合いがなんとも癒される風景が楽しめます。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-10T04:06:40Z",
+      "state_updated_at": "2026-09-10T04:23:40Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 40,
@@ -65816,7 +65815,22 @@
               ]
             },
             {
-              "id": "dictionary:3",
+              "id": "dictionary:2",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "たたかい",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "戦",
+                  "reading": "たたかい"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:4",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たたこ",
@@ -67882,7 +67896,31 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:3",
+              "id": "dictionary:2",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "たたかいう",
+              "tokens": [
+                [
+                  "戦う",
+                  "タタカイウ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "戦",
+                  "reading": "たたかい"
+                },
+                {
+                  "type": "text",
+                  "text": "う"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:4",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たたこう",
@@ -177635,7 +177673,7 @@
               ]
             },
             {
-              "id": "dictionary:0",
+              "id": "dictionary:1",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "おお",
@@ -177650,7 +177688,22 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "お",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "大",
+                  "reading": "お"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "おおき",
@@ -177665,7 +177718,7 @@
               ]
             },
             {
-              "id": "dictionary:2",
+              "id": "dictionary:3",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "しん",
@@ -177680,7 +177733,7 @@
               ]
             },
             {
-              "id": "dictionary:3",
+              "id": "dictionary:4",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たい",
@@ -177695,7 +177748,7 @@
               ]
             },
             {
-              "id": "dictionary:4",
+              "id": "dictionary:5",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たけし",
@@ -177710,7 +177763,7 @@
               ]
             },
             {
-              "id": "dictionary:5",
+              "id": "dictionary:6",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "だ",
@@ -177725,7 +177778,7 @@
               ]
             },
             {
-              "id": "dictionary:7",
+              "id": "dictionary:8",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "とも",
@@ -177740,7 +177793,7 @@
               ]
             },
             {
-              "id": "dictionary:8",
+              "id": "dictionary:9",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "はじめ",
@@ -177755,7 +177808,7 @@
               ]
             },
             {
-              "id": "dictionary:9",
+              "id": "dictionary:10",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ひろ",
@@ -177770,7 +177823,7 @@
               ]
             },
             {
-              "id": "dictionary:10",
+              "id": "dictionary:11",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ひろし",
@@ -177785,7 +177838,7 @@
               ]
             },
             {
-              "id": "dictionary:11",
+              "id": "dictionary:12",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ふとし",
@@ -177800,7 +177853,7 @@
               ]
             },
             {
-              "id": "dictionary:12",
+              "id": "dictionary:13",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "まさる",
@@ -177815,7 +177868,7 @@
               ]
             },
             {
-              "id": "dictionary:13",
+              "id": "dictionary:14",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ゆたか",
@@ -178621,7 +178674,7 @@
               ]
             },
             {
-              "id": "dictionary:0",
+              "id": "dictionary:1",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "おおひっと",
@@ -178645,7 +178698,31 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:0",
+              "source": "dictionary",
+              "label": "Dictionary",
+              "reading": "おひっと",
+              "tokens": [
+                [
+                  "大ヒット",
+                  "オヒット"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "大",
+                  "reading": "お"
+                },
+                {
+                  "type": "text",
+                  "text": "ヒット"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:2",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "おおきひっと",
@@ -178669,7 +178746,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:2",
+              "id": "dictionary:3",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "しんひっと",
@@ -178693,7 +178770,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:3",
+              "id": "dictionary:4",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たいひっと",
@@ -178717,7 +178794,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:4",
+              "id": "dictionary:5",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "たけしひっと",
@@ -178741,7 +178818,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:5",
+              "id": "dictionary:6",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "だひっと",
@@ -178765,7 +178842,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:7",
+              "id": "dictionary:8",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ともひっと",
@@ -178789,7 +178866,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:8",
+              "id": "dictionary:9",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "はじめひっと",
@@ -178813,7 +178890,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:9",
+              "id": "dictionary:10",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ひろひっと",
@@ -178837,7 +178914,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:10",
+              "id": "dictionary:11",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ひろしひっと",
@@ -178861,7 +178938,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:11",
+              "id": "dictionary:12",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ふとしひっと",
@@ -178885,7 +178962,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:12",
+              "id": "dictionary:13",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "まさるひっと",
@@ -178909,7 +178986,7 @@
               "historical_count": 0
             },
             {
-              "id": "dictionary:13",
+              "id": "dictionary:14",
               "source": "dictionary",
               "label": "Dictionary",
               "reading": "ゆたかひっと",
@@ -184419,7 +184496,7 @@
               "label": "Dictionary",
               "reading": "ぽ",
               "accepted": false,
-              "historical_count": 34,
+              "historical_count": 35,
               "ruby_nodes": [
                 {
                   "type": "ruby",
