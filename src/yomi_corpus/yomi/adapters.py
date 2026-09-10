@@ -243,6 +243,36 @@ def run_decoder(
     return candidates
 
 
+def run_decoder_many(
+    texts: list[str], config: YomiGenerationConfig, *, source_texts: list[str],
+) -> list[list[DecoderCandidate]]:
+    if len(texts) != len(source_texts):
+        raise ValueError("Decoder source-text count must match analysis-text count")
+    if not texts:
+        return []
+    if any(not text or "\n" in text or "\r" in text for text in texts):
+        raise ValueError("Decoder batch input must contain one nonempty physical line per text")
+    command = [config.decoder_python, config.decoder_script, "--config", config.decoder_config,
+               "--json", "--nbest", str(config.decoder_nbest)]
+    if config.decoder_model_dir:
+        command.extend(["--model-dir", config.decoder_model_dir])
+    if config.decoder_beam is not None:
+        command.extend(["--beam", str(config.decoder_beam)])
+    completed = subprocess.run(command, input="".join(text + "\n" for text in texts),
+                               text=True, capture_output=True, check=True)
+    rows = [line for line in completed.stdout.split("\n") if line.strip()]
+    if len(rows) != len(texts):
+        raise ValueError(f"Decoder returned {len(rows)} results for {len(texts)} inputs")
+    documents = []
+    for row, text, source in zip(rows, texts, source_texts, strict=True):
+        if json.loads(row).get("text") != text:
+            raise ValueError("Decoder batch result does not match input text")
+        documents.append(restore_decoder_source_surfaces(
+            parse_decoder_output(row), source_text=source, analysis_text=text,
+        ))
+    return documents
+
+
 def restore_decoder_source_surfaces(
     candidates: list[DecoderCandidate],
     *,

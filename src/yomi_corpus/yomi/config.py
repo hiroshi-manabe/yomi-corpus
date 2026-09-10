@@ -27,6 +27,7 @@ class YomiGenerationConfig:
     corpus_frequency_min_count: int = 5
     corpus_frequency_min_share: float = 0.98
     learned_exact_rewrites: str | None = None
+    generation_batch_size: int = 1
 
 
 def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
@@ -51,6 +52,7 @@ def load_yomi_generation_config(path: str | Path) -> YomiGenerationConfig:
         decoder_beam=_optional_int(decoder.get("beam")),
         decoder_nbest=int(decoder.get("nbest", 5)),
         default_strategy=str(strategy.get("default", "agreement_prefer_decoder_v1")),
+        generation_batch_size=max(1, int(payload.get("generation", {}).get("batch_size", 1))),
         decoder_model_dir=_optional_path(config_path, decoder.get("model_dir")),
         post_hybrid_repair_rules=_optional_path(config_path, repairs.get("rules")),
         corpus_frequency_source_corpus=_optional_path(config_path, corpus_frequency.get("source_corpus")),

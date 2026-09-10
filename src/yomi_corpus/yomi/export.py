@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import json
+from itertools import islice
 from dataclasses import dataclass, replace
 from pathlib import Path
 import sys
 
 from yomi_corpus.paths import resolve_repo_path
 from yomi_corpus.yomi.config import YomiGenerationConfig, load_yomi_generation_config
-from yomi_corpus.yomi.runtime import generate_mechanical_yomi
+from yomi_corpus.yomi.runtime import generate_mechanical_yomi, generate_mechanical_yomi_many
 
 
 @dataclass(frozen=True)
@@ -96,20 +97,21 @@ def export_jsonl_yomi(
     if progress_label is not None:
         progress = ProgressBar(label=progress_label, total=count_nonempty_lines(input_path))
     with input_path.open(encoding="utf-8") as src, output_path.open("w", encoding="utf-8") as dst:
-        for line in src:
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            row["analysis"]["mechanical"]["yomi"] = generate_mechanical_yomi(
-                row["text"],
-                config=config,
-                strategy_name=strategy_name,
-            ).__dict__
-            dst.write(json.dumps(row, ensure_ascii=False) + "\n")
-            count += 1
-            last_unit_id = str(row["unit_id"])
-            if progress is not None:
-                progress.update()
+        rows = (json.loads(line) for line in src if line.strip())
+        while chunk := list(islice(rows, config.generation_batch_size)):
+            if config.generation_batch_size == 1:
+                results = [generate_mechanical_yomi(chunk[0]["text"], config=config, strategy_name=strategy_name)]
+            else:
+                results = generate_mechanical_yomi_many(
+                    [row["text"] for row in chunk], config=config, strategy_name=strategy_name,
+                )
+            for row, result in zip(chunk, results, strict=True):
+                row["analysis"]["mechanical"]["yomi"] = result.__dict__
+                dst.write(json.dumps(row, ensure_ascii=False) + "\n")
+                count += 1
+                last_unit_id = str(row["unit_id"])
+                if progress is not None:
+                    progress.update()
     if progress is not None:
         progress.finish()
 

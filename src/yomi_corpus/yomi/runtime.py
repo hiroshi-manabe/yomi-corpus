@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from yomi_corpus.models import MechanicalYomi
-from yomi_corpus.yomi.adapters import run_decoder, run_sudachi
+from yomi_corpus.yomi.types import DecoderCandidate, SudachiToken
+from yomi_corpus.yomi.adapters import run_decoder, run_sudachi, run_decoder_many, run_sudachi_many
 from yomi_corpus.yomi.config import YomiGenerationConfig
 from yomi_corpus.yomi.repairs import (
     apply_post_hybrid_repairs,
@@ -33,9 +34,33 @@ def generate_mechanical_yomi(
 ) -> MechanicalYomi:
     normalized_text = normalize_analysis_text_for_yomi(text)
     raw_sudachi_tokens = run_sudachi(normalized_text, config, source_text=text)
+    decoder_candidates = run_decoder(normalized_text, config, source_text=text)
+    return _assemble_mechanical_yomi(text, config, strategy_name, raw_sudachi_tokens, decoder_candidates)
+
+
+def generate_mechanical_yomi_many(
+    texts: list[str], *, config: YomiGenerationConfig, strategy_name: str | None = None,
+) -> list[MechanicalYomi]:
+    normalized = [normalize_analysis_text_for_yomi(text) for text in texts]
+    # The subprocess stdin protocols are line-oriented. Keep exceptional input
+    # on the existing single-text path rather than changing source text.
+    if any(not text or "\n" in text or "\r" in text for text in normalized):
+        return [generate_mechanical_yomi(text, config=config, strategy_name=strategy_name) for text in texts]
+    sudachi = run_sudachi_many(normalized, config, source_texts=texts)
+    decoder = run_decoder_many(normalized, config, source_texts=texts)
+    return [_assemble_mechanical_yomi(text, config, strategy_name, tokens, candidates)
+            for text, tokens, candidates in zip(texts, sudachi, decoder, strict=True)]
+
+
+def _assemble_mechanical_yomi(
+    text: str,
+    config: YomiGenerationConfig,
+    strategy_name: str | None,
+    raw_sudachi_tokens: list[SudachiToken],
+    decoder_candidates: list[DecoderCandidate],
+) -> MechanicalYomi:
     normalized_sudachi = normalize_sudachi_tokens(raw_sudachi_tokens, text=text)
     sudachi_tokens = list(normalized_sudachi.tokens)
-    decoder_candidates = run_decoder(normalized_text, config, source_text=text)
     resolved_strategy = strategy_name or config.default_strategy
     strategy_result = apply_strategy(
         resolved_strategy,

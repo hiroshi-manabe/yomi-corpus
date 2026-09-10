@@ -251,7 +251,7 @@ class RefillWorkerTests(unittest.TestCase):
         self.assertEqual(summary["stop_reason"], "no_progress")
         self.assertFalse(summary["changed"])
 
-    def test_until_target_stops_when_ready_count_does_not_increase(self) -> None:
+    def test_until_target_continues_when_reviewers_consume_ready_documents(self) -> None:
         iteration = self.refill_iteration(
             action="prepare_next_batch",
             changed=True,
@@ -263,7 +263,7 @@ class RefillWorkerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with patch(
                 "yomi_corpus.refill_worker._run_refill_worker_pass_unlocked",
-                return_value=iteration,
+                side_effect=[iteration, {**iteration, "action": {**iteration["action"], "batch_name": "dev_batch_0002"}}],
             ) as run_iteration:
                 summary = run_refill_worker_until_target(
                     Path(tmp),
@@ -272,10 +272,25 @@ class RefillWorkerTests(unittest.TestCase):
                         target_ready_docs=100,
                         pass_limit=10,
                     ),
+                    max_iterations=2,
                 )
 
-        run_iteration.assert_called_once()
-        self.assertEqual(summary["stop_reason"], "ready_count_not_increasing")
+        self.assertEqual(run_iteration.call_count, 2)
+        self.assertEqual(summary["stop_reason"], "iteration_limit")
+
+    def test_until_target_stops_if_same_completed_batch_repeats(self) -> None:
+        iteration = self.refill_iteration(
+            action="prepare_next_batch", changed=True, batch_name="dev_batch_0001",
+            advance_status="bulk_review_ready", ready_before=90, ready_after=80,
+        )
+        with tempfile.TemporaryDirectory() as tmp, patch(
+            "yomi_corpus.refill_worker._run_refill_worker_pass_unlocked", return_value=iteration,
+        ) as run_iteration:
+            summary = run_refill_worker_until_target(Path(tmp), RefillWorkerOptions(
+                track_name="dev", target_ready_docs=100, pass_limit=10,
+            ))
+        self.assertEqual(run_iteration.call_count, 2)
+        self.assertEqual(summary["stop_reason"], "no_progress")
 
 
 if __name__ == "__main__":

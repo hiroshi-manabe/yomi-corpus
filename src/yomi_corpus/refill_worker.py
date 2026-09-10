@@ -59,11 +59,18 @@ def run_refill_worker_until_target(
     started_at_epoch = int(time.time())
     iterations: list[dict[str, Any]] = []
     stop_reason: str | None = None
+    completed_batches: set[str] = set()
     with ReviewSyncLock(lock_path, label="Refill worker"):
         for _ in range(max(1, int(max_iterations))):
             iteration = _run_refill_worker_pass_unlocked(root=root, options=options)
             iterations.append(iteration)
             stop_reason = refill_iteration_stop_reason(iteration)
+            action = iteration.get("action", {})
+            if action.get("advance_result", {}).get("status") == "bulk_review_ready":
+                batch = str(action.get("batch_name") or "")
+                if not batch or batch in completed_batches:
+                    stop_reason = "no_progress"
+                completed_batches.add(batch)
             if stop_reason is not None:
                 break
         else:
@@ -120,12 +127,11 @@ def refill_iteration_stop_reason(summary: dict[str, Any]) -> str | None:
         if not isinstance(pool_counts, dict):
             return "missing_post_refill_queue_summary"
         target = int(plan.get("target_ready_docs") or 0)
-        ready_before = int(plan.get("bulk_review_ready_docs") or 0)
         ready_after = int(pool_counts.get("bulk-ready") or 0)
         if ready_after >= target:
             return "bulk_review_target_satisfied"
-        if ready_after <= ready_before:
-            return "ready_count_not_increasing"
+        # Reviewers may consume documents faster than we prepare them. A newly
+        # completed batch is progress even when the ready pool shrinks.
         return None
     if status == "incomplete" and action.get("changed"):
         return None
