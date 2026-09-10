@@ -10,10 +10,9 @@
   "item_count": 51,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "repaired_item_count": 51,
     "queued_repair_row_count": 77,
@@ -31,12 +30,12 @@
       "source_line_no": 2538619,
       "preview": "少年院内に、突如呪胎が発生。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:04Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:15:29Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -83,12 +82,12 @@
       "source_line_no": 2528316,
       "preview": "根気よく並んでいる車を横目に早々に退散!!素晴らしい紅葉に満足のプチツー400キロ日帰りでした!!『安芸灘とびしま海道』、最近巷ではちょっとした注目ロード♪　しまなみ海道のように高速道路を駆け抜けるのでなく、島々の農道を整備しながら7つの橋でつなぎ、瀬戸内の風光明媚な島々の景色をもっとゆっくりと堪能できる『キラリと光る』ビューティフルロードなのです!!場所は↓の緑の囲み、広島/呉と愛媛/今治を道路と海路でつなぐコース。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:04Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:15:29Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +108,12 @@
       "source_line_no": 1321357,
       "preview": "日本の仏教の元となる漢訳仏典には種々の異同、解釈の相違があることを知り、仏教をきちんと研究するためにはチベットへ行って原典である梵語経典およびチベット仏典を持ち帰らないと決意し、日本人で初めての鎖国主義のチベット入りを果たす。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:04Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:15:29Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -265,12 +264,12 @@
       "source_line_no": 689056,
       "preview": "』終刊号の編集長であった内田博人氏から贈本に対する丁寧な礼状をいたゞいた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-10T04:06:04Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-10T04:15:30Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 31,
@@ -15281,8 +15280,21 @@
           ]
         }
       ],
-      "manual_correction_required": false,
-      "manual_correction": {},
+      "manual_correction_required": true,
+      "manual_correction": {
+        "required": true,
+        "events": [
+          {
+            "required": true,
+            "source_stage": "yomi_strong_repair_review",
+            "submission_id": "yomi_strong_repair_dev_batch_1075_v1__2026-09-10T04:07:30.130Z",
+            "generated_at_epoch": 1789013250
+          }
+        ],
+        "source_stage": "yomi_strong_repair_review",
+        "submission_id": "yomi_strong_repair_dev_batch_1075_v1__2026-09-10T04:07:30.130Z",
+        "generated_at_epoch": 1789013250
+      },
       "mapping_error_count": 0,
       "mapping_errors": [],
       "repair_scope": "sentence_regions",
@@ -21441,7 +21453,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0001321357:u0006::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 19,
       "doc_id": "ja_cc_level2_corrected_v1:0001321357",
       "doc_seq": 4,
@@ -26925,7 +26937,7 @@
       "source_line_no": 689056,
       "text": "私も手元にある大佛次郎著「天皇の世紀」の第一巻を読んでみたが、康平の切腹の記述はあったもののその後については何も書いてなかった。",
       "rendered_yomi_before": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/コウヘイ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
-      "rendered_yomi_after": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/コウヘイ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
+      "rendered_yomi_after": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/ヤスヒラ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "私",
@@ -27025,7 +27037,7 @@
         ],
         [
           "康平",
-          "コウヘイ"
+          "ヤスヒラ"
         ],
         [
           "の",
@@ -27370,12 +27382,12 @@
         },
         {
           "surface": "康平",
-          "reading": "コウヘイ",
+          "reading": "ヤスヒラ",
           "nodes": [
             {
               "type": "ruby",
               "text": "康平",
-              "reading": "こうへい"
+              "reading": "やすひら"
             }
           ]
         },
@@ -27616,7 +27628,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000689056:u0108",
           "text": "私も手元にある大佛次郎著「天皇の世紀」の第一巻を読んでみたが、康平の切腹の記述はあったもののその後については何も書いてなかった。",
           "rendered_yomi_before": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/コウヘイ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
-          "rendered_yomi_after": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/コウヘイ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
+          "rendered_yomi_after": "私/ワタシ も/モ 手元/テモト に/ニ ある/アル 大佛/オサラギ 次郎/ジロウ 著/チョ 「/「 天皇/テンノウ の/ノ 世紀/セイキ 」/」 の/ノ 第/ダイ 一/イチ 巻/カン を/ヲ 読ん/ヨン で/デ み/ミ た/タ が/ガ 、/、 康平/ヤスヒラ の/ノ 切腹/セップク の/ノ 記述/キジュツ は/ハ あっ/アッ た/タ もの/モノ の/ノ その後/ソノゴ に/ニ つい/ツイ て/テ は/ハ 何/ナニ も/モ 書い/カイ て/テ なかっ/ナカッ た/タ 。/。",
           "display_mapping": {
             "start": 24,
             "end": 25,
@@ -31048,7 +31060,7 @@
       "source_line_no": 689056,
       "text": "702年、文武天皇のもと吉蘇路（後の中山道木曽路・現国道19号線）が着工され、713年に開通。",
       "rendered_yomi_before": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉/キチ 蘇/ソ 路/ロ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
-      "rendered_yomi_after": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
+      "rendered_yomi_after": "702/ 年/ネン 、/、 文武/モンム 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "702",
@@ -31064,7 +31076,7 @@
         ],
         [
           "文武",
-          "ブンブ"
+          "モンム"
         ],
         [
           "天皇",
@@ -31201,12 +31213,12 @@
         },
         {
           "surface": "文武",
-          "reading": "ブンブ",
+          "reading": "モンム",
           "nodes": [
             {
               "type": "ruby",
               "text": "文武",
-              "reading": "ぶんぶ"
+              "reading": "もんむ"
             }
           ]
         },
@@ -31485,7 +31497,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000689056:u0168",
           "text": "702年、文武天皇のもと吉蘇路（後の中山道木曽路・現国道19号線）が着工され、713年に開通。",
           "rendered_yomi_before": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉/キチ 蘇/ソ 路/ロ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
-          "rendered_yomi_after": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
+          "rendered_yomi_after": "702/ 年/ネン 、/、 文武/モンム 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
           "display_mapping": {
             "start": 3,
             "end": 4,
@@ -31621,7 +31633,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000689056:u0168",
           "text": "702年、文武天皇のもと吉蘇路（後の中山道木曽路・現国道19号線）が着工され、713年に開通。",
           "rendered_yomi_before": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉/キチ 蘇/ソ 路/ロ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
-          "rendered_yomi_after": "702/ 年/ネン 、/、 文武/ブンブ 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
+          "rendered_yomi_after": "702/ 年/ネン 、/、 文武/モンム 天皇/テンノウ の/ノ もと/モト 吉蘇路/キソジ （/（ 後/ノチ の/ノ 中山道/ナカセンドウ 木曽路/キソジ ・/・ 現/ゲン 国道/コクドウ 19/ 号線/ゴウセン ）/） が/ガ 着工/チャッコウ さ/サ れ/レ 、/、 713/ 年/ネン に/ニ 開通/カイツウ 。/。",
           "display_mapping": {
             "start": 7,
             "end": 8,
@@ -36558,7 +36570,7 @@
     },
     {
       "item_id": "ja_cc_level2_corrected_v1:0000689056:u0212::strong_repair",
-      "initial_disposition": "Keep",
+      "initial_disposition": "Skip",
       "seq": 36,
       "doc_id": "ja_cc_level2_corrected_v1:0000689056",
       "doc_seq": 10,
