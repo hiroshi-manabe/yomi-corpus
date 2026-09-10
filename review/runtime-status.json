@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 8671,
-  "generated_at": "2026-09-09T23:55:39Z",
-  "generated_at_epoch": 1788998139,
+  "state_revision": 8672,
+  "generated_at": "2026-09-10T00:03:38Z",
+  "generated_at_epoch": 1788998618,
   "last_successful_sync": "2026-09-09T23:55:39Z",
   "last_successful_sync_epoch": 1788998139,
-  "status": "waiting_for_review",
+  "status": "error",
   "schedule": {
     "anchor_epoch": 1788998064,
     "interval_seconds": 300,
@@ -35,11 +35,11 @@
       "unprocessed": 0
     }
   },
-  "message": "",
+  "message": "AttributeError: 'PipelineWorkspace' object has no attribute '_finalize_ready_documents'",
   "observed": {
-    "started_at_epoch": 1788998064,
-    "completed_at_epoch": 1788998139,
-    "drift_seconds": 149
+    "started_at_epoch": 1788998618,
+    "completed_at_epoch": 1788998618,
+    "drift_seconds": 46
   },
   "client_polling": {
     "normal_seconds": 60,
