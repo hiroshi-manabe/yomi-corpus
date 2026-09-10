@@ -143,6 +143,10 @@ Review transport policy:
   documents without loading one huge editable review pack
 - finalized batches harvest exact Escalated Repair rewrite defaults and
   supplemental furigana display entries under `data/lexicon/`
+- documents are finalized and published independently of their preparation
+  batch: documents without escalation need not wait for Escalated Repair in
+  other documents. Batch closing and harvesting remain grouped; see
+  [Document-Level Finalization](docs/DOCUMENT_FINALIZATION.md).
 
 Pipeline orchestration policy:
 

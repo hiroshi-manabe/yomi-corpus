@@ -721,9 +721,24 @@ def archive_document_summary(doc: dict, *, shards: list[dict]) -> dict:
 
 
 def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dict]:
+    from yomi_corpus.document_finalization import MANIFEST, committed_document_ids
+
     documents: dict[tuple[int, str], dict] = {}
-    for batch_name in finalized_batch_names(root, track_name):
+    completed = set(finalized_batch_names(root, track_name))
+    batches = set(completed)
+    for path in (root / "data" / "pipeline" / "batches").glob("*.json"):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        name = str(payload.get("batch_name") or path.stem)
+        if payload.get("track_name") == track_name and (
+            root / "data" / "units" / name / MANIFEST
+        ).exists():
+            batches.add(name)
+    for batch_name in sorted(batches):
         batch_dir = root / "data" / "units" / batch_name
+        committed = None if batch_name in completed else committed_document_ids(batch_dir)
         source_paths = (
             batch_dir / "units.yomi.final.jsonl",
             batch_dir / "units.yomi.skipped.jsonl",
@@ -736,6 +751,8 @@ def collect_finalized_archive_documents(root: Path, track_name: str) -> list[dic
             for row in iter_jsonl(source_path)
         ):
             doc_id = str(row.get("doc_id") or "")
+            if committed is not None and doc_id not in committed:
+                continue
             if not doc_id:
                 continue
             track_doc_seq = row.get("track_doc_seq")

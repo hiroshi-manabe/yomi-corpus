@@ -2217,6 +2217,7 @@ class PipelineWorkspace:
                 queue_jsonl=output_path,
             )
             write_document_review_state(document_state_path, document_state)
+            self._finalize_ready_documents(batch_name)
             state_counts = document_state["summary"]["state_counts"]
             document_state_artifacts.update(
                 {
@@ -2534,6 +2535,8 @@ class PipelineWorkspace:
                 review_summary=strong_review_summary,
             )
             write_document_review_state(document_state_path, document_state)
+            self._finalize_ready_documents(batch_name)
+            document_state = load_document_review_state(document_state_path)
             state_counts = document_state["summary"]["state_counts"]
             final_pack_id = str(
                 self.load_batch_state(batch_name).artifacts.get("final_review_pack_id")
@@ -2597,6 +2600,15 @@ class PipelineWorkspace:
             }
         }
 
+    def _finalize_ready_documents(self, batch_name: str) -> dict:
+        from yomi_corpus.document_finalization import finalize_ready_documents
+
+        if self.load_batch_state(batch_name).current_stage == STAGE_YOMI_FINALIZED:
+            return {"finalized_documents": [], "failures": {}}
+        return finalize_ready_documents(
+            self.batch_dir(batch_name), self.document_review_state_path(batch_name)
+        )
+
     def _finalize_yomi(self, batch_name: str) -> dict[str, object]:
         batch_dir = self.batch_dir(batch_name)
         batch_state = self.load_batch_state(batch_name)
@@ -2637,18 +2649,25 @@ class PipelineWorkspace:
                         "human_review_item_count": str(strong_review_summary.get("item_count", "")),
                     },
                 }
-        summary = finalize_reviewed_yomi_file(
-            units_jsonl=strong_repaired_path if strong_repaired_path.exists() else batch_dir / "units.yomi.reviewed.jsonl",
-            reviewed_units_jsonl=batch_dir / "units.yomi.reviewed.jsonl"
-            if strong_repaired_path.exists()
-            else None,
-            strong_queue_summary_json=batch_dir / "yomi_strong_repair_queue_summary.json",
-            strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
-            output_jsonl=output_path,
-            summary_json=summary_path,
-            skipped_output_jsonl=skipped_output_path,
-            excluded_output_jsonl=excluded_output_path,
+        from yomi_corpus.document_finalization import close_finalized_documents
+
+        self._finalize_ready_documents(batch_name)
+        summary = close_finalized_documents(
+            batch_dir, self.document_review_state_path(batch_name), summary_path
         )
+        if summary is None:
+            summary = finalize_reviewed_yomi_file(
+                units_jsonl=strong_repaired_path if strong_repaired_path.exists() else batch_dir / "units.yomi.reviewed.jsonl",
+                reviewed_units_jsonl=batch_dir / "units.yomi.reviewed.jsonl"
+                if strong_repaired_path.exists()
+                else None,
+                strong_queue_summary_json=batch_dir / "yomi_strong_repair_queue_summary.json",
+                strong_apply_summary_json=batch_dir / "yomi_strong_repair_apply_summary.json",
+                output_jsonl=output_path,
+                summary_json=summary_path,
+                skipped_output_jsonl=skipped_output_path,
+                excluded_output_jsonl=excluded_output_path,
+            )
         artifacts = {
             "units_yomi_final_jsonl": str(output_path),
             "units_yomi_skipped_jsonl": str(skipped_output_path),
