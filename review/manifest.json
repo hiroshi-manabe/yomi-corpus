@@ -400,32 +400,6 @@
       "pending_document_count": 10,
       "queue_id": "final_review",
       "status": "active-dev"
-    },
-    {
-      "track_name": "dev",
-      "batch_name": "dev_batch_1081",
-      "review_stage": "yomi_strong_repair_review",
-      "label": "詳細修正",
-      "pack_id": "yomi_strong_repair_dev_batch_1081_v1",
-      "title": "詳細修正 / dev_batch_1081 / v1",
-      "path": "./packs/yomi_strong_repair_dev_batch_1081_v1.json",
-      "created_at_epoch": 1789016412,
-      "item_count": 4,
-      "document_count": 10,
-      "selectable_document_count": 4,
-      "document_state_counts": {
-        "complete": 6,
-        "strong_pending": 4
-      },
-      "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0002180104",
-        "ja_cc_level2_corrected_v1:0000702499",
-        "ja_cc_level2_corrected_v1:0001442120",
-        "ja_cc_level2_corrected_v1:0001777951"
-      ],
-      "pending_document_count": 4,
-      "queue_id": "strong_repair",
-      "status": "active-dev"
     }
   ],
   "stages": {
@@ -1634,8 +1608,7 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 6,
-            "strong_pending": 4
+            "complete": 10
           },
           "pending_doc_ids": [],
           "pending_document_count": 0,
@@ -3064,18 +3037,12 @@
           "created_at_epoch": 1789016412,
           "item_count": 4,
           "document_count": 10,
-          "selectable_document_count": 4,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 6,
-            "strong_pending": 4
+            "complete": 10
           },
-          "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0002180104",
-            "ja_cc_level2_corrected_v1:0000702499",
-            "ja_cc_level2_corrected_v1:0001442120",
-            "ja_cc_level2_corrected_v1:0001777951"
-          ],
-          "pending_document_count": 4,
+          "pending_doc_ids": [],
+          "pending_document_count": 0,
           "queue_id": "strong_repair",
           "status": "active-dev"
         }
@@ -3098,23 +3065,11 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 2303,
+        "document_count": 2307,
         "manual_correction_required_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
             1,
-            2280
-          ],
-          [
-            2283,
-            2283
-          ],
-          [
-            2285,
-            2286
-          ],
-          [
-            2288,
             2290
           ],
           [
@@ -3138,7 +3093,7 @@
             2320
           ]
         ],
-        "shard_count": 2303
+        "shard_count": 2307
       }
     }
   }
