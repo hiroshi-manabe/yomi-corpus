@@ -89777,12 +89777,13 @@
               "source": "llm",
               "sources": [
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "LLM reading",
               "reading": "ろっ",
               "accepted": false,
-              "historical_count": 41,
+              "historical_count": 43,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -90996,12 +90997,14 @@
               "id": "llm",
               "candidate_ids": [
                 "llm",
+                "learned_repair:0",
                 "dictionary:7"
               ],
               "source": "llm",
               "sources": [
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "LLM reading",
               "reading": "ろっ",
@@ -91018,7 +91021,7 @@
                   "reading": "ろっ"
                 }
               ],
-              "historical_count": 41
+              "historical_count": 43
             },
             {
               "id": "dictionary:1",
@@ -102849,7 +102852,8 @@
               "source": "current",
               "sources": [
                 "current",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ろっ",
@@ -104908,12 +104912,14 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:7"
               ],
               "source": "current",
               "sources": [
                 "current",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ろっ",
