@@ -10,10 +10,9 @@
   "item_count": 19,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 19,
     "queued_repair_row_count": 22,
@@ -31,12 +30,12 @@
       "source_line_no": 159675,
       "preview": "開戦時に約２５万挺あった３０年式歩兵銃は、うち２０万挺が各野戦師団に配当された。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T05:45:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T05:50:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 12,
@@ -161,12 +160,12 @@
       "source_line_no": 2018690,
       "preview": "ピリオド楽器によるショパンコンクールで２位入賞した川口成彦・ヴァイオリンの丸山韶・チェロの島根朋史の3人による、ピリオド楽器でロマン派音楽を演奏する画期的なシリーズが開幕した！",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T05:45:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T05:50:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +264,12 @@
       "source_line_no": 860074,
       "preview": "岩に彫られた古代の文字や絵のことをペトログラフという。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T05:45:53Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T05:50:47Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -1082,7 +1081,7 @@
       "source_line_no": 159675,
       "text": "彼らはそれぞれ工場長として鍛工場、銃身場、機関場、銃床場、修理場、旋工場を統率した。",
       "rendered_yomi_before": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋/旋 工場/コウジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
-      "rendered_yomi_after": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋工場/センコウジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
+      "rendered_yomi_after": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋工/センコウ 場/ジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "彼",
@@ -1177,8 +1176,12 @@
           "、"
         ],
         [
-          "旋工場",
-          "センコウジョウ"
+          "旋工",
+          "センコウ"
+        ],
+        [
+          "場",
+          "ジョウ"
         ],
         [
           "を",
@@ -1445,13 +1448,24 @@
           ]
         },
         {
-          "surface": "旋工場",
-          "reading": "センコウジョウ",
+          "surface": "旋工",
+          "reading": "センコウ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "旋工場",
-              "reading": "せんこうじょう"
+              "text": "旋工",
+              "reading": "せんこう"
+            }
+          ]
+        },
+        {
+          "surface": "場",
+          "reading": "ジョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場",
+              "reading": "じょう"
             }
           ]
         },
@@ -1520,14 +1534,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000159675:u0032",
           "text": "彼らはそれぞれ工場長として鍛工場、銃身場、機関場、銃床場、修理場、旋工場を統率した。",
           "rendered_yomi_before": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋/旋 工場/コウジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
-          "rendered_yomi_after": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋工場/センコウジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
+          "rendered_yomi_after": "彼/カレ ら/ラ は/ハ それぞれ/ソレゾレ 工場長/コウジョウチョウ と/ト し/シ て/テ 鍛工/タンコウ 場/ジョウ 、/、 銃身/ジュウシン 場/ジョウ 、/、 機関/キカン 場/ジョウ 、/、 銃床/ジュウショウ 場/ジョウ 、/、 修理/シュウリ 場/ジョウ 、/、 旋工/センコウ 場/ジョウ を/ヲ 統率/トウソツ し/シ た/タ 。/。",
           "display_mapping": {
             "start": 23,
-            "end": 24,
+            "end": 25,
             "char_start": 33,
             "char_end": 36,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 1,
             "prefix": "",
             "suffix": ""
           },
@@ -14536,7 +14550,7 @@
       "source_line_no": 860074,
       "text": "次に立ち寄った富来の八坂社（富来神社）。",
       "rendered_yomi_before": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
-      "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
+      "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トミク の/ノ 八坂社/ヤサカシャ （/（ 富来/トミク 神社/ジンジャ ）/） 。/。",
       "rendered_yomi_after_tokens": [
         [
           "次",
@@ -14556,7 +14570,7 @@
         ],
         [
           "富来",
-          "トギ"
+          "トミク"
         ],
         [
           "の",
@@ -14572,7 +14586,7 @@
         ],
         [
           "富来",
-          "トギ"
+          "トミク"
         ],
         [
           "神社",
@@ -14645,12 +14659,12 @@
         },
         {
           "surface": "富来",
-          "reading": "トギ",
+          "reading": "トミク",
           "nodes": [
             {
               "type": "ruby",
               "text": "富来",
-              "reading": "とぎ"
+              "reading": "とみく"
             }
           ]
         },
@@ -14687,12 +14701,12 @@
         },
         {
           "surface": "富来",
-          "reading": "トギ",
+          "reading": "トミク",
           "nodes": [
             {
               "type": "ruby",
               "text": "富来",
-              "reading": "とぎ"
+              "reading": "とみく"
             }
           ]
         },
@@ -14741,7 +14755,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000860074:u0032",
           "text": "次に立ち寄った富来の八坂社（富来神社）。",
           "rendered_yomi_before": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
-          "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
+          "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トミク の/ノ 八坂社/ヤサカシャ （/（ 富来/トミク 神社/ジンジャ ）/） 。/。",
           "display_mapping": {
             "start": 4,
             "end": 5,
@@ -14880,7 +14894,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000860074:u0032",
           "text": "次に立ち寄った富来の八坂社（富来神社）。",
           "rendered_yomi_before": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
-          "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トギ の/ノ 八坂社/ヤサカシャ （/（ 富来/トギ 神社/ジンジャ ）/） 。/。",
+          "rendered_yomi_after": "次/ツギ に/ニ 立ち寄っ/タチヨッ た/タ 富来/トミク の/ノ 八坂社/ヤサカシャ （/（ 富来/トミク 神社/ジンジャ ）/） 。/。",
           "display_mapping": {
             "start": 8,
             "end": 9,
