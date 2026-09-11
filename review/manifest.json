@@ -25,23 +25,15 @@
       "created_at_epoch": 1789004559,
       "item_count": 146,
       "document_count": 10,
-      "selectable_document_count": 10,
+      "selectable_document_count": 0,
       "document_state_counts": {
-        "final_pending": 10
+        "final_reviewed": 10
       },
       "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0002011905",
-        "ja_cc_level2_corrected_v1:0001926900",
-        "ja_cc_level2_corrected_v1:0001920181",
-        "ja_cc_level2_corrected_v1:0000686929",
-        "ja_cc_level2_corrected_v1:0001828653",
         "ja_cc_level2_corrected_v1:0000909264",
-        "ja_cc_level2_corrected_v1:0002113256",
-        "ja_cc_level2_corrected_v1:0002187159",
-        "ja_cc_level2_corrected_v1:0001899323",
-        "ja_cc_level2_corrected_v1:0000498217"
+        "ja_cc_level2_corrected_v1:0002187159"
       ],
-      "pending_document_count": 10,
+      "pending_document_count": 2,
       "queue_id": "final_review",
       "status": "active-dev"
     },
@@ -1680,23 +1672,15 @@
           "created_at_epoch": 1789004559,
           "item_count": 146,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "final_reviewed": 10
           },
           "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0002011905",
-            "ja_cc_level2_corrected_v1:0001926900",
-            "ja_cc_level2_corrected_v1:0001920181",
-            "ja_cc_level2_corrected_v1:0000686929",
-            "ja_cc_level2_corrected_v1:0001828653",
             "ja_cc_level2_corrected_v1:0000909264",
-            "ja_cc_level2_corrected_v1:0002113256",
-            "ja_cc_level2_corrected_v1:0002187159",
-            "ja_cc_level2_corrected_v1:0001899323",
-            "ja_cc_level2_corrected_v1:0000498217"
+            "ja_cc_level2_corrected_v1:0002187159"
           ],
-          "pending_document_count": 10,
+          "pending_document_count": 2,
           "queue_id": "final_review",
           "status": "archived"
         },
@@ -3162,7 +3146,7 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 2349,
+        "document_count": 2357,
         "manual_correction_required_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
@@ -3171,10 +3155,18 @@
           ],
           [
             2301,
-            2350
+            2355
+          ],
+          [
+            2357,
+            2357
+          ],
+          [
+            2359,
+            2360
           ]
         ],
-        "shard_count": 2349
+        "shard_count": 2357
       }
     }
   }
