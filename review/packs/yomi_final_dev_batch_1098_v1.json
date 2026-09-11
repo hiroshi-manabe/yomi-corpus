@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "unresolved_item_count": 24,
     "unresolved_target_count": 31,
@@ -82,12 +81,12 @@
       "source_line_no": 772827,
       "preview": "今年1月から放送されたドラマ『猫忍』のDVD-BOXが5月10日（水）に発売される。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T07:38:44Z",
+      "state_updated_at": "2026-09-11T07:53:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -160,12 +159,12 @@
       "source_line_no": 684766,
       "preview": "40代の男女の激しく濃厚なラブ・サスペンスを描く、木村佳乃主演の新・土曜ナイトドラマ『あなたには渡さない』。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T07:38:44Z",
+      "state_updated_at": "2026-09-11T07:53:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -264,12 +263,12 @@
       "source_line_no": 2525456,
       "preview": "そして、木や手塗りの土壁のゆたかな表情に囲まれて暮らす贅沢なひと時。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T07:38:44Z",
+      "state_updated_at": "2026-09-11T07:53:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 22,
@@ -62457,7 +62456,7 @@
               "label": "Dictionary",
               "reading": "こう",
               "accepted": false,
-              "historical_count": 87,
+              "historical_count": 88,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -76003,7 +76002,7 @@
               "label": "Dictionary",
               "reading": "いえ",
               "accepted": false,
-              "historical_count": 277,
+              "historical_count": 278,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -77114,7 +77113,7 @@
                   "reading": "いえ"
                 }
               ],
-              "historical_count": 277
+              "historical_count": 278
             },
             {
               "id": "llm",
@@ -79333,7 +79332,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "とも",
@@ -80473,6 +80473,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:1",
                 "dictionary:1"
               ],
               "source": "current",
@@ -80480,7 +80481,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "とも",
@@ -176994,7 +176996,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 628,
+              "historical_count": 629,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -179410,7 +179412,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 628
+              "historical_count": 629
             },
             {
               "id": "dictionary:5",
@@ -195266,7 +195268,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 284,
+              "historical_count": 285,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -218811,7 +218813,8 @@
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ぶた",
@@ -219308,7 +219311,8 @@
               "sources": [
                 "current",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ぶた",
@@ -221207,13 +221211,15 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:1"
               ],
               "source": "current",
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ぶた",
@@ -221793,7 +221799,8 @@
               "sources": [
                 "current",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "ぶたしゃぶ",
@@ -260767,7 +260774,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 284,
+              "historical_count": 285,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -315394,7 +315401,7 @@
               "label": "Dictionary",
               "reading": "しょく",
               "accepted": false,
-              "historical_count": 19,
+              "historical_count": 21,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -326586,7 +326593,7 @@
               "label": "Dictionary",
               "reading": "おお",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -328591,7 +328598,7 @@
                   "reading": "おお"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
