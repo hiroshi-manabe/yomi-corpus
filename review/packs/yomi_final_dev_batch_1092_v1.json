@@ -340058,7 +340058,7 @@
           "is_safe": true,
           "review_status": "safe",
           "highlight_level": "none",
-          "default_candidate_id": "none",
+          "default_candidate_id": "accepted_none",
           "default_choice_source": "none",
           "default_reading": null,
           "candidates": [
@@ -340076,6 +340076,21 @@
               ],
               "accepted": false,
               "no_ruby_state": "unresolved"
+            },
+            {
+              "id": "accepted_none",
+              "source": "none",
+              "label": "Intentionally no ruby",
+              "reading": null,
+              "tokens": [],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "４六"
+                }
+              ],
+              "accepted": true,
+              "no_ruby_state": "intentional"
             }
           ],
           "legacy_target_item_ids": [
@@ -340108,6 +340123,11 @@
               "status": "matched",
               "llm_reading": "ろく",
               "current_reading_hiragana": "ろく"
+            },
+            {
+              "name": "safe_by_no_ruby_numeric_surface",
+              "accepted": true,
+              "preferred_choice_source": "none"
             }
           ]
         },

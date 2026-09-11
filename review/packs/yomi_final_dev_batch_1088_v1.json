@@ -15,8 +15,8 @@
     "document_state_counts": {
       "complete": 10
     },
-    "unresolved_item_count": 27,
-    "unresolved_target_count": 33,
+    "unresolved_item_count": 26,
+    "unresolved_target_count": 32,
     "interaction_span_count": 1171
   },
   "documents": [
@@ -169,7 +169,7 @@
       "application_failures": [],
       "item_count": 54,
       "region_count": 0,
-      "unresolved_count": 11,
+      "unresolved_count": 10,
       "from_seq": 70,
       "to_seq": 123,
       "reviewed_unit_count": 54,
@@ -259438,8 +259438,8 @@
           "text": "②一",
           "target_item_id": "ja_cc_level2_corrected_v1:0000909264:u0013:s0040-0041",
           "reading": null,
-          "is_safe": false,
-          "highlight_level": "target"
+          "is_safe": true,
+          "highlight_level": "none"
         },
         {
           "type": "ruby",
@@ -260091,9 +260091,9 @@
       "manual_correction_required": false,
       "manual_correction": {},
       "target_count": 20,
-      "safe_target_count": 19,
-      "unresolved_target_count": 1,
-      "all_targets_safe": false,
+      "safe_target_count": 20,
+      "unresolved_target_count": 0,
+      "all_targets_safe": true,
       "targets": [
         {
           "item_id": "ja_cc_level2_corrected_v1:0000909264:u0013:r0001c01",
@@ -264146,10 +264146,10 @@
           "chunk_index": 0,
           "current_reading": "",
           "current_reading_hiragana": null,
-          "is_safe": false,
-          "review_status": "unresolved",
-          "highlight_level": "target",
-          "default_candidate_id": "none",
+          "is_safe": true,
+          "review_status": "safe",
+          "highlight_level": "none",
+          "default_candidate_id": "accepted_none",
           "default_choice_source": "none",
           "default_reading": null,
           "candidates": [
@@ -264167,6 +264167,21 @@
               ],
               "accepted": false,
               "no_ruby_state": "unresolved"
+            },
+            {
+              "id": "accepted_none",
+              "source": "none",
+              "label": "Intentionally no ruby",
+              "reading": null,
+              "tokens": [],
+              "ruby_nodes": [
+                {
+                  "type": "text",
+                  "text": "②一"
+                }
+              ],
+              "accepted": true,
+              "no_ruby_state": "intentional"
             }
           ],
           "legacy_target_item_ids": [
@@ -264192,6 +264207,11 @@
               "pooled_surface_guard": null,
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T010253Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T010253Z"
+            },
+            {
+              "name": "safe_by_no_ruby_numeric_surface",
+              "accepted": true,
+              "preferred_choice_source": "none"
             }
           ]
         },
