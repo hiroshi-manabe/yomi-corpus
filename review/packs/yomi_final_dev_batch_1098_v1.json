@@ -185825,12 +185825,13 @@
               "id": "dictionary:7",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "だい",
               "accepted": false,
-              "historical_count": 318,
+              "historical_count": 319,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -187218,7 +187219,8 @@
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "だいきな",
@@ -211915,12 +211917,13 @@
               "id": "dictionary:1",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "なし",
               "accepted": false,
-              "historical_count": 0,
+              "historical_count": 1,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -212819,7 +212822,8 @@
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "なしい",
@@ -326570,7 +326574,8 @@
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "だい",
@@ -328548,13 +328553,15 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:1",
                 "dictionary:7"
               ],
               "source": "current",
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "だい",
