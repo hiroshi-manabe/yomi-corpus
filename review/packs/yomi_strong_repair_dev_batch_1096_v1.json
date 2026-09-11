@@ -10,10 +10,9 @@
   "item_count": 5,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "repaired_item_count": 5,
     "queued_repair_row_count": 5,
@@ -83,12 +82,12 @@
       "source_line_no": 593298,
       "preview": "発芽難易度：★★★★★☆☆☆☆☆：種の殻が発芽の邪魔をする。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T07:38:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:42:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +108,12 @@
       "source_line_no": 1362544,
       "preview": "新十両の宇良と佐藤は共に勝ち越しました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T07:38:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:42:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +186,12 @@
       "source_line_no": 2107018,
       "preview": "横内正彦-著25．螺旋階段2階の螺旋階段の前でシラセは軽い悲鳴をあげた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T07:38:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:42:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -239,12 +238,12 @@
       "source_line_no": 665919,
       "preview": "ブリーダーさんのお宅に伺うのは午後なので、少し早めに出発して埼玉の公園で遊ぶことに♪羽生インター付近にある『羽生水郷公園』に行きました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-11T07:38:16Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:42:57Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -779,11 +778,15 @@
       "source_line_no": 1362544,
       "text": "大相撲佐藤　新十両で勝ち越し！",
       "rendered_yomi_before": "大相/ダイソウ 撲/撲 佐藤/サトウ 　/　 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
-      "rendered_yomi_after": "大相撲/オオズモウ 佐藤/サトウ \\u3000/ 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
+      "rendered_yomi_after": "大/オオ 相撲/ズモウ 佐藤/サトウ \\u3000/ 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
       "rendered_yomi_after_tokens": [
         [
-          "大相撲",
-          "オオズモウ"
+          "大",
+          "オオ"
+        ],
+        [
+          "相撲",
+          "ズモウ"
         ],
         [
           "佐藤",
@@ -812,13 +815,24 @@
       ],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "大相撲",
-          "reading": "オオズモウ",
+          "surface": "大",
+          "reading": "オオ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "大相撲",
-              "reading": "おおずもう"
+              "text": "大",
+              "reading": "おお"
+            }
+          ]
+        },
+        {
+          "surface": "相撲",
+          "reading": "ズモウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "相撲",
+              "reading": "ずもう"
             }
           ]
         },
@@ -912,14 +926,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001362544:u0029",
           "text": "大相撲佐藤　新十両で勝ち越し！",
           "rendered_yomi_before": "大相/ダイソウ 撲/撲 佐藤/サトウ 　/　 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
-          "rendered_yomi_after": "大相撲/オオズモウ 佐藤/サトウ \\u3000/ 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
+          "rendered_yomi_after": "大/オオ 相撲/ズモウ 佐藤/サトウ \\u3000/ 新十両/シンジュウリョウ で/デ 勝ち越し/カチコシ ！/！",
           "display_mapping": {
             "start": 0,
-            "end": 1,
+            "end": 2,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
