@@ -72,23 +72,16 @@
       "created_at_epoch": 1789006043,
       "item_count": 390,
       "document_count": 10,
-      "selectable_document_count": 10,
+      "selectable_document_count": 0,
       "document_state_counts": {
-        "final_pending": 10
+        "final_reviewed": 10
       },
       "pending_doc_ids": [
         "ja_cc_level2_corrected_v1:0000159675",
-        "ja_cc_level2_corrected_v1:0000350262",
-        "ja_cc_level2_corrected_v1:0000266816",
-        "ja_cc_level2_corrected_v1:0000131846",
-        "ja_cc_level2_corrected_v1:0002220788",
         "ja_cc_level2_corrected_v1:0002018690",
-        "ja_cc_level2_corrected_v1:0000702784",
-        "ja_cc_level2_corrected_v1:0002070562",
-        "ja_cc_level2_corrected_v1:0000431747",
         "ja_cc_level2_corrected_v1:0000860074"
       ],
-      "pending_document_count": 10,
+      "pending_document_count": 3,
       "queue_id": "final_review",
       "status": "active-dev"
     },
@@ -1770,23 +1763,16 @@
           "created_at_epoch": 1789006043,
           "item_count": 390,
           "document_count": 10,
-          "selectable_document_count": 10,
+          "selectable_document_count": 0,
           "document_state_counts": {
-            "final_pending": 10
+            "final_reviewed": 10
           },
           "pending_doc_ids": [
             "ja_cc_level2_corrected_v1:0000159675",
-            "ja_cc_level2_corrected_v1:0000350262",
-            "ja_cc_level2_corrected_v1:0000266816",
-            "ja_cc_level2_corrected_v1:0000131846",
-            "ja_cc_level2_corrected_v1:0002220788",
             "ja_cc_level2_corrected_v1:0002018690",
-            "ja_cc_level2_corrected_v1:0000702784",
-            "ja_cc_level2_corrected_v1:0002070562",
-            "ja_cc_level2_corrected_v1:0000431747",
             "ja_cc_level2_corrected_v1:0000860074"
           ],
-          "pending_document_count": 10,
+          "pending_document_count": 3,
           "queue_id": "final_review",
           "status": "archived"
         },
@@ -3252,7 +3238,7 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 2364,
+        "document_count": 2371,
         "manual_correction_required_count": 0,
         "finalized_track_doc_seq_ranges": [
           [
@@ -3274,9 +3260,17 @@
           [
             2366,
             2370
+          ],
+          [
+            2372,
+            2375
+          ],
+          [
+            2377,
+            2379
           ]
         ],
-        "shard_count": 2364
+        "shard_count": 2371
       }
     }
   }
