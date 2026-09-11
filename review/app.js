@@ -5685,8 +5685,9 @@ function renderRubySpan(item, target, override, editable) {
   const button = document.createElement("button");
   button.type = "button";
   button.className = "ruby-token";
-  button.classList.toggle("unresolved", !target.is_safe);
-  button.classList.toggle("safe", Boolean(target.is_safe));
+  const highlighted = !target.is_safe || target.highlight_level === "target";
+  button.classList.toggle("unresolved", highlighted);
+  button.classList.toggle("safe", !highlighted);
   button.classList.toggle("changed", Boolean(targetDraft));
   button.classList.toggle("no-ruby-unresolved", isUnresolvedNoRubyCandidate(candidate));
   button.classList.toggle("no-ruby-intentional", isIntentionalNoRubyCandidate(candidate));
