@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 10
     },
     "unresolved_item_count": 41,
     "unresolved_target_count": 54,
@@ -30,12 +29,12 @@
       "source_line_no": 1556948,
       "preview": "平和島のボートレース場で、ボートレーサーである真山慎司が、コンクリートの防波堤に激突して死亡する。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T05:46:28Z",
+      "state_updated_at": "2026-09-11T06:02:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 25,
@@ -56,12 +55,12 @@
       "source_line_no": 1971550,
       "preview": "おもな官位は筑前守・関白（太閤）。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T05:46:28Z",
+      "state_updated_at": "2026-09-11T06:02:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 27,
@@ -134,12 +133,12 @@
       "source_line_no": 193816,
       "preview": "角道を止めない四間飛車を指す人は、相当に居飛車穴熊に苦手意識を持っている様だ。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T05:46:28Z",
+      "state_updated_at": "2026-09-11T06:02:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 22,
@@ -160,12 +159,12 @@
       "source_line_no": 1923722,
       "preview": "2016・絞り絣八寸帯地は・・・。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-11T05:46:28Z",
+      "state_updated_at": "2026-09-11T06:02:00Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 15,
@@ -1061,7 +1060,8 @@
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "じょう",
@@ -2031,13 +2031,15 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:0"
               ],
               "source": "current",
               "sources": [
                 "current",
                 "llm",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "じょう",
@@ -41281,12 +41283,13 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょう",
               "accepted": false,
-              "historical_count": 22,
+              "historical_count": 26,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -42324,11 +42327,13 @@
             {
               "id": "dictionary:0",
               "candidate_ids": [
-                "dictionary:0"
+                "dictionary:0",
+                "learned_repair:0"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょう",
@@ -42345,7 +42350,7 @@
                   "reading": "じょう"
                 }
               ],
-              "historical_count": 22
+              "historical_count": 26
             },
             {
               "id": "none",
@@ -44155,12 +44160,13 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょう",
               "accepted": false,
-              "historical_count": 22,
+              "historical_count": 26,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -45386,11 +45392,13 @@
             {
               "id": "dictionary:0",
               "candidate_ids": [
-                "dictionary:0"
+                "dictionary:0",
+                "learned_repair:0"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょう",
@@ -45407,7 +45415,7 @@
                   "reading": "じょう"
                 }
               ],
-              "historical_count": 22
+              "historical_count": 26
             },
             {
               "id": "none",
@@ -114747,7 +114755,7 @@
               "label": "Dictionary",
               "reading": "ぽん",
               "accepted": false,
-              "historical_count": 110,
+              "historical_count": 111,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -115992,7 +116000,7 @@
                   "reading": "ぽん"
                 }
               ],
-              "historical_count": 110
+              "historical_count": 111
             },
             {
               "id": "dictionary:1",
@@ -296778,7 +296786,7 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "sources": [
                 "dictionary",
@@ -296811,6 +296819,24 @@
                   "type": "ruby",
                   "text": "前",
                   "reading": "ごぜん"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "sources": [
+                "dictionary"
+              ],
+              "label": "Dictionary",
+              "reading": "さき",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "前",
+                  "reading": "さき"
                 }
               ]
             },
@@ -297482,7 +297508,7 @@
               "candidate_ids": [
                 "current",
                 "learned_repair:0",
-                "dictionary:2"
+                "dictionary:3"
               ],
               "source": "current",
               "sources": [
@@ -297508,9 +297534,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "candidate_ids": [
-                "dictionary:1",
+                "dictionary:2",
                 "learned_repair:1"
               ],
               "source": "dictionary",
@@ -297557,6 +297583,32 @@
                   "type": "ruby",
                   "text": "前",
                   "reading": "ごぜん"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:1",
+              "candidate_ids": [
+                "dictionary:1"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary"
+              ],
+              "label": "Dictionary",
+              "reading": "さき",
+              "tokens": [
+                [
+                  "前",
+                  "サキ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "前",
+                  "reading": "さき"
                 }
               ],
               "historical_count": 0
@@ -307206,7 +307258,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 484,
+              "historical_count": 485,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -308370,7 +308422,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 484
+              "historical_count": 485
             },
             {
               "id": "dictionary:10",
@@ -383470,7 +383522,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -383560,7 +383612,8 @@
               "llm_reading": "かすり",
               "current_reading_hiragana": "かすり"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0001:r0005c01",
@@ -384141,7 +384194,7 @@
           "current_reading_hiragana": "かすり",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "かすり",
@@ -384254,7 +384307,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T042937Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0001:s0009-0009",
@@ -388749,7 +388803,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -388839,7 +388893,8 @@
               "llm_reading": "かすり",
               "current_reading_hiragana": "かすり"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0003:r0021c01",
@@ -389841,7 +389896,7 @@
           "current_reading_hiragana": "かすり",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "かすり",
@@ -389954,7 +390009,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T042937Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0003:s0033-0034",
@@ -397927,7 +397983,7 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "source": "dictionary",
               "sources": [
                 "dictionary",
@@ -397960,6 +398016,24 @@
                   "type": "ruby",
                   "text": "前",
                   "reading": "ごぜん"
+                }
+              ]
+            },
+            {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "sources": [
+                "dictionary"
+              ],
+              "label": "Dictionary",
+              "reading": "さき",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "前",
+                  "reading": "さき"
                 }
               ]
             },
@@ -399399,7 +399473,7 @@
               "candidate_ids": [
                 "current",
                 "learned_repair:0",
-                "dictionary:2"
+                "dictionary:3"
               ],
               "source": "current",
               "sources": [
@@ -399424,9 +399498,9 @@
               ]
             },
             {
-              "id": "dictionary:1",
+              "id": "dictionary:2",
               "candidate_ids": [
-                "dictionary:1",
+                "dictionary:2",
                 "learned_repair:1"
               ],
               "source": "dictionary",
@@ -399473,6 +399547,32 @@
                   "type": "ruby",
                   "text": "前",
                   "reading": "ごぜん"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
+              "id": "dictionary:1",
+              "candidate_ids": [
+                "dictionary:1"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary"
+              ],
+              "label": "Dictionary",
+              "reading": "さき",
+              "tokens": [
+                [
+                  "前",
+                  "サキ"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "前",
+                  "reading": "さき"
                 }
               ],
               "historical_count": 0
@@ -401529,7 +401629,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -401619,7 +401719,8 @@
               "llm_reading": "かすり",
               "current_reading_hiragana": "かすり"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_spans": [
@@ -402026,7 +402127,7 @@
           "current_reading_hiragana": "かすり",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "かすり",
@@ -402139,7 +402240,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T042937Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_span_count": 3,
@@ -402549,7 +402651,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 484,
+              "historical_count": 485,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -403742,7 +403844,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 484
+              "historical_count": 485
             },
             {
               "id": "dictionary:10",
@@ -405499,7 +405601,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -405589,7 +405691,8 @@
               "llm_reading": "かすり",
               "current_reading_hiragana": "かすり"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0009:r0005c01",
@@ -406706,7 +406809,7 @@
           "current_reading_hiragana": "かすり",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "かすり",
@@ -406819,7 +406922,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T042937Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001923722:u0009:s0006-0007",
@@ -498333,7 +498437,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "しき",
@@ -498811,6 +498916,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:0"
               ],
               "source": "current",
@@ -498818,7 +498924,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "しき",
@@ -510808,6 +510915,24 @@
               ]
             },
             {
+              "id": "dictionary:4",
+              "source": "dictionary",
+              "sources": [
+                "dictionary"
+              ],
+              "label": "Dictionary",
+              "reading": "たらし",
+              "accepted": false,
+              "historical_count": 0,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "足",
+                  "reading": "たらし"
+                }
+              ]
+            },
+            {
               "id": "none",
               "source": "none",
               "label": "Unresolved; escalate",
@@ -513113,7 +513238,7 @@
               "label": "Dictionary",
               "reading": "たい",
               "accepted": false,
-              "historical_count": 27,
+              "historical_count": 28,
               "ruby_nodes": [
                 {
                   "type": "ruby",
