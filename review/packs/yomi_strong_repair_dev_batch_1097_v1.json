@@ -1,0 +1,3848 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1097_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1097",
+  "created_at_epoch": 1789111691,
+  "created_at": "2026-09-11T07:28:11Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 6,
+      "skipped": 2,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000656112",
+      "doc_seq": 1,
+      "track_doc_seq": 2441,
+      "unit_count": 1,
+      "source_file": "ja/ja_cc/level2/0066.jsonl.gz",
+      "source_line_no": 656112,
+      "preview": "さびしい (17) 犬 (5) みすぼらしい (3) 者 (3) 春 (23) 羽 (5) 月夜 (3) へんてこ (1) 道路 (4) けんのん (1) 長屋 (2) 行手 (3) 騒擾 (1) 悲しい (7) 群 (2) 類 (7) 新 (1) 足つき (1) 月 (15) ほそながい (2) 情緒 (2) 観念 (1) 因果 (2) 重たい (2) 風光 (1) 壊れもの (1) 心配 (1) 背後 (1) 地べた (3) 歩道 (2) 燕 (3) 不具 (2) 歌 (11) 方角 (5) 横 (1) 靴 (2) 明るい (7) 先 (5) あかるい (3) 俥 (2) 後足 (1) 無明 (1) 人 (46) 耐 (1) 憔悴 (2) 野 (9) 空地 (1) 私 (12) 所有 (1) きたならしい (1) 朧 (1) 粗製 (2) 蝶 (4) 病気 (5) 音 (12) 柳 (4) 心像 (1) 道ばた (3) いじらしい (3) 生物 (3) 心 (52) 宿命 (2) 風船 (2) 花 (23) 轍 (1) 意志 (2) いやらしい (1) 遠白い (1) 弱弱しい (2) 心臓 (5) 往来 (3) むをつけた (1) たまらない (2) 世界 (2) 這 (3) 瓦斯 (1)",
+      "queue_id": "strong_repair",
+      "state": "skipped",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 1,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001422985",
+      "doc_seq": 2,
+      "track_doc_seq": 2442,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0167.jsonl.gz",
+      "source_line_no": 1422985,
+      "preview": "平成30年8月4日から6日、「岐阜メモリアルセンター で愛ドーム」にて、平成30年全国高等学校総合体育大会空手道競技大会が開催され、パフォーマンスサポートを実施しました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-11T07:28:12Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000776546",
+      "doc_seq": 3,
+      "track_doc_seq": 2443,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0080.jsonl.gz",
+      "source_line_no": 776546,
+      "preview": "衆院は３１日深夜、本会議を開き、日本郵政グループの３社への再編などを柱とする郵政改革法案を民主、国民新党などの賛成多数で可決し、参院に送付した。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-11T07:28:12Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 3,
+      "unresolved_count": 3,
+      "from_seq": 2,
+      "to_seq": 3,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 7,
+      "strong_repair_item_count": 3
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001358863",
+      "doc_seq": 4,
+      "track_doc_seq": 2444,
+      "unit_count": 21,
+      "source_file": "ja/ja_cc/level2/0158.jsonl.gz",
+      "source_line_no": 1358863,
+      "preview": "近2走が重賞戦で6、5着も共に勝ち馬から0.3秒差と差はさほどない。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 21,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002327692",
+      "doc_seq": 5,
+      "track_doc_seq": 2445,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0339.jsonl.gz",
+      "source_line_no": 2327692,
+      "preview": "昨年の夏から“男のぬか漬け”が始まりました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001804690",
+      "doc_seq": 6,
+      "track_doc_seq": 2446,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0228.jsonl.gz",
+      "source_line_no": 1804690,
+      "preview": "のセシウムが検出された。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000607101",
+      "doc_seq": 7,
+      "track_doc_seq": 2447,
+      "unit_count": 1,
+      "source_file": "ja/ja_cc/level2/0063.jsonl.gz",
+      "source_line_no": 607101,
+      "preview": "しんわへの過払い金請求の流れ 過払い金（グレーゾーン金利）とは、消費者金融、クレジット会社、大手デパートカードなどの貸金業者が、利息制限法の上限を超えて取り続けていた利息のことを言います。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 1,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002545632",
+      "doc_seq": 8,
+      "track_doc_seq": 2448,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0394.jsonl.gz",
+      "source_line_no": 2545632,
+      "preview": "予測軌跡の最初のターゲットのほぼ上限まできました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000251615",
+      "doc_seq": 9,
+      "track_doc_seq": 2449,
+      "unit_count": 53,
+      "source_file": "ja/ja_cc/level2/0026.jsonl.gz",
+      "source_line_no": 251615,
+      "preview": "昨日はアーティチョークを植え替えることにしました。",
+      "queue_id": "strong_repair",
+      "state": "skipped",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 53,
+      "skipped_unit_count": 53,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001686067",
+      "doc_seq": 10,
+      "track_doc_seq": 2450,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0208.jsonl.gz",
+      "source_line_no": 1686067,
+      "preview": "3年前東京はこんな感じだたじゃん！",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-11T07:17:19Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001422985",
+      "doc_seq": 2,
+      "track_doc_seq": 2442,
+      "unit_id": "ja_cc_level2_corrected_v1:0001422985:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0167.jsonl.gz",
+      "source_line_no": 1422985,
+      "text": "また、男子団体組手は長沼俊樹選手要する保善高校が準決勝敗退、女子団体組手は帝京高校（野口遥日選手、南保空花選手、今井えり選手、米盛希々子選手）が3回戦敗退となりました。",
+      "rendered_yomi_before": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンボ 空花/クウカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/コメモリ 希々子/キキコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンポ 空花/ソラカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/ヨネモリ 希々子/ノノコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "また",
+          "マタ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "男子",
+          "ダンシ"
+        ],
+        [
+          "団体",
+          "ダンタイ"
+        ],
+        [
+          "組手",
+          "クミテ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "長沼",
+          "ナガヌマ"
+        ],
+        [
+          "俊樹",
+          "トシキ"
+        ],
+        [
+          "選手",
+          "センシュ"
+        ],
+        [
+          "要する",
+          "ヨウスル"
+        ],
+        [
+          "保善",
+          "ホゼン"
+        ],
+        [
+          "高校",
+          "コウコウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "準決勝",
+          "ジュンケッショウ"
+        ],
+        [
+          "敗退",
+          "ハイタイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "女子",
+          "ジョシ"
+        ],
+        [
+          "団体",
+          "ダンタイ"
+        ],
+        [
+          "組手",
+          "クミテ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "帝京",
+          "テイキョウ"
+        ],
+        [
+          "高校",
+          "コウコウ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "野口",
+          "ノグチ"
+        ],
+        [
+          "遥日",
+          "ハルヒ"
+        ],
+        [
+          "選手",
+          "センシュ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "南保",
+          "ナンポ"
+        ],
+        [
+          "空花",
+          "ソラカ"
+        ],
+        [
+          "選手",
+          "センシュ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "今井",
+          "イマイ"
+        ],
+        [
+          "えり",
+          "エリ"
+        ],
+        [
+          "選手",
+          "センシュ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "米盛",
+          "ヨネモリ"
+        ],
+        [
+          "希々子",
+          "ノノコ"
+        ],
+        [
+          "選手",
+          "センシュ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "回戦",
+          "カイセン"
+        ],
+        [
+          "敗退",
+          "ハイタイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なり",
+          "ナリ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "また",
+          "reading": "マタ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "また"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "男子",
+          "reading": "ダンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "男子",
+              "reading": "だんし"
+            }
+          ]
+        },
+        {
+          "surface": "団体",
+          "reading": "ダンタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "団体",
+              "reading": "だんたい"
+            }
+          ]
+        },
+        {
+          "surface": "組手",
+          "reading": "クミテ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "組手",
+              "reading": "くみて"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "長沼",
+          "reading": "ナガヌマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "長沼",
+              "reading": "ながぬま"
+            }
+          ]
+        },
+        {
+          "surface": "俊樹",
+          "reading": "トシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "俊樹",
+              "reading": "としき"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "要する",
+          "reading": "ヨウスル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "要",
+              "reading": "よう"
+            },
+            {
+              "type": "text",
+              "text": "する"
+            }
+          ]
+        },
+        {
+          "surface": "保善",
+          "reading": "ホゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "保善",
+              "reading": "ほぜん"
+            }
+          ]
+        },
+        {
+          "surface": "高校",
+          "reading": "コウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高校",
+              "reading": "こうこう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "準決勝",
+          "reading": "ジュンケッショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "準決勝",
+              "reading": "じゅんけっしょう"
+            }
+          ]
+        },
+        {
+          "surface": "敗退",
+          "reading": "ハイタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "敗退",
+              "reading": "はいたい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "女子",
+          "reading": "ジョシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "女子",
+              "reading": "じょし"
+            }
+          ]
+        },
+        {
+          "surface": "団体",
+          "reading": "ダンタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "団体",
+              "reading": "だんたい"
+            }
+          ]
+        },
+        {
+          "surface": "組手",
+          "reading": "クミテ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "組手",
+              "reading": "くみて"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "帝京",
+          "reading": "テイキョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "帝京",
+              "reading": "ていきょう"
+            }
+          ]
+        },
+        {
+          "surface": "高校",
+          "reading": "コウコウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高校",
+              "reading": "こうこう"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "野口",
+          "reading": "ノグチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "野口",
+              "reading": "のぐち"
+            }
+          ]
+        },
+        {
+          "surface": "遥日",
+          "reading": "ハルヒ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "遥日",
+              "reading": "はるひ"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "南保",
+          "reading": "ナンポ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "南保",
+              "reading": "なんぽ"
+            }
+          ]
+        },
+        {
+          "surface": "空花",
+          "reading": "ソラカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "空花",
+              "reading": "そらか"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "今井",
+          "reading": "イマイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今井",
+              "reading": "いまい"
+            }
+          ]
+        },
+        {
+          "surface": "えり",
+          "reading": "エリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "えり"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "米盛",
+          "reading": "ヨネモリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "米盛",
+              "reading": "よねもり"
+            }
+          ]
+        },
+        {
+          "surface": "希々子",
+          "reading": "ノノコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "希々子",
+              "reading": "ののこ"
+            }
+          ]
+        },
+        {
+          "surface": "選手",
+          "reading": "センシュ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "選手",
+              "reading": "せんしゅ"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "回戦",
+          "reading": "カイセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回戦",
+              "reading": "かいせん"
+            }
+          ]
+        },
+        {
+          "surface": "敗退",
+          "reading": "ハイタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "敗退",
+              "reading": "はいたい"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001422985:u0006",
+          "text": "また、男子団体組手は長沼俊樹選手要する保善高校が準決勝敗退、女子団体組手は帝京高校（野口遥日選手、南保空花選手、今井えり選手、米盛希々子選手）が3回戦敗退となりました。",
+          "rendered_yomi_before": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンボ 空花/クウカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/コメモリ 希々子/キキコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンポ 空花/ソラカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/ヨネモリ 希々子/ノノコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 27,
+            "end": 29,
+            "char_start": 49,
+            "char_end": 53,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0050-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "南保",
+              "token_surface": "南保",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なんぼ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "南保",
+                  "reading": "なんぼ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "空花",
+              "token_surface": "空花",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "くうか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "空花",
+                  "reading": "くうか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0050-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "南保",
+              "token_surface": "南保",
+              "token_index": 27,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なんぼ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "南保",
+                  "reading": "なんぼ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0052-0053",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "空花",
+              "token_surface": "空花",
+              "token_index": 28,
+              "chunk_index": 0,
+              "current_reading_hiragana": "くうか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "空花",
+                  "reading": "くうか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "南保空花",
+          "reading_candidates": {
+            "南": [
+              "なん",
+              "みなみ"
+            ],
+            "南保": [
+              "なほ",
+              "なんぼ",
+              "なんぽ"
+            ],
+            "保": [
+              "たもつ",
+              "ほ",
+              "ほう",
+              "やす",
+              "やすし"
+            ],
+            "保空": [
+              "ほそら"
+            ],
+            "空": [
+              "から",
+              "あき",
+              "うつほ",
+              "うつろ",
+              "うろ",
+              "かすみ",
+              "くう",
+              "そら",
+              "ぞら",
+              "むなし"
+            ],
+            "空花": [
+              "くうか",
+              "そらか"
+            ],
+            "花": [
+              "か",
+              "かずら",
+              "げ",
+              "はな",
+              "はなの",
+              "ばな"
+            ]
+          },
+          "reading_hints": {
+            "南": "なん",
+            "南保": "なほ",
+            "保": "たもつ",
+            "保空": "ほそら",
+            "空": "から",
+            "空花": "くうか",
+            "花": "か"
+          },
+          "rejected_readings": [
+            {
+              "surface": "南保",
+              "reading": "なんぼ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "空花",
+              "reading": "くうか",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"南保\",\n    \"reading\": \"ナンポ\",\n    \"used_web_search\": true,\n    \"comment\": \"全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"空花\",\n    \"reading\": \"ソラカ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+              "reading": "ナンポ",
+              "surface": "南保",
+              "used_web_search": true
+            },
+            {
+              "comment": "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+              "reading": "ソラカ",
+              "surface": "空花",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+            "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "南保空花",
+            "replacement": [
+              {
+                "surface": "南保",
+                "reading": "ナンポ"
+              },
+              {
+                "surface": "空花",
+                "reading": "ソラカ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+                "surface": "南保空花",
+                "comment": "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+                "surface": "南保空花",
+                "comment": "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0001422985:u0006",
+          "text": "また、男子団体組手は長沼俊樹選手要する保善高校が準決勝敗退、女子団体組手は帝京高校（野口遥日選手、南保空花選手、今井えり選手、米盛希々子選手）が3回戦敗退となりました。",
+          "rendered_yomi_before": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンボ 空花/クウカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/コメモリ 希々子/キキコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "また/マタ 、/、 男子/ダンシ 団体/ダンタイ 組手/クミテ は/ハ 長沼/ナガヌマ 俊樹/トシキ 選手/センシュ 要する/ヨウスル 保善/ホゼン 高校/コウコウ が/ガ 準決勝/ジュンケッショウ 敗退/ハイタイ 、/、 女子/ジョシ 団体/ダンタイ 組手/クミテ は/ハ 帝京/テイキョウ 高校/コウコウ （/（ 野口/ノグチ 遥日/ハルヒ 選手/センシュ 、/、 南保/ナンポ 空花/ソラカ 選手/センシュ 、/、 今井/イマイ えり/エリ 選手/センシュ 、/、 米盛/ヨネモリ 希々子/ノノコ 選手/センシュ ）/） が/ガ 3/ 回戦/カイセン 敗退/ハイタイ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 35,
+            "end": 37,
+            "char_start": 63,
+            "char_end": 68,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0064-0065",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "米盛",
+              "token_surface": "米盛",
+              "token_index": 35,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こめもり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "米盛",
+                  "reading": "こめもり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0066-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "希々子",
+              "token_surface": "希々子",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ききこ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "希々子",
+                  "reading": "ききこ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0064-0065",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "米盛",
+              "token_surface": "米盛",
+              "token_index": 35,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こめもり",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "米盛",
+                  "reading": "こめもり",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0066-0068",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "希々子",
+              "token_surface": "希々子",
+              "token_index": 36,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ききこ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "希々子",
+                  "reading": "ききこ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "米盛希々子",
+          "reading_candidates": {
+            "米": [
+              "こめ",
+              "べい",
+              "ごめ",
+              "まい",
+              "めーとる",
+              "よね"
+            ],
+            "米盛": [
+              "こめもり",
+              "よねもり"
+            ],
+            "盛": [
+              "さか",
+              "さかり",
+              "さかん",
+              "さこう",
+              "せい",
+              "もり"
+            ],
+            "希": [
+              "き",
+              "しずか",
+              "のぞみ",
+              "のぞむ",
+              "まれ",
+              "ゆう"
+            ],
+            "希々": [
+              "ねね",
+              "のの"
+            ],
+            "希々子": [
+              "ききこ"
+            ],
+            "々": [
+              "きごう"
+            ],
+            "子": [
+              "こ",
+              "し",
+              "ご",
+              "じ",
+              "ね"
+            ]
+          },
+          "reading_hints": {
+            "米": "こめ",
+            "米盛": "こめもり",
+            "盛": "さか",
+            "希": "き",
+            "希々": "ねね",
+            "希々子": "ききこ",
+            "々": "きごう",
+            "子": "こ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "米盛",
+              "reading": "こめもり",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "希々子",
+              "reading": "ききこ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"米盛\",\"reading\":\"よねもり\",\"used_web_search\":true,\"comment\":\"公式の空手道連盟名簿で「米盛 希々子＝よねもり ののこ」と確認できるため、姓として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))\"},{\"surface\":\"希々子\",\"reading\":\"ののこ\",\"used_web_search\":true,\"comment\":\"同じ名簿で同選手の名が「ののこ」と示されているため、この部分は名として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "公式の空手道連盟名簿で「米盛 希々子＝よねもり ののこ」と確認できるため、姓として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))",
+              "reading": "よねもり",
+              "surface": "米盛",
+              "used_web_search": true
+            },
+            {
+              "comment": "同じ名簿で同選手の名が「ののこ」と示されているため、この部分は名として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))",
+              "reading": "ののこ",
+              "surface": "希々子",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式の空手道連盟名簿で「米盛 希々子＝よねもり ののこ」と確認できるため、姓として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))",
+            "同じ名簿で同選手の名が「ののこ」と示されているため、この部分は名として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:2",
+            "status": "applied",
+            "rejected_span": "米盛希々子",
+            "replacement": [
+              {
+                "surface": "米盛",
+                "reading": "ヨネモリ"
+              },
+              {
+                "surface": "希々子",
+                "reading": "ノノコ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:2",
+                "surface": "米盛希々子",
+                "comment": "公式の空手道連盟名簿で「米盛 希々子＝よねもり ののこ」と確認できるため、姓として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:2",
+                "surface": "米盛希々子",
+                "comment": "同じ名簿で同選手の名が「ののこ」と示されているため、この部分は名として読む。 ([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/application/2022_jr_national_selection_entry_list_0414.pdf?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "南保空花",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0050-0051",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "南保",
+          "token_surface": "南保",
+          "token_index": 27,
+          "chunk_index": 0,
+          "current_reading_hiragana": "なんぼ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "南保",
+              "reading": "なんぼ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006:s0052-0053",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "空花",
+          "token_surface": "空花",
+          "token_index": 28,
+          "chunk_index": 0,
+          "current_reading_hiragana": "くうか",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "空花",
+              "reading": "くうか",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "南保",
+          "reading": "なんぼ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "空花",
+          "reading": "くうか",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "南": [
+          "なん",
+          "みなみ"
+        ],
+        "南保": [
+          "なほ",
+          "なんぼ",
+          "なんぽ"
+        ],
+        "保": [
+          "たもつ",
+          "ほ",
+          "ほう",
+          "やす",
+          "やすし"
+        ],
+        "保空": [
+          "ほそら"
+        ],
+        "空": [
+          "から",
+          "あき",
+          "うつほ",
+          "うつろ",
+          "うろ",
+          "かすみ",
+          "くう",
+          "そら",
+          "ぞら",
+          "むなし"
+        ],
+        "空花": [
+          "くうか",
+          "そらか"
+        ],
+        "花": [
+          "か",
+          "かずら",
+          "げ",
+          "はな",
+          "はなの",
+          "ばな"
+        ]
+      },
+      "reading_hints": {
+        "南": "なん",
+        "南保": "なほ",
+        "保": "たもつ",
+        "保空": "ほそら",
+        "空": "から",
+        "空花": "くうか",
+        "花": "か"
+      },
+      "llm_parsed": [
+        {
+          "comment": "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+          "reading": "ナンポ",
+          "surface": "南保",
+          "used_web_search": true
+        },
+        {
+          "comment": "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+          "reading": "ソラカ",
+          "surface": "空花",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"南保\",\n    \"reading\": \"ナンポ\",\n    \"used_web_search\": true,\n    \"comment\": \"全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"空花\",\n    \"reading\": \"ソラカ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+        "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "南保空花",
+        "replacement": [
+          {
+            "surface": "南保",
+            "reading": "ナンポ"
+          },
+          {
+            "surface": "空花",
+            "reading": "ソラカ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+            "surface": "南保空花",
+            "comment": "全空連の選考名簿で「なんぽ」と確認できるため、この姓読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001422985:u0006::target_group:1",
+            "surface": "南保空花",
+            "comment": "同じ名簿でふりがなが「そらか」となっているため、この名読みを採用。([jkf.ne.jp](https://www.jkf.ne.jp/wp-content/themes/jkf-child/document/athlete-enhancement/2021_sr_sel_meibo.pdf?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000776546",
+      "doc_seq": 3,
+      "track_doc_seq": 2443,
+      "unit_id": "ja_cc_level2_corrected_v1:0000776546:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0080.jsonl.gz",
+      "source_line_no": 776546,
+      "text": "法案採決に先立ち、衆院本会議では東祥三経済産業委員長の解任決議案を与党の反対多数で否決。",
+      "rendered_yomi_before": "法/ホウ 案/アン 採決/サイケツ に/ニ 先立ち/サキダチ 、/、 衆院/シュウイン 本会議/ホンカイギ で/デ は/ハ 東祥/トウショウ 三/サン 経済/ケイザイ 産業/サンギョウ 委員長/イインチョウ の/ノ 解任/カイニン 決議案/ケツギアン を/ヲ 与党/ヨトウ の/ノ 反対/ハンタイ 多数/タスウ で/デ 否決/ヒケツ 。/。",
+      "rendered_yomi_after": "法/ホウ 案/アン 採決/サイケツ に/ニ 先立ち/サキダチ 、/、 衆院/シュウイン 本会議/ホンカイギ で/デ は/ハ 東/ヒガシ 祥三/ショウゾウ 経済/ケイザイ 産業/サンギョウ 委員長/イインチョウ の/ノ 解任/カイニン 決議案/ケツギアン を/ヲ 与党/ヨトウ の/ノ 反対/ハンタイ 多数/タスウ で/デ 否決/ヒケツ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "法",
+          "ホウ"
+        ],
+        [
+          "案",
+          "アン"
+        ],
+        [
+          "採決",
+          "サイケツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "先立ち",
+          "サキダチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "衆院",
+          "シュウイン"
+        ],
+        [
+          "本会議",
+          "ホンカイギ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "東",
+          "ヒガシ"
+        ],
+        [
+          "祥三",
+          "ショウゾウ"
+        ],
+        [
+          "経済",
+          "ケイザイ"
+        ],
+        [
+          "産業",
+          "サンギョウ"
+        ],
+        [
+          "委員長",
+          "イインチョウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "解任",
+          "カイニン"
+        ],
+        [
+          "決議案",
+          "ケツギアン"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "与党",
+          "ヨトウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "反対",
+          "ハンタイ"
+        ],
+        [
+          "多数",
+          "タスウ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "否決",
+          "ヒケツ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "法",
+          "reading": "ホウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "法",
+              "reading": "ほう"
+            }
+          ]
+        },
+        {
+          "surface": "案",
+          "reading": "アン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "案",
+              "reading": "あん"
+            }
+          ]
+        },
+        {
+          "surface": "採決",
+          "reading": "サイケツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "採決",
+              "reading": "さいけつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "先立ち",
+          "reading": "サキダチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "先立",
+              "reading": "さきだ"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "衆院",
+          "reading": "シュウイン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "衆院",
+              "reading": "しゅういん"
+            }
+          ]
+        },
+        {
+          "surface": "本会議",
+          "reading": "ホンカイギ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本会議",
+              "reading": "ほんかいぎ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "東",
+          "reading": "ヒガシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東",
+              "reading": "ひがし"
+            }
+          ]
+        },
+        {
+          "surface": "祥三",
+          "reading": "ショウゾウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "祥三",
+              "reading": "しょうぞう"
+            }
+          ]
+        },
+        {
+          "surface": "経済",
+          "reading": "ケイザイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "経済",
+              "reading": "けいざい"
+            }
+          ]
+        },
+        {
+          "surface": "産業",
+          "reading": "サンギョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "産業",
+              "reading": "さんぎょう"
+            }
+          ]
+        },
+        {
+          "surface": "委員長",
+          "reading": "イインチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "委員長",
+              "reading": "いいんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "解任",
+          "reading": "カイニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "解任",
+              "reading": "かいにん"
+            }
+          ]
+        },
+        {
+          "surface": "決議案",
+          "reading": "ケツギアン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "決議案",
+              "reading": "けつぎあん"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "与党",
+          "reading": "ヨトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "与党",
+              "reading": "よとう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "反対",
+          "reading": "ハンタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "反対",
+              "reading": "はんたい"
+            }
+          ]
+        },
+        {
+          "surface": "多数",
+          "reading": "タスウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "多数",
+              "reading": "たすう"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "否決",
+          "reading": "ヒケツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "否決",
+              "reading": "ひけつ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000776546:u0007",
+          "text": "法案採決に先立ち、衆院本会議では東祥三経済産業委員長の解任決議案を与党の反対多数で否決。",
+          "rendered_yomi_before": "法/ホウ 案/アン 採決/サイケツ に/ニ 先立ち/サキダチ 、/、 衆院/シュウイン 本会議/ホンカイギ で/デ は/ハ 東祥/トウショウ 三/サン 経済/ケイザイ 産業/サンギョウ 委員長/イインチョウ の/ノ 解任/カイニン 決議案/ケツギアン を/ヲ 与党/ヨトウ の/ノ 反対/ハンタイ 多数/タスウ で/デ 否決/ヒケツ 。/。",
+          "rendered_yomi_after": "法/ホウ 案/アン 採決/サイケツ に/ニ 先立ち/サキダチ 、/、 衆院/シュウイン 本会議/ホンカイギ で/デ は/ハ 東/ヒガシ 祥三/ショウゾウ 経済/ケイザイ 産業/サンギョウ 委員長/イインチョウ の/ノ 解任/カイニン 決議案/ケツギアン を/ヲ 与党/ヨトウ の/ノ 反対/ハンタイ 多数/タスウ で/デ 否決/ヒケツ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 12,
+            "char_start": 16,
+            "char_end": 19,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東祥",
+              "token_surface": "東祥",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうしょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東祥",
+                  "reading": "とうしょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0017-0018",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東祥",
+              "token_surface": "東祥",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうしょう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東祥",
+                  "reading": "とうしょう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0019-0019",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "三",
+              "token_surface": "三",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "三",
+                  "reading": "さん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "東祥三",
+          "reading_candidates": {
+            "東": [
+              "とん",
+              "あきら",
+              "あずま",
+              "あづま",
+              "とう",
+              "はじめ",
+              "ひがし",
+              "ひがしの"
+            ],
+            "東祥": [
+              "とうしょう"
+            ],
+            "東祥三": [
+              "あずましょうぞう"
+            ],
+            "祥": [
+              "さち",
+              "しょう",
+              "やすし",
+              "よし"
+            ],
+            "祥三": [
+              "しょうぞう",
+              "よしかず"
+            ],
+            "三": [
+              "さん",
+              "ぞう",
+              "み",
+              "みい",
+              "みっ"
+            ]
+          },
+          "reading_hints": {
+            "東": "とん",
+            "東祥": "とうしょう",
+            "東祥三": "あずましょうぞう",
+            "祥": "さち",
+            "祥三": "しょうぞう",
+            "三": "さん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "東祥",
+              "reading": "とうしょう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"東\",\"reading\":\"ひがし\",\"used_web_search\":false,\"comment\":\"人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.\"},{\"surface\":\"祥三\",\"reading\":\"しょうぞう\",\"used_web_search\":false,\"comment\":\"人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+              "reading": "ひがし",
+              "surface": "東",
+              "used_web_search": false
+            },
+            {
+              "comment": "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。",
+              "reading": "しょうぞう",
+              "surface": "祥三",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+            "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "東祥三",
+            "replacement": [
+              {
+                "surface": "東",
+                "reading": "ヒガシ"
+              },
+              {
+                "surface": "祥三",
+                "reading": "ショウゾウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+                "surface": "東祥三",
+                "comment": "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+                "surface": "東祥三",
+                "comment": "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "東祥三",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0017-0018",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "東祥",
+          "token_surface": "東祥",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とうしょう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "東祥",
+              "reading": "とうしょう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007:s0019-0019",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "三",
+          "token_surface": "三",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "三",
+              "reading": "さん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "東祥",
+          "reading": "とうしょう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "三",
+          "reading": "さん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "東": [
+          "とん",
+          "あきら",
+          "あずま",
+          "あづま",
+          "とう",
+          "はじめ",
+          "ひがし",
+          "ひがしの"
+        ],
+        "東祥": [
+          "とうしょう"
+        ],
+        "東祥三": [
+          "あずましょうぞう"
+        ],
+        "祥": [
+          "さち",
+          "しょう",
+          "やすし",
+          "よし"
+        ],
+        "祥三": [
+          "しょうぞう",
+          "よしかず"
+        ],
+        "三": [
+          "さん",
+          "ぞう",
+          "み",
+          "みい",
+          "みっ"
+        ]
+      },
+      "reading_hints": {
+        "東": "とん",
+        "東祥": "とうしょう",
+        "東祥三": "あずましょうぞう",
+        "祥": "さち",
+        "祥三": "しょうぞう",
+        "三": "さん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+          "reading": "ひがし",
+          "surface": "東",
+          "used_web_search": false
+        },
+        {
+          "comment": "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。",
+          "reading": "しょうぞう",
+          "surface": "祥三",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"東\",\"reading\":\"ひがし\",\"used_web_search\":false,\"comment\":\"人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.\"},{\"surface\":\"祥三\",\"reading\":\"しょうぞう\",\"used_web_search\":false,\"comment\":\"人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。\"}]",
+      "llm_comments": [
+        "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+        "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "東祥三",
+        "replacement": [
+          {
+            "surface": "東",
+            "reading": "ヒガシ"
+          },
+          {
+            "surface": "祥三",
+            "reading": "ショウゾウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+            "surface": "東祥三",
+            "comment": "人名の姓として読む。文脈上、衆院の委員長である「東祥三」は「ひがし しょうぞう」.",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000776546:u0007::target_group:1",
+            "surface": "東祥三",
+            "comment": "人名の名としてまとめて読む。漢字を分けず「しょうぞう」で自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0000776546",
+      "doc_seq": 3,
+      "track_doc_seq": 2443,
+      "unit_id": "ja_cc_level2_corrected_v1:0000776546:u0022",
+      "unit_seq": 22,
+      "source_file": "ja/ja_cc/level2/0080.jsonl.gz",
+      "source_line_no": 776546,
+      "text": "このうち、小型衛星「ＷＡＳＥＤＡＳＡＴ２」の開発を取りまとめた早稲田大修士２年、蓮池真樹さん（２３）は「自分の手で削った部品でできた衛星が、本当に宇宙へ飛んでいくなんて信じられない」と喜んでいた。",
+      "rendered_yomi_before": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大修/タイシュウ 士/シ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+      "rendered_yomi_after": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大/ダイ 修士/シュウシ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マサキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "この",
+          "コノ"
+        ],
+        [
+          "うち",
+          "ウチ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "小型",
+          "コガタ"
+        ],
+        [
+          "衛星",
+          "エイセイ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "ＷＡＳＥＤＡＳＡＴ",
+          "ワセダサット"
+        ],
+        [
+          "２",
+          ""
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "開発",
+          "カイハツ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "取りまとめ",
+          "トリマトメ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "早稲田",
+          "ワセダ"
+        ],
+        [
+          "大",
+          "ダイ"
+        ],
+        [
+          "修士",
+          "シュウシ"
+        ],
+        [
+          "２",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "蓮池",
+          "ハスイケ"
+        ],
+        [
+          "真樹",
+          "マサキ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "２３",
+          ""
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "自分",
+          "ジブン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "手",
+          "テ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "削っ",
+          "ケズッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "部品",
+          "ブヒン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "でき",
+          "デキ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "衛星",
+          "エイセイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "本当",
+          "ホントウ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "宇宙",
+          "ウチュウ"
+        ],
+        [
+          "へ",
+          "ヘ"
+        ],
+        [
+          "飛ん",
+          "トン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "いく",
+          "イク"
+        ],
+        [
+          "なんて",
+          "ナンテ"
+        ],
+        [
+          "信じ",
+          "シンジ"
+        ],
+        [
+          "られ",
+          "ラレ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "喜ん",
+          "ヨロコン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "この",
+          "reading": "コノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "この"
+            }
+          ]
+        },
+        {
+          "surface": "うち",
+          "reading": "ウチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "うち"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "小型",
+          "reading": "コガタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小型",
+              "reading": "こがた"
+            }
+          ]
+        },
+        {
+          "surface": "衛星",
+          "reading": "エイセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "衛星",
+              "reading": "えいせい"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "ＷＡＳＥＤＡＳＡＴ",
+          "reading": "ワセダサット",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "ＷＡＳＥＤＡＳＡＴ",
+              "reading": "わせださっと"
+            }
+          ]
+        },
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "開発",
+          "reading": "カイハツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開発",
+              "reading": "かいはつ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "取りまとめ",
+          "reading": "トリマトメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "取",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "りまとめ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "早稲田",
+          "reading": "ワセダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "早稲田",
+              "reading": "わせだ"
+            }
+          ]
+        },
+        {
+          "surface": "大",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "修士",
+          "reading": "シュウシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "修士",
+              "reading": "しゅうし"
+            }
+          ]
+        },
+        {
+          "surface": "２",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "蓮池",
+          "reading": "ハスイケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "蓮池",
+              "reading": "はすいけ"
+            }
+          ]
+        },
+        {
+          "surface": "真樹",
+          "reading": "マサキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "真樹",
+              "reading": "まさき"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "２３",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "２３"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "自分",
+          "reading": "ジブン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "自分",
+              "reading": "じぶん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "手",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手",
+              "reading": "て"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "削っ",
+          "reading": "ケズッ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "削",
+              "reading": "けず"
+            },
+            {
+              "type": "text",
+              "text": "っ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "部品",
+          "reading": "ブヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "部品",
+              "reading": "ぶひん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "でき",
+          "reading": "デキ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "でき"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "衛星",
+          "reading": "エイセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "衛星",
+              "reading": "えいせい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "本当",
+          "reading": "ホントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "本当",
+              "reading": "ほんとう"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "宇宙",
+          "reading": "ウチュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宇宙",
+              "reading": "うちゅう"
+            }
+          ]
+        },
+        {
+          "surface": "へ",
+          "reading": "ヘ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "へ"
+            }
+          ]
+        },
+        {
+          "surface": "飛ん",
+          "reading": "トン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "飛",
+              "reading": "と"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "いく",
+          "reading": "イク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いく"
+            }
+          ]
+        },
+        {
+          "surface": "なんて",
+          "reading": "ナンテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なんて"
+            }
+          ]
+        },
+        {
+          "surface": "信じ",
+          "reading": "シンジ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "信",
+              "reading": "しん"
+            },
+            {
+              "type": "text",
+              "text": "じ"
+            }
+          ]
+        },
+        {
+          "surface": "られ",
+          "reading": "ラレ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "られ"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "喜ん",
+          "reading": "ヨロコン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "喜",
+              "reading": "よろこ"
+            },
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 2,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000776546:u0022",
+          "text": "このうち、小型衛星「ＷＡＳＥＤＡＳＡＴ２」の開発を取りまとめた早稲田大修士２年、蓮池真樹さん（２３）は「自分の手で削った部品でできた衛星が、本当に宇宙へ飛んでいくなんて信じられない」と喜んでいた。",
+          "rendered_yomi_before": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大修/タイシュウ 士/シ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+          "rendered_yomi_after": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大/ダイ 修士/シュウシ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マサキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 17,
+            "char_start": 34,
+            "char_end": 37,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大修",
+              "token_surface": "大修",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいしゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大修",
+                  "reading": "たいしゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0037-0037",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0035-0036",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大修",
+              "token_surface": "大修",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "たいしゅう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大修",
+                  "reading": "たいしゅう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0037-0037",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "士",
+              "token_surface": "士",
+              "token_index": 16,
+              "chunk_index": 0,
+              "current_reading_hiragana": "し",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "士",
+                  "reading": "し",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "大修士",
+          "reading_candidates": {
+            "大": [
+              "おお",
+              "おおき",
+              "しん",
+              "たい",
+              "たけし",
+              "だ",
+              "だい",
+              "とも",
+              "はじめ",
+              "ひろ",
+              "ひろし",
+              "ふとし",
+              "まさる",
+              "ゆたか"
+            ],
+            "大修": [
+              "たいしゅう"
+            ],
+            "修": [
+              "おさみ",
+              "おさむ",
+              "しゅう",
+              "よしみ"
+            ],
+            "修士": [
+              "しゅうし",
+              "しゅうじ",
+              "のぶひと"
+            ],
+            "士": [
+              "あきら",
+              "し",
+              "たけし",
+              "つかさ"
+            ]
+          },
+          "reading_hints": {
+            "大": "おお",
+            "大修": "たいしゅう",
+            "修": "おさみ",
+            "修士": "しゅうし",
+            "士": "あきら"
+          },
+          "rejected_readings": [
+            {
+              "surface": "大修",
+              "reading": "たいしゅう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"大\",\"reading\":\"ダイ\",\"used_web_search\":false,\"comment\":\"「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。\"},{\"surface\":\"修士\",\"reading\":\"シュウシ\",\"used_web_search\":false,\"comment\":\"「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+              "reading": "ダイ",
+              "surface": "大",
+              "used_web_search": false
+            },
+            {
+              "comment": "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。",
+              "reading": "シュウシ",
+              "surface": "修士",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+            "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+            "status": "applied",
+            "rejected_span": "大修士",
+            "replacement": [
+              {
+                "surface": "大",
+                "reading": "ダイ"
+              },
+              {
+                "surface": "修士",
+                "reading": "シュウシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+                "surface": "大修士",
+                "comment": "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+                "surface": "大修士",
+                "comment": "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        },
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:2",
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:2",
+          "unit_id": "ja_cc_level2_corrected_v1:0000776546:u0022",
+          "text": "このうち、小型衛星「ＷＡＳＥＤＡＳＡＴ２」の開発を取りまとめた早稲田大修士２年、蓮池真樹さん（２３）は「自分の手で削った部品でできた衛星が、本当に宇宙へ飛んでいくなんて信じられない」と喜んでいた。",
+          "rendered_yomi_before": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大修/タイシュウ 士/シ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+          "rendered_yomi_after": "この/コノ うち/ウチ 、/、 小型/コガタ 衛星/エイセイ 「/「 ＷＡＳＥＤＡＳＡＴ/ワセダサット ２/ 」/」 の/ノ 開発/カイハツ を/ヲ 取りまとめ/トリマトメ た/タ 早稲田/ワセダ 大/ダイ 修士/シュウシ ２/ 年/ネン 、/、 蓮池/ハスイケ 真樹/マサキ さん/サン （/（ ２３/ ）/） は/ハ 「/「 自分/ジブン の/ノ 手/テ で/デ 削っ/ケズッ た/タ 部品/ブヒン で/デ でき/デキ た/タ 衛星/エイセイ が/ガ 、/、 本当/ホントウ に/ニ 宇宙/ウチュウ へ/ヘ 飛ん/トン で/デ いく/イク なんて/ナンテ 信じ/シンジ られ/ラレ ない/ナイ 」/」 と/ト 喜ん/ヨロコン で/デ い/イ た/タ 。/。",
+          "display_mapping": {
+            "start": 21,
+            "end": 22,
+            "char_start": 42,
+            "char_end": 44,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0043-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "真樹",
+              "token_surface": "真樹",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "真樹",
+                  "reading": "まき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0043-0044",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "真樹",
+              "token_surface": "真樹",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "まき",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "真樹",
+                  "reading": "まき",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "真樹",
+          "reading_candidates": {
+            "真": [
+              "ま",
+              "しん",
+              "まこと",
+              "ただし",
+              "まっ"
+            ],
+            "真樹": [
+              "まき",
+              "まさき"
+            ],
+            "樹": [
+              "いつき",
+              "き",
+              "ぎ",
+              "しげる",
+              "じゅ",
+              "じゅり",
+              "たつき",
+              "たつる",
+              "としき",
+              "みき"
+            ]
+          },
+          "reading_hints": {
+            "真": "ま",
+            "真樹": "まき",
+            "樹": "いつき"
+          },
+          "rejected_readings": [
+            {
+              "surface": "真樹",
+              "reading": "まき",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"真樹\",\"reading\":\"マサキ\",\"used_web_search\":true,\"comment\":\"早稲田大学WASEDA-SAT2のメンバー紹介で「蓮池　真樹 / Hasuike Masaki」と確認できるため、この名前は「まさき」と読む。 ([miyashita.mmech.waseda.ac.jp](https://www.miyashita.mmech.waseda.ac.jp/Waseda-Sat2/sub1.html))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "早稲田大学WASEDA-SAT2のメンバー紹介で「蓮池　真樹 / Hasuike Masaki」と確認できるため、この名前は「まさき」と読む。 ([miyashita.mmech.waseda.ac.jp](https://www.miyashita.mmech.waseda.ac.jp/Waseda-Sat2/sub1.html))",
+              "reading": "マサキ",
+              "surface": "真樹",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "早稲田大学WASEDA-SAT2のメンバー紹介で「蓮池　真樹 / Hasuike Masaki」と確認できるため、この名前は「まさき」と読む。 ([miyashita.mmech.waseda.ac.jp](https://www.miyashita.mmech.waseda.ac.jp/Waseda-Sat2/sub1.html))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:2",
+            "status": "applied",
+            "rejected_span": "真樹",
+            "replacement": [
+              {
+                "surface": "真樹",
+                "reading": "マサキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:2",
+                "surface": "真樹",
+                "comment": "早稲田大学WASEDA-SAT2のメンバー紹介で「蓮池　真樹 / Hasuike Masaki」と確認できるため、この名前は「まさき」と読む。 ([miyashita.mmech.waseda.ac.jp](https://www.miyashita.mmech.waseda.ac.jp/Waseda-Sat2/sub1.html))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "大修士",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0035-0036",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "大修",
+          "token_surface": "大修",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "たいしゅう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "大修",
+              "reading": "たいしゅう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022:s0037-0037",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "士",
+          "token_surface": "士",
+          "token_index": 16,
+          "chunk_index": 0,
+          "current_reading_hiragana": "し",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "士",
+              "reading": "し",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "大修",
+          "reading": "たいしゅう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "士",
+          "reading": "し",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "大": [
+          "おお",
+          "おおき",
+          "しん",
+          "たい",
+          "たけし",
+          "だ",
+          "だい",
+          "とも",
+          "はじめ",
+          "ひろ",
+          "ひろし",
+          "ふとし",
+          "まさる",
+          "ゆたか"
+        ],
+        "大修": [
+          "たいしゅう"
+        ],
+        "修": [
+          "おさみ",
+          "おさむ",
+          "しゅう",
+          "よしみ"
+        ],
+        "修士": [
+          "しゅうし",
+          "しゅうじ",
+          "のぶひと"
+        ],
+        "士": [
+          "あきら",
+          "し",
+          "たけし",
+          "つかさ"
+        ]
+      },
+      "reading_hints": {
+        "大": "おお",
+        "大修": "たいしゅう",
+        "修": "おさみ",
+        "修士": "しゅうし",
+        "士": "あきら"
+      },
+      "llm_parsed": [
+        {
+          "comment": "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+          "reading": "ダイ",
+          "surface": "大",
+          "used_web_search": false
+        },
+        {
+          "comment": "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。",
+          "reading": "シュウシ",
+          "surface": "修士",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"大\",\"reading\":\"ダイ\",\"used_web_search\":false,\"comment\":\"「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。\"},{\"surface\":\"修士\",\"reading\":\"シュウシ\",\"used_web_search\":false,\"comment\":\"「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。\"}]",
+      "llm_comments": [
+        "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+        "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+        "status": "applied",
+        "rejected_span": "大修士",
+        "replacement": [
+          {
+            "surface": "大",
+            "reading": "ダイ"
+          },
+          {
+            "surface": "修士",
+            "reading": "シュウシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+            "surface": "大修士",
+            "comment": "「早稲田大」は早稲田大学の略で、ここは「大＝大学」の省略形。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000776546:u0022::target_group:1",
+            "surface": "大修士",
+            "comment": "「修士2年」で大学院の修士課程を指すため、この部分は「修士」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
