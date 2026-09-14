@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "unresolved_item_count": 10,
     "unresolved_target_count": 13,
@@ -212,12 +211,12 @@
       "source_line_no": 177403,
       "preview": "今後の高齢化社会において、医師の労働環境の過酷さは、今後益々加速していくことになります。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-14T04:28:37Z",
+      "state_updated_at": "2026-09-14T04:38:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 15,
@@ -264,12 +263,12 @@
       "source_line_no": 1042470,
       "preview": "江は秀勝と結婚して、京の聚楽第で幸せな生活を送っていた。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-14T04:28:37Z",
+      "state_updated_at": "2026-09-14T04:38:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 18,
@@ -313033,7 +313032,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -313152,7 +313151,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0001:r0003c01",
@@ -314170,7 +314170,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -314323,7 +314323,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0001:s0003-0004",
@@ -316011,7 +316012,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -316130,7 +316131,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0002:r0004c01",
@@ -317236,7 +317238,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -317389,7 +317391,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0002:s0004-0009",
@@ -325833,7 +325836,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -325952,7 +325955,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0005:r0004c01",
@@ -326538,7 +326542,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -326691,7 +326695,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0005:s0004-0005",
@@ -329997,7 +330002,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -330116,7 +330121,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0007:r0006c01",
@@ -330866,7 +330872,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -331019,7 +331025,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0007:s0008-0009",
@@ -332823,7 +332830,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -332942,7 +332949,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_spans": [
@@ -334199,7 +334207,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -334352,7 +334360,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_span_count": 7,
@@ -334781,7 +334790,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency",
@@ -334923,7 +334932,8 @@
               "source_corpus_version": "dev:20260910T085125Z",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0009:r0007c01",
@@ -335628,7 +335638,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -335803,7 +335813,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0009:s0010-0011",
@@ -341431,7 +341442,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_unit_auto_accept",
             "safe_by_stable_surface_lexicon",
@@ -341557,7 +341568,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0012:r0007c01",
@@ -342322,7 +342334,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -342481,7 +342493,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0012:s0008-0009",
@@ -348226,7 +348239,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -348345,7 +348358,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0015:r0003c01",
@@ -349198,7 +349212,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -349351,7 +349365,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0001042470:u0015:s0004-0004",
@@ -354772,7 +354787,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_unit_auto_accept",
             "safe_by_stable_surface_lexicon",
@@ -354898,7 +354913,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260910T085125Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_spans": [
@@ -355212,7 +355228,7 @@
           "current_reading_hiragana": "こう",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "こう",
@@ -355371,7 +355387,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260910T085125Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         }
       ],
       "interaction_span_count": 2,

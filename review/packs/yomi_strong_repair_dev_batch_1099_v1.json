@@ -10,10 +10,9 @@
   "item_count": 12,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 2,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "repaired_item_count": 12,
     "queued_repair_row_count": 12,
@@ -213,12 +212,12 @@
       "source_line_no": 177403,
       "preview": "今後の高齢化社会において、医師の労働環境の過酷さは、今後益々加速していくことになります。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-14T04:28:37Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T04:38:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -265,12 +264,12 @@
       "source_line_no": 1042470,
       "preview": "江は秀勝と結婚して、京の聚楽第で幸せな生活を送っていた。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-14T04:28:37Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T04:38:43Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -297,7 +296,7 @@
       "source_line_no": 177403,
       "text": "若いうちはただがむしゃらに体力任せで突き進むこともできますが、医師は専門職です。",
       "rendered_yomi_before": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体/カラダ 力任せ/チカラマカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
-      "rendered_yomi_after": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体力任せ/タイリョクマカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
+      "rendered_yomi_after": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体力/タイリョク 任せ/マカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "若い",
@@ -324,8 +323,12 @@
           "ニ"
         ],
         [
-          "体力任せ",
-          "タイリョクマカセ"
+          "体力",
+          "タイリョク"
+        ],
+        [
+          "任せ",
+          "マカセ"
         ],
         [
           "で",
@@ -447,13 +450,24 @@
           ]
         },
         {
-          "surface": "体力任せ",
-          "reading": "タイリョクマカセ",
+          "surface": "体力",
+          "reading": "タイリョク",
           "nodes": [
             {
               "type": "ruby",
-              "text": "体力任",
-              "reading": "たいりょくまか"
+              "text": "体力",
+              "reading": "たいりょく"
+            }
+          ]
+        },
+        {
+          "surface": "任せ",
+          "reading": "マカセ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "任",
+              "reading": "まか"
             },
             {
               "type": "text",
@@ -621,14 +635,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000177403:u0011",
           "text": "若いうちはただがむしゃらに体力任せで突き進むこともできますが、医師は専門職です。",
           "rendered_yomi_before": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体/カラダ 力任せ/チカラマカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
-          "rendered_yomi_after": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体力任せ/タイリョクマカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
+          "rendered_yomi_after": "若い/ワカイ うち/ウチ は/ハ ただ/タダ がむしゃら/ガムシャラ に/ニ 体力/タイリョク 任せ/マカセ で/デ 突き進む/ツキススム こと/コト も/モ でき/デキ ます/マス が/ガ 、/、 医師/イシ は/ハ 専門職/センモンショク です/デス 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 13,
             "char_end": 17,
             "start_offset": 0,
-            "end_offset": 4,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -2802,7 +2816,7 @@
       "source_line_no": 1042470,
       "text": "愛する人の子供を宿し母となる喜びをかみしめる江。",
       "rendered_yomi_before": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/コウ 。/。",
-      "rendered_yomi_after": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/エ 。/。",
+      "rendered_yomi_after": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/ゴウ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "愛する",
@@ -2854,7 +2868,7 @@
         ],
         [
           "江",
-          "エ"
+          "ゴウ"
         ],
         [
           "。",
@@ -3002,12 +3016,12 @@
         },
         {
           "surface": "江",
-          "reading": "エ",
+          "reading": "ゴウ",
           "nodes": [
             {
               "type": "ruby",
               "text": "江",
-              "reading": "え"
+              "reading": "ごう"
             }
           ]
         },
@@ -3035,7 +3049,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001042470:u0008",
           "text": "愛する人の子供を宿し母となる喜びをかみしめる江。",
           "rendered_yomi_before": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/コウ 。/。",
-          "rendered_yomi_after": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/エ 。/。",
+          "rendered_yomi_after": "愛する/アイスル 人/ヒト の/ノ 子供/コドモ を/ヲ 宿し/ヤドシ 母/ハハ と/ト なる/ナル 喜び/ヨロコビ を/ヲ かみしめる/カミシメル 江/ゴウ 。/。",
           "display_mapping": {
             "start": 12,
             "end": 13,
