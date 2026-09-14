@@ -1,0 +1,2316 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1108_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1108",
+  "created_at_epoch": 1789371412,
+  "created_at": "2026-09-14T07:36:52Z",
+  "item_count": 2,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 2,
+    "queued_repair_row_count": 2,
+    "result_row_count": 2,
+    "reviewable_repair_row_count": 2,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000071200",
+      "doc_seq": 1,
+      "track_doc_seq": 2551,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0007.jsonl.gz",
+      "source_line_no": 71200,
+      "preview": "愛犬はまったくこちらに向いてくれなかったです・・・。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002489485",
+      "doc_seq": 2,
+      "track_doc_seq": 2552,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0374.jsonl.gz",
+      "source_line_no": 2489485,
+      "preview": "就業規則で労働者に対して減給の制裁を定める場合においては、その減給は、1回の 額が平均賃金の1日分の半額を超え、総額が一賃金支払期における賃金総額の10分の1を超えてはいけません。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002152820",
+      "doc_seq": 3,
+      "track_doc_seq": 2553,
+      "unit_count": 95,
+      "source_file": "ja/ja_cc/level2/0298.jsonl.gz",
+      "source_line_no": 2152820,
+      "preview": "何だかなあ～、とても上手なんですがそれ以上でもそれ以下でもない感じでした。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-14T07:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 95,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000505728",
+      "doc_seq": 4,
+      "track_doc_seq": 2554,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0056.jsonl.gz",
+      "source_line_no": 505728,
+      "preview": "法令に従い４月１日より当店の表示価格を税別より「税込」に変更いたします。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000187139",
+      "doc_seq": 5,
+      "track_doc_seq": 2555,
+      "unit_count": 32,
+      "source_file": "ja/ja_cc/level2/0018.jsonl.gz",
+      "source_line_no": 187139,
+      "preview": "思い描くままに、そしてありのままに輝きを放つ美少女は、例えるなら野山に咲く花のようなものだ。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-14T07:36:53Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 2,
+      "to_seq": 2,
+      "reviewed_unit_count": 32,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000608317",
+      "doc_seq": 6,
+      "track_doc_seq": 2556,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0063.jsonl.gz",
+      "source_line_no": 608317,
+      "preview": "対物レンズの交換が可能な双眼実体顕微鏡です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002000293",
+      "doc_seq": 7,
+      "track_doc_seq": 2557,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0259.jsonl.gz",
+      "source_line_no": 2000293,
+      "preview": "やさし～い色味が、なんとも心和みます。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001518259",
+      "doc_seq": 8,
+      "track_doc_seq": 2558,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0186.jsonl.gz",
+      "source_line_no": 1518259,
+      "preview": "前回に戦前の話を書いたので、今回は日本の最初の石油化学計画について書く。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001276645",
+      "doc_seq": 9,
+      "track_doc_seq": 2559,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0144.jsonl.gz",
+      "source_line_no": 1276645,
+      "preview": "女優の柴咲コウさんが6月10日、都内で行われた映画「クルエラ」（クレイグ・ギレスピー監督）の公開記念舞台あいさつに出席した。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000620335",
+      "doc_seq": 10,
+      "track_doc_seq": 2560,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0064.jsonl.gz",
+      "source_line_no": 620335,
+      "preview": "あっちこっちを舞台に、町なのか田舎なのかよく分からない書き方をしていたので、ひょっとすると読んでいて混乱されていた方もいたかもしれない。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T07:03:51Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0002152820",
+      "doc_seq": 3,
+      "track_doc_seq": 2553,
+      "unit_id": "ja_cc_level2_corrected_v1:0002152820:u0034",
+      "unit_seq": 34,
+      "source_file": "ja/ja_cc/level2/0298.jsonl.gz",
+      "source_line_no": 2152820,
+      "text": "写真でも絵画でも、グループ展で、その人の作品御前になった時に作者が声をかけてくれることは、・・・・ないのではありませんが・・・・いつものことだという事はありません。",
+      "rendered_yomi_before": "写真/シャシン で/デ も/モ 絵画/カイガ で/デ も/モ 、/、 グループ/グループ 展/テン で/デ 、/、 その/ソノ 人/ヒト の/ノ 作品/サクヒン 御前/ゴゼン に/ニ なっ/ナッ た/タ 時/トキ に/ニ 作者/サクシャ が/ガ 声/コエ を/ヲ かけ/カケ て/テ くれる/クレル こと/コト は/ハ 、/、 ・/・ ・/・ ・/・ ・/・ ない/ナイ の/ノ で/デ は/ハ あり/アリ ませ/マセ ん/ン が/ガ ・/・ ・/・ ・/・ ・/・ いつも/イツモ の/ノ こと/コト だ/ダ と/ト いう/イウ 事/コト は/ハ あり/アリ ませ/マセ ん/ン 。/。",
+      "rendered_yomi_after": "写真/シャシン で/デ も/モ 絵画/カイガ で/デ も/モ 、/、 グループ/グループ 展/テン で/デ 、/、 その/ソノ 人/ヒト の/ノ 作品/サクヒン 御前/マエ に/ニ なっ/ナッ た/タ 時/トキ に/ニ 作者/サクシャ が/ガ 声/コエ を/ヲ かけ/カケ て/テ くれる/クレル こと/コト は/ハ 、/、 ・/・ ・/・ ・/・ ・/・ ない/ナイ の/ノ で/デ は/ハ あり/アリ ませ/マセ ん/ン が/ガ ・/・ ・/・ ・/・ ・/・ いつも/イツモ の/ノ こと/コト だ/ダ と/ト いう/イウ 事/コト は/ハ あり/アリ ませ/マセ ん/ン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "写真",
+          "シャシン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "絵画",
+          "カイガ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "も",
+          "モ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "グループ",
+          "グループ"
+        ],
+        [
+          "展",
+          "テン"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "人",
+          "ヒト"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "作品",
+          "サクヒン"
+        ],
+        [
+          "御前",
+          "マエ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "時",
+          "トキ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "作者",
+          "サクシャ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "声",
+          "コエ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "かけ",
+          "カケ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "くれる",
+          "クレル"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ませ",
+          "マセ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "いつも",
+          "イツモ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "こと",
+          "コト"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "いう",
+          "イウ"
+        ],
+        [
+          "事",
+          "コト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "あり",
+          "アリ"
+        ],
+        [
+          "ませ",
+          "マセ"
+        ],
+        [
+          "ん",
+          "ン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "写真",
+          "reading": "シャシン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "写真",
+              "reading": "しゃしん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "絵画",
+          "reading": "カイガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "絵画",
+              "reading": "かいが"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "も",
+          "reading": "モ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "も"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "グループ",
+          "reading": "グループ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "グループ"
+            }
+          ]
+        },
+        {
+          "surface": "展",
+          "reading": "テン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "展",
+              "reading": "てん"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "人",
+          "reading": "ヒト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "人",
+              "reading": "ひと"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "作品",
+          "reading": "サクヒン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作品",
+              "reading": "さくひん"
+            }
+          ]
+        },
+        {
+          "surface": "御前",
+          "reading": "マエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "御前",
+              "reading": "まえ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "時",
+          "reading": "トキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時",
+              "reading": "とき"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "作者",
+          "reading": "サクシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "作者",
+              "reading": "さくしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "声",
+          "reading": "コエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "声",
+              "reading": "こえ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "かけ",
+          "reading": "カケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かけ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "くれる",
+          "reading": "クレル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "くれる"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ませ",
+          "reading": "マセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ませ"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "いつも",
+          "reading": "イツモ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いつも"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "こと",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "いう",
+          "reading": "イウ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "いう"
+            }
+          ]
+        },
+        {
+          "surface": "事",
+          "reading": "コト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "事",
+              "reading": "こと"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "あり",
+          "reading": "アリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あり"
+            }
+          ]
+        },
+        {
+          "surface": "ませ",
+          "reading": "マセ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ませ"
+            }
+          ]
+        },
+        {
+          "surface": "ん",
+          "reading": "ン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002152820:u0034",
+          "text": "写真でも絵画でも、グループ展で、その人の作品御前になった時に作者が声をかけてくれることは、・・・・ないのではありませんが・・・・いつものことだという事はありません。",
+          "rendered_yomi_before": "写真/シャシン で/デ も/モ 絵画/カイガ で/デ も/モ 、/、 グループ/グループ 展/テン で/デ 、/、 その/ソノ 人/ヒト の/ノ 作品/サクヒン 御前/ゴゼン に/ニ なっ/ナッ た/タ 時/トキ に/ニ 作者/サクシャ が/ガ 声/コエ を/ヲ かけ/カケ て/テ くれる/クレル こと/コト は/ハ 、/、 ・/・ ・/・ ・/・ ・/・ ない/ナイ の/ノ で/デ は/ハ あり/アリ ませ/マセ ん/ン が/ガ ・/・ ・/・ ・/・ ・/・ いつも/イツモ の/ノ こと/コト だ/ダ と/ト いう/イウ 事/コト は/ハ あり/アリ ませ/マセ ん/ン 。/。",
+          "rendered_yomi_after": "写真/シャシン で/デ も/モ 絵画/カイガ で/デ も/モ 、/、 グループ/グループ 展/テン で/デ 、/、 その/ソノ 人/ヒト の/ノ 作品/サクヒン 御前/マエ に/ニ なっ/ナッ た/タ 時/トキ に/ニ 作者/サクシャ が/ガ 声/コエ を/ヲ かけ/カケ て/テ くれる/クレル こと/コト は/ハ 、/、 ・/・ ・/・ ・/・ ・/・ ない/ナイ の/ノ で/デ は/ハ あり/アリ ませ/マセ ん/ン が/ガ ・/・ ・/・ ・/・ ・/・ いつも/イツモ の/ノ こと/コト だ/ダ と/ト いう/イウ 事/コト は/ハ あり/アリ ませ/マセ ん/ン 。/。",
+          "display_mapping": {
+            "start": 15,
+            "end": 16,
+            "char_start": 22,
+            "char_end": 24,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034:s0023-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御前",
+              "token_surface": "御前",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ごぜん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御前",
+                  "reading": "ごぜん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034:s0023-0024",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "御前",
+              "token_surface": "御前",
+              "token_index": 15,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ごぜん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "御前",
+                  "reading": "ごぜん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "御前",
+          "reading_candidates": {
+            "御": [
+              "お",
+              "おおん",
+              "おっ",
+              "おん",
+              "ご",
+              "み"
+            ],
+            "御前": [
+              "おまえ",
+              "ごぜ",
+              "ごぜん"
+            ],
+            "前": [
+              "まえ",
+              "ぜん"
+            ]
+          },
+          "reading_hints": {
+            "御": "お",
+            "御前": "おまえ",
+            "前": "まえ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "御前",
+              "reading": "ごぜん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"御前\",\"reading\":\"まえ\",\"used_web_search\":true,\"comment\":\"文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。",
+              "reading": "まえ",
+              "surface": "御前",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+            "status": "applied",
+            "rejected_span": "御前",
+            "replacement": [
+              {
+                "surface": "御前",
+                "reading": "マエ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+                "surface": "御前",
+                "comment": "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "御前",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034:s0023-0024",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "御前",
+          "token_surface": "御前",
+          "token_index": 15,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ごぜん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "御前",
+              "reading": "ごぜん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "御前",
+          "reading": "ごぜん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "御": [
+          "お",
+          "おおん",
+          "おっ",
+          "おん",
+          "ご",
+          "み"
+        ],
+        "御前": [
+          "おまえ",
+          "ごぜ",
+          "ごぜん"
+        ],
+        "前": [
+          "まえ",
+          "ぜん"
+        ]
+      },
+      "reading_hints": {
+        "御": "お",
+        "御前": "おまえ",
+        "前": "まえ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。",
+          "reading": "まえ",
+          "surface": "御前",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"御前\",\"reading\":\"まえ\",\"used_web_search\":true,\"comment\":\"文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。\"}]",
+      "llm_comments": [
+        "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+        "status": "applied",
+        "rejected_span": "御前",
+        "replacement": [
+          {
+            "surface": "御前",
+            "reading": "マエ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002152820:u0034::target_group:1",
+            "surface": "御前",
+            "comment": "文脈上は「その人の作品の前になった時」の意味で、ここは「前（まえ）」と読むのが自然です。「御」は誤混入と判断しました。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0000187139",
+      "doc_seq": 5,
+      "track_doc_seq": 2555,
+      "unit_id": "ja_cc_level2_corrected_v1:0000187139:u0014",
+      "unit_seq": 14,
+      "source_file": "ja/ja_cc/level2/0018.jsonl.gz",
+      "source_line_no": 187139,
+      "text": "中元すず香の会長就任と共に転入した野津友那乃、大賀咲希、杉本愛莉鈴に関しては、個性が未だ見えないものの、ルックスレベルは意外と高い印象がある。",
+      "rendered_yomi_before": "中元/ナカモト すず香/スズカ の/ノ 会長/カイチョウ 就任/シュウニン と/ト 共/トモ に/ニ 転入/テンニュウ し/シ た/タ 野津/ノツ 友那/トモナ 乃/ノ 、/、 大賀/オオガ 咲希/サキ 、/、 杉本/スギモト 愛莉鈴/マリリ に/ニ 関し/カンシ ては/テハ 、/、 個性/コセイ が/ガ 未だ/イマダ 見え/ミエ ない/ナイ もの/モノ の/ノ 、/、 ルックス/ルックス レベル/レベル は/ハ 意外/イガイ と/ト 高い/タカイ 印象/インショウ が/ガ ある/アル 。/。",
+      "rendered_yomi_after": "中元/ナカモト すず香/スズカ の/ノ 会長/カイチョウ 就任/シュウニン と/ト 共/トモ に/ニ 転入/テンニュウ し/シ た/タ 野津/ノツ 友那乃/ユナノ 、/、 大賀/オオガ 咲希/サキ 、/、 杉本/スギモト 愛莉鈴/マリリ に/ニ 関し/カンシ ては/テハ 、/、 個性/コセイ が/ガ 未だ/イマダ 見え/ミエ ない/ナイ もの/モノ の/ノ 、/、 ルックス/ルックス レベル/レベル は/ハ 意外/イガイ と/ト 高い/タカイ 印象/インショウ が/ガ ある/アル 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "中元",
+          "ナカモト"
+        ],
+        [
+          "すず香",
+          "スズカ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "会長",
+          "カイチョウ"
+        ],
+        [
+          "就任",
+          "シュウニン"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "共",
+          "トモ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "転入",
+          "テンニュウ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "野津",
+          "ノツ"
+        ],
+        [
+          "友那乃",
+          "ユナノ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "大賀",
+          "オオガ"
+        ],
+        [
+          "咲希",
+          "サキ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "杉本",
+          "スギモト"
+        ],
+        [
+          "愛莉鈴",
+          "マリリ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "関し",
+          "カンシ"
+        ],
+        [
+          "ては",
+          "テハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "個性",
+          "コセイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "未だ",
+          "イマダ"
+        ],
+        [
+          "見え",
+          "ミエ"
+        ],
+        [
+          "ない",
+          "ナイ"
+        ],
+        [
+          "もの",
+          "モノ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ルックス",
+          "ルックス"
+        ],
+        [
+          "レベル",
+          "レベル"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "意外",
+          "イガイ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "高い",
+          "タカイ"
+        ],
+        [
+          "印象",
+          "インショウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "ある",
+          "アル"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "中元",
+          "reading": "ナカモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中元",
+              "reading": "なかもと"
+            }
+          ]
+        },
+        {
+          "surface": "すず香",
+          "reading": "スズカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "すず"
+            },
+            {
+              "type": "ruby",
+              "text": "香",
+              "reading": "か"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "会長",
+          "reading": "カイチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "会長",
+              "reading": "かいちょう"
+            }
+          ]
+        },
+        {
+          "surface": "就任",
+          "reading": "シュウニン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "就任",
+              "reading": "しゅうにん"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "共",
+          "reading": "トモ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共",
+              "reading": "とも"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "転入",
+          "reading": "テンニュウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "転入",
+              "reading": "てんにゅう"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "野津",
+          "reading": "ノツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "野津",
+              "reading": "のつ"
+            }
+          ]
+        },
+        {
+          "surface": "友那乃",
+          "reading": "ユナノ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "友那乃",
+              "reading": "ゆなの"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "大賀",
+          "reading": "オオガ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大賀",
+              "reading": "おおが"
+            }
+          ]
+        },
+        {
+          "surface": "咲希",
+          "reading": "サキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "咲希",
+              "reading": "さき"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "杉本",
+          "reading": "スギモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "杉本",
+              "reading": "すぎもと"
+            }
+          ]
+        },
+        {
+          "surface": "愛莉鈴",
+          "reading": "マリリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "愛莉鈴",
+              "reading": "まりり"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "関し",
+          "reading": "カンシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "関",
+              "reading": "かん"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "ては",
+          "reading": "テハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ては"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "個性",
+          "reading": "コセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "個性",
+              "reading": "こせい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "未だ",
+          "reading": "イマダ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "未",
+              "reading": "いま"
+            },
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "見え",
+          "reading": "ミエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "見",
+              "reading": "み"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "ない",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "もの",
+          "reading": "モノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "もの"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ルックス",
+          "reading": "ルックス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ルックス"
+            }
+          ]
+        },
+        {
+          "surface": "レベル",
+          "reading": "レベル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レベル"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "意外",
+          "reading": "イガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "意外",
+              "reading": "いがい"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "高い",
+          "reading": "タカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "高",
+              "reading": "たか"
+            },
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "印象",
+          "reading": "インショウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "印象",
+              "reading": "いんしょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "ある",
+          "reading": "アル",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ある"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000187139:u0014",
+          "text": "中元すず香の会長就任と共に転入した野津友那乃、大賀咲希、杉本愛莉鈴に関しては、個性が未だ見えないものの、ルックスレベルは意外と高い印象がある。",
+          "rendered_yomi_before": "中元/ナカモト すず香/スズカ の/ノ 会長/カイチョウ 就任/シュウニン と/ト 共/トモ に/ニ 転入/テンニュウ し/シ た/タ 野津/ノツ 友那/トモナ 乃/ノ 、/、 大賀/オオガ 咲希/サキ 、/、 杉本/スギモト 愛莉鈴/マリリ に/ニ 関し/カンシ ては/テハ 、/、 個性/コセイ が/ガ 未だ/イマダ 見え/ミエ ない/ナイ もの/モノ の/ノ 、/、 ルックス/ルックス レベル/レベル は/ハ 意外/イガイ と/ト 高い/タカイ 印象/インショウ が/ガ ある/アル 。/。",
+          "rendered_yomi_after": "中元/ナカモト すず香/スズカ の/ノ 会長/カイチョウ 就任/シュウニン と/ト 共/トモ に/ニ 転入/テンニュウ し/シ た/タ 野津/ノツ 友那乃/ユナノ 、/、 大賀/オオガ 咲希/サキ 、/、 杉本/スギモト 愛莉鈴/マリリ に/ニ 関し/カンシ ては/テハ 、/、 個性/コセイ が/ガ 未だ/イマダ 見え/ミエ ない/ナイ もの/モノ の/ノ 、/、 ルックス/ルックス レベル/レベル は/ハ 意外/イガイ と/ト 高い/タカイ 印象/インショウ が/ガ ある/アル 。/。",
+          "display_mapping": {
+            "start": 12,
+            "end": 13,
+            "char_start": 19,
+            "char_end": 22,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "友那",
+              "token_surface": "友那",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ともな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "友那",
+                  "reading": "ともな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "乃",
+              "token_surface": "乃",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "の",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "乃",
+                  "reading": "の",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0020-0021",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "友那",
+              "token_surface": "友那",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ともな",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "友那",
+                  "reading": "ともな",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0022-0022",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "乃",
+              "token_surface": "乃",
+              "token_index": 13,
+              "chunk_index": 0,
+              "current_reading_hiragana": "の",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "乃",
+                  "reading": "の",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "友那乃",
+          "reading_candidates": {
+            "友": [
+              "とも",
+              "ゆう"
+            ],
+            "友那": [
+              "ともな",
+              "ゆうな",
+              "ゆな"
+            ],
+            "那": [
+              "な"
+            ],
+            "乃": [
+              "おさむ",
+              "の"
+            ]
+          },
+          "reading_hints": {
+            "友": "とも",
+            "友那": "ともな",
+            "那": "な",
+            "乃": "おさむ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "友那",
+              "reading": "ともな",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "乃",
+              "reading": "の",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"友那乃\",\"reading\":\"ユナノ\",\"used_web_search\":true,\"comment\":\"人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。",
+              "reading": "ユナノ",
+              "surface": "友那乃",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+            "status": "applied",
+            "rejected_span": "友那乃",
+            "replacement": [
+              {
+                "surface": "友那乃",
+                "reading": "ユナノ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+                "surface": "友那乃",
+                "comment": "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "友那乃",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0020-0021",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "友那",
+          "token_surface": "友那",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ともな",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "友那",
+              "reading": "ともな",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014:s0022-0022",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "乃",
+          "token_surface": "乃",
+          "token_index": 13,
+          "chunk_index": 0,
+          "current_reading_hiragana": "の",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "乃",
+              "reading": "の",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "友那",
+          "reading": "ともな",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "乃",
+          "reading": "の",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "友": [
+          "とも",
+          "ゆう"
+        ],
+        "友那": [
+          "ともな",
+          "ゆうな",
+          "ゆな"
+        ],
+        "那": [
+          "な"
+        ],
+        "乃": [
+          "おさむ",
+          "の"
+        ]
+      },
+      "reading_hints": {
+        "友": "とも",
+        "友那": "ともな",
+        "那": "な",
+        "乃": "おさむ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。",
+          "reading": "ユナノ",
+          "surface": "友那乃",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"友那乃\",\"reading\":\"ユナノ\",\"used_web_search\":true,\"comment\":\"人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。\"}]",
+      "llm_comments": [
+        "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+        "status": "applied",
+        "rejected_span": "友那乃",
+        "replacement": [
+          {
+            "surface": "友那乃",
+            "reading": "ユナノ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000187139:u0014::target_group:1",
+            "surface": "友那乃",
+            "comment": "人名「野津友那乃」の読みは複数資料で「のつ ゆなの」と確認でき、該当部分は名前の下の名「ゆなの」を一まとまりで読む。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
