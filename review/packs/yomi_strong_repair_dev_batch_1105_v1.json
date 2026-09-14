@@ -1,0 +1,3564 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1105_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1105",
+  "created_at_epoch": 1789367506,
+  "created_at": "2026-09-14T06:31:46Z",
+  "item_count": 5,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 5,
+    "queued_repair_row_count": 5,
+    "result_row_count": 5,
+    "reviewable_repair_row_count": 5,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002228184",
+      "doc_seq": 1,
+      "track_doc_seq": 2521,
+      "unit_count": 44,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2228184,
+      "preview": "横浜・野毛の「酒富」 (さけとみ) のカウンターで、独り晩酌。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-14T06:32:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 1,
+      "to_seq": 4,
+      "reviewed_unit_count": 44,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002336093",
+      "doc_seq": 2,
+      "track_doc_seq": 2522,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0341.jsonl.gz",
+      "source_line_no": 2336093,
+      "preview": "ヤクルトのバレンティン外野手は今季が契約の最終年で自身の去就について、来季もヤクルトでの1年契約をむすびました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-14T06:32:20Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 5,
+      "to_seq": 5,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000441926",
+      "doc_seq": 3,
+      "track_doc_seq": 2523,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0048.jsonl.gz",
+      "source_line_no": 441926,
+      "preview": "飛んでくるボールをキャッチする野球ゲームです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002529076",
+      "doc_seq": 4,
+      "track_doc_seq": 2524,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0390.jsonl.gz",
+      "source_line_no": 2529076,
+      "preview": "いろいろ重量物を積んで走ることも多いので、「あぁ、やっぱりあの時交換していてもっとブレーキが効いてれば・・・」と後で思っても仕方が無いので、大事を取って交換することにしました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002239096",
+      "doc_seq": 5,
+      "track_doc_seq": 2525,
+      "unit_count": 13,
+      "source_file": "ja/ja_cc/level2/0322.jsonl.gz",
+      "source_line_no": 2239096,
+      "preview": "なんて楽しそうな3人の男の子。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 13,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000434162",
+      "doc_seq": 6,
+      "track_doc_seq": 2526,
+      "unit_count": 7,
+      "source_file": "ja/ja_cc/level2/0047.jsonl.gz",
+      "source_line_no": 434162,
+      "preview": "すぐに大活躍するようになったそうです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 7,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002364878",
+      "doc_seq": 7,
+      "track_doc_seq": 2527,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0348.jsonl.gz",
+      "source_line_no": 2364878,
+      "preview": "岡山の温暖な気候風土に育まれた四季折々の素材を調理致します。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000306131",
+      "doc_seq": 8,
+      "track_doc_seq": 2528,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0032.jsonl.gz",
+      "source_line_no": 306131,
+      "preview": "「おそ松さん」の第7話から。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001760640",
+      "doc_seq": 9,
+      "track_doc_seq": 2529,
+      "unit_count": 18,
+      "source_file": "ja/ja_cc/level2/0221.jsonl.gz",
+      "source_line_no": 1760640,
+      "preview": "久々のタティングレースです。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 18,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002459310",
+      "doc_seq": 10,
+      "track_doc_seq": 2530,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0367.jsonl.gz",
+      "source_line_no": 2459310,
+      "preview": "でも、もう、白梅咲いています。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-14T06:11:22Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0002228184",
+      "doc_seq": 1,
+      "track_doc_seq": 2521,
+      "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2228184,
+      "text": "横浜・野毛の「酒富」 (さけとみ) のカウンターで、独り晩酌。",
+      "rendered_yomi_before": "横浜/ヨコハマ ・/・ 野毛/ノゲ の/ノ 「/「 酒/サケ 富/トミ 」/」  /  (/( さけ/サケ と/ト み/ミ )/)  /  の/ノ カウンター/カウンター で/デ 、/、 独り/ヒトリ 晩酌/バンシャク 。/。",
+      "rendered_yomi_after": "横浜/ヨコハマ ・/・ 野毛/ノゲ の/ノ 「/「 酒富/サケトミ 」/」 \\s/ (/( さけ/サケ と/ト み/ミ )/) \\s/ の/ノ カウンター/カウンター で/デ 、/、 独り/ヒトリ 晩酌/バンシャク 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "横浜",
+          "ヨコハマ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "野毛",
+          "ノゲ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "酒富",
+          "サケトミ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "さけ",
+          "サケ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "み",
+          "ミ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "カウンター",
+          "カウンター"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "独り",
+          "ヒトリ"
+        ],
+        [
+          "晩酌",
+          "バンシャク"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "横浜",
+          "reading": "ヨコハマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "横浜",
+              "reading": "よこはま"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "野毛",
+          "reading": "ノゲ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "野毛",
+              "reading": "のげ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "酒富",
+          "reading": "サケトミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "酒富",
+              "reading": "さけとみ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "さけ",
+          "reading": "サケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さけ"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "み",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "カウンター",
+          "reading": "カウンター",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "カウンター"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "独り",
+          "reading": "ヒトリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "独",
+              "reading": "ひと"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            }
+          ]
+        },
+        {
+          "surface": "晩酌",
+          "reading": "バンシャク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "晩酌",
+              "reading": "ばんしゃく"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0001",
+          "text": "横浜・野毛の「酒富」 (さけとみ) のカウンターで、独り晩酌。",
+          "rendered_yomi_before": "横浜/ヨコハマ ・/・ 野毛/ノゲ の/ノ 「/「 酒/サケ 富/トミ 」/」  /  (/( さけ/サケ と/ト み/ミ )/)  /  の/ノ カウンター/カウンター で/デ 、/、 独り/ヒトリ 晩酌/バンシャク 。/。",
+          "rendered_yomi_after": "横浜/ヨコハマ ・/・ 野毛/ノゲ の/ノ 「/「 酒富/サケトミ 」/」 \\s/ (/( さけ/サケ と/ト み/ミ )/) \\s/ の/ノ カウンター/カウンター で/デ 、/、 独り/ヒトリ 晩酌/バンシャク 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 7,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "酒",
+              "token_surface": "酒",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "酒",
+                  "reading": "さけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富",
+              "token_surface": "富",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富",
+                  "reading": "とみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0008-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "酒",
+              "token_surface": "酒",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "酒",
+                  "reading": "さけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富",
+              "token_surface": "富",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富",
+                  "reading": "とみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "酒富",
+          "reading_candidates": {
+            "酒": [
+              "さけ",
+              "さか",
+              "ささ",
+              "ざけ",
+              "しゅ"
+            ],
+            "富": [
+              "あつし",
+              "とま",
+              "とみ",
+              "とむ",
+              "とめり",
+              "ひさし",
+              "ふ"
+            ]
+          },
+          "reading_hints": {
+            "酒": "さけ",
+            "富": "あつし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "酒",
+              "reading": "さけ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "富",
+              "reading": "とみ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"酒富\",\"reading\":\"サケトミ\",\"used_web_search\":false,\"comment\":\"店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。",
+              "reading": "サケトミ",
+              "surface": "酒富",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "酒富",
+            "replacement": [
+              {
+                "surface": "酒富",
+                "reading": "サケトミ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+                "surface": "酒富",
+                "comment": "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "酒富",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0008-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "酒",
+          "token_surface": "酒",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "酒",
+              "reading": "さけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "富",
+          "token_surface": "富",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とみ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "富",
+              "reading": "とみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "酒",
+          "reading": "さけ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "富",
+          "reading": "とみ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "酒": [
+          "さけ",
+          "さか",
+          "ささ",
+          "ざけ",
+          "しゅ"
+        ],
+        "富": [
+          "あつし",
+          "とま",
+          "とみ",
+          "とむ",
+          "とめり",
+          "ひさし",
+          "ふ"
+        ]
+      },
+      "reading_hints": {
+        "酒": "さけ",
+        "富": "あつし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。",
+          "reading": "サケトミ",
+          "surface": "酒富",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"酒富\",\"reading\":\"サケトミ\",\"used_web_search\":false,\"comment\":\"店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。\"}]",
+      "llm_comments": [
+        "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "酒富",
+        "replacement": [
+          {
+            "surface": "酒富",
+            "reading": "サケトミ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0001::target_group:1",
+            "surface": "酒富",
+            "comment": "店名として一まとまりで読むのが自然。文中の注記からも「さけとみ」と判断できる。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0002228184",
+      "doc_seq": 1,
+      "track_doc_seq": 2521,
+      "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0002",
+      "unit_seq": 2,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2228184,
+      "text": "「酒富」は、2015年3月にオープンしたので、ぼちぼち2年。",
+      "rendered_yomi_before": "「/「 酒/サケ 富/トミ 」/」 は/ハ 、/、 2015/ 年/ネン 3/ 月/ガツ に/ニ オープン/オープン し/シ た/タ の/ノ で/デ 、/、 ぼちぼち/ボチボチ 2/ 年/ネン 。/。",
+      "rendered_yomi_after": "「/「 酒富/サケトミ 」/」 は/ハ 、/、 2015/ 年/ネン 3/ 月/ガツ に/ニ オープン/オープン し/シ た/タ の/ノ で/デ 、/、 ぼちぼち/ボチボチ 2/ 年/ネン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "「",
+          "「"
+        ],
+        [
+          "酒富",
+          "サケトミ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "2015",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "月",
+          "ガツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "オープン",
+          "オープン"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ぼちぼち",
+          "ボチボチ"
+        ],
+        [
+          "2",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "酒富",
+          "reading": "サケトミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "酒富",
+              "reading": "さけとみ"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "2015",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2015"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "月",
+          "reading": "ガツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "月",
+              "reading": "がつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "オープン",
+          "reading": "オープン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "オープン"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ぼちぼち",
+          "reading": "ボチボチ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ぼちぼち"
+            }
+          ]
+        },
+        {
+          "surface": "2",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0002",
+          "text": "「酒富」は、2015年3月にオープンしたので、ぼちぼち2年。",
+          "rendered_yomi_before": "「/「 酒/サケ 富/トミ 」/」 は/ハ 、/、 2015/ 年/ネン 3/ 月/ガツ に/ニ オープン/オープン し/シ た/タ の/ノ で/デ 、/、 ぼちぼち/ボチボチ 2/ 年/ネン 。/。",
+          "rendered_yomi_after": "「/「 酒富/サケトミ 」/」 は/ハ 、/、 2015/ 年/ネン 3/ 月/ガツ に/ニ オープン/オープン し/シ た/タ の/ノ で/デ 、/、 ぼちぼち/ボチボチ 2/ 年/ネン 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 1,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "酒",
+              "token_surface": "酒",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "酒",
+                  "reading": "さけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富",
+              "token_surface": "富",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富",
+                  "reading": "とみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0002-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "酒",
+              "token_surface": "酒",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さけ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "酒",
+                  "reading": "さけ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富",
+              "token_surface": "富",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富",
+                  "reading": "とみ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "酒富",
+          "reading_candidates": {
+            "酒": [
+              "さけ",
+              "さか",
+              "ささ",
+              "ざけ",
+              "しゅ"
+            ],
+            "富": [
+              "あつし",
+              "とま",
+              "とみ",
+              "とむ",
+              "とめり",
+              "ひさし",
+              "ふ"
+            ]
+          },
+          "reading_hints": {
+            "酒": "さけ",
+            "富": "あつし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "酒",
+              "reading": "さけ",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "富",
+              "reading": "とみ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"酒富\",\"reading\":\"サケトミ\",\"used_web_search\":true,\"comment\":\"店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))",
+              "reading": "サケトミ",
+              "surface": "酒富",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+            "status": "applied",
+            "rejected_span": "酒富",
+            "replacement": [
+              {
+                "surface": "酒富",
+                "reading": "サケトミ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+                "surface": "酒富",
+                "comment": "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "酒富",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0002-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "酒",
+          "token_surface": "酒",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さけ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "酒",
+              "reading": "さけ",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "富",
+          "token_surface": "富",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とみ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "富",
+              "reading": "とみ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "酒",
+          "reading": "さけ",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "富",
+          "reading": "とみ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "酒": [
+          "さけ",
+          "さか",
+          "ささ",
+          "ざけ",
+          "しゅ"
+        ],
+        "富": [
+          "あつし",
+          "とま",
+          "とみ",
+          "とむ",
+          "とめり",
+          "ひさし",
+          "ふ"
+        ]
+      },
+      "reading_hints": {
+        "酒": "さけ",
+        "富": "あつし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))",
+          "reading": "サケトミ",
+          "surface": "酒富",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"酒富\",\"reading\":\"サケトミ\",\"used_web_search\":true,\"comment\":\"店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+        "status": "applied",
+        "rejected_span": "酒富",
+        "replacement": [
+          {
+            "surface": "酒富",
+            "reading": "サケトミ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0002::target_group:1",
+            "surface": "酒富",
+            "comment": "店舗名表記は「酒富（サケトミ）」と確認できるため、2字で一語として読む。 ([tabelog.com](https://tabelog.com/kanagawa/A1401/A140102/14058218/dtlrvwlst/B132238785/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0002228184",
+      "doc_seq": 1,
+      "track_doc_seq": 2521,
+      "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0038",
+      "unit_seq": 38,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2228184,
+      "text": "2017-04-09 横浜中華街・広東路の東北人家新館(とうほくじんかしんかん)にて晩飯。",
+      "rendered_yomi_before": "2017/ -04/ -09/  /  横浜/ヨコハマ 中華街/チュウカガイ ・/・ 広東/カントン 路/ロ の/ノ 東北/トウホク 人家/ジンカ 新館/シンカン (/( とうほく/トウホク じん/ジン か/カ しん/シン かん/カン )/) にて/ニテ 晩飯/バンメシ 。/。",
+      "rendered_yomi_after": "2017/ -04/ -09/ \\s/ 横浜/ヨコハマ 中華街/チュウカガイ ・/・ 広東/カントン 路/ロ の/ノ 東北人家/トウホクジンカ 新館/シンカン (/( とうほく/トウホク じん/ジン か/カ しん/シン かん/カン )/) にて/ニテ 晩飯/バンメシ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2017",
+          ""
+        ],
+        [
+          "-04",
+          ""
+        ],
+        [
+          "-09",
+          ""
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "横浜",
+          "ヨコハマ"
+        ],
+        [
+          "中華街",
+          "チュウカガイ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "広東",
+          "カントン"
+        ],
+        [
+          "路",
+          "ロ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "東北人家",
+          "トウホクジンカ"
+        ],
+        [
+          "新館",
+          "シンカン"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "とうほく",
+          "トウホク"
+        ],
+        [
+          "じん",
+          "ジン"
+        ],
+        [
+          "か",
+          "カ"
+        ],
+        [
+          "しん",
+          "シン"
+        ],
+        [
+          "かん",
+          "カン"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "にて",
+          "ニテ"
+        ],
+        [
+          "晩飯",
+          "バンメシ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2017",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2017"
+            }
+          ]
+        },
+        {
+          "surface": "-04",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "-04"
+            }
+          ]
+        },
+        {
+          "surface": "-09",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "-09"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "横浜",
+          "reading": "ヨコハマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "横浜",
+              "reading": "よこはま"
+            }
+          ]
+        },
+        {
+          "surface": "中華街",
+          "reading": "チュウカガイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中華街",
+              "reading": "ちゅうかがい"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "広東",
+          "reading": "カントン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広東",
+              "reading": "かんとん"
+            }
+          ]
+        },
+        {
+          "surface": "路",
+          "reading": "ロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "路",
+              "reading": "ろ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "東北人家",
+          "reading": "トウホクジンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東北人家",
+              "reading": "とうほくじんか"
+            }
+          ]
+        },
+        {
+          "surface": "新館",
+          "reading": "シンカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新館",
+              "reading": "しんかん"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "とうほく",
+          "reading": "トウホク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "とうほく"
+            }
+          ]
+        },
+        {
+          "surface": "じん",
+          "reading": "ジン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "じん"
+            }
+          ]
+        },
+        {
+          "surface": "か",
+          "reading": "カ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "しん",
+          "reading": "シン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "しん"
+            }
+          ]
+        },
+        {
+          "surface": "かん",
+          "reading": "カン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "かん"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "にて",
+          "reading": "ニテ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "にて"
+            }
+          ]
+        },
+        {
+          "surface": "晩飯",
+          "reading": "バンメシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "晩飯",
+              "reading": "ばんめし"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0038",
+          "text": "2017-04-09 横浜中華街・広東路の東北人家新館(とうほくじんかしんかん)にて晩飯。",
+          "rendered_yomi_before": "2017/ -04/ -09/  /  横浜/ヨコハマ 中華街/チュウカガイ ・/・ 広東/カントン 路/ロ の/ノ 東北/トウホク 人家/ジンカ 新館/シンカン (/( とうほく/トウホク じん/ジン か/カ しん/シン かん/カン )/) にて/ニテ 晩飯/バンメシ 。/。",
+          "rendered_yomi_after": "2017/ -04/ -09/ \\s/ 横浜/ヨコハマ 中華街/チュウカガイ ・/・ 広東/カントン 路/ロ の/ノ 東北人家/トウホクジンカ 新館/シンカン (/( とうほく/トウホク じん/ジン か/カ しん/シン かん/カン )/) にて/ニテ 晩飯/バンメシ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 12,
+            "char_start": 21,
+            "char_end": 27,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東北",
+              "token_surface": "東北",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうほく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東北",
+                  "reading": "とうほく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0024-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人家",
+              "token_surface": "人家",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じんか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人家",
+                  "reading": "じんか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0026-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "新館",
+              "token_surface": "新館",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "新館",
+                  "reading": "しんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0022-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東北",
+              "token_surface": "東北",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうほく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東北",
+                  "reading": "とうほく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0024-0025",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人家",
+              "token_surface": "人家",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じんか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人家",
+                  "reading": "じんか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0026-0027",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "新館",
+              "token_surface": "新館",
+              "token_index": 12,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "新館",
+                  "reading": "しんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "東北人家新館",
+          "reading_candidates": {
+            "東": [
+              "とん",
+              "ひがし",
+              "あきら",
+              "あずま",
+              "あづま",
+              "とう",
+              "はじめ",
+              "ひがしの"
+            ],
+            "東北": [
+              "とうほく",
+              "とおほく"
+            ],
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "人": [
+              "じん",
+              "にん",
+              "ひと",
+              "り",
+              "びと"
+            ],
+            "人家": [
+              "じんか"
+            ],
+            "家": [
+              "いえ",
+              "け",
+              "や",
+              "ち",
+              "うち",
+              "か"
+            ],
+            "新": [
+              "あたらし",
+              "あらい",
+              "あらた",
+              "さら",
+              "しむら",
+              "しん",
+              "にい",
+              "はじめ"
+            ],
+            "新館": [
+              "しんかん",
+              "しんたて",
+              "にいだて"
+            ],
+            "館": [
+              "かん",
+              "たち",
+              "たて",
+              "だち",
+              "だて",
+              "やかた"
+            ]
+          },
+          "reading_hints": {
+            "東": "とん",
+            "東北": "とうほく",
+            "北": "きた",
+            "人": "じん",
+            "人家": "じんか",
+            "家": "いえ",
+            "新": "あたらし",
+            "新館": "しんかん",
+            "館": "かん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "東北",
+              "reading": "とうほく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "人家",
+              "reading": "じんか",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "新館",
+              "reading": "しんかん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"東北人家\",\"reading\":\"とうほくじんか\",\"used_web_search\":true,\"comment\":\"公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。\"},{\"surface\":\"新館\",\"reading\":\"しんかん\",\"used_web_search\":true,\"comment\":\"同じ公式案内で「新館」は別語として「しんかん」と示されている。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+              "reading": "とうほくじんか",
+              "surface": "東北人家",
+              "used_web_search": true
+            },
+            {
+              "comment": "同じ公式案内で「新館」は別語として「しんかん」と示されている。",
+              "reading": "しんかん",
+              "surface": "新館",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+            "同じ公式案内で「新館」は別語として「しんかん」と示されている。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+            "status": "applied",
+            "rejected_span": "東北人家新館",
+            "replacement": [
+              {
+                "surface": "東北人家",
+                "reading": "トウホクジンカ"
+              },
+              {
+                "surface": "新館",
+                "reading": "シンカン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+                "surface": "東北人家新館",
+                "comment": "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+                "surface": "東北人家新館",
+                "comment": "同じ公式案内で「新館」は別語として「しんかん」と示されている。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "東北人家新館",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0022-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "東北",
+          "token_surface": "東北",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とうほく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "東北",
+              "reading": "とうほく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0024-0025",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "人家",
+          "token_surface": "人家",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じんか",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "人家",
+              "reading": "じんか",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038:s0026-0027",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "新館",
+          "token_surface": "新館",
+          "token_index": 12,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しんかん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "新館",
+              "reading": "しんかん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "東北",
+          "reading": "とうほく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "人家",
+          "reading": "じんか",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "新館",
+          "reading": "しんかん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "東": [
+          "とん",
+          "ひがし",
+          "あきら",
+          "あずま",
+          "あづま",
+          "とう",
+          "はじめ",
+          "ひがしの"
+        ],
+        "東北": [
+          "とうほく",
+          "とおほく"
+        ],
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "人": [
+          "じん",
+          "にん",
+          "ひと",
+          "り",
+          "びと"
+        ],
+        "人家": [
+          "じんか"
+        ],
+        "家": [
+          "いえ",
+          "け",
+          "や",
+          "ち",
+          "うち",
+          "か"
+        ],
+        "新": [
+          "あたらし",
+          "あらい",
+          "あらた",
+          "さら",
+          "しむら",
+          "しん",
+          "にい",
+          "はじめ"
+        ],
+        "新館": [
+          "しんかん",
+          "しんたて",
+          "にいだて"
+        ],
+        "館": [
+          "かん",
+          "たち",
+          "たて",
+          "だち",
+          "だて",
+          "やかた"
+        ]
+      },
+      "reading_hints": {
+        "東": "とん",
+        "東北": "とうほく",
+        "北": "きた",
+        "人": "じん",
+        "人家": "じんか",
+        "家": "いえ",
+        "新": "あたらし",
+        "新館": "しんかん",
+        "館": "かん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+          "reading": "とうほくじんか",
+          "surface": "東北人家",
+          "used_web_search": true
+        },
+        {
+          "comment": "同じ公式案内で「新館」は別語として「しんかん」と示されている。",
+          "reading": "しんかん",
+          "surface": "新館",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"東北人家\",\"reading\":\"とうほくじんか\",\"used_web_search\":true,\"comment\":\"公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。\"},{\"surface\":\"新館\",\"reading\":\"しんかん\",\"used_web_search\":true,\"comment\":\"同じ公式案内で「新館」は別語として「しんかん」と示されている。\"}]",
+      "llm_comments": [
+        "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+        "同じ公式案内で「新館」は別語として「しんかん」と示されている。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+        "status": "applied",
+        "rejected_span": "東北人家新館",
+        "replacement": [
+          {
+            "surface": "東北人家",
+            "reading": "トウホクジンカ"
+          },
+          {
+            "surface": "新館",
+            "reading": "シンカン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+            "surface": "東北人家新館",
+            "comment": "公式ガイドで店名の読みが「とうほくじんか」と確認できるため、ここで一まとまりにする。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0038::target_group:1",
+            "surface": "東北人家新館",
+            "comment": "同じ公式案内で「新館」は別語として「しんかん」と示されている。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0002228184",
+      "doc_seq": 1,
+      "track_doc_seq": 2521,
+      "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0039",
+      "unit_seq": 39,
+      "source_file": "ja/ja_cc/level2/0318.jsonl.gz",
+      "source_line_no": 2228184,
+      "text": "東北人家新館は、東北料理(東北菜)のレストラン。",
+      "rendered_yomi_before": "東北/トウホク 人家/ジンカ 新館/シンカン は/ハ 、/、 東北/トウホク 料理/リョウリ (/( 東北/トウホク 菜/サイ )/) の/ノ レストラン/レストラン 。/。",
+      "rendered_yomi_after": "東北人家/トウホクジンカ 新館/シンカン は/ハ 、/、 東北/トウホク 料理/リョウリ (/( 東北/トウホク 菜/サイ )/) の/ノ レストラン/レストラン 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "東北人家",
+          "トウホクジンカ"
+        ],
+        [
+          "新館",
+          "シンカン"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "東北",
+          "トウホク"
+        ],
+        [
+          "料理",
+          "リョウリ"
+        ],
+        [
+          "(",
+          "("
+        ],
+        [
+          "東北",
+          "トウホク"
+        ],
+        [
+          "菜",
+          "サイ"
+        ],
+        [
+          ")",
+          ")"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "レストラン",
+          "レストラン"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "東北人家",
+          "reading": "トウホクジンカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東北人家",
+              "reading": "とうほくじんか"
+            }
+          ]
+        },
+        {
+          "surface": "新館",
+          "reading": "シンカン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "新館",
+              "reading": "しんかん"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "東北",
+          "reading": "トウホク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東北",
+              "reading": "とうほく"
+            }
+          ]
+        },
+        {
+          "surface": "料理",
+          "reading": "リョウリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "料理",
+              "reading": "りょうり"
+            }
+          ]
+        },
+        {
+          "surface": "(",
+          "reading": "(",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "("
+            }
+          ]
+        },
+        {
+          "surface": "東北",
+          "reading": "トウホク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "東北",
+              "reading": "とうほく"
+            }
+          ]
+        },
+        {
+          "surface": "菜",
+          "reading": "サイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "菜",
+              "reading": "さい"
+            }
+          ]
+        },
+        {
+          "surface": ")",
+          "reading": ")",
+          "nodes": [
+            {
+              "type": "text",
+              "text": ")"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "レストラン",
+          "reading": "レストラン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レストラン"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002228184:u0039",
+          "text": "東北人家新館は、東北料理(東北菜)のレストラン。",
+          "rendered_yomi_before": "東北/トウホク 人家/ジンカ 新館/シンカン は/ハ 、/、 東北/トウホク 料理/リョウリ (/( 東北/トウホク 菜/サイ )/) の/ノ レストラン/レストラン 。/。",
+          "rendered_yomi_after": "東北人家/トウホクジンカ 新館/シンカン は/ハ 、/、 東北/トウホク 料理/リョウリ (/( 東北/トウホク 菜/サイ )/) の/ノ レストラン/レストラン 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東北",
+              "token_surface": "東北",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうほく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東北",
+                  "reading": "とうほく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人家",
+              "token_surface": "人家",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じんか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人家",
+                  "reading": "じんか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "新館",
+              "token_surface": "新館",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "新館",
+                  "reading": "しんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "東北",
+              "token_surface": "東北",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とうほく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "東北",
+                  "reading": "とうほく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0003-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "人家",
+              "token_surface": "人家",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "じんか",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "人家",
+                  "reading": "じんか",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0005-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "新館",
+              "token_surface": "新館",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しんかん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "新館",
+                  "reading": "しんかん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "東北人家新館",
+          "reading_candidates": {
+            "東": [
+              "とん",
+              "ひがし",
+              "あきら",
+              "あずま",
+              "あづま",
+              "とう",
+              "はじめ",
+              "ひがしの"
+            ],
+            "東北": [
+              "とうほく",
+              "とおほく"
+            ],
+            "北": [
+              "きた",
+              "きたの",
+              "ほく",
+              "ほっ",
+              "ぼく",
+              "ぼっ"
+            ],
+            "人": [
+              "じん",
+              "にん",
+              "ひと",
+              "り",
+              "びと"
+            ],
+            "人家": [
+              "じんか"
+            ],
+            "家": [
+              "いえ",
+              "け",
+              "や",
+              "ち",
+              "うち",
+              "か"
+            ],
+            "新": [
+              "あたらし",
+              "あらい",
+              "あらた",
+              "さら",
+              "しむら",
+              "しん",
+              "にい",
+              "はじめ"
+            ],
+            "新館": [
+              "しんかん",
+              "しんたて",
+              "にいだて"
+            ],
+            "館": [
+              "かん",
+              "たち",
+              "たて",
+              "だち",
+              "だて",
+              "やかた"
+            ]
+          },
+          "reading_hints": {
+            "東": "とん",
+            "東北": "とうほく",
+            "北": "きた",
+            "人": "じん",
+            "人家": "じんか",
+            "家": "いえ",
+            "新": "あたらし",
+            "新館": "しんかん",
+            "館": "かん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "東北",
+              "reading": "とうほく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "人家",
+              "reading": "じんか",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "新館",
+              "reading": "しんかん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"東北人家\",\"reading\":\"とうほくじんか\",\"used_web_search\":false,\"comment\":\"店名部分として一まとまりに読むのが自然です。\"},{\"surface\":\"新館\",\"reading\":\"しんかん\",\"used_web_search\":false,\"comment\":\"「新館」は付属する一般名詞なので分けます。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "店名部分として一まとまりに読むのが自然です。",
+              "reading": "とうほくじんか",
+              "surface": "東北人家",
+              "used_web_search": false
+            },
+            {
+              "comment": "「新館」は付属する一般名詞なので分けます。",
+              "reading": "しんかん",
+              "surface": "新館",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "店名部分として一まとまりに読むのが自然です。",
+            "「新館」は付属する一般名詞なので分けます。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+            "status": "applied",
+            "rejected_span": "東北人家新館",
+            "replacement": [
+              {
+                "surface": "東北人家",
+                "reading": "トウホクジンカ"
+              },
+              {
+                "surface": "新館",
+                "reading": "シンカン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+                "surface": "東北人家新館",
+                "comment": "店名部分として一まとまりに読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+                "surface": "東北人家新館",
+                "comment": "「新館」は付属する一般名詞なので分けます。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "東北人家新館",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0001-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "東北",
+          "token_surface": "東北",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とうほく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "東北",
+              "reading": "とうほく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0003-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "人家",
+          "token_surface": "人家",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "じんか",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "人家",
+              "reading": "じんか",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039:s0005-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "新館",
+          "token_surface": "新館",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しんかん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "新館",
+              "reading": "しんかん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "東北",
+          "reading": "とうほく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "人家",
+          "reading": "じんか",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "新館",
+          "reading": "しんかん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "東": [
+          "とん",
+          "ひがし",
+          "あきら",
+          "あずま",
+          "あづま",
+          "とう",
+          "はじめ",
+          "ひがしの"
+        ],
+        "東北": [
+          "とうほく",
+          "とおほく"
+        ],
+        "北": [
+          "きた",
+          "きたの",
+          "ほく",
+          "ほっ",
+          "ぼく",
+          "ぼっ"
+        ],
+        "人": [
+          "じん",
+          "にん",
+          "ひと",
+          "り",
+          "びと"
+        ],
+        "人家": [
+          "じんか"
+        ],
+        "家": [
+          "いえ",
+          "け",
+          "や",
+          "ち",
+          "うち",
+          "か"
+        ],
+        "新": [
+          "あたらし",
+          "あらい",
+          "あらた",
+          "さら",
+          "しむら",
+          "しん",
+          "にい",
+          "はじめ"
+        ],
+        "新館": [
+          "しんかん",
+          "しんたて",
+          "にいだて"
+        ],
+        "館": [
+          "かん",
+          "たち",
+          "たて",
+          "だち",
+          "だて",
+          "やかた"
+        ]
+      },
+      "reading_hints": {
+        "東": "とん",
+        "東北": "とうほく",
+        "北": "きた",
+        "人": "じん",
+        "人家": "じんか",
+        "家": "いえ",
+        "新": "あたらし",
+        "新館": "しんかん",
+        "館": "かん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "店名部分として一まとまりに読むのが自然です。",
+          "reading": "とうほくじんか",
+          "surface": "東北人家",
+          "used_web_search": false
+        },
+        {
+          "comment": "「新館」は付属する一般名詞なので分けます。",
+          "reading": "しんかん",
+          "surface": "新館",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"東北人家\",\"reading\":\"とうほくじんか\",\"used_web_search\":false,\"comment\":\"店名部分として一まとまりに読むのが自然です。\"},{\"surface\":\"新館\",\"reading\":\"しんかん\",\"used_web_search\":false,\"comment\":\"「新館」は付属する一般名詞なので分けます。\"}]",
+      "llm_comments": [
+        "店名部分として一まとまりに読むのが自然です。",
+        "「新館」は付属する一般名詞なので分けます。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+        "status": "applied",
+        "rejected_span": "東北人家新館",
+        "replacement": [
+          {
+            "surface": "東北人家",
+            "reading": "トウホクジンカ"
+          },
+          {
+            "surface": "新館",
+            "reading": "シンカン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+            "surface": "東北人家新館",
+            "comment": "店名部分として一まとまりに読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002228184:u0039::target_group:1",
+            "surface": "東北人家新館",
+            "comment": "「新館」は付属する一般名詞なので分けます。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0002336093",
+      "doc_seq": 2,
+      "track_doc_seq": 2522,
+      "unit_id": "ja_cc_level2_corrected_v1:0002336093:u0010",
+      "unit_seq": 10,
+      "source_file": "ja/ja_cc/level2/0341.jsonl.gz",
+      "source_line_no": 2336093,
+      "text": "その力士とは貴公俊です。",
+      "rendered_yomi_before": "その/ソノ 力士/リキシ と/ト は/ハ 貴公/キコウ 俊/シュン です/デス 。/。",
+      "rendered_yomi_after": "その/ソノ 力士/リキシ と/ト は/ハ 貴公俊/タカヨシトシ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "その",
+          "ソノ"
+        ],
+        [
+          "力士",
+          "リキシ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "貴公俊",
+          "タカヨシトシ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "その",
+          "reading": "ソノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "その"
+            }
+          ]
+        },
+        {
+          "surface": "力士",
+          "reading": "リキシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "力士",
+              "reading": "りきし"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "貴公俊",
+          "reading": "タカヨシトシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "貴公俊",
+              "reading": "たかよしとし"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002336093:u0010",
+          "text": "その力士とは貴公俊です。",
+          "rendered_yomi_before": "その/ソノ 力士/リキシ と/ト は/ハ 貴公/キコウ 俊/シュン です/デス 。/。",
+          "rendered_yomi_after": "その/ソノ 力士/リキシ と/ト は/ハ 貴公俊/タカヨシトシ です/デス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 5,
+            "char_start": 6,
+            "char_end": 9,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "貴公",
+              "token_surface": "貴公",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "貴公",
+                  "reading": "きこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "貴公",
+              "token_surface": "貴公",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "きこう",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "貴公",
+                  "reading": "きこう",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0009-0009",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "俊",
+              "token_surface": "俊",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "しゅん",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "俊",
+                  "reading": "しゅん",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "貴公俊",
+          "reading_candidates": {
+            "貴": [
+              "き",
+              "たか",
+              "たかし",
+              "たっと",
+              "とうと"
+            ],
+            "貴公": [
+              "きこう",
+              "たかひろ"
+            ],
+            "公": [
+              "あきら",
+              "いさお",
+              "おおやけ",
+              "きみ",
+              "こう",
+              "ただし",
+              "とおる",
+              "ひとし"
+            ],
+            "公俊": [
+              "きみとし",
+              "きんとし",
+              "ひろとし"
+            ],
+            "俊": [
+              "さとし",
+              "しゅん",
+              "すぐる",
+              "たかし",
+              "とし",
+              "まさる"
+            ]
+          },
+          "reading_hints": {
+            "貴": "き",
+            "貴公": "きこう",
+            "公": "あきら",
+            "公俊": "きみとし",
+            "俊": "さとし"
+          },
+          "rejected_readings": [
+            {
+              "surface": "貴公",
+              "reading": "きこう",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"貴公俊\",\"reading\":\"タカヨシトシ\",\"used_web_search\":true,\"comment\":\"四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))\"}]",
+          "llm_parsed": [
+            {
+              "comment": "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))",
+              "reading": "タカヨシトシ",
+              "surface": "貴公俊",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+            "status": "applied",
+            "rejected_span": "貴公俊",
+            "replacement": [
+              {
+                "surface": "貴公俊",
+                "reading": "タカヨシトシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+                "surface": "貴公俊",
+                "comment": "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "貴公俊",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "貴公",
+          "token_surface": "貴公",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "きこう",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "貴公",
+              "reading": "きこう",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010:s0009-0009",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "俊",
+          "token_surface": "俊",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "しゅん",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "俊",
+              "reading": "しゅん",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "貴公",
+          "reading": "きこう",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "俊",
+          "reading": "しゅん",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "貴": [
+          "き",
+          "たか",
+          "たかし",
+          "たっと",
+          "とうと"
+        ],
+        "貴公": [
+          "きこう",
+          "たかひろ"
+        ],
+        "公": [
+          "あきら",
+          "いさお",
+          "おおやけ",
+          "きみ",
+          "こう",
+          "ただし",
+          "とおる",
+          "ひとし"
+        ],
+        "公俊": [
+          "きみとし",
+          "きんとし",
+          "ひろとし"
+        ],
+        "俊": [
+          "さとし",
+          "しゅん",
+          "すぐる",
+          "たかし",
+          "とし",
+          "まさる"
+        ]
+      },
+      "reading_hints": {
+        "貴": "き",
+        "貴公": "きこう",
+        "公": "あきら",
+        "公俊": "きみとし",
+        "俊": "さとし"
+      },
+      "llm_parsed": [
+        {
+          "comment": "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))",
+          "reading": "タカヨシトシ",
+          "surface": "貴公俊",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"貴公俊\",\"reading\":\"タカヨシトシ\",\"used_web_search\":true,\"comment\":\"四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))\"}]",
+      "llm_comments": [
+        "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+        "status": "applied",
+        "rejected_span": "貴公俊",
+        "replacement": [
+          {
+            "surface": "貴公俊",
+            "reading": "タカヨシトシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002336093:u0010::target_group:1",
+            "surface": "貴公俊",
+            "comment": "四股名としては「たかよしとし」と読む例が複数の報道で確認できるため、ここは一まとまりの固有名として扱います。([thetv.jp](https://thetv.jp/person/2000031256/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
