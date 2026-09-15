@@ -10,10 +10,10 @@
   "item_count": 14,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 7,
+    "selectable_document_count": 1,
     "document_state_counts": {
-      "complete": 3,
-      "strong_pending": 7
+      "complete": 9,
+      "strong_apply_failed": 1
     },
     "repaired_item_count": 14,
     "queued_repair_row_count": 15,
@@ -31,12 +31,12 @@
       "source_line_no": 622191,
       "preview": "しかし、こうしたトラブルは例のない甚大な事故の収束作業という「非常時」に限ってのことなのだろうか。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 4,
@@ -83,12 +83,12 @@
       "source_line_no": 2478554,
       "preview": "なみあし身体研究所では、講座受講者と個別コーチングを重ねています。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +109,12 @@
       "source_line_no": 1931748,
       "preview": "鹿児島の課題の本質を専門家の視点で読み解き、深い分析や高度な情報を発信することで、情報の水先案内をします。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -135,12 +135,12 @@
       "source_line_no": 154077,
       "preview": "〈木村三畩〉という人の読みが知りたい。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -187,12 +187,12 @@
       "source_line_no": 1202687,
       "preview": "での仕上げに変更することにしました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -213,14 +213,23 @@
       "source_line_no": 2393424,
       "preview": "アイヌ人は本州のどこまで南下したか。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-09-15T00:54:23Z",
+      "application_failure_count": 1,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002393424:u0031::strong_repair",
+          "unit_id": "ja_cc_level2_corrected_v1:0002393424:u0031",
+          "doc_id": "ja_cc_level2_corrected_v1:0002393424",
+          "submission_id": "yomi_strong_repair_dev_batch_1104_v1__2026-09-15T00:15:01.482Z",
+          "status": "invalid_confirmed_unit",
+          "reason": "'～'/'カラ': reading should be ～"
+        }
+      ],
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -239,12 +248,12 @@
       "source_line_no": 1950563,
       "preview": "アスベストの廃棄処分を行う場合、最終的には「産業廃棄物最終処分場」に運ばれます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T00:54:24Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -787,7 +796,7 @@
       "source_line_no": 622191,
       "text": "フィリピン人の妻がガンで故郷に戻り、ひとりになった弓場さんは、生活のために07年から2年間、原子炉建屋下のトンネルにケーブルを引く仕事していた。",
       "rendered_yomi_before": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
-      "rendered_yomi_after": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユミバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
+      "rendered_yomi_after": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "フィリピン",
@@ -851,7 +860,7 @@
         ],
         [
           "弓場",
-          "ユミバ"
+          "ユバ"
         ],
         [
           "さん",
@@ -1127,12 +1136,12 @@
         },
         {
           "surface": "弓場",
-          "reading": "ユミバ",
+          "reading": "ユバ",
           "nodes": [
             {
               "type": "ruby",
               "text": "弓場",
-              "reading": "ゆみば"
+              "reading": "ゆば"
             }
           ]
         },
@@ -1442,7 +1451,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000622191:u0009",
           "text": "フィリピン人の妻がガンで故郷に戻り、ひとりになった弓場さんは、生活のために07年から2年間、原子炉建屋下のトンネルにケーブルを引く仕事していた。",
           "rendered_yomi_before": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
-          "rendered_yomi_after": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユミバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
+          "rendered_yomi_after": "フィリピン/フィリピン 人/ジン の/ノ 妻/ツマ が/ガ ガン/ガン で/デ 故郷/コキョウ に/ニ 戻り/モドリ 、/、 ひとり/ヒトリ に/ニ なっ/ナッ た/タ 弓場/ユバ さん/サン は/ハ 、/、 生活/セイカツ の/ノ ため/タメ に/ニ 07/ 年/ネン から/カラ 2/ 年間/ネンカン 、/、 原子炉/ゲンシロ 建屋/タテヤ 下/シタ の/ノ トンネル/トンネル に/ニ ケーブル/ケーブル を/ヲ 引く/ヒク 仕事/シゴト し/シ て/テ い/イ た/タ 。/。",
           "display_mapping": {
             "start": 15,
             "end": 16,
@@ -5804,7 +5813,7 @@
       "source_line_no": 154077,
       "text": "出典は、「封印の昭和史」小室直樹・渡辺昇一著（徳間書店刊）p109「･･･警察署長木村三畩の所持品を奪い、･･･」から。",
       "rendered_yomi_before": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三/サン 畩/畩 の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
-      "rendered_yomi_after": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三/サン 畩/畩 の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
+      "rendered_yomi_after": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三畩/ミケサ の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "出典",
@@ -5919,12 +5928,8 @@
           "キムラ"
         ],
         [
-          "三",
-          "サン"
-        ],
-        [
-          "畩",
-          "畩"
+          "三畩",
+          "ミケサ"
         ],
         [
           "の",
@@ -6268,23 +6273,13 @@
           ]
         },
         {
-          "surface": "三",
-          "reading": "サン",
+          "surface": "三畩",
+          "reading": "ミケサ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "三",
-              "reading": "さん"
-            }
-          ]
-        },
-        {
-          "surface": "畩",
-          "reading": "畩",
-          "nodes": [
-            {
-              "type": "text",
-              "text": "畩"
+              "text": "三畩",
+              "reading": "みけさ"
             }
           ]
         },
@@ -6418,14 +6413,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000154077:u0006",
           "text": "出典は、「封印の昭和史」小室直樹・渡辺昇一著（徳間書店刊）p109「･･･警察署長木村三畩の所持品を奪い、･･･」から。",
           "rendered_yomi_before": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三/サン 畩/畩 の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
-          "rendered_yomi_after": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三/サン 畩/畩 の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
+          "rendered_yomi_after": "出典/シュッテン は/ハ 、/、 「/「 封印/フウイン の/ノ 昭和史/ショウワシ 」/」 小室/コムロ 直樹/ナオキ ・/・ 渡辺/ワタナベ 昇一/ショウイチ 著/チョ （/（ 徳間/トクマ 書店/ショテン 刊/カン ）/） p/ページ 109/ 「/「 ･/･ ･/･ ･/･ 警察署/ケイサツショ 長/チョウ 木村/キムラ 三畩/ミケサ の/ノ 所持品/ショジヒン を/ヲ 奪い/ウバイ 、/、 ･/･ ･/･ ･/･ 」/」 から/カラ 。/。",
           "display_mapping": {
             "start": 28,
-            "end": 30,
+            "end": 29,
             "char_start": 43,
             "char_end": 45,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -9018,7 +9013,7 @@
       "source_line_no": 1950563,
       "text": "アスベストを含む廃棄物は「廃石綿等」と「石綿含有産業廃棄物」の2種類があります。",
       "rendered_yomi_before": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃石/ハイセキ 綿/メン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
-      "rendered_yomi_after": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃石綿/ハイセキメン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
+      "rendered_yomi_after": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃/ハイ 石綿/セキメン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "アスベスト",
@@ -9045,8 +9040,12 @@
           "「"
         ],
         [
-          "廃石綿",
-          "ハイセキメン"
+          "廃",
+          "ハイ"
+        ],
+        [
+          "石綿",
+          "セキメン"
         ],
         [
           "等",
@@ -9181,13 +9180,24 @@
           ]
         },
         {
-          "surface": "廃石綿",
-          "reading": "ハイセキメン",
+          "surface": "廃",
+          "reading": "ハイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "廃石綿",
-              "reading": "はいせきめん"
+              "text": "廃",
+              "reading": "はい"
+            }
+          ]
+        },
+        {
+          "surface": "石綿",
+          "reading": "セキメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "石綿",
+              "reading": "せきめん"
             }
           ]
         },
@@ -9371,14 +9381,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001950563:u0023",
           "text": "アスベストを含む廃棄物は「廃石綿等」と「石綿含有産業廃棄物」の2種類があります。",
           "rendered_yomi_before": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃石/ハイセキ 綿/メン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
-          "rendered_yomi_after": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃石綿/ハイセキメン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
+          "rendered_yomi_after": "アスベスト/アスベスト を/ヲ 含む/フクム 廃棄物/ハイキブツ は/ハ 「/「 廃/ハイ 石綿/セキメン 等/トウ 」/」 と/ト 「/「 石綿/セキメン 含有/ガンユウ 産業/サンギョウ 廃棄物/ハイキブツ 」/」 の/ノ 2/ 種類/シュルイ が/ガ あり/アリ ます/マス 。/。",
           "display_mapping": {
             "start": 6,
-            "end": 7,
+            "end": 8,
             "char_start": 13,
             "char_end": 16,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
@@ -9689,11 +9699,15 @@
       "source_line_no": 1950563,
       "text": "廃石綿等はアスベストの飛散を防ぐため、産業廃棄物最終処分場の管理型処分場に処分します。",
       "rendered_yomi_before": "廃石/ハイセキ 綿/メン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
-      "rendered_yomi_after": "廃石綿/ハイセキメン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
+      "rendered_yomi_after": "廃/ハイ 石綿/セキメン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "廃石綿",
-          "ハイセキメン"
+          "廃",
+          "ハイ"
+        ],
+        [
+          "石綿",
+          "セキメン"
         ],
         [
           "等",
@@ -9786,13 +9800,24 @@
       ],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "廃石綿",
-          "reading": "ハイセキメン",
+          "surface": "廃",
+          "reading": "ハイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "廃石綿",
-              "reading": "はいせきめん"
+              "text": "廃",
+              "reading": "はい"
+            }
+          ]
+        },
+        {
+          "surface": "石綿",
+          "reading": "セキメン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "石綿",
+              "reading": "せきめん"
             }
           ]
         },
@@ -10045,14 +10070,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001950563:u0026",
           "text": "廃石綿等はアスベストの飛散を防ぐため、産業廃棄物最終処分場の管理型処分場に処分します。",
           "rendered_yomi_before": "廃石/ハイセキ 綿/メン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
-          "rendered_yomi_after": "廃石綿/ハイセキメン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
+          "rendered_yomi_after": "廃/ハイ 石綿/セキメン 等/トウ は/ハ アスベスト/アスベスト の/ノ 飛散/ヒサン を/ヲ 防ぐ/フセグ ため/タメ 、/、 産業/サンギョウ 廃棄物/ハイキブツ 最終/サイシュウ 処分場/ショブンジョウ の/ノ 管理/カンリ 型/ガタ 処分場/ショブンジョウ に/ニ 処分/ショブン し/シ ます/マス 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 1,
+            "end": 2,
             "char_start": 0,
             "char_end": 3,
             "start_offset": 0,
-            "end_offset": 3,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },

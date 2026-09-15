@@ -13,8 +13,8 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 3,
-      "strong_pending": 7
+      "complete": 9,
+      "strong_apply_failed": 1
     },
     "unresolved_item_count": 35,
     "unresolved_target_count": 45,
@@ -30,12 +30,12 @@
       "source_line_no": 622191,
       "preview": "しかし、こうしたトラブルは例のない甚大な事故の収束作業という「非常時」に限ってのことなのだろうか。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 19,
@@ -82,12 +82,12 @@
       "source_line_no": 2478554,
       "preview": "なみあし身体研究所では、講座受講者と個別コーチングを重ねています。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 12,
@@ -108,12 +108,12 @@
       "source_line_no": 1931748,
       "preview": "鹿児島の課題の本質を専門家の視点で読み解き、深い分析や高度な情報を発信することで、情報の水先案内をします。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -134,12 +134,12 @@
       "source_line_no": 154077,
       "preview": "〈木村三畩〉という人の読みが知りたい。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 10,
@@ -186,12 +186,12 @@
       "source_line_no": 1202687,
       "preview": "での仕上げに変更することにしました。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:23Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 26,
@@ -212,14 +212,23 @@
       "source_line_no": 2393424,
       "preview": "アイヌ人は本州のどこまで南下したか。",
       "queue_id": "final_review",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-09-15T00:54:23Z",
+      "application_failure_count": 1,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002393424:u0031::strong_repair",
+          "unit_id": "ja_cc_level2_corrected_v1:0002393424:u0031",
+          "doc_id": "ja_cc_level2_corrected_v1:0002393424",
+          "submission_id": "yomi_strong_repair_dev_batch_1104_v1__2026-09-15T00:15:01.482Z",
+          "status": "invalid_confirmed_unit",
+          "reason": "'～'/'カラ': reading should be ～"
+        }
+      ],
       "item_count": 44,
       "region_count": 0,
       "unresolved_count": 9,
@@ -238,12 +247,12 @@
       "source_line_no": 1950563,
       "preview": "アスベストの廃棄処分を行う場合、最終的には「産業廃棄物最終処分場」に運ばれます。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T00:13:41Z",
+      "state_updated_at": "2026-09-15T00:54:24Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 35,
@@ -29277,7 +29286,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -29349,7 +29358,8 @@
               "llm_reading": "ゆば",
               "current_reading_hiragana": "ゆば"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0008:r0011c01",
@@ -30097,7 +30107,7 @@
           "current_reading_hiragana": "ゆば",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "ゆば",
@@ -30184,7 +30194,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260911T043205Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0008:s0018-0019",
@@ -31832,7 +31843,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -31904,7 +31915,8 @@
               "llm_reading": "ゆば",
               "current_reading_hiragana": "ゆば"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0009:r0020c01",
@@ -33784,7 +33796,7 @@
           "current_reading_hiragana": "ゆば",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "ゆば",
@@ -33871,7 +33883,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260911T043205Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0009:s0032-0033",
@@ -39053,7 +39066,8 @@
               "llm_reading": "ゆみば",
               "current_reading_hiragana": "ゆば"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0011:r0006c01",
@@ -40254,7 +40268,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260911T043205Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0011:s0010-0011",
@@ -45085,7 +45100,7 @@
           "token_pos": "名詞,固有名詞,人名,姓,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -45157,7 +45172,8 @@
               "llm_reading": "ゆば",
               "current_reading_hiragana": "ゆば"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0013:r0004c01",
@@ -46133,7 +46149,7 @@
           "current_reading_hiragana": "ゆば",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "ゆば",
@@ -46220,7 +46236,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260911T043205Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000622191:u0013:s0006-0007",
