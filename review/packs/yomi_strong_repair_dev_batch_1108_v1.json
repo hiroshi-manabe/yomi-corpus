@@ -12,7 +12,8 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 10
+      "complete": 9,
+      "final_reviewed": 1
     },
     "repaired_item_count": 2,
     "queued_repair_row_count": 2,
@@ -212,9 +213,9 @@
       "source_line_no": 1518259,
       "preview": "前回に戦前の話を書いたので、今回は日本の最初の石油化学計画について書く。",
       "queue_id": "strong_repair",
-      "state": "complete",
-      "workflow_state": "resolved",
-      "workflow_queue_stage": null,
+      "state": "final_reviewed",
+      "workflow_state": "bulk_submitted",
+      "workflow_queue_stage": "yomi_final_review",
       "queue_member": false,
       "selectable": false,
       "state_updated_at": "2026-09-14T07:03:51Z",
