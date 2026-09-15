@@ -4,7 +4,7 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 2652,
+      "document_count": 2653,
       "finalized_track_doc_seq_ranges": [
         [
           1,
@@ -16,10 +16,6 @@
         ],
         [
           2564,
-          2588
-        ],
-        [
-          2590,
           2592
         ],
         [
@@ -79,7 +75,7 @@
           2670
         ]
       ],
-      "manual_correction_required_count": 0,
+      "manual_correction_required_count": 1,
       "shard_size": 1,
       "shards": [
         {
@@ -23351,6 +23347,15 @@
           "path": "./archive/dev/docs_002588_002588.json",
           "start_track_doc_seq": 2588,
           "end_track_doc_seq": 2588,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1111"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002589_002589.json",
+          "start_track_doc_seq": 2589,
+          "end_track_doc_seq": 2589,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1111"
@@ -73738,6 +73743,25 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_002588_002588.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2589,
+          "doc_id": "ja_cc_level2_corrected_v1:0000271834",
+          "batch_name": "dev_batch_1111",
+          "unit_count": 119,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 1,
+          "skipped_unit_count": 3,
+          "excluded_unit_count": 0,
+          "text_preview": "増毛町歩古丹は既に当ブログで取り上げた。",
+          "archive_revision": "8ff4fb2635e0e906",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1111_v1__2026-09-14T07:21:45.320Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002589_002589.json"
         },
         {
           "track_name": "dev",
