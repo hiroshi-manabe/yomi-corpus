@@ -4,7 +4,7 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 2712,
+      "document_count": 2713,
       "finalized_track_doc_seq_ranges": [
         [
           1,
@@ -20,10 +20,6 @@
         ],
         [
           2594,
-          2603
-        ],
-        [
-          2605,
           2611
         ],
         [
@@ -23557,6 +23553,15 @@
           "path": "./archive/dev/docs_002603_002603.json",
           "start_track_doc_seq": 2603,
           "end_track_doc_seq": 2603,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1113"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002604_002604.json",
+          "start_track_doc_seq": 2604,
+          "end_track_doc_seq": 2604,
           "document_count": 1,
           "batch_names": [
             "dev_batch_1113"
@@ -74626,6 +74631,25 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_002603_002603.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2604,
+          "doc_id": "ja_cc_level2_corrected_v1:0001855094",
+          "batch_name": "dev_batch_1113",
+          "unit_count": 11,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "フランスの人気小説「アルセーヌ・ルパン・シリーズ」の作家モーリス・ルブラン没後70年となる2012年に発見され、話題となった「ルパン、最後の恋」をいち早くミュージカル化。",
+          "archive_revision": "ee441ee8c888acb4",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1113_v1__2026-09-15T01:21:44.152Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002604_002604.json"
         },
         {
           "track_name": "dev",
