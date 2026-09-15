@@ -10,10 +10,9 @@
   "item_count": 14,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_apply_failed": 1
+      "complete": 10
     },
     "repaired_item_count": 14,
     "queued_repair_row_count": 15,
@@ -213,23 +212,14 @@
       "source_line_no": 2393424,
       "preview": "アイヌ人は本州のどこまで南下したか。",
       "queue_id": "strong_repair",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-15T01:03:55Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002393424:u0031::strong_repair",
-          "unit_id": "ja_cc_level2_corrected_v1:0002393424:u0031",
-          "doc_id": "ja_cc_level2_corrected_v1:0002393424",
-          "submission_id": "yomi_strong_repair_dev_batch_1104_v1__2026-09-15T00:15:01.482Z",
-          "status": "invalid_confirmed_unit",
-          "reason": "'～'/'カラ': reading should be ～"
-        }
-      ],
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:09:54Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 1,
       "region_count": 1,
       "unresolved_count": 1,
@@ -7087,7 +7077,7 @@
       "source_line_no": 2393424,
       "text": "東北の古代～中世史を書き換えようとした壮大な偽書『東日流外三郡誌』。",
       "rendered_yomi_before": "東北/トウホク の/ノ 古代/コダイ ～/カラ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ガイ 三郡/サングン 誌/シ 』/』 。/。",
-      "rendered_yomi_after": "東北/トウホク の/ノ 古代/コダイ ～/カラ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ソト 三郡/サングン 誌/シ 』/』 。/。",
+      "rendered_yomi_after": "東北/トウホク の/ノ 古代/コダイ ～/～ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ソト 三郡/サングン 誌/シ 』/』 。/。",
       "rendered_yomi_after_tokens": [
         [
           "東北",
@@ -7103,7 +7093,7 @@
         ],
         [
           "～",
-          "カラ"
+          "～"
         ],
         [
           "中世",
@@ -7209,7 +7199,7 @@
         },
         {
           "surface": "～",
-          "reading": "カラ",
+          "reading": "～",
           "nodes": [
             {
               "type": "text",
@@ -7423,7 +7413,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002393424:u0031",
           "text": "東北の古代～中世史を書き換えようとした壮大な偽書『東日流外三郡誌』。",
           "rendered_yomi_before": "東北/トウホク の/ノ 古代/コダイ ～/カラ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ガイ 三郡/サングン 誌/シ 』/』 。/。",
-          "rendered_yomi_after": "東北/トウホク の/ノ 古代/コダイ ～/カラ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ソト 三郡/サングン 誌/シ 』/』 。/。",
+          "rendered_yomi_after": "東北/トウホク の/ノ 古代/コダイ ～/～ 中世/チュウセイ 史/シ を/ヲ 書き換えよう/カキカエヨウ と/ト し/シ た/タ 壮大/ソウダイ な/ナ 偽書/ギショ 『/『 東日流/ツガル 外/ソト 三郡/サングン 誌/シ 』/』 。/。",
           "display_mapping": {
             "start": 15,
             "end": 17,
