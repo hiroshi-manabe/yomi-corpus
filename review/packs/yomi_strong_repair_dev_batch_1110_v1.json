@@ -10,10 +10,10 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 1,
     "document_state_counts": {
-      "complete": 6,
-      "strong_pending": 4
+      "complete": 9,
+      "strong_apply_failed": 1
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 7,
@@ -31,14 +31,23 @@
       "source_line_no": 2553015,
       "preview": "与謝野晶子の名前と作品は、全国に知れわたった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
+      "state": "strong_apply_failed",
       "workflow_state": "escalated_repair",
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T07:15:11Z",
-      "application_failure_count": 0,
-      "application_failures": [],
+      "state_updated_at": "2026-09-15T01:37:36Z",
+      "application_failure_count": 1,
+      "application_failures": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002553015:u0010::strong_repair",
+          "unit_id": "ja_cc_level2_corrected_v1:0002553015:u0010",
+          "doc_id": "ja_cc_level2_corrected_v1:0002553015",
+          "submission_id": "yomi_strong_repair_dev_batch_1110_v1__2026-09-15T01:26:31.988Z",
+          "status": "invalid_confirmed_unit",
+          "reason": "'ﾄｶ'/'トカ': reading should be ﾄｶ"
+        }
+      ],
       "item_count": 3,
       "region_count": 4,
       "unresolved_count": 4,
@@ -57,12 +66,12 @@
       "source_line_no": 1124782,
       "preview": "僕の体感では二週間ほど、京都には雨が降らなかった。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-14T07:15:11Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -135,12 +144,12 @@
       "source_line_no": 627456,
       "preview": "お猫さまが闊歩するお店としてご紹介したこちらのお店。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-14T07:15:11Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -187,12 +196,12 @@
       "source_line_no": 435957,
       "preview": "大阪歯科大学、関西学院大学、岐阜薬科大学、駒澤大学、芝浦工業大学、大正大学、東洋英和女学院大学、同志社大学、武蔵野美術大学。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-14T07:15:11Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:37Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -1893,7 +1902,7 @@
       "source_line_no": 2553015,
       "text": "「故宮」だろうな、やっぱり・・・なんて思ってしまうロマンティックな激烈恋愛ブログだ。",
       "rendered_yomi_before": "「/「 故宮/コキュウ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
-      "rendered_yomi_after": "「/「 故宮/コキュウ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
+      "rendered_yomi_after": "「/「 故宮/コミヤ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "「",
@@ -1901,7 +1910,7 @@
         ],
         [
           "故宮",
-          "コキュウ"
+          "コミヤ"
         ],
         [
           "」",
@@ -1993,12 +2002,12 @@
         },
         {
           "surface": "故宮",
-          "reading": "コキュウ",
+          "reading": "コミヤ",
           "nodes": [
             {
               "type": "ruby",
               "text": "故宮",
-              "reading": "こきゅう"
+              "reading": "こみや"
             }
           ]
         },
@@ -2213,7 +2222,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002553015:u0030",
           "text": "「故宮」だろうな、やっぱり・・・なんて思ってしまうロマンティックな激烈恋愛ブログだ。",
           "rendered_yomi_before": "「/「 故宮/コキュウ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
-          "rendered_yomi_after": "「/「 故宮/コキュウ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
+          "rendered_yomi_after": "「/「 故宮/コミヤ 」/」 だろう/ダロウ な/ナ 、/、 やっぱり/ヤッパリ ・/・ ・/・ ・/・ なんて/ナンテ 思っ/オモッ て/テ しまう/シマウ ロマンティック/ロマンティック な/ナ 激烈/ゲキレツ 恋愛/レンアイ ブログ/ブログ だ/ダ 。/。",
           "display_mapping": {
             "start": 1,
             "end": 2,
