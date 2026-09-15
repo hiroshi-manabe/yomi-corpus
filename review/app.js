@@ -4405,6 +4405,27 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   const previousSegments = current.manual_segments?.length
     ? current.manual_segments
     : defaultStrongRepairSegments(region);
+  const indexes = strongRepairSplitIndexes(previousSegments);
+  if (indexes.has(boundaryIndex)) {
+    let offset = 0;
+    const nextSegments = previousSegments.map((segment) => ({ ...segment }));
+    for (let index = 0; index < nextSegments.length - 1; index += 1) {
+      offset += reviewSurfaceGraphemes(nextSegments[index].surface).length;
+      if (offset !== boundaryIndex) continue;
+      const left = nextSegments[index];
+      const right = nextSegments[index + 1];
+      nextSegments.splice(index, 2, {
+        surface: left.surface + right.surface,
+        reading: String(left.reading || "") + String(right.reading || ""),
+        edited: Boolean(left.edited || right.edited),
+      });
+      break;
+    }
+    setStrongRepairManualSegments(item, region, nextSegments);
+    touchDraft();
+    render();
+    return;
+  }
   const hasUserEditedReadings = previousSegments.some((segment) => segment.edited);
   if (
     hasUserEditedReadings &&
@@ -4412,12 +4433,7 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
   ) {
     return;
   }
-  const indexes = strongRepairSplitIndexes(previousSegments);
-  if (indexes.has(boundaryIndex)) {
-    indexes.delete(boundaryIndex);
-  } else {
-    indexes.add(boundaryIndex);
-  }
+  indexes.add(boundaryIndex);
   const ordered = [...indexes].sort((a, b) => a - b);
   const chars = reviewSurfaceGraphemes(region.rejected_span);
   let start = 0;
