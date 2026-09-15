@@ -1,0 +1,5147 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1114_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1114",
+  "created_at_epoch": 1789453502,
+  "created_at": "2026-09-15T06:25:02Z",
+  "item_count": 7,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 4,
+    "document_state_counts": {
+      "complete": 6,
+      "strong_pending": 4
+    },
+    "repaired_item_count": 7,
+    "queued_repair_row_count": 7,
+    "result_row_count": 7,
+    "reviewable_repair_row_count": 7,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001824549",
+      "doc_seq": 1,
+      "track_doc_seq": 2611,
+      "unit_count": 9,
+      "source_file": "ja/ja_cc/level2/0230.jsonl.gz",
+      "source_line_no": 1824549,
+      "preview": "これも西たきさんの作品です。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 9,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000899586",
+      "doc_seq": 2,
+      "track_doc_seq": 2612,
+      "unit_count": 3,
+      "source_file": "ja/ja_cc/level2/0091.jsonl.gz",
+      "source_line_no": 899586,
+      "preview": "広島県原爆被害者団体協議会（坪井直理事長）が主催した「被爆７４周年原爆死没者追悼慰霊式」が６日、広島市内で開かれ、日本共産党から山下芳生副委員長があいさつしました。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-15T01:37:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 1,
+      "to_seq": 1,
+      "reviewed_unit_count": 3,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001880205",
+      "doc_seq": 3,
+      "track_doc_seq": 2613,
+      "unit_count": 14,
+      "source_file": "ja/ja_cc/level2/0239.jsonl.gz",
+      "source_line_no": 1880205,
+      "preview": "今週の株式市場は、日経平均株価が約3カ月ぶりに一時1万7000円台を回復し、2カ月近く続いたレンジ相場の上限を突破。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:49Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 14,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002252597",
+      "doc_seq": 4,
+      "track_doc_seq": 2614,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0325.jsonl.gz",
+      "source_line_no": 2252597,
+      "preview": "そのちょっとの伸びがなかなかできてない気がする。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-15T01:37:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 4,
+      "region_count": 4,
+      "unresolved_count": 4,
+      "from_seq": 2,
+      "to_seq": 5,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 4
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002581577",
+      "doc_seq": 5,
+      "track_doc_seq": 2615,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0402.jsonl.gz",
+      "source_line_no": 2581577,
+      "preview": "向こう一週間は、所々に雨雲や雷雲がかかるでしょう。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:49Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001402281",
+      "doc_seq": 6,
+      "track_doc_seq": 2616,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0165.jsonl.gz",
+      "source_line_no": 1402281,
+      "preview": "呪いが解けたストーリーブルックでおとぎ話のキャラクターたちが記憶を取り戻し、28年間離れ離れになっていたエマ（ジェニファー・モリソン）と母の白雪姫は感動の再会を果たす。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-15T01:37:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 6,
+      "to_seq": 6,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001396521",
+      "doc_seq": 7,
+      "track_doc_seq": 2617,
+      "unit_count": 30,
+      "source_file": "ja/ja_cc/level2/0164.jsonl.gz",
+      "source_line_no": 1396521,
+      "preview": "何も読まずにプレイしていて、ふと気になったのが『次の章へ』の文字と緑のゲージ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:49Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 30,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000593150",
+      "doc_seq": 8,
+      "track_doc_seq": 2618,
+      "unit_count": 8,
+      "source_file": "ja/ja_cc/level2/0062.jsonl.gz",
+      "source_line_no": 593150,
+      "preview": "より大きな働きをしてもらいたい。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:49Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 8,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001523517",
+      "doc_seq": 9,
+      "track_doc_seq": 2619,
+      "unit_count": 12,
+      "source_file": "ja/ja_cc/level2/0187.jsonl.gz",
+      "source_line_no": 1523517,
+      "preview": "無農薬野菜を食べたくなったころに読んだ本があります。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T01:37:49Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 12,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000961407",
+      "doc_seq": 10,
+      "track_doc_seq": 2620,
+      "unit_count": 50,
+      "source_file": "ja/ja_cc/level2/0100.jsonl.gz",
+      "source_line_no": 961407,
+      "preview": "愛しい、、今日のみゅうちゃんです。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-15T01:37:48Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 7,
+      "to_seq": 7,
+      "reviewed_unit_count": 50,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0000899586",
+      "doc_seq": 2,
+      "track_doc_seq": 2612,
+      "unit_id": "ja_cc_level2_corrected_v1:0000899586:u0001",
+      "unit_seq": 1,
+      "source_file": "ja/ja_cc/level2/0091.jsonl.gz",
+      "source_line_no": 899586,
+      "text": "広島県原爆被害者団体協議会（坪井直理事長）が主催した「被爆７４周年原爆死没者追悼慰霊式」が６日、広島市内で開かれ、日本共産党から山下芳生副委員長があいさつしました。",
+      "rendered_yomi_before": "広島県/ヒロシマケン 原/ハラ 爆/ 被害者/ヒガイシャ 団体/ダンタイ 協議会/キョウギカイ （/（ 坪井/ツボイ 直/スナオ 理事長/リジチョウ ）/） が/ガ 主催/シュサイ し/シ た/タ 「/「 被爆/ヒバク ７４/ 周年/シュウネン 原爆/ゲンバク 死没/シボツ 者/シャ 追悼/ツイトウ 慰霊/イレイ 式/シキ 」/」 が/ガ ６日/ムイカ 、/、 広島市/ヒロシマシ 内/ナイ で/デ 開か/ヒラカ れ/レ 、/、 日本/ニホン 共産党/キョウサントウ から/カラ 山下/ヤマシタ 芳生/ヨシキ 副/フク 委員長/イインチョウ が/ガ あいさつ/アイサツ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "広島県/ヒロシマケン 原爆/ゲンバク 被害者/ヒガイシャ 団体/ダンタイ 協議会/キョウギカイ （/（ 坪井/ツボイ 直/スナオ 理事長/リジチョウ ）/） が/ガ 主催/シュサイ し/シ た/タ 「/「 被爆/ヒバク ７４/ 周年/シュウネン 原爆/ゲンバク 死没/シボツ 者/シャ 追悼/ツイトウ 慰霊/イレイ 式/シキ 」/」 が/ガ ６日/ムイカ 、/、 広島市/ヒロシマシ 内/ナイ で/デ 開か/ヒラカ れ/レ 、/、 日本/ニホン 共産党/キョウサントウ から/カラ 山下/ヤマシタ 芳生/ヨシキ 副/フク 委員長/イインチョウ が/ガ あいさつ/アイサツ し/シ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "広島県",
+          "ヒロシマケン"
+        ],
+        [
+          "原爆",
+          "ゲンバク"
+        ],
+        [
+          "被害者",
+          "ヒガイシャ"
+        ],
+        [
+          "団体",
+          "ダンタイ"
+        ],
+        [
+          "協議会",
+          "キョウギカイ"
+        ],
+        [
+          "（",
+          "（"
+        ],
+        [
+          "坪井",
+          "ツボイ"
+        ],
+        [
+          "直",
+          "スナオ"
+        ],
+        [
+          "理事長",
+          "リジチョウ"
+        ],
+        [
+          "）",
+          "）"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "主催",
+          "シュサイ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "「",
+          "「"
+        ],
+        [
+          "被爆",
+          "ヒバク"
+        ],
+        [
+          "７４",
+          ""
+        ],
+        [
+          "周年",
+          "シュウネン"
+        ],
+        [
+          "原爆",
+          "ゲンバク"
+        ],
+        [
+          "死没",
+          "シボツ"
+        ],
+        [
+          "者",
+          "シャ"
+        ],
+        [
+          "追悼",
+          "ツイトウ"
+        ],
+        [
+          "慰霊",
+          "イレイ"
+        ],
+        [
+          "式",
+          "シキ"
+        ],
+        [
+          "」",
+          "」"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "６日",
+          "ムイカ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "広島市",
+          "ヒロシマシ"
+        ],
+        [
+          "内",
+          "ナイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "開か",
+          "ヒラカ"
+        ],
+        [
+          "れ",
+          "レ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "日本",
+          "ニホン"
+        ],
+        [
+          "共産党",
+          "キョウサントウ"
+        ],
+        [
+          "から",
+          "カラ"
+        ],
+        [
+          "山下",
+          "ヤマシタ"
+        ],
+        [
+          "芳生",
+          "ヨシキ"
+        ],
+        [
+          "副",
+          "フク"
+        ],
+        [
+          "委員長",
+          "イインチョウ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "あいさつ",
+          "アイサツ"
+        ],
+        [
+          "し",
+          "シ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "広島県",
+          "reading": "ヒロシマケン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広島県",
+              "reading": "ひろしまけん"
+            }
+          ]
+        },
+        {
+          "surface": "原爆",
+          "reading": "ゲンバク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "原爆",
+              "reading": "げんばく"
+            }
+          ]
+        },
+        {
+          "surface": "被害者",
+          "reading": "ヒガイシャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "被害者",
+              "reading": "ひがいしゃ"
+            }
+          ]
+        },
+        {
+          "surface": "団体",
+          "reading": "ダンタイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "団体",
+              "reading": "だんたい"
+            }
+          ]
+        },
+        {
+          "surface": "協議会",
+          "reading": "キョウギカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "協議会",
+              "reading": "きょうぎかい"
+            }
+          ]
+        },
+        {
+          "surface": "（",
+          "reading": "（",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "（"
+            }
+          ]
+        },
+        {
+          "surface": "坪井",
+          "reading": "ツボイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "坪井",
+              "reading": "つぼい"
+            }
+          ]
+        },
+        {
+          "surface": "直",
+          "reading": "スナオ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "直",
+              "reading": "すなお"
+            }
+          ]
+        },
+        {
+          "surface": "理事長",
+          "reading": "リジチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "理事長",
+              "reading": "りじちょう"
+            }
+          ]
+        },
+        {
+          "surface": "）",
+          "reading": "）",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "）"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "主催",
+          "reading": "シュサイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "主催",
+              "reading": "しゅさい"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "「",
+          "reading": "「",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "「"
+            }
+          ]
+        },
+        {
+          "surface": "被爆",
+          "reading": "ヒバク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "被爆",
+              "reading": "ひばく"
+            }
+          ]
+        },
+        {
+          "surface": "７４",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "７４"
+            }
+          ]
+        },
+        {
+          "surface": "周年",
+          "reading": "シュウネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "周年",
+              "reading": "しゅうねん"
+            }
+          ]
+        },
+        {
+          "surface": "原爆",
+          "reading": "ゲンバク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "原爆",
+              "reading": "げんばく"
+            }
+          ]
+        },
+        {
+          "surface": "死没",
+          "reading": "シボツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "死没",
+              "reading": "しぼつ"
+            }
+          ]
+        },
+        {
+          "surface": "者",
+          "reading": "シャ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "者",
+              "reading": "しゃ"
+            }
+          ]
+        },
+        {
+          "surface": "追悼",
+          "reading": "ツイトウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "追悼",
+              "reading": "ついとう"
+            }
+          ]
+        },
+        {
+          "surface": "慰霊",
+          "reading": "イレイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "慰霊",
+              "reading": "いれい"
+            }
+          ]
+        },
+        {
+          "surface": "式",
+          "reading": "シキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "式",
+              "reading": "しき"
+            }
+          ]
+        },
+        {
+          "surface": "」",
+          "reading": "」",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "」"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "６日",
+          "reading": "ムイカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "６日",
+              "reading": "むいか"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "広島市",
+          "reading": "ヒロシマシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "広島市",
+              "reading": "ひろしまし"
+            }
+          ]
+        },
+        {
+          "surface": "内",
+          "reading": "ナイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "内",
+              "reading": "ない"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "開か",
+          "reading": "ヒラカ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "開",
+              "reading": "ひら"
+            },
+            {
+              "type": "text",
+              "text": "か"
+            }
+          ]
+        },
+        {
+          "surface": "れ",
+          "reading": "レ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "れ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "日本",
+          "reading": "ニホン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本",
+              "reading": "にほん"
+            }
+          ]
+        },
+        {
+          "surface": "共産党",
+          "reading": "キョウサントウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "共産党",
+              "reading": "きょうさんとう"
+            }
+          ]
+        },
+        {
+          "surface": "から",
+          "reading": "カラ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "から"
+            }
+          ]
+        },
+        {
+          "surface": "山下",
+          "reading": "ヤマシタ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "山下",
+              "reading": "やました"
+            }
+          ]
+        },
+        {
+          "surface": "芳生",
+          "reading": "ヨシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "芳生",
+              "reading": "よしき"
+            }
+          ]
+        },
+        {
+          "surface": "副",
+          "reading": "フク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "副",
+              "reading": "ふく"
+            }
+          ]
+        },
+        {
+          "surface": "委員長",
+          "reading": "イインチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "委員長",
+              "reading": "いいんちょう"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "あいさつ",
+          "reading": "アイサツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "あいさつ"
+            }
+          ]
+        },
+        {
+          "surface": "し",
+          "reading": "シ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000899586:u0001",
+          "text": "広島県原爆被害者団体協議会（坪井直理事長）が主催した「被爆７４周年原爆死没者追悼慰霊式」が６日、広島市内で開かれ、日本共産党から山下芳生副委員長があいさつしました。",
+          "rendered_yomi_before": "広島県/ヒロシマケン 原/ハラ 爆/ 被害者/ヒガイシャ 団体/ダンタイ 協議会/キョウギカイ （/（ 坪井/ツボイ 直/スナオ 理事長/リジチョウ ）/） が/ガ 主催/シュサイ し/シ た/タ 「/「 被爆/ヒバク ７４/ 周年/シュウネン 原爆/ゲンバク 死没/シボツ 者/シャ 追悼/ツイトウ 慰霊/イレイ 式/シキ 」/」 が/ガ ６日/ムイカ 、/、 広島市/ヒロシマシ 内/ナイ で/デ 開か/ヒラカ れ/レ 、/、 日本/ニホン 共産党/キョウサントウ から/カラ 山下/ヤマシタ 芳生/ヨシキ 副/フク 委員長/イインチョウ が/ガ あいさつ/アイサツ し/シ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "広島県/ヒロシマケン 原爆/ゲンバク 被害者/ヒガイシャ 団体/ダンタイ 協議会/キョウギカイ （/（ 坪井/ツボイ 直/スナオ 理事長/リジチョウ ）/） が/ガ 主催/シュサイ し/シ た/タ 「/「 被爆/ヒバク ７４/ 周年/シュウネン 原爆/ゲンバク 死没/シボツ 者/シャ 追悼/ツイトウ 慰霊/イレイ 式/シキ 」/」 が/ガ ６日/ムイカ 、/、 広島市/ヒロシマシ 内/ナイ で/デ 開か/ヒラカ れ/レ 、/、 日本/ニホン 共産党/キョウサントウ から/カラ 山下/ヤマシタ 芳生/ヨシキ 副/フク 委員長/イインチョウ が/ガ あいさつ/アイサツ し/シ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 3,
+            "char_end": 5,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "原",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "爆",
+              "token_surface": "爆",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0004-0004",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "原",
+              "token_surface": "原",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "はら",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "原",
+                  "reading": "はら",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0005-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "爆",
+              "token_surface": "爆",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "原爆",
+          "reading_candidates": {
+            "原": [
+              "はら",
+              "げん",
+              "はる",
+              "ばら"
+            ],
+            "原爆": [
+              "げんばく"
+            ],
+            "爆": [
+              "ばく"
+            ]
+          },
+          "reading_hints": {
+            "原": "はら",
+            "原爆": "げんばく",
+            "爆": "ばく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"原爆\",\"reading\":\"ゲンバク\",\"used_web_search\":false,\"comment\":\"一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。",
+              "reading": "ゲンバク",
+              "surface": "原爆",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+            "status": "applied",
+            "rejected_span": "原爆",
+            "replacement": [
+              {
+                "surface": "原爆",
+                "reading": "ゲンバク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+                "surface": "原爆",
+                "comment": "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "原爆",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0004-0004",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "原",
+          "token_surface": "原",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "はら",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "原",
+              "reading": "はら",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001:s0005-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "爆",
+          "token_surface": "爆",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "原",
+          "reading": "はら",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "原": [
+          "はら",
+          "げん",
+          "はる",
+          "ばら"
+        ],
+        "原爆": [
+          "げんばく"
+        ],
+        "爆": [
+          "ばく"
+        ]
+      },
+      "reading_hints": {
+        "原": "はら",
+        "原爆": "げんばく",
+        "爆": "ばく"
+      },
+      "llm_parsed": [
+        {
+          "comment": "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。",
+          "reading": "ゲンバク",
+          "surface": "原爆",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"原爆\",\"reading\":\"ゲンバク\",\"used_web_search\":false,\"comment\":\"一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。\"}]",
+      "llm_comments": [
+        "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+        "status": "applied",
+        "rejected_span": "原爆",
+        "replacement": [
+          {
+            "surface": "原爆",
+            "reading": "ゲンバク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000899586:u0001::target_group:1",
+            "surface": "原爆",
+            "comment": "一般的な語として『原爆』は『げんばく』と読むため、ひとまとまりで修正しました。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0002252597",
+      "doc_seq": 4,
+      "track_doc_seq": 2614,
+      "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0003",
+      "unit_seq": 3,
+      "source_file": "ja/ja_cc/level2/0325.jsonl.gz",
+      "source_line_no": 2252597,
+      "text": "第42期棋聖戦の第四局は、黒番井山棋聖の中押し勝ちとなりました。",
+      "rendered_yomi_before": "第/ダイ 42/ 期/キ 棋聖戦/キセイセン の/ノ 第/ダイ 四/ヨン 局/キョク は/ハ 、/、 黒番/クロバン 井山/イヤマ 棋聖/キセイ の/ノ 中押し/ナカオシ 勝ち/カチ と/ト なり/ナリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after": "第/ダイ 42/ 期/キ 棋聖戦/キセイセン の/ノ 第/ダイ 四/ヨン 局/キョク は/ハ 、/、 黒番/クロバン 井山/イヤマ 棋聖/キセイ の/ノ 中押し/ナカオシ 勝ち/カチ と/ト なり/ナリ まし/マシ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "42",
+          ""
+        ],
+        [
+          "期",
+          "キ"
+        ],
+        [
+          "棋聖戦",
+          "キセイセン"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "第",
+          "ダイ"
+        ],
+        [
+          "四",
+          "ヨン"
+        ],
+        [
+          "局",
+          "キョク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "黒番",
+          "クロバン"
+        ],
+        [
+          "井山",
+          "イヤマ"
+        ],
+        [
+          "棋聖",
+          "キセイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "中押し",
+          "ナカオシ"
+        ],
+        [
+          "勝ち",
+          "カチ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "なり",
+          "ナリ"
+        ],
+        [
+          "まし",
+          "マシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "42",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "42"
+            }
+          ]
+        },
+        {
+          "surface": "期",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "期",
+              "reading": "き"
+            }
+          ]
+        },
+        {
+          "surface": "棋聖戦",
+          "reading": "キセイセン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "棋聖戦",
+              "reading": "きせいせん"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "第",
+          "reading": "ダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "第",
+              "reading": "だい"
+            }
+          ]
+        },
+        {
+          "surface": "四",
+          "reading": "ヨン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "四",
+              "reading": "よん"
+            }
+          ]
+        },
+        {
+          "surface": "局",
+          "reading": "キョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "局",
+              "reading": "きょく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "黒番",
+          "reading": "クロバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "黒番",
+              "reading": "くろばん"
+            }
+          ]
+        },
+        {
+          "surface": "井山",
+          "reading": "イヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "井山",
+              "reading": "いやま"
+            }
+          ]
+        },
+        {
+          "surface": "棋聖",
+          "reading": "キセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "棋聖",
+              "reading": "きせい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "中押し",
+          "reading": "ナカオシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "中押",
+              "reading": "なかお"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "勝ち",
+          "reading": "カチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "勝",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "ち"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "なり",
+          "reading": "ナリ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なり"
+            }
+          ]
+        },
+        {
+          "surface": "まし",
+          "reading": "マシ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "まし"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0003",
+          "text": "第42期棋聖戦の第四局は、黒番井山棋聖の中押し勝ちとなりました。",
+          "rendered_yomi_before": "第/ダイ 42/ 期/キ 棋聖戦/キセイセン の/ノ 第/ダイ 四/ヨン 局/キョク は/ハ 、/、 黒番/クロバン 井山/イヤマ 棋聖/キセイ の/ノ 中押し/ナカオシ 勝ち/カチ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "rendered_yomi_after": "第/ダイ 42/ 期/キ 棋聖戦/キセイセン の/ノ 第/ダイ 四/ヨン 局/キョク は/ハ 、/、 黒番/クロバン 井山/イヤマ 棋聖/キセイ の/ノ 中押し/ナカオシ 勝ち/カチ と/ト なり/ナリ まし/マシ た/タ 。/。",
+          "display_mapping": {
+            "start": 14,
+            "end": 15,
+            "char_start": 20,
+            "char_end": 23,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003:s0021-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "中押し",
+              "token_surface": "中押し",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なかおし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "中押し",
+                  "reading": "なかおし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003:s0021-0023",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "中押し",
+              "token_surface": "中押し",
+              "token_index": 14,
+              "chunk_index": 0,
+              "current_reading_hiragana": "なかおし",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "中押し",
+                  "reading": "なかおし",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "中押し",
+          "reading_candidates": {
+            "中": [
+              "ちゅう",
+              "なか",
+              "じゅう",
+              "あたり",
+              "あたる",
+              "うち",
+              "ただし",
+              "ぢゅう",
+              "なかば"
+            ],
+            "中押": [
+              "ちゅうおし"
+            ],
+            "中押し": [
+              "ちゅうおし",
+              "なかおし"
+            ],
+            "押": [
+              "おう",
+              "おし",
+              "おす",
+              "おっ"
+            ],
+            "押し": [
+              "おし"
+            ],
+            "し": [
+              "し"
+            ]
+          },
+          "reading_hints": {
+            "中": "ちゅう",
+            "中押": "ちゅうおし",
+            "中押し": "ちゅうおし",
+            "押": "おう",
+            "押し": "おし",
+            "し": "し"
+          },
+          "rejected_readings": [
+            {
+              "surface": "中押し",
+              "reading": "なかおし",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"中押し\",\"reading\":\"なかおし\",\"used_web_search\":false,\"comment\":\"対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。",
+              "reading": "なかおし",
+              "surface": "中押し",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+            "status": "applied",
+            "rejected_span": "中押し",
+            "replacement": [
+              {
+                "surface": "中押し",
+                "reading": "ナカオシ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+                "surface": "中押し",
+                "comment": "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "中押し",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003:s0021-0023",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "中押し",
+          "token_surface": "中押し",
+          "token_index": 14,
+          "chunk_index": 0,
+          "current_reading_hiragana": "なかおし",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "中押し",
+              "reading": "なかおし",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "中押し",
+          "reading": "なかおし",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "中": [
+          "ちゅう",
+          "なか",
+          "じゅう",
+          "あたり",
+          "あたる",
+          "うち",
+          "ただし",
+          "ぢゅう",
+          "なかば"
+        ],
+        "中押": [
+          "ちゅうおし"
+        ],
+        "中押し": [
+          "ちゅうおし",
+          "なかおし"
+        ],
+        "押": [
+          "おう",
+          "おし",
+          "おす",
+          "おっ"
+        ],
+        "押し": [
+          "おし"
+        ],
+        "し": [
+          "し"
+        ]
+      },
+      "reading_hints": {
+        "中": "ちゅう",
+        "中押": "ちゅうおし",
+        "中押し": "ちゅうおし",
+        "押": "おう",
+        "押し": "おし",
+        "し": "し"
+      },
+      "llm_parsed": [
+        {
+          "comment": "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。",
+          "reading": "なかおし",
+          "surface": "中押し",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"中押し\",\"reading\":\"なかおし\",\"used_web_search\":false,\"comment\":\"対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。\"}]",
+      "llm_comments": [
+        "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+        "status": "applied",
+        "rejected_span": "中押し",
+        "replacement": [
+          {
+            "surface": "中押し",
+            "reading": "ナカオシ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002252597:u0003::target_group:1",
+            "surface": "中押し",
+            "comment": "対局用語の「中押し勝ち」で、ここは「なかおし」と読むのが自然です。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0002252597",
+      "doc_seq": 4,
+      "track_doc_seq": 2614,
+      "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0005",
+      "unit_seq": 5,
+      "source_file": "ja/ja_cc/level2/0325.jsonl.gz",
+      "source_line_no": 2252597,
+      "text": "今日の同好会での3子局のお話。",
+      "rendered_yomi_before": "今日/キョウ の/ノ 同好会/ドウコウカイ で/デ の/ノ 3/ 子局/コキョク の/ノ お/オ 話/ハナシ 。/。",
+      "rendered_yomi_after": "今日/キョウ の/ノ 同好会/ドウコウカイ で/デ の/ノ 3/ 子局/コキョク の/ノ お/オ 話/ハナシ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "今日",
+          "キョウ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "同好会",
+          "ドウコウカイ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "3",
+          ""
+        ],
+        [
+          "子局",
+          "コキョク"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "お",
+          "オ"
+        ],
+        [
+          "話",
+          "ハナシ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "今日",
+          "reading": "キョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "今日",
+              "reading": "きょう"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "同好会",
+          "reading": "ドウコウカイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "同好会",
+              "reading": "どうこうかい"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "3",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "3"
+            }
+          ]
+        },
+        {
+          "surface": "子局",
+          "reading": "コキョク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "子局",
+              "reading": "こきょく"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "お",
+          "reading": "オ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "お"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ハナシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "はなし"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0005",
+          "text": "今日の同好会での3子局のお話。",
+          "rendered_yomi_before": "今日/キョウ の/ノ 同好会/ドウコウカイ で/デ の/ノ 3/ 子局/コキョク の/ノ お/オ 話/ハナシ 。/。",
+          "rendered_yomi_after": "今日/キョウ の/ノ 同好会/ドウコウカイ で/デ の/ノ 3/ 子局/コキョク の/ノ お/オ 話/ハナシ 。/。",
+          "display_mapping": {
+            "start": 6,
+            "end": 7,
+            "char_start": 9,
+            "char_end": 11,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子局",
+              "token_surface": "子局",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こきょく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子局",
+                  "reading": "こきょく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005:s0010-0011",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "子局",
+              "token_surface": "子局",
+              "token_index": 6,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こきょく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "子局",
+                  "reading": "こきょく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "子局",
+          "reading_candidates": {
+            "子": [
+              "こ",
+              "し",
+              "ご",
+              "じ",
+              "ね"
+            ],
+            "子局": [
+              "こきょく"
+            ],
+            "局": [
+              "きょく",
+              "つぼね"
+            ]
+          },
+          "reading_hints": {
+            "子": "こ",
+            "子局": "こきょく",
+            "局": "きょく"
+          },
+          "rejected_readings": [
+            {
+              "surface": "子局",
+              "reading": "こきょく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"子局\",\"reading\":\"こきょく\",\"used_web_search\":false,\"comment\":\"囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。",
+              "reading": "こきょく",
+              "surface": "子局",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+            "status": "applied",
+            "rejected_span": "子局",
+            "replacement": [
+              {
+                "surface": "子局",
+                "reading": "コキョク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+                "surface": "子局",
+                "comment": "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "子局",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005:s0010-0011",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "子局",
+          "token_surface": "子局",
+          "token_index": 6,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こきょく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "子局",
+              "reading": "こきょく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "子局",
+          "reading": "こきょく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "子": [
+          "こ",
+          "し",
+          "ご",
+          "じ",
+          "ね"
+        ],
+        "子局": [
+          "こきょく"
+        ],
+        "局": [
+          "きょく",
+          "つぼね"
+        ]
+      },
+      "reading_hints": {
+        "子": "こ",
+        "子局": "こきょく",
+        "局": "きょく"
+      },
+      "llm_parsed": [
+        {
+          "comment": "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。",
+          "reading": "こきょく",
+          "surface": "子局",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"子局\",\"reading\":\"こきょく\",\"used_web_search\":false,\"comment\":\"囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。\"}]",
+      "llm_comments": [
+        "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+        "status": "applied",
+        "rejected_span": "子局",
+        "replacement": [
+          {
+            "surface": "子局",
+            "reading": "コキョク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002252597:u0005::target_group:1",
+            "surface": "子局",
+            "comment": "囲碁用語の『三子局』の一部で、『子局』は『こきょく』と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 4,
+      "doc_id": "ja_cc_level2_corrected_v1:0002252597",
+      "doc_seq": 4,
+      "track_doc_seq": 2614,
+      "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0006",
+      "unit_seq": 6,
+      "source_file": "ja/ja_cc/level2/0325.jsonl.gz",
+      "source_line_no": 2252597,
+      "text": "白の1手目小目に黒の星ツケ。",
+      "rendered_yomi_before": "白/シロ の/ノ 1/ 手/テ 目/メ 小目/コモク に/ニ 黒/クロ の/ノ 星/ホシ ツケ/ツケ 。/。",
+      "rendered_yomi_after": "白/シロ の/ノ 1/ 手/テ 目/メ 小目/コモク に/ニ 黒/クロ の/ノ 星/ホシ ツケ/ツケ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "白",
+          "シロ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "1",
+          ""
+        ],
+        [
+          "手",
+          "テ"
+        ],
+        [
+          "目",
+          "メ"
+        ],
+        [
+          "小目",
+          "コモク"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "黒",
+          "クロ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "星",
+          "ホシ"
+        ],
+        [
+          "ツケ",
+          "ツケ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "白",
+          "reading": "シロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "白",
+              "reading": "しろ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "1",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "1"
+            }
+          ]
+        },
+        {
+          "surface": "手",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "手",
+              "reading": "て"
+            }
+          ]
+        },
+        {
+          "surface": "目",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "目",
+              "reading": "め"
+            }
+          ]
+        },
+        {
+          "surface": "小目",
+          "reading": "コモク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "小目",
+              "reading": "こもく"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "黒",
+          "reading": "クロ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "黒",
+              "reading": "くろ"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "星",
+          "reading": "ホシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "星",
+              "reading": "ほし"
+            }
+          ]
+        },
+        {
+          "surface": "ツケ",
+          "reading": "ツケ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ツケ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0006",
+          "text": "白の1手目小目に黒の星ツケ。",
+          "rendered_yomi_before": "白/シロ の/ノ 1/ 手/テ 目/メ 小目/コモク に/ニ 黒/クロ の/ノ 星/ホシ ツケ/ツケ 。/。",
+          "rendered_yomi_after": "白/シロ の/ノ 1/ 手/テ 目/メ 小目/コモク に/ニ 黒/クロ の/ノ 星/ホシ ツケ/ツケ 。/。",
+          "display_mapping": {
+            "start": 5,
+            "end": 6,
+            "char_start": 5,
+            "char_end": 7,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小目",
+              "token_surface": "小目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こもく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小目",
+                  "reading": "こもく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006:s0006-0007",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "小目",
+              "token_surface": "小目",
+              "token_index": 5,
+              "chunk_index": 0,
+              "current_reading_hiragana": "こもく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "小目",
+                  "reading": "こもく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "小目",
+          "reading_candidates": {
+            "小": [
+              "しょう",
+              "おむら",
+              "こ",
+              "さ",
+              "ちいさ"
+            ],
+            "小目": [
+              "こもく"
+            ],
+            "目": [
+              "め",
+              "もく",
+              "さがん",
+              "さっか"
+            ]
+          },
+          "reading_hints": {
+            "小": "しょう",
+            "小目": "こもく",
+            "目": "め"
+          },
+          "rejected_readings": [
+            {
+              "surface": "小目",
+              "reading": "こもく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"小目\",\"reading\":\"コモク\",\"used_web_search\":false,\"comment\":\"囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。",
+              "reading": "コモク",
+              "surface": "小目",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+            "status": "applied",
+            "rejected_span": "小目",
+            "replacement": [
+              {
+                "surface": "小目",
+                "reading": "コモク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+                "surface": "小目",
+                "comment": "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "小目",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006:s0006-0007",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "小目",
+          "token_surface": "小目",
+          "token_index": 5,
+          "chunk_index": 0,
+          "current_reading_hiragana": "こもく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "小目",
+              "reading": "こもく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "小目",
+          "reading": "こもく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "小": [
+          "しょう",
+          "おむら",
+          "こ",
+          "さ",
+          "ちいさ"
+        ],
+        "小目": [
+          "こもく"
+        ],
+        "目": [
+          "め",
+          "もく",
+          "さがん",
+          "さっか"
+        ]
+      },
+      "reading_hints": {
+        "小": "しょう",
+        "小目": "こもく",
+        "目": "め"
+      },
+      "llm_parsed": [
+        {
+          "comment": "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。",
+          "reading": "コモク",
+          "surface": "小目",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"小目\",\"reading\":\"コモク\",\"used_web_search\":false,\"comment\":\"囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。\"}]",
+      "llm_comments": [
+        "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+        "status": "applied",
+        "rejected_span": "小目",
+        "replacement": [
+          {
+            "surface": "小目",
+            "reading": "コモク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002252597:u0006::target_group:1",
+            "surface": "小目",
+            "comment": "囲碁用語で「小目」は「こもく」。文脈上も「星ツケ」と対になる定石名。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 5,
+      "doc_id": "ja_cc_level2_corrected_v1:0002252597",
+      "doc_seq": 4,
+      "track_doc_seq": 2614,
+      "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0009",
+      "unit_seq": 9,
+      "source_file": "ja/ja_cc/level2/0325.jsonl.gz",
+      "source_line_no": 2252597,
+      "text": "井山名人に、張栩九段が挑む形になっています。",
+      "rendered_yomi_before": "井山/イヤマ 名人/メイジン に/ニ 、/、 張栩/チョウク 九/ク 段/ダン が/ガ 挑む/イドム 形/カタチ に/ニ なっ/ナッ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after": "井山/イヤマ 名人/メイジン に/ニ 、/、 張/チョウ 栩/ウ 九/ク 段/ダン が/ガ 挑む/イドム 形/カタチ に/ニ なっ/ナッ て/テ い/イ ます/マス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "井山",
+          "イヤマ"
+        ],
+        [
+          "名人",
+          "メイジン"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "張",
+          "チョウ"
+        ],
+        [
+          "栩",
+          "ウ"
+        ],
+        [
+          "九",
+          "ク"
+        ],
+        [
+          "段",
+          "ダン"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "挑む",
+          "イドム"
+        ],
+        [
+          "形",
+          "カタチ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "なっ",
+          "ナッ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "い",
+          "イ"
+        ],
+        [
+          "ます",
+          "マス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "井山",
+          "reading": "イヤマ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "井山",
+              "reading": "いやま"
+            }
+          ]
+        },
+        {
+          "surface": "名人",
+          "reading": "メイジン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "名人",
+              "reading": "めいじん"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "張",
+          "reading": "チョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "張",
+              "reading": "ちょう"
+            }
+          ]
+        },
+        {
+          "surface": "栩",
+          "reading": "ウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "栩",
+              "reading": "う"
+            }
+          ]
+        },
+        {
+          "surface": "九",
+          "reading": "ク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "九",
+              "reading": "く"
+            }
+          ]
+        },
+        {
+          "surface": "段",
+          "reading": "ダン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "段",
+              "reading": "だん"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "挑む",
+          "reading": "イドム",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "挑",
+              "reading": "いど"
+            },
+            {
+              "type": "text",
+              "text": "む"
+            }
+          ]
+        },
+        {
+          "surface": "形",
+          "reading": "カタチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "形",
+              "reading": "かたち"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "なっ",
+          "reading": "ナッ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "なっ"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "い",
+          "reading": "イ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "い"
+            }
+          ]
+        },
+        {
+          "surface": "ます",
+          "reading": "マス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ます"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0002252597:u0009",
+          "text": "井山名人に、張栩九段が挑む形になっています。",
+          "rendered_yomi_before": "井山/イヤマ 名人/メイジン に/ニ 、/、 張栩/チョウク 九/ク 段/ダン が/ガ 挑む/イドム 形/カタチ に/ニ なっ/ナッ て/テ い/イ ます/マス 。/。",
+          "rendered_yomi_after": "井山/イヤマ 名人/メイジン に/ニ 、/、 張/チョウ 栩/ウ 九/ク 段/ダン が/ガ 挑む/イドム 形/カタチ に/ニ なっ/ナッ て/テ い/イ ます/マス 。/。",
+          "display_mapping": {
+            "start": 4,
+            "end": 6,
+            "char_start": 6,
+            "char_end": 8,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "張栩",
+              "token_surface": "張栩",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょうく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "張栩",
+                  "reading": "ちょうく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009:s0007-0008",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "張栩",
+              "token_surface": "張栩",
+              "token_index": 4,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ちょうく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "張栩",
+                  "reading": "ちょうく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "張栩",
+          "reading_candidates": {
+            "張": [
+              "ちゃん",
+              "ちょう",
+              "はり",
+              "ばり",
+              "ぱり"
+            ],
+            "張栩": [
+              "ちょうく"
+            ],
+            "栩": [
+              "く"
+            ]
+          },
+          "reading_hints": {
+            "張": "ちゃん",
+            "張栩": "ちょうく",
+            "栩": "く"
+          },
+          "rejected_readings": [
+            {
+              "surface": "張栩",
+              "reading": "ちょうく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[\n  {\n    \"surface\": \"張\",\n    \"reading\": \"チョウ\",\n    \"used_web_search\": true,\n    \"comment\": \"日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"栩\",\n    \"reading\": \"ウ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))\"\n  }\n]",
+          "llm_parsed": [
+            {
+              "comment": "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+              "reading": "チョウ",
+              "surface": "張",
+              "used_web_search": true
+            },
+            {
+              "comment": "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+              "reading": "ウ",
+              "surface": "栩",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+            "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+            "status": "applied",
+            "rejected_span": "張栩",
+            "replacement": [
+              {
+                "surface": "張",
+                "reading": "チョウ"
+              },
+              {
+                "surface": "栩",
+                "reading": "ウ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+                "surface": "張栩",
+                "comment": "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+                "surface": "張栩",
+                "comment": "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "張栩",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009:s0007-0008",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "張栩",
+          "token_surface": "張栩",
+          "token_index": 4,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ちょうく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "張栩",
+              "reading": "ちょうく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "張栩",
+          "reading": "ちょうく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "張": [
+          "ちゃん",
+          "ちょう",
+          "はり",
+          "ばり",
+          "ぱり"
+        ],
+        "張栩": [
+          "ちょうく"
+        ],
+        "栩": [
+          "く"
+        ]
+      },
+      "reading_hints": {
+        "張": "ちゃん",
+        "張栩": "ちょうく",
+        "栩": "く"
+      },
+      "llm_parsed": [
+        {
+          "comment": "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+          "reading": "チョウ",
+          "surface": "張",
+          "used_web_search": true
+        },
+        {
+          "comment": "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+          "reading": "ウ",
+          "surface": "栩",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[\n  {\n    \"surface\": \"張\",\n    \"reading\": \"チョウ\",\n    \"used_web_search\": true,\n    \"comment\": \"日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))\"\n  },\n  {\n    \"surface\": \"栩\",\n    \"reading\": \"ウ\",\n    \"used_web_search\": true,\n    \"comment\": \"同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))\"\n  }\n]",
+      "llm_comments": [
+        "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+        "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+        "status": "applied",
+        "rejected_span": "張栩",
+        "replacement": [
+          {
+            "surface": "張",
+            "reading": "チョウ"
+          },
+          {
+            "surface": "栩",
+            "reading": "ウ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+            "surface": "張栩",
+            "comment": "日本棋院では棋士名を「張　栩（チョウ　ウ）」と示しており、姓の部分として分けた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0002252597:u0009::target_group:1",
+            "surface": "張栩",
+            "comment": "同じく日本棋院の表記で名の読みが「ウ」と確認できるため、個人名として独立させた。 ([nihonkiin.or.jp](https://www.nihonkiin.or.jp/player/kana/?utm_source=openai))",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 6,
+      "doc_id": "ja_cc_level2_corrected_v1:0001402281",
+      "doc_seq": 6,
+      "track_doc_seq": 2616,
+      "unit_id": "ja_cc_level2_corrected_v1:0001402281:u0007",
+      "unit_seq": 7,
+      "source_file": "ja/ja_cc/level2/0165.jsonl.gz",
+      "source_line_no": 1402281,
+      "text": "2012年/アメリカ/全22話/日本語字幕版製作総指揮：アダム・ホロウィッツ、エドワード・キッツィス出演：ジェニファー・モリソン、ジャレッド・ギルモア、ジニファー・グッドウィン、ジョシュ・ダラス、ラナ・パリーヤ嘘で塗り固めた生活に嫌気が差したブロディ。",
+      "rendered_yomi_before": "2012/ 年/ネン /// アメリカ/アメリカ /// 全/ゼン 22/ 話/ワ /// 日本語/ニホンゴ 字幕版/ジマクバン 製作/セイサク 総指揮/ソウシキ ：/： アダム/アダム ・/・ ホロウィッツ/ホロウィッツ 、/、 エドワード/エドワード ・/・ キッツィス/キッツィス 出/デ 演/ ：/： ジェニファー/ジェニファー ・/・ モリソン/モリソン 、/、 ジャ/ジャ レッド/レッド ・/・ ギルモア/ギルモア 、/、 ジニ/ジニ ファー/ファー ・/・ グッド/グッド ウィン/ウィン 、/、 ジョシュ/ジョシュ ・/・ ダラス/ダラス 、/、 ラナ/ラナ ・/・ パリー/パリー ヤ/ヤ 嘘/ウソ で/デ 塗り固め/ヌリカタメ た/タ 生活/セイカツ に/ニ 嫌気/イヤケ が/ガ 差し/サシ た/タ ブロディ/ブロディ 。/。",
+      "rendered_yomi_after": "2012/ 年/ネン \\//\\/ アメリカ/アメリカ \\//\\/ 全/ゼン 22/ 話/ワ \\//\\/ 日本語/ニホンゴ 字幕版/ジマクバン 製作/セイサク 総指揮/ソウシキ ：/： アダム/アダム ・/・ ホロウィッツ/ホロウィッツ 、/、 エドワード/エドワード ・/・ キッツィス/キッツィス 出演/シュツエン ：/： ジェニファー/ジェニファー ・/・ モリソン/モリソン 、/、 ジャ/ジャ レッド/レッド ・/・ ギルモア/ギルモア 、/、 ジニ/ジニ ファー/ファー ・/・ グッド/グッド ウィン/ウィン 、/、 ジョシュ/ジョシュ ・/・ ダラス/ダラス 、/、 ラナ/ラナ ・/・ パリー/パリー ヤ/ヤ 嘘/ウソ で/デ 塗り固め/ヌリカタメ た/タ 生活/セイカツ に/ニ 嫌気/イヤケ が/ガ 差し/サシ た/タ ブロディ/ブロディ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "2012",
+          ""
+        ],
+        [
+          "年",
+          "ネン"
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "アメリカ",
+          "アメリカ"
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "全",
+          "ゼン"
+        ],
+        [
+          "22",
+          ""
+        ],
+        [
+          "話",
+          "ワ"
+        ],
+        [
+          "/",
+          "/"
+        ],
+        [
+          "日本語",
+          "ニホンゴ"
+        ],
+        [
+          "字幕版",
+          "ジマクバン"
+        ],
+        [
+          "製作",
+          "セイサク"
+        ],
+        [
+          "総指揮",
+          "ソウシキ"
+        ],
+        [
+          "：",
+          "："
+        ],
+        [
+          "アダム",
+          "アダム"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "ホロウィッツ",
+          "ホロウィッツ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "エドワード",
+          "エドワード"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "キッツィス",
+          "キッツィス"
+        ],
+        [
+          "出演",
+          "シュツエン"
+        ],
+        [
+          "：",
+          "："
+        ],
+        [
+          "ジェニファー",
+          "ジェニファー"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "モリソン",
+          "モリソン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ジャ",
+          "ジャ"
+        ],
+        [
+          "レッド",
+          "レッド"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "ギルモア",
+          "ギルモア"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ジニ",
+          "ジニ"
+        ],
+        [
+          "ファー",
+          "ファー"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "グッド",
+          "グッド"
+        ],
+        [
+          "ウィン",
+          "ウィン"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ジョシュ",
+          "ジョシュ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "ダラス",
+          "ダラス"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "ラナ",
+          "ラナ"
+        ],
+        [
+          "・",
+          "・"
+        ],
+        [
+          "パリー",
+          "パリー"
+        ],
+        [
+          "ヤ",
+          "ヤ"
+        ],
+        [
+          "嘘",
+          "ウソ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "塗り固め",
+          "ヌリカタメ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "生活",
+          "セイカツ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "嫌気",
+          "イヤケ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "差し",
+          "サシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "ブロディ",
+          "ブロディ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "2012",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "2012"
+            }
+          ]
+        },
+        {
+          "surface": "年",
+          "reading": "ネン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "年",
+              "reading": "ねん"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "アメリカ",
+          "reading": "アメリカ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アメリカ"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "全",
+          "reading": "ゼン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "全",
+              "reading": "ぜん"
+            }
+          ]
+        },
+        {
+          "surface": "22",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "22"
+            }
+          ]
+        },
+        {
+          "surface": "話",
+          "reading": "ワ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "話",
+              "reading": "わ"
+            }
+          ]
+        },
+        {
+          "surface": "/",
+          "reading": "/",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "/"
+            }
+          ]
+        },
+        {
+          "surface": "日本語",
+          "reading": "ニホンゴ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "日本語",
+              "reading": "にほんご"
+            }
+          ]
+        },
+        {
+          "surface": "字幕版",
+          "reading": "ジマクバン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "字幕版",
+              "reading": "じまくばん"
+            }
+          ]
+        },
+        {
+          "surface": "製作",
+          "reading": "セイサク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "製作",
+              "reading": "せいさく"
+            }
+          ]
+        },
+        {
+          "surface": "総指揮",
+          "reading": "ソウシキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "総指揮",
+              "reading": "そうしき"
+            }
+          ]
+        },
+        {
+          "surface": "：",
+          "reading": "：",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "："
+            }
+          ]
+        },
+        {
+          "surface": "アダム",
+          "reading": "アダム",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "アダム"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "ホロウィッツ",
+          "reading": "ホロウィッツ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ホロウィッツ"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "エドワード",
+          "reading": "エドワード",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "エドワード"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "キッツィス",
+          "reading": "キッツィス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "キッツィス"
+            }
+          ]
+        },
+        {
+          "surface": "出演",
+          "reading": "シュツエン",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出演",
+              "reading": "しゅつえん"
+            }
+          ]
+        },
+        {
+          "surface": "：",
+          "reading": "：",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "："
+            }
+          ]
+        },
+        {
+          "surface": "ジェニファー",
+          "reading": "ジェニファー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジェニファー"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "モリソン",
+          "reading": "モリソン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "モリソン"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ジャ",
+          "reading": "ジャ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジャ"
+            }
+          ]
+        },
+        {
+          "surface": "レッド",
+          "reading": "レッド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "レッド"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "ギルモア",
+          "reading": "ギルモア",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ギルモア"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ジニ",
+          "reading": "ジニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジニ"
+            }
+          ]
+        },
+        {
+          "surface": "ファー",
+          "reading": "ファー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ファー"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "グッド",
+          "reading": "グッド",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "グッド"
+            }
+          ]
+        },
+        {
+          "surface": "ウィン",
+          "reading": "ウィン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ウィン"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ジョシュ",
+          "reading": "ジョシュ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ジョシュ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "ダラス",
+          "reading": "ダラス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ダラス"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "ラナ",
+          "reading": "ラナ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ラナ"
+            }
+          ]
+        },
+        {
+          "surface": "・",
+          "reading": "・",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "・"
+            }
+          ]
+        },
+        {
+          "surface": "パリー",
+          "reading": "パリー",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "パリー"
+            }
+          ]
+        },
+        {
+          "surface": "ヤ",
+          "reading": "ヤ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ヤ"
+            }
+          ]
+        },
+        {
+          "surface": "嘘",
+          "reading": "ウソ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嘘",
+              "reading": "うそ"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "塗り固め",
+          "reading": "ヌリカタメ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "塗",
+              "reading": "ぬ"
+            },
+            {
+              "type": "text",
+              "text": "り"
+            },
+            {
+              "type": "ruby",
+              "text": "固",
+              "reading": "かた"
+            },
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "生活",
+          "reading": "セイカツ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "生活",
+              "reading": "せいかつ"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "嫌気",
+          "reading": "イヤケ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "嫌気",
+              "reading": "いやけ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "差し",
+          "reading": "サシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "差",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "ブロディ",
+          "reading": "ブロディ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ブロディ"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001402281:u0007",
+          "text": "2012年/アメリカ/全22話/日本語字幕版製作総指揮：アダム・ホロウィッツ、エドワード・キッツィス出演：ジェニファー・モリソン、ジャレッド・ギルモア、ジニファー・グッドウィン、ジョシュ・ダラス、ラナ・パリーヤ嘘で塗り固めた生活に嫌気が差したブロディ。",
+          "rendered_yomi_before": "2012/ 年/ネン /// アメリカ/アメリカ /// 全/ゼン 22/ 話/ワ /// 日本語/ニホンゴ 字幕版/ジマクバン 製作/セイサク 総指揮/ソウシキ ：/： アダム/アダム ・/・ ホロウィッツ/ホロウィッツ 、/、 エドワード/エドワード ・/・ キッツィス/キッツィス 出/デ 演/ ：/： ジェニファー/ジェニファー ・/・ モリソン/モリソン 、/、 ジャ/ジャ レッド/レッド ・/・ ギルモア/ギルモア 、/、 ジニ/ジニ ファー/ファー ・/・ グッド/グッド ウィン/ウィン 、/、 ジョシュ/ジョシュ ・/・ ダラス/ダラス 、/、 ラナ/ラナ ・/・ パリー/パリー ヤ/ヤ 嘘/ウソ で/デ 塗り固め/ヌリカタメ た/タ 生活/セイカツ に/ニ 嫌気/イヤケ が/ガ 差し/サシ た/タ ブロディ/ブロディ 。/。",
+          "rendered_yomi_after": "2012/ 年/ネン \\//\\/ アメリカ/アメリカ \\//\\/ 全/ゼン 22/ 話/ワ \\//\\/ 日本語/ニホンゴ 字幕版/ジマクバン 製作/セイサク 総指揮/ソウシキ ：/： アダム/アダム ・/・ ホロウィッツ/ホロウィッツ 、/、 エドワード/エドワード ・/・ キッツィス/キッツィス 出演/シュツエン ：/： ジェニファー/ジェニファー ・/・ モリソン/モリソン 、/、 ジャ/ジャ レッド/レッド ・/・ ギルモア/ギルモア 、/、 ジニ/ジニ ファー/ファー ・/・ グッド/グッド ウィン/ウィン 、/、 ジョシュ/ジョシュ ・/・ ダラス/ダラス 、/、 ラナ/ラナ ・/・ パリー/パリー ヤ/ヤ 嘘/ウソ で/デ 塗り固め/ヌリカタメ た/タ 生活/セイカツ に/ニ 嫌気/イヤケ が/ガ 差し/サシ た/タ ブロディ/ブロディ 。/。",
+          "display_mapping": {
+            "start": 21,
+            "end": 22,
+            "char_start": 50,
+            "char_end": 52,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0051-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "出",
+              "token_surface": "出",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "で",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "出",
+                  "reading": "で",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0052-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "演",
+              "token_surface": "演",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0051-0051",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "出",
+              "token_surface": "出",
+              "token_index": 21,
+              "chunk_index": 0,
+              "current_reading_hiragana": "で",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "出",
+                  "reading": "で",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0052-0052",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "演",
+              "token_surface": "演",
+              "token_index": 22,
+              "chunk_index": 0,
+              "current_reading_hiragana": null,
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved"
+            }
+          ],
+          "rejected_span": "出演",
+          "reading_candidates": {
+            "出": [
+              "で",
+              "しゅつ",
+              "いずる",
+              "いづ",
+              "いづる",
+              "いで"
+            ],
+            "出演": [
+              "しゅつえん"
+            ],
+            "演": [
+              "えん",
+              "ひろし"
+            ]
+          },
+          "reading_hints": {
+            "出": "で",
+            "出演": "しゅつえん",
+            "演": "えん"
+          },
+          "rejected_readings": [
+            {
+              "surface": "出",
+              "reading": "で",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"出演\",\"reading\":\"シュツエン\",\"used_web_search\":false,\"comment\":\"文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。",
+              "reading": "シュツエン",
+              "surface": "出演",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+            "status": "applied",
+            "rejected_span": "出演",
+            "replacement": [
+              {
+                "surface": "出演",
+                "reading": "シュツエン"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+                "surface": "出演",
+                "comment": "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "出演",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0051-0051",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "出",
+          "token_surface": "出",
+          "token_index": 21,
+          "chunk_index": 0,
+          "current_reading_hiragana": "で",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "出",
+              "reading": "で",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007:s0052-0052",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "演",
+          "token_surface": "演",
+          "token_index": 22,
+          "chunk_index": 0,
+          "current_reading_hiragana": null,
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved"
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "出",
+          "reading": "で",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "出": [
+          "で",
+          "しゅつ",
+          "いずる",
+          "いづ",
+          "いづる",
+          "いで"
+        ],
+        "出演": [
+          "しゅつえん"
+        ],
+        "演": [
+          "えん",
+          "ひろし"
+        ]
+      },
+      "reading_hints": {
+        "出": "で",
+        "出演": "しゅつえん",
+        "演": "えん"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。",
+          "reading": "シュツエン",
+          "surface": "出演",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"出演\",\"reading\":\"シュツエン\",\"used_web_search\":false,\"comment\":\"文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。\"}]",
+      "llm_comments": [
+        "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+        "status": "applied",
+        "rejected_span": "出演",
+        "replacement": [
+          {
+            "surface": "出演",
+            "reading": "シュツエン"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001402281:u0007::target_group:1",
+            "surface": "出演",
+            "comment": "文脈ではクレジットの見出しで、一般的に「出演」は一語で「しゅつえん」と読む。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 7,
+      "doc_id": "ja_cc_level2_corrected_v1:0000961407",
+      "doc_seq": 10,
+      "track_doc_seq": 2620,
+      "unit_id": "ja_cc_level2_corrected_v1:0000961407:u0032",
+      "unit_seq": 32,
+      "source_file": "ja/ja_cc/level2/0100.jsonl.gz",
+      "source_line_no": 961407,
+      "text": "胸に針を刺すのだが、、血壁が厚く4回、、場所を変えて5回めでようやく胸水が出てきた。",
+      "rendered_yomi_before": "胸/ムネ に/ニ 針/ハリ を/ヲ 刺す/サス の/ノ だ/ダ が/ガ 、/、 、/、 血/チ 壁/カベ が/ガ 厚く/アツク 4/ 回/カイ 、/、 、/、 場所/バショ を/ヲ 変え/カエ て/テ 5/ 回/カイ め/メ で/デ ようやく/ヨウヤク 胸水/キョウスイ が/ガ 出/デ て/テ き/キ た/タ 。/。",
+      "rendered_yomi_after": "胸/ムネ に/ニ 針/ハリ を/ヲ 刺す/サス の/ノ だ/ダ が/ガ 、/、 、/、 血壁/キョウヘキ が/ガ 厚く/アツク 4/ 回/カイ 、/、 、/、 場所/バショ を/ヲ 変え/カエ て/テ 5/ 回/カイ め/メ で/デ ようやく/ヨウヤク 胸水/キョウスイ が/ガ 出/デ て/テ き/キ た/タ 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "胸",
+          "ムネ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "針",
+          "ハリ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "刺す",
+          "サス"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "だ",
+          "ダ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "血壁",
+          "キョウヘキ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "厚く",
+          "アツク"
+        ],
+        [
+          "4",
+          ""
+        ],
+        [
+          "回",
+          "カイ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "場所",
+          "バショ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "変え",
+          "カエ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "5",
+          ""
+        ],
+        [
+          "回",
+          "カイ"
+        ],
+        [
+          "め",
+          "メ"
+        ],
+        [
+          "で",
+          "デ"
+        ],
+        [
+          "ようやく",
+          "ヨウヤク"
+        ],
+        [
+          "胸水",
+          "キョウスイ"
+        ],
+        [
+          "が",
+          "ガ"
+        ],
+        [
+          "出",
+          "デ"
+        ],
+        [
+          "て",
+          "テ"
+        ],
+        [
+          "き",
+          "キ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "胸",
+          "reading": "ムネ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "胸",
+              "reading": "むね"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "針",
+          "reading": "ハリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "針",
+              "reading": "はり"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "刺す",
+          "reading": "サス",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "刺",
+              "reading": "さ"
+            },
+            {
+              "type": "text",
+              "text": "す"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "だ",
+          "reading": "ダ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "だ"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "血壁",
+          "reading": "キョウヘキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "血壁",
+              "reading": "きょうへき"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "厚く",
+          "reading": "アツク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "厚",
+              "reading": "あつ"
+            },
+            {
+              "type": "text",
+              "text": "く"
+            }
+          ]
+        },
+        {
+          "surface": "4",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "4"
+            }
+          ]
+        },
+        {
+          "surface": "回",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "場所",
+          "reading": "バショ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "場所",
+              "reading": "ばしょ"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "変え",
+          "reading": "カエ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "変",
+              "reading": "か"
+            },
+            {
+              "type": "text",
+              "text": "え"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "5",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ]
+        },
+        {
+          "surface": "回",
+          "reading": "カイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "回",
+              "reading": "かい"
+            }
+          ]
+        },
+        {
+          "surface": "め",
+          "reading": "メ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "め"
+            }
+          ]
+        },
+        {
+          "surface": "で",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "で"
+            }
+          ]
+        },
+        {
+          "surface": "ようやく",
+          "reading": "ヨウヤク",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "ようやく"
+            }
+          ]
+        },
+        {
+          "surface": "胸水",
+          "reading": "キョウスイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "胸水",
+              "reading": "きょうすい"
+            }
+          ]
+        },
+        {
+          "surface": "が",
+          "reading": "ガ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "が"
+            }
+          ]
+        },
+        {
+          "surface": "出",
+          "reading": "デ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "出",
+              "reading": "で"
+            }
+          ]
+        },
+        {
+          "surface": "て",
+          "reading": "テ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "て"
+            }
+          ]
+        },
+        {
+          "surface": "き",
+          "reading": "キ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "き"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0000961407:u0032",
+          "text": "胸に針を刺すのだが、、血壁が厚く4回、、場所を変えて5回めでようやく胸水が出てきた。",
+          "rendered_yomi_before": "胸/ムネ に/ニ 針/ハリ を/ヲ 刺す/サス の/ノ だ/ダ が/ガ 、/、 、/、 血/チ 壁/カベ が/ガ 厚く/アツク 4/ 回/カイ 、/、 、/、 場所/バショ を/ヲ 変え/カエ て/テ 5/ 回/カイ め/メ で/デ ようやく/ヨウヤク 胸水/キョウスイ が/ガ 出/デ て/テ き/キ た/タ 。/。",
+          "rendered_yomi_after": "胸/ムネ に/ニ 針/ハリ を/ヲ 刺す/サス の/ノ だ/ダ が/ガ 、/、 、/、 血壁/キョウヘキ が/ガ 厚く/アツク 4/ 回/カイ 、/、 、/、 場所/バショ を/ヲ 変え/カエ て/テ 5/ 回/カイ め/メ で/デ ようやく/ヨウヤク 胸水/キョウスイ が/ガ 出/デ て/テ き/キ た/タ 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 11,
+            "char_end": 13,
+            "start_offset": 0,
+            "end_offset": 2,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "血",
+              "token_surface": "血",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "血",
+                  "reading": "ち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "壁",
+              "token_surface": "壁",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かべ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "壁",
+                  "reading": "かべ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0012-0012",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "血",
+              "token_surface": "血",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "ち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "血",
+                  "reading": "ち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "壁",
+              "token_surface": "壁",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "かべ",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "壁",
+                  "reading": "かべ",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "血壁",
+          "reading_candidates": {
+            "血": [
+              "けっ",
+              "けつ",
+              "ち"
+            ],
+            "壁": [
+              "かべ",
+              "へき"
+            ]
+          },
+          "reading_hints": {
+            "血": "けっ",
+            "壁": "かべ"
+          },
+          "rejected_readings": [
+            {
+              "surface": "血",
+              "reading": "ち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "壁",
+              "reading": "かべ",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"血壁\",\"reading\":\"キョウヘキ\",\"used_web_search\":false,\"comment\":\"文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。",
+              "reading": "キョウヘキ",
+              "surface": "血壁",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+            "status": "applied",
+            "rejected_span": "血壁",
+            "replacement": [
+              {
+                "surface": "血壁",
+                "reading": "キョウヘキ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+                "surface": "血壁",
+                "comment": "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "血壁",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0012-0012",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "血",
+          "token_surface": "血",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "ち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "血",
+              "reading": "ち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "壁",
+          "token_surface": "壁",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "かべ",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "壁",
+              "reading": "かべ",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "血",
+          "reading": "ち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "壁",
+          "reading": "かべ",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "血": [
+          "けっ",
+          "けつ",
+          "ち"
+        ],
+        "壁": [
+          "かべ",
+          "へき"
+        ]
+      },
+      "reading_hints": {
+        "血": "けっ",
+        "壁": "かべ"
+      },
+      "llm_parsed": [
+        {
+          "comment": "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。",
+          "reading": "キョウヘキ",
+          "surface": "血壁",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"血壁\",\"reading\":\"キョウヘキ\",\"used_web_search\":false,\"comment\":\"文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。\"}]",
+      "llm_comments": [
+        "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+        "status": "applied",
+        "rejected_span": "血壁",
+        "replacement": [
+          {
+            "surface": "血壁",
+            "reading": "キョウヘキ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0000961407:u0032::target_group:1",
+            "surface": "血壁",
+            "comment": "文脈上は「胸壁（きょうへき）」のことと判断。胸に針を刺す場面で「胸壁が厚く」が自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
