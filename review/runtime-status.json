@@ -1,45 +1,45 @@
 {
   "schema_version": 1,
   "track_name": "dev",
-  "state_revision": 9198,
-  "generated_at": "2026-09-15T07:34:44Z",
-  "generated_at_epoch": 1789457684,
-  "last_successful_sync": "2026-09-15T07:34:44Z",
-  "last_successful_sync_epoch": 1789457684,
+  "state_revision": 9199,
+  "generated_at": "2026-09-15T07:46:43Z",
+  "generated_at_epoch": 1789458403,
+  "last_successful_sync": "2026-09-15T07:46:43Z",
+  "last_successful_sync_epoch": 1789458403,
   "status": "waiting_for_review",
   "schedule": {
-    "anchor_epoch": 1789457504,
+    "anchor_epoch": 1789458234,
     "interval_seconds": 300,
     "grace_seconds": 90,
-    "next_expected_epoch": 1789457804
+    "next_expected_epoch": 1789458534
   },
   "state": {
-    "current_batch_name": "dev_batch_1142",
-    "current_stage": "final_review_prepared",
-    "next_stage": "final_review_applied",
-    "active_queue_count": 115,
+    "current_batch_name": "dev_batch_1143",
+    "current_stage": "yomi_reading_queued",
+    "next_stage": "yomi_reading_llm_completed",
+    "active_queue_count": 101,
     "queue_counts": {
-      "bulk_review_selectable": 80,
-      "bulk_review_submitted": 51,
-      "escalated_repair_selectable": 35,
+      "bulk_review_selectable": 60,
+      "bulk_review_submitted": 50,
+      "escalated_repair_selectable": 41,
       "escalated_repair_submitted": 0,
-      "resolved": 114
+      "resolved": 119
     },
     "pool_counts": {
-      "bulk-ready": 80,
-      "bulk-submitted": 51,
-      "escalated-ready": 35,
+      "bulk-ready": 60,
+      "bulk-submitted": 50,
+      "escalated-ready": 41,
       "escalated-submitted": 0,
       "prepared": 0,
-      "resolved": 114,
+      "resolved": 119,
       "unprocessed": 0
     }
   },
   "message": "",
   "observed": {
-    "started_at_epoch": 1789457504,
-    "completed_at_epoch": 1789457684,
-    "drift_seconds": 105
+    "started_at_epoch": 1789458234,
+    "completed_at_epoch": 1789458403,
+    "drift_seconds": 130
   },
   "client_polling": {
     "normal_seconds": 60,
