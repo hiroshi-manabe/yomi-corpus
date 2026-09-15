@@ -4,7 +4,7 @@
   "tracks": {
     "dev": {
       "track_name": "dev",
-      "document_count": 2659,
+      "document_count": 2666,
       "finalized_track_doc_seq_ranges": [
         [
           1,
@@ -93,9 +93,21 @@
         [
           2689,
           2690
+        ],
+        [
+          2701,
+          2702
+        ],
+        [
+          2704,
+          2704
+        ],
+        [
+          2706,
+          2709
         ]
       ],
-      "manual_correction_required_count": 1,
+      "manual_correction_required_count": 0,
       "shard_size": 1,
       "shards": [
         {
@@ -24027,6 +24039,69 @@
           "document_count": 1,
           "batch_names": [
             "dev_batch_1121"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002701_002701.json",
+          "start_track_doc_seq": 2701,
+          "end_track_doc_seq": 2701,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002702_002702.json",
+          "start_track_doc_seq": 2702,
+          "end_track_doc_seq": 2702,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002704_002704.json",
+          "start_track_doc_seq": 2704,
+          "end_track_doc_seq": 2704,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002706_002706.json",
+          "start_track_doc_seq": 2706,
+          "end_track_doc_seq": 2706,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002707_002707.json",
+          "start_track_doc_seq": 2707,
+          "end_track_doc_seq": 2707,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002708_002708.json",
+          "start_track_doc_seq": 2708,
+          "end_track_doc_seq": 2708,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
+          ]
+        },
+        {
+          "path": "./archive/dev/docs_002709_002709.json",
+          "start_track_doc_seq": 2709,
+          "end_track_doc_seq": 2709,
+          "document_count": 1,
+          "batch_names": [
+            "dev_batch_1123"
           ]
         }
       ],
@@ -73824,17 +73899,19 @@
           "doc_id": "ja_cc_level2_corrected_v1:0000271834",
           "batch_name": "dev_batch_1111",
           "unit_count": 119,
-          "finalized_correction_count": 0,
-          "finalized_correction_sentence_count": 0,
-          "manual_correction_required_count": 1,
+          "finalized_correction_count": 1,
+          "finalized_correction_sentence_count": 1,
+          "manual_correction_required_count": 0,
           "skipped_unit_count": 3,
           "excluded_unit_count": 0,
           "text_preview": "増毛町歩古丹は既に当ブログで取り上げた。",
-          "archive_revision": "8ff4fb2635e0e906",
+          "archive_revision": "7bfe32c6be059972",
           "applied_review_submission_ids": [
             "yomi_final_dev_batch_1111_v1__2026-09-14T07:21:45.320Z"
           ],
-          "applied_finalized_correction_submission_ids": [],
+          "applied_finalized_correction_submission_ids": [
+            "finalized_correction__client__dev_2589__ca343b5b466f408a9b2491940366690f"
+          ],
           "shard_path": "./archive/dev/docs_002589_002589.json"
         },
         {
@@ -75204,6 +75281,139 @@
           ],
           "applied_finalized_correction_submission_ids": [],
           "shard_path": "./archive/dev/docs_002690_002690.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2701,
+          "doc_id": "ja_cc_level2_corrected_v1:0000267428",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 12,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "皆さんも是非一度、草津へ遊びに行ってみて下さい。",
+          "archive_revision": "9d9a7aa514ab9e98",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002701_002701.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2702,
+          "doc_id": "ja_cc_level2_corrected_v1:0001279646",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 40,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "としみじみ思ったのは、水曜日のことでありました。",
+          "archive_revision": "fa7f78e4249b3954",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002702_002702.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2704,
+          "doc_id": "ja_cc_level2_corrected_v1:0001846097",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 17,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "2枚目の写真は大あくびのハク。",
+          "archive_revision": "e1cde5cdd29921b7",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002704_002704.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2706,
+          "doc_id": "ja_cc_level2_corrected_v1:0001750896",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 26,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "寒い冬は暖かい鍋に限ります。",
+          "archive_revision": "3e89575883012a3f",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002706_002706.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2707,
+          "doc_id": "ja_cc_level2_corrected_v1:0000090135",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 11,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 1,
+          "excluded_unit_count": 0,
+          "text_preview": "6月の第3日曜日は父の日ですが、父の日の由来は何だったのか気になったので調べてみました。",
+          "archive_revision": "21f83b8a4c4924cd",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002707_002707.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2708,
+          "doc_id": "ja_cc_level2_corrected_v1:0001481253",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 4,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "16年3月期の連結最終利益を従来予想の8億円→12億円(前期は11.4億円)に50.0％上方修正し、一転して5.0％増益見通しとなった。",
+          "archive_revision": "18b55c22367120e9",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002708_002708.json"
+        },
+        {
+          "track_name": "dev",
+          "track_doc_seq": 2709,
+          "doc_id": "ja_cc_level2_corrected_v1:0000900573",
+          "batch_name": "dev_batch_1123",
+          "unit_count": 2,
+          "finalized_correction_count": 0,
+          "finalized_correction_sentence_count": 0,
+          "manual_correction_required_count": 0,
+          "skipped_unit_count": 0,
+          "excluded_unit_count": 0,
+          "text_preview": "甘えん坊の飼い猫が幾つになっても、母猫のように可愛がってくれる飼い主のせいで、子猫の気分を持ち続ける。",
+          "archive_revision": "960273b02977e94a",
+          "applied_review_submission_ids": [
+            "yomi_final_dev_batch_1123_v1__2026-09-15T04:43:09.909Z"
+          ],
+          "applied_finalized_correction_submission_ids": [],
+          "shard_path": "./archive/dev/docs_002709_002709.json"
         }
       ],
       "search_path": "./archive/dev/search.json"
