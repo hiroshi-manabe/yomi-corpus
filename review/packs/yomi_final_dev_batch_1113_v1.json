@@ -34,7 +34,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 22,
@@ -60,7 +60,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 20,
@@ -86,7 +86,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 6,
@@ -112,7 +112,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -138,7 +138,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 14,
@@ -164,7 +164,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 21,
@@ -190,7 +190,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -216,7 +216,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 23,
@@ -242,7 +242,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 3,
@@ -268,7 +268,7 @@
       "workflow_queue_stage": "yomi_final_review",
       "queue_member": true,
       "selectable": true,
-      "state_updated_at": "2026-09-14T04:54:04Z",
+      "state_updated_at": "2026-09-15T00:20:11Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 14,
@@ -7995,7 +7995,7 @@
                   "text": "っ"
                 }
               ],
-              "historical_count": 249
+              "historical_count": 250
             },
             {
               "id": "dictionary:5",
@@ -9090,12 +9090,13 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ちょう",
               "accepted": false,
-              "historical_count": 0,
+              "historical_count": 1,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -9931,7 +9932,8 @@
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "ちょうかご",
@@ -15756,7 +15758,7 @@
               "label": "Dictionary",
               "reading": "にん",
               "accepted": false,
-              "historical_count": 1248,
+              "historical_count": 1249,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -15785,7 +15787,7 @@
               ]
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "source": "learned_repair",
               "sources": [
                 "learned_repair"
@@ -16605,7 +16607,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:1",
+                "learned_repair:2",
                 "dictionary:2"
               ],
               "source": "current",
@@ -16634,7 +16636,7 @@
               "id": "dictionary:1",
               "candidate_ids": [
                 "dictionary:1",
-                "learned_repair:3"
+                "learned_repair:1"
               ],
               "source": "dictionary",
               "sources": [
@@ -16656,7 +16658,7 @@
                   "reading": "にん"
                 }
               ],
-              "historical_count": 1248
+              "historical_count": 1249
             },
             {
               "id": "dictionary:0",
@@ -16687,9 +16689,9 @@
               "historical_count": 94
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "candidate_ids": [
-                "learned_repair:2"
+                "learned_repair:3"
               ],
               "source": "learned_repair",
               "sources": [
@@ -21962,7 +21964,7 @@
               "label": "Dictionary",
               "reading": "にん",
               "accepted": false,
-              "historical_count": 1248,
+              "historical_count": 1249,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -21991,7 +21993,7 @@
               ]
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "source": "learned_repair",
               "sources": [
                 "learned_repair"
@@ -24188,7 +24190,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:1",
+                "learned_repair:2",
                 "dictionary:2"
               ],
               "source": "current",
@@ -24217,7 +24219,7 @@
               "id": "dictionary:1",
               "candidate_ids": [
                 "dictionary:1",
-                "learned_repair:3"
+                "learned_repair:1"
               ],
               "source": "dictionary",
               "sources": [
@@ -24239,7 +24241,7 @@
                   "reading": "にん"
                 }
               ],
-              "historical_count": 1248
+              "historical_count": 1249
             },
             {
               "id": "dictionary:0",
@@ -24270,9 +24272,9 @@
               "historical_count": 94
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "candidate_ids": [
-                "learned_repair:2"
+                "learned_repair:3"
               ],
               "source": "learned_repair",
               "sources": [
@@ -45807,7 +45809,7 @@
               "label": "Dictionary",
               "reading": "なに",
               "accepted": false,
-              "historical_count": 579,
+              "historical_count": 580,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -47202,7 +47204,7 @@
                   "reading": "なに"
                 }
               ],
-              "historical_count": 579
+              "historical_count": 580
             },
             {
               "id": "dictionary:0",
@@ -100388,7 +100390,7 @@
               "label": "Dictionary",
               "reading": "ふん",
               "accepted": false,
-              "historical_count": 121,
+              "historical_count": 122,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -101715,7 +101717,7 @@
                   "reading": "ふん"
                 }
               ],
-              "historical_count": 121
+              "historical_count": 122
             },
             {
               "id": "dictionary:1",
@@ -188389,7 +188391,7 @@
               "label": "Dictionary",
               "reading": "にん",
               "accepted": false,
-              "historical_count": 1248,
+              "historical_count": 1249,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -188418,7 +188420,7 @@
               ]
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "source": "learned_repair",
               "sources": [
                 "learned_repair"
@@ -189100,6 +189102,25 @@
               ]
             },
             {
+              "id": "dictionary:1",
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "よみ",
+              "accepted": false,
+              "historical_count": 2,
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "読",
+                  "reading": "よみ"
+                }
+              ]
+            },
+            {
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
@@ -189114,24 +189135,6 @@
                   "type": "ruby",
                   "text": "読",
                   "reading": "どく"
-                }
-              ]
-            },
-            {
-              "id": "dictionary:1",
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "よみ",
-              "accepted": false,
-              "historical_count": 0,
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "読",
-                  "reading": "よみ"
                 }
               ]
             },
@@ -189239,7 +189242,7 @@
               "label": "Dictionary",
               "reading": "ぽん",
               "accepted": false,
-              "historical_count": 112,
+              "historical_count": 114,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -189258,7 +189261,7 @@
               "label": "Dictionary",
               "reading": "ぼん",
               "accepted": false,
-              "historical_count": 58,
+              "historical_count": 59,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -189386,7 +189389,7 @@
               "label": "Dictionary",
               "reading": "にっぽん",
               "accepted": false,
-              "historical_count": 1357,
+              "historical_count": 1358,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -190477,7 +190480,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:1",
+                "learned_repair:2",
                 "dictionary:2"
               ],
               "source": "current",
@@ -190506,7 +190509,7 @@
               "id": "dictionary:1",
               "candidate_ids": [
                 "dictionary:1",
-                "learned_repair:3"
+                "learned_repair:1"
               ],
               "source": "dictionary",
               "sources": [
@@ -190528,7 +190531,7 @@
                   "reading": "にん"
                 }
               ],
-              "historical_count": 1248
+              "historical_count": 1249
             },
             {
               "id": "dictionary:0",
@@ -190559,9 +190562,9 @@
               "historical_count": 94
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "candidate_ids": [
-                "learned_repair:2"
+                "learned_repair:3"
               ],
               "source": "learned_repair",
               "sources": [
@@ -191453,6 +191456,37 @@
               ]
             },
             {
+              "id": "dictionary:1",
+              "candidate_ids": [
+                "dictionary:1"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "よみむ",
+              "tokens": [
+                [
+                  "読む",
+                  "ヨミム"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "読",
+                  "reading": "よみ"
+                },
+                {
+                  "type": "text",
+                  "text": "む"
+                }
+              ],
+              "historical_count": 0
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -191474,36 +191508,6 @@
                   "type": "ruby",
                   "text": "読",
                   "reading": "どく"
-                },
-                {
-                  "type": "text",
-                  "text": "む"
-                }
-              ],
-              "historical_count": 0
-            },
-            {
-              "id": "dictionary:1",
-              "candidate_ids": [
-                "dictionary:1"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "よみむ",
-              "tokens": [
-                [
-                  "読む",
-                  "ヨミム"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "読",
-                  "reading": "よみ"
                 },
                 {
                   "type": "text",
@@ -191650,7 +191654,7 @@
                   "reading": "ぽん"
                 }
               ],
-              "historical_count": 112
+              "historical_count": 114
             },
             {
               "id": "dictionary:1",
@@ -191678,7 +191682,7 @@
                   "reading": "ぼん"
                 }
               ],
-              "historical_count": 58
+              "historical_count": 59
             },
             {
               "id": "dictionary:3",
@@ -191837,7 +191841,7 @@
                   "reading": "にっぽん"
                 }
               ],
-              "historical_count": 1357
+              "historical_count": 1358
             },
             {
               "id": "none",
@@ -221565,7 +221569,7 @@
               ]
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "source": "learned_repair",
               "sources": [
                 "learned_repair"
@@ -222166,7 +222170,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:3",
+                "learned_repair:1",
                 "dictionary:1"
               ],
               "source": "current",
@@ -222196,7 +222200,7 @@
               "id": "dictionary:2",
               "candidate_ids": [
                 "dictionary:2",
-                "learned_repair:1"
+                "learned_repair:2"
               ],
               "source": "dictionary",
               "sources": [
@@ -222249,9 +222253,9 @@
               "historical_count": 94
             },
             {
-              "id": "learned_repair:2",
+              "id": "learned_repair:3",
               "candidate_ids": [
-                "learned_repair:2"
+                "learned_repair:3"
               ],
               "source": "learned_repair",
               "sources": [
@@ -264162,7 +264166,7 @@
               "label": "Dictionary",
               "reading": "た",
               "accepted": false,
-              "historical_count": 334,
+              "historical_count": 335,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -265235,7 +265239,7 @@
                   "reading": "た"
                 }
               ],
-              "historical_count": 334
+              "historical_count": 335
             },
             {
               "id": "dictionary:0",
@@ -283085,7 +283089,7 @@
               "label": "Dictionary",
               "reading": "がいしゃ",
               "accepted": false,
-              "historical_count": 231,
+              "historical_count": 232,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -283830,7 +283834,7 @@
                   "reading": "がいしゃ"
                 }
               ],
-              "historical_count": 231
+              "historical_count": 232
             },
             {
               "id": "none",
@@ -332655,7 +332659,7 @@
               "label": "Dictionary",
               "reading": "なに",
               "accepted": false,
-              "historical_count": 579,
+              "historical_count": 580,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -332853,7 +332857,7 @@
                   "reading": "なに"
                 }
               ],
-              "historical_count": 579
+              "historical_count": 580
             },
             {
               "id": "dictionary:0",
