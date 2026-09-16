@@ -398,6 +398,7 @@ async function openPack(stageId, packId) {
 }
 
 async function openUnifiedReview() {
+  state.manifest = await fetchJson(manifestUrl);
   const reviewSources = activeDevYomiReviewSources();
   if (reviewSources.length === 0) {
     const fallbackStage = Object.keys(state.manifest.stages || {})[0];
@@ -408,9 +409,11 @@ async function openUnifiedReview() {
   state.unifiedSourceMetas = reviewSources;
   let sources = [];
   let usingSummary = false;
+  let finalizedRanges = null;
   const summaryPath = state.manifest?.current_review_summary?.path;
   if (summaryPath) {
     const summary = await fetchJson(summaryPath);
+    finalizedRanges = summary.finalized_track_doc_seq_ranges ?? null;
     const packsById = new Map((summary.packs || []).map((pack) => [pack.pack_id, pack]));
     sources = reviewSources
       .map((source) => ({ meta: source, pack: packsById.get(source.pack_id) }))
@@ -425,6 +428,7 @@ async function openUnifiedReview() {
   }
   const unified = buildUnifiedReviewPack(sources);
   unified.summary_only = usingSummary;
+  unified.finalized_track_doc_seq_ranges = usingSummary ? finalizedRanges : null;
   state.currentPackMeta = {
     pack_id: unified.pack_id,
     title: unified.title,
@@ -7511,7 +7515,8 @@ function finalizedArchiveContainsDocumentRef(ref) {
   if (!Number.isInteger(seq) || seq <= 0) {
     return false;
   }
-  const ranges = state.manifest?.archive?.tracks?.dev?.finalized_track_doc_seq_ranges || [];
+  const ranges = state.unifiedDashboardPack?.finalized_track_doc_seq_ranges
+    ?? state.manifest?.archive?.tracks?.dev?.finalized_track_doc_seq_ranges ?? [];
   return ranges.some(
     (range) => Array.isArray(range) && seq >= Number(range[0]) && seq <= Number(range[1]),
   );
