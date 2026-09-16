@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_apply_failed": 1
+      "complete": 10
     },
     "unresolved_item_count": 23,
     "unresolved_target_count": 27,
@@ -186,23 +185,14 @@
       "source_line_no": 1582061,
       "preview": "スタプリぷりきゅ～とタウンの彩色フィギュア「ぷりきゅ～と」を購入しました。",
       "queue_id": "final_review",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-16T06:31:56Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0001582061:u0003::strong_repair",
-          "unit_id": "ja_cc_level2_corrected_v1:0001582061:u0003",
-          "doc_id": "ja_cc_level2_corrected_v1:0001582061",
-          "submission_id": "yomi_strong_repair_dev_batch_1127_v1__2026-09-16T05:26:30.477Z",
-          "status": "invalid_confirmed_unit",
-          "reason": "'ゅー'/'ゅー': reading should be ュー"
-        }
-      ],
+      "state_updated_at": "2026-09-16T06:38:28Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 8,
       "region_count": 0,
       "unresolved_count": 5,
