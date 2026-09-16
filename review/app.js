@@ -3327,9 +3327,27 @@ function renderSavedTaskDrafts(docs) {
   );
   renderSavedTaskGroup(
     "提出済みのローカルタスク",
-    savedTasks.filter((record) => taskRecordStatus(record) === "submitted"),
+    savedTasks.filter((record) => taskRecordStatus(record) === "submitted"
+      && !savedTaskIsFullyServerAcknowledged(record)),
     docs,
   );
+}
+
+function savedTaskIsFullyServerAcknowledged(record) {
+  const ids = taskDocIdsForStorageTask(record.task);
+  const currentDocs = buildDocumentTasks(state.currentPack);
+  const stage = localTaskRecordStage(record);
+  // Use actual queue records, not synthetic processing placeholders derived
+  // from this same local submission. Keep partially acknowledged tasks visible.
+  return ids.length > 0 && ids.every((id) => {
+    const doc = currentDocs.find((candidate) => taskDocKey(candidate) === String(id))
+      || { doc_id: baseDocIdFromTaskDocId(id), queue_stage: stage };
+    if (doc.state === "strong_apply_failed" || doc.finalization_error
+        || doc.application_failures?.length || docHasSubmissionConflict(doc)) {
+      return false;
+    }
+    return docIsProcessingOnServer(doc);
+  });
 }
 
 function renderSavedTaskGroup(titleText, records, docs) {
