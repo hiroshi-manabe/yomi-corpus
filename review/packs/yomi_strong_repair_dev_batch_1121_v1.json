@@ -10,11 +10,10 @@
   "item_count": 7,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 4,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 5,
-      "skipped": 1,
-      "strong_pending": 4
+      "complete": 9,
+      "skipped": 1
     },
     "repaired_item_count": 7,
     "queued_repair_row_count": 9,
@@ -58,12 +57,12 @@
       "source_line_no": 1340739,
       "preview": "昭和初期に発表された私小説「業苦」の冒頭にこんな一文がある。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-16T01:45:51Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T01:56:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -110,12 +109,12 @@
       "source_line_no": 1018550,
       "preview": "百商一気運営委員会では、与謝野町を過去～未来の子供たちが誇れるまちに、帰ってくることができる町にするため、「桜」で与謝野町を盛り上げます。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-16T01:45:51Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T01:56:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -162,12 +161,12 @@
       "source_line_no": 1408921,
       "preview": "ブリューヌの動乱より半年。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-16T01:45:51Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T01:56:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -214,12 +213,12 @@
       "source_line_no": 1199460,
       "preview": "本体工事が進む群馬県長野原町の八ツ場（やんば）ダムで、国土交通省は4月1日から一般個人や団体向けの工事見学ツアー観光プロジェクト「やんばツアーズ」をスタートさせる。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-16T01:45:51Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-16T01:56:42Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -1403,15 +1402,11 @@
       "source_line_no": 1340739,
       "text": "無煤のクレーンが立ち並ぶオリンピック選手村の建設現場。",
       "rendered_yomi_before": "無/ム 煤/スス の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
-      "rendered_yomi_after": "無/ム 煤/バイ の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
+      "rendered_yomi_after": "無煤/ムバイ の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
       "rendered_yomi_after_tokens": [
         [
-          "無",
-          "ム"
-        ],
-        [
-          "煤",
-          "バイ"
+          "無煤",
+          "ムバイ"
         ],
         [
           "の",
@@ -1456,24 +1451,13 @@
       ],
       "rendered_yomi_after_ruby_tokens": [
         {
-          "surface": "無",
-          "reading": "ム",
+          "surface": "無煤",
+          "reading": "ムバイ",
           "nodes": [
             {
               "type": "ruby",
-              "text": "無",
-              "reading": "む"
-            }
-          ]
-        },
-        {
-          "surface": "煤",
-          "reading": "バイ",
-          "nodes": [
-            {
-              "type": "ruby",
-              "text": "煤",
-              "reading": "ばい"
+              "text": "無煤",
+              "reading": "むばい"
             }
           ]
         },
@@ -1608,14 +1592,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0001340739:u0018",
           "text": "無煤のクレーンが立ち並ぶオリンピック選手村の建設現場。",
           "rendered_yomi_before": "無/ム 煤/スス の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
-          "rendered_yomi_after": "無/ム 煤/バイ の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
+          "rendered_yomi_after": "無煤/ムバイ の/ノ クレーン/クレーン が/ガ 立ち並ぶ/タチナラブ オリンピック/オリンピック 選手村/センシュムラ の/ノ 建設/ケンセツ 現場/ゲンバ 。/。",
           "display_mapping": {
             "start": 0,
-            "end": 2,
+            "end": 1,
             "char_start": 0,
             "char_end": 2,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 2,
             "prefix": "",
             "suffix": ""
           },
