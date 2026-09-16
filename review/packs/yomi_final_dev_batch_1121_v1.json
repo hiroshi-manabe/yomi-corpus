@@ -62,7 +62,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-16T01:23:54Z",
+      "state_updated_at": "2026-09-16T01:45:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 25,
@@ -114,7 +114,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-16T01:23:54Z",
+      "state_updated_at": "2026-09-16T01:45:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -166,7 +166,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-16T01:23:54Z",
+      "state_updated_at": "2026-09-16T01:45:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -218,7 +218,7 @@
       "workflow_queue_stage": "yomi_strong_repair_review",
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-16T01:23:54Z",
+      "state_updated_at": "2026-09-16T01:45:51Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 23,
@@ -70281,12 +70281,13 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "し",
               "accepted": false,
-              "historical_count": 59,
+              "historical_count": 60,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -74059,7 +74060,7 @@
               "id": "llm",
               "candidate_ids": [
                 "llm",
-                "learned_repair:0",
+                "learned_repair:1",
                 "dictionary:2"
               ],
               "source": "llm",
@@ -74088,11 +74089,13 @@
             {
               "id": "dictionary:0",
               "candidate_ids": [
-                "dictionary:0"
+                "dictionary:0",
+                "learned_repair:0"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "し",
@@ -74109,13 +74112,13 @@
                   "reading": "し"
                 }
               ],
-              "historical_count": 59
+              "historical_count": 60
             },
             {
               "id": "dictionary:4",
               "candidate_ids": [
                 "dictionary:4",
-                "learned_repair:1"
+                "learned_repair:2"
               ],
               "source": "dictionary",
               "sources": [
@@ -149345,6 +149348,39 @@
               ]
             },
             {
+              "id": "dictionary:4",
+              "candidate_ids": [
+                "dictionary:4",
+                "learned_repair:0",
+                "dictionary:0"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "きたる",
+              "tokens": [
+                [
+                  "来る",
+                  "キタル"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "来",
+                  "reading": "きた"
+                },
+                {
+                  "type": "text",
+                  "text": "る"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -149433,37 +149469,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:4",
-              "candidate_ids": [
-                "dictionary:4",
-                "dictionary:0"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "きたる",
-              "tokens": [
-                [
-                  "来る",
-                  "キタル"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "来",
-                  "reading": "きた"
-                },
-                {
-                  "type": "text",
-                  "text": "る"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "none",
@@ -254328,7 +254333,7 @@
               "label": "Dictionary",
               "reading": "ごく",
               "accepted": false,
-              "historical_count": 3,
+              "historical_count": 4,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -255777,7 +255782,7 @@
                   "reading": "ごく"
                 }
               ],
-              "historical_count": 3
+              "historical_count": 4
             },
             {
               "id": "dictionary:1",
@@ -365503,7 +365508,7 @@
               "label": "Dictionary",
               "reading": "ごく",
               "accepted": false,
-              "historical_count": 3,
+              "historical_count": 4,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -368990,7 +368995,7 @@
                   "reading": "ごく"
                 }
               ],
-              "historical_count": 3
+              "historical_count": 4
             },
             {
               "id": "dictionary:1",
@@ -465999,6 +466004,39 @@
               ]
             },
             {
+              "id": "dictionary:4",
+              "candidate_ids": [
+                "dictionary:4",
+                "learned_repair:0",
+                "dictionary:0"
+              ],
+              "source": "dictionary",
+              "sources": [
+                "dictionary",
+                "learned_repair"
+              ],
+              "label": "Dictionary",
+              "reading": "きたる",
+              "tokens": [
+                [
+                  "来る",
+                  "キタル"
+                ]
+              ],
+              "ruby_nodes": [
+                {
+                  "type": "ruby",
+                  "text": "来",
+                  "reading": "きた"
+                },
+                {
+                  "type": "text",
+                  "text": "る"
+                }
+              ],
+              "historical_count": 2
+            },
+            {
               "id": "dictionary:0",
               "candidate_ids": [
                 "dictionary:0"
@@ -466087,37 +466125,6 @@
                 }
               ],
               "historical_count": 0
-            },
-            {
-              "id": "dictionary:4",
-              "candidate_ids": [
-                "dictionary:4",
-                "dictionary:0"
-              ],
-              "source": "dictionary",
-              "sources": [
-                "dictionary"
-              ],
-              "label": "Dictionary",
-              "reading": "きたる",
-              "tokens": [
-                [
-                  "来る",
-                  "キタル"
-                ]
-              ],
-              "ruby_nodes": [
-                {
-                  "type": "ruby",
-                  "text": "来",
-                  "reading": "きた"
-                },
-                {
-                  "type": "text",
-                  "text": "る"
-                }
-              ],
-              "historical_count": 1
             },
             {
               "id": "none",
