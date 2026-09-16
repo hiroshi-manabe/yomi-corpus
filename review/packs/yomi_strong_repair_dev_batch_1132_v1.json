@@ -1,0 +1,2005 @@
+{
+  "schema_version": 1,
+  "review_stage": "yomi_strong_repair_review",
+  "queue_id": "strong_repair",
+  "pack_id": "yomi_strong_repair_dev_batch_1132_v1",
+  "track_name": "dev",
+  "batch_name": "dev_batch_1132",
+  "created_at_epoch": 1789545343,
+  "created_at": "2026-09-16T07:55:43Z",
+  "item_count": 3,
+  "summary": {
+    "document_count": 10,
+    "selectable_document_count": 2,
+    "document_state_counts": {
+      "complete": 8,
+      "strong_pending": 2
+    },
+    "repaired_item_count": 3,
+    "queued_repair_row_count": 3,
+    "result_row_count": 3,
+    "reviewable_repair_row_count": 3,
+    "mapping_error_count": 0
+  },
+  "documents": [
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001956568",
+      "doc_seq": 1,
+      "track_doc_seq": 2791,
+      "unit_count": 20,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1956568,
+      "preview": "ジヌはいらね～、こんな里が福島にあった。",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-16T07:55:45Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 2,
+      "region_count": 2,
+      "unresolved_count": 2,
+      "from_seq": 1,
+      "to_seq": 2,
+      "reviewed_unit_count": 20,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 2
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001036310",
+      "doc_seq": 2,
+      "track_doc_seq": 2792,
+      "unit_count": 26,
+      "source_file": "ja/ja_cc/level2/0111.jsonl.gz",
+      "source_line_no": 1036310,
+      "preview": "今日は恒久のトライアルの隣にあります、ラーメン洋に初訪問。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 26,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001525938",
+      "doc_seq": 3,
+      "track_doc_seq": 2793,
+      "unit_count": 16,
+      "source_file": "ja/ja_cc/level2/0187.jsonl.gz",
+      "source_line_no": 1525938,
+      "preview": "ただ、妙に感性を刺激してくるのだ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 16,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001787679",
+      "doc_seq": 4,
+      "track_doc_seq": 2794,
+      "unit_count": 43,
+      "source_file": "ja/ja_cc/level2/0225.jsonl.gz",
+      "source_line_no": 1787679,
+      "preview": "九州電力や東京電力は実質破綻してるでしょ。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 43,
+      "skipped_unit_count": 1,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001930275",
+      "doc_seq": 5,
+      "track_doc_seq": 2795,
+      "unit_count": 22,
+      "source_file": "ja/ja_cc/level2/0249.jsonl.gz",
+      "source_line_no": 1930275,
+      "preview": "『千葉県５４市町村走破まで、残り７つの市と町ラッカ！",
+      "queue_id": "strong_repair",
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": true,
+      "selectable": true,
+      "state_updated_at": "2026-09-16T07:55:45Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 1,
+      "region_count": 1,
+      "unresolved_count": 1,
+      "from_seq": 3,
+      "to_seq": 3,
+      "reviewed_unit_count": 22,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 1
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002147460",
+      "doc_seq": 6,
+      "track_doc_seq": 2796,
+      "unit_count": 11,
+      "source_file": "ja/ja_cc/level2/0296.jsonl.gz",
+      "source_line_no": 2147460,
+      "preview": "マロが珍獣を見るような目で隠れて見ているのは。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 11,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000551557",
+      "doc_seq": 7,
+      "track_doc_seq": 2797,
+      "unit_count": 1,
+      "source_file": "ja/ja_cc/level2/0060.jsonl.gz",
+      "source_line_no": 551557,
+      "preview": "１　不動産登記用紙の閉鎖の回復手続を求める訴の許否　２　行政事件訴訟特例法のもとにおける行政処分の無効確認判決の効力１　弁護士法第２５条第４号違反の訴訟行為の効力　２　侯補者の氏名の記載以外に人の氏名と判読できる無色の記載の跡のある投票が有効と認められた事例１　就業規則所定の懲戒解雇事由に該当し、かつ労使間で当該行為のあった者をすべて懲戒解雇する旨の確認書が取り交わされている行為（営業用自動車無断運転行為）のあった場合と懲戒解雇の適否　２　過去１年間の残業実績を基礎とする解雇後の残業手当請求の当否　３　解雇前出勤禁止命令を受けて就労できなかった場合と労基法上の平均賃金の算出方法　４　原告が前の仮賃金仮払仮処分によって仮払を受けた金額を賃金額から控除し、残余の部分のみを請求した場合の処理　５　仮処分に基づく賃金仮払と労基法の休業手当との関係　６　労基法第１１４条の附加金支払命令の必要を認めなかった事例１　麻薬取締法第６４条の２第２項にいう営利の目的の意義　２　麻薬粉末を計量小分けするため所持する行為と売りさばきを依頼してその一部を他人に交付する行為との罪数慰藉料請求権の相続を否定した３件　（その１）１　橋の手前の道路の照明の不備につき、県の道路管理の瑕疵に基づく損害賠償責任を認めた事例　２　慰藉料請求権の相続性の有無（消極）　（その２）１　下請会社代表者の個人名義の自動車の事故につき元請会社の運行供用者責任が認められた事例　２　慰藉料請求権の相続性の有無（消極）　（その３）１　運送部門を有しないで別会社に製品の運送をさせていた会社が、その別会社との間の特殊の密接な関係に基づき、別会社従業員の起した事故について使用者責任を負うとされた事例　２　死者本人に慰藉料請求権は発生するか（消極）政治的思想信条を容易に推知させる経歴の詐称を理由とする懲戒解雇の効力　１　労働者の詐称した経歴が重要でないとされた事例　２　労働契約の締結に当り使用者において受認すべき錯誤の一例　３　私法関係において思想信条の秘匿が適法とされる一例いわゆる東京都公安条例に関する東京地裁判決２件　（その１）　昭和２５年東京都条例第４４号集会、集団行進及び集団示威運動に関する条例に基づき公安委員会が集団的行動につきなした条件付許可処分が違憲であるとした事例　（その２）　昭和２５年東京都条例第４４号集会、集団行進及び集団示威運動に関する条例及びこれに基づく東京都公安委員会の条件付許可処分が合憲であるとした事例",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 1,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0000911977",
+      "doc_seq": 8,
+      "track_doc_seq": 2798,
+      "unit_count": 10,
+      "source_file": "ja/ja_cc/level2/0092.jsonl.gz",
+      "source_line_no": 911977,
+      "preview": "永きにわたる共和国との戦争は、帝国に深い傷跡を残した。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 10,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0002578381",
+      "doc_seq": 9,
+      "track_doc_seq": 2799,
+      "unit_count": 19,
+      "source_file": "ja/ja_cc/level2/0401.jsonl.gz",
+      "source_line_no": 2578381,
+      "preview": "スケジュール更新忘れてました。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 19,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    },
+    {
+      "doc_id": "ja_cc_level2_corrected_v1:0001021230",
+      "doc_seq": 10,
+      "track_doc_seq": 2800,
+      "unit_count": 6,
+      "source_file": "ja/ja_cc/level2/0109.jsonl.gz",
+      "source_line_no": 1021230,
+      "preview": "新潟県と富山県の県境に位置する新潟県の西の玄関口。",
+      "queue_id": "strong_repair",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-15T07:21:18Z",
+      "application_failure_count": 0,
+      "application_failures": [],
+      "item_count": 0,
+      "region_count": 0,
+      "unresolved_count": 0,
+      "from_seq": null,
+      "to_seq": null,
+      "reviewed_unit_count": 6,
+      "skipped_unit_count": 0,
+      "strong_repair_item_count": 0
+    }
+  ],
+  "items": [
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 1,
+      "doc_id": "ja_cc_level2_corrected_v1:0001956568",
+      "doc_seq": 1,
+      "track_doc_seq": 2791,
+      "unit_id": "ja_cc_level2_corrected_v1:0001956568:u0017",
+      "unit_seq": 17,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1956568,
+      "text": "大内宿は、江戸時代の家並みを残した宿場街です。",
+      "rendered_yomi_before": "大内/オオウチ 宿/ヤド は/ハ 、/、 江戸/エド 時代/ジダイ の/ノ 家並み/イエナミ を/ヲ 残し/ノコシ た/タ 宿場/シュクバ 街/マチ です/デス 。/。",
+      "rendered_yomi_after": "大内/オオウチ 宿/ジュク は/ハ 、/、 江戸/エド 時代/ジダイ の/ノ 家並み/イエナミ を/ヲ 残し/ノコシ た/タ 宿場/シュクバ 街/マチ です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "大内",
+          "オオウチ"
+        ],
+        [
+          "宿",
+          "ジュク"
+        ],
+        [
+          "は",
+          "ハ"
+        ],
+        [
+          "、",
+          "、"
+        ],
+        [
+          "江戸",
+          "エド"
+        ],
+        [
+          "時代",
+          "ジダイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "家並み",
+          "イエナミ"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "残し",
+          "ノコシ"
+        ],
+        [
+          "た",
+          "タ"
+        ],
+        [
+          "宿場",
+          "シュクバ"
+        ],
+        [
+          "街",
+          "マチ"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "大内",
+          "reading": "オオウチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大内",
+              "reading": "おおうち"
+            }
+          ]
+        },
+        {
+          "surface": "宿",
+          "reading": "ジュク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宿",
+              "reading": "じゅく"
+            }
+          ]
+        },
+        {
+          "surface": "は",
+          "reading": "ハ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "は"
+            }
+          ]
+        },
+        {
+          "surface": "、",
+          "reading": "、",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "、"
+            }
+          ]
+        },
+        {
+          "surface": "江戸",
+          "reading": "エド",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "江戸",
+              "reading": "えど"
+            }
+          ]
+        },
+        {
+          "surface": "時代",
+          "reading": "ジダイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "時代",
+              "reading": "じだい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "家並み",
+          "reading": "イエナミ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "家並",
+              "reading": "いえな"
+            },
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "残し",
+          "reading": "ノコシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "残",
+              "reading": "のこ"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "た",
+          "reading": "タ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "た"
+            }
+          ]
+        },
+        {
+          "surface": "宿場",
+          "reading": "シュクバ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "宿場",
+              "reading": "しゅくば"
+            }
+          ]
+        },
+        {
+          "surface": "街",
+          "reading": "マチ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "街",
+              "reading": "まち"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001956568:u0017",
+          "text": "大内宿は、江戸時代の家並みを残した宿場街です。",
+          "rendered_yomi_before": "大内/オオウチ 宿/ヤド は/ハ 、/、 江戸/エド 時代/ジダイ の/ノ 家並み/イエナミ を/ヲ 残し/ノコシ た/タ 宿場/シュクバ 街/マチ です/デス 。/。",
+          "rendered_yomi_after": "大内/オオウチ 宿/ジュク は/ハ 、/、 江戸/エド 時代/ジダイ の/ノ 家並み/イエナミ を/ヲ 残し/ノコシ た/タ 宿場/シュクバ 街/マチ です/デス 。/。",
+          "display_mapping": {
+            "start": 0,
+            "end": 2,
+            "char_start": 0,
+            "char_end": 3,
+            "start_offset": 0,
+            "end_offset": 1,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大内",
+              "token_surface": "大内",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおうち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大内",
+                  "reading": "おおうち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿",
+              "token_surface": "宿",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿",
+                  "reading": "やど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0001-0002",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大内",
+              "token_surface": "大内",
+              "token_index": 0,
+              "chunk_index": 0,
+              "current_reading_hiragana": "おおうち",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大内",
+                  "reading": "おおうち",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0003-0003",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "宿",
+              "token_surface": "宿",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "やど",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "宿",
+                  "reading": "やど",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "大内宿",
+          "reading_candidates": {
+            "大": [
+              "おお",
+              "だい",
+              "おおき",
+              "しん",
+              "たい",
+              "たけし",
+              "だ",
+              "とも",
+              "はじめ",
+              "ひろ",
+              "ひろし",
+              "ふとし",
+              "まさる",
+              "ゆたか"
+            ],
+            "大内": [
+              "おおうち",
+              "おおち"
+            ],
+            "大内宿": [
+              "おおうちじゅく"
+            ],
+            "内": [
+              "ない",
+              "うち"
+            ],
+            "内宿": [
+              "うちじゅく"
+            ],
+            "宿": [
+              "やど",
+              "しゅく",
+              "じゅく"
+            ]
+          },
+          "reading_hints": {
+            "大": "おお",
+            "大内": "おおうち",
+            "大内宿": "おおうちじゅく",
+            "内": "ない",
+            "内宿": "うちじゅく",
+            "宿": "やど"
+          },
+          "rejected_readings": [
+            {
+              "surface": "大内",
+              "reading": "おおうち",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "宿",
+              "reading": "やど",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"大内\",\"reading\":\"おおうち\",\"used_web_search\":false,\"comment\":\"地名の前半で、読みは「おおうち」。\"},{\"surface\":\"宿\",\"reading\":\"じゅく\",\"used_web_search\":false,\"comment\":\"宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "地名の前半で、読みは「おおうち」。",
+              "reading": "おおうち",
+              "surface": "大内",
+              "used_web_search": false
+            },
+            {
+              "comment": "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。",
+              "reading": "じゅく",
+              "surface": "宿",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "地名の前半で、読みは「おおうち」。",
+            "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+            "status": "applied",
+            "rejected_span": "大内宿",
+            "replacement": [
+              {
+                "surface": "大内",
+                "reading": "オオウチ"
+              },
+              {
+                "surface": "宿",
+                "reading": "ジュク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+                "surface": "大内宿",
+                "comment": "地名の前半で、読みは「おおうち」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              },
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+                "surface": "大内宿",
+                "comment": "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "大内宿",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0001-0002",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "大内",
+          "token_surface": "大内",
+          "token_index": 0,
+          "chunk_index": 0,
+          "current_reading_hiragana": "おおうち",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "大内",
+              "reading": "おおうち",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017:s0003-0003",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "宿",
+          "token_surface": "宿",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "やど",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "宿",
+              "reading": "やど",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "大内",
+          "reading": "おおうち",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "宿",
+          "reading": "やど",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "大": [
+          "おお",
+          "だい",
+          "おおき",
+          "しん",
+          "たい",
+          "たけし",
+          "だ",
+          "とも",
+          "はじめ",
+          "ひろ",
+          "ひろし",
+          "ふとし",
+          "まさる",
+          "ゆたか"
+        ],
+        "大内": [
+          "おおうち",
+          "おおち"
+        ],
+        "大内宿": [
+          "おおうちじゅく"
+        ],
+        "内": [
+          "ない",
+          "うち"
+        ],
+        "内宿": [
+          "うちじゅく"
+        ],
+        "宿": [
+          "やど",
+          "しゅく",
+          "じゅく"
+        ]
+      },
+      "reading_hints": {
+        "大": "おお",
+        "大内": "おおうち",
+        "大内宿": "おおうちじゅく",
+        "内": "ない",
+        "内宿": "うちじゅく",
+        "宿": "やど"
+      },
+      "llm_parsed": [
+        {
+          "comment": "地名の前半で、読みは「おおうち」。",
+          "reading": "おおうち",
+          "surface": "大内",
+          "used_web_search": false
+        },
+        {
+          "comment": "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。",
+          "reading": "じゅく",
+          "surface": "宿",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"大内\",\"reading\":\"おおうち\",\"used_web_search\":false,\"comment\":\"地名の前半で、読みは「おおうち」。\"},{\"surface\":\"宿\",\"reading\":\"じゅく\",\"used_web_search\":false,\"comment\":\"宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。\"}]",
+      "llm_comments": [
+        "地名の前半で、読みは「おおうち」。",
+        "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+        "status": "applied",
+        "rejected_span": "大内宿",
+        "replacement": [
+          {
+            "surface": "大内",
+            "reading": "オオウチ"
+          },
+          {
+            "surface": "宿",
+            "reading": "ジュク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+            "surface": "大内宿",
+            "comment": "地名の前半で、読みは「おおうち」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          },
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001956568:u0017::target_group:1",
+            "surface": "大内宿",
+            "comment": "宿場町の名称では「宿」は「やど」ではなく「じゅく」と読むのが自然。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 2,
+      "doc_id": "ja_cc_level2_corrected_v1:0001956568",
+      "doc_seq": 1,
+      "track_doc_seq": 2791,
+      "unit_id": "ja_cc_level2_corrected_v1:0001956568:u0018",
+      "unit_seq": 18,
+      "source_file": "ja/ja_cc/level2/0252.jsonl.gz",
+      "source_line_no": 1956568,
+      "text": "【春を探しに…】 快晴の大内宿です。",
+      "rendered_yomi_before": "【/【 春/ハル を/ヲ 探し/サガシ に/ニ …/… 】/】  /  快晴/カイセイ の/ノ 大/ダイ 内宿/ウチジュク です/デス 。/。",
+      "rendered_yomi_after": "【/【 春/ハル を/ヲ 探し/サガシ に/ニ …/… 】/】 \\s/ 快晴/カイセイ の/ノ 大内宿/オオウチジュク です/デス 。/。",
+      "rendered_yomi_after_tokens": [
+        [
+          "【",
+          "【"
+        ],
+        [
+          "春",
+          "ハル"
+        ],
+        [
+          "を",
+          "ヲ"
+        ],
+        [
+          "探し",
+          "サガシ"
+        ],
+        [
+          "に",
+          "ニ"
+        ],
+        [
+          "…",
+          "…"
+        ],
+        [
+          "】",
+          "】"
+        ],
+        [
+          " ",
+          ""
+        ],
+        [
+          "快晴",
+          "カイセイ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "大内宿",
+          "オオウチジュク"
+        ],
+        [
+          "です",
+          "デス"
+        ],
+        [
+          "。",
+          "。"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "【",
+          "reading": "【",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "【"
+            }
+          ]
+        },
+        {
+          "surface": "春",
+          "reading": "ハル",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "春",
+              "reading": "はる"
+            }
+          ]
+        },
+        {
+          "surface": "を",
+          "reading": "ヲ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "を"
+            }
+          ]
+        },
+        {
+          "surface": "探し",
+          "reading": "サガシ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "探",
+              "reading": "さが"
+            },
+            {
+              "type": "text",
+              "text": "し"
+            }
+          ]
+        },
+        {
+          "surface": "に",
+          "reading": "ニ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "に"
+            }
+          ]
+        },
+        {
+          "surface": "…",
+          "reading": "…",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "…"
+            }
+          ]
+        },
+        {
+          "surface": "】",
+          "reading": "】",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "】"
+            }
+          ]
+        },
+        {
+          "surface": " ",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "surface": "快晴",
+          "reading": "カイセイ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "快晴",
+              "reading": "かいせい"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "大内宿",
+          "reading": "オオウチジュク",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "大内",
+              "reading": "おおうち"
+            },
+            {
+              "type": "ruby",
+              "text": "宿",
+              "reading": "じゅく"
+            }
+          ]
+        },
+        {
+          "surface": "です",
+          "reading": "デス",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "です"
+            }
+          ]
+        },
+        {
+          "surface": "。",
+          "reading": "。",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "。"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001956568:u0018",
+          "text": "【春を探しに…】 快晴の大内宿です。",
+          "rendered_yomi_before": "【/【 春/ハル を/ヲ 探し/サガシ に/ニ …/… 】/】  /  快晴/カイセイ の/ノ 大/ダイ 内宿/ウチジュク です/デス 。/。",
+          "rendered_yomi_after": "【/【 春/ハル を/ヲ 探し/サガシ に/ニ …/… 】/】 \\s/ 快晴/カイセイ の/ノ 大内宿/オオウチジュク です/デス 。/。",
+          "display_mapping": {
+            "start": 10,
+            "end": 11,
+            "char_start": 12,
+            "char_end": 15,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大",
+              "token_surface": "大",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内宿",
+              "token_surface": "内宿",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うちじゅく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内宿",
+                  "reading": "うちじゅく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0013-0013",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "大",
+              "token_surface": "大",
+              "token_index": 10,
+              "chunk_index": 0,
+              "current_reading_hiragana": "だい",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "大",
+                  "reading": "だい",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0014-0015",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "内宿",
+              "token_surface": "内宿",
+              "token_index": 11,
+              "chunk_index": 0,
+              "current_reading_hiragana": "うちじゅく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "内宿",
+                  "reading": "うちじゅく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "大内宿",
+          "reading_candidates": {
+            "大": [
+              "おお",
+              "だい",
+              "おおき",
+              "しん",
+              "たい",
+              "たけし",
+              "だ",
+              "とも",
+              "はじめ",
+              "ひろ",
+              "ひろし",
+              "ふとし",
+              "まさる",
+              "ゆたか"
+            ],
+            "大内": [
+              "おおうち",
+              "おおち"
+            ],
+            "大内宿": [
+              "おおうちじゅく"
+            ],
+            "内": [
+              "ない",
+              "うち"
+            ],
+            "内宿": [
+              "うちじゅく"
+            ],
+            "宿": [
+              "やど",
+              "しゅく",
+              "じゅく"
+            ]
+          },
+          "reading_hints": {
+            "大": "おお",
+            "大内": "おおうち",
+            "大内宿": "おおうちじゅく",
+            "内": "ない",
+            "内宿": "うちじゅく",
+            "宿": "やど"
+          },
+          "rejected_readings": [
+            {
+              "surface": "大",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "内宿",
+              "reading": "うちじゅく",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"大内宿\",\"reading\":\"オオウチジュク\",\"used_web_search\":false,\"comment\":\"福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。",
+              "reading": "オオウチジュク",
+              "surface": "大内宿",
+              "used_web_search": false
+            }
+          ],
+          "llm_comments": [
+            "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": false,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+            "status": "applied",
+            "rejected_span": "大内宿",
+            "replacement": [
+              {
+                "surface": "大内宿",
+                "reading": "オオウチジュク"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+                "surface": "大内宿",
+                "comment": "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。",
+                "used_web_search": false,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "大内宿",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0013-0013",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "大",
+          "token_surface": "大",
+          "token_index": 10,
+          "chunk_index": 0,
+          "current_reading_hiragana": "だい",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "大",
+              "reading": "だい",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018:s0014-0015",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "内宿",
+          "token_surface": "内宿",
+          "token_index": 11,
+          "chunk_index": 0,
+          "current_reading_hiragana": "うちじゅく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "内宿",
+              "reading": "うちじゅく",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "大",
+          "reading": "だい",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "内宿",
+          "reading": "うちじゅく",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "大": [
+          "おお",
+          "だい",
+          "おおき",
+          "しん",
+          "たい",
+          "たけし",
+          "だ",
+          "とも",
+          "はじめ",
+          "ひろ",
+          "ひろし",
+          "ふとし",
+          "まさる",
+          "ゆたか"
+        ],
+        "大内": [
+          "おおうち",
+          "おおち"
+        ],
+        "大内宿": [
+          "おおうちじゅく"
+        ],
+        "内": [
+          "ない",
+          "うち"
+        ],
+        "内宿": [
+          "うちじゅく"
+        ],
+        "宿": [
+          "やど",
+          "しゅく",
+          "じゅく"
+        ]
+      },
+      "reading_hints": {
+        "大": "おお",
+        "大内": "おおうち",
+        "大内宿": "おおうちじゅく",
+        "内": "ない",
+        "内宿": "うちじゅく",
+        "宿": "やど"
+      },
+      "llm_parsed": [
+        {
+          "comment": "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。",
+          "reading": "オオウチジュク",
+          "surface": "大内宿",
+          "used_web_search": false
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"大内宿\",\"reading\":\"オオウチジュク\",\"used_web_search\":false,\"comment\":\"福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。\"}]",
+      "llm_comments": [
+        "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": false,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+        "status": "applied",
+        "rejected_span": "大内宿",
+        "replacement": [
+          {
+            "surface": "大内宿",
+            "reading": "オオウチジュク"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001956568:u0018::target_group:1",
+            "surface": "大内宿",
+            "comment": "福島の地名「大内宿」は固有名として一続きで読み、「おおうちじゅく」。",
+            "used_web_search": false,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    },
+    {
+      "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019::strong_repair",
+      "initial_disposition": "Keep",
+      "seq": 3,
+      "doc_id": "ja_cc_level2_corrected_v1:0001930275",
+      "doc_seq": 5,
+      "track_doc_seq": 2795,
+      "unit_id": "ja_cc_level2_corrected_v1:0001930275:u0019",
+      "unit_seq": 19,
+      "source_file": "ja/ja_cc/level2/0249.jsonl.gz",
+      "source_line_no": 1930275,
+      "text": "道の駅富楽里とみやまの駅長　杉本和彦さん！",
+      "rendered_yomi_before": "道の駅/ミチノエキ 富楽/トミラク 里/サト と/ト み/ミ やま/ヤマ の/ノ 駅長/エキチョウ 　/　 杉本/スギモト 和彦/カズヒコ さん/サン ！/！",
+      "rendered_yomi_after": "道の駅/ミチノエキ 富楽里/フラリ と/ト み/ミ やま/ヤマ の/ノ 駅長/エキチョウ \\u3000/ 杉本/スギモト 和彦/カズヒコ さん/サン ！/！",
+      "rendered_yomi_after_tokens": [
+        [
+          "道の駅",
+          "ミチノエキ"
+        ],
+        [
+          "富楽里",
+          "フラリ"
+        ],
+        [
+          "と",
+          "ト"
+        ],
+        [
+          "み",
+          "ミ"
+        ],
+        [
+          "やま",
+          "ヤマ"
+        ],
+        [
+          "の",
+          "ノ"
+        ],
+        [
+          "駅長",
+          "エキチョウ"
+        ],
+        [
+          "　",
+          ""
+        ],
+        [
+          "杉本",
+          "スギモト"
+        ],
+        [
+          "和彦",
+          "カズヒコ"
+        ],
+        [
+          "さん",
+          "サン"
+        ],
+        [
+          "！",
+          "！"
+        ]
+      ],
+      "rendered_yomi_after_ruby_tokens": [
+        {
+          "surface": "道の駅",
+          "reading": "ミチノエキ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "道",
+              "reading": "みち"
+            },
+            {
+              "type": "text",
+              "text": "の"
+            },
+            {
+              "type": "ruby",
+              "text": "駅",
+              "reading": "えき"
+            }
+          ]
+        },
+        {
+          "surface": "富楽里",
+          "reading": "フラリ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "富楽里",
+              "reading": "ふらり"
+            }
+          ]
+        },
+        {
+          "surface": "と",
+          "reading": "ト",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "と"
+            }
+          ]
+        },
+        {
+          "surface": "み",
+          "reading": "ミ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "み"
+            }
+          ]
+        },
+        {
+          "surface": "やま",
+          "reading": "ヤマ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "やま"
+            }
+          ]
+        },
+        {
+          "surface": "の",
+          "reading": "ノ",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "の"
+            }
+          ]
+        },
+        {
+          "surface": "駅長",
+          "reading": "エキチョウ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "駅長",
+              "reading": "えきちょう"
+            }
+          ]
+        },
+        {
+          "surface": "　",
+          "reading": "",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "　"
+            }
+          ]
+        },
+        {
+          "surface": "杉本",
+          "reading": "スギモト",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "杉本",
+              "reading": "すぎもと"
+            }
+          ]
+        },
+        {
+          "surface": "和彦",
+          "reading": "カズヒコ",
+          "nodes": [
+            {
+              "type": "ruby",
+              "text": "和彦",
+              "reading": "かずひこ"
+            }
+          ]
+        },
+        {
+          "surface": "さん",
+          "reading": "サン",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "さん"
+            }
+          ]
+        },
+        {
+          "surface": "！",
+          "reading": "！",
+          "nodes": [
+            {
+              "type": "text",
+              "text": "！"
+            }
+          ]
+        }
+      ],
+      "manual_correction_required": false,
+      "manual_correction": {},
+      "mapping_error_count": 0,
+      "mapping_errors": [],
+      "repair_scope": "sentence_regions",
+      "region_count": 1,
+      "regions": [
+        {
+          "region_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+          "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+          "unit_id": "ja_cc_level2_corrected_v1:0001930275:u0019",
+          "text": "道の駅富楽里とみやまの駅長　杉本和彦さん！",
+          "rendered_yomi_before": "道の駅/ミチノエキ 富楽/トミラク 里/サト と/ト み/ミ やま/ヤマ の/ノ 駅長/エキチョウ 　/　 杉本/スギモト 和彦/カズヒコ さん/サン ！/！",
+          "rendered_yomi_after": "道の駅/ミチノエキ 富楽里/フラリ と/ト み/ミ やま/ヤマ の/ノ 駅長/エキチョウ \\u3000/ 杉本/スギモト 和彦/カズヒコ さん/サン ！/！",
+          "display_mapping": {
+            "start": 1,
+            "end": 2,
+            "char_start": 3,
+            "char_end": 6,
+            "start_offset": 0,
+            "end_offset": 3,
+            "prefix": "",
+            "suffix": ""
+          },
+          "mapping_error": null,
+          "repair_scope": "target_group",
+          "reasons": [
+            "target_no_ruby"
+          ],
+          "target_constraints": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富楽",
+              "token_surface": "富楽",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみらく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富楽",
+                  "reading": "とみらく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "里",
+              "token_surface": "里",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "里",
+                  "reading": "さと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "target_escalations": [
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0004-0005",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "富楽",
+              "token_surface": "富楽",
+              "token_index": 1,
+              "chunk_index": 0,
+              "current_reading_hiragana": "とみらく",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "富楽",
+                  "reading": "とみらく",
+                  "source": "human_no_ruby"
+                }
+              ]
+            },
+            {
+              "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0006-0006",
+              "choice_id": "none",
+              "choice_source": "none",
+              "selected_reading": null,
+              "surface": "里",
+              "token_surface": "里",
+              "token_index": 2,
+              "chunk_index": 0,
+              "current_reading_hiragana": "さと",
+              "automatic_default": false,
+              "accepted_no_ruby": false,
+              "no_ruby_state": "unresolved",
+              "rejected_readings": [
+                {
+                  "surface": "里",
+                  "reading": "さと",
+                  "source": "human_no_ruby"
+                }
+              ]
+            }
+          ],
+          "rejected_span": "富楽里",
+          "reading_candidates": {
+            "富": [
+              "あつし",
+              "とま",
+              "とみ",
+              "とむ",
+              "とめり",
+              "ひさし",
+              "ふ"
+            ],
+            "富楽": [
+              "とみらく",
+              "ふらく"
+            ],
+            "楽": [
+              "がく",
+              "たの",
+              "たのし",
+              "らく"
+            ],
+            "里": [
+              "さと",
+              "ざと",
+              "り"
+            ]
+          },
+          "reading_hints": {
+            "富": "あつし",
+            "富楽": "とみらく",
+            "楽": "がく",
+            "里": "さと"
+          },
+          "rejected_readings": [
+            {
+              "surface": "富楽",
+              "reading": "とみらく",
+              "source": "human_no_ruby"
+            },
+            {
+              "surface": "里",
+              "reading": "さと",
+              "source": "human_no_ruby"
+            }
+          ],
+          "llm_raw_text": "[{\"surface\":\"富楽里\",\"reading\":\"フラリ\",\"used_web_search\":true,\"comment\":\"公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。\"}]",
+          "llm_parsed": [
+            {
+              "comment": "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。",
+              "reading": "フラリ",
+              "surface": "富楽里",
+              "used_web_search": true
+            }
+          ],
+          "llm_comments": [
+            "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。"
+          ],
+          "llm_parse_error": null,
+          "used_web_search": true,
+          "repair_status": "applied",
+          "repair_log": {
+            "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+            "status": "applied",
+            "rejected_span": "富楽里",
+            "replacement": [
+              {
+                "surface": "富楽里",
+                "reading": "フラリ"
+              }
+            ],
+            "evidence": [
+              {
+                "region_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+                "surface": "富楽里",
+                "comment": "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。",
+                "used_web_search": true,
+                "surface_occurrence_index": null
+              }
+            ]
+          }
+        }
+      ],
+      "rejected_span": "富楽里",
+      "target_escalations": [
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0004-0005",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "富楽",
+          "token_surface": "富楽",
+          "token_index": 1,
+          "chunk_index": 0,
+          "current_reading_hiragana": "とみらく",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "富楽",
+              "reading": "とみらく",
+              "source": "human_no_ruby"
+            }
+          ]
+        },
+        {
+          "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019:s0006-0006",
+          "choice_id": "none",
+          "choice_source": "none",
+          "selected_reading": null,
+          "surface": "里",
+          "token_surface": "里",
+          "token_index": 2,
+          "chunk_index": 0,
+          "current_reading_hiragana": "さと",
+          "automatic_default": false,
+          "accepted_no_ruby": false,
+          "no_ruby_state": "unresolved",
+          "rejected_readings": [
+            {
+              "surface": "里",
+              "reading": "さと",
+              "source": "human_no_ruby"
+            }
+          ]
+        }
+      ],
+      "rejected_readings": [
+        {
+          "surface": "富楽",
+          "reading": "とみらく",
+          "source": "human_no_ruby"
+        },
+        {
+          "surface": "里",
+          "reading": "さと",
+          "source": "human_no_ruby"
+        }
+      ],
+      "reading_candidates": {
+        "富": [
+          "あつし",
+          "とま",
+          "とみ",
+          "とむ",
+          "とめり",
+          "ひさし",
+          "ふ"
+        ],
+        "富楽": [
+          "とみらく",
+          "ふらく"
+        ],
+        "楽": [
+          "がく",
+          "たの",
+          "たのし",
+          "らく"
+        ],
+        "里": [
+          "さと",
+          "ざと",
+          "り"
+        ]
+      },
+      "reading_hints": {
+        "富": "あつし",
+        "富楽": "とみらく",
+        "楽": "がく",
+        "里": "さと"
+      },
+      "llm_parsed": [
+        {
+          "comment": "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。",
+          "reading": "フラリ",
+          "surface": "富楽里",
+          "used_web_search": true
+        }
+      ],
+      "llm_raw_text": "[{\"surface\":\"富楽里\",\"reading\":\"フラリ\",\"used_web_search\":true,\"comment\":\"公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。\"}]",
+      "llm_comments": [
+        "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。"
+      ],
+      "llm_parse_error": null,
+      "used_web_search": true,
+      "repair_status": "applied",
+      "repair_log": {
+        "item_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+        "status": "applied",
+        "rejected_span": "富楽里",
+        "replacement": [
+          {
+            "surface": "富楽里",
+            "reading": "フラリ"
+          }
+        ],
+        "evidence": [
+          {
+            "region_id": "ja_cc_level2_corrected_v1:0001930275:u0019::target_group:1",
+            "surface": "富楽里",
+            "comment": "公式サイトや公的案内で「富楽里とみやま」を「ふらり」と読んでいるため、ここは一語で「フラリ」。",
+            "used_web_search": true,
+            "surface_occurrence_index": null
+          }
+        ]
+      }
+    }
+  ]
+}
