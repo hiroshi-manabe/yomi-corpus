@@ -13,8 +13,9 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "final_reviewed": 9,
-      "skipped": 1
+      "complete": 5,
+      "skipped": 1,
+      "strong_pending": 4
     },
     "unresolved_item_count": 24,
     "unresolved_target_count": 44,
@@ -30,12 +31,12 @@
       "source_line_no": 2459957,
       "preview": "本日は、長瀬先生による全曲の要所についての合奏練習でした。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 14,
@@ -56,12 +57,12 @@
       "source_line_no": 1340739,
       "preview": "昭和初期に発表された私小説「業苦」の冒頭にこんな一文がある。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-16T01:23:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 25,
@@ -71,7 +72,7 @@
       "to_seq": 39,
       "reviewed_unit_count": 25,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 2
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0000236403",
@@ -82,12 +83,12 @@
       "source_line_no": 236403,
       "preview": "今日はグンと冷え込んだよね。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 14,
@@ -108,12 +109,12 @@
       "source_line_no": 1018550,
       "preview": "百商一気運営委員会では、与謝野町を過去～未来の子供たちが誇れるまちに、帰ってくることができる町にするため、「桜」で与謝野町を盛り上げます。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-16T01:23:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -123,7 +124,7 @@
       "to_seq": 66,
       "reviewed_unit_count": 13,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 1
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0002428892",
@@ -139,7 +140,7 @@
       "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -160,12 +161,12 @@
       "source_line_no": 1408921,
       "preview": "ブリューヌの動乱より半年。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-16T01:23:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 13,
@@ -175,7 +176,7 @@
       "to_seq": 84,
       "reviewed_unit_count": 13,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 4
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0001001578",
@@ -186,12 +187,12 @@
       "source_line_no": 1001578,
       "preview": "履歴書(写真貼付)と職務経歴書(書式自由)をご郵送ください。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 5,
@@ -212,12 +213,12 @@
       "source_line_no": 1199460,
       "preview": "本体工事が進む群馬県長野原町の八ツ場（やんば）ダムで、国土交通省は4月1日から一般個人や団体向けの工事見学ツアー観光プロジェクト「やんばツアーズ」をスタートさせる。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "strong_pending",
+      "workflow_state": "escalated_repair",
+      "workflow_queue_stage": "yomi_strong_repair_review",
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-16T01:23:54Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 23,
@@ -227,7 +228,7 @@
       "to_seq": 112,
       "reviewed_unit_count": 23,
       "skipped_unit_count": 0,
-      "strong_repair_item_count": 0
+      "strong_repair_item_count": 2
     },
     {
       "doc_id": "ja_cc_level2_corrected_v1:0002005078",
@@ -238,12 +239,12 @@
       "source_line_no": 2005078,
       "preview": "友人の連帯保証人をして、飛ばれてしまいました。",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 16,
@@ -264,12 +265,12 @@
       "source_line_no": 556862,
       "preview": "ボタンダウンシャツは公式の場で着るのはNG？",
       "queue_id": "final_review",
-      "state": "final_reviewed",
-      "workflow_state": "bulk_submitted",
-      "workflow_queue_stage": "yomi_final_review",
-      "queue_member": true,
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-15T04:45:21Z",
+      "state_updated_at": "2026-09-15T04:45:25Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 11,
@@ -14857,7 +14858,7 @@
               "label": "Dictionary",
               "reading": "じゅう",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -17380,7 +17381,7 @@
                   "reading": "じゅう"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
@@ -22254,7 +22255,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 630,
+              "historical_count": 632,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -22661,7 +22662,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 630
+              "historical_count": 632
             },
             {
               "id": "dictionary:5",
@@ -26336,12 +26337,13 @@
               "id": "dictionary:0",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "おどろき",
               "accepted": false,
-              "historical_count": 1,
+              "historical_count": 2,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -27362,7 +27364,8 @@
               "sources": [
                 "current",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "おどろき",
@@ -29469,7 +29472,7 @@
               "label": "LLM reading",
               "reading": "なに",
               "accepted": false,
-              "historical_count": 580,
+              "historical_count": 581,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -31932,7 +31935,7 @@
                   "reading": "なに"
                 }
               ],
-              "historical_count": 580
+              "historical_count": 581
             },
             {
               "id": "dictionary:0",
@@ -43523,7 +43526,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 486,
+              "historical_count": 487,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -44859,7 +44862,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 486
+              "historical_count": 487
             },
             {
               "id": "dictionary:10",
@@ -70801,7 +70804,7 @@
               "label": "Dictionary",
               "reading": "じゅう",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -74742,7 +74745,7 @@
                   "reading": "じゅう"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
@@ -119736,7 +119739,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
-                "learned_repair:2",
+                "learned_repair:1",
                 "dictionary:1"
               ],
               "source": "current",
@@ -119794,7 +119797,7 @@
               "id": "dictionary:8",
               "candidate_ids": [
                 "dictionary:8",
-                "learned_repair:1"
+                "learned_repair:2"
               ],
               "source": "dictionary",
               "sources": [
@@ -131959,7 +131962,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 630,
+              "historical_count": 632,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -132569,7 +132572,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 630
+              "historical_count": 632
             },
             {
               "id": "dictionary:5",
@@ -134683,7 +134686,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 630,
+              "historical_count": 632,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -135722,12 +135725,13 @@
               "id": "dictionary:1",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "がわ",
               "accepted": false,
-              "historical_count": 65,
+              "historical_count": 66,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -135873,7 +135877,7 @@
               "label": "Dictionary",
               "reading": "じゅう",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -136330,7 +136334,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 630
+              "historical_count": 632
             },
             {
               "id": "dictionary:5",
@@ -137758,11 +137762,13 @@
             {
               "id": "dictionary:1",
               "candidate_ids": [
-                "dictionary:1"
+                "dictionary:1",
+                "learned_repair:1"
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "がわ",
@@ -137779,7 +137785,7 @@
                   "reading": "がわ"
                 }
               ],
-              "historical_count": 65
+              "historical_count": 66
             },
             {
               "id": "dictionary:2",
@@ -137965,7 +137971,7 @@
                   "reading": "じゅう"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
@@ -221206,7 +221212,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 486,
+              "historical_count": 487,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -223992,7 +223998,7 @@
               "label": "Dictionary",
               "reading": "いっ",
               "accepted": false,
-              "historical_count": 486,
+              "historical_count": 487,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -234620,7 +234626,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 486
+              "historical_count": 487
             },
             {
               "id": "dictionary:10",
@@ -238095,7 +238101,7 @@
                   "reading": "いっ"
                 }
               ],
-              "historical_count": 486
+              "historical_count": 487
             },
             {
               "id": "dictionary:10",
@@ -256720,7 +256726,7 @@
               "label": "Dictionary",
               "reading": "じゅう",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -258069,7 +258075,7 @@
                   "reading": "じゅう"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
@@ -261749,7 +261755,7 @@
                   "text": "り"
                 }
               ],
-              "historical_count": 18
+              "historical_count": 20
             },
             {
               "id": "corpus_frequency",
@@ -287409,12 +287415,13 @@
               "id": "dictionary:5",
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょうず",
               "accepted": false,
-              "historical_count": 19,
+              "historical_count": 20,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -289607,7 +289614,8 @@
               ],
               "source": "dictionary",
               "sources": [
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Dictionary",
               "reading": "じょうずい",
@@ -309165,7 +309173,7 @@
               "label": "Japanese numeric compound",
               "reading": "いちにち",
               "accepted": false,
-              "historical_count": 13,
+              "historical_count": 14,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -311642,7 +311650,7 @@
                   "reading": "いちにち"
                 }
               ],
-              "historical_count": 13
+              "historical_count": 14
             },
             {
               "id": "numeric_compound:2",
@@ -313870,7 +313878,7 @@
               "label": "Dictionary",
               "reading": "じゅう",
               "accepted": false,
-              "historical_count": 35,
+              "historical_count": 36,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -315869,7 +315877,7 @@
                   "reading": "じゅう"
                 }
               ],
-              "historical_count": 35
+              "historical_count": 36
             },
             {
               "id": "dictionary:0",
@@ -478141,7 +478149,7 @@
                   "text": "り"
                 }
               ],
-              "historical_count": 147
+              "historical_count": 148
             },
             {
               "id": "dictionary:1",
@@ -494168,7 +494176,7 @@
               "label": "LLM reading",
               "reading": "かた",
               "accepted": false,
-              "historical_count": 476,
+              "historical_count": 478,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -494966,7 +494974,7 @@
                   "reading": "かた"
                 }
               ],
-              "historical_count": 476
+              "historical_count": 478
             },
             {
               "id": "dictionary:1",
