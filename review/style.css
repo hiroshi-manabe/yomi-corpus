@@ -2239,3 +2239,22 @@ button:disabled {
   font-style: normal;
   font-weight: 800;
 }
+.reading-warning-panel {
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid #b77816;
+  background: #fff3d6;
+  color: #68480d;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.draft-skip .reading-warning-panel,
+.draft-exclude .reading-warning-panel,
+.machine-skip .reading-warning-panel,
+.machine-exclude .reading-warning-panel,
+.skipped .reading-warning-panel,
+.excluded .reading-warning-panel {
+  display: none;
+}

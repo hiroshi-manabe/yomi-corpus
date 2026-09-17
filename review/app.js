@@ -1356,7 +1356,7 @@ function renderCorpusMapTileGrid(docs) {
     tile.type = "button";
     const correctionCount = Number(doc.finalized_correction_count || 0);
     const correctionSentenceCount = Number(doc.finalized_correction_sentence_count || 0);
-    const manualCorrectionCount = Number(doc.manual_correction_required_count || 0);
+    const manualCorrectionCount = Number(doc.manual_correction_required_count || 0) + Number(doc.reading_warning_count || 0);
     const localCorrection = archiveCorrectionRecordForDoc(doc);
     tile.className = "workflow-doc-tile resolved corpus-map-tile";
     tile.classList.toggle("has-finalized-corrections", correctionCount > 0);
@@ -1700,7 +1700,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
   row.dataset.originalDisposition = unit.skipped ? "Skip" : unit.excluded ? "Exclude" : "Keep";
-  row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required));
+  row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required || unit.reading_warnings?.length));
   row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
   row.classList.toggle("excluded-tombstone", Boolean(unit.excluded));
 
@@ -1709,6 +1709,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const rubyLine = document.createElement("div");
   rubyLine.className = "ruby-line resolved-ruby-line";
   const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
+  row.dataset.readingWarningAcknowledgements = JSON.stringify(unit.reading_warning_acknowledgements || []);
   const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
   const footnotes = normalizedStrongRepairFootnotes(unit.strong_repair_evidence || []);
   if (originalTokenPairs.length) {
@@ -1736,6 +1737,15 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
   actions.className = "archive-correction-row-actions";
+  if (!unit.skipped && !unit.excluded) {
+    appendReadingWarnings(summary, originalTokenPairs, unit.reading_warning_acknowledgements || [], (pairs) => {
+      row.dataset.readingWarningAcknowledgements = JSON.stringify(pairs);
+      row.dataset.readingWarningAcknowledged = "true";
+      updateArchiveCorrectionChangedState(row);
+      persistArchiveCorrectionDraft(doc);
+      updateArchiveCorrectionSummary();
+    });
+  }
   if (unit.excluded) {
     const excluded = document.createElement("span");
     excluded.className = "excluded-tombstone-label";
@@ -1830,6 +1840,11 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   );
   const restoredProposed = restored ? serializeEditableYomiTokens(correctionRecordTokenPairs(restored, "proposed")) : "";
   const restoredDisposition = restored?.disposition || (restored?.skip === false ? "Keep" : "");
+  if (restored?.reading_warning_acknowledgements) {
+    row.dataset.readingWarningAcknowledgements = JSON.stringify(restored.reading_warning_acknowledgements);
+    row.dataset.readingWarningAcknowledged = "true";
+    updateArchiveCorrectionChangedState(row);
+  }
   if (restoredProposed || restoredDisposition) {
     if (restoredProposed && restoredProposed !== originalEditableYomi) {
       row.dataset.proposedYomi = restoredProposed;
@@ -1914,7 +1929,9 @@ function collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements = fa
     const originalDisposition = row.dataset.originalDisposition || "Keep";
     const proposedDisposition = row.dataset.proposedDisposition || originalDisposition;
     const dispositionChanged = proposedDisposition !== originalDisposition;
-    if (!unit || (proposed === original && !dispositionChanged)) {
+    const warningAcknowledgements = JSON.parse(row.dataset.readingWarningAcknowledgements || "[]");
+    const warningsAcknowledged = JSON.stringify(warningAcknowledgements) !== JSON.stringify(unit?.reading_warning_acknowledgements || []);
+    if (!unit || (proposed === original && !dispositionChanged && !warningsAcknowledged)) {
       continue;
     }
     const validation = validateRenderedYomiCorrection(unit, proposed);
@@ -1927,6 +1944,7 @@ function collectArchiveCorrectionChanges(doc, { includeFlagAcknowledgements = fa
       text: unit.text || "",
       original_yomi_tokens: archiveUnitYomiTokenPairs(unit),
       proposed_yomi_tokens: validation.tokens,
+      reading_warning_acknowledgements: warningAcknowledgements,
       ...(dispositionChanged
         ? {
             disposition: proposedDisposition,
@@ -1988,6 +2006,7 @@ function saveArchiveCorrectionRow(row, unit, doc) {
     updateArchiveCorrectionSummary();
     return;
   }
+  if (validation.warnings?.length && !window.confirm("読みの注意があります。修正せず保存しますか？\n" + validation.warnings.map((w) => `${w.surface}/${w.reading}: ${w.message}`).join("\n"))) return;
   row.dataset.proposedYomi = proposed;
   if (unit.skipped) {
     row.dataset.proposedDisposition = "Keep";
@@ -2109,7 +2128,7 @@ function updateArchiveCorrectionChangedState(row) {
   const proposedDisposition = row.dataset.proposedDisposition || originalDisposition;
   row.classList.toggle(
     "changed",
-    proposedYomi !== originalYomi || proposedDisposition !== originalDisposition,
+    proposedYomi !== originalYomi || proposedDisposition !== originalDisposition || row.dataset.readingWarningAcknowledged === "true",
   );
 }
 
@@ -2156,6 +2175,7 @@ function validateRenderedYomiCorrection(unit, proposed) {
     return { ok: false, error: "読みデータにトークンがありません。" };
   }
   const surfaceText = [];
+  const warnings = [];
   const baselinePairCounts = new Map();
   for (const [surface, reading] of archiveUnitYomiTokenPairs(unit)) {
     const key = JSON.stringify([surface, reading]);
@@ -2172,21 +2192,99 @@ function validateRenderedYomiCorrection(unit, proposed) {
     } else {
       const readingValidation = validateRenderedYomiReading(token.surface, token.reading);
       if (!readingValidation.ok) {
-        return { ok: false, error: `トークン ${token.raw}: ${readingValidation.error}` };
+        warnings.push({surface: token.surface, reading: token.reading, message: readingValidation.error});
       }
     }
     surfaceText.push(token.surface);
   }
   const originalSurfaceText = archiveUnitYomiTokenPairs(unit).map(([surface]) => surface).join("");
-  const expectedText = normalizeCorrectionSourceText(originalSurfaceText || unit.text || "");
-  const proposedText = normalizeCorrectionSourceText(surfaceText.join(""));
+  const expectedText = originalSurfaceText || unit.text || "";
+  const proposedText = surfaceText.join("");
   if (expectedText && proposedText !== expectedText) {
     return {
       ok: false,
       error: `原文が変わっています: 入力 ${proposedText} / 期待値 ${expectedText}。`,
     };
   }
-  return { ok: true, tokens: tokens.map((token) => [token.surface, token.reading]) };
+  return { ok: true, tokens: tokens.map((token) => [token.surface, token.reading]), warnings };
+}
+
+function readingWarningsForPairs(pairs, acknowledgements = []) {
+  const accepted = new Set(acknowledgements.map((pair) => JSON.stringify(pair)));
+  return pairs.flatMap(([surface, reading]) => {
+    const check = validateRenderedYomiReading(surface, reading);
+    return check.ok || accepted.has(JSON.stringify([surface, reading])) ? [] : [{surface, reading, message: check.error}];
+  });
+}
+
+function appendReadingWarnings(parent, pairs, acknowledgements = [], accept = null) {
+  const warnings = readingWarningsForPairs(pairs, acknowledgements);
+  if (!warnings.length) return;
+  const panel = document.createElement("div");
+  panel.className = "reading-warning-panel";
+  const label = document.createElement("strong");
+  label.textContent = "読みの注意（処理は継続します）";
+  panel.append(label);
+  for (const warning of warnings) {
+    const line = document.createElement("div");
+    line.textContent = `${warning.surface}/${warning.reading || "（空）"}: ${warning.message}`;
+    panel.append(line);
+  }
+  if (accept) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "secondary-button compact-button";
+    button.textContent = "この読みでよい";
+    button.addEventListener("click", () => {
+      accept([...acknowledgements, ...warnings.map((w) => [w.surface, w.reading])]);
+      panel.remove();
+    });
+    panel.append(button);
+  }
+  parent.append(panel);
+}
+
+function reviewWarningPairs(item, override, strong) {
+  if (override?.direct_yomi_tokens?.length) return override.direct_yomi_tokens;
+  const pairs = (strong ? item.rendered_yomi_after_tokens || [] : archiveUnitYomiTokenPairs(item)).map((p) => [...p]);
+  if (strong) {
+    for (const region of strongRepairRegions(item)) {
+      const segments = strongRepairRegionOverride(override, region)?.manual_segments;
+      if (!segments?.length) continue;
+      const matches = findRenderedTokenSpans(yomiTokenPairObjects(pairs), region.rejected_span);
+      const match = matches.find((m) => !region.display_mapping || strongRepairMappingsEqual(m, region.display_mapping));
+      if (match && !match.prefix && !match.suffix) pairs.splice(match.start, match.end - match.start, ...segments.map((s) => [s.surface, hiraganaToKatakana(s.reading)]));
+    }
+  } else {
+    let offset = 0;
+    for (const pair of pairs) {
+      const target = (item.targets || []).find((t) => t.surface === pair[0] && t.target_start === offset);
+      if (target && override?.targets?.[target.item_id]) {
+        pair[1] = hiraganaToKatakana(selectedCandidate(target, override.targets[target.item_id])?.reading || "");
+      }
+      offset += pair[0].length;
+    }
+  }
+  return pairs;
+}
+
+function refreshReviewReadingWarnings() {
+  for (const host of document.querySelectorAll("[data-reading-warning-item]")) {
+    const item = state.currentPack?.items?.find((i) => i.item_id === host.dataset.readingWarningItem);
+    if (!item) continue;
+    host.replaceChildren();
+    const override = state.currentDraft?.overrides?.[item.item_id];
+    if (yomiItemEffectiveDisposition(item) !== "Keep") continue;
+    const strong = itemReviewStage(item) === "yomi_strong_repair_review";
+    appendReadingWarnings(host, reviewWarningPairs(item, override, strong),
+      [...(item.reading_warning_acknowledgements || []), ...(override?.reading_warning_acknowledgements || [])],
+      host.dataset.editable === "true" ? (pairs) => {
+        const draft = strong ? ensureStrongRepairOverride(item.item_id) : ensureYomiOverride(item.item_id);
+        draft.reading_warning_acknowledgements = pairs;
+        touchDraft();
+        renderSubmissionPreview();
+      } : null);
+  }
 }
 
 function parseRenderedYomiCorrectionTokens(rendered) {
@@ -2210,8 +2308,7 @@ function normalizeRenderedYomiCorrectionReadings(rendered) {
   }
   return serializeEditableYomiTokens(tokens.map((token) => {
     const reading = hiraganaToKatakana(token.reading);
-    return [token.surface, !validKanaSpellingReading(token.surface, reading) && reading === hiraganaToKatakana(token.surface)
-      ? defaultNonlexicalReading(token.surface) : reading];
+    return [token.surface, reading];
   }));
 }
 
@@ -3899,6 +3996,10 @@ function setDocumentYomiDisposition(item, disposition) {
 function renderStrongRepairItem({ node, item, override, editable }) {
   node.innerHTML = "";
   node.classList.add("strong-repair-card");
+  const warnings = document.createElement("div");
+  warnings.dataset.readingWarningItem = item.item_id;
+  warnings.dataset.editable = String(editable);
+  node.append(warnings);
   node.classList.toggle("has-override", Boolean(override));
 
   const header = document.createElement("header");
@@ -4633,6 +4734,7 @@ function cleanupStrongRepairOverride(itemId) {
   if (!current) {
     return;
   }
+  if (current.reading_warning_acknowledgements?.length) return;
   if (current.disposition) return;
   const note = String(current.note || "").trim();
   if (note) {
@@ -5204,6 +5306,10 @@ function renderYomiItem({ node, item, override, editable }) {
   if (hasDirectEdit) {
     node.append(renderSavedYomiDirectEdit(directEditTokens));
   }
+  const warnings = document.createElement("div");
+  warnings.dataset.readingWarningItem = item.item_id;
+  warnings.dataset.editable = String(editable);
+  node.append(warnings);
 
   if (editable) {
     node.append(renderYomiDirectEditor(node, item, directEditTokens));
@@ -5304,6 +5410,7 @@ function saveYomiDirectEdit(node, item) {
     return;
   }
   const baselineTokens = yomiDirectEditBaselineTokens(item);
+  if (validation.warnings?.length && !window.confirm("読みの注意があります。修正せず保存しますか？\n" + validation.warnings.map((w) => `${w.surface}/${w.reading}: ${w.message}`).join("\n"))) return;
   if (yomiTokenPairsEqual(validation.tokens, baselineTokens)) {
     revertYomiDirectEdit(item, { confirmSaved: false });
     return;
@@ -6434,13 +6541,15 @@ function cleanupYomiOverride(itemId) {
     !draft.skip &&
     !hasDispositionChange &&
     !draft.note &&
-    typeof draft.manual_correction_required !== "boolean"
+    typeof draft.manual_correction_required !== "boolean" &&
+    !draft.reading_warning_acknowledgements?.length
   ) {
     delete state.currentDraft.overrides[itemId];
   }
 }
 
 function renderSubmissionPreview() {
+  refreshReviewReadingWarnings();
   if (!isEditable()) {
     el.submissionPreview.value =
       "過去のレビュー内容は閲覧専用のため、レビュー結果を提出できません。";
@@ -6872,6 +6981,7 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
       const resolution = yomiOverrideResolution(override);
       return {
         item_id: originalItemId(item),
+        ...(override.reading_warning_acknowledgements?.length ? {reading_warning_acknowledgements: override.reading_warning_acknowledgements} : {}),
         ...(resolution ? { resolution } : {}),
         ...(resolution === "direct_edit"
           ? {
@@ -6917,6 +7027,7 @@ function getActiveYomiOverrides(reviewStage = "yomi_final_review", packId = null
         "disposition" in row ||
         "skip" in row ||
         "manual_correction_required" in row ||
+        "reading_warning_acknowledgements" in row ||
         row.note
     );
 }
@@ -6970,6 +7081,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
       }
       const row = {
         item_id: originalItemId(item),
+        ...(override.reading_warning_acknowledgements?.length ? {reading_warning_acknowledgements: override.reading_warning_acknowledgements} : {}),
         decision: override.decision || "accept",
         ...(override.disposition ? { disposition: override.disposition } : {}),
         ...(typeof override.manual_correction_required === "boolean"
@@ -6995,6 +7107,7 @@ function getActiveStrongRepairOverrides(reviewStage = "yomi_strong_repair_review
     .filter(
       (row) =>
         row.decision === "reject" ||
+        "reading_warning_acknowledgements" in row ||
         "disposition" in row ||
         "manual_correction_required" in row ||
         row.note ||
@@ -7296,7 +7409,7 @@ function normalizeStoredOverrideForItem(pack, item, override) {
   }
   const note = String(override?.note || "").trim();
   const hasManualCorrectionOverride = typeof override?.manual_correction_required === "boolean";
-  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride && !override?.disposition) {
+  if (Object.keys(regions).length === 0 && !note && !hasManualCorrectionOverride && !override?.disposition && !override?.reading_warning_acknowledgements?.length) {
     return null;
   }
   return { ...override, note, regions };
