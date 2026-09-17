@@ -74115,7 +74115,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -74315,7 +74315,8 @@
               "llm_reading": "した",
               "current_reading_hiragana": "した"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000467969:u0018:r0021c01",
@@ -75419,7 +75420,7 @@
           "current_reading_hiragana": "した",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "した",
@@ -75692,7 +75693,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T050514Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000467969:u0018:s0035-0036",
@@ -179132,7 +179134,8 @@
               "source": "current",
               "sources": [
                 "current",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "いな",
@@ -180333,12 +180336,14 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:0"
               ],
               "source": "current",
               "sources": [
                 "current",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "いな",
@@ -247179,7 +247184,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "たち",
@@ -248149,6 +248155,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:3"
               ],
               "source": "current",
@@ -248156,7 +248163,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "たち",
@@ -285333,7 +285341,7 @@
               "label": "Dictionary",
               "reading": "ぷん",
               "accepted": false,
-              "historical_count": 293,
+              "historical_count": 295,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -287680,7 +287688,7 @@
                   "reading": "ぷん"
                 }
               ],
-              "historical_count": 293
+              "historical_count": 295
             },
             {
               "id": "dictionary:1",
@@ -320405,7 +320413,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "たち",
@@ -321948,6 +321957,7 @@
               "id": "current",
               "candidate_ids": [
                 "current",
+                "learned_repair:0",
                 "dictionary:3"
               ],
               "source": "current",
@@ -321955,7 +321965,8 @@
                 "current",
                 "stable_surface_lexicon",
                 "corpus_frequency",
-                "dictionary"
+                "dictionary",
+                "learned_repair"
               ],
               "label": "Current mechanical/hybrid",
               "reading": "たち",
