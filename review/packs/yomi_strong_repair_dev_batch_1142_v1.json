@@ -10,10 +10,9 @@
   "item_count": 4,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 3,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 7,
-      "strong_pending": 3
+      "complete": 10
     },
     "repaired_item_count": 4,
     "queued_repair_row_count": 4,
@@ -83,12 +82,12 @@
       "source_line_no": 2385224,
       "preview": "高野山大学で開催される文化シンポジウムで講演することになりました。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-17T05:58:44Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-17T06:13:15Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -109,12 +108,12 @@
       "source_line_no": 242754,
       "preview": "24時間リレー唱題ということで企画された、ネット同盟唱題。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-17T05:58:44Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-17T06:13:15Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 2,
@@ -161,12 +160,12 @@
       "source_line_no": 936803,
       "preview": "原材料は[有機醸造酢（りんご酢）・有機マスタード・食塩] のみです。",
       "queue_id": "strong_repair",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-17T05:58:44Z",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-17T06:13:15Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 1,
@@ -2347,7 +2346,7 @@
       "source_line_no": 936803,
       "text": "円山にあるオーガニック食品専門店　らる畑さんでも購入出来ますよ。",
       "rendered_yomi_before": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン 　/　 らる/ラル 畑/ハタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
-      "rendered_yomi_after": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン \\u3000/ らる/ラル 畑/バタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
+      "rendered_yomi_after": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン \\u3000/ らる畑/ラルバタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
       "rendered_yomi_after_tokens": [
         [
           "円山",
@@ -2378,12 +2377,8 @@
           ""
         ],
         [
-          "らる",
-          "ラル"
-        ],
-        [
-          "畑",
-          "バタケ"
+          "らる畑",
+          "ラルバタケ"
         ],
         [
           "さん",
@@ -2493,19 +2488,13 @@
           ]
         },
         {
-          "surface": "らる",
-          "reading": "ラル",
+          "surface": "らる畑",
+          "reading": "ラルバタケ",
           "nodes": [
             {
               "type": "text",
               "text": "らる"
-            }
-          ]
-        },
-        {
-          "surface": "畑",
-          "reading": "バタケ",
-          "nodes": [
+            },
             {
               "type": "ruby",
               "text": "畑",
@@ -2609,14 +2598,14 @@
           "unit_id": "ja_cc_level2_corrected_v1:0000936803:u0003",
           "text": "円山にあるオーガニック食品専門店　らる畑さんでも購入出来ますよ。",
           "rendered_yomi_before": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン 　/　 らる/ラル 畑/ハタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
-          "rendered_yomi_after": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン \\u3000/ らる/ラル 畑/バタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
+          "rendered_yomi_after": "円山/マルヤマ に/ニ ある/アル オーガニック/オーガニック 食品/ショクヒン 専門店/センモンテン \\u3000/ らる畑/ラルバタケ さん/サン で/デ も/モ 購入/コウニュウ 出来/デキ ます/マス よ/ヨ 。/。",
           "display_mapping": {
             "start": 7,
-            "end": 9,
+            "end": 8,
             "char_start": 17,
             "char_end": 20,
             "start_offset": 0,
-            "end_offset": 1,
+            "end_offset": 3,
             "prefix": "",
             "suffix": ""
           },

@@ -2298,7 +2298,7 @@ function validMixedKanaSpellingReading(surface, reading) {
   if (isMixedKanaReadingException(surface, reading)) return true;
   const patterns = hiraganaToKatakana(surface).split(/([ァ-ヺーゝゞヽヾ〜～]+)/u).filter(Boolean).map((part) => {
     const expanded = expandedKanaSpelling(part);
-    return expanded === null ? ".*" : kanaReadingPattern(expanded).replaceAll("[ヶケ]", "[ヶケカガ]").replaceAll("[ヵカ]", "[ヵカガ]");
+    return expanded === null ? ".*" : ["ヶ", "ケ", "ヵ"].includes(expanded) ? "[ヶケヵカガ]" : kanaReadingPattern(expanded);
   });
   return new RegExp(`^(?:${patterns.join("")})$`, "u").test(reading) && !/[\r\n]/u.test(reading);
 }
