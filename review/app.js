@@ -2296,9 +2296,12 @@ function isMixedKanaReadingException(surface, reading) {
 
 function validMixedKanaSpellingReading(surface, reading) {
   if (isMixedKanaReadingException(surface, reading)) return true;
-  const patterns = hiraganaToKatakana(surface).split(/([ァ-ヺーゝゞヽヾ〜～]+)/u).filter(Boolean).map((part) => {
-    const expanded = expandedKanaSpelling(part);
-    return expanded === null ? ".*" : ["ヶ", "ケ", "ヵ"].includes(expanded) ? "[ヶケヵカガ]" : kanaReadingPattern(expanded);
+  const patterns = surface.split(/([ヶケヵ](?=[\p{Script=Han}々〆〻]))/u).filter(Boolean).flatMap((piece) => {
+    if (["ヶ", "ケ", "ヵ"].includes(piece)) return ["[ヶケヵカガ]"];
+    return hiraganaToKatakana(piece).split(/([ァ-ヺーゝゞヽヾ〜～]+)/u).filter(Boolean).map((part) => {
+      const expanded = expandedKanaSpelling(part);
+      return expanded === null ? ".*" : kanaReadingPattern(expanded);
+    });
   });
   return new RegExp(`^(?:${patterns.join("")})$`, "u").test(reading) && !/[\r\n]/u.test(reading);
 }
