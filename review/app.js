@@ -2218,7 +2218,7 @@ function normalizeCorrectionSourceText(value) {
 function hiraganaToKatakana(value) {
   return String(value || "").replace(/[\uff66-\uff9f]+/gu, (text) => text.normalize("NFKC")).replace(/[ぁ-ゖ]/gu, (char) =>
     String.fromCharCode(char.charCodeAt(0) + 0x60),
-  );
+  ).replace(/[ァ-ヺ\u3099\u309a]+/gu, (text) => text.normalize("NFC"));
 }
 
 function validateRenderedYomiReading(surface, reading) {
