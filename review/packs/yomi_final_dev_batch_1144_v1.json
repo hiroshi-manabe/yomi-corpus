@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 8,
-      "strong_pending": 2
+      "complete": 10
     },
     "unresolved_item_count": 21,
     "unresolved_target_count": 22,
@@ -82,12 +81,12 @@
       "source_line_no": 2588872,
       "preview": "年末に、久しぶりに神保町界隈をぶらぶらした。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T05:59:22Z",
+      "state_updated_at": "2026-09-17T06:30:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 53,
@@ -264,12 +263,12 @@
       "source_line_no": 1192335,
       "preview": "地盤沈下修正されたお客様の施工事例のご紹介です。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T05:59:22Z",
+      "state_updated_at": "2026-09-17T06:30:26Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 18,
@@ -41740,7 +41739,8 @@
               "llm_reading": "きゃくとう",
               "current_reading_hiragana": "あしゆ"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0007:r0017c01",
@@ -43187,7 +43187,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0007:s0026-0028",
@@ -45686,7 +45687,8 @@
               "llm_reading": "きゃくとう",
               "current_reading_hiragana": "あしゆ"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0008:r0008c01",
@@ -48457,7 +48459,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0008:s0012-0012",
@@ -52390,7 +52393,8 @@
               "llm_reading": "きゃくとう",
               "current_reading_hiragana": "あしゆ"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0009:r0007c01",
@@ -53577,7 +53581,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0009:s0010-0011",
@@ -57481,7 +57486,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_stable_surface_lexicon",
             "safe_by_corpus_frequency"
@@ -57564,7 +57569,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260915T071845Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0010:r0059c01",
@@ -59508,7 +59514,7 @@
           "current_reading_hiragana": "あしゆ",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "あしゆ",
@@ -59609,7 +59615,8 @@
               "share": 1.0,
               "source_corpus_version": "dev:20260915T071845Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0010:s0083-0084",
@@ -79356,7 +79363,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -79428,7 +79435,8 @@
               "llm_reading": "あしゆ",
               "current_reading_hiragana": "あしゆ"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0017:r0005c01",
@@ -80394,7 +80402,7 @@
           "current_reading_hiragana": "あしゆ",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "あしゆ",
@@ -80481,7 +80489,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0017:s0007-0008",
@@ -86406,7 +86415,7 @@
           "token_pos": "名詞,普通名詞,一般,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_llm_match"
           ],
@@ -86478,7 +86487,8 @@
               "llm_reading": "あしゆ",
               "current_reading_hiragana": "あしゆ"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0019:r0025c01",
@@ -88971,7 +88981,7 @@
           "current_reading_hiragana": "あしゆ",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "default_candidate_id": "current",
           "default_choice_source": "current",
           "default_reading": "あしゆ",
@@ -89058,7 +89068,8 @@
               "evidence_scope": "interaction_span",
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T071845Z/stable_surface_readings.tsv"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0002588872:u0019:s0036-0037",
@@ -237766,7 +237777,7 @@
               "label": "Dictionary",
               "reading": "ご",
               "accepted": false,
-              "historical_count": 633,
+              "historical_count": 634,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -238303,7 +238314,7 @@
                   "reading": "ご"
                 }
               ],
-              "historical_count": 633
+              "historical_count": 634
             },
             {
               "id": "dictionary:5",
