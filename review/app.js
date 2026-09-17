@@ -2208,7 +2208,11 @@ function normalizeRenderedYomiCorrectionReadings(rendered) {
   if (!tokens.length || tokens.some((token) => !token.ok)) {
     return String(rendered || "").trim();
   }
-  return serializeEditableYomiTokens(tokens.map((token) => [token.surface, hiraganaToKatakana(token.reading)]));
+  return serializeEditableYomiTokens(tokens.map((token) => {
+    const reading = hiraganaToKatakana(token.reading);
+    return [token.surface, reading === hiraganaToKatakana(token.surface)
+      ? defaultNonlexicalReading(token.surface) : reading];
+  }));
 }
 
 function normalizeCorrectionSourceText(value) {
@@ -2219,6 +2223,12 @@ function hiraganaToKatakana(value) {
   return String(value || "").replace(/[\uff66-\uff9f]+/gu, (text) => text.normalize("NFKC")).replace(/[ぁ-ゖ]/gu, (char) =>
     String.fromCharCode(char.charCodeAt(0) + 0x60),
   ).replace(/[ァ-ヺ\u3099\u309a]+/gu, (text) => text.normalize("NFC"));
+}
+
+function defaultNonlexicalReading(surface) {
+  const reading = hiraganaToKatakana(surface);
+  return /^[ァ-ヺー〜～]+$/u.test(reading) && /[ァ-ヺ]/u.test(reading)
+    ? reading.replace(/[〜～]/gu, "ー") : reading;
 }
 
 function validateRenderedYomiReading(surface, reading) {
@@ -2256,7 +2266,7 @@ function validateRenderedYomiReading(surface, reading) {
       ? { ok: true }
       : { ok: false, error: "漢字または英字を含む表記の読みはカタカナにしてください。" };
   }
-  const expected = hiraganaToKatakana(surface);
+  const expected = defaultNonlexicalReading(surface);
   if (reading === expected) {
     return { ok: true };
   }

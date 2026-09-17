@@ -13,8 +13,7 @@
     "document_count": 10,
     "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_pending": 1
+      "complete": 10
     },
     "unresolved_item_count": 14,
     "unresolved_target_count": 17,
@@ -82,12 +81,12 @@
       "source_line_no": 1731040,
       "preview": "僕はかつて己が営んでいたNIKKOグループの社員には、一方的に、勝手に、たいへん思い入れがあります。",
       "queue_id": "final_review",
-      "state": "strong_pending",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
       "queue_member": false,
       "selectable": false,
-      "state_updated_at": "2026-09-17T00:55:09Z",
+      "state_updated_at": "2026-09-17T01:43:03Z",
       "application_failure_count": 0,
       "application_failures": [],
       "item_count": 41,
@@ -12072,7 +12071,7 @@
           "token_pos": "連体詞,*,*,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_corpus_frequency"
           ],
@@ -12239,7 +12238,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T050514Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260915T050514Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000735292:u0005:r0008c01",
@@ -187210,7 +187210,7 @@
               "label": "Japanese numeric compound",
               "reading": "いちにち",
               "accepted": false,
-              "historical_count": 14,
+              "historical_count": 15,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -188709,7 +188709,7 @@
                   "reading": "いちにち"
                 }
               ],
-              "historical_count": 14
+              "historical_count": 15
             },
             {
               "id": "numeric_compound:2",
@@ -269287,7 +269287,7 @@
           "token_pos": "連体詞,*,*,*,*,*",
           "is_safe": true,
           "review_status": "safe",
-          "highlight_level": "none",
+          "highlight_level": "target",
           "accepted_signal_names": [
             "safe_by_unit_auto_accept",
             "safe_by_corpus_frequency"
@@ -269461,7 +269461,8 @@
               "artifact_path": "/panfs/panmt22/users/hmanabe/yomi-corpus/data/decoder_models/dev/20260915T050514Z/surface_reading_stats.tsv",
               "source_corpus_version": "dev:20260915T050514Z"
             }
-          ]
+          ],
+          "human_reading_change_history": true
         },
         {
           "item_id": "ja_cc_level2_corrected_v1:0000168703:u0006:r0004c01",
@@ -319757,7 +319758,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 426,
+              "historical_count": 427,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -321149,7 +321150,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 426
+              "historical_count": 427
             },
             {
               "id": "dictionary:3",
@@ -361849,7 +361850,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 426,
+              "historical_count": 427,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -362127,7 +362128,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 426
+              "historical_count": 427
             },
             {
               "id": "dictionary:3",
@@ -363152,7 +363153,7 @@
               "label": "Dictionary",
               "reading": "ちゅう",
               "accepted": false,
-              "historical_count": 426,
+              "historical_count": 427,
               "ruby_nodes": [
                 {
                   "type": "ruby",
@@ -364439,7 +364440,7 @@
                   "reading": "ちゅう"
                 }
               ],
-              "historical_count": 426
+              "historical_count": 427
             },
             {
               "id": "dictionary:3",
