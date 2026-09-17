@@ -2210,7 +2210,7 @@ function normalizeRenderedYomiCorrectionReadings(rendered) {
   }
   return serializeEditableYomiTokens(tokens.map((token) => {
     const reading = hiraganaToKatakana(token.reading);
-    return [token.surface, reading === hiraganaToKatakana(token.surface)
+    return [token.surface, !validKanaSpellingReading(token.surface, reading) && reading === hiraganaToKatakana(token.surface)
       ? defaultNonlexicalReading(token.surface) : reading];
   }));
 }
@@ -2230,9 +2230,34 @@ function compatibilityUnitReading(surface) {
     "㎡": "ヘイホウメートル", "ℓ": "リットル" }[surface] || null;
 }
 
+function expandedKanaSpelling(surface) {
+  const value = hiraganaToKatakana(surface).replace(/ゝ/gu, "ヽ").replace(/ゞ/gu, "ヾ");
+  if (!/^[ァ-ヺーヽヾ〜～]+$/u.test(value) || !/[ァ-ヺ]/u.test(value)) return null;
+  let result = "";
+  for (let char of value) {
+    if (char === "ヽ" || char === "ヾ") {
+      if (!result || !/^[ァ-ヺ]$/u.test(result.at(-1))) return null;
+      const base = result.at(-1).normalize("NFD")[0];
+      char = (base + (char === "ヾ" ? "\u3099" : "")).normalize("NFC");
+      if (!/^[ァ-ヺ]$/u.test(char)) return null;
+    }
+    result += /[〜～]/u.test(char) ? "ー" : char;
+  }
+  return result;
+}
+
+function validKanaSpellingReading(surface, reading) {
+  const expanded = expandedKanaSpelling(surface);
+  if (expanded === null) return false;
+  const pattern = [...expanded].map((char) => ({ "ヰ": "[ヰイ]", "ヱ": "[ヱエ]", "ヲ": "[ヲオ]" }[char] || char)).join("");
+  return new RegExp(`^(?:${pattern})$`, "u").test(reading) && !/[\r\n]/u.test(reading);
+}
+
 function defaultNonlexicalReading(surface) {
   const unitReading = compatibilityUnitReading(surface);
   if (unitReading) return unitReading;
+  const kana = expandedKanaSpelling(surface);
+  if (kana !== null) return kana.replace(/ヰ/gu, "イ").replace(/ヱ/gu, "エ");
   const reading = hiraganaToKatakana(surface);
   return /^[ァ-ヺー〜～]+$/u.test(reading) && /[ァ-ヺ]/u.test(reading)
     ? reading.replace(/[〜～]/gu, "ー") : reading;
@@ -2279,7 +2304,7 @@ function validateRenderedYomiReading(surface, reading) {
       : { ok: false, error: "漢字または英字を含む表記の読みはカタカナにしてください。" };
   }
   const expected = defaultNonlexicalReading(surface);
-  if (reading === expected) {
+  if (reading === expected || validKanaSpellingReading(surface, reading)) {
     return { ok: true };
   }
   return { ok: false, error: `読みは ${expected || "（空）"} にしてください。` };
