@@ -10,10 +10,9 @@
   "item_count": 6,
   "summary": {
     "document_count": 10,
-    "selectable_document_count": 1,
+    "selectable_document_count": 0,
     "document_state_counts": {
-      "complete": 9,
-      "strong_apply_failed": 1
+      "complete": 10
     },
     "repaired_item_count": 6,
     "queued_repair_row_count": 6,
@@ -109,23 +108,14 @@
       "source_line_no": 2480787,
       "preview": "台風9号が沖縄、九州の西側を通過していきました昨日はその余波がミズホのある名古屋にも襲い掛かり、急な通り雨で湿度が一気に上がりムシムシと体力を奪われる日でした週末から週明けにかけて台風10号の影響が出てきそうで、まだまだムシムシと湿度の高い状態が続きそうですので、この雨の止んだ貴重な時間を有効に活用していきたいものですまた、台風10号の影響が大きい九州地方、四国西部、中国西部では、物理的な風対策と共に台風通過後のケア、リーフアップバリア　500倍液にて「耐病性強化」を図って下さいさて、ムシムシにかけて「虫」ですこのブログでも何度も取り上げていますが、今年は暖冬の影響で当初から「虫が多い年」と予想されていました。",
       "queue_id": "strong_repair",
-      "state": "strong_apply_failed",
-      "workflow_state": "escalated_repair",
-      "workflow_queue_stage": "yomi_strong_repair_review",
-      "queue_member": true,
-      "selectable": true,
-      "state_updated_at": "2026-09-17T00:54:06Z",
-      "application_failure_count": 1,
-      "application_failures": [
-        {
-          "item_id": "ja_cc_level2_corrected_v1:0002480787:u0017::strong_repair",
-          "unit_id": "ja_cc_level2_corrected_v1:0002480787:u0017",
-          "doc_id": "ja_cc_level2_corrected_v1:0002480787",
-          "submission_id": "yomi_strong_repair_dev_batch_1136_v1__2026-09-17T00:12:16.669Z",
-          "status": "invalid_confirmed_unit",
-          "reason": "'℃'/'ド': reading should be ℃"
-        }
-      ],
+      "state": "complete",
+      "workflow_state": "resolved",
+      "workflow_queue_stage": null,
+      "queue_member": false,
+      "selectable": false,
+      "state_updated_at": "2026-09-17T01:01:01Z",
+      "application_failure_count": 0,
+      "application_failures": [],
       "item_count": 3,
       "region_count": 3,
       "unresolved_count": 3,
@@ -1551,7 +1541,7 @@
       "source_line_no": 2480787,
       "text": "さらに曇雨天でも最高気温は30℃を超え、湿度が高いためにカビ系の病害菌が活発に動く条件です。",
       "rendered_yomi_before": "さらに/サラニ 曇/クモリ 雨天/ウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/ド を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
-      "rendered_yomi_after": "さらに/サラニ 曇雨天/ドンウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/ド を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
+      "rendered_yomi_after": "さらに/サラニ 曇雨天/ドンウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/℃ を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
       "rendered_yomi_after_tokens": [
         [
           "さらに",
@@ -1587,7 +1577,7 @@
         ],
         [
           "℃",
-          "ド"
+          "℃"
         ],
         [
           "を",
@@ -1756,7 +1746,7 @@
         },
         {
           "surface": "℃",
-          "reading": "ド",
+          "reading": "℃",
           "nodes": [
             {
               "type": "text",
@@ -1999,7 +1989,7 @@
           "unit_id": "ja_cc_level2_corrected_v1:0002480787:u0017",
           "text": "さらに曇雨天でも最高気温は30℃を超え、湿度が高いためにカビ系の病害菌が活発に動く条件です。",
           "rendered_yomi_before": "さらに/サラニ 曇/クモリ 雨天/ウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/ド を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
-          "rendered_yomi_after": "さらに/サラニ 曇雨天/ドンウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/ド を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
+          "rendered_yomi_after": "さらに/サラニ 曇雨天/ドンウテン で/デ も/モ 最高/サイコウ 気温/キオン は/ハ 30/ ℃/℃ を/ヲ 超え/コエ 、/、 湿度/シツド が/ガ 高い/タカイ ため/タメ に/ニ カビ/カビ 系/ケイ の/ノ 病害/ビョウガイ 菌/キン が/ガ 活発/カッパツ に/ニ 動く/ウゴク 条件/ジョウケン です/デス 。/。",
           "display_mapping": {
             "start": 1,
             "end": 2,
