@@ -2284,6 +2284,25 @@ function kanaReadingPattern(expanded) {
   return pattern;
 }
 
+function isMixedKanaReadingException(surface, reading) {
+  return [
+    ["八ツ場", "ヤンバ"], ["八ッ場", "ヤンバ"], ["八ッ場ダム", "ヤンバダム"],
+    ["与良ヱ", "ヨラアイチ"],
+    ["その着せ替え人形は恋をする", "ソノビスク・ドールハコイヲスル"],
+    ["その着せ替え人形は恋をする", "ソノビスクドールハコイヲスル"],
+    ["先づ", "マズ"], ["謂へ", "イエ"], ["或は", "アルイワ"], ["教へ", "オシエ"],
+  ].some(([s, r]) => surface === s && reading === r);
+}
+
+function validMixedKanaSpellingReading(surface, reading) {
+  if (isMixedKanaReadingException(surface, reading)) return true;
+  const patterns = hiraganaToKatakana(surface).split(/([ァ-ヺーゝゞヽヾ〜～]+)/u).filter(Boolean).map((part) => {
+    const expanded = expandedKanaSpelling(part);
+    return expanded === null ? ".*" : kanaReadingPattern(expanded).replaceAll("[ヶケ]", "[ヶケカガ]").replaceAll("[ヵカ]", "[ヵカガ]");
+  });
+  return new RegExp(`^(?:${patterns.join("")})$`, "u").test(reading) && !/[\r\n]/u.test(reading);
+}
+
 function defaultNonlexicalReading(surface) {
   const unitReading = compatibilityUnitReading(surface);
   if (unitReading) return unitReading;
@@ -2327,8 +2346,13 @@ function validateRenderedYomiReading(surface, reading) {
     return { ok: true };
   }
   if (/[\p{Script=Han}々〆〻A-Za-zＡ-Ｚａ-ｚ]/u.test(surface)) {
+    const hasKanji = /[\p{Script=Han}々〆〻]/u.test(surface);
+    if (hasKanji && isMixedKanaReadingException(surface, reading)) return { ok: true };
     if (!reading) {
       return { ok: false, error: "漢字または英字を含む表記には仮名の読みが必要です。" };
+    }
+    if (hasKanji && /^[ァ-ヺー]+$/u.test(reading) && !validMixedKanaSpellingReading(surface, reading)) {
+      return { ok: false, error: "表記に含まれる仮名を省略したり、別の仮名に変えたりしないでください。" };
     }
     return /^[ァ-ヺー]+$/u.test(reading)
       ? { ok: true }
