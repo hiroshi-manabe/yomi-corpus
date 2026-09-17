@@ -2225,13 +2225,25 @@ function hiraganaToKatakana(value) {
   ).replace(/[ァ-ヺ\u3099\u309a]+/gu, (text) => text.normalize("NFC"));
 }
 
+function compatibilityUnitReading(surface) {
+  return { "㎝": "センチ", "㎜": "ミリ", "㎞": "キロ", "㎏": "キロ",
+    "㎡": "ヘイホウメートル", "ℓ": "リットル" }[surface] || null;
+}
+
 function defaultNonlexicalReading(surface) {
+  const unitReading = compatibilityUnitReading(surface);
+  if (unitReading) return unitReading;
   const reading = hiraganaToKatakana(surface);
   return /^[ァ-ヺー〜～]+$/u.test(reading) && /[ァ-ヺ]/u.test(reading)
     ? reading.replace(/[〜～]/gu, "ー") : reading;
 }
 
 function validateRenderedYomiReading(surface, reading) {
+  if (compatibilityUnitReading(surface)) {
+    return reading && /^[ァ-ヺー]+$/u.test(reading)
+      ? { ok: true }
+      : { ok: false, error: "単位記号にはカタカナの読みが必要です。" };
+  }
   if (/^[ \u00a0\u3000]+$/u.test(surface)) {
       return reading && !/^[ \u00a0\u3000]+$/u.test(reading)
       ? { ok: false, error: "空白トークンの読みは空または空白である必要があります。" }
@@ -4991,7 +5003,7 @@ function shouldDisplayRuby(surface, reading) {
   if (!surface || !reading || surface === reading) {
     return false;
   }
-  return /[\p{Script=Han}々〆〻ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
+  return Boolean(compatibilityUnitReading(surface)) || /[\p{Script=Han}々〆〻ヵヶA-Za-zＡ-Ｚａ-ｚ]/u.test(surface);
 }
 
 function katakanaToHiragana(text) {
