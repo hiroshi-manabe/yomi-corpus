@@ -823,17 +823,15 @@
       "created_at_epoch": 1789549447,
       "item_count": 6,
       "document_count": 10,
-      "selectable_document_count": 3,
+      "selectable_document_count": 1,
       "document_state_counts": {
-        "complete": 7,
-        "strong_pending": 3
+        "complete": 9,
+        "strong_apply_failed": 1
       },
       "pending_doc_ids": [
-        "ja_cc_level2_corrected_v1:0000085782",
-        "ja_cc_level2_corrected_v1:0002480787",
-        "ja_cc_level2_corrected_v1:0002391868"
+        "ja_cc_level2_corrected_v1:0002480787"
       ],
-      "pending_document_count": 3,
+      "pending_document_count": 1,
       "queue_id": "strong_repair",
       "status": "active-dev"
     }
@@ -3039,8 +3037,8 @@
           "document_count": 10,
           "selectable_document_count": 0,
           "document_state_counts": {
-            "complete": 7,
-            "strong_pending": 3
+            "complete": 9,
+            "strong_apply_failed": 1
           },
           "pending_doc_ids": [],
           "pending_document_count": 0,
@@ -5769,17 +5767,15 @@
           "created_at_epoch": 1789549447,
           "item_count": 6,
           "document_count": 10,
-          "selectable_document_count": 3,
+          "selectable_document_count": 1,
           "document_state_counts": {
-            "complete": 7,
-            "strong_pending": 3
+            "complete": 9,
+            "strong_apply_failed": 1
           },
           "pending_doc_ids": [
-            "ja_cc_level2_corrected_v1:0000085782",
-            "ja_cc_level2_corrected_v1:0002480787",
-            "ja_cc_level2_corrected_v1:0002391868"
+            "ja_cc_level2_corrected_v1:0002480787"
           ],
-          "pending_document_count": 3,
+          "pending_document_count": 1,
           "queue_id": "strong_repair",
           "status": "archived"
         },
@@ -5820,23 +5816,15 @@
     "index_path": "./archive/index.json",
     "tracks": {
       "dev": {
-        "document_count": 2969,
+        "document_count": 2971,
         "manual_correction_required_count": 1,
         "finalized_track_doc_seq_ranges": [
           [
             1,
-            2831
-          ],
-          [
-            2833,
             2833
           ],
           [
             2835,
-            2838
-          ],
-          [
-            2840,
             2841
           ],
           [
@@ -6008,7 +5996,7 @@
             3038
           ]
         ],
-        "shard_count": 2969
+        "shard_count": 2971
       }
     }
   }
