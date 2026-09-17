@@ -1700,6 +1700,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   row.className = "archive-correction-row";
   row.dataset.unitIndex = String(index);
   row.dataset.originalDisposition = unit.skipped ? "Skip" : unit.excluded ? "Exclude" : "Keep";
+  row.dataset.manualCorrectionRequired = String(Boolean(unit.manual_correction_required));
   row.classList.toggle("manual-correction-required", Boolean(unit.manual_correction_required || unit.reading_warnings?.length));
   row.classList.toggle("skipped-tombstone", Boolean(unit.skipped));
   row.classList.toggle("excluded-tombstone", Boolean(unit.excluded));
@@ -1710,6 +1711,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   rubyLine.className = "ruby-line resolved-ruby-line";
   const originalTokenPairs = archiveUnitYomiTokenPairs(unit);
   row.dataset.readingWarningAcknowledgements = JSON.stringify(unit.reading_warning_acknowledgements || []);
+  row.dataset.originalReadingWarningAcknowledgements = row.dataset.readingWarningAcknowledgements;
   const originalEditableYomi = serializeEditableYomiTokens(originalTokenPairs);
   const footnotes = normalizedStrongRepairFootnotes(unit.strong_repair_evidence || []);
   if (originalTokenPairs.length) {
@@ -1737,15 +1739,6 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   editButton.addEventListener("click", () => openArchiveCorrectionRowEditor(row, unit));
   const actions = document.createElement("div");
   actions.className = "archive-correction-row-actions";
-  if (!unit.skipped && !unit.excluded) {
-    appendReadingWarnings(summary, originalTokenPairs, unit.reading_warning_acknowledgements || [], (pairs) => {
-      row.dataset.readingWarningAcknowledgements = JSON.stringify(pairs);
-      row.dataset.readingWarningAcknowledged = "true";
-      updateArchiveCorrectionChangedState(row);
-      persistArchiveCorrectionDraft(doc);
-      updateArchiveCorrectionSummary();
-    });
-  }
   if (unit.excluded) {
     const excluded = document.createElement("span");
     excluded.className = "excluded-tombstone-label";
@@ -1842,7 +1835,7 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
   const restoredDisposition = restored?.disposition || (restored?.skip === false ? "Keep" : "");
   if (restored?.reading_warning_acknowledgements) {
     row.dataset.readingWarningAcknowledgements = JSON.stringify(restored.reading_warning_acknowledgements);
-    row.dataset.readingWarningAcknowledged = "true";
+    row.dataset.readingWarningAcknowledged = String(row.dataset.readingWarningAcknowledgements !== row.dataset.originalReadingWarningAcknowledgements);
     updateArchiveCorrectionChangedState(row);
   }
   if (restoredProposed || restoredDisposition) {
@@ -1858,7 +1851,25 @@ function renderArchiveCorrectionRow(unit, index, doc, localCorrection = null) {
     renderArchiveCorrectionSavedYomi(row);
   }
   updateArchiveDispositionControls(row);
+  refreshArchiveReadingWarnings(row, unit, doc);
   return row;
+}
+
+function refreshArchiveReadingWarnings(row, unit, doc) {
+  for (const panel of row.querySelectorAll(".reading-warning-panel")) panel.remove();
+  const disposition = row.dataset.proposedDisposition || row.dataset.originalDisposition;
+  if (disposition !== "Keep") return;
+  const tokens = row.dataset.proposedYomi
+    ? parseRenderedYomiCorrectionTokens(row.dataset.proposedYomi).filter((t) => t.ok).map((t) => [t.surface, t.reading])
+    : archiveUnitYomiTokenPairs(unit);
+  const acknowledgements = JSON.parse(row.dataset.readingWarningAcknowledgements || "[]");
+  appendReadingWarnings(row.querySelector(".archive-correction-row-summary"), tokens, acknowledgements, (pairs) => {
+    row.dataset.readingWarningAcknowledgements = JSON.stringify(pairs);
+    row.dataset.readingWarningAcknowledged = "true";
+    updateArchiveCorrectionChangedState(row);
+    persistArchiveCorrectionDraft(doc);
+    updateArchiveCorrectionSummary();
+  });
 }
 
 function handleArchiveCorrectionEditorKeydown(event, row, unit, doc) {
@@ -2011,6 +2022,7 @@ function saveArchiveCorrectionRow(row, unit, doc) {
   if (unit.skipped) {
     row.dataset.proposedDisposition = "Keep";
   }
+  refreshArchiveReadingWarnings(row, unit, doc);
   updateArchiveCorrectionChangedState(row);
   updateArchiveDispositionControls(row);
   row.classList.remove("invalid", "submitted");
@@ -2024,6 +2036,8 @@ function saveArchiveCorrectionRow(row, unit, doc) {
 
 function clearArchiveCorrectionRow(row, doc = null) {
   delete row.dataset.proposedYomi;
+  row.dataset.readingWarningAcknowledgements = row.dataset.originalReadingWarningAcknowledgements || "[]";
+  delete row.dataset.readingWarningAcknowledged;
   row.classList.remove("invalid");
   const editor = row.querySelector(".archive-correction-editor");
   const textarea = editor?.querySelector(".archive-correction-unit-textarea");
@@ -2039,6 +2053,8 @@ function clearArchiveCorrectionRow(row, doc = null) {
   updateArchiveCorrectionChangedState(row);
   closeArchiveCorrectionRowEditor(row);
   if (doc) {
+    const unit = doc.units?.[Number(row.dataset.unitIndex)];
+    if (unit) refreshArchiveReadingWarnings(row, unit, doc);
     persistArchiveCorrectionDraft(doc);
   }
   updateArchiveCorrectionSummary();
@@ -2104,6 +2120,7 @@ function setArchiveCorrectionDisposition(row, unit, doc, disposition) {
     row.dataset.proposedDisposition = disposition;
   }
   updateArchiveDispositionControls(row);
+  refreshArchiveReadingWarnings(row, unit, doc);
   updateArchiveCorrectionChangedState(row);
   row.classList.remove("submitted");
   persistArchiveCorrectionDraft(doc);
@@ -2141,7 +2158,7 @@ function updateArchiveCorrectionSummary() {
   const invalid = el.workflowPreviewBody.querySelectorAll(".archive-correction-row.invalid").length;
   const openEditors = el.workflowPreviewBody.querySelectorAll(".archive-correction-editor:not(.hidden)").length;
   const flagged = el.workflowPreviewBody.querySelectorAll(
-    ".archive-correction-row.manual-correction-required",
+    '.archive-correction-row[data-manual-correction-required="true"]',
   ).length;
   const exportButtons = el.workflowPreviewActions?.querySelectorAll?.("[data-archive-correction-export='true']") || [];
   const canExport = (changed > 0 || flagged > 0) && invalid === 0 && openEditors === 0;
@@ -2667,7 +2684,7 @@ function renderWorkflowPackMap(docs) {
 
 function archiveManualCorrectionCount() {
   const track = state.archiveIndex?.tracks?.dev || state.manifest?.archive?.tracks?.dev;
-  return Number(track?.manual_correction_required_count || 0);
+  return Number(track?.manual_correction_required_count || 0) + Number(track?.reading_warning_count || 0);
 }
 
 function renderWorkflowQueue({
@@ -4689,6 +4706,7 @@ function updateStrongRepairSplit(item, region, boundaryIndex) {
 function ensureStrongRepairOverride(itemId) {
   const current = state.currentDraft.overrides[itemId] || {};
   state.currentDraft.overrides[itemId] = {
+    ...(current.reading_warning_acknowledgements ? {reading_warning_acknowledgements: current.reading_warning_acknowledgements} : {}),
     decision: "accept",
     note: current.note || "",
     regions: current.regions || {},
